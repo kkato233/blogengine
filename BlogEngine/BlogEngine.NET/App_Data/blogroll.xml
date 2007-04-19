@@ -1,0 +1,6 @@
+<opml xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <body>
+    <outline xfn="" title=".NET slave" description="han er skide god" xmlUrl="http://feeds.feedburner.com/netslave" htmlUrl="http://www.madskristensen.dk" />
+    <outline title="Vault of thoughts" description=".NET blog" xfn="friend  colleague " xmlUrl="http://vaultofthoughts.net/SyndicationService.asmx/GetRss" htmlUrl="http://vaultofthoughts.net/" />
+  </body>
+</opml>

@@ -1,0 +1,140 @@
+﻿body {
+	background-color: #F1F1F1;
+	font-family: Verdana;
+	font-size: 11px;
+	margin: 0 10px;
+}
+
+.loginStatus{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+h1 {
+	font-size: 15px;
+	letter-spacing: 1px;
+}
+
+a {
+	text-decoration: none;
+	color: #5C80B1;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+img{
+	border: none;
+}
+
+.alt td{
+	background-color: white;
+}
+
+label.wide {
+	float: left;
+	display: block;
+	width: 140px;
+}
+
+/*----------------------------
+						Entry
+----------------------------*/
+
+table#entrySettings {
+	width: 100%;
+}
+
+table#entrySettings td {
+	padding: 2px 0px;
+}
+
+table#entrySettings td.label {
+	width: 100px;
+	vertical-align: top;
+}
+
+table#entrySettings textarea {
+	width: 100%;
+	height: 50px;
+}
+
+.cblCategories label {
+	margin-right: 5px;
+}
+
+/*----------------------------
+						Menu
+----------------------------*/
+
+ul.adminmenu {
+	list-style-type: none;
+	margin: 10px 0px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid silver;
+	text-transform: capitalize;
+}
+
+ul.adminmenu li {
+	display: inline;
+}
+
+ul.adminmenu li a {
+	text-decoration: none;
+	font-weight: bold;
+	padding: 3px 5px;
+	background-color: White;
+	margin: 0 2px;
+	border: 1px solid gray;
+	color: Black;
+}
+
+ul.adminmenu li a:hover {
+	background: #F1F1F1;
+}
+
+
+/*----------------------------
+						Settings
+----------------------------*/
+
+.settings{
+	padding: 10px;
+	background: white;
+	border: 1px solid silver;
+	margin-bottom: 20px;
+}
+
+.settings h1{
+	margin: 0 0 10px 0;
+	border-bottom: 1px solid silver;
+}
+
+.settings label{
+	float:left;
+	width: 150px;
+}
+
+/*----------------------------
+					Referrers
+----------------------------*/
+
+table.referrer td{
+	padding: 2px 0;
+	border-bottom: 1px solid silver;
+}
+
+table.referrer tr.alt td{
+	background-color: White;
+}
+
+
+/*----------------------------
+					Category
+----------------------------*/
+
+.category td{
+	padding: 2px 10px;
+}

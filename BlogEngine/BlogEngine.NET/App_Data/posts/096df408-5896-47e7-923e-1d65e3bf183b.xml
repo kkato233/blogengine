@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<post>
+  <author>Admin</author>
+  <title>BlogEngine.NET on CodePlex</title>
+  <description />
+  <content>TEST: Today I finally released the entire source code on &lt;a href="http://www.codeplex.com/blogengine"&gt;CodePlex&lt;/a&gt;. From there you can submit bugs and download the latest builds. 
+&lt;p&gt;This also marks the point where BlogEngine is going open source. You can check out the work in progress and submit bugs and feature requests. The team of developers working on BlogEngine is about to be gathered - a team that will make releases on a regular basis. This hopefully ensures that BlogEngine will keep the pace in the development of new features. If you have something to contribute or want to be part of the team, send me an e-mail.&lt;/p&gt;&lt;p&gt; &lt;/p&gt;</content>
+  <ispublished>True</ispublished>
+  <iscommentsenabled>True</iscommentsenabled>
+  <pubDate>2007-04-08 00:00:00</pubDate>
+  <lastModified>2007-04-13 21:49:32</lastModified>
+  <tags />
+  <comments>
+    <comment id="fa6a5bfd-7223-46a4-a51e-0254c8cf88c9">
+      <date>2007-04-13 20:03:49</date>
+      <author>Mads Kristensen</author>
+      <email>post@madskristensen.dk</email>
+      <website>http://www.madskristensen.dk/</website>
+      <content>sdf</content>
+    </comment>
+    <comment id="5ea80e5e-0163-475b-af6c-54d1e8f1131f">
+      <date>2007-04-13 20:29:29</date>
+      <author>Mads Kristensen</author>
+      <email>post@madskristensen.dk</email>
+      <content>asdf</content>
+    </comment>
+    <comment id="6c523fbc-1e3c-42e9-9800-cf5fc4890235">
+      <date>2007-04-13 20:39:05</date>
+      <author>Mads Kristensen</author>
+      <email>post@madskristensen.dk</email>
+      <content>test</content>
+    </comment>
+    <comment id="abfac27a-1f03-499f-a75d-2251f7adc9fb">
+      <date>2007-04-13 20:41:54</date>
+      <author>Mads Kristensen</author>
+      <email>post@madskristensen.dk</email>
+      <content>r&amp;#248;v</content>
+    </comment>
+    <comment id="9e88897b-7a44-41dd-81cc-c3497419ddca">
+      <date>2007-04-13 20:46:27</date>
+      <author>Mads Kristensen</author>
+      <email>post@madskristensen.dk</email>
+      <content>hsdafl&amp;#230;iji</content>
+    </comment>
+  </comments>
+  <categories>
+    <category>59e19138-11ca-454e-9ecb-750dc1e75471</category>
+  </categories>
+</post>

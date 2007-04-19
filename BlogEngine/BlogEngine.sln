@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetSlave.BlogEngine.BusinessLogic", "DotNetSlave.BusinessLogic\DotNetSlave.BlogEngine.BusinessLogic.csproj", "{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BlogEngine.NET\", "..\..\WebSites\BlogEngine.NET", "{5407B6E5-4748-4089-B089-4A2D20D9EDBB}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		Debug.AspNetCompiler.VirtualPath = "/BlogEngine.NET"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\WebSites\BlogEngine.NET\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\BlogEngine.NET\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/BlogEngine.NET"
+		Release.AspNetCompiler.PhysicalPath = "..\..\WebSites\BlogEngine.NET\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\BlogEngine.NET\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "2331"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs02.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DotNetSlave.BusinessLogic\\DotNetSlave.BlogEngine.BusinessLogic.csproj
+		SccProjectName1 = DotNetSlave.BusinessLogic
+		SccLocalPath1 = DotNetSlave.BusinessLogic
+		SccWebProject2 = true
+		SccProjectUniqueName2 = ..\\..\\WebSites\\BlogEngine.NET
+		SccProjectName2 = BlogEngine.NET
+		SccLocalPath2 = ..\\..\\WebSites\\BlogEngine.NET
+		SccProjectEnlistmentChoice2 = 2
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Release|.NET.ActiveCfg = Release|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Debug|.NET.ActiveCfg = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Debug|.NET.Build.0 = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|.NET.ActiveCfg = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|.NET.Build.0 = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|Mixed Platforms.Build.0 = Debug|.NET
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

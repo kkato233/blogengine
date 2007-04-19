@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <Name>.NET slave</Name>
+  <Description>Code samples in ASP.NET and C#</Description>
+  <PostsPerPage>10</PostsPerPage>
+  <StorageLocation>~/app_data/</StorageLocation>
+  <BlogrollMaxLength>30</BlogrollMaxLength>
+  <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
+  <Theme>standard</Theme>
+  <EnableRelatedPosts>True</EnableRelatedPosts>
+  <Email>post@example.com</Email>
+  <SmtpServer>mail.example.com</SmtpServer>
+  <SmtpUsername>post</SmtpUsername>
+  <SmtpPassword>password</SmtpPassword>
+  <SendMailOnComment>False</SendMailOnComment>
+  <IsCommentsEnabled>True</IsCommentsEnabled>
+  <EnableCountryInComments>True</EnableCountryInComments>
+</settings>

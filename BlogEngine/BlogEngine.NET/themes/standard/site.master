@@ -1,0 +1,45 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
+<%@ Register Src="SidePanel.ascx" TagName="InfoBox" TagPrefix="uc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <link rel="alternate" href="http://feeds.feedburner.com/netslave" type="application/rss+xml" title=".NET slave" />
+  <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon">
+  <link rel="search" href="~/opensearch.axd" type="application/opensearchdescription+xml" title=".NET slave" />
+  <blog:Script runat="server" Path="~/scripts/blog.js" />
+  <blog:Script runat="server" Path="~/scripts/se_hilite.js" />
+</head>
+<body>
+
+  <div id="header">
+    <h1><a href="~/" runat="server"><%=BlogSettings.Instance.Name %></a></h1>
+    <h2><%=BlogSettings.Instance.Description %></h2>
+  </div>
+  
+  <div id="body">    
+    <form runat="Server">
+      <div id="content">
+        <blog:SearchOnSearch runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
+        <asp:ContentPlaceHolder ID="cphBody" runat="server" />
+        <p style="font-size:9px;text-align:center">Theme by <a href="http://www.madskristensen.dk">Mads Kristensen</a></p>
+      </div>
+      
+      <div id="sidepanel">
+        <uc1:InfoBox ID="InfoBox1" runat="server" />
+      </div>
+    </form>
+  </div>
+  
+  <!-- Headlight tracking script - (c) Copyright Traceworks 2003-2007 -->
+  <script type="text/javascript">
+  <!--//
+  var _hlaccount = 'd0432f32-7301-4968-a027-6d38946a7c5e';
+  var _protocol = 'http'+(window.location.protocol == 'https:' ? 's' : '');
+  document.writeln("<"+"script type='text/javascript' src='"+_protocol+"://d0432f32-7301-4968-a027-6d38946a7c5e.statcamp.net/logging/js/tracker.js'></"+"script>");
+  //-->
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+#region Using
+
+using System;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.IO;
+using DotNetSlave.BlogEngine.BusinessLogic;
+
+#endregion
+
+namespace Controls
+{
+  /// <summary>
+  /// Builds a authro list.
+  /// </summary>
+  public class AuthorList : Control
+  {
+
+    #region Properties
+
+    private bool _ShowRssIcon = true;
+    /// <summary>
+    /// Gets or sets whether or not to show feed icons next to the category links.
+    /// </summary>
+    public bool ShowRssIcon
+    {
+      get { return _ShowRssIcon; }
+      set { _ShowRssIcon = value; }
+    }
+
+    private static string _Html;
+    /// <summary>
+    /// Caches the rendered HTML in the private field and first
+    /// updates it when a post has been saved (new or updated).
+    /// </summary>
+    private string Html
+    {
+      get
+      {
+        if (_Html == null)
+        {
+          Post.Saved += delegate { _Html = null; };
+          HtmlGenericControl ul = BindAuthors();
+          System.IO.StringWriter sw = new System.IO.StringWriter();
+          ul.RenderControl(new HtmlTextWriter(sw));
+          _Html = sw.ToString();
+        }
+
+        return _Html;
+      }
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Loops through all users and builds the HTML
+    /// presentation.
+    /// </summary>
+    private HtmlGenericControl BindAuthors()
+    {
+      HtmlGenericControl ul = new HtmlGenericControl("ul");
+      foreach (MembershipUser user in Membership.GetAllUsers())
+      {
+        HtmlGenericControl li = new HtmlGenericControl("li");
+
+        if (ShowRssIcon)
+        {
+          HtmlImage img = new HtmlImage();
+          img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
+          img.Alt = "RSS feed for " + user.UserName;
+          img.Attributes["class"] = "rssButton";
+
+          HtmlAnchor feedAnchor = new HtmlAnchor();
+          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "author/rss.axd?author=" + Utils.RemoveIlegalCharacters( user.UserName);
+          feedAnchor.Attributes["rel"] = "nofollow";
+          feedAnchor.Controls.Add(img);
+
+          li.Controls.Add(feedAnchor);
+        }
+
+        HtmlAnchor anc = new HtmlAnchor();
+        anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + ".aspx";
+        anc.InnerHtml = user.UserName + " (" + Post.GetPostsByAuthor(user.UserName).Count + ")";
+        anc.Attributes["rel"] = "tag";
+        
+        li.Controls.Add(anc);
+        ul.Controls.Add(li);
+      }
+
+      return ul;
+    }
+
+    /// <summary>
+    /// Renders the control.
+    /// </summary>
+    public override void RenderControl(HtmlTextWriter writer)
+    {
+      writer.Write(Html);
+      writer.Write(Environment.NewLine);
+    }
+  }
+}

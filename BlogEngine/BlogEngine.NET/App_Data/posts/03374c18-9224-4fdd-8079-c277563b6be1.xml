@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<post>
+  <author>Admin</author>
+  <title>Submit disabled controls in ASP.NET 2.0</title>
+  <description />
+  <content>
+		&lt;p&gt;I recently built a JavaScript function in &lt;a href="http://www.traceworks.com/product.htm"&gt;HeadLight&lt;/a&gt; that filled a textbox from JavaScript and then disabled the textbox to prevent the user to alter its contents. When the form was submitted, it didn’t submit the contents of the disabled textbox. It puzzled me, but then I found that &lt;a href="http://msdn2.microsoft.com/en-us/library/system.web.ui.htmlcontrols.htmlform.submitdisabledcontrols.aspx"&gt;ASP.NET 2.0 doesn’t submit client-side disabled controls&lt;/a&gt; by default. However, there is an easy way to force it to do so. &lt;/p&gt;
+		&lt;p&gt;All you have to do is to put this line in the Page_Load: &lt;/p&gt;
+		&lt;p&gt;
+				&lt;span lang="EN-US" style="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-bidi-font-family: 'Times New Roman'; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA; mso-no-proof: yes"&gt;
+						&lt;font color="#000000"&gt;Page.Form.SubmitDisabledControls = &lt;/font&gt;
+						&lt;span style="COLOR: blue"&gt;true&lt;/span&gt;
+						&lt;font color="#000000"&gt;;&lt;/font&gt;
+				&lt;/span&gt;
+		&lt;/p&gt;
+		&lt;p&gt;The reason why I’ve never seen this property before, is that I have never had the need for it. I guess I’m just slow, but then again, &lt;a href="http://ideafestival.typepad.com/my_weblog/2006/07/slow_a_series_o.html"&gt;slow is the new fast&lt;/a&gt;. &lt;/p&gt;
+		&lt;p&gt;
+		&lt;/p&gt;
+		&lt;img height="0" src="http://www.madskristensen.dk/blog/aggbug.ashx?id=d6f246b0-e2cf-41de-b4bf-5eaa7b9036ad" width="0" /&gt;
+</content>
+  <ispublished>True</ispublished>
+  <iscommentsenabled>True</iscommentsenabled>
+  <pubDate>2006-11-02 00:00:00</pubDate>
+  <lastModified>2007-04-11 18:22:01</lastModified>
+  <tags>
+    <tag>controls</tag>
+  </tags>
+  <comments>
+    <comment id="637d7517-2c7a-4c13-b837-ad7e39336fd8">
+      <date>2006-11-03 10:51:49</date>
+      <author> Zen</author>
+      <email>zepedrosilva@gmail.com</email>
+      <content>Do not forget this. In HTML/XHTML (e.g. since the dawn of time :), a disabled control in a form is never submitted (e.g. value = empty). You always had to find an alternative. Since .NET gave us the ViewState, everything is now possible.</content>
+    </comment>
+    <comment id="c69f0179-da3e-47b8-a165-4d5e068c87d5">
+      <date>2006-11-05 03:27:30</date>
+      <author> Adi</author>
+      <email>adrian@geosolmax.es</email>
+      <website>http://www.httpruntime.net/</website>
+      <content>You could also hook into the submit client handler and enable those controls before submission. I do think though, that you're using the wrong way. As Manu said, setting them to read-only should be the way to go. 
+
+I'm not aware of every browser out there and the way they're rendering read-only vs. disabled form controls, and also the control you have to style them in such a state, but I do think you should first try to styling in order to achieve your design while playing by the w3c rules.
+
+Disabling and making read-only, both have one of the side effects to disable further input, but disabling adds your intention not to make that control successful.
+
+Adi</content>
+    </comment>
+    <comment id="42c1d1aa-d1bc-47a4-ad59-3f737e983c6a">
+      <date>2006-11-05 03:32:05</date>
+      <author> Adi</author>
+      <email>adrian@geosolmax.es</email>
+      <website>http://www.httpruntime.net/</website>
+      <content>I don't know why, but my English gets worse each day. :)</content>
+    </comment>
+  </comments>
+  <categories>
+    <category>8e0404c8-3c35-4a1e-a3a1-0dc3d32b631f</category>
+  </categories>
+</post>

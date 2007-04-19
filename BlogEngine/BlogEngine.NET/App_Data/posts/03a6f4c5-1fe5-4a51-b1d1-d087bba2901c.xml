@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<post>
+  <author>Mads Kristensen</author>
+  <title>Add a MicroSummary to any ASP.NET page</title>
+  <description />
+  <content>&lt;p&gt;
+   &lt;a HREF="http://www.hanselman.com/blog/CommentView.aspx?guid=3383e245-ea3c-43f2-b7aa-95c6a6cf2167"&gt;Scott
+   Hanselman showed us&lt;/a&gt; how to add &lt;a HREF="http://wiki.mozilla.org/Microsummaries"&gt;MicroSummaries&lt;/a&gt; to
+   a website using an .ashx file. It was clean and simple, but it would be really cool
+   if we could use the description meta tag instead so we don’t have to maintain two
+   separate files.
+&lt;/p&gt;
+&lt;p&gt;
+   I played with the thought and came up with a very simple solution that uses regular
+   expressions to extract the description meta tag from the rendered page and outputs
+   it in the response stream. It works by listening for a querystring called microsummary,
+   and it even outputs the correct link tag to the head section of the page.
+&lt;/p&gt;
+&lt;p&gt;
+   &amp;lt;link rel="microsummary" type="application/x.microsummary+xml" href="/currentpage.aspx?microsummary=1"
+   /&amp;gt;
+&lt;/p&gt;
+&lt;p&gt;
+   The only thing you need is a &amp;lt;head runat=”server”&amp;gt;&amp;nbsp; on your ASP.NET 2.0
+   page. Keep in mind that this solution only works if you have a description meta tag
+   on you page, otherwise it will just output the title of the page.&amp;nbsp; It consist
+   of two methods – one that generates the link tag and one that outputs the description
+   as a MicroSummary. Then just call these methods from the Page_Load or preferably as
+   soon as possible in the page life cycle such as Page_PreInit. It depends on when you
+   set the description meta tag.
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;protected&lt;/span&gt;&lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt; &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;void&lt;/span&gt;&lt;font COLOR=#000000&gt; Page_Load(&lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;object&lt;/span&gt;&lt;font COLOR=#000000&gt; sender, &lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;EventArgs&lt;/span&gt;&lt;font COLOR=#000000&gt;&lt;?xml:namespace prefix = o ns = "urn:schemas-microsoft-com:office:office" /&gt; e)&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;if&lt;/span&gt;&lt;font COLOR=#000000&gt; (!Page.IsPostBack
+   &amp;amp;&amp;amp; !Page.IsCallback)&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;if&lt;/span&gt;&lt;font COLOR=#000000&gt; (Request.QueryString[&lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"microsummary"&lt;/span&gt;&lt;font COLOR=#000000&gt;]
+   != &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;null&lt;/span&gt;&lt;font COLOR=#000000&gt;)&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;WriteMicroSummary();&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;else&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;SetMicroSummaryLinkInHeader();&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt; 
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;private&lt;/span&gt;&lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt; &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;void&lt;/span&gt;&lt;font COLOR=#000000&gt; WriteMicroSummary()&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;using&lt;/span&gt;&lt;font COLOR=#000000&gt; (&lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;StringWriter&lt;/span&gt;&lt;font COLOR=#000000&gt; sw
+   = &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;new&lt;/span&gt;&lt;font COLOR=#000000&gt; &lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;StringWriter&lt;/span&gt;&lt;font COLOR=#000000&gt;())&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;Page.Header.RenderControl(&lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;new&lt;/span&gt;&lt;font COLOR=#000000&gt; &lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;HtmlTextWriter&lt;/span&gt;&lt;font COLOR=#000000&gt;(sw));&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt; html
+   = sw.ToString();&lt;/font&gt;&lt;/span&gt;&lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt; lookFor
+   = &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"&amp;lt;meta name=\"description\" content=\""&lt;/span&gt;&lt;font COLOR=#000000&gt;;&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: teal"&gt;Match&lt;/span&gt;&lt;font COLOR=#000000&gt; match
+   = &lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;Regex&lt;/span&gt;&lt;font COLOR=#000000&gt;.Match(html, lookFor
+   + &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;@"[^""]*"""&lt;/span&gt;&lt;font COLOR=#000000&gt;, &lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;RegexOptions&lt;/span&gt;&lt;font COLOR=#000000&gt;.IgnoreCase);&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;if&lt;/span&gt;&lt;font COLOR=#000000&gt; (match.Success)&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&lt;/span&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;&lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt; description
+   = match.Captures[0].Value.ToLower().Replace(lookFor, &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt;.Empty);&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;Response.Write(description.Substring(0,
+   description.Length - 1));&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;else&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/span&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;Response.Write(Page.Title);&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;font COLOR=#000000&gt;&lt;span LANG=EN-GB STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-GB; mso-no-proof: yes"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;&lt;/span&gt;&lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes"&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/span&gt;&lt;/font&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;Response.End();&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;}&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; mso-layout-grid-align: none"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: DA; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: DA; mso-fareast-font-family: 'Times New Roman'; mso-bidi-language: AR-SA"&gt;&lt;font COLOR=#000000&gt;}&lt;/font&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+&lt;/span&gt;&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;private&lt;/span&gt;&lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt; &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;void&lt;/span&gt;&lt;font COLOR=#000000&gt; SetMicroSummaryLinkInHeader()&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;{&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: teal"&gt;HtmlLink&lt;/span&gt;&lt;font COLOR=#000000&gt; ms
+   = &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;new&lt;/span&gt;&lt;font COLOR=#000000&gt; &lt;/font&gt;&lt;span STYLE="COLOR: teal"&gt;HtmlLink&lt;/span&gt;&lt;font COLOR=#000000&gt;();&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;ms.Attributes[&lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"rel"&lt;/span&gt;&lt;font COLOR=#000000&gt;]
+   = &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"microsummary"&lt;/span&gt;&lt;font COLOR=#000000&gt;;&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;ms.Attributes[&lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"type"&lt;/span&gt;&lt;font COLOR=#000000&gt;]
+   = &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"application/x.microsummary+xml"&lt;/span&gt;&lt;font COLOR=#000000&gt;;&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt; url
+   = Request.RawUrl + &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"{0}microsummary=1"&lt;/span&gt;&lt;font COLOR=#000000&gt;;&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;span STYLE="COLOR: blue"&gt;if&lt;/span&gt;&lt;font COLOR=#000000&gt; (Request.RawUrl.Contains(&lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"?"&lt;/span&gt;&lt;font COLOR=#000000&gt;))&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;ms.Href
+   = &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt;.Format(url, &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"&amp;amp;"&lt;/span&gt;&lt;font COLOR=#000000&gt;);&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&lt;font COLOR=#000000&gt;&amp;nbsp; &lt;/font&gt;&lt;/span&gt;&lt;/span&gt;&lt;span STYLE="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Consolas; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;else&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;/span&gt;ms.Href
+   = &lt;/font&gt;&lt;span STYLE="COLOR: blue"&gt;string&lt;/span&gt;&lt;font COLOR=#000000&gt;.Format(url, &lt;/font&gt;&lt;span STYLE="COLOR: maroon"&gt;"?"&lt;/span&gt;&lt;font COLOR=#000000&gt;);&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;
+   &lt;o:p&gt;
+      &lt;font COLOR=#000000&gt;&amp;nbsp;&lt;/font&gt;
+   &lt;/o:p&gt;
+   &lt;/span&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; mso-layout-grid-align: none"&gt;
+   &lt;font COLOR=#000000&gt;&lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;span STYLE="mso-spacerun: yes"&gt;&amp;nbsp; &lt;/span&gt;&lt;/span&gt;&lt;span LANG=EN-US STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-ansi-language: EN-US; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;Page.Header.Controls.Add(ms);&lt;o:p&gt;&lt;/o:p&gt;
+   &lt;/span&gt;&lt;/font&gt;
+&lt;/p&gt;
+&lt;p CLASS=MsoNormal STYLE="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"&gt;
+   &lt;span STYLE="FONT-SIZE: 10pt; FONT-FAMILY: Consolas; mso-no-proof: yes; mso-bidi-font-family: 'Times New Roman'; mso-fareast-language: EN-US"&gt;&lt;font COLOR=#000000&gt;}&lt;/font&gt;&lt;/span&gt;
+&lt;/p&gt;
+&lt;img WIDTH="0" HEIGHT="0" SRC="http://www.madskristensen.dk/blog/aggbug.ashx?id=d389c875-a52f-4022-bec7-e41dc4b1e66f" /&gt;</content>
+  <ispublished>True</ispublished>
+  <iscommentsenabled>True</iscommentsenabled>
+  <pubDate>2006-10-04 19:11:46</pubDate>
+  <lastModified>2007-04-14 02:14:25</lastModified>
+  <tags />
+  <comments />
+  <categories>
+    <category>8e0404c8-3c35-4a1e-a3a1-0dc3d32b631f</category>
+  </categories>
+</post>

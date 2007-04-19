@@ -1,0 +1,107 @@
+#region Using
+
+using System;
+using System.Web;
+using System.Web.UI;
+using System.IO;
+using System.Collections.Generic;
+using DotNetSlave.BlogEngine.BusinessLogic;
+
+#endregion
+
+namespace Controls
+{
+  public class TagCloud : Control
+  {
+
+    #region Private fields
+
+    private const string LINK = "<a href=\"{0}\" rel=\"tag\" class=\"{1}\" title=\"{2}\">{3}</a> ";
+    private static Dictionary<string, string> _WeightedList;
+    private static object _SyncRoot = new object();
+
+    #endregion
+
+    private static Dictionary<string, string> WeightedList
+    {
+      get
+      {
+        lock (_SyncRoot)
+        {
+          if (_WeightedList == null)
+          {
+            Post.Saved += delegate { _WeightedList = null; };
+            _WeightedList = new Dictionary<string, string>();
+            SortList();
+          }
+
+          return _WeightedList;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Builds a raw list of all tags and the number of times
+    /// they have been added to a post.
+    /// </summary>
+    private static SortedDictionary<string, int> CreateRawList()
+    {
+      SortedDictionary<string, int> dic = new SortedDictionary<string, int>();
+      foreach (Post post in Post.Posts)
+      {
+        foreach (string tag in post.Tags)
+        {
+          if (dic.ContainsKey(tag))
+            dic[tag]++;
+          else
+            dic[tag] = 1;
+        }
+      }
+      return dic;
+    }
+
+    /// <summary>
+    /// Sorts the list of tags based on how much they are used.
+    /// </summary>
+    private static void SortList()
+    {
+      SortedDictionary<string, int> dic = CreateRawList();
+      int max = 0;
+      foreach (int value in dic.Values)
+      {
+        if (value > max)
+          max = value;
+      }      
+
+      foreach (string key in dic.Keys)
+      {
+        double weight = ((double)dic[key] / max) * 100;
+        if (weight >= 99)
+          _WeightedList.Add(key, "biggest");
+        else if (weight >= 70)
+          _WeightedList.Add(key, "big");
+        else if (weight >= 40)
+          _WeightedList.Add(key, "medium");
+        else if (weight >= 20)
+          _WeightedList.Add(key, "small");
+        else if (weight >= 3)
+          _WeightedList.Add(key, "smallest");
+      }
+    }    
+
+    /// <summary>
+    /// Renders the control.
+    /// </summary>
+    public override void RenderControl(HtmlTextWriter writer)
+    {
+      writer.Write("<div id=\"tagcloud\">");
+      foreach (string key in WeightedList.Keys)
+      {
+        writer.Write(string.Format(LINK, Utils.RelativeWebRoot + "tag/" + key + ".aspx", WeightedList[key], "Tag: " + key, key));
+      }
+
+      writer.Write("</div>");
+      writer.Write(Environment.NewLine);
+    }
+  }
+}
