@@ -44,6 +44,11 @@
     <Compile Include="Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Providers\BlogProvider.cs" />
     <Compile Include="Providers\BlogProviderSection.cs" />
     <Compile Include="Providers\BlogService.cs" />
@@ -63,9 +68,78 @@
     <Compile Include="Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomCategory.cs" />
+    <Compile Include="Syndication\Atom\AtomCategoryCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomContent.cs" />
+    <Compile Include="Syndication\Atom\AtomEntry.cs" />
+    <Compile Include="Syndication\Atom\AtomEntryCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomFeed.cs" />
+    <Compile Include="Syndication\Atom\AtomGenerator.cs" />
+    <Compile Include="Syndication\Atom\AtomLink.cs" />
+    <Compile Include="Syndication\Atom\AtomLinkCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomPerson.cs" />
+    <Compile Include="Syndication\Atom\AtomPersonCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomText.cs" />
+    <Compile Include="Syndication\Atom\LinkRelation.cs" />
+    <Compile Include="Syndication\Atom\TextType.cs" />
+    <Compile Include="Syndication\Data\AtomXmlSyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\ISyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\RssXmlSyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\XmlSyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\XmlWriterType.cs" />
+    <Compile Include="Syndication\ISyndicationFeed.cs" />
+    <Compile Include="Syndication\Rfc822DateTime.cs" />
+    <Compile Include="Syndication\Rss\CloudProtocol.cs" />
+    <Compile Include="Syndication\Rss\RssCategory.cs" />
+    <Compile Include="Syndication\Rss\RssCategoryCollection.cs" />
+    <Compile Include="Syndication\Rss\RssChannel.cs" />
+    <Compile Include="Syndication\Rss\RssCloud.cs" />
+    <Compile Include="Syndication\Rss\RssEnclosure.cs" />
+    <Compile Include="Syndication\Rss\RssFeed.cs" />
+    <Compile Include="Syndication\Rss\RssGuid.cs" />
+    <Compile Include="Syndication\Rss\RssImage.cs" />
+    <Compile Include="Syndication\Rss\RssItem.cs" />
+    <Compile Include="Syndication\Rss\RssItemCollection.cs" />
+    <Compile Include="Syndication\Rss\RssSource.cs" />
+    <Compile Include="Syndication\Rss\RssTextInput.cs" />
+    <Compile Include="Syndication\SyndicationFeed.cs" />
+    <Compile Include="Syndication\SyndicationFeedSettings.cs" />
+    <Compile Include="Syndication\SyndicationFormat.cs" />
+    <Compile Include="Syndication\SyndicationHeader.cs" />
+    <Compile Include="Syndication\W3CDateTime.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Providers\XmlBlogProvider.cs" />
     <Compile Include="Providers\XmlMembershipProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Syndication\Atom\Schema\Atom.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Syndication\Atom\Schema\Atom.xsx">
+      <DependentUpon>Atom.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="Syndication\Rss\Schema\Rss.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Syndication\Rss\Schema\Rss.xsx">
+      <DependentUpon>Rss.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetSlave.BlogEngine.Extensions\DotNetSlave.BlogEngine.Extensions.csproj">
+      <Project>{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}</Project>
+      <Name>DotNetSlave.BlogEngine.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Syndication\Opml\Schema\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
