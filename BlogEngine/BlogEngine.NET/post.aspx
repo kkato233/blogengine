@@ -16,6 +16,5 @@
   -->
   
   <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" Headline="Related posts" />
-  <asp:label runat="server" id="lbCommentsDisabled" visible="false">Comments are disabled</asp:label>
   <uc2:CommentView ID="CommentView1" runat="server" />
 </asp:content>

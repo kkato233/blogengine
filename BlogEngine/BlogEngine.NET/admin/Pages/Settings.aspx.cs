@@ -60,6 +60,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.SendMailOnComment = cbComments.Checked;
     BlogSettings.Instance.IsCommentsEnabled = cbEnableComments.Checked;
     BlogSettings.Instance.EnableCountryInComments = cbEnableCountryInComments.Checked;
+    BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
+    BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
+    BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
 
     BlogSettings.Instance.Save();
     Response.Redirect(Request.RawUrl, true);
@@ -77,6 +80,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Comments
     cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
     cbEnableCountryInComments.Checked = BlogSettings.Instance.EnableCountryInComments;
+    cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
+    cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
+    ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
     
     // Email
     txtEmail.Text = BlogSettings.Instance.Email;
@@ -84,6 +90,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtSmtpUsername.Text = BlogSettings.Instance.SmtpUsername;
     txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
     cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
+    
   }
 
   private void BindThemes()

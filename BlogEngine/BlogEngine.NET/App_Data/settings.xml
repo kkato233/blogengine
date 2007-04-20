@@ -15,4 +15,7 @@
   <SendMailOnComment>False</SendMailOnComment>
   <IsCommentsEnabled>True</IsCommentsEnabled>
   <EnableCountryInComments>True</EnableCountryInComments>
+  <ShowLivePreview>True</ShowLivePreview>
+  <IsCoCommentEnabled>False</IsCoCommentEnabled>
+  <DaysCommentsAreEnabled>1</DaysCommentsAreEnabled>
 </settings>

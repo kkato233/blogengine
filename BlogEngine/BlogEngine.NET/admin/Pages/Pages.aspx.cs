@@ -5,7 +5,6 @@ using System.Web;
 using System.Text;
 using System.Web.UI.WebControls;
 using DotNetSlave.BlogEngine.BusinessLogic;
-using FreeTextBoxControls;
 
 #endregion
 
@@ -57,20 +56,20 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
   private void AddCodeToolbarItem()
   {
-    Toolbar myToolbar = new Toolbar();
+    //Toolbar myToolbar = new Toolbar();
 
-    ToolbarButton myButton = new ToolbarButton("Insert Code", "insertCode", "csharp");
+    //ToolbarButton myButton = new ToolbarButton("Insert Code", "insertCode", "csharp");
 
-    StringBuilder scriptBlock = new StringBuilder();
-    scriptBlock.AppendFormat("var codescript = '{0}';", txtContent.SupportFolder + "ftb.insertcode.aspx");
-    scriptBlock.Append("code = showModalDialog(codescript,window,'dialogWidth:400px; dialogHeight:500px;help:0;status:0;resizeable:1;');");
-    scriptBlock.Append("if (code  != null) {");
-    scriptBlock.Append("	this.ftb.InsertHtml(code);");
-    scriptBlock.Append("}");
+    //StringBuilder scriptBlock = new StringBuilder();
+    //scriptBlock.AppendFormat("var codescript = '{0}';", txtContent.SupportFolder + "ftb.insertcode.aspx");
+    //scriptBlock.Append("code = showModalDialog(codescript,window,'dialogWidth:400px; dialogHeight:500px;help:0;status:0;resizeable:1;');");
+    //scriptBlock.Append("if (code  != null) {");
+    //scriptBlock.Append("	this.ftb.InsertHtml(code);");
+    //scriptBlock.Append("}");
 
-    myButton.ScriptBlock = scriptBlock.ToString();
-    myToolbar.Items.Add(myButton);
-    txtContent.Toolbars.Add(myToolbar);
+    //myButton.ScriptBlock = scriptBlock.ToString();
+    //myToolbar.Items.Add(myButton);
+    //txtContent.Toolbars.Add(myToolbar);
   }
 
   private string SizeFormat(float size, string formatString)
@@ -104,7 +103,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
       page = new Page();
 
     page.Title = txtTitle.Text;
-    page.Content = txtContent.Xhtml;
+    page.Content = txtContent.Text;
     page.Description = txtDescription.Text;
     page.Keywords = txtKeyword.Text;
     page.Save();

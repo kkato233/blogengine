@@ -52,6 +52,9 @@ function ShowCommentPreview(target, sender)
   if (_TxtName == null)
     _TxtName = document.getElementById("ctl00_cphBody_CommentView1_txtName");   
     
+  if (!_PreviewAuthor)
+    return;
+    
   var body = sender.value.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
     
   _PreviewAuthor.innerHTML = _TxtName.value;
