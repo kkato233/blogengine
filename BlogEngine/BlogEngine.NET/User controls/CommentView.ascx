@@ -9,6 +9,8 @@
   <asp:PlaceHolder runat="server" ID="phComments" />
 </div>
 
+<asp:PlaceHolder runat="Server" ID="phAddComment">
+
 <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" alt="Saving the comment" style="display:none" id="ajaxLoader" />  
 <span id="status"></span>
 
@@ -30,7 +32,7 @@
   
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
   <label for="<%=ddlCountry.ClientID %>">Country</label>
-  <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" />
+  <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" />&nbsp;
   <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" Width="16" Height="11" /><br /><br />
   <%} %>
 
@@ -41,14 +43,16 @@
   <input type="button" id="btnSave" value="Save comment" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
   <asp:Button runat="server" ID="btnSave" style="display:none" Text="Save comment" UseSubmitBehavior="false" TabIndex="6" />
   
+  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
   <h2>Live preview</h2>
   
   <div class="comment">
-    <p class="date"><%=DateTime.Now.ToString("MMMM d. yyyy HH:mm") %></p>
+    <p class="date"><%=DateTime.Now.ToString("MMMM d. yyyy HH:mm")%></p>
     <p class="gravatar"><%= Gravatar(txtEmail.Text, "", 80)%></p>
     <p id="preview" class="content">&nbsp;</p>
     <span class="author" id="previewauthor" style="display:block"><span id="spanPreviewAuthor" runat="Server" /></span>
   </div>
+  <%} %>
 </div>
 
 <script type="text/javascript">
@@ -104,7 +108,8 @@ function SetFlag(iso)
 }
 </script>
 
-<%--<script type="text/javascript">
+<% if (BlogSettings.Instance.IsCoCommentEnabled){ %>
+<script type="text/javascript">
 // this ensures coComment gets the correct values
 coco =
 {
@@ -114,11 +119,15 @@ coco =
      pageurl       : "<%=Request.Url %>",
      pagetitle     : "<%=this.Post.Title %>",
      author        : "<%=this.Post.Title %>",
-     formID        : "<%=commentform.ClientID %>",
+     formID        : "<%=Page.Form.ClientID %>",
      textareaID    : "<%=txtContent.UniqueID %>",
      buttonID      : "<%=btnSave.ClientID %>"
 }
 </script>
 <script id="cocomment-fetchlet" src="http://www.cocomment.com/js/enabler.js" type="text/javascript">
 // this activates coComment
-</script>--%>
+</script>
+<%} %>
+</asp:PlaceHolder>
+
+<asp:label runat="server" id="lbCommentsDisabled" visible="false">Comments are closed</asp:label>

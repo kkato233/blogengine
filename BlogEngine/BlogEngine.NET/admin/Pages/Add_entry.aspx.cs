@@ -6,7 +6,6 @@ using System.Text;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using DotNetSlave.BlogEngine.BusinessLogic;
-using FreeTextBoxControls;
 
 #endregion
 
@@ -24,6 +23,7 @@ public partial class admin_entry : System.Web.UI.Page
       if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
       {
         Guid id = new Guid(Request.QueryString["id"]);
+        Page.Title = "Edit post";
         BindPost(id);
       }
       else
@@ -56,8 +56,7 @@ public partial class admin_entry : System.Web.UI.Page
 
     string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
     string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
-    string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
-    txtContent.Text += string.Format(a, path, Server.UrlEncode(txtUploadFile.FileName), text);
+    txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
   }
 
   private void Upload(string virtualFolder, FileUpload control)
@@ -68,20 +67,20 @@ public partial class admin_entry : System.Web.UI.Page
 
   private void AddCodeToolbarItem()
   {
-    Toolbar myToolbar = new Toolbar();
+    //Toolbar myToolbar = new Toolbar();
 
-    ToolbarButton myButton = new ToolbarButton("Insert Code", "insertCode", "csharp");
+    //ToolbarButton myButton = new ToolbarButton("Insert Code", "insertCode", "csharp");
 
-    StringBuilder scriptBlock = new StringBuilder();
-    scriptBlock.AppendFormat("var codescript = '{0}';", txtContent.SupportFolder + "ftb.insertcode.aspx");
-    scriptBlock.Append("code = showModalDialog(codescript,window,'dialogWidth:400px; dialogHeight:500px;help:0;status:0;resizeable:1;');");
-    scriptBlock.Append("if (code  != null) {");
-    scriptBlock.Append("	this.ftb.InsertHtml(code);");
-    scriptBlock.Append("}");
+    //StringBuilder scriptBlock = new StringBuilder();
+    //scriptBlock.AppendFormat("var codescript = '{0}';", txtContent.SupportFolder + "ftb.insertcode.aspx");
+    //scriptBlock.Append("code = showModalDialog(codescript,window,'dialogWidth:400px; dialogHeight:500px;help:0;status:0;resizeable:1;');");
+    //scriptBlock.Append("if (code  != null) {");
+    //scriptBlock.Append("	this.ftb.InsertHtml(code);");
+    //scriptBlock.Append("}");
 
-    myButton.ScriptBlock = scriptBlock.ToString();
-    myToolbar.Items.Add(myButton);
-    txtContent.Toolbars.Add(myToolbar);
+    //myButton.ScriptBlock = scriptBlock.ToString();
+    //myToolbar.Items.Add(myButton);
+    //txtContent.Toolbars.Add(myToolbar);
   }
 
   private string SizeFormat(float size, string formatString)
@@ -129,7 +128,7 @@ public partial class admin_entry : System.Web.UI.Page
     post.DateCreated = DateTime.Parse(txtDate.Text);
     post.Author = ddlAuthor.SelectedValue;
     post.Title = txtTitle.Text;
-    post.Content = txtContent.Xhtml;
+    post.Content = txtContent.Text;
     post.Description = txtDescription.Text;
     post.IsPublished = cbPublish.Checked;
     post.IsCommentsEnabled = cbEnableComments.Checked;

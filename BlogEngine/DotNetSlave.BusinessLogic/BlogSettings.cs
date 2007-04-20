@@ -190,6 +190,30 @@ public class BlogSettings
     set { _EnableCountryInComments = value; }
   }
 
+  private bool _ShowLivePreview;
+
+  public bool ShowLivePreview
+  {
+    get { return _ShowLivePreview; }
+    set { _ShowLivePreview = value; }
+  }
+
+  private bool _IsCoCommentEnabled;
+
+  public bool IsCoCommentEnabled
+  {
+    get { return _IsCoCommentEnabled; }
+    set { _IsCoCommentEnabled = value; }
+  }
+
+  private int _DaysCommentsAreEnabled;
+
+  public int DaysCommentsAreEnabled
+  {
+    get { return _DaysCommentsAreEnabled; }
+    set { _DaysCommentsAreEnabled = value; }
+  }
+
   #endregion
 
   #region Methods

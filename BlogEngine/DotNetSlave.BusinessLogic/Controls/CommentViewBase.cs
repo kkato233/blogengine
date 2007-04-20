@@ -77,6 +77,7 @@ namespace DotNetSlave.BlogEngine.BusinessLogic
         {
           System.Text.StringBuilder sb = new System.Text.StringBuilder();
           sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", Comment.Email);
+          sb.AppendFormat(" | <a href=\"http://whois.domaintools.com/{0}/\">{0}</a>", Comment.IP);
           string confirmDelete = "Are you sure you want to delete the comment?";
           sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, "Delete");
           return sb.ToString();

@@ -13,6 +13,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BlogEngine.NET\", ".
 		SccAuxPath = "SAK"
 		SccLocalPath = "SAK"
 		SccProvider = "SAK"
+		ProjectReferences = "{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}|DotNetSlave.BlogEngine.BusinessLogic.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/BlogEngine.NET"
 		Debug.AspNetCompiler.PhysicalPath = "..\..\WebSites\BlogEngine.NET\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\BlogEngine.NET\"

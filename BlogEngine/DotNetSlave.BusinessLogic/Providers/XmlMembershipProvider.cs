@@ -151,8 +151,8 @@ namespace DotNetSlave.BlogEngine.BusinessLogic
         {
           if (user.Comment == password) // Case-sensitive
           {
-            user.LastLoginDate = DateTime.Now;
-            UpdateUser(user);
+            //user.LastLoginDate = DateTime.Now;
+            //UpdateUser(user);
             return true;
           }
         }

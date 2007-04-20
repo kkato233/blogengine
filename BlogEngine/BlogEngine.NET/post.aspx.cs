@@ -18,12 +18,6 @@ public partial class post : BlogBasePage
       Guid id = new Guid(Request.QueryString["id"]);
       this.Post = Post.GetPost(id);
 
-      if (!Post.IsCommentsEnabled || !BlogSettings.Instance.IsCommentsEnabled)
-      {
-        CommentView1.Visible = false;
-        lbCommentsDisabled.Visible = true;
-      }
-
       if (Post != null)
       {
         string path = "~/themes/" + BlogSettings.Instance.Theme + "/postview.ascx";

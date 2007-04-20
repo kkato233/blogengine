@@ -33,11 +33,20 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
         control.Post = Post;
         phComments.Controls.Add(control);
       }
-      GetCookie();
+
+      if (!BlogSettings.Instance.IsCommentsEnabled || !Post.IsCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 && Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
+      {
+        phAddComment.Visible = false;
+        lbCommentsDisabled.Visible = true;
+      }
+      else
+      {
+        GetCookie();
+        BindCountries();
+      }
     }
 
-    InititializeCaptcha();
-    BindCountries();
+    InititializeCaptcha();    
     btnSave.Click += new EventHandler(btnSave_Click);
   }
 

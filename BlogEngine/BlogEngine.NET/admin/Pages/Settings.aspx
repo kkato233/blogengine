@@ -31,7 +31,28 @@
   <asp:CheckBox runat="server" ID="cbEnableComments" /><br />
   
   <label for="<%=cbEnableCountryInComments.ClientID %>">Show country chooser</label>
-  <asp:CheckBox runat="server" ID="cbEnableCountryInComments" />
+  <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /><br />
+  
+  <label for="<%=cbEnableCoComment.ClientID %>">Enable <a href="http://www.cocomment.com/" target="_blank">coComment</a></label>
+  <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />
+  
+  <label for="<%=cbShowLivePreview.ClientID %>">Show live preview</label>
+  <asp:CheckBox runat="server" ID="cbShowLivePreview" /><br />
+  
+  <label for="<%=ddlCloseComments.ClientID %>" style="position:relative;top:4px">Close comments after</label>
+  <asp:DropDownList runat="server" ID="ddlCloseComments">
+  <asp:ListItem Text="Never" Value="0" />
+  <asp:ListItem Text="1" />
+  <asp:ListItem Text="2" />
+  <asp:ListItem Text="3" />
+  <asp:ListItem Text="7" />
+  <asp:ListItem Text="10" />
+  <asp:ListItem Text="14" />
+  <asp:ListItem Text="21" />
+  <asp:ListItem Text="30" />
+  <asp:ListItem Text="60" />
+  <asp:ListItem Text="90" />
+  </asp:DropDownList> days.
 </div>
 
 <div class="settings">
