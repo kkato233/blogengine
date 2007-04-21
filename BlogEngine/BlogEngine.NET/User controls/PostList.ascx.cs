@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Web.Controls;
 
 #endregion
 

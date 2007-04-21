@@ -1,4 +1,4 @@
-<%@ Control Language="C#" EnableViewState="False" Inherits="DotNetSlave.BlogEngine.BusinessLogic.CommentViewBase" %>
+<%@ Control Language="C#" EnableViewState="False" Inherits="BlogEngine.Core.Web.Controls.CommentViewBase" %>
 
 <div class="comment<%= Post.Author.Equals(Comment.Author, StringComparison.OrdinalIgnoreCase) ? " self" : "" %>">
   <p class="date"><%= Comment.DateCreated.ToString("MMMM d. yyyy HH:mm") %></p>

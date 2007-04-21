@@ -6,10 +6,11 @@ using System.Xml;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using DotNetSlave.BlogEngine.BusinessLogic;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Ping
 {
   /// <summary>
   /// Sends pingbacks to website that the blog links to.

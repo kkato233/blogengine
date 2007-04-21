@@ -2,5 +2,15 @@
 <%@ Register Src="User controls/PostList.ascx" TagName="PostList" TagPrefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
-    <uc1:PostList ID="PostList1" runat="server" />
+  <uc1:PostList ID="PostList1" runat="server" />
+  <blog:PostCalendar runat="server" ID="calendar" 
+    ShowPostTitles="true" 
+    BorderWidth="0"
+    NextPrevStyle-CssClass="header"
+    CssClass="calendar" 
+    WeekendDayStyle-CssClass="weekend" 
+    OtherMonthDayStyle-CssClass="other" 
+    UseAccessibleHeader="true" 
+    Visible="false" 
+    Width="100%" />    
 </asp:Content>

@@ -18,7 +18,6 @@ public partial class admin_entry : System.Web.UI.Page
     {
       BindCategories();
       BindUsers();
-      AddCodeToolbarItem();
 
       if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
       {
@@ -65,28 +64,10 @@ public partial class admin_entry : System.Web.UI.Page
     control.PostedFile.SaveAs(folder + control.FileName);
   }
 
-  private void AddCodeToolbarItem()
-  {
-    //Toolbar myToolbar = new Toolbar();
-
-    //ToolbarButton myButton = new ToolbarButton("Insert Code", "insertCode", "csharp");
-
-    //StringBuilder scriptBlock = new StringBuilder();
-    //scriptBlock.AppendFormat("var codescript = '{0}';", txtContent.SupportFolder + "ftb.insertcode.aspx");
-    //scriptBlock.Append("code = showModalDialog(codescript,window,'dialogWidth:400px; dialogHeight:500px;help:0;status:0;resizeable:1;');");
-    //scriptBlock.Append("if (code  != null) {");
-    //scriptBlock.Append("	this.ftb.InsertHtml(code);");
-    //scriptBlock.Append("}");
-
-    //myButton.ScriptBlock = scriptBlock.ToString();
-    //myToolbar.Items.Add(myButton);
-    //txtContent.Toolbars.Add(myToolbar);
-  }
-
   private string SizeFormat(float size, string formatString)
   {
     if (size < 1024)
-      return size.ToString(formatString) + "bytes";
+      return size.ToString(formatString) + " bytes";
 
     if (size < Math.Pow(1024, 2))
       return (size / 1024).ToString(formatString) + " kb";
@@ -153,10 +134,10 @@ public partial class admin_entry : System.Web.UI.Page
     post.Save();
     if (!Request.IsLocal)
     {
-      new PingService().Send();
-      Pingback.Send(post);
+      new BlogEngine.Core.Ping.PingService().Send();
+      BlogEngine.Core.Ping.Pingback.Send(post);
     }
-    //HttpResponse.RemoveOutputCacheItem(VirtualPathUtility.ToAbsolute("~/") + "default.aspx");
+
     Response.Redirect(post.RelativeLink.ToString());
   }
 

@@ -4,10 +4,11 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
+using DotNetSlave.BlogEngine.BusinessLogic;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Providers
 {
   /// <summary>
   /// A storage provider for BlogEngine that uses XML files.

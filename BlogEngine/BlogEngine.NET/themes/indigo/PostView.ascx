@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="PostViewBase" %>
+<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="BlogEngine.Core.Web.Controls.PostViewBase" %>
 
 <div class="post">
     <h1><a class="postheader" href="<%=Post.RelativeLink %>"><%=Post.Title %></a></h1>

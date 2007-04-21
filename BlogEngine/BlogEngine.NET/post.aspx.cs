@@ -6,10 +6,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Web.Controls;
 
 #endregion
 
-public partial class post : BlogBasePage
+public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 {
   protected void Page_Init(object sender, EventArgs e)
   {

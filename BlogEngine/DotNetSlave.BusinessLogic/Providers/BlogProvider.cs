@@ -3,10 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration.Provider;
+using DotNetSlave.BlogEngine.BusinessLogic;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Providers
 {
   /// <summary>
   /// A base class for all custom providers to inherit from.

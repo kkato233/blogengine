@@ -57,7 +57,7 @@ namespace Controls
           HtmlGenericControl li = new HtmlGenericControl("li");
 
           HtmlAnchor anc = new HtmlAnchor();
-          anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "month.aspx?year=" + first.Year + "&amp;month=" + first.Month;
+          anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "?year=" + first.Year + "&amp;month=" + first.Month;
           anc.InnerHtml = DateTime.Parse(first.Year + "-" + first.Month + "-01").ToString("MMMM") + " " + first.Year + " (" + list.Count + ")";
 
           li.Controls.Add(anc);

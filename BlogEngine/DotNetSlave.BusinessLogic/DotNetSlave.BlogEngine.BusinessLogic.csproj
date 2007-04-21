@@ -41,9 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\CommentViewBase.cs">
+    <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Web\HttpHandlers\FileHandler.cs" />
+    <Compile Include="Web\HttpHandlers\ImageHandler.cs" />
+    <Compile Include="Web\HttpHandlers\MicroSummary.cs" />
+    <Compile Include="Web\HttpHandlers\OpenSearchHandler.cs" />
+    <Compile Include="Web\HttpHandlers\PingbackHandler.cs" />
+    <Compile Include="Web\HttpHandlers\RssHandler.cs" />
+    <Compile Include="Web\HttpHandlers\Sitemap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -56,10 +63,10 @@
     <Compile Include="BusinessBase.cs" />
     <Compile Include="CategoryDictionary.cs" />
     <Compile Include="Comment.cs" />
-    <Compile Include="Controls\BlogBasePage.cs">
+    <Compile Include="Web\Controls\BlogBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Controls\PostViewBase.cs">
+    <Compile Include="Web\Controls\PostViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Page.cs" />
@@ -110,6 +117,10 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Providers\XmlBlogProvider.cs" />
     <Compile Include="Providers\XmlMembershipProvider.cs" />
+    <Compile Include="Web\HttpHandlers\TrackbackHandler.cs" />
+    <Compile Include="Web\HttpModules\CompressionModule.cs" />
+    <Compile Include="Web\HttpModules\ReferrerModule.cs" />
+    <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

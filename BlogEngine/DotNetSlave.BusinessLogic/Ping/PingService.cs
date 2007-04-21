@@ -5,10 +5,11 @@ using System.Net;
 using System.Xml;
 using System.IO;
 using System.Text;
+using DotNetSlave.BlogEngine.BusinessLogic;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Ping
 {
   /// <summary>
   /// Pings various blog ping services.
