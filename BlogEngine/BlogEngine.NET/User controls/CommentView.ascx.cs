@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
 using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Web.Controls;
 
 #endregion
 
@@ -41,8 +42,8 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       }
       else
       {
-        GetCookie();
         BindCountries();
+        GetCookie();       
       }
     }
 
@@ -195,6 +196,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       txtEmail.Text = cookie.Values["email"];
       txtWebsite.Text = cookie.Values["url"];
       ddlCountry.SelectedValue = cookie.Values["country"];
+      imgFlag.ImageUrl = "~/pics/flags/" + cookie.Values["country"] + ".png";
       spanPreviewAuthor.InnerHtml = cookie.Values["name"];
     }
   }

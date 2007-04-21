@@ -15,7 +15,7 @@ using System.Security.Cryptography;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Providers
 {
   public class XmlMembershipProvider : MembershipProvider
   {

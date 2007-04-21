@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using BlogEngine.Core.Providers;
 
 #endregion
 

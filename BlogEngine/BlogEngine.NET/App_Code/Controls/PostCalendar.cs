@@ -64,7 +64,7 @@ namespace Controls
         {
           HtmlAnchor a = new HtmlAnchor();
           a.InnerHtml = day.DayNumberText;
-          a.HRef = "~/month.aspx?date=" + day.Date.ToString("yyyy-MM-dd");
+          a.HRef = Utils.RelativeWebRoot + "?date=" + day.Date.ToString("yyyy-MM-dd");
           a.Attributes["class"] = "exist";
           cell.Controls.Add(a);
         }

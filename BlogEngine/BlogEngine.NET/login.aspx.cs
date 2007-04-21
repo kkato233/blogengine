@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 
-public partial class login : BlogBasePage
+public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 {
   protected void Page_Load(object sender, EventArgs e)
   {

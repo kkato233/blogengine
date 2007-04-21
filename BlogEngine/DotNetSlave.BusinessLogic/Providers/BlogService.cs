@@ -5,10 +5,11 @@ using System.Configuration;
 using System.Configuration.Provider;
 using System.Web.Configuration;
 using System.Web;
+using DotNetSlave.BlogEngine.BusinessLogic;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Providers
 {
   /// <summary>
   /// The proxy class for communication between

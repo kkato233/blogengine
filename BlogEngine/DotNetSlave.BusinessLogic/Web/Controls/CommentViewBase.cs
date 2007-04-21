@@ -12,7 +12,7 @@ using DotNetSlave.BlogEngine.BusinessLogic;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Web.Controls
 {
   public class CommentViewBase : UserControl
   {

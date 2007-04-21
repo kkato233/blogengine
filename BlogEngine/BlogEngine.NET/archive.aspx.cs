@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using DotNetSlave.BlogEngine.BusinessLogic;
 
-public partial class archive : BlogBasePage
+public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 {
   protected void Page_Load(object sender, EventArgs e)
   {

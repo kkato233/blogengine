@@ -44,7 +44,7 @@
   <div style="text-align:center">
     <blog:PostCalendar runat="Server" NextMonthText=">>" DayNameFormat="FirstTwoLetters" FirstDayOfWeek="monday" PrevMonthText="<<" CssClass="calendar" BorderWidth="0" WeekendDayStyle-CssClass="weekend" OtherMonthDayStyle-CssClass="other" UseAccessibleHeader="true" />
     <br />
-    <asp:HyperLink runat="server" NavigateUrl="~/month.aspx" Text="View posts in large calendar" EnableViewState="false" />
+    <asp:HyperLink runat="server" NavigateUrl="~/?calendar=show" Text="View posts in large calendar" EnableViewState="false" />
   </div>
 </div>
 

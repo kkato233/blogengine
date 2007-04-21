@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Providers
 {
   /// <summary>
   /// A configuration section for web.config.
