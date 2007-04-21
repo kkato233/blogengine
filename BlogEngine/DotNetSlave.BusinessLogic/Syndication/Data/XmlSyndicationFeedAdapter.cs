@@ -9,7 +9,7 @@ using System;
 using System.Xml;
 using System.Xml.XPath;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication.Data
 {

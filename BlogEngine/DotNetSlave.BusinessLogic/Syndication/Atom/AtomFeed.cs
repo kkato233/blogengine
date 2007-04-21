@@ -13,7 +13,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 using DotNetSlave.BlogEngine.BusinessLogic.Syndication.Data;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication.Atom

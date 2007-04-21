@@ -12,7 +12,7 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.XPath;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 using DotNetSlave.BlogEngine.BusinessLogic.Syndication.Atom;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication.Data

@@ -10,7 +10,7 @@ using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication.Rss
 {

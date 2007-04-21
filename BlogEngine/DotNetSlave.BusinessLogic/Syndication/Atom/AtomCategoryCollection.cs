@@ -9,7 +9,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication.Atom
 {

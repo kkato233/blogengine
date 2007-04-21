@@ -5,7 +5,7 @@ using System.Xml;
 using System.IO;
 using System.Web;
 using System.Globalization;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 

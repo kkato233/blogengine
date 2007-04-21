@@ -50,7 +50,7 @@
 
 <div class="box recent">
   <h1>Recent posts</h1>
-  <blog:RecentPosts runat="Server" NumberOfPosts="10" />
+  <blog:RecentPosts runat="Server" />
 </div>
 
 <div class="box">
@@ -72,7 +72,7 @@
   <h1>Categories</h1>
   <blog:CategoryList runat="Server" /><br />
   <a href="~/archive.aspx" runat="Server">Archive</a>
-  <blog:SearchBox runat="server" ButtonText="Search" CommentLabeltText="Include comments in search" EnableCommentSearch="true" DefaultText="Enter search term" />
+  <blog:SearchBox runat="server" />
 </div>
 
 <div class="box">

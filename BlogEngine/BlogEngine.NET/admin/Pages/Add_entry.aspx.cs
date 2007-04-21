@@ -5,7 +5,7 @@ using System.Web;
 using System.Text;
 using System.Web.Security;
 using System.Web.UI.WebControls;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 

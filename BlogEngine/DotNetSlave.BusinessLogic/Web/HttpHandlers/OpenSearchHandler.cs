@@ -3,7 +3,7 @@
 using System;
 using System.Xml;
 using System.Web;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 

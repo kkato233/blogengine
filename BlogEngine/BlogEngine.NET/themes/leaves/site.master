@@ -16,7 +16,7 @@
 	    <div id="header">
             <h3><a href="~/" runat="server"><%=BlogSettings.Instance.Name %></a></h3>
             <p><%=BlogSettings.Instance.Description %></p>
-            <blog:SearchBox ID="SearchBox1" runat="server" ButtonText="Go" CommentLabeltText="Include comments in search" EnableCommentSearch="false" DefaultText="Search..." />
+            <blog:SearchBox runat="server" />
         </div>
         <div id="navigation"> 
 		    <ul id="navlist">

@@ -4,7 +4,7 @@ using System;
 using System.Web;
 using System.Web.Security;
 using System.Threading;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 

@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 
@@ -31,7 +31,7 @@ namespace BlogEngine.Core.Web.Controls
       {
         if (Page.User.Identity.IsAuthenticated)
         {
-          Post post = DotNetSlave.BlogEngine.BusinessLogic.Post.GetPost(new Guid(Request.QueryString["delete"]));
+          Post post = BlogEngine.Core.Entities.Post.GetPost(new Guid(Request.QueryString["delete"]));
           post.Delete();
           post.Save();
           Response.Redirect("~/");

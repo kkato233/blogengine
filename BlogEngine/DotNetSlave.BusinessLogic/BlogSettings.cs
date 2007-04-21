@@ -214,6 +214,46 @@ public class BlogSettings
     set { _DaysCommentsAreEnabled = value; }
   }
 
+  private int _NumberOfRencentPosts;
+
+  public int NumberOfRecentPosts
+  {
+    get { return _NumberOfRencentPosts; }
+    set { _NumberOfRencentPosts = value; }
+  }
+
+  private string _SearchButtonText;
+
+  public string SearchButtonText
+  {
+    get { return _SearchButtonText; }
+    set { _SearchButtonText = value; }
+  }
+
+  private string _SearchDefaultText;
+
+  public string SearchDefaultText
+  {
+    get { return _SearchDefaultText; }
+    set { _SearchDefaultText = value; }
+  }
+
+  private bool _EnableCommentSearch;
+
+  public bool EnableCommentSearch
+  {
+    get { return _EnableCommentSearch; }
+    set { _EnableCommentSearch = value; }
+  }
+
+  private string _SearchCommentLabelText;
+
+  public string SearchCommentLabelText
+  {
+    get { return _SearchCommentLabelText; }
+    set { _SearchCommentLabelText = value; }
+  }
+
   #endregion
 
   #region Methods

@@ -1,7 +1,7 @@
 #region Using
 
 using System;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 
