@@ -128,6 +128,12 @@
     <EmbeddedResource Include="Syndication\Rss\Schema\Rss.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Syndication\Opml\Schema\Opml.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Syndication\Opml\Schema\Opml.xsx">
+      <DependentUpon>Opml.xsd</DependentUpon>
+    </None>
     <None Include="Syndication\Rss\Schema\Rss.xsx">
       <DependentUpon>Rss.xsd</DependentUpon>
     </None>
@@ -137,9 +143,6 @@
       <Project>{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}</Project>
       <Name>DotNetSlave.BlogEngine.Extensions</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Syndication\Opml\Schema\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
