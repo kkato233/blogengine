@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetSlave.BlogEngine.BusinessLogic", "DotNetSlave.BusinessLogic\DotNetSlave.BlogEngine.BusinessLogic.csproj", "{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogEngine.Core", "DotNetSlave.BusinessLogic\BlogEngine.Core.csproj", "{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "E:\...\BlogEngine.NET\", "..\..\WebSites\BlogEngine.NET", "{5407B6E5-4748-4089-B089-4A2D20D9EDBB}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BlogEngine.NET\", "..\..\WebSites\BlogEngine.NET", "{5407B6E5-4748-4089-B089-4A2D20D9EDBB}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = "SAK"
 		SccAuxPath = "SAK"
@@ -43,17 +43,17 @@ Global
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs02.codeplex.com/
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = DotNetSlave.BusinessLogic\\DotNetSlave.BlogEngine.BusinessLogic.csproj
-		SccProjectName1 = DotNetSlave.BusinessLogic
-		SccLocalPath1 = DotNetSlave.BusinessLogic
-		SccWebProject2 = true
-		SccProjectUniqueName2 = ..\\..\\WebSites\\BlogEngine.NET
-		SccProjectName2 = BlogEngine.NET
-		SccLocalPath2 = E:\\Projects\\CodePlex\\WebSites\\BlogEngine.NET\\
-		SccProjectEnlistmentChoice2 = 2
-		SccProjectUniqueName3 = DotNetSlave.BlogEngine.Extensions\\DotNetSlave.BlogEngine.Extensions.csproj
-		SccProjectName3 = DotNetSlave.BlogEngine.Extensions
-		SccLocalPath3 = DotNetSlave.BlogEngine.Extensions
+		SccWebProject1 = true
+		SccProjectUniqueName1 = ..\\..\\WebSites\\BlogEngine.NET
+		SccProjectName1 = BlogEngine.NET
+		SccLocalPath1 = C:\\Documents\u0020and\u0020Settings\\Mads\u0020Kristensen\\Dokumenter\\Visual\u0020Studio\u00202005\\WebSites\\BlogEngine.NET\\
+		SccProjectEnlistmentChoice1 = 2
+		SccProjectUniqueName2 = DotNetSlave.BlogEngine.Extensions\\DotNetSlave.BlogEngine.Extensions.csproj
+		SccProjectName2 = DotNetSlave.BlogEngine.Extensions
+		SccLocalPath2 = DotNetSlave.BlogEngine.Extensions
+		SccProjectUniqueName3 = DotNetSlave.BusinessLogic\\BlogEngine.Core.csproj
+		SccProjectName3 = DotNetSlave.BusinessLogic
+		SccLocalPath3 = DotNetSlave.BusinessLogic
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET

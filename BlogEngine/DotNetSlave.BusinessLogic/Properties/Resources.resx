@@ -122,7 +122,7 @@
     <value>..\Syndication\Atom\Schema\Atom.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="ExceptionAtomSyndicationFeedAdapterInvalidFeedType" xml:space="preserve">
-    <value>The syndication feed must be of type DotNetSlave.BlogEngine.BusinessLogic.Syndication.Atom.AtomFeed in order to be filled or written by this data adapter.</value>
+    <value>The syndication feed must be of type BlogEngine.Core.Entities.Syndication.Atom.AtomFeed in order to be filled or written by this data adapter.</value>
   </data>
   <data name="ExceptionAtomTextTypeInvalid" xml:space="preserve">
     <value>The AtomText.Type property is invalid.</value>
@@ -140,7 +140,7 @@
     <value>An RssItem must have either its Title or Description property set to a non-empty value.</value>
   </data>
   <data name="ExceptionRssSyndicationFeedAdapterInvalidFeedType" xml:space="preserve">
-    <value>The syndication feed must be of type DotNetSlave.BlogEngine.BusinessLogic.Syndication.Rss.RssFeed in order to be filled or written by this data adapter.</value>
+    <value>The syndication feed must be of type BlogEngine.Core.Entities.Syndication.Rss.RssFeed in order to be filled or written by this data adapter.</value>
   </data>
   <data name="ExceptionSyndicationFeedAdapterInvalidWriterType" xml:space="preserve">
     <value>The XmlWriterType enumeration is WriterType.None, which is not valid.</value>

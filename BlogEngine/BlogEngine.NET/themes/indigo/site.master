@@ -27,7 +27,7 @@
             </div>
             <div class="sidenav">
                 <h1>Search</h1>
-                <blog:SearchBox ID="SearchBox1" runat="server" ButtonText="Submit" CommentLabeltText="Include comments in search" EnableCommentSearch="false" DefaultText="Search..." />
+                <blog:SearchBox runat="server" />
                 
                  <% if (Page.User.Identity.IsAuthenticated){ %>
                 <h1>Administration</h1>

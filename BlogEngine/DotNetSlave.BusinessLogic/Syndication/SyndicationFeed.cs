@@ -12,7 +12,7 @@ using System.Net;
 using System.Security;
 using System.Xml;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication
 {

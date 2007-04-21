@@ -7,7 +7,7 @@ using System.Web;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core.Entities
 {
   /// <summary>
   /// Utilities for the entire solution to use.

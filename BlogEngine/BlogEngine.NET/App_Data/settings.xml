@@ -18,4 +18,9 @@
   <ShowLivePreview>True</ShowLivePreview>
   <IsCoCommentEnabled>False</IsCoCommentEnabled>
   <DaysCommentsAreEnabled>1</DaysCommentsAreEnabled>
+  <NumberOfRecentPosts>10</NumberOfRecentPosts>
+  <SearchButtonText>Search</SearchButtonText>
+  <SearchDefaultText>Enter search term</SearchDefaultText>
+  <EnableCommentSearch>True</EnableCommentSearch>
+  <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
 </settings>

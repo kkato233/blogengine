@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 using System.Text.RegularExpressions;
 
 /// <summary>

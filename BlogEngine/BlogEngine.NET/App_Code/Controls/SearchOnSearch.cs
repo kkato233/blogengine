@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Text;
 using System.Collections.Generic;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 

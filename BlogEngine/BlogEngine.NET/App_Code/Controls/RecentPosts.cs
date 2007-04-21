@@ -3,7 +3,7 @@
 using System;
 using System.Web;
 using System.Web.UI;
-using DotNetSlave.BlogEngine.BusinessLogic;
+using BlogEngine.Core.Entities;
 
 #endregion
 
@@ -18,14 +18,7 @@ namespace Controls
     static RecentPosts()
     {
       Post.Saved += delegate { _Html = null; };
-    }
-
-    private int _NumberOfPosts;
-
-    public int NumberOfPosts
-    {
-      get { return _NumberOfPosts; }
-      set { _NumberOfPosts = value; }
+      BlogSettings.Changed += delegate { _Html = null; };
     }
 
     private static string _Html;
@@ -36,7 +29,7 @@ namespace Controls
       {
         if (_Html == null)
         {          
-          int number = NumberOfPosts;
+          int number = BlogSettings.Instance.NumberOfRecentPosts;
           if (number > Post.Posts.Count)
             number = Post.Posts.Count;
 

@@ -9,7 +9,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-using DotNetSlave.BlogEngine.BusinessLogic.Properties;
+using BlogEngine.Core.Properties;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication
 {
