@@ -46,6 +46,8 @@
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
+    <Compile Include="Syndication\Extensions\ISyndicationExtension.cs" />
+    <Compile Include="Syndication\Extensions\SyndicationExtensionDictionary.cs" />
     <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -153,12 +155,6 @@
     <None Include="Syndication\Rss\Schema\Rss.xsx">
       <DependentUpon>Rss.xsd</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DotNetSlave.BlogEngine.Extensions\DotNetSlave.BlogEngine.Extensions.csproj">
-      <Project>{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}</Project>
-      <Name>DotNetSlave.BlogEngine.Extensions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
