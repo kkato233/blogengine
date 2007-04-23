@@ -37,10 +37,15 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\MetaWeblog\IMetaWeblogAPI.cs" />
+    <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
+    <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
+    <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
