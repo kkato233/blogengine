@@ -8,7 +8,7 @@ Date		Author		Description
 using System;
 using System.Net;
 
-using DotNetSlave.BlogEngine.Extensions;
+using DotNetSlave.BlogEngine.Syndication.Extensions;
 
 namespace DotNetSlave.BlogEngine.BusinessLogic.Syndication
 {

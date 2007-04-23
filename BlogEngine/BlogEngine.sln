@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogEngine.Core", "DotNetSl
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BlogEngine.NET\", "..\..\WebSites\BlogEngine.NET", "{5407B6E5-4748-4089-B089-4A2D20D9EDBB}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "E:\...\BlogEngine.NET\", "..\..\WebSites\BlogEngine.NET", "{5407B6E5-4748-4089-B089-4A2D20D9EDBB}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = "SAK"
 		SccAuxPath = "SAK"
@@ -31,29 +31,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\BlogEngine.NET\", ".
 		VWDPort = "2331"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetSlave.BlogEngine.Extensions", "DotNetSlave.BlogEngine.Extensions\DotNetSlave.BlogEngine.Extensions.csproj", "{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs02.codeplex.com/
 		SccLocalPath0 = .
 		SccWebProject1 = true
 		SccProjectUniqueName1 = ..\\..\\WebSites\\BlogEngine.NET
 		SccProjectName1 = BlogEngine.NET
-		SccLocalPath1 = C:\\Documents\u0020and\u0020Settings\\Mads\u0020Kristensen\\Dokumenter\\Visual\u0020Studio\u00202005\\WebSites\\BlogEngine.NET\\
+		SccLocalPath1 = E:\\Projects\\CodePlex\\WebSites\\BlogEngine.NET\\
 		SccProjectEnlistmentChoice1 = 2
-		SccProjectUniqueName2 = DotNetSlave.BlogEngine.Extensions\\DotNetSlave.BlogEngine.Extensions.csproj
-		SccProjectName2 = DotNetSlave.BlogEngine.Extensions
-		SccLocalPath2 = DotNetSlave.BlogEngine.Extensions
-		SccProjectUniqueName3 = DotNetSlave.BusinessLogic\\BlogEngine.Core.csproj
-		SccProjectName3 = DotNetSlave.BusinessLogic
-		SccLocalPath3 = DotNetSlave.BusinessLogic
+		SccProjectUniqueName2 = DotNetSlave.BusinessLogic\\BlogEngine.Core.csproj
+		SccProjectName2 = DotNetSlave.BusinessLogic
+		SccLocalPath2 = DotNetSlave.BusinessLogic
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -84,16 +75,6 @@ Global
 		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|Any CPU.ActiveCfg = Debug|.NET
 		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
 		{5407B6E5-4748-4089-B089-4A2D20D9EDBB}.Release|Mixed Platforms.Build.0 = Debug|.NET
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Release|.NET.ActiveCfg = Release|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F6FBA3CD-FC76-4B3A-89AE-3BE11DF5045E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
