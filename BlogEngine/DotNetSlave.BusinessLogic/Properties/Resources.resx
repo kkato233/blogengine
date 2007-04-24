@@ -117,10 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AtomSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Syndication\Atom\Schema\Atom.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="ExceptionAtomSyndicationFeedAdapterInvalidFeedType" xml:space="preserve">
     <value>The syndication feed must be of type BlogEngine.Core.Entities.Syndication.Atom.AtomFeed in order to be filled or written by this data adapter.</value>
   </data>
@@ -156,8 +152,5 @@
   </data>
   <data name="ExceptionXmlSyndicationFeedAdapterReaderEmpty" xml:space="preserve">
     <value>The Reader property must be set prior to calling the Fill method.</value>
-  </data>
-  <data name="RssSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Syndication\Rss\Schema\Rss.xsd;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>
