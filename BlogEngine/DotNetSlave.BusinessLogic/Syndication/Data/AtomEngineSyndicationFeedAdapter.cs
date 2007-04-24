@@ -1,0 +1,1276 @@
+/****************************************************************************
+Modification History:
+*****************************************************************************
+Date		Author		Description
+*****************************************************************************
+04/18/2007	brian.kuhn		Created AtomEngineSyndicationFeedAdapter Class
+****************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Xml;
+using System.Xml.XPath;
+
+using BlogEngine.Core.Properties;
+using BlogEngine.Core.Syndication.Atom;
+
+namespace BlogEngine.Core.Syndication.Data
+{
+    /// <summary>
+    /// Provides a set of methods and properties used to fill or write <see cref="AtomFeed"/> instances from an XML data source.
+    /// </summary>
+    public class AtomEngineSyndicationFeedAdapter : EngineSyndicationFeedAdapter
+    {
+        //============================================================
+        //	PUBLIC/PRIVATE/PROTECTED MEMBERS
+        //============================================================
+        #region PRIVATE/PROTECTED/PUBLIC MEMBERS
+        /// <summary>
+        /// Private member to hold the Atom 1.0 XML namespace designator.
+        /// </summary>
+        private const string ATOM_XML_NAMESPACE = "http://www.w3.org/2005/Atom";
+        #endregion
+
+        //============================================================
+        //	CONSTRUCTORS
+        //============================================================
+        #region AtomEngineSyndicationFeedAdapter()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AtomEngineSyndicationFeedAdapter"/> class.
+        /// </summary>
+        public AtomEngineSyndicationFeedAdapter() : base()
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Initialization handled by base class
+                //------------------------------------------------------------
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region AtomEngineSyndicationFeedAdapter(SyndicationFeedSettings settings)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AtomEngineSyndicationFeedAdapter"/> class using the supplied <see cref="SyndicationFeedSettings"/>.
+        /// </summary>
+        /// <param name="settings">The set of features that the XML data adapter supports.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="settings"/> is a null reference (Nothing in Visual Basic).</exception>
+        public AtomEngineSyndicationFeedAdapter(SyndicationFeedSettings settings) : base(settings)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Initialization handled by base class
+                //------------------------------------------------------------
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        //============================================================
+        //	PUBLIC PROPERTIES
+        //============================================================
+        #region DefaultXmlNamespace
+        /// <summary>
+        /// Gets the default XML namespace this syndication feed adapter expects to parse.
+        /// </summary>
+        /// <remarks></remarks>
+        public static string DefaultXmlNamespace
+        {
+            get
+            {
+                return ATOM_XML_NAMESPACE;
+            }
+        }
+        #endregion
+
+        //============================================================
+        //	PUBLIC ROUTINES
+        //============================================================
+        #region Fill(SyndicationFeed feed)
+        /// <summary>
+        /// Adds or refreshes items/entries in the <see cref="AtomFeed"/> to match those in the blog engine data source(s).
+        /// </summary>
+        /// <param name="feed">A <see cref="AtomFeed"/> to fill using the underlying blog engine data source(s).</param>
+        /// <returns>The number of items/entries successfully added to or refreshed in the <b>AtomFeed</b>.</returns>
+        /// <remarks>
+        ///     <para>
+        ///         <b>Fill</b> retrieves Atom syndication feed information from the blog engine data source(s).
+        ///     </para>
+        /// 
+        ///     <para>
+        ///         The <b>Fill</b> operation then sets the <b>AtomFeed</b> properties and adds items to the feed, creating the Atom syndication feed entities if they do not already exist.
+        ///     </para>
+        /// 
+        ///     <para>
+        ///         If the <b>AtomEngineSyndicationFeedAdapter</b> will also add supported extensions to the <b>AtomFeed</b> using the supported extensions configured in the <see cref="EngineSyndicationFeedAdapter.Settings"/> property.
+        ///     </para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentException">The <paramref name="feed"/> is not a <see cref="AtomFeed"/>.</exception>
+        public override int Fill(SyndicationFeed feed)
+        {
+            //------------------------------------------------------------
+            //	Local members
+            //------------------------------------------------------------
+            //int modifiedItemsCount  = 0;
+
+            //------------------------------------------------------------
+            //	Attempt to fill syndication feed using data source
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+                if(feed.GetType() != typeof(AtomFeed))
+                {
+                    throw new ArgumentException(Resources.ExceptionAtomSyndicationFeedAdapterInvalidFeedType);
+                }
+
+                //------------------------------------------------------------
+                //	
+                //------------------------------------------------------------
+                throw new NotImplementedException();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+
+            //------------------------------------------------------------
+            //	Return result
+            //------------------------------------------------------------
+            //return modifiedItemsCount;
+        }
+        #endregion
+
+        #region Write(SyndicationFeed feed, XmlWriter writer)
+        /// <summary>
+        /// Writes the <see cref="SyndicationFeed"/> to the specified <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="feed">The <see cref="SyndicationFeed"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which the syndication feed is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentException">The <paramref name="feed"/> is not of type <see cref="AtomFeed"/>.</exception>
+        /// <exception cref="XmlException">An exception occurred while writing the syndication feed XML data.</exception>
+        public override void Write(SyndicationFeed feed, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write syndication feed to writer
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+                if(feed.GetType() != typeof(AtomFeed))
+                {
+                    throw new ArgumentException(Resources.ExceptionAtomSyndicationFeedAdapterInvalidFeedType, "feed");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+                
+                //------------------------------------------------------------
+                //	Write the syndication feed to the writer
+                //------------------------------------------------------------
+                AtomEngineSyndicationFeedAdapter.WriteFeed((AtomFeed)feed, writer);
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        //============================================================
+        //	PRIVATE FILL ROUTINES
+        //============================================================
+        
+
+        //============================================================
+        //	PRIVATE WRITE ROUTINES
+        //============================================================
+        #region WriteEntries(AtomEntryCollection entries, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomEntryCollection"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="entries">The <see cref="AtomEntryCollection"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="entries"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteEntries(AtomEntryCollection entries, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write entry elements
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (entries == null)
+                {
+                    throw new ArgumentNullException("entries");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Enumerate through entries
+                //------------------------------------------------------------
+                foreach (AtomEntry entry in entries)
+                {
+                    //------------------------------------------------------------
+                    //	Write entry
+                    //------------------------------------------------------------
+                    AtomEngineSyndicationFeedAdapter.WriteEntry(entry, writer);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteEntry(AtomEntry entry, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomEntry"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="entry">The <see cref="AtomEntry"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="entry"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteEntry(AtomEntry entry, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write feed entry element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (entry == null)
+                {
+                    throw new ArgumentNullException("entry");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <entry> element
+                //------------------------------------------------------------
+                writer.WriteStartElement("entry");
+
+                //------------------------------------------------------------
+                //	Write <id> element
+                //------------------------------------------------------------
+                if (entry.Id != null)
+                {
+                    writer.WriteElementString("id", entry.Id.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write <title> element
+                //------------------------------------------------------------
+                if (entry.Title != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteTextConstruct(entry.Title, "title", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <updated> element
+                //------------------------------------------------------------
+                if (entry.UpdatedOn != null)
+                {
+                    writer.WriteElementString("updated", entry.UpdatedOn.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write <content> element
+                //------------------------------------------------------------
+                if (entry.Content != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteContentConstruct(entry.Content, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <published> element
+                //------------------------------------------------------------
+                if (entry.PublishedOn != null)
+                {
+                    writer.WriteElementString("published", entry.PublishedOn.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write <rights> element
+                //------------------------------------------------------------
+                if (entry.Rights != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteTextConstruct(entry.Rights, "rights", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <summary> element
+                //------------------------------------------------------------
+                if (entry.Summary != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteTextConstruct(entry.Summary, "summary", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <author> elements
+                //------------------------------------------------------------
+                if (entry.Authors != null && entry.Authors.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WritePersons(entry.Authors, "author", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <category> elements
+                //------------------------------------------------------------
+                if (entry.Categories != null && entry.Categories.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteCategories(entry.Categories, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <contributor> elements
+                //------------------------------------------------------------
+                if (entry.Contributors != null && entry.Contributors.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WritePersons(entry.Contributors, "contributor", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <link> elements
+                //------------------------------------------------------------
+                if (entry.Links != null && entry.Links.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteLinks(entry.Links, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <source> element
+                //------------------------------------------------------------
+                if (entry.Source != null)
+                {
+                    //------------------------------------------------------------
+                    //	
+                    //------------------------------------------------------------
+                    AtomEngineSyndicationFeedAdapter.WriteFeedContent(entry.Source, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write </entry> element
+                //------------------------------------------------------------
+                writer.WriteEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteFeed(AtomFeed feed, XmlWriter writer)
+        /// <summary>
+        /// Writes the <see cref="AtomFeed"/> to the specified <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="feed">The <see cref="AtomFeed"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which the syndication feed is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteFeed(AtomFeed feed, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write syndication feed to writer
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <feed> element with default XML namespace
+                //------------------------------------------------------------
+                writer.WriteStartElement("feed", ATOM_XML_NAMESPACE);
+
+                //------------------------------------------------------------
+                //	Write syndication feed version attribute
+                //------------------------------------------------------------
+                writer.WriteAttributeString("version", feed.Version);
+
+                //------------------------------------------------------------
+                //	Write feed content
+                //------------------------------------------------------------
+                AtomEngineSyndicationFeedAdapter.WriteFeedContent(feed, writer);
+
+                //------------------------------------------------------------
+                //	Write </feed> element
+                //------------------------------------------------------------
+                writer.WriteFullEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteFeedContent(AtomFeed feed, XmlWriter writer)
+        /// <summary>
+        /// Writes the <see cref="AtomFeed"/> content to the specified <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="feed">The <see cref="AtomFeed"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which the syndication feed is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteFeedContent(AtomFeed feed, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write syndication feed content to writer
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <id> element
+                //------------------------------------------------------------
+                if (feed.Id != null)
+                {
+                    writer.WriteElementString("id", feed.Id.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write <title> element
+                //------------------------------------------------------------
+                if (feed.Title != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteTextConstruct(feed.Title, "title", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <updated> element
+                //------------------------------------------------------------
+                if (feed.UpdatedOn != null)
+                {
+                    writer.WriteElementString("updated", feed.UpdatedOn.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write feed optional elements
+                //------------------------------------------------------------
+                AtomEngineSyndicationFeedAdapter.WriteFeedOptionals(feed, writer);
+
+                //------------------------------------------------------------
+                //	Write <author> elements
+                //------------------------------------------------------------
+                if (feed.Authors != null && feed.Authors.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WritePersons(feed.Authors, "author", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <category> elements
+                //------------------------------------------------------------
+                if (feed.Categories != null && feed.Categories.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteCategories(feed.Categories, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <contributor> elements
+                //------------------------------------------------------------
+                if (feed.Contributors != null && feed.Contributors.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WritePersons(feed.Contributors, "contributor", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <link> elements
+                //------------------------------------------------------------
+                if (feed.Links != null && feed.Links.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteLinks(feed.Links, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <entry> elements
+                //------------------------------------------------------------
+                if (feed.Entries != null && feed.Entries.Count > 0)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteEntries(feed.Entries, writer);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteFeedOptionals(AtomFeed feed, XmlWriter writer)
+        /// <summary>
+        /// Writes the <see cref="AtomFeed"/> optional elements to the specified <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="feed">The <see cref="AtomFeed"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which the syndication feed is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteFeedOptionals(AtomFeed feed, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write syndication feed to writer
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <generator> element
+                //------------------------------------------------------------
+                if (feed.Generator != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteGenerator(feed.Generator, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <icon> element
+                //------------------------------------------------------------
+                if (feed.Icon != null)
+                {
+                    writer.WriteElementString("icon", feed.Icon.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write <logo> element
+                //------------------------------------------------------------
+                if (feed.Logo != null)
+                {
+                    writer.WriteElementString("logo", feed.Logo.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write <rights> element
+                //------------------------------------------------------------
+                if (feed.Rights != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteTextConstruct(feed.Rights, "rights", writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write <subtitle> element
+                //------------------------------------------------------------
+                if (feed.Description != null)
+                {
+                    AtomEngineSyndicationFeedAdapter.WriteTextConstruct(feed.Description, "subtitle", writer);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        //============================================================
+        //	ENTITY SERIALIZATION ROUTINES
+        //============================================================
+        #region WriteCategories(AtomCategoryCollection categories, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomCategoryCollection"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="categories">The <see cref="AtomCategoryCollection"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="categories"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteCategories(AtomCategoryCollection categories, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write category elements
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (categories == null)
+                {
+                    throw new ArgumentNullException("categories");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Enumerate through categories
+                //------------------------------------------------------------
+                foreach (AtomCategory category in categories)
+                {
+                    //------------------------------------------------------------
+                    //	Write category
+                    //------------------------------------------------------------
+                    AtomEngineSyndicationFeedAdapter.WriteCategory(category, writer);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteCategory(AtomCategory category, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomCategory"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="category">The <see cref="AtomCategory"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="category"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteCategory(AtomCategory category, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write category element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (category == null)
+                {
+                    throw new ArgumentNullException("category");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <category> element
+                //------------------------------------------------------------
+                writer.WriteStartElement("category");
+
+                //------------------------------------------------------------
+                //	Write category attributes
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(category.Term))
+                {
+                    writer.WriteAttributeString("term", category.Term);
+                }
+
+                if (category.Scheme != null)
+                {
+                    writer.WriteAttributeString("scheme", category.Scheme.ToString());
+                }
+
+                if (!String.IsNullOrEmpty(category.Label))
+                {
+                    writer.WriteAttributeString("label", category.Label);
+                }
+
+                //------------------------------------------------------------
+                //	Write category content
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(category.Content))
+                {
+                    writer.WriteString(category.Content);
+                }
+
+                //------------------------------------------------------------
+                //	Write </category> element
+                //------------------------------------------------------------
+                writer.WriteEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteContentConstruct(AtomContent construct, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomContent"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="construct">The <see cref="AtomContent"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="construct"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteContentConstruct(AtomContent construct, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write text construct element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (construct == null)
+                {
+                    throw new ArgumentNullException("construct");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <content> element
+                //------------------------------------------------------------
+                writer.WriteStartElement("content");
+
+                //------------------------------------------------------------
+                //	Write text construct attributes
+                //------------------------------------------------------------
+                if (construct.Type != TextType.None)
+                {
+                    writer.WriteAttributeString("type", AtomText.TextTypeToString(construct.Type));
+                }
+                else if (!String.IsNullOrEmpty(construct.MediaType))
+                {
+                    writer.WriteAttributeString("type", construct.MediaType);
+                }
+
+                if (construct.Source != null)
+                {
+                    writer.WriteAttributeString("src", construct.Source.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write text content
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(construct.Value))
+                {
+                    writer.WriteString(construct.Value);
+                }
+
+                //------------------------------------------------------------
+                //	Write </content> element
+                //------------------------------------------------------------
+                writer.WriteEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteGenerator(AtomGenerator generator, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomGenerator"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="generator">The <see cref="AtomGenerator"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="generator"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteGenerator(AtomGenerator generator, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write generator element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (generator == null)
+                {
+                    throw new ArgumentNullException("generator");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <generator> element
+                //------------------------------------------------------------
+                writer.WriteStartElement("generator");
+
+                //------------------------------------------------------------
+                //	Write generator attributes
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(generator.Version))
+                {
+                    writer.WriteAttributeString("version", generator.Version);
+                }
+
+                if (generator.Uri != null)
+                {
+                    writer.WriteAttributeString("uri", generator.Uri.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write generator name
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(generator.Name))
+                {
+                    writer.WriteString(generator.Name);
+                }
+
+                //------------------------------------------------------------
+                //	Write </generator> element
+                //------------------------------------------------------------
+                writer.WriteEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteLink(AtomLink category, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomLink"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="link">The <see cref="AtomLink"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="link"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteLink(AtomLink link, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write link element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (link == null)
+                {
+                    throw new ArgumentNullException("link");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write <link> element
+                //------------------------------------------------------------
+                writer.WriteStartElement("link");
+
+                //------------------------------------------------------------
+                //	Write link attributes
+                //------------------------------------------------------------
+                if (link.Link != null)
+                {
+                    writer.WriteAttributeString("href", link.Link.ToString());
+                }
+
+                if(link.Relation != LinkRelation.None)
+                {
+                    writer.WriteAttributeString("rel", AtomLink.RelationToString(link.Relation));
+                }
+
+                if (!String.IsNullOrEmpty(link.Type))
+                {
+                    writer.WriteAttributeString("type", link.Type);
+                }
+
+                if (!String.IsNullOrEmpty(link.Language))
+                {
+                    writer.WriteAttributeString("hreflang", link.Language);
+                }
+
+                if (!String.IsNullOrEmpty(link.Title))
+                {
+                    writer.WriteAttributeString("title", link.Title);
+                }
+
+                if (link.Length != Int64.MinValue)
+                {
+                    writer.WriteAttributeString("length", link.Length.ToString(CultureInfo.InvariantCulture));
+                }
+
+                //------------------------------------------------------------
+                //	Write link content
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(link.Content))
+                {
+                    writer.WriteString(link.Content);
+                }
+
+                //------------------------------------------------------------
+                //	Write </link> element
+                //------------------------------------------------------------
+                writer.WriteEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteLinks(AtomLinkCollection links, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomLinkCollection"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="links">The <see cref="AtomLinkCollection"/> to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="links"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void WriteLinks(AtomLinkCollection links, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write category elements
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (links == null)
+                {
+                    throw new ArgumentNullException("links");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Enumerate through links
+                //------------------------------------------------------------
+                foreach (AtomLink link in links)
+                {
+                    //------------------------------------------------------------
+                    //	Write link
+                    //------------------------------------------------------------
+                    AtomEngineSyndicationFeedAdapter.WriteLink(link, writer);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WritePerson(AtomPerson person, string elementName, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomPerson"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="person">The <see cref="AtomPerson"/> to be written.</param>
+        /// <param name="elementName">The local name of the element to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="person"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="elementName"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentException">The <paramref name="elementName"/> is an empty string.</exception>
+        private static void WritePerson(AtomPerson person, string elementName, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write person element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (person == null)
+                {
+                    throw new ArgumentNullException("person");
+                }
+                if (elementName == null)
+                {
+                    throw new ArgumentNullException("elementName");
+                }
+                if (String.IsNullOrEmpty(elementName.Trim()))
+                {
+                    throw new ArgumentException(Resources.ExceptionEmptyStringMessage, "elementName");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write element
+                //------------------------------------------------------------
+                writer.WriteStartElement(elementName);
+
+                //------------------------------------------------------------
+                //	Write person sub-elements
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(person.Name))
+                {
+                    writer.WriteElementString("name", person.Name);
+                }
+
+                if (!String.IsNullOrEmpty(person.EmailAddress))
+                {
+                    writer.WriteElementString("email", person.EmailAddress);
+                }
+
+                if (person.Uri != null)
+                {
+                    writer.WriteElementString("uri", person.Uri.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write end element
+                //------------------------------------------------------------
+                writer.WriteFullEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WritePersons(AtomPersonCollection persons, string elementName, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomPersonCollection"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="persons">The <see cref="AtomPersonCollection"/> to be written.</param>
+        /// <param name="elementName">The local name of the element to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="persons"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="elementName"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentException">The <paramref name="elementName"/> is an empty string.</exception>
+        private static void WritePersons(AtomPersonCollection persons, string elementName, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write person elements
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (persons == null)
+                {
+                    throw new ArgumentNullException("persons");
+                }
+                if (elementName == null)
+                {
+                    throw new ArgumentNullException("elementName");
+                }
+                if (String.IsNullOrEmpty(elementName.Trim()))
+                {
+                    throw new ArgumentException(Resources.ExceptionEmptyStringMessage, "elementName");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Enumerate through persons
+                //------------------------------------------------------------
+                foreach (AtomPerson person in persons)
+                {
+                    //------------------------------------------------------------
+                    //	Write person element using specified element name
+                    //------------------------------------------------------------
+                    AtomEngineSyndicationFeedAdapter.WritePerson(person, elementName, writer);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region WriteTextConstruct(AtomText construct, string elementName, XmlWriter writer)
+        /// <summary>
+        /// Writes the specified <see cref="AtomText"/> to the supplied <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="construct">The <see cref="AtomText"/> to be written.</param>
+        /// <param name="elementName">The local name of the element to be written.</param>
+        /// <param name="writer">The <see cref="XmlWriter"/> stream to which information is written to.</param>
+        /// <remarks></remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="construct"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="elementName"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentException">The <paramref name="elementName"/> is an empty string.</exception>
+        private static void WriteTextConstruct(AtomText construct, string elementName, XmlWriter writer)
+        {
+            //------------------------------------------------------------
+            //	Attempt to write text construct element
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (construct == null)
+                {
+                    throw new ArgumentNullException("construct");
+                }
+                if (elementName == null)
+                {
+                    throw new ArgumentNullException("elementName");
+                }
+                if (String.IsNullOrEmpty(elementName.Trim()))
+                {
+                    throw new ArgumentException(Resources.ExceptionEmptyStringMessage, "elementName");
+                }
+                if (writer == null)
+                {
+                    throw new ArgumentNullException("writer");
+                }
+
+                //------------------------------------------------------------
+                //	Write element
+                //------------------------------------------------------------
+                writer.WriteStartElement(elementName);
+
+                //------------------------------------------------------------
+                //	Write text construct attributes
+                //------------------------------------------------------------
+                if (construct.Type != TextType.None)
+                {
+                    writer.WriteAttributeString("type", AtomText.TextTypeToString(construct.Type));
+                }
+
+                //------------------------------------------------------------
+                //	Write text content
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(construct.Value))
+                {
+                    writer.WriteString(construct.Value);
+                }
+
+                //------------------------------------------------------------
+                //	Write end element
+                //------------------------------------------------------------
+                writer.WriteFullEndElement();
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        //============================================================
+        //	ENTITY INSTANTIATION ROUTINES
+        //============================================================
+        
+    }
+}
