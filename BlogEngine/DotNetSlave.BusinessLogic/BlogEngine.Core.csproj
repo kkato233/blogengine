@@ -46,6 +46,44 @@
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
+    <Compile Include="Syndication\Atom\AtomCategory.cs" />
+    <Compile Include="Syndication\Atom\AtomCategoryCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomContent.cs" />
+    <Compile Include="Syndication\Atom\AtomEntry.cs" />
+    <Compile Include="Syndication\Atom\AtomEntryCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomFeed.cs" />
+    <Compile Include="Syndication\Atom\AtomGenerator.cs" />
+    <Compile Include="Syndication\Atom\AtomLink.cs" />
+    <Compile Include="Syndication\Atom\AtomLinkCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomPerson.cs" />
+    <Compile Include="Syndication\Atom\AtomPersonCollection.cs" />
+    <Compile Include="Syndication\Atom\AtomText.cs" />
+    <Compile Include="Syndication\Atom\LinkRelation.cs" />
+    <Compile Include="Syndication\Atom\TextType.cs" />
+    <Compile Include="Syndication\Data\AtomEngineSyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\ISyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\RssEngineSyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Data\EngineSyndicationFeedAdapter.cs" />
+    <Compile Include="Syndication\Extensions\SyndicationExtension.cs" />
+    <Compile Include="Syndication\Extensions\SyndicationExtensionDictionary.cs" />
+    <Compile Include="Syndication\Rfc822DateTime.cs" />
+    <Compile Include="Syndication\Rss\CloudProtocol.cs" />
+    <Compile Include="Syndication\Rss\RssCategory.cs" />
+    <Compile Include="Syndication\Rss\RssCategoryCollection.cs" />
+    <Compile Include="Syndication\Rss\RssChannel.cs" />
+    <Compile Include="Syndication\Rss\RssCloud.cs" />
+    <Compile Include="Syndication\Rss\RssEnclosure.cs" />
+    <Compile Include="Syndication\Rss\RssFeed.cs" />
+    <Compile Include="Syndication\Rss\RssGuid.cs" />
+    <Compile Include="Syndication\Rss\RssImage.cs" />
+    <Compile Include="Syndication\Rss\RssItem.cs" />
+    <Compile Include="Syndication\Rss\RssItemCollection.cs" />
+    <Compile Include="Syndication\Rss\RssSource.cs" />
+    <Compile Include="Syndication\Rss\RssTextInput.cs" />
+    <Compile Include="Syndication\SyndicationFeed.cs" />
+    <Compile Include="Syndication\SyndicationFeedSettings.cs" />
+    <Compile Include="Syndication\SyndicationFormat.cs" />
+    <Compile Include="Syndication\W3CDateTime.cs" />
     <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -96,7 +134,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Syndication\" />
+    <Folder Include="Syndication\Extensions\Common\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
