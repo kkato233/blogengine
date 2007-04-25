@@ -12,7 +12,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     if (Page.IsCallback)
       return;
 
-    if (Request.QueryString.Count == 0)
+    if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]))
     {
       PostList1.Posts = Post.Posts;
       Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;      
