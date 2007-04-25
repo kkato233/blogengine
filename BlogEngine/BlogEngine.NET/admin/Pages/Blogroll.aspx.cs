@@ -34,6 +34,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
   {
     BlogSettings.Instance.BlogrollMaxLength = int.Parse(txtMaxLength.Text);
     BlogSettings.Instance.BlogrollVisiblePosts = int.Parse(ddlVisiblePosts.SelectedValue);
+    BlogSettings.Instance.BlogrollUpdateMinutes = int.Parse(txtUpdateFrequency.Text);
     BlogSettings.Instance.Save();
     Response.Redirect(Request.FilePath, true);
   }
@@ -100,7 +101,6 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       XmlNode body = doc.SelectSingleNode("opml/body");
       body.AppendChild(element);
       doc.Save(fileName);
-      blogroll.Update();
     }
   }
 
@@ -108,6 +108,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
   {
     txtMaxLength.Text = BlogSettings.Instance.BlogrollMaxLength.ToString();
     ddlVisiblePosts.SelectedIndex = BlogSettings.Instance.BlogrollVisiblePosts;
+    txtUpdateFrequency.Text = BlogSettings.Instance.BlogrollUpdateMinutes.ToString();
   }
 
   private void DeleteBlog()
@@ -123,7 +124,6 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       XmlNode child = doc.SelectSingleNode("opml/body/outline[@title='" + title + "']");
       parent.RemoveChild(child);
       doc.Save(fileName);
-      blogroll.Update();
     }    
   }
 

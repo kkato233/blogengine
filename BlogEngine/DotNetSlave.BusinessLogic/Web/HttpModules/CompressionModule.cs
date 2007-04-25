@@ -23,7 +23,8 @@ namespace BlogEngine.Core.Web.HttpModules
 
     void IHttpModule.Init(HttpApplication context)
     {
-      context.BeginRequest += new EventHandler(context_BeginRequest);
+      if (BlogSettings.Instance.EnableHttpCompression)
+        context.BeginRequest += new EventHandler(context_BeginRequest);
     }
 
     #endregion

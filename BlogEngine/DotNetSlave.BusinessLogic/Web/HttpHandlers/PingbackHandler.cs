@@ -54,11 +54,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
       catch (Exception ex)
       {
-        StreamWriter writer = new StreamWriter(context.Server.MapPath("~/app_data/error.txt"), true);
-        writer.WriteLine(ex.Message);
-        writer.WriteLine(ex.StackTrace);
-        writer.WriteLine();
-        writer.WriteLine(html);
+        //StreamWriter writer = new StreamWriter(context.Server.MapPath("~/app_data/error.txt"), true);
+        //writer.WriteLine(ex.Message);
+        //writer.WriteLine(ex.StackTrace);
+        //writer.WriteLine();
+        //writer.WriteLine(html);
+        //writer.Flush();
+        //writer.Dispose();
         context.Response.Write("ERROR");
       }
     }
@@ -74,6 +76,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       comment.Content = "Pingback from " + comment.Author + Environment.NewLine + Environment.NewLine + _Title;
       comment.DateCreated = DateTime.Now;
       comment.Email = "pingback";
+      comment.IP = "n/a";
 
       post.Comments.Add(comment);
       post.Save();
@@ -110,7 +113,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       foreach (Comment comment in post.Comments)
       {
-        if (comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
+        if (comment.Website != null && comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
           return false;
       }
 

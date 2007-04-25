@@ -99,6 +99,14 @@ public class BlogSettings
     set { _BlogrollVisiblePosts = value; }
   }
 
+  private int _BlogrollUpdateMinutes;
+
+  public int BlogrollUpdateMinutes
+  {
+    get { return _BlogrollUpdateMinutes; }
+    set { _BlogrollUpdateMinutes = value; }
+  }
+
   private string _Theme;
   /// <summary>
   /// Gets or sets which theme to use.
@@ -254,6 +262,22 @@ public class BlogSettings
     set { _SearchCommentLabelText = value; }
   }
 
+  private bool _EnableReferrerTracking;
+
+  public bool EnableReferrerTracking
+  {
+    get { return _EnableReferrerTracking; }
+    set { _EnableReferrerTracking = value; }
+  }
+
+  private bool _EnableHttpCompression;
+
+  public bool EnableHttpCompression
+  {
+    get { return _EnableHttpCompression; }
+    set { _EnableHttpCompression = value; }
+  }
+
   #endregion
 
   #region Methods
@@ -320,8 +344,13 @@ public class BlogSettings
 
       foreach (PropertyInfo info in type.GetProperties())
       {
-        if (info.Name != "Instance")
-          writer.WriteElementString(info.Name, info.GetValue(this, null).ToString());
+        try
+        {
+          if (info.Name != "Instance")
+            writer.WriteElementString(info.Name, info.GetValue(this, null).ToString());
+        }
+        catch 
+        { }
       }
 
       writer.WriteEndElement();

@@ -115,6 +115,8 @@ ul.adminmenu li a:hover {
 .settings label{
 	float:left;
 	width: 150px;
+	position:relative;
+	top: 5px;
 }
 
 /*----------------------------

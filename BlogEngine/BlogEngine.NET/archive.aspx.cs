@@ -59,7 +59,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       foreach (Post post in list)
       {
         HtmlGenericControl span = new HtmlGenericControl("span");
-        Control date = new LiteralControl(post.DateCreated.ToString());
+        Control date = new LiteralControl(post.DateCreated.ToString("yyyy-MM-dd"));
         HtmlAnchor a = new HtmlAnchor();
         a.InnerHtml = Server.HtmlEncode( post.Title);
         a.HRef = post.RelativeLink.ToString();

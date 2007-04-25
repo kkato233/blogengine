@@ -63,6 +63,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
     BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
     BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
+    BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
 
     BlogSettings.Instance.Save();
     Response.Redirect(Request.RawUrl, true);
@@ -76,6 +77,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
     cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
     ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
+
+    // Advanced
+    cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
 
     // Comments
     cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;

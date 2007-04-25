@@ -134,11 +134,18 @@ public partial class admin_entry : System.Web.UI.Page
     post.Save();
     if (!Request.IsLocal)
     {
-      new BlogEngine.Core.Ping.PingService().Send();
-      BlogEngine.Core.Ping.Pingback.Send(post);
+      System.Threading.ThreadPool.QueueUserWorkItem(Ping, post);
     }
 
     Response.Redirect(post.RelativeLink.ToString());
+  }
+
+  private void Ping(object stateInfo)
+  {
+    System.Threading.Thread.Sleep(2000);
+    Post post = (Post)stateInfo;
+    new BlogEngine.Core.Ping.PingService().Send();
+    BlogEngine.Core.Ping.Pingback.Send(post);
   }
 
   #endregion

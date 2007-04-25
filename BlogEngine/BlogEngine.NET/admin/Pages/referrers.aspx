@@ -1,6 +1,9 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="referrers.aspx.cs" Inherits="admin_Pages_referrers" Title="Referrers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+  <label for="">Enable referrer tracking</label>
+  <asp:CheckBox runat="Server" ID="cbEnableReferrers" AutoPostBack="true" /><br /><hr />
+
   <label for="<%=ddlDays.ClientID %>">Select date</label>
   <asp:DropDownList runat="server" id="ddlDays" AutoPostBack="true" /><br /><br />
   

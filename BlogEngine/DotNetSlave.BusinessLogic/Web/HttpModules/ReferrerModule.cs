@@ -26,7 +26,9 @@ namespace BlogEngine.Core.Web.HttpModules
 
     public void Init(HttpApplication context)
     {
-      context.BeginRequest += new EventHandler(context_BeginRequest);
+
+      if (BlogSettings.Instance.EnableReferrerTracking)
+        context.BeginRequest += new EventHandler(context_BeginRequest);
     }
 
     #endregion

@@ -1,5 +1,4 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="SidePanel.ascx.cs" EnableViewState="false" Inherits="User_controls_SidePanel" %>
-<%@ Register Src="~/User controls/blogroll.ascx" TagName="blogroll" TagPrefix="uc1" %>
 <%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
 <div class="box">
   <h1>About the author</h1>
@@ -77,7 +76,7 @@
 
 <div class="box">
   <h1>Blogroll</h1>
-  <uc1:blogroll runat="server" />
+  <blog:Blogroll runat="server" />
 </div>
 
 <div class="box">

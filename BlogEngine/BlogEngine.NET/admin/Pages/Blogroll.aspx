@@ -1,5 +1,4 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Blogroll.aspx.cs" Inherits="admin_Pages_blogroll" Title="Blogroll" %>
-<%@ Reference Control="~/User controls/blogroll.ascx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
   <h1 style="margin: 0 0 5px 0">Settings</h1>
@@ -21,7 +20,11 @@
   
   <label for="<%=txtMaxLength.ClientID %>" class="wide">Max lenght of items</label>
   <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
-  <asp:CompareValidator runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
+  <asp:CompareValidator runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" /><br />
+  
+  <label for="<%=txtUpdateFrequency.ClientID %>" class="wide">Update frequenzy (minutes)</label>
+  <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
+  <asp:CompareValidator runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
   
   <div style="text-align:right">
     <asp:Button runat="server" ID="btnSaveSettings" Text="Save settings" ValidationGroup="settings" />
