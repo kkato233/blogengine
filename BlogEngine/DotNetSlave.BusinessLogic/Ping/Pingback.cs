@@ -34,7 +34,7 @@ namespace BlogEngine.Core.Ping
       return true;
     }
 
-    private static bool Send(string sourceUrl, string targetUrl)
+    public static bool Send(string sourceUrl, string targetUrl)
     {
       if (string.IsNullOrEmpty(sourceUrl) || string.IsNullOrEmpty(targetUrl))
         return false;
@@ -45,22 +45,31 @@ namespace BlogEngine.Core.Ping
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         string pingUrl = response.Headers["x-pingback"];
         
-        if (string.IsNullOrEmpty(pingUrl))
+        if (!string.IsNullOrEmpty(pingUrl))
         {
           request = (HttpWebRequest)HttpWebRequest.Create(pingUrl);
           request.Method = "POST";
-          request.Timeout = 3000;
+          request.Timeout = 10000;
+          request.ContentType = "text/xml";
+          request.ProtocolVersion = HttpVersion.Version11;
           AddXmlToRequest(sourceUrl, targetUrl, request);
+          //request.BeginGetResponse(EndGetResponse, request);
           request.GetResponse();
           return true;
         }
 
         return false;
       }
-      catch (Exception)
+      catch (Exception ex)
       {
         return false;
       }
+    }
+
+    private static void EndGetResponse(IAsyncResult result)
+    {
+      HttpWebRequest request = (HttpWebRequest)result.AsyncState;
+      request.EndGetResponse(result);
     }
 
     /// <summary>
@@ -70,9 +79,9 @@ namespace BlogEngine.Core.Ping
     private static void AddXmlToRequest(string sourceUrl, string targetUrl, HttpWebRequest webreqPing)
     {
       Stream stream = (Stream)webreqPing.GetRequestStream();
-      using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8))
+      using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.ASCII))
       {
-        writer.WriteStartDocument();
+        writer.WriteStartDocument(true);
         writer.WriteStartElement("methodCall");
         writer.WriteElementString("methodName", "pingback.ping");
         writer.WriteStartElement("params");

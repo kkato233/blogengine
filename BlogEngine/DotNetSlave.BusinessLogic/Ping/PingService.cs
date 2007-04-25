@@ -87,7 +87,7 @@ namespace BlogEngine.Core.Ping
     private static void AddXmlToRequest(HttpWebRequest webreqPing)
     {
       Stream stream = (Stream)webreqPing.GetRequestStream();
-      using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8))
+      using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.ASCII))
       {
         writer.WriteStartDocument();
         writer.WriteStartElement("methodCall");

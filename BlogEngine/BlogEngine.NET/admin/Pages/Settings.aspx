@@ -26,6 +26,13 @@
 
 <div class="settings">
 
+  <h1>Advanced settings</h1>
+  <label for="<%=cbEnableCompression.ClientID %>">Enable HTTP compression</label>
+  <asp:CheckBox runat="server" ID="cbEnableCompression" /> Make the pages load faster (recommended).
+</div>
+
+<div class="settings">
+
   <h1>Comments</h1>
   <label for="<%=cbEnableComments.ClientID %>">Enable comments</label>
   <asp:CheckBox runat="server" ID="cbEnableComments" /><br />

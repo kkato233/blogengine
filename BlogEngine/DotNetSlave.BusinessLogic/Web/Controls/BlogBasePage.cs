@@ -26,7 +26,7 @@ namespace BlogEngine.Core.Web.Controls
 
     private void Page_Load(object sender, EventArgs e)
     {
-      if (!Page.IsCallback)
+      if (!Page.IsCallback && !Page.IsPostBack)
       {
         AddMetaContentType();
         SetMicroSummaryLinkInHeader();

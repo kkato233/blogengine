@@ -41,7 +41,7 @@ namespace Controls
           StringBuilder sb = new StringBuilder();
           sb.AppendLine("<div id=\"searchbox\">");
           sb.AppendFormat("<input type=\"text\" value=\"{0}\" id=\"searchfield\" onfocus=\"SearchClear('{1}')\" onblur=\"SearchClear('{1}')\" />", Context.Request.QueryString["q"] ?? BlogSettings.Instance.SearchDefaultText, BlogSettings.Instance.SearchDefaultText);
-          sb.AppendFormat("<input type=\"submit\" value=\"{0}\" id=\"searchbutton\" onclick=\"Search('{1}');\" />", BlogSettings.Instance.SearchButtonText, Utils.RelativeWebRoot);
+          sb.AppendFormat("<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"Search('{1}');\" />", BlogSettings.Instance.SearchButtonText, Utils.RelativeWebRoot);
 
           if (BlogSettings.Instance.EnableCommentSearch)
           {

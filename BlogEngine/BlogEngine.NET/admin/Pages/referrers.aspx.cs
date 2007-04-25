@@ -11,11 +11,37 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
   {
     if (!Page.IsPostBack)
     {
-      BindDays();
-      BindReferrers(DateTime.Now.Date);      
+      if (BlogSettings.Instance.EnableReferrerTracking)
+      {
+        BindDays();
+        BindReferrers(DateTime.Now.Date);
+      }
+      else
+      {
+        ddlDays.Enabled = false;
+      }
+
+      cbEnableReferrers.Checked = BlogSettings.Instance.EnableReferrerTracking;
     }
 
     ddlDays.SelectedIndexChanged += new EventHandler(ddlDays_SelectedIndexChanged);
+    cbEnableReferrers.CheckedChanged += new EventHandler(cbEnableReferrers_CheckedChanged);
+  }
+
+  private void cbEnableReferrers_CheckedChanged(object sender, EventArgs e)
+  {
+    if (cbEnableReferrers.Checked)
+    {
+      BindDays();
+      BindReferrers(DateTime.Now.Date);
+    }
+    else
+    {
+      ddlDays.Enabled = false;
+    }
+
+    BlogSettings.Instance.EnableReferrerTracking = cbEnableReferrers.Checked;
+    BlogSettings.Instance.Save();
   }
 
   void ddlDays_SelectedIndexChanged(object sender, EventArgs e)
@@ -36,7 +62,17 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
         ddlDays.Items.Add(name);
       }
 
-      ddlDays.SelectedValue = DateTime.Now.ToString("yyyy-MM-dd");
+      ddlDays.Enabled = true;
+      ddlDays.ClearSelection();
+
+      foreach (ListItem item in ddlDays.Items)
+      {
+        if (item.Text == DateTime.Now.ToString("yyyy-MM-dd"))
+        {
+          item.Selected = true;
+          break;
+        }
+      }
     }
   }
 
@@ -58,7 +94,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
         newRow["url"] = row["address"];
         newRow["shortUrl"] = MakeShortUrl(row["address"].ToString());
         newRow["hits"] = int.Parse(row["url_text"].ToString());
-        table.Rows.Add(newRow);  
+        table.Rows.Add(newRow);
       }
 
       DataView view = new DataView(table);

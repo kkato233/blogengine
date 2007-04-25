@@ -1,5 +1,4 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
-<%@ Register Src="~/User controls/blogroll.ascx" TagName="blogroll" TagPrefix="uc1" %>
 <%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -45,7 +44,7 @@
             <blog:CategoryList ID="CategoryList1" ShowRssIcon="false" runat="Server" /><br />
             
             <h2>Blogroll</h2>
-            <uc1:blogroll EnableTheming="true" runat="server" />
+            <blog:Blogroll runat="server" />
 	    </div>
 	  
 	  	<div id="content">

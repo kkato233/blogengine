@@ -6,6 +6,7 @@
   <StorageLocation>~/app_data/</StorageLocation>
   <BlogrollMaxLength>30</BlogrollMaxLength>
   <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
+  <BlogrollUpdateMinutes>60</BlogrollUpdateMinutes>
   <Theme>standard</Theme>
   <EnableRelatedPosts>True</EnableRelatedPosts>
   <Email>post@example.com</Email>
@@ -23,4 +24,6 @@
   <SearchDefaultText>Enter search term</SearchDefaultText>
   <EnableCommentSearch>True</EnableCommentSearch>
   <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
+  <EnableReferrerTracking>False</EnableReferrerTracking>
+  <EnableHttpCompression>True</EnableHttpCompression>
 </settings>

@@ -36,7 +36,7 @@ namespace BlogEngine.Core.Entities
 
     private static bool IsAllowedCharacter(char character)
     {
-      string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789_-";
+      string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
       foreach (char c in allowedChars)
       {
         if (c == character)
@@ -54,6 +54,8 @@ namespace BlogEngine.Core.Entities
       get { return VirtualPathUtility.ToAbsolute("~/"); }
     }
 
+    private static Uri _AbsoluteWebRoot;
+
     /// <summary>
     /// Gets the absolute root of the website.
     /// </summary>
@@ -61,11 +63,15 @@ namespace BlogEngine.Core.Entities
     {
       get
       {
-        HttpContext context = HttpContext.Current;
-        if (context == null)
-          throw new Exception("The current HttpContext is null");
+        if (_AbsoluteWebRoot == null)
+        {
+          HttpContext context = HttpContext.Current;
+          if (context == null)
+            throw new Exception("The current HttpContext is null");
 
-        return new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + VirtualPathUtility.ToAbsolute("~/"));
+          _AbsoluteWebRoot = new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
+        }
+        return _AbsoluteWebRoot;
       }
     }
   }
