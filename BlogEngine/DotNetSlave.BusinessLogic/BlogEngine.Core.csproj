@@ -70,6 +70,7 @@
     <Compile Include="Syndication\Extensions\Common\DublinCoreSyndicationExtension.cs" />
     <Compile Include="Syndication\Extensions\Common\GeocodingSyndicationExtension.cs" />
     <Compile Include="Syndication\Extensions\Common\PingbackSyndicationExtension.cs" />
+    <Compile Include="Syndication\Extensions\Common\SlashSyndicationExtension.cs" />
     <Compile Include="Syndication\Extensions\Common\TrackbackSyndicationExtension.cs" />
     <Compile Include="Syndication\Extensions\Common\WellFormedWebSyndicationExtension.cs" />
     <Compile Include="Syndication\Extensions\ExtensionTarget.cs" />
