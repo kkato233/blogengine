@@ -87,6 +87,35 @@ namespace BlogEngine.Core.Syndication.Data
         }
         #endregion
 
+        #region RssEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssEngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="CategoryDictionary"/>.
+        /// </summary>
+        /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
+        /// <param name="blogSettings">The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
+        /// <param name="categories">The <see cref="CategoryDictionary"/> that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="posts"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="blogSettings"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="categories"/> is a null reference (Nothing in Visual Basic).</exception>
+        public RssEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories) : base(posts, blogSettings, categories)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Initialization handled by base class
+                //------------------------------------------------------------
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
         //============================================================
         //	PUBLIC ROUTINES
         //============================================================

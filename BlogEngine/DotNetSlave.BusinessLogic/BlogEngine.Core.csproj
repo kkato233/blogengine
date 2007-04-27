@@ -132,6 +132,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="Providers\XmlBlogProvider.cs" />
     <Compile Include="Providers\XmlMembershipProvider.cs" />
+    <Compile Include="Web\HttpHandlers\SyndicationHandler.cs" />
     <Compile Include="Web\HttpHandlers\TrackbackHandler.cs" />
     <Compile Include="Web\HttpModules\CompressionModule.cs" />
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
