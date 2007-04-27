@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
 
 #endregion

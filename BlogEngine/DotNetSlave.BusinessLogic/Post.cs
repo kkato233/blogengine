@@ -12,7 +12,7 @@ using BlogEngine.Core.Providers;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core
 {
   /// <summary>
   /// A post is an entry on the blog - a blog post.

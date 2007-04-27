@@ -10,7 +10,7 @@ using BlogEngine.Core.Providers;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core
 {
   /// <summary>
   /// A page is much like a post, but is not part of the

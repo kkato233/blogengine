@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
 
 #endregion

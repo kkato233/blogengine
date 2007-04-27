@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using System.Web;
 using System.Collections.Generic;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 

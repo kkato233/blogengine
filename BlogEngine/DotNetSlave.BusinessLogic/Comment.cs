@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core
 {
   /// <summary>
   /// Represents a comment to a blog post.
@@ -64,7 +64,10 @@ namespace DotNetSlave.BlogEngine.BusinessLogic
     }
 
     private string _Country;
-
+      
+    /// <summary>
+    /// 
+    /// </summary>
     public string Country
     {
       get { return _Country; }
@@ -73,6 +76,9 @@ namespace DotNetSlave.BlogEngine.BusinessLogic
 
     private string _IP;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string IP
     {
       get { return _IP; }

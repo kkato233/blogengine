@@ -7,7 +7,7 @@ using System.Web;
 
 #endregion
 
-namespace BlogEngine.Core.Entities
+namespace BlogEngine.Core
 {
   /// <summary>
   /// Utilities for the entire solution to use.

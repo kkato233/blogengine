@@ -8,7 +8,7 @@ using BlogEngine.Core.Providers;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core
 {
 
   /// <summary>

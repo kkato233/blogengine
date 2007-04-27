@@ -4,7 +4,7 @@ using System;
 using System.Web;
 using System.Text;
 using System.Web.UI.WebControls;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 
@@ -78,7 +78,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
     Page page;
     if (Request.QueryString["id"] != null)
-      page = BlogEngine.Core.Entities.Page.GetPage(new Guid(Request.QueryString["id"]));
+      page = BlogEngine.Core.Page.GetPage(new Guid(Request.QueryString["id"]));
     else
       page = new Page();
 
@@ -97,7 +97,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
   private void BindPage(Guid pageId)
   {
-    Page page = BlogEngine.Core.Entities.Page.GetPage(pageId);
+    Page page = BlogEngine.Core.Page.GetPage(pageId);
     txtTitle.Text = page.Title;
     txtContent.Text = page.Content;
     txtDescription.Text = page.Description;

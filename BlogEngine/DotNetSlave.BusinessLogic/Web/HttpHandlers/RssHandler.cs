@@ -5,7 +5,7 @@ using System.Xml;
 using System.Web;
 using System.Collections.Generic;
 using System.Text;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 

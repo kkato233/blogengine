@@ -3,7 +3,7 @@
 using System;
 using System.Web;
 using System.Web.UI;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 

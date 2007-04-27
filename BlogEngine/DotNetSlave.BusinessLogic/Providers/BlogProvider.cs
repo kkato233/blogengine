@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration.Provider;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 

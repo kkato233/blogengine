@@ -13,7 +13,7 @@ namespace BlogEngine.Core.Web.Controls
   /// <summary>
   /// Summary description for BlogBasePage
   /// </summary>
-  public class BlogBasePage : Page
+    public class BlogBasePage : System.Web.UI.Page
   {
     /// <summary>
     /// Assignes the selected theme to the pages.
