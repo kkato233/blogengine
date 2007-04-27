@@ -26,6 +26,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #endregion
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       string title = string.Empty;
@@ -115,6 +119,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       return true;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
       get { return true; }

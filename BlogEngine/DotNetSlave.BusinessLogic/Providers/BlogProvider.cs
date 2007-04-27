@@ -9,27 +9,69 @@ using BlogEngine.Core.Entities;
 
 namespace BlogEngine.Core.Providers
 {
-  /// <summary>
-  /// A base class for all custom providers to inherit from.
-  /// </summary>
-  public abstract class BlogProvider : ProviderBase
-  {
-    // Post
-    public abstract Post SelectPost(Guid id);
-    public abstract void InsertPost(Post post);
-    public abstract void UpdatePost(Post post);
-    public abstract void DeletePost(Post post);
+    /// <summary>
+    /// A base class for all custom providers to inherit from.
+    /// </summary>
+    public abstract class BlogProvider : ProviderBase
+    {
+        // Post
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Post SelectPost(Guid id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="post"></param>
+        public abstract void InsertPost(Post post);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="post"></param>
+        public abstract void UpdatePost(Post post);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="post"></param>
+        public abstract void DeletePost(Post post);
 
-    // Page
-    public abstract Page SelectPage(Guid id);
-    public abstract void InsertPage(Page page);
-    public abstract void UpdatePage(Page page);
-    public abstract void DeletePage(Page page);
+        // Page
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public abstract Page SelectPage(Guid id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        public abstract void InsertPage(Page page);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        public abstract void UpdatePage(Page page);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        public abstract void DeletePage(Page page);
 
-    // Category
-    public abstract CategoryDictionary LoadCategories();
-    public abstract void SaveCategories(CategoryDictionary categories);
-  }
+        // Category
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract CategoryDictionary LoadCategories();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categories"></param>
+        public abstract void SaveCategories(CategoryDictionary categories);
+    }
 
   /// <summary>
   /// A collection of all registered providers.

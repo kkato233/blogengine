@@ -19,11 +19,18 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region IHttpHandler Members
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsReusable
         {
             get { return false; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
         {
             _request = context;
@@ -63,7 +70,6 @@ namespace BlogEngine.Core.API.MetaWeblog
                     case "blogger.getUserInfo":
                         //TODO: Implement getUserInfo
                         throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
-                        break;
 
                 }
                 output.Response(context);
@@ -92,6 +98,15 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region IMetaWeblogAPI Members
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blogID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="sentPost"></param>
+        /// <param name="publish"></param>
+        /// <returns></returns>
         public string NewPost(string blogID, string userName, string password, MWAPost sentPost, bool publish)
         {
             ValidateRequest(userName, password);
@@ -118,6 +133,15 @@ namespace BlogEngine.Core.API.MetaWeblog
             return post.Id.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="postID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="sentPost"></param>
+        /// <param name="publish"></param>
+        /// <returns></returns>
         public bool EditPost(string postID, string userName, string password, MWAPost sentPost, bool publish)
         {
             ValidateRequest(userName, password);
@@ -145,6 +169,13 @@ namespace BlogEngine.Core.API.MetaWeblog
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="postID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public MWAPost GetPost(string postID, string userName, string password)
         {
             ValidateRequest(userName, password);
@@ -169,6 +200,14 @@ namespace BlogEngine.Core.API.MetaWeblog
             return sendPost;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blogID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="mediaObject"></param>
+        /// <returns></returns>
         public MWAMediaInfo NewMediaObject(string blogID, string userName, string password, MWAMediaObject mediaObject)
         {
             ValidateRequest(userName, password);
@@ -224,6 +263,13 @@ namespace BlogEngine.Core.API.MetaWeblog
             return mediaInfo;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blogID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public List<MWACategory> GetCategories(string blogID, string userName, string password)
         {
             List<MWACategory> categories = new List<MWACategory>();
@@ -245,6 +291,14 @@ namespace BlogEngine.Core.API.MetaWeblog
             return categories;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blogID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="numberOfPosts"></param>
+        /// <returns></returns>
         public List<MWAPost> GetRecentPosts(string blogID, string userName, string password, int numberOfPosts)
         {
             ValidateRequest(userName, password);
@@ -281,6 +335,13 @@ namespace BlogEngine.Core.API.MetaWeblog
             return sendPosts;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appKey"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password)
         {
             List<MWABlogInfo> blogs = new List<MWABlogInfo>();
@@ -296,6 +357,15 @@ namespace BlogEngine.Core.API.MetaWeblog
             return blogs;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appKey"></param>
+        /// <param name="postID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="publish"></param>
+        /// <returns></returns>
         public bool DeletePost(string appKey, string postID, string userName, string password, bool publish)
         {
             ValidateRequest(userName, password);
@@ -313,6 +383,13 @@ namespace BlogEngine.Core.API.MetaWeblog
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appKey"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public MWAUserInfo GetUserInfo(string appKey, string userName, string password)
         {
             throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
@@ -322,6 +399,11 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region Private Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
         private void ValidateRequest(string userName, string password)
         {
             if (!Membership.ValidateUser(userName, password))
@@ -330,6 +412,12 @@ namespace BlogEngine.Core.API.MetaWeblog
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         private bool LookupCategoryGuidByName(string name, out Guid key)
         {
             key = new Guid();

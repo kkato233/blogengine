@@ -12,11 +12,18 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #region IHttpHandler Members
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
       get { return false; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       OnBeforeServing();
@@ -48,6 +55,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// Occurs when the requested file does not exist;
     /// </summary>
     public static event EventHandler<FileHandlerEventArgs> BeforeServing;
+
     private static void OnBeforeServing()
     {
       if (BeforeServing != null)
@@ -60,6 +68,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// Occurs when a file is served;
     /// </summary>
     public static event EventHandler<FileHandlerEventArgs> FileServing;
+
     private static void OnFileServing()
     {
       if (FileServing != null)
@@ -72,6 +81,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// Occurs when the requested file does not exist;
     /// </summary>
     public static event EventHandler<FileHandlerEventArgs> BadRequest;
+
     private static void OnBadRequest()
     {
       if (BadRequest != null)
@@ -80,8 +90,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileHandlerEventArgs : EventArgs
     {
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="context"></param>
       public FileHandlerEventArgs(HttpContext context)
       {
         FileName = context.Request.QueryString["file"];
@@ -89,8 +106,17 @@ namespace BlogEngine.Core.Web.HttpHandlers
         IpAddress = context.Request.UserHostAddress;
       }
 
+      /// <summary>
+      /// 
+      /// </summary>
       public string FileName;
+      /// <summary>
+      /// 
+      /// </summary>
       public string UserAgent;
+      /// <summary>
+      /// 
+      /// </summary>
       public string IpAddress;
     }
 

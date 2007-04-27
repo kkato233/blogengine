@@ -13,7 +13,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
   /// </summary>
   public class MicroSummary : IHttpHandler
   {
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       string id = context.Request.QueryString["id"];
@@ -28,9 +31,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
-      get { return false; }
+        get { return false; }
     }
 
   }

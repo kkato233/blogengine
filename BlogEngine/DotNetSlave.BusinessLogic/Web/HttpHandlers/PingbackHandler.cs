@@ -26,6 +26,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #endregion
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       string html = string.Empty;
@@ -52,7 +56,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
           context.Response.Write("OK");
         }
       }
-      catch (Exception ex)
+      catch
       {
         //StreamWriter writer = new StreamWriter(context.Server.MapPath("~/app_data/error.txt"), true);
         //writer.WriteLine(ex.Message);
@@ -154,6 +158,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       return null;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
       get { return true; }

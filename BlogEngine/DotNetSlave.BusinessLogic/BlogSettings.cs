@@ -73,6 +73,9 @@ public class BlogSettings
 
   private string _StorageLocation;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public string StorageLocation
   {
     get { return _StorageLocation; }
@@ -101,6 +104,9 @@ public class BlogSettings
 
   private int _BlogrollUpdateMinutes;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public int BlogrollUpdateMinutes
   {
     get { return _BlogrollUpdateMinutes; }
@@ -192,6 +198,9 @@ public class BlogSettings
 
   private bool _EnableCountryInComments;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public bool EnableCountryInComments
   {
     get { return _EnableCountryInComments; }
@@ -200,6 +209,9 @@ public class BlogSettings
 
   private bool _ShowLivePreview;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public bool ShowLivePreview
   {
     get { return _ShowLivePreview; }
@@ -208,6 +220,9 @@ public class BlogSettings
 
   private bool _IsCoCommentEnabled;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public bool IsCoCommentEnabled
   {
     get { return _IsCoCommentEnabled; }
@@ -216,6 +231,9 @@ public class BlogSettings
 
   private int _DaysCommentsAreEnabled;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public int DaysCommentsAreEnabled
   {
     get { return _DaysCommentsAreEnabled; }
@@ -224,6 +242,9 @@ public class BlogSettings
 
   private int _NumberOfRencentPosts;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public int NumberOfRecentPosts
   {
     get { return _NumberOfRencentPosts; }
@@ -232,6 +253,9 @@ public class BlogSettings
 
   private string _SearchButtonText;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public string SearchButtonText
   {
     get { return _SearchButtonText; }
@@ -240,6 +264,9 @@ public class BlogSettings
 
   private string _SearchDefaultText;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public string SearchDefaultText
   {
     get { return _SearchDefaultText; }
@@ -248,6 +275,9 @@ public class BlogSettings
 
   private bool _EnableCommentSearch;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public bool EnableCommentSearch
   {
     get { return _EnableCommentSearch; }
@@ -256,6 +286,9 @@ public class BlogSettings
 
   private string _SearchCommentLabelText;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public string SearchCommentLabelText
   {
     get { return _SearchCommentLabelText; }
@@ -264,6 +297,9 @@ public class BlogSettings
 
   private bool _EnableReferrerTracking;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public bool EnableReferrerTracking
   {
     get { return _EnableReferrerTracking; }
@@ -272,6 +308,9 @@ public class BlogSettings
 
   private bool _EnableHttpCompression;
 
+  /// <summary>
+  /// 
+  /// </summary>
   public bool EnableHttpCompression
   {
     get { return _EnableHttpCompression; }

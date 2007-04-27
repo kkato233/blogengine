@@ -16,11 +16,18 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #region IHttpHandler Members
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
       get { return false; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       OnBeforeServing();
@@ -87,17 +94,33 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileHandlerEventArgs : EventArgs
     {
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="context"></param>
       public FileHandlerEventArgs(HttpContext context)
       {
         FileName = context.Request.QueryString["file"];
         UserAgent = context.Request.UserAgent;
         IpAddress = context.Request.UserHostAddress;
       }
-
+        
+      /// <summary>
+      /// 
+      /// </summary>
       public string FileName;
+      /// <summary>
+      /// 
+      /// </summary>
       public string UserAgent;
+      /// <summary>
+      /// 
+      /// </summary>
       public string IpAddress;
     }
 

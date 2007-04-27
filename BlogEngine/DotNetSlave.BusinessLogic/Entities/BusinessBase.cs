@@ -423,7 +423,11 @@ namespace BlogEngine.Core.Entities
 
     #region Events
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static event EventHandler<EventArgs> Saved;
+
     /// <summary>
     /// Occurs when the class is Saved
     /// </summary>

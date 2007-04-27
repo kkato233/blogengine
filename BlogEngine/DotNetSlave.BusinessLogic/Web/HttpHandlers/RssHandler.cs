@@ -12,9 +12,15 @@ using BlogEngine.Core.Entities;
 namespace BlogEngine.Core.Web.HttpHandlers
 {
 
+  /// <summary>
+  /// 
+  /// </summary>
   public class RssHandler : IHttpHandler
   {
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       List<Post> posts;
@@ -49,6 +55,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="posts"></param>
     private void CreateRSS(HttpContext context, List<Post> posts)
     {
       string path = context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("rss.axd"));
@@ -178,6 +189,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
       get
