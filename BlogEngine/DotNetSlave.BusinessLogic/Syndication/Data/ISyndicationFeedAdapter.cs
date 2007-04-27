@@ -4,6 +4,7 @@ Modification History:
 Date		Author		Description
 *****************************************************************************
 04/11/2007	brian.kuhn		Created ISyndicationFeedAdapter Interface
+04/27/2007  brian.kuhn      Added IDisposable Interface
 ****************************************************************************/
 using System;
 using System.Xml;
@@ -15,7 +16,7 @@ namespace BlogEngine.Core.Syndication.Data
     /// </summary>
     /// <remarks>The <b>ISyndicationFeedAdapter</b> interface allows an inheriting class to implement a DataAdapter class, which represents the bridge between a data source and a <see cref="SyndicationFeed"/>.</remarks>
     /// <seealso cref="EngineSyndicationFeedAdapter"/>
-    public interface ISyndicationFeedAdapter
+    public interface ISyndicationFeedAdapter : IDisposable
     {
         //============================================================
         //	PUBLIC PROPERTIES
