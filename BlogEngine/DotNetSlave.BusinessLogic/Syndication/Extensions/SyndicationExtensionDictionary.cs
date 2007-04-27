@@ -7,6 +7,8 @@ Date		Author		Description
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace BlogEngine.Core.Syndication.Extensions
@@ -42,6 +44,48 @@ namespace BlogEngine.Core.Syndication.Extensions
                 //	
                 //------------------------------------------------------------
                 
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region SyndicationExtensionDictionary(Collection<SyndicationExtension> extensions)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyndicationExtensionDictionary"/> class using the specified collection.
+        /// </summary>
+        /// <param name="extensions">A collection of <see cref="SyndicationExtension"/> instances to add to this dictionary.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="extensions"/> is a null reference (Nothing in Visual Basic).</exception>
+        public SyndicationExtensionDictionary(Collection<SyndicationExtension> extensions) : base()
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (extensions == null)
+                {
+                    throw new ArgumentNullException("extensions");
+                }
+
+                //------------------------------------------------------------
+                //	Enumerate through supplied extensions
+                //------------------------------------------------------------
+                foreach(SyndicationExtension extension in extensions)
+                {
+                    //------------------------------------------------------------
+                    //	Add extension to dictionary
+                    //------------------------------------------------------------
+                    this.Add(extension);
+                }
             }
             catch
             {
@@ -113,7 +157,7 @@ namespace BlogEngine.Core.Syndication.Extensions
                 //------------------------------------------------------------
                 //	Add extension to the dictionary
                 //------------------------------------------------------------
-                base.Add(extension.Namespace.ToLowerInvariant(), extension);
+                base.Add(extension.Namespace, extension);
             }
             catch
             {
@@ -122,6 +166,123 @@ namespace BlogEngine.Core.Syndication.Extensions
                 //------------------------------------------------------------
                 throw;
             }
+        }
+        #endregion
+
+        #region Add(Type extensionType)
+        /// <summary>
+        /// Adds a <see cref="SyndicationExtension"/> to the dictionary using its <see cref="Type"/>.
+        /// </summary>
+        /// <param name="extensionType">The <see cref="Type"/> of the syndication extension to add to the dictionary.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="extensionType"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="MissingMethodException">No matching constructor was found.</exception>
+        /// <exception cref="System.IO.FileNotFoundException">The assembly containing the specified type was not found.</exception>
+        public void Add(Type extensionType)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (extensionType == null)
+                {
+                    throw new ArgumentNullException("extensionType");
+                }
+
+                //------------------------------------------------------------
+                //	Extract assembly name from specified type
+                //------------------------------------------------------------
+                AssemblyName typeAssemblyName   = extensionType.Assembly.GetName();
+
+                //------------------------------------------------------------
+                //	Load assembly for syndication extension
+                //------------------------------------------------------------
+                Assembly extensionAssembly      = Assembly.Load(typeAssemblyName, extensionType.Assembly.Evidence);
+
+                //------------------------------------------------------------
+                //	Create an instance of the syndication extension
+                //------------------------------------------------------------
+                SyndicationExtension extension  = extensionAssembly.CreateInstance(extensionType.FullName) as SyndicationExtension;
+
+                //------------------------------------------------------------
+                //	Add extension to the dictionary
+                //------------------------------------------------------------
+                base.Add(extension.Namespace.ToLowerInvariant(), extension);
+            }
+            catch (MissingMethodException)
+            {
+                //------------------------------------------------------------
+                //	Rethrow missing method exception
+                //------------------------------------------------------------
+                throw;
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                //------------------------------------------------------------
+                //	Rethrow file not found exception
+                //------------------------------------------------------------
+                throw;
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region FindAll(ExtensionTarget target)
+        /// <summary>
+        /// Returns a collection of all of the <see cref="SyndicationExtension"/> entities in this dictionary that can target the specified <see cref="ExtensionTarget"/>.
+        /// </summary>
+        /// <param name="target">The <see cref="ExtensionTarget"/> enumeration value to search dictionary entities for.</param>
+        /// <returns>A collection of all of the dictionary elements that target the specified <see cref="ExtensionTarget"/>, otherwise returns an empty collection.</returns>
+        public Collection<SyndicationExtension> FindAll(ExtensionTarget target)
+        {
+            //------------------------------------------------------------
+            //	Local members
+            //------------------------------------------------------------
+            Collection<SyndicationExtension> extensions    = new Collection<SyndicationExtension>();
+
+            //------------------------------------------------------------
+            //	Attempt to find extensions
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Enumerate through dictionary entities
+                //------------------------------------------------------------
+                foreach(SyndicationExtension extension in this.Values)
+                {
+                    //------------------------------------------------------------
+                    //	Determine if extension extends specified target
+                    //------------------------------------------------------------
+                    if (extension.Targets.Contains(target))
+                    {
+                        //------------------------------------------------------------
+                        //	Add extension to return collection
+                        //------------------------------------------------------------
+                        extensions.Add(extension);
+                    }
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+
+            //------------------------------------------------------------
+            //	Return result
+            //------------------------------------------------------------
+            return extensions;
         }
         #endregion
     }

@@ -22,7 +22,7 @@ namespace BlogEngine.Core.Syndication.Rss
     ///     An item may also be complete in itself, if so, the description contains the text (entity-encoded HTML is allowed), and the item's link and title may be omitted.
     /// </remarks>
     [Serializable()]
-    public class RssItem
+    public class RssItem : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -77,7 +77,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssItem"/> class.
         /// </summary>
-        public RssItem()
+        public RssItem() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

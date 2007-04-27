@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// </summary>
     /// <remarks>The purpose of <b>RssSource</b> is to propagate credit for links, to publicize the sources of news items. It can be used in the Post command of an aggregator. It should be generated automatically when forwarding an item from an aggregator to a weblog authoring tool.</remarks>
     [Serializable()]
-    public class RssSource
+    public class RssSource : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -41,7 +41,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssSource"/> class.
         /// </summary>
-        public RssSource()
+        public RssSource() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// </summary>
     /// <remarks>You may associate as many categories as you need to, for different domains, and to have an item cross-referenced in different parts of the same domain.</remarks>
     [Serializable()]
-    public class RssCategory
+    public class RssCategory : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -41,7 +41,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssCategory"/> class.
         /// </summary>
-        public RssCategory()
+        public RssCategory() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

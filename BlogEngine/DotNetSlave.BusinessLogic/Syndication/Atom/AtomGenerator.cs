@@ -17,7 +17,7 @@ namespace BlogEngine.Core.Syndication.Atom
     /// Represents the agent used to generate a <see cref="AtomFeed"/>, for debugging and other purposes.
     /// </summary>
     [Serializable()]
-    public class AtomGenerator
+    public class AtomGenerator : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomGenerator"/> class.
         /// </summary>
-        public AtomGenerator()
+        public AtomGenerator() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

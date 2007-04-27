@@ -19,7 +19,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// </summary>
     /// <remarks>Purpose is to allow processes to register with a cloud to be notified of updates to the channel, implementing a lightweight publish-subscribe protocol for RSS feeds. See http://www.rssboard.org/rsscloud-interface for more information about the rssCloud interface.</remarks>
     [Serializable()]
-    public class RssCloud
+    public class RssCloud : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -54,7 +54,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssCloud"/> class.
         /// </summary>
-        public RssCloud()
+        public RssCloud() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

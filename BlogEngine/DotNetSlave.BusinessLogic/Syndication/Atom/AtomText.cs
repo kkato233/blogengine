@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Atom
     /// Represents human-readable text.
     /// </summary>
     [Serializable()]
-    public class AtomText
+    public class AtomText : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -41,7 +41,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomText"/> class.
         /// </summary>
-        public AtomText()
+        public AtomText() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state
