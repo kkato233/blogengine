@@ -6,6 +6,7 @@ Date		Author		Description
 04/24/2007	brian.kuhn		Created EngineSyndicationFeedAdapter Class
 ****************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.XPath;
 
@@ -27,6 +28,14 @@ namespace BlogEngine.Core.Syndication.Data
         /// Private member to hold the set of features that the data adapter supports.
         /// </summary>
         private SyndicationFeedSettings adapterSettings    = new SyndicationFeedSettings();
+        /// <summary>
+        /// Private member to hold the collection of blog posts used to fill a syndication feed.
+        /// </summary>
+        private List<Post> adapterBlogPosts;
+        /// <summary>
+        /// Private member to hold the blog settings used to fill a syndication feed.
+        /// </summary>
+        private BlogSettings adapterBlogSettings;
         #endregion
 
         //============================================================
@@ -47,6 +56,84 @@ namespace BlogEngine.Core.Syndication.Data
                 //	
                 //------------------------------------------------------------
                 
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region EngineSyndicationFeedAdapter(List<Post> posts)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances.
+        /// </summary>
+        /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="posts"/> is a null reference (Nothing in Visual Basic).</exception>
+        protected EngineSyndicationFeedAdapter(List<Post> posts)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (posts == null)
+                {
+                    throw new ArgumentNullException("posts");
+                }
+
+                //------------------------------------------------------------
+                //	Set class members
+                //------------------------------------------------------------
+                adapterBlogPosts    = posts;
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region EngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances and <see cref="BlogSettings"/>.
+        /// </summary>
+        /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
+        /// <param name="blogSettings">The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="posts"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="blogSettings"/> is a null reference (Nothing in Visual Basic).</exception>
+        protected EngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (posts == null)
+                {
+                    throw new ArgumentNullException("posts");
+                }
+                if (blogSettings == null)
+                {
+                    throw new ArgumentNullException("blogSettings");
+                }
+
+                //------------------------------------------------------------
+                //	Set class members
+                //------------------------------------------------------------
+                adapterBlogPosts    = posts;
+                adapterBlogSettings = blogSettings;
             }
             catch
             {
@@ -97,6 +184,47 @@ namespace BlogEngine.Core.Syndication.Data
         //============================================================
         //	PUBLIC PROPERTIES
         //============================================================
+        #region BlogSettings
+        /// <summary>
+        /// Gets or sets the <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.
+        /// </summary>
+        /// <value>The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</value>
+        /// <exception cref="ArgumentNullException">The <paramref name="value"/> is a null reference (Nothing in Visual Basic).</exception>
+        public BlogSettings BlogSettings
+        {
+            get
+            {
+                return adapterBlogSettings;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+                else
+                {
+                    adapterBlogSettings = value;
+                }
+            }
+        }
+        #endregion
+
+        #region Posts
+        /// <summary>
+        /// Gets the collection of blog posts that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.
+        /// </summary>
+        /// <value>The collection of <see cref="Post"/> instances that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</value>
+        public List<Post> Posts
+        {
+            get
+            {
+                return adapterBlogPosts;
+            }
+        }
+        #endregion
+
         #region Settings
         /// <summary>
         /// Gets or sets the set of features that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.
@@ -160,149 +288,6 @@ namespace BlogEngine.Core.Syndication.Data
         /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
         /// <exception cref="XmlException">An exception occurred while writing the syndication feed XML data.</exception>
         public abstract void Write(SyndicationFeed feed, XmlWriter writer);
-        #endregion
-
-        //============================================================
-        //	VALIDATION ROUTINES
-        //============================================================
-        #region ItemContainsText(XPathItem item)
-        /// <summary>
-        /// Verifies that the specified <see cref="XPathItem"/> is not null and contains a non-empty string value. 
-        /// </summary>
-        /// <param name="item">The <see cref="XPathItem"/> to validate.</param>
-        /// <returns><b>true</b> if item is not null and its value is not an empty string, otherwise returns <b>false</b>.</returns>
-        public static bool ItemContainsText(XPathItem item)
-        {
-            //------------------------------------------------------------
-            //	Attempt to validate navigator
-            //------------------------------------------------------------
-            try
-            {
-                //------------------------------------------------------------
-                //	Validate navigator state
-                //------------------------------------------------------------
-                return (item != null && !String.IsNullOrEmpty(item.Value));
-            }
-            catch
-            {
-                //------------------------------------------------------------
-                //	Rethrow exception
-                //------------------------------------------------------------
-                throw;
-            }
-        }
-        #endregion
-
-        #region IteratorContainsNodes(XPathNodeIterator iterator)
-        /// <summary>
-        /// Verifies that the specified <see cref="XPathNodeIterator"/> is not null and has at least one node. 
-        /// </summary>
-        /// <param name="iterator">The <see cref="XPathNodeIterator"/> to validate.</param>
-        /// <returns><b>true</b> if iterator is not null and has at least one XML node, otherwise returns <b>false</b>.</returns>
-        public static bool IteratorContainsNodes(XPathNodeIterator iterator)
-        {
-            //------------------------------------------------------------
-            //	Attempt to validate navigator
-            //------------------------------------------------------------
-            try
-            {
-                //------------------------------------------------------------
-                //	Validate iterator state
-                //------------------------------------------------------------
-                return (iterator != null && iterator.Count > 0);
-            }
-            catch
-            {
-                //------------------------------------------------------------
-                //	Rethrow exception
-                //------------------------------------------------------------
-                throw;
-            }
-        }
-        #endregion
-
-        #region NavigatorContainsChildren(XPathNavigator navigator)
-        /// <summary>
-        /// Verifies that the specified <see cref="XPathNavigator"/> is not null and contains child nodes. 
-        /// </summary>
-        /// <param name="navigator">The <see cref="XPathNavigator"/> to validate.</param>
-        /// <returns><b>true</b> if navigator is not null and it has child nodes, otherwise returns <b>false</b>.</returns>
-        public static bool NavigatorContainsChildren(XPathNavigator navigator)
-        {
-            //------------------------------------------------------------
-            //	Attempt to validate navigator
-            //------------------------------------------------------------
-            try
-            {
-                //------------------------------------------------------------
-                //	Validate navigator state
-                //------------------------------------------------------------
-                return (navigator != null && navigator.HasChildren);
-            }
-            catch
-            {
-                //------------------------------------------------------------
-                //	Rethrow exception
-                //------------------------------------------------------------
-                throw;
-            }
-        }
-        #endregion
-
-        #region NavigatorContainsData(XPathNavigator navigator)
-        /// <summary>
-        /// Verifies that the specified <see cref="XPathNavigator"/> is not null and contains a non-empty string value OR has attributes. 
-        /// </summary>
-        /// <param name="navigator">The <see cref="XPathNavigator"/> to validate.</param>
-        /// <returns><b>true</b> if navigator is not null and its value is not an empty string OR has at least one XML attribute, otherwise returns <b>false</b>.</returns>
-        public static bool NavigatorContainsData(XPathNavigator navigator)
-        {
-            //------------------------------------------------------------
-            //	Attempt to validate navigator
-            //------------------------------------------------------------
-            try
-            {
-                //------------------------------------------------------------
-                //	Validate navigator state
-                //------------------------------------------------------------
-                return (navigator != null && (!String.IsNullOrEmpty(navigator.Value) || navigator.HasAttributes));
-            }
-            catch
-            {
-                //------------------------------------------------------------
-                //	Rethrow exception
-                //------------------------------------------------------------
-                throw;
-            }
-        }
-        #endregion
-
-        #region NavigatorHasAttributes(XPathNavigator navigator)
-        /// <summary>
-        /// Verifies that the specified <see cref="XPathNavigator"/> is not null and contains attributes. 
-        /// </summary>
-        /// <param name="navigator">The <see cref="XPathNavigator"/> to validate.</param>
-        /// <returns><b>true</b> if navigator is not null and has at least one XML attribute, otherwise returns <b>false</b>.</returns>
-        public static bool NavigatorHasAttributes(XPathNavigator navigator)
-        {
-            //------------------------------------------------------------
-            //	Attempt to validate navigator
-            //------------------------------------------------------------
-            try
-            {
-                //------------------------------------------------------------
-                //	Validate navigator state
-                //------------------------------------------------------------
-                return (navigator != null && navigator.HasAttributes);
-            }
-            catch
-            {
-                //------------------------------------------------------------
-                //	Rethrow exception
-                //------------------------------------------------------------
-                throw;
-            }
-        }
         #endregion
     }
 }

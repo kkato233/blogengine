@@ -462,7 +462,7 @@ namespace BlogEngine.Core.Syndication.Extensions.Common
         /// Gets or sets the entity responsible for making the resource available.
         /// </summary>
         /// <value>The entity responsible for making the resource available.</value>
-        /// <remarks>Typically, the name of a person, an organisation, or a service should be used to indicate the entity.</remarks>
+        /// <remarks>Typically, the name of a person, an organization, or a service should be used to indicate the entity.</remarks>
         public string Publisher
         {
             get
