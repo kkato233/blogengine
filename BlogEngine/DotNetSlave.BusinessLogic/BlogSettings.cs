@@ -150,11 +150,11 @@ public class BlogSettings
     /// <summary>
     /// Private member to hold the latitude component of the geocoding position for this blog.
     /// </summary>
-    private float geocodingLatitude;
+    private float geocodingLatitude     = Single.MinValue;
     /// <summary>
     /// Private member to hold the longitude component of the geocoding position for this blog.
     /// </summary>
-    private float geocodingLongitude;
+    private float geocodingLongitude    = Single.MinValue;
     #endregion
 
     //============================================================

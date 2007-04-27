@@ -6,6 +6,7 @@ Date		Author		Description
 04/16/2007	brian.kuhn		Created RssEngineSyndicationFeedAdapter Class
 ****************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Xml;
@@ -15,6 +16,7 @@ using BlogEngine.Core.Properties;
 using BlogEngine.Core.Syndication.Rss;
 
 using BlogEngine.Core.Syndication.Extensions;
+using BlogEngine.Core.Syndication.Extensions.Common;
 
 namespace BlogEngine.Core.Syndication.Data
 {
@@ -114,7 +116,7 @@ namespace BlogEngine.Core.Syndication.Data
             //------------------------------------------------------------
             //	Local members
             //------------------------------------------------------------
-            //int modifiedItemsCount  = 0;
+            int modifiedItemsCount  = 0;
 
             //------------------------------------------------------------
             //	Attempt to fill syndication feed using data source
@@ -134,9 +136,9 @@ namespace BlogEngine.Core.Syndication.Data
                 }
 
                 //------------------------------------------------------------
-                //	Instantiate the syndication feed using XML data source
+                //	Instantiate the syndication feed using blog engine data source(s)
                 //------------------------------------------------------------
-                throw new NotImplementedException();
+                modifiedItemsCount  = this.FillFeed((RssFeed)feed);
             }
             catch
             {
@@ -149,7 +151,7 @@ namespace BlogEngine.Core.Syndication.Data
             //------------------------------------------------------------
             //	Return result
             //------------------------------------------------------------
-            //return modifiedItemsCount;
+            return modifiedItemsCount;
         }
         #endregion
 
@@ -204,7 +206,224 @@ namespace BlogEngine.Core.Syndication.Data
         //============================================================
         //	PRIVATE FILL ROUTINES
         //============================================================
-        
+        #region FillFeed(RssFeed feed)
+        /// <summary>
+        /// Instantiates the specified <see cref="RssFeed"/> using the configured adapter properties.
+        /// </summary>
+        /// <param name="feed">The syndication feed to instantiate.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic).</exception>
+        private int FillFeed(RssFeed feed)
+        {
+            //------------------------------------------------------------
+            //	Attempt to instantiate feed using data sources
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+
+                //------------------------------------------------------------
+                //	Add default supported extensions
+                //------------------------------------------------------------
+                feed.Settings.SupportedExtensions.Add(typeof(SlashSyndicationExtension));
+                feed.Settings.SupportedExtensions.Add(typeof(WellFormedWebSyndicationExtension));
+
+                //------------------------------------------------------------
+                //	Set standard channel properties
+                //------------------------------------------------------------
+                feed.Channel.Title          = this.BlogSettings.Name;
+                feed.Channel.Language       = this.BlogSettings.Language;
+                feed.Channel.Description    = this.BlogSettings.Description;
+                feed.Channel.Link           = this.FeedLocation;
+
+                //------------------------------------------------------------
+                //	Add configured extensions to channel
+                //------------------------------------------------------------
+                this.FillExtensions(feed.Channel, feed.Settings.SupportedExtensions);
+
+                //------------------------------------------------------------
+                //	Enumerate through available blog posts
+                //------------------------------------------------------------
+                foreach (Post post in this.Posts)
+                {
+                    //------------------------------------------------------------
+                    //	Skip blog post if it does not have a published status
+                    //------------------------------------------------------------
+                    if (!post.IsPublished)
+                    {
+                        continue;
+                    }
+
+                    //------------------------------------------------------------
+                    //	Create channel item for post and set standard item properties
+                    //------------------------------------------------------------
+                    RssItem item            = new RssItem();
+                    item.Title              = post.Title;
+                    item.Link               = post.AbsoluteLink;
+                    item.Description        = this.MakeReferencesAbsolute(post.Content);
+
+                    //------------------------------------------------------------
+                    //	Set channel item optional properties
+                    //------------------------------------------------------------
+                    item.Guid               = new RssGuid(post.PermaLink.ToString());
+                    item.Comments           = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                    item.PublicationDate    = new Rfc822DateTime(post.DateCreated);
+
+                    //------------------------------------------------------------
+                    //	Add channel item categories if available
+                    //------------------------------------------------------------
+                    if (post.Categories.Count > 0)
+                    {
+                        foreach (Guid categoryId in post.Categories)
+                        {
+                            RssCategory category    = new RssCategory(this.Categories[categoryId]);
+                            item.Categories.Add(category);
+                        }
+                    }
+
+                    //------------------------------------------------------------
+                    //	Add standard extensions to channel item
+                    //------------------------------------------------------------
+                    SlashSyndicationExtension slashExtension = new SlashSyndicationExtension(post.Comments.Count);
+                    item.Extensions.Add(slashExtension);
+
+                    WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
+                    wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                    item.Extensions.Add(wellFormedWebExtension);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+
+            //------------------------------------------------------------
+            //	Return result
+            //------------------------------------------------------------
+            return feed.Channel.Items.Count;
+        }
+        #endregion
+
+        #region FillExtensions(RssChannel channel, SyndicationExtensionDictionary supportedExtensions)
+        /// <summary>
+        /// Adds syndication extensions to the specified <see cref="RssChannel"/>.
+        /// </summary>
+        /// <param name="channel">The <see cref="RssChannel"/> to add extensions to.</param>
+        /// <param name="supportedExtensions">The collection of supported extensions to modify if an extension is added to the <see cref="RssChannel"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="channel"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="supportedExtensions"/> is a null reference (Nothing in Visual Basic).</exception>
+        private void FillExtensions(RssChannel channel, SyndicationExtensionDictionary supportedExtensions)
+        {
+            //------------------------------------------------------------
+            //	Local members
+            //------------------------------------------------------------
+            bool extensionIsSupported   = false;
+
+            //------------------------------------------------------------
+            //	Attempt to instantiate feed using data sources
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (channel == null)
+                {
+                    throw new ArgumentNullException("channel");
+                }
+                if (supportedExtensions == null)
+                {
+                    throw new ArgumentNullException("supportedExtensions");
+                }
+
+                //------------------------------------------------------------
+                //	Add Blog Channel extension information to channel
+                //------------------------------------------------------------
+                BlogChannelSyndicationExtension blogChannelExtension    = new BlogChannelSyndicationExtension();
+                extensionIsSupported                                    = false;
+                if(this.Blogroll != null)
+                {
+                    blogChannelExtension.BlogRoll   = this.Blogroll;
+                    extensionIsSupported            = true;
+                }
+                if (this.Subscriptions != null)
+                {
+                    blogChannelExtension.Subscriptions  = this.Subscriptions;
+                    extensionIsSupported                = true;
+                }
+                if (!String.IsNullOrEmpty(this.BlogSettings.Endorsement))
+                {
+                    Uri bLinkUri;
+                    if (Uri.TryCreate(this.BlogSettings.Endorsement, UriKind.RelativeOrAbsolute, out bLinkUri))
+                    {
+                        blogChannelExtension.BLink  = bLinkUri;
+                        extensionIsSupported        = true;
+                    }
+                }
+                if(extensionIsSupported)
+                {
+                    supportedExtensions.Add(typeof(BlogChannelSyndicationExtension));
+                    channel.Extensions.Add(blogChannelExtension);
+                }
+
+                //------------------------------------------------------------
+                //	Add Dublin Core extension information to channel
+                //------------------------------------------------------------
+                DublinCoreSyndicationExtension dublinCoreExtension  = new DublinCoreSyndicationExtension();
+                extensionIsSupported                                = false;
+                if (!String.IsNullOrEmpty(this.BlogSettings.AuthorName))
+                {
+                    dublinCoreExtension.Creator     = this.BlogSettings.AuthorName;
+                    extensionIsSupported            = true;
+                }
+                if (!String.IsNullOrEmpty(this.BlogSettings.Language))
+                {
+                    dublinCoreExtension.Language    = this.BlogSettings.Language;
+                    extensionIsSupported            = true;
+                }
+                if (extensionIsSupported)
+                {
+                    supportedExtensions.Add(typeof(DublinCoreSyndicationExtension));
+                    channel.Extensions.Add(dublinCoreExtension);
+                }
+
+                //------------------------------------------------------------
+                //	Add Geocoding extension information to channel
+                //------------------------------------------------------------
+                GeocodingSyndicationExtension geocodingExtension    = new GeocodingSyndicationExtension();
+                extensionIsSupported                                = false;
+                if (this.BlogSettings.GeocodingLatitude != Single.MinValue)
+                {
+                    geocodingExtension.Latitude     = this.BlogSettings.GeocodingLatitude;
+                    extensionIsSupported            = true;
+                }
+                if (this.BlogSettings.GeocodingLongitude != Single.MinValue)
+                {
+                    geocodingExtension.Longitude    = this.BlogSettings.GeocodingLongitude;
+                    extensionIsSupported            = true;
+                }
+                if (extensionIsSupported)
+                {
+                    supportedExtensions.Add(typeof(GeocodingSyndicationExtension));
+                    channel.Extensions.Add(geocodingExtension);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
 
         //============================================================
         //	PRIVATE WRITE ROUTINES
@@ -1310,10 +1529,5 @@ namespace BlogEngine.Core.Syndication.Data
             }
         }
         #endregion
-
-        //============================================================
-        //	ENTITY INSTANTIATION ROUTINES
-        //============================================================
-        
     }
 }

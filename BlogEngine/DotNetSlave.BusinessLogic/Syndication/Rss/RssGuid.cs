@@ -63,6 +63,36 @@ namespace BlogEngine.Core.Syndication.Rss
         }
         #endregion
 
+        #region RssGuid(string value)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RssGuid"/> class using the specified value.
+        /// </summary>
+        /// <param name="value">The string that uniquely identifies an item.</param>
+        /// <remarks>Using this constructor implies the value represents a permalink.</remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="value"/> is a null reference (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty string.</exception>
+        public RssGuid(string value)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Set class properties
+                //------------------------------------------------------------
+                this.Value  = value;
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
         //============================================================
         //	PUBLIC PROPERTIES
         //============================================================
