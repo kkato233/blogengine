@@ -1,5 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="User_controls_CommentView" %>
-<%@ Import Namespace="BlogEngine.Core.Entities" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (Post.Comments.Count > 0){ %>
 <h1 id="comment">Comments</h1>

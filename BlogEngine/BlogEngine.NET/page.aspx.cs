@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 {
@@ -23,7 +23,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
     else if (Request.QueryString["id"] != null && Request.QueryString["id"].Length == 36)
     {
       Guid id = new Guid(Request.QueryString["id"]);
-      this.Page = BlogEngine.Core.Entities.Page.GetPage(id);
+      this.Page = BlogEngine.Core.Page.GetPage(id);
       if (this.Page != null)
       {
         h1Title.InnerHtml = this.Page.Title;
@@ -39,7 +39,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
   /// <summary>
   /// 
   /// </summary>
-  public new BlogEngine.Core.Entities.Page Page;
+  public new BlogEngine.Core.Page Page;
 
   public string AdminLinks
   {

@@ -6,7 +6,7 @@ using System.Web;
 using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 

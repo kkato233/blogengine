@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 
 #endregion
 
-namespace DotNetSlave.BlogEngine.BusinessLogic
+namespace BlogEngine.Core
 {
   /// <summary>
   /// This is the base class from which most business objects will be derived. 
@@ -423,7 +423,11 @@ namespace DotNetSlave.BlogEngine.BusinessLogic
 
     #region Events
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static event EventHandler<EventArgs> Saved;
+
     /// <summary>
     /// Occurs when the class is Saved
     /// </summary>

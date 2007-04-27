@@ -8,7 +8,7 @@ using System.Web.Services;
 using System.Web.Security;
 using System.Web.Services.Protocols;
 using System.Text.RegularExpressions;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 [WebService(Namespace = "http://madskristensen.dk/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]

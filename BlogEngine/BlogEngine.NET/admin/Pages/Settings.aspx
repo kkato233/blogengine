@@ -94,7 +94,7 @@
      when you import comments or download files automatically.
   </p>
   <p>
-    <a href="http://www.madskristensen.dk/clickonce/blogconverter/BlogConverter.application?url=<%=BlogEngine.Core.Entities.Utils.AbsoluteWebRoot %>&username=<%=System.Threading.Thread.CurrentPrincipal.Identity.Name %>">Launch import tool</a>
+    <a href="http://www.madskristensen.dk/clickonce/blogconverter/BlogConverter.application?url=<%=BlogEngine.Core.Utils.AbsoluteWebRoot %>&username=<%=System.Threading.Thread.CurrentPrincipal.Identity.Name %>">Launch import tool</a>
   </p>
 </div>
 

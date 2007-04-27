@@ -113,21 +113,21 @@
     <Compile Include="Providers\BlogProviderSection.cs" />
     <Compile Include="Providers\BlogService.cs" />
     <Compile Include="BlogSettings.cs" />
-    <Compile Include="Entities\BusinessBase.cs" />
-    <Compile Include="Entities\CategoryDictionary.cs" />
-    <Compile Include="Entities\Comment.cs" />
+    <Compile Include="BusinessBase.cs" />
+    <Compile Include="CategoryDictionary.cs" />
+    <Compile Include="Comment.cs" />
     <Compile Include="Web\Controls\BlogBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Web\Controls\PostViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Entities\Page.cs" />
+    <Compile Include="Page.cs" />
     <Compile Include="Ping\Pingback.cs" />
     <Compile Include="Ping\PingService.cs" />
-    <Compile Include="Entities\Post.cs" />
+    <Compile Include="Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\StateCollection.cs" />
+    <Compile Include="StateCollection.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Providers\XmlBlogProvider.cs" />
     <Compile Include="Providers\XmlMembershipProvider.cs" />

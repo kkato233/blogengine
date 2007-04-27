@@ -8,7 +8,7 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 

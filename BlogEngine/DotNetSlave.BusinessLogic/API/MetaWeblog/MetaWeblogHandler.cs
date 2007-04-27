@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Security;
 using System.Xml;
 using BlogEngine.Core;
-using BlogEngine.Core.Entities;
 
 namespace BlogEngine.Core.API.MetaWeblog
 {

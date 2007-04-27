@@ -1,7 +1,7 @@
 #region Using
 
 using System;
-using BlogEngine.Core.Entities;
+using BlogEngine.Core;
 
 #endregion
 
