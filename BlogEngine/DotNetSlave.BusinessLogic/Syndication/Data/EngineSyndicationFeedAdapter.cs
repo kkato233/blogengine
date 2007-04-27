@@ -4,6 +4,7 @@ Modification History:
 Date		Author		Description
 *****************************************************************************
 04/24/2007	brian.kuhn		Created EngineSyndicationFeedAdapter Class
+04/27/2007  brian.kuhn      Implmented IDisposable Interface
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace BlogEngine.Core.Syndication.Data
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
         //============================================================
         #region PRIVATE/PROTECTED/PUBLIC MEMBERS
+        /// <summary>
+        /// Private member to hold a value indicating if the <see cref="Dispose()"/> method has been called.
+        /// </summary>
+        private bool disposed;
         /// <summary>
         /// Private member to hold the set of features that the data adapter supports.
         /// </summary>
@@ -436,6 +441,130 @@ namespace BlogEngine.Core.Syndication.Data
             //	Return result
             //------------------------------------------------------------
             return content;
+        }
+        #endregion
+
+        //============================================================
+        //	DISPOSAL ROUTINES
+        //============================================================
+        #region Dispose()
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting managed and unmanaged resources.
+        /// </summary>
+        /// <remarks></remarks>
+        public void Dispose()
+        {
+            //------------------------------------------------------------
+            //	Attempt to free, release, or reset unmanaged resources
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Dispose of both managed and unmanaged resources
+                //------------------------------------------------------------
+                Dispose(true);
+
+                //------------------------------------------------------------
+                //	Request that garbage collector not call finalizer
+                //------------------------------------------------------------
+                GC.SuppressFinalize(this);
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
+        #region Dispose(bool disposing)
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"><b>true</b> if disposing of both managed and unmanaged resources, otherwise indicates method was called by runtime from inside the finalizer.</param>
+        private void Dispose(bool disposing)
+        {
+            //------------------------------------------------------------
+            //	Attempt to free, release, or reset unmanaged resources
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Determine if Dispose() method has been called previously
+                //------------------------------------------------------------
+                if(!this.disposed)
+                {
+                    //------------------------------------------------------------
+                    //	Determine if managed resources should be released
+                    //------------------------------------------------------------
+                    if (disposing)
+                    {
+                        //------------------------------------------------------------
+                        //	Dispose of managed resources
+                        //------------------------------------------------------------
+                        if (adapterSettings != null)
+                        {
+                            adapterSettings.SupportedExtensions.Clear();
+                            adapterSettings = null;
+                        }
+
+                        if (adapterBlogPosts != null)
+                        {
+                            adapterBlogPosts.Clear();
+                            adapterBlogPosts = null;
+                        }
+
+                        if (adapterBlogSettings != null)
+                        {
+                            adapterBlogSettings = null;
+                        }
+
+                        if (adapterCategories != null)
+                        {
+                            adapterCategories.Clear();
+                            adapterCategories = null;
+                        }
+
+                        if (adapterWebRoot != null)
+                        {
+                            adapterWebRoot = null;
+                        }
+
+                        if (adapterFeedLocation != null)
+                        {
+                            adapterFeedLocation = null;
+                        }
+
+                        if (adapterBlogroll != null)
+                        {
+                            adapterBlogroll = null;
+                        }
+
+                        if (adapterSubscriptions != null)
+                        {
+                            adapterSubscriptions = null;
+                        }
+                    }
+
+                    //------------------------------------------------------------
+                    //	Dispose of unmanaged resources
+                    //------------------------------------------------------------
+                }
+
+                //------------------------------------------------------------
+                //	Set value indicating that Dispose() has been called.
+                //------------------------------------------------------------
+                disposed    = true;
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
         }
         #endregion
     }
