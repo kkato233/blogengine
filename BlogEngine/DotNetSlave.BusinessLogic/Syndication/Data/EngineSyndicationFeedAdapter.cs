@@ -92,9 +92,45 @@ namespace BlogEngine.Core.Syndication.Data
         }
         #endregion
 
+        #region EngineSyndicationFeedAdapter(SyndicationFeedSettings settings)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied <see cref="SyndicationFeedSettings"/>.
+        /// </summary>
+        /// <param name="settings">The set of features that the XML data adapter supports.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="settings"/> is a null reference (Nothing in Visual Basic).</exception>
+        protected EngineSyndicationFeedAdapter(SyndicationFeedSettings settings)
+        {
+            //------------------------------------------------------------
+            //	Attempt to initialize class state
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (settings == null)
+                {
+                    throw new ArgumentNullException("settings");
+                }
+
+                //------------------------------------------------------------
+                //	Set class members
+                //------------------------------------------------------------
+                adapterSettings = settings;
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
         #region EngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories)
         /// <summary>
-        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances and <see cref="BlogSettings"/>.
+        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="CategoryDictionary"/>.
         /// </summary>
         /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
         /// <param name="blogSettings">The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
@@ -129,42 +165,6 @@ namespace BlogEngine.Core.Syndication.Data
                 adapterBlogPosts    = posts;
                 adapterBlogSettings = blogSettings;
                 adapterCategories   = categories;
-            }
-            catch
-            {
-                //------------------------------------------------------------
-                //	Rethrow exception
-                //------------------------------------------------------------
-                throw;
-            }
-        }
-        #endregion
-
-        #region EngineSyndicationFeedAdapter(SyndicationFeedSettings settings)
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied <see cref="SyndicationFeedSettings"/>.
-        /// </summary>
-        /// <param name="settings">The set of features that the XML data adapter supports.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="settings"/> is a null reference (Nothing in Visual Basic).</exception>
-        protected EngineSyndicationFeedAdapter(SyndicationFeedSettings settings)
-        {
-            //------------------------------------------------------------
-            //	Attempt to initialize class state
-            //------------------------------------------------------------
-            try
-            {
-                //------------------------------------------------------------
-                //	Validate parameter
-                //------------------------------------------------------------
-                if (settings == null)
-                {
-                    throw new ArgumentNullException("settings");
-                }
-
-                //------------------------------------------------------------
-                //	Set class members
-                //------------------------------------------------------------
-                adapterSettings = settings;
             }
             catch
             {
