@@ -17,11 +17,18 @@ namespace BlogEngine.Core.Web.HttpModules
   {
     #region IHttpModule Members
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void Dispose()
     {
       // Nothing to dispose
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void Init(HttpApplication context)
     {
       context.BeginRequest += new EventHandler(context_BeginRequest);
@@ -95,6 +102,12 @@ namespace BlogEngine.Core.Web.HttpModules
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="lookFor"></param>
+    /// <returns></returns>
     public static string ExtractTitle(HttpContext context, string lookFor)
     {
       int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(lookFor) + lookFor.Length;
@@ -103,6 +116,11 @@ namespace BlogEngine.Core.Web.HttpModules
       return title;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public static string GetQueryString(HttpContext context)
     {
       string query = context.Request.QueryString.ToString();

@@ -34,6 +34,12 @@ namespace BlogEngine.Core.Ping
       return true;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sourceUrl"></param>
+    /// <param name="targetUrl"></param>
+    /// <returns></returns>
     public static bool Send(string sourceUrl, string targetUrl)
     {
       if (string.IsNullOrEmpty(sourceUrl) || string.IsNullOrEmpty(targetUrl))
@@ -60,7 +66,7 @@ namespace BlogEngine.Core.Ping
 
         return false;
       }
-      catch (Exception ex)
+      catch
       {
         return false;
       }

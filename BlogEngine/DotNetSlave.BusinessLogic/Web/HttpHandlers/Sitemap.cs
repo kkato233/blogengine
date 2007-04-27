@@ -15,6 +15,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
   public class Sitemap : IHttpHandler
   {
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void ProcessRequest(HttpContext context)
     {
       using (XmlWriter writer = XmlWriter.Create(context.Response.OutputStream))
@@ -45,6 +49,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.ContentType = "text/xml";
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsReusable
     {
       get { return false; }

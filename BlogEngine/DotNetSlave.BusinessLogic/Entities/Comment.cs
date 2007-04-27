@@ -64,7 +64,10 @@ namespace BlogEngine.Core.Entities
     }
 
     private string _Country;
-
+      
+    /// <summary>
+    /// 
+    /// </summary>
     public string Country
     {
       get { return _Country; }
@@ -73,6 +76,9 @@ namespace BlogEngine.Core.Entities
 
     private string _IP;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string IP
     {
       get { return _IP; }

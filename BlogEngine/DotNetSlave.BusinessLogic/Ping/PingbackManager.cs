@@ -7,11 +7,25 @@ using System.Collections.Generic;
 
 namespace BlogEngine.Core.Ping
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PingbackManager
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public PingbackManager()
         { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="postTitle"></param>
+        /// <param name="postContent"></param>
+        /// <param name="postURL"></param>
+        /// <param name="excerpt"></param>
+        /// <param name="blogName"></param>
         public void Send(string postTitle, string postContent, string postURL, string excerpt, string blogName)
         {
             foreach (string url in GetUrlsFromContent(postContent))
@@ -80,7 +94,7 @@ namespace BlogEngine.Core.Ping
                 //}
                 //----------------------------------------------------
             }
-            catch (WebException wex)
+            catch //(WebException wex)
             {
                 //todo: Log 404 errors?
                 //throw;
@@ -130,11 +144,33 @@ namespace BlogEngine.Core.Ping
 
     struct TrackbackMessage
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Uri PostURL;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Excerpt;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string BlogName;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="postUrl"></param>
+        /// <param name="excerpt"></param>
+        /// <param name="blogName"></param>
         public TrackbackMessage(string title, string postUrl, string excerpt, string blogName)
         {
             Title = title;
@@ -143,6 +179,10 @@ namespace BlogEngine.Core.Ping
             BlogName = blogName;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostURL, Excerpt, BlogName);

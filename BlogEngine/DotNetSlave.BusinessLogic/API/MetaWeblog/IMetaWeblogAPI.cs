@@ -115,6 +115,11 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public class MetaWeblogException : ApplicationException
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="message"></param>
         public MetaWeblogException(string code, string message)
             : base(message)
         {
@@ -139,8 +144,17 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWACategory
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string description;
+        /// <summary>
+        /// 
+        /// </summary>
         public string htmlUrl;
+        /// <summary>
+        /// 
+        /// </summary>
         public string rssUrl;
     }
 
@@ -150,8 +164,17 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWABlogInfo
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string url;
+        /// <summary>
+        /// 
+        /// </summary>
         public string blogID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string blogName;
     }
 
@@ -161,7 +184,13 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWAFault
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string faultCode;
+        /// <summary>
+        /// 
+        /// </summary>
         public string faultString;
     }
 
@@ -171,8 +200,17 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWAMediaObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string name;
+        /// <summary>
+        /// 
+        /// </summary>
         public string type;
+        /// <summary>
+        /// 
+        /// </summary>
         public byte[] bits;
     }
 
@@ -182,6 +220,9 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWAMediaInfo
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string url;
     }
 
@@ -192,12 +233,33 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWAPost
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string postID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string title;
+        /// <summary>
+        /// 
+        /// </summary>
         public string link;
+        /// <summary>
+        /// 
+        /// </summary>
         public string description;
+        /// <summary>
+        /// 
+        /// </summary>
         public List<string> categories;
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime postDate;
+        /// <summary>
+        /// 
+        /// </summary>
         public bool publish;
     }
 
@@ -207,11 +269,29 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// </summary>
     public struct MWAUserInfo
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string nickname;
+        /// <summary>
+        /// 
+        /// </summary>
         public string userID;
+        /// <summary>
+        /// 
+        /// </summary>
         public string url;
+        /// <summary>
+        /// 
+        /// </summary>
         public string email;
+        /// <summary>
+        /// 
+        /// </summary>
         public string lastName;
+        /// <summary>
+        /// 
+        /// </summary>
         public string firstName;
     }
 }

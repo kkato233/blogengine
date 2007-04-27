@@ -14,12 +14,20 @@ namespace BlogEngine.Core.API.MetaWeblog
     public class XMLRPCRequest
     {
         #region Contructors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
         public XMLRPCRequest(HttpContext input)
         {
             string inputXML = ParseRequest(input);
             LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputXML"></param>
         public XMLRPCRequest(string inputXML)
         {
             LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
@@ -45,51 +53,90 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region Public Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string MethodName
         {
             // Read Only
             get { return _methodName; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string AppKey
         {
             // Read Only
             get { return _appKey; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string BlogID
         {
             // Read Only
             get { return _blogID; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public MWAMediaObject MediaObject
         {
             // Read Only
             get { return _media; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int NumberOfPosts
         {
             // Read Only
             get { return _numberOfPosts; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Password
         {
             // Read Only
             get { return _password; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public MWAPost Post
         {
             // Read Only
             get { return _post; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string PostID
         {
             // Read Only
             get { return _postID; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Publish
         {
             // Read Only
             get { return _publish; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string UserName
         {
             // Read Only
@@ -210,7 +257,6 @@ namespace BlogEngine.Core.API.MetaWeblog
                     break;
                 default:
                     throw new MetaWeblogException("02", "Unknown Method. (" + _methodName + ")");
-                    break;
 
             }
 

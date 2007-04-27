@@ -19,11 +19,18 @@ namespace BlogEngine.Core.Web.HttpModules
 
     #region IHttpModule Members
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void Dispose()
     {
       // Nothing to dispose.
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public void Init(HttpApplication context)
     {
 

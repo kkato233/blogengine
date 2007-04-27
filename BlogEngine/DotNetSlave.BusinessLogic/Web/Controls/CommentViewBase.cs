@@ -14,6 +14,9 @@ using BlogEngine.Core.Entities;
 
 namespace BlogEngine.Core.Web.Controls
 {
+  /// <summary>
+  /// 
+  /// </summary>
   public class CommentViewBase : UserControl
   {
 
@@ -21,6 +24,9 @@ namespace BlogEngine.Core.Web.Controls
 
     private Post _Post;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public Post Post
     {
       get { return _Post; }
@@ -29,6 +35,9 @@ namespace BlogEngine.Core.Web.Controls
 
     private Comment _Comment;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public Comment Comment
     {
       get { return _Comment; }

@@ -7,10 +7,17 @@ using System.Xml;
 
 namespace BlogEngine.Core.API.MetaWeblog
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class XMLRPCResponse
     {
         #region Contructors
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="methodName"></param>
         public XMLRPCResponse(string methodName)
         {
             _methodName = methodName;
@@ -37,47 +44,81 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region Public Properties
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string MethodName
         {
             // Read Only
             get { return _methodName; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public List<MWABlogInfo> Blogs
         {
             get { return _blogs; }
             set { _blogs = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public List<MWACategory> Categories
         {
             get { return _categories; }
             set { _categories = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Completed
         {
             get { return _completed; }
             set { _completed = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public MWAFault Fault
         {
             get { return _fault; }
             set { _fault = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public MWAMediaInfo MediaInfo
         {
             get { return _mediaInfo; }
             set { _mediaInfo = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public MWAPost Post
         {
             get { return _post; }
             set { _post = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string PostID
         {
             get { return _postID; }
             set { _postID = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public List<MWAPost> Posts
         {
             get { return _posts; }
@@ -88,6 +129,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region Public Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public void Response(HttpContext context)
         {
             //context.Response.Cache.SetCacheability(HttpCacheability.Public);
@@ -152,6 +197,10 @@ namespace BlogEngine.Core.API.MetaWeblog
         
         #region Private Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WriteFault(XmlTextWriter data)
         {
             data.WriteStartElement("value");
@@ -174,6 +223,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WriteBool(XmlTextWriter data)
         {
             string postValue = "0";
@@ -186,6 +239,10 @@ namespace BlogEngine.Core.API.MetaWeblog
             data.WriteEndElement();
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WriteGetCategories(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -241,6 +298,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WriteMediaInfo(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -260,6 +321,10 @@ namespace BlogEngine.Core.API.MetaWeblog
             data.WriteEndElement();
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WriteNewPost(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -269,6 +334,10 @@ namespace BlogEngine.Core.API.MetaWeblog
             data.WriteEndElement();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WritePost(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -332,6 +401,10 @@ namespace BlogEngine.Core.API.MetaWeblog
             data.WriteEndElement();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WritePosts(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -426,6 +499,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void WriteGetUsersBlogs(XmlTextWriter data)
         {
             data.WriteStartElement("param");
