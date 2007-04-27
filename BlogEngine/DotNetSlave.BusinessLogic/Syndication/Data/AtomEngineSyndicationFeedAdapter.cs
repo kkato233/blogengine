@@ -16,6 +16,7 @@ using BlogEngine.Core.Properties;
 using BlogEngine.Core.Syndication.Atom;
 
 using BlogEngine.Core.Syndication.Extensions;
+using BlogEngine.Core.Syndication.Extensions.Common;
 
 namespace BlogEngine.Core.Syndication.Data
 {
@@ -118,7 +119,7 @@ namespace BlogEngine.Core.Syndication.Data
             //------------------------------------------------------------
             //	Local members
             //------------------------------------------------------------
-            //int modifiedItemsCount  = 0;
+            int modifiedItemsCount  = 0;
 
             //------------------------------------------------------------
             //	Attempt to fill syndication feed using data source
@@ -138,9 +139,9 @@ namespace BlogEngine.Core.Syndication.Data
                 }
 
                 //------------------------------------------------------------
-                //	
+                //	Instantiate the syndication feed using blog engine data source(s)
                 //------------------------------------------------------------
-                throw new NotImplementedException();
+                modifiedItemsCount  = this.FillFeed((AtomFeed)feed);
             }
             catch
             {
@@ -153,7 +154,7 @@ namespace BlogEngine.Core.Syndication.Data
             //------------------------------------------------------------
             //	Return result
             //------------------------------------------------------------
-            //return modifiedItemsCount;
+            return modifiedItemsCount;
         }
         #endregion
 
@@ -208,7 +209,238 @@ namespace BlogEngine.Core.Syndication.Data
         //============================================================
         //	PRIVATE FILL ROUTINES
         //============================================================
-        
+        #region FillFeed(AtomFeed feed)
+        /// <summary>
+        /// Instantiates the specified <see cref="AtomFeed"/> using the configured adapter properties.
+        /// </summary>
+        /// <param name="feed">The syndication feed to instantiate.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic).</exception>
+        private int FillFeed(AtomFeed feed)
+        {
+            //------------------------------------------------------------
+            //	Attempt to instantiate feed using data sources
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameter
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+
+                //------------------------------------------------------------
+                //	Add default supported extensions
+                //------------------------------------------------------------
+                feed.Settings.SupportedExtensions.Add(typeof(SlashSyndicationExtension));
+                feed.Settings.SupportedExtensions.Add(typeof(WellFormedWebSyndicationExtension));
+
+                //------------------------------------------------------------
+                //	Set standard channel properties
+                //------------------------------------------------------------
+                feed.Title          = new AtomText(this.BlogSettings.Name);
+                feed.Description    = new AtomText(this.BlogSettings.Description);
+                feed.Id             = this.FeedLocation;
+                if (this.Posts.Count > 0)
+                {
+                    feed.UpdatedOn  = new W3CDateTime(this.Posts[0].DateModified);
+                }
+                else
+                {
+                    feed.UpdatedOn  = new W3CDateTime(DateTime.Now);
+                }
+                
+                //------------------------------------------------------------
+                //	Add configured extensions to feed
+                //------------------------------------------------------------
+                this.FillExtensions(feed, feed.Settings.SupportedExtensions);
+
+                //------------------------------------------------------------
+                //	Enumerate through available blog posts
+                //------------------------------------------------------------
+                foreach (Post post in this.Posts)
+                {
+                    //------------------------------------------------------------
+                    //	Skip blog post if it does not have a published status
+                    //------------------------------------------------------------
+                    if (!post.IsPublished)
+                    {
+                        continue;
+                    }
+
+                    //------------------------------------------------------------
+                    //	Create feed entry for post and set standard entry properties
+                    //------------------------------------------------------------
+                    AtomEntry entry             = new AtomEntry();
+                    entry.Title                 = new AtomText(post.Title);
+                    entry.Id                    = post.PermaLink;
+                    entry.UpdatedOn             = new W3CDateTime(post.DateCreated);
+
+                    //------------------------------------------------------------
+                    //	Add entry link(s)
+                    //------------------------------------------------------------
+                    AtomLink entryLink          = new AtomLink(post.AbsoluteLink);
+                    entry.Links.Add(entryLink);
+
+                    //------------------------------------------------------------
+                    //	Set feed entry content
+                    //------------------------------------------------------------
+                    AtomContent entryContent    = new AtomContent();
+                    entryContent.Type           = TextType.Xhtml;
+                    entryContent.Value          = this.MakeReferencesAbsolute(post.Content);
+                    entry.Content               = entryContent;
+                    
+                    //------------------------------------------------------------
+                    //	Add feed entry categories if available
+                    //------------------------------------------------------------
+                    if (post.Categories.Count > 0)
+                    {
+                        foreach (Guid categoryId in post.Categories)
+                        {
+                            AtomCategory category   = new AtomCategory(this.Categories[categoryId]);
+                            entry.Categories.Add(category);
+                        }
+                    }
+
+                    //------------------------------------------------------------
+                    //	Add standard extensions to feed entry
+                    //------------------------------------------------------------
+                    SlashSyndicationExtension slashExtension = new SlashSyndicationExtension(post.Comments.Count);
+                    entry.Extensions.Add(slashExtension);
+
+                    WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
+                    wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                    entry.Extensions.Add(wellFormedWebExtension);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+
+            //------------------------------------------------------------
+            //	Return result
+            //------------------------------------------------------------
+            return feed.Entries.Count;
+        }
+        #endregion
+
+        #region FillExtensions(AtomFeed feed, SyndicationExtensionDictionary supportedExtensions)
+        /// <summary>
+        /// Adds syndication extensions to the specified <see cref="AtomFeed"/>.
+        /// </summary>
+        /// <param name="feed">The <see cref="AtomFeed"/> to add extensions to.</param>
+        /// <param name="supportedExtensions">The collection of supported extensions to modify if an extension is added to the <see cref="AtomFeed"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="feed"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="supportedExtensions"/> is a null reference (Nothing in Visual Basic).</exception>
+        private void FillExtensions(AtomFeed feed, SyndicationExtensionDictionary supportedExtensions)
+        {
+            //------------------------------------------------------------
+            //	Local members
+            //------------------------------------------------------------
+            bool extensionIsSupported   = false;
+
+            //------------------------------------------------------------
+            //	Attempt to instantiate feed using data sources
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Validate parameters
+                //------------------------------------------------------------
+                if (feed == null)
+                {
+                    throw new ArgumentNullException("feed");
+                }
+                if (supportedExtensions == null)
+                {
+                    throw new ArgumentNullException("supportedExtensions");
+                }
+
+                //------------------------------------------------------------
+                //	Add Blog Channel extension information to feed
+                //------------------------------------------------------------
+                BlogChannelSyndicationExtension blogChannelExtension    = new BlogChannelSyndicationExtension();
+                extensionIsSupported                                    = false;
+                if(this.Blogroll != null)
+                {
+                    blogChannelExtension.BlogRoll   = this.Blogroll;
+                    extensionIsSupported            = true;
+                }
+                if (this.Subscriptions != null)
+                {
+                    blogChannelExtension.Subscriptions  = this.Subscriptions;
+                    extensionIsSupported                = true;
+                }
+                if (!String.IsNullOrEmpty(this.BlogSettings.Endorsement))
+                {
+                    Uri bLinkUri;
+                    if (Uri.TryCreate(this.BlogSettings.Endorsement, UriKind.RelativeOrAbsolute, out bLinkUri))
+                    {
+                        blogChannelExtension.BLink  = bLinkUri;
+                        extensionIsSupported        = true;
+                    }
+                }
+                if(extensionIsSupported)
+                {
+                    supportedExtensions.Add(typeof(BlogChannelSyndicationExtension));
+                    feed.Extensions.Add(blogChannelExtension);
+                }
+
+                //------------------------------------------------------------
+                //	Add Dublin Core extension information to feed
+                //------------------------------------------------------------
+                DublinCoreSyndicationExtension dublinCoreExtension  = new DublinCoreSyndicationExtension();
+                extensionIsSupported                                = false;
+                if (!String.IsNullOrEmpty(this.BlogSettings.AuthorName))
+                {
+                    dublinCoreExtension.Creator     = this.BlogSettings.AuthorName;
+                    extensionIsSupported            = true;
+                }
+                if (!String.IsNullOrEmpty(this.BlogSettings.Language))
+                {
+                    dublinCoreExtension.Language    = this.BlogSettings.Language;
+                    extensionIsSupported            = true;
+                }
+                if (extensionIsSupported)
+                {
+                    supportedExtensions.Add(typeof(DublinCoreSyndicationExtension));
+                    feed.Extensions.Add(dublinCoreExtension);
+                }
+
+                //------------------------------------------------------------
+                //	Add Geocoding extension information to feed
+                //------------------------------------------------------------
+                GeocodingSyndicationExtension geocodingExtension    = new GeocodingSyndicationExtension();
+                extensionIsSupported                                = false;
+                if (this.BlogSettings.GeocodingLatitude != Single.MinValue)
+                {
+                    geocodingExtension.Latitude     = this.BlogSettings.GeocodingLatitude;
+                    extensionIsSupported            = true;
+                }
+                if (this.BlogSettings.GeocodingLongitude != Single.MinValue)
+                {
+                    geocodingExtension.Longitude    = this.BlogSettings.GeocodingLongitude;
+                    extensionIsSupported            = true;
+                }
+                if (extensionIsSupported)
+                {
+                    supportedExtensions.Add(typeof(GeocodingSyndicationExtension));
+                    feed.Extensions.Add(geocodingExtension);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
 
         //============================================================
         //	PRIVATE WRITE ROUTINES
@@ -1313,10 +1545,5 @@ namespace BlogEngine.Core.Syndication.Data
             }
         }
         #endregion
-
-        //============================================================
-        //	ENTITY INSTANTIATION ROUTINES
-        //============================================================
-        
     }
 }

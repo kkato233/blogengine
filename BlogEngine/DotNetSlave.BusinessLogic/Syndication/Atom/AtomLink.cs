@@ -88,6 +88,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// Initializes a new instance of the <see cref="AtomLink"/> class using the specified <see cref="Uri"/>.
         /// </summary>
         /// <param name="href">The URI to the web resource.</param>
+        /// <remarks>Using this constructor implies that the link's relation is equal to <b>LinkRelation.Self</b>.</remarks>
         /// <exception cref="ArgumentNullException">The <paramref name="href"/> is a null reference (Nothing in Visual Basic).</exception>
         public AtomLink(Uri href)
         {
@@ -99,7 +100,8 @@ namespace BlogEngine.Core.Syndication.Atom
                 //------------------------------------------------------------
                 //	Set class properties
                 //------------------------------------------------------------
-                this.Link   = href;
+                this.Link       = href;
+                this.Relation   = LinkRelation.Self;
             }
             catch
             {
