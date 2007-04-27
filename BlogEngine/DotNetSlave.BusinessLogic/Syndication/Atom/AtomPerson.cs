@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Atom
     /// Represents a person, corporation, or similar entity.
     /// </summary>
     [Serializable()]
-    public class AtomPerson
+    public class AtomPerson : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -45,7 +45,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomPerson"/> class.
         /// </summary>
-        public AtomPerson()
+        public AtomPerson() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

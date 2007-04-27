@@ -19,7 +19,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// </summary>
     /// <remarks>For a use case scenario, see http://www.thetwowayweb.com/payloadsforrss for further information.</remarks>
     [Serializable()]
-    public class RssEnclosure
+    public class RssEnclosure : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -46,7 +46,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssEnclosure"/> class.
         /// </summary>
-        public RssEnclosure()
+        public RssEnclosure() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

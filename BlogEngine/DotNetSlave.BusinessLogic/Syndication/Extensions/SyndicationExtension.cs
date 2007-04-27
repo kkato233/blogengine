@@ -6,6 +6,7 @@ Date		Author		Description
 04/21/2007	brian.kuhn		Created SyndicationExtension Class
 ****************************************************************************/
 using System;
+using System.Collections.ObjectModel;
 using System.Xml;
 using System.Xml.XPath;
 
@@ -99,18 +100,13 @@ namespace BlogEngine.Core.Syndication.Extensions
         }
         #endregion
 
-        #region QualifiedName
+        #region Targets
         /// <summary>
-        /// Gets the XML qualified name for the extension.
+        /// Gets the collection of <see cref="ExtensionTarget"/> enumeration values that describes the target elements that the extension can extend.
         /// </summary>
-        /// <value>The XML qualified name for the extension.</value>
-        /// <remarks>This propery is generated dynamically using the extension's <b>Namespace</b> and <b>NamespacePrefix</b> properties.</remarks>
-        public XmlQualifiedName QualifiedName
+        public abstract Collection<ExtensionTarget> Targets
         {
-            get
-            {
-                return new XmlQualifiedName(this.NamespacePrefix, this.Namespace);
-            }
+            get;
         }
         #endregion
 
@@ -130,11 +126,22 @@ namespace BlogEngine.Core.Syndication.Extensions
         //============================================================
         #region Inject(IXPathNavigable xmlDataTarget)
         /// <summary>
-        /// Adds the XML data that represents a custom extension that implements <see cref="SyndicationExtension"/> to the specified XML data target.
+        /// Injects the XML data that represents the <see cref="SyndicationExtension"/> into the specified XML data target.
         /// </summary>
         /// <param name="xmlDataTarget">The <see cref="IXPathNavigable"/> instance to inject extension XML data into.</param>
-        /// <remarks>Place your custom extension code in the <b>Inject</b> virtual method to add the XML data that represent your custom extension to the provided XML data target.</remarks>
+        /// <remarks>Place your custom code in the <b>Inject</b> virtual method to add the XML data that represent your custom extension to the provided XML data target.</remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="xmlDataTarget"/> is a null reference (Nothing in Visual Basic).</exception>
         public abstract void Inject(IXPathNavigable xmlDataTarget);
+        #endregion
+
+        #region Inject(XmlWriter writer)
+        /// <summary>
+        /// Injects the XML data that represents the <see cref="SyndicationExtension"/> using the specified <see cref="XmlWriter"/>.
+        /// </summary>
+        /// <param name="writer">The <see cref="XmlWriter"/> instance to write extension XML data to.</param>
+        /// <remarks>Place your custom code in the <b>Inject</b> virtual method to write the XML data that represent your custom extension to the provided <b>XmlWriter</b>.</remarks>
+        /// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
+        public abstract void Inject(XmlWriter writer);
         #endregion
     }
 }

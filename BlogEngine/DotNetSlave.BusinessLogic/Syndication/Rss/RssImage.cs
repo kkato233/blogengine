@@ -19,7 +19,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// Represents a GIF, JPEG or PNG image that can be associated to a <see cref="RssChannel"/>.
     /// </summary>
     [Serializable()]
-    public class RssImage
+    public class RssImage : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -66,7 +66,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssImage"/> class.
         /// </summary>
-        public RssImage()
+        public RssImage() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

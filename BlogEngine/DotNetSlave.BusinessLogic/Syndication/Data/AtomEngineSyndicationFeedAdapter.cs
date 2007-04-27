@@ -15,10 +15,12 @@ using System.Xml.XPath;
 using BlogEngine.Core.Properties;
 using BlogEngine.Core.Syndication.Atom;
 
+using BlogEngine.Core.Syndication.Extensions;
+
 namespace BlogEngine.Core.Syndication.Data
 {
     /// <summary>
-    /// Provides a set of methods and properties used to fill or write <see cref="AtomFeed"/> instances from an XML data source.
+    /// Provides a set of methods and properties used to fill or write <see cref="AtomFeed"/> instances from blog engine data source(s).
     /// </summary>
     public class AtomEngineSyndicationFeedAdapter : EngineSyndicationFeedAdapter
     {
@@ -83,23 +85,6 @@ namespace BlogEngine.Core.Syndication.Data
                 //	Rethrow exception
                 //------------------------------------------------------------
                 throw;
-            }
-        }
-        #endregion
-
-        //============================================================
-        //	PUBLIC PROPERTIES
-        //============================================================
-        #region DefaultXmlNamespace
-        /// <summary>
-        /// Gets the default XML namespace this syndication feed adapter expects to parse.
-        /// </summary>
-        /// <remarks></remarks>
-        public static string DefaultXmlNamespace
-        {
-            get
-            {
-                return ATOM_XML_NAMESPACE;
             }
         }
         #endregion
@@ -401,10 +386,15 @@ namespace BlogEngine.Core.Syndication.Data
                 //------------------------------------------------------------
                 if (entry.Source != null)
                 {
-                    //------------------------------------------------------------
-                    //	
-                    //------------------------------------------------------------
                     AtomEngineSyndicationFeedAdapter.WriteFeedContent(entry.Source, writer);
+                }
+
+                //------------------------------------------------------------
+                //	Write entry extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in entry.Extensions.Values)
+                {
+                    extension.Inject(writer);
                 }
 
                 //------------------------------------------------------------
@@ -463,6 +453,14 @@ namespace BlogEngine.Core.Syndication.Data
                 //	Write feed content
                 //------------------------------------------------------------
                 AtomEngineSyndicationFeedAdapter.WriteFeedContent(feed, writer);
+
+                //------------------------------------------------------------
+                //	Write feed extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in feed.Extensions.Values)
+                {
+                    extension.Inject(writer);
+                }
 
                 //------------------------------------------------------------
                 //	Write </feed> element
@@ -772,6 +770,14 @@ namespace BlogEngine.Core.Syndication.Data
                 }
 
                 //------------------------------------------------------------
+                //	Write category extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in category.Extensions.Values)
+                {
+                    extension.Inject(writer);
+                }
+
+                //------------------------------------------------------------
                 //	Write </category> element
                 //------------------------------------------------------------
                 writer.WriteEndElement();
@@ -844,6 +850,14 @@ namespace BlogEngine.Core.Syndication.Data
                 }
 
                 //------------------------------------------------------------
+                //	Write construct extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in construct.Extensions.Values)
+                {
+                    extension.Inject(writer);
+                }
+
+                //------------------------------------------------------------
                 //	Write </content> element
                 //------------------------------------------------------------
                 writer.WriteEndElement();
@@ -909,6 +923,14 @@ namespace BlogEngine.Core.Syndication.Data
                 if (!String.IsNullOrEmpty(generator.Name))
                 {
                     writer.WriteString(generator.Name);
+                }
+
+                //------------------------------------------------------------
+                //	Write generator extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in generator.Extensions.Values)
+                {
+                    extension.Inject(writer);
                 }
 
                 //------------------------------------------------------------
@@ -997,6 +1019,14 @@ namespace BlogEngine.Core.Syndication.Data
                 if (!String.IsNullOrEmpty(link.Content))
                 {
                     writer.WriteString(link.Content);
+                }
+
+                //------------------------------------------------------------
+                //	Write link extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in link.Extensions.Values)
+                {
+                    extension.Inject(writer);
                 }
 
                 //------------------------------------------------------------
@@ -1120,6 +1150,14 @@ namespace BlogEngine.Core.Syndication.Data
                 if (person.Uri != null)
                 {
                     writer.WriteElementString("uri", person.Uri.ToString());
+                }
+
+                //------------------------------------------------------------
+                //	Write person extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in person.Extensions.Values)
+                {
+                    extension.Inject(writer);
                 }
 
                 //------------------------------------------------------------
@@ -1251,6 +1289,14 @@ namespace BlogEngine.Core.Syndication.Data
                 if (!String.IsNullOrEmpty(construct.Value))
                 {
                     writer.WriteString(construct.Value);
+                }
+
+                //------------------------------------------------------------
+                //	Write construct extensions
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in construct.Extensions.Values)
+                {
+                    extension.Inject(writer);
                 }
 
                 //------------------------------------------------------------

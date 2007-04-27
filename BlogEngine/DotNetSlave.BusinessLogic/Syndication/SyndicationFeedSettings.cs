@@ -60,6 +60,36 @@ namespace BlogEngine.Core.Syndication
 		}
 		#endregion
 
+        #region SyndicationFeedSettings(SyndicationExtensionDictionary supportedExtensions)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SyndicationFeedSettings"/> class using the specified supported extensions.
+        /// </summary>
+        /// <param name="supportedExtensions">A collection of extensions supported by the syndication feed.</param>
+        public SyndicationFeedSettings(SyndicationExtensionDictionary supportedExtensions)
+        {
+            //------------------------------------------------------------
+            //	Attempt to handle class initialization
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Fill supported extensions collection
+                //------------------------------------------------------------
+                foreach (SyndicationExtension extension in supportedExtensions.Values)
+                {
+                    feedSupportedExtensions.Add(extension);
+                }
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+        }
+        #endregion
+
         //============================================================
         //	PUBLIC PROPERTIES
         //============================================================

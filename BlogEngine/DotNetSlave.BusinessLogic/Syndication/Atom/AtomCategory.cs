@@ -17,7 +17,7 @@ namespace BlogEngine.Core.Syndication.Atom
     /// Represents information about a category associated with an <see cref="AtomEntry"/> or <see cref="AtomFeed"/>.
     /// </summary>
     [Serializable()]
-    public class AtomCategory
+    public class AtomCategory : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -48,7 +48,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomCategory"/> class.
         /// </summary>
-        public AtomCategory()
+        public AtomCategory() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

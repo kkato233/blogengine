@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// Represents a feed channel, which contains information about the channel (metadata) and its contents.
     /// </summary>
     [Serializable()]
-    public class RssChannel
+    public class RssChannel : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -113,7 +113,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssChannel"/> class.
         /// </summary>
-        public RssChannel()
+        public RssChannel() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

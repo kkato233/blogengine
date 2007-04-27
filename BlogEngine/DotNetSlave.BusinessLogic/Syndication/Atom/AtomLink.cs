@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Atom
     /// Represents a reference from an <see cref="AtomEntry"/> or <see cref="AtomFeed"/> to a web resource.
     /// </summary>
     [Serializable()]
-    public class AtomLink
+    public class AtomLink : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -61,7 +61,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomLink"/> class.
         /// </summary>
-        public AtomLink()
+        public AtomLink() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

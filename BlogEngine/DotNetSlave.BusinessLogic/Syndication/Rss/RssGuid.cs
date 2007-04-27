@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// Represents a globally unique identifier (GUID) that can be associated to a <see cref="RssItem"/>.
     /// </summary>
     [Serializable()]
-    public class RssGuid
+    public class RssGuid : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -41,7 +41,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssGuid"/> class.
         /// </summary>
-        public RssGuid()
+        public RssGuid() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

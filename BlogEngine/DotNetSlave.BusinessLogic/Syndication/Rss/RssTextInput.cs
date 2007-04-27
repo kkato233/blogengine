@@ -20,7 +20,7 @@ namespace BlogEngine.Core.Syndication.Rss
     /// </summary>
     /// <remarks>Commonly used to specify a search engine box or to allow a reader to provide feedback. Most feed aggregators ignore this entity.</remarks>
     [Serializable()]
-    public class RssTextInput
+    public class RssTextInput : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -51,7 +51,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Initializes a new instance of the <see cref="RssTextInput"/> class.
         /// </summary>
-        public RssTextInput()
+        public RssTextInput() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

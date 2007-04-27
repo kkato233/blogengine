@@ -36,7 +36,10 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
     }    
   }
 
-  public BlogEngine.Core.Entities.Page Page;
+  /// <summary>
+  /// 
+  /// </summary>
+  public new BlogEngine.Core.Entities.Page Page;
 
   public string AdminLinks
   {

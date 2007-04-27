@@ -6,20 +6,22 @@ Date		Author		Description
 04/11/2007	brian.kuhn		Created SyndicationFeed Class
 ****************************************************************************/
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Security;
 using System.Xml;
+using System.Xml.XPath;
 
 using BlogEngine.Core.Properties;
+using BlogEngine.Core.Syndication.Extensions;
 
 namespace BlogEngine.Core.Syndication
 {
     /// <summary>
     /// Provides the set of methods and properties common to web content syndication feeds.
     /// </summary>
-    public abstract class SyndicationFeed
+    public abstract class SyndicationFeed : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -38,7 +40,7 @@ namespace BlogEngine.Core.Syndication
         /// <summary>
         /// Initializes a new instance of the <see cref="SyndicationFeed"/> class.
         /// </summary>
-        protected SyndicationFeed()
+        protected SyndicationFeed() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state

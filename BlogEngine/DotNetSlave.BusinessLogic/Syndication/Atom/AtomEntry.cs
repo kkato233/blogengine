@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Syndication.Atom
     /// </summary>
     /// <remarks>Can appear as a child of an <see cref="AtomFeed"/>, or can appear as the document (i.e., top-level) element of a stand-alone Atom Entry Document.</remarks>
     [Serializable()]
-    public class AtomEntry
+    public class AtomEntry : SyndicationFeedEntityBase
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -81,7 +81,7 @@ namespace BlogEngine.Core.Syndication.Atom
         /// <summary>
         /// Initializes a new instance of the <see cref="AtomEntry"/> class.
         /// </summary>
-        public AtomEntry()
+        public AtomEntry() : base()
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state
