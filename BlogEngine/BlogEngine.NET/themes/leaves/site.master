@@ -6,7 +6,8 @@
 <head runat="server">
   <link rel="stylesheet" href="style.css" type="text/css" />
   <link rel="alternate" href="http://www.myblogsite.com/blog/rss.axd" type="application/rss+xml" title="Blog title" />
-  <blog:Script runat="server" Path="~/blog.js" />
+  <blog:Script ID="Script1" runat="server" Path="~/scripts/blog.js" />
+  <blog:Script ID="Script2" runat="server" Path="~/scripts/se_hilite.js" />
 </head>
 
 <body>
