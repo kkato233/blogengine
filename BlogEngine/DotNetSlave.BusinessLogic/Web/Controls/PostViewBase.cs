@@ -108,7 +108,7 @@ namespace BlogEngine.Core.Web.Controls
           string confirmDelete = "Are you sure you want to delete the post?";
           StringBuilder sb = new StringBuilder();
           sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), "Edit");
-          sb.AppendFormat("<a href=\"?delete={0}\" onclick=\"return confirm('{1}?')\">{2}</a> | ", Post.Id.ToString(), confirmDelete, "Delete");
+          sb.AppendFormat("<a href=\"{0}?delete={1}\" onclick=\"return confirm('{2}?')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, "Delete");
           return sb.ToString();
         }
 
