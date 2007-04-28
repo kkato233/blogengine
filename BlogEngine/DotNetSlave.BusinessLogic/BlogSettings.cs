@@ -964,6 +964,10 @@ public class BlogSettings
                             info.SetValue(this, DateTime.Parse(value), null);
                             break;
 
+                        case "System.Single":
+                            info.SetValue(this, Single.Parse(value), null);
+                            break;
+
                         case "System.Double":
                             info.SetValue(this, double.Parse(value), null);
                             break;
@@ -1036,6 +1040,16 @@ public class BlogSettings
         }
 
         OnChanged();
+    }
+    #endregion
+
+    #region Version
+    /// <summary>
+    /// Returns the Version of BlogEngine.NET
+    /// </summary>
+    public string Version()
+    {
+        return GetType().Assembly.GetName().Version.ToString();
     }
     #endregion
 }
