@@ -43,11 +43,12 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       else
       {
         BindCountries();
-        GetCookie();       
+        GetCookie();        
+        BindLivePreview();
       }
     }
 
-    InititializeCaptcha();    
+    InititializeCaptcha();
     btnSave.Click += new EventHandler(btnSave_Click);
   }
 
@@ -106,7 +107,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
   {
     System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
     System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
-    
+
     foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
     {
       RegionInfo ri = new RegionInfo(ci.LCID);
@@ -132,6 +133,24 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     }
   }
 
+  private void BindLivePreview()
+  {
+    string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+    CommentViewBase control = (CommentViewBase)LoadControl(path);
+    Comment comment = new Comment();
+    comment.Content = string.Empty;
+    comment.DateCreated = DateTime.Now;
+    if (!string.IsNullOrEmpty(txtName.Text))
+      comment.Author = txtName.Text;
+
+    if (!string.IsNullOrEmpty(txtEmail.Text))
+      comment.Email = txtEmail.Text;
+
+    control.Comment = comment;
+    control.Post = Post;
+     phLivePreview.Controls.Add(control);
+  }
+
   #region Send mail
 
   private void SendMail(string author, string email, string content)
@@ -140,9 +159,9 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       return;
 
     MailMessage mail = new MailMessage();
-    mail.From = new MailAddress(BlogSettings.Instance.Email, author);
-    mail.To.Add(mail.From);
-    mail.Subject = "Comment on: " + Post.Title;
+    mail.From = new MailAddress(email, author);
+    mail.To.Add(BlogSettings.Instance.Email);
+    mail.Subject = "Weblog comment on: " + Post.Title;
     mail.Body = "Comment by " + author + " (" + email + ")" + Environment.NewLine + Environment.NewLine;
     mail.Body += content + "\n\n" + Post.AbsoluteLink.ToString();
 
@@ -157,6 +176,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       {
         SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
         smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
+        smtp.Port = BlogSettings.Instance.SmtpServerPort;
         smtp.Send(mail);
       }
     }
@@ -197,7 +217,6 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       txtWebsite.Text = cookie.Values["url"];
       ddlCountry.SelectedValue = cookie.Values["country"];
       imgFlag.ImageUrl = "~/pics/flags/" + cookie.Values["country"] + ".png";
-      spanPreviewAuthor.InnerHtml = cookie.Values["name"];
     }
   }
 

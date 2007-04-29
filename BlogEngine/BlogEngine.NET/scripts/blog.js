@@ -37,17 +37,21 @@ function SafeMail(name, domain, subject)
 var _Regex = new RegExp("\\n","gi");
 var _RegexUrl = new RegExp("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&=\\-_\\./]{2,})", "gi");
 var _Preview;
-var _PreviewAuthor
+var _PreviewAuthor;
+var _PreviewContent;
 var _TxtName;
 
 // Shows live preview of the comment being entered.
 function ShowCommentPreview(target, sender)
 {
   if (_Preview == null)
-    _Preview = document.getElementById(target);  
+    _Preview = document.getElementById("livepreview");  
   
   if (_PreviewAuthor == null)
-    _PreviewAuthor = document.getElementById("previewauthor");
+    _PreviewAuthor = GetElementByClassName(_Preview, "p", "author");
+  
+  if (_PreviewContent == null)
+    _PreviewContent = GetElementByClassName(_Preview, "p", "content");
   
   if (_TxtName == null)
     _TxtName = document.getElementById("ctl00_cphBody_CommentView1_txtName");   
@@ -58,7 +62,17 @@ function ShowCommentPreview(target, sender)
   var body = sender.value.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
     
   _PreviewAuthor.innerHTML = _TxtName.value;
-  _Preview.innerHTML = body.replace(_Regex, "<br />");
+  _PreviewContent.innerHTML = body.replace(_Regex, "<br />");
+}
+
+function GetElementByClassName(parent, tag, className)
+{
+  var elements = parent.getElementsByTagName(tag);
+  for (i = 0; i < elements.length; i++)
+  {
+    if (elements[i].className == className)
+      return elements[i];
+  }
 }
 
 // Searches the blog based on the entered text and

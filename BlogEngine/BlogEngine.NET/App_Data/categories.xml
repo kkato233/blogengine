@@ -1,1 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?><categories><category id="c199b769-f074-423c-9ad0-c5615e83de9d">Client-side</category><category id="8e0404c8-3c35-4a1e-a3a1-0dc3d32b631f">ASP.NET</category><category id="babcbbf4-bcd8-4a53-a3ac-3b9eea63d4f1">Server-side</category><category id="580c97da-8913-4d1c-8023-6afb35384450">Security</category><category id="19770e74-9ec9-4cde-b2ab-e5051aaaf348">Generel</category><category id="59e19138-11ca-454e-9ecb-750dc1e75471">BlogEngine</category></categories>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<categories>
+    <category id="c199b769-f074-423c-9ad0-c5615e83de9d">Client-side</category>
+    <category id="8e0404c8-3c35-4a1e-a3a1-0dc3d32b631f">ASP.NET</category>
+    <category id="babcbbf4-bcd8-4a53-a3ac-3b9eea63d4f1">Server-side</category>
+    <category id="580c97da-8913-4d1c-8023-6afb35384450">Security</category>
+    <category id="19770e74-9ec9-4cde-b2ab-e5051aaaf348">Generel</category>
+    <category id="59e19138-11ca-454e-9ecb-750dc1e75471">BlogEngine</category>
+</categories>

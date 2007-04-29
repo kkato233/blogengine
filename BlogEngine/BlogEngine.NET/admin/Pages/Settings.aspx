@@ -21,14 +21,18 @@
   <asp:DropDownList runat="server" ID="ddlTheme" /><br />
     
   <label for="<%=cbShowRelatedPosts.ClientID %>">Show related posts</label>
-  <asp:CheckBox runat="server" ID="cbShowRelatedPosts" />
+  <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /> 
+  
 </div>
 
 <div class="settings">
 
   <h1>Advanced settings</h1>
   <label for="<%=cbEnableCompression.ClientID %>">Enable HTTP compression</label>
-  <asp:CheckBox runat="server" ID="cbEnableCompression" /> Make the pages load faster (recommended).
+  <asp:CheckBox runat="server" ID="cbEnableCompression" /> Make the pages load faster (recommended).<br />
+  
+  <label for="<%=cbEnableSearchHighlight.ClientID %>">Enable search hightlight</label>
+  <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> Colors the search words on the page.
 </div>
 
 <div class="settings">
@@ -70,6 +74,10 @@
   
   <label for="<%=txtSmtpServer.ClientID %>">SMTP server</label>
   <asp:TextBox runat="server" ID="txtSmtpServer" Width="300" /><br />
+  
+  <label for="<%=txtSmtpServerPort.ClientID %>">Port number</label>
+  <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" />
+  <asp:CompareValidator runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
   
   <label for="<%=txtSmtpUsername.ClientID %>">User name</label>
   <asp:TextBox runat="server" ID="txtSmtpUsername" Width="300" /><br />

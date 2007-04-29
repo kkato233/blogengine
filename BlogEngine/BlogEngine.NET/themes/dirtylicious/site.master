@@ -8,7 +8,6 @@
   <link rel="alternate" href="http://www.myblogsite.com/blog/rss.axd" type="application/rss+xml" title="Blog title" />
   <link rel="search" href="~/opensearch.axd" type="application/opensearchdescription+xml" title="Blog title" />
   <blog:Script runat="server" Path="~/blog.js" />
-  <blog:Script ID="Script1" runat="server" Path="~/scripts/se_hilite.js" />
 </head>
 
 <body>
