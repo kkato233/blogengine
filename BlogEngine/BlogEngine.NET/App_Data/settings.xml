@@ -1,29 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <Name>.NET slave</Name>
   <Description>Code samples in ASP.NET and C#</Description>
-  <PostsPerPage>10</PostsPerPage>
-  <StorageLocation>~/app_data/</StorageLocation>
-  <BlogrollMaxLength>30</BlogrollMaxLength>
-  <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
-  <BlogrollUpdateMinutes>60</BlogrollUpdateMinutes>
-  <Theme>standard</Theme>
-  <EnableRelatedPosts>True</EnableRelatedPosts>
-  <Email>post@example.com</Email>
-  <SmtpServer>mail.example.com</SmtpServer>
-  <SmtpUsername>post</SmtpUsername>
-  <SmtpPassword>password</SmtpPassword>
-  <SendMailOnComment>False</SendMailOnComment>
-  <IsCommentsEnabled>True</IsCommentsEnabled>
-  <EnableCountryInComments>True</EnableCountryInComments>
-  <ShowLivePreview>True</ShowLivePreview>
-  <IsCoCommentEnabled>False</IsCoCommentEnabled>
-  <DaysCommentsAreEnabled>1</DaysCommentsAreEnabled>
-  <NumberOfRecentPosts>10</NumberOfRecentPosts>
-  <SearchButtonText>Search</SearchButtonText>
-  <SearchDefaultText>Enter search term</SearchDefaultText>
-  <EnableCommentSearch>True</EnableCommentSearch>
-  <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
-  <EnableReferrerTracking>False</EnableReferrerTracking>
   <EnableHttpCompression>True</EnableHttpCompression>
+  <EnableReferrerTracking>False</EnableReferrerTracking>
+  <EnableRelatedPosts>True</EnableRelatedPosts>
+  <Name>.NET slave</Name>
+  <NumberOfRecentPosts>10</NumberOfRecentPosts>
+  <PostsPerPage>10</PostsPerPage>
+  <ShowLivePreview>True</ShowLivePreview>
+  <EnableSearchHightlight>True</EnableSearchHightlight>
+  <StorageLocation>~/app_data/</StorageLocation>
+  <Theme>standard</Theme>
+  <Email>user@example.com</Email>
+  <SendMailOnComment>True</SendMailOnComment>
+  <SmtpPassword>password</SmtpPassword>
+  <SmtpServer>mail.example.dk</SmtpServer>
+  <SmtpServerPort>25</SmtpServerPort>
+  <SmtpUsername>user@example.com</SmtpUsername>
+  <DaysCommentsAreEnabled>0</DaysCommentsAreEnabled>
+  <EnableCountryInComments>True</EnableCountryInComments>
+  <IsCoCommentEnabled>False</IsCoCommentEnabled>
+  <IsCommentsEnabled>True</IsCommentsEnabled>
+  <BlogrollMaxLength>30</BlogrollMaxLength>
+  <BlogrollUpdateMinutes>60</BlogrollUpdateMinutes>
+  <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
+  <EnableCommentSearch>True</EnableCommentSearch>
+  <SearchButtonText>Search</SearchButtonText>
+  <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
+  <SearchDefaultText>Enter search term</SearchDefaultText>
+  <GeocodingLatitude>-3,402823E+38</GeocodingLatitude>
+  <GeocodingLongitude>-3,402823E+38</GeocodingLongitude>
 </settings>

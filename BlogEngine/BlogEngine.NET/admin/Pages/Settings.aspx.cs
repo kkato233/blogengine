@@ -48,22 +48,31 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 
   private void btnSave_Click(object sender, EventArgs e)
   {
+    // Basic
     BlogSettings.Instance.Name = txtName.Text;
     BlogSettings.Instance.Description = txtDescription.Text;
     BlogSettings.Instance.PostsPerPage = int.Parse(txtPostsPerPage.Text);
     BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
-    BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
+    BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;    
+
+    // Email
     BlogSettings.Instance.Email = txtEmail.Text;
     BlogSettings.Instance.SmtpServer = txtSmtpServer.Text;
+    BlogSettings.Instance.SmtpServerPort = int.Parse(txtSmtpServerPort.Text);
     BlogSettings.Instance.SmtpUsername = txtSmtpUsername.Text;
     BlogSettings.Instance.SmtpPassword = txtSmtpPassword.Text;
     BlogSettings.Instance.SendMailOnComment = cbComments.Checked;
+
+    // Comments
     BlogSettings.Instance.IsCommentsEnabled = cbEnableComments.Checked;
     BlogSettings.Instance.EnableCountryInComments = cbEnableCountryInComments.Checked;
     BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
     BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
     BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
+
+    // Advanced
     BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
+    BlogSettings.Instance.EnableSearchHightlight = cbEnableSearchHighlight.Checked;
 
     BlogSettings.Instance.Save();
     Response.Redirect(Request.RawUrl, true);
@@ -76,10 +85,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtDescription.Text = BlogSettings.Instance.Description;
     txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
     cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
-    ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
-
-    // Advanced
-    cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
+    ddlTheme.SelectedValue = BlogSettings.Instance.Theme;    
 
     // Comments
     cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
@@ -91,10 +97,14 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Email
     txtEmail.Text = BlogSettings.Instance.Email;
     txtSmtpServer.Text = BlogSettings.Instance.SmtpServer;
+    txtSmtpServerPort.Text = BlogSettings.Instance.SmtpServerPort.ToString();
     txtSmtpUsername.Text = BlogSettings.Instance.SmtpUsername;
     txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
     cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
-    
+
+    // Advanced
+    cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
+    cbEnableSearchHighlight.Checked = BlogSettings.Instance.EnableSearchHightlight;
   }
 
   private void BindThemes()

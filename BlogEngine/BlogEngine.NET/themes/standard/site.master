@@ -9,7 +9,6 @@
   <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon">
   <link rel="search" href="~/opensearch.axd" type="application/opensearchdescription+xml" title=".NET slave" />
   <blog:Script runat="server" Path="~/scripts/blog.js" />
-  <blog:Script runat="server" Path="~/scripts/se_hilite.js" />
 </head>
 <body>
 

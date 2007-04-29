@@ -282,14 +282,21 @@ namespace BlogEngine.Core.Providers
     public override void SaveCategories(CategoryDictionary categories)
     {
       string fileName = _Folder + "categories.xml";
-      using (XmlWriter writer = XmlWriter.Create(fileName))
+
+      using (XmlTextWriter writer = new  XmlTextWriter(fileName, System.Text.Encoding.UTF8))
       {
+        writer.Formatting = Formatting.Indented;
+        writer.Indentation = 4;
         writer.WriteStartDocument(true);
         writer.WriteStartElement("categories");
 
         foreach (Guid key in categories.Keys)
         {
-          writer.WriteRaw("<category id=\"" + key.ToString() + "\">" + categories[key] + "</category>");
+          //writer.WriteRaw("<category id=\"" + key.ToString() + "\">" + categories[key] + "</category>");
+          writer.WriteStartElement("category");
+          writer.WriteAttributeString("id", key.ToString());
+          writer.WriteValue(categories[key]);
+          writer.WriteEndElement();
         }
 
         writer.WriteEndElement();

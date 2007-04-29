@@ -19,6 +19,14 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     grid.RowUpdating += new GridViewUpdateEventHandler(grid_RowUpdating);
     grid.RowCancelingEdit += delegate { Response.Redirect(Request.RawUrl); };
     grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
+    btnAdd.Click += new EventHandler(btnAdd_Click);
+  }
+
+  void btnAdd_Click(object sender, EventArgs e)
+  {
+    CategoryDictionary.Instance.Add(txtNewCategory.Text);
+    CategoryDictionary.Instance.Save();
+    BindGrid();
   }
 
   void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)

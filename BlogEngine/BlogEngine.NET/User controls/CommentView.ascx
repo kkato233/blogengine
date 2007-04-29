@@ -38,19 +38,15 @@
 
   <label for="<%=txtContent.ClientID %>">Comment*</label>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" /><br />
-  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('preview', this)" /><br /><br />  
+  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" /><br /><br />  
  
   <input type="button" id="btnSave" value="Save comment" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
   <asp:Button runat="server" ID="btnSave" style="display:none" Text="Save comment" UseSubmitBehavior="false" TabIndex="6" />
   
   <% if (BlogSettings.Instance.ShowLivePreview) { %>  
-  <h2>Live preview</h2>
-  
-  <div class="comment">
-    <p class="date"><%=DateTime.Now.ToString("MMMM d. yyyy HH:mm")%></p>
-    <p class="gravatar"><%= Gravatar(txtEmail.Text, "", 80)%></p>
-    <p id="preview" class="content">&nbsp;</p>
-    <span class="author" id="previewauthor" style="display:block"><span id="spanPreviewAuthor" runat="Server" /></span>
+  <h2>Live preview</h2> 
+  <div id="livepreview">
+    <asp:PlaceHolder runat="Server" ID="phLivePreview" />
   </div>
   <%} %>
 </div>

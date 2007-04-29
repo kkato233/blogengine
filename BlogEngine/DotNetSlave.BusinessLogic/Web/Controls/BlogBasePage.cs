@@ -24,13 +24,21 @@ namespace BlogEngine.Core.Web.Controls
       base.OnPreInit(e);
     }
 
+      protected override void OnLoad(EventArgs e)
+      {
+        base.OnLoad(e);
+        if (!Page.IsCallback && !Page.IsPostBack)
+        {
+          AddMetaContentType();
+          SetMicroSummaryLinkInHeader();
+          if (BlogSettings.Instance.EnableSearchHightlight)
+            AddScriptFile(Utils.RelativeWebRoot + "script/se_hilite.js");
+        }
+      }
+
     private void Page_Load(object sender, EventArgs e)
     {
-      if (!Page.IsCallback && !Page.IsPostBack)
-      {
-        AddMetaContentType();
-        SetMicroSummaryLinkInHeader();
-      }
+    
     }
 
     private void AddMetaContentType()
@@ -63,6 +71,14 @@ namespace BlogEngine.Core.Web.Controls
       ms.Href = "microsummary.axd?id=" + Request.PathInfo;
       Page.Header.Controls.Add(ms);
     }
+
+      private void AddScriptFile(string location)
+      {
+        HtmlGenericControl script = new HtmlGenericControl("script");
+        script.Attributes["type"] = "text/javascript";
+        script.Attributes["src"] = location;
+        Page.Header.Controls.Add(script);
+      }
 
   }
 }
