@@ -1,5 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="SidePanel.ascx.cs" EnableViewState="false" Inherits="User_controls_SidePanel" %>
 <%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+
 <div class="box">
   <h1>About the author</h1>
   <table summary="About the author">
@@ -13,7 +15,7 @@
         
         <!-- Skype -->
         <a href="callto://dotnetslave" style="float:right">
-          Skype me <img src="http://mystatus.skype.com/smallicon/dotnetslave" />
+          Skype me <img src="http://mystatus.skype.com/smallicon/dotnetslave" alt="Skype Me" />
         </a>
         <!-- Email -->
         <a href="<%=Macro.SafeMail("post@madskristensen.dk", BlogSettings.Instance.Name) %>" style="float:right;clear:both">

@@ -1,12 +1,14 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
 <%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
-  <link rel="stylesheet" href="style.css" type="text/css" />
-  <link rel="alternate" href="http://www.myblogsite.com/blog/rss.axd" type="application/rss+xml" title="Blog title" />
-  <blog:Script ID="Script1" runat="server" Path="~/scripts/blog.js" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="alternate" type="application/rss+xml" href="~/syndication.axd?format=rss" title="{Blog Title} (RSS)" />
+    <link rel="alternate" type="application/atom+xml" href="~/syndication.axd?format=atom" title="{Blog Title} (Atom)" />
+    <blog:Script ID="Script1" runat="server" Path="~/scripts/blog.js" />
 </head>
 
 <body>
@@ -22,7 +24,7 @@
 			    <li><asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink></li>
 			    <li><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
 			    <li><a href="<%=Macro.SafeMail("none@none.com", BlogSettings.Instance.Name) %>">Contact</a></li>
-			    <li><asp:HyperLink ID="HlFeed" NavigateUrl="~/rss.axd" runat="server">Feed</asp:HyperLink></li>
+			    <li><asp:HyperLink ID="HlFeed" NavigateUrl="~/syndication.axd" runat="server">Feed</asp:HyperLink></li>
 			    <li><%=Macro.SignInLink %></li>
                 <li><p><strong>Disclaimer</strong><br/>The opinions expressed herein are my own personal opinions and do not represent my employer's view in anyway.<br /><br />
                     &copy; Copyright <%=DateTime.Now.Year %><br /><br /> </p></li>

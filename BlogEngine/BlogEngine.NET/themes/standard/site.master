@@ -1,14 +1,16 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
 <%@ Register Src="SidePanel.ascx" TagName="InfoBox" TagPrefix="uc1" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
-  <link rel="stylesheet" href="style.css" type="text/css" />
-  <link rel="alternate" href="http://feeds.feedburner.com/netslave" type="application/rss+xml" title=".NET slave" />
-  <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon">
-  <link rel="search" href="~/opensearch.axd" type="application/opensearchdescription+xml" title=".NET slave" />
-  <blog:Script runat="server" Path="~/scripts/blog.js" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="alternate" type="application/rss+xml" href="~/syndication.axd?format=rss" title="{Blog Title} (RSS)" />
+    <link rel="alternate" type="application/atom+xml" href="~/syndication.axd?format=atom" title="{Blog Title} (Atom)" />
+    <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon"/>
+    <link rel="search" href="~/opensearch.axd" type="application/opensearchdescription+xml" title=".NET slave" />
+    <blog:Script runat="server" Path="~/scripts/blog.js" />
 </head>
 <body>
 

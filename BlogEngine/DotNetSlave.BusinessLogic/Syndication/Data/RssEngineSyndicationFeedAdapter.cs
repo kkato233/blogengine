@@ -259,8 +259,8 @@ namespace BlogEngine.Core.Syndication.Data
                 //------------------------------------------------------------
                 //	Add default supported extensions
                 //------------------------------------------------------------
-                feed.Settings.SupportedExtensions.Add(typeof(SlashSyndicationExtension));
-                feed.Settings.SupportedExtensions.Add(typeof(WellFormedWebSyndicationExtension));
+                feed.Settings.SupportedExtensions.Add(new SlashSyndicationExtension());
+                feed.Settings.SupportedExtensions.Add(new WellFormedWebSyndicationExtension());
 
                 //------------------------------------------------------------
                 //	Set standard channel properties
@@ -310,8 +310,22 @@ namespace BlogEngine.Core.Syndication.Data
                     {
                         foreach (Guid categoryId in post.Categories)
                         {
-                            RssCategory category    = new RssCategory(this.Categories[categoryId]);
-                            item.Categories.Add(category);
+                            if (this.Categories.ContainsKey(categoryId))
+                            {
+                                RssCategory category = new RssCategory(this.Categories[categoryId]);
+                                if (!item.Categories.Contains(category))
+                                {
+                                    item.Categories.Add(category);
+                                }
+                            }
+                            else
+                            {
+                                RssCategory unknownCategory = new RssCategory(categoryId.ToString());
+                                if (!item.Categories.Contains(unknownCategory))
+                                {
+                                    item.Categories.Add(unknownCategory);
+                                }
+                            }
                         }
                     }
 
@@ -324,6 +338,11 @@ namespace BlogEngine.Core.Syndication.Data
                     WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
                     wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
                     item.Extensions.Add(wellFormedWebExtension);
+
+                    //------------------------------------------------------------
+                    //	Add item to channel
+                    //------------------------------------------------------------
+                    feed.Channel.Items.Add(item);
                 }
             }
             catch
@@ -398,7 +417,7 @@ namespace BlogEngine.Core.Syndication.Data
                 }
                 if(extensionIsSupported)
                 {
-                    supportedExtensions.Add(typeof(BlogChannelSyndicationExtension));
+                    supportedExtensions.Add(new BlogChannelSyndicationExtension());
                     channel.Extensions.Add(blogChannelExtension);
                 }
 
@@ -419,7 +438,7 @@ namespace BlogEngine.Core.Syndication.Data
                 }
                 if (extensionIsSupported)
                 {
-                    supportedExtensions.Add(typeof(DublinCoreSyndicationExtension));
+                    supportedExtensions.Add(new DublinCoreSyndicationExtension());
                     channel.Extensions.Add(dublinCoreExtension);
                 }
 
@@ -440,7 +459,7 @@ namespace BlogEngine.Core.Syndication.Data
                 }
                 if (extensionIsSupported)
                 {
-                    supportedExtensions.Add(typeof(GeocodingSyndicationExtension));
+                    supportedExtensions.Add(new GeocodingSyndicationExtension());
                     channel.Extensions.Add(geocodingExtension);
                 }
             }

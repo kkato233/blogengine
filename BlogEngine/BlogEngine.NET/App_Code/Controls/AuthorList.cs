@@ -73,7 +73,7 @@ namespace Controls
           img.Attributes["class"] = "rssButton";
 
           HtmlAnchor feedAnchor = new HtmlAnchor();
-          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "author/rss.axd?author=" + Utils.RemoveIlegalCharacters( user.UserName);
+          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "author/syndication.axd?author=" + Utils.RemoveIlegalCharacters( user.UserName);
           feedAnchor.Attributes["rel"] = "nofollow";
           feedAnchor.Controls.Add(img);
 

@@ -10,6 +10,8 @@ using System.Web.UI.HtmlControls;
 
 #endregion
 
+using BlogEngine.Core;
+
 public partial class admin_Pages_configuration : System.Web.UI.Page
 {
   protected void Page_Load(object sender, EventArgs e)

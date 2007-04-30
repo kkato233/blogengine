@@ -12,6 +12,8 @@ using System.Web.UI.HtmlControls;
 
 #endregion
 
+using BlogEngine.Core;
+
 namespace Controls
 {
   /// <summary>

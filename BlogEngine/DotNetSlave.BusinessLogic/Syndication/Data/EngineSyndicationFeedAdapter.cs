@@ -249,9 +249,9 @@ namespace BlogEngine.Core.Syndication.Data
 
         #region FeedLocation
         /// <summary>
-        /// Gets or sets the URI location of the feed that the syndication feed adapter is filling.
+        /// Gets or sets the URI location of the web site of the feed that the syndication feed adapter is filling.
         /// </summary>
-        /// <value>The <see cref="Uri"/> of the <see cref="SyndicationFeed"/> being filled.</value>
+        /// <value>The <see cref="Uri"/> of the web site for the <see cref="SyndicationFeed"/> being filled.</value>
         /// <exception cref="ArgumentNullException">The <paramref name="value"/> is a null reference (Nothing in Visual Basic).</exception>
         public Uri FeedLocation
         {
