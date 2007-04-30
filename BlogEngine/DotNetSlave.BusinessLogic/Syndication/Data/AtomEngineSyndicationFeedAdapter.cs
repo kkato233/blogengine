@@ -262,8 +262,8 @@ namespace BlogEngine.Core.Syndication.Data
                 //------------------------------------------------------------
                 //	Add default supported extensions
                 //------------------------------------------------------------
-                feed.Settings.SupportedExtensions.Add(typeof(SlashSyndicationExtension));
-                feed.Settings.SupportedExtensions.Add(typeof(WellFormedWebSyndicationExtension));
+                feed.Settings.SupportedExtensions.Add(new SlashSyndicationExtension());
+                feed.Settings.SupportedExtensions.Add(new WellFormedWebSyndicationExtension());
 
                 //------------------------------------------------------------
                 //	Set standard channel properties
@@ -279,7 +279,17 @@ namespace BlogEngine.Core.Syndication.Data
                 {
                     feed.UpdatedOn  = new W3CDateTime(DateTime.Now);
                 }
-                
+
+                //------------------------------------------------------------
+                //	Add feed link(s)
+                //------------------------------------------------------------
+                AtomLink feedLink           = new AtomLink(new Uri(String.Concat(this.FeedLocation.ToString().TrimEnd('/'), "/syndication.axd?format=atom")));
+                feed.Links.Add(feedLink);
+
+                AtomLink feedWebSiteLink    = new AtomLink(this.FeedLocation);
+                feedWebSiteLink.Relation    = LinkRelation.Related;
+                feed.Links.Add(feedWebSiteLink);
+
                 //------------------------------------------------------------
                 //	Add configured extensions to feed
                 //------------------------------------------------------------
@@ -313,13 +323,13 @@ namespace BlogEngine.Core.Syndication.Data
                     entry.Links.Add(entryLink);
 
                     //------------------------------------------------------------
-                    //	Set feed entry content
+                    //	Set feed entry summary (Html type needed to display correctly)
                     //------------------------------------------------------------
-                    AtomContent entryContent    = new AtomContent();
-                    entryContent.Type           = TextType.Xhtml;
-                    entryContent.Value          = this.MakeReferencesAbsolute(post.Content);
-                    entry.Content               = entryContent;
-                    
+                    AtomText entrySummary       = new AtomText();
+                    entrySummary.Type           = TextType.Html;
+                    entrySummary.Value          = this.MakeReferencesAbsolute(post.Content);
+                    entry.Summary               = entrySummary;
+
                     //------------------------------------------------------------
                     //	Add feed entry categories if available
                     //------------------------------------------------------------
@@ -327,8 +337,22 @@ namespace BlogEngine.Core.Syndication.Data
                     {
                         foreach (Guid categoryId in post.Categories)
                         {
-                            AtomCategory category   = new AtomCategory(this.Categories[categoryId]);
-                            entry.Categories.Add(category);
+                            if (this.Categories.ContainsKey(categoryId))
+                            {
+                                AtomCategory category = new AtomCategory(this.Categories[categoryId]);
+                                if (!entry.Categories.Contains(category))
+                                {
+                                    entry.Categories.Add(category);
+                                }
+                            }
+                            else
+                            {
+                                AtomCategory unknownCategory    = new AtomCategory(categoryId.ToString());
+                                if (!entry.Categories.Contains(unknownCategory))
+                                {
+                                    entry.Categories.Add(unknownCategory);
+                                }
+                            }
                         }
                     }
 
@@ -341,6 +365,11 @@ namespace BlogEngine.Core.Syndication.Data
                     WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
                     wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
                     entry.Extensions.Add(wellFormedWebExtension);
+
+                    //------------------------------------------------------------
+                    //	Add entry to feed
+                    //------------------------------------------------------------
+                    feed.Entries.Add(entry);
                 }
             }
             catch
@@ -415,7 +444,7 @@ namespace BlogEngine.Core.Syndication.Data
                 }
                 if(extensionIsSupported)
                 {
-                    supportedExtensions.Add(typeof(BlogChannelSyndicationExtension));
+                    supportedExtensions.Add(new BlogChannelSyndicationExtension());
                     feed.Extensions.Add(blogChannelExtension);
                 }
 
@@ -436,7 +465,7 @@ namespace BlogEngine.Core.Syndication.Data
                 }
                 if (extensionIsSupported)
                 {
-                    supportedExtensions.Add(typeof(DublinCoreSyndicationExtension));
+                    supportedExtensions.Add(new DublinCoreSyndicationExtension());
                     feed.Extensions.Add(dublinCoreExtension);
                 }
 
@@ -457,7 +486,7 @@ namespace BlogEngine.Core.Syndication.Data
                 }
                 if (extensionIsSupported)
                 {
-                    supportedExtensions.Add(typeof(GeocodingSyndicationExtension));
+                    supportedExtensions.Add(new GeocodingSyndicationExtension());
                     feed.Extensions.Add(geocodingExtension);
                 }
             }

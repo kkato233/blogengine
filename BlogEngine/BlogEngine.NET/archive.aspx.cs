@@ -39,7 +39,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       List<Post> list = Post.GetPostsByCategory(key);      
 
       HtmlAnchor feed = new HtmlAnchor();
-      feed.HRef = "~/category/rss.axd?category=" + key.ToString();
+      feed.HRef = "~/category/syndication.axd?category=" + key.ToString();
 
       HtmlImage img = new HtmlImage();
       img.Src = "~/pics/rssButton.gif";

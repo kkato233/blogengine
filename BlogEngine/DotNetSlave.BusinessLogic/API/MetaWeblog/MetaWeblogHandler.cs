@@ -282,7 +282,7 @@ namespace BlogEngine.Core.API.MetaWeblog
                 MWACategory temp = new MWACategory();
                 temp.description = kvp.Value;
                 temp.htmlUrl = rootUrl + "category/" + kvp.Value + ".aspx";
-                temp.rssUrl = rootUrl + "category/rss.axd?category=" + kvp.Key.ToString();
+                temp.rssUrl = rootUrl + "category/syndication.axd?category=" + kvp.Key.ToString();
                 categories.Add(temp);
 
             }

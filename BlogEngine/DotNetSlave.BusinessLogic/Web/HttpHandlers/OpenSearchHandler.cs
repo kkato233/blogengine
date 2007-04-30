@@ -36,7 +36,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
         writer.WriteStartElement("Url");
         writer.WriteAttributeString("type", "application/rss+xml");
-        writer.WriteAttributeString("template", Utils.AbsoluteWebRoot.ToString() + "rss.axd?q={searchTerms}");
+        writer.WriteAttributeString("template", Utils.AbsoluteWebRoot.ToString() + "syndication.axd?q={searchTerms}");
 
         writer.WriteEndElement();
       }

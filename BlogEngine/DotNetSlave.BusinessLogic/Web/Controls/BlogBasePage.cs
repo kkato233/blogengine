@@ -24,6 +24,10 @@ namespace BlogEngine.Core.Web.Controls
       base.OnPreInit(e);
     }
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="e"></param>
       protected override void OnLoad(EventArgs e)
       {
         base.OnLoad(e);

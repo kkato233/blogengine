@@ -7,6 +7,7 @@ Date		Author		Description
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -104,6 +105,21 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 if (context == null)
                 {
                     throw new ArgumentNullException("context");
+                }
+
+                //------------------------------------------------------------
+                //	Set default syndication format based on settings
+                //------------------------------------------------------------
+                if (!String.IsNullOrEmpty(BlogSettings.Instance.SyndicationFormat))
+                {
+                    if(String.Compare(BlogSettings.Instance.SyndicationFormat, "rss", true, CultureInfo.InvariantCulture) == 0)
+                    {
+                        this.Format = SyndicationFormat.Rss;
+                    }
+                    else if (String.Compare(BlogSettings.Instance.SyndicationFormat, "atom", true, CultureInfo.InvariantCulture) == 0)
+                    {
+                        this.Format = SyndicationFormat.Atom;
+                    }
                 }
 
                 //------------------------------------------------------------

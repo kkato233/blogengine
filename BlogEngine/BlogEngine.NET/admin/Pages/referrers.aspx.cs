@@ -5,6 +5,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
+using BlogEngine.Core;
+
 public partial class admin_Pages_referrers : System.Web.UI.Page
 {
   protected void Page_Load(object sender, EventArgs e)

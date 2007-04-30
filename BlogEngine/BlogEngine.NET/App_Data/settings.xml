@@ -8,8 +8,8 @@
   <NumberOfRecentPosts>10</NumberOfRecentPosts>
   <PostsPerPage>10</PostsPerPage>
   <ShowLivePreview>True</ShowLivePreview>
-  <EnableSearchHightlight>True</EnableSearchHightlight>
   <StorageLocation>~/app_data/</StorageLocation>
+  <SyndicationFormat>Rss</SyndicationFormat>
   <Theme>standard</Theme>
   <Email>user@example.com</Email>
   <SendMailOnComment>True</SendMailOnComment>
@@ -25,9 +25,13 @@
   <BlogrollUpdateMinutes>60</BlogrollUpdateMinutes>
   <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
   <EnableCommentSearch>True</EnableCommentSearch>
+  <EnableSearchHightlight>False</EnableSearchHightlight>
   <SearchButtonText>Search</SearchButtonText>
   <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
   <SearchDefaultText>Enter search term</SearchDefaultText>
-  <GeocodingLatitude>-3,402823E+38</GeocodingLatitude>
-  <GeocodingLongitude>-3,402823E+38</GeocodingLongitude>
+  <Endorsement>http://www.codeplex.com/blogengine/Project/ProjectRss.aspx</Endorsement>
+  <AuthorName>Mads Kristensen</AuthorName>
+  <Language>en-gb</Language>
+  <GeocodingLatitude>55.81306</GeocodingLatitude>
+  <GeocodingLongitude>12.47889</GeocodingLongitude>
 </settings>
