@@ -1,12 +1,4 @@
-﻿window.onload = Page_Load
-
-// Is called when the page has loaded.
-function Page_Load()
-{
-  StyleExternalLinks()
-}
-
-// Sets a class to all external links
+﻿// Sets a class to all external links
 function StyleExternalLinks()
 {
   var divs = document.getElementsByTagName("div");

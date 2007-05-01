@@ -75,6 +75,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Advanced
     BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
     BlogSettings.Instance.EnableSearchHightlight = cbEnableSearchHighlight.Checked;
+    BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
+    BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
+    BlogSettings.Instance.MarkExternalLinks = cbMarkExternalLinks.Checked;
 
     BlogSettings.Instance.Save();
     Response.Redirect(Request.RawUrl, true);
@@ -107,6 +110,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Advanced
     cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
     cbEnableSearchHighlight.Checked = BlogSettings.Instance.EnableSearchHightlight;
+    cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
+    cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
+    cbMarkExternalLinks.Checked = BlogSettings.Instance.MarkExternalLinks;
   }
 
   private void BindThemes()
