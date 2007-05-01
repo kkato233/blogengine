@@ -31,18 +31,27 @@
   <label for="<%=cbEnableCompression.ClientID %>">Enable HTTP compression</label>
   <asp:CheckBox runat="server" ID="cbEnableCompression" /> Make the pages load faster (recommended).<br />
   
+  <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>">Trim stylesheets</label>
+  <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /> Makes all stylesheets of any theme smaller by removing all whitespace at runtime.<br />
+  
+  <label for="<%=cbEnableOpenSearch.ClientID %>">Enable <a href="http://www.opensearch.org/Home" target="_blank">OpenSearch</a></label>
+  <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /> Adds the search feature to all new browsers (recommended).<br />
+  
   <label for="<%=cbEnableSearchHighlight.ClientID %>">Enable search hightlight</label>
-  <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> Colors the search words on the page.
+  <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> Colors the search words on the page.<br />
+  
+  <label for="<%=cbMarkExternalLinks.ClientID %>">Mark external links</label>
+  <asp:CheckBox runat="server" ID="cbMarkExternalLinks" /> Marks all external links in the blog posts with a small indicator image.
 </div>
 
 <div class="settings">
 
   <h1>Comments</h1>
   <label for="<%=cbEnableComments.ClientID %>">Enable comments</label>
-  <asp:CheckBox runat="server" ID="cbEnableComments" /><br />
+  <asp:CheckBox runat="server" ID="cbEnableComments" /> If comments aren't enabled, nobody can write comments to any post.<br />
   
   <label for="<%=cbEnableCountryInComments.ClientID %>">Show country chooser</label>
-  <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /><br />
+  <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /> If the country chooser isn't shown, no flag can be shown on each comment.<br />
   
   <label for="<%=cbEnableCoComment.ClientID %>">Enable <a href="http://www.cocomment.com/" target="_blank">coComment</a></label>
   <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />

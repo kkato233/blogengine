@@ -11,6 +11,9 @@
   <StorageLocation>~/app_data/</StorageLocation>
   <SyndicationFormat>Rss</SyndicationFormat>
   <Theme>standard</Theme>
+  <RemoveWhitespaceInStyleSheets>True</RemoveWhitespaceInStyleSheets>
+  <EnableOpenSearch>True</EnableOpenSearch>
+  <MarkExternalLinks>True</MarkExternalLinks>
   <Email>user@example.com</Email>
   <SendMailOnComment>True</SendMailOnComment>
   <SmtpPassword>password</SmtpPassword>
@@ -25,13 +28,13 @@
   <BlogrollUpdateMinutes>60</BlogrollUpdateMinutes>
   <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
   <EnableCommentSearch>True</EnableCommentSearch>
-  <EnableSearchHightlight>False</EnableSearchHightlight>
+  <EnableSearchHightlight>True</EnableSearchHightlight>
   <SearchButtonText>Search</SearchButtonText>
   <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
   <SearchDefaultText>Enter search term</SearchDefaultText>
   <Endorsement>http://www.codeplex.com/blogengine/Project/ProjectRss.aspx</Endorsement>
   <AuthorName>Mads Kristensen</AuthorName>
   <Language>en-gb</Language>
-  <GeocodingLatitude>55.81306</GeocodingLatitude>
-  <GeocodingLongitude>12.47889</GeocodingLongitude>
+  <GeocodingLatitude>5581306</GeocodingLatitude>
+  <GeocodingLongitude>1247889</GeocodingLongitude>
 </settings>

@@ -171,6 +171,18 @@ namespace BlogEngine.Core
         /// Private member to hold the default syndication format for this blog.
         /// </summary>
         private string defaultSyndicationFormat = String.Empty;
+        /// <summary>
+        /// Private member to hold a value indicating if the css files should be compressed.
+        /// </summary>
+        private bool removeWhitespaceInStyleSheets;
+        /// <summary>
+        /// Private member to hold a value indicating if the open search link header should be added.
+        /// </summary>
+        private bool enableOpenSearch;
+        /// <summary>
+        /// Private member to hold a value indicating if external links should be marked.
+        /// </summary>
+        private bool markExternalLinks;
         #endregion
 
         //============================================================
@@ -471,6 +483,63 @@ namespace BlogEngine.Core
                     configuredTheme = value;
                 }
             }
+        }
+        #endregion
+
+        #region RemoveWhitespaceInStyleSheets
+        /// <summary>
+        /// Gets or sets a value indicating if whitespace in stylesheets should be removed
+        /// </summary>
+        /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+        public bool RemoveWhitespaceInStyleSheets
+        {
+          get
+          {
+            return removeWhitespaceInStyleSheets;
+          }
+
+          set
+          {
+            removeWhitespaceInStyleSheets = value;
+          }
+        }
+        #endregion
+
+        #region EnableOpenSearch
+        /// <summary>
+        /// Gets or sets a value indicating if whitespace in stylesheets should be removed
+        /// </summary>
+        /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+        public bool EnableOpenSearch
+        {
+          get
+          {
+            return enableOpenSearch;
+          }
+
+          set
+          {
+            enableOpenSearch = value;
+          }
+        }
+        #endregion
+
+        #region MarkExternalLinks
+        /// <summary>
+        /// Gets or sets a value indicating if whitespace in stylesheets should be removed
+        /// </summary>
+        /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+        public bool MarkExternalLinks
+        {
+          get
+          {
+            return markExternalLinks;
+          }
+
+          set
+          {
+            markExternalLinks = value;
+          }
         }
         #endregion
 
