@@ -8,16 +8,16 @@ using System.Xml;
 namespace BlogEngine.Core.API.MetaWeblog
 {
     /// <summary>
-    /// Obejct is the incoming Request.  Handles parsing the XMLRPC and 
-    /// fills its propoerties with the sent values.
+    /// Obejct is the incoming XML-RPC Request.  Handles parsing the XML-RPC and 
+    /// fills its properties with the values sent in the request.
     /// </summary>
     public class XMLRPCRequest
     {
         #region Contructors
         /// <summary>
-        /// 
+        /// Loads XMLRPCRequest object from HttpContext
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">incoming HttpContext</param>
         public XMLRPCRequest(HttpContext input)
         {
             string inputXML = ParseRequest(input);
@@ -25,9 +25,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Loads XMLRPCRequest object from string.  This is used by Unit Tests.
         /// </summary>
-        /// <param name="inputXML"></param>
+        /// <param name="inputXML">string containing incoming XML</param>
         public XMLRPCRequest(string inputXML)
         {
             LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
@@ -164,6 +164,10 @@ namespace BlogEngine.Core.API.MetaWeblog
             return System.Text.Encoding.Default.GetString(buffer);
         }
 
+        /// <summary>
+        /// Loads object properties with contents of passed xml
+        /// </summary>
+        /// <param name="xml">xml doc with methodname and parameters</param>
         private void LoadXMLRequest(string xml)
         {
             XmlDocument request = new XmlDocument();
