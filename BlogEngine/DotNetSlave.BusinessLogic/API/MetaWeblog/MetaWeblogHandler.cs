@@ -10,7 +10,7 @@ using BlogEngine.Core;
 namespace BlogEngine.Core.API.MetaWeblog
 {
     /// <summary>
-    /// API 
+    /// HTTP Handler for MetaWeblog API
     /// </summary>
     public class MetaWeblogHandler: IHttpHandler, IMetaWeblogAPI
     {
@@ -27,7 +27,8 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Process the HTTP Request.  Create XMLRPC request, find method call, process it and create response object and sent it back.
+        /// This is the heart of the MetaWeblog API
         /// </summary>
         /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
@@ -98,14 +99,14 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region IMetaWeblogAPI Members
 
         /// <summary>
-        /// 
+        /// metaWeblog.newPost
         /// </summary>
-        /// <param name="blogID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="sentPost"></param>
-        /// <param name="publish"></param>
-        /// <returns></returns>
+        /// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <param name="sentPost">struct with post details</param>
+        /// <param name="publish">mark as published?</param>
+        /// <returns>postID as string</returns>
         public string NewPost(string blogID, string userName, string password, MWAPost sentPost, bool publish)
         {
             ValidateRequest(userName, password);
@@ -115,7 +116,6 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Author = userName;
             post.Title = sentPost.title;
             post.Content = sentPost.description;
-            //post.Description = sentPost.title;  // title or nothing?
             post.IsPublished = publish;
             //post.IsCommentsEnabled ??
             post.Categories.Clear();
@@ -133,14 +133,14 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// metaWeblog.editPost
         /// </summary>
-        /// <param name="postID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="sentPost"></param>
-        /// <param name="publish"></param>
-        /// <returns></returns>
+        /// <param name="postID">post guid in string format</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <param name="sentPost">struct with post details</param>
+        /// <param name="publish">mark as published?</param>
+        /// <returns>1 if successful</returns>
         public bool EditPost(string postID, string userName, string password, MWAPost sentPost, bool publish)
         {
             ValidateRequest(userName, password);
@@ -150,7 +150,6 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Author = userName;
             post.Title = sentPost.title;
             post.Content = sentPost.description;
-            //post.Description = sentPost.title;  // title or nothing?
             post.IsPublished = publish;
             //post.IsCommentsEnabled ??
             post.Categories.Clear();
@@ -169,12 +168,12 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// metaWeblog.getPost
         /// </summary>
-        /// <param name="postID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="postID">post guid in string format</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <returns>struct with post details</returns>
         public MWAPost GetPost(string postID, string userName, string password)
         {
             ValidateRequest(userName, password);
@@ -186,7 +185,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             sendPost.postDate = post.DateCreated;
             sendPost.title = post.Title;
             sendPost.description = post.Content;
-            sendPost.link = post.AbsoluteLink.AbsoluteUri; //post.PermaLink.AbsoluteUri;
+            sendPost.link = post.AbsoluteLink.AbsoluteUri; 
             sendPost.publish = post.IsPublished;
 
             List<string> cats = new List<string>();
@@ -200,13 +199,13 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// metaWeblog.newMediaObject
         /// </summary>
-        /// <param name="blogID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="mediaObject"></param>
-        /// <returns></returns>
+        /// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <param name="mediaObject">struct with media details</param>
+        /// <returns>struct with url to media</returns>
         public MWAMediaInfo NewMediaObject(string blogID, string userName, string password, MWAMediaObject mediaObject)
         {
             ValidateRequest(userName, password);
@@ -250,7 +249,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             switch (mediaType)
             {
                 case "image":
-                case "notsent": // If there wasn't a type, let's pretend it is an image
+                case "notsent": // If there wasn't a type, let's pretend it is an image.  (Thanks Zoundry.  This is for you.)
                     rootUrl += "image.axd?picture=";
                     break;
                 default:
@@ -263,12 +262,12 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// metaWeblog.getCategories
         /// </summary>
-        /// <param name="blogID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <returns>array of category structs</returns>
         public List<MWACategory> GetCategories(string blogID, string userName, string password)
         {
             List<MWACategory> categories = new List<MWACategory>();
@@ -291,13 +290,13 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// metaWeblog.getRecentPosts
         /// </summary>
-        /// <param name="blogID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="numberOfPosts"></param>
-        /// <returns></returns>
+        /// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <param name="numberOfPosts">number of posts to return</param>
+        /// <returns>array of post structs</returns>
         public List<MWAPost> GetRecentPosts(string blogID, string userName, string password, int numberOfPosts)
         {
             ValidateRequest(userName, password);
@@ -335,12 +334,12 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// blogger.getUsersBlogs
         /// </summary>
-        /// <param name="appKey"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <returns>array of blog structs</returns>
         public List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password)
         {
             List<MWABlogInfo> blogs = new List<MWABlogInfo>();
@@ -357,13 +356,13 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// blogger.deletePost
         /// </summary>
-        /// <param name="appKey"></param>
-        /// <param name="postID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="publish"></param>
+        /// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
+        /// <param name="postID">post guid in string format</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <param name="publish">mark as published?</param>
         /// <returns></returns>
         public bool DeletePost(string appKey, string postID, string userName, string password, bool publish)
         {
@@ -383,12 +382,15 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// blogger.getUserInfo
         /// </summary>
-        /// <param name="appKey"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// This is never called in anything I've tested.
+        /// </remarks>
+        /// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <returns>struct with user data</returns>
         public MWAUserInfo GetUserInfo(string appKey, string userName, string password)
         {
             throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
@@ -399,7 +401,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region Private Methods
 
         /// <summary>
-        /// 
+        /// Checks username and password.  Throws error if validation fails.
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
@@ -412,8 +414,11 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Returns Category Guid from Category name.
         /// </summary>
+        /// <remarks>
+        /// Reverse dictionary lookups are ugly.
+        /// </remarks>
         /// <param name="name"></param>
         /// <param name="key"></param>
         /// <returns></returns>

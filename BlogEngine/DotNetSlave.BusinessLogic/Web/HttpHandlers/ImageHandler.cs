@@ -41,8 +41,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
           OnImageServing();
           int index = fileName.LastIndexOf(".") + 1;
           string extension = fileName.Substring(index).ToUpperInvariant();
-
-          context.Response.ContentType = "image/" + extension;
+          
+          // Fix for IE not handling jpg image types
+          if (extension == "JPG")
+            context.Response.ContentType = "image/jpeg";
+          else
+            context.Response.ContentType = "image/" + extension;
           context.Response.Cache.SetCacheability(HttpCacheability.Public);
           context.Server.Transfer(folder + fileName, false);
         }

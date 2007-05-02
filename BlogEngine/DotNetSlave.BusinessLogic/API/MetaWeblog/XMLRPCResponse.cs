@@ -8,7 +8,8 @@ using System.Xml;
 namespace BlogEngine.Core.API.MetaWeblog
 {
     /// <summary>
-    /// 
+    /// Object is the outgoing XML-RPC response.  This objects properties are set
+    /// and the Response method is called sending the response via the HttpContext Response.
     /// </summary>
     public class XMLRPCResponse
     {
@@ -135,9 +136,6 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="context"></param>
         public void Response(HttpContext context)
         {
-            //context.Response.Cache.SetCacheability(HttpCacheability.Public);
-            //context.Response.Cache.SetLastModified(DateTime.Now);
-            //context.Response.Cache.SetETag(DateTime.Now.Ticks.ToString());
             context.Response.ContentType = "text/xml";
             using (XmlTextWriter data = new XmlTextWriter(context.Response.OutputStream, System.Text.Encoding.Default))
             {
