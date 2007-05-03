@@ -103,6 +103,38 @@
 
 <div class="settings">
 
+  <h1>Feed settings</h1>
+  
+  <label for="<%=ddlSyndicationFormat.ClientID %>" style="position:relative;top:4px">Default feed output</label>
+  <asp:DropDownList runat="server" ID="ddlSyndicationFormat">
+    <asp:ListItem Text="RSS 2.0" Value="Rss" Selected="True" />
+    <asp:ListItem Text="Atom 1.0" Value="Atom" />
+  </asp:DropDownList> format.<br />
+  
+  <br />
+  
+  <label for="<%=txtDublinCoreCreator.ClientID %>">Author name</label>
+  <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" /><br />
+  
+  <label for="<%=txtDublinCoreLanguage.ClientID %>">Language code</label>
+  <asp:TextBox runat="server" ID="txtDublinCoreLanguage" MaxLength="5" Width="50" /><br />
+  
+  <br />
+  
+  <label for="<%=txtGeocodingLatitude.ClientID %>">Latitude</label>
+  <asp:TextBox runat="server" ID="txtGeocodingLatitude" Width="300" /><br />
+  <label for="<%=txtGeocodingLongitude.ClientID %>">Longitude</label>
+  <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" /><br />
+  
+  <br />
+  
+  <label for="<%=txtBlogChannelBLink.ClientID %>">Endorsement (bLink)</label>
+  <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="400" /><br />
+  
+</div>
+
+<div class="settings">
+
   <h1>Import (beta)</h1>
   <p>This is an experimental import tool for importing posts, comments, files and images from RSS feeds.<br /><br />
      Nothing bad will happen if you try the beta tool. It import posts and files and add them to the App_Data folder.<br />
