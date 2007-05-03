@@ -88,7 +88,6 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.EnableSearchHightlight = cbEnableSearchHighlight.Checked;
     BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
     BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
-    BlogSettings.Instance.MarkExternalLinks = cbMarkExternalLinks.Checked;
 
     //-----------------------------------------------------------------------
     // Set Syndication settings
@@ -110,6 +109,11 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     }
 
     BlogSettings.Instance.Endorsement       = txtBlogChannelBLink.Text;
+
+    //-----------------------------------------------------------------------
+    // Visitor tracking settings
+    //-----------------------------------------------------------------------
+    BlogSettings.Instance.TrackingScript = txtTrackingScript.Text;
 
     //-----------------------------------------------------------------------
     //  Persist settings
@@ -155,7 +159,6 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbEnableSearchHighlight.Checked = BlogSettings.Instance.EnableSearchHightlight;
     cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
     cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
-    cbMarkExternalLinks.Checked = BlogSettings.Instance.MarkExternalLinks;
 
     //-----------------------------------------------------------------------
     // Bind Syndication settings
@@ -169,6 +172,11 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtGeocodingLongitude.Text          = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString() : String.Empty;
 
     txtBlogChannelBLink.Text            = BlogSettings.Instance.Endorsement;
+
+    //-----------------------------------------------------------------------
+    // Visitor tracking settings
+    //-----------------------------------------------------------------------
+    txtTrackingScript.Text              = BlogSettings.Instance.TrackingScript;
   }
 
   private void BindThemes()

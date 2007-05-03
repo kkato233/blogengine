@@ -188,9 +188,9 @@ div.post .tags {
 	margin-bottom: 5px;
 }
 
-div.post a.external {
+div.post .text a[href^="http:"] {
 	background: url(../../pics/remote.gif) right top no-repeat;
-	padding-right: 9px;
+	padding-right: 10px;
 }
 
 div.post p.code {

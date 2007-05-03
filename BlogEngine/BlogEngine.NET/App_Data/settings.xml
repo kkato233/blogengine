@@ -14,6 +14,9 @@
   <RemoveWhitespaceInStyleSheets>True</RemoveWhitespaceInStyleSheets>
   <EnableOpenSearch>True</EnableOpenSearch>
   <MarkExternalLinks>True</MarkExternalLinks>
+  <TrackingScript>var _hlaccount = 'd0432f32-7301-4968-a027-6d38946a7c5e';
+var _protocol = 'http'+(window.location.protocol == 'https:' ? 's' : '');
+document.writeln("&lt;"+"script type='text/javascript' src='"+_protocol+"://d0432f32-7301-4968-a027-6d38946a7c5e.statcamp.net/logging/js/tracker.js'&gt;&lt;/"+"script&gt;");</TrackingScript>
   <Email>user@example.com</Email>
   <SendMailOnComment>True</SendMailOnComment>
   <SmtpPassword>password</SmtpPassword>
@@ -35,6 +38,6 @@
   <Endorsement>http://www.codeplex.com/blogengine/Project/ProjectRss.aspx</Endorsement>
   <AuthorName>Mads Kristensen</AuthorName>
   <Language>en-GB</Language>
-  <GeocodingLatitude>55.81323</GeocodingLatitude>
-  <GeocodingLongitude>12.47895</GeocodingLongitude>
+  <GeocodingLatitude>5581323</GeocodingLatitude>
+  <GeocodingLongitude>1247895</GeocodingLongitude>
 </settings>

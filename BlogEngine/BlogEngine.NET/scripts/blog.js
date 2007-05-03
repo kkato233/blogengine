@@ -1,23 +1,4 @@
-﻿// Sets a class to all external links
-function StyleExternalLinks()
-{
-  var divs = document.getElementsByTagName("div");
-  for (i = 0; i < divs.length; i++)
-  {
-    if (divs[i].className == "text")
-    {
-      var anchors = divs[i].getElementsByTagName("a");
-     
-      for (a = 0; a < anchors.length; a++)
-      {
-        if (anchors[a].href.substring(0,17) != location.href.substring(0,17))
-          anchors[a].className += "external";
-      }
-    }
-  }
-}
-
-// Opens the caller's default e-mail client
+﻿// Opens the caller's default e-mail client
 // with the subject filled if specified.
 function SafeMail(name, domain, subject)
 {

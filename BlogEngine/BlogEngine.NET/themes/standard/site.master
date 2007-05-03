@@ -30,15 +30,6 @@
       </div>
     </form>
   </div>
-  
-  <!-- Headlight tracking script - (c) Copyright Traceworks 2003-2007 -->
-  <script type="text/javascript">
-  <!--//
-  var _hlaccount = 'd0432f32-7301-4968-a027-6d38946a7c5e';
-  var _protocol = 'http'+(window.location.protocol == 'https:' ? 's' : '');
-  document.writeln("<"+"script type='text/javascript' src='"+_protocol+"://d0432f32-7301-4968-a027-6d38946a7c5e.statcamp.net/logging/js/tracker.js'></"+"script>");
-  //-->
-  </script>
 
 </body>
 </html>
