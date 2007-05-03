@@ -322,8 +322,12 @@ namespace BlogEngine.Core.Syndication.Data
                     //------------------------------------------------------------
                     //	Add entry link(s)
                     //------------------------------------------------------------
-                    AtomLink entryLink          = new AtomLink(post.AbsoluteLink);
-                    entry.Links.Add(entryLink);
+                    AtomLink entrySelfLink      = new AtomLink(post.PermaLink);
+                    entry.Links.Add(entrySelfLink);
+
+                    AtomLink entryDefaultLink   = new AtomLink();
+                    entryDefaultLink.Link       = post.AbsoluteLink;
+                    entry.Links.Add(entryDefaultLink);
 
                     //------------------------------------------------------------
                     //	Set feed entry summary (Html type needed to display correctly)
@@ -362,7 +366,7 @@ namespace BlogEngine.Core.Syndication.Data
                     //------------------------------------------------------------
                     //	Add standard extensions to feed entry
                     //------------------------------------------------------------
-                    PingbackSyndicationExtension pingbackExtension              = new PingbackSyndicationExtension(new Uri(Utils.AbsoluteWebRoot + "/pingback.axd"), post.PermaLink);
+                    PingbackSyndicationExtension pingbackExtension              = new PingbackSyndicationExtension(new Uri(this.WebRoot.ToString().TrimEnd('/') + "/pingback.axd"), post.PermaLink);
                     entry.Extensions.Add(pingbackExtension);
 
                     TrackbackSyndicationExtension trackbackExtension            = new TrackbackSyndicationExtension(post.TrackbackLink);
@@ -373,6 +377,7 @@ namespace BlogEngine.Core.Syndication.Data
 
                     WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
                     wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                    wellFormedWebExtension.CommentFeed                          = new Uri(this.WebRoot.ToString().TrimEnd('/') + "/commentfeed.axd?id=" + post.Id.ToString());
                     entry.Extensions.Add(wellFormedWebExtension);
 
                     //------------------------------------------------------------

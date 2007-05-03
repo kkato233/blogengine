@@ -335,7 +335,7 @@ namespace BlogEngine.Core.Syndication.Data
                     //------------------------------------------------------------
                     //	Add standard extensions to channel item
                     //------------------------------------------------------------
-                    PingbackSyndicationExtension pingbackExtension              = new PingbackSyndicationExtension(new Uri(Utils.AbsoluteWebRoot + "/pingback.axd"), post.PermaLink);
+                    PingbackSyndicationExtension pingbackExtension              = new PingbackSyndicationExtension(new Uri(this.WebRoot.ToString().TrimEnd('/') + "/pingback.axd"), post.PermaLink);
                     item.Extensions.Add(pingbackExtension);
 
                     TrackbackSyndicationExtension trackbackExtension            = new TrackbackSyndicationExtension(post.TrackbackLink);
@@ -346,6 +346,7 @@ namespace BlogEngine.Core.Syndication.Data
 
                     WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
                     wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                    wellFormedWebExtension.CommentFeed                          = new Uri(this.WebRoot.ToString().TrimEnd('/') + "/commentfeed.axd?id=" + post.Id.ToString());
                     item.Extensions.Add(wellFormedWebExtension);
 
                     //------------------------------------------------------------

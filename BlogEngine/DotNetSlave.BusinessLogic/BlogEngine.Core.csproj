@@ -103,6 +103,7 @@
     <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Web\HttpHandlers\CommentFeedHandler.cs" />
     <Compile Include="Web\HttpHandlers\CssHandler.cs" />
     <Compile Include="Web\HttpHandlers\FileHandler.cs" />
     <Compile Include="Web\HttpHandlers\ImageHandler.cs" />
