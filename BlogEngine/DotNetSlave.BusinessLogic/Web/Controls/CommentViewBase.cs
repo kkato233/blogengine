@@ -1,16 +1,20 @@
-#region Using
-
+/****************************************************************************
+Modification History:
+*****************************************************************************
+Date		Author		Description
+*****************************************************************************
+05/03/2007  brian.kuhn  Fixed bug in Gravatar(int) method
+****************************************************************************/
 using System;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.Web;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using BlogEngine.Core;
+using System.Web.UI.WebControls;
 
-#endregion
+using BlogEngine.Core;
 
 namespace BlogEngine.Core.Web.Controls
 {
@@ -125,29 +129,75 @@ namespace BlogEngine.Core.Web.Controls
     /// </summary>
     protected string Gravatar(int size)
     {
-      if (!Comment.Email.Contains("@"))
-        return string.Format("<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
-      //http://www.artviper.net/screenshots/screener.php?&url={0}&h={1}&w={1}
-      System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-      byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email));
+        //------------------------------------------------------------
+        //	Local members
+        //------------------------------------------------------------
+        StringBuilder image = new StringBuilder();
 
-      System.Text.StringBuilder hash = new System.Text.StringBuilder();
-      for (int i = 0; i < result.Length; i++)
-        hash.Append(result[i].ToString("x2"));
+        //------------------------------------------------------------
+        //	Attempt to display Gravatar image
+        //------------------------------------------------------------
+        try
+        {
+            //------------------------------------------------------------
+            //	Determine if both email address and web site unavailable
+            //------------------------------------------------------------
+            if (String.IsNullOrEmpty(Comment.Email) && Comment.Website == null)
+            {
+                //------------------------------------------------------------
+                //	Return default avatar image if no email address or web site available
+                //------------------------------------------------------------
+                return Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg");
+            }
 
-      StringBuilder image = new StringBuilder();
-      image.Append("<img src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\"");
-      image.Append("style=\"background: url(");
-      image.Append("http://www.gravatar.com/avatar.php?");
-      image.Append("gravatar_id=" + hash.ToString());
-      //image.Append("&amp;rating=G");
-      image.Append("&amp;size=" + size);
-      image.Append("&amp;default=");
-      image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
-      image.Append(")\" alt=\"\" />");
-      return image.ToString();
+            //------------------------------------------------------------
+            //	Determine if valid email address was not provided
+            //------------------------------------------------------------
+            if (!Comment.Email.Contains("@"))
+            {
+                //------------------------------------------------------------
+                //	Return WebSnapr image for web site
+                //------------------------------------------------------------
+                return string.Format("<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
+            }
+
+            //------------------------------------------------------------
+            //	Calculate MD5 hash digest for email address
+            //------------------------------------------------------------
+            System.Security.Cryptography.MD5 md5    = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] result                           = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email));
+
+            System.Text.StringBuilder hash          = new System.Text.StringBuilder();
+            for (int i = 0; i < result.Length; i++)
+            {
+                hash.Append(result[i].ToString("x2"));
+            }
+
+            //------------------------------------------------------------
+            //	Build Gravatar image for email address
+            //------------------------------------------------------------
+            image.Append("<img src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\"");
+            image.Append("style=\"background: url(");
+            image.Append("http://www.gravatar.com/avatar.php?");
+            image.Append("gravatar_id=" + hash.ToString());
+            image.Append("&amp;size=" + size);
+            image.Append("&amp;default=");
+            image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
+            image.Append(")\" alt=\"\" />");
+        }
+        catch
+        {
+            //------------------------------------------------------------
+            //	Rethrow exception
+            //------------------------------------------------------------
+            throw;
+        }
+
+        //------------------------------------------------------------
+        //	Return result
+        //------------------------------------------------------------
+        return image.ToString();
     }
-
     #endregion
 
   }
