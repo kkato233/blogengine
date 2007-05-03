@@ -13,10 +13,7 @@
   <Theme>standard</Theme>
   <RemoveWhitespaceInStyleSheets>True</RemoveWhitespaceInStyleSheets>
   <EnableOpenSearch>True</EnableOpenSearch>
-  <MarkExternalLinks>True</MarkExternalLinks>
-  <TrackingScript>var _hlaccount = 'd0432f32-7301-4968-a027-6d38946a7c5e';
-var _protocol = 'http'+(window.location.protocol == 'https:' ? 's' : '');
-document.writeln("&lt;"+"script type='text/javascript' src='"+_protocol+"://d0432f32-7301-4968-a027-6d38946a7c5e.statcamp.net/logging/js/tracker.js'&gt;&lt;/"+"script&gt;");</TrackingScript>
+  <TrackingScript />
   <Email>user@example.com</Email>
   <SendMailOnComment>True</SendMailOnComment>
   <SmtpPassword>password</SmtpPassword>

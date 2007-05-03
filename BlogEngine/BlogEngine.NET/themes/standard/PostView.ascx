@@ -22,6 +22,6 @@
     <%=AdminLinks %>
     <a rel="nofollow" href="<%=Post.PermaLink %>">Permalink</a> |
     <a rel="nofollow" href="<%=Post.RelativeLink %>#comment">Comments (<%=Post.Comments.Count %>)</a> |
-    <a rel="nofollow" href="<%=Post.TrackbackLink %>">Trackback</a>
+    <a rel="nofollow" href="<%=CommentFeed %>">Post RSS<img src="/pics/rssbutton.gif" alt="RSS comment feed" style="margin-left:3px" /></a>
   </div>
 </div>
