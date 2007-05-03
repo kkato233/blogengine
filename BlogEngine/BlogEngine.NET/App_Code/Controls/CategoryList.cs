@@ -18,6 +18,12 @@ namespace Controls
   public class CategoryList : Control
   {
 
+    static CategoryList()
+    {
+      Post.Saved += delegate { _Html = null; };
+      CategoryDictionary.Saved += delegate { _Html = null; };
+    }
+
     #region Properties
 
     private bool _ShowRssIcon = true;
@@ -37,8 +43,6 @@ namespace Controls
       {
         if (_Html == null)
         {
-          Post.Saved += delegate { _Html = null; };
-          CategoryDictionary.Saved += delegate { _Html = null; };
           HtmlGenericControl ul = BindCategories();
           System.IO.StringWriter sw = new System.IO.StringWriter();
           ul.RenderControl(new HtmlTextWriter(sw));

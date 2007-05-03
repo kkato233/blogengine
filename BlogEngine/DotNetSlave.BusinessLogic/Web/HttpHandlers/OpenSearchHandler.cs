@@ -42,6 +42,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
 
       context.Response.ContentType = "text/xml";
+      context.Response.Cache.SetValidUntilExpires(true);
+      context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+      context.Response.Cache.SetCacheability(HttpCacheability.Public);
+      context.Response.Cache.SetLastModified(DateTime.Now);
+      context.Response.Cache.SetETag(Guid.NewGuid().ToString());
+
+      BlogSettings.Changed += delegate { context.Response.Cache.SetExpires(DateTime.Now.AddDays(30)); };
     }
 
     /// <summary>

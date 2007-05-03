@@ -18,6 +18,11 @@ namespace Controls
   public class AuthorList : Control
   {
 
+    static AuthorList()
+    {
+      Post.Saved += delegate { _Html = null; };
+    }
+
     #region Properties
 
     private bool _ShowRssIcon = true;
@@ -40,8 +45,7 @@ namespace Controls
       get
       {
         if (_Html == null)
-        {
-          Post.Saved += delegate { _Html = null; };
+        {          
           HtmlGenericControl ul = BindAuthors();
           System.IO.StringWriter sw = new System.IO.StringWriter();
           ul.RenderControl(new HtmlTextWriter(sw));

@@ -32,11 +32,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
       FileInfo fi = new FileInfo(file);
       if (!fi.Extension.Equals(".css", StringComparison.OrdinalIgnoreCase))
       {
-        //throw new System.Security.SecurityException("No access");
+        throw new System.Security.SecurityException("No access");
       }
 
       string body = fi.OpenText().ReadToEnd();
-
+      body += DateTime.Now.ToString();
       body = body.Replace("  ", String.Empty);
       body = body.Replace(Environment.NewLine, String.Empty);
       body = body.Replace("\t", string.Empty);
@@ -61,7 +61,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.ContentType = "text/css";
       // Server-side caching 
       context.Response.AddFileDependency(file);
-      context.Response.Cache.VaryByParams["path"] = true;
+      context.Response.Cache.VaryByParams["name"] = true;
+      context.Response.Cache.SetCacheability(HttpCacheability.Public);
       // Client-side caching
       context.Response.Cache.SetETagFromFileDependencies();
       context.Response.Cache.SetLastModifiedFromFileDependencies();

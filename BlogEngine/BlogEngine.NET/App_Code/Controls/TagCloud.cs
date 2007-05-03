@@ -14,6 +14,11 @@ namespace Controls
   public class TagCloud : Control
   {
 
+    static TagCloud()
+    {
+      Post.Saved += delegate { _WeightedList = null; };
+    }
+
     #region Private fields
 
     private const string LINK = "<a href=\"{0}\" rel=\"tag\" class=\"{1}\" title=\"{2}\">{3}</a> ";
@@ -29,8 +34,7 @@ namespace Controls
         lock (_SyncRoot)
         {
           if (_WeightedList == null)
-          {
-            Post.Saved += delegate { _WeightedList = null; };
+          {            
             _WeightedList = new Dictionary<string, string>();
             SortList();
           }
