@@ -53,6 +53,15 @@ namespace BlogEngine.Core.Web.Controls
       set { ViewState["Post"] = value; }
     }
 
+
+    public string CommentFeed
+    {
+      get
+      {
+        return Utils.RelativeWebRoot + "commentfeed.axd?id=" + Post.Id.ToString();
+      }
+    }
+
     #region Protected methods
 
     /// <summary>

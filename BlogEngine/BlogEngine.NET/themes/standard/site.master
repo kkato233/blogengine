@@ -6,8 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="alternate" type="application/rss+xml" href="~/syndication.axd?format=rss" title="{Blog Title} (RSS)" />
-    <link rel="alternate" type="application/atom+xml" href="~/syndication.axd?format=atom" title="{Blog Title} (Atom)" />
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/netslave" title=".NET slave" />
     <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon"/>
 </head>
 <body>
