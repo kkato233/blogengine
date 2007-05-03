@@ -382,7 +382,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                             //------------------------------------------------------------
                             AtomEntry entry     = new AtomEntry();
                             entry.Id            = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
-                            entry.Title         = new AtomText(comment.Content.Substring(0, comment.Content.Length > 50 ? 50 : comment.Content.Length));
+                            entry.Title         = new AtomText(String.Format(null, "{0}{1}", comment.DateCreated.ToString("MMMM d. yyyy HH:mm"), !String.IsNullOrEmpty(comment.Author) ? String.Concat(" by ", comment.Author) : String.Empty));
                             entry.UpdatedOn     = new W3CDateTime(comment.DateCreated);
 
                             //------------------------------------------------------------
@@ -444,7 +444,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                             //------------------------------------------------------------
                             RssItem item            = new RssItem();
                             item.Link               = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
-                            item.Title              = comment.Content.Substring(0, comment.Content.Length > 50 ? 50 : comment.Content.Length);
+                            item.Title              = String.Format(null, "{0}{1}", comment.DateCreated.ToString("MMMM d. yyyy HH:mm"), !String.IsNullOrEmpty(comment.Author) ? String.Concat(" by ", comment.Author) : String.Empty);
                             item.PublicationDate    = new Rfc822DateTime(comment.DateCreated);
                             item.Description        = this.MakeReferencesAbsolute(comment.Content);
                             item.Guid               = new RssGuid(String.Concat(post.PermaLink.ToString(), "#comments"));
