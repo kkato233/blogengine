@@ -4,6 +4,7 @@ Modification History:
 Date		Author		Description
 *****************************************************************************
 04/18/2007	brian.kuhn		Created AtomEngineSyndicationFeedAdapter Class
+05/03/2007  brian.kuhn      Added Pingback support
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -262,8 +263,9 @@ namespace BlogEngine.Core.Syndication.Data
                 //------------------------------------------------------------
                 //	Add default supported extensions
                 //------------------------------------------------------------
-                feed.Settings.SupportedExtensions.Add(new SlashSyndicationExtension());
+                feed.Settings.SupportedExtensions.Add(new PingbackSyndicationExtension());
                 feed.Settings.SupportedExtensions.Add(new TrackbackSyndicationExtension());
+                feed.Settings.SupportedExtensions.Add(new SlashSyndicationExtension());
                 feed.Settings.SupportedExtensions.Add(new WellFormedWebSyndicationExtension());
 
                 //------------------------------------------------------------
@@ -360,11 +362,14 @@ namespace BlogEngine.Core.Syndication.Data
                     //------------------------------------------------------------
                     //	Add standard extensions to feed entry
                     //------------------------------------------------------------
+                    PingbackSyndicationExtension pingbackExtension              = new PingbackSyndicationExtension(new Uri(Utils.AbsoluteWebRoot + "/pingback.axd"), post.PermaLink);
+                    entry.Extensions.Add(pingbackExtension);
+
+                    TrackbackSyndicationExtension trackbackExtension            = new TrackbackSyndicationExtension(post.TrackbackLink);
+                    entry.Extensions.Add(trackbackExtension);
+
                     SlashSyndicationExtension slashExtension                    = new SlashSyndicationExtension(post.Comments.Count);
                     entry.Extensions.Add(slashExtension);
-
-                    TrackbackSyndicationExtension trackbackExtension = new TrackbackSyndicationExtension(post.TrackbackLink);
-                    entry.Extensions.Add(trackbackExtension);
 
                     WellFormedWebSyndicationExtension wellFormedWebExtension    = new WellFormedWebSyndicationExtension();
                     wellFormedWebExtension.Comment                              = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
