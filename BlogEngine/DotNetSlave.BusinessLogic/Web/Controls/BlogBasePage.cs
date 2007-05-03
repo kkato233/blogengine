@@ -43,8 +43,8 @@ namespace BlogEngine.Core.Web.Controls
         if (BlogSettings.Instance.EnableSearchHightlight)
           AddScriptFile(Utils.RelativeWebRoot + "script/se_hilite.js");
 
-        if (BlogSettings.Instance.MarkExternalLinks)
-          MarkExternalLinks();
+        if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
+          AddTrackingScript();
       }
 
       if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
@@ -116,9 +116,9 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(script);
     }
 
-    private void MarkExternalLinks()
+    private void AddTrackingScript()
     {
-      Page.ClientScript.RegisterStartupScript(this.GetType(), "external", "StyleExternalLinks();", true);
+      Page.ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, true);
     }
 
   }

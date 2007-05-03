@@ -10,9 +10,12 @@ using System.Web.Caching;
 
 namespace BlogEngine.Core.Web.HttpHandlers
 {
+  /// <summary>
+  /// Removes whitespace in all stylesheets added to the 
+  /// header of the HTML document in site.master. 
+  /// </summary>
   public class CssHandler : IHttpHandler
   {
-
     public void ProcessRequest(HttpContext context)
     {
       string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);

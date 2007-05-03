@@ -180,9 +180,9 @@ namespace BlogEngine.Core
         /// </summary>
         private bool enableOpenSearch;
         /// <summary>
-        /// Private member to hold a value indicating if external links should be marked.
+        /// Private member to hold a tracking script from e.g. Google Analytics.
         /// </summary>
-        private bool markExternalLinks;
+        private string trackingScript;
         #endregion
 
         //============================================================
@@ -524,21 +524,20 @@ namespace BlogEngine.Core
         }
         #endregion
 
-        #region MarkExternalLinks
+        #region TrackingScript
         /// <summary>
-        /// Gets or sets a value indicating if whitespace in stylesheets should be removed
+        /// Gets or sets the tracking script used to collect visitor data.
         /// </summary>
-        /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-        public bool MarkExternalLinks
+        public string TrackingScript
         {
           get
           {
-            return markExternalLinks;
+            return trackingScript;
           }
 
           set
           {
-            markExternalLinks = value;
+            trackingScript = value;
           }
         }
         #endregion

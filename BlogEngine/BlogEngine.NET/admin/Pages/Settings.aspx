@@ -40,8 +40,6 @@
   <label for="<%=cbEnableSearchHighlight.ClientID %>">Enable search hightlight</label>
   <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> Colors the search words on the page.<br />
   
-  <label for="<%=cbMarkExternalLinks.ClientID %>">Mark external links</label>
-  <asp:CheckBox runat="server" ID="cbMarkExternalLinks" /> Marks all external links in the blog posts with a small indicator image.
 </div>
 
 <div class="settings">
@@ -131,6 +129,14 @@
   <label for="<%=txtBlogChannelBLink.ClientID %>">Endorsement (bLink)</label>
   <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="400" /><br />
   
+</div>
+
+<div class="settings">
+
+  <h1>Tracking script</h1>
+  <label for="<%=txtTrackingScript.ClientID %>">Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />Will be added in the bottom of each page regardless of the theme.</label>
+  <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="8" Columns="30" Width="500" />
+
 </div>
 
 <div class="settings">

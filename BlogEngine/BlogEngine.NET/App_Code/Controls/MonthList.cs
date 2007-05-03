@@ -42,8 +42,7 @@ namespace Controls
 
     private HtmlGenericControl BindMonths()
     {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");
-      
+      HtmlGenericControl ul = new HtmlGenericControl("ul");      
 
       DateTime first = DateTime.Parse( Post.Posts[Post.Posts.Count -1].DateCreated.Date.ToString("yyyy-MM-") + "01");
       int year = first.Year;
@@ -86,8 +85,11 @@ namespace Controls
     /// </summary>
     public override void RenderControl(HtmlTextWriter writer)
     {
-      writer.Write(Html);
-      writer.Write(Environment.NewLine);
+      if (Post.Posts.Count > 0)
+      {
+        writer.Write(Html);
+        writer.Write(Environment.NewLine);
+      }
     }
   }
 }
