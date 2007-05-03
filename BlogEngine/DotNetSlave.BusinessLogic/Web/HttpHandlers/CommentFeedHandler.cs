@@ -3,9 +3,7 @@ Modification History:
 *****************************************************************************
 Date		Author		Description
 *****************************************************************************
-04/27/2007	brian.kuhn	Created SyndicationHandler Class
-05/03/2007  brian.kuhn  Removed using(adapter) calls to prevent the 
-                        category dictionary from being cleared.
+04/27/2007	brian.kuhn		Created CommentFeedHandler Class
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -29,7 +27,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <remarks>This handler can generate syndication feeds in a variety of formats and filtering options based on the query string parmaeters provided.</remarks>
     /// <seealso cref="IHttpHandler"/>
     /// <seealso cref="SyndicationFeed"/>
-    public class SyndicationHandler : IHttpHandler
+    public class CommentFeedHandler : IHttpHandler
     {
         //============================================================
         //	PUBLIC/PRIVATE/PROTECTED MEMBERS
@@ -91,10 +89,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
             //------------------------------------------------------------
             //	Local members
             //------------------------------------------------------------
-            List<Post> posts;
-            Guid categoryId = Guid.Empty;
-            string author   = String.Empty;
-            int postCount   = 0;
+            Guid postId = Guid.Empty;
+            Post post   = null;
 
             //------------------------------------------------------------
             //	Attempt to process the request
@@ -127,13 +123,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 //------------------------------------------------------------
                 //	Extract query string information
                 //------------------------------------------------------------
-                if (!String.IsNullOrEmpty(context.Request.QueryString["category"]) && context.Request.QueryString["category"].Length == 36)
+                if (!String.IsNullOrEmpty(context.Request.QueryString["id"]) && context.Request.QueryString["id"].Length == 36)
                 {
-                    categoryId  = new Guid(context.Request.QueryString["category"]);
-                }
-                if (!String.IsNullOrEmpty(context.Request.QueryString["author"]))
-                {
-                    author      = context.Request.QueryString["author"].Trim();
+                    postId  = new Guid(context.Request.QueryString["id"]);
                 }
                 if (!String.IsNullOrEmpty(context.Request.QueryString["format"]))
                 {
@@ -150,54 +142,41 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 }
 
                 //------------------------------------------------------------
-                //	Get correct sub-set of posts based on parameters
+                //	Determine if post identifier was specified
                 //------------------------------------------------------------
-                if (categoryId != Guid.Empty)
+                if (postId != Guid.Empty)
                 {
                     //------------------------------------------------------------
                     //	Get posts based on specified category identifier
                     //------------------------------------------------------------
-                    posts   = Post.GetPostsByCategory(categoryId);
-                }
-                else if (!String.IsNullOrEmpty(author))
-                {
-                    //------------------------------------------------------------
-                    //	Get posts based on specified author name
-                    //------------------------------------------------------------
-                    posts   = Post.GetPostsByAuthor(author);
+                    post = Post.GetPost(postId);
                 }
                 else
                 {
                     //------------------------------------------------------------
-                    //	Get all current posts
+                    //	Get latest post
                     //------------------------------------------------------------
-                    posts   = Post.Posts;
+                    List<Post> posts = Post.Posts;
+                    if(posts.Count > 0)
+                    {
+                        post = posts[0];
+                    }
                 }
 
                 //------------------------------------------------------------
-                //	Verify posts available for processing
+                //	Verify post available for processing
                 //------------------------------------------------------------
-                if (posts != null)
+                if (post != null)
                 {
-                    //------------------------------------------------------------
-                    //	Filter number of posts based configured range
-                    //------------------------------------------------------------
-                    postCount       = BlogSettings.Instance.PostsPerPage;
-                    if (postCount > posts.Count)
-                    {
-                        postCount   = posts.Count;
-                    }
-                    posts           = posts.GetRange(0, postCount);
-
                     //------------------------------------------------------------
                     //	Set the response header information
                     //------------------------------------------------------------
-                    SyndicationHandler.SetHeaderInformation(context, posts, this.Format);
+                    CommentFeedHandler.SetHeaderInformation(context, post, this.Format);
 
                     //------------------------------------------------------------
                     //	Generate the syndication feed
                     //------------------------------------------------------------
-                    this.WriteFeed(context, posts);
+                    this.WriteFeed(context, post);
                 }
             }
             catch
@@ -213,15 +192,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
         //============================================================
         //	PRIVATE ROUTINES
         //============================================================
-        #region SetHeaderInformation(HttpContext context, List<Post> posts, SyndicationFormat format)
+        #region SetHeaderInformation(HttpContext context, Post post, SyndicationFormat format)
         /// <summary>
         /// Sets the response header information.
         /// </summary>
         /// <param name="context">An <see cref="HttpContext"/> object that provides references to the intrinsic server objects (for example, <b>Request</b>, <b>Response</b>, <b>Session</b>, and <b>Server</b>) used to service HTTP requests.</param>
-        /// <param name="posts">The collection of <see cref="Post"/> instances used when setting the response header details.</param>
+        /// <param name="post">The<see cref="Post"/> instance used when setting the response header details.</param>
         /// <param name="format">The format of the syndication feed being generated.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="posts"/> is a null reference (Nothing in Visual Basic).</exception>
-        private static void SetHeaderInformation(HttpContext context, List<Post> posts, SyndicationFormat format)
+        /// <exception cref="ArgumentNullException">The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="post"/> is a null reference (Nothing in Visual Basic).</exception>
+        private static void SetHeaderInformation(HttpContext context, Post post, SyndicationFormat format)
         {
             //------------------------------------------------------------
             //	Local members
@@ -243,18 +222,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 {
                     throw new ArgumentNullException("context");
                 }
-                if (posts == null)
+                if (post == null)
                 {
-                    throw new ArgumentNullException("posts");
+                    throw new ArgumentNullException("post");
                 }
 
                 //------------------------------------------------------------
                 //	Determine date feed was last modified from posts
                 //------------------------------------------------------------
-                if (posts.Count > 0)
-                {
-                    lastModified    = posts[0].DateModified;
-                }
+                lastModified    = post.DateModified;
 
                 //------------------------------------------------------------
                 //	Extract ETag from request headers
@@ -340,14 +316,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
         }
         #endregion
 
-        #region WriteFeed(HttpContext context, List<Post> posts)
+        #region WriteFeed(HttpContext context, Post post)
         /// <summary>
-        /// Creates a feed based on specified format, fills the feed using the appropriate adapter, and then writes the feed XML data to the response stream.
+        /// Creates a comments feed based on specified format, fills the feed using the appropriate adapter, and then writes the feed XML data to the response stream.
         /// </summary>
         /// <param name="context">An <see cref="HttpContext"/> object that provides references to the intrinsic server objects (for example, <b>Request</b>, <b>Response</b>, <b>Session</b>, and <b>Server</b>) used to service HTTP requests.</param>
-        /// <param name="posts">The collection of <see cref="Post"/> instances used when generating the syndication feed.</param>
+        /// <param name="post">The <see cref="Post"/> instance used when generating the comments syndication feed.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="posts"/> is a null reference (Nothing in Visual Basic).</exception>
-        private void WriteFeed(HttpContext context, List<Post> posts)
+        private void WriteFeed(HttpContext context, Post post)
         {
             //------------------------------------------------------------
             //	Attempt to generate feed
@@ -361,9 +337,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 {
                     throw new ArgumentNullException("context");
                 }
-                if (posts == null)
+                if (post == null)
                 {
-                    throw new ArgumentNullException("posts");
+                    throw new ArgumentNullException("post");
                 }
 
                 //------------------------------------------------------------
@@ -379,20 +355,62 @@ namespace BlogEngine.Core.Web.HttpHandlers
                         AtomFeed atomFeed   = new AtomFeed();
 
                         //------------------------------------------------------------
-                        //	Create adapter to fill feed
+                        //	Set feed properties
                         //------------------------------------------------------------
-                        AtomEngineSyndicationFeedAdapter atomAdapter    = new AtomEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, CategoryDictionary.Instance);
+                        atomFeed.Title              = new AtomText(post.Title + " (Comments)");
+                        atomFeed.Description        = new AtomText("Comments regarding: " + post.Description);
+                        atomFeed.Id                 = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("commentfeed.axd")));
+                        atomFeed.UpdatedOn          = new W3CDateTime(post.DateModified);
 
                         //------------------------------------------------------------
-                        //	Set adapter properties
+                        //	Add feed link(s)
                         //------------------------------------------------------------
-                        atomAdapter.FeedLocation    = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("syndication.axd")));
-                        atomAdapter.WebRoot         = Utils.AbsoluteWebRoot;
+                        AtomLink feedLink           = new AtomLink(new Uri(String.Concat(atomFeed.Id.ToString().TrimEnd('/'), "/commentfeed.axd?id=", post.Id.ToString())));
+                        atomFeed.Links.Add(feedLink);
+
+                        AtomLink feedWebSiteLink    = new AtomLink(atomFeed.Id);
+                        feedWebSiteLink.Relation    = LinkRelation.Related;
+                        atomFeed.Links.Add(feedWebSiteLink);
 
                         //------------------------------------------------------------
-                        //	Fill feed using adapter
+                        //	Enumerate through post comments
                         //------------------------------------------------------------
-                        atomAdapter.Fill(atomFeed);
+                        foreach (Comment comment in post.Comments)
+                        {
+                            //------------------------------------------------------------
+                            //	Create feed entry for comment
+                            //------------------------------------------------------------
+                            AtomEntry entry     = new AtomEntry();
+                            entry.Id            = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                            entry.Title         = new AtomText(comment.Content.Substring(0, comment.Content.Length > 50 ? 50 : comment.Content.Length));
+                            entry.UpdatedOn     = new W3CDateTime(comment.DateCreated);
+
+                            //------------------------------------------------------------
+                            //	Add entry link(s)
+                            //------------------------------------------------------------
+                            AtomLink entrySelfLink      = new AtomLink(entry.Id);
+                            entry.Links.Add(entrySelfLink);
+
+                            AtomLink entryDefaultLink   = new AtomLink();
+                            entryDefaultLink.Link       = entry.Id;
+                            entry.Links.Add(entryDefaultLink);
+
+                            //------------------------------------------------------------
+                            //	Set feed entry summary (Html type needed to display correctly)
+                            //------------------------------------------------------------
+                            AtomText entrySummary   = new AtomText();
+                            entrySummary.Type       = TextType.Html;
+                            entrySummary.Value      = this.MakeReferencesAbsolute(comment.Content);
+                            entry.Summary           = entrySummary;
+
+                            //------------------------------------------------------------
+                            //	Add entry to feed
+                            //------------------------------------------------------------
+                            if (!atomFeed.Entries.Contains(entry))
+                            {
+                                atomFeed.Entries.Add(entry);
+                            }
+                        }
 
                         //------------------------------------------------------------
                         //	Write feed to context stream
@@ -400,7 +418,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                         atomFeed.Save(context.Response.OutputStream);
 
                         break;
-
+                        
                     case SyndicationFormat.Rss:
 
                         //------------------------------------------------------------
@@ -409,20 +427,36 @@ namespace BlogEngine.Core.Web.HttpHandlers
                         RssFeed rssFeed = new RssFeed();
 
                         //------------------------------------------------------------
-                        //	Create adapter to fill feed
+                        //	Set channel properties
                         //------------------------------------------------------------
-                        RssEngineSyndicationFeedAdapter rssAdapter  = new RssEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, CategoryDictionary.Instance);
+                        rssFeed.Channel.Title       = post.Title + " (Comments)";
+                        rssFeed.Channel.Language    = BlogSettings.Instance.Language;
+                        rssFeed.Channel.Description = "Comments regarding: " + post.Description;
+                        rssFeed.Channel.Link        = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("commentfeed.axd")));
 
                         //------------------------------------------------------------
-                        //	Set adapter properties
+                        //	Enumerate through post comments
                         //------------------------------------------------------------
-                        rssAdapter.FeedLocation = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("syndication.axd")));
-                        rssAdapter.WebRoot      = Utils.AbsoluteWebRoot;
+                        foreach (Comment comment in post.Comments)
+                        {
+                            //------------------------------------------------------------
+                            //	Create channel item for comment
+                            //------------------------------------------------------------
+                            RssItem item            = new RssItem();
+                            item.Link               = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
+                            item.Title              = comment.Content.Substring(0, comment.Content.Length > 50 ? 50 : comment.Content.Length);
+                            item.PublicationDate    = new Rfc822DateTime(comment.DateCreated);
+                            item.Description        = this.MakeReferencesAbsolute(comment.Content);
+                            item.Guid               = new RssGuid(String.Concat(post.PermaLink.ToString(), "#comments"));
 
-                        //------------------------------------------------------------
-                        //	Fill feed using adapter
-                        //------------------------------------------------------------
-                        rssAdapter.Fill(rssFeed);
+                            //------------------------------------------------------------
+                            //	Add item to channel
+                            //------------------------------------------------------------
+                            if (!rssFeed.Channel.Items.Contains(item))
+                            {
+                                rssFeed.Channel.Items.Add(item);
+                            }
+                        }
 
                         //------------------------------------------------------------
                         //	Write feed to context stream
@@ -438,6 +472,43 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 //------------------------------------------------------------
                 throw;
             }
+        }
+        #endregion
+
+        //============================================================
+        //	PUBLIC FORMATTING ROUTINES
+        //============================================================
+        #region MakeReferencesAbsolute(string content)
+        /// <summary>
+        /// Replaces references to handlers in the specified content with their absolute representation.
+        /// </summary>
+        /// <param name="content">The content to format.</param>
+        /// <returns>A <see cref="System.String"/> that has had its relative handler references changed to their absolute representation.</returns>
+        public string MakeReferencesAbsolute(string content)
+        {
+            //------------------------------------------------------------
+            //	Attempt to make references absolute
+            //------------------------------------------------------------
+            try
+            {
+                //------------------------------------------------------------
+                //	Perform conversion
+                //------------------------------------------------------------
+                content = content.Replace("\"/image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
+                content = content.Replace("\"/file.axd", "\"" + Utils.AbsoluteWebRoot + "file.axd");
+            }
+            catch
+            {
+                //------------------------------------------------------------
+                //	Rethrow exception
+                //------------------------------------------------------------
+                throw;
+            }
+
+            //------------------------------------------------------------
+            //	Return result
+            //------------------------------------------------------------
+            return content;
         }
         #endregion
     }
