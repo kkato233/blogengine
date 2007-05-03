@@ -18,6 +18,11 @@ namespace Controls
   public class MonthList : Control
   {
 
+    static MonthList()
+    {
+      Post.Saved += delegate { _Html = null; };
+    }
+
     #region Properties
 
     private static string _Html;
@@ -26,8 +31,7 @@ namespace Controls
       get
       {
         if (_Html == null)
-        {
-          Post.Saved += delegate { _Html = null; };
+        {          
           HtmlGenericControl ul = BindMonths();
           System.IO.StringWriter sw = new System.IO.StringWriter();
           ul.RenderControl(new HtmlTextWriter(sw));
