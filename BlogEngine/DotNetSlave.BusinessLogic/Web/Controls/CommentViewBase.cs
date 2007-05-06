@@ -147,7 +147,7 @@ namespace BlogEngine.Core.Web.Controls
                 //------------------------------------------------------------
                 //	Return default avatar image if no email address or web site available
                 //------------------------------------------------------------
-                return Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg");
+                return "<img src=\"" + Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"Gravatar\" />";
             }
 
             //------------------------------------------------------------
@@ -176,14 +176,14 @@ namespace BlogEngine.Core.Web.Controls
             //------------------------------------------------------------
             //	Build Gravatar image for email address
             //------------------------------------------------------------
-            image.Append("<img src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\"");
+            image.Append("<img src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\" ");
             image.Append("style=\"background: url(");
             image.Append("http://www.gravatar.com/avatar.php?");
             image.Append("gravatar_id=" + hash.ToString());
             image.Append("&amp;size=" + size);
             image.Append("&amp;default=");
             image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
-            image.Append(")\" alt=\"\" />");
+            image.Append(")\" alt=\"Gravatar\" />");
         }
         catch
         {
