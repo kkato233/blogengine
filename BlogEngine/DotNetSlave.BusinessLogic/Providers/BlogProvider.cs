@@ -36,6 +36,11 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         /// <param name="post"></param>
         public abstract void DeletePost(Post post);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<Post> FillPosts();
 
         // Page
         /// <summary>
@@ -59,6 +64,11 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         /// <param name="page"></param>
         public abstract void DeletePage(Page page);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<Page> FillPages();
 
         // Category
         /// <summary>

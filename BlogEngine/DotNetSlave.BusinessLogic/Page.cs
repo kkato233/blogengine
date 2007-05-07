@@ -122,23 +122,9 @@ namespace BlogEngine.Core
         lock (_SyncRoot)
         {
           if (_Pages == null)
-            FillPages();
+              _Pages = BlogService.FillPages();
           return _Pages;
         }
-      }
-    }
-
-    private static void FillPages()
-    {
-      string folder = CategoryDictionary._Folder + "pages\\";
-      _Pages = new List<Page>();
-
-      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-      {
-        FileInfo info = new FileInfo(file);
-        string id = info.Name.Replace(".xml", string.Empty);
-        Page page = Page.Load(new Guid(id));
-        _Pages.Add(page);
       }
     }
 

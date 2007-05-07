@@ -206,7 +206,7 @@ namespace BlogEngine.Core
         lock (_SyncRoot)
         {
           if (_Posts == null)
-            FillPosts();
+              _Posts = BlogService.FillPosts();
           return _Posts;
         }
       }
@@ -240,22 +240,6 @@ namespace BlogEngine.Core
       }
 
       return null;
-    }
-
-    private static void FillPosts()
-    {
-      string folder = CategoryDictionary._Folder + "posts\\";
-      _Posts = new List<Post>();
-
-      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-      {
-        FileInfo info = new FileInfo(file);
-        string id = info.Name.Replace(".xml", string.Empty);
-        Post post = Post.Load(new Guid(id));
-        _Posts.Add(post);
-      }
-
-      _Posts.Sort();
     }
 
     /// <summary>

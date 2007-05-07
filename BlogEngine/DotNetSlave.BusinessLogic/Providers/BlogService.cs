@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Configuration.Provider;
 using System.Web.Configuration;
@@ -109,6 +110,16 @@ namespace BlogEngine.Core.Providers
       _provider.DeletePost(post);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public static List<Post> FillPosts()
+    {
+      LoadProviders();
+      return _provider.FillPosts();
+    }
+
     #endregion
 
     #region Pages
@@ -147,6 +158,16 @@ namespace BlogEngine.Core.Providers
     {
       LoadProviders();
       _provider.DeletePage(page);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public static List<Page> FillPages()
+    {
+      LoadProviders();
+      return _provider.FillPages();
     }
 
     #endregion

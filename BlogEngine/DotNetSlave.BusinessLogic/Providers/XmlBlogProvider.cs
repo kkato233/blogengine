@@ -175,6 +175,28 @@ namespace BlogEngine.Core.Providers
         File.Delete(fileName);
     }
 
+    /// <summary>
+    /// Retrieves all posts from the data store
+    /// </summary>
+    /// <returns>List of Posts</returns>
+    public override List<Post> FillPosts()
+    {
+        string folder = CategoryDictionary._Folder + "posts\\";
+        List<Post> posts = new List<Post>();
+
+        foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
+        {
+            FileInfo info = new FileInfo(file);
+            string id = info.Name.Replace(".xml", string.Empty);
+            //Post post = SelectPost(new Guid(id));
+            Post post = Post.Load(new Guid(id));
+            posts.Add(post);
+        }
+
+        posts.Sort();
+        return posts;
+    }
+
     #endregion
 
     #region Pages
@@ -247,6 +269,26 @@ namespace BlogEngine.Core.Providers
 
       if (Page.Pages.Contains(page))
         Page.Pages.Remove(page);
+    }
+
+    /// <summary>
+    /// Retrieves all pages from the data store
+    /// </summary>
+    /// <returns>List of Pages</returns>
+    public override List<Page> FillPages()
+    {
+        string folder = CategoryDictionary._Folder + "pages\\";
+        List<Page> pages = new List<Page>();
+
+        foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
+        {
+            FileInfo info = new FileInfo(file);
+            string id = info.Name.Replace(".xml", string.Empty);
+            Page page = SelectPage(new Guid(id));
+            pages.Add(page);
+        }
+
+        return pages;
     }
 
     #endregion
