@@ -183,6 +183,10 @@ namespace BlogEngine.Core
         /// Private member to hold a tracking script from e.g. Google Analytics.
         /// </summary>
         private string trackingScript;
+        /// <summary>
+        /// Connection String for MSSQL Provider
+        /// </summary>
+        private string mssqlConnectionString;
         #endregion
 
         //============================================================
@@ -1075,6 +1079,12 @@ namespace BlogEngine.Core
             }
         }
         #endregion
+
+        public string MSSQLConnectionString
+        {
+            get { return mssqlConnectionString; }
+            set { mssqlConnectionString = value; }
+        }
 
         //============================================================
         //	PRIVATE ROUTINES

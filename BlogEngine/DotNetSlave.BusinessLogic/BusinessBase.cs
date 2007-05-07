@@ -224,7 +224,7 @@ namespace BlogEngine.Core
     /// Loads an instance of the object based on the Id.
     /// </summary>
     /// <param name="id">The unique identifier of the object</param>
-    protected static TYPE Load(KEY id)
+    public static TYPE Load(KEY id)
     {
       TYPE instance = new TYPE();
       instance = instance.DataSelect(id);
