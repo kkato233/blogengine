@@ -424,13 +424,10 @@ namespace BlogEngine.Core
     #region Events
 
     /// <summary>
-    /// 
-    /// </summary>
-    public static event EventHandler<EventArgs> Saved;
-
-    /// <summary>
     /// Occurs when the class is Saved
     /// </summary>
+    public static event EventHandler<EventArgs> Saved;
+    
     private static void OnSaved(BusinessBase<TYPE, KEY> businessObject)
     {
       if (Saved != null)

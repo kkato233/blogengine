@@ -16,11 +16,22 @@ namespace BlogEngine.Core.Web.HttpModules
 
     #region IHttpModule Members
 
+    /// <summary>
+    /// Disposes of the resources (other than memory) used by the module 
+    /// that implements <see cref="T:System.Web.IHttpModule"></see>.
+    /// </summary>
     void IHttpModule.Dispose()
     {
       // Nothing to dispose; 
     }
 
+    /// <summary>
+    /// Initializes a module and prepares it to handle requests.
+    /// </summary>
+    /// <param name="context">An <see cref="T:System.Web.HttpApplication"></see> 
+    /// that provides access to the methods, properties, and events common to 
+    /// all application objects within an ASP.NET application.
+    /// </param>
     void IHttpModule.Init(HttpApplication context)
     {
       if (BlogSettings.Instance.EnableHttpCompression)
@@ -34,6 +45,11 @@ namespace BlogEngine.Core.Web.HttpModules
     private const string GZIP = "gzip";
     private const string DEFLATE = "deflate";
 
+    /// <summary>
+    /// Handles the BeginRequest event of the context control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
     void context_BeginRequest(object sender, EventArgs e)
     {
       HttpApplication app = sender as HttpApplication;

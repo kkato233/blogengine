@@ -16,70 +16,56 @@ namespace BlogEngine.Core.Providers
     {
         // Post
         /// <summary>
-        /// 
+        /// Retrieves a Post from the provider based on the specified id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public abstract Post SelectPost(Guid id);
         /// <summary>
-        /// 
+        /// Inserts a new Post into the data store specified by the provider.
         /// </summary>
-        /// <param name="post"></param>
         public abstract void InsertPost(Post post);
         /// <summary>
-        /// 
+        /// Updates an existing Post in the data store specified by the provider.
         /// </summary>
-        /// <param name="post"></param>
         public abstract void UpdatePost(Post post);
         /// <summary>
-        /// 
+        /// Deletes a Post from the data store specified by the provider.
         /// </summary>
-        /// <param name="post"></param>
         public abstract void DeletePost(Post post);
         /// <summary>
-        /// 
+        /// Retrieves all Posts from the provider and returns them in a List.
         /// </summary>
-        /// <returns></returns>
         public abstract List<Post> FillPosts();
 
         // Page
         /// <summary>
-        /// 
+        /// Retrieves a Page from the provider based on the specified id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public abstract Page SelectPage(Guid id);
         /// <summary>
-        /// 
+        /// Inserts a new Page into the data store specified by the provider.
         /// </summary>
-        /// <param name="page"></param>
         public abstract void InsertPage(Page page);
         /// <summary>
-        /// 
+        /// Updates an existing Page in the data store specified by the provider.
         /// </summary>
-        /// <param name="page"></param>
         public abstract void UpdatePage(Page page);
         /// <summary>
-        /// 
+        /// Deletes a Page from the data store specified by the provider.
         /// </summary>
-        /// <param name="page"></param>
         public abstract void DeletePage(Page page);
         /// <summary>
-        /// 
+        /// Retrieves all Pages from the provider and returns them in a List.
         /// </summary>
-        /// <returns></returns>
         public abstract List<Page> FillPages();
 
         // Category
         /// <summary>
-        /// 
+        /// Load all categories from the provider and adds them to a CategoryDictionary.
         /// </summary>
-        /// <returns></returns>
         public abstract CategoryDictionary LoadCategories();
         /// <summary>
-        /// 
+        /// Saves the specified categories in the data store of the provider.
         /// </summary>
-        /// <param name="categories"></param>
         public abstract void SaveCategories(CategoryDictionary categories);
     }
 

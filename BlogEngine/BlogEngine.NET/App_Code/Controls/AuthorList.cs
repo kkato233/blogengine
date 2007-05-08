@@ -18,6 +18,9 @@ namespace Controls
   public class AuthorList : Control
   {
 
+    /// <summary>
+    /// Initializes the <see cref="AuthorList"/> class.
+    /// </summary>
     static AuthorList()
     {
       Post.Saved += delegate { _Html = null; };
