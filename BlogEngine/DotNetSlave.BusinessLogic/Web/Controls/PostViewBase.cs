@@ -47,19 +47,20 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// The Post object that is displayed through the PostView.ascx control.
     /// </summary>
+    /// <value>The Post object that has to be displayed.</value>
     public virtual Post Post
     {
       get { return (Post)(ViewState["Post"] ?? default(Post)); }
       set { ViewState["Post"] = value; }
     }
 
-
+    /// <summary>
+    /// Gets the comment feed link.
+    /// </summary>
+    /// <value>The comment feed.</value>
     public string CommentFeed
     {
-      get
-      {
-        return Utils.RelativeWebRoot + "commentfeed.axd?id=" + Post.Id.ToString();
-      }
+      get { return Utils.RelativeWebRoot + "commentfeed.axd?id=" + Post.Id.ToString(); }
     }
 
     #region Protected methods

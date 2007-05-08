@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link rel="alternate" type="application/rss+xml" href="~/syndication.axd?format=rss" title="{Blog Title} (RSS)" />
     <link rel="alternate" type="application/atom+xml" href="~/syndication.axd?format=atom" title="{Blog Title} (Atom)" />
-    <link rel="edituri" type="application/rsd+xml" title="RSD" href="http://www.yoursite.com/blog/rsd.axd" />
 </head>
 
 <body>

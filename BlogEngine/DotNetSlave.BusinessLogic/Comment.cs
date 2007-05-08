@@ -1,6 +1,8 @@
+#region Using
+
 using System;
-using System.Collections.Generic;
-using System.Text;
+
+#endregion
 
 namespace BlogEngine.Core
 {
@@ -25,8 +27,9 @@ namespace BlogEngine.Core
 
     private string _Author;
     /// <summary>
-    /// Gets or sets the Author or the object.
+    /// Gets or sets the author.
     /// </summary>
+    /// <value>The author.</value>
     public string Author
     {
       get { return _Author; }
@@ -35,8 +38,9 @@ namespace BlogEngine.Core
 
     private string _Email;
     /// <summary>
-    /// Gets or sets the Email or the object.
+    /// Gets or sets the email.
     /// </summary>
+    /// <value>The email.</value>
     public string Email
     {
       get { return _Email; }
@@ -44,9 +48,11 @@ namespace BlogEngine.Core
     }
 
     private Uri _Website;
+
     /// <summary>
-    /// Gets or sets the Website or the object.
+    /// Gets or sets the website.
     /// </summary>
+    /// <value>The website.</value>
     public Uri Website
     {
       get { return _Website; }
@@ -55,8 +61,9 @@ namespace BlogEngine.Core
 
     private string _Content;
     /// <summary>
-    /// Gets or sets the Content or the object.
+    /// Gets or sets the content.
     /// </summary>
+    /// <value>The content.</value>
     public string Content
     {
       get { return _Content; }
@@ -64,10 +71,10 @@ namespace BlogEngine.Core
     }
 
     private string _Country;
-      
     /// <summary>
-    /// 
+    /// Gets or sets the country.
     /// </summary>
+    /// <value>The country.</value>
     public string Country
     {
       get { return _Country; }
@@ -75,10 +82,10 @@ namespace BlogEngine.Core
     }
 
     private string _IP;
-
     /// <summary>
-    /// 
+    /// Gets or sets the IP address.
     /// </summary>
+    /// <value>The IP.</value>
     public string IP
     {
       get { return _IP; }
@@ -100,8 +107,15 @@ namespace BlogEngine.Core
     #region IComparable<Comment> Members
 
     /// <summary>
-    /// Compares the comment to another.
+    /// Compares the current object with another object of the same type.
     /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// A 32-bit signed integer that indicates the relative order of the 
+    /// objects being compared. The return value has the following meanings: 
+    /// Value Meaning Less than zero This object is less than the other parameter.
+    /// Zero This object is equal to other. Greater than zero This object is greater than other.
+    /// </returns>
     public int CompareTo(Comment other)
     {
       return this.DateCreated.CompareTo(other.DateCreated);

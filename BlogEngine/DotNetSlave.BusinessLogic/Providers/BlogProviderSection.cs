@@ -7,6 +7,10 @@ namespace BlogEngine.Core.Providers
   /// <summary>
   /// A configuration section for web.config.
   /// </summary>
+  /// <remarks>
+  /// In the config section you can specify the provider you 
+  /// want to use for BlogEngine.NET.
+  /// </remarks>
   public class BlogProviderSection : ConfigurationSection
   {
 

@@ -49,6 +49,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Gets the relative root of the website.
     /// </summary>
+    /// <value>A string that ends with a '/'.</value>
     public static string RelativeWebRoot
     {
       get { return VirtualPathUtility.ToAbsolute("~/"); }
@@ -59,6 +60,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Gets the absolute root of the website.
     /// </summary>
+    /// <value>A string that ends with a '/'.</value>
     public static Uri AbsoluteWebRoot
     {
       get

@@ -18,9 +18,15 @@ using BlogEngine.Core;
 
 namespace BlogEngine.Core.Web.Controls
 {
+
   /// <summary>
-  /// 
+  /// Inherit from this class when you are building the
+  /// commentview.ascx user control in your custom theme.
   /// </summary>
+  /// <remarks>
+  /// The class exposes a lot of functionality to the custom
+  /// comment control in the theme folder.
+  /// </remarks>
   public class CommentViewBase : UserControl
   {
 
@@ -29,8 +35,9 @@ namespace BlogEngine.Core.Web.Controls
     private Post _Post;
 
     /// <summary>
-    /// 
+    /// Gets or sets the Post from which the comment belongs.
     /// </summary>
+    /// <value>The Post object.</value>
     public Post Post
     {
       get { return _Post; }
@@ -40,8 +47,9 @@ namespace BlogEngine.Core.Web.Controls
     private Comment _Comment;
 
     /// <summary>
-    /// 
+    /// Gets or sets the Comment.
     /// </summary>
+    /// <value>The comment.</value>
     public Comment Comment
     {
       get { return _Comment; }
@@ -79,7 +87,7 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// Displays a delete link to visitors that is authenticated
+    /// Displays a delete link to visitors that are authenticated
     /// using the default membership provider.
     /// </summary>
     protected string AdminLinks

@@ -27,6 +27,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Gets the singleton instance of the class.
     /// </summary>
+    /// <value>An instance of CategoryDictionary.</value>
     public static CategoryDictionary Instance
     {
       get { return _Instance; }

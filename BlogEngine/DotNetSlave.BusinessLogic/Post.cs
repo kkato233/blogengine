@@ -400,8 +400,15 @@ namespace BlogEngine.Core
     #region IComparable<Post> Members
 
     /// <summary>
-    /// Compares this post to another instance.
+    /// Compares the current object with another object of the same type.
     /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// A 32-bit signed integer that indicates the relative order of the 
+    /// objects being compared. The return value has the following meanings: 
+    /// Value Meaning Less than zero This object is less than the other parameter.Zero 
+    /// This object is equal to other. Greater than zero This object is greater than other.
+    /// </returns>
     public int CompareTo(Post other)
     {
       return other.DateCreated.CompareTo(this.DateCreated);

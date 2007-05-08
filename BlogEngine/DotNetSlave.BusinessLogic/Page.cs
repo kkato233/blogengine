@@ -165,7 +165,7 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
-    /// Updates the page.
+    /// Updates the object in its data store.
     /// </summary>
     protected override void DataUpdate()
     {

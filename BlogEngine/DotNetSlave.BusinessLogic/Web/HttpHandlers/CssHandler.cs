@@ -16,6 +16,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
   /// </summary>
   public class CssHandler : IHttpHandler
   {
+    /// <summary>
+    /// Enables processing of HTTP Web requests by a custom 
+    /// HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"></see> interface.
+    /// </summary>
+    /// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides 
+    /// references to the intrinsic server objects 
+    /// (for example, Request, Response, Session, and Server) used to service HTTP requests.
+    /// </param>
     public void ProcessRequest(HttpContext context)
     {
       string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
@@ -68,12 +76,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.Cache.SetLastModifiedFromFileDependencies();
     }
 
+    /// <summary>
+    /// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.
+    /// </summary>
+    /// <value></value>
+    /// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
     public bool IsReusable
     {
-      get
-      {
-        return false;
-      }
+      get { return false; }
     }
 
   }

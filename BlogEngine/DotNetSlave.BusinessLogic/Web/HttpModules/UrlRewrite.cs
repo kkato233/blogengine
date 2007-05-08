@@ -11,7 +11,7 @@ using BlogEngine.Core;
 namespace BlogEngine.Core.Web.HttpModules
 {
   /// <summary>
-  /// Summary description for UrlRewrite
+  /// Handles pretty URL's and redirects them to the permalinks.
   /// </summary>
   public class UrlRewrite : IHttpModule
   {
@@ -36,6 +36,11 @@ namespace BlogEngine.Core.Web.HttpModules
 
     #endregion
 
+    /// <summary>
+    /// Handles the BeginRequest event of the context control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
@@ -103,12 +108,9 @@ namespace BlogEngine.Core.Web.HttpModules
     }
 
     /// <summary>
-    /// 
+    /// Extracts the title from the requested URL.
     /// </summary>
-    /// <param name="context"></param>
-    /// <param name="lookFor"></param>
-    /// <returns></returns>
-    public static string ExtractTitle(HttpContext context, string lookFor)
+    private static string ExtractTitle(HttpContext context, string lookFor)
     {
       int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(lookFor) + lookFor.Length;
       int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(".aspx");
@@ -117,11 +119,11 @@ namespace BlogEngine.Core.Web.HttpModules
     }
 
     /// <summary>
-    /// 
+    /// Gets the query string from the requested URL.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">The context.</param>
     /// <returns></returns>
-    public static string GetQueryString(HttpContext context)
+    private static string GetQueryString(HttpContext context)
     {
       string query = context.Request.QueryString.ToString();
       if (!string.IsNullOrEmpty(query))
