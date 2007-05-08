@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" ValidateRequest="false" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
 <div class="settings">
@@ -134,8 +134,8 @@
 <div class="settings">
 
   <h1>Tracking script</h1>
-  <label for="<%=txtTrackingScript.ClientID %>">Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />Will be added in the bottom of each page regardless of the theme.</label>
-  <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="8" Columns="30" Width="500" />
+  <label for="<%=txtTrackingScript.ClientID %>">Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />Will be added in the bottom of each page regardless of the theme.<br /><br />(remember to add the &lt;script&gt; tags)</label>
+  <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
 
 </div>
 
