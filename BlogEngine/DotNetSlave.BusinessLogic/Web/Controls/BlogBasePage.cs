@@ -45,10 +45,10 @@ namespace BlogEngine.Core.Web.Controls
 
         if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
           AddTrackingScript();
-      }
 
-      if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
-        CompressCSS();
+        if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
+          CompressCSS();
+      }
     }
 
     /// <summary>
@@ -61,8 +61,8 @@ namespace BlogEngine.Core.Web.Controls
       {
         HtmlControl c = control as HtmlControl;
         if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
-        {
-          c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+        {          
+            c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
         }
       }
     }
@@ -118,7 +118,7 @@ namespace BlogEngine.Core.Web.Controls
 
     private void AddTrackingScript()
     {
-      Page.ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, true);
+      Page.ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, false);
     }
 
   }
