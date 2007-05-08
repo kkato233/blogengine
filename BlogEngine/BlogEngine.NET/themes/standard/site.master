@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/netslave" title=".NET slave" />
     <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon"/>
+    <link rel="edituri" type="application/rsd+xml" title="RSD" href="http://blog.madskristensen.dk/rsd.axd" />
 </head>
 <body>
 

@@ -112,6 +112,7 @@
     <Compile Include="Web\HttpHandlers\MicroSummary.cs" />
     <Compile Include="Web\HttpHandlers\OpenSearchHandler.cs" />
     <Compile Include="Web\HttpHandlers\PingbackHandler.cs" />
+    <Compile Include="Web\HttpHandlers\RsdHandler.cs" />
     <Compile Include="Web\HttpHandlers\Sitemap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
