@@ -71,8 +71,8 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 
     int page = GetPageIndex();
     string url = path + "?page={0}";
-    hlNext.NavigateUrl = string.Format(url, page);
-    hlPrev.NavigateUrl = string.Format(url, page +2);
+    hlNext.HRef = string.Format(url, page);
+    hlPrev.HRef = string.Format(url, page +2);
 
     if (page == 0)
       hlNext.Visible = false;

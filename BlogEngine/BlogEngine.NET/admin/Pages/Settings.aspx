@@ -1,6 +1,10 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin.master" ValidateRequest="false" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
+<div style="text-align:right">
+  <asp:Button runat="server" ID="btnSaveTop" Text="Save settings" />
+</div><br />
+
 <div class="settings">
 
   <h1>Basic settings</h1>
@@ -83,7 +87,7 @@
   <asp:TextBox runat="server" ID="txtSmtpServer" Width="300" /><br />
   
   <label for="<%=txtSmtpServerPort.ClientID %>">Port number</label>
-  <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" />
+  <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /> Port 25 is the standard
   <asp:CompareValidator runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
   
   <label for="<%=txtSmtpUsername.ClientID %>">User name</label>
@@ -153,9 +157,10 @@
   </p>
 </div>
 
-<br />
-<asp:Button runat="server" ID="btnSave" Text="Save settings" />
-<br /><br /><br />
+<div style="text-align:right">
+  <asp:Button runat="server" ID="btnSave" Text="Save settings" />
+</div>
+<br /><br />
 
 </asp:Content>
 

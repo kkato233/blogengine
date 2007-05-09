@@ -2,6 +2,6 @@
 <div runat="server" id="posts" class="posts" />
 
 <div id="postPaging">
-  <asp:HyperLink runat="server" ID="hlPrev" Text="<< Previous posts" SkinID="pagingPrev" style="float:left" />
-  <asp:HyperLink runat="server" ID="hlNext" Text="Next posts >>" SkinID="pagingNext" style="float:right" />
+  <a runat="server" ID="hlPrev" style="float:left">&lt;&lt; Previous posts</a>
+  <a runat="server" ID="hlNext" style="float:right">Next posts &gt;&gt;</a>
 </div>

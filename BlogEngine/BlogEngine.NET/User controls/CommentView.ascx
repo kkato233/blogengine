@@ -33,7 +33,7 @@
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
   <label for="<%=ddlCountry.ClientID %>">Country</label>
   <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" />&nbsp;
-  <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" Width="16" Height="11" /><br /><br />
+  <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" /><br /><br />
   <%} %>
 
   <label for="<%=txtContent.ClientID %>">Comment*</label>
@@ -52,6 +52,7 @@
 </div>
 
 <script type="text/javascript">
+<!--//
 var isAjaxSupported = (window.ActiveXObject != "undefined" || window.XMLHttpRequest != "undefined");
 if (!isAjaxSupported)
 {
@@ -82,7 +83,7 @@ function AppendComment(args, context)
   if (context == "comment")
   {
     if (document.getElementById("commentlist").innerHTML == "")
-      document.getElementById("commentlist").innerHTML = "<h1 id=\"comment\">Comments</h1>"
+      document.getElementById("commentlist").innerHTML = "<h1 id='comment'>Comments</h1>"
     document.getElementById("commentlist").innerHTML += args;
     document.getElementById("<%=txtContent.ClientID %>").value = "";
     document.getElementById("ajaxLoader").style.display = "none";
@@ -102,6 +103,7 @@ function SetFlag(iso)
   else
     flagImage.src = "<%=VirtualPathUtility.ToAbsolute("~/") %>pics/pixel.gif";
 }
+//-->
 </script>
 
 <% if (BlogSettings.Instance.IsCoCommentEnabled){ %>
