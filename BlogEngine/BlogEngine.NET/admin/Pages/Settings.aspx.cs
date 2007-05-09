@@ -26,6 +26,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     }
 
     btnSave.Click += new EventHandler(btnSave_Click);
+    btnSaveTop.Click += new EventHandler(btnSave_Click);
     btnTestSmtp.Click += new EventHandler(btnTestSmtp_Click);
   }
 

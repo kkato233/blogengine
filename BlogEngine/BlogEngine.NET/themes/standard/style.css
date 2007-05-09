@@ -24,6 +24,14 @@ a:hover {
 	text-decoration: underline;
 }
 
+a#subscribe{
+	position: absolute;
+	top: 151px;
+	right: 27px;
+	padding-right: 18px;
+	background: url(../../pics/rssbutton.gif) no-repeat right;
+}
+
 img {
 	border: none;
 }
@@ -193,7 +201,7 @@ div.post .text a[href^="http:"] {
 	padding-right: 10px;
 }
 
-div.post p.code {
+div.post p.code, div.post pre {
 	line-height: 12px;
 	background: #D8D8D8;
 	padding: 3px;

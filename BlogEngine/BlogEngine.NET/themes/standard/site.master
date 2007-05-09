@@ -28,6 +28,7 @@
         <uc1:InfoBox ID="InfoBox1" runat="server" />
       </div>
     </form>
+    <a href="http://feeds.feedburner.com/netslave" title="RSS" id="subscribe">Subscribe</a>
   </div>
 
 </body>

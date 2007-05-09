@@ -91,16 +91,16 @@ namespace Controls
         DateTime oldest = GetOldestPostDate();
 
         if (VisibleDate.Year != oldest.Year || VisibleDate.Month != oldest.Month)
-          writer.Write("<a href=\"javascript:CalNav('" + this.VisibleDate.AddMonths(-1).ToString("yyyy-MM-dd") + "')\">" + PrevMonthText + "</a>&nbsp;&nbsp;");
+          writer.Write("<a href=\"javascript:CalNav('" + this.VisibleDate.AddMonths(-1).ToString("yyyy-MM-dd") + "')\">" + HttpUtility.HtmlEncode(PrevMonthText) + "</a>&nbsp;&nbsp;");
         else
-          writer.Write(PrevMonthText + "&nbsp;&nbsp;");
+          writer.Write(HttpUtility.HtmlEncode(PrevMonthText) + "&nbsp;&nbsp;");
 
         writer.Write("</td><td style=\"text-align:center;width:100px\">" + VisibleDate.ToString("MMMM yyyy") + "</td><td align=\"right\">");
 
         if (VisibleDate.Year != DateTime.Now.Year || VisibleDate.Month != DateTime.Now.Month)
-          writer.Write("&nbsp;&nbsp;<a href=\"javascript:CalNav('" + this.VisibleDate.AddMonths(1).ToString("yyyy-MM-dd") + "')\">" + NextMonthText + "</a>");
+          writer.Write("&nbsp;&nbsp;<a href=\"javascript:CalNav('" + this.VisibleDate.AddMonths(1).ToString("yyyy-MM-dd") + "')\">" + HttpUtility.HtmlEncode(NextMonthText) + "</a>");
         else
-          writer.Write("&nbsp;&nbsp;" + NextMonthText);
+          writer.Write("&nbsp;&nbsp;" + HttpUtility.HtmlEncode(NextMonthText));
 
         writer.Write("</td></tr>");
         writer.Write("</table>");
