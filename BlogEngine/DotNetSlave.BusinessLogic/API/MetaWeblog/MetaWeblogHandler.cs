@@ -19,8 +19,10 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region IHttpHandler Members
 
         /// <summary>
-        /// 
+        /// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.
         /// </summary>
+        /// <value></value>
+        /// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
         public bool IsReusable
         {
             get { return false; }

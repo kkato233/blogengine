@@ -16,7 +16,9 @@ namespace BlogEngine.Core.Providers
         private SqlConnection providerConn;
 
         #region Posts
-
+        /// <summary>
+        /// Retrieves a post based on the specified Id.
+        /// </summary>
         public override Post SelectPost(Guid id)
         {
             OpenConnection();
@@ -116,6 +118,9 @@ namespace BlogEngine.Core.Providers
             return post;
         }
 
+        /// <summary>
+        /// Inserts a new Post to the data store.
+        /// </summary>
         public override void InsertPost(Post post)
         {
             OpenConnection();
@@ -138,6 +143,9 @@ namespace BlogEngine.Core.Providers
             UpdatePost(post);
         }
 
+        /// <summary>
+        /// Updates a Post.
+        /// </summary>
         public override void UpdatePost(Post post)
         {
             OpenConnection();
@@ -230,6 +238,9 @@ namespace BlogEngine.Core.Providers
 
         }
 
+        /// <summary>
+        /// Deletes a post from the data store.
+        /// </summary>
         public override void DeletePost(Post post)
         {
             OpenConnection();
@@ -244,6 +255,10 @@ namespace BlogEngine.Core.Providers
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves all posts from the data store
+        /// </summary>
+        /// <returns>List of Posts</returns>
         public override List<Post> FillPosts()
         {
             List<Post> posts = new List<Post>();
@@ -266,6 +281,9 @@ namespace BlogEngine.Core.Providers
         #endregion
 
         #region Pages
+        /// <summary>
+        /// Retrieves a Page from the data store.
+        /// </summary>
         public override Page SelectPage(Guid id)
         {
             OpenConnection();
@@ -297,6 +315,9 @@ namespace BlogEngine.Core.Providers
             return page;
         }
 
+        /// <summary>
+        /// Inserts a new Page to the data store.
+        /// </summary>
         public override void InsertPage(Page page)
         {
             OpenConnection();
@@ -317,6 +338,9 @@ namespace BlogEngine.Core.Providers
             UpdatePage(page);
         }
 
+        /// <summary>
+        /// Updates a Page in the data store.
+        /// </summary>
         public override void UpdatePage(Page page)
         {
             OpenConnection();
@@ -337,6 +361,9 @@ namespace BlogEngine.Core.Providers
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Deletes a Page from the data store.
+        /// </summary>
         public override void DeletePage(Page page)
         {
             OpenConnection();
@@ -348,6 +375,10 @@ namespace BlogEngine.Core.Providers
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves all pages from the data store
+        /// </summary>
+        /// <returns>List of Pages</returns>
         public override List<Page> FillPages()
         {
             List<Page> pages = new List<Page>();
@@ -369,6 +400,9 @@ namespace BlogEngine.Core.Providers
         #endregion
 
         #region Categories
+        /// <summary>
+        /// Loads all categories from the data store.
+        /// </summary>
         public override CategoryDictionary LoadCategories()
         {
             CategoryDictionary dic = new CategoryDictionary();
@@ -392,6 +426,9 @@ namespace BlogEngine.Core.Providers
             return dic;
         }
 
+        /// <summary>
+        /// Saves the categories to the data store.
+        /// </summary>
         public override void SaveCategories(CategoryDictionary categories)
         {
             OpenConnection();
@@ -413,6 +450,9 @@ namespace BlogEngine.Core.Providers
         }
         #endregion
 
+        /// <summary>
+        /// Handles Opening the SQL Connection
+        /// </summary>
         private void OpenConnection()
         {
             // Initial if needed

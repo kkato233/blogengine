@@ -16,9 +16,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region Contructors
 
         /// <summary>
-        /// 
+        /// Constructor sets default value
         /// </summary>
-        /// <param name="methodName"></param>
+        /// <param name="methodName">MethodName of called XML-RPC method</param>
         public XMLRPCResponse(string methodName)
         {
             _methodName = methodName;
@@ -46,7 +46,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region Public Properties
 
         /// <summary>
-        /// 
+        /// Name of Called Metaweblog Function
         /// </summary>
         public string MethodName
         {
@@ -55,7 +55,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// List of blog structs.  Used by blogger.getUsersBlogs.
         /// </summary>
         public List<MWABlogInfo> Blogs
         {
@@ -64,7 +64,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// List of category structs. Used by metaWeblog.getCategories.
         /// </summary>
         public List<MWACategory> Categories
         {
@@ -73,7 +73,8 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Marks whether function call was completed and successful.  
+        /// Used by metaWeblog.editPost and blogger.deletePost.
         /// </summary>
         public bool Completed
         {
@@ -82,7 +83,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Fault Struct. Used by API to return error information
         /// </summary>
         public MWAFault Fault
         {
@@ -91,7 +92,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// MediaInfo Struct
         /// </summary>
         public MWAMediaInfo MediaInfo
         {
@@ -100,7 +101,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Metaweblog Post Struct. Used by metaWeblog.getPost
         /// </summary>
         public MWAPost Post
         {
@@ -109,7 +110,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Id of post that was just added.  Used by metaWeblog.newPost
         /// </summary>
         public string PostID
         {
@@ -118,7 +119,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// List of Metaweblog Post Structs.  Used by metaWeblog.getRecentPosts
         /// </summary>
         public List<MWAPost> Posts
         {
@@ -131,9 +132,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region Public Methods
 
         /// <summary>
-        /// 
+        /// Response generates the XML-RPC response and returns it to the caller.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">httpContext.Response.OutputStream is used from the context</param>
         public void Response(HttpContext context)
         {
             context.Response.ContentType = "text/xml";
@@ -196,9 +197,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         #region Private Methods
 
         /// <summary>
-        /// 
+        /// Writes Fault Parameters of Response.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WriteFault(XmlTextWriter data)
         {
             data.WriteStartElement("value");
@@ -222,9 +223,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Writes Boolean parameter of Response
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WriteBool(XmlTextWriter data)
         {
             string postValue = "0";
@@ -238,9 +239,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
         
         /// <summary>
-        /// 
+        /// Writes the Array of Category structs parameters of Response
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WriteGetCategories(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -297,9 +298,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Writes the MediaInfo Struct of Response
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WriteMediaInfo(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -320,9 +321,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
         
         /// <summary>
-        /// 
+        /// Writes the PostID string of Response.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WriteNewPost(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -333,9 +334,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Writes the Metaweblog Post Struct of Response.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WritePost(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -400,9 +401,9 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
 
         /// <summary>
-        /// 
+        /// Writes the array of Metaweblog Post Structs of Response.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">xml response</param>
         private void WritePosts(XmlTextWriter data)
         {
             data.WriteStartElement("param");
@@ -498,7 +499,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
         
         /// <summary>
-        /// 
+        /// Writes array of BlogInfo structs of Response
         /// </summary>
         /// <param name="data"></param>
         private void WriteGetUsersBlogs(XmlTextWriter data)

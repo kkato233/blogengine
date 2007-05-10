@@ -16,7 +16,7 @@ namespace BlogEngine.Core.Web.Controls
   /// </summary>
   /// <remarks>
   /// The class is responsible for assigning the theme to all
-  /// derived pages as long as adding RSS, RSD, MicroSummary, tracking script
+  /// derived pages as well as adding RSS, RSD, MicroSummary, tracking script
   /// and a whole lot more.
   /// </remarks>
   public abstract class BlogBasePage : System.Web.UI.Page
