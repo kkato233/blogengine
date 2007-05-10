@@ -116,10 +116,10 @@ namespace BlogEngine.Core.API.MetaWeblog
     public class MetaWeblogException : ApplicationException
     {
         /// <summary>
-        /// 
+        /// Constructor to load properties
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="message"></param>
+        /// <param name="code">Fault code to be returned in Fault Response</param>
+        /// <param name="message">Message to be returned in Fault Response</param>
         public MetaWeblogException(string code, string message)
             : base(message)
         {
@@ -145,15 +145,15 @@ namespace BlogEngine.Core.API.MetaWeblog
     public struct MWACategory
     {
         /// <summary>
-        /// 
+        /// Category title
         /// </summary>
         public string description;
         /// <summary>
-        /// 
+        /// Url to thml display of category
         /// </summary>
         public string htmlUrl;
         /// <summary>
-        /// 
+        /// Url to RSS for category
         /// </summary>
         public string rssUrl;
     }
@@ -165,15 +165,15 @@ namespace BlogEngine.Core.API.MetaWeblog
     public struct MWABlogInfo
     {
         /// <summary>
-        /// 
+        /// Blog Url
         /// </summary>
         public string url;
         /// <summary>
-        /// 
+        /// Blog ID (Since BlogEngine.NET is single instance this number is always 10.
         /// </summary>
         public string blogID;
         /// <summary>
-        /// 
+        /// Blog Title
         /// </summary>
         public string blogName;
     }
@@ -185,11 +185,11 @@ namespace BlogEngine.Core.API.MetaWeblog
     public struct MWAFault
     {
         /// <summary>
-        /// 
+        /// Error code of Fault Response
         /// </summary>
         public string faultCode;
         /// <summary>
-        /// 
+        /// Message of Fault Response
         /// </summary>
         public string faultString;
     }
@@ -201,15 +201,15 @@ namespace BlogEngine.Core.API.MetaWeblog
     public struct MWAMediaObject
     {
         /// <summary>
-        /// 
+        /// Name of media object (filename)
         /// </summary>
         public string name;
         /// <summary>
-        /// 
+        /// Type of file
         /// </summary>
         public string type;
         /// <summary>
-        /// 
+        /// Media
         /// </summary>
         public byte[] bits;
     }
@@ -221,7 +221,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     public struct MWAMediaInfo
     {
         /// <summary>
-        /// 
+        /// Url that points to Saved MediaObejct
         /// </summary>
         public string url;
     }
@@ -234,31 +234,31 @@ namespace BlogEngine.Core.API.MetaWeblog
     public struct MWAPost
     {
         /// <summary>
-        /// 
+        /// PostID Guid in string format
         /// </summary>
         public string postID;
         /// <summary>
-        /// 
+        /// Title of Blog Post
         /// </summary>
         public string title;
         /// <summary>
-        /// 
+        /// Link to Blog Post
         /// </summary>
         public string link;
         /// <summary>
-        /// 
+        /// Content of Blog Post
         /// </summary>
         public string description;
         /// <summary>
-        /// 
+        /// List of Categories assigned for Blog Post
         /// </summary>
         public List<string> categories;
         /// <summary>
-        /// 
+        /// Display date of Blog Post (DateCreated)
         /// </summary>
         public DateTime postDate;
         /// <summary>
-        /// 
+        /// Whether the Post is published or not.
         /// </summary>
         public bool publish;
     }
@@ -267,30 +267,33 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// MetaWeblog UserInfo struct
     /// returned from GetUserInfo call
     /// </summary>
+    /// <remarks>
+    /// Not used currently, but here for completeness.
+    /// </remarks>
     public struct MWAUserInfo
     {
         /// <summary>
-        /// 
+        /// User Name Proper
         /// </summary>
         public string nickname;
         /// <summary>
-        /// 
+        /// Login ID
         /// </summary>
         public string userID;
         /// <summary>
-        /// 
+        /// Url to User Blog?
         /// </summary>
         public string url;
         /// <summary>
-        /// 
+        /// Email address of User
         /// </summary>
         public string email;
         /// <summary>
-        /// 
+        /// User LastName
         /// </summary>
         public string lastName;
         /// <summary>
-        /// 
+        /// User First Name
         /// </summary>
         public string firstName;
     }
