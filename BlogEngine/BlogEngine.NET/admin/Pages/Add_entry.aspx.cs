@@ -28,7 +28,7 @@ public partial class admin_entry : System.Web.UI.Page
             else
             {
                 ddlAuthor.SelectedValue = Page.User.Identity.Name;
-                txtDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                txtDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
                 cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
             }
 
@@ -177,7 +177,7 @@ public partial class admin_entry : System.Web.UI.Page
         txtContent.Text = post.Content;
         txtDescription.Text = post.Description;
         ddlAuthor.SelectedValue = post.Author;
-        txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd");
+        txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
         cbEnableComments.Checked = post.IsCommentsEnabled;
         cbPublish.Checked = post.IsPublished;
 
