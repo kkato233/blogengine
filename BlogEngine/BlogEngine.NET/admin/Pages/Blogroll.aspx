@@ -1,9 +1,12 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Blogroll.aspx.cs" Inherits="admin_Pages_blogroll" Title="Blogroll" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Blogroll.aspx.cs" Inherits="admin_Pages_blogroll" Title="Blogroll" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
+<br />
+
+<div class="settings">
   <h1 style="margin: 0 0 5px 0">Settings</h1>
   
-  <label for="<%=ddlVisiblePosts.ClientID %>" class="wide"># of displayed items</label>
+ <label for="<%=ddlVisiblePosts.ClientID %>" class="wide"># of displayed items</label>
   <asp:DropDownList runat="server" id="ddlVisiblePosts">
     <asp:ListItem Text="0" />
     <asp:ListItem Text="1" />
@@ -20,17 +23,19 @@
   
   <label for="<%=txtMaxLength.ClientID %>" class="wide">Max lenght of items</label>
   <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
-  <asp:CompareValidator runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" /><br />
+  <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" /><br />
   
   <label for="<%=txtUpdateFrequency.ClientID %>" class="wide">Update frequenzy (minutes)</label>
   <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
-  <asp:CompareValidator runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
+  <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
   
   <div style="text-align:right">
     <asp:Button runat="server" ID="btnSaveSettings" Text="Save settings" ValidationGroup="settings" />
   </div>
   
-  <hr />
+ </div>
+ 
+<div class="settings">
   
   <h1 style="margin: 0 0 5px 0">Add blog</h1>
 
@@ -51,7 +56,7 @@
   <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtFeedUrl" ErrorMessage="required" /><br />
   
   <label for="<%=cblXfn.ClientID %>" class="wide">XFN tag</label>
-  <asp:CheckBoxList runat="server" ID="cblXfn" RepeatColumns="8">
+  <asp:CheckBoxList runat="server" ID="cblXfn" CssClass="nowidth" RepeatColumns="8">
     <asp:ListItem Text="contact" />
     <asp:ListItem Text="acquaintance " />
     <asp:ListItem Text="friend " />
@@ -76,7 +81,7 @@
     <asp:Button runat="server" ID="btnSave" Text="Add blog" />
   </div>
   
-  <hr />
+</div>
   
   <asp:Repeater runat="Server" ID="rep">
     <HeaderTemplate>
@@ -112,4 +117,7 @@
       </Table>
     </FooterTemplate>
   </asp:Repeater>
+  
+
+  
 </asp:Content>

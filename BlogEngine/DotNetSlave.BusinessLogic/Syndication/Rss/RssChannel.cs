@@ -63,7 +63,7 @@ namespace BlogEngine.Core.Syndication.Rss
         /// <summary>
         /// Private member to hold the information that indicates the program used to generate the channel.
         /// </summary>
-        private string channelGenerator                         = "Argotic Syndication Library, http://argotic.oppositionallydefiant.com/";
+        private string channelGenerator                         = "BlogEngine.NET, http://www.dotnetblogengine.com/";
         /// <summary>
         /// Private member to hold a URL that points to the documentation for the RSS syndication format.
         /// </summary>

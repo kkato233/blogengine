@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" Title="Add entry" ValidateRequest="False" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" Title="Add entry" ValidateRequest="False" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
   <label for="<%=txtTitle.ClientID %>">Title</label>
@@ -10,8 +10,8 @@
   <label for="<%=txtDate.ClientID %>">Date</label>
   <asp:TextBox runat="server" ID="txtDate" Width="110px" />
   
-  <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
+  <asp:CompareValidator runat="server" ControlToValidate="txtDate" Operator="dataTypeCheck" Type="date" ErrorMessage="Please enter a valid date (yyyy-mm-dd)" Display="dynamic" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd)" Display="Dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter an author" Display="Dynamic" />
   <br /><br />
   
@@ -108,6 +108,6 @@
   <div style="text-align:right">  
     <asp:Button runat="server" ID="btnSave" Text="Save post" />
   </div>
-  <br /><br />
+  <br />
 </asp:Content>
 

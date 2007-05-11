@@ -1,10 +1,11 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" Title="Categories" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" Title="Untitled Page" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
   <label for="txtNewCategory">Add new category</label><br />
   <asp:TextBox runat="Server" ID="txtNewCategory" Width="200" />  
   <asp:Button runat="server" ID="btnAdd" Text="Add category" ValidationGroup="new" />
-  <asp:RequiredFieldValidator runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="Please enter a valid name" /><br /><hr />
+  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="Please enter a valid name" /><br /><hr />
+
 
   <asp:GridView runat="server" ID="grid" CssClass="category"  
     UseAccessibleHeader="true" 

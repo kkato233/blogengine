@@ -1,5 +1,7 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" ValidateRequest="false" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+<br />
 
 <div style="text-align:right">
   <asp:Button runat="server" ID="btnSaveTop" Text="Save settings" />
@@ -10,16 +12,16 @@
   <h1>Basic settings</h1>
   <label for="<%=txtName.ClientID %>">Name</label>
   <asp:TextBox runat="server" ID="txtName" Width="300" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="Required" /><br />
+  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="Required" /><br />
 
   <label for="<%=txtDescription.ClientID %>">Description</label>
   <asp:TextBox runat="server" ID="txtDescription" Width="300" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDescription" ErrorMessage="Required" /><br />
+  <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDescription" ErrorMessage="Required" /><br />
     
   <label for="<%=txtPostsPerPage.ClientID %>">Posts per page</label>
   <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPostsPerPage" ErrorMessage="Required" />
-  <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+  <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtPostsPerPage" ErrorMessage="Required" />
+  <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
   
   <label for="<%=ddlTheme.ClientID %>">Theme</label>
   <asp:DropDownList runat="server" ID="ddlTheme" /><br />
@@ -88,7 +90,7 @@
   
   <label for="<%=txtSmtpServerPort.ClientID %>">Port number</label>
   <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /> Port 25 is the standard
-  <asp:CompareValidator runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
+  <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
   
   <label for="<%=txtSmtpUsername.ClientID %>">User name</label>
   <asp:TextBox runat="server" ID="txtSmtpUsername" Width="300" /><br />
@@ -143,6 +145,16 @@
 
 </div>
 
+<br />
+<div align="right"><asp:Button runat="server" ID="btnSave" Text="Save settings" /></div>
+<br />
+
+</asp:Content>
+
+
+
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="rightAdmin">
+
 <div class="settings">
 
   <h1>Import (beta)</h1>
@@ -153,14 +165,9 @@
      when you import comments or download files automatically.
   </p>
   <p>
-    <a href="http://www.madskristensen.dk/clickonce/blogconverter/BlogConverter.application?url=<%=BlogEngine.Core.Utils.AbsoluteWebRoot %>&username=<%=System.Threading.Thread.CurrentPrincipal.Identity.Name %>">Launch import tool</a>
+    <a href="http://www.madskristensen.dk/clickonce/blogconverter/BlogConverter.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=System.Threading.Thread.CurrentPrincipal.Identity.Name %>">Launch import tool</a>
   </p>
 </div>
-
-<div style="text-align:right">
-  <asp:Button runat="server" ID="btnSave" Text="Save settings" />
-</div>
-<br /><br />
 
 </asp:Content>
 
