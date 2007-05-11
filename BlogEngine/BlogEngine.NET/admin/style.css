@@ -1,15 +1,13 @@
 ﻿body {
-	background-color: #F1F1F1;
+	height: 100%;
+	background-color: #FFFFFF;
+	font-style: normal;
+	font-size: small;
+	margin: 0;
 	font-family: Verdana;
 	font-size: 11px;
-	margin: 0 10px;
 }
 
-.loginStatus{
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
 
 h1 {
 	font-size: 15px;
@@ -25,11 +23,11 @@ a:hover {
 	text-decoration: underline;
 }
 
-img{
+img {
 	border: none;
 }
 
-.alt td{
+.alt td {
 	background-color: white;
 }
 
@@ -40,103 +38,226 @@ label.wide {
 }
 
 /*----------------------------
-						Entry
+						Layout
 ----------------------------*/
 
-table#entrySettings {
+#leftColumn {
+	background-image: url( 'images/bkgd_left_column.gif' );
+	background-repeat: repeat-y;
+	width: 28px;
+}
+
+#rightColumn {
+	background-image: url( 'images/bkgd_right_column.gif' );
+	background-repeat: repeat-y;
+	width: 28px;
+}
+
+#footer {
+	font-size: .8em;
+	padding-top: 4px;
+	padding-left: 30px;
+	background-color: #959595;
+	color: white;
 	width: 100%;
+	height: 17px;
+	clear: right;
 }
 
-table#entrySettings td {
-	padding: 2px 0px;
+#footer a {
+	color: White;
 }
 
-table#entrySettings td.label {
-	width: 100px;
-	vertical-align: top;
+.rightSidebar {
+	width: 210px;
+	background-color: #F1F1F1;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #B8C1CA;
+	padding: 10px 10px 10px 10px;
+	background-color: #F1F1F1;
+	margin-right: 15px;
+	margin-top: 30px;
 }
 
-table#entrySettings textarea {
+.banner {
 	width: 100%;
-	height: 50px;
+	background-color: #F1F1F1;
+	border-bottom: solid 4px #959595;
 }
 
-.cblCategories label {
-	margin-right: 5px;
-}
-
-/*----------------------------
-						Menu
-----------------------------*/
-
-ul.adminmenu {
-	list-style-type: none;
-	margin: 10px 0px;
-	padding-bottom: 10px;
-	border-bottom: 1px solid silver;
-	text-transform: capitalize;
-}
-
-ul.adminmenu li {
-	display: inline;
-}
-
-ul.adminmenu li a {
-	text-decoration: none;
+.banner h1 {
+	font-family: Arial;
+	font-size: 30px;
 	font-weight: bold;
-	padding: 3px 5px;
-	background-color: White;
-	margin: 0 2px;
-	border: 1px solid gray;
-	color: Black;
+	margin: 0px;
+	letter-spacing: 1px;
+	color: Silver;
 }
 
-ul.adminmenu li a:hover {
-	background: #F1F1F1;
+.banner h2 {
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0px;
+	color: Silver;
 }
 
+.main {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #B8C1CA;
+	padding: 45px 10px 3px 20px;
+	background-color: #F1F1F1;
+	border-top: solid 1px #B8C1CA;
+}
 
-/*----------------------------
-						Settings
-----------------------------*/
-
-.settings{
-	padding: 10px;
+.settings {
+	padding: 10px 10px 10px 10px;
 	background: white;
 	border: 1px solid silver;
 	margin-bottom: 20px;
+	margin-top: 20px;
 }
 
-.settings h1{
+.settings h1 {
 	margin: 0 0 10px 0;
 	border-bottom: 1px solid silver;
 }
 
-.settings label{
-	float:left;
+.settings label {
+	float: left;
 	width: 150px;
-	position:relative;
-	top: 5px;
+}
+
+.nowidth label {
+	float: none;
+	width: 0px;
 }
 
 /*----------------------------
 					Referrers
 ----------------------------*/
 
-table.referrer td{
+table.referrer td {
 	padding: 2px 0;
 	border-bottom: 1px solid silver;
 }
 
-table.referrer tr.alt td{
+table.referrer tr.alt td {
 	background-color: White;
 }
-
 
 /*----------------------------
 					Category
 ----------------------------*/
 
-.category td{
+.category td {
 	padding: 2px 10px;
+}
+
+/*- Menu Tabs --------------------------- */
+
+.tabs .current {
+	font-weight: bolder;
+	color: Blue;
+	border-bottom: solid 3px #F1F1F1;
+}
+
+.tabs {
+	float: left;
+	width: 100%;
+	background: #FFFFFF;
+	font-size: 93%;
+	line-height: normal;
+	margin: 0;
+	padding: 0; border-bottom:solid 1px #B8C1CA;
+}
+
+.tabs ul {
+	margin: 0;
+	padding: 10px 10px 0 50px;
+	list-style: none;
+}
+
+.tabs li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.tabs a {
+	float: left;
+	background: url( "images/tableftB.gif" ) no-repeat left top;
+	margin: 0;
+	padding: 0 0 0 4px;
+	text-decoration: none;
+	border-bottom: solid 3px #B8C1CA;
+}
+
+.tabs a span {
+	float: left;
+	display: block;
+	background: url( "images/tabrightB.gif" ) no-repeat right top;
+	padding: 5px 15px 4px 6px;
+	color: #666;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.tabs a span {
+	float: none;
+}
+
+/* End IE5-Mac hack */
+.tabs a:hover span {
+	color: #000;
+}
+
+.tabs a:hover {
+	background-position: 0% -42px;
+}
+
+.tabs a:hover span {
+	background-position: 100% -42px;
+}
+
+/*-------------*/
+
+.main input[type="submit"] {
+	color: #000000;
+	background: #FFFFFF;
+	border: 1px solid #B8C1CA;
+}
+
+
+.main input[type="submit"]:hover {
+	color: #FFFFFF;
+	background: #B8C1CA;
+	cursor: pointer;
+}
+
+.settings input[type="submit"] {
+	color: #666;
+	background: #F1F1F1;
+	border: 1px solid #B8C1CA;
+}
+
+.settings input[type="submit"]:hover {
+	color: #FFFFFF;
+	background: #B8C1CA;
+	cursor: pointer;
+}
+
+input, select, textarea {
+	color: #666;
+	background: #FFFFFF;
+	border: 1px solid #B8C1CA;
+}
+
+input[type="file"]:hover {
+	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	border: none;
 }

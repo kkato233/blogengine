@@ -3,7 +3,7 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%;">
-<head runat="server">
+<head id="Head1" runat="server">
     <title>Untitled Page</title>
     <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -24,9 +24,9 @@
                                     </td>
                                      <td valign="middle">
                                     <h2>Administration Panel</h2>                                    
-                                    </td>
+                                    </td>                                    
                                     <td valign="top" align="right" style="width:100px">
-                                    <a id="Return_to_Main" runat="server" href="~/">Return to front page</a>
+                                    <a id="Return_to_Main" runat="server" href="~/">Go to front page</a>
                                     </td>
                                     <td valign="top" align="right" style="width:50px">
                                     <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
@@ -42,7 +42,7 @@
                                         
                                             <div style="padding-right: 18px; margin-bottom: 1em;">
                                             
-                                               <div class="tabs">
+                                               <div class="tabs" style="width:100%">
                                                   <uc1:menu ID="Menu1" runat="server" />
                                                 </div>
                                                 
@@ -53,9 +53,9 @@
                                             </div>
                                         </td>
                                         <td valign="top">
-                                            <div class="rightSidebar">
+                                            <!--<div class="rightSidebar">
                                               <asp:ContentPlaceHolder ID="rightAdmin" runat="server" />                                                  
-                                            </div>
+                                            </div>-->
                                         </td>
                                     </tr>
                                 </table>

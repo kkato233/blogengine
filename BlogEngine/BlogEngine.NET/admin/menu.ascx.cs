@@ -20,7 +20,7 @@ public partial class admin_menu : System.Web.UI.UserControl
       FileInfo info = new FileInfo(file);
       HtmlAnchor a = new HtmlAnchor();
       a.HRef = "~/admin/pages/" + info.Name;
-      a.InnerHtml = info.Name.Replace(".aspx", string.Empty).Replace("_", " ");
+      a.InnerHtml = "<span>" + info.Name.Replace(".aspx", string.Empty).Replace("_", " ") + "</span>";
 
       if (Request.RawUrl.EndsWith(info.Name, StringComparison.OrdinalIgnoreCase))
         a.Attributes["class"] = "current";
@@ -34,7 +34,7 @@ public partial class admin_menu : System.Web.UI.UserControl
   public void AddItem(string text, string url)
   {
     HtmlAnchor a = new HtmlAnchor();
-    a.InnerHtml = text;
+    a.InnerHtml = "<span>" + text + "</span>";
     a.HRef = url;
 
     HtmlGenericControl li = new HtmlGenericControl("li");
