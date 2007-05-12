@@ -12,7 +12,7 @@ using System;
 [assembly: AssemblyTitle("BlogEngine.NET")]
 [assembly: AssemblyDescription("BlogEngine.NET")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(".NET slave")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BlogEngine.NET")]
 [assembly: AssemblyCopyright("Copyright @ 2007")]
 [assembly: AssemblyTrademark("")]
@@ -22,4 +22,4 @@ using System;
 [assembly: ComVisible(false)]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.1.0.1")]
+[assembly: AssemblyVersion("1.0.0.0")]
