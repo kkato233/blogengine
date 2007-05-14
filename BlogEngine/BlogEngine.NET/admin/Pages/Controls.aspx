@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 <br />
 <div class="settings">
@@ -31,9 +31,8 @@
 
 </div>
 
-<br />
-<asp:Button runat="server" ID="btnSave" Text="Save settings" />
-<br /><br /><br />
-
+<div style="text-align: right">
+  <asp:Button runat="server" ID="btnSave" Text="Save settings" />
+</div><br />
 </asp:Content>
 

@@ -4,7 +4,7 @@
   <label for="">Enable referrer tracking</label>
   <asp:CheckBox runat="Server" ID="cbEnableReferrers" AutoPostBack="true" /><br /><hr />
 
-  <label for="<%=ddlDays.ClientID %>">Select date</label>
+  <label for="<%=ddlDays.ClientID %>">Select day</label>
   <asp:DropDownList runat="server" id="ddlDays" AutoPostBack="true" /><br /><br />
   
   <asp:GridView runat="server" ID="grid" Width="100%" GridLines="None" AutoGenerateColumns="False" CssClass="referrer" EnableViewState="false">
