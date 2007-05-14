@@ -145,7 +145,6 @@
 
 </div>
 
-<br />
 <div align="right"><asp:Button runat="server" ID="btnSave" Text="Save settings" /></div>
 <br />
 

@@ -70,7 +70,7 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private void RegisterClick(string url)
     {
-      string fileName = _Folder + DateTime.Now.Date.ToString("yyyy-MM-dd") + ".xml";
+      string fileName = _Folder + DateTime.Now.Date.ToString("dddd", CultureInfo.InvariantCulture) + ".xml";
 
       lock (_SyncRoot)
       {
@@ -108,6 +108,8 @@ namespace BlogEngine.Core.Web.HttpModules
       doc.ChildNodes[1].AppendChild(newNode);
     }
 
+    private static DateTime _Date = DateTime.Now;
+
     /// <summary>
     /// Creates the XML file for first time use.
     /// </summary>
@@ -118,7 +120,7 @@ namespace BlogEngine.Core.Web.HttpModules
       if (!Directory.Exists(_Folder))
         Directory.CreateDirectory(_Folder);
 
-      if (!File.Exists(fileName))
+      if (DateTime.Now.Day != _Date.Day || !File.Exists(fileName))
       {
         using (XmlWriter writer = XmlWriter.Create(fileName))
         {
@@ -128,6 +130,7 @@ namespace BlogEngine.Core.Web.HttpModules
         }
       }
 
+      _Date = DateTime.Now;
       doc.Load(fileName);
       return doc;
     }

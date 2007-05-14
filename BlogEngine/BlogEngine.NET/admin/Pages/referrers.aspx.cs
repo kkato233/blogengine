@@ -16,7 +16,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
       if (BlogSettings.Instance.EnableReferrerTracking)
       {
         BindDays();
-        BindReferrers(DateTime.Now.Date);
+        BindReferrers(DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture));
       }
       else
       {
@@ -35,7 +35,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
     if (cbEnableReferrers.Checked)
     {
       BindDays();
-      BindReferrers(DateTime.Now.Date);
+      BindReferrers(DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture));
     }
     else
     {
@@ -48,8 +48,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
   void ddlDays_SelectedIndexChanged(object sender, EventArgs e)
   {
-    DateTime date = DateTime.Parse(ddlDays.SelectedValue);
-    BindReferrers(date);
+    BindReferrers(ddlDays.SelectedValue);
   }
 
   private void BindDays()
@@ -69,7 +68,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
       foreach (ListItem item in ddlDays.Items)
       {
-        if (item.Text == DateTime.Now.ToString("yyyy-MM-dd"))
+        if (item.Text == DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture))
         {
           item.Selected = true;
           break;
@@ -78,9 +77,9 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
     }
   }
 
-  private void BindReferrers(DateTime date)
+  private void BindReferrers(string day)
   {
-    string filename = Server.MapPath("~/app_data/log/" + date.ToString("yyyy-MM-dd") + ".xml");
+    string filename = Server.MapPath("~/app_data/log/" + day + ".xml");
     if (File.Exists(filename))
     {
       DataSet ds = new DataSet();
@@ -93,7 +92,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
       foreach (DataRow row in ds.Tables[0].Rows)
       {
         DataRow newRow = table.NewRow();
-        newRow["url"] = row["address"];
+        newRow["url"] = Server.HtmlEncode(row["address"].ToString());
         newRow["shortUrl"] = MakeShortUrl(row["address"].ToString());
         newRow["hits"] = int.Parse(row["url_text"].ToString());
         table.Rows.Add(newRow);
@@ -113,7 +112,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
     if (url.Length > 150)
       return url.Substring(0, 150) + "...";
 
-    return url.Replace("http://", string.Empty).Replace("www.", string.Empty);
+    return Server.HtmlEncode( url.Replace("http://", string.Empty).Replace("www.", string.Empty));
   }
 
   /// <summary>
