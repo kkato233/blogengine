@@ -135,7 +135,6 @@ public partial class admin_entry : System.Web.UI.Page
         if (!Request.IsLocal)
         {
             System.Threading.ThreadPool.QueueUserWorkItem(Ping, post);
-            System.Threading.ThreadPool.QueueUserWorkItem(SendTrackbacks, post);
         }
 
         Response.Redirect(post.RelativeLink.ToString());
@@ -146,16 +145,8 @@ public partial class admin_entry : System.Web.UI.Page
         System.Threading.Thread.Sleep(2000);
         Post post = (Post)stateInfo;
         new BlogEngine.Core.Ping.PingService().Send();
-        BlogEngine.Core.Ping.Pingback.Send(post);
-    }
-
-    private void SendTrackbacks(object stateInfo)
-    {
-        System.Threading.Thread.Sleep(2000);
-        Post post = (Post)stateInfo;
         BlogEngine.Core.Ping.Manager.Send(post);
     }
-
 
     #endregion
 

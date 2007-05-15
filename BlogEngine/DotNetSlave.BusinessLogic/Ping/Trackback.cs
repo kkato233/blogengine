@@ -47,7 +47,6 @@ namespace BlogEngine.Core.Ping
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             //done: if the URL mispelled,error the request.GetResponse raise and WebException - 404 not found
-            bool result = false;
             try
             {
                 response = (HttpWebResponse)request.GetResponse();
@@ -61,20 +60,20 @@ namespace BlogEngine.Core.Ping
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     //todo:we need to parse the XML response for errors in the trackback XML response
-                    result =  true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
                 //----------------------------------------------------
             }
             catch //(WebException wex)
             {
-                result = false;
+                return false;
             }
 
-            return result;
+            return false;
         }
 
 
@@ -115,12 +114,12 @@ namespace BlogEngine.Core.Ping
         /// <param name="postUrl"></param>
         /// <param name="excerpt"></param>
         /// <param name="blogName"></param>
-        public TrackbackMessage(string title, string postUrl, string excerpt, string blogName)
+        public TrackbackMessage(Post post)
         {
-            Title = title;
-            PostURL = new Uri(postUrl);
-            Excerpt = excerpt;
-            BlogName = blogName;
+            Title = post.Title;
+            PostURL = post.AbsoluteLink;
+            Excerpt = post.Description;
+            BlogName = BlogSettings.Instance.Name;
         }
 
         /// <summary>
