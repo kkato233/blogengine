@@ -21,14 +21,16 @@ namespace BlogEngine.Core.Ping
         {
             foreach (string url in GetUrlsFromContent(post.Content))
             {
-                TrackbackMessage tMessage = new TrackbackMessage(post);
+                
                 //Go to external site and get TrackBack RDF code/def
                 string rdfContents = ReadFromWeb(url);
-                string urlToNotifiedTrackback = GetTrackBackLinkFromText(rdfContents);
-                if (!string.IsNullOrEmpty(urlToNotifiedTrackback.Trim()))
+                string urlToNotifyTrackback = GetTrackBackLinkFromText(rdfContents);
+
+                TrackbackMessage tMessage = new TrackbackMessage(post, urlToNotifyTrackback);
+                if (!string.IsNullOrEmpty(urlToNotifyTrackback.Trim()))
                 {
                     //old:code:SendTrackbackMessage(urlToNotifiedTrackback, tMessage);
-                    bool isTrackbackSent = Trackback.Send(urlToNotifiedTrackback, tMessage);
+                    bool isTrackbackSent = Trackback.Send(tMessage);
                     if (!isTrackbackSent)
                     {
                       Pingback.Send(post.AbsoluteLink.ToString(), url);

@@ -18,19 +18,16 @@ namespace BlogEngine.Core.Ping
         public Trackback()
         { }
 
-
-
-
         /// <summary>
-        /// SendTrackbackMessage
+        /// 
         /// </summary>
-        /// <param name="urlToNotifiedTrackback"></param>
         /// <param name="tMessage"></param>
-        /// <returns>The Response of the trackbackHandler in the other End(urltoNotified)</returns>
-        public static bool Send(string urlToNotifiedTrackback, TrackbackMessage tMessage)
+        /// <returns></returns>    
+        public static bool Send(TrackbackMessage tMessage)
         {
 
-            HttpWebRequest request = (HttpWebRequest)System.Net.HttpWebRequest.Create(urlToNotifiedTrackback); //HttpHelper.CreateRequest(trackBackItem);
+            tMessage.PostURL = new Uri("http://www.artinsoft.com/webmaster/trackback.html");
+            HttpWebRequest request = (HttpWebRequest)System.Net.HttpWebRequest.Create(tMessage.URLToNotifyTrackback); //HttpHelper.CreateRequest(trackBackItem);
             request.Method = "POST";
             request.ContentLength = tMessage.ToString().Length;
             request.ContentType = "application/x-www-form-urlencoded";
@@ -42,12 +39,8 @@ namespace BlogEngine.Core.Ping
                 myWriter.Write(tMessage.ToString());
             }
 
-            //request.BeginGetResponse(EndGetResponse, request);
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            //done: if the URL mispelled,error the request.GetResponse raise and WebException - 404 not found
             bool result = false;
+            HttpWebResponse response;
             try
             {
                 response = (HttpWebResponse)request.GetResponse();
@@ -67,21 +60,13 @@ namespace BlogEngine.Core.Ping
                 {
                     result = false;
                 }
-                //----------------------------------------------------
             }
             catch //(WebException wex)
             {
                 result = false;
             }
-
-            return result ;
+            return result;
         }
-
-
-
-
-
-
     }
     /// <summary>
     /// 
@@ -111,13 +96,20 @@ namespace BlogEngine.Core.Ping
         /// <summary>
         /// 
         /// </summary>
+        public Uri URLToNotifyTrackback;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="post"></param>
-        public TrackbackMessage(Post post)
+        /// <param name="urlToNotifyTrackback"></param>
+        public TrackbackMessage(Post post, string urlToNotifyTrackback)
         {
             Title = post.Title;
             PostURL = post.AbsoluteLink;
-            Excerpt = post.Description;
+            Excerpt = post.Title;
             BlogName = BlogSettings.Instance.Name;
+            URLToNotifyTrackback = new Uri(urlToNotifyTrackback);
         }
 
         /// <summary>
@@ -126,8 +118,14 @@ namespace BlogEngine.Core.Ping
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostURL, Excerpt, BlogName);
+            if (string.IsNullOrEmpty(URLToNotifyTrackback.Query))
+            {
+                return String.Format("?title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostURL, Excerpt, BlogName);
+            }
+            else
+            {
+                return String.Format("&title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostURL, Excerpt, BlogName);
+            }
         }
     }
-
 }
