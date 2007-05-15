@@ -51,7 +51,8 @@
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
-    <Compile Include="Ping\PingbackManager.cs" />
+    <Compile Include="Ping\Manager.cs" />
+    <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Providers\MSSQLBlogProvider.cs" />
     <Compile Include="Syndication\Atom\AtomCategory.cs" />
     <Compile Include="Syndication\Atom\AtomCategoryCollection.cs" />
