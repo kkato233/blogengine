@@ -21,7 +21,7 @@ namespace BlogEngine.Core.Ping
         {
             foreach (string url in GetUrlsFromContent(post.Content))
             {
-                TrackbackMessage tMessage = new TrackbackMessage(post.Title, post.PermaLink.ToString(),"", BlogSettings.Instance.Name);
+                TrackbackMessage tMessage = new TrackbackMessage(post);
                 //Go to external site and get TrackBack RDF code/def
                 string rdfContents = ReadFromWeb(url);
                 string urlToNotifiedTrackback = GetTrackBackLinkFromText(rdfContents);
@@ -31,9 +31,7 @@ namespace BlogEngine.Core.Ping
                     bool isTrackbackSent = Trackback.Send(urlToNotifiedTrackback, tMessage);
                     if (!isTrackbackSent)
                     {
-                        //**************************************************** HERE
-                        Pingback.Send(post.PermaLink.ToString(), url);
-                        //**************************************************** HERE
+                      Pingback.Send(post.AbsoluteLink.ToString(), url);
                     }
                 }
             }

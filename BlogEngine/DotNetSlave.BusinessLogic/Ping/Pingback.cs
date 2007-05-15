@@ -17,33 +17,14 @@ namespace BlogEngine.Core.Ping
   /// </summary>
   public static class Pingback
   {
-    /// <summary>
-    /// Sends pingbacks to all external links in the specified post.
-    /// </summary>
-    public static bool Send(Post post)
-    {
-      if (post == null)
-        throw new ArgumentNullException("post");
-
-      Regex regex = new Regex("href\\s*=\\s*(?:(?:\\\"(?<url>[^\\\"]*)\\\")|(?<url>[^\\s]* ))"); 
-      foreach (Match match in regex.Matches(post.Content))
-      {
-        Send(post.AbsoluteLink.ToString(), match.Groups[1].Value);
-      }
-
-      return true;
-    }
 
     /// <summary>
-    /// 
+    /// Sends pingbacks to the targetUrl.
     /// </summary>
-    /// <param name="sourceUrl"></param>
-    /// <param name="targetUrl"></param>
-    /// <returns></returns>
-    public static bool Send(string sourceUrl, string targetUrl)
+    public static void Send(string sourceUrl, string targetUrl)
     {
       if (string.IsNullOrEmpty(sourceUrl) || string.IsNullOrEmpty(targetUrl))
-        return false;
+        return;
 
       try
       {
@@ -59,16 +40,12 @@ namespace BlogEngine.Core.Ping
           request.ContentType = "text/xml";
           request.ProtocolVersion = HttpVersion.Version11;
           AddXmlToRequest(sourceUrl, targetUrl, request);
-          //request.BeginGetResponse(EndGetResponse, request);
-          request.GetResponse();
-          return true;
+          request.BeginGetResponse(EndGetResponse, request);
+          //request.GetResponse();
         }
-
-        return false;
       }
       catch
       {
-        return false;
       }
     }
 
