@@ -26,13 +26,14 @@ namespace BlogEngine.Core.Ping
         public static bool Send(TrackbackMessage tMessage)
         {
 
-            tMessage.PostURL = new Uri("http://www.artinsoft.com/webmaster/trackback.html");
+            //Warning:next line if for local debugging porpuse please donot remove it until you need to
+            //tMessage.PostURL = new Uri("http://www.artinsoft.com/webmaster/trackback.html");
             HttpWebRequest request = (HttpWebRequest)System.Net.HttpWebRequest.Create(tMessage.URLToNotifyTrackback); //HttpHelper.CreateRequest(trackBackItem);
             request.Method = "POST";
             request.ContentLength = tMessage.ToString().Length;
             request.ContentType = "application/x-www-form-urlencoded";
             request.KeepAlive = false;
-            request.Timeout = 3000;
+            request.Timeout = 10000;
 
             using (StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
             {
@@ -53,8 +54,15 @@ namespace BlogEngine.Core.Ping
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    //todo:we need to parse the XML response for errors in the trackback XML response
-                    result = true;
+                    //todo:This could be a strict XML parsing if necesary/maybe logging activity here too
+                    if (answer.Contains("<error>0</error>"))
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;    
+                    }
                 }
                 else
                 {
