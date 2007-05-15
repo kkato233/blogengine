@@ -47,6 +47,7 @@ namespace BlogEngine.Core.Ping
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             //done: if the URL mispelled,error the request.GetResponse raise and WebException - 404 not found
+            bool result = false;
             try
             {
                 response = (HttpWebResponse)request.GetResponse();
@@ -60,20 +61,20 @@ namespace BlogEngine.Core.Ping
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     //todo:we need to parse the XML response for errors in the trackback XML response
-                    return true;
+                    result =  true;
                 }
                 else
                 {
-                    return false;
+                    result = false;
                 }
                 //----------------------------------------------------
             }
             catch //(WebException wex)
             {
-                return false;
+                result = false;
             }
 
-            return false;
+            return result;
         }
 
 

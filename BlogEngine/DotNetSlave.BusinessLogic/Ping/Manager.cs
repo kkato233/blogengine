@@ -32,7 +32,7 @@ namespace BlogEngine.Core.Ping
                     if (!isTrackbackSent)
                     {
                         //**************************************************** HERE
-                        //Pingback.Send();
+                        Pingback.Send(post.PermaLink.ToString(), url);
                         //**************************************************** HERE
                     }
                 }

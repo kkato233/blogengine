@@ -153,8 +153,7 @@ public partial class admin_entry : System.Web.UI.Page
     {
         System.Threading.Thread.Sleep(2000);
         Post post = (Post)stateInfo;
-        BlogEngine.Core.Ping.PingbackManager trackbManager = new BlogEngine.Core.Ping.PingbackManager();
-        trackbManager.Send(post.Title, post.Content, post.PermaLink.ToString(), "", "Blogname");
+        BlogEngine.Core.Ping.Manager.Send(post);
     }
 
 
