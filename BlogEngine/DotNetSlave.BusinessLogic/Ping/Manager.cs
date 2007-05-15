@@ -11,8 +11,6 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     public static class Manager
     {
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -21,15 +19,12 @@ namespace BlogEngine.Core.Ping
         {
             foreach (string url in GetUrlsFromContent(post.Content))
             {
-                
-                //Go to external site and get TrackBack RDF code/def
                 string rdfContents = ReadFromWeb(url);
                 string urlToNotifyTrackback = GetTrackBackLinkFromText(rdfContents);
 
                 TrackbackMessage tMessage = new TrackbackMessage(post, urlToNotifyTrackback);
                 if (!string.IsNullOrEmpty(urlToNotifyTrackback.Trim()))
                 {
-                    //old:code:SendTrackbackMessage(urlToNotifiedTrackback, tMessage);
                     bool isTrackbackSent = Trackback.Send(tMessage);
                     if (!isTrackbackSent)
                     {
@@ -60,7 +55,7 @@ namespace BlogEngine.Core.Ping
         {
             return trackbackLinkRegex.Match(input).Groups[1].ToString();
         }
-
+        #endregion
         /// <summary>
         /// Returns the HTML code of a given URL.
         /// </summary>
@@ -75,9 +70,5 @@ namespace BlogEngine.Core.Ping
             }
             return html;
         }
-
-        #endregion
-
-
     }
 }
