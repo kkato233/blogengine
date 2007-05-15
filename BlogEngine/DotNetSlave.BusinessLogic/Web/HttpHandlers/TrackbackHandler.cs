@@ -20,8 +20,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #region Private fields
 
-    private static Regex _Regex = new Regex(@"(?<=<title.*>)([\s\S]*)(?=</title>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-    private string _Title;
+    //private static Regex _Regex = new Regex(@"(?<=<title.*>)([\s\S]*)(?=</title>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    //private string _Title;
     private bool _SourceHasLink;
 
     #endregion
@@ -36,46 +36,43 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </param>
     public void ProcessRequest(HttpContext context)
     {
-      string title = string.Empty;
-      string excerpt = string.Empty;
+      string postId = context.Request.Params["id"]; ;
+      string title = context.Request.Params["title"];
+      string excerpt = context.Request.Params["excerpt"];
+      string blog_name = context.Request.Params["blog_name"];
       string url = string.Empty;
-      string blog_name = string.Empty;
 
-      title = context.Request.Params["title"];
-      excerpt = context.Request.Params["excerpt"];
-      blog_name = context.Request.Params["blog_name"];
       if (context.Request.Params["url"] != null)
         url = context.Request.Params["url"].Split(',')[0];
 
-      if (!string.IsNullOrEmpty(title))
-      {
-        try
+      if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(postId))
+      {        
+        Post post = Post.GetPost(new Guid(postId));
+        ExamineSourcePage(url, post.AbsoluteLink.ToString());
+
+        if (post != null && IsFirstPingBack(post, url) && _SourceHasLink)
         {
-          string postId = context.Request.QueryString["id"]; ;
-          Post post = Post.GetPost(new Guid(postId));
-          ExamineSourcePage(url, post.AbsoluteLink.ToString());
-
-          if (post != null && IsFirstPingBack(post, url) && _SourceHasLink)
-          {
-            AddComment(url, post, blog_name);
-
-            context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>0</error></response>");
-            context.Response.End();
-          }
+          AddComment(url, post, blog_name, title);
+          context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>0</error></response>");
+          context.Response.End();
         }
-        catch (Exception exc)
+        else if (!IsFirstPingBack(post, url))
         {
-          context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>1</error><message>" + exc.ToString() + "</message></response>");
+          context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>Trackback already registered</error></response>");
+          context.Response.End();
+        }
+        else if (!_SourceHasLink)
+        {
+          context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>The source page does not link</error></response>");
           context.Response.End();
         }
       }
       else
       {
-        string postId = context.Request.QueryString["id"]; ;
-        Post post = Post.GetPost(new Guid(postId));
-        if (post != null)
-          context.Response.Redirect(post.RelativeLink.ToString());
-        else
+      //  Post post = Post.GetPost(new Guid(postId));
+      //  if (post != null)
+      //    context.Response.Redirect(post.RelativeLink.ToString());
+      //  else
           context.Response.Redirect("~/");
       }
     }
@@ -83,14 +80,16 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Insert the pingback as a comment on the post.
     /// </summary>
-    private void AddComment(string sourceUrl, Post post, string blogName)
+    private void AddComment(string sourceUrl, Post post, string blogName, string excerpt)
     {
       Comment comment = new Comment();
+      comment.Id = Guid.NewGuid();
       comment.Author = blogName;
       comment.Website = new Uri(sourceUrl);
-      comment.Content = "Trackback from " + comment.Author + Environment.NewLine + Environment.NewLine + _Title;
+      comment.Content = "Trackback from " + comment.Author + Environment.NewLine + Environment.NewLine + excerpt;
       comment.Email = "trackback";
       comment.DateCreated = DateTime.Now;
+      comment.IP = HttpContext.Current.Request.UserHostAddress;
       post.Comments.Add(comment);
       post.Save();
     }
@@ -103,7 +102,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       using (WebClient client = new WebClient())
       {
         string html = client.DownloadString(sourceUrl);
-        _Title = _Regex.Match(html).Value.Trim();
+        //_Title = _Regex.Match(html).Value.Trim();
         _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
       }
     }
@@ -116,7 +115,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       foreach (Comment comment in post.Comments)
       {
-        if (comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
+        if (comment.Website != null && comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
           return false;
       }
 

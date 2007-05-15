@@ -10,8 +10,8 @@
   <label for="<%=txtDate.ClientID %>">Date</label>
   <asp:TextBox runat="server" ID="txtDate" Width="110px" />
   
-  <asp:CompareValidator runat="server" ControlToValidate="txtDate" Operator="dataTypeCheck" Type="date" ErrorMessage="Please enter a valid date (yyyy-mm-dd)" Display="dynamic" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd)" Display="Dynamic" />
+  <asp:RegularExpressionValidator ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9] [0-9]:[0-9]"ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter an author" Display="Dynamic" />
   <br /><br />
   
