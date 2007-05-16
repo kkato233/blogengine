@@ -76,5 +76,36 @@ namespace BlogEngine.Core
         return _AbsoluteWebRoot;
       }
     }
+
+    #region Safe mail
+
+    /// <summary>
+    /// Creates a email address that is hidden from spam robots.
+    /// </summary>
+    public static string SafeMail(string email)
+    {
+      return SafeMail(email, null);
+    }
+
+    /// <summary>
+    /// Creates a email address that is hidden from spam robots
+    /// and adds a subject to the e-mail.
+    /// </summary>
+    public static string SafeMail(string email, string subject)
+    {
+      if (email == null)
+        throw new ArgumentNullException("email");
+
+      int index = email.IndexOf("@");
+      string name = email.Substring(0, index);
+      string domain = email.Substring(index + 1);
+      string sub = subject == null ? null : ",'" + HttpUtility.HtmlEncode(subject.Replace("'", "\\'")) + "'";
+      string link = "javascript:SafeMail('{0}','{1}'{2});";
+
+      return string.Format(link, name, domain, sub);
+    }
+
+    #endregion
+
   }
 }

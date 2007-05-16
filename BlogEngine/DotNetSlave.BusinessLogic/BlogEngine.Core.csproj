@@ -54,6 +54,7 @@
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Providers\MSSQLBlogProvider.cs" />
+    <Compile Include="Search.cs" />
     <Compile Include="Syndication\Atom\AtomCategory.cs" />
     <Compile Include="Syndication\Atom\AtomCategoryCollection.cs" />
     <Compile Include="Syndication\Atom\AtomContent.cs" />

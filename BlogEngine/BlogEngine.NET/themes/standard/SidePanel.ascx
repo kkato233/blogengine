@@ -18,7 +18,7 @@
           Skype me <img src="http://mystatus.skype.com/smallicon/dotnetslave" alt="Skype Me" />
         </a>
         <!-- Email -->
-        <a href="<%=Macro.SafeMail("post@madskristensen.dk", BlogSettings.Instance.Name) %>" style="float:right;clear:both">
+        <a href="<%=Utils.SafeMail("post@madskristensen.dk", BlogSettings.Instance.Name) %>" style="float:right;clear:both">
           E-mail me <img src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
         </a>
       </td>

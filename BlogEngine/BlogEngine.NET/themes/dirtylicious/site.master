@@ -25,9 +25,9 @@
 			    <asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink>
 			    <ul>
 			        <li class="page_item"><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
-                    <li class="page_item"><a href="<%=Macro.SafeMail("none@none.com", BlogSettings.Instance.Name) %>">Contact</a></li>
+                    <li class="page_item"><a href="<%=Utils.SafeMail("none@none.com", BlogSettings.Instance.Name) %>">Contact</a></li>
                     <li class="page_item"><asp:HyperLink ID="HlFeed" NavigateUrl="~/syndication.axd" runat="server">Feed</asp:HyperLink></li>
-                    <li class="page_item"><%=Macro.SignInLink %></li>
+                    <li class="page_item"><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></li>
                 </ul>
 	        </div>
             
