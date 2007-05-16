@@ -169,7 +169,7 @@ public static class Search
       return new List<Post>();
 
     //Pass.2
-    BuildResult(searchTerm);
+    BuildResult(searchTerm.ToLowerInvariant());
 
     //Pass.3
     List<Post> _gotit = new List<Post>();
@@ -193,7 +193,7 @@ public static class Search
     {
       foreach (Catalog catalog in _catalogIndex)
       {
-        if (catalog.ToString() == word)
+        if (catalog.ToString().Contains(word))
         {
           foreach (PointerList pl in catalog._pointers)
           {
@@ -228,7 +228,13 @@ public static class Search
     foreach (Post post in Post.Posts)
     {
       //Add what you would like to be able to search for
-      string tempContent = post.Title + " " + post.Content;
+        string tempContent = String.Empty;
+
+        for (int i = 0; i < 15; i++)
+            tempContent += post.Title + " ";
+
+      //tempContent = post.Title + " " + post.Content;
+        tempContent += post.Content;
 
       //1. remove all HTML - TODO: remove javascript here...
       tempContent = _regexAll.Replace(tempContent, String.Empty);
@@ -237,7 +243,7 @@ public static class Search
       tempContent = _regexWhitespace.Replace(tempContent, " ");
 
       //3. ensure no space
-      tempContent = tempContent.Trim();
+      tempContent = tempContent.Trim().ToLowerInvariant();
 
       //split every word
       string[] words = tempContent.Split(_splitter);
