@@ -22,4 +22,7 @@ using System;
 [assembly: ComVisible(false)]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
+[assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.blog.js", "application/x-javascript")]
+[assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.se_hilite.js", "application/x-javascript")]
+
 [assembly: AssemblyVersion("1.0.0.0")]

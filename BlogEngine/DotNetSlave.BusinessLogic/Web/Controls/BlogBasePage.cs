@@ -50,16 +50,15 @@ namespace BlogEngine.Core.Web.Controls
           CompressCSS();
 
         // JavaScripts
-
-        AddScriptFile(Utils.RelativeWebRoot + "scripts/blog.js");
+        AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
 
         if (BlogSettings.Instance.EnableSearchHightlight)
-          AddScriptFile(Utils.RelativeWebRoot + "script/se_hilite.js");
+          AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.se_hilite.js");
 
         if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
           AddTrackingScript();
       }
-    }
+    }    
 
     /// <summary>
     /// Finds all stylesheets in the header and changes the 
@@ -131,12 +130,11 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// Adds a JavaScript reference to the HTML head tag.
     /// </summary>
-    /// <param name="location">The absolute or relative path of the .js file.</param>
-    private void AddScriptFile(string location)
+    private void AddEmbeddedJavaScript(string name)
     {
       HtmlGenericControl script = new HtmlGenericControl("script");
       script.Attributes["type"] = "text/javascript";
-      script.Attributes["src"] = location;
+      script.Attributes["src"] = Page.ClientScript.GetWebResourceUrl(typeof(Post), name);
       Page.Header.Controls.Add(script);
     }
 
