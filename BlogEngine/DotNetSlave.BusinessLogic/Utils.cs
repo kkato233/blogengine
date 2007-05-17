@@ -97,12 +97,29 @@ namespace BlogEngine.Core
         throw new ArgumentNullException("email");
 
       int index = email.IndexOf("@");
-      string name = email.Substring(0, index);
-      string domain = email.Substring(index + 1);
-      string sub = subject == null ? null : ",'" + HttpUtility.HtmlEncode(subject.Replace("'", "\\'")) + "'";
+      string name = Encode(email.Substring(0, index));
+      string domain = Encode(email.Substring(index + 1));
+      string sub = Encode(subject == null ? null : ",'" + HttpUtility.HtmlEncode(subject.Replace("'", "\\'")) + "'");
       string link = "javascript:SafeMail('{0}','{1}'{2});";
 
       return string.Format(link, name, domain, sub);
+    }
+
+    private static Random _Random = new Random();
+
+    private static string Encode(string value)
+    {
+      StringBuilder sb = new StringBuilder();
+
+      for (int i = 0; i < value.Length; i++)
+      {
+        if (_Random.Next(2) == 1)
+          sb.AppendFormat("&#{0};", Convert.ToInt32(value[i]));
+        else
+          sb.Append(value[i]);
+      }
+
+      return sb.ToString();
     }
 
     #endregion
