@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <Description>Code samples in ASP.NET and C#</Description>
+  <Description>Short description of the blog</Description>
   <EnableHttpCompression>True</EnableHttpCompression>
   <EnableReferrerTracking>False</EnableReferrerTracking>
   <EnableRelatedPosts>True</EnableRelatedPosts>
-  <Name>.NET slave</Name>
+  <Name>Name of the blog</Name>
   <NumberOfRecentPosts>10</NumberOfRecentPosts>
   <PostsPerPage>10</PostsPerPage>
   <ShowLivePreview>True</ShowLivePreview>
@@ -33,7 +33,7 @@
   <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
   <SearchDefaultText>Enter search term</SearchDefaultText>
   <Endorsement>http://www.codeplex.com/blogengine/Project/ProjectRss.aspx</Endorsement>
-  <AuthorName>Mads Kristensen</AuthorName>
+  <AuthorName>My name</AuthorName>
   <Language>en-GB</Language>
   <GeocodingLatitude>5581323</GeocodingLatitude>
   <GeocodingLongitude>1247895</GeocodingLongitude>

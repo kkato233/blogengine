@@ -6,19 +6,14 @@
   <h1>About the author</h1>
   <table summary="About the author">
     <tr>
-      <td><img src="~/themes/standard/madskristensen.png" runat="server" alt="Mads Kristensen" /></td>
+      <td><img src="~/themes/standard/noavatar.jpg" runat="server" alt="Name of author" /></td>
       <td style="vertical-align:top">
-        Mads Kristensen<br />
-        Lead Developer at <a href="http://www.traceworks.com">Traceworks</a> and long time .NET slave. 
-        <asp:HyperLink runat="server" NavigateUrl="~/page/about-mads-kristensen.aspx">More...</asp:HyperLink>
+        Author name<br />
+        Something about me and what I do.
         <br /><br />
         
-        <!-- Skype -->
-        <a href="callto://dotnetslave" style="float:right">
-          Skype me <img src="http://mystatus.skype.com/smallicon/dotnetslave" alt="Skype Me" />
-        </a>
         <!-- Email -->
-        <a href="<%=Utils.SafeMail("post@madskristensen.dk", BlogSettings.Instance.Name) %>" style="float:right;clear:both">
+        <a href="<%=Utils.SafeMail("name@domain.com", BlogSettings.Instance.Name) %>" style="float:right;clear:both">
           E-mail me <img src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
         </a>
       </td>
@@ -32,13 +27,6 @@
   <uc1:menu ID="Menu1" runat="server" />
 </div>
 <%} %>
-
-<div class="box">
-  <h1>Download BlogEngine.NET</h1>
-  <p>
-    <a style="font:bold 13px verdana" href="http://www.codeplex.com/blogengine/SourceControl/ListDownloadableCommits.aspx">Download at CodePlex</a><br />
-  </p>
-</div>
 
 <div class="box">
   <h1>Calendar</h1>
