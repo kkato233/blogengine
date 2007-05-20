@@ -40,8 +40,9 @@ namespace BlogEngine.Core.Web.Controls
       {
         // Links
         AddMetaContentType();
-        SetMicroSummaryLinkInHeader();        
+        AddMicroSummary();        
         AddRsdLinkHeader();
+        AddSyndicationLink();
 
         if (BlogSettings.Instance.EnableOpenSearch)
           AddOpenSearchLinkInHeader();
@@ -58,7 +59,22 @@ namespace BlogEngine.Core.Web.Controls
         if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
           AddTrackingScript();
       }
-    }    
+    }
+
+    private void AddSyndicationLink()
+    {
+      HtmlLink link = new HtmlLink();
+      link.Attributes["rel"] = "alternate";
+      link.Attributes["type"] = "application/rss+xml";
+      link.Attributes["title"] = BlogSettings.Instance.Name;
+      
+      if (!string.IsNullOrEmpty(BlogSettings.Instance.FeedburnerUserName))
+        link.Attributes["href"] = "http://feeds.feedburner.com/" + BlogSettings.Instance.FeedburnerUserName;
+      else
+        link.Attributes["href"] = Utils.AbsoluteWebRoot + "syndication.axd";
+
+      Page.Header.Controls.Add(link);
+    }
 
     /// <summary>
     /// Finds all stylesheets in the header and changes the 
@@ -118,7 +134,7 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(link);
     }
 
-    private void SetMicroSummaryLinkInHeader()
+    private void AddMicroSummary()
     {
       HtmlLink ms = new HtmlLink();
       ms.Attributes["rel"] = "microsummary";
