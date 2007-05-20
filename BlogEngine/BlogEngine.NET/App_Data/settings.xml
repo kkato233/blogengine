@@ -38,4 +38,5 @@
   <GeocodingLatitude>5581323</GeocodingLatitude>
   <GeocodingLongitude>1247895</GeocodingLongitude>
   <MSSQLConnectionString />
+  <FeedburnerUserName>netslave</FeedburnerUserName>
 </settings>

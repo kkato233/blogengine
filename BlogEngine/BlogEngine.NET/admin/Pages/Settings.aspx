@@ -135,6 +135,9 @@
   <label for="<%=txtBlogChannelBLink.ClientID %>">Endorsement (bLink)</label>
   <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="400" /><br />
   
+  <label for="<%=txtBlogChannelBLink.ClientID %>">Feedburner user name</label>
+  <asp:TextBox runat="server" ID="txtFeedburnerUserName" MaxLength="255" Width="120" />
+  
 </div>
 
 <div class="settings">

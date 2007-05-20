@@ -187,6 +187,10 @@ namespace BlogEngine.Core
         /// Connection String for MSSQL Provider
         /// </summary>
         private string mssqlConnectionString;
+        /// <summary>
+        /// Feedburner user name.
+        /// </summary>
+        private string feedburnerUserName;
         #endregion
 
         //============================================================
@@ -1084,7 +1088,14 @@ namespace BlogEngine.Core
         {
             get { return mssqlConnectionString; }
             set { mssqlConnectionString = value; }
+        }        
+
+        public string FeedburnerUserName
+        {
+          get { return feedburnerUserName; }
+          set { feedburnerUserName = value; }
         }
+	
 
         //============================================================
         //	PRIVATE ROUTINES

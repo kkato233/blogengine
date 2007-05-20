@@ -110,6 +110,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     }
 
     BlogSettings.Instance.Endorsement       = txtBlogChannelBLink.Text;
+    BlogSettings.Instance.FeedburnerUserName = txtFeedburnerUserName.Text;
 
     //-----------------------------------------------------------------------
     // Visitor tracking settings
@@ -173,6 +174,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtGeocodingLongitude.Text          = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString() : String.Empty;
 
     txtBlogChannelBLink.Text            = BlogSettings.Instance.Endorsement;
+    txtFeedburnerUserName.Text          = BlogSettings.Instance.FeedburnerUserName;
 
     //-----------------------------------------------------------------------
     // Visitor tracking settings
