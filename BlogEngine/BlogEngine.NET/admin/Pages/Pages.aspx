@@ -46,7 +46,7 @@
 		}
 	});
 	</script>
-  <asp:TextBox runat="Server" ID="txtContent" Width="100%" TextMode="MultiLine" />
+  <asp:TextBox runat="Server" ID="txtContent" Width="100%" Height="250px" TextMode="MultiLine" />
   
   <table id="entrySettings">
     <tr>

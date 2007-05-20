@@ -6,7 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/netslave" title=".NET slave" />
+    <link rel="alternate" type="application/rss+xml" href="~/syndication.axd?format=rss" title="{Blog Title} (RSS)" />
+    <link rel="alternate" type="application/atom+xml" href="~/syndication.axd?format=atom" title="{Blog Title} (Atom)" />
     <link rel="shortcut icon" href="~/pics/favicon.ico" type="image/x-icon"/>
 </head>
 <body>
@@ -21,7 +22,10 @@
       <div id="content">
         <blog:SearchOnSearch runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
         <asp:ContentPlaceHolder ID="cphBody" runat="server" />
-        <p style="font-size:9px;text-align:center">Theme by <a href="http://www.madskristensen.dk">Mads Kristensen</a></p>
+        <p style="font-size:9px;text-align:center">
+        Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a><br />
+        Theme by <a href="http://www.madskristensen.dk">Mads Kristensen</a>
+        </p>
       </div>
       
       <div id="sidepanel">
