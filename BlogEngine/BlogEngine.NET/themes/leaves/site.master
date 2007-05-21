@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon"/>
 </head>
 
 <body>
@@ -51,7 +52,7 @@
             <asp:ContentPlaceHolder ID="cphBody" runat="server" />
         </div>
         <div id="footer">
-	        <p>Powered by <a href="http://www.codeplex.com/blogengine" target="_blank">BlogEngine.NET</a>  | 
+	        <p>Powered by <a href="http://www.dotnetblogengine.net/" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> | 
             Original Design by <a href="http://smallpark.org">SmallPark</a>, Adapted by <a href="http://www.nyveldt.com/blog/">RazorAnt</a></p>
         </div>
         </form>

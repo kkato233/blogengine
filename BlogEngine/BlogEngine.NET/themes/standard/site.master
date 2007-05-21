@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon"/>
 </head>
 <body>
 
@@ -20,7 +21,7 @@
         <blog:SearchOnSearch runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
         <asp:ContentPlaceHolder ID="cphBody" runat="server" />
         <p style="font-size:9px;text-align:center">
-        Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a><br />
+        Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %><br />
         Theme by <a href="http://www.madskristensen.dk">Mads Kristensen</a>
         </p>
       </div>
@@ -29,7 +30,7 @@
         <uc1:InfoBox ID="InfoBox1" runat="server" />
       </div>
     </form>
-    <a href="http://feeds.feedburner.com/netslave" title="RSS" id="subscribe">Subscribe</a>
+    
   </div>
 
 </body>

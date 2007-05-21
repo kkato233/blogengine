@@ -12,12 +12,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     if (Page.IsCallback)
       return;
 
-    if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]))
-    {
-      PostList1.Posts = Post.Posts;
-      Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;      
-    }
-    else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
+    if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
     {
       DisplayCategories();
     }
@@ -28,6 +23,11 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     else if (Request.RawUrl.ToLowerInvariant().Contains("/tag/"))
     {
       DisplayTags();
+    }
+    else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]))
+    {
+      PostList1.Posts = Post.Posts;
+      Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;
     }
     else if (!string.IsNullOrEmpty(Request.QueryString["q"]))
     {

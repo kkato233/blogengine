@@ -11,6 +11,6 @@
         <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | 
         <a href="<%=Post.PermaLink %>">Permalink</a> |
         <a href="<%=Post.RelativeLink %>#comment">Comments (<%=Post.Comments.Count %>)</a> |
-        <a href="<%=Post.TrackbackLink %>">Trackback</a>
+        <a rel="nofollow" href="<%=CommentFeed %>">Comment RSS<asp:Image ID="Image1" runat="Server" ImageUrl="~/pics/rssbutton.gif" AlternateText="RSS comment feed" style="margin-left:3px" /></a>
     </div>
 </div>

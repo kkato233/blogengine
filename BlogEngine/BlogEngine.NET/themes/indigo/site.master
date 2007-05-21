@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon"/>
 </head>
 
 <body>
@@ -31,10 +32,7 @@
                 <h1>Administration</h1>
                 <uc1:menu ID="Menu1" runat="server" />
                 <%} %>
-                
-                <h1>About</h1>
-                <p>All about me and my blog...  <a href="<%=Utils.SafeMail("none@none.com", BlogSettings.Instance.Name) %>">Contact</a> Me.</p>
-                
+                                
                 <h1>Tags</h1>
                 <blog:TagCloud ID="TagCloud1" runat="server" />
 
@@ -55,7 +53,7 @@
         </div>
     </div>       
     <div class="footer">
-        Powered by <a href="http://www.codeplex.com/blogengine" target="_blank">BlogEngine.NET</a>  | 
+        Powered by <a href="http://www.dotnetblogengine.net/" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> | 
         Original Design by <a href="http://arcsin.se">Arcsin</a>, Adapted by <a href="http://www.nyveldt.com/blog/">RazorAnt</a>
     </div>
     

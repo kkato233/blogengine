@@ -19,7 +19,9 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
   private void CreateAdminMenu()
   {
-    foreach (string cat in CategoryDictionary.Instance.Values)
+    SortedDictionary<string, Guid> dic = SortCategories(CategoryDictionary.Instance);
+
+    foreach (string cat in dic.Keys)
     {
       HtmlAnchor a = new HtmlAnchor();
       a.InnerHtml = cat;
@@ -31,9 +33,21 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     }
   }
 
+  private SortedDictionary<string, Guid> SortCategories(Dictionary<Guid, string> categories)
+  {
+    SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
+    foreach (Guid key in categories.Keys)
+    {
+        dic.Add(categories[key], key);
+    }
+
+    return dic;
+  }
+
   private void CreateArchive()
   {
-    foreach (Guid key in CategoryDictionary.Instance.Keys)
+    SortedDictionary<string, Guid> dic = SortCategories(CategoryDictionary.Instance);
+    foreach (Guid key in dic.Values)
     {
       string name = CategoryDictionary.Instance[key];
       List<Post> list = Post.GetPostsByCategory(key);      
