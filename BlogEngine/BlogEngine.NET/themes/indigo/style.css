@@ -39,6 +39,10 @@ h1 {
 	font-size: 1.4em;
 	margin-bottom: 4px;
 }
+h2 {
+	font-size: 1.2em;
+	margin-bottom: 4px;
+}
 code {
 	background: url(img/bgcode.gif);
 	border: 1px solid #F0F0F0;
@@ -119,7 +123,7 @@ h1,h2,h3 {
 	padding: 12px 12px 0 52px;
 }
 
-/* main left */
+/* main right */
 .sidenav {
 	float: left;
 	width: 24%;
@@ -156,10 +160,9 @@ h1,h2,h3 {
 	background: url(img/nav_li.gif) no-repeat;
 }
 
-#ctl00_ctl02_ulBlogroll ul {
-	margin-left: 8px;
-	padding-left: 8px;
-	font-size: 0.8em;
+#blogroll 
+{
+	font-size: 0.9em;
 }
 
 /* content */
@@ -197,6 +200,16 @@ h1,h2,h3 {
 	font-size: inherit;
 	padding-bottom: 1.2em;
 }
+.postfooter {
+	padding:2px 3px 3px 8px;
+	border:1px solid #e3e4e4;
+	background-color:#f5f5f5;
+	font-size:0.9em;
+	color:#505050;
+}
+.postfooter img{
+	border: none;
+}
 
 /* search form */
 #searchbox input 
@@ -208,6 +221,10 @@ h1,h2,h3 {
 	border: 1px solid #AAA;
 	margin-left: 5px;
 	padding: 2px 3px;
+}
+#searchcomments
+{
+	margin-right: 3px;
 }
 
 /* footer */

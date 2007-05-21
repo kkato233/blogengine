@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
     <link rel="stylesheet" href="default.css" type="text/css" />
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon"/>
 </head>
 
 <body>
@@ -23,7 +24,6 @@
 			    <asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink>
 			    <ul>
 			        <li class="page_item"><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
-                    <li class="page_item"><a href="<%=Utils.SafeMail("none@none.com", BlogSettings.Instance.Name) %>">Contact</a></li>
                     <li class="page_item"><asp:HyperLink ID="HlFeed" NavigateUrl="~/syndication.axd" runat="server">Feed</asp:HyperLink></li>
                     <li class="page_item"><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></li>
                 </ul>
@@ -74,7 +74,7 @@
                   
             <div class="footer">
                 <span class="left">
-                    Powered by <a href="http://www.codeplex.com/blogengine" target="_blank">BlogEngine.NET</a>  | 
+                    Powered by <a href="http://www.dotnetblogengine.net/" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> | 
                     Original Design by <a href="http://arcsin.se">Arcsin</a>, Adapted by <a href="http://www.nyveldt.com/blog/">RazorAnt</a>
                 </span>
                 <div class="clearer"></div>
