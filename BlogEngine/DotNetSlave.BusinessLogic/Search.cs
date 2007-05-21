@@ -53,15 +53,28 @@ public static class Search
   /// </summary>
   public struct Catalog
   {
+      /// <summary>
+      /// 
+      /// </summary>
     public string _word;
+      /// <summary>
+      /// 
+      /// </summary>
     public Collection<PointerList> _pointers;
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="word"></param>
     public Catalog(string word)
     {
       _word = word;
       _pointers = new Collection<PointerList>();
     }
 
+      /// <summary>
+      /// 
+      /// </summary>
     public Collection<PointerList> Adding
     {
       get
@@ -108,17 +121,35 @@ public static class Search
     }
   }
 
+    /// <summary>
+    /// 
+    /// </summary>
   public struct Result
   {
+      /// <summary>
+      /// 
+      /// </summary>
     public Post _post;
+      /// <summary>
+      /// 
+      /// </summary>
     public int rank;
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="post"></param>
     public Result(Post post)
     {
       _post = post;
       rank = 0;
     }
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="obj"></param>
+      /// <returns></returns>
     public override bool Equals(object obj)
     {
       if (_post.GetHashCode() == obj.GetHashCode())
@@ -127,22 +158,41 @@ public static class Search
         return false;
     }
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="a"></param>
+      /// <param name="b"></param>
+      /// <returns></returns>
     public static bool operator ==(Result a, Result b)
     {
       return (a == b && b == a);
     }
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="a"></param>
+      /// <param name="b"></param>
+      /// <returns></returns>
     public static bool operator !=(Result a, Result b)
     {
       return !(a == b);
     }
 
-
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <returns></returns>
     public override int GetHashCode()
     {
       return _post.GetHashCode();
     }
 
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <returns></returns>
     public override string ToString()
     {
       return _post.ToString();
@@ -152,7 +202,14 @@ public static class Search
   #endregion
 
   private static bool _IsBuilingCatalog;
-
+  
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="postsToSearch"></param>
+    /// <param name="searchTerm"></param>
+    /// <param name="includeComments"></param>
+    /// <returns></returns>
   public static List<Post> Hits(List<Post> postsToSearch, string searchTerm, bool includeComments)
   {
     //_catalogIndex.Clear();
@@ -221,7 +278,7 @@ public static class Search
   /// <summary>
   /// Builds the catalog.
   /// </summary>
-  /// <param name="postsToSearch">The posts to search.</param>
+  /// <param name="stateInfo">State information.</param>
   private static void BuildCatalog(object stateInfo)
   {
     //To build the index we must first loop every post

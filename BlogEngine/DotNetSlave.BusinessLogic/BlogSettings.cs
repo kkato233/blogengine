@@ -331,6 +331,17 @@ namespace BlogEngine.Core
         }
         #endregion
 
+        #region FeedburnerUserName
+        /// <summary>
+        /// Gets or sets the FeedBurner user name.
+        /// </summary>
+        public string FeedburnerUserName
+        {
+            get { return feedburnerUserName; }
+            set { feedburnerUserName = value; }
+        }
+        #endregion
+
         #region Name
         /// <summary>
         /// Gets or sets the name of the blog.
@@ -547,6 +558,20 @@ namespace BlogEngine.Core
           {
             trackingScript = value;
           }
+        }
+        #endregion
+
+        //============================================================
+        //	DATABASE SETTINGS
+        //============================================================
+        #region MSSQLConnectionString
+        /// <summary>
+        /// Gets or sets the connection string used to connect to the SQL database.
+        /// </summary>
+        public string MSSQLConnectionString
+        {
+            get { return mssqlConnectionString; }
+            set { mssqlConnectionString = value; }
         }
         #endregion
 
@@ -1083,19 +1108,6 @@ namespace BlogEngine.Core
             }
         }
         #endregion
-
-        public string MSSQLConnectionString
-        {
-            get { return mssqlConnectionString; }
-            set { mssqlConnectionString = value; }
-        }        
-
-        public string FeedburnerUserName
-        {
-          get { return feedburnerUserName; }
-          set { feedburnerUserName = value; }
-        }
-	
 
         //============================================================
         //	PRIVATE ROUTINES
