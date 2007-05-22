@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" Title="Untitled Page" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" Title="Categories" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
   <label for="txtNewCategory">Add new category</label><br />

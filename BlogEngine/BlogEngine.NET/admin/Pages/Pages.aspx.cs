@@ -30,9 +30,9 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
   private void btnUploadImage_Click(object sender, EventArgs e)
   {
-    Upload(BlogSettings.Instance.StorageLocation + "pictures/", txtUploadImage);
+    Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadImage);
     string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
-    string img = string.Format("<img src=\"{0}image.ashx?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
+    string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
     txtContent.Text += string.Format(img, txtUploadImage.FileName);
   }
 
@@ -40,10 +40,9 @@ public partial class admin_Pages_pages : System.Web.UI.Page
   {
     Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadFile);
 
-    string a = "<p><a href=\"{0}file.ashx?file={1}\">{2}</a></p>";
+    string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
     string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
-    string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
-    txtContent.Text += string.Format(a, path, Server.UrlEncode(txtUploadFile.FileName), text);
+    txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
   }
 
   private void Upload(string virtualFolder, FileUpload control)
