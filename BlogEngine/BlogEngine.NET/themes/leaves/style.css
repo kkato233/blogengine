@@ -189,6 +189,7 @@ Leaves v1.0 - Design by Anthonyy @ OSWD.org
 			margin-left: 0;
 			padding-left: 0;
 			list-style-type: none;
+			text-transform: capitalize;
 		}
 		
 		#sidebar a img {

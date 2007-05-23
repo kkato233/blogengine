@@ -138,7 +138,9 @@ h1,h2,h3 {
 .sidenav img {
 	border: none;
 }
-.sidenav ul {
+.sidenav ul 
+{
+	text-transform: capitalize;
 	margin: 0;
 	padding: 0;
 }
