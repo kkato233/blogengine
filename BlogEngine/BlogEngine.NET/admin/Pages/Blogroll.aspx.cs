@@ -91,9 +91,10 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
 
       if (xfn.InnerText.Length > 0)
       {
-        xfn.InnerText = xfn.InnerText.Substring(0, xfn.InnerText.Length - 1);
-        element.Attributes.Append(xfn);
+        xfn.InnerText = xfn.InnerText.Substring(0, xfn.InnerText.Length - 1);        
       }
+
+      element.Attributes.Append(xfn);
 
       XmlAttribute feed = doc.CreateAttribute("xmlUrl");
       feed.InnerText = txtFeedUrl.Text;
@@ -106,6 +107,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       XmlNode body = doc.SelectSingleNode("opml/body");
       body.AppendChild(element);
       doc.Save(fileName);
+      Updater.UpdateBlogroll();
     }
   }
 
@@ -129,6 +131,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       XmlNode child = doc.SelectSingleNode("opml/body/outline[@title='" + title + "']");
       parent.RemoveChild(child);
       doc.Save(fileName);
+      Updater.UpdateBlogroll();
     }    
   }
 

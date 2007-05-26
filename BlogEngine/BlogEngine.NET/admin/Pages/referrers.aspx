@@ -5,7 +5,17 @@
   <asp:CheckBox runat="Server" ID="cbEnableReferrers" AutoPostBack="true" /><br /><hr />
 
   <label for="<%=ddlDays.ClientID %>">Select day</label>
-  <asp:DropDownList runat="server" id="ddlDays" AutoPostBack="true" /><br /><br />
+  <asp:DropDownList runat="server" id="ddlDays" AutoPostBack="true">
+    <asp:ListItem Text="Monday" />
+    <asp:ListItem Text="Tuesday" />
+    <asp:ListItem Text="Wednesday" />
+    <asp:ListItem Text="Thursday" />
+    <asp:ListItem Text="Friday" />
+    <asp:ListItem Text="Saturday" />
+    <asp:ListItem Text="Sunday" />
+  </asp:DropDownList>
+  
+  <br /><br />
   
   <asp:GridView runat="server" ID="grid" Width="100%" GridLines="None" AutoGenerateColumns="False" CssClass="referrer" EnableViewState="false">
     <Columns>
