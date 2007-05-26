@@ -53,18 +53,18 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
   private void BindDays()
   {
-    string folder = Server.MapPath("~/app_data/log/");
-    if (Directory.Exists(folder))
-    {
-      foreach (string file in Directory.GetFiles(folder, "*.xml"))
-      {
-        string name = new FileInfo(file).Name;
-        name = name.Substring(0, name.Length - 4);
-        ddlDays.Items.Add(name);
-      }
+    //string folder = Server.MapPath("~/app_data/log/");
+    //if (Directory.Exists(folder))
+    //{
+    //  foreach (string file in Directory.GetFiles(folder, "*.xml"))
+    //  {
+    //    string name = new FileInfo(file).Name;
+    //    name = name.Substring(0, name.Length - 4);
+    //    ddlDays.Items.Add(name);
+    //  }
 
-      ddlDays.Enabled = true;
-      ddlDays.ClearSelection();
+    //  ddlDays.Enabled = true;
+    //  ddlDays.ClearSelection();
 
       foreach (ListItem item in ddlDays.Items)
       {
@@ -74,7 +74,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
           break;
         }
       }
-    }
+    //}
   }
 
   private void BindReferrers(string day)

@@ -19,11 +19,12 @@ namespace Controls
   /// <summary>
   /// Creates and displays a dynamic blogroll.
   /// </summary>
-  public partial class Blogroll : Control
+  public class Blogroll : Control
   {
     static Blogroll()
     {
       BlogSettings.Changed += new EventHandler<EventArgs>(BlogSettings_Changed);
+      _CurrentLevel = GetCurrentTrustLevel();
     }
 
     protected override void Render(HtmlTextWriter writer)
@@ -50,6 +51,7 @@ namespace Controls
 
     private static Collection<RssItem> _Items;
     private static DateTime _LastUpdated = DateTime.Now;
+    private static AspNetHostingPermissionLevel _CurrentLevel = AspNetHostingPermissionLevel.None;
 
     #endregion
 
@@ -59,6 +61,33 @@ namespace Controls
     {
       _Items = null;
     }
+
+    private static AspNetHostingPermissionLevel GetCurrentTrustLevel()
+    {
+      foreach (AspNetHostingPermissionLevel trustLevel in
+              new AspNetHostingPermissionLevel[] {
+                AspNetHostingPermissionLevel.Unrestricted,
+                AspNetHostingPermissionLevel.High,
+                AspNetHostingPermissionLevel.Medium,
+                AspNetHostingPermissionLevel.Low,
+                AspNetHostingPermissionLevel.Minimal 
+            })
+      {
+        try
+        {
+          new AspNetHostingPermission(trustLevel).Demand();
+        }
+        catch (System.Security.SecurityException)
+        {
+          continue;
+        }
+
+        return trustLevel;
+      }
+
+      return AspNetHostingPermissionLevel.None;
+    }
+
 
     /// <summary>
     /// Displays the RSS item collection.
@@ -97,7 +126,10 @@ namespace Controls
           string description = node.Attributes["description"].InnerText;
           string rss = node.Attributes["xmlUrl"].InnerText;
           string website = node.Attributes["htmlUrl"].InnerText;
-          string xfn = node.Attributes["xfn"].InnerText;
+          string xfn = null;
+          if (node.Attributes["xfn"] != null)
+            xfn = node.Attributes["xfn"].InnerText;
+
           AddBlog(title, description, rss, website, xfn);
         }
       }
@@ -123,7 +155,9 @@ namespace Controls
         HtmlAnchor webAnchor = new HtmlAnchor();
         webAnchor.HRef = item.WebsiteUrl;
         webAnchor.InnerHtml = EnsureLength(item.Name);
-        webAnchor.Attributes["rel"] = item.Xfn;
+
+        if (!String.IsNullOrEmpty(item.Xfn))
+          webAnchor.Attributes["rel"] = item.Xfn;
 
         HtmlGenericControl li = new HtmlGenericControl("li");
         li.Controls.Add(feedAnchor);
@@ -183,10 +217,14 @@ namespace Controls
       item.Name = name;
       item.Description = description;
       item.Xfn = xfn;
-      item.Request = (HttpWebRequest)WebRequest.Create(feedUrl); ;
+
+      if (_CurrentLevel > AspNetHostingPermissionLevel.Medium)
+        item.Request = (HttpWebRequest)WebRequest.Create(feedUrl); ;
+
       _Items.Add(item);
 
-      item.Request.BeginGetResponse(ProcessRespose, item);
+      if (_CurrentLevel > AspNetHostingPermissionLevel.Medium)
+        item.Request.BeginGetResponse(ProcessRespose, item);
     }
 
     /// <summary>
@@ -205,7 +243,10 @@ namespace Controls
         {
           string title = node.SelectSingleNode("title").InnerText;
           string link = node.SelectSingleNode("link").InnerText;
-          DateTime date = DateTime.Parse(node.SelectSingleNode("pubDate").InnerText);
+          DateTime date = DateTime.Now;
+          if (node.SelectSingleNode("pubDate") != null)
+            date = DateTime.Parse(node.SelectSingleNode("pubDate").InnerText);
+
           item.Items.Add(title, link);
         }
       }
@@ -231,5 +272,13 @@ namespace Controls
 
     #endregion
 
+  }
+}
+
+public static class Updater
+{
+  public static void UpdateBlogroll()
+  {
+    Controls.Blogroll.Update();
   }
 }
