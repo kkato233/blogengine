@@ -40,6 +40,9 @@ function ShowCommentPreview(target, sender)
 
 function GetElementByClassName(parent, tag, className)
 {
+  if (parent == null)
+    return;
+    
   var elements = parent.getElementsByTagName(tag);
   for (i = 0; i < elements.length; i++)
   {
