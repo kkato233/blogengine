@@ -4,6 +4,7 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using BlogEngine.Core;
 
 #endregion
@@ -47,6 +48,12 @@ namespace BlogEngine.Core.Providers
 
       if (doc.SelectSingleNode("post/iscommentsenabled") != null)
         post.IsCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
+
+      if (doc.SelectSingleNode("post/raters") != null)
+        post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText);
+
+      if (doc.SelectSingleNode("post/rating") != null)
+        post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.InvariantCulture);
 
       // Tags
       foreach (XmlNode node in doc.SelectNodes("post/tags/tag"))
@@ -116,6 +123,8 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
         writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
         writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss"));
+        writer.WriteElementString("raters", post.Raters.ToString());
+        writer.WriteElementString("rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
         // Tags
         writer.WriteStartElement("tags");
@@ -181,20 +190,20 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Posts</returns>
     public override List<Post> FillPosts()
     {
-        string folder = CategoryDictionary._Folder + "posts\\";
-        List<Post> posts = new List<Post>();
+      string folder = CategoryDictionary._Folder + "posts\\";
+      List<Post> posts = new List<Post>();
 
-        foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-        {
-            FileInfo info = new FileInfo(file);
-            string id = info.Name.Replace(".xml", string.Empty);
-            //Post post = SelectPost(new Guid(id));
-            Post post = Post.Load(new Guid(id));
-            posts.Add(post);
-        }
+      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
+      {
+        FileInfo info = new FileInfo(file);
+        string id = info.Name.Replace(".xml", string.Empty);
+        //Post post = SelectPost(new Guid(id));
+        Post post = Post.Load(new Guid(id));
+        posts.Add(post);
+      }
 
-        posts.Sort();
-        return posts;
+      posts.Sort();
+      return posts;
     }
 
     #endregion
@@ -277,18 +286,18 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Pages</returns>
     public override List<Page> FillPages()
     {
-        string folder = CategoryDictionary._Folder + "pages\\";
-        List<Page> pages = new List<Page>();
+      string folder = CategoryDictionary._Folder + "pages\\";
+      List<Page> pages = new List<Page>();
 
-        foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-        {
-            FileInfo info = new FileInfo(file);
-            string id = info.Name.Replace(".xml", string.Empty);
-            Page page = SelectPage(new Guid(id));
-            pages.Add(page);
-        }
+      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
+      {
+        FileInfo info = new FileInfo(file);
+        string id = info.Name.Replace(".xml", string.Empty);
+        Page page = SelectPage(new Guid(id));
+        pages.Add(page);
+      }
 
-        return pages;
+      return pages;
     }
 
     #endregion
@@ -325,7 +334,7 @@ namespace BlogEngine.Core.Providers
     {
       string fileName = _Folder + "categories.xml";
 
-      using (XmlTextWriter writer = new  XmlTextWriter(fileName, System.Text.Encoding.UTF8))
+      using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
       {
         writer.Formatting = Formatting.Indented;
         writer.Indentation = 4;
@@ -339,6 +348,57 @@ namespace BlogEngine.Core.Providers
           writer.WriteAttributeString("id", key.ToString());
           writer.WriteValue(categories[key]);
           writer.WriteEndElement();
+        }
+
+        writer.WriteEndElement();
+      }
+    }
+
+    #endregion
+
+    #region Settings
+
+    /// <summary>
+    /// Loads the settings from the provider.
+    /// </summary>
+    public override StringDictionary LoadSettings()
+    {
+      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
+      StringDictionary dic = new StringDictionary();
+
+      XmlDocument doc = new XmlDocument();
+      doc.Load(filename);
+
+      foreach (XmlNode settingsNode in doc.SelectSingleNode("settings").ChildNodes)
+      {
+        string name = settingsNode.Name;
+        string value = settingsNode.InnerText;
+
+        dic.Add(name, value);
+      }
+
+      return dic;
+    }
+
+    /// <summary>
+    /// Saves the settings to the provider.
+    /// </summary>
+    public override void SaveSettings(StringDictionary settings)
+    {
+      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
+      XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
+      writerSettings.Indent = true;
+
+      //------------------------------------------------------------
+      //	Create XML writer against file path
+      //------------------------------------------------------------
+      using (XmlWriter writer = XmlWriter.Create(filename, writerSettings))
+      {
+        writer.WriteStartElement("settings");
+
+        foreach (string key in settings.Keys)
+        {
+          writer.WriteElementString(key, settings[key]);
         }
 
         writer.WriteEndElement();

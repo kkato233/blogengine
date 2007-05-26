@@ -126,7 +126,39 @@ namespace BlogEngine.Core.Web.Controls
       }
     }
 
-    #endregion
+    /// <summary>
+    /// Enable visitors to rate the post.
+    /// </summary>
+    protected virtual string Rating
+    {
+      get
+      {
+        float rating = ((float)Post.Rating / 5 * 100);
+        StringBuilder sb = new StringBuilder();
+        sb.Append("<div class=\"rating\">");
 
+        if (Post.Raters > 0)
+          sb.AppendFormat("<p>Currently rated {0} by {1} people</p>", Post.Rating.ToString("#.0"), Post.Raters);
+        else
+          sb.Append("<p>Be the first to rate this post</p>");
+
+        string script = "Rate('{0}', {1});";
+        if (Request.Cookies["rating"] != null && Request.Cookies["rating"].Value.Contains(Post.Id.ToString()))
+          script = "alert('You already rated this post');";
+
+        sb.Append("<ul class=\"star-rating small-star\">");
+        sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", rating, Post.Rating);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 1 star out of 5\" class=\"one-star\">1</a></li>", Post.Id.ToString(), 1);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 2 stars out of 5\" class=\"two-stars\">2</a></li>", Post.Id.ToString(), 2);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 3 stars out of 5\" class=\"three-stars\">3</a></li>", Post.Id.ToString(), 3);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 4 stars out of 5\" class=\"four-stars\">4</a></li>", Post.Id.ToString(), 4);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 5 stars out of 5\" class=\"five-stars\">5</a></li>", Post.Id.ToString(), 5);
+        sb.Append("</ul>");
+        sb.Append("</div>");
+        return sb.ToString();
+      }
+    }
+
+    #endregion
   }
 }
