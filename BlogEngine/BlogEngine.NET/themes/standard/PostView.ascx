@@ -7,6 +7,7 @@
   <div class="text"><%=Post.Content %></div>
   
   <div class="bottom">
+    <%=Rating %><br />
     <p class="tags"><%=TagLinks(", ") %></p>
     <p class="categories"><%=CategoryLinks(" | ") %></p>
   </div>

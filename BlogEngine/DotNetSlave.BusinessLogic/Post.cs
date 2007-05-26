@@ -152,6 +152,34 @@ namespace BlogEngine.Core
       }
     }
 
+    private float _Rating;
+    /// <summary>
+    /// Gets or sets the rating or the post.
+    /// </summary>
+    public float Rating
+    {
+      get { return _Rating; }
+      set
+      {
+        if (_Rating != value) MarkDirty("Rating");
+        _Rating = value;
+      }
+    }
+
+    private int _Raters;
+    /// <summary>
+    /// Gets or sets the number of raters or the object.
+    /// </summary>
+    public int Raters
+    {
+      get { return _Raters; }
+      set
+      {
+        if (_Raters != value) MarkDirty("Raters");
+        _Raters = value;
+      }
+    }
+
     #endregion
 
     #region Links
@@ -323,6 +351,27 @@ namespace BlogEngine.Core
       }
 
       return list;
+    }
+
+    /// <summary>
+    /// Adds a rating to the post.
+    /// </summary>
+    public void Rate(int rating)
+    {
+      if (Raters > 0)
+      {
+        float total = Raters * Rating;
+        total += rating;
+        Raters++;
+        Rating = (float)(total / Raters);
+      }
+      else
+      {
+        Raters = 1;
+        Rating = rating;
+      }
+
+      DataInsert();
     }
 
     #endregion

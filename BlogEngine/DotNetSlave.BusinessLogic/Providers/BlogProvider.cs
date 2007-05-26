@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration.Provider;
 using BlogEngine.Core;
 
@@ -67,6 +68,17 @@ namespace BlogEngine.Core.Providers
         /// Saves the specified categories in the data store of the provider.
         /// </summary>
         public abstract void SaveCategories(CategoryDictionary categories);
+
+      // Settings
+      /// <summary>
+      /// Loads the settings from the provider.
+      /// </summary>
+      public abstract StringDictionary LoadSettings();
+      /// <summary>
+      /// Saves the settings to the provider.
+      /// </summary>
+      public abstract void SaveSettings(StringDictionary settings);
+
     }
 
   /// <summary>

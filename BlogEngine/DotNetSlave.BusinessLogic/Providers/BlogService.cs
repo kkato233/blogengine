@@ -194,5 +194,28 @@ namespace BlogEngine.Core.Providers
 
     #endregion
 
+    #region Settings
+
+    /// <summary>
+    /// Loads the settings from the provider and returns
+    /// them in a StringDictionary for the BlogSettings class to use.
+    /// </summary>
+    public static System.Collections.Specialized.StringDictionary LoadSettings()
+    {
+      LoadProviders();
+     return _provider.LoadSettings();
+    }
+
+    /// <summary>
+    /// Save the settings to the current provider.
+    /// </summary>
+    public static void SaveSettings(System.Collections.Specialized.StringDictionary settings)
+    {
+      LoadProviders();
+      _provider.SaveSettings(settings);
+    }
+
+    #endregion
+
   }
 }

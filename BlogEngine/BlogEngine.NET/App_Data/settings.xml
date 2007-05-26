@@ -1,42 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <Description>Short description of the blog</Description>
-  <EnableHttpCompression>True</EnableHttpCompression>
-  <EnableReferrerTracking>False</EnableReferrerTracking>
-  <EnableRelatedPosts>True</EnableRelatedPosts>
-  <Name>Name of the blog</Name>
-  <NumberOfRecentPosts>10</NumberOfRecentPosts>
-  <PostsPerPage>10</PostsPerPage>
-  <ShowLivePreview>True</ShowLivePreview>
-  <StorageLocation>~/app_data/</StorageLocation>
-  <SyndicationFormat>Rss</SyndicationFormat>
-  <Theme>standard</Theme>
-  <RemoveWhitespaceInStyleSheets>True</RemoveWhitespaceInStyleSheets>
-  <EnableOpenSearch>True</EnableOpenSearch>
-  <TrackingScript />
-  <Email>user@example.com</Email>
-  <SendMailOnComment>True</SendMailOnComment>
-  <SmtpPassword>password</SmtpPassword>
-  <SmtpServer>mail.example.dk</SmtpServer>
-  <SmtpServerPort>25</SmtpServerPort>
-  <SmtpUsername>user@example.com</SmtpUsername>
-  <DaysCommentsAreEnabled>0</DaysCommentsAreEnabled>
-  <EnableCountryInComments>True</EnableCountryInComments>
-  <IsCoCommentEnabled>False</IsCoCommentEnabled>
-  <IsCommentsEnabled>True</IsCommentsEnabled>
-  <BlogrollMaxLength>30</BlogrollMaxLength>
-  <BlogrollUpdateMinutes>60</BlogrollUpdateMinutes>
-  <BlogrollVisiblePosts>3</BlogrollVisiblePosts>
-  <EnableCommentSearch>True</EnableCommentSearch>
-  <EnableSearchHightlight>True</EnableSearchHightlight>
-  <SearchButtonText>Search</SearchButtonText>
-  <SearchCommentLabelText>Include comments in search</SearchCommentLabelText>
-  <SearchDefaultText>Enter search term</SearchDefaultText>
-  <Endorsement>http://www.dotnetblogengine.net/syndication.axd?format=rss</Endorsement>
-  <AuthorName>My name</AuthorName>
-  <Language>en-GB</Language>
-  <GeocodingLatitude>0</GeocodingLatitude>
-  <GeocodingLongitude>0</GeocodingLongitude>
-  <MSSQLConnectionString />
-  <FeedburnerUserName />
+  <storagelocation>~/app_data/</storagelocation>
+  <enablecountryincomments>True</enablecountryincomments>
+  <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
+  <enablerelatedposts>True</enablerelatedposts>
+  <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <endorsement>http://www.dotnetblogengine.net/syndication.axd?format=rss</endorsement>
+  <showlivepreview>True</showlivepreview>
+  <enablesearchhightlight>True</enablesearchhightlight>
+  <feedburnerusername />
+  <authorname>My name</authorname>
+  <trackingscript />
+  <theme>standard</theme>
+  <iscommentsenabled>True</iscommentsenabled>
+  <language>en-GB</language>
+  <postsperpage>10</postsperpage>
+  <syndicationformat>Rss</syndicationformat>
+  <geocodinglatitude>0</geocodinglatitude>
+  <email>user@example.com</email>
+  <dayscommentsareenabled>0</dayscommentsareenabled>
+  <enablecommentsearch>True</enablecommentsearch>
+  <blogrollvisibleposts>3</blogrollvisibleposts>
+  <smtpusername>user@example.com</smtpusername>
+  <searchdefaulttext>Enter search term</searchdefaulttext>
+  <mssqlconnectionstring />
+  <iscocommentenabled>False</iscocommentenabled>
+  <description>Short description of the blog</description>
+  <enableopensearch>True</enableopensearch>
+  <numberofrecentposts>10</numberofrecentposts>
+  <searchbuttontext>Search</searchbuttontext>
+  <name>Name of the blog</name>
+  <smtppassword>password</smtppassword>
+  <smtpserverport>25</smtpserverport>
+  <smtpserver>mail.example.dk</smtpserver>
+  <geocodinglongitude>0</geocodinglongitude>
+  <enablereferrertracking>False</enablereferrertracking>
+  <blogrollupdateminutes>60</blogrollupdateminutes>
+  <sendmailoncomment>True</sendmailoncomment>
+  <blogrollmaxlength>30</blogrollmaxlength>
+  <enablehttpcompression>True</enablehttpcompression>
 </settings>
