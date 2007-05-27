@@ -1,11 +1,14 @@
+#region Using
+
 using System;
 using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-
 using BlogEngine.Core;
+
+#endregion
 
 public partial class admin_Pages_referrers : System.Web.UI.Page
 {
@@ -53,28 +56,14 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
   private void BindDays()
   {
-    //string folder = Server.MapPath("~/app_data/log/");
-    //if (Directory.Exists(folder))
-    //{
-    //  foreach (string file in Directory.GetFiles(folder, "*.xml"))
-    //  {
-    //    string name = new FileInfo(file).Name;
-    //    name = name.Substring(0, name.Length - 4);
-    //    ddlDays.Items.Add(name);
-    //  }
-
-    //  ddlDays.Enabled = true;
-    //  ddlDays.ClearSelection();
-
-      foreach (ListItem item in ddlDays.Items)
+    foreach (ListItem item in ddlDays.Items)
+    {
+      if (item.Text == DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture))
       {
-        if (item.Text == DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture))
-        {
-          item.Selected = true;
-          break;
-        }
+        item.Selected = true;
+        break;
       }
-    //}
+    }
   }
 
   private void BindReferrers(string day)
@@ -112,7 +101,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
     if (url.Length > 150)
       return url.Substring(0, 150) + "...";
 
-    return Server.HtmlEncode( url.Replace("http://", string.Empty).Replace("www.", string.Empty));
+    return Server.HtmlEncode(url.Replace("http://", string.Empty).Replace("www.", string.Empty));
   }
 
   /// <summary>

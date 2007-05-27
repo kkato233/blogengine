@@ -103,35 +103,34 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     Post.Save();
   }
 
-  public void BindCountries()
+public void BindCountries()
+{
+  System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
+  System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
+
+  foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
   {
-    System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
-    System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
+    RegionInfo ri = new RegionInfo(ci.LCID);
+    if (!dic.ContainsKey(ri.EnglishName))
+      dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
 
-    foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
-    {
-      RegionInfo ri = new RegionInfo(ci.LCID);
-      if (!dic.ContainsKey(ri.EnglishName))
-        dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
-
-      if (!col.Contains(ri.EnglishName))
-        col.Add(ri.EnglishName);
-    }
-
-    col.Sort();
-
-    ddlCountry.Items.Add(new ListItem("[Not specified]", ""));
-    foreach (string key in col)
-    {
-      ddlCountry.Items.Add(new ListItem(key, dic[key]));
-    }
-
-    if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
-    {
-      ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
-      imgFlag.ImageUrl = "~/pics/flags/" + Request.UserLanguages[0].Substring(3) + ".png";
-    }
+    if (!col.Contains(ri.EnglishName))
+      col.Add(ri.EnglishName);
   }
+
+  col.Sort();
+
+  ddlCountry.Items.Add(new ListItem("[Not specified]", ""));
+  foreach (string key in col)
+  {
+    ddlCountry.Items.Add(new ListItem(key, dic[key]));
+  }
+
+  if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
+  {
+    ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
+  }
+}
 
   private void BindLivePreview()
   {
