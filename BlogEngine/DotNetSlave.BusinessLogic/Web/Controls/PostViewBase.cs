@@ -133,7 +133,7 @@ namespace BlogEngine.Core.Web.Controls
     {
       get
       {
-        float rating = ((float)Post.Rating / 5 * 100);
+        float rating = Post.Rating / 5 * 100;
         StringBuilder sb = new StringBuilder();
         sb.Append("<div class=\"rating\">");
 
@@ -147,7 +147,7 @@ namespace BlogEngine.Core.Web.Controls
           script = "alert('You already rated this post');";
 
         sb.Append("<ul class=\"star-rating small-star\">");
-        sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", rating, Post.Rating);
+        sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", Math.Round(rating, 0), Post.Rating);
         sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 1 star out of 5\" class=\"one-star\">1</a></li>", Post.Id.ToString(), 1);
         sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 2 stars out of 5\" class=\"two-stars\">2</a></li>", Post.Id.ToString(), 2);
         sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" title=\"Rate this 3 stars out of 5\" class=\"three-stars\">3</a></li>", Post.Id.ToString(), 3);

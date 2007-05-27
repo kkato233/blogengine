@@ -53,7 +53,7 @@ namespace BlogEngine.Core.Providers
         post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText);
 
       if (doc.SelectSingleNode("post/rating") != null)
-        post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.InvariantCulture);
+        post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.GetCultureInfo("en-gb"));
 
       // Tags
       foreach (XmlNode node in doc.SelectNodes("post/tags/tag"))
