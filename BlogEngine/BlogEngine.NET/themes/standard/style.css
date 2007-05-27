@@ -201,10 +201,11 @@ div.post .text a[href^="http:"] {
 	padding-right: 10px;
 }
 
-div.post p.code, div.post pre {
+div.post .code, div.post pre {
 	line-height: 12px;
-	background: #D8D8D8;
-	padding: 3px;
+	background: #F1F1F1;
+	padding: 5px;
+	margin: 0px;
 }
 
 /*----------------------------
