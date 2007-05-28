@@ -57,7 +57,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
       HtmlImage img = new HtmlImage();
       img.Src = "~/pics/rssButton.gif";
-      img.Alt = "";
+      img.Alt = "RSS";
 
       feed.Controls.Add(img);
 
@@ -70,18 +70,77 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
       phArchive.Controls.Add(h2);
 
+      HtmlTable table = CreateTable(name);     
+
+      
       foreach (Post post in list)
       {
-        HtmlGenericControl span = new HtmlGenericControl("span");
-        Control date = new LiteralControl(post.DateCreated.ToString("yyyy-MM-dd"));
-        HtmlAnchor a = new HtmlAnchor();
-        a.InnerHtml = Server.HtmlEncode( post.Title);
-        a.HRef = post.RelativeLink.ToString();
+        HtmlTableRow row = new HtmlTableRow();
+        
+        HtmlTableCell date = new HtmlTableCell();
+        date.InnerHtml = post.DateCreated.ToString("yyyy-MM-dd");
+        date.Attributes.Add("class", "date");
+        row.Cells.Add(date);
 
-        span.Controls.Add(date);
-        span.Controls.Add(a);
-        phArchive.Controls.Add(span);
+        HtmlTableCell title = new HtmlTableCell();
+        title.InnerHtml = string.Format("<a href=\"{0}\">{1}</a>", post.RelativeLink, post.Title);
+        title.Attributes.Add("class", "title");
+        row.Cells.Add(title);
+
+        HtmlTableCell comments = new HtmlTableCell();
+        comments.InnerHtml = post.Comments.Count.ToString();
+        comments.Attributes.Add("class", "comments");
+        row.Cells.Add(comments);
+
+        HtmlTableCell rating = new HtmlTableCell();
+        rating.InnerHtml = post.Raters == 0 ? "None" : Math.Round(post.Rating, 1).ToString();
+        rating.Attributes.Add("class", "rating");
+        row.Cells.Add(rating);
+
+        table.Rows.Add(row);
+
+        //HtmlGenericControl span = new HtmlGenericControl("span");
+        //Control date = new LiteralControl(post.DateCreated.ToString("yyyy-MM-dd"));
+        //HtmlAnchor a = new HtmlAnchor();
+        //a.InnerHtml = Server.HtmlEncode( post.Title);
+        //a.HRef = post.RelativeLink.ToString();
+
+        //span.Controls.Add(date);
+        //span.Controls.Add(a);
+        //phArchive.Controls.Add(span);
       }
+
+      phArchive.Controls.Add(table);
     }
+  }
+
+  private static HtmlTable CreateTable(string name)
+  {
+    HtmlTable table = new HtmlTable();
+    table.Attributes.Add("summary", name);
+
+    HtmlTableRow header = new HtmlTableRow();
+
+    HtmlTableCell date = new HtmlTableCell("th");
+    date.InnerHtml = "Date";
+    header.Cells.Add(date);
+
+    HtmlTableCell title = new HtmlTableCell("th");
+    title.InnerHtml = "Title";
+    header.Cells.Add(title);
+
+    HtmlTableCell comments = new HtmlTableCell("th");
+    comments.InnerHtml = "Comments";
+    comments.Attributes.Add("class", "comments");
+    header.Cells.Add(comments);
+
+    HtmlTableCell rating = new HtmlTableCell("th");
+    rating.InnerHtml = "Rating";
+    rating.Attributes.Add("class", "rating");
+    header.Cells.Add(rating);
+
+    table.Rows.Add(header);
+
+    return table;
   }
 }

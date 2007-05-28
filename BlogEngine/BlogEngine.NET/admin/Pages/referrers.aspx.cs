@@ -78,22 +78,47 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
       table.Columns.Add("url", typeof(string));
       table.Columns.Add("shortUrl", typeof(string));
       table.Columns.Add("hits", typeof(int));
+
+      DataTable spamTable = table.Clone();
+
       foreach (DataRow row in ds.Tables[0].Rows)
       {
         DataRow newRow = table.NewRow();
+        if (row.Table.Columns.Contains("isSpam") && row["isSpam"].ToString().ToLowerInvariant() == "true")
+          newRow = spamTable.NewRow();
+
         newRow["url"] = Server.HtmlEncode(row["address"].ToString());
         newRow["shortUrl"] = MakeShortUrl(row["address"].ToString());
         newRow["hits"] = int.Parse(row["url_text"].ToString());
-        table.Rows.Add(newRow);
+
+        if (row.Table.Columns.Contains("isSpam") && row["isSpam"].ToString().ToLowerInvariant() == "true")
+          spamTable.Rows.Add(newRow);
+        else
+          table.Rows.Add(newRow);
       }
 
-      DataView view = new DataView(table);
-      view.Sort = "hits desc";
-
-      grid.DataSource = view;
-      grid.DataBind();
-      PaintRows(3);
+      BindTable(table, grid);
+      BindTable(spamTable, spamGrid);
     }
+  }
+
+  private void BindTable(DataTable table, GridView grid)
+  {
+    string total = table.Compute("sum(hits)", null).ToString();
+
+    DataView view = new DataView(table);
+    view.Sort = "hits desc";
+
+    grid.DataSource = view;
+    grid.DataBind();
+    
+    if (grid.Rows.Count > 0)
+    {
+      grid.FooterRow.Cells[0].Text = "Total";
+      grid.FooterRow.Cells[1].Text = total;
+    }
+
+    PaintRows(3);
   }
 
   private string MakeShortUrl(string url)

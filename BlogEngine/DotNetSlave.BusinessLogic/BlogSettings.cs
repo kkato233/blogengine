@@ -191,6 +191,9 @@ namespace BlogEngine.Core
     /// Feedburner user name.
     /// </summary>
     private string feedburnerUserName;
+
+    private string contactFormMessage;
+    private string contactThankMessage;
     #endregion
 
     //============================================================
@@ -1105,6 +1108,53 @@ namespace BlogEngine.Core
       set
       {
         geocodingLongitude = value;
+      }
+    }
+    #endregion
+
+    //============================================================
+    //	CONTACT FORM
+    //============================================================
+    #region ContactFormMessage;
+    /// <summary>
+    /// Gets or sets the name of the author of this blog.
+    /// </summary>
+    /// <value>The name of the author of this blog.</value>
+    public string ContactFormMessage
+    {
+      get      {        return contactFormMessage;      }
+      set
+      {
+        if (String.IsNullOrEmpty(value))
+        {
+          contactFormMessage = String.Empty;
+        }
+        else
+        {
+          contactFormMessage = value;
+        }
+      }
+    }
+    #endregion
+
+    #region ContactThankMessage
+    /// <summary>
+    /// Gets or sets the name of the author of this blog.
+    /// </summary>
+    /// <value>The name of the author of this blog.</value>
+    public string ContactThankMessage
+    {
+      get { return contactThankMessage; }
+      set
+      {
+        if (String.IsNullOrEmpty(value))
+        {
+          contactThankMessage = String.Empty;
+        }
+        else
+        {
+          contactThankMessage = value;
+        }
       }
     }
     #endregion

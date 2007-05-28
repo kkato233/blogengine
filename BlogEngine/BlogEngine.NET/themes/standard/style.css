@@ -374,13 +374,33 @@ div.post .code, div.post pre {
 	margin-right: 20px;
 }
 
-#archive span {
-	display: block;
-	margin-bottom: 3px;
+#archive table{
+	width: 100%;	
+	border-collapse: collapse;
 }
 
-#archive span a {
-	margin-left: 4px;
+#archive table td, #archive table th{
+	text-align:left;
+}
+
+#archive table td{
+	text-align:left;
+	border-bottom: 1px solid #D8D8D8;
+	padding: 2px 0;
+}
+
+#archive .date{
+	width: 70px;
+}
+
+#archive .comments{
+	width: 70px;
+	text-align: center;
+}
+
+#archive .rating{
+	width: 70px;
+	text-align: center;
 }
 
 /*----------------------------
@@ -431,6 +451,10 @@ div.post .code, div.post pre {
 #tagcloud {
 	margin-bottom: 10px;
 	white-space: normal;
+}
+
+#tagcloud li {
+	display: inline;
 }
 
 #tagcloud a {
@@ -590,4 +614,35 @@ div.post .code, div.post pre {
 	background-image: url(../../pics/star_small.gif);
 	line-height: 10px;
 	height: 10px;
+}
+
+/*----------------------------
+				Contact page
+----------------------------*/
+
+#contact{
+	background : white;
+	padding: 10px;
+	border: 1px solid silver;
+}
+
+#contact h1{
+	margin-top: 0;
+}
+
+#contact label{
+	display: block;
+	padding-top: 5px;	
+}
+
+#contact input.field{
+	width: 200px;
+}
+
+#contact textarea{
+	display: block;	
+	overflow: auto;
+	width: 75%;
+	height: 150px;
+	margin: 0;
 }

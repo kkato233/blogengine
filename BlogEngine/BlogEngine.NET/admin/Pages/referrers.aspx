@@ -17,10 +17,19 @@
   
   <br /><br />
   
-  <asp:GridView runat="server" ID="grid" Width="100%" GridLines="None" AutoGenerateColumns="False" CssClass="referrer" EnableViewState="false">
+  <asp:GridView runat="server" ID="grid" Width="100%" ShowFooter="true" GridLines="None" AutoGenerateColumns="False" CssClass="referrer" EnableViewState="false">
     <Columns>
-      <asp:HyperLinkField HeaderText="Referrer" DataNavigateUrlFields="url" Target="_blank" DataTextField="shortUrl" HeaderStyle-HorizontalAlign="left" />
-      <asp:BoundField HeaderText="Hits" DataField="hits" HeaderStyle-HorizontalAlign="center" ItemStyle-HorizontalAlign="center" />
+      <asp:HyperLinkField HeaderText="Referrer" FooterStyle-HorizontalAlign="left" DataNavigateUrlFields="url" Target="_blank" DataTextField="shortUrl" HeaderStyle-HorizontalAlign="left" />
+      <asp:BoundField HeaderText="Hits" DataField="hits" HeaderStyle-HorizontalAlign="center" ItemStyle-HorizontalAlign="center" ItemStyle-Width="40" />
     </Columns>
+    <FooterStyle Font-Bold="true" HorizontalAlign="center" />
+  </asp:GridView>
+  <br />
+  <asp:GridView runat="server" CaptionAlign="left" Caption="Possible spam" ID="spamGrid" Width="100%" ShowFooter="true" GridLines="None" AutoGenerateColumns="False" CssClass="referrer" EnableViewState="false">
+    <Columns>
+      <asp:HyperLinkField HeaderText="Referrer" FooterStyle-HorizontalAlign="left" DataNavigateUrlFields="url" Target="_blank" DataTextField="shortUrl" HeaderStyle-HorizontalAlign="left" />
+      <asp:BoundField HeaderText="Hits" DataField="hits" HeaderStyle-HorizontalAlign="center" ItemStyle-HorizontalAlign="center" ItemStyle-Width="40" />
+    </Columns>
+    <FooterStyle Font-Bold="true" HorizontalAlign="center" />
   </asp:GridView>
 </asp:Content>

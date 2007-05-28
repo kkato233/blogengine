@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="False" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 <br />
 <div class="settings">
@@ -29,6 +29,18 @@
   <asp:TextBox runat="server" ID="txtCommentLabelText" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCommentLabelText" ErrorMessage="Required" /><br />
 
+</div>
+
+<div class="settings">
+
+  <h1>Contact form</h1>
+  <label for="<%=txtFormMessage.ClientID %>">Form message</label>
+  <asp:TextBox runat="server" ID="txtFormMessage" TextMode="multiLine" Rows="5" Columns="40" /><br />
+  
+  <label for="<%=txtThankMessage.ClientID %>">Thank you message</label>
+  <asp:TextBox runat="server" ID="txtThankMessage" TextMode="multiLine" Rows="5" Columns="40" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="Required" />
+  
 </div>
 
 <div style="text-align: right">

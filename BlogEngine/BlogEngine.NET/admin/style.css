@@ -148,6 +148,12 @@ table.referrer tr.alt td {
 	background-color: White;
 }
 
+table.referrer caption {
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 8px;
+}
+
 /*----------------------------
 					Category
 ----------------------------*/

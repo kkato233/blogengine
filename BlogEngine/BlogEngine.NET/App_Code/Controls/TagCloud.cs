@@ -98,13 +98,15 @@ namespace Controls
     /// </summary>
     public override void RenderControl(HtmlTextWriter writer)
     {
-      writer.Write("<div id=\"tagcloud\">");
+      writer.Write("<ul id=\"tagcloud\">");
       foreach (string key in WeightedList.Keys)
       {
+        writer.Write("<li>");
         writer.Write(string.Format(LINK, Utils.RelativeWebRoot + "tag/" + key + ".aspx", WeightedList[key], "Tag: " + key, key));
+        writer.Write("</li>");
       }
 
-      writer.Write("</div>");
+      writer.Write("</ul>");
       writer.Write(Environment.NewLine);
     }
   }
