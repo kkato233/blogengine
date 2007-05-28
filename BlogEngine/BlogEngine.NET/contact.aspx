@@ -4,24 +4,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
   <div id="contact">
     <div id="divForm" runat="server">
-      <h1>Contact</h1>
+      <h1><%=Resources.labels.contact %></h1>
       
       <p><%=BlogSettings.Instance.ContactFormMessage %></p>
       
-      <label for="<%=txtName.ClientID %>">Name</label>
+      <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
       <asp:TextBox runat="server" id="txtName" cssclass="field" />
       <asp:requiredfieldvalidator runat="server" controltovalidate="txtName" ErrorMessage="Please specify your name" /><br />
       
-      <label for="<%=txtEmail.ClientID %>">E-mail</label>
+      <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %></label>
       <asp:TextBox runat="server" id="txtEmail" cssclass="field" />
       <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" display="dynamic" ErrorMessage="Please enter a valid email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
       <asp:requiredfieldvalidator runat="server" controltovalidate="txtEmail" ErrorMessage="Please specify your e-mail" /><br />
       
-      <label for="<%=txtSubject.ClientID %>">Subject</label>
+      <label for="<%=txtSubject.ClientID %>"><%=Resources.labels.subject %></label>
       <asp:TextBox runat="server" id="txtSubject" cssclass="field" />
       <asp:requiredfieldvalidator runat="server" controltovalidate="txtSubject" ErrorMessage="Please specify a subject" /><br />
       
-      <label for="<%=txtMessage.ClientID %>">Message</label>
+      <label for="<%=txtMessage.ClientID %>"><%=Resources.labels.message %></label>
       <asp:TextBox runat="server" id="txtMessage" textmode="multiline" rows="5" columns="30" />
       <asp:requiredfieldvalidator runat="server" controltovalidate="txtMessage" ErrorMessage="Please write a message" display="dynamic" />    
       

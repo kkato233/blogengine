@@ -98,23 +98,13 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
         row.Cells.Add(rating);
 
         table.Rows.Add(row);
-
-        //HtmlGenericControl span = new HtmlGenericControl("span");
-        //Control date = new LiteralControl(post.DateCreated.ToString("yyyy-MM-dd"));
-        //HtmlAnchor a = new HtmlAnchor();
-        //a.InnerHtml = Server.HtmlEncode( post.Title);
-        //a.HRef = post.RelativeLink.ToString();
-
-        //span.Controls.Add(date);
-        //span.Controls.Add(a);
-        //phArchive.Controls.Add(span);
       }
 
       phArchive.Controls.Add(table);
     }
   }
 
-  private static HtmlTable CreateTable(string name)
+  private HtmlTable CreateTable(string name)
   {
     HtmlTable table = new HtmlTable();
     table.Attributes.Add("summary", name);
@@ -122,20 +112,20 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     HtmlTableRow header = new HtmlTableRow();
 
     HtmlTableCell date = new HtmlTableCell("th");
-    date.InnerHtml = "Date";
+    date.InnerHtml = base.Translate("date");
     header.Cells.Add(date);
 
     HtmlTableCell title = new HtmlTableCell("th");
-    title.InnerHtml = "Title";
+    title.InnerHtml = base.Translate("title");
     header.Cells.Add(title);
 
     HtmlTableCell comments = new HtmlTableCell("th");
-    comments.InnerHtml = "Comments";
+    comments.InnerHtml = base.Translate("comments");
     comments.Attributes.Add("class", "comments");
     header.Cells.Add(comments);
 
     HtmlTableCell rating = new HtmlTableCell("th");
-    rating.InnerHtml = "Rating";
+    rating.InnerHtml = base.Translate("rating");
     rating.Attributes.Add("class", "rating");
     header.Cells.Add(rating);
 

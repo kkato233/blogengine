@@ -115,10 +115,11 @@ namespace BlogEngine.Core.Web.Controls
       {
         if (Page.User.Identity.IsAuthenticated)
         {
-          string confirmDelete = "Are you sure you want to delete the post?";
+          BlogBasePage page = (BlogBasePage)Page;
+          string confirmDelete = string.Format(page.Translate("areYouSure"),page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
           StringBuilder sb = new StringBuilder();
-          sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), "Edit");
-          sb.AppendFormat("<a href=\"{0}?delete={1}\" onclick=\"return confirm('{2}?')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, "Delete");
+          sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
+          sb.AppendFormat("<a href=\"{0}?delete={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
           return sb.ToString();
         }
 
@@ -137,14 +138,16 @@ namespace BlogEngine.Core.Web.Controls
         StringBuilder sb = new StringBuilder();
         sb.Append("<div class=\"rating\">");
 
+        BlogBasePage page = (BlogBasePage)Page;
+
         if (Post.Raters > 0)
-          sb.AppendFormat("<p>Currently rated {0} by {1} people</p>", Post.Rating.ToString("#.0"), Post.Raters);
+          sb.AppendFormat("<p>" + page.Translate("currentlyRated") + "</p>", Post.Rating.ToString("#.0"), Post.Raters);
         else
           sb.Append("<p>Be the first to rate this post</p>");
 
         string script = "Rate('{0}', {1});";
         if (Request.Cookies["rating"] != null && Request.Cookies["rating"].Value.Contains(Post.Id.ToString()))
-          script = "alert('You already rated this post');";
+          script = "alert('" + page.Translate("youAlreadyRated") + "');";
 
         sb.Append("<ul class=\"star-rating small-star\">");
         sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", Math.Round(rating, 0), Post.Rating);

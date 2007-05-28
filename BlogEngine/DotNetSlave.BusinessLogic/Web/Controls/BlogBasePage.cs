@@ -165,5 +165,17 @@ namespace BlogEngine.Core.Web.Controls
       ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, false);
     }
 
+    public string Translate(string text)
+    {
+      try
+      {
+        return this.GetGlobalResourceObject("labels", text).ToString();
+      }
+      catch (NullReferenceException)
+      {
+        return text;
+      }
+    }
+
   }
 }
