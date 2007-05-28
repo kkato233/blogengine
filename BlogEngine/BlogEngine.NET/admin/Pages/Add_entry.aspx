@@ -1,13 +1,13 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" Title="Add entry" ValidateRequest="False" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
-  <label for="<%=txtTitle.ClientID %>">Title</label>
+  <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="500px" />&nbsp;&nbsp;&nbsp;
   
-  <label for="<%=ddlAuthor.ClientID %>">Author</label>
+  <label for="<%=ddlAuthor.ClientID %>"><%=Resources.labels.author %></label>
   <asp:DropDownList runat="Server" ID="ddlAuthor" />&nbsp;&nbsp;&nbsp;
   
-  <label for="<%=txtDate.ClientID %>">Date</label>
+  <label for="<%=txtDate.ClientID %>"><%=Resources.labels.date %></label>
   <asp:TextBox runat="server" ID="txtDate" Width="110px" />
   
   <asp:RegularExpressionValidator ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]"ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
@@ -61,14 +61,14 @@
   
   <table id="entrySettings">
     <tr>
-      <td class="label">Upload image</td>
+      <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" />
         <asp:Button runat="server" ID="btnUploadImage" Text="Upload" CausesValidation="False" />
       </td>
     </tr>
     <tr>
-      <td class="label">Upload file</td>
+      <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" />        
         <asp:Button runat="server" ID="btnUploadFile" Text="Upload" CausesValidation="False" ValidationGroup="fileUpload" />
@@ -76,11 +76,11 @@
       </td>
     </tr>    
     <tr>
-      <td class="label">Description</td>
+      <td class="label"><%=Resources.labels.description %></td>
       <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Height="32px" /></td>
     </tr>
     <tr>
-      <td class="label">Category</td>
+      <td class="label"><%=Resources.labels.categories %></td>
       <td>
         <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" />
         <asp:Button runat="server" ID="btnCategory" Text="Add" ValidationGroup="category" />
@@ -97,7 +97,7 @@
       </td>
     </tr>
     <tr>
-      <td class="label">Settings</td>
+      <td class="label"><%=Resources.labels.settings %></td>
       <td>
         <asp:CheckBox runat="server" ID="cbEnableComments" Text="Enable comments" Checked="true" />
         <asp:CheckBox runat="server" ID="cbPublish" Text="Publish" Checked="true" />
@@ -106,7 +106,7 @@
   </table>  
   
   <div style="text-align:right">  
-    <asp:Button runat="server" ID="btnSave" Text="Save post" />
+    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, save %> " />
   </div>
   <br />
 </asp:Content>

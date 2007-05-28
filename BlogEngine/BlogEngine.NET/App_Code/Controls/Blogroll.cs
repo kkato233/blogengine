@@ -233,23 +233,28 @@ namespace Controls
     private static void ProcessRespose(IAsyncResult async)
     {
       RssItem item = (RssItem)async.AsyncState;
-      using (HttpWebResponse response = (HttpWebResponse)item.Request.EndGetResponse(async))
+      try
       {
-        XmlDocument doc = new XmlDocument();
-        doc.Load(response.GetResponseStream());
-
-        XmlNodeList nodes = doc.SelectNodes("rss/channel/item");
-        foreach (XmlNode node in nodes)
+        using (HttpWebResponse response = (HttpWebResponse)item.Request.EndGetResponse(async))
         {
-          string title = node.SelectSingleNode("title").InnerText;
-          string link = node.SelectSingleNode("link").InnerText;
-          DateTime date = DateTime.Now;
-          if (node.SelectSingleNode("pubDate") != null)
-            date = DateTime.Parse(node.SelectSingleNode("pubDate").InnerText);
+          XmlDocument doc = new XmlDocument();
+          doc.Load(response.GetResponseStream());
 
-          item.Items.Add(title, link);
+          XmlNodeList nodes = doc.SelectNodes("rss/channel/item");
+          foreach (XmlNode node in nodes)
+          {
+            string title = node.SelectSingleNode("title").InnerText;
+            string link = node.SelectSingleNode("link").InnerText;
+            DateTime date = DateTime.Now;
+            if (node.SelectSingleNode("pubDate") != null)
+              date = DateTime.Parse(node.SelectSingleNode("pubDate").InnerText);
+
+            item.Items.Add(title, link);
+          }
         }
       }
+      catch
+      { }
     }
 
     #endregion

@@ -89,7 +89,7 @@ namespace BlogEngine.Core.Web.HttpModules
           string host = url.Host.ToUpperInvariant();
           
           if (subdomain != null)
-            host.Replace(subdomain + ".", string.Empty);
+            host = host.Replace(subdomain.ToUpperInvariant() + ".", string.Empty);
 
           return !html.Contains(host);
         }

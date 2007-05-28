@@ -2,7 +2,7 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (Post.Comments.Count > 0){ %>
-<h1 id="comment">Comments</h1>
+<h1 id="comment"><%=Resources.labels.comments %></h1>
 <%} %>
 
 <div id="commentlist">
@@ -15,23 +15,24 @@
 <span id="status"></span>
 
 <div class="commentForm">
-  <h1 id="addcomment">Add comment</h1>
+  <h1 id="addcomment"><%=Resources.labels.addComment %></h1>
 
-  <label for="<%=txtName.ClientID %>">Name*</label>
+  <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
   <asp:TextBox runat="Server" ID="txtName" TabIndex="1" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="Required" Display="dynamic" /><br />
 
-  <label for="<%=txtEmail.ClientID %>">E-mail*</label>
-  <asp:TextBox runat="Server" ID="txtEmail" TabIndex="2" /> (will show your <a href="http://www.gravatar.com" target="_blank">Gravatar</a> icon)
+  <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
+  <asp:TextBox runat="Server" ID="txtEmail" TabIndex="2" />
+  (<%=string.Format(Resources.labels.willShowGravatar, "<a href=\"http://www.gravatar.com\" target=\"_blank\">Gravatar</a>") %>)
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Required" Display="dynamic" />
   <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Please enter a valid email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" /><br />
 
-  <label for="<%=txtWebsite.ClientID %>">Website</label>
+  <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website %></label>
   <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="3" />
   <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" /><br />
   
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
-  <label for="<%=ddlCountry.ClientID %>">Country</label>
+  <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
   <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" />&nbsp;
   <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" /><br /><br />
   <%} %>
@@ -40,8 +41,8 @@
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" /><br />
   <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" /><br /><br />  
  
-  <input type="button" id="btnSave" value="Save comment" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
-  <asp:Button runat="server" ID="btnSave" style="display:none" Text="Save comment" UseSubmitBehavior="false" TabIndex="6" />
+  <input type="button" id="btnSave" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
+  <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="6" />
   
   <% if (BlogSettings.Instance.ShowLivePreview) { %>  
   <h2>Live preview</h2> 

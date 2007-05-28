@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
   <div id="archive">
-    <h1>Archive</h1>
+    <h1><%=Resources.labels.archive %></h1>
     <ul runat="server" id="ulMenu" />
     <asp:placeholder runat="server" id="phArchive" />
   </div>

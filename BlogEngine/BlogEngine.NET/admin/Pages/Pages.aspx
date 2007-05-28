@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
-  <label for="<%=txtTitle.ClientID %>">Title</label>
+  <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="500px" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" /><br /><br />
 
@@ -50,14 +50,14 @@
   
   <table id="entrySettings">
     <tr>
-      <td class="label">Upload image</td>
+      <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" />
         <asp:Button runat="server" ID="btnUploadImage" Text="Upload" CausesValidation="False" />
       </td>
     </tr>
     <tr>
-      <td class="label">Upload file</td>
+      <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" />        
         <asp:Button runat="server" ID="btnUploadFile" Text="Upload" CausesValidation="False" ValidationGroup="fileUpload" />
@@ -65,17 +65,17 @@
       </td>
     </tr>    
     <tr>
-      <td class="label">Description</td>
+      <td class="label"><%=Resources.labels.description %></td>
       <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="5" /></td>
     </tr>
     <tr>
-      <td class="label">Keywords</td>
+      <td class="label"><%=Resources.labels.keywords %></td>
       <td><asp:TextBox runat="server" ID="txtKeyword" Width="400" /></td>
     </tr>
   </table>  
   
   <div style="text-align:right">
-    <asp:Button runat="server" ID="btnSave" Text="Save page" />
+    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, save %> " />
   </div>
   <br />
 </asp:Content>

@@ -96,11 +96,12 @@ namespace BlogEngine.Core.Web.Controls
       {
         if (Page.User.Identity.IsAuthenticated)
         {
+          BlogBasePage page = (BlogBasePage)Page;
           System.Text.StringBuilder sb = new System.Text.StringBuilder();
           sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", Comment.Email);
-          sb.AppendFormat(" | <a href=\"http://whois.domaintools.com/{0}/\">{0}</a>", Comment.IP);
-          string confirmDelete = "Are you sure you want to delete the comment?";
-          sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, "Delete");
+          sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&q={0}/\">{0}</a>", Comment.IP);
+          string confirmDelete = string.Format(page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
+          sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
           return sb.ToString();
         }
 

@@ -20,7 +20,7 @@ public partial class admin_menu : System.Web.UI.UserControl
       FileInfo info = new FileInfo(file);
       HtmlAnchor a = new HtmlAnchor();
       a.HRef = "~/admin/pages/" + info.Name;
-      a.InnerHtml = "<span>" + info.Name.Replace(".aspx", string.Empty).Replace("_", " ") + "</span>";
+      a.InnerHtml = "<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
 
       if (Request.RawUrl.EndsWith(info.Name, StringComparison.OrdinalIgnoreCase))
         a.Attributes["class"] = "current";
@@ -41,4 +41,17 @@ public partial class admin_menu : System.Web.UI.UserControl
     li.Controls.Add(a);
     ulMenu.Controls.Add(li);
   }
+
+  public string Translate(string text)
+  {
+    try
+    {
+      return this.GetGlobalResourceObject("labels", text).ToString();
+    }
+    catch (NullReferenceException)
+    {
+      return text;
+    }
+  }
+
 }

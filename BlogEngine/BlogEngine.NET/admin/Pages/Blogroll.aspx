@@ -4,7 +4,7 @@
 <br />
 
 <div class="settings">
-  <h1 style="margin: 0 0 5px 0">Settings</h1>
+  <h1 style="margin: 0 0 5px 0"><%=Resources.labels.settings %></h1>
   
  <label for="<%=ddlVisiblePosts.ClientID %>" class="wide"># of displayed items</label>
   <asp:DropDownList runat="server" id="ddlVisiblePosts">
@@ -30,7 +30,7 @@
   <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
   
   <div style="text-align:right">
-    <asp:Button runat="server" ID="btnSaveSettings" Text="Save settings" ValidationGroup="settings" />
+    <asp:Button runat="server" ID="btnSaveSettings" Text=" <%$ Resources:labels, save %> " ValidationGroup="settings" />
   </div>
   
  </div>
@@ -39,15 +39,15 @@
   
   <h1 style="margin: 0 0 5px 0">Add blog</h1>
 
-  <label for="<%=txtTitle.ClientID %>" class="wide">Title</label>
+  <label for="<%=txtTitle.ClientID %>" class="wide"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="600px" />
   <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtTitle" ErrorMessage="required" /><br />
   
-  <label for="<%=txtDescription.ClientID %>" class="wide">Description</label>
+  <label for="<%=txtDescription.ClientID %>" class="wide"><%=Resources.labels.description %></label>
   <asp:TextBox runat="server" ID="txtDescription" Width="600px" />
   <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtDescription" ErrorMessage="required" /><br />
   
-  <label for="<%=txtWebUrl.ClientID %>" class="wide">Website</label>
+  <label for="<%=txtWebUrl.ClientID %>" class="wide"><%=Resources.labels.website %></label>
   <asp:TextBox runat="server" ID="txtWebUrl" Width="600px" />
   <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtWebUrl" ErrorMessage="required" /><br />
   

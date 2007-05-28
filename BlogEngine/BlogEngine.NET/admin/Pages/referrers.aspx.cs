@@ -118,7 +118,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
       grid.FooterRow.Cells[1].Text = total;
     }
 
-    PaintRows(3);
+    PaintRows(grid, 3);
   }
 
   private string MakeShortUrl(string url)
@@ -133,7 +133,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
   /// Paints the background color of the alternate rows
   /// in the gridview.
   /// </summary>
-  private void PaintRows(int alternateRows)
+  private void PaintRows(GridView grid, int alternateRows)
   {
     int count = 0;
     for (int i = 0; i < grid.Controls[0].Controls.Count - 1; i++)

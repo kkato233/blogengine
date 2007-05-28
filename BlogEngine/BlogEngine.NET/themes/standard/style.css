@@ -67,13 +67,13 @@ img {
 #header h2 {
 	font-weight: normal;
 	letter-spacing: 4px;
-	color: Silver;
+	color: silver;
 	margin: 0px;
 }
 
 #header a {
 	text-decoration: none;
-	color: White;
+	color: white;
 }
 
 /*----------------------------
@@ -86,7 +86,7 @@ img {
 }
 
 #sidepanel .box {
-	background-color: White;
+	background-color: white;
 	border: 1px solid silver;
 	padding: 3px 15px;
 	line-height: 16px;
@@ -144,7 +144,7 @@ div.post {
 	border: 1px solid silver;
 	padding: 3px 10px;
 	margin-bottom: 20px;
-	background-color: White;
+	background-color: white;
 	line-height: 17px;
 }
 
@@ -199,6 +199,7 @@ div.post .tags {
 div.post .text a[href^="http:"] {
 	background: url(../../pics/remote.gif) right top no-repeat;
 	padding-right: 10px;
+  white-space: nowrap;
 }
 
 div.post .code, div.post pre {
@@ -241,25 +242,13 @@ div.post .code, div.post pre {
 	float: left;
 }
 
-.bookmarks a img {
-	filter: alpha(opacity=35);
-	-moz-opacity: .35;
-	opacity: .35;
-}
-
-.bookmarks a:hover img {
-	filter: alpha(opacity=100);
-	-moz-opacity: 1;
-	opacity: 1;
-}
-
 /*----------------------------
 					Comments
 ----------------------------*/
 
 .comment {
 	border: 1px solid silver;
-	background-color: White;
+	background-color: white;
 	padding: 3px 10px;
 	margin-bottom: 10px;
 }
@@ -325,24 +314,16 @@ div.post .code, div.post pre {
 }
 
 .success {
-	color: Green;
+	color: green;
 	font-weight: bold;
 }
-
-/*.commentForm #preview {
-	background-color: white;
-	min-height: 100px;
-	border: 1px solid silver;
-	padding: 5px;
-	margin-bottom: 20px;
-}*/
 
 /*----------------------------
 					Archive
 ----------------------------*/
 
 #archive {
-	background-color: White;
+	background-color: white;
 	border: 1px solid silver;
 	padding: 10px;
 }
@@ -490,7 +471,7 @@ div.post .code, div.post pre {
 	border: 1px solid silver;
 	padding: 3px 10px;
 	margin-bottom: 20px;
-	background-color: White;
+	background-color: white;
 }
 
 #page h1 {
