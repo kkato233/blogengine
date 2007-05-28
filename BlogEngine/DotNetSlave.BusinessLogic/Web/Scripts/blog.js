@@ -135,3 +135,11 @@ function GetHttpObject()
     
     return false;
 }
+
+// Updates the calendar from client-callback
+function UpdateCalendar(args, context)
+{
+  var cal = document.getElementById('calendarContainer');
+  cal.innerHTML = args;
+  months[context] = args;
+}

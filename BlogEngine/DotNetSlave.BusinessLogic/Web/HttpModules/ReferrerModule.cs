@@ -4,8 +4,10 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Web;
+using System.Collections;
 using System.Globalization;
 using BlogEngine.Core;
+using System.Net;
 
 #endregion
 
@@ -43,20 +45,21 @@ namespace BlogEngine.Core.Web.HttpModules
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
+      if (!context.Request.PhysicalPath.ToLowerInvariant().Contains(".aspx"))
+        return;
+
       if (context.Request.UrlReferrer != null)
       {
         Uri referrer = context.Request.UrlReferrer;
         if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) && !IsSearchEngine(referrer.ToString()))
         {
-          RegisterClick(referrer.ToString());
+          //RegisterClick(referrer.ToString());
+          System.Threading.ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer.ToString(), context.Request.Url));
         }
       }
     }
 
-    private bool IsSearchEngine(string referrer)
-    {
-      return referrer.ToLowerInvariant().Contains("?q=") || referrer.ToLowerInvariant().Contains("&q=");
-    }
+    #region Private fields
 
     /// <summary>
     /// Used to thread safe the file operations
@@ -68,7 +71,68 @@ namespace BlogEngine.Core.Web.HttpModules
     /// </summary>
     private static string _Folder = HttpContext.Current.Server.MapPath("~/app_data/log/");
 
-    private void RegisterClick(string url)
+    #endregion
+
+    private bool IsSearchEngine(string referrer)
+    {
+      return referrer.ToLowerInvariant().Contains("?q=") || referrer.ToLowerInvariant().Contains("&q=");
+    }
+
+    private bool IsSpam(string referrer, Uri url)
+    {
+      try
+      {
+        using (WebClient client = new WebClient())
+        {
+          string html = client.DownloadString(referrer).ToUpperInvariant();
+          string subdomain = GetSubDomain(url);
+          string host = url.Host.ToUpperInvariant();
+          
+          if (subdomain != null)
+            host.Replace(subdomain + ".", string.Empty);
+
+          return !html.Contains(host);
+        }
+      }
+      catch
+      {
+        return true;
+      }
+    }
+
+    /// Retrieves the subdomain from the specified URL.
+    /// </summary>
+    /// <param name="url">The URL from which to retrieve the subdomain.</param>
+    /// <returns>The subdomain if it exist, otherwise null.</returns>
+    private static string GetSubDomain(Uri url)
+    {
+      if (url.HostNameType == UriHostNameType.Dns)
+      {
+        string host = url.Host;
+        if (host.Split('.').Length > 2)
+        {
+          int lastIndex = host.LastIndexOf(".");
+          int index = host.LastIndexOf(".", lastIndex - 1);
+          return host.Substring(0, index);
+        }
+      }
+
+      return null;
+    }
+
+
+
+    private void BeginRegisterClick(object stateInfo)
+    {
+      DictionaryEntry entry = (DictionaryEntry)stateInfo;
+      string referrer = (string)entry.Key;
+      Uri url = (Uri)entry.Value;
+      bool isSpam = IsSpam(referrer, url);
+
+      RegisterClick(referrer, isSpam);
+    }
+
+    private void RegisterClick(string url, bool isSpam)
     {
       string fileName = _Folder + DateTime.Now.Date.ToString("dddd", CultureInfo.InvariantCulture) + ".xml";
 
@@ -81,7 +145,7 @@ namespace BlogEngine.Core.Web.HttpModules
         XmlNode node = doc.SelectSingleNode("urls/url[@address='" + address + "']");
         if (node == null)
         {
-          AddNewUrl(doc, address);
+          AddNewUrl(doc, address, isSpam);
         }
         else
         {
@@ -96,13 +160,17 @@ namespace BlogEngine.Core.Web.HttpModules
     /// <summary>
     /// Adds a new Url to the XmlDocument.
     /// </summary>
-    private static void AddNewUrl(XmlDocument doc, string address)
+    private static void AddNewUrl(XmlDocument doc, string address, bool isSpam)
     {
       XmlNode newNode = doc.CreateElement("url");
 
       XmlAttribute attrAddress = doc.CreateAttribute("address");
       attrAddress.Value = address;
       newNode.Attributes.Append(attrAddress);
+
+      XmlAttribute attrSpam = doc.CreateAttribute("isSpam");
+      attrSpam.Value = isSpam.ToString();
+      newNode.Attributes.Append(attrSpam);
 
       newNode.InnerText = "1";
       doc.ChildNodes[1].AppendChild(newNode);
@@ -134,6 +202,6 @@ namespace BlogEngine.Core.Web.HttpModules
       doc.Load(fileName);
       return doc;
     }
-
   }
+
 }

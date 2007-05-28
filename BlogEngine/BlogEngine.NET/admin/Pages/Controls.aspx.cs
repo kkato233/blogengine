@@ -28,6 +28,8 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
     BlogSettings.Instance.SearchCommentLabelText = txtCommentLabelText.Text;
     BlogSettings.Instance.SearchDefaultText = txtDefaultSearchText.Text;
     BlogSettings.Instance.EnableCommentSearch = cbEnableCommentSearch.Checked;
+    BlogSettings.Instance.ContactFormMessage = txtFormMessage.Text;
+    BlogSettings.Instance.ContactThankMessage = txtThankMessage.Text;
 
     BlogSettings.Instance.Save();
   }
@@ -39,5 +41,7 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
     txtCommentLabelText.Text = BlogSettings.Instance.SearchCommentLabelText;
     txtDefaultSearchText.Text = BlogSettings.Instance.SearchDefaultText;
     cbEnableCommentSearch.Checked = BlogSettings.Instance.EnableCommentSearch;
+    txtThankMessage.Text = BlogSettings.Instance.ContactThankMessage;
+    txtFormMessage.Text = BlogSettings.Instance.ContactFormMessage;
   }
 }

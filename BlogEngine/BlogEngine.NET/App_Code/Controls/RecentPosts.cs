@@ -34,11 +34,18 @@ namespace Controls
             number = Post.Posts.Count;
 
           _Html = "<ul>";
-          foreach (Post post in Post.Posts.GetRange(0, number))
+          int counter = 1;
+          
+          foreach (Post post in Post.Posts)
           {
-            _Html += string.Format("<li><a href=\"{0}\">{1}</a></li>", post.RelativeLink, post.Title);
+            if (counter <= number && post.IsPublished)
+            {
+              _Html += string.Format("<li><a href=\"{0}\">{1}</a></li>", post.RelativeLink, post.Title);
+              counter++;
+            }
           }
-          _Html += "</ul>";
+
+          _Html += "</ul>";          
         }
 
         return _Html;

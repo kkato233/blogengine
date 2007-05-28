@@ -35,7 +35,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(rating))
       {
         int rate = 0;
-        if (int.TryParse(rating, out rate))
+        if (int.TryParse(rating, out rate) && rate > 0 && rate < 6 && !HasRated(id))
         {
           Post post = Post.GetPost(new Guid(id));
           post.Rate(rate);
@@ -64,6 +64,17 @@ namespace BlogEngine.Core.Web.HttpHandlers
       cookie.Expires = DateTime.Now.AddYears(2);
       cookie.Value += id;
       context.Response.Cookies.Add(cookie);
+    }
+
+    private bool HasRated(string postId)
+    {
+      if (HttpContext.Current.Request.Cookies["rating"] != null)
+      {
+        HttpCookie cookie = HttpContext.Current.Request.Cookies["rating"];
+        return cookie.Value.Contains(postId);
+      }
+
+      return false;
     }
 
     /// <summary>

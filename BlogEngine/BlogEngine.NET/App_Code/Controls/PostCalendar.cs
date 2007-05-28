@@ -85,7 +85,7 @@ namespace Controls
           VisibleDate = DateTime.Now;
 
         writer.Write("<div id=\"calendarContainer\">");
-        writer.Write("<table class=\"calendar\" style=\";border-collapse:collapse;\">");
+        writer.Write("<table class=\"calendar\" summary=\"Post calendar navigation\" style=\";border-collapse:collapse;\">");
         writer.Write("<tr><td>");
 
         DateTime oldest = GetOldestPostDate();
@@ -104,7 +104,10 @@ namespace Controls
 
         writer.Write("</td></tr>");
         writer.Write("</table>");
+
+        base.Attributes.Add("summary", "Post calendar");
         base.Render(writer);
+        
         writer.Write("</div>");
 
         if (!Page.IsCallback)
@@ -137,11 +140,11 @@ namespace Controls
       sb.Append("else {UpdateCalendar(months[date], date)}");
       sb.Append("}");
 
-      sb.Append("function UpdateCalendar(args, context){");
-      sb.Append("var cal = document.getElementById('calendarContainer');");
-      sb.Append("cal.innerHTML = args;");
-      sb.Append("months[context] = args;");
-      sb.Append("}");
+      //sb.AppendLine("function UpdateCalendar(args, context){");
+      //sb.AppendLine("var cal = document.getElementById('calendarContainer');");
+      //sb.AppendLine("cal.innerHTML = args;");
+      //sb.AppendLine("months[context] = args;");
+      //sb.AppendLine("}");
       sb.Append("</script>");
       return sb.ToString();
     }

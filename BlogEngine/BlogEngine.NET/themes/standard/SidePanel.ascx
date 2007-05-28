@@ -13,9 +13,9 @@
         <br /><br />
         
         <!-- Email -->
-        <a href="<%=Utils.SafeMail("name@domain.com", BlogSettings.Instance.Name) %>" style="float:right;clear:both">
+        <asp:HyperLink runat="server" NavigateUrl="~/contact.aspx" style="float:right;clear:both">
           E-mail me <img src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
-        </a>
+        </asp:HyperLink>
       </td>
     </tr>
   </table>  
@@ -65,8 +65,9 @@
 </div>
 
 <div class="box">
-  <h1>Blogroll</h1>
+  <h1>Blogroll</h1>   
   <blog:Blogroll runat="server" />
+  <a href="opml.axd" style="display:block;text-align:right" title="Download OPML file" >Download OPML file <asp:Image ID="Image1" runat="server" ImageUrl="~/pics/opml.png" AlternateText="OPML" /></a>
 </div>
 
 <div class="box">
