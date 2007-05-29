@@ -69,12 +69,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.ContentType = "text/css";
       // Server-side caching 
       context.Response.AddFileDependency(file);
-      context.Response.Cache.VaryByParams["name"] = true;
-      context.Response.Cache.SetCacheability(HttpCacheability.Public);
+      context.Response.Cache.VaryByParams["name"] = true;      
       context.Response.Cache.SetValidUntilExpires(true);
       // Client-side caching
       context.Response.Cache.SetETagFromFileDependencies();
       context.Response.Cache.SetLastModifiedFromFileDependencies();
+      context.Response.Cache.SetCacheability(HttpCacheability.Public);
     }
 
     /// <summary>

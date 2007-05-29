@@ -220,9 +220,10 @@ public static class Search
     {
       _IsBuilingCatalog = true;
       ThreadPool.QueueUserWorkItem(BuildCatalog); ;// BuildCatalog(postsToSearch);    
+      return new List<Post>();
     }
 
-    if (_catalogIndex.Count == 0)
+    if (_IsBuilingCatalog || _catalogIndex.Count == 0)
       return new List<Post>();
 
     //Pass.2

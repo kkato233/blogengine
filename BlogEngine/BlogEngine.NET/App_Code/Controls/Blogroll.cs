@@ -88,6 +88,7 @@ namespace Controls
       return AspNetHostingPermissionLevel.None;
     }
 
+    private static object _SyncRoot = new object();
 
     /// <summary>
     /// Displays the RSS item collection.
@@ -102,8 +103,14 @@ namespace Controls
 
       if (_Items == null)
       {
-        _Items = new Collection<RssItem>();
-        CreateList();
+        lock (_SyncRoot)
+        {
+          if (_Items == null)
+          {
+            _Items = new Collection<RssItem>();
+            CreateList();
+          }
+        }
       }
 
       return BindControls();

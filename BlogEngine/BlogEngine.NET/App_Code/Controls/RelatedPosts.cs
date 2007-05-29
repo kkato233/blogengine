@@ -57,33 +57,36 @@ namespace Controls
       set { _Headline = value; }
     }
 
-    /// <summary>
-    /// It is a long running process to built the search catalog,
-    /// so we only built it once an then updates it when new posts 
-    /// are added or old ones updated.
-    /// </summary>
-    private Dictionary<Guid, string> Cache
-    {
-      get
-      {
-        lock (_SyncRoot)
-        {
-          if (_Cache == null)
-          {
-            _Cache = new Dictionary<Guid, string>();
-            Post.Saved += delegate { _Cache = null; };
-          }
-        }
+    ///// <summary>
+    ///// It is a long running process to built the search catalog,
+    ///// so we only built it once an then updates it when new posts 
+    ///// are added or old ones updated.
+    ///// </summary>
+    //private Dictionary<Guid, string> Cache
+    //{
+    //  get
+    //  {
+    //      if (_Cache == null)
+    //      {
+    //        lock (_SyncRoot)
+    //        {
+    //          if (_Cache == null)
+    //          {
+    //            _Cache = new Dictionary<Guid, string>();
+    //            Post.Saved += delegate { _Cache = null; };
+    //          }
+    //        }
+    //      }
 
-        return _Cache;
-      }
-    }
+    //    return _Cache;
+    //  }
+    //}
 
     #endregion
 
     #region Private fiels
 
-    private static Dictionary<Guid, string> _Cache;
+    private static Dictionary<Guid, string> _Cache = new Dictionary<Guid,string>();
     private static object _SyncRoot = new object();
 
     #endregion    
@@ -93,44 +96,51 @@ namespace Controls
       if (!BlogSettings.Instance.EnableRelatedPosts || Post == null)
         return;
 
-      if (!Cache.ContainsKey(Post.Id))
+      if (!_Cache.ContainsKey(Post.Id))
       {
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        List<Post> relatedPosts = SearchForPosts();
-        if (relatedPosts.Count <= 1)
-          return;
-
-        string link = "<a href=\"{0}\">{1}</a>";
-        string desc = "<span>{0}</span>";
-        sb.Append("<h1>" + this.Headline + "</h1>");
-        sb.Append("<div id=\"relatedPosts\">");
-
-        int count = 0;
-        foreach (Post post in relatedPosts)
+        lock (_SyncRoot)
         {
-          if (post != this.Post)
-          {
-            sb.Append(string.Format(link, post.RelativeLink, post.Title));
-            if (ShowDescription)
+          if (!_Cache.ContainsKey(Post.Id))
+          {            
+            List<Post> relatedPosts = SearchForPosts();
+            if (relatedPosts.Count <= 1)
+              return;
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            string link = "<a href=\"{0}\">{1}</a>";
+            string desc = "<span>{0}</span>";
+            sb.Append("<h1>" + this.Headline + "</h1>");
+            sb.Append("<div id=\"relatedPosts\">");
+
+            int count = 0;
+            foreach (Post post in relatedPosts)
             {
-              string description = post.Description;
-              if (description != null && description.Length > DescriptionMaxLength)
-                description = description.Substring(0, DescriptionMaxLength) + "...";
+              if (post != this.Post)
+              {
+                sb.Append(string.Format(link, post.RelativeLink, post.Title));
+                if (ShowDescription)
+                {
+                  string description = post.Description;
+                  if (description != null && description.Length > DescriptionMaxLength)
+                    description = description.Substring(0, DescriptionMaxLength) + "...";
 
-              sb.Append(string.Format(desc, description));
+                  sb.Append(string.Format(desc, description));
+                }
+                count++;
+              }
+
+              if (count == MaxResults)
+                break;
             }
-            count++;
+
+            sb.Append("</div>");
+            _Cache.Add(Post.Id, sb.ToString());
           }
-
-          if (count == MaxResults)
-            break;
         }
-
-        sb.Append("</div>");
-        Cache.Add(Post.Id, sb.ToString());
       }
 
-      writer.Write(Cache[Post.Id]);
+      writer.Write(_Cache[Post.Id]);
     }
 
     private List<Post> SearchForPosts()

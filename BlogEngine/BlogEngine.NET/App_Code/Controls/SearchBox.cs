@@ -23,10 +23,10 @@ namespace Controls
     static SearchBox()
     {
       BlogSettings.Changed += delegate { _Html = null; };
-      Post.Saved += delegate { _Html = null; };
+      //Post.Saved += delegate { _Html = null; };
     }
 
-    #region Properties
+    private static object _SyncRoot = new object();
 
     private static string _Html;
     /// <summary>
@@ -38,29 +38,36 @@ namespace Controls
       {
         if (_Html == null)
         {
-          StringBuilder sb = new StringBuilder();
-          sb.AppendLine("<div id=\"searchbox\">");
-          sb.Append("<label for=\"searchfield\" style=\"display:none\">Search</label>");
-          sb.AppendFormat("<input type=\"text\" value=\"{0}\" id=\"searchfield\" onkeypress=\"if(event.keyCode==13) return Search('{1}')\" onfocus=\"SearchClear('{2}')\" onblur=\"SearchClear('{2}')\" />", BlogSettings.Instance.SearchDefaultText, Utils.RelativeWebRoot, BlogSettings.Instance.SearchDefaultText);
-          sb.AppendFormat("<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"Search('{1}');\" onkeypress=\"Search('{1}');\" />", BlogSettings.Instance.SearchButtonText, Utils.RelativeWebRoot);
-
-          if (BlogSettings.Instance.EnableCommentSearch)
+          lock (_SyncRoot)
           {
-            string check = Context.Request.QueryString["comment"] != null ? "checked=\"checked\"" : string.Empty;
-            sb.AppendFormat("<br /><input type=\"checkbox\" id=\"searchcomments\" {0} />", check);
-            if (!string.IsNullOrEmpty(BlogSettings.Instance.SearchCommentLabelText))
-              sb.AppendFormat("<label for=\"searchcomments\">{0}</label>", BlogSettings.Instance.SearchCommentLabelText);
+            if (_Html == null)
+              BuildHtml();
           }
-
-          sb.AppendLine("</div>");
-          _Html = sb.ToString();
         }
 
         return _Html;
       } 
     }
 
-    #endregion
+    private void BuildHtml()
+    {
+      StringBuilder sb = new StringBuilder();
+      sb.AppendLine("<div id=\"searchbox\">");
+      sb.Append("<label for=\"searchfield\" style=\"display:none\">Search</label>");
+      sb.AppendFormat("<input type=\"text\" value=\"{0}\" id=\"searchfield\" onkeypress=\"if(event.keyCode==13) return Search('{1}')\" onfocus=\"SearchClear('{2}')\" onblur=\"SearchClear('{2}')\" />", BlogSettings.Instance.SearchDefaultText, Utils.RelativeWebRoot, BlogSettings.Instance.SearchDefaultText);
+      sb.AppendFormat("<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"Search('{1}');\" onkeypress=\"Search('{1}');\" />", BlogSettings.Instance.SearchButtonText, Utils.RelativeWebRoot);
+
+      if (BlogSettings.Instance.EnableCommentSearch)
+      {
+        string check = Context.Request.QueryString["comment"] != null ? "checked=\"checked\"" : string.Empty;
+        sb.AppendFormat("<br /><input type=\"checkbox\" id=\"searchcomments\" {0} />", check);
+        if (!string.IsNullOrEmpty(BlogSettings.Instance.SearchCommentLabelText))
+          sb.AppendFormat("<label for=\"searchcomments\">{0}</label>", BlogSettings.Instance.SearchCommentLabelText);
+      }
+
+      sb.AppendLine("</div>");
+      _Html = sb.ToString();
+    }
 
     /// <summary>
     /// Renders the control as a script tag.

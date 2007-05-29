@@ -59,7 +59,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
             context.Response.ContentType = "image/jpeg";
           else
             context.Response.ContentType = "image/" + extension;
+
           context.Response.Cache.SetCacheability(HttpCacheability.Public);
+          context.Response.Cache.SetETag(fileName);
           context.Server.Transfer(folder + fileName, false);
         }
         else

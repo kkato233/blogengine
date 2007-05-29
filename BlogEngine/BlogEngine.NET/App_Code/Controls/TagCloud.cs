@@ -31,16 +31,19 @@ namespace Controls
     {
       get
       {
-        lock (_SyncRoot)
+        if (_WeightedList == null)
         {
-          if (_WeightedList == null)
-          {            
-            _WeightedList = new Dictionary<string, string>();
-            SortList();
+          lock (_SyncRoot)
+          {
+            if (_WeightedList == null)
+            {
+              _WeightedList = new Dictionary<string, string>();
+              SortList();
+            }
           }
-
-          return _WeightedList;
         }
+
+        return _WeightedList;
       }
     }
 
@@ -75,7 +78,7 @@ namespace Controls
       {
         if (value > max)
           max = value;
-      }      
+      }
 
       foreach (string key in dic.Keys)
       {
@@ -91,7 +94,7 @@ namespace Controls
         else if (weight >= 3)
           _WeightedList.Add(key, "smallest");
       }
-    }    
+    }
 
     /// <summary>
     /// Renders the control.

@@ -231,12 +231,16 @@ namespace BlogEngine.Core
     {
       get
       {
-        lock (_SyncRoot)
+        if (_Posts == null)
         {
-          if (_Posts == null)
+          lock (_SyncRoot)
+          {
+            if (_Posts == null)
               _Posts = BlogService.FillPosts();
-          return _Posts;
+          }
         }
+
+        return _Posts;
       }
     }
 
