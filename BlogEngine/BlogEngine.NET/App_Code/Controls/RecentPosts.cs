@@ -21,6 +21,7 @@ namespace Controls
       BlogSettings.Changed += delegate { _Html = null; };
     }
 
+    private static object _SyncRoot = new object();
     private static string _Html;
 
     private string Html
@@ -28,24 +29,30 @@ namespace Controls
       get
       {
         if (_Html == null)
-        {          
-          int number = BlogSettings.Instance.NumberOfRecentPosts;
-          if (number > Post.Posts.Count)
-            number = Post.Posts.Count;
-
-          _Html = "<ul>";
-          int counter = 1;
-          
-          foreach (Post post in Post.Posts)
+        {
+          lock (_SyncRoot)
           {
-            if (counter <= number && post.IsPublished)
+            if (_Html == null)
             {
-              _Html += string.Format("<li><a href=\"{0}\">{1}</a></li>", post.RelativeLink, post.Title);
-              counter++;
+              int number = BlogSettings.Instance.NumberOfRecentPosts;
+              if (number > Post.Posts.Count)
+                number = Post.Posts.Count;
+
+              _Html = "<ul>";
+              int counter = 1;
+
+              foreach (Post post in Post.Posts)
+              {
+                if (counter <= number && post.IsPublished)
+                {
+                  _Html += string.Format("<li><a href=\"{0}\">{1}</a></li>", post.RelativeLink, post.Title);
+                  counter++;
+                }
+              }
+
+              _Html += "</ul>";
             }
           }
-
-          _Html += "</ul>";          
         }
 
         return _Html;

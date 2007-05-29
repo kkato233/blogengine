@@ -38,6 +38,8 @@ namespace Controls
       set { _ShowRssIcon = value; }
     }
 
+    private static object _SyncRoot = new object();
+
     private static string _Html;
     /// <summary>
     /// Caches the rendered HTML in the private field and first
@@ -48,11 +50,17 @@ namespace Controls
       get
       {
         if (_Html == null)
-        {          
-          HtmlGenericControl ul = BindAuthors();
-          System.IO.StringWriter sw = new System.IO.StringWriter();
-          ul.RenderControl(new HtmlTextWriter(sw));
-          _Html = sw.ToString();
+        {
+          lock (_SyncRoot)
+          {
+            if (_Html == null)
+            {
+              HtmlGenericControl ul = BindAuthors();
+              System.IO.StringWriter sw = new System.IO.StringWriter();
+              ul.RenderControl(new HtmlTextWriter(sw));
+              _Html = sw.ToString();
+            }
+          }
         }
 
         return _Html;
