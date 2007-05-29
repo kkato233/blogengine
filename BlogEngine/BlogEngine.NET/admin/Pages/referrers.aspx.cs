@@ -135,6 +135,9 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
   /// </summary>
   private void PaintRows(GridView grid, int alternateRows)
   {
+    if (grid.Rows.Count == 0)
+      return;
+
     int count = 0;
     for (int i = 0; i < grid.Controls[0].Controls.Count - 1; i++)
     {
