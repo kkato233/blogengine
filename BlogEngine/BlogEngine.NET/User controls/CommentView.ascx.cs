@@ -387,7 +387,7 @@ public void BindCountries()
         website = "http://" + website;
 
       Uri url;
-      if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out url))
+      if (Uri.TryCreate(website, UriKind.Absolute, out url))
         comment.Website = url;
     }
 

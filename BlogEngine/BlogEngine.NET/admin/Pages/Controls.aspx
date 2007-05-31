@@ -3,8 +3,8 @@
 <br />
 <div class="settings">
 
-  <h1>Recent posts</h1>
-  <label for="<%=txtNumberOfPosts.ClientID %>">Number of posts</label>
+  <h1><%=Resources.labels.recentPosts %></h1>
+  <label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfPosts %></label>
   <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Required" />
   <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Operator="dataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
@@ -13,19 +13,19 @@
 
 <div class="settings">
 
-  <h1>Search field</h1>
-  <label for="<%=txtSearchButtonText.ClientID %>">Button text</label>
+  <h1><%=Resources.labels.searchField %></h1>
+  <label for="<%=txtSearchButtonText.ClientID %>"><%=Resources.labels.buttonText %></label>
   <asp:TextBox runat="server" ID="txtSearchButtonText" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSearchButtonText" ErrorMessage="Required" /><br />
   
-  <label for="<%=txtDefaultSearchText.ClientID %>">Search field text</label>
-  <asp:TextBox runat="server" ID="txtDefaultSearchText" /> The default text shown in the search textbox
+  <label for="<%=txtDefaultSearchText.ClientID %>"><%=Resources.labels.searchFieldText %></label>
+  <asp:TextBox runat="server" ID="txtDefaultSearchText" /> <%=Resources.labels.defaultTextShownInSearchField %>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDefaultSearchText" ErrorMessage="Required" /><br />
   
-  <label for="<%=cbEnableCommentSearch.ClientID %>">Enable comment search</label>
+  <label for="<%=cbEnableCommentSearch.ClientID %>"><%=Resources.labels.enableCommentSearch %></label>
   <asp:CheckBox runat="Server" ID="cbEnableCommentSearch" /><br />
   
-  <label for="<%=txtCommentLabelText.ClientID %>">Comment label text</label>
+  <label for="<%=txtCommentLabelText.ClientID %>"><%=Resources.labels.commentLabelText %></label>
   <asp:TextBox runat="server" ID="txtCommentLabelText" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCommentLabelText" ErrorMessage="Required" /><br />
 
@@ -33,18 +33,18 @@
 
 <div class="settings">
 
-  <h1>Contact form</h1>
-  <label for="<%=txtFormMessage.ClientID %>">Form message</label>
+  <h1><%=Resources.labels.contactForm %></h1>
+  <label for="<%=txtFormMessage.ClientID %>"><%=Resources.labels.formMessage %></label>
   <asp:TextBox runat="server" ID="txtFormMessage" TextMode="multiLine" Rows="5" Columns="40" /><br />
   
-  <label for="<%=txtThankMessage.ClientID %>">Thank you message</label>
+  <label for="<%=txtThankMessage.ClientID %>"><%=Resources.labels.thankYouMessage %></label>
   <asp:TextBox runat="server" ID="txtThankMessage" TextMode="multiLine" Rows="5" Columns="40" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="Required" />
   
 </div>
 
 <div style="text-align: right">
-  <asp:Button runat="server" ID="btnSave" Text="Save settings" />
+  <asp:Button runat="server" ID="btnSave" />
 </div><br />
 </asp:Content>
 

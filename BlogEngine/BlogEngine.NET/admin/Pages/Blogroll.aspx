@@ -6,7 +6,7 @@
 <div class="settings">
   <h1 style="margin: 0 0 5px 0"><%=Resources.labels.settings %></h1>
   
- <label for="<%=ddlVisiblePosts.ClientID %>" class="wide"># of displayed items</label>
+ <label for="<%=ddlVisiblePosts.ClientID %>" class="wide"><%=Resources.labels.numberOfDisplayedItems %></label>
   <asp:DropDownList runat="server" id="ddlVisiblePosts">
     <asp:ListItem Text="0" />
     <asp:ListItem Text="1" />
@@ -21,23 +21,23 @@
     <asp:ListItem Text="10" />
   </asp:DropDownList><br />
   
-  <label for="<%=txtMaxLength.ClientID %>" class="wide">Max lenght of items</label>
+  <label for="<%=txtMaxLength.ClientID %>" class="wide"><%=Resources.labels.maxLengthOfItems %></label>
   <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
   <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" /><br />
   
-  <label for="<%=txtUpdateFrequency.ClientID %>" class="wide">Update frequenzy (minutes)</label>
+  <label for="<%=txtUpdateFrequency.ClientID %>" class="wide"><%=Resources.labels.updateFrequenzy %></label>
   <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
   <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
   
   <div style="text-align:right">
-    <asp:Button runat="server" ID="btnSaveSettings" Text=" <%$ Resources:labels, save %> " ValidationGroup="settings" />
+    <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" />
   </div>
   
  </div>
  
 <div class="settings">
   
-  <h1 style="margin: 0 0 5px 0">Add blog</h1>
+  <h1 style="margin: 0 0 5px 0"><%=Resources.labels.add %> blog</h1>
 
   <label for="<%=txtTitle.ClientID %>" class="wide"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="600px" />
@@ -78,7 +78,7 @@
   </asp:CheckBoxList>
   
   <div style="text-align:right">
-    <asp:Button runat="server" ID="btnSave" Text="Add blog" />
+    <asp:Button runat="server" ID="btnSave" Text="<%$ Resources:labels, add %>" />
   </div>
   
 </div>
@@ -96,7 +96,7 @@
           &nbsp;(<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xfn"].Value.Replace(";", " ")%>)
         </td>
         <td style="width:50px">
-          <a href="?delete=<%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %>" onclick="return confirm('Are you sure?')">Delete</a>
+          <a href="?delete=<%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %>" onclick="return confirm('Are you sure?')"><%=Resources.labels.delete %></a>
         </td>
       </tr>
     </ItemTemplate>
@@ -109,7 +109,7 @@
           &nbsp;(<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xfn"].Value.Replace(";", " ") %>)
         </td>
         <td style="width:50px">
-          <a href="?delete=<%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %>" onclick="return confirm('Are you sure?')">Delete</a>
+          <a href="?delete=<%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %>" onclick="return confirm('Are you sure?')"><%=Resources.labels.delete %></a>
         </td>
       </tr>
     </AlternatingItemTemplate>

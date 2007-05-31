@@ -20,6 +20,7 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     grid.RowCancelingEdit += delegate { Response.Redirect(Request.RawUrl); };
     grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
     btnAdd.Click += new EventHandler(btnAdd_Click);
+    btnAdd.Text = Resources.labels.add + " " + Resources.labels.category.ToLowerInvariant();
   }
 
   void btnAdd_Click(object sender, EventArgs e)

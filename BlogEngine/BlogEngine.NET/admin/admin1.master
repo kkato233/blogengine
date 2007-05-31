@@ -21,13 +21,12 @@
                                 <tr>
                                 <td valign="top" style="width:20px;"></td>
                                     <td valign="middle">
-                                    <h1><%=BlogSettings.Instance.Name %></h1>                                    
+                                    <h1><%=Resources.labels.administrationPanel %></h1>                                    
                                     </td>
                                      <td valign="middle">
-                                    <h2>Administration Panel</h2>                                    
                                     </td>                                    
                                     <td valign="top" align="right" style="width:100px">
-                                    <a id="Return_to_Main" runat="server" href="~/">Go to front page</a>
+                                    <a id="Return_to_Main" runat="server" href="~/"><%=Resources.labels.goToFrontPage %></a>
                                     </td>
                                     <td valign="top" align="right" style="width:50px">
                                     <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
