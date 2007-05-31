@@ -88,7 +88,7 @@ namespace Controls
           img.Attributes["class"] = "rssButton";
 
           HtmlAnchor feedAnchor = new HtmlAnchor();
-          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "author/syndication.axd?author=" + Utils.RemoveIlegalCharacters( user.UserName);
+          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "syndication.axd?author=" + Utils.RemoveIlegalCharacters( user.UserName);
           feedAnchor.Attributes["rel"] = "nofollow";
           feedAnchor.Controls.Add(img);
 
@@ -98,7 +98,7 @@ namespace Controls
         HtmlAnchor anc = new HtmlAnchor();
         anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + ".aspx";
         anc.InnerHtml = user.UserName + " (" + Post.GetPostsByAuthor(user.UserName).Count + ")";
-        anc.Attributes["rel"] = "tag";
+        anc.Title = "Author: " + user.UserName;
         
         li.Controls.Add(anc);
         ul.Controls.Add(li);

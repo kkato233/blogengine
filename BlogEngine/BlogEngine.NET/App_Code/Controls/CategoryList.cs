@@ -78,7 +78,7 @@ namespace Controls
           img.Attributes["class"] = "rssButton";
 
           HtmlAnchor feedAnchor = new HtmlAnchor();
-          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "category/syndication.axd?category=" + dic[key].ToString();
+          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "syndication.axd?category=" + dic[key].ToString();
           feedAnchor.Attributes["rel"] = "nofollow";
           feedAnchor.Controls.Add(img);
 
@@ -88,7 +88,7 @@ namespace Controls
         HtmlAnchor anc = new HtmlAnchor();
         anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "category/" + Utils.RemoveIlegalCharacters(key) + ".aspx";
         anc.InnerHtml = key + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
-        anc.Attributes["rel"] = "tag";
+        anc.Title = "Category: " + key;
         
         li.Controls.Add(anc);
         ul.Controls.Add(li);

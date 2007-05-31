@@ -28,14 +28,23 @@ The BlogEngine.NET team
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
   <pubDate>2007-05-06 00:00:00</pubDate>
-  <lastModified>2007-05-26 17:42:26</lastModified>
+  <lastModified>2007-05-31 20:35:50</lastModified>
   <raters>6</raters>
   <rating>3</rating>
   <tags>
     <tag>blog</tag>
     <tag>welcome</tag>
   </tags>
-  <comments />
+  <comments>
+    <comment id="920a114d-7a7a-419e-9bb5-cca2cf03d176">
+      <date>2007-05-31 20:35:41</date>
+      <author>Mads Kristensen</author>
+      <email>post@madskristensen.dk</email>
+      <country>dk</country>
+      <ip>127.0.0.1</ip>
+      <content>test</content>
+    </comment>
+  </comments>
   <categories>
     <category>19770e74-9ec9-4cde-b2ab-e5051aaaf348</category>
   </categories>

@@ -3,7 +3,7 @@
 <br />
 
 <div class="settings">
-  <h1>Create new user</h1><br />
+  <h1><%=Resources.labels.createNewUser %></h1><br />
   <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" LoginCreatedUser="false">
     <wizardsteps> 
       <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server"/> 
@@ -18,12 +18,12 @@
 <div class="settings"> 
   <asp:GridView runat="server" ID="gridUsers" AutoGenerateColumns="false" UseAccessibleHeader="true" Width="100%" HeaderStyle-HorizontalAlign="left">
   <Columns>
-    <asp:BoundField DataField="username" HeaderText="User name" />
+    <asp:BoundField DataField="username" HeaderText="<%$ Resources:labels, userName %>" />
     <asp:BoundField DataField="email" HeaderText="E-mail" />
     <asp:BoundField DataField="lastlogindate" HeaderText="Last login" />
-    <asp:TemplateField HeaderText="Delete user">
+    <asp:TemplateField HeaderText="<%$ Resources:labels, delete %>">
       <ItemTemplate>
-        <a href="?delete=<%# Eval("username") %>" onclick="return confirm('Are you sure you want to delete the user?')">Delete</a>
+        <a href="?delete=<%# Eval("username") %>" onclick="return confirm('<%# string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLower(), Eval("username")) %>')"><%=Resources.labels.delete %></a>
       </ItemTemplate>
     </asp:TemplateField>
   </Columns>

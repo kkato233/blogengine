@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="add" xml:space="preserve">
+    <value>Tilføj</value>
+  </data>
   <data name="add_Entry" xml:space="preserve">
     <value>Tilføj indlæg</value>
   </data>
   <data name="addComment" xml:space="preserve">
     <value>Tilføj kommentar</value>
+  </data>
+  <data name="administrationPanel" xml:space="preserve">
+    <value>Kontrolpanel</value>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>Avancerede</value>
   </data>
   <data name="archive" xml:space="preserve">
     <value>Arkiv</value>
@@ -132,14 +141,29 @@
   <data name="author" xml:space="preserve">
     <value>Forfatter</value>
   </data>
+  <data name="basic" xml:space="preserve">
+    <value>Basis</value>
+  </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
+  </data>
+  <data name="buttonText" xml:space="preserve">
+    <value>Knaptekst</value>
   </data>
   <data name="categories" xml:space="preserve">
     <value>Kategorier</value>
   </data>
+  <data name="category" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="closeCommetsAfter" xml:space="preserve">
+    <value>Luk kommentarer efter</value>
+  </data>
   <data name="comment" xml:space="preserve">
     <value>Kommentar</value>
+  </data>
+  <data name="commentLabelText" xml:space="preserve">
+    <value>Kommentar tekst</value>
   </data>
   <data name="comments" xml:space="preserve">
     <value>Kommentarer</value>
@@ -147,17 +171,29 @@
   <data name="contact" xml:space="preserve">
     <value>Kontakt</value>
   </data>
+  <data name="contactForm" xml:space="preserve">
+    <value>Kontakt formular</value>
+  </data>
   <data name="controls" xml:space="preserve">
     <value>Kontroller</value>
   </data>
   <data name="country" xml:space="preserve">
     <value>Land</value>
   </data>
+  <data name="createNewUser" xml:space="preserve">
+    <value>Opret ny bruger</value>
+  </data>
   <data name="currentlyRated" xml:space="preserve">
     <value>Har i øjeblikket {0} point givet af {1} læsere</value>
   </data>
   <data name="date" xml:space="preserve">
     <value>Dato</value>
+  </data>
+  <data name="defaultFeedOutput" xml:space="preserve">
+    <value>Standard feed output</value>
+  </data>
+  <data name="defaultTextShownInSearchField" xml:space="preserve">
+    <value>Teksten der vises i søgefeltet</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Slet</value>
@@ -171,11 +207,56 @@
   <data name="email" xml:space="preserve">
     <value>E-mail</value>
   </data>
+  <data name="emailAddress" xml:space="preserve">
+    <value>E-mail adresse</value>
+  </data>
+  <data name="enableCoComments" xml:space="preserve">
+    <value>Vis coComments</value>
+  </data>
+  <data name="enableComments" xml:space="preserve">
+    <value>Slå kommentarer til</value>
+  </data>
+  <data name="enableCommentSearch" xml:space="preserve">
+    <value>Tillad kommentar søgning</value>
+  </data>
+  <data name="enableHttpCompression" xml:space="preserve">
+    <value>Slå HTTP kompression til</value>
+  </data>
+  <data name="enableOpenSearch" xml:space="preserve">
+    <value>Slå OpenSearch til</value>
+  </data>
+  <data name="enableReferrerTracking" xml:space="preserve">
+    <value>Slå hentning af henvisninger til</value>
+  </data>
+  <data name="enableSearchHighlight" xml:space="preserve">
+    <value>Fremhæv søgeord</value>
+  </data>
+  <data name="endorsment" xml:space="preserve">
+    <value>Endorsment (bLink)</value>
+  </data>
+  <data name="formMessage" xml:space="preserve">
+    <value>Formular tekst</value>
+  </data>
+  <data name="goToFrontPage" xml:space="preserve">
+    <value>Til forsiden</value>
+  </data>
   <data name="keywords" xml:space="preserve">
     <value>Nøgleord</value>
   </data>
+  <data name="languageCode" xml:space="preserve">
+    <value>Landekode</value>
+  </data>
+  <data name="latitude" xml:space="preserve">
+    <value>Længdegrad</value>
+  </data>
   <data name="livePreview" xml:space="preserve">
     <value>Live preview</value>
+  </data>
+  <data name="longtitude" xml:space="preserve">
+    <value>Breddegrad</value>
+  </data>
+  <data name="maxLengthOfItems" xml:space="preserve">
+    <value>Maks længde for indlæg</value>
   </data>
   <data name="message" xml:space="preserve">
     <value>Besked</value>
@@ -183,11 +264,35 @@
   <data name="name" xml:space="preserve">
     <value>Navn</value>
   </data>
+  <data name="numberOfDisplayedItems" xml:space="preserve">
+    <value>Antal viste indlæg</value>
+  </data>
+  <data name="numberOfPosts" xml:space="preserve">
+    <value>Vist antal indlæg</value>
+  </data>
   <data name="pages" xml:space="preserve">
     <value>Sider</value>
   </data>
+  <data name="password" xml:space="preserve">
+    <value>Kodeord</value>
+  </data>
+  <data name="possibleSpam" xml:space="preserve">
+    <value>Mulig spam</value>
+  </data>
+  <data name="postNumber" xml:space="preserve">
+    <value>Post nummer</value>
+  </data>
+  <data name="postPerPage" xml:space="preserve">
+    <value>Indlæg pr. side</value>
+  </data>
   <data name="rating" xml:space="preserve">
     <value>Point</value>
+  </data>
+  <data name="recentPosts" xml:space="preserve">
+    <value>Seneste indlæg</value>
+  </data>
+  <data name="referrer" xml:space="preserve">
+    <value>Henviser</value>
   </data>
   <data name="referrers" xml:space="preserve">
     <value>Henvisninger</value>
@@ -198,14 +303,41 @@
   <data name="saveComment" xml:space="preserve">
     <value>Gem kommentar</value>
   </data>
+  <data name="searchField" xml:space="preserve">
+    <value>Søgefelt</value>
+  </data>
+  <data name="searchFieldText" xml:space="preserve">
+    <value>Tekst i søgefelt</value>
+  </data>
+  <data name="selectDay" xml:space="preserve">
+    <value>Vælg dag</value>
+  </data>
+  <data name="sendCommentEmail" xml:space="preserve">
+    <value>Send kommentar e-mail</value>
+  </data>
   <data name="settings" xml:space="preserve">
     <value>Indstillinger</value>
+  </data>
+  <data name="showCountryChooser" xml:space="preserve">
+    <value>Vis landevælger</value>
+  </data>
+  <data name="showLivePreview" xml:space="preserve">
+    <value>Vis live preview</value>
+  </data>
+  <data name="showRelatedPosts" xml:space="preserve">
+    <value>Vis relaterede indlæg</value>
   </data>
   <data name="subject" xml:space="preserve">
     <value>Emne</value>
   </data>
+  <data name="thankYouMessage" xml:space="preserve">
+    <value>Tak meddelelse</value>
+  </data>
   <data name="theComment" xml:space="preserve">
     <value>kommentaren</value>
+  </data>
+  <data name="theme" xml:space="preserve">
+    <value>Tema</value>
   </data>
   <data name="thePost" xml:space="preserve">
     <value>indlægget</value>
@@ -213,11 +345,20 @@
   <data name="title" xml:space="preserve">
     <value>Titel</value>
   </data>
+  <data name="trimStylesheet" xml:space="preserve">
+    <value>Trim stylesheets</value>
+  </data>
+  <data name="updateFrequenzy" xml:space="preserve">
+    <value>Opdateringsfrekvens (minutter)</value>
+  </data>
   <data name="uploadFile" xml:space="preserve">
     <value>Upload fil</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
     <value>Upload billede</value>
+  </data>
+  <data name="userName" xml:space="preserve">
+    <value>Brugernavn</value>
   </data>
   <data name="users" xml:space="preserve">
     <value>Brugere</value>
