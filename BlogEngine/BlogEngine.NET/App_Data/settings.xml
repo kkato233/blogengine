@@ -15,6 +15,7 @@
   <iscommentsenabled>True</iscommentsenabled>
   <language>en-GB</language>
   <postsperpage>10</postsperpage>
+  <htmlheader>&lt;link rel="mads" /&gt;</htmlheader>
   <syndicationformat>Rss</syndicationformat>
   <geocodinglatitude>0</geocodinglatitude>
   <email>user@example.com</email>

@@ -116,6 +116,11 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.FeedburnerUserName = txtFeedburnerUserName.Text;
 
     //-----------------------------------------------------------------------
+    // HTML header section
+    //-----------------------------------------------------------------------
+    BlogSettings.Instance.HtmlHeader = txtHtmlHeader.Text;
+
+    //-----------------------------------------------------------------------
     // Visitor tracking settings
     //-----------------------------------------------------------------------
     BlogSettings.Instance.TrackingScript = txtTrackingScript.Text;
@@ -178,6 +183,11 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 
     txtBlogChannelBLink.Text            = BlogSettings.Instance.Endorsement;
     txtFeedburnerUserName.Text          = BlogSettings.Instance.FeedburnerUserName;
+
+    //-----------------------------------------------------------------------
+    // HTML header section
+    //-----------------------------------------------------------------------
+    txtHtmlHeader.Text = BlogSettings.Instance.HtmlHeader;
 
     //-----------------------------------------------------------------------
     // Visitor tracking settings

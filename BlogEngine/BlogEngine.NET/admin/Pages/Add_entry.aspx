@@ -106,7 +106,7 @@
   </table>  
   
   <div style="text-align:right">  
-    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, save %> " />
+    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, savePost %> " />
   </div>
   <br />
 </asp:Content>
