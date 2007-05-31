@@ -56,6 +56,9 @@ namespace BlogEngine.Core.Web.Controls
         if (BlogSettings.Instance.EnableSearchHightlight)
           AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.se_hilite.js");
 
+        if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
+          AddCustomCodeToHead();
+
         if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
           AddTrackingScript();
       }
@@ -165,6 +168,19 @@ namespace BlogEngine.Core.Web.Controls
       ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, false);
     }
 
+    /// <summary>
+    /// Adds code to the HTML head section.
+    /// </summary>
+    private void AddCustomCodeToHead()
+    {
+      string code = string.Format("{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}", Environment.NewLine, BlogSettings.Instance.HtmlHeader);
+      LiteralControl control = new LiteralControl(code);
+      Page.Header.Controls.Add(control);
+    }
+
+    /// <summary>
+    /// Translates the specified string using the resource files
+    /// </summary>
     public string Translate(string text)
     {
       try

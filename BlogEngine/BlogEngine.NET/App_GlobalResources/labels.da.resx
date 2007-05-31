@@ -126,6 +126,9 @@
   <data name="addComment" xml:space="preserve">
     <value>Tilføj kommentar</value>
   </data>
+  <data name="addCustomCodeToHeader" xml:space="preserve">
+    <value>Tilføj kode til HTML head sektionen</value>
+  </data>
   <data name="administrationPanel" xml:space="preserve">
     <value>Kontrolpanel</value>
   </data>
@@ -240,6 +243,9 @@
   <data name="goToFrontPage" xml:space="preserve">
     <value>Til forsiden</value>
   </data>
+  <data name="htmlHeadSection" xml:space="preserve">
+    <value>HTML head sektion</value>
+  </data>
   <data name="keywords" xml:space="preserve">
     <value>Nøgleord</value>
   </data>
@@ -302,6 +308,12 @@
   </data>
   <data name="saveComment" xml:space="preserve">
     <value>Gem kommentar</value>
+  </data>
+  <data name="savePage" xml:space="preserve">
+    <value>Gem siden</value>
+  </data>
+  <data name="savePost" xml:space="preserve">
+    <value>Gem indlæg</value>
   </data>
   <data name="searchField" xml:space="preserve">
     <value>Søgefelt</value>

@@ -194,6 +194,7 @@ namespace BlogEngine.Core
 
     private string contactFormMessage;
     private string contactThankMessage;
+    private string htmlHeader;
     #endregion
 
     //============================================================
@@ -1154,6 +1155,28 @@ namespace BlogEngine.Core
         else
         {
           contactThankMessage = value;
+        }
+      }
+    }
+    #endregion
+
+    #region HtmlHeader
+    /// <summary>
+    /// Gets or sets the name of the author of this blog.
+    /// </summary>
+    /// <value>The name of the author of this blog.</value>
+    public string HtmlHeader
+    {
+      get { return htmlHeader; }
+      set
+      {
+        if (String.IsNullOrEmpty(value))
+        {
+          htmlHeader = String.Empty;
+        }
+        else
+        {
+          htmlHeader = value;
         }
       }
     }

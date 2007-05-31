@@ -126,6 +126,9 @@
   <data name="addComment" xml:space="preserve">
     <value>Add comment</value>
   </data>
+  <data name="addCustomCodeToHeader" xml:space="preserve">
+    <value>Add custom code to the HTML head section</value>
+  </data>
   <data name="administrationPanel" xml:space="preserve">
     <value>Control panel</value>
   </data>
@@ -240,6 +243,9 @@
   <data name="goToFrontPage" xml:space="preserve">
     <value>Go to front page</value>
   </data>
+  <data name="htmlHeadSection" xml:space="preserve">
+    <value>HTML head section</value>
+  </data>
   <data name="keywords" xml:space="preserve">
     <value>Keywords</value>
   </data>
@@ -302,6 +308,12 @@
   </data>
   <data name="saveComment" xml:space="preserve">
     <value>Save comment</value>
+  </data>
+  <data name="savePage" xml:space="preserve">
+    <value>Save page</value>
+  </data>
+  <data name="savePost" xml:space="preserve">
+    <value>Save post</value>
   </data>
   <data name="searchField" xml:space="preserve">
     <value>Search field</value>

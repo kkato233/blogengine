@@ -148,6 +148,14 @@
 
 </div>
 
+<div class="settings">
+
+  <h1><%=Resources.labels.htmlHeadSection %></h1>
+  <label for="<%=txtHtmlHeader.ClientID %>"><%=Resources.labels.addCustomCodeToHeader %></label>
+  <asp:TextBox runat="server" ID="txtHtmlHeader" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
+
+</div>
+
 <div align="right"><asp:Button runat="server" ID="btnSave" /></div>
 <br />
 
