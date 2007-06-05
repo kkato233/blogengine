@@ -22,6 +22,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     if (!IsPostBack)
     {
       BindThemes();
+      BindCultures();
       BindSettings();      
     }
 
@@ -65,6 +66,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.PostsPerPage = int.Parse(txtPostsPerPage.Text);
     BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
     BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
+    BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
 
     //-----------------------------------------------------------------------
     // Set Email settings
@@ -142,6 +144,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
     cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
     ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
+    ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
 
     //-----------------------------------------------------------------------
     // Bind Comments settings
@@ -204,4 +207,21 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
       ddlTheme.Items.Add(dic.Substring(index));
     }
   }
+
+  private void BindCultures()
+  {
+    string path = Server.MapPath("~/App_GlobalResources/");
+    foreach (string file in Directory.GetFiles(path))
+    {
+      int index = file.LastIndexOf("\\") + 1;
+      string filename = file.Substring(index);
+      if (filename != "labels.resx")
+      {
+        filename = filename.Replace("labels.", string.Empty).Replace(".resx", string.Empty);
+        System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(filename);
+        ddlCulture.Items.Add(new ListItem(info.NativeName, filename));
+      }
+    }
+  }
+
 }

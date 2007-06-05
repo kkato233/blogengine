@@ -27,7 +27,13 @@
   <asp:DropDownList runat="server" ID="ddlTheme" /><br />
     
   <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
-  <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /> 
+  <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />
+  
+  <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
+  <asp:DropDownList runat="Server" id="ddlCulture">
+    <asp:ListItem Text="Auto" />
+    <asp:ListItem Text="english" Value="en" />
+  </asp:DropDownList>
   
 </div>
 

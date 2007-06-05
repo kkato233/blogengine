@@ -93,7 +93,7 @@
       <td class="label">Tags</td>
       <td>
         <asp:TextBox runat="server" ID="txtTags" Width="400" />
-        <span>Separate each tag with a comment</span>
+        <span>Separate each tag with a comma</span>
       </td>
     </tr>
     <tr>

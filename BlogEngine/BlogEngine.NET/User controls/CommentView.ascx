@@ -77,6 +77,9 @@ function AddComment()
   var content = document.getElementById("<%=txtContent.ClientID %>").value;
   var argument = author + "¤" + email + "¤" + website + "¤" + country + "¤" + content;
   <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
+  
+  if (typeof OnComment != "undefined")
+    OnComment(author, email, website, country, content);
 }
 
 function AppendComment(args, context)

@@ -249,6 +249,9 @@
   <data name="keywords" xml:space="preserve">
     <value>Keywords</value>
   </data>
+  <data name="language" xml:space="preserve">
+    <value>Choose language</value>
+  </data>
   <data name="languageCode" xml:space="preserve">
     <value>Language code</value>
   </data>

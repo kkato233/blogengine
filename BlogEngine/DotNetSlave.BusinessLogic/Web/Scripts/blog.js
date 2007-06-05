@@ -85,10 +85,20 @@ function Rate(id, rating)
 
 function RatingCallback(response)
 {
-  if (response == "OK")
+  var rating = response.substring(0, 1);
+  var status = response.substring(1);
+  
+  if (status == "OK")
+  {
+    if (typeof OnRating != "undefined")
+      OnRating(rating);
+    
     alert("You rating has been registered. Thank you!");
+  }  
   else
+  {
     alert("An error occured while registering your rating. Please try again");
+  }    
 }
 
 /// <summary>
