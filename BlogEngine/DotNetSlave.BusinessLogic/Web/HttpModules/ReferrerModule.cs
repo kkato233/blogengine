@@ -120,8 +120,6 @@ namespace BlogEngine.Core.Web.HttpModules
       return null;
     }
 
-
-
     private void BeginRegisterClick(object stateInfo)
     {
       DictionaryEntry entry = (DictionaryEntry)stateInfo;

@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -28,6 +29,9 @@ namespace BlogEngine.Core.Web.Controls
     {
       MasterPageFile = "~/themes/" + BlogSettings.Instance.Theme + "/site.master";
       base.OnPreInit(e);
+
+      if (!string.IsNullOrEmpty(BlogSettings.Instance.Culture))
+        UICulture = BlogSettings.Instance.Culture;
     }
 
     /// <summary>
@@ -40,7 +44,7 @@ namespace BlogEngine.Core.Web.Controls
       {
         // Links
         AddMetaContentType();
-        AddMicroSummary();        
+        AddMicroSummary();
         AddRsdLinkHeader();
         AddSyndicationLink();
 
@@ -70,7 +74,7 @@ namespace BlogEngine.Core.Web.Controls
       link.Attributes["rel"] = "alternate";
       link.Attributes["type"] = "application/rss+xml";
       link.Attributes["title"] = BlogSettings.Instance.Name;
-      
+
       if (!string.IsNullOrEmpty(BlogSettings.Instance.FeedburnerUserName))
         link.Attributes["href"] = "http://feeds.feedburner.com/" + BlogSettings.Instance.FeedburnerUserName;
       else
@@ -89,8 +93,8 @@ namespace BlogEngine.Core.Web.Controls
       {
         HtmlControl c = control as HtmlControl;
         if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
-        {          
-            c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+        {
+          c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
         }
       }
     }

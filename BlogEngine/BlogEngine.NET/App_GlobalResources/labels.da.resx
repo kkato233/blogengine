@@ -249,6 +249,9 @@
   <data name="keywords" xml:space="preserve">
     <value>Nøgleord</value>
   </data>
+  <data name="language" xml:space="preserve">
+    <value>Vælg sprog</value>
+  </data>
   <data name="languageCode" xml:space="preserve">
     <value>Landekode</value>
   </data>

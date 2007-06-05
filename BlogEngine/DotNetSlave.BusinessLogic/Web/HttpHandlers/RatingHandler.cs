@@ -41,7 +41,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
           post.Rate(rate);
 
           SetCookie(id, context);
-          context.Response.Write("OK");
+          context.Response.Write(rating + "OK");
           context.Response.End();
         }
       }

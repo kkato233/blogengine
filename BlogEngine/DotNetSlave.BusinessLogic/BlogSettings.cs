@@ -195,6 +195,7 @@ namespace BlogEngine.Core
     private string contactFormMessage;
     private string contactThankMessage;
     private string htmlHeader;
+    private string culture;
     #endregion
 
     //============================================================
@@ -1177,6 +1178,28 @@ namespace BlogEngine.Core
         else
         {
           htmlHeader = value;
+        }
+      }
+    }
+    #endregion
+
+    #region Culture
+    /// <summary>
+    /// Gets or sets the name of the author of this blog.
+    /// </summary>
+    /// <value>The name of the author of this blog.</value>
+    public string Culture
+    {
+      get { return culture; }
+      set
+      {
+        if (String.IsNullOrEmpty(value))
+        {
+          culture = String.Empty;
+        }
+        else
+        {
+          culture = value;
         }
       }
     }

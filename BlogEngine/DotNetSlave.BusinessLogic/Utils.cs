@@ -23,6 +23,9 @@ namespace BlogEngine.Core
       if (string.IsNullOrEmpty(text))
         return text;
 
+      text = text.Replace("?", string.Empty);
+      return System.Web.HttpUtility.UrlEncode(text.Replace(" ", "-"));
+
       StringBuilder sb = new StringBuilder();
       text = text.Replace(" ", "-");
       foreach (char c in text)
@@ -35,7 +38,7 @@ namespace BlogEngine.Core
     }
 
     private static bool IsAllowedCharacter(char character)
-    {
+    {      
       string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
       foreach (char c in allowedChars)
       {

@@ -15,7 +15,7 @@
   <iscommentsenabled>True</iscommentsenabled>
   <language>en-GB</language>
   <postsperpage>10</postsperpage>
-  <htmlheader>&lt;link rel="mads" /&gt;</htmlheader>
+  <htmlheader>&lt;link rel="example" /&gt;</htmlheader>
   <syndicationformat>Rss</syndicationformat>
   <geocodinglatitude>0</geocodinglatitude>
   <email>user@example.com</email>
@@ -31,6 +31,7 @@
   <numberofrecentposts>10</numberofrecentposts>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
+  <culture>Auto</culture>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <smtppassword>password</smtppassword>
   <smtpserverport>25</smtpserverport>
