@@ -37,13 +37,18 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     private void ReduceCSS(string file, HttpContext context)
     {
-      FileInfo fi = new FileInfo(file);
-      if (!fi.Extension.Equals(".css", StringComparison.OrdinalIgnoreCase))
+      if (!file.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
       {
         throw new System.Security.SecurityException("No access");
       }
 
-      string body = fi.OpenText().ReadToEnd();
+      string body;
+
+      using (StreamReader reader = new StreamReader(file))
+      {
+        body = reader.ReadToEnd();
+      }
+
       body += DateTime.Now.ToString();
       body = body.Replace("  ", String.Empty);
       body = body.Replace(Environment.NewLine, String.Empty);
