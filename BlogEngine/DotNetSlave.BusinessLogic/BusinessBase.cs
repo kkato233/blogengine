@@ -3,6 +3,7 @@
 using System;
 using System.Text;
 using System.Collections.Specialized;
+using System.Globalization;
 
 #endregion
 
@@ -36,7 +37,11 @@ namespace BlogEngine.Core
     /// </summary>
     public DateTime DateCreated
     {
-      get { return _DateCreated.AddHours(BlogSettings.Instance.Timezone + 1); }
+      get
+      {
+        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
+        return _DateCreated.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours);
+      }
       set { _DateCreated = value.ToUniversalTime(); }
     }
 
@@ -46,7 +51,11 @@ namespace BlogEngine.Core
     /// </summary>
     public DateTime DateModified
     {
-      get { return _DateModified.AddHours(BlogSettings.Instance.Timezone + 1); }
+      get 
+      {
+        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
+        return _DateModified.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours); 
+      }
       set { _DateModified = value.ToUniversalTime(); }
     }
 
@@ -427,7 +436,7 @@ namespace BlogEngine.Core
     /// Occurs when the class is Saved
     /// </summary>
     public static event EventHandler<EventArgs> Saved;
-    
+
     private static void OnSaved(BusinessBase<TYPE, KEY> businessObject)
     {
       if (Saved != null)
