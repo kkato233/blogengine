@@ -59,8 +59,8 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       if (comment.Id == new Guid(Request.QueryString["deletecomment"]))
       {
         Response.Write(Request.Url);
-        Post.Comments.Remove(comment);
-        Post.Save();
+        Post.RemoveComment(comment);
+
         int index = Request.RawUrl.IndexOf("?");
         string url = Request.RawUrl.Substring(0, index);
         Response.Redirect(url, true);
@@ -99,8 +99,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
         comment.Website = website;
     }
 
-    Post.Comments.Add(comment);
-    Post.Save();
+    Post.AddComment(comment);
   }
 
 public void BindCountries()
@@ -391,8 +390,10 @@ public void BindCountries()
         comment.Website = url;
     }
 
-    Post.Comments.Add(comment);
-    Post.Save();
+    //Post.Comments.Add(comment);
+    //Post.Save();
+
+    Post.AddComment(comment);
 
     SetCookie(author, email, website, country);
     SendMail(author, email, content);
@@ -410,18 +411,6 @@ public void BindCountries()
     }
 
   }
-
-  //private string GetCountry()
-  //{
-  //  return ddlCountry.SelectedValue;
-
-  //  GeoService.GeoIPService service = new GeoService.GeoIPService();
-  //  GeoService.GeoIP geo = service.GetGeoIP(Request.UserHostAddress);
-  //  if (geo.ReturnCode == 1)
-  //    return geo.CountryCode;
-  //  else
-  //    return null;
-  //}
 
   #endregion
 }

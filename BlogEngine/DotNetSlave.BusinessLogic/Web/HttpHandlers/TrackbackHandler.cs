@@ -90,8 +90,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
       comment.Email = "trackback";
       comment.DateCreated = DateTime.Now;
       comment.IP = HttpContext.Current.Request.UserHostAddress;
-      post.Comments.Add(comment);
-      post.Save();
+
+      post.AddComment(comment);
     }
 
     /// <summary>

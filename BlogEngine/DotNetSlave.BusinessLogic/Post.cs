@@ -376,6 +376,31 @@ namespace BlogEngine.Core
       }
 
       DataInsert();
+      OnRated();
+    }
+
+    /// <summary>
+    /// Adds a comment to the collection and saves the post.
+    /// </summary>
+    /// <param name="comment">The comment to add to the post.</param>
+    public void AddComment(Comment comment)
+    {
+      OnBeforeAddingComment();
+      Comments.Add(comment);
+      DataUpdate();
+      OnCommentAdded();
+    }
+
+    /// <summary>
+    /// Removes a comment from the collection and saves the post.
+    /// </summary>
+    /// <param name="comment">The comment to remove from the post.</param>
+    public void RemoveComment(Comment comment)
+    {
+      OnBeforeRemovingComment();
+      Comments.Remove(comment);
+      DataUpdate();
+      OnCommentRemoved();
     }
 
     #endregion
@@ -468,5 +493,85 @@ namespace BlogEngine.Core
     }
 
     #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs before a new comment is added.
+    /// </summary>
+    public event EventHandler<EventArgs> BeforeAddingComment;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnBeforeAddingComment()
+    {
+      if (BeforeAddingComment != null)
+      {
+        BeforeAddingComment(this, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a comment is added.
+    /// </summary>
+    public event EventHandler<EventArgs> CommentAdded;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnCommentAdded()
+    {
+      if (CommentAdded  != null)
+      {
+        CommentAdded(this, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs before a new comment is added.
+    /// </summary>
+    public event EventHandler<EventArgs> BeforeRemovingComment;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnBeforeRemovingComment()
+    {
+      if (BeforeRemovingComment != null)
+      {
+        BeforeRemovingComment(this, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a comment is added.
+    /// </summary>
+    public event EventHandler<EventArgs> CommentRemoved;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnCommentRemoved()
+    {
+      if (CommentRemoved != null)
+      {
+        CommentRemoved(this, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a visitor rates the post.
+    /// </summary>
+    public event EventHandler<EventArgs> Rated;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnRated()
+    {
+      if (Rated != null)
+      {
+        Rated(this, new EventArgs());
+      }
+    }
+
+    #endregion
+
   }
 }
