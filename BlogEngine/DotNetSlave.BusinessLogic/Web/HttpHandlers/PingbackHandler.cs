@@ -87,8 +87,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       comment.Email = "pingback";
       comment.IP = "n/a";
 
-      post.Comments.Add(comment);
-      post.Save();
+      post.AddComment(comment);
     }
 
     /// <summary>
