@@ -294,6 +294,9 @@
   <data name="postPerPage" xml:space="preserve">
     <value>Indlæg pr. side</value>
   </data>
+  <data name="publish" xml:space="preserve">
+    <value>Publicér</value>
+  </data>
   <data name="rating" xml:space="preserve">
     <value>Point</value>
   </data>
@@ -330,6 +333,9 @@
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Send kommentar e-mail</value>
   </data>
+  <data name="separateTagsWitComma" xml:space="preserve">
+    <value>Separér hvert tag med et komma</value>
+  </data>
   <data name="settings" xml:space="preserve">
     <value>Indstillinger</value>
   </data>
@@ -356,6 +362,12 @@
   </data>
   <data name="thePost" xml:space="preserve">
     <value>indlægget</value>
+  </data>
+  <data name="thereAreXDrafts" xml:space="preserve">
+    <value>Der er {0} upubliceret indlæg</value>
+  </data>
+  <data name="timezone" xml:space="preserve">
+    <value>Tidszone</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Titel</value>

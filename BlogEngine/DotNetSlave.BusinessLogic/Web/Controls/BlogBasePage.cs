@@ -32,6 +32,17 @@ namespace BlogEngine.Core.Web.Controls
 
       if (!string.IsNullOrEmpty(BlogSettings.Instance.Culture))
         UICulture = BlogSettings.Instance.Culture;
+
+      if (!Page.IsPostBack && !string.IsNullOrEmpty(Request.QueryString["deletepost"]))
+      {
+        if (Page.User.Identity.IsAuthenticated)
+        {
+          Post post = BlogEngine.Core.Post.GetPost(new Guid(Request.QueryString["deletepost"]));
+          post.Delete();
+          post.Save();
+          Response.Redirect("~/");
+        }
+      }
     }
 
     /// <summary>

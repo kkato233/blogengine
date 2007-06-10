@@ -23,18 +23,24 @@ namespace BlogEngine.Core
       if (string.IsNullOrEmpty(text))
         return text;
 
+      text = text.Replace(":", string.Empty);
+      text = text.Replace("/", string.Empty);
       text = text.Replace("?", string.Empty);
-      return System.Web.HttpUtility.UrlEncode(text.Replace(" ", "-"));
+      text = text.Replace("#", string.Empty);
+      text = text.Replace("[", string.Empty);
+      text = text.Replace("]", string.Empty);
+      text = text.Replace("@", string.Empty);
+      return HttpUtility.UrlEncode(text.Replace(" ", "-"));
 
-      StringBuilder sb = new StringBuilder();
-      text = text.Replace(" ", "-");
-      foreach (char c in text)
-      {
-        if (IsAllowedCharacter(c))
-          sb.Append(c);
-      }
+      //StringBuilder sb = new StringBuilder();
+      //text = text.Replace(" ", "-");
+      //foreach (char c in text)
+      //{
+      //  if (IsAllowedCharacter(c))
+      //    sb.Append(c);
+      //}
 
-      return sb.ToString();
+      //return sb.ToString();
     }
 
     private static bool IsAllowedCharacter(char character)

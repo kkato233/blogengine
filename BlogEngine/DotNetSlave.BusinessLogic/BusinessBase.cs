@@ -36,8 +36,8 @@ namespace BlogEngine.Core
     /// </summary>
     public DateTime DateCreated
     {
-      get { return _DateCreated; }
-      set { _DateCreated = value; }
+      get { return _DateCreated.AddHours(BlogSettings.Instance.Timezone + 1); }
+      set { _DateCreated = value.ToUniversalTime(); }
     }
 
     private DateTime _DateModified;
@@ -46,8 +46,8 @@ namespace BlogEngine.Core
     /// </summary>
     public DateTime DateModified
     {
-      get { return _DateModified; }
-      set { _DateModified = value; }
+      get { return _DateModified.AddHours(BlogSettings.Instance.Timezone + 1); }
+      set { _DateModified = value.ToUniversalTime(); }
     }
 
     #endregion

@@ -37,11 +37,20 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
       stop = Posts.Count - index;
 
     string path = "~/themes/" + BlogSettings.Instance.Theme + "/postview.ascx";
-    foreach (Post post in Posts.GetRange(index, stop))    {
-      
-      PostViewBase postView = (PostViewBase)LoadControl(path);
-      postView.Post = post;
-      posts.Controls.Add(postView);
+    int counter = 0;
+
+    foreach (Post post in Posts.GetRange(index, Posts.Count - index))   
+    {
+      if (counter == stop)
+        break;
+
+      if (post.IsPublished || Page.User.Identity.IsAuthenticated)
+      {
+        PostViewBase postView = (PostViewBase)LoadControl(path);
+        postView.Post = post;
+        posts.Controls.Add(postView);
+        counter++;
+      }      
     }
 
     if (index + stop == Posts.Count)

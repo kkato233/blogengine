@@ -27,17 +27,6 @@ namespace BlogEngine.Core.Web.Controls
     /// </summary>
     private void Page_Init(object sender, EventArgs e)
     {
-      if (!string.IsNullOrEmpty(Request.QueryString["delete"]))
-      {
-        if (Page.User.Identity.IsAuthenticated)
-        {
-          Post post = BlogEngine.Core.Post.GetPost(new Guid(Request.QueryString["delete"]));
-          post.Delete();
-          post.Save();
-          Response.Redirect("~/");
-        }
-      }
-
       if (!Post.IsPublished && !Page.User.Identity.IsAuthenticated)
       {
         this.Visible = false;
@@ -119,7 +108,7 @@ namespace BlogEngine.Core.Web.Controls
           string confirmDelete = string.Format(page.Translate("areYouSure"),page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
           StringBuilder sb = new StringBuilder();
           sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
-          sb.AppendFormat("<a href=\"{0}?delete={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
+          sb.AppendFormat("<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
           return sb.ToString();
         }
 

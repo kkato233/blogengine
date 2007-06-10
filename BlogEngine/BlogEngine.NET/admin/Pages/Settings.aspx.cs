@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Globalization;
 
 using BlogEngine.Core;
 
@@ -67,6 +68,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
     BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
     BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
+    BlogSettings.Instance.Timezone = int.Parse(ddlTimezone.SelectedValue, CultureInfo.InvariantCulture);
 
     //-----------------------------------------------------------------------
     // Set Email settings
@@ -145,6 +147,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
     ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
     ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
+    ddlTimezone.SelectedValue = BlogSettings.Instance.Timezone.ToString();
 
     //-----------------------------------------------------------------------
     // Bind Comments settings

@@ -294,6 +294,9 @@
   <data name="postPerPage" xml:space="preserve">
     <value>Posts per page</value>
   </data>
+  <data name="publish" xml:space="preserve">
+    <value>Publish</value>
+  </data>
   <data name="rating" xml:space="preserve">
     <value>Rating</value>
   </data>
@@ -330,6 +333,9 @@
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Send comment e-mail</value>
   </data>
+  <data name="separateTagsWitComma" xml:space="preserve">
+    <value>Separate each tag with a comma</value>
+  </data>
   <data name="settings" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -357,6 +363,12 @@
   <data name="thePost" xml:space="preserve">
     <value>the post</value>
   </data>
+  <data name="thereAreXDrafts" xml:space="preserve">
+    <value>There are {0} unpublished post(s)</value>
+  </data>
+  <data name="timezone" xml:space="preserve">
+    <value>Timezone</value>
+  </data>
   <data name="title" xml:space="preserve">
     <value>Title</value>
   </data>
@@ -364,7 +376,7 @@
     <value>Trim stylesheets</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Update frequenzy (minutes)</value>
+    <value>Update frequency (minutes)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
     <value>Upload file</value>
