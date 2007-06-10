@@ -34,7 +34,7 @@ img {
 label.wide {
 	float: left;
 	display: block;
-	width: 140px;
+	width: 1zz0px;
 }
 
 /*----------------------------
@@ -127,7 +127,7 @@ label.wide {
 
 .settings label {
 	float: left;
-	width: 150px;
+	width: 200px;
 }
 
 .nowidth label {

@@ -37,7 +37,7 @@
   <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" /><br /><br />
   <%} %>
 
-  <label for="<%=txtContent.ClientID %>">Comment*</label>
+  <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" /><br />
   <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" /><br /><br />  
  

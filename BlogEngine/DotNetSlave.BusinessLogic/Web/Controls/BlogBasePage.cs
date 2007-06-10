@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Threading;
 
 #endregion
 
@@ -31,7 +32,19 @@ namespace BlogEngine.Core.Web.Controls
       base.OnPreInit(e);
 
       if (!string.IsNullOrEmpty(BlogSettings.Instance.Culture))
-        UICulture = BlogSettings.Instance.Culture;
+      {
+        if (BlogSettings.Instance.Culture.Equals("Auto"))
+        {
+          Page.UICulture = "auto";
+          Page.Culture = "auto";
+        }
+        else
+        {
+          CultureInfo culture = CultureInfo.CreateSpecificCulture(BlogSettings.Instance.Culture);
+          Thread.CurrentThread.CurrentUICulture = culture;
+          Thread.CurrentThread.CurrentCulture = culture;
+        }
+      }
 
       if (!Page.IsPostBack && !string.IsNullOrEmpty(Request.QueryString["deletepost"]))
       {

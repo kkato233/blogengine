@@ -24,7 +24,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     {
       BindThemes();
       BindCultures();
-      BindSettings();      
+      BindSettings();
     }
 
     btnSave.Click += new EventHandler(btnSave_Click);
@@ -102,21 +102,21 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     //-----------------------------------------------------------------------
     BlogSettings.Instance.SyndicationFormat = ddlSyndicationFormat.SelectedValue;
 
-    BlogSettings.Instance.AuthorName        = txtDublinCoreCreator.Text;
-    BlogSettings.Instance.Language          = txtDublinCoreLanguage.Text;
+    BlogSettings.Instance.AuthorName = txtDublinCoreCreator.Text;
+    BlogSettings.Instance.Language = txtDublinCoreLanguage.Text;
 
     float latitude;
     if (Single.TryParse(txtGeocodingLatitude.Text, out latitude))
     {
-        BlogSettings.Instance.GeocodingLatitude     = latitude;
+      BlogSettings.Instance.GeocodingLatitude = latitude;
     }
     float longitude;
     if (Single.TryParse(txtGeocodingLongitude.Text, out longitude))
     {
-        BlogSettings.Instance.GeocodingLongitude    = longitude;
+      BlogSettings.Instance.GeocodingLongitude = longitude;
     }
 
-    BlogSettings.Instance.Endorsement       = txtBlogChannelBLink.Text;
+    BlogSettings.Instance.Endorsement = txtBlogChannelBLink.Text;
     BlogSettings.Instance.FeedburnerUserName = txtFeedburnerUserName.Text;
 
     //-----------------------------------------------------------------------
@@ -179,16 +179,16 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     //-----------------------------------------------------------------------
     // Bind Syndication settings
     //-----------------------------------------------------------------------
-    ddlSyndicationFormat.SelectedValue  = BlogSettings.Instance.SyndicationFormat;
+    ddlSyndicationFormat.SelectedValue = BlogSettings.Instance.SyndicationFormat;
 
-    txtDublinCoreCreator.Text           = BlogSettings.Instance.AuthorName;
-    txtDublinCoreLanguage.Text          = BlogSettings.Instance.Language;
+    txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
+    txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
 
-    txtGeocodingLatitude.Text           = BlogSettings.Instance.GeocodingLatitude != Single.MinValue ? BlogSettings.Instance.GeocodingLatitude.ToString() : String.Empty;
-    txtGeocodingLongitude.Text          = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString() : String.Empty;
+    txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue ? BlogSettings.Instance.GeocodingLatitude.ToString() : String.Empty;
+    txtGeocodingLongitude.Text = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString() : String.Empty;
 
-    txtBlogChannelBLink.Text            = BlogSettings.Instance.Endorsement;
-    txtFeedburnerUserName.Text          = BlogSettings.Instance.FeedburnerUserName;
+    txtBlogChannelBLink.Text = BlogSettings.Instance.Endorsement;
+    txtFeedburnerUserName.Text = BlogSettings.Instance.FeedburnerUserName;
 
     //-----------------------------------------------------------------------
     // HTML header section
@@ -198,7 +198,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     //-----------------------------------------------------------------------
     // Visitor tracking settings
     //-----------------------------------------------------------------------
-    txtTrackingScript.Text              = BlogSettings.Instance.TrackingScript;
+    txtTrackingScript.Text = BlogSettings.Instance.TrackingScript;
   }
 
   private void BindThemes()
@@ -213,16 +213,33 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 
   private void BindCultures()
   {
-    string path = Server.MapPath("~/App_GlobalResources/");
-    foreach (string file in Directory.GetFiles(path))
+    if (File.Exists(Path.Combine(HttpRuntime.AppDomainAppPath, "PrecompiledApp.config")))
     {
-      int index = file.LastIndexOf("\\") + 1;
-      string filename = file.Substring(index);
-      if (filename != "labels.resx")
+      string precompiledDir = HttpRuntime.BinDirectory;
+      string[] translations = Directory.GetFiles(precompiledDir, "App_GlobalResources.resources.dll", SearchOption.AllDirectories);
+      foreach (string translation in translations)
       {
-        filename = filename.Replace("labels.", string.Empty).Replace(".resx", string.Empty);
-        System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(filename);
-        ddlCulture.Items.Add(new ListItem(info.NativeName, filename));
+        string resourceDir = Path.GetDirectoryName(translation).Remove(0, precompiledDir.Length);
+        if (!String.IsNullOrEmpty(resourceDir))
+        {
+          System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(resourceDir);
+          ddlCulture.Items.Add(new ListItem(info.NativeName, resourceDir));
+        }
+      }
+    }
+    else
+    {
+      string path = Server.MapPath("~/App_GlobalResources/");
+      foreach (string file in Directory.GetFiles(path))
+      {
+        int index = file.LastIndexOf("\\") + 1;
+        string filename = file.Substring(index);
+        if (filename != "labels.resx")
+        {
+          filename = filename.Replace("labels.", string.Empty).Replace(".resx", string.Empty);
+          System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(filename);
+          ddlCulture.Items.Add(new ListItem(info.NativeName, filename));
+        }
       }
     }
   }
