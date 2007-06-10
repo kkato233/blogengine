@@ -3,7 +3,7 @@
 <div class="post">
   <h1><a href="<%=Post.RelativeLink %>"><%=Post.Title %></a></h1>
   <span class="author">by <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a></span>
-  <span class="pubDate"><%=Post.DateCreated.ToString("d. MMMM yyyy") %></span>
+  <span class="pubDate"><%=Post.DateCreated.ToString("d. MMMM yyyy HH:mm") %></span>
   <div class="text"><%=Post.Content %></div>
   
   <div class="bottom">

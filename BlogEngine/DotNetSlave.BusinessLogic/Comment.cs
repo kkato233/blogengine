@@ -98,8 +98,8 @@ namespace BlogEngine.Core
     /// </summary>
     public DateTime DateCreated
     {
-      get { return _DateCreated; }
-      set { _DateCreated = value; }
+      get { return _DateCreated.AddHours(BlogSettings.Instance.Timezone + 1); }
+      set { _DateCreated = value.ToUniversalTime(); }
     }
 
     #endregion

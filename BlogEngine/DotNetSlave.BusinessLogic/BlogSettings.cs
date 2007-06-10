@@ -196,6 +196,7 @@ namespace BlogEngine.Core
     private string contactThankMessage;
     private string htmlHeader;
     private string culture;
+    private int timezone;
     #endregion
 
     //============================================================
@@ -1124,7 +1125,7 @@ namespace BlogEngine.Core
     /// <value>The name of the author of this blog.</value>
     public string ContactFormMessage
     {
-      get      {        return contactFormMessage;      }
+      get { return contactFormMessage; }
       set
       {
         if (String.IsNullOrEmpty(value))
@@ -1202,6 +1203,18 @@ namespace BlogEngine.Core
           culture = value;
         }
       }
+    }
+    #endregion
+
+    #region Timezone
+    /// <summary>
+    /// Gets or sets the maximum number of characters that are displayed from a blog-roll retrieved post.
+    /// </summary>
+    /// <value>The maximum number of characters to display.</value>
+    public int Timezone
+    {
+      get { return timezone; }
+      set { timezone = value; }
     }
     #endregion
 

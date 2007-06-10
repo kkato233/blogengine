@@ -22,6 +22,7 @@
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <enablecommentsearch>True</enablecommentsearch>
   <blogrollvisibleposts>3</blogrollvisibleposts>
+  <timezone>1</timezone>
   <smtpusername>user@example.com</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />

@@ -1,14 +1,29 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" Title="Add entry" ValidateRequest="False" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+<script type="text/javascript">
+function ToggleVisibility()
+{
+  var element = document.getElementById('<%=ulDrafts.ClientID%>');
+  if (element.style.display == "none")
+    element.style.display = "block";
+  else
+    element.style.display = "none";
+}
+</script>
+
+  <div id="divDrafts" runat="server" visible="False" enableviewstate="False" style="margin-bottom: 10px">
+    <a id="aDrafts" runat="server" href="javascript:void(ToggleVisibility());" />
+    <ul id="ulDrafts" runat="server" style="display:none;list-style-type:circle" />
+  </div>
 
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
-  <asp:TextBox runat="server" ID="txtTitle" Width="500px" />&nbsp;&nbsp;&nbsp;
+  <asp:TextBox runat="server" ID="txtTitle" Width="500px" TabIndex="1" />&nbsp;&nbsp;&nbsp;
   
   <label for="<%=ddlAuthor.ClientID %>"><%=Resources.labels.author %></label>
-  <asp:DropDownList runat="Server" ID="ddlAuthor" />&nbsp;&nbsp;&nbsp;
+  <asp:DropDownList runat="Server" ID="ddlAuthor" TabIndex="2" />&nbsp;&nbsp;&nbsp;
   
   <label for="<%=txtDate.ClientID %>"><%=Resources.labels.date %></label>
-  <asp:TextBox runat="server" ID="txtDate" Width="110px" />
+  <asp:TextBox runat="server" ID="txtDate" Width="110px" TabIndex="3" />
   
   <asp:RegularExpressionValidator ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]"ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
@@ -55,7 +70,7 @@
 		}
 	});
 	</script>
-  <asp:TextBox runat="Server" ID="txtContent" Width="100%" Height="250px" TextMode="MultiLine" />
+  <asp:TextBox runat="Server" ID="txtContent" Width="100%" Height="250px" TextMode="MultiLine" TabIndex="4" />
 
   <br />
   
@@ -63,50 +78,50 @@
     <tr>
       <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
-        <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" />
-        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" CausesValidation="False" />
+        <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" TabIndex="5" />
+        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" CausesValidation="False" TabIndex="6" />
       </td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
-        <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" />        
-        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" CausesValidation="False" ValidationGroup="fileUpload" />
+        <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" TabIndex="7" />
+        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" CausesValidation="False" ValidationGroup="fileUpload" TabIndex="8" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="Specify a file name" ValidationGroup="fileUpload" />
       </td>
     </tr>    
     <tr>
       <td class="label"><%=Resources.labels.description %></td>
-      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Height="32px" /></td>
+      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Height="32px" TabIndex="9" /></td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.categories %></td>
       <td>
-        <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" />
-        <asp:Button runat="server" ID="btnCategory" Text="Add" ValidationGroup="category" />
+        <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" TabIndex="10" />
+        <asp:Button runat="server" ID="btnCategory" Text="Add" ValidationGroup="category" TabIndex="11" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="Required" ValidationGroup="category" /><br />
         
-        <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" />
+        <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" TabIndex="12" />
       </td>
     </tr>
     <tr>
       <td class="label">Tags</td>
       <td>
-        <asp:TextBox runat="server" ID="txtTags" Width="400" />
-        <span>Separate each tag with a comma</span>
+        <asp:TextBox runat="server" ID="txtTags" Width="400" TabIndex="13" />
+        <span><%=Resources.labels.separateTagsWitComma %></span>
       </td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.settings %></td>
       <td>
-        <asp:CheckBox runat="server" ID="cbEnableComments" Text="Enable comments" Checked="true" />
-        <asp:CheckBox runat="server" ID="cbPublish" Text="Publish" Checked="true" />
+        <asp:CheckBox runat="server" ID="cbEnableComments" Text="<%$ Resources:labels, enableComments %>" Checked="true" TabIndex="14" />
+        <asp:CheckBox runat="server" ID="cbPublish" Text="<%$ Resources:labels, publish %>" Checked="true" TabIndex="15" />
       </td>
     </tr>
   </table>  
   
   <div style="text-align:right">  
-    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, savePost %> " />
+    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, savePost %> " TabIndex="16" />
   </div>
   <br />
 </asp:Content>
