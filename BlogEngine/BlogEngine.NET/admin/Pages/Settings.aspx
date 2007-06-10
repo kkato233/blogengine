@@ -30,7 +30,7 @@
   <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />
   
   <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
-  <asp:DropDownList runat="Server" id="ddlCulture">
+  <asp:DropDownList runat="Server" id="ddlCulture" style="text-transform:capitalize">
     <asp:ListItem Text="Auto" />
     <asp:ListItem Text="english" Value="en" />
   </asp:DropDownList><br />
