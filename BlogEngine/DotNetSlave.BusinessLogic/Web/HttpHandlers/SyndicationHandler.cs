@@ -187,7 +187,21 @@ namespace BlogEngine.Core.Web.HttpHandlers
                     {
                         postCount   = posts.Count;
                     }
-                    posts           = posts.GetRange(0, postCount);
+                    //posts           = posts.GetRange(0, postCount);
+                    List<Post> list = new List<Post>();
+                    int counter = 0;
+                    foreach (Post post in posts)
+                    {
+                      if (counter == postCount)
+                        break;
+
+                      if (post.IsPublished)
+                      {
+                        list.Add(post);
+                        counter++;
+                      }
+                    }
+                    posts = list;
 
                     //------------------------------------------------------------
                     //	Set the response header information
