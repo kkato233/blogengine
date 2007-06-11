@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
@@ -132,9 +133,9 @@ namespace BlogEngine.Core.Providers
 
       string sqlQuery = "INSERT INTO " +
                           "be_Posts (PostID, Title, Description, PostContent, DateCreated, " +
-                          "DateModified, Author, IsPublished, IsCommentEnabled)" +
+                          "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating)" +
                           "VALUES (@id, @title, @desc, @content, @created, @modified, " +
-                          "@author, @published, @commentEnabled)";
+                          "@author, @published, @commentEnabled, @raters, @rating)";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
       cmd.Parameters.Add(new SqlParameter("@title", post.Title));
@@ -154,6 +155,9 @@ namespace BlogEngine.Core.Providers
         cmd.Parameters.Add(new SqlParameter("@author", post.Author));
       cmd.Parameters.Add(new SqlParameter("@published", post.IsPublished));
       cmd.Parameters.Add(new SqlParameter("@commentEnabled", post.IsCommentsEnabled));
+      cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString()));
+      cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+      
       cmd.ExecuteNonQuery();
 
       // Tags
@@ -178,7 +182,8 @@ namespace BlogEngine.Core.Providers
       string sqlQuery = "UPDATE be_Posts " +
                           "SET Title = @title, Description = @desc, PostContent = @content, " +
                           "DateCreated = @created, DateModified = @modified, Author = @Author, " +
-                          "IsPublished = @published, IsCommentEnabled = @commentEnabled " +
+                          "IsPublished = @published, IsCommentEnabled = @commentEnabled, " +
+                          "Raters = @raters, Rating = @rating " +
                           "WHERE PostID = @id";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
       cmd.Parameters.Add(new SqlParameter("@title", post.Title));
@@ -199,6 +204,8 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@published", post.IsPublished));
       cmd.Parameters.Add(new SqlParameter("@commentEnabled", post.IsCommentsEnabled));
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
+      cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString()));
+      cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
       cmd.ExecuteNonQuery();
 
@@ -394,7 +401,7 @@ namespace BlogEngine.Core.Providers
     {
       CategoryDictionary dic = new CategoryDictionary();
 
-      SqlConnection conn = new SqlConnection(BlogSettings.Instance.MSSQLConnectionString);
+      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 
       string sqlQuery = "SELECT CategoryID, CategoryName FROM be_Categories ";
       SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
@@ -417,10 +424,11 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void SaveCategories(CategoryDictionary categories)
     {
-      SqlConnection conn = new SqlConnection(BlogSettings.Instance.MSSQLConnectionString);
+      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 
       string sqlQuery = "DELETE FROM be_Categories";
       SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+      conn.Open();
       cmd.ExecuteNonQuery();
 
       foreach (Guid key in categories.Keys)
@@ -430,7 +438,7 @@ namespace BlogEngine.Core.Providers
         cmd.CommandText = sqlQuery;
         cmd.Parameters.Clear();
         cmd.Parameters.Add(new SqlParameter("@id", key.ToString()));
-        cmd.Parameters.Add(new SqlParameter("@id", categories[key]));
+        cmd.Parameters.Add(new SqlParameter("@name", categories[key]));
         cmd.ExecuteNonQuery();
       }
 
@@ -443,14 +451,51 @@ namespace BlogEngine.Core.Providers
 
     public override StringDictionary LoadSettings()
     {
-      XmlBlogProvider prov = new XmlBlogProvider();
-      return prov.LoadSettings();
+      //XmlBlogProvider prov = new XmlBlogProvider();
+      //return prov.LoadSettings();
+
+      StringDictionary dic = new StringDictionary();
+      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+
+      string sqlQuery = "SELECT SettingName, SettingValue FROM be_Settings";
+      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+      conn.Open();
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        string name = rdr.GetString(0);
+        string value = rdr.GetString(1);
+
+        dic.Add(name, value);
+      }
+
+      rdr.Close();
+      conn.Close();
+
+      return dic;
     }
 
     public override void SaveSettings(StringDictionary settings)
     {
-      XmlBlogProvider prov = new XmlBlogProvider();
-      prov.SaveSettings(settings);
+      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+
+      string sqlQuery = "TRUNCATE TABLE be_Settings";
+      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+      conn.Open();
+      cmd.ExecuteNonQuery();
+
+      foreach (string key in settings.Keys)
+      {
+        sqlQuery = "INSERT INTO be_Settings (SettingName, SettingValue) " +
+                    "VALUES (@name, @value)";
+        cmd.CommandText = sqlQuery;
+        cmd.Parameters.Clear();
+        cmd.Parameters.Add(new SqlParameter("@name", key));
+        cmd.Parameters.Add(new SqlParameter("@value", settings[key]));
+        cmd.ExecuteNonQuery();
+      }
+
     }
 
     #endregion
@@ -464,7 +509,7 @@ namespace BlogEngine.Core.Providers
 
       // Initial if needed
       if (providerConn == null)
-        providerConn = new SqlConnection(BlogSettings.Instance.MSSQLConnectionString);
+        providerConn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
       // Open it if needed
       if (providerConn.State == System.Data.ConnectionState.Closed)
       {
@@ -527,9 +572,10 @@ namespace BlogEngine.Core.Providers
 
       foreach (Comment comment in post.Comments)
       {
-        cmd.CommandText = "INSERT INTO be_PostComment (PostID, CommentDate, Author, Email, Website, Comment, Country, Ip) " +
-                            "VALUES (@id, @date, @author, @email, @website, @comment, @country, @ip)";
+        cmd.CommandText = "INSERT INTO be_PostComment (PostCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip) " +
+                            "VALUES (@postcommentid, @id, @date, @author, @email, @website, @comment, @country, @ip)";
         cmd.Parameters.Clear();
+        cmd.Parameters.Add(new SqlParameter("@postcommentid", comment.Id.ToString()));
         cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
         cmd.Parameters.Add(new SqlParameter("@date", new SqlDateTime(comment.DateCreated)));
         cmd.Parameters.Add(new SqlParameter("@author", comment.Author));
