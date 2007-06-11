@@ -500,6 +500,28 @@ namespace BlogEngine.Core.Providers
 
     #endregion
 
+    #region Ping services
+
+    /// <summary>
+    /// Loads the ping services.
+    /// </summary>
+    /// <returns></returns>
+    public override StringCollection LoadPingServices()
+    {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    /// <summary>
+    /// Saves the ping services.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    public override void SavePingServices(StringCollection services)
+    {
+      throw new Exception("The method or operation is not implemented.");
+    }
+
+    #endregion
+
     /// <summary>
     /// Handles Opening the SQL Connection
     /// </summary>
@@ -597,5 +619,6 @@ namespace BlogEngine.Core.Providers
         cmd.ExecuteNonQuery();
       }
     }
+
   }
 }

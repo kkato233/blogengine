@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.Globalization;
 
 #endregion
 
@@ -98,7 +99,12 @@ namespace BlogEngine.Core
     /// </summary>
     public DateTime DateCreated
     {
-      get { return _DateCreated.AddHours(BlogSettings.Instance.Timezone + 1); }
+      get 
+      {
+        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
+        return _DateCreated.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours);
+
+      }
       set { _DateCreated = value.ToUniversalTime(); }
     }
 

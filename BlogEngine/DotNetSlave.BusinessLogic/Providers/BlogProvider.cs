@@ -79,6 +79,18 @@ namespace BlogEngine.Core.Providers
       /// </summary>
       public abstract void SaveSettings(StringDictionary settings);
 
+      //Ping services
+      /// <summary>
+      /// Loads the ping services.
+      /// </summary>
+      /// <returns></returns>
+      public abstract StringCollection LoadPingServices();
+      /// <summary>
+      /// Saves the ping services.
+      /// </summary>
+      /// <param name="services">The services.</param>
+      public abstract void SavePingServices(StringCollection services);
+
     }
 
   /// <summary>

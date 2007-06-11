@@ -134,10 +134,10 @@ public partial class admin_entry : System.Web.UI.Page
     }
 
     post.Save();
-    if (!Request.IsLocal)
-    {
+    //if (!Request.IsLocal)
+    //{
       System.Threading.ThreadPool.QueueUserWorkItem(Ping, post);
-    }
+    //}
 
     Response.Redirect(post.RelativeLink.ToString());
   }
