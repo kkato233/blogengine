@@ -375,7 +375,7 @@ namespace BlogEngine.Core
         Rating = rating;
       }
 
-      DataInsert();
+      DataUpdate();
       OnRated();
     }
 

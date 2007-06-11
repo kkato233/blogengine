@@ -178,6 +178,10 @@ namespace BlogEngine.Core.API.MetaWeblog
             XmlDocument request = new XmlDocument();
             try
             {
+                if (!xml.StartsWith("<?xml"))
+                {
+                    xml = xml.Substring(xml.IndexOf("<?xml"));
+                }
                 request.LoadXml(xml);
             }
             catch (Exception ex)
