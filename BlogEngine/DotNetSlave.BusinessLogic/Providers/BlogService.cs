@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Configuration.Provider;
 using System.Web.Configuration;
@@ -213,6 +214,29 @@ namespace BlogEngine.Core.Providers
     {
       LoadProviders();
       _provider.SaveSettings(settings);
+    }
+
+    #endregion
+
+    #region Ping services
+
+    /// <summary>
+    /// Loads the ping services.
+    /// </summary>
+    public static StringCollection LoadPingServices()
+    {
+      LoadProviders();
+      return _provider.LoadPingServices();
+    }
+
+    /// <summary>
+    /// Saves the ping services.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    public static void SavePingServices(StringCollection services)
+    {
+      LoadProviders();
+      _provider.SavePingServices(services);
     }
 
     #endregion

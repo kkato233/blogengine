@@ -5,7 +5,9 @@ using System.Net;
 using System.Xml;
 using System.IO;
 using System.Text;
+using System.Collections.Specialized;
 using BlogEngine.Core;
+using BlogEngine.Core.Providers;
 
 #endregion
 
@@ -26,16 +28,11 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     public void Send()
     {
-      Execute("http://blogsearch.google.com/ping/RPC2");
-      Execute("http://rpc.technorati.com/rpc/ping");
-      Execute("http://rpc.pingomatic.com/RPC2");
-      Execute("http://ping.feedburner.com");
-      Execute("http://api.my.yahoo.com/RPC2");
-      Execute("http://api.feedster.com/ping");
-      Execute("http://www.bloglines.com/ping");
-      Execute("http://rpc.icerocket.com:10080/");
-      Execute("http://services.newsgator.com/ngws/xmlrpcping.aspx");
-      Execute("http://ping.weblogalot.com/rpc.php");
+      StringCollection services = BlogService.LoadPingServices();
+      foreach (string service in services)
+      {
+        Execute(service);
+      }
     }
 
     /// <summary>
