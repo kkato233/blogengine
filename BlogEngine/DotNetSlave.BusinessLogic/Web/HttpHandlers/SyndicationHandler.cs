@@ -324,7 +324,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
                     //	Request has been modified, set details
                     //------------------------------------------------------------
                     context.Response.Cache.SetCacheability(HttpCacheability.Public);
-                    context.Response.Cache.SetLastModified(lastModified);
+                    // Mads set this to DateTime.Now because lastModified threws an error (utcDate)
+                    context.Response.Cache.SetLastModified(DateTime.Now);
                     context.Response.Cache.SetETag(lastModified.Ticks.ToString());
 
                     switch (format)
