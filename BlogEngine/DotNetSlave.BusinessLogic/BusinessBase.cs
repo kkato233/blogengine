@@ -289,7 +289,7 @@ namespace BlogEngine.Core
         }
         else
         {
-          this._DateModified = DateTime.Now;
+          this._DateModified = DateTime.Now.ToUniversalTime();
           DataUpdate();
         }
 
