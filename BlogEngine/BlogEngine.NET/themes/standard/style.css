@@ -140,7 +140,7 @@ img {
 					 Posts
 ----------------------------*/
 
-div.post {
+div.post, .mceContentBody {
 	border: 1px solid silver;
 	padding: 3px 10px;
 	margin-bottom: 20px;
@@ -148,7 +148,7 @@ div.post {
 	line-height: 17px;
 }
 
-div.post h1 {
+div.post h1, .mceContentBody h1 {
 	margin: 0 0 7px 0;
 	position: relative;
 	top: 5px;

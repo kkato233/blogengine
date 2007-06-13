@@ -101,7 +101,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Set Syndication settings
     //-----------------------------------------------------------------------
     BlogSettings.Instance.SyndicationFormat = ddlSyndicationFormat.SelectedValue;
-
+    BlogSettings.Instance.PostsPerFeed = int.Parse(txtPostsPerFeed.Text, CultureInfo.InvariantCulture);
     BlogSettings.Instance.AuthorName = txtDublinCoreCreator.Text;
     BlogSettings.Instance.Language = txtDublinCoreLanguage.Text;
 
@@ -180,7 +180,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Bind Syndication settings
     //-----------------------------------------------------------------------
     ddlSyndicationFormat.SelectedValue = BlogSettings.Instance.SyndicationFormat;
-
+    txtPostsPerFeed.Text = BlogSettings.Instance.PostsPerFeed.ToString();
     txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
     txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
 

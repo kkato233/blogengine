@@ -1,5 +1,4 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="archive.aspx.cs" Inherits="archive" Title="Archive" EnableViewState="false" %>
-<%@ OutputCache Duration="3600" VaryByParam="none" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
   <div id="archive">

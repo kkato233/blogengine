@@ -293,7 +293,7 @@ namespace BlogEngine.Core.Providers
       {
         FileInfo info = new FileInfo(file);
         string id = info.Name.Replace(".xml", string.Empty);
-        Page page = SelectPage(new Guid(id));
+        Page page = Page.Load(new Guid(id));
         pages.Add(page);
       }
 

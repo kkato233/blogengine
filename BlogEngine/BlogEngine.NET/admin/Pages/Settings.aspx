@@ -146,6 +146,11 @@
   
   <br />
   
+  <label for="<%=txtPostsPerFeed.ClientID %>"><%=Resources.labels.postsPerFeed %></label>
+  <asp:TextBox runat="server" ID="txtPostsPerFeed" Width="50" MaxLength="4" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPostsPerFeed" ErrorMessage="Required" />
+  <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+  
   <label for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label>
   <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" /><br />
   

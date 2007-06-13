@@ -37,6 +37,23 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       DisplayDateRange();
     }
+
+    base.AddMetaTag("description", BlogSettings.Instance.Description);
+    base.AddMetaTag("author", BlogSettings.Instance.AuthorName);
+    AddMetaKeywords(); 
+  }
+
+  /// <summary>
+  /// Adds the post's tags as meta keywords.
+  /// </summary>
+  private void AddMetaKeywords()
+  {
+    if (CategoryDictionary.Instance.Count > 0)
+    {
+      string[] categories = new string[CategoryDictionary.Instance.Count];
+      CategoryDictionary.Instance.Values.CopyTo(categories, 0);      
+      base.AddMetaTag("keywords", string.Join(",", categories));
+    }
   }
 
   private void DisplaySearch()
