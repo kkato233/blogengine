@@ -294,6 +294,9 @@
   <data name="postPerPage" xml:space="preserve">
     <value>Indlæg pr. side</value>
   </data>
+  <data name="postsPerFeed" xml:space="preserve">
+    <value>Antal indlæg i feed</value>
+  </data>
   <data name="publish" xml:space="preserve">
     <value>Publicér</value>
   </data>

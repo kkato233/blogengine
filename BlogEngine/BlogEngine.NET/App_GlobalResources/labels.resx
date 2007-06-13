@@ -294,6 +294,9 @@
   <data name="postPerPage" xml:space="preserve">
     <value>Posts per page</value>
   </data>
+  <data name="postsPerFeed" xml:space="preserve">
+    <value>Items shown in feed</value>
+  </data>
   <data name="publish" xml:space="preserve">
     <value>Publish</value>
   </data>

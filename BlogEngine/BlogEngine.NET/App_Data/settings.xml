@@ -39,6 +39,7 @@
   <smtpserver>mail.example.dk</smtpserver>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;
 &lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
+  <postsperfeed>15</postsperfeed>
   <geocodinglongitude>0</geocodinglongitude>
   <enablereferrertracking>False</enablereferrertracking>
   <blogrollupdateminutes>60</blogrollupdateminutes>

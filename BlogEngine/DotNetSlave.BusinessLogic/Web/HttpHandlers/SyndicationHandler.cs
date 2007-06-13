@@ -182,7 +182,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                     //------------------------------------------------------------
                     //	Filter number of posts based configured range
                     //------------------------------------------------------------
-                    postCount       = BlogSettings.Instance.PostsPerPage;
+                    postCount       = BlogSettings.Instance.PostsPerFeed;
                     if (postCount > posts.Count)
                     {
                         postCount   = posts.Count;

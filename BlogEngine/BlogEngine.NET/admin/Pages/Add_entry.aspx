@@ -1,4 +1,5 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" Title="Add entry" ValidateRequest="False" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 <script type="text/javascript">
 function ToggleVisibility()
@@ -49,7 +50,7 @@ function ToggleVisibility()
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
 		theme_advanced_path_location : "bottom",
-		//content_css : "example_full.css",
+		content_css : "<%= VirtualPathUtility.ToAbsolute("~/") + "themes/" + BlogSettings.Instance.Theme %>/style.css",
 	    plugin_insertdate_dateFormat : "%Y-%m-%d",
 	    plugin_insertdate_timeFormat : "%H:%M:%S",
 		extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
@@ -70,7 +71,7 @@ function ToggleVisibility()
 		}
 	});
 	</script>
-  <asp:TextBox runat="Server" ID="txtContent" Width="100%" Height="250px" TextMode="MultiLine" TabIndex="4" />
+  <asp:TextBox runat="Server" ID="txtContent" CssClass="post" Width="100%" Height="250px" TextMode="MultiLine" TabIndex="4" />
 
   <br />
   

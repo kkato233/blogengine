@@ -17,6 +17,8 @@ public partial class contact : BlogBasePage
   protected void Page_Load(object sender, EventArgs e)
   {
     btnSend.Click += new EventHandler(btnSend_Click);
+    if (!Page.IsPostBack)
+      GetCookie();
   }
 
   private void btnSend_Click(object sender, EventArgs e)
@@ -24,7 +26,8 @@ public partial class contact : BlogBasePage
     bool success = SendEmail();
     divForm.Visible = !success;
     lblStatus.Visible = !success;
-    divThank.Visible = success;    
+    divThank.Visible = success;
+    SetCookie();
   }
 
   private bool SendEmail()
@@ -52,4 +55,34 @@ public partial class contact : BlogBasePage
       return false;
     }
   }
+
+  /// <summary>
+  /// Gets the cookie with visitor information if any is set.
+  /// Then fills the contact information fields in the form.
+  /// </summary>
+  private void GetCookie()
+  {
+    HttpCookie cookie = Request.Cookies["comment"];
+    if (cookie != null)
+    {
+      txtName.Text = cookie.Values["name"];
+      txtEmail.Text = cookie.Values["email"];
+    }
+  }
+
+  /// <summary>
+  /// Sets a cookie with the entered visitor information
+  /// so it can be prefilled on next visit.
+  /// </summary>
+  private void SetCookie()
+  {
+    HttpCookie cookie = new HttpCookie("comment");
+    cookie.Expires = DateTime.Now.AddMonths(24);
+    cookie.Values.Add("name", txtName.Text);
+    cookie.Values.Add("email", txtEmail.Text);
+    cookie.Values.Add("url", string.Empty);
+    cookie.Values.Add("country", string.Empty);
+    Response.Cookies.Add(cookie);
+  }
+
 }

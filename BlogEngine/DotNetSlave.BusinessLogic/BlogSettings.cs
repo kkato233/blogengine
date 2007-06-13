@@ -197,6 +197,7 @@ namespace BlogEngine.Core
     private string htmlHeader;
     private string culture;
     private int timezone;
+    private int postsPerFeed;
     #endregion
 
     //============================================================
@@ -1010,6 +1011,24 @@ namespace BlogEngine.Core
         {
           blogChannelBLink = value;
         }
+      }
+    }
+    #endregion
+
+    #region PostsPerFeed
+    /// <summary>
+    /// Gets or sets the maximum number of characters that are displayed from a blog-roll retrieved post.
+    /// </summary>
+    /// <value>The maximum number of characters to display.</value>
+    public int PostsPerFeed
+    {
+      get
+      {
+        return postsPerFeed;
+      }
+      set
+      {
+        postsPerFeed= value;
       }
     }
     #endregion
