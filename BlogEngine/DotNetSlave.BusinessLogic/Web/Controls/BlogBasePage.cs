@@ -68,9 +68,11 @@ namespace BlogEngine.Core.Web.Controls
       {
         // Links
         AddMetaContentType();
-        AddMicroSummary();
         AddRsdLinkHeader();
         AddSyndicationLink();
+
+        AddGenericLink("contents", "Archive", Utils.RelativeWebRoot + "archive.aspx");
+        AddGenericLink("start", BlogSettings.Instance.Name, Utils.RelativeWebRoot);
 
         if (BlogSettings.Instance.EnableOpenSearch)
           AddOpenSearchLinkInHeader();
@@ -92,7 +94,7 @@ namespace BlogEngine.Core.Web.Controls
       }
     }
 
-    private void AddSyndicationLink()
+    protected virtual void AddSyndicationLink()
     {
       HtmlLink link = new HtmlLink();
       link.Attributes["rel"] = "alternate";
@@ -111,7 +113,7 @@ namespace BlogEngine.Core.Web.Controls
     /// Finds all stylesheets in the header and changes the 
     /// path so it points to css.axd which removes the whitespace.
     /// </summary>
-    private void CompressCSS()
+    protected virtual void CompressCSS()
     {
       foreach (Control control in Page.Header.Controls)
       {
@@ -123,7 +125,7 @@ namespace BlogEngine.Core.Web.Controls
       }
     }
 
-    private void AddRsdLinkHeader()
+    protected virtual void AddRsdLinkHeader()
     {
       HtmlLink link = new HtmlLink();
       link.Attributes["rel"] = "edituri";
@@ -133,7 +135,7 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(link);
     }
 
-    private void AddMetaContentType()
+    protected virtual void AddMetaContentType()
     {
       HtmlMeta meta = new HtmlMeta();
       meta.HttpEquiv = "content-type";
@@ -144,7 +146,7 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// Add a meta tag to the page's header.
     /// </summary>
-    public void AddMetaTag(string name, string value)
+    protected virtual void AddMetaTag(string name, string value)
     {
       if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
         return;
@@ -155,7 +157,7 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(meta);
     }
 
-    private void AddOpenSearchLinkInHeader()
+    protected virtual void AddOpenSearchLinkInHeader()
     {
       HtmlLink link = new HtmlLink();
       link.Attributes["rel"] = "search";
@@ -165,19 +167,28 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(link);
     }
 
-    private void AddMicroSummary()
+    protected virtual void AddMicroSummary(string postId)
     {
       HtmlLink ms = new HtmlLink();
       ms.Attributes["rel"] = "microsummary";
       ms.Attributes["type"] = "application/x.microsummary+xml";
-      ms.Href = "microsummary.axd?id=" + Request.PathInfo;
+      ms.Href = Utils.AbsoluteWebRoot + "microsummary.axd?id=" + postId;
       Page.Header.Controls.Add(ms);
+    }
+
+    protected virtual void AddGenericLink(string rel, string title, string href)
+    {
+      HtmlLink link = new HtmlLink();
+      link.Attributes["rel"] = rel;
+      link.Attributes["title"] = title;
+      link.Attributes["href"] = href;      
+      Page.Header.Controls.Add(link);
     }
 
     /// <summary>
     /// Adds a JavaScript reference to the HTML head tag.
     /// </summary>
-    private void AddEmbeddedJavaScript(string name)
+    protected virtual void AddEmbeddedJavaScript(string name)
     {
       HtmlGenericControl script = new HtmlGenericControl("script");
       script.Attributes["type"] = "text/javascript";
@@ -191,7 +202,7 @@ namespace BlogEngine.Core.Web.Controls
     /// <remarks>
     /// You must add the script tags to the BlogSettings.Instance.TrackingScript.
     /// </remarks>
-    private void AddTrackingScript()
+    protected virtual void AddTrackingScript()
     {
       ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, false);
     }
@@ -199,7 +210,7 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// Adds code to the HTML head section.
     /// </summary>
-    private void AddCustomCodeToHead()
+    protected virtual void AddCustomCodeToHead()
     {
       string code = string.Format("{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}", Environment.NewLine, BlogSettings.Instance.HtmlHeader);
       LiteralControl control = new LiteralControl(code);
@@ -209,7 +220,7 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// Translates the specified string using the resource files
     /// </summary>
-    public string Translate(string text)
+    public virtual string Translate(string text)
     {
       try
       {

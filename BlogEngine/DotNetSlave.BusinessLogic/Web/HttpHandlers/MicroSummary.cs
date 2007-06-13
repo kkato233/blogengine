@@ -36,10 +36,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
         Post post = Post.GetPost(new Guid(id));
         if (post != null)
         {
-          context.Response.ContentType = "text/plain";
           context.Response.Write(post.Description);
         }
       }
+      else
+      {
+        context.Response.Write(BlogSettings.Instance.Description);
+      }
+
+      context.Response.ContentType = "text/plain";
     }
 
     /// <summary>

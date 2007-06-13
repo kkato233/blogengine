@@ -73,7 +73,6 @@ namespace Controls
       {
         cell.Controls.Clear();
         cell.Text = day.DayNumberText;
-        //cell.Controls.Add(new LiteralControl(day.DayNumberText));
       }
     }
 
@@ -85,7 +84,7 @@ namespace Controls
           VisibleDate = DateTime.Now;
 
         writer.Write("<div id=\"calendarContainer\">");
-        writer.Write("<table class=\"calendar\" summary=\"Post calendar navigation\" style=\";border-collapse:collapse;\">");
+        writer.Write("<table class=\"calendar\" summary=\"\" style=\";border-collapse:collapse;\">");
         writer.Write("<tr><td>");
 
         DateTime oldest = GetOldestPostDate();

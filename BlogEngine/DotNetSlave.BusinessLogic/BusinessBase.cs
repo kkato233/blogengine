@@ -39,6 +39,9 @@ namespace BlogEngine.Core
     {
       get
       {
+        if (_DateCreated == DateTime.MinValue)
+          return _DateCreated;
+
         DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
         return _DateCreated.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours);
       }
@@ -53,6 +56,9 @@ namespace BlogEngine.Core
     {
       get 
       {
+        if (_DateModified == DateTime.MinValue)
+          return _DateModified;
+
         DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
         return _DateModified.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours); 
       }

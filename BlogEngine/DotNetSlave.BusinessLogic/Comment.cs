@@ -101,6 +101,9 @@ namespace BlogEngine.Core
     {
       get 
       {
+        if (_DateCreated == DateTime.MinValue)
+          return _DateCreated;
+
         DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
         return _DateCreated.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours);
 

@@ -37,6 +37,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         Page.Title = Post.Title;
         AddMetaKeywords();
         AddMetaDescription();
+        base.AddMicroSummary(Post.Id.ToString());
         Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
       }
     }
