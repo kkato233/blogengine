@@ -40,7 +40,8 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 
     base.AddMetaTag("description", BlogSettings.Instance.Description);
     base.AddMetaTag("author", BlogSettings.Instance.AuthorName);
-    AddMetaKeywords(); 
+    AddMetaKeywords();
+    base.AddMicroSummary(string.Empty);
   }
 
   /// <summary>
