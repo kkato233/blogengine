@@ -11,7 +11,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
   {
     if (Page.IsCallback)
       return;
-
+    
     if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
     {
       DisplayCategories();
@@ -20,7 +20,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       DisplayAuthors();
     }
-    else if (Request.RawUrl.ToLowerInvariant().Contains("/tag/"))
+    else if (Request.RawUrl.ToLowerInvariant().Contains("?tag="))
     {
       DisplayTags();
     }
@@ -84,12 +84,12 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     }
   }
 
-  private void DisplayTags()
+  private void  DisplayTags()
   {
-    if (!string.IsNullOrEmpty(Request.QueryString["name"]))
+    if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
     {
-      PostList1.Posts = Post.GetPostsByTag(Request.QueryString["name"]); ;
-      base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["name"] + "'";
+      PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)); ;
+      base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
       base.AddMetaTag("description", BlogSettings.Instance.Description);
     }
   }
