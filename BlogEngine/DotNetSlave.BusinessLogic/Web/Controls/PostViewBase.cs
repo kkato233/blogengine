@@ -83,8 +83,8 @@ namespace BlogEngine.Core.Web.Controls
         return null;
 
       string[] tags = new string[Post.Tags.Count];
-      string link = "<a href=\"{0}{1}.aspx\">{1}</a>";
-      string path = VirtualPathUtility.ToAbsolute("~/tag/");
+      string link = "<a href=\"{0}/{1}\" rel=\"tag\">{1}</a>";
+      string path = Utils.RelativeWebRoot + "?tag=";
       for (int i = 0; i < Post.Tags.Count; i++)
       {
         string tag = Post.Tags[i];

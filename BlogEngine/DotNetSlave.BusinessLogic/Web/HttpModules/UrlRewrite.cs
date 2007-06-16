@@ -63,11 +63,11 @@ namespace BlogEngine.Core.Web.HttpModules
           string author = ExtractTitle(context, "/author/");
           context.RewritePath("~/default.aspx?name=" + author + GetQueryString(context), false);
         }
-        else if (context.Request.RawUrl.ToLowerInvariant().Contains("/tag/"))
-        {
-          string tag = ExtractTitle(context, "/tag/");
-          context.RewritePath("~/default.aspx?name=" + tag + GetQueryString(context), false);
-        }
+        //else if (context.Request.RawUrl.ToLowerInvariant().Contains("/tag.aspx/"))
+        //{
+        //  string tag = ExtractTitle(context, "/tag.aspx/");
+        //  context.RewritePath("~/default.aspx?name=" + tag + GetQueryString(context), false);
+        //}
       }
     }
 
@@ -114,6 +114,11 @@ namespace BlogEngine.Core.Web.HttpModules
     {
       int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(lookFor) + lookFor.Length;
       int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(".aspx");
+      
+      // we need this for tags with PathInfo.
+      if (!context.Request.RawUrl.ToLowerInvariant().EndsWith(".aspx"))
+        stop = context.Request.RawUrl.Length;
+
       string title = context.Request.RawUrl.Substring(index, stop - index).Replace(".aspx", string.Empty).ToLowerInvariant();
       return context.Server.UrlEncode(title);
     }

@@ -21,7 +21,7 @@ namespace Controls
 
     #region Private fields
 
-    private const string LINK = "<a href=\"{0}\" rel=\"tag\" class=\"{1}\" title=\"{2}\">{3}</a> ";
+    private const string LINK = "<a href=\"{0}\" class=\"{1}\" title=\"{2}\">{3}</a> ";
     private static Dictionary<string, string> _WeightedList;
     private static object _SyncRoot = new object();
 
@@ -105,7 +105,7 @@ namespace Controls
       foreach (string key in WeightedList.Keys)
       {
         writer.Write("<li>");
-        writer.Write(string.Format(LINK, Utils.RelativeWebRoot + "tag/" + key + ".aspx", WeightedList[key], "Tag: " + key, key));
+        writer.Write(string.Format(LINK, Utils.RelativeWebRoot + "?tag=/" + key, WeightedList[key], "Tag: " + key, key));
         writer.Write("</li>");
       }
 
