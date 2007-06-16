@@ -21,13 +21,28 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
     btnAdd.Click += new EventHandler(btnAdd_Click);
     btnAdd.Text = Resources.labels.add + " " + Resources.labels.category.ToLowerInvariant();
+    valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
+  }
+
+  private void valExist_ServerValidate(object source, ServerValidateEventArgs args)
+  {
+    args.IsValid = true;
+
+    foreach (string cat in CategoryDictionary.Instance.Values)
+    {
+      if (cat.Equals(txtNewCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+        args.IsValid = false;
+    }
   }
 
   void btnAdd_Click(object sender, EventArgs e)
   {
-    CategoryDictionary.Instance.Add(txtNewCategory.Text);
-    CategoryDictionary.Instance.Save();
-    BindGrid();
+    if (Page.IsValid)
+    {
+      CategoryDictionary.Instance.Add(txtNewCategory.Text);
+      CategoryDictionary.Instance.Save();
+      BindGrid();
+    }
   }
 
   void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)

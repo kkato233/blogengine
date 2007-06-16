@@ -135,6 +135,10 @@ label.wide {
 	width: 0px;
 }
 
+td.label{
+	vertical-align: top;
+}
+
 /*----------------------------
 					Referrers
 ----------------------------*/

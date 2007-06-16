@@ -100,6 +100,7 @@ function ToggleVisibility()
       <td>
         <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" TabIndex="10" />
         <asp:Button runat="server" ID="btnCategory" Text="Add" ValidationGroup="category" TabIndex="11" />
+        <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="The category already exist" Display="dynamic" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="Required" ValidationGroup="category" /><br />
         
         <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" TabIndex="12" />
