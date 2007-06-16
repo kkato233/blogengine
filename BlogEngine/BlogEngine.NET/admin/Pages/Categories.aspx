@@ -3,7 +3,8 @@
 
   <asp:TextBox runat="Server" ID="txtNewCategory" Width="200" />  
   <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" />
-  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="Please enter a valid name" /><br /><hr />
+  <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="The category already exist" Display="dynamic" />
+  <asp:RequiredFieldValidator runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="Please enter a valid name" /><br /><hr />
 
 
   <asp:GridView runat="server" ID="grid" CssClass="category"  

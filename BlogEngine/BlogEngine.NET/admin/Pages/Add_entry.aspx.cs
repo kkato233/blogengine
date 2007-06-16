@@ -41,6 +41,18 @@ public partial class admin_entry : System.Web.UI.Page
     btnCategory.Click += new EventHandler(btnCategory_Click);
     btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
     btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
+    valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
+  }
+
+  private void valExist_ServerValidate(object source, ServerValidateEventArgs args)
+  {
+    args.IsValid = true;
+
+    foreach (string cat in CategoryDictionary.Instance.Values)
+    {
+      if (cat.Equals(txtCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+        args.IsValid = false;
+    }
   }
 
   private void btnUploadImage_Click(object sender, EventArgs e)
@@ -87,14 +99,14 @@ public partial class admin_entry : System.Web.UI.Page
 
   private void btnCategory_Click(object sender, EventArgs e)
   {
-    if (!Page.IsValid)
-      throw new InvalidOperationException("One or more validators are invalid.");
-
-    Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
-    CategoryDictionary.Instance.Save();
-    ListItem item = new ListItem(txtCategory.Text, id.ToString());
-    item.Selected = true;
-    cblCategories.Items.Add(item);
+    if (Page.IsValid)
+    {
+      Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
+      CategoryDictionary.Instance.Save();
+      ListItem item = new ListItem(txtCategory.Text, id.ToString());
+      item.Selected = true;
+      cblCategories.Items.Add(item);
+    }
   }
 
   private void btnSave_Click(object sender, EventArgs e)

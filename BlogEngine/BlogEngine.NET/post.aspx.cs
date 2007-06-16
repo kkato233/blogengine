@@ -14,6 +14,14 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 {
   protected void Page_Init(object sender, EventArgs e)
   {
+    if (Request.RawUrl.Contains("?id="))
+    {
+      Guid id = new Guid(Request.QueryString["id"]);
+      Post post = Post.GetPost(id);
+      if (post != null)
+        Response.Redirect(post.RelativeLink.ToString());
+    }
+
     if (Request.QueryString["id"] != null && Request.QueryString["id"].Length == 36)
     {
       Guid id = new Guid(Request.QueryString["id"]);

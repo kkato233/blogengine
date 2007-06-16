@@ -109,7 +109,7 @@ public void BindCountries()
 
   foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
   {
-    RegionInfo ri = new RegionInfo(ci.LCID);
+    RegionInfo ri = new RegionInfo(ci.Name);
     if (!dic.ContainsKey(ri.EnglishName))
       dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
 
