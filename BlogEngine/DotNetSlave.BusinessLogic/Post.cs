@@ -376,7 +376,7 @@ namespace BlogEngine.Core
       }
 
       DataUpdate();
-      OnRated();
+      OnRated(this);
     }
 
     /// <summary>
@@ -385,10 +385,10 @@ namespace BlogEngine.Core
     /// <param name="comment">The comment to add to the post.</param>
     public void AddComment(Comment comment)
     {
-      OnBeforeAddingComment();
+      OnBeforeAddingComment(this);
       Comments.Add(comment);
       DataUpdate();
-      OnCommentAdded();
+      OnCommentAdded(this);
     }
 
     /// <summary>
@@ -397,10 +397,10 @@ namespace BlogEngine.Core
     /// <param name="comment">The comment to remove from the post.</param>
     public void RemoveComment(Comment comment)
     {
-      OnBeforeRemovingComment();
+      OnBeforeRemovingComment(this);
       Comments.Remove(comment);
       DataUpdate();
-      OnCommentRemoved();
+      OnCommentRemoved(this);
     }
 
     #endregion
@@ -499,75 +499,75 @@ namespace BlogEngine.Core
     /// <summary>
     /// Occurs before a new comment is added.
     /// </summary>
-    public event EventHandler<EventArgs> BeforeAddingComment;
+    public static event EventHandler<EventArgs> BeforeAddingComment;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnBeforeAddingComment()
+    protected virtual void OnBeforeAddingComment(Post post)
     {
       if (BeforeAddingComment != null)
       {
-        BeforeAddingComment(this, new EventArgs());
+        BeforeAddingComment(post, new EventArgs());
       }
     }
 
     /// <summary>
     /// Occurs when a comment is added.
     /// </summary>
-    public event EventHandler<EventArgs> CommentAdded;
+    public static event EventHandler<EventArgs> CommentAdded;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnCommentAdded()
+    protected virtual void OnCommentAdded(Post post)
     {
       if (CommentAdded  != null)
       {
-        CommentAdded(this, new EventArgs());
+        CommentAdded(post, new EventArgs());
       }
     }
 
     /// <summary>
     /// Occurs before a new comment is added.
     /// </summary>
-    public event EventHandler<EventArgs> BeforeRemovingComment;
+    public static event EventHandler<EventArgs> BeforeRemovingComment;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnBeforeRemovingComment()
+    protected virtual void OnBeforeRemovingComment(Post post)
     {
       if (BeforeRemovingComment != null)
       {
-        BeforeRemovingComment(this, new EventArgs());
+        BeforeRemovingComment(post, new EventArgs());
       }
     }
 
     /// <summary>
     /// Occurs when a comment is added.
     /// </summary>
-    public event EventHandler<EventArgs> CommentRemoved;
+    public static event EventHandler<EventArgs> CommentRemoved;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnCommentRemoved()
+    protected virtual void OnCommentRemoved(Post post)
     {
       if (CommentRemoved != null)
       {
-        CommentRemoved(this, new EventArgs());
+        CommentRemoved(post, new EventArgs());
       }
     }
 
     /// <summary>
     /// Occurs when a visitor rates the post.
     /// </summary>
-    public event EventHandler<EventArgs> Rated;
+    public static event EventHandler<EventArgs> Rated;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnRated()
+    protected virtual void OnRated(Post post)
     {
       if (Rated != null)
       {
-        Rated(this, new EventArgs());
+        Rated(post, new EventArgs());
       }
     }
 

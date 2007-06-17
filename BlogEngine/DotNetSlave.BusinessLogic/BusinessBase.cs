@@ -268,7 +268,6 @@ namespace BlogEngine.Core
       if (IsDirty)
       {
         Update();
-        OnSaved(this);
       }
     }
 
@@ -277,11 +276,13 @@ namespace BlogEngine.Core
     /// </summary>
     private void Update()
     {
+      SaveAction action = SaveAction.None;
       if (this.IsDeleted)
       {
         if (!this.IsNew)
         {
           DataDelete();
+          action = SaveAction.Delete;
         }
       }
       else
@@ -292,14 +293,17 @@ namespace BlogEngine.Core
             _DateCreated = DateTime.Now;
 
           DataInsert();
+          action = SaveAction.Insert;
         }
         else
         {
           this._DateModified = DateTime.Now.ToUniversalTime();
           DataUpdate();
+          action = SaveAction.Update;
         }
 
         MarkOld();
+        OnSaved(this, action);
       }
     }
 
@@ -441,13 +445,13 @@ namespace BlogEngine.Core
     /// <summary>
     /// Occurs when the class is Saved
     /// </summary>
-    public static event EventHandler<EventArgs> Saved;
+    public static event EventHandler<SavedEventArgs> Saved;
 
-    private static void OnSaved(BusinessBase<TYPE, KEY> businessObject)
+    private static void OnSaved(BusinessBase<TYPE, KEY> businessObject, SaveAction action)
     {
       if (Saved != null)
       {
-        Saved(businessObject, new EventArgs());
+        Saved(businessObject, new SavedEventArgs(action));
       }
     }
 

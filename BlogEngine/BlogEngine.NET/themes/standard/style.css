@@ -235,6 +235,37 @@ div.post .code, div.post pre {
 }
 
 /*----------------------------
+				Recent posts
+----------------------------*/
+
+ul.recentPosts li{
+	padding-bottom: 10px;
+}
+
+ul.recentPosts li a{
+	font-weight: bold;
+}
+
+ul.recentPosts li span{
+	display: block;
+	text-indent: 10px;
+	text-transform: none;
+}
+
+/*----------------------------
+			Recent comments
+----------------------------*/
+
+ul.recentComments li{
+	padding-bottom: 10px;
+	text-transform: none;
+}
+
+ul.recentComments li a.postTitle{
+	font-weight: bold;
+}
+
+/*----------------------------
 			Social bookmarks
 ----------------------------*/
 

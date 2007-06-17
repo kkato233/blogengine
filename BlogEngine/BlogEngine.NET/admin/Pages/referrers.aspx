@@ -5,14 +5,14 @@
   <asp:CheckBox runat="Server" ID="cbEnableReferrers" AutoPostBack="true" /><br /><hr />
 
   <label for="<%=ddlDays.ClientID %>"><%=Resources.labels.selectDay %></label>
-  <asp:DropDownList runat="server" id="ddlDays" AutoPostBack="true">
-    <asp:ListItem Text="Monday" />
-    <asp:ListItem Text="Tuesday" />
-    <asp:ListItem Text="Wednesday" />
-    <asp:ListItem Text="Thursday" />
-    <asp:ListItem Text="Friday" />
-    <asp:ListItem Text="Saturday" />
-    <asp:ListItem Text="Sunday" />
+  <asp:DropDownList runat="server" id="ddlDays" AutoPostBack="true" style="text-transform:capitalize">
+    <asp:ListItem Value="Monday" />
+    <asp:ListItem Value="Tuesday" />
+    <asp:ListItem Value="Wednesday" />
+    <asp:ListItem Value="Thursday" />
+    <asp:ListItem Value="Friday" />
+    <asp:ListItem Value="Saturday" />
+    <asp:ListItem Value="Sunday" />
   </asp:DropDownList>
   
   <br /><br />

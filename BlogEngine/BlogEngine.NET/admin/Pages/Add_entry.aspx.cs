@@ -6,6 +6,7 @@ using System.Text;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Threading;
 using BlogEngine.Core;
 
 #endregion
@@ -97,6 +98,9 @@ public partial class admin_entry : System.Web.UI.Page
 
   #region Event handlers
 
+  /// <summary>
+  /// Creates and saves a new category
+  /// </summary>
   private void btnCategory_Click(object sender, EventArgs e)
   {
     if (Page.IsValid)
@@ -109,6 +113,9 @@ public partial class admin_entry : System.Web.UI.Page
     }
   }
 
+  /// <summary>
+  /// Saves the post
+  /// </summary>
   private void btnSave_Click(object sender, EventArgs e)
   {
     if (!Page.IsValid)
@@ -146,9 +153,12 @@ public partial class admin_entry : System.Web.UI.Page
     }
 
     post.Save();
-    if (!Request.IsLocal)
+    if (!Request.IsLocal && post.Content.ToLowerInvariant().Contains("http"))
     {
-      System.Threading.ThreadPool.QueueUserWorkItem(Ping, post);
+      ThreadStart threadStart = delegate { Ping(post); };
+      Thread thread = new Thread(threadStart);
+      thread.IsBackground = true;
+      thread.Start();
     }
 
     Response.Redirect(post.RelativeLink.ToString());
