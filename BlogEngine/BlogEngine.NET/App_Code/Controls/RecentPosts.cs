@@ -18,6 +18,8 @@ namespace Controls
     static RecentPosts()
     {
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+      Post.CommentAdded += delegate { _Html = null; };
+      Post.CommentRemoved += delegate { _Html = null; };
       BlogSettings.Changed += delegate { _Html = null; };
     }
 
@@ -55,7 +57,7 @@ namespace Controls
                   string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
                   if (post.Raters == 0)
                     rating = "Not rated yet";
-                  _Html += string.Format(link, post.RelativeLink, post.Title, Resources.labels.comments, post.Comments.Count, Resources.labels.rating, rating);
+                  _Html += string.Format(link, post.RelativeLink, post.Title, "Comments", post.Comments.Count, "Rating", rating);
                   counter++;
                 }
               }
