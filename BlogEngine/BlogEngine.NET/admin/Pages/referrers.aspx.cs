@@ -15,7 +15,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
   protected void Page_Load(object sender, EventArgs e)
   {
     if (!Page.IsPostBack)
-    {
+    {      
       if (BlogSettings.Instance.EnableReferrerTracking)
       {
         BindDays();
@@ -56,13 +56,16 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
   private void BindDays()
   {
+    int count = 0;
     foreach (ListItem item in ddlDays.Items)
     {
-      if (item.Text == DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture))
+      item.Text = DateTime.MinValue.AddDays(count).ToString("dddd");
+      if (item.Value == DateTime.Now.ToString("dddd", System.Globalization.CultureInfo.InvariantCulture))
       {
         item.Selected = true;
-        break;
       }
+
+      count++;
     }
   }
 

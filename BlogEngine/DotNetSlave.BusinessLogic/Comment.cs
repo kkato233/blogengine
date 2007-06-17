@@ -93,6 +93,14 @@ namespace BlogEngine.Core
       set { _IP = value; }
     }
 
+    private Post _Post;
+
+    public Post Post
+    {
+      get { return _Post; }
+      set { _Post = value; }
+    }
+
     private DateTime _DateCreated;
     /// <summary>
     /// Gets or sets when the comment was created.

@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using System.Web;
 using System.Globalization;
+using System.Threading;
 using System.Net.Mail;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -43,7 +44,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       else
       {
         BindCountries();
-        GetCookie();        
+        GetCookie();
         BindLivePreview();
       }
     }
@@ -89,6 +90,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     comment.Country = ddlCountry.SelectedValue;
     comment.Content = Server.HtmlEncode(txtContent.Text);
     comment.DateCreated = DateTime.Now;
+    comment.Post = Post;
     if (txtWebsite.Text.Trim().Length > 0)
     {
       if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
@@ -102,34 +104,34 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     Post.AddComment(comment);
   }
 
-public void BindCountries()
-{
-  System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
-  System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
-
-  foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
+  public void BindCountries()
   {
-    RegionInfo ri = new RegionInfo(ci.Name);
-    if (!dic.ContainsKey(ri.EnglishName))
-      dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
+    System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
+    System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
 
-    if (!col.Contains(ri.EnglishName))
-      col.Add(ri.EnglishName);
+    foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
+    {
+      RegionInfo ri = new RegionInfo(ci.Name);
+      if (!dic.ContainsKey(ri.EnglishName))
+        dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
+
+      if (!col.Contains(ri.EnglishName))
+        col.Add(ri.EnglishName);
+    }
+
+    col.Sort();
+
+    ddlCountry.Items.Add(new ListItem("[Not specified]", ""));
+    foreach (string key in col)
+    {
+      ddlCountry.Items.Add(new ListItem(key, dic[key]));
+    }
+
+    if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
+    {
+      ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
+    }
   }
-
-  col.Sort();
-
-  ddlCountry.Items.Add(new ListItem("[Not specified]", ""));
-  foreach (string key in col)
-  {
-    ddlCountry.Items.Add(new ListItem(key, dic[key]));
-  }
-
-  if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
-  {
-    ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
-  }
-}
 
   private void BindLivePreview()
   {
@@ -146,7 +148,7 @@ public void BindCountries()
 
     control.Comment = comment;
     control.Post = Post;
-     phLivePreview.Controls.Add(control);
+    phLivePreview.Controls.Add(control);
   }
 
   #region Send mail
@@ -163,23 +165,31 @@ public void BindCountries()
     mail.Body = "Comment by " + author + " (" + email + ")" + Environment.NewLine + Environment.NewLine;
     mail.Body += content + "\n\n" + Post.AbsoluteLink.ToString();
 
-    System.Threading.ThreadPool.QueueUserWorkItem(Send, mail);
+    ThreadStart threadStart = delegate { Send(mail); };
+    Thread thread = new Thread(threadStart);
+    thread.IsBackground = true;
+    thread.Start();
   }
 
-  private void Send(object stateInfo)
+  private void Send(MailMessage message)
   {
     try
     {
-      using (MailMessage mail = (MailMessage)stateInfo)
-      {
-        SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
-        smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
-        smtp.Port = BlogSettings.Instance.SmtpServerPort;
-        smtp.Send(mail);
-      }
+      SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
+      smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
+      smtp.Port = BlogSettings.Instance.SmtpServerPort;
+      smtp.Send(message);
     }
     catch (Exception)
-    { }
+    {
+      // Ignores if the mail server does not respond.
+    }
+    finally
+    {
+      // Remove the pointer to the message object so the GC can close the thread.
+      message.Dispose();
+      message = null;
+    }
   }
 
   #endregion
@@ -380,6 +390,8 @@ public void BindCountries()
     comment.IP = Request.UserHostAddress;
     comment.Country = country;// GetCountry();
     comment.DateCreated = DateTime.Now;
+    comment.Post = Post;
+
     if (website.Trim().Length > 0)
     {
       if (!website.ToLowerInvariant().Contains("://"))

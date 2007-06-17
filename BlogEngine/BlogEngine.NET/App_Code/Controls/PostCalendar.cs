@@ -31,7 +31,6 @@ namespace Controls
           base.VisibleDate = date;
       }
 
-      //Page.MaintainScrollPositionOnPostBack = true;
       base.OnPreRender(e);
       if (!ShowPostTitles)
         ShowTitle = false;
@@ -138,12 +137,6 @@ namespace Controls
       sb.Append("{" + Page.ClientScript.GetCallbackEventReference(this, "date", "UpdateCalendar", "date") + "}");
       sb.Append("else {UpdateCalendar(months[date], date)}");
       sb.Append("}");
-
-      //sb.AppendLine("function UpdateCalendar(args, context){");
-      //sb.AppendLine("var cal = document.getElementById('calendarContainer');");
-      //sb.AppendLine("cal.innerHTML = args;");
-      //sb.AppendLine("months[context] = args;");
-      //sb.AppendLine("}");
       sb.Append("</script>");
       return sb.ToString();
     }

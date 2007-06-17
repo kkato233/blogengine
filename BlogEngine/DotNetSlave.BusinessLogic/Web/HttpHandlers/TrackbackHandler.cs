@@ -46,7 +46,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         url = context.Request.Params["url"].Split(',')[0];
 
       if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(postId))
-      {        
+      {
         Post post = Post.GetPost(new Guid(postId));
         ExamineSourcePage(url, post.AbsoluteLink.ToString());
 
@@ -69,11 +69,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
       else
       {
-      //  Post post = Post.GetPost(new Guid(postId));
-      //  if (post != null)
-      //    context.Response.Redirect(post.RelativeLink.ToString());
-      //  else
-          context.Response.Redirect("~/");
+        context.Response.Redirect("~/");
       }
     }
 
@@ -88,6 +84,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       comment.Website = new Uri(sourceUrl);
       comment.Content = "Trackback from " + comment.Author + Environment.NewLine + Environment.NewLine + excerpt;
       comment.Email = "trackback";
+      comment.Post = post;
       comment.DateCreated = DateTime.Now;
       comment.IP = HttpContext.Current.Request.UserHostAddress;
 
@@ -99,11 +96,18 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     private void ExamineSourcePage(string sourceUrl, string targetUrl)
     {
-      using (WebClient client = new WebClient())
+      try
       {
-        string html = client.DownloadString(sourceUrl);
-        //_Title = _Regex.Match(html).Value.Trim();
-        _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
+        using (WebClient client = new WebClient())
+        {
+          string html = client.DownloadString(sourceUrl);
+          _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
+        }
+      }
+      catch (Exception ex)
+      {
+        _SourceHasLink = false;
+        throw new ArgumentException("Trackback sender does not exists: " + targetUrl, ex);
       }
     }
 
@@ -116,7 +120,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
       foreach (Comment comment in post.Comments)
       {
         if (comment.Website != null && comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
-          return false;
+          if (comment.IP != null && comment.IP == HttpContext.Current.Request.UserHostAddress)
+            return false;
       }
 
       return true;

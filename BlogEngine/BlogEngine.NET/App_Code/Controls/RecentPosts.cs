@@ -17,8 +17,14 @@ namespace Controls
 
     static RecentPosts()
     {
-      Post.Saved += delegate { _Html = null; };
+      Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
       BlogSettings.Changed += delegate { _Html = null; };
+    }
+
+    static void Post_Saved(object sender, SavedEventArgs e)
+    {
+      if (e.Action != SaveAction.Update)
+        _Html = null;
     }
 
     private static object _SyncRoot = new object();
@@ -38,14 +44,18 @@ namespace Controls
               if (number > Post.Posts.Count)
                 number = Post.Posts.Count;
 
-              _Html = "<ul>";
+              _Html = "<ul class=\"recentPosts\">";
               int counter = 1;
 
               foreach (Post post in Post.Posts)
               {
                 if (counter <= number && post.IsPublished)
                 {
-                  _Html += string.Format("<li><a href=\"{0}\">{1}</a></li>", post.RelativeLink, post.Title);
+                  string link = "<li><a href=\"{0}\">{1}</a><span>{2}: {3}</span><span>{4}: {5}</span></li>";
+                  string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                  if (post.Raters == 0)
+                    rating = "Not rated yet";
+                  _Html += string.Format(link, post.RelativeLink, post.Title, Resources.labels.comments, post.Comments.Count, Resources.labels.rating, rating);
                   counter++;
                 }
               }
@@ -64,7 +74,7 @@ namespace Controls
       if (Page.IsCallback)
         return;
 
-      writer.Write(Html);     
+      writer.Write(Html);
     }
   }
 }

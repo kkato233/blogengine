@@ -57,31 +57,6 @@ namespace Controls
       set { _Headline = value; }
     }
 
-    ///// <summary>
-    ///// It is a long running process to built the search catalog,
-    ///// so we only built it once an then updates it when new posts 
-    ///// are added or old ones updated.
-    ///// </summary>
-    //private Dictionary<Guid, string> Cache
-    //{
-    //  get
-    //  {
-    //      if (_Cache == null)
-    //      {
-    //        lock (_SyncRoot)
-    //        {
-    //          if (_Cache == null)
-    //          {
-    //            _Cache = new Dictionary<Guid, string>();
-    //            Post.Saved += delegate { _Cache = null; };
-    //          }
-    //        }
-    //      }
-
-    //    return _Cache;
-    //  }
-    //}
-
     #endregion
 
     #region Private fiels

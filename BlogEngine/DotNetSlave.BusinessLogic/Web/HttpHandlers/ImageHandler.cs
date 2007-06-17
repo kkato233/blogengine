@@ -47,10 +47,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
       if (!string.IsNullOrEmpty(context.Request.QueryString["picture"]))
       {
         string fileName = context.Request.QueryString["picture"];
-        string folder = BlogSettings.Instance.StorageLocation + "files/";
+        string folder = BlogSettings.Instance.StorageLocation + "files/";        
         if (File.Exists(context.Server.MapPath(folder) + fileName))
         {
           OnImageServing();
+          FileInfo fi = new FileInfo(context.Server.MapPath(folder) + fileName);
           int index = fileName.LastIndexOf(".") + 1;
           string extension = fileName.Substring(index).ToUpperInvariant();
           
@@ -62,6 +63,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
           context.Response.Cache.SetCacheability(HttpCacheability.Public);
           context.Response.Cache.SetETag(fileName);
+          context.Response.Cache.SetLastModified(fi.CreationTimeUtc);
           context.Server.Transfer(folder + fileName, false);
         }
         else

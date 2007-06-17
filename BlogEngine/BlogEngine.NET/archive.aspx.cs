@@ -56,7 +56,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       feed.HRef = "~/category/syndication.axd?category=" + key.ToString();
 
       HtmlImage img = new HtmlImage();
-      img.Src = "~/pics/rssButton.gif";
+      img.Src = "~/pics/rssbutton.gif";
       img.Alt = "RSS";
 
       feed.Controls.Add(img);

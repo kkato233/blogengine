@@ -8,6 +8,7 @@ using System.Collections;
 using System.Globalization;
 using BlogEngine.Core;
 using System.Net;
+using System.Threading;
 
 #endregion
 
@@ -22,7 +23,8 @@ namespace BlogEngine.Core.Web.HttpModules
     #region IHttpModule Members
 
     /// <summary>
-    /// 
+    /// Disposes of the resources (other than memory) used by the 
+    /// module that implements <see cref="T:System.Web.IHttpModule"></see>.
     /// </summary>
     public void Dispose()
     {
@@ -30,18 +32,25 @@ namespace BlogEngine.Core.Web.HttpModules
     }
 
     /// <summary>
-    /// 
+    /// Initializes a module and prepares it to handle requests.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">An <see cref="T:System.Web.HttpApplication"></see> that 
+    /// provides access to the methods, properties, and events common to all application 
+    /// objects within an ASP.NET application
+    /// </param>
     public void Init(HttpApplication context)
     {
-
       if (BlogSettings.Instance.EnableReferrerTracking)
         context.BeginRequest += new EventHandler(context_BeginRequest);
     }
 
     #endregion
 
+    /// <summary>
+    /// Handles the BeginRequest event of the context control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
@@ -53,8 +62,10 @@ namespace BlogEngine.Core.Web.HttpModules
         Uri referrer = context.Request.UrlReferrer;
         if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) && !IsSearchEngine(referrer.ToString()))
         {
-          //RegisterClick(referrer.ToString());
-          System.Threading.ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer.ToString(), context.Request.Url));
+          ThreadStart threadStart = delegate { BeginRegisterClick(new DictionaryEntry(referrer.ToString(), context.Request.Url)); };
+          Thread thread = new Thread(threadStart);
+          thread.IsBackground = true;
+          thread.Start();
         }
       }
     }
@@ -78,6 +89,14 @@ namespace BlogEngine.Core.Web.HttpModules
       return referrer.ToLowerInvariant().Contains("?q=") || referrer.ToLowerInvariant().Contains("&q=");
     }
 
+    /// <summary>
+    /// Determines whether the specified referrer is spam.
+    /// </summary>
+    /// <param name="referrer">The referrer.</param>
+    /// <param name="url">The URL.</param>
+    /// <returns>
+    /// 	<c>true</c> if the specified referrer is spam; otherwise, <c>false</c>.
+    /// </returns>
     private bool IsSpam(string referrer, Uri url)
     {
       try
@@ -128,6 +147,7 @@ namespace BlogEngine.Core.Web.HttpModules
       bool isSpam = IsSpam(referrer, url);
 
       RegisterClick(referrer, isSpam);
+      stateInfo = null;
     }
 
     private void RegisterClick(string url, bool isSpam)
@@ -136,7 +156,6 @@ namespace BlogEngine.Core.Web.HttpModules
 
       lock (_SyncRoot)
       {
-        //if (_Document == null)
         XmlDocument doc = CreateDocument(fileName);
 
         string address = HttpUtility.HtmlEncode(url);

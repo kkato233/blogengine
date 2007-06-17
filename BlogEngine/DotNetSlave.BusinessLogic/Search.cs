@@ -219,7 +219,10 @@ public static class Search
     if (_catalogIndex.Count == 0 && !_IsBuilingCatalog)
     {
       _IsBuilingCatalog = true;
-      ThreadPool.QueueUserWorkItem(BuildCatalog); ;// BuildCatalog(postsToSearch);    
+      ThreadStart threadStart = delegate { BuildCatalog(); };
+      Thread thread = new Thread(threadStart);
+      thread.IsBackground = true;
+      thread.Start();
       return new List<Post>();
     }
 
@@ -279,8 +282,7 @@ public static class Search
   /// <summary>
   /// Builds the catalog.
   /// </summary>
-  /// <param name="stateInfo">State information.</param>
-  private static void BuildCatalog(object stateInfo)
+  private static void BuildCatalog()
   {
     //To build the index we must first loop every post
     foreach (Post post in Post.Posts)

@@ -42,6 +42,11 @@
   <blog:RecentPosts runat="Server" />
 </div>
 
+<div class="box recent">
+  <h1>Recent comments</h1>
+  <blog:RecentComments runat="Server" />
+</div>
+
 <div class="box">
   <h1>Archive</h1>
   <blog:MonthList runat="server" />

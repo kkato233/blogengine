@@ -63,13 +63,6 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
       catch
       {
-        //StreamWriter writer = new StreamWriter(context.Server.MapPath("~/app_data/error.txt"), true);
-        //writer.WriteLine(ex.Message);
-        //writer.WriteLine(ex.StackTrace);
-        //writer.WriteLine();
-        //writer.WriteLine(html);
-        //writer.Flush();
-        //writer.Dispose();
         context.Response.Write("ERROR");
       }
     }
@@ -80,12 +73,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
     private void AddComment(string sourceUrl, Post post)
     {
       Comment comment = new Comment();
+      comment.Id = Guid.NewGuid();
       comment.Author = GetDomain(sourceUrl);
       comment.Website = new Uri(sourceUrl);
       comment.Content = "Pingback from " + comment.Author + Environment.NewLine + Environment.NewLine + _Title;
       comment.DateCreated = DateTime.Now;
       comment.Email = "pingback";
-      comment.IP = "n/a";
+      comment.IP = HttpContext.Current.Request.UserHostAddress;
+      comment.Post = post;
 
       post.AddComment(comment);
     }

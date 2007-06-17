@@ -20,7 +20,13 @@ namespace Controls
 
     static MonthList()
     {
-      Post.Saved += delegate { _Html = null; };
+      Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+    }
+
+    static void Post_Saved(object sender, SavedEventArgs e)
+    {
+      if (e.Action != SaveAction.Update)
+        _Html = null;
     }
 
     #region Properties
@@ -58,7 +64,7 @@ namespace Controls
 
       DateTime first = DateTime.Parse( Post.Posts[Post.Posts.Count -1].DateCreated.Date.ToString("yyyy-MM-") + "01");
       int year = first.Year;
-      int month = first.Month;      
+      int month = first.Month;
 
       while (first <= DateTime.Now)
       {

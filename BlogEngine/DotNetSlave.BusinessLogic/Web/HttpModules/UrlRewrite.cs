@@ -114,11 +114,6 @@ namespace BlogEngine.Core.Web.HttpModules
     {
       int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(lookFor) + lookFor.Length;
       int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(".aspx");
-      
-      // we need this for tags with PathInfo.
-      if (!context.Request.RawUrl.ToLowerInvariant().EndsWith(".aspx"))
-        stop = context.Request.RawUrl.Length;
-
       string title = context.Request.RawUrl.Substring(index, stop - index).Replace(".aspx", string.Empty).ToLowerInvariant();
       return context.Server.UrlEncode(title);
     }
