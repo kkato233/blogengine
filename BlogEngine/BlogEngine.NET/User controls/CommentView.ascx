@@ -33,8 +33,8 @@
   
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
   <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
-  <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" />&nbsp;
-  <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" /><br /><br />
+  <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" EnableViewState="false" />&nbsp;
+  <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
   <%} %>
 
   <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label>

@@ -20,6 +20,7 @@ namespace Controls
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
       Post.CommentAdded += delegate { _Html = null; };
       Post.CommentRemoved += delegate { _Html = null; };
+      Post.Rated += delegate { _Html = null; };
       BlogSettings.Changed += delegate { _Html = null; };
     }
 
