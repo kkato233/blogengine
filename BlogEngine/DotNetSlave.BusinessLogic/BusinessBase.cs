@@ -277,6 +277,7 @@ namespace BlogEngine.Core
     private void Update()
     {
       SaveAction action = SaveAction.None;
+      
       if (this.IsDeleted)
       {
         if (!this.IsNew)
@@ -302,9 +303,10 @@ namespace BlogEngine.Core
           action = SaveAction.Update;
         }
 
-        MarkOld();
-        OnSaved(this, action);
+        MarkOld();        
       }
+
+      OnSaved(this, action);
     }
 
     #endregion

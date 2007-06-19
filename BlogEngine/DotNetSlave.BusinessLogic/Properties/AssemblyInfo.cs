@@ -25,4 +25,4 @@ using System;
 [assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.blog.js", "application/x-javascript")]
 [assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.se_hilite.js", "application/x-javascript")]
 
-[assembly: AssemblyVersion("1.1.0.3")]
+[assembly: AssemblyVersion("1.1.0.4")]

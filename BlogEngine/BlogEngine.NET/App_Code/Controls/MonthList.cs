@@ -20,71 +20,66 @@ namespace Controls
 
     static MonthList()
     {
+      BindMonths();
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
     }
 
     static void Post_Saved(object sender, SavedEventArgs e)
     {
       if (e.Action != SaveAction.Update)
-        _Html = null;
+        BindMonths();
     }
 
-    #region Properties
+    #region Private fields
 
     private static object _SyncRoot = new object();
-    private static string _Html;
-    
-    private string Html
-    {
-      get
-      {
-        if (_Html == null)
-        {
-          lock (_SyncRoot)
-          {
-            if (_Html == null)
-            {
-              HtmlGenericControl ul = BindMonths();
-              System.IO.StringWriter sw = new System.IO.StringWriter();
-              ul.RenderControl(new HtmlTextWriter(sw));
-              _Html = sw.ToString();
-            }
-          }
-        }
+    private static Dictionary<DateTime, int> _Months = new Dictionary<DateTime, int>();
+   
+    #endregion
 
-        return _Html;
+    private static void BindMonths()
+    {
+      lock (_SyncRoot)
+      {
+        _Months.Clear();
+        DateTime first = DateTime.Parse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01");
+        int year = first.Year;
+        int month = first.Month;
+
+        while (first <= DateTime.Now)
+        {
+          List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddDays(-1));
+          if (list.Count > 0)
+          {
+            DateTime date = DateTime.Parse(first.Year + "-" + first.Month + "-01");
+            int posts = list.Count;
+            _Months.Add(date, posts);
+          }
+
+          first = first.AddMonths(1);
+        }
       }
     }
 
-    #endregion
-
-    private HtmlGenericControl BindMonths()
+    private string RenderMonths()
     {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");      
+      HtmlGenericControl ul = new HtmlGenericControl("ul");
 
-      DateTime first = DateTime.Parse( Post.Posts[Post.Posts.Count -1].DateCreated.Date.ToString("yyyy-MM-") + "01");
-      int year = first.Year;
-      int month = first.Month;
-
-      while (first <= DateTime.Now)
+      foreach (DateTime date in _Months.Keys)
       {
-        List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddDays(-1));
-        if (list.Count > 0)
-        {
-          HtmlGenericControl li = new HtmlGenericControl("li");
+        HtmlGenericControl li = new HtmlGenericControl("li");
 
-          HtmlAnchor anc = new HtmlAnchor();
-          anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "?year=" + first.Year + "&amp;month=" + first.Month;
-          anc.InnerHtml = DateTime.Parse(first.Year + "-" + first.Month + "-01").ToString("MMMM") + " " + first.Year + " (" + list.Count + ")";
+        HtmlAnchor anc = new HtmlAnchor();
+        anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "?year=" + date.Year + "&amp;month=" + date.Month;
+        anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " " + date.Year + " (" + _Months[date] + ")";
 
-          li.Controls.Add(anc);
-          ul.Controls.AddAt(0, li);          
-        }
-
-        first = first.AddMonths(1);
+        li.Controls.Add(anc);
+        ul.Controls.AddAt(0, li);
       }
 
-      return ul;
+      System.IO.StringWriter sw = new System.IO.StringWriter();
+      ul.RenderControl(new HtmlTextWriter(sw));
+      return sw.ToString();
     }
 
     private SortedDictionary<string, Guid> SortGategories(Dictionary<Guid, string> categories)
@@ -105,7 +100,8 @@ namespace Controls
     {
       if (Post.Posts.Count > 0)
       {
-        writer.Write(Html);
+        string html = RenderMonths();
+        writer.Write(html);
         writer.Write(Environment.NewLine);
       }
     }

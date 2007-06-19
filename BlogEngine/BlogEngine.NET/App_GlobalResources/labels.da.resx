@@ -219,20 +219,32 @@
   <data name="enableComments" xml:space="preserve">
     <value>Slå kommentarer til</value>
   </data>
+  <data name="enableCommentsDescription" xml:space="preserve">
+    <value>Hvis kommentarer er slået fra, så kan ingen skrive kommentarer til indlæggene</value>
+  </data>
   <data name="enableCommentSearch" xml:space="preserve">
     <value>Tillad kommentar søgning</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Slå HTTP kompression til</value>
   </data>
+  <data name="enableHttpCompressionDescription" xml:space="preserve">
+    <value>Får siderne til at loade hurtigere (anbefalet).</value>
+  </data>
   <data name="enableOpenSearch" xml:space="preserve">
     <value>Slå OpenSearch til</value>
+  </data>
+  <data name="enableOpenSearchDescription" xml:space="preserve">
+    <value>Tilføjer bloggen til listen over søgemaskiner i alle nye browsere (anbefalet).</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
     <value>Slå hentning af henvisninger til</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
     <value>Fremhæv søgeord</value>
+  </data>
+  <data name="enableSearchHighlightDescription" xml:space="preserve">
+    <value>Fremhæver søgeordene på siden</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
@@ -270,8 +282,14 @@
   <data name="message" xml:space="preserve">
     <value>Besked</value>
   </data>
+  <data name="more" xml:space="preserve">
+    <value>Mere</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Navn</value>
+  </data>
+  <data name="notRatedYet" xml:space="preserve">
+    <value>Ingen point endnu</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
     <value>Antal viste indlæg</value>
@@ -285,11 +303,14 @@
   <data name="password" xml:space="preserve">
     <value>Kodeord</value>
   </data>
+  <data name="portNumber" xml:space="preserve">
+    <value>Port nummer</value>
+  </data>
+  <data name="portNumberDescription" xml:space="preserve">
+    <value>Port 25 er standard</value>
+  </data>
   <data name="possibleSpam" xml:space="preserve">
     <value>Mulig spam</value>
-  </data>
-  <data name="postNumber" xml:space="preserve">
-    <value>Post nummer</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
     <value>Indlæg pr. side</value>
@@ -324,6 +345,9 @@
   <data name="savePost" xml:space="preserve">
     <value>Gem indlæg</value>
   </data>
+  <data name="saveSettings" xml:space="preserve">
+    <value>Gem instillingerne</value>
+  </data>
   <data name="searchField" xml:space="preserve">
     <value>Søgefelt</value>
   </data>
@@ -344,6 +368,9 @@
   </data>
   <data name="showCountryChooser" xml:space="preserve">
     <value>Vis landevælger</value>
+  </data>
+  <data name="showCountryChooserDescription" xml:space="preserve">
+    <value>Hvis landevælgeren er slået fra, så kan der ikke vises et flag på hver kommentar</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Vis live preview</value>
@@ -378,6 +405,9 @@
   <data name="trimStylesheet" xml:space="preserve">
     <value>Trim stylesheets</value>
   </data>
+  <data name="trimStylesheetDescription" xml:space="preserve">
+    <value>Gør alle stylesheets i alle temaer mindre ved at fjerne mellemrum.</value>
+  </data>
   <data name="updateFrequenzy" xml:space="preserve">
     <value>Opdateringsfrekvens (minutter)</value>
   </data>
@@ -398,6 +428,9 @@
   </data>
   <data name="willShowGravatar" xml:space="preserve">
     <value>Viser dit {0} icon</value>
+  </data>
+  <data name="wrote" xml:space="preserve">
+    <value>skrev</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
     <value>Du har allerede givet point til denne post</value>
