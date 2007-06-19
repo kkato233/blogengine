@@ -4,7 +4,7 @@
 <br />
 
 <div style="text-align:right">
-  <asp:Button runat="server" ID="btnSaveTop" />
+  <asp:Button runat="server" ID="btnSaveTop" Text="<%$ Resources:labels, saveSettings %>" />
 </div><br />
 
 <div class="settings">
@@ -64,16 +64,16 @@
 
   <h1><%=Resources.labels.advanced %> <%=Resources.labels.settings %></h1>
   <label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label>
-  <asp:CheckBox runat="server" ID="cbEnableCompression" /> Make the pages load faster (recommended).<br />
+  <asp:CheckBox runat="server" ID="cbEnableCompression" /> <%=Resources.labels.enableHttpCompressionDescription %><br />
   
   <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>"><%=Resources.labels.trimStylesheet %></label>
-  <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /> Makes all stylesheets of any theme smaller by removing all whitespace at runtime.<br />
+  <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /> <%=Resources.labels.trimStylesheetDescription %><br />
   
   <label for="<%=cbEnableOpenSearch.ClientID %>"><%=Resources.labels.enableOpenSearch %></label>
-  <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /> Adds the search feature to all new browsers (recommended).<br />
+  <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /> <%=Resources.labels.enableOpenSearchDescription %><br />
   
   <label for="<%=cbEnableSearchHighlight.ClientID %>"><%=Resources.labels.enableSearchHighlight %></label>
-  <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> Colors the search words on the page.<br />
+  <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> <%=Resources.labels.enableSearchHighlightDescription %><br />
   
 </div>
 
@@ -81,10 +81,10 @@
 
   <h1><%=Resources.labels.comments %></h1>
   <label for="<%=cbEnableComments.ClientID %>"><%=Resources.labels.enableComments %></label>
-  <asp:CheckBox runat="server" ID="cbEnableComments" /> If comments aren't enabled, nobody can write comments to any post.<br />
+  <asp:CheckBox runat="server" ID="cbEnableComments" /> <%=Resources.labels.enableCommentsDescription %><br />
   
   <label for="<%=cbEnableCountryInComments.ClientID %>"><%=Resources.labels.showCountryChooser %></label>
-  <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /> If the country chooser isn't shown, no flag can be shown on each comment.<br />
+  <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /> <%=Resources.labels.showCountryChooserDescription %><br />
   
   <label for="<%=cbEnableCoComment.ClientID %>"><%=Resources.labels.enableCoComments %></label>
   <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />
@@ -117,8 +117,8 @@
   <label for="<%=txtSmtpServer.ClientID %>">SMTP server</label>
   <asp:TextBox runat="server" ID="txtSmtpServer" Width="300" /><br />
   
-  <label for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.postNumber %></label>
-  <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /> Port 25 is the standard
+  <label for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.portNumber %></label>
+  <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /> <%=Resources.labels.portNumberDescription %>
   <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
   
   <label for="<%=txtSmtpUsername.ClientID %>"><%=Resources.labels.userName %></label>
@@ -190,7 +190,7 @@
 
 </div>
 
-<div align="right"><asp:Button runat="server" ID="btnSave" /></div>
+<div align="right"><asp:Button runat="server" ID="btnSave" Text="<%$ Resources:labels, saveSettings %>" /></div>
 <br />
 
 </asp:Content>

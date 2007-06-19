@@ -3,6 +3,8 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using System.Text;
+using System.Collections.Generic;
 using BlogEngine.Core;
 
 #endregion
@@ -17,67 +19,71 @@ namespace Controls
 
     static RecentPosts()
     {
+      BuildPostList();
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
-      Post.CommentAdded += delegate { _Html = null; };
-      Post.CommentRemoved += delegate { _Html = null; };
-      Post.Rated += delegate { _Html = null; };
-      BlogSettings.Changed += delegate { _Html = null; };
+      Post.CommentAdded += delegate { BuildPostList(); };
+      Post.CommentRemoved += delegate { BuildPostList(); };
+      Post.Rated += delegate { BuildPostList(); };
+      BlogSettings.Changed += delegate { BuildPostList(); };
     }
 
     static void Post_Saved(object sender, SavedEventArgs e)
     {
       if (e.Action != SaveAction.Update)
-        _Html = null;
+        BuildPostList();
     }
 
     private static object _SyncRoot = new object();
-    private static string _Html;
+    private static List<Post> _Posts = new List<Post>();
 
-    private string Html
+    private static void BuildPostList()
     {
-      get
+      lock (_SyncRoot)
       {
-        if (_Html == null)
+        int number = BlogSettings.Instance.NumberOfRecentPosts;
+        if (number > Post.Posts.Count)
+          number = Post.Posts.Count;
+
+        int counter = 1;
+        _Posts.Clear();
+        foreach (Post post in Post.Posts)
         {
-          lock (_SyncRoot)
+          if (counter <= number && post.IsPublished)
           {
-            if (_Html == null)
-            {
-              int number = BlogSettings.Instance.NumberOfRecentPosts;
-              if (number > Post.Posts.Count)
-                number = Post.Posts.Count;
-
-              _Html = "<ul class=\"recentPosts\">";
-              int counter = 1;
-
-              foreach (Post post in Post.Posts)
-              {
-                if (counter <= number && post.IsPublished)
-                {
-                  string link = "<li><a href=\"{0}\">{1}</a><span>{2}: {3}</span><span>{4}: {5}</span></li>";
-                  string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                  if (post.Raters == 0)
-                    rating = "Not rated yet";
-                  _Html += string.Format(link, post.RelativeLink, post.Title, "Comments", post.Comments.Count, "Rating", rating);
-                  counter++;
-                }
-              }
-
-              _Html += "</ul>";
-            }
+            _Posts.Add(post);
+            counter++;
           }
         }
-
-        return _Html;
       }
+    }
+
+    private static string RenderPosts()
+    {
+      StringBuilder sb = new StringBuilder();
+      sb.Append("<ul class=\"recentPosts\">");
+
+      foreach (Post post in _Posts)
+      {
+        string link = "<li><a href=\"{0}\">{1}</a><span>{2}: {3}</span><span>{4}: {5} / {6}</span></li>";
+        string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        if (post.Raters == 0)
+          rating = Resources.labels.notRatedYet;
+
+        sb.AppendFormat(link, post.RelativeLink, post.Title, Resources.labels.comments, post.Comments.Count, Resources.labels.rating, rating, post.Raters);
+      }
+
+      sb.Append("</ul>");
+      return sb.ToString();
     }
 
     public override void RenderControl(HtmlTextWriter writer)
     {
       if (Page.IsCallback)
         return;
-
-      writer.Write(Html);
+      
+      string html = RenderPosts();
+      writer.Write(html);
     }
   }
 }

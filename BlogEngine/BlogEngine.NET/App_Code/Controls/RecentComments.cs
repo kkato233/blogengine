@@ -20,69 +20,68 @@ namespace Controls
 
     static RecentComments()
     {
-      CreateHtml();
-      Post.CommentAdded += delegate { CreateHtml(); };
-      Post.CommentRemoved += delegate { CreateHtml(); };
+      BindComments();
+      Post.CommentAdded += delegate { BindComments(); };
+      Post.CommentRemoved += delegate { BindComments(); };
+      Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
     }
 
-    #region Properties
+    static void Post_Saved(object sender, SavedEventArgs e)
+    {
+      if (e.Action == SaveAction.Delete)
+        BindComments();
+    }
 
+    #region Private fields
+
+    private const int NUMBER_OF_COMMENTS = 10;
     private static object _SyncRoot = new object();
-    private static string _Html;
-
-    private static string Html
-    {
-      get { return _Html; }      
-    }
-
-    private static void CreateHtml()
-    {
-      try
-      {
-        HtmlGenericControl ul = BindComments();
-        System.IO.StringWriter sw = new System.IO.StringWriter();
-        ul.RenderControl(new HtmlTextWriter(sw));
-        _Html = sw.ToString();
-      }
-      catch
-      {
-        // An unhandled exception will cause the Post.CommentAdded
-        // event to stop woking.
-      }
-    }
+    private static List<Comment> _Comments = new List<Comment>();
 
     #endregion
 
-    private static HtmlGenericControl BindComments()
+    private static void BindComments()
+    {
+      lock (_SyncRoot)
+      {
+        _Comments.Clear();
+        List<Comment> comments = new List<Comment>();
+
+        foreach (Post post in Post.Posts)
+        {
+          foreach (Comment comment in post.Comments)
+          {
+            comments.Add(comment);
+          }
+        }
+
+        comments.Sort();
+        comments.Reverse();
+        int counter = 0;
+
+        foreach (Comment comment in comments)
+        {
+          if (counter == NUMBER_OF_COMMENTS)
+            break;
+
+          if (comment.Email == "pingback" || comment.Email == "trackback")
+            continue;
+
+          _Comments.Add(comment);
+          counter++;
+        }
+
+        comments.Clear();
+      }
+    }
+
+    private string RenderComments()
     {
       HtmlGenericControl ul = new HtmlGenericControl("ul");
       ul.Attributes.Add("class", "recentComments");
 
-      List<Comment> comments = new List<Comment>();
-
-      foreach (Post post in Post.Posts)
+      foreach (Comment comment in _Comments)
       {
-        foreach (Comment comment in post.Comments)
-        {
-          comments.Add(comment);
-        }
-      }
-
-      comments.Sort();
-      comments.Reverse();
-      int max = 10;
-      int counter = 0;
-
-      foreach (Comment comment in comments)
-      {
-        if (counter == max)
-          break;
-
-        if (comment.Email == "pingback" || comment.Email == "trackback")
-          continue;
-
-        int length = comment.Post.Title.Length <= 25 ? comment.Post.Title.Length : 25;
-
         HtmlGenericControl li = new HtmlGenericControl("li");
 
         // The post title
@@ -104,12 +103,12 @@ namespace Controls
           author.InnerHtml = comment.Author;
           li.Controls.Add(author);
 
-          LiteralControl wrote = new LiteralControl(" wrote: ");
+          LiteralControl wrote = new LiteralControl(" " + Resources.labels.wrote + ": ");
           li.Controls.Add(wrote);
         }
         else
         {
-          LiteralControl author = new LiteralControl(comment.Author + " wrote: ");
+          LiteralControl author = new LiteralControl(comment.Author + " " + Resources.labels.wrote + ": ");
           li.Controls.Add(author);
         }
 
@@ -120,16 +119,17 @@ namespace Controls
 
         // The comment link
         HtmlAnchor link = new HtmlAnchor();
-        link.HRef = comment.Post.RelativeLink +  "#id_" + comment.Id;
-        link.InnerHtml = "[more]";
+        link.HRef = comment.Post.RelativeLink + "#id_" + comment.Id;
+        link.InnerHtml = "[" + Resources.labels.more + "]";
         link.Attributes.Add("class", "moreLink");
         li.Controls.Add(link);
 
         ul.Controls.Add(li);
-        counter++;
       }
 
-      return ul;
+      StringWriter sw = new StringWriter();
+      ul.RenderControl(new HtmlTextWriter(sw));
+      return sw.ToString();
     }
 
     /// <summary>
@@ -139,7 +139,8 @@ namespace Controls
     {
       if (Post.Posts.Count > 0)
       {
-        writer.Write(Html);
+        string html = RenderComments();
+        writer.Write(html);
         writer.Write(Environment.NewLine);
       }
     }

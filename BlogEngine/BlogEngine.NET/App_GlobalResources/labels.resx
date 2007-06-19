@@ -219,20 +219,32 @@
   <data name="enableComments" xml:space="preserve">
     <value>Enable comments</value>
   </data>
+  <data name="enableCommentsDescription" xml:space="preserve">
+    <value>If comments aren't enabled, nobody can write comments to any post.</value>
+  </data>
   <data name="enableCommentSearch" xml:space="preserve">
     <value>Enable comment search</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Enable HTTP compression</value>
   </data>
+  <data name="enableHttpCompressionDescription" xml:space="preserve">
+    <value>Make the pages load faster (recommended).</value>
+  </data>
   <data name="enableOpenSearch" xml:space="preserve">
     <value>Enable OpenSearch</value>
+  </data>
+  <data name="enableOpenSearchDescription" xml:space="preserve">
+    <value>Adds the search feature to all new browsers (recommended).</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
     <value>Enable referrer tracking</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
     <value>Enable search highlight</value>
+  </data>
+  <data name="enableSearchHighlightDescription" xml:space="preserve">
+    <value>Colors the search words on the page.</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
@@ -270,8 +282,14 @@
   <data name="message" xml:space="preserve">
     <value>Message</value>
   </data>
+  <data name="more" xml:space="preserve">
+    <value>More</value>
+  </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="notRatedYet" xml:space="preserve">
+    <value>Not rated yet</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
     <value># of displayed items</value>
@@ -285,11 +303,14 @@
   <data name="password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="portNumber" xml:space="preserve">
+    <value>Port number</value>
+  </data>
+  <data name="portNumberDescription" xml:space="preserve">
+    <value>Port 25 is the standard Not</value>
+  </data>
   <data name="possibleSpam" xml:space="preserve">
     <value>Possible spam</value>
-  </data>
-  <data name="postNumber" xml:space="preserve">
-    <value>Port number</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
     <value>Posts per page</value>
@@ -324,6 +345,9 @@
   <data name="savePost" xml:space="preserve">
     <value>Save post</value>
   </data>
+  <data name="saveSettings" xml:space="preserve">
+    <value>Save settings</value>
+  </data>
   <data name="searchField" xml:space="preserve">
     <value>Search field</value>
   </data>
@@ -344,6 +368,9 @@
   </data>
   <data name="showCountryChooser" xml:space="preserve">
     <value>Show country chooser</value>
+  </data>
+  <data name="showCountryChooserDescription" xml:space="preserve">
+    <value>If the country chooser isn't shown, no flag can be shown on each comment.</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Show live preview</value>
@@ -378,6 +405,9 @@
   <data name="trimStylesheet" xml:space="preserve">
     <value>Trim stylesheets</value>
   </data>
+  <data name="trimStylesheetDescription" xml:space="preserve">
+    <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
+  </data>
   <data name="updateFrequenzy" xml:space="preserve">
     <value>Update frequency (minutes)</value>
   </data>
@@ -398,6 +428,9 @@
   </data>
   <data name="willShowGravatar" xml:space="preserve">
     <value>Will show your {0} icon</value>
+  </data>
+  <data name="wrote" xml:space="preserve">
+    <value>wrote</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
     <value>You already rated this post</value>
