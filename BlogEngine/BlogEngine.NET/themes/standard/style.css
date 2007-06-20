@@ -457,6 +457,19 @@ ul.recentComments li a.postTitle{
 }
 
 /*----------------------------
+				Month list
+----------------------------*/
+
+ul.monthList{
+	font-weight: bold;
+}
+
+ul.monthList ul li{
+	margin-left: 10px;
+	font-weight: normal;
+}
+
+/*----------------------------
 				 Tag cloud
 ----------------------------*/
 
