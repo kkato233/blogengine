@@ -64,18 +64,24 @@ namespace Controls
     private string RenderMonths()
     {
       HtmlGenericControl ul = new HtmlGenericControl("ul");
-      ul.Attributes.Add("class", "monthList");
+      ul.Attributes.Add("id", "monthList");
       HtmlGenericControl year = null;
       HtmlGenericControl list = null;
       foreach (DateTime date in _Months.Keys)
       {
         if (date.Month == 1 || ul.Controls.Count == 0)
         {
-          year = new HtmlGenericControl("li");
           list = new HtmlGenericControl("ul");
+          list.ID = date.Year.ToString();
+
+          year = new HtmlGenericControl("li");
           year.Attributes.Add("class", "year");
+          year.Attributes.Add("onclick", "ToggleMonth(" + date.Year + ")");
           year.InnerHtml = date.Year.ToString();
           year.Controls.Add(list);
+
+          if (date.Year == DateTime.Now.Year)
+            list.Attributes.Add("class", "open");
          
           ul.Controls.AddAt(0, year);
         }

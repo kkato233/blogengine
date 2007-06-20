@@ -153,3 +153,18 @@ function UpdateCalendar(args, context)
   cal.innerHTML = args;
   months[context] = args;
 }
+
+function ToggleMonth(year)
+{
+  var monthList = document.getElementById("monthList");
+  var years = monthList.getElementsByTagName("ul");
+  for (i = 0; i < years.length; i++)
+  {
+    if (years[i].id == year)
+    {
+      var state = years[i].className == "open" ? "" : "open";
+      years[i].className = state;
+      break;
+    }
+  }
+}
