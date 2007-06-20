@@ -64,17 +64,30 @@ namespace Controls
     private string RenderMonths()
     {
       HtmlGenericControl ul = new HtmlGenericControl("ul");
-
+      ul.Attributes.Add("class", "monthList");
+      HtmlGenericControl year = null;
+      HtmlGenericControl list = null;
       foreach (DateTime date in _Months.Keys)
       {
+        if (date.Month == 1 || ul.Controls.Count == 0)
+        {
+          year = new HtmlGenericControl("li");
+          list = new HtmlGenericControl("ul");
+          year.Attributes.Add("class", "year");
+          year.InnerHtml = date.Year.ToString();
+          year.Controls.Add(list);
+         
+          ul.Controls.AddAt(0, year);
+        }
+
         HtmlGenericControl li = new HtmlGenericControl("li");
 
         HtmlAnchor anc = new HtmlAnchor();
         anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "?year=" + date.Year + "&amp;month=" + date.Month;
-        anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " " + date.Year + " (" + _Months[date] + ")";
+        anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " (" + _Months[date] + ")";
 
         li.Controls.Add(anc);
-        ul.Controls.AddAt(0, li);
+        list.Controls.AddAt(0, li);
       }
 
       System.IO.StringWriter sw = new System.IO.StringWriter();
