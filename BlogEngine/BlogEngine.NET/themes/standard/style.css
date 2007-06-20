@@ -460,13 +460,25 @@ ul.recentComments li a.postTitle{
 				Month list
 ----------------------------*/
 
-ul.monthList{
+ul#monthList{
 	font-weight: bold;
 }
 
-ul.monthList ul li{
-	margin-left: 10px;
+ul#monthList ul li{
+	margin-left: 20px;
 	font-weight: normal;
+}
+
+ul#monthList li.year{
+  cursor: pointer;
+}
+
+ul#monthList ul{
+	display: none;
+}
+
+ul#monthList ul.open{
+	display: block;
 }
 
 /*----------------------------
