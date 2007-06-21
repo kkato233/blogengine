@@ -451,9 +451,6 @@ namespace BlogEngine.Core.Providers
 
     public override StringDictionary LoadSettings()
     {
-      //XmlBlogProvider prov = new XmlBlogProvider();
-      //return prov.LoadSettings();
-
       StringDictionary dic = new StringDictionary();
       SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 
@@ -496,6 +493,8 @@ namespace BlogEngine.Core.Providers
         cmd.ExecuteNonQuery();
       }
 
+      conn.Close();
+
     }
 
     #endregion
@@ -508,7 +507,24 @@ namespace BlogEngine.Core.Providers
     /// <returns></returns>
     public override StringCollection LoadPingServices()
     {
-      throw new Exception("The method or operation is not implemented.");
+      StringCollection col = new StringCollection();
+      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+
+      string sqlQuery = "SELECT Link FROM be_PingService";
+      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+      conn.Open();
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        col.Add(rdr.GetString(0));
+      }
+
+      rdr.Close();
+      conn.Close();
+
+      return col;
+
     }
 
     /// <summary>
@@ -517,7 +533,25 @@ namespace BlogEngine.Core.Providers
     /// <param name="services">The services.</param>
     public override void SavePingServices(StringCollection services)
     {
-      throw new Exception("The method or operation is not implemented.");
+      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+
+      string sqlQuery = "TRUNCATE TABLE be_PingService";
+      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+      conn.Open();
+      cmd.ExecuteNonQuery();
+
+      foreach (string service in services)
+      {
+        sqlQuery = "INSERT INTO be_PingService (Link) " +
+                    "VALUES (@link)";
+        cmd.CommandText = sqlQuery;
+        cmd.Parameters.Clear();
+        cmd.Parameters.Add(new SqlParameter("@link", service));
+        cmd.ExecuteNonQuery();
+      }
+
+      conn.Close();
+
     }
 
     #endregion
