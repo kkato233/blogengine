@@ -375,6 +375,20 @@ namespace BlogEngine.Core.API.MetaWeblog
             data.WriteEndElement();
             data.WriteEndElement();
 
+            // tags (mt_keywords)
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "mt_keywords");
+            data.WriteStartElement("value");
+            string[] tags = new string[_post.tags.Count];
+            for (int i = 0; i < _post.tags.Count; i++)
+            {
+              tags[i] = _post.tags[i];
+            }
+            string tagList = string.Join(",", tags);
+            data.WriteElementString("string", tagList);
+            data.WriteEndElement();
+            data.WriteEndElement();
+
             // categories
             if (_post.categories.Count > 0)
             {
@@ -451,6 +465,20 @@ namespace BlogEngine.Core.API.MetaWeblog
                 data.WriteElementString("name", "link");
                 data.WriteStartElement("value");
                 data.WriteElementString("string", post.link);
+                data.WriteEndElement();
+                data.WriteEndElement();
+                
+                // tags (mt_keywords)
+                data.WriteStartElement("member");
+                data.WriteElementString("name", "mt_keywords");
+                data.WriteStartElement("value");
+                string[] tags = new string[post.tags.Count];
+                for (int i = 0; i < post.tags.Count; i++)
+                {
+                  tags[i] = post.tags[i];
+                }
+                string tagList = string.Join(",", tags);
+                data.WriteElementString("string", tagList);
                 data.WriteEndElement();
                 data.WriteEndElement();
 

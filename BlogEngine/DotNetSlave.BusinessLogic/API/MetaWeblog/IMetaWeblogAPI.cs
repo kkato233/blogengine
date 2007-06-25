@@ -254,6 +254,10 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// </summary>
         public List<string> categories;
         /// <summary>
+        /// List of Tags assinged for Blog Post
+        /// </summary>
+        public List<string> tags;
+        /// <summary>
         /// Display date of Blog Post (DateCreated)
         /// </summary>
         public DateTime postDate;

@@ -166,7 +166,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             byte[] buffer = new byte[context.Request.InputStream.Length];
             context.Request.InputStream.Read(buffer, 0, buffer.Length);
 
-            return System.Text.Encoding.Default.GetString(buffer);
+            return System.Text.Encoding.UTF8.GetString(buffer);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             XmlDocument request = new XmlDocument();
             try
             {
-                if (!xml.StartsWith("<?xml"))
+                if (!xml.StartsWith("<?xml", StringComparison.Ordinal))
                 {
                     xml = xml.Substring(xml.IndexOf("<?xml"));
                 }
@@ -284,6 +284,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         {
             MWAPost temp = new MWAPost();
             List<string> cats = new List<string>();
+            List<string> tags = new List<string>();
             
             // Require Title and Description
             try
@@ -308,8 +309,19 @@ namespace BlogEngine.Core.API.MetaWeblog
                     cats.Add(catnode.InnerText);
                 }
             }
-
             temp.categories = cats;
+
+            // WLW tags implementation using mt_keywords
+            if (node.SelectSingleNode("value/struct/member[name='mt_keywords']") != null)
+            {
+              string tagsList = node.SelectSingleNode("value/struct/member[name='mt_keywords']").LastChild.InnerText;
+              foreach (string item in tagsList.Split(','))
+              {
+                tags.Add(item.Trim().ToLowerInvariant());
+              }
+
+            }
+            temp.tags = tags;
 
             return temp;
         }

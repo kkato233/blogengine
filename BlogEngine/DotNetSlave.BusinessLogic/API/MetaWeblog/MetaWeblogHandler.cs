@@ -119,14 +119,17 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Title = sentPost.title;
             post.Content = sentPost.description;
             post.IsPublished = publish;
-            //post.IsCommentsEnabled ??
             post.Categories.Clear();
-
             foreach (string item in sentPost.categories)
             {
                 Guid key;
                 if (LookupCategoryGuidByName(item, out key))
                     post.Categories.Add(key);
+            }
+            post.Tags.Clear();
+            foreach (string item in sentPost.tags)
+            {
+                post.Tags.Add(item);
             }
 
             post.Save();
@@ -153,15 +156,18 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Title = sentPost.title;
             post.Content = sentPost.description;
             post.IsPublished = publish;
-            //post.IsCommentsEnabled ??
             post.Categories.Clear();
-
             foreach (string item in sentPost.categories)
             {
                 // Ignore categories not found (as per spec)
                 Guid key;
                 if (LookupCategoryGuidByName(item, out key))
                     post.Categories.Add(key);
+            }
+            post.Tags.Clear();
+            foreach (string item in sentPost.tags)
+            {
+              post.Tags.Add(item);
             }
 
             post.Save();
@@ -196,6 +202,13 @@ namespace BlogEngine.Core.API.MetaWeblog
                 cats.Add(CategoryDictionary.Instance[post.Categories[i]]);
             }
             sendPost.categories = cats;
+
+            List<string> tags = new List<string>();
+            for (int i = 0; i < post.Tags.Count; i++)
+            {
+              tags.Add(post.Tags[i]);
+            }
+            sendPost.tags = tags;
 
             return sendPost;
         }
@@ -241,6 +254,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             FileStream fs = new FileStream(saveFolder + fileName, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
             bw.Write(mediaObject.bits);
+            bw.Close();
 
             // Set Url
             string rootUrl = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd"));
@@ -315,6 +329,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             {
                 MWAPost tempPost = new MWAPost();
                 List<string> tempCats = new List<string>();
+                List<string> tempTags = new List<string>();
 
                 tempPost.postID = post.Id.ToString();
                 tempPost.postDate = post.DateCreated;
@@ -327,6 +342,12 @@ namespace BlogEngine.Core.API.MetaWeblog
                     tempCats.Add(CategoryDictionary.Instance[post.Categories[i]]);
                 }
                 tempPost.categories = tempCats;
+                
+                for (int i = 0; i < post.Tags.Count; i++)
+                {
+                  tempTags.Add(post.Tags[i]);
+                }
+                tempPost.tags = tempTags;
 
                 sendPosts.Add(tempPost);
 
