@@ -53,28 +53,28 @@ public static class Search
   /// </summary>
   public struct Catalog
   {
-      /// <summary>
-      /// 
-      /// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public string _word;
-      /// <summary>
-      /// 
-      /// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public Collection<PointerList> _pointers;
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="word"></param>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="word"></param>
     public Catalog(string word)
     {
       _word = word;
       _pointers = new Collection<PointerList>();
     }
 
-      /// <summary>
-      /// 
-      /// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public Collection<PointerList> Adding
     {
       get
@@ -121,35 +121,35 @@ public static class Search
     }
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
+  public struct Result
+  {
     /// <summary>
     /// 
     /// </summary>
-  public struct Result
-  {
-      /// <summary>
-      /// 
-      /// </summary>
     public Post _post;
-      /// <summary>
-      /// 
-      /// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public int rank;
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="post"></param>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="post"></param>
     public Result(Post post)
     {
       _post = post;
       rank = 0;
     }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="obj"></param>
-      /// <returns></returns>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
     public override bool Equals(object obj)
     {
       if (_post.GetHashCode() == obj.GetHashCode())
@@ -158,41 +158,41 @@ public static class Search
         return false;
     }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="a"></param>
-      /// <param name="b"></param>
-      /// <returns></returns>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     public static bool operator ==(Result a, Result b)
     {
       return (a == b && b == a);
     }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="a"></param>
-      /// <param name="b"></param>
-      /// <returns></returns>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     public static bool operator !=(Result a, Result b)
     {
       return !(a == b);
     }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <returns></returns>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public override int GetHashCode()
     {
       return _post.GetHashCode();
     }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <returns></returns>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public override string ToString()
     {
       return _post.ToString();
@@ -202,14 +202,14 @@ public static class Search
   #endregion
 
   private static bool _IsBuilingCatalog;
-  
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="postsToSearch"></param>
-    /// <param name="searchTerm"></param>
-    /// <param name="includeComments"></param>
-    /// <returns></returns>
+
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="postsToSearch"></param>
+  /// <param name="searchTerm"></param>
+  /// <param name="includeComments"></param>
+  /// <returns></returns>
   public static List<Post> Hits(List<Post> postsToSearch, string searchTerm, bool includeComments)
   {
     //_catalogIndex.Clear();
@@ -287,14 +287,17 @@ public static class Search
     //To build the index we must first loop every post
     foreach (Post post in Post.Posts)
     {
-      //Add what you would like to be able to search for
-        string tempContent = String.Empty;
+      if (!post.IsPublished)
+        continue;
 
-        for (int i = 0; i < 15; i++)
-            tempContent += post.Title + " ";
+      //Add what you would like to be able to search for
+      string tempContent = String.Empty;
+
+      for (int i = 0; i < 15; i++)
+        tempContent += post.Title + " ";
 
       //tempContent = post.Title + " " + post.Content;
-        tempContent += post.Content;
+      tempContent += post.Content;
 
       //1. remove all HTML - TODO: remove javascript here...
       tempContent = _regexAll.Replace(tempContent, String.Empty);
@@ -355,8 +358,8 @@ public static class Search
     using (StreamReader reader = new StreamReader(System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "stopwords.txt"))
     {
       string words = reader.ReadToEnd();
-      return words.Split(new char[] { '\n','\r' }, StringSplitOptions.RemoveEmptyEntries);
-    }    
+      return words.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+    }
   }
 
   /// <summary>
