@@ -19,6 +19,9 @@ function ShowCommentPreview(target, sender)
 {
   if (_Preview == null)
     _Preview = document.getElementById("livepreview");  
+    
+  if (_Preview == null)
+    return;
   
   if (_PreviewAuthor == null)
     _PreviewAuthor = GetElementByClassName(_Preview, "p", "author");
