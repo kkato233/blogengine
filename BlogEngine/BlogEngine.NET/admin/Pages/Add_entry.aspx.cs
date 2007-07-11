@@ -127,6 +127,13 @@ public partial class admin_entry : System.Web.UI.Page
     else
       post = new Post();
 
+    // If the title ends with a period, IIS will not send it to the ASP.NET engine.
+    if (txtTitle.Text.EndsWith("."))
+      txtTitle.Text = txtTitle.Text.Substring(0, txtTitle.Text.Length - 1);
+
+    if (string.IsNullOrEmpty(txtContent.Text))
+      txtContent.Text = "[No text]";
+
     post.DateCreated = DateTime.Parse(txtDate.Text);
     post.Author = ddlAuthor.SelectedValue;
     post.Title = txtTitle.Text;
@@ -153,7 +160,7 @@ public partial class admin_entry : System.Web.UI.Page
     }
 
     post.Save();
-    if (!Request.IsLocal && post.Content.ToLowerInvariant().Contains("http"))
+    if (!Request.IsLocal && post.Content.ToLowerInvariant().Contains("http")  && post.IsPublished)
     {
       ThreadStart threadStart = delegate { Ping(post); };
       Thread thread = new Thread(threadStart);

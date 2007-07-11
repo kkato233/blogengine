@@ -57,6 +57,8 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
   private void BindDays()
   {
     int count = 0;
+    ddlDays.ClearSelection();
+    ddlDays.Enabled = true;
     foreach (ListItem item in ddlDays.Items)
     {
       item.Text = DateTime.MinValue.AddDays(count).ToString("dddd");
