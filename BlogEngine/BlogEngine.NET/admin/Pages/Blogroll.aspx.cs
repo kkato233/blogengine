@@ -76,7 +76,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       XmlElement element = doc.CreateElement("outline");
 
       XmlAttribute title = doc.CreateAttribute("title");
-      title.InnerText = txtTitle.Text;
+      title.InnerText = txtTitle.Text.Replace("\"", "'");
       element.Attributes.Append(title);
 
       XmlAttribute desc = doc.CreateAttribute("description");
@@ -129,7 +129,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       doc.Load(fileName);
 
       XmlNode parent = doc.SelectSingleNode("opml/body");
-      XmlNode child = doc.SelectSingleNode("opml/body/outline[@title='" + title + "']");
+      XmlNode child = doc.SelectSingleNode("opml/body/outline[@title=\"" + title + "\"]");
       parent.RemoveChild(child);
       doc.Save(fileName);
       Updater.UpdateBlogroll();

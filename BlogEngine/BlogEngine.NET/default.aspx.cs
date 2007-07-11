@@ -99,7 +99,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     if (!string.IsNullOrEmpty(Request.QueryString["year"]) && !string.IsNullOrEmpty(Request.QueryString["month"]))
     {
       DateTime dateFrom = DateTime.Parse(Request.QueryString["year"] + "-" + Request.QueryString["month"] + "-01");
-      DateTime dateTo = dateFrom.AddMonths(1).AddDays(-1);
+      DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
       PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo);
       Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("MMMM yyyy");
     }

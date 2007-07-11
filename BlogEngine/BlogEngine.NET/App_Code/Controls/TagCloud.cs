@@ -56,12 +56,15 @@ namespace Controls
       SortedDictionary<string, int> dic = new SortedDictionary<string, int>();
       foreach (Post post in Post.Posts)
       {
-        foreach (string tag in post.Tags)
+        if (post.IsPublished)
         {
-          if (dic.ContainsKey(tag))
-            dic[tag]++;
-          else
-            dic[tag] = 1;
+          foreach (string tag in post.Tags)
+          {
+            if (dic.ContainsKey(tag))
+              dic[tag]++;
+            else
+              dic[tag] = 1;
+          }
         }
       }
       return dic;

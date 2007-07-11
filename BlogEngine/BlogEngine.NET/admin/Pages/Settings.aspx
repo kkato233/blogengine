@@ -37,6 +37,7 @@
   
   <label for="<%=ddlTimezone.ClientID %>"><%=Resources.labels.timezone %></label>
   <asp:dropdownlist id="ddlTimezone" runat="server">
+    <asp:listitem Text="Samoa (GMT -11)" Value="-11" />
     <asp:listitem Text="Hawaii (GMT -10)" Value="-10" />
     <asp:listitem Text="Alaska (GMT -9)" Value="-9" />
     <asp:listitem Text="Pacific Time (GMT -8)" Value="-8" />
@@ -51,11 +52,13 @@
     <asp:listitem Text="Middle Eastern Time (GMT +3)" Value="3" />
     <asp:listitem Text="Abu Dhabi Time (GMT +4)" Value="4" />
     <asp:listitem Text="Indian Time (GMT +5)" Value="5" />
+    <asp:listitem Text="Central Asia (GMT +6)" Value="6" />
+    <asp:listitem Text="Bangkok, Hanoi, Jakarta (GMT +7)" Value="7" />
     <asp:listitem Text="Eastern China Time (GMT +8)" Value="8" />
     <asp:listitem Text="Japan Time (GMT +9)" Value="9" />
     <asp:listitem Text="Australian Time (GMT +10)" Value="10" />
     <asp:listitem Text="Pacific Rim Time (GMT +11)" Value="11" />
-    <asp:listitem Text="New Zealand Time (GMT +12)" Value="12" SELECTED/>
+    <asp:listitem Text="New Zealand Time (GMT +12)" Value="12" />
    </asp:dropdownlist>
   
 </div>

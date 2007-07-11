@@ -89,7 +89,7 @@ namespace Controls
         anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "category/" + Utils.RemoveIlegalCharacters(key) + ".aspx";
         anc.InnerHtml = key + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
         anc.Title = "Category: " + key;
-        
+
         li.Controls.Add(anc);
         ul.Controls.Add(li);
       }
@@ -102,10 +102,22 @@ namespace Controls
       SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
       foreach (Guid key in categories.Keys)
       {
-        dic.Add(categories[key], key);
+        if (HasPosts(key))
+          dic.Add(categories[key], key);
       }
 
       return dic;
+    }
+
+    private bool HasPosts(Guid categoryId)
+    {
+      foreach (Post post in Post.Posts)
+      {
+        if (post.IsPublished && post.Categories.Contains(categoryId))
+          return true;
+      }
+
+      return false;
     }
 
     /// <summary>

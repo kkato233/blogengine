@@ -72,11 +72,11 @@ namespace Controls
         if (date.Month == 1 || ul.Controls.Count == 0)
         {
           list = new HtmlGenericControl("ul");
-          list.ID = date.Year.ToString();
+          list.ID = "year" + date.Year.ToString();
 
           year = new HtmlGenericControl("li");
           year.Attributes.Add("class", "year");
-          year.Attributes.Add("onclick", "ToggleMonth(" + date.Year + ")");
+          year.Attributes.Add("onclick", "ToggleMonth('year" + date.Year + "')");
           year.InnerHtml = date.Year.ToString();
           year.Controls.Add(list);
 
