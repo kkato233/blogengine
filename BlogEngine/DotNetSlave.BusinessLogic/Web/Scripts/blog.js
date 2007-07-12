@@ -33,12 +33,21 @@ function ShowCommentPreview(target, sender)
     _TxtName = document.getElementById("ctl00_cphBody_CommentView1_txtName");   
     
   if (!_PreviewAuthor)
-    return;
+    return; 
     
   var body = sender.value.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
     
   _PreviewAuthor.innerHTML = _TxtName.value;
   _PreviewContent.innerHTML = body.replace(_Regex, "<br />");
+  
+  var _TxtWebsite = document.getElementById("ctl00_cphBody_CommentView1_txtWebsite");
+  if( _TxtWebsite != null && _TxtWebsite.value.length > 0)
+  {
+    if (_TxtWebsite.value.indexOf("://") == -1)
+      _TxtWebsite.value = "http://" + _TxtWebsite.value;
+      
+    _PreviewAuthor.innerHTML = "<a href=\"" + _TxtWebsite.value + "\">" + _PreviewAuthor.innerHTML + "</a>";
+  }
 }
 
 function GetElementByClassName(parent, tag, className)

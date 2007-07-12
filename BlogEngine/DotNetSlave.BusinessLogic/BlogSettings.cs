@@ -198,6 +198,8 @@ namespace BlogEngine.Core
     private string culture;
     private int timezone;
     private int postsPerFeed;
+    private bool displayCommentsOnRecentPosts;
+    private bool displayRatingsOnRecentPosts;
     #endregion
 
     //============================================================
@@ -564,6 +566,44 @@ namespace BlogEngine.Core
       set
       {
         trackingScript = value;
+      }
+    }
+    #endregion
+
+    #region DisplayCommentsOnRecentPosts
+    /// <summary>
+    /// Gets or sets a value indicating if whitespace in stylesheets should be removed
+    /// </summary>
+    /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+    public bool DisplayCommentsOnRecentPosts
+    {
+      get
+      {
+        return displayCommentsOnRecentPosts;
+      }
+
+      set
+      {
+        displayCommentsOnRecentPosts = value;
+      }
+    }
+    #endregion
+
+    #region DisplayRatingsOnRecentPosts
+    /// <summary>
+    /// Gets or sets a value indicating if whitespace in stylesheets should be removed
+    /// </summary>
+    /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+    public bool DisplayRatingsOnRecentPosts
+    {
+      get
+      {
+        return displayRatingsOnRecentPosts;
+      }
+
+      set
+      {
+        displayRatingsOnRecentPosts = value;
       }
     }
     #endregion

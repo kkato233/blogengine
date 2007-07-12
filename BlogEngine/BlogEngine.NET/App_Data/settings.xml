@@ -10,7 +10,7 @@
   <enablesearchhightlight>True</enablesearchhightlight>
   <feedburnerusername />
   <authorname>My name</authorname>
-  <trackingscript />
+  <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>standard</theme>
   <iscommentsenabled>True</iscommentsenabled>
   <language>en-GB</language>
@@ -27,9 +27,11 @@
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />
   <iscocommentenabled>False</iscocommentenabled>
+  <trackingscript />
   <description>Short description of the blog</description>
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
+  <displayratingsonrecentposts>True</displayratingsonrecentposts>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>

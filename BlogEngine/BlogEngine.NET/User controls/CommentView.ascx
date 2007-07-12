@@ -19,6 +19,7 @@
 
   <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
   <asp:TextBox runat="Server" ID="txtName" TabIndex="1" />
+  <asp:CustomValidator runat="server" ControlToValidate="txtName" ErrorMessage="Please choose another name" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="Required" Display="dynamic" /><br />
 
   <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
@@ -106,6 +107,17 @@ function SetFlag(iso)
     flagImage.src = "<%=VirtualPathUtility.ToAbsolute("~/") %>pics/flags/" + iso + ".png";
   else
     flagImage.src = "<%=VirtualPathUtility.ToAbsolute("~/") %>pics/pixel.gif";
+}
+
+function CheckAuthorName(sender, args)
+{
+  args.IsValid = true;
+  
+  <% if (!Page.User.Identity.IsAuthenticated){ %>
+  var author = "<%=Post.Author %>";
+  var visitor = document.getElementById("<%=txtName.ClientID %>").value;
+  args.IsValid = author.toLowerCase() != visitor.toLowerCase();
+  <%} %>
 }
 //-->
 </script>

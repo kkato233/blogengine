@@ -8,6 +8,12 @@
   <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Required" />
   <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Operator="dataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+  
+  <label for="<%=cbDisplayComments.ClientID %>"><%=Resources.labels.displayCommentsOnRecentPosts %></label>
+  <asp:CheckBox runat="Server" ID="cbDisplayComments" /><br />
+  
+  <label for="<%=cbDisplayRating.ClientID %>"><%=Resources.labels.displayRatingsOnRecentPosts %></label>
+  <asp:CheckBox runat="Server" ID="cbDisplayRating" />
 
 </div>
 
