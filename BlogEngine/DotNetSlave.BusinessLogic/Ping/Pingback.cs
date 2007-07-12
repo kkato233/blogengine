@@ -40,23 +40,10 @@ namespace BlogEngine.Core.Ping
           request.ContentType = "text/xml";
           request.ProtocolVersion = HttpVersion.Version11;
           AddXmlToRequest(sourceUrl, targetUrl, request);
-          request.BeginGetResponse(EndGetResponse, request);
+          request.GetResponse();
         }
       }
-      catch
-      {
-        // Stops unhandled exceptions that can cause the app pool to recycle
-      }
-    }
-
-    private static void EndGetResponse(IAsyncResult result)
-    {
-      try
-      {
-        HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-        request.EndGetResponse(result);
-      }
-      catch
+      catch (Exception)
       {
         // Stops unhandled exceptions that can cause the app pool to recycle
       }
