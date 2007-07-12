@@ -64,13 +64,22 @@ namespace Controls
 
       foreach (Post post in _Posts)
       {
-        string link = "<li><a href=\"{0}\">{1}</a><span>{2}: {3}</span><span>{4}: {5} / {6}</span></li>";
         string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        string link = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";
+        string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comment, post.Comments.Count);
+        string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
+
+        if (!BlogSettings.Instance.DisplayCommentsOnRecentPosts)
+          comments = null;
+
+        if (!BlogSettings.Instance.DisplayRatingsOnRecentPosts)
+          rate = null;
 
         if (post.Raters == 0)
           rating = Resources.labels.notRatedYet;
 
-        sb.AppendFormat(link, post.RelativeLink, post.Title, Resources.labels.comments, post.Comments.Count, Resources.labels.rating, rating, post.Raters);
+        sb.AppendFormat(link, post.RelativeLink, post.Title, comments, rate);
       }
 
       sb.Append("</ul>");

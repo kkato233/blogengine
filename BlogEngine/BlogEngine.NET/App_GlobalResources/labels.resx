@@ -204,6 +204,12 @@
   <data name="description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="displayCommentsOnRecentPosts" xml:space="preserve">
+    <value>Display comments</value>
+  </data>
+  <data name="displayRatingsOnRecentPosts" xml:space="preserve">
+    <value>Display rating</value>
+  </data>
   <data name="edit" xml:space="preserve">
     <value>Edit</value>
   </data>

@@ -25,6 +25,9 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
   void btnSave_Click(object sender, EventArgs e)
   {
     BlogSettings.Instance.NumberOfRecentPosts = int.Parse(txtNumberOfPosts.Text);
+    BlogSettings.Instance.DisplayCommentsOnRecentPosts = cbDisplayComments.Checked;
+    BlogSettings.Instance.DisplayRatingsOnRecentPosts = cbDisplayRating.Checked;
+
     BlogSettings.Instance.SearchButtonText = txtSearchButtonText.Text;
     BlogSettings.Instance.SearchCommentLabelText = txtCommentLabelText.Text;
     BlogSettings.Instance.SearchDefaultText = txtDefaultSearchText.Text;
@@ -38,6 +41,9 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
   private void BindSettings()
   {
     txtNumberOfPosts.Text = BlogSettings.Instance.NumberOfRecentPosts.ToString();
+    cbDisplayComments.Checked = BlogSettings.Instance.DisplayCommentsOnRecentPosts;
+    cbDisplayRating.Checked = BlogSettings.Instance.DisplayRatingsOnRecentPosts;
+
     txtSearchButtonText.Text = BlogSettings.Instance.SearchButtonText;
     txtCommentLabelText.Text = BlogSettings.Instance.SearchCommentLabelText;
     txtDefaultSearchText.Text = BlogSettings.Instance.SearchDefaultText;

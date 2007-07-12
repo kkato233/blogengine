@@ -140,15 +140,37 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     Comment comment = new Comment();
     comment.Content = string.Empty;
     comment.DateCreated = DateTime.Now;
+    comment.IP = Request.UserHostAddress;
+
     if (!string.IsNullOrEmpty(txtName.Text))
       comment.Author = txtName.Text;
 
     if (!string.IsNullOrEmpty(txtEmail.Text))
       comment.Email = txtEmail.Text;
 
+    if (txtWebsite.Text.Trim().Length > 0)
+    {
+      if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
+        txtWebsite.Text = "http://" + txtWebsite.Text;
+     
+      Uri website;
+      if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
+        comment.Website = website;
+    }
+
     control.Comment = comment;
     control.Post = Post;
     phLivePreview.Controls.Add(control);
+  }
+
+  protected void CheckAuthorName(object sender, ServerValidateEventArgs e)
+  {
+    e.IsValid = true;
+    if (!Page.User.Identity.IsAuthenticated)
+    {
+      if (txtName.Text.ToLowerInvariant() == Post.Author.ToLowerInvariant())
+        e.IsValid = false;
+    }
   }
 
   #region Send mail

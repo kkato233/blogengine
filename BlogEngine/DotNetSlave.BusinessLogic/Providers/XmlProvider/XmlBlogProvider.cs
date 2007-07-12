@@ -3,6 +3,7 @@
 using System;
 using System.Xml;
 using System.IO;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using BlogEngine.Core;
@@ -37,8 +38,8 @@ namespace BlogEngine.Core.Providers
       post.Title = doc.SelectSingleNode("post/title").InnerText;
       post.Description = doc.SelectSingleNode("post/description").InnerText;
       post.Content = doc.SelectSingleNode("post/content").InnerText;
-      post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText);
-      post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText);
+      post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
+      post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText, CultureInfo.InvariantCulture);
 
       if (doc.SelectSingleNode("post/author") != null)
         post.Author = doc.SelectSingleNode("post/author").InnerText;
@@ -84,7 +85,7 @@ namespace BlogEngine.Core.Providers
             comment.Website = website;
         }
         comment.Content = node.SelectSingleNode("content").InnerText;
-        comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText);
+        comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
         post.Comments.Add(comment);
       }
 
@@ -122,10 +123,10 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("content", post.Content);
         writer.WriteElementString("ispublished", post.IsPublished.ToString());
         writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
-        writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
-        writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss"));
+        writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+        writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
         writer.WriteElementString("raters", post.Raters.ToString());
-        writer.WriteElementString("rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        writer.WriteElementString("rating", post.Rating.ToString(CultureInfo.InvariantCulture));
 
         // Tags
         writer.WriteStartElement("tags");
@@ -141,7 +142,7 @@ namespace BlogEngine.Core.Providers
         {
           writer.WriteStartElement("comment");
           writer.WriteAttributeString("id", comment.Id.ToString());
-          writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
+          writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
           writer.WriteElementString("author", comment.Author);
           writer.WriteElementString("email", comment.Email);
           writer.WriteElementString("country", comment.Country);
@@ -226,8 +227,8 @@ namespace BlogEngine.Core.Providers
       page.Description = doc.SelectSingleNode("page/description").InnerText;
       page.Content = doc.SelectSingleNode("page/content").InnerText;
       page.Keywords = doc.SelectSingleNode("page/keywords").InnerText;
-      page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText);
-      page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText);
+      page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
+      page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
 
       return page;
     }
@@ -250,8 +251,8 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("description", page.Description);
         writer.WriteElementString("content", page.Content);
         writer.WriteElementString("keywords", page.Keywords);
-        writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
-        writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss"));
+        writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+        writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 
         writer.WriteEndElement();
       }

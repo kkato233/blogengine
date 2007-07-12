@@ -76,12 +76,16 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
   {
     string path = Request.RawUrl;
     if (path.Contains("?"))
-      path = path.Substring(0, path.IndexOf("?"));
+      path = path.Substring(0, path.IndexOf("?"));    
 
     int page = GetPageIndex();
     string url = path + "?page={0}";
+
+    if (Request.QueryString["year"] != null && Request.QueryString["month"] != null)
+      url += "&amp;year=" + Request.QueryString["year"] + "&amp;month=" + Request.QueryString["month"];    
+
     hlNext.HRef = string.Format(url, page);
-    hlPrev.HRef = string.Format(url, page +2);
+    hlPrev.HRef = string.Format(url, page +2);    
 
     if (page == 0)
       hlNext.Visible = false;

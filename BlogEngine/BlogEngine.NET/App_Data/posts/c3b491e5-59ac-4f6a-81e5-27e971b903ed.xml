@@ -36,12 +36,13 @@ The BlogEngine.NET team
     <tag>welcome</tag>
   </tags>
   <comments>
-    <comment id="dbd5d16f-7faa-45e6-94d2-a960bfc0e2df">
-      <date>2007-06-17 17:50:18</date>
+    <comment id="3a21c7f5-b9fc-4042-acc5-a97298153bd7">
+      <date>2007-07-12 20:22:03</date>
       <author>Mads Kristensen</author>
-      <email>post@gmail.dk</email>
+      <email>post@madskristensen.dk</email>
       <country>dk</country>
       <ip>127.0.0.1</ip>
+      <website>http://www.madskristensen.dk/</website>
       <content>test</content>
     </comment>
   </comments>
