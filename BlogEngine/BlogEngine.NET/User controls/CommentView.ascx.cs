@@ -183,9 +183,9 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     MailMessage mail = new MailMessage();
     mail.From = new MailAddress(email, author);
     mail.To.Add(BlogSettings.Instance.Email);
-    mail.Subject = "Weblog comment on: " + Post.Title;
+    mail.Subject = "Weblog comment on " + Post.Title;
     mail.Body = "Comment by " + author + " (" + email + ")" + Environment.NewLine + Environment.NewLine;
-    mail.Body += content + "\n\n" + Post.AbsoluteLink.ToString();
+    mail.Body += content + "\n\n" + Post.PermaLink.ToString();
 
     ThreadStart threadStart = delegate { Send(mail); };
     Thread thread = new Thread(threadStart);

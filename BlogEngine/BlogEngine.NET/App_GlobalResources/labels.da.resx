@@ -205,10 +205,10 @@
     <value>Beskrivelse</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Display comments</value>
+    <value>Vis kommentarer</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Display rating</value>
+    <value>Vis point</value>
   </data>
   <data name="edit" xml:space="preserve">
     <value>Rediger</value>
