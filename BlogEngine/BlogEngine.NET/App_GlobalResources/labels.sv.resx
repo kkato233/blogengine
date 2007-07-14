@@ -118,327 +118,327 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Add</value>
+    <value>Lägg till</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Add entry</value>
+    <value>Lägg till post</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Add comment</value>
+    <value>Lägg till kommentar</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Add custom code to the HTML head section</value>
+    <value>Lägg till personlig kod till HTML huvudsektion</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Control panel</value>
+    <value>Kontrollpanel</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Avancerat</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Arkiv</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Are you sure you want to {0} {1}?</value>
+    <value>Är du säker på att du vill {0} {1}?</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Author</value>
+    <value>Författare</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Basic</value>
+    <value>Enkel</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Button text</value>
+    <value>Knapptext</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Categories</value>
+    <value>Kategorier</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Category</value>
+    <value>Kategori</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Close comments after</value>
+    <value>Stäng kommentarer efter</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Comment</value>
+    <value>Kommentar</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Comment label text</value>
+    <value>Kommentar text</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Comments</value>
+    <value>Kommentarer</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>Kontakt</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Contact form</value>
+    <value>Kontaktformulär</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Controls</value>
+    <value>Kontroller</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Country</value>
+    <value>Land</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Create new user</value>
+    <value>Skapa ny användare</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Currently rated {0} by {1} people</value>
+    <value>Nuvarande värderad {0} av {1} människor</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Date</value>
+    <value>Datum</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Default feed output</value>
+    <value>Standard feed utmatning</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>The default text shown in the search textbox</value>
+    <value>Standard text som visas i sökrutan R</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Ta bort</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Description</value>
+    <value>Beskrivning</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Display comments</value>
+    <value>Visa kommentarer</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Display rating</value>
+    <value>Visa värdering</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Redigera</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>E-post</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mail address</value>
+    <value>E-post adress</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Enable coComments</value>
+    <value>Aktivera coKommentarer</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Enable comments</value>
+    <value>Aktivera Kommentarer</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>If comments aren't enabled, nobody can write comments to any post.</value>
+    <value>Om kommentarer inte är aktiverade så kan inte någon skriva kommentarer.</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Enable comment search</value>
+    <value>Aktivera kommentarsökning</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Enable HTTP compression</value>
+    <value>Aktivera HTTP kompression</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Makes the pages load faster (recommended).</value>
+    <value>Ladda sidorna snabbare (rekommenderas).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Enable OpenSearch</value>
+    <value>Aktivera OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Adds the search feature to all new browsers (recommended).</value>
+    <value>Lägger till sökfunktionen till alla nya webbläsare (rekommenderas).</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Enable referrer tracking</value>
+    <value>Aktivera hänvisningsspårning</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
     <value>Enable search highlight</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Colors the search words on the page.</value>
+    <value>Färglägger sökorden på sidan.</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Form message</value>
+    <value>Formulärmeddelande</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Go to front page</value>
+    <value>Gå till första sidan</value>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head section</value>
+    <value>HTML huvudsektion</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Keywords</value>
+    <value>Nyckelord</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Choose language</value>
+    <value>Välj språk</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Language code</value>
+    <value>Språkkod</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>Latitude</value>
+    <value>Latitud</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Live preview</value>
+    <value>Live förhandsvisning</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>Longtitude</value>
+    <value>Longitud</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Max length of items</value>
+    <value>Maximal längd utav saker</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Message</value>
+    <value>Meddelande</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>More</value>
+    <value>Mer</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Name</value>
+    <value>Namn</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Not rated yet</value>
+    <value>Ej värderad ännu</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># of displayed items</value>
+    <value># av visade poster</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Number of posts</value>
+    <value>Antal poster</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Pages</value>
+    <value>Sidor</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Password</value>
+    <value>Lösenord</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Port number</value>
+    <value>Portnummer</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Port 25 is the standard</value>
+    <value>Port 25 är standardporten</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Possible spam</value>
+    <value>Eventuell spam</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Posts per page</value>
+    <value>Poster per sida</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Items shown in feed</value>
+    <value>Posts som visas i feed</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Publish</value>
+    <value>Publicera</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Rating</value>
+    <value>Värdera</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Recent posts</value>
+    <value>Senaste poster</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Referrer</value>
+    <value>Hänvisare</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Referrers</value>
+    <value>Hänvisare</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>Spara</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Save comment</value>
+    <value>Spara kommentar</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Save page</value>
+    <value>Spara sida</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Save post</value>
+    <value>Spara post</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Save settings</value>
+    <value>Spara inställningar</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Search field</value>
+    <value>Sökruta</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Search field text</value>
+    <value>Sökruta text</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Select day</value>
+    <value>Välj dag</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Send comment e-mail</value>
+    <value>Skicka e-post till kommentar</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Separate each tag with a comma</value>
+    <value>Separera varje tag med kommatecken</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>Inställningar</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Show country chooser</value>
+    <value>Visa landväljare</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>If the country chooser isn't shown, no flag can be shown on each comment.</value>
+    <value>Om landväljaren inte visas så kommer det inte visas någon flagga vid varje kommentar.</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Show live preview</value>
+    <value>Visa live förhandsvisning</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Show related posts</value>
+    <value>Visa relaterade poster</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Subject</value>
+    <value>Ämne</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Thank you message</value>
+    <value>Tack meddelande</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>the comment</value>
+    <value>Kommentaren</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Tema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>the post</value>
+    <value>posten</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>There are {0} unpublished post(s)</value>
+    <value>Det finns {0} opublicerade post(er)</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Timezone</value>
+    <value>Tidszon</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Title</value>
+    <value>Rubrik</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Trim stylesheets</value>
+    <value>Reducera stylesheet</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
+    <value>Gör att alla stylesheets blir mindre storlek genom att ta bort alla mellanrum vid körning.</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Update frequency (minutes)</value>
+    <value>Uppdateringsfrekvens (minuter)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Upload file</value>
+    <value>Ladda upp fil</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Upload image</value>
+    <value>Ladda upp bild</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Username</value>
+    <value>Användarnamn</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Users</value>
+    <value>Användare</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Website</value>
+    <value>Hemsida</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Will show your {0} icon</value>
+    <value>Kommer visa din {0} ikon</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>wrote</value>
+    <value>skrev</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>You already rated this post</value>
+    <value>Du har redan värderat denna post</value>
   </data>
 </root>
