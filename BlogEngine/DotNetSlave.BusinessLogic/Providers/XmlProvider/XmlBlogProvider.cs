@@ -256,9 +256,6 @@ namespace BlogEngine.Core.Providers
 
         writer.WriteEndElement();
       }
-
-      if (page.IsNew)
-        Page.Pages.Add(page);
     }
 
     /// <summary>

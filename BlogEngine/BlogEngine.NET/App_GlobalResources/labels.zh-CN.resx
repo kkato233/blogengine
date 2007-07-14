@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="add" xml:space="preserve">
+    <value>添加</value>
+    <comment>Add</comment>
+  </data>
+  <data name="add_Entry" xml:space="preserve">
+    <value>添加文章</value>
+    <comment>Add entry</comment>
+  </data>
+  <data name="addComment" xml:space="preserve">
+    <value>添加评论</value>
+    <comment>Add comment</comment>
+  </data>
+  <data name="addCustomCodeToHeader" xml:space="preserve">
+    <value>添加自定义代码到HTML头区域</value>
+    <comment>Add custom code to the HTML head section</comment>
+  </data>
+  <data name="administrationPanel" xml:space="preserve">
+    <value>控制面板</value>
+    <comment>Control panel</comment>
+  </data>
+  <data name="advanced" xml:space="preserve">
+    <value>高级</value>
+    <comment>Advanced</comment>
+  </data>
+  <data name="archive" xml:space="preserve">
+    <value>存档</value>
+    <comment>Archive</comment>
+  </data>
+  <data name="areYouSure" xml:space="preserve">
+    <value>你确定想要 {0} {1}?</value>
+    <comment>Are you sure you want to {0} {1}?</comment>
+  </data>
+  <data name="author" xml:space="preserve">
+    <value>作者</value>
+    <comment>Author</comment>
+  </data>
+  <data name="basic" xml:space="preserve">
+    <value>基本</value>
+    <comment>Basic</comment>
+  </data>
+  <data name="blogroll" xml:space="preserve">
+    <value>博客名单</value>
+    <comment>Blogroll</comment>
+  </data>
+  <data name="buttonText" xml:space="preserve">
+    <value>按键文本</value>
+    <comment>Button text</comment>
+  </data>
+  <data name="categories" xml:space="preserve">
+    <value>类别</value>
+    <comment>Categories</comment>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>类别</value>
+    <comment>Category</comment>
+  </data>
+  <data name="closeCommetsAfter" xml:space="preserve">
+    <value>关闭评论之后</value>
+    <comment>Close comments after</comment>
+  </data>
+  <data name="comment" xml:space="preserve">
+    <value>评论</value>
+    <comment>Comment</comment>
+  </data>
+  <data name="commentLabelText" xml:space="preserve">
+    <value>评论标签文本</value>
+    <comment>Comment label text</comment>
+  </data>
+  <data name="comments" xml:space="preserve">
+    <value>评论</value>
+    <comment>Comments</comment>
+  </data>
+  <data name="contact" xml:space="preserve">
+    <value>联系</value>
+    <comment>Contact</comment>
+  </data>
+  <data name="contactForm" xml:space="preserve">
+    <value>评论表单</value>
+    <comment>Contact form</comment>
+  </data>
+  <data name="controls" xml:space="preserve">
+    <value>控件</value>
+    <comment>Controls</comment>
+  </data>
+  <data name="country" xml:space="preserve">
+    <value>国家</value>
+    <comment>Country</comment>
+  </data>
+  <data name="createNewUser" xml:space="preserve">
+    <value>创建新用户</value>
+    <comment>Create new user</comment>
+  </data>
+  <data name="currentlyRated" xml:space="preserve">
+    <value>当前等级评分 {0} , 共有 {1} 人参与</value>
+    <comment>Currently rated {0} by {1} people</comment>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>日期</value>
+    <comment>Date</comment>
+  </data>
+  <data name="defaultFeedOutput" xml:space="preserve">
+    <value>默认feed输出</value>
+    <comment>Default feed output</comment>
+  </data>
+  <data name="defaultTextShownInSearchField" xml:space="preserve">
+    <value>显示在搜索文本框中的默认文本</value>
+    <comment>The default text shown in the search textbox R</comment>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>删除</value>
+    <comment>Delete</comment>
+  </data>
+  <data name="description" xml:space="preserve">
+    <value>描述</value>
+    <comment>Description</comment>
+  </data>
+  <data name="displayCommentsOnRecentPosts" xml:space="preserve">
+    <value>显示评论</value>
+    <comment>Display comments</comment>
+  </data>
+  <data name="displayRatingsOnRecentPosts" xml:space="preserve">
+    <value>显示评级</value>
+    <comment>Display rating</comment>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>编辑</value>
+    <comment>Edit</comment>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>电子邮件</value>
+    <comment>E-mail</comment>
+  </data>
+  <data name="emailAddress" xml:space="preserve">
+    <value>电子邮件地址</value>
+    <comment>E-mail address</comment>
+  </data>
+  <data name="enableCoComments" xml:space="preserve">
+    <value>开启coComments</value>
+    <comment>Enable coComments</comment>
+  </data>
+  <data name="enableComments" xml:space="preserve">
+    <value>开启评论</value>
+    <comment>Enable comments</comment>
+  </data>
+  <data name="enableCommentsDescription" xml:space="preserve">
+    <value>若评论未启用, 则没有人可以对任何文章发表评论.</value>
+    <comment>If comments aren't enabled, nobody can write comments to any post.</comment>
+  </data>
+  <data name="enableCommentSearch" xml:space="preserve">
+    <value>开启评论搜索</value>
+    <comment>Enable comment search</comment>
+  </data>
+  <data name="enableHttpCompression" xml:space="preserve">
+    <value>开启HTTP压缩</value>
+    <comment>Enable HTTP compression</comment>
+  </data>
+  <data name="enableHttpCompressionDescription" xml:space="preserve">
+    <value>使页面加载速度更快 (推荐).</value>
+    <comment>Make the pages load faster (recommended).</comment>
+  </data>
+  <data name="enableOpenSearch" xml:space="preserve">
+    <value>开启OpenSearch</value>
+    <comment>Enable OpenSearch</comment>
+  </data>
+  <data name="enableOpenSearchDescription" xml:space="preserve">
+    <value>添加搜索特性到所有新型浏览器 (推荐).</value>
+    <comment>Adds the search feature to all new browsers (recommended).</comment>
+  </data>
+  <data name="enableReferrerTracking" xml:space="preserve">
+    <value>开启引用跟踪</value>
+    <comment>Enable referrer tracking</comment>
+  </data>
+  <data name="enableSearchHighlight" xml:space="preserve">
+    <value>开启搜索突出</value>
+    <comment>Enable search highlight</comment>
+  </data>
+  <data name="enableSearchHighlightDescription" xml:space="preserve">
+    <value>改变页面中搜索词的颜色</value>
+    <comment>Colors the search words on the page.</comment>
+  </data>
+  <data name="endorsment" xml:space="preserve">
+    <value>采纳(bLink)</value>
+    <comment>Endorsment (bLink)</comment>
+  </data>
+  <data name="formMessage" xml:space="preserve">
+    <value>表单消息</value>
+    <comment>Form message</comment>
+  </data>
+  <data name="goToFrontPage" xml:space="preserve">
+    <value>转到主页</value>
+    <comment>Go to front page</comment>
+  </data>
+  <data name="htmlHeadSection" xml:space="preserve">
+    <value>HTML头区域</value>
+    <comment>HTML head section</comment>
+  </data>
+  <data name="keywords" xml:space="preserve">
+    <value>关键字</value>
+    <comment>Keywords</comment>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>选择语言</value>
+    <comment>Choose language</comment>
+  </data>
+  <data name="languageCode" xml:space="preserve">
+    <value>语言代码</value>
+    <comment>Language code</comment>
+  </data>
+  <data name="latitude" xml:space="preserve">
+    <value>纬度</value>
+    <comment>Latitude</comment>
+  </data>
+  <data name="livePreview" xml:space="preserve">
+    <value>即时预览</value>
+    <comment>Live preview</comment>
+  </data>
+  <data name="longtitude" xml:space="preserve">
+    <value>东经</value>
+    <comment>Longtitude</comment>
+  </data>
+  <data name="maxLengthOfItems" xml:space="preserve">
+    <value>项目数的最大长度</value>
+    <comment>Max length of items</comment>
+  </data>
+  <data name="message" xml:space="preserve">
+    <value>消息</value>
+    <comment>Message</comment>
+  </data>
+  <data name="more" xml:space="preserve">
+    <value>更多</value>
+    <comment>More</comment>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>名称</value>
+    <comment>Name</comment>
+  </data>
+  <data name="notRatedYet" xml:space="preserve">
+    <value>暂无评分</value>
+    <comment>Not rated yet</comment>
+  </data>
+  <data name="numberOfDisplayedItems" xml:space="preserve">
+    <value># of displayed items</value>
+    <comment># of displayed items</comment>
+  </data>
+  <data name="numberOfPosts" xml:space="preserve">
+    <value>文章数</value>
+    <comment>Number of posts</comment>
+  </data>
+  <data name="pages" xml:space="preserve">
+    <value>添加页面</value>
+    <comment>Pages</comment>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>密码</value>
+    <comment>Password</comment>
+  </data>
+  <data name="portNumber" xml:space="preserve">
+    <value>端口号</value>
+    <comment>Port number</comment>
+  </data>
+  <data name="portNumberDescription" xml:space="preserve">
+    <value>默认端口号:25</value>
+    <comment>Port 25 is the standard Not</comment>
+  </data>
+  <data name="possibleSpam" xml:space="preserve">
+    <value>很可能是垃圾信息</value>
+    <comment>Possible spam</comment>
+  </data>
+  <data name="postPerPage" xml:space="preserve">
+    <value>每页文章数</value>
+    <comment>Posts per page</comment>
+  </data>
+  <data name="postsPerFeed" xml:space="preserve">
+    <value>在feed中显示的项数</value>
+    <comment>Items shown in feed</comment>
+  </data>
+  <data name="publish" xml:space="preserve">
+    <value>发布</value>
+    <comment>Publish</comment>
+  </data>
+  <data name="rating" xml:space="preserve">
+    <value>评级</value>
+    <comment>Rating</comment>
+  </data>
+  <data name="recentPosts" xml:space="preserve">
+    <value>最近文章</value>
+    <comment>Recent posts</comment>
+  </data>
+  <data name="referrer" xml:space="preserve">
+    <value>引用</value>
+    <comment>Referrer</comment>
+  </data>
+  <data name="referrers" xml:space="preserve">
+    <value>引用</value>
+    <comment>Referrers</comment>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>保存</value>
+    <comment>Save</comment>
+  </data>
+  <data name="saveComment" xml:space="preserve">
+    <value>保存评论</value>
+    <comment>Save comment</comment>
+  </data>
+  <data name="savePage" xml:space="preserve">
+    <value>保存页面</value>
+    <comment>Save page</comment>
+  </data>
+  <data name="savePost" xml:space="preserve">
+    <value>保存文章</value>
+    <comment>Save post</comment>
+  </data>
+  <data name="saveSettings" xml:space="preserve">
+    <value>保存设置</value>
+    <comment>Save settings</comment>
+  </data>
+  <data name="searchField" xml:space="preserve">
+    <value>搜索区</value>
+    <comment>Search field</comment>
+  </data>
+  <data name="searchFieldText" xml:space="preserve">
+    <value>搜索区文本</value>
+    <comment>Search field text</comment>
+  </data>
+  <data name="selectDay" xml:space="preserve">
+    <value>选择天</value>
+    <comment>Select day</comment>
+  </data>
+  <data name="sendCommentEmail" xml:space="preserve">
+    <value>发送评论到电子邮件</value>
+    <comment>Send comment e-mail</comment>
+  </data>
+  <data name="separateTagsWitComma" xml:space="preserve">
+    <value>使用逗号(',')分隔每个标签</value>
+    <comment>Separate each tag with a comma</comment>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>设置</value>
+    <comment>Settings</comment>
+  </data>
+  <data name="showCountryChooser" xml:space="preserve">
+    <value>显示国家选择栏</value>
+    <comment>Show country chooser</comment>
+  </data>
+  <data name="showCountryChooserDescription" xml:space="preserve">
+    <value>若国家选择栏未显示, 则国旗将不会显示在每个评论上.</value>
+    <comment>If the country chooser isn't shown, no flag can be shown on each comment.</comment>
+  </data>
+  <data name="showLivePreview" xml:space="preserve">
+    <value>显示即时评论</value>
+    <comment>Show live preview</comment>
+  </data>
+  <data name="showRelatedPosts" xml:space="preserve">
+    <value>显示相关文章</value>
+    <comment>Show related posts</comment>
+  </data>
+  <data name="subject" xml:space="preserve">
+    <value>主题</value>
+    <comment>Subject</comment>
+  </data>
+  <data name="thankYouMessage" xml:space="preserve">
+    <value>感谢你的信息</value>
+    <comment>Thank you message</comment>
+  </data>
+  <data name="theComment" xml:space="preserve">
+    <value>评论</value>
+    <comment>the comment</comment>
+  </data>
+  <data name="theme" xml:space="preserve">
+    <value>皮肤</value>
+    <comment>Theme</comment>
+  </data>
+  <data name="thePost" xml:space="preserve">
+    <value>文章</value>
+    <comment>the post</comment>
+  </data>
+  <data name="thereAreXDrafts" xml:space="preserve">
+    <value>共有 {0} 篇文章没有发布</value>
+    <comment>There are {0} unpublished post(s)</comment>
+  </data>
+  <data name="timezone" xml:space="preserve">
+    <value>时区</value>
+    <comment>Timezone</comment>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>标题</value>
+    <comment>Title</comment>
+  </data>
+  <data name="trimStylesheet" xml:space="preserve">
+    <value>去除样式表中的空白</value>
+    <comment>Trim stylesheets</comment>
+  </data>
+  <data name="trimStylesheetDescription" xml:space="preserve">
+    <value>通过在运行时去除任一主题中的所有样式表中的空白, 使它们变得更小.</value>
+    <comment>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</comment>
+  </data>
+  <data name="updateFrequenzy" xml:space="preserve">
+    <value>更新频率(分)</value>
+    <comment>Update frequency (minutes)</comment>
+  </data>
+  <data name="uploadFile" xml:space="preserve">
+    <value>上传文件</value>
+    <comment>Upload file</comment>
+  </data>
+  <data name="uploadImage" xml:space="preserve">
+    <value>上传图像</value>
+    <comment>Upload image</comment>
+  </data>
+  <data name="userName" xml:space="preserve">
+    <value>用户名</value>
+    <comment>Username</comment>
+  </data>
+  <data name="users" xml:space="preserve">
+    <value>用户</value>
+    <comment>Users</comment>
+  </data>
+  <data name="website" xml:space="preserve">
+    <value>网站</value>
+    <comment>Website</comment>
+  </data>
+  <data name="willShowGravatar" xml:space="preserve">
+    <value>将显示你的 {0} 肖像</value>
+    <comment>Will show your {0} icon</comment>
+  </data>
+  <data name="wrote" xml:space="preserve">
+    <value>已写</value>
+    <comment>wrote</comment>
+  </data>
+  <data name="youAlreadyRated" xml:space="preserve">
+    <value>你已经对此文章评级</value>
+    <comment>You already rated this post</comment>
+  </data>
+</root>

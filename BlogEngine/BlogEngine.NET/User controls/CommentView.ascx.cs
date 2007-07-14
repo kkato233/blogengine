@@ -424,9 +424,6 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
         comment.Website = url;
     }
 
-    //Post.Comments.Add(comment);
-    //Post.Save();
-
     Post.AddComment(comment);
 
     SetCookie(author, email, website, country);
