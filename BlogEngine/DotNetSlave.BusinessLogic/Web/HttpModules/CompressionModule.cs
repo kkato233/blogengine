@@ -72,7 +72,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// Checks the request headers to see if the specified
     /// encoding is accepted by the client.
     /// </summary>
-    private bool IsEncodingAccepted(string encoding)
+    private static bool IsEncodingAccepted(string encoding)
     {
       return HttpContext.Current.Request.Headers["Accept-encoding"] != null && HttpContext.Current.Request.Headers["Accept-encoding"].Contains(encoding);
     }
@@ -81,7 +81,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// Adds the specified encoding to the response headers.
     /// </summary>
     /// <param name="encoding"></param>
-    private void SetEncoding(string encoding)
+    private static void SetEncoding(string encoding)
     {
       HttpContext.Current.Response.AppendHeader("Content-encoding", encoding);
     }

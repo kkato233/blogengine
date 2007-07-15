@@ -84,7 +84,7 @@ namespace BlogEngine.Core.Web.HttpModules
 
     #endregion
 
-    private bool IsSearchEngine(string referrer)
+    private static bool IsSearchEngine(string referrer)
     {
       return referrer.ToLowerInvariant().Contains("?q=") || referrer.ToLowerInvariant().Contains("&q=");
     }
@@ -97,7 +97,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// <returns>
     /// 	<c>true</c> if the specified referrer is spam; otherwise, <c>false</c>.
     /// </returns>
-    private bool IsSpam(string referrer, Uri url)
+    private static bool IsSpam(string referrer, Uri url)
     {
       try
       {
@@ -150,7 +150,7 @@ namespace BlogEngine.Core.Web.HttpModules
       stateInfo = null;
     }
 
-    private void RegisterClick(string url, bool isSpam)
+    private static void RegisterClick(string url, bool isSpam)
     {
       string fileName = _Folder + DateTime.Now.Date.ToString("dddd", CultureInfo.InvariantCulture) + ".xml";
 

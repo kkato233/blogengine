@@ -18,11 +18,11 @@ using System;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
 [assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.blog.js", "application/x-javascript")]
 [assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.se_hilite.js", "application/x-javascript")]
 
-[assembly: AssemblyVersion("1.1.0.6")]
+[assembly: AssemblyVersion("1.1.0.7")]
