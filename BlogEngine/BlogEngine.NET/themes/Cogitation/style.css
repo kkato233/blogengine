@@ -630,9 +630,7 @@ input, textarea
 ----------------------------*/
 
 #contact{
-	background : white;
 	padding: 10px;
-	border: 1px solid silver;
 }
 
 #contact h1{
@@ -654,4 +652,67 @@ input, textarea
 	width: 75%;
 	height: 150px;
 	margin: 0;
+}
+
+/*----------------------------
+					Archive
+----------------------------*/
+
+#archive {
+	padding: 10px;
+}
+
+#archive h1 {
+	padding-bottom: 9px;
+	margin: 0;
+}
+
+#archive h2 {
+	border-bottom: 1px solid silver;
+	padding-bottom: 4px;
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+
+#archive h2 img {
+	margin-right: 3px;
+}
+
+#archive ul {
+	list-style-type: square;
+	margin: 0 10px;
+	padding: 10px;
+}
+
+#archive ul li {
+	margin-right: 20px;
+}
+
+#archive table{
+	width: 100%;	
+	border-collapse: collapse;
+}
+
+#archive table td, #archive table th{
+	text-align:left;
+}
+
+#archive table td{
+	text-align:left;
+	border-bottom: 1px solid #D8D8D8;
+	padding: 2px 0;
+}
+
+#archive .date{
+	width: 100px;
+}
+
+#archive .comments{
+	width: 70px;
+	text-align: center;
+}
+
+#archive .rating{
+	width: 70px;
+	text-align: center;
 }
