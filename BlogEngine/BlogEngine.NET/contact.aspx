@@ -6,7 +6,7 @@
     <div id="divForm" runat="server">
       <h1><%=Resources.labels.contact %></h1>
       
-      <p><%=BlogSettings.Instance.ContactFormMessage %></p>
+      <div><%=BlogSettings.Instance.ContactFormMessage %></div>
       
       <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
       <asp:TextBox runat="server" id="txtName" cssclass="field" />

@@ -22,7 +22,7 @@
         <br />
         Actions:
         <%=AdminLinks %>
-        <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | <a href="<%=Post.RelativeLink %>#comment">Comments (<%=Post.Comments.Count %>)</a>
+        <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | <a href="<%=Post.RelativeLink %>#comment">Comments (<%=Post.Comments.Count %>)</a>
         |<a rel="nofollow" href="http://www.dzone.com/links/add.html?url=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>&amp;title=<%=Server.UrlEncode(Post.Title) %>">dzone it!</a>
     </div>
 </div>

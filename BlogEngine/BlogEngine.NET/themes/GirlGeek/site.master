@@ -47,7 +47,7 @@ Feel free to use and modify but please provide credits.
 							</ul>
 						</div>
 						<div class="right">
-							<a href="<%=Utils.FeedUrl %>">Subscribe to My Feed<asp:Image ID="RssIconImage1" runat="Server" Width="24px" Height="24px" AlternateText="RSS Feed" ImageAlign="AbsMiddle" Style="margin: 0 0 0 10px" /></a>
+							<a href="<%=Utils.FeedUrl %>">Subscribe to My Feed<asp:Image ID="RssIconImage1" runat="Server" Width="24px" Height="24px" AlternateText="RSS Feed" Style="margin: 0 0 -6px 10px" /></a>
 						</div>
 						<div class="clearer"></div>
 					</div>

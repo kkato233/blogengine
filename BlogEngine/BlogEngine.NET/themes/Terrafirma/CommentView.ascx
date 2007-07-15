@@ -5,7 +5,8 @@
   <p class="gravatar"><%= Gravatar(80)%></p>
   <p class="content"><%= ResolveLinks(Comment.Content) %></p>
   <p class="author">
-    <%= Comment.Website != null ? "<a href=\"" + Comment.Website + "\">" + Comment.Author + "</a>" : Comment.Author %>
+   <%= Comment.Website != null ? "<a href=\"" + Comment.Website + "\">" + Comment.Author + "</a>" : Comment.Author %>
+    <%= Flag %>
     <%= AdminLinks %>
   </p>
 </div>

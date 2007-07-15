@@ -1,56 +1,64 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
 <%@ Register Src="SidePanel.ascx" TagName="InfoBox" TagPrefix="uc1" %>
 <%@ Import Namespace="BlogEngine.Core" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
-    <link rel="stylesheet" href="template_800.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="template_800.css" type="text/css" />
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div id="container">
-           <div id="header">
-                <h1>
-                        <a id="A1" href="~/" runat="server"><%=BlogSettings.Instance.Name %></a>
-                </h1>
-                <h2>
-                    <%=BlogSettings.Instance.Description %>
-                </h2>
-            </div>
-            <div id="searchBox">
-                <blog:SearchBox ID="SearchBox1" runat="server" />
-            </div>
-            <div id="navigation">          
-              <ul>
-                <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/">Home</asp:HyperLink></li>
-                <li><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/archive.aspx">Archive</asp:HyperLink></li>
-                <li><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/contact.aspx">Contact</asp:HyperLink></li>
-                <li><a href="<%=Utils.FeedUrl %>">Feed</a></li>
-              </ul>
-            </div>
-            <div id="content">
-                <blog:SearchOnSearch ID="SearchOnSearch1" runat="server" MaxResults="3" Headline="You searched for"
-                    Text="Here are some results for the search term on this website" />
-                <asp:ContentPlaceHolder ID="cphBody" runat="server" />
-                <p style="font-size: 9px; text-align: center">
-                    Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a>
-                    <%=BlogSettings.Instance.Version() %>
-                    <br />
-                    Theme by <a href="http://brunofigueiredo.com">Bruno 'Shine' Figueiredo</a>
-                </p>
-                
-            </div>
-            <div id="footer">
-                    <div id="footer_separator">
-                    </div>
-                    <div id="footer_content">
-                        <uc1:InfoBox ID="InfoBox1" runat="server" />
-                    </div>
-            </div>
-            <div id="footer_logo">
-            </div>
-    </form>
+  <form id="form1" runat="server">
+    
+    <div id="container">
+      
+      <div id="header">
+        <h1>
+          <a id="A1" href="~/" runat="server">
+            <%=BlogSettings.Instance.Name %>
+          </a>
+        </h1>
+        <h2>
+          <%=BlogSettings.Instance.Description %>
+        </h2>
+      </div>
+      
+      <div id="searchBox">
+        <blog:SearchBox ID="SearchBox1" runat="server" />
+      </div>
+      
+      <div id="navigation">
+        <ul>
+          <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/">Home</asp:HyperLink></li>
+          <li><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/archive.aspx">Archive</asp:HyperLink></li>
+          <li><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/contact.aspx">Contact</asp:HyperLink></li>
+          <li><a href="<%=Utils.FeedUrl %>">Feed</a></li>
+        </ul>
+      </div>
+      
+      <div id="content">
+        <blog:SearchOnSearch ID="SearchOnSearch1" runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
+        <asp:ContentPlaceHolder ID="cphBody" runat="server" />
+        <p style="font-size: 9px; text-align: center">
+          Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a>
+          <%=BlogSettings.Instance.Version() %>
+          <br />
+          Theme by <a href="http://brunofigueiredo.com">Bruno 'Shine' Figueiredo</a>
+        </p>
+      </div>
+      
+      <div id="footer">
+        <div id="footer_separator">
+        </div>
+        <div id="footer_content">
+          <uc1:InfoBox ID="InfoBox1" runat="server" />
+        </div>
+      </div>
+      
+      <div id="footer_logo">
+      </div>
+    </div>
+  </form>
 </body>
 </html>
