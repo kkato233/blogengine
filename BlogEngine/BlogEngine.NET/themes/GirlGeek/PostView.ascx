@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="BlogEngine.Core.Web.Controls.PostViewBase" %>
 
-<div class="post">
-    <h1><a class="postheader" href="<%=Post.RelativeLink %>"><%=Post.Title %></a></h1>
+<div class="post xfolkentry">
+    <h1><a class="postheader taggedlink" href="<%=Post.RelativeLink %>"><%=Post.Title %></a></h1>
     <div class="descr"><%=Post.DateCreated.ToString("dddd, d MMMM yyyy HH:mm")%> by <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a></div>
     <div class="entry"><%=Post.Content %></div>
     <%=Rating %>
