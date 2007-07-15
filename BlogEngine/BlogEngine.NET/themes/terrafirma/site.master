@@ -71,7 +71,7 @@
             <asp:ContentPlaceHolder ID="cphBody" runat="server" />
         </div>
         <div id="footer">
-	        <p>Powered by <a href="http://www.codeplex.com/blogengine" target="_blank">BlogEngine.NET</a>  | 
+	        <p>Powered by <a href="http://www.codeplex.com/blogengine" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> | 
             Original Design by <a href="http://www.nodethirtythree.com">nodethirtythree</a>, Adapted by <a href="http://www.rivero.org">Víctor</a></p>
         </div>
 
