@@ -604,6 +604,7 @@ h1, h2, h3, h4, h5 {
 .star-rating .current-rating {
 	z-index: 1;
 	background-position: left center;
+	margin: 0px;
 }
 
 /* smaller star */
