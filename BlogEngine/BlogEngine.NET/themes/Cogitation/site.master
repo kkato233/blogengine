@@ -21,7 +21,7 @@
 	            <a href="~/" runat="server">Home</a>
 	            <a href="~/archive.aspx" runat="server">Archive</a>
 	            <a id="A1" href="~/contact.aspx" runat="server">Contact</a>
-	            <a href="~/syndication.axd" runat="server" style="float:left">Subscribe</a>
+	            <a href="<%=Utils.FeedUrl %>" style="float:left">Subscribe</a>
 	            <asp:LoginStatus ID="LoginStatus1" runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" />
                 <div class="HeaderBarTabWindow">
 		            <asp:Image ID="BlueTab" ImageUrl="images/TransTabRight.gif" Runat="server" GenerateEmptyAlternateText="true"></asp:Image>
