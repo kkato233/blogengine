@@ -102,7 +102,7 @@ namespace BlogEngine.Core.Web.Controls
           BlogBasePage page = (BlogBasePage)Page;
           System.Text.StringBuilder sb = new System.Text.StringBuilder();
           sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", Comment.Email);
-          sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&q={0}/\">{0}</a>", Comment.IP);
+          sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
           string confirmDelete = string.Format(page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
           sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
           return sb.ToString();
