@@ -20,9 +20,6 @@ a {
 a:hover {
 	color: #C60;
 }
-img {
-	border: none;
-}
 body {
 	background: #0094D6 url(img/bg.gif) repeat-x;
 	color: #466;
@@ -126,7 +123,7 @@ h1,h2,h3 {
 	padding: 12px 12px 0 52px;
 }
 
-/* main right */
+/* main left */
 .sidenav {
 	float: left;
 	width: 24%;
@@ -319,71 +316,110 @@ h1,h2,h3 {
 	height: 150px;
 }
 
+/* Archive */
+#archive p
+{
+	font-size: 1.2em;
+}
+#archive img
+{
+	border: none;
+	padding-right: 5px;
+}
+#archive h2 {
+	font-size: 1.2em;
+	margin-bottom: 4px;
+}
+#archive span 
+{
+	display: block;
+	margin-bottom: 3px;
+	font-size: 1.1em;
+}
+
+#archive span a 
+{
+	margin-left: 4px;
+}
+
 /*----------------------------
-					Archive
+				 Tag cloud
 ----------------------------*/
 
-#archive {
-	padding: 10px;
-}
-
-#archive a{
-	color: #F70;
-}
-
-#archive h1 {
-	margin: 0;
-	padding-bottom: 9px;
-}
-
-#archive h2 {
-	border-bottom: 1px solid silver;
-	padding-bottom: 4px;
-	font-size: 12px;
+#tagcloud {
 	margin-bottom: 10px;
+	white-space: normal;
 }
 
-#archive h2 img {
+#tagcloud li {
+	display: inline;
+	border-bottom: none;
+}
+
+#tagcloud a {
 	margin-right: 3px;
+	display: inline;
+	padding: 3px 1px 3px 1px;
 }
 
-#archive ul {
-	list-style-type: square;
-	margin: 0 10px;
-	padding: 10px;
+#tagcloud li a:hover {
+	color: #111;
+	background: none;
 }
 
-#archive ul li {
-	margin-right: 20px;
+#tagcloud a.biggest {
+	font-size: 20px;
 }
 
-#archive table{
-	width: 100%;	
-	border-collapse: collapse;
+#tagcloud a.big {
+	font-size: 17px;
 }
 
-#archive table td, #archive table th{
-	text-align:left;
+#tagcloud a.medium {
+	font-size: 13px;
 }
 
-#archive table td{
-	text-align:left;
-	border-bottom: 1px solid #D8D8D8;
-	padding: 2px 0;
+#tagcloud a.small {
+	font-size: 12px;
 }
 
-#archive .date{
-	width: 70px;
+#tagcloud a.smallest {
+	font-size: 10px;
 }
 
-#archive .comments{
-	width: 70px;
-	text-align: center;
+/*----------------------------
+					 Calendar
+----------------------------*/
+
+#calendarContainer {
+	text-transform: capitalize;
+	margin: 0 auto;
 }
 
-#archive .rating{
-	width: 70px;
-	text-align: center;
+.calendar {
+	border: none;
+	margin: 0 auto;
+	font-size: 1.2em;
+	width: 80%;
+}
+
+.calendar .weekend {
+	background-color: #F1F1F1;
+}
+
+.calendar .other {
+	color: silver;
+}
+
+.calendar a.exist {
+	display: block;
+	font-weight: bold;
+	background-color: #F1F1F1;
+}
+
+.calendar td {
+	vertical-align: top;
+	background: white;
 }
 
 /*----------------------------

@@ -192,7 +192,7 @@ INSERT INTO be_Settings (SettingName, SettingValue)
 INSERT INTO be_Settings (SettingName, SettingValue)
 	VALUES ('displaycommentsonrecentposts', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)
-	VALUES ('theme', 'standard');
+	VALUES ('theme', 'Standard');
 INSERT INTO be_Settings (SettingName, SettingValue)
 	VALUES ('iscommentsenabled', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)
@@ -258,7 +258,7 @@ INSERT INTO be_Settings (SettingName, SettingValue)
 INSERT INTO be_Settings (SettingName, SettingValue)
 	VALUES ('sendmailoncomment', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)
-	VALUES ('blogrollmaxlength', '30');
+	VALUES ('blogrollmaxlength', '23');
 INSERT INTO be_Settings (SettingName, SettingValue)
 	VALUES ('enablehttpcompression', 'True');
 

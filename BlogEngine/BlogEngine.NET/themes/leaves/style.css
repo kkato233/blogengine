@@ -377,6 +377,44 @@ input {
 }
 
 /*----------------------------
+				 Tag cloud
+----------------------------*/
+
+#tagcloud {
+	margin-bottom: 10px;
+	white-space: normal;
+}
+
+#tagcloud li {
+	display: inline;
+}
+
+#tagcloud a {
+	margin-right: 3px;
+	display: inline;
+}
+
+#tagcloud a.biggest {
+	font-size: 17px;
+}
+
+#tagcloud a.big {
+	font-size: 15px;
+}
+
+#tagcloud a.medium {
+	font-size: 13px;
+}
+
+#tagcloud a.small {
+	font-size: 11px;
+}
+
+#tagcloud a.smallest {
+	font-size: 10px;
+}
+
+/*----------------------------
 					Star rater
 ----------------------------*/
 
