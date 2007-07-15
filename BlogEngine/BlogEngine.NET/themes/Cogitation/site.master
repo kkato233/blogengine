@@ -36,8 +36,7 @@
         <div id="leftmenu">
             <div class="box">
                 <h1>About the author</h1>
-                <div class="vcard"><span class="fn">Ahmad Masykur</span> is a software developer at <a href="http://www.bataviasoft.com/"><span class="org">Bataviasoft</span></a> <span class="adr"><span class="locality">Jakarta</span> <span class="country-name">Indonesia</span></span>.</div>
-                <div>In this blog, I share things of interest to me. Most topics are likely to be related to software development, but don't hold me to it.</div>
+                <div class="vcard"><span class="fn">Author Name</span> is someone.</div>
                 <!-- Email -->
                 <div style="float:right;"><a href="<%=Utils.SafeMail(BlogSettings.Instance.Email, BlogSettings.Instance.Name) %>" >
                   E-mail me <img id="Img1" src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
@@ -101,7 +100,7 @@
             </asp:contentplaceholder>
         </div>
     </form>
-    <div id="footer">Powered by <a href="http://www.dotnetblogengine.net/" target="_blank">BlogEngine.NET 1.0</a> | Theme by <a href="http://blogs.crsw.com/mark/articles/152.aspx" target="_blank">Mark Wagner</a>, Adapted by <a href="http://www.masykur.web.id/">Ahmad Masykur</a>
+    <div id="footer">Powered by <a href="http://www.dotnetblogengine.net/" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> | Theme by <a href="http://blogs.crsw.com/mark/articles/152.aspx" target="_blank">Mark Wagner</a>, Adapted by <a href="http://www.masykur.web.id/">Ahmad Masykur</a>
 </div>
 </body>
 </html>

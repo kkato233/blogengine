@@ -6,4 +6,6 @@ you will need a little instruction.
 The instructions can be found on our wiki:
 http://www.dotnetblogengine.net/wiki/SQLServerBlogProvider.ashx
 
-THe latest version of the schema is located in this folder.  You should use that file to create your database tables.
+The latest version of the SQL installation script is located in this folder.  
+
+You should use that file to create your database tables.

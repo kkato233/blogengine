@@ -119,7 +119,7 @@ CREATE TABLE [dbo].[be_Posts](
 	[IsPublished] [bit] NULL,
 	[IsCommentEnabled] [bit] NULL,
 	[Raters] [int] NULL,
-	[Rating] [float] NULL,
+	[Rating] [real] NULL,
  CONSTRAINT [PK_be_Posts] PRIMARY KEY CLUSTERED 
 (
 	[PostID] ASC
@@ -278,9 +278,9 @@ INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Auth
 	<h2>Setup</h2>
 	<p>Find and open the users.xml file which is located in the App_Data folder. Edit the default user and provide your own name as the username and a password of your choice. Save the users.xml file with the new username and password and you are now able to log in and start writing posts.</p>
 	<h2>Write permissions</h2>
-	<p>To be able to log in to the blog and writing posts, you need to enable write permissions on the App_Data folder. If you&amp;rsquo;re blog is hosted at a hosting provider, you can either log into your account&amp;rsquo;s admin page or call the support. You need write permissions on the App_Data folder because all posts and comments are saved as XML files and placed in the App_Data folder.</p>
+	<p>To be able to log in to the blog and writing posts, you need to enable write permissions on the App_Data folder. If you are blog is hosted at a hosting provider, you can either log into your account&amp;rsquo;s admin page or call the support. You need write permissions on the App_Data folder because all posts and comments are saved as XML files and placed in the App_Data folder.</p>
 	<h2>On the web </h2>
-	<p>You can find BlogEngine.NET on the &lt;a href="http://www.dotnetblogengine.net"&gt;official website&lt;/a&gt;. Here you&amp;#39;ll find tutorials, documentation, tips and tricks and much more. The ongoing development of BlogEngine.NET can be followed at &lt;a href="http://www.codeplex.com/blogengine"&gt;CodePlex&lt;/a&gt; where the daily builds will be published for anyone to download.</p>
+	<p>You can find BlogEngine.NET on the <a href="http://www.dotnetblogengine.net">official website</a>. Here you will find tutorials, documentation, tips and tricks and much more. The ongoing development of BlogEngine.NET can be followed at <a href="http://www.codeplex.com/blogengine">CodePlex</a> where the daily builds will be published for anyone to download.</p>
 	<p>Good luck and happy writing.</p>
 	<p>The BlogEngine.NET team</p>',
 	'05/06/07', 
