@@ -338,7 +338,7 @@ div.commentForm label
 	background-color: white;
 	margin-bottom: 10px;
 }
-.comment #title 
+.comment .title 
 {
 	border-bottom: solid 1px gainsboro;
 	background-color: whitesmoke;
