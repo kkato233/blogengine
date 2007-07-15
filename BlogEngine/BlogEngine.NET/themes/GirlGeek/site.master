@@ -47,7 +47,7 @@ Feel free to use and modify but please provide credits.
 							</ul>
 						</div>
 						<div class="right">
-							<asp:HyperLink ID="HlFeed" NavigateUrl="~/syndication.axd" runat="server">Subscribe to My Feed<asp:Image ID="RssIconImage1" runat="Server" Width="24px" Height="24px" AlternateText="RSS Feed" ImageAlign="AbsMiddle" Style="margin: 0 0 0 10px" /></asp:HyperLink>
+							<a href="<%=Utils.FeedUrl %>">Subscribe to My Feed<asp:Image ID="RssIconImage1" runat="Server" Width="24px" Height="24px" AlternateText="RSS Feed" ImageAlign="AbsMiddle" Style="margin: 0 0 0 10px" /></a>
 						</div>
 						<div class="clearer"></div>
 					</div>

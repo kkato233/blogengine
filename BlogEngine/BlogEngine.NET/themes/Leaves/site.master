@@ -22,7 +22,7 @@
 			    <li><asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink></li>
 			    <li><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
 			    <li><asp:HyperLink ID="hlContact" NavigateUrl="~/contact.aspx" runat="server">Contact</asp:HyperLink></li>
-			    <li><asp:HyperLink ID="HlFeed" NavigateUrl="~/syndication.axd" runat="server">Feed</asp:HyperLink></li>
+			    <li><a href="<%=Utils.FeedUrl %>">Feed</a></li>
 			    <li><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></li>
                 <li><p><strong>Disclaimer</strong><br/>The opinions expressed herein are my own personal opinions and do not represent my employer's view in anyway.<br /><br />
                     &copy; Copyright <%=DateTime.Now.Year %><br /><br /> </p></li>

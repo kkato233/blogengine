@@ -32,28 +32,22 @@ namespace BlogEngine.Core
       text = text.Replace("@", string.Empty);
       text = text.Replace(".", string.Empty);
       return HttpUtility.UrlEncode(text.Replace(" ", "-"));
-
-      //StringBuilder sb = new StringBuilder();
-      //text = text.Replace(" ", "-");
-      //foreach (char c in text)
-      //{
-      //  if (IsAllowedCharacter(c))
-      //    sb.Append(c);
-      //}
-
-      //return sb.ToString();
     }
 
-    private static bool IsAllowedCharacter(char character)
-    {      
-      string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
-      foreach (char c in allowedChars)
+    /// <summary>
+    /// Gets the relative URL of the blog feed. If a Feedburner username
+    /// is entered in the admin settings page, it will return the 
+    /// absolute Feedburner URL to the feed.
+    /// </summary>
+    public static string FeedUrl
+    {
+      get
       {
-        if (c == character)
-          return true;
+        if (!string.IsNullOrEmpty(BlogSettings.Instance.FeedburnerUserName))
+          return "http://feeds.feedburner.com/" + BlogSettings.Instance.FeedburnerUserName;
+        else
+          return RelativeWebRoot + "syndication.axd";
       }
-
-      return false;
     }
 
     /// <summary>
