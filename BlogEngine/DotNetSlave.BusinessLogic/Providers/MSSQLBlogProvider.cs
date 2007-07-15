@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Providers
 
       Post post = new Post();
       string sqlQuery = "SELECT PostID, Title, Description, PostContent, DateCreated, " +
-                          "DateModified, Author, IsPublished, IsCommentEnabled " +
+                          "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating " +
                           "FROM be_Posts " +
                           "WHERE PostID = @id";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
@@ -50,6 +50,10 @@ namespace BlogEngine.Core.Providers
         post.IsPublished = rdr.GetBoolean(7);
       if (!rdr.IsDBNull(8))
         post.IsCommentsEnabled = rdr.GetBoolean(8);
+      if (!rdr.IsDBNull(9))
+        post.Raters = rdr.GetInt32(9);
+      if (!rdr.IsDBNull(10))
+        post.Rating = rdr.GetFloat(10);
 
       rdr.Close();
 

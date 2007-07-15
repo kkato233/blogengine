@@ -479,6 +479,7 @@ h1,h2,h3 {padding-top: 6px; color: #553; margin-bottom: 4px;}
 .star-rating .current-rating {
 	z-index: 1;
 	background-position: left center;
+	margin: 0;
 }
 
 /* smaller star */
