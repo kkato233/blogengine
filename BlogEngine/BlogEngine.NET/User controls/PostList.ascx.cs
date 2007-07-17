@@ -78,9 +78,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     if (path.Contains("?"))
     {
       path = path.Substring(0, path.IndexOf("?"));
-      if (string.IsNullOrEmpty(Request.QueryString["tag"]))
-        path = path + "?";
-      else
+      if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
         path = path + "?tag=" + Request.QueryString["tag"] + "&";
     }
 
