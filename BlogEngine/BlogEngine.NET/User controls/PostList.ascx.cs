@@ -76,7 +76,13 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
   {
     string path = Request.RawUrl;
     if (path.Contains("?"))
-      path = path.Substring(0, path.IndexOf("?"));    
+    {
+      path = path.Substring(0, path.IndexOf("?"));
+      if (string.IsNullOrEmpty(Request.QueryString["tag"]))
+        path = path + "?";
+      else
+        path = path + "?tag=" + Request.QueryString["tag"] + "&";
+    }
 
     int page = GetPageIndex();
     string url = path + "?page={0}";
