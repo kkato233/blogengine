@@ -25,7 +25,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       DisplayTags();
     }
-    else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null)
+    else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null || Request.QueryString["calendar"] != null)
     {
       DisplayDateRange();
     }

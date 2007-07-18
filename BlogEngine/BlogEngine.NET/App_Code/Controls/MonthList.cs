@@ -48,7 +48,7 @@ namespace Controls
 
         while (first <= DateTime.Now)
         {
-          List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddDays(-1));
+          List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddMilliseconds(-1));
           if (list.Count > 0)
           {
             DateTime date = DateTime.Parse(first.Year + "-" + first.Month + "-01");
@@ -67,9 +67,14 @@ namespace Controls
       ul.Attributes.Add("id", "monthList");
       HtmlGenericControl year = null;
       HtmlGenericControl list = null;
+      int current = 0;
+
       foreach (DateTime date in _Months.Keys)
       {
-        if (date.Month == 1 || ul.Controls.Count == 0)
+        if (current == 0)
+          current = date.Year;
+
+        if (date.Year > current || ul.Controls.Count == 0)
         {
           list = new HtmlGenericControl("ul");
           list.ID = "year" + date.Year.ToString();
@@ -94,6 +99,7 @@ namespace Controls
 
         li.Controls.Add(anc);
         list.Controls.AddAt(0, li);
+        current = date.Year;
       }
 
       System.IO.StringWriter sw = new System.IO.StringWriter();

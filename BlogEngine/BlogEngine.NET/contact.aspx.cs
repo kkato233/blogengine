@@ -18,7 +18,10 @@ public partial class contact : BlogBasePage
   {
     btnSend.Click += new EventHandler(btnSend_Click);
     if (!Page.IsPostBack)
+    {
       GetCookie();
+      phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
+    }
   }
 
   private void btnSend_Click(object sender, EventArgs e)
@@ -41,6 +44,12 @@ public partial class contact : BlogBasePage
         mail.Subject = "Weblog e-mail - " + txtSubject.Text;
         mail.Body = txtMessage.Text;
         mail.IsBodyHtml = false;
+
+        if (txtAttachment.HasFile)
+        {
+          Attachment attachment = new Attachment(txtAttachment.PostedFile.InputStream, txtAttachment.FileName);
+          mail.Attachments.Add(attachment);
+        }
 
         SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
         smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
