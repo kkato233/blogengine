@@ -200,6 +200,7 @@ namespace BlogEngine.Core
     private int postsPerFeed;
     private bool displayCommentsOnRecentPosts;
     private bool displayRatingsOnRecentPosts;
+    private bool enableContactAttachments;
     #endregion
 
     //============================================================
@@ -1275,6 +1276,19 @@ namespace BlogEngine.Core
       get { return timezone; }
       set { timezone = value; }
     }
+    #endregion
+
+    #region EnableContactAttachments
+
+    /// <summary>
+    /// Gets or sets whether or not to allow visitors to send attachments via the contact form.
+    /// </summary>
+    public bool EnableContactAttachments
+    {
+      get { return enableContactAttachments; }
+      set { enableContactAttachments = value; }
+    }	
+
     #endregion
 
     //============================================================

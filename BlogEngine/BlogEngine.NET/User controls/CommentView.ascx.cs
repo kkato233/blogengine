@@ -109,7 +109,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
     System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
 
-    foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures))
+    foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
     {
       RegionInfo ri = new RegionInfo(ci.Name);
       if (!dic.ContainsKey(ri.EnglishName))

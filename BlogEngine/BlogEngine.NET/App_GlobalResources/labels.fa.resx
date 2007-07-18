@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-    Microsoft ResX Schema 
+Translated by Touradg Morassaei for BlogEngine.Net    
+Microsoft ResX Schema 
     
     Version 2.0
     
@@ -118,333 +119,327 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Add</value>
+    <value>اضافه کردن</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Add entry</value>
+    <value>ارسال ورودی</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Add comment</value>
+    <value>ارسال نظر</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Add custom code to the HTML head section</value>
+    <value>اضاف کردن کد به هدر کدهای HTML</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Control panel</value>
+    <value>پانل کنترل</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>پیشرفته</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>آرشیو</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Are you sure you want to {0} {1}?</value>
-  </data>
-  <data name="attachFile" xml:space="preserve">
-    <value>Attach a file</value>
+    <value>آیا مطمئن هستید که {0} {1}?</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Author</value>
+    <value>مولف</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Basic</value>
+    <value>ابتدایی</value>
   </data>
   <data name="blogroll" xml:space="preserve">
-    <value>Blogroll</value>
+    <value>اخبار از سایتهای دیگر</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Button text</value>
+    <value>متن دکمه</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Categories</value>
+    <value>بخشها</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Category</value>
+    <value>بخش</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Close comments after</value>
+    <value>بستن امکان ارسال نظر بعد از</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Comment</value>
+    <value>نظر</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Comment label text</value>
+    <value>متن برچسب نظر</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Comments</value>
+    <value>نظرات</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>تماس</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Contact form</value>
+    <value>فرم تماس</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Controls</value>
+    <value>کنترلها</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Country</value>
+    <value>کشور</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Create new user</value>
+    <value>ایجاد کاربر جدید</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Currently rated {0} by {1} people</value>
+    <value>امتیاز فعلی {0} از طرف {1} نفر</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Date</value>
+    <value>تاریخ</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Default feed output</value>
+    <value>خروجی پیش فرض فید (Feed)</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>The default text shown in the search textbox</value>
+    <value>متن پیش فرضی که در جعبه جستجو نمایش داده می شود</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>حذف</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Description</value>
+    <value>توضیحات</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Display comments</value>
+    <value>نمایش نظرات</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Display rating</value>
+    <value>نمایش امتیاز دهی</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>ویرایش</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>ایمیل</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mail address</value>
-  </data>
-  <data name="enableAttachments" xml:space="preserve">
-    <value>Enable attachments</value>
+    <value>آدرس ایمیل</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Enable coComments</value>
+    <value>فعال سازی نظر برای نظرات</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Enable comments</value>
+    <value>فعال سازی نظرات</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>If comments aren't enabled, nobody can write comments to any post.</value>
+    <value>اگر نظرات فعال نباشند هیچ کس نمی تواند نظری ارسال کند.</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Enable comment search</value>
+    <value>فعال سازی جستجو در نظرات</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Enable HTTP compression</value>
+    <value>فعال کردن فشرده سازی اطلاعات</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Makes the pages load faster (recommended).</value>
+    <value>صفحات را سریعتر بارگذاری کن (توصیه می شود)</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Enable OpenSearch</value>
+    <value>فعال کردن OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Adds the search feature to all new browsers (recommended).</value>
+    <value>ویژگی جستجو را به تمام جستجوگرهای جدید اضافه می کند</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Enable referrer tracking</value>
+    <value>فعال سازی ردیابی ورودی از سایتهای دیگر</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Enable search highlight</value>
+    <value>فعال سازی رنگ در جستجو</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Colors the search words on the page.</value>
+    <value>کلمات مورد جستجو را با رنگی دیگر نشان بده</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Endorsment (bLink)</value>
+    <value>امضا (bLink)</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Form message</value>
+    <value>پیغام فرم</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Go to front page</value>
+    <value>رفتن به صفحه اول سایت</value>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
     <value>HTML head section</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Keywords</value>
+    <value>لغات کلیدی</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Choose language</value>
+    <value>انتخاب زبان</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Language code</value>
+    <value>کد زبان</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>Latitude</value>
+    <value>عرض جغرافیایی</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Live preview</value>
+    <value>پیش نمایش زنده</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>Longtitude</value>
+    <value>طول جغرافیایی</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Max length of items</value>
+    <value>حداکثر طول آیتمها</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Message</value>
+    <value>پیغام</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>More</value>
+    <value>بیشتر</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Name</value>
+    <value>نام</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Not rated yet</value>
+    <value>هنوز امتیازی داده نشده</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># of displayed items</value>
+    <value>تعداد موارد نمایش داده شده</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Number of posts</value>
+    <value>تعداد ارسالها</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Pages</value>
+    <value>صفحات</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Password</value>
+    <value>رمز عبور</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Port number</value>
+    <value>شماره پورت</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Port 25 is the standard</value>
+    <value>پورت 25 پورت استاندارد است</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Possible spam</value>
+    <value>امکان ارسال هرزنامه</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Posts per page</value>
+    <value>تعداد ارسالها در هر صفحه</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Items shown in feed</value>
+    <value>موارد نمایش داده شده در فید (Feed)</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Publish</value>
+    <value>ارسال</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Rating</value>
+    <value>امتیازدهی</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Recent posts</value>
+    <value>ارسالهای اخیر</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Referrer</value>
+    <value>ارجاع دهنده</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Referrers</value>
+    <value>ارجاع دهندگان</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>ذخیره</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Save comment</value>
+    <value>ذخیره نظر</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Save page</value>
+    <value>ذخیره صفحه</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Save post</value>
+    <value>ذخیره ارسال</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Save settings</value>
+    <value>ذخیره تنظیمات</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Search field</value>
+    <value>فیلد جستجو</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Search field text</value>
+    <value>متن فیلد جستجو</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Select day</value>
+    <value>انتخاب روز</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Send comment e-mail</value>
+    <value>ارسال ایمیل نظرات</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Separate each tag with a comma</value>
+    <value>هر کلیدواژه را با کاما از هم جدا کنید</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>تنظیمات</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Show country chooser</value>
+    <value>نمایش انتخاب کننده کشور</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>If the country chooser isn't shown, no flag can be shown on each comment.</value>
+    <value>اگر انتخاب کننده کشور نمایش داده نشود هیچ پرچمی در کنار نظرات ظاهر نخواهد شد</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Show live preview</value>
+    <value>فعالسازی پیش نمایش زنده</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Show related posts</value>
+    <value>نمایش ارسالهای مرتبط</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Subject</value>
+    <value>موضوع</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Thank you message</value>
+    <value>پیغام تشکر</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>the comment</value>
+    <value>نظر</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Theme</value>
+    <value>پوسته گرافیکی</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>the post</value>
+    <value>ارسال</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>There are {0} unpublished post(s)</value>
+    <value>تعداد {0} ارسال فرستاده نشده وجود دارد</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Timezone</value>
+    <value>منطقه زمانی</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Title</value>
+    <value>عنوان</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Trim stylesheets</value>
+    <value>تنظیم شکل ظاهر</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
+    <value>حذف بخشهای خالی فایلهای گرافیکی برای کوچکتر کردن سایز آنها</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Update frequency (minutes)</value>
+    <value>تناوب بروزرسانی (دقیقه)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Upload file</value>
+    <value>ارسال فایل</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Upload image</value>
+    <value>ارسال عکس</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Username</value>
+    <value>نام کاربری</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Users</value>
+    <value>کاربران</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Website</value>
+    <value>وب سایت</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Will show your {0} icon</value>
+    <value>آیکن {0} شما را نمایش خواهد داد</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>wrote</value>
+    <value>نوشته شده</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>You already rated this post</value>
+    <value>شما قبلاً به این مقاله امتیاز داده اید</value>
   </data>
 </root>

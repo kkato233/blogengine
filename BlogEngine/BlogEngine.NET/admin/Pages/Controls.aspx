@@ -45,7 +45,10 @@
   
   <label for="<%=txtThankMessage.ClientID %>"><%=Resources.labels.thankYouMessage %></label>
   <asp:TextBox runat="server" ID="txtThankMessage" TextMode="multiLine" Rows="5" Columns="40" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="Required" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="Required" /><br />
+  
+  <label for="<%=cbEnableAttachments.ClientID %>"><%=Resources.labels.enableAttachments %></label>
+  <asp:CheckBox runat="Server" ID="cbEnableAttachments" />
   
 </div>
 

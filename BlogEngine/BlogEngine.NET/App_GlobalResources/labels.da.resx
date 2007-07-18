@@ -141,6 +141,9 @@
   <data name="areYouSure" xml:space="preserve">
     <value>Er du sikker på du vil {0} {1}?</value>
   </data>
+  <data name="attachFile" xml:space="preserve">
+    <value>Vedhæft en fil</value>
+  </data>
   <data name="author" xml:space="preserve">
     <value>Forfatter</value>
   </data>
@@ -218,6 +221,9 @@
   </data>
   <data name="emailAddress" xml:space="preserve">
     <value>E-mail adresse</value>
+  </data>
+  <data name="enableAttachments" xml:space="preserve">
+    <value>Tillad vedhæftninger</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
     <value>Vis coComments</value>

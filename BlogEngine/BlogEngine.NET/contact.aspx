@@ -25,6 +25,11 @@
       <asp:TextBox runat="server" id="txtMessage" textmode="multiline" rows="5" columns="30" />
       <asp:requiredfieldvalidator runat="server" controltovalidate="txtMessage" ErrorMessage="Please write a message" display="dynamic" />    
       
+      <asp:placeholder runat="server" id="phAttachment">      
+        <label for="<%=txtAttachment.ClientID %>"><%=Resources.labels.attachFile %></label>
+        <asp:FileUpload runat="server" id="txtAttachment" />
+      </asp:placeholder>
+      
       <br /><br />
       
       <asp:button runat="server" id="btnSend" Text="Send" />    
@@ -32,7 +37,7 @@
     </div>
     
     <div id="divThank" runat="Server" visible="False">      
-      <%=BlogSettings.Instance.ContactFormMessage %>
+      <%=BlogSettings.Instance.ContactThankMessage %>
     </div>
   </div>
 </asp:Content>
