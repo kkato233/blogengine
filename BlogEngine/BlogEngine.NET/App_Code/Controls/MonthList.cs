@@ -42,7 +42,11 @@ namespace Controls
       lock (_SyncRoot)
       {
         _Months.Clear();
-        DateTime first = DateTime.Parse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01");
+        DateTime first;
+        if (Post.Posts.Count <= 0 || !DateTime.TryParse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01", out first))
+        {
+            first = DateTime.Now;
+        }
         int year = first.Year;
         int month = first.Month;
 
