@@ -10,7 +10,7 @@
 	  //plugins : "style,layer,table,save,advhr,advimage,advlink,emotions,iespell,media,searchreplace,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
 	  plugins : "fullscreen,contextmenu,cleanup,emotions,media",
 	  theme_advanced_buttons1_add_before : "fullscreen,code,separator,cut,copy,paste,separator,undo,redo,separator",
-	  theme_advanced_buttons1_add : "separator,bullist,numlist,outdent,indent,separator,link,unlink,image,media,sub,sup,removeformat,cleanup,charmap,emotions,separator,formatselect,fontselect,fontsizeselect,separator,help",
+	  theme_advanced_buttons1_add : "separator,bullist,numlist,outdent,indent,separator,link,unlink,image,media,sub,sup,removeformat,cleanup,charmap,emotions,separator,formatselect,fontselect,fontsizeselect",
 	  theme_advanced_buttons2_add : "",
 	  //theme_advanced_buttons2_add_before: "",
 	  theme_advanced_disable : "styleselect,code,hr,charmap,sub,sup,visualaid,separator,removeformat,bullist,numlist,outdent,indent,undo,redo,link,unlink,anchor,help,cleanup,image,formatselect",
