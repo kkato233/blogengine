@@ -35,6 +35,7 @@ public partial class admin_entry : System.Web.UI.Page
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
       }
 
+      Page.Title = Resources.labels.add_Entry;
       cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
     }
 

@@ -26,6 +26,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     btnSave.Click += new EventHandler(btnSave_Click);
     btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
     btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
+    Page.Title = Resources.labels.pages;
   }
 
   private void btnUploadImage_Click(object sender, EventArgs e)

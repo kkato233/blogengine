@@ -200,6 +200,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
       smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
       smtp.Port = BlogSettings.Instance.SmtpServerPort;
+      smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
       smtp.Send(message);
     }
     catch (Exception)

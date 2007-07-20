@@ -29,6 +29,8 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
     btnSaveSettings.Text = Resources.labels.save + " " + Resources.labels.settings.ToLowerInvariant();
     btnSave.Click += new EventHandler(btnSave_Click);
     btnSaveSettings.Click += new EventHandler(btnSaveSettings_Click);
+
+    Page.Title = Resources.labels.blogroll;
   }
 
   #region Event handlers

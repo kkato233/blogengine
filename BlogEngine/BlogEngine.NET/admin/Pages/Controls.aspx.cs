@@ -20,6 +20,7 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
 
     btnSave.Click += new EventHandler(btnSave_Click);
     btnSave.Text = Resources.labels.save + " " + Resources.labels.settings;
+    Page.Title = Resources.labels.controls;
   }
 
   void btnSave_Click(object sender, EventArgs e)

@@ -22,6 +22,7 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     btnAdd.Click += new EventHandler(btnAdd_Click);
     btnAdd.Text = Resources.labels.add + " " + Resources.labels.category.ToLowerInvariant();
     valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
+    Page.Title = Resources.labels.categories;
   }
 
   private void valExist_ServerValidate(object source, ServerValidateEventArgs args)

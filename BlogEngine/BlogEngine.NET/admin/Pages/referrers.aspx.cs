@@ -31,6 +31,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
     ddlDays.SelectedIndexChanged += new EventHandler(ddlDays_SelectedIndexChanged);
     cbEnableReferrers.CheckedChanged += new EventHandler(cbEnableReferrers_CheckedChanged);
+    Page.Title = Resources.labels.referrers;
   }
 
   private void cbEnableReferrers_CheckedChanged(object sender, EventArgs e)

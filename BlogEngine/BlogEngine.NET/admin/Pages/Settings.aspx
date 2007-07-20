@@ -130,8 +130,11 @@
   <label for="<%=txtSmtpPassword.ClientID %>"><%=Resources.labels.password %></label>
   <asp:TextBox runat="server" ID="txtSmtpPassword" Width="300" /><br />
   
+  <label for="<%=cbEnableSsl.ClientID %>"><%=Resources.labels.enableSsl%></label>
+  <asp:CheckBox runat="Server" ID="cbEnableSsl" /><br />
+  
   <label for="<%=cbComments.ClientID %>"><%=Resources.labels.sendCommentEmail %></label>
-  <asp:CheckBox runat="Server" ID="cbComments" /><br /><br />
+  <asp:CheckBox runat="Server" ID="cbComments" /><br /><br /> 
   
   <asp:Button runat="server" CausesValidation="False" ID="btnTestSmtp" Text="Test mail settings" />
   <asp:Label runat="Server" ID="lbSmtpStatus" />
@@ -179,17 +182,17 @@
 
 <div class="settings">
 
-  <h1>Tracking script</h1>
-  <label for="<%=txtTrackingScript.ClientID %>">Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />Will be added in the bottom of each page regardless of the theme.<br /><br />(remember to add the &lt;script&gt; tags)</label>
-  <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
+  <h1><%=Resources.labels.htmlHeadSection %></h1>
+  <label for="<%=txtHtmlHeader.ClientID %>"><%=Resources.labels.addCustomCodeToHeader %></label>
+  <asp:TextBox runat="server" ID="txtHtmlHeader" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
 
 </div>
 
 <div class="settings">
 
-  <h1><%=Resources.labels.htmlHeadSection %></h1>
-  <label for="<%=txtHtmlHeader.ClientID %>"><%=Resources.labels.addCustomCodeToHeader %></label>
-  <asp:TextBox runat="server" ID="txtHtmlHeader" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
+  <h1>Tracking script</h1>
+  <label for="<%=txtTrackingScript.ClientID %>">Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />Will be added in the bottom of each page regardless of the theme.<br /><br />(remember to add the &lt;script&gt; tags)</label>
+  <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
 
 </div>
 

@@ -27,6 +27,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
       BindSettings();
     }
 
+    Page.MaintainScrollPositionOnPostBack = true;
+    Page.Title = Resources.labels.settings;
+
     btnSave.Click += new EventHandler(btnSave_Click);
     btnSaveTop.Click += new EventHandler(btnSave_Click);
     btnTestSmtp.Click += new EventHandler(btnTestSmtp_Click);
@@ -43,6 +46,8 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
       mail.Body = "Success";
       SmtpClient smtp = new SmtpClient(txtSmtpServer.Text);
       smtp.Credentials = new System.Net.NetworkCredential(txtSmtpUsername.Text, txtSmtpPassword.Text);
+      smtp.EnableSsl = cbEnableSsl.Checked;
+      smtp.Port = int.Parse(txtSmtpServerPort.Text, CultureInfo.InvariantCulture);
       smtp.Send(mail);
       lbSmtpStatus.Text = "Test successfull";
       lbSmtpStatus.Style.Add(HtmlTextWriterStyle.Color, "green");
@@ -76,6 +81,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.SmtpUsername = txtSmtpUsername.Text;
     BlogSettings.Instance.SmtpPassword = txtSmtpPassword.Text;
     BlogSettings.Instance.SendMailOnComment = cbComments.Checked;
+    BlogSettings.Instance.EnableSsl = cbEnableSsl.Checked;
 
     //-----------------------------------------------------------------------
     // Set Comments settings
@@ -164,6 +170,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtSmtpUsername.Text = BlogSettings.Instance.SmtpUsername;
     txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
     cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
+    cbEnableSsl.Checked = BlogSettings.Instance.EnableSsl;
 
     //-----------------------------------------------------------------------
     // Bind Advanced settings

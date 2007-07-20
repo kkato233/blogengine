@@ -201,6 +201,7 @@ namespace BlogEngine.Core
     private bool displayCommentsOnRecentPosts;
     private bool displayRatingsOnRecentPosts;
     private bool enableContactAttachments;
+    private bool enableSsl;
     #endregion
 
     //============================================================
@@ -764,6 +765,25 @@ namespace BlogEngine.Core
         {
           smtpUsername = value;
         }
+      }
+    }
+    #endregion
+
+    #region EnableSsl
+    /// <summary>
+    /// Gets or sets a value indicating if an enail is sent when a comment is added to a post.
+    /// </summary>
+    /// <value><b>true</b> if email notification of new comments is enabled, otherwise returns <b>false</b>.</value>
+    public bool EnableSsl
+    {
+      get
+      {
+        return enableSsl;
+      }
+
+      set
+      {
+        enableSsl = value;
       }
     }
     #endregion

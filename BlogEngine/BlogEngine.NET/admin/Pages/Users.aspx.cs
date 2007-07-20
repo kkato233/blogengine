@@ -27,6 +27,7 @@ public partial class admin_newuser : System.Web.UI.Page
       }
 
       CreateUserWizard1.CreatedUser += new EventHandler(CreateUserWizard1_CreatedUser);
+      Page.Title = Resources.labels.users;
     }
 
   void CreateUserWizard1_CreatedUser(object sender, EventArgs e)
