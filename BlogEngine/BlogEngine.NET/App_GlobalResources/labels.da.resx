@@ -258,6 +258,9 @@
   <data name="enableSearchHighlightDescription" xml:space="preserve">
     <value>Fremhæver søgeordene på siden</value>
   </data>
+  <data name="enableSsl" xml:space="preserve">
+    <value>Benyt SSL</value>
+  </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
   </data>

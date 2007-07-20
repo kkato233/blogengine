@@ -78,12 +78,14 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     if (path.Contains("?"))
     {
       path = path.Substring(0, path.IndexOf("?"));
-      if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
+      if (string.IsNullOrEmpty(Request.QueryString["tag"]))
+        path = path + "?";
+      else
         path = path + "?tag=" + Request.QueryString["tag"] + "&";
     }
 
     int page = GetPageIndex();
-    string url = path + "?page={0}";
+    string url = path + "page={0}";
 
     if (Request.QueryString["year"] != null && Request.QueryString["month"] != null)
       url += "&amp;year=" + Request.QueryString["year"] + "&amp;month=" + Request.QueryString["month"];    

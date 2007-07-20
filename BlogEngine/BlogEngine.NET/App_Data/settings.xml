@@ -7,20 +7,19 @@
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd?format=rss</endorsement>
   <showlivepreview>True</showlivepreview>
-  <enablesearchhightlight>True</enablesearchhightlight>
+  <enablecommentsearch>True</enablecommentsearch>
   <feedburnerusername />
   <authorname>My name</authorname>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>Standard</theme>
   <iscommentsenabled>True</iscommentsenabled>
-  <language>en-GB</language>
+  <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
-  <htmlheader>&lt;link rel="example" /&gt;</htmlheader>
+  <htmlheader />
   <syndicationformat>Rss</syndicationformat>
   <geocodinglatitude>0</geocodinglatitude>
   <email>name@example.com</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
-  <enablecommentsearch>True</enablecommentsearch>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <timezone>1</timezone>
   <smtpusername>username</smtpusername>
@@ -32,6 +31,7 @@
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
+  <enablesearchhightlight>True</enablesearchhightlight>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>
@@ -43,6 +43,7 @@
 &lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <postsperfeed>15</postsperfeed>
   <geocodinglongitude>0</geocodinglongitude>
+  <language>en-GB</language>
   <enablereferrertracking>False</enablereferrertracking>
   <enablecontactattachments>True</enablecontactattachments>
   <blogrollupdateminutes>60</blogrollupdateminutes>
