@@ -577,6 +577,10 @@ ul#monthList ul.open{
 					Star rater
 ----------------------------*/
 
+.rating{
+	margin-bottom: 10px;
+}
+
 .rating p{
 	display: inline;
 	position: relative;

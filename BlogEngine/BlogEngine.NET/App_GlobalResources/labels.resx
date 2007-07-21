@@ -249,6 +249,9 @@
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Adds the search feature to all new browsers (recommended).</value>
   </data>
+  <data name="enableRating" xml:space="preserve">
+    <value>Enable post ratings</value>
+  </data>
   <data name="enableReferrerTracking" xml:space="preserve">
     <value>Enable referrer tracking</value>
   </data>

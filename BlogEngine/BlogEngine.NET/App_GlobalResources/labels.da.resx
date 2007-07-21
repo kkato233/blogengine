@@ -249,6 +249,9 @@
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Tilføjer bloggen til listen over søgemaskiner i alle nye browsere (anbefalet).</value>
   </data>
+  <data name="enableRating" xml:space="preserve">
+    <value>Tillad at stemme på indlæg</value>
+  </data>
   <data name="enableReferrerTracking" xml:space="preserve">
     <value>Slå hentning af henvisninger til</value>
   </data>

@@ -202,6 +202,7 @@ namespace BlogEngine.Core
     private bool displayRatingsOnRecentPosts;
     private bool enableContactAttachments;
     private bool enableSsl;
+    private bool enableRating;
     #endregion
 
     //============================================================
@@ -432,6 +433,25 @@ namespace BlogEngine.Core
       set
       {
         showLivePreview = value;
+      }
+    }
+    #endregion
+    
+    #region EnableRating
+    /// <summary>
+    /// Gets or sets a value indicating if live preview of post is displayed.
+    /// </summary>
+    /// <value><b>true</b> if live previews are displayed, otherwise returns <b>false</b>.</value>
+    public bool EnableRating
+    {
+      get
+      {
+        return enableRating;
+      }
+
+      set
+      {
+        enableRating = value;
       }
     }
     #endregion

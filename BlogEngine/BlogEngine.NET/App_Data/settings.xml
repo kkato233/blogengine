@@ -3,6 +3,7 @@
   <storagelocation>~/app_data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
+  <enablerating>True</enablerating>
   <enablerelatedposts>True</enablerelatedposts>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd?format=rss</endorsement>

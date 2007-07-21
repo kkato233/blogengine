@@ -29,6 +29,9 @@
   <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
   <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />
   
+  <label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label>
+  <asp:CheckBox runat="server" ID="cbEnableRating" /><br />
+  
   <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
   <asp:DropDownList runat="Server" id="ddlCulture" style="text-transform:capitalize">
     <asp:ListItem Text="Auto" />
