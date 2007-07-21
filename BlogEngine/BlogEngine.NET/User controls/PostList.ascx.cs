@@ -74,21 +74,27 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
   /// </summary>
   private void InitPaging()
   {
-    string path = Request.RawUrl;
+    string path = Request.RawUrl.Replace("Default.aspx", string.Empty);
+
     if (path.Contains("?"))
     {
-      path = path.Substring(0, path.IndexOf("?"));
-      if (string.IsNullOrEmpty(Request.QueryString["tag"]))
-        path = path + "?";
+      if (path.Contains("page="))
+      {
+        int index = path.IndexOf("page=");
+        path = path.Substring(0, index);
+      }
       else
-        path = path + "?tag=" + Request.QueryString["tag"] + "&";
+      {
+        path += "&";
+      }
+    }
+    else
+    {
+      path += "?";
     }
 
     int page = GetPageIndex();
     string url = path + "page={0}";
-
-    if (Request.QueryString["year"] != null && Request.QueryString["month"] != null)
-      url += "&amp;year=" + Request.QueryString["year"] + "&amp;month=" + Request.QueryString["month"];    
 
     hlNext.HRef = string.Format(url, page);
     hlPrev.HRef = string.Format(url, page +2);    

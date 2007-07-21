@@ -123,6 +123,9 @@ namespace BlogEngine.Core.Web.Controls
     {
       get
       {
+        if (!BlogSettings.Instance.EnableRating)
+          return string.Empty;
+
         float rating = Post.Rating / 5 * 100;
         StringBuilder sb = new StringBuilder();
         sb.Append("<div class=\"rating\">");

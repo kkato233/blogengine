@@ -87,15 +87,21 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
         title.Attributes.Add("class", "title");
         row.Cells.Add(title);
 
-        HtmlTableCell comments = new HtmlTableCell();
-        comments.InnerHtml = post.Comments.Count.ToString();
-        comments.Attributes.Add("class", "comments");
-        row.Cells.Add(comments);
+        if (BlogSettings.Instance.IsCommentsEnabled)
+        {
+          HtmlTableCell comments = new HtmlTableCell();
+          comments.InnerHtml = post.Comments.Count.ToString();
+          comments.Attributes.Add("class", "comments");
+          row.Cells.Add(comments);
+        }
 
-        HtmlTableCell rating = new HtmlTableCell();
-        rating.InnerHtml = post.Raters == 0 ? "None" : Math.Round(post.Rating, 1).ToString();
-        rating.Attributes.Add("class", "rating");
-        row.Cells.Add(rating);
+        if (BlogSettings.Instance.EnableRating)
+        {
+          HtmlTableCell rating = new HtmlTableCell();
+          rating.InnerHtml = post.Raters == 0 ? "None" : Math.Round(post.Rating, 1).ToString();
+          rating.Attributes.Add("class", "rating");
+          row.Cells.Add(rating);
+        }
 
         table.Rows.Add(row);
       }
@@ -119,15 +125,21 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     title.InnerHtml = base.Translate("title");
     header.Cells.Add(title);
 
-    HtmlTableCell comments = new HtmlTableCell("th");
-    comments.InnerHtml = base.Translate("comments");
-    comments.Attributes.Add("class", "comments");
-    header.Cells.Add(comments);
+    if (BlogSettings.Instance.IsCommentsEnabled)
+    {
+      HtmlTableCell comments = new HtmlTableCell("th");
+      comments.InnerHtml = base.Translate("comments");
+      comments.Attributes.Add("class", "comments");
+      header.Cells.Add(comments);
+    }
 
-    HtmlTableCell rating = new HtmlTableCell("th");
-    rating.InnerHtml = base.Translate("rating");
-    rating.Attributes.Add("class", "rating");
-    header.Cells.Add(rating);
+    if (BlogSettings.Instance.EnableRating)
+    {
+      HtmlTableCell rating = new HtmlTableCell("th");
+      rating.InnerHtml = base.Translate("rating");
+      rating.Attributes.Add("class", "rating");
+      header.Cells.Add(rating);
+    }
 
     table.Rows.Add(header);
 
