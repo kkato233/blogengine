@@ -86,7 +86,7 @@ namespace BlogEngine.Core.Web.Controls
           body = body.Replace(match.Value, "<a href=\"" + match.Value + "\" rel=\"nofollow\">" + match.Value + "</a>");
       }
 
-      return body.Replace(Environment.NewLine, "<br />");
+      return body.Replace("\n", "<br />");
     }
 
     /// <summary>

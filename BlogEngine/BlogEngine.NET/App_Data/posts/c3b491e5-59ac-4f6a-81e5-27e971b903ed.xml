@@ -35,17 +35,7 @@ The BlogEngine.NET team
     <tag>blog</tag>
     <tag>welcome</tag>
   </tags>
-  <comments>
-    <comment id="3a21c7f5-b9fc-4042-acc5-a97298153bd7">
-      <date>2007-07-12 20:22:03</date>
-      <author>Mads Kristensen</author>
-      <email>post@madskristensen.dk</email>
-      <country>dk</country>
-      <ip>127.0.0.1</ip>
-      <website>http://www.madskristensen.dk/</website>
-      <content>test</content>
-    </comment>
-  </comments>
+  <comments />
   <categories>
     <category>19770e74-9ec9-4cde-b2ab-e5051aaaf348</category>
   </categories>
