@@ -84,7 +84,7 @@ function AddComment()
 }
 
 function AppendComment(args, context)
-{
+{alert(args);
   if (context == "comment")
   {
     if (document.getElementById("commentlist").innerHTML == "")
