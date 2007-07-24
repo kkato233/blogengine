@@ -29,7 +29,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       DisplayDateRange();
     }
-    else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]))
+    else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]))
     {
       PostList1.Posts = Post.Posts;
       Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;

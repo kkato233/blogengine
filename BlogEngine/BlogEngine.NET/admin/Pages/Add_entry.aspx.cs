@@ -35,6 +35,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
         ddlAuthor.SelectedValue = Page.User.Identity.Name;
         txtDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
+        txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
       }
 
       Page.Title = Resources.labels.add_Entry;
@@ -176,6 +177,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
       thread.Start();
     }
 
+    Session.Remove("autosave");
     Response.Redirect(post.RelativeLink.ToString());
   }
 
@@ -283,7 +285,14 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
   public void RaiseCallbackEvent(string eventArgument)
   {
+    if (eventArgument.StartsWith("_autosave"))
+    {
+      Session["autosave"] = eventArgument.Replace("_autosave", string.Empty);
+    }
+    else
+    {
     _Callback = Utils.RemoveIlegalCharacters(eventArgument.Trim());
+    }
   }
 
   #endregion

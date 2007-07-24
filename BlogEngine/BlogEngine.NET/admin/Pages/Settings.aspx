@@ -1,6 +1,14 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin.master" ValidateRequest="false" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+<script type="text/javascript">
+function PreviewTheme()
+{
+  var theme = document.getElementById('<%=ddlTheme.ClientID %>').value;
+  var path = '../../?theme=' + theme;
+  window.open(path);
+}
+</script>
 <br />
 
 <div style="text-align:right">
@@ -24,7 +32,8 @@
   <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
   
   <label for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
-  <asp:DropDownList runat="server" ID="ddlTheme" /><br />
+  <asp:DropDownList runat="server" ID="ddlTheme" />
+  <a href="javascript:void(PreviewTheme());">Preview</a><br />
     
   <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
   <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />

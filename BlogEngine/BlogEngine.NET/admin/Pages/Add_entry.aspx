@@ -24,6 +24,18 @@ function ApplySlug(arg, context)
   var slug = document.getElementById('<%=txtSlug.ClientID %>');
   slug.value = arg;
 }
+
+function AutoSave()
+{  
+  var content = tinyMCE.getContent('mce_editor_0');
+
+  if (content.length > 10)
+  {
+    WebForm_DoCallback('__Page', '_autosave' + content, null, 'autosave', null, false);
+  }
+  
+  setTimeout("AutoSave()", 5000);
+}
 </script>
 
   <div id="divDrafts" runat="server" visible="False" enableviewstate="False" style="margin-bottom: 10px">
@@ -107,5 +119,9 @@ function ApplySlug(arg, context)
     <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, savePost %> " TabIndex="16" />
   </div>
   <br />
+  
+  <script type="text/javascript">
+    setTimeout("AutoSave()", 5000);
+  </script>
 </asp:Content>
 
