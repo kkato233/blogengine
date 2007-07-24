@@ -11,7 +11,7 @@ using BlogEngine.Core;
 
 #endregion
 
-public partial class admin_entry : System.Web.UI.Page
+public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
 {
   protected void Page_Load(object sender, EventArgs e)
   {
@@ -21,6 +21,8 @@ public partial class admin_entry : System.Web.UI.Page
       BindCategories();
       BindUsers();
       BindDrafts();
+
+      Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
 
       if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
       {
@@ -37,6 +39,7 @@ public partial class admin_entry : System.Web.UI.Page
 
       Page.Title = Resources.labels.add_Entry;
       cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
+      Page.Form.DefaultButton = btnSave.UniqueID;
     }
 
     btnSave.Click += new EventHandler(btnSave_Click);
@@ -137,11 +140,15 @@ public partial class admin_entry : System.Web.UI.Page
 
     post.DateCreated = DateTime.Parse(txtDate.Text);
     post.Author = ddlAuthor.SelectedValue;
-    post.Title = txtTitle.Text;
+    post.Title = txtTitle.Text.Trim();
     post.Content = txtContent.Text;
-    post.Description = txtDescription.Text;
+    post.Description = txtDescription.Text.Trim();
     post.IsPublished = cbPublish.Checked;
     post.IsCommentsEnabled = cbEnableComments.Checked;
+
+    if (!string.IsNullOrEmpty(txtSlug.Text))
+      post.Slug = txtSlug.Text.Trim();
+
     post.Categories.Clear();
 
     foreach (ListItem item in cblCategories.Items)
@@ -202,6 +209,7 @@ public partial class admin_entry : System.Web.UI.Page
     txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
     cbEnableComments.Checked = post.IsCommentsEnabled;
     cbPublish.Checked = post.IsPublished;
+    txtSlug.Text = post.Slug;
 
     foreach (Guid key in post.Categories)
     {
@@ -263,4 +271,20 @@ public partial class admin_entry : System.Web.UI.Page
 
   #endregion
 
+
+  #region ICallbackEventHandler Members
+
+  private string _Callback;
+
+  public string GetCallbackResult()
+  {
+    return _Callback;
+  }
+
+  public void RaiseCallbackEvent(string eventArgument)
+  {
+    _Callback = Utils.RemoveIlegalCharacters(eventArgument.Trim());
+  }
+
+  #endregion
 }

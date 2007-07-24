@@ -31,6 +31,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
     btnSaveSettings.Click += new EventHandler(btnSaveSettings_Click);
 
     Page.Title = Resources.labels.blogroll;
+    btnSave.Text = Resources.labels.add;
   }
 
   #region Event handlers

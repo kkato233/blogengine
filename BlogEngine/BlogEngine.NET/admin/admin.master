@@ -24,7 +24,7 @@
                                     </td>
                                      <td valign="middle">                                    
                                     </td>
-                                    <td valign="top" align="right" style="width:100px">
+                                    <td valign="top" align="right" style="width:150px">
                                     <a id="Return_to_Main" runat="server" href="~/"><%=Resources.labels.goToFrontPage %></a>
                                     </td>
                                     <td valign="top" align="right" style="width:50px">

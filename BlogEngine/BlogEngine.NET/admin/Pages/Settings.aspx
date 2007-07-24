@@ -4,7 +4,7 @@
 <br />
 
 <div style="text-align:right">
-  <asp:Button runat="server" ID="btnSaveTop" Text="<%$ Resources:labels, saveSettings %>" />
+  <asp:Button runat="server" ID="btnSaveTop" />
 </div><br />
 
 <div class="settings">
@@ -199,7 +199,7 @@
 
 </div>
 
-<div align="right"><asp:Button runat="server" ID="btnSave" Text="<%$ Resources:labels, saveSettings %>" /></div>
+<div align="right"><asp:Button runat="server" ID="btnSave" /></div>
 <br />
 
 </asp:Content>

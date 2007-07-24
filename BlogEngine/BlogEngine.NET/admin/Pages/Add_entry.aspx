@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" Title="Add entry" ValidateRequest="False" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" ValidateRequest="False" %>
 <%@ Register Src="~/admin/tinyMCE.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
@@ -11,6 +11,18 @@ function ToggleVisibility()
     element.style.display = "block";
   else
     element.style.display = "none";
+}
+
+function GetSlug()
+{
+  var title = document.getElementById('<%=txtTitle.ClientID %>').value;
+  WebForm_DoCallback('__Page', title, ApplySlug, 'slug', null, false) 
+}
+
+function ApplySlug(arg, context)
+{
+  var slug = document.getElementById('<%=txtSlug.ClientID %>');
+  slug.value = arg;
 }
 </script>
 
@@ -54,14 +66,21 @@ function ToggleVisibility()
       </td>
     </tr>    
     <tr>
+      <td class="label">Slug (optional)</td>
+      <td>
+        <asp:TextBox runat="server" ID="txtSlug" TabIndex="9" Width="400" />
+        <a href="javascript:void(GetSlug());">Extract from title</a>
+      </td>
+    </tr>
+    <tr>
       <td class="label"><%=Resources.labels.description %></td>
-      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Height="32px" TabIndex="9" /></td>
+      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Width="400" Height="32px" TabIndex="9" /></td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.categories %></td>
       <td>
         <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" TabIndex="10" />
-        <asp:Button runat="server" ID="btnCategory" Text="Add" ValidationGroup="category" TabIndex="11" />
+        <asp:Button runat="server" ID="btnCategory" Text="<%$ Resources:labels, add %>" ValidationGroup="category" TabIndex="11" />
         <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="The category already exist" Display="dynamic" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="Required" ValidationGroup="category" /><br />
         

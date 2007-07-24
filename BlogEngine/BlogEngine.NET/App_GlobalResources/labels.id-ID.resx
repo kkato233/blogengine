@@ -118,327 +118,333 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Įtraukti</value>
+    <value>Tambah</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Įtraukti įrašą</value>
+    <value>Tulis naskah baru</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Įtraukti komentarą</value>
+    <value>Tambahkan komentar</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Add custom code to the HTML head section</value>
+    <value>Tambahkan kode sendiri di dalam tag head HTML</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Kontrolės panelė</value>
+    <value>Panel kendali</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Aukštesnio lygio</value>
+    <value>Tingkat lanjut</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archyvuoti</value>
+    <value>Arsip</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Ar Jūs tikrai norite {0} {1}?</value>
+    <value>Apakah Anda yakin ingin {0} {1}?</value>
+  </data>
+  <data name="attachFile" xml:space="preserve">
+    <value>Lampirkan berkas</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Autorius</value>
+    <value>Penulis</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Pagrindinis</value>
+    <value>Dasar</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Mygtuko tekstas</value>
+    <value>Teks tombol</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Kategorijos</value>
+    <value>Kategori</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Kategorija</value>
+    <value>Kategori</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Uždaryti komentarus po</value>
+    <value>Tutup komentar setelah</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Komentaras</value>
+    <value>Komentar</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Komentato lauko tekstas</value>
+    <value>Teks label komentar</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Komentarai</value>
+    <value>Komentar</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Kontaktas</value>
+    <value>Kontak</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Kontakto forma</value>
+    <value>Formulir kontak</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Valdymai</value>
+    <value>Pengendalian</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Šalis</value>
+    <value>Negara</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Sukurti naują vartotoją</value>
+    <value>Buat pengguna baru</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Dabartinis reitingas {0} iš {1} žmonių</value>
+    <value>Saat ini telah dinilai {0} oleh {1} orang</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Data</value>
+    <value>Tanggal</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Default feed output</value>
+    <value>Default keluaran feed</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>The default text shown in the search textbox</value>
+    <value>Teks default yang ditampilkan dalam kotak teks pencarian R</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Ištrinti</value>
+    <value>Hapus</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Apibūdinimas</value>
+    <value>Penjelasan</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Rodyti komentarus</value>
+    <value>Tampilkan komentar</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Rodyti reitingą</value>
+    <value>Tampilkan penilaian</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Redaguoti</value>
+    <value>Ubah</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>Elektroninis paštas</value>
+    <value>Surat-e</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>Elektroninio pašto adresas</value>
+    <value>Alamat surat-e</value>
+  </data>
+  <data name="enableAttachments" xml:space="preserve">
+    <value>Hidupkan fasilitas lampiran</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Enable coComments</value>
+    <value>Hidupkan fasilitas coComments</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Komentarai galimi</value>
+    <value>Hidupkan fasilitas komentar</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Jei komentarai nėra galimi, niekas negali rašyti komentarų jokiam paštui</value>
+    <value>Jika fasilitas komentar tidak dihidupkan, komentar tidak dapat ditulis oleh siapapun.</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Galima komentarų paieška</value>
+    <value>Hidupkan fasilitas pencarian pada komentar</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Galimas HTTP suspaudimas</value>
+    <value>Hidupkan fasilitas pemampatan HTTP</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Leidžia puslapiams pasikrauti greičiau (rekomenduotina)</value>
+    <value>Halaman dimuat jadi lebih cepat (disarankan).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Atvira paieška galima</value>
+    <value>Hidupkan fasilitas OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Adds the search feature to all new browsers (recommended).</value>
+    <value>Tambahkan fasilitas pencarian untuk semua browser baru (disarankan).</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Enable referrer tracking</value>
+    <value>Hidupkan fasilitas pencatatan jejak perujuk</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Enable search highlight</value>
+    <value>Hidupkan fasilitas penyorotan teks hasil pencarian</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Nuspalvinti paieškos žodžius puslapyje</value>
+    <value>Beri warna pada kata yang dicari.</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Suformuoti žinutę</value>
+    <value>Formulir pesan</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Į pradini puslapį</value>
+    <value>Menuju halaman depan</value>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head section</value>
+    <value>Bagian head HTML</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Reikšminis žodis</value>
+    <value>Kata kunci</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Pasirinkti kalbą</value>
+    <value>Pilih bahasa</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Kalbos kodas</value>
+    <value>Kode bahasa</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>Platuma</value>
+    <value>Garis lintang</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Gyva peržiūra</value>
+    <value>Pratayang Langsung</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>Ilguma</value>
+    <value>Garis bujur</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Maksimalus elemento ilgis</value>
+    <value>Nilai pokok maksimal</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Žinutė</value>
+    <value>Pesan</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>Daugiau</value>
+    <value>Lebih lanjut</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Vardas</value>
+    <value>Nama</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Dar nesureitinguotas</value>
+    <value>Belum dinilai</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># rodomų elementų</value>
+    <value>Tertampil # buah</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Laiškų skaičius</value>
+    <value>Jumlah naskah</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Puslapiai</value>
+    <value>Halaman-halaman</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Slaptažodis</value>
+    <value>Kata sandi</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Jungties numeris</value>
+    <value>Nomor port</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Jungtis Nr. 25 standartinė</value>
+    <value>Nomor port standar adalah 25</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Galima šiukšlė</value>
+    <value>Kemungkinan spam</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Laiškai viename puslapyje</value>
+    <value>Jumlah naskah yang tampil per halaman</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Lauke rodomi elementai</value>
+    <value>Jumlah naskah yang ditampilkan dalam feed</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Skelbti</value>
+    <value>Publikasi</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Reitingas</value>
+    <value>Nilai</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Paskutinis paštas</value>
+    <value>Naskah-naskah terakhir</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Rekomenduotojas</value>
+    <value>Perujuk</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Referrers</value>
+    <value>Para perujuk</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Išsaugoti</value>
+    <value>Simpan</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Išsaugoti komentarą</value>
+    <value>Simpan komentar</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Išsaugoti puslapį</value>
+    <value>Simpan halaman</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Išsaugoti paštą</value>
+    <value>Simpan naskah</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Išsaugoti nustatymus</value>
+    <value>Simpan pengaturan</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Paieškos laukas</value>
+    <value>Field pencarian</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Paieškos teksto laukas</value>
+    <value>Teks field pencarian</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Pasirinkti dieną</value>
+    <value>Pilih hari</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Siųsti komnetaro elektroninį paštą</value>
+    <value>Kirim surat-e komentar</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Atskirti kiekvieną dalį kableliu</value>
+    <value>Pemisahan tag dengan koma</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Nustatymai</value>
+    <value>Pengaturan</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Rodyti šalies pasirinkimą</value>
+    <value>Tampilkan pilihan negara</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Jeigu šalies pasirinkimas nerodomas, jokie vėliavėlė negali būti rodoma prie komentarų</value>
+    <value>Jika pilihan negara tidak ditampilkan, gambar bendera tidak ditampilkan pada setiap komentar.</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Rodyti gyvą peržiūrą</value>
+    <value>Tampilkan pratayang langsung</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Parodyti susijusius laiškus</value>
+    <value>Tampilkan naskah yang berhubungan</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Tema</value>
+    <value>Materi</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Padėkos žinutė</value>
+    <value>Pesan terima kasih</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>Komentaras</value>
+    <value>komentar</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Objektas</value>
+    <value>Tema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>Paštas</value>
+    <value>naskah</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Yra {0} nepaskelbtų laiškų</value>
+    <value>Terdapat {0} naskah yang tidak dipublikasi</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Laiko juosta</value>
+    <value>Zona waktu</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Antraštė</value>
+    <value>Judul</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Trim stylesheets</value>
+    <value>Pangkas CSS</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
+    <value>Buat ukuran stylesheet lebih kecil dengan membuang semua whitespace pada saat runtime.</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Atnaujinti dažnumą</value>
+    <value>Frekuensi penyegaran (dalam menit)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Parsisiųsti failą</value>
+    <value>Unggah berkas</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Parsisiųsti paveiksliuką</value>
+    <value>Unggah gambar</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Vartotojo vardas</value>
+    <value>Nama pengguna</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Vartotojai</value>
+    <value>Para pengguna</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Internetinė svetainė</value>
+    <value>Situs web</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Will show your {0} icon</value>
+    <value>Akan menampilkan ikon {0} anda</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>Parašė</value>
+    <value>tulis</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>Šis įrašas jau reitinguotas</value>
+    <value>Anda telah menilai naskah ini</value>
   </data>
 </root>

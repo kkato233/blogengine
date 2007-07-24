@@ -73,8 +73,8 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private static void RewritePost(HttpContext context)
     {
-      string title = ExtractTitle(context, "/post/");
-      Post post = Post.GetPostByName(title);
+      string slug = ExtractTitle(context, "/post/");
+      Post post = Post.GetPostBySlug(slug);
       if (post != null)
         context.RewritePath("~/post.aspx?id=" + post.Id.ToString() + GetQueryString(context), false);
     }
