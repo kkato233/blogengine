@@ -105,6 +105,7 @@
     <Compile Include="Syndication\SyndicationFeedSettings.cs" />
     <Compile Include="Syndication\SyndicationFormat.cs" />
     <Compile Include="Syndication\W3CDateTime.cs" />
+    <Compile Include="Web\Controls\ExtensionAttribute.cs" />
     <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

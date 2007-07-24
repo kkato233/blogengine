@@ -398,7 +398,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
 
   public void RaiseCallbackEvent(string eventArgument)
   {
-    string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.RemoveEmptyEntries);
+    string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
     string author = args[0];
     string email = args[1];
     string website = args[2];
