@@ -56,6 +56,9 @@ namespace BlogEngine.Core.Providers
       if (doc.SelectSingleNode("post/rating") != null)
         post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.GetCultureInfo("en-gb"));
 
+      if (doc.SelectSingleNode("post/slug") != null)
+        post.Slug = doc.SelectSingleNode("post/slug").InnerText;
+
       // Tags
       foreach (XmlNode node in doc.SelectNodes("post/tags/tag"))
       {
@@ -127,6 +130,7 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
         writer.WriteElementString("raters", post.Raters.ToString());
         writer.WriteElementString("rating", post.Rating.ToString(CultureInfo.InvariantCulture));
+        writer.WriteElementString("slug", post.Slug);
 
         // Tags
         writer.WriteStartElement("tags");

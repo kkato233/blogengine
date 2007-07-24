@@ -76,7 +76,7 @@ function AddComment()
   if (document.getElementById("<%=ddlCountry.ClientID %>"))
     country = document.getElementById("<%=ddlCountry.ClientID %>").value;
   var content = document.getElementById("<%=txtContent.ClientID %>").value;
-  var argument = author + "¤" + email + "¤" + website + "¤" + country + "¤" + content;
+  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content;
   <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
   
   if (typeof OnComment != "undefined")
@@ -84,7 +84,7 @@ function AddComment()
 }
 
 function AppendComment(args, context)
-{alert(args);
+{
   if (context == "comment")
   {
     if (document.getElementById("commentlist").innerHTML == "")

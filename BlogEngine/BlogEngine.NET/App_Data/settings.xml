@@ -22,7 +22,7 @@
   <email>name@example.com</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <blogrollvisibleposts>3</blogrollvisibleposts>
-  <timezone>1</timezone>
+  <timezone>0</timezone>
   <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />

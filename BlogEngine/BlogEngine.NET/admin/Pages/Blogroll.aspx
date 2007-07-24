@@ -78,7 +78,7 @@
   </asp:CheckBoxList>
   
   <div style="text-align:right">
-    <asp:Button runat="server" ID="btnSave" Text="<%$ Resources:labels, add %>" />
+    <asp:Button runat="server" ID="btnSave" />
   </div>
   
 </div>

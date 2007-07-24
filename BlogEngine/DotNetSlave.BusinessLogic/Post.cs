@@ -180,6 +180,23 @@ namespace BlogEngine.Core
       }
     }
 
+    private string _Slug;
+    /// <summary>
+    /// Gets or sets the Slug of the Post.
+    /// A Slug is the relative URL used by the posts.
+    /// </summary>
+    public string Slug
+    {
+      get 
+      {
+        if (string.IsNullOrEmpty(_Slug))
+          return Title;
+
+        return _Slug; 
+      }
+      set { _Slug = value; }
+    }
+
     #endregion
 
     #region Links
@@ -198,7 +215,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri RelativeLink
     {
-      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIlegalCharacters(Title) + ".aspx"), UriKind.Relative); }
+      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIlegalCharacters(Slug) + ".aspx"), UriKind.Relative); }
     }
 
     /// <summary>
@@ -295,12 +312,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Returns a post based on it's title.
     /// </summary>
-    public static Post GetPostByName(string title)
+    public static Post GetPostBySlug(string slug)
     {
       foreach (Post post in Post.Posts)
       {
-        string legalTitle = Utils.RemoveIlegalCharacters(post.Title);
-        if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
+        if (slug.Equals(Utils.RemoveIlegalCharacters(post.Slug), StringComparison.OrdinalIgnoreCase))
         {
           return post;
         }

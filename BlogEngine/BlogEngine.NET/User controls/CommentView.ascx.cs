@@ -398,7 +398,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
 
   public void RaiseCallbackEvent(string eventArgument)
   {
-    string[] args = eventArgument.Split('¤');
+    string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.RemoveEmptyEntries);
     string author = args[0];
     string email = args[1];
     string website = args[2];
@@ -411,7 +411,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     comment.Email = email;
     comment.Content = Server.HtmlEncode(content);
     comment.IP = Request.UserHostAddress;
-    comment.Country = country;// GetCountry();
+    comment.Country = country;
     comment.DateCreated = DateTime.Now;
     comment.Post = Post;
 

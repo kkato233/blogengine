@@ -31,21 +31,6 @@ namespace BlogEngine.Core.Web.Controls
       MasterPageFile = "~/themes/" + BlogSettings.Instance.Theme + "/site.master";
       base.OnPreInit(e);
 
-      if (!string.IsNullOrEmpty(BlogSettings.Instance.Culture))
-      {
-        if (BlogSettings.Instance.Culture.Equals("Auto"))
-        {
-          Page.UICulture = "auto";
-          Page.Culture = "auto";
-        }
-        else
-        {
-          CultureInfo culture = CultureInfo.CreateSpecificCulture(BlogSettings.Instance.Culture);
-          Thread.CurrentThread.CurrentUICulture = culture;
-          Thread.CurrentThread.CurrentCulture = culture;
-        }
-      }
-
       if (!Page.IsPostBack && !string.IsNullOrEmpty(Request.QueryString["deletepost"]))
       {
         if (Page.User.Identity.IsAuthenticated)

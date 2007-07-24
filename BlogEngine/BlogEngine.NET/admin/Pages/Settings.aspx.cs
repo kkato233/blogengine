@@ -33,6 +33,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     btnSave.Click += new EventHandler(btnSave_Click);
     btnSaveTop.Click += new EventHandler(btnSave_Click);
     btnTestSmtp.Click += new EventHandler(btnTestSmtp_Click);
+
+    btnSaveTop.Text = Resources.labels.saveSettings;
+    btnSave.Text = btnSaveTop.Text;
   }
 
   private void btnTestSmtp_Click(object sender, EventArgs e)
