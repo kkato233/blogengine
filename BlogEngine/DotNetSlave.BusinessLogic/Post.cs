@@ -446,6 +446,7 @@ namespace BlogEngine.Core
     protected override void DataUpdate()
     {
       BlogService.UpdatePost(this);
+      Posts.Sort();
     }
 
     /// <summary>

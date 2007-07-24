@@ -23,12 +23,18 @@ namespace BlogEngine.Core.Web.Controls
   /// </remarks>
   public abstract class BlogBasePage : System.Web.UI.Page
   {
+
+    private string _Theme = BlogSettings.Instance.Theme;
     /// <summary>
     /// Assignes the selected theme to the pages.
     /// </summary>
     protected override void OnPreInit(EventArgs e)
     {
-      MasterPageFile = "~/themes/" + BlogSettings.Instance.Theme + "/site.master";
+      if (Request.QueryString["theme"] != null)
+        _Theme = Request.QueryString["theme"];
+
+      MasterPageFile = "~/themes/" + _Theme + "/site.master";
+
       base.OnPreInit(e);
 
       if (!Page.IsPostBack && !string.IsNullOrEmpty(Request.QueryString["deletepost"]))
@@ -100,6 +106,9 @@ namespace BlogEngine.Core.Web.Controls
     /// </summary>
     protected virtual void CompressCSS()
     {
+      if (Request.QueryString["theme"] != null)
+        return;
+
       foreach (Control control in Page.Header.Controls)
       {
         HtmlControl c = control as HtmlControl;
@@ -166,7 +175,7 @@ namespace BlogEngine.Core.Web.Controls
       HtmlLink link = new HtmlLink();
       link.Attributes["rel"] = rel;
       link.Attributes["title"] = title;
-      link.Attributes["href"] = href;      
+      link.Attributes["href"] = href;
       Page.Header.Controls.Add(link);
     }
 

@@ -36,7 +36,11 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     if (index + count > Posts.Count)
       stop = Posts.Count - index;
 
-    string path = "~/themes/" + BlogSettings.Instance.Theme + "/postview.ascx";
+    string theme = BlogSettings.Instance.Theme;
+    if (Request.QueryString["theme"] != null)
+      theme = Request.QueryString["theme"];
+
+    string path = "~/themes/" + theme + "/postview.ascx";
     int counter = 0;
 
     foreach (Post post in Posts.GetRange(index, Posts.Count - index))   
