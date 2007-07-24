@@ -27,10 +27,11 @@ The BlogEngine.NET team
 </content>
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
-  <pubDate>2007-05-06 00:00:00</pubDate>
-  <lastModified>2007-07-24 10:02:41</lastModified>
+  <pubDate>2007-05-05 23:00:00</pubDate>
+  <lastModified>2007-07-24 09:02:41</lastModified>
   <raters>9</raters>
   <rating>3.333333</rating>
+  <slug>Welcome to BlogEngine.NET</slug>
   <tags>
     <tag>blog</tag>
     <tag>welcome</tag>
