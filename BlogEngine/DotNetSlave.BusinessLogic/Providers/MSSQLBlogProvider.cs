@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Providers
 
       Post post = new Post();
       string sqlQuery = "SELECT PostID, Title, Description, PostContent, DateCreated, " +
-                          "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating " +
+                          "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug " +
                           "FROM be_Posts " +
                           "WHERE PostID = @id";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
@@ -54,6 +54,10 @@ namespace BlogEngine.Core.Providers
         post.Raters = rdr.GetInt32(9);
       if (!rdr.IsDBNull(10))
         post.Rating = rdr.GetFloat(10);
+      if (!rdr.IsDBNull(11))
+        post.Slug = rdr.GetString(11);
+      else
+        post.Slug = "";
 
       rdr.Close();
 
@@ -138,9 +142,9 @@ namespace BlogEngine.Core.Providers
 
       string sqlQuery = "INSERT INTO " +
                           "be_Posts (PostID, Title, Description, PostContent, DateCreated, " +
-                          "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating)" +
+                          "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug)" +
                           "VALUES (@id, @title, @desc, @content, @created, @modified, " +
-                          "@author, @published, @commentEnabled, @raters, @rating)";
+                          "@author, @published, @commentEnabled, @raters, @rating, @slug)";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
       cmd.Parameters.Add(new SqlParameter("@title", post.Title));
@@ -162,6 +166,10 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@commentEnabled", post.IsCommentsEnabled));
       cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString()));
       cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+      if (post.Slug == null)
+        cmd.Parameters.Add(new SqlParameter("@slug", ""));
+      else
+        cmd.Parameters.Add(new SqlParameter("@slug", post.Slug));
       
       cmd.ExecuteNonQuery();
 
@@ -188,7 +196,7 @@ namespace BlogEngine.Core.Providers
                           "SET Title = @title, Description = @desc, PostContent = @content, " +
                           "DateCreated = @created, DateModified = @modified, Author = @Author, " +
                           "IsPublished = @published, IsCommentEnabled = @commentEnabled, " +
-                          "Raters = @raters, Rating = @rating " +
+                          "Raters = @raters, Rating = @rating, Slug = @slug " +
                           "WHERE PostID = @id";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
       cmd.Parameters.Add(new SqlParameter("@title", post.Title));
@@ -211,6 +219,10 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
       cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString()));
       cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+      if (post.Slug == null)
+        cmd.Parameters.Add(new SqlParameter("@slug", ""));
+      else
+        cmd.Parameters.Add(new SqlParameter("@slug", post.Slug));
 
       cmd.ExecuteNonQuery();
 

@@ -138,7 +138,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         public void Response(HttpContext context)
         {
             context.Response.ContentType = "text/xml";
-            using (XmlTextWriter data = new XmlTextWriter(context.Response.OutputStream, System.Text.Encoding.Default))
+            using (XmlTextWriter data = new XmlTextWriter(context.Response.OutputStream, System.Text.Encoding.UTF8))
             {
                 data.Formatting = Formatting.Indented;
                 data.WriteStartDocument();
