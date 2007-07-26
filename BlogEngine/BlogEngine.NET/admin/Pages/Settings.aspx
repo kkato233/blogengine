@@ -90,6 +90,13 @@ function PreviewTheme()
   <label for="<%=cbEnableSearchHighlight.ClientID %>"><%=Resources.labels.enableSearchHighlight %></label>
   <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /> <%=Resources.labels.enableSearchHighlightDescription %><br />
   
+  <label for="<%=rblWwwSubdomain.ClientID %>"><%=Resources.labels.handleWwwSubdomain %></label>
+  <asp:RadioButtonList runat="server" ID="rblWwwSubdomain" RepeatLayout="flow" RepeatDirection="horizontal">
+    <asp:ListItem Text="<%$ Resources:labels, remove %>" Value="remove" />
+    <asp:ListItem Text="<%$ Resources:labels, enforce %>" Value="add" />
+    <asp:ListItem Text="<%$ Resources:labels, ignore %>" Value="" Selected="true" />
+  </asp:RadioButtonList>
+  
 </div>
 
 <div class="settings">

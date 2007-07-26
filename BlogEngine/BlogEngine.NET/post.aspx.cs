@@ -32,12 +32,11 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
       if (Post != null)
       {
-
         if (!this.Post.IsPublished)
           Response.Redirect(Utils.RelativeWebRoot, true);
 
         string path = "~/themes/" + BlogSettings.Instance.Theme + "/postview.ascx";
-        
+
         PostViewBase postView = (PostViewBase)LoadControl(path);
         postView.Post = Post;
 
@@ -48,6 +47,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         Page.Title = Post.Title;
         AddMetaKeywords();
         AddMetaDescription();
+        
         base.AddMicroSummary(Post.Id.ToString());
         Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
       }

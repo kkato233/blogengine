@@ -22,6 +22,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
       BindUsers();
       BindDrafts();
 
+      Page.Title = Resources.labels.add_Entry;
       Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
 
       if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
@@ -37,8 +38,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
         txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
       }
-
-      Page.Title = Resources.labels.add_Entry;
+      
       cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
       Page.Form.DefaultButton = btnSave.UniqueID;
     }
@@ -140,6 +140,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
       txtContent.Text = "[No text]";
 
     post.DateCreated = DateTime.Parse(txtDate.Text);
+    post.DateModified = DateTime.Now;
     post.Author = ddlAuthor.SelectedValue;
     post.Title = txtTitle.Text.Trim();
     post.Content = txtContent.Text;

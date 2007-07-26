@@ -103,6 +103,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.EnableSearchHightlight = cbEnableSearchHighlight.Checked;
     BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
     BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
+    BlogSettings.Instance.HandleWwwSubdomain = rblWwwSubdomain.SelectedItem.Value;
 
     //-----------------------------------------------------------------------
     // Set Syndication settings
@@ -184,6 +185,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbEnableSearchHighlight.Checked = BlogSettings.Instance.EnableSearchHightlight;
     cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
     cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
+    rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;
 
     //-----------------------------------------------------------------------
     // Bind Syndication settings

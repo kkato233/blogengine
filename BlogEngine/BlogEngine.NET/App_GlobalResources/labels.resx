@@ -267,14 +267,23 @@
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
   </data>
+  <data name="enforce" xml:space="preserve">
+    <value>Enforce</value>
+  </data>
   <data name="formMessage" xml:space="preserve">
     <value>Form message</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
     <value>Go to front page</value>
   </data>
+  <data name="handleWwwSubdomain" xml:space="preserve">
+    <value>www subdomain policy</value>
+  </data>
   <data name="htmlHeadSection" xml:space="preserve">
     <value>HTML head section</value>
+  </data>
+  <data name="ignore" xml:space="preserve">
+    <value>Ignore</value>
   </data>
   <data name="keywords" xml:space="preserve">
     <value>Keywords</value>
@@ -350,6 +359,9 @@
   </data>
   <data name="referrers" xml:space="preserve">
     <value>Referrers</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="save" xml:space="preserve">
     <value>Save</value>
