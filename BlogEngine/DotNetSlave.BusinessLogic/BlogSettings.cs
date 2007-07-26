@@ -203,6 +203,7 @@ namespace BlogEngine.Core
     private bool enableContactAttachments;
     private bool enableSsl;
     private bool enableRating;
+    private string handleWwwSubdomain;
     #endregion
 
     //============================================================
@@ -630,6 +631,24 @@ namespace BlogEngine.Core
     }
     #endregion
 
+    #region HandleWwwSubdomain
+    /// <summary>
+    /// Gets or sets how to handle the www subdomain of the url (for SEO purposes).
+    /// </summary>
+    public string HandleWwwSubdomain
+    {
+      get
+      {
+        return handleWwwSubdomain;
+      }
+
+      set
+      {
+        handleWwwSubdomain = value;
+      }
+    }
+    #endregion
+
     //============================================================
     //	DATABASE SETTINGS
     //============================================================
@@ -791,9 +810,8 @@ namespace BlogEngine.Core
 
     #region EnableSsl
     /// <summary>
-    /// Gets or sets a value indicating if an enail is sent when a comment is added to a post.
+    /// Gets or sets a value indicating if SSL is enabled for sending e-mails
     /// </summary>
-    /// <value><b>true</b> if email notification of new comments is enabled, otherwise returns <b>false</b>.</value>
     public bool EnableSsl
     {
       get

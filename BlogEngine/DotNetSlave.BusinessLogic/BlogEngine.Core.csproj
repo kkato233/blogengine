@@ -151,6 +151,7 @@
     <Compile Include="Web\HttpHandlers\TrackbackHandler.cs" />
     <Compile Include="Web\HttpModules\CompressionModule.cs" />
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
+    <Compile Include="Web\HttpModules\WwwSubdomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>

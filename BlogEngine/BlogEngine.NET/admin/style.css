@@ -138,6 +138,17 @@ td.label{
 	vertical-align: top;
 }
 
+.settings span label{
+	float: none;
+	display: inline;
+	width: auto;
+	padding-right: 20px;	
+}
+
+.settings span input[type="radio"]{
+	border: none;
+}
+
 /*----------------------------
 					Referrers
 ----------------------------*/

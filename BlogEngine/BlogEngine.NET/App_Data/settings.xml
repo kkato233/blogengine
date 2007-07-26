@@ -22,7 +22,7 @@
   <email>name@example.com</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <blogrollvisibleposts>3</blogrollvisibleposts>
-  <timezone>0</timezone>
+  <timezone>1</timezone>
   <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />
@@ -36,6 +36,7 @@
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>
+  <handlewwwsubdomain>add</handlewwwsubdomain>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <smtppassword>password</smtppassword>
   <smtpserverport>25</smtpserverport>

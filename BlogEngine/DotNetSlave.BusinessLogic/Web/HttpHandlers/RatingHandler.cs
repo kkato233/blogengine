@@ -9,14 +9,8 @@ using BlogEngine.Core;
 namespace BlogEngine.Core.Web.HttpHandlers
 {
   /// <summary>
-  /// Adding a MicroSummary as described in http://wiki.mozilla.org/Microsummaries
+  /// Receives and records all ratings comming in from the rating control.
   /// </summary>
-  /// <remarks>
-  /// Microsummaries are regularly-updated short summaries of web pages. They are 
-  /// compact enough to fit in the space available to a bookmark label, they provide 
-  /// more useful information about pages than static page titles, and they get 
-  /// regularly updated as new information becomes available. 
-  /// </remarks>
   public class RatingHandler : IHttpHandler
   {
 
