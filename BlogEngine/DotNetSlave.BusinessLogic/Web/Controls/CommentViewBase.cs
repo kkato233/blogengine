@@ -63,7 +63,7 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// The regular expression used to parse links.
     /// </summary>
-    private static Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?;~&=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     /// <summary>
     /// Examins the comment body for any links and turns them
