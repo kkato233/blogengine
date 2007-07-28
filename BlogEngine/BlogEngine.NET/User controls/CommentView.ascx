@@ -30,7 +30,7 @@
 
   <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website %></label>
   <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="3" />
-  <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" /><br />
+  <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" /><br />
   
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
   <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
