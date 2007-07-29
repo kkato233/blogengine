@@ -15,6 +15,15 @@
     <h2><%=BlogSettings.Instance.Description %></h2>
   </div>
   
+  <div id="menu">
+    <ul>
+      <li><a href="~/" runat="server">Home</a></li>
+      <li><a href="~/archive.aspx" runat="server"><%=Resources.labels.archive %></a></li>
+      <li><a href="~/contact.aspx" runat="server"><%=Resources.labels.contact %></a></li>
+      <li><a href="<%=Utils.FeedUrl %>" class="feed""><img src="<%=Utils.RelativeWebRoot %>pics/rssbutton.gif" alt="Feed" />Feed</a></li>
+    </ul>
+  </div>
+  
   <div id="body">    
     <form runat="Server">
       <div id="content">
