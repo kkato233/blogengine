@@ -53,6 +53,7 @@
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
+    <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\MSSQLBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
     <Compile Include="SavedEventArgs.cs" />

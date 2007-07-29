@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Web.HttpModules
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
-      if (context.Request.RawUrl.ToLowerInvariant().Contains(".aspx"))
+      if (context.Request.RawUrl.ToLowerInvariant().Contains(".aspx") && !context.Request.RawUrl.Contains("error404.aspx"))
       {
         if (context.Request.RawUrl.ToLowerInvariant().Contains("/post/"))
         {

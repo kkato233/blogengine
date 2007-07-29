@@ -315,6 +315,9 @@
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="notifyOnNewComments" xml:space="preserve">
+    <value>Notify me when new comments are added</value>
+  </data>
   <data name="notRatedYet" xml:space="preserve">
     <value>Not rated yet</value>
   </data>
@@ -401,6 +404,9 @@
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
     <value>If the country chooser isn't shown, no flag can be shown on each comment.</value>
+  </data>
+  <data name="showDescriptionInPostList" xml:space="preserve">
+    <value>Only show description of posts</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Show live preview</value>

@@ -41,6 +41,9 @@ function PreviewTheme()
   <label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label>
   <asp:CheckBox runat="server" ID="cbEnableRating" /><br />
   
+  <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
+  <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" /><br />
+  
   <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
   <asp:DropDownList runat="Server" id="ddlCulture" style="text-transform:capitalize">
     <asp:ListItem Text="Auto" />

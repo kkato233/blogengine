@@ -73,6 +73,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
     BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
     BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
+    BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
     BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
     BlogSettings.Instance.Timezone = int.Parse(ddlTimezone.SelectedValue, CultureInfo.InvariantCulture);
 
@@ -155,6 +156,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
     ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
     cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
+    cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
     ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
     ddlTimezone.SelectedValue = BlogSettings.Instance.Timezone.ToString();
 

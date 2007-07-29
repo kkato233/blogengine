@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Text.RegularExpressions;
 using BlogEngine.Core;
 
 #endregion
@@ -42,6 +43,56 @@ namespace BlogEngine.Core.Web.Controls
       get { return (Post)(ViewState["Post"] ?? default(Post)); }
       set { ViewState["Post"] = value; }
     }
+
+    private bool _ShowExcerpt;
+    /// <summary>
+    /// Gets or sets whether or not to show the entire post or just the excerpt/description.
+    /// </summary>
+    public bool ShowExcerpt
+    {
+      get { return _ShowExcerpt; }
+      set { _ShowExcerpt = value; }
+    }
+
+    /// <summary>
+    /// Gets the body of the post. Important: use this instead of Post.Content.
+    /// </summary>
+    public string Body
+    {
+      get
+      {
+        string body = Post.Content;
+        if (ShowExcerpt)
+        {
+          string link = " <a href=\"" + Post.RelativeLink.ToString() + "\">[" + (Page as BlogBasePage).Translate("more") + "]</a>";
+
+          if (!string.IsNullOrEmpty(Post.Description))
+          {
+            body = Post.Description + "." + link;
+          }
+          else
+          {
+            body = StripHtml(Post.Content);
+            if (body.Length > 300)
+              body = body.Substring(0, 300) + "..." + link;
+          }
+        }
+        ServingEventArgs arg = new ServingEventArgs(body);
+        Post.OnServing(Post, arg);
+
+        return arg.Body;
+      }
+    }
+
+    private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
+
+    private static string StripHtml(string html)
+    {
+      if (string.IsNullOrEmpty(html))
+        return string.Empty;
+
+      return _Regex.Replace(html, string.Empty);
+    } 
 
     /// <summary>
     /// Gets the comment feed link.
@@ -105,7 +156,7 @@ namespace BlogEngine.Core.Web.Controls
         if (Page.User.Identity.IsAuthenticated)
         {
           BlogBasePage page = (BlogBasePage)Page;
-          string confirmDelete = string.Format(page.Translate("areYouSure"),page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
+          string confirmDelete = string.Format(page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
           StringBuilder sb = new StringBuilder();
           sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
           sb.AppendFormat("<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));

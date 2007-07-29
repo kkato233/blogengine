@@ -13,7 +13,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
 using BlogEngine.Core;
 
 namespace BlogEngine.Core.Web.Controls
@@ -73,7 +72,7 @@ namespace BlogEngine.Core.Web.Controls
     /// to nofollow to prevent negative pagerank.
     /// </remarks>
     /// </summary>
-    protected static string ResolveLinks(string body)
+    protected string ResolveLinks(string body)
     {
       if (string.IsNullOrEmpty(body))
         return body;
@@ -86,7 +85,12 @@ namespace BlogEngine.Core.Web.Controls
           body = body.Replace(match.Value, "<a href=\"" + match.Value + "\" rel=\"nofollow\">" + match.Value + "</a>");
       }
 
-      return body.Replace("\n", "<br />");
+      body = body.Replace("\n", "<br />");
+      
+      ServingEventArgs arg = new ServingEventArgs(body);
+      Post.OnCommentServing(this.Comment, arg);
+
+      return arg.Body;
     }
 
     /// <summary>

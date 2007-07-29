@@ -102,6 +102,12 @@ namespace BlogEngine.Core.Providers
           post.Categories.Add(key);
       }
 
+      // Notification e-mails
+      foreach (XmlNode node in doc.SelectNodes("post/notifications/email"))
+      {
+        post.NotificationEmails.Add(node.InnerText);
+      }
+
       return post;
     }
 
@@ -167,6 +173,13 @@ namespace BlogEngine.Core.Providers
         }
         writer.WriteEndElement();
 
+        // Notification e-mails
+        writer.WriteStartElement("notifications");
+        foreach (string email in post.NotificationEmails)
+        {
+            writer.WriteElementString("email", email);
+        }
+        writer.WriteEndElement();
 
         writer.WriteEndElement();
       }
