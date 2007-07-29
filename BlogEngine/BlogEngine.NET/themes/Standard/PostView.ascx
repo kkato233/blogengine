@@ -4,7 +4,7 @@
   <h1><a href="<%=Post.RelativeLink %>" class="taggedlink"><%=Post.Title %></a></h1>
   <span class="author">by <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a></span>
   <span class="pubDate"><%=Post.DateCreated.ToLongDateString() %></span>
-  <div class="text"><%=Post.Content %></div>
+  <div class="text"><%=Body %></div>
   
   <div class="bottom">
     <%=Rating %>

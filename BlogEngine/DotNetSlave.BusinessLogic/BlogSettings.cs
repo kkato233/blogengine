@@ -204,6 +204,7 @@ namespace BlogEngine.Core
     private bool enableSsl;
     private bool enableRating;
     private string handleWwwSubdomain;
+    private bool showDescriptionInPostList;
     #endregion
 
     //============================================================
@@ -453,6 +454,24 @@ namespace BlogEngine.Core
       set
       {
         enableRating = value;
+      }
+    }
+    #endregion
+
+    #region ShowDescriptionInPostList
+    /// <summary>
+    /// Gets or sets a value indicating if the full post is displayed in lists or only the description/exerpt.
+    /// </summary>
+    public bool ShowDescriptionInPostList
+    {
+      get
+      {
+        return showDescriptionInPostList;
+      }
+
+      set
+      {
+        showDescriptionInPostList = value;
       }
     }
     #endregion

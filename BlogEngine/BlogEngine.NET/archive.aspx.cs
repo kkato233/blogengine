@@ -15,6 +15,8 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       CreateAdminMenu();
       CreateArchive();
     }
+
+    Page.Title = Resources.labels.archive;
   }
 
   private void CreateAdminMenu()

@@ -14,9 +14,11 @@ namespace BlogEngine.Core.Web
     /// <summary>
     /// Creates an instance of the attribute and assigns a description.
     /// </summary>
-    public ExtensionAttribute(string description)
+    public ExtensionAttribute(string description, string version, string author)
     {
       _Description = description;
+      _Version = version;
+      _Author = author;
     }
 
     private string _Description;
@@ -27,6 +29,19 @@ namespace BlogEngine.Core.Web
     {
       get { return _Description; }
     }
+
+    private string _Version;
+    public string Version
+    {
+      get { return _Version; }
+    }
+
+    private string _Author;
+    public string Author
+    {
+      get { return _Author; }
+    }
+
   }
 
 }

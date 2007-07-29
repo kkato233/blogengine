@@ -5,6 +5,7 @@ using System.Web;
 using System.IO;
 using System.Xml;
 using System.Text;
+using System.Net.Mail;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -187,14 +188,30 @@ namespace BlogEngine.Core
     /// </summary>
     public string Slug
     {
-      get 
+      get
       {
         if (string.IsNullOrEmpty(_Slug))
           return Title;
 
-        return _Slug; 
+        return _Slug;
       }
       set { _Slug = value; }
+    }
+
+    private StringCollection _NotificationEmails;
+    /// <summary>
+    /// Gets a collection of email addresses that is signed up for 
+    /// comment notification on the specific post.
+    /// </summary>
+    public StringCollection NotificationEmails
+    {
+      get 
+      {
+        if (_NotificationEmails == null)
+          _NotificationEmails = new StringCollection();
+
+        return _NotificationEmails; 
+      }
     }
 
     #endregion
@@ -405,6 +422,32 @@ namespace BlogEngine.Core
       Comments.Add(comment);
       DataUpdate();
       OnCommentAdded(this);
+      SendNotifications(comment);
+    }
+
+    /// <summary>
+    /// Sends a notification to all visitors  that has registered
+    /// to retrieve notifications for the specific post.
+    /// </summary>
+    private void SendNotifications(Comment comment)
+    {
+      if (NotificationEmails.Count == 0)
+        return;
+
+      MailMessage mail = new MailMessage();
+      mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
+      mail.Subject = "New comment on " + Title;
+      mail.Body = "Comment by " + comment.Author + Environment.NewLine + Environment.NewLine;
+      mail.Body += comment.Content + "\n\n" + PermaLink.ToString();
+
+      foreach (string email in NotificationEmails)
+      {
+        if (email != comment.Email)
+        {
+          mail.To.Add(email);
+          Utils.SendMailMessageAsync(mail);
+        }
+      }
     }
 
     /// <summary>
@@ -460,7 +503,7 @@ namespace BlogEngine.Core
       {
         Posts.Add(this);
         Posts.Sort();
-      }    
+      }
     }
 
     /// <summary>
@@ -470,7 +513,7 @@ namespace BlogEngine.Core
     {
       BlogService.DeletePost(this);
       if (Posts.Contains(this))
-        Posts.Remove(this);      
+        Posts.Remove(this);
     }
 
     /// <summary>
@@ -537,7 +580,7 @@ namespace BlogEngine.Core
     /// </summary>
     protected virtual void OnCommentAdded(Post post)
     {
-      if (CommentAdded  != null)
+      if (CommentAdded != null)
       {
         CommentAdded(post, new EventArgs());
       }
@@ -585,6 +628,36 @@ namespace BlogEngine.Core
       if (Rated != null)
       {
         Rated(post, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a visitor rates the post.
+    /// </summary>
+    public static event EventHandler<ServingEventArgs> Serving;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    public static void OnServing(Post post, ServingEventArgs arg)
+    {
+      if (Serving != null)
+      {
+        Serving(post, arg);
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a visitor rates the post.
+    /// </summary>
+    public static event EventHandler<ServingEventArgs> CommentServing;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    public static void OnCommentServing(Comment comment, ServingEventArgs arg)
+    {
+      if (CommentServing != null)
+      {
+        CommentServing(comment, arg);
       }
     }
 

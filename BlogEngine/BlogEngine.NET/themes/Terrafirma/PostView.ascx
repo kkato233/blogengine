@@ -12,7 +12,7 @@
     </div>
     
     <div class="content">
-        <%=Post.Content %>
+        <%=Body %>
         <%=Rating %><br />
     </div>
     

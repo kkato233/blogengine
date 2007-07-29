@@ -2,7 +2,7 @@
 
 <div class="post xfolkentry">
   <h1><a href="<%=Post.RelativeLink %>" class="taggedlink"><%=Post.Title %></a></h1>
-  <div class="postText"><%=Post.Content %></div>
+  <div class="postText"><%=Body %></div>
   
   <div class="bottom">
     <div class="rating"><%=Rating %></div><br />

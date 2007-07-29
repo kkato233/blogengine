@@ -51,11 +51,7 @@ public partial class contact : BlogBasePage
           mail.Attachments.Add(attachment);
         }
 
-        SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
-        smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
-        smtp.Port = BlogSettings.Instance.SmtpServerPort;
-        smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
-        smtp.Send(mail);
+        Utils.SendMailMessage(mail);
       }
 
       return true;

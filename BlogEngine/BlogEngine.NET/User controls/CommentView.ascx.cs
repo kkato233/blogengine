@@ -76,7 +76,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
 
     SaveComment();
     SetCookie(txtName.Text, txtEmail.Text, txtWebsite.Text, ddlCountry.SelectedValue);
-    SendMail(txtName.Text, txtEmail.Text, txtContent.Text);
+    //SendMail(txtName.Text, txtEmail.Text, txtContent.Text);
     Response.Redirect(Post.RelativeLink.ToString() + "?comment=1#addcomment", true);
   }
 
@@ -173,49 +173,45 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     }
   }
 
-  #region Send mail
+  //#region Send mail
 
-  private void SendMail(string author, string email, string content)
-  {
-    if (!BlogSettings.Instance.SendMailOnComment || Page.User.Identity.IsAuthenticated)
-      return;
+  //private void SendMail(string author, string email, string content)
+  //{
+  //  if (!BlogSettings.Instance.SendMailOnComment || Page.User.Identity.IsAuthenticated)
+  //    return;
 
-    MailMessage mail = new MailMessage();
-    mail.From = new MailAddress(email, author);
-    mail.To.Add(BlogSettings.Instance.Email);
-    mail.Subject = "Weblog comment on " + Post.Title;
-    mail.Body = "Comment by " + author + " (" + email + ")" + Environment.NewLine + Environment.NewLine;
-    mail.Body += content + "\n\n" + Post.PermaLink.ToString();
+  //  MailMessage mail = new MailMessage();
+  //  mail.From = new MailAddress(email, author);
+  //  mail.To.Add(BlogSettings.Instance.Email);
+  //  mail.Subject = "Weblog comment on " + Post.Title;
+  //  mail.Body = "Comment by " + author + " (" + email + ")" + Environment.NewLine + Environment.NewLine;
+  //  mail.Body += content + "\n\n" + Post.PermaLink.ToString();
 
-    ThreadStart threadStart = delegate { Send(mail); };
-    Thread thread = new Thread(threadStart);
-    thread.IsBackground = true;
-    thread.Start();
-  }
+  //  ThreadStart threadStart = delegate { Send(mail); };
+  //  Thread thread = new Thread(threadStart);
+  //  thread.IsBackground = true;
+  //  thread.Start();
+  //}
 
-  private void Send(MailMessage message)
-  {
-    try
-    {
-      SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
-      smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
-      smtp.Port = BlogSettings.Instance.SmtpServerPort;
-      smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
-      smtp.Send(message);
-    }
-    catch (Exception)
-    {
-      // Ignores if the mail server does not respond.
-    }
-    finally
-    {
-      // Remove the pointer to the message object so the GC can close the thread.
-      message.Dispose();
-      message = null;
-    }
-  }
+  //private void Send(MailMessage message)
+  //{
+  //  try
+  //  {
+  //    Utils.SendMailMessage(message);
+  //  }
+  //  catch (Exception)
+  //  {
+  //    // Ignores if the mail server does not respond.
+  //  }
+  //  finally
+  //  {
+  //    // Remove the pointer to the message object so the GC can close the thread.
+  //    message.Dispose();
+  //    message = null;
+  //  }
+  //}
 
-  #endregion
+  //#endregion
 
   #region Cookies
 
@@ -404,6 +400,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     string website = args[2];
     string country = args[3];
     string content = args[4];
+    bool notify = bool.Parse(args[5]);
 
     Comment comment = new Comment();
     comment.Id = Guid.NewGuid();
@@ -413,7 +410,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     comment.IP = Request.UserHostAddress;
     comment.Country = country;
     comment.DateCreated = DateTime.Now;
-    comment.Post = Post;
+    comment.Post = Post;    
 
     if (website.Trim().Length > 0)
     {
@@ -424,11 +421,16 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       if (Uri.TryCreate(website, UriKind.Absolute, out url))
         comment.Website = url;
     }
+    
+    if (notify && !Post.NotificationEmails.Contains(email))
+      Post.NotificationEmails.Add(email);
+    else if (!notify && Post.NotificationEmails.Contains(email))
+      Post.NotificationEmails.Remove(email);
 
     Post.AddComment(comment);
 
     SetCookie(author, email, website, country);
-    SendMail(author, email, content);
+    //SendMail(author, email, content);
 
     string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
 

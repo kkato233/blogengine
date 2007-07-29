@@ -1,9 +1,11 @@
 #region Using
 
 using System;
+using System.Net.Mail;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
+using System.Threading;
 
 #endregion
 
@@ -80,6 +82,39 @@ namespace BlogEngine.Core
         }
         return _AbsoluteWebRoot;
       }
+    }
+
+    /// <summary>
+    /// Sends a MailMessage object using the SMTP settings.
+    /// </summary>
+    public static void SendMailMessage(MailMessage message)
+    {
+      try
+      {
+        SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
+        smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
+        smtp.Port = BlogSettings.Instance.SmtpServerPort;
+        smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
+        smtp.Send(message);
+      }
+      catch (Exception)
+      {
+        // Ignores if the mail server does not respond.
+      }
+      finally
+      {
+        // Remove the pointer to the message object so the GC can close the thread.
+        message.Dispose();
+        message = null;
+      }
+    }
+
+    public static void SendMailMessageAsync(MailMessage message)
+    {
+      ThreadStart threadStart = delegate { Utils.SendMailMessage(message); };
+      Thread thread = new Thread(threadStart);
+      thread.IsBackground = true;
+      thread.Start();
     }
 
     #region Safe mail

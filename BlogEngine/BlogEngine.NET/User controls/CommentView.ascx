@@ -40,7 +40,10 @@
 
   <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" /><br />
-  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" /><br /><br />  
+  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" /><br />
+    
+  <input type="checkbox" id="cbNotify" style="width: auto" />
+  <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
  
   <input type="button" id="btnSave" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
   <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="6" />
@@ -76,7 +79,8 @@ function AddComment()
   if (document.getElementById("<%=ddlCountry.ClientID %>"))
     country = document.getElementById("<%=ddlCountry.ClientID %>").value;
   var content = document.getElementById("<%=txtContent.ClientID %>").value;
-  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content;
+  var notify = document.getElementById("cbNotify").checked;
+  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify;
   <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
   
   if (typeof OnComment != "undefined")

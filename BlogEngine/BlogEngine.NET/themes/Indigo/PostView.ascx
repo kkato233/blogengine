@@ -3,7 +3,7 @@
 <div class="post xfolkentry">
     <h1><a class="postheader taggedlink" href="<%=Post.RelativeLink %>"><%=Post.Title %></a></h1>
     <div class="descr"><img id="Img1" src="~/themes/indigo/img/timeicon.gif" runat="server" alt="clock" /> <%=Post.DateCreated.ToString("MMMM d, yyyy HH:mm")%> by <img id="Img2" src="~/themes/indigo/img/author.gif" runat="server" alt="author" /> <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a></div>
-    <div class="postcontent"><%=Post.Content %></div>
+    <div class="postcontent"><%=Body %></div>
     <%=Rating %>
     <br />
     <div class="postfooter">

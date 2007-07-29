@@ -315,6 +315,9 @@
   <data name="name" xml:space="preserve">
     <value>Navn</value>
   </data>
+  <data name="notifyOnNewComments" xml:space="preserve">
+    <value>Send en e-mail når nye kommentarer er tilføjet</value>
+  </data>
   <data name="notRatedYet" xml:space="preserve">
     <value>Ingen point endnu</value>
   </data>
@@ -401,6 +404,9 @@
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
     <value>Hvis landevælgeren er slået fra, så kan der ikke vises et flag på hver kommentar</value>
+  </data>
+  <data name="showDescriptionInPostList" xml:space="preserve">
+    <value>Vis kun indlægsbeskrivelsen</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Vis live preview</value>

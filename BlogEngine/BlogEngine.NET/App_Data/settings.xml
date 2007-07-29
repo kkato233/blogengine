@@ -19,11 +19,12 @@
   <htmlheader />
   <syndicationformat>Rss</syndicationformat>
   <geocodinglatitude>0</geocodinglatitude>
-  <email>name@example.com</email>
+  <email>mkk@easywebdesign.dk</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
+  <showdescriptioninpostlist>True</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <timezone>1</timezone>
-  <smtpusername>username</smtpusername>
+  <smtpusername>mkk@easywebdesign.dk</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />
   <iscocommentenabled>False</iscocommentenabled>
@@ -38,9 +39,9 @@
   <culture>Auto</culture>
   <handlewwwsubdomain>add</handlewwwsubdomain>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
-  <smtppassword>password</smtppassword>
+  <smtppassword>21577782</smtppassword>
   <smtpserverport>25</smtpserverport>
-  <smtpserver>mail.example.com</smtpserver>
+  <smtpserver>mail.easywebdesign.dk</smtpserver>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;
 &lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <postsperfeed>15</postsperfeed>
