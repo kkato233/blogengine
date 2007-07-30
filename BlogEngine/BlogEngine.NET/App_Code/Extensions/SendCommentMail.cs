@@ -31,8 +31,10 @@ public class SendCommentMail
     {
       Comment comment = post.Comments[post.Comments.Count - 1];
 
+      string receiver = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
+
       MailMessage mail = new MailMessage();
-      mail.From = new MailAddress(comment.Email, comment.Author);
+      mail.From = new MailAddress(receiver, comment.Author);
       mail.To.Add(BlogSettings.Instance.Email);
       mail.Subject = "Weblog comment on " + post.Title;
       mail.Body = "Comment by " + comment.Author + " (" + comment.Email + ")" + Environment.NewLine + Environment.NewLine;
