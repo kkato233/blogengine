@@ -59,39 +59,39 @@ namespace BlogEngine.Core.Web.Controls
 
     #region Methods
 
-    /// <summary>
-    /// The regular expression used to parse links.
-    /// </summary>
-    private static Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?;~&=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+      /// <summary>
+      /// The regular expression used to parse links.
+      /// </summary>
+      private static Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?;~&=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    /// <summary>
-    /// Examins the comment body for any links and turns them
-    /// automatically into one that can be clicked.
-    /// <remarks>
-    /// All links added to comments will have the rel attribute set
-    /// to nofollow to prevent negative pagerank.
-    /// </remarks>
-    /// </summary>
-    protected string ResolveLinks(string body)
-    {
-      if (string.IsNullOrEmpty(body))
-        return body;
-
-      foreach (Match match in regex.Matches(body))
+      /// <summary>
+      /// Examins the comment body for any links and turns them
+      /// automatically into one that can be clicked.
+      /// <remarks>
+      /// All links added to comments will have the rel attribute set
+      /// to nofollow to prevent negative pagerank.
+      /// </remarks>
+      /// </summary>
+      protected string ResolveLinks(string body)
       {
-        if (!match.Value.Contains("://"))
-          body = body.Replace(match.Value, "<a href=\"http://" + match.Value + "\" rel=\"nofollow\">" + match.Value + "</a>");
-        else
-          body = body.Replace(match.Value, "<a href=\"" + match.Value + "\" rel=\"nofollow\">" + match.Value + "</a>");
+        if (string.IsNullOrEmpty(body))
+          return body;
+
+        foreach (Match match in regex.Matches(body))
+        {
+          if (!match.Value.Contains("://"))
+            body = body.Replace(match.Value, "<a href=\"http://" + match.Value + "\" rel=\"nofollow\">" + match.Value + "</a>");
+          else
+            body = body.Replace(match.Value, "<a href=\"" + match.Value + "\" rel=\"nofollow\">" + match.Value + "</a>");
+        }
+
+        body = body.Replace("\n", "<br />");
+        
+        ServingEventArgs arg = new ServingEventArgs(body);
+        Post.OnCommentServing(this.Comment, arg);
+
+        return arg.Body;
       }
-
-      body = body.Replace("\n", "<br />");
-      
-      ServingEventArgs arg = new ServingEventArgs(body);
-      Post.OnCommentServing(this.Comment, arg);
-
-      return arg.Body;
-    }
 
     /// <summary>
     /// Displays a delete link to visitors that are authenticated

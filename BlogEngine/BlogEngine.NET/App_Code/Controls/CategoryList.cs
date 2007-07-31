@@ -113,7 +113,7 @@ namespace Controls
     {
       foreach (Post post in Post.Posts)
       {
-        if (post.IsPublished && post.Categories.Contains(categoryId))
+        if (post.IsVisible && post.Categories.Contains(categoryId))
           return true;
       }
 
