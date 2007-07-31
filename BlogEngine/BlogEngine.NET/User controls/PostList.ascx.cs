@@ -48,7 +48,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
       if (counter == stop)
         break;
 
-      if (post.IsPublished || Page.User.Identity.IsAuthenticated)
+      if (post.IsVisible || Page.User.Identity.IsAuthenticated)
       {
         PostViewBase postView = (PostViewBase)LoadControl(path);
         postView.ShowExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;

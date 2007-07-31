@@ -214,6 +214,17 @@ namespace BlogEngine.Core
       }
     }
 
+    public bool IsVisible
+    {
+      get
+      {
+        if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+          return true;
+
+        return false;
+      }
+    }
+
     #endregion
 
     #region Links

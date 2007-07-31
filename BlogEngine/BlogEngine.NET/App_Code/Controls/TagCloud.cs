@@ -108,7 +108,7 @@ namespace Controls
       foreach (string key in WeightedList.Keys)
       {
         writer.Write("<li>");
-        writer.Write(string.Format(LINK, Utils.RelativeWebRoot + "?tag=/" + key, WeightedList[key], "Tag: " + key, key));
+        writer.Write(string.Format(LINK, Utils.RelativeWebRoot + "?tag=/" + HttpUtility.UrlEncode(key), WeightedList[key], "Tag: " + key, key));
         writer.Write("</li>");
       }
 

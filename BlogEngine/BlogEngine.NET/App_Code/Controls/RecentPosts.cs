@@ -64,6 +64,9 @@ namespace Controls
 
       foreach (Post post in _Posts)
       {
+        if (!post.IsVisible)
+          continue;
+
         string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         string link = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";

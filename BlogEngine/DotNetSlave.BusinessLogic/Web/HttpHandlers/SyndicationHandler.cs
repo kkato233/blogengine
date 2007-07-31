@@ -195,7 +195,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                       if (counter == postCount)
                         break;
 
-                      if (post.IsPublished)
+                      if (post.IsVisible)
                       {
                         list.Add(post);
                         counter++;
