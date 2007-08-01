@@ -48,7 +48,8 @@ namespace BlogEngine.Core.Ping
         request.Timeout = 3000;
 
         AddXmlToRequest(request);
-        request.BeginGetResponse(EndGetResponse, request);
+        //request.BeginGetResponse(EndGetResponse, request);
+        request.GetResponse();
       }
       catch (Exception)
       {
@@ -56,34 +57,34 @@ namespace BlogEngine.Core.Ping
       }
     }
 
-    /// <summary>
-    /// Receives the response.
-    /// </summary>
-    private void EndGetResponse(IAsyncResult result)
-    {
-      HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-      HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+    ///// <summary>
+    ///// Receives the response.
+    ///// </summary>
+    //private void EndGetResponse(IAsyncResult result)
+    //{
+    //  HttpWebRequest request = (HttpWebRequest)result.AsyncState;
+    //  HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-      //string filename = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "ping.txt";
+    //  //string filename = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "ping.txt";
 
-      //StreamReader reade = new StreamReader(response.GetResponseStream());
-      //string content = reade.ReadToEnd();
+    //  //StreamReader reade = new StreamReader(response.GetResponseStream());
+    //  //string content = reade.ReadToEnd();
 
-      //StreamWriter writer = new StreamWriter(filename, true);
-      //writer.WriteLine(request.RequestUri.ToString() + Environment.NewLine);
-      //writer.WriteLine(content);
-      //writer.WriteLine("--------------------------------------------------------------------");
-      //writer.Flush();
-      //writer.Close();
-    }
+    //  //StreamWriter writer = new StreamWriter(filename, true);
+    //  //writer.WriteLine(request.RequestUri.ToString() + Environment.NewLine);
+    //  //writer.WriteLine(content);
+    //  //writer.WriteLine("--------------------------------------------------------------------");
+    //  //writer.Flush();
+    //  //writer.Close();
+    //}
 
     /// <summary>
     /// Adds the XML to web request. The XML is the standard
     /// XML used by RPC-XML requests.
     /// </summary>
-    private static void AddXmlToRequest(HttpWebRequest webreqPing)
+    private static void AddXmlToRequest(HttpWebRequest request)
     {
-      Stream stream = (Stream)webreqPing.GetRequestStream();
+      Stream stream = (Stream)request.GetRequestStream();
       using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.ASCII))
       {
         writer.WriteStartDocument();

@@ -73,7 +73,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   {
     Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadFile);
 
-    string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
+    string a = "<p><a href=\"{0}file.axd?file={1}\" rel=\"enclosure\">{2}</a></p>";
     string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
     txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
   }
