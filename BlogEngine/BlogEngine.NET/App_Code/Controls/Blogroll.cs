@@ -148,6 +148,7 @@ namespace Controls
     private HtmlGenericControl BindControls()
     {
       HtmlGenericControl ul = new HtmlGenericControl("ul");
+      ul.Attributes.Add("class", "oxox");
       foreach (RssItem item in _Items)
       {
         HtmlAnchor feedAnchor = new HtmlAnchor();

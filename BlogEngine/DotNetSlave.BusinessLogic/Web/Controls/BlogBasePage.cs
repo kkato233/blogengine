@@ -74,7 +74,7 @@ namespace BlogEngine.Core.Web.Controls
         // JavaScripts
         AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
 
-        if (BlogSettings.Instance.EnableSearchHightlight)
+        if (BlogSettings.Instance.EnableSearchHightlight && Request.UrlReferrer != null && Request.UrlReferrer.Host != Request.Url.Host)
           AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.se_hilite.js");
 
         if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
