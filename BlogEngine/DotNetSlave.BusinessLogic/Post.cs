@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Text;
 using System.Net.Mail;
+using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -218,7 +219,8 @@ namespace BlogEngine.Core
     {
       get
       {
-        if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(DateCreated.Year);
+        if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours))
           return true;
 
         return false;
