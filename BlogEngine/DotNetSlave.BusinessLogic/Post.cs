@@ -215,12 +215,14 @@ namespace BlogEngine.Core
       }
     }
 
+    /// <summary>
+    /// Gets whether or not the post is visible or not.
+    /// </summary>
     public bool IsVisible
     {
       get
       {
-        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(DateCreated.Year);
-        if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours))
+        if (IsPublished && DateCreated <= DateTime.Now)
           return true;
 
         return false;
