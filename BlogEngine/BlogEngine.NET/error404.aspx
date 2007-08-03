@@ -16,7 +16,7 @@
     <div id="divExternalReferrer" runat="server" visible="False">
       <p>
         You were incorrectly referred to this page by: 
-        <a href="javascript:history.go(-1)"><%=Request.UrlReferrer.Host %></a>
+        <a href="javascript:history.go(-1)"><%=Request.UrlReferrer.Host %></a> 
       </p>
       
       <p>I suggest you try one of the links below:</p>
