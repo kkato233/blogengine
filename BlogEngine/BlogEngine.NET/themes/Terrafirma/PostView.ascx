@@ -18,7 +18,7 @@
     
     <div class="footer">
         
-        <%=TagLinks(", ") %>
+        Tags: <%=TagLinks(", ") %>
         <br />
         Actions:
         <%=AdminLinks %>

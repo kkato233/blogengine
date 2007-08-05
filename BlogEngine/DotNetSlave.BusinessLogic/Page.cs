@@ -94,6 +94,35 @@ namespace BlogEngine.Core
       }
     }
 
+    private Guid _Parent;
+    /// <summary>
+    /// Gets or sets the parent of the Page. It is used to construct the 
+    /// hierachy of the pages.
+    /// </summary>
+    public Guid Parent
+    {
+      get { return _Parent; }
+      set 
+      {
+        if (_Parent != value) MarkDirty("Parent");
+        _Parent = value; 
+      }
+    }
+
+    private bool _IsFrontPage;
+    /// <summary>
+    /// Gets or sets whether or not this page should be displayed on the front page.
+    /// </summary>
+    public bool IsFrontPage
+    {
+      get { return _IsFrontPage; }
+      set
+      {
+        if (_IsFrontPage != value) MarkDirty("IsFrontPage");
+        _IsFrontPage = value; 
+      }
+    }
+
     /// <summary>
     /// The relative URI to the page. For in-site use only.
     /// </summary>
@@ -119,12 +148,16 @@ namespace BlogEngine.Core
     {
       get
       {
-        lock (_SyncRoot)
+        if (_Pages == null)
         {
-          if (_Pages == null)
-              _Pages = BlogService.FillPages();
-          return _Pages;
+          lock (_SyncRoot)
+          {
+            if (_Pages == null)
+              _Pages = BlogService.FillPages();             
+          }          
         }
+
+        return _Pages;
       }
     }
 
@@ -136,6 +169,20 @@ namespace BlogEngine.Core
       foreach (Page page in Pages)
       {
         if (page.Id == id)
+          return page;
+      }
+
+      return null;
+    }
+
+    /// <summary>
+    /// Returns the front page if any is available.
+    /// </summary>
+    public static Page GetFrontPage()
+    {
+      foreach (Page page in Pages)
+      {
+        if (page.IsFrontPage)
           return page;
       }
 
@@ -194,5 +241,25 @@ namespace BlogEngine.Core
     }
 
     #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when the page is being served to the output stream.
+    /// </summary>
+    public static event EventHandler<ServingEventArgs> Serving;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    public static void OnServing(Page page, ServingEventArgs arg)
+    {
+      if (Serving != null)
+      {
+        Serving(page, arg);
+      }
+    }
+
+    #endregion
+
   }
 }

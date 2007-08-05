@@ -285,6 +285,9 @@
   <data name="ignore" xml:space="preserve">
     <value>Ignore</value>
   </data>
+  <data name="isFrontPage" xml:space="preserve">
+    <value>Is front page</value>
+  </data>
   <data name="keywords" xml:space="preserve">
     <value>Keywords</value>
   </data>
@@ -314,6 +317,9 @@
   </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="noParent" xml:space="preserve">
+    <value>No parent</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
     <value>Notify me when new comments are added</value>
@@ -389,6 +395,9 @@
   </data>
   <data name="selectDay" xml:space="preserve">
     <value>Select day</value>
+  </data>
+  <data name="selectParent" xml:space="preserve">
+    <value>Select parent</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Send comment e-mail</value>

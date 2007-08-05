@@ -20,6 +20,11 @@ public partial class admin_Pages_pages : System.Web.UI.Page
       {
         Guid id = new Guid(Request.QueryString["id"]);
         BindPage(id);
+        BindParents(id);
+      }
+      else
+      {
+        BindParents(Guid.Empty);
       }
     }
 
@@ -87,8 +92,26 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     page.Content = txtContent.Text;
     page.Description = txtDescription.Text;
     page.Keywords = txtKeyword.Text;
+
+    if (cbIsFrontPage.Checked)
+    {
+      foreach (Page otherPage in BlogEngine.Core.Page.Pages)
+      {
+        if (otherPage.IsFrontPage)
+        {
+          otherPage.IsFrontPage = false;
+          otherPage.Save();
+        }
+      }
+    }
+
+    page.IsFrontPage = cbIsFrontPage.Checked;
+
+    if (ddlParent.SelectedIndex != 0)
+      page.Parent = new Guid(ddlParent.SelectedValue);
+
     page.Save();
-    //HttpResponse.RemoveOutputCacheItem(VirtualPathUtility.ToAbsolute("~/") + "default.aspx");
+
     Response.Redirect(page.RelativeLink.ToString());
   }
 
@@ -103,6 +126,23 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     txtContent.Text = page.Content;
     txtDescription.Text = page.Description;
     txtKeyword.Text = page.Keywords;
+    cbIsFrontPage.Checked = page.IsFrontPage;
+  }
+
+  private void BindParents(Guid pageId)
+  {
+    foreach (Page page in BlogEngine.Core.Page.Pages)
+    {
+      ddlParent.Items.Add(new ListItem(page.Title, page.Id.ToString()));
+    }
+
+    ddlParent.Items.Insert(0, "-- " + Resources.labels.noParent + " --");
+    if (pageId != Guid.Empty)
+    {
+      Page parent = BlogEngine.Core.Page.GetPage(pageId);
+      if (parent != null)
+        ddlParent.SelectedValue = parent.Parent.ToString();
+    }
   }
 
   #endregion

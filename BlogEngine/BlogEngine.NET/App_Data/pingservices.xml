@@ -5,9 +5,6 @@
     <service>http://rpc.pingomatic.com/RPC2</service>
     <service>http://ping.feedburner.com</service>
     <service>http://api.my.yahoo.com/RPC2</service>
-    <service>http://api.feedster.com/ping</service>
     <service>http://www.bloglines.com/ping</service>
-    <service>http://rpc.icerocket.com:10080/</service>
     <service>http://services.newsgator.com/ngws/xmlrpcping.aspx</service>
-    <service>http://ping.weblogalot.com/rpc.php</service>
 </services>

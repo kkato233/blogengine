@@ -285,6 +285,9 @@
   <data name="ignore" xml:space="preserve">
     <value>Ignorér</value>
   </data>
+  <data name="isFrontPage" xml:space="preserve">
+    <value>Er forsiden</value>
+  </data>
   <data name="keywords" xml:space="preserve">
     <value>Nøgleord</value>
   </data>
@@ -314,6 +317,9 @@
   </data>
   <data name="name" xml:space="preserve">
     <value>Navn</value>
+  </data>
+  <data name="noParent" xml:space="preserve">
+    <value>Ingen parent</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
     <value>Send en e-mail når nye kommentarer er tilføjet</value>
@@ -389,6 +395,9 @@
   </data>
   <data name="selectDay" xml:space="preserve">
     <value>Vælg dag</value>
+  </data>
+  <data name="selectParent" xml:space="preserve">
+    <value>Vælg parent</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Send kommentar e-mail</value>

@@ -244,6 +244,13 @@ namespace BlogEngine.Core.Providers
       page.Description = doc.SelectSingleNode("page/description").InnerText;
       page.Content = doc.SelectSingleNode("page/content").InnerText;
       page.Keywords = doc.SelectSingleNode("page/keywords").InnerText;
+
+      if (doc.SelectSingleNode("page/parent") != null)
+        page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
+
+      if (doc.SelectSingleNode("page/isfrontpage") != null)
+        page.IsFrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
+
       page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
       page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
 
@@ -268,6 +275,8 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("description", page.Description);
         writer.WriteElementString("content", page.Content);
         writer.WriteElementString("keywords", page.Keywords);
+        writer.WriteElementString("parent", page.Parent.ToString());
+        writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
         writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
         writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 

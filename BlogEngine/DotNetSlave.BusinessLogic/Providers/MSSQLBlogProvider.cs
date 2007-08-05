@@ -170,7 +170,7 @@ namespace BlogEngine.Core.Providers
         cmd.Parameters.Add(new SqlParameter("@slug", ""));
       else
         cmd.Parameters.Add(new SqlParameter("@slug", post.Slug));
-      
+
       cmd.ExecuteNonQuery();
 
       // Tags
@@ -476,7 +476,7 @@ namespace BlogEngine.Core.Providers
       conn.Open();
       SqlDataReader rdr = cmd.ExecuteReader();
 
-      while(rdr.Read())
+      while (rdr.Read())
       {
         string name = rdr.GetString(0);
         string value = rdr.GetString(1);
@@ -534,7 +534,8 @@ namespace BlogEngine.Core.Providers
 
       while (rdr.Read())
       {
-        col.Add(rdr.GetString(0));
+        if (!col.Contains(rdr.GetString(0)))
+          col.Add(rdr.GetString(0));
       }
 
       rdr.Close();

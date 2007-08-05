@@ -10,7 +10,7 @@
   </div>
   <div class="bottom">
     <% if (TagLinks(", ") != null) { %>
-    <div class="tags"><%=TagLinks(", ") %></div>
+    <div class="tags">Tags: <%=TagLinks(", ") %></div>
     <%  }
         if (CategoryLinks(" | ") != null)
         {
