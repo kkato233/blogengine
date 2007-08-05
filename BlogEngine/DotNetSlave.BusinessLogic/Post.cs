@@ -647,7 +647,7 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
-    /// Occurs when a visitor rates the post.
+    /// Occurs when the post is being served to the output stream.
     /// </summary>
     public static event EventHandler<ServingEventArgs> Serving;
     /// <summary>
@@ -662,7 +662,7 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
-    /// Occurs when a visitor rates the post.
+    /// Occurs when a comment is being served to the output stream.
     /// </summary>
     public static event EventHandler<ServingEventArgs> CommentServing;
     /// <summary>

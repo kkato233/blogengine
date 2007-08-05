@@ -110,6 +110,7 @@
     <Compile Include="Web\Controls\CommentViewBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Web\Controls\PageSiteMap.cs" />
     <Compile Include="Web\HttpHandlers\CommentFeedHandler.cs" />
     <Compile Include="Web\HttpHandlers\OpmlHandler.cs" />
     <Compile Include="Web\HttpHandlers\RatingHandler.cs" />

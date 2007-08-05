@@ -4,8 +4,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
-  <asp:TextBox runat="server" ID="txtTitle" Width="500px" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" /><br /><br />
+  <asp:TextBox runat="server" ID="txtTitle" Width="400px" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" Display="Dynamic" ErrorMessage="Please enter a title" />&nbsp;&nbsp;&nbsp;
+  
+  <label for="<%=ddlParent.ClientID %>"><%=Resources.labels.selectParent %></label>
+  <asp:DropDownList runat="server" id="ddlParent" />&nbsp;&nbsp;&nbsp;
+  
+  <asp:CheckBox runat="Server" ID="cbIsFrontPage" Text="<%$ Resources:labels, isFrontPage %>" />
+  <br /><br />
 
   <blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
   

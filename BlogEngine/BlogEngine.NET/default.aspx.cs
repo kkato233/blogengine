@@ -13,6 +13,16 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     if (Page.IsCallback)
       return;
 
+    if (Request.QueryString.Count == 0)
+    {
+      if (!(Request.UrlReferrer != null && Request.UrlReferrer.Host == Request.Url.Host))
+      {
+        BlogEngine.Core.Page page = BlogEngine.Core.Page.GetFrontPage();
+        if (page != null)
+          Response.Redirect(BlogEngine.Core.Page.GetFrontPage().RelativeLink.ToString(), true);
+      }
+    }
+
     if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
     {
       DisplayCategories();

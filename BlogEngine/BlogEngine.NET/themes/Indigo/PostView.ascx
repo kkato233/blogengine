@@ -7,7 +7,7 @@
     <%=Rating %>
     <br />
     <div class="postfooter">
-        <%=TagLinks(", ") %><br />
+        Tags: <%=TagLinks(", ") %><br />
         Categories: <%=CategoryLinks(" | ") %><br />
         Actions: <%=AdminLinks %>
         <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | 

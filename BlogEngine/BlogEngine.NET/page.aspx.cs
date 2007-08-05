@@ -31,7 +31,10 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
       if (this.Page != null)
       {
         h1Title.InnerHtml = this.Page.Title;
-        divText.InnerHtml = this.Page.Content;
+
+        ServingEventArgs arg = new ServingEventArgs(this.Page.Content);
+        Page.OnServing(this.Page, arg);
+        divText.InnerHtml = arg.Body;
 
         base.Title = this.Page.Title;
         base.AddMetaTag("keywords", this.Page.Keywords);

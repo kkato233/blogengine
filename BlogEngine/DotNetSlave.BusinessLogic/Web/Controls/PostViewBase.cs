@@ -142,7 +142,7 @@ namespace BlogEngine.Core.Web.Controls
         tags[i] = string.Format(link, path, tag);
       }
 
-      return "Tags: " + string.Join(separator, tags);
+      return string.Join(separator, tags);
     }
 
     /// <summary>

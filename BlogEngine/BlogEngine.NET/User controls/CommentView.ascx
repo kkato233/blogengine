@@ -18,19 +18,19 @@
   <h1 id="addcomment"><%=Resources.labels.addComment %></h1>
 
   <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
-  <asp:TextBox runat="Server" ID="txtName" TabIndex="1" />
-  <asp:CustomValidator runat="server" ControlToValidate="txtName" ErrorMessage="Please choose another name" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="Required" Display="dynamic" /><br />
+  <asp:TextBox runat="Server" ID="txtName" TabIndex="1" ValidationGroup="AddComment" />
+  <asp:CustomValidator runat="server" ControlToValidate="txtName" ErrorMessage="Please choose another name" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" /><br />
 
   <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
-  <asp:TextBox runat="Server" ID="txtEmail" TabIndex="2" />
+  <asp:TextBox runat="Server" ID="txtEmail" TabIndex="2" ValidationGroup="AddComment" />
   (<%=string.Format(Resources.labels.willShowGravatar, "<a href=\"http://www.gravatar.com\" target=\"_blank\">Gravatar</a>") %>)
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Required" Display="dynamic" />
-  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Please enter a valid email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" /><br />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" />
+  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Please enter a valid email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
 
   <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website %></label>
-  <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="3" />
-  <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" /><br />
+  <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="3" ValidationGroup="AddComment" />
+  <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" ValidationGroup="AddComment" /><br />
   
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
   <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
@@ -39,14 +39,14 @@
   <%} %>
 
   <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label>
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" /><br />
-  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" /><br />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" /><br />
+  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" /><br />
     
   <input type="checkbox" id="cbNotify" style="width: auto" />
   <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
  
   <input type="button" id="btnSave" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
-  <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="6" />
+  <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="6" ValidationGroup="AddComment" />
   
   <% if (BlogSettings.Instance.ShowLivePreview) { %>  
   <h2>Live preview</h2> 

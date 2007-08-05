@@ -34,10 +34,11 @@ namespace BlogEngine.Core.Providers
       StringCollection col = new StringCollection();
       XmlDocument doc = new XmlDocument();
       doc.Load(fileName);
-      
+
       foreach (XmlNode node in doc.SelectNodes("services/service"))
       {
-        col.Add(node.InnerText);
+        if (!col.Contains(node.InnerText))
+          col.Add(node.InnerText);
       }
 
       return col;
