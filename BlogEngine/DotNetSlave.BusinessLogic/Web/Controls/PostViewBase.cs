@@ -138,7 +138,7 @@ namespace BlogEngine.Core.Web.Controls
       string path = Utils.RelativeWebRoot + "?tag=";
       for (int i = 0; i < Post.Tags.Count; i++)
       {
-        string tag = HttpUtility.UrlEncode(Post.Tags[i]);
+        string tag = HttpUtility.HtmlEncode(Post.Tags[i]);
         tags[i] = string.Format(link, path, tag);
       }
 

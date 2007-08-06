@@ -4,6 +4,7 @@ using System;
 using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.IO.Compression;
 using System.Web.Caching;
 
 #endregion
@@ -29,6 +30,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
       ReduceCSS(file, context);
       SetHeaders(file, context);
+      Compress(context);
     }
 
     /// <summary>
@@ -74,13 +76,52 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.ContentType = "text/css";
       // Server-side caching 
       context.Response.AddFileDependency(file);
-      context.Response.Cache.VaryByParams["name"] = true;      
+      context.Response.Cache.VaryByParams["name"] = true;
       context.Response.Cache.SetValidUntilExpires(true);
       // Client-side caching
-      context.Response.Cache.SetETagFromFileDependencies();
+      context.Response.Cache.SetExpires(DateTime.Now.AddDays(3));
       context.Response.Cache.SetLastModifiedFromFileDependencies();
       context.Response.Cache.SetCacheability(HttpCacheability.Public);
     }
+
+    #region Compression
+
+    private const string GZIP = "gzip";
+    private const string DEFLATE = "deflate";
+
+    private void Compress(HttpContext context)
+    {
+      if (IsEncodingAccepted(GZIP))
+      {
+        context.Response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
+        SetEncoding(GZIP);
+      }
+      else if (IsEncodingAccepted(DEFLATE))
+      {
+        context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
+        SetEncoding(DEFLATE);
+      }
+    }
+
+    /// <summary>
+    /// Checks the request headers to see if the specified
+    /// encoding is accepted by the client.
+    /// </summary>
+    private static bool IsEncodingAccepted(string encoding)
+    {
+      return HttpContext.Current.Request.Headers["Accept-encoding"] != null && HttpContext.Current.Request.Headers["Accept-encoding"].Contains(encoding);
+    }
+
+    /// <summary>
+    /// Adds the specified encoding to the response headers.
+    /// </summary>
+    /// <param name="encoding"></param>
+    private static void SetEncoding(string encoding)
+    {
+      HttpContext.Current.Response.AppendHeader("Content-encoding", encoding);
+    }
+
+    #endregion
 
     /// <summary>
     /// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.

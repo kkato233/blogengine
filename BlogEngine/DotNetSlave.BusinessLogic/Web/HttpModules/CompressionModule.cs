@@ -35,7 +35,7 @@ namespace BlogEngine.Core.Web.HttpModules
     void IHttpModule.Init(HttpApplication context)
     {
       if (BlogSettings.Instance.EnableHttpCompression)
-        context.BeginRequest += new EventHandler(context_BeginRequest);
+        context.PostReleaseRequestState += new EventHandler(context_PostReleaseRequestState);
     }
 
     #endregion
@@ -50,10 +50,10 @@ namespace BlogEngine.Core.Web.HttpModules
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-    void context_BeginRequest(object sender, EventArgs e)
+    void context_PostReleaseRequestState(object sender, EventArgs e)
     {
       HttpApplication app = sender as HttpApplication;
-      if (app.Request.Url.OriginalString.ToUpperInvariant().Contains(".ASPX"))
+      if (app.Context.CurrentHandler is System.Web.UI.Page)
       {
         if (IsEncodingAccepted(DEFLATE))
         {
@@ -65,6 +65,10 @@ namespace BlogEngine.Core.Web.HttpModules
           app.Response.Filter = new GZipStream(app.Response.Filter, CompressionMode.Compress);
           SetEncoding(GZIP);
         }
+      }
+      else if (app.Request.Path.Contains("WebResource.axd"))
+      {
+        app.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
       }
     }
 
