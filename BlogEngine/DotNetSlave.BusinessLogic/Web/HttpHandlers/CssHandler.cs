@@ -91,6 +91,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     private void Compress(HttpContext context)
     {
+      if (context.Request.UserAgent.Contains("MSIE 6"))
+        return;
+
       if (IsEncodingAccepted(GZIP))
       {
         context.Response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);

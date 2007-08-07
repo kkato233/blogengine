@@ -88,6 +88,9 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     else
       page = new Page();
 
+    if (string.IsNullOrEmpty(txtContent.Text))
+      txtContent.Text = "[No text]";
+
     page.Title = txtTitle.Text;
     page.Content = txtContent.Text;
     page.Description = txtDescription.Text;

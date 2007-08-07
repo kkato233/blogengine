@@ -45,6 +45,7 @@
     <div id="divDirectHit" runat="server" visible="False">
       <p>You might find one of the following links useful:</p>
       <ul>
+        <asp:placeholder runat="server" id="phSearchResult" />
         <li><a href="archive.aspx"><%=Resources.labels.archive %></a></li>
         <li><a href="<%=BlogEngine.Core.Utils.RelativeWebRoot %>">Home page</a></li>
       </ul>
