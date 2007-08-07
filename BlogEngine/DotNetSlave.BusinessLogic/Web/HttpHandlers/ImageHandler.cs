@@ -62,7 +62,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
             context.Response.ContentType = "image/" + extension;
 
           context.Response.Cache.SetCacheability(HttpCacheability.Public);
-          context.Response.Cache.SetETag(fileName);
+          context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
           context.Response.Cache.SetLastModified(fi.CreationTimeUtc);
           context.Server.Transfer(folder + fileName, false);
         }

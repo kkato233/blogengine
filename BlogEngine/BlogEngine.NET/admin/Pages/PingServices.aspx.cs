@@ -33,8 +33,7 @@ public partial class admin_Pages_PingServices : System.Web.UI.Page
     StringCollection col = BlogService.LoadPingServices();
     col.Add(txtNewCategory.Text);
     BlogService.SavePingServices(col);
-    txtNewCategory.Text = string.Empty;
-    BindGrid();
+    Response.Redirect(Request.RawUrl);
   }
 
   void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)

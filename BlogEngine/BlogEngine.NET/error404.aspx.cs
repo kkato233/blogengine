@@ -11,7 +11,12 @@ public partial class error404 : BlogBasePage
 {
   protected void Page_Load(object sender, EventArgs e)
   {
-    if (Request.UrlReferrer == null)
+    if (Request.QueryString["aspxerrorpath"] != null && Request.QueryString["aspxerrorpath"].Contains("/post/"))
+    {
+      DirectHitSearch();
+      divDirectHit.Visible = true;
+    }
+    else if (Request.UrlReferrer == null)
     {
       divDirectHit.Visible = true;
     }
@@ -28,6 +33,20 @@ public partial class error404 : BlogBasePage
     else if (Request.UrlReferrer != null)
     {
       divExternalReferrer.Visible = true;
+    }
+  }
+
+  private void DirectHitSearch()
+  {
+    string from = Request.QueryString["aspxerrorpath"];
+    int index = from.LastIndexOf("/") + 1;
+    string title = from.Substring(index).Replace(".aspx", string.Empty).Replace("-", " ");
+
+    List<Post> posts = Search.Hits(Post.Posts, title, false);
+    if (posts.Count > 0)
+    {
+      LiteralControl result = new LiteralControl(string.Format("<li><a href=\"{0}\">{1}</a></li>", posts[0].RelativeLink.ToString(), posts[0].Title));
+      phSearchResult.Controls.Add(result);
     }
   }
 
