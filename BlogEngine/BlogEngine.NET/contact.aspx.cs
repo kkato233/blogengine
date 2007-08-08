@@ -9,11 +9,15 @@ using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
 using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 #endregion
 
 public partial class contact : BlogBasePage
 {
+
+  private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
+
   protected void Page_Load(object sender, EventArgs e)
   {
     btnSend.Click += new EventHandler(btnSend_Click);
@@ -22,6 +26,9 @@ public partial class contact : BlogBasePage
       GetCookie();
       phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
     }
+
+    Page.Title = Resources.labels.contact;
+    base.AddMetaTag("description", _Regex.Replace(BlogSettings.Instance.ContactFormMessage, string.Empty));
   }
 
   private void btnSend_Click(object sender, EventArgs e)

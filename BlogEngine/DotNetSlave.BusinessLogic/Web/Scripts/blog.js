@@ -8,7 +8,7 @@ function SafeMail(name, domain, subject)
 }
 
 var _Regex = new RegExp("\\n","gi");
-var _RegexUrl = new RegExp("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&=\\-_\\./]{2,})", "gi");
+var _RegexUrl = new RegExp("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&#=\\-_\\./]{2,})", "gi");
 var _Preview;
 var _PreviewAuthor;
 var _PreviewContent;
