@@ -4,9 +4,9 @@
   <h1><a href="<%=Post.RelativeLink %>" class="taggedlink"><%=Post.Title %></a></h1>
   <span class="author">by <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a></span>
   <span class="pubDate"><%=Post.DateCreated.ToLongDateString() %></span>
-  <!-- <div class="text"><%=Body %></div> This has been depreciated so please don't use it anymore. -->
-  <!-- Instead use the line below -->
-  <div class="text"><asp:PlaceHolder ID="BodyContent" runat="server"></asp:PlaceHolder></div>
+  <%-- <div class="text"><%=Body %></div> This has been depreciated so please don't use it anymore. --%>
+  <%-- Instead use the line below --%>
+  <div class="text"><asp:PlaceHolder ID="BodyContent" runat="server" /></div>
   <div class="bottom">
     <%=Rating %>
     <p class="tags">Tags: <%=TagLinks(", ") %></p>

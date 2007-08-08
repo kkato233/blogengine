@@ -83,7 +83,7 @@ namespace BlogEngine.Core.Web.Controls
         // Finally we add any trailing static text.
         bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, Body.Length - currentPosition)));
     }
-    private static Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     /// <summary>
     /// Manages the deletion of posts.
