@@ -86,6 +86,9 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private static bool IsSearchEngine(string referrer)
     {
+      if (referrer.Contains("yahoo") && referrer.Contains("p="))
+        return true;
+
       return referrer.ToLowerInvariant().Contains("?q=") || referrer.ToLowerInvariant().Contains("&q=");
     }
 
