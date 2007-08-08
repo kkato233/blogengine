@@ -2,7 +2,11 @@
 
 <div class="post xfolkentry">
   <h1><a href="<%=Post.RelativeLink %>" class="taggedlink"><%=Post.Title %></a></h1>
-  <div class="postText"><%=Body %></div>
+  <div class="postText">
+    <!-- <%=Body %> This has been depreciated so please don't use it anymore. -->
+    <!-- Instead use the line below -->
+    <asp:PlaceHolder ID="BodyContent" runat="server"></asp:PlaceHolder>
+  </div>
   
   <div class="bottom">
     <div class="rating"><%=Rating %></div><br />

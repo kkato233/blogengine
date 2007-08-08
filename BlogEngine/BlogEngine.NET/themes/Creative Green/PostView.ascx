@@ -8,7 +8,11 @@
   <h1><a href="<%=Post.RelativeLink %>" class="taggedlink"><%=Post.Title %></a></h1>
   <span class="author">by <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a></span>
   
-  <div class="text"><%=Body %></div>
+  <div class="text">
+    <!-- <%=Body %> This has been depreciated so please don't use it anymore. -->
+    <!-- Instead use the line below -->
+    <asp:PlaceHolder ID="BodyContent" runat="server"></asp:PlaceHolder>
+  </div>
 
   <div class="bottom">
     <%=Rating %><br />
