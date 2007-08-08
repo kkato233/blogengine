@@ -61,7 +61,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       body = body.Replace(", ", ",");
       body = body.Replace("; ", ";");
       body = body.Replace(";}", "}");
-      body = Regex.Replace(body, @"/\*[^\*]*\*+([^/\*]*\*+)*/", "$1");
+      //body = Regex.Replace(body, @"/\*[^\*]*\*+([^/\*]*\*+)*/", "$1");
       body = Regex.Replace(body, @"(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,}(?=&nbsp;)|(?<=&ndsp;)\s{2,}(?=[<])", String.Empty);
 
       context.Response.Write(body);

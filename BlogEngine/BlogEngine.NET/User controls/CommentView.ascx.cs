@@ -245,6 +245,13 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       ddlCountry.SelectedValue = cookie.Values["country"];
       imgFlag.ImageUrl = "~/pics/flags/" + cookie.Values["country"] + ".png";
     }
+    else if (Page.User.Identity.IsAuthenticated)
+    {
+      System.Web.Security.MembershipUser user = System.Web.Security.Membership.GetUser();
+      txtName.Text = user.UserName;
+      txtEmail.Text = user.Email;
+      txtWebsite.Text = Request.Url.Host;
+    }
   }
 
   #endregion

@@ -191,7 +191,7 @@ namespace Controls
           HtmlGenericControl subLi = new HtmlGenericControl("li");
           HtmlAnchor a = new HtmlAnchor();
           a.HRef = item.Items[key];
-          a.Title = key;
+          a.Title = HttpUtility.HtmlEncode(key);
           a.InnerHtml = EnsureLength(key);
 
           subLi.Controls.Add(a);
@@ -211,7 +211,7 @@ namespace Controls
       if (textToShorten.Length > BlogSettings.Instance.BlogrollMaxLength)
         return textToShorten.Substring(0, BlogSettings.Instance.BlogrollMaxLength).Trim() + "...";
 
-      return textToShorten;
+      return HttpUtility.HtmlEncode(textToShorten);
     }
 
     /// <summary>

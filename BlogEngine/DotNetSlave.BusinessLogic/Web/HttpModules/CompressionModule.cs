@@ -68,7 +68,7 @@ namespace BlogEngine.Core.Web.HttpModules
       }
       else if (app.Request.Path.Contains("WebResource.axd"))
       {
-        app.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+        app.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
       }
     }
 

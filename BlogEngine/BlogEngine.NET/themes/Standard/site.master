@@ -20,7 +20,7 @@
       <li><a href="~/" runat="server" rel="home">Home</a></li>
       <li><a href="~/archive.aspx" runat="server"><%=Resources.labels.archive %></a></li>
       <li><a href="~/contact.aspx" runat="server"><%=Resources.labels.contact %></a></li>
-      <li><a href="<%=Utils.FeedUrl %>" class="feed""><img src="<%=Utils.RelativeWebRoot %>pics/rssbutton.gif" alt="Feed" />Feed</a></li>
+      <li><a href="<%=Utils.FeedUrl %>" class="feed"><img src="<%=Utils.RelativeWebRoot %>pics/rssbutton.gif" alt="Feed" />Feed</a></li>
     </ul>
   </div>
   
