@@ -28,6 +28,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       HtmlAnchor a = new HtmlAnchor();
       a.InnerHtml = cat;
       a.HRef = "#" + Utils.RemoveIlegalCharacters(cat);
+      a.Attributes.Add("rel", "directory");
 
       HtmlGenericControl li = new HtmlGenericControl("li");
       li.Controls.Add(a);
