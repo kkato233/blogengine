@@ -12,7 +12,9 @@
     </div>
     
     <div class="content">
-        <%=Body %>
+        <!-- <%=Body %> This has been depreciated so please don't use it anymore. -->
+        <!-- Instead use the line below -->
+        <asp:PlaceHolder ID="BodyContent" runat="server"></asp:PlaceHolder>
         <%=Rating %><br />
     </div>
     
