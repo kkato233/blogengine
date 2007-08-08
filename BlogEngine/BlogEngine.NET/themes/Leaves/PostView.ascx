@@ -2,7 +2,9 @@
 
 <div class="post xfolkentry">
     <h2><a class="postheader taggedlink" href="<%=Post.RelativeLink %>"><%=Post.Title %></a></h2>
-    <%=Body %>
+    <%-- <%=Body %> This has been depreciated so please don't use it anymore. --%>
+    <%-- Instead use the line below --%>
+    <asp:PlaceHolder ID="BodyContent" runat="server" />
     <%=Rating %>
     <div class="postfooter">
         Posted on <%=Post.DateCreated.ToString("MMMM d, yyyy HH:mm")%> by <a href="<%=VirtualPathUtility.ToAbsolute("~/") + "author/" + Post.Author %>.aspx"><%=Post.Author %></a><br />
