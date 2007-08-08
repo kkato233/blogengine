@@ -44,11 +44,11 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       else
       {
         BindCountries();
-        GetCookie();
-        BindLivePreview();
+        GetCookie();        
       }
     }
 
+    BindLivePreview();
     InititializeCaptcha();
     btnSave.Click += new EventHandler(btnSave_Click);
   }
