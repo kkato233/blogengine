@@ -22,6 +22,65 @@ namespace BlogEngine.Core.Web.Controls
   /// </summary>
   public class PostViewBase : UserControl
   {
+    /// <summary>
+    /// Lets process our .Body content and build up our controls collection
+    /// inside the 'BodyContent' placeholder.
+    /// 
+    /// User controls are insterted into the blog in the following format..
+    /// [UserControl:~/path/usercontrol.ascx]
+    /// 
+    /// TODO : Expose user control parameters.
+    /// 
+    /// </summary>
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        // Our content placeholder.
+        PlaceHolder bodyContent;
+
+        try
+        {
+            bodyContent = (PlaceHolder)FindControl("BodyContent");
+            if (bodyContent == null)
+            {
+                throw new ApplicationException("Missing 'Bodycontent' Placeholder from theme PostView.ascx file");
+            }
+        }
+        catch
+        {
+            // Rethrow exception.  Need to implement a proper application wide error handler...
+            throw;
+        }
+
+        MatchCollection myMatches = _BodyRegex.Matches(Body);
+        int currentPosition = 0;
+
+        foreach (Match myMatch in myMatches)
+        {
+            // Add literal for content before custom tag should it exist.
+            if (myMatch.Index > currentPosition)
+            {
+                bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, myMatch.Index - currentPosition)));
+            }
+
+            // Now lets add our user control.
+            try
+            {
+                bodyContent.Controls.Add(LoadControl(myMatch.Groups[1].Value));
+            }
+            catch
+            {
+                // Whoopss, can't load that control so lets rethrow the exception.  Need to implement a proper application wide error handler...
+                throw;
+            }
+
+            // Now we will update our position.
+            currentPosition = myMatch.Index + myMatch.Groups[0].Length;
+        }
+
+        // Finally we add any trailing static text.
+        bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, Body.Length - currentPosition)));
+    }
+    private static Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     /// <summary>
     /// Manages the deletion of posts.
