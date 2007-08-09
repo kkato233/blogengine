@@ -32,58 +32,54 @@ namespace BlogEngine.Core.Web.Controls
     /// TODO : Expose user control parameters.
     /// 
     /// </summary>
-    protected void Page_Load(object sender, EventArgs e)
-    {
-      // Our content placeholder.
-      PlaceHolder bodyContent;
-
-      try
+      protected void Page_Load(object sender, EventArgs e)
       {
-        bodyContent = (PlaceHolder)FindControl("BodyContent");
-        if (bodyContent == null)
-        {
-          throw new ApplicationException("Missing 'Bodycontent' Placeholder from theme PostView.ascx file");
-        }
+          // Our content placeholder.
+          PlaceHolder bodyContent;
+
+          // Used to track where we are in the 'Body' as we parse it.
+          int currentPosition = 0;
+
+          bodyContent = (PlaceHolder)FindControl("BodyContent");
+          if (bodyContent != null)
+          {
+              MatchCollection myMatches = _BodyRegex.Matches(Body);
+
+              foreach (Match myMatch in myMatches)
+              {
+                  // Add literal for content before custom tag should it exist.
+                  if (myMatch.Index > currentPosition)
+                  {
+                      bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, myMatch.Index - currentPosition)));
+                  }
+
+                  // Now lets add our user control.
+                  try
+                  {
+                      bodyContent.Controls.Add(LoadControl(myMatch.Groups[1].Value));
+
+                      // Now we will update our position.
+                      currentPosition = myMatch.Index + myMatch.Groups[0].Length;
+                  }
+                  catch
+                  {
+                      // Whoopss, can't load that control so lets output something that tells the developer that theres a problem.
+                      bodyContent.Controls.Add(new LiteralControl("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value));
+
+                      // Now we will update our position based on our error message as opposed to our control text as we would normally.
+                      currentPosition = myMatch.Index + ((string)("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value)).Length;
+                  }
+              }
+
+              // Finally we add any trailing static text.
+              bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, Body.Length - currentPosition)));
+          }
+          else
+          {
+              // We have no placeholder so we assume this is an old style <% =Body %> theme and do nothing.
+          }
       }
-      catch
-      {
-        // Rethrow exception.  Need to implement a proper application wide error handler...
-        throw;
-      }
-
-      MatchCollection myMatches = _BodyRegex.Matches(Body);
-      int currentPosition = 0;
-
-      foreach (Match myMatch in myMatches)
-      {
-        // Add literal for content before custom tag should it exist.
-        if (myMatch.Index > currentPosition)
-        {
-          bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, myMatch.Index - currentPosition)));
-        }
-
-        // Now lets add our user control.
-        try
-        {
-          bodyContent.Controls.Add(LoadControl(myMatch.Groups[1].Value));
-
-          // Now we will update our position.
-          currentPosition = myMatch.Index + myMatch.Groups[0].Length;
-        }
-        catch
-        {
-          // Whoopss, can't load that control so lets output something that tells the developer that theres a problem.
-          bodyContent.Controls.Add(new LiteralControl("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value));
-
-          // Now we will update our position based on our error message as opposed to our control text as we would normally.
-          currentPosition = myMatch.Index + ((string)("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value)).Length;
-        }
-      }
-
-      // Finally we add any trailing static text.
-      bodyContent.Controls.Add(new LiteralControl(Body.Substring(currentPosition, Body.Length - currentPosition)));
-    }
-    private static readonly Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+      private static readonly Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     /// <summary>
     /// Manages the deletion of posts.
