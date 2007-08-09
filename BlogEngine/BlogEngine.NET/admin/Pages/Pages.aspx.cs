@@ -136,7 +136,8 @@ public partial class admin_Pages_pages : System.Web.UI.Page
   {
     foreach (Page page in BlogEngine.Core.Page.Pages)
     {
-      ddlParent.Items.Add(new ListItem(page.Title, page.Id.ToString()));
+      if (pageId != page.Id)
+        ddlParent.Items.Add(new ListItem(page.Title, page.Id.ToString()));
     }
 
     ddlParent.Items.Insert(0, "-- " + Resources.labels.noParent + " --");
