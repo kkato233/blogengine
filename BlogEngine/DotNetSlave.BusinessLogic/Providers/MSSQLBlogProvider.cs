@@ -127,6 +127,21 @@ namespace BlogEngine.Core.Providers
 
       rdr.Close();
 
+      // Email Notification
+      sqlQuery = "SELECT NotifyAddress " +
+                  "FROM be_PostNotify " +
+                  "WHERE PostID = @id";
+      cmd.CommandText = sqlQuery;
+      rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        if (!rdr.IsDBNull(0))
+          post.NotificationEmails.Add(rdr.GetString(0));
+      }
+
+      rdr.Close();
+
       if (connClose)
         providerConn.Close();
 
@@ -182,6 +197,9 @@ namespace BlogEngine.Core.Providers
       // Comments
       UpdateComments(post);
 
+      // Email Notification
+      UpdateNotify(post);
+
       providerConn.Close();
     }
 
@@ -235,6 +253,9 @@ namespace BlogEngine.Core.Providers
       // Comments
       UpdateComments(post);
 
+      // Email Notification
+      UpdateNotify(post);
+
       providerConn.Close();
 
     }
@@ -249,6 +270,7 @@ namespace BlogEngine.Core.Providers
       string sqlQuery = "DELETE FROM be_Posts WHERE PostID = @id;" +
                           "DELETE FROM be_PostTag WHERE PostID = @id;" +
                           "DELETE FROM be_PostCategory WHERE PostID = @id;" +
+                          "DELETE FROM be_PostNotify WHERE PostID = @id;" +
                           "DELETE FROM be_PostComment WHERE PostID = @id;";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
@@ -668,6 +690,25 @@ namespace BlogEngine.Core.Providers
         else
           cmd.Parameters.Add(new SqlParameter("@ip", comment.IP));
 
+        cmd.ExecuteNonQuery();
+      }
+    }
+
+    private void UpdateNotify(Post post)
+    {
+      SqlCommand cmd = new SqlCommand();
+      cmd.Connection = providerConn;
+      cmd.CommandText = "DELETE FROM be_PostNotify WHERE PostID = @id";
+      cmd.Parameters.Clear();
+      cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
+      cmd.ExecuteNonQuery();
+
+      foreach (string email in post.NotificationEmails)
+      {
+        cmd.CommandText = "INSERT INTO be_PostNotify (PostID, NotifyAddress) VALUES (@id, @notify)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@notify", email));
         cmd.ExecuteNonQuery();
       }
     }
