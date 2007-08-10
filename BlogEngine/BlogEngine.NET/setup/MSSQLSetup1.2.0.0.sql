@@ -103,6 +103,26 @@ CREATE TABLE [dbo].[be_PostComment](
 GO
 SET ANSI_PADDING OFF
 
+/****** Object:  Table [dbo].[be_PostNotify]    Script Date: 08/09/2007 22:33:17 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[be_PostNotify](
+	[PostNotifyID] [int] IDENTITY(1,1) NOT NULL,
+	[PostID] [uniqueidentifier] NOT NULL,
+	[NotifyAddress] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+ CONSTRAINT [PK_be_PostNotify] PRIMARY KEY CLUSTERED 
+(
+	[PostNotifyID] ASC
+)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+
 /****** Object:  Table [dbo].[be_Posts]    Script Date: 07/24/2007 22:33:21 ******/
 SET ANSI_NULLS ON
 GO
