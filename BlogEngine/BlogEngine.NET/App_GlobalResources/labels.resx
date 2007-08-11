@@ -417,6 +417,9 @@
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Only show description of posts</value>
   </data>
+  <data name="showInList" xml:space="preserve">
+    <value>Show in list</value>
+  </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Show live preview</value>
   </data>

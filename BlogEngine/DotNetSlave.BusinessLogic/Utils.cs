@@ -91,6 +91,7 @@ namespace BlogEngine.Core
     {
       try
       {
+        message.BodyEncoding = Encoding.UTF8;
         SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
         smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
         smtp.Port = BlogSettings.Instance.SmtpServerPort;

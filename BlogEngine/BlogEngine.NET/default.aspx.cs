@@ -23,7 +23,15 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
       }
     }
 
-    if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
+    if (Request.QueryString.Count == 0)
+    {
+      Page page = BlogEngine.Core.Page.GetFrontPage();
+      if (page != null)
+      {
+        Server.Transfer("~/page.aspx?id=" + page.Id);
+      }
+    }
+    else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
     {
       DisplayCategories();
     }
@@ -39,7 +47,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       DisplayDateRange();
     }
-    else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]))
+    else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
     {
       PostList1.Posts = Post.Posts;
       Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;

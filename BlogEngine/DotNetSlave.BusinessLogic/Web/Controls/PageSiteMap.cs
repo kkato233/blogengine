@@ -47,7 +47,7 @@ namespace BlogEngine.Core.Web
       Guid id = new Guid(node.Key);
       foreach (Page page in Page.Pages)
       {
-        if (page.Parent == id)
+        if (page.Parent == id && page.ShowInList)
           col.Add(new SiteMapNode(this, page.Id.ToString(), page.RelativeLink.ToString(), page.Title, page.Description));
       }
 
