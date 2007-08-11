@@ -123,6 +123,20 @@ namespace BlogEngine.Core
       }
     }
 
+    private bool _ShowInList;
+    /// <summary>
+    /// Gets or sets whether or not this page should be in the sitemap list.
+    /// </summary>
+    public bool ShowInList
+    {
+      get { return _ShowInList; }
+      set
+      {
+        if (_ShowInList != value) MarkDirty("ShowInList");
+        _ShowInList = value; 
+      }
+    }
+
     /// <summary>
     /// The relative URI to the page. For in-site use only.
     /// </summary>

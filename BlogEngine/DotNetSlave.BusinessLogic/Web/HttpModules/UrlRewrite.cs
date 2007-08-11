@@ -46,7 +46,11 @@ namespace BlogEngine.Core.Web.HttpModules
       HttpContext context = ((HttpApplication)sender).Context;
       if (context.Request.RawUrl.ToLowerInvariant().Contains(".aspx") && !context.Request.RawUrl.Contains("error404.aspx"))
       {
-        if (context.Request.RawUrl.ToLowerInvariant().Contains("/post/"))
+        if (context.Request.Path.Contains("/blog.aspx"))
+        {
+          context.RewritePath("~/default.aspx?blog=true");
+        }
+        else if (context.Request.RawUrl.ToLowerInvariant().Contains("/post/"))
         {
           RewritePost(context);
         }

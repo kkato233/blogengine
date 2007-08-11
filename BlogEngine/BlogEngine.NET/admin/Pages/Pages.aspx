@@ -11,6 +11,8 @@
   <asp:DropDownList runat="server" id="ddlParent" />&nbsp;&nbsp;&nbsp;
   
   <asp:CheckBox runat="Server" ID="cbIsFrontPage" Text="<%$ Resources:labels, isFrontPage %>" />
+  
+  <asp:CheckBox runat="Server" ID="cbShowInList" Text="<%$ Resources:labels, showInList %>" Checked="true" />
   <br /><br />
 
   <blog:TextEditor runat="server" id="txtContent" TabIndex="4" />

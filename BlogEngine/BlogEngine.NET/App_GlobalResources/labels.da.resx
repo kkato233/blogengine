@@ -417,6 +417,9 @@
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Vis kun indlægsbeskrivelsen</value>
   </data>
+  <data name="showInList" xml:space="preserve">
+    <value>Vis i listen</value>
+  </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Vis live preview</value>
   </data>

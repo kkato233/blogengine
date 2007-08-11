@@ -52,7 +52,7 @@ function AutoSave()
   <label for="<%=txtDate.ClientID %>"><%=Resources.labels.date %></label>
   <asp:TextBox runat="server" ID="txtDate" Width="110px" TabIndex="3" />
   
-  <asp:RegularExpressionValidator  ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]"ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
+  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]" ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter an author" Display="Dynamic" />
   <br /><br />

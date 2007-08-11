@@ -42,6 +42,8 @@ namespace Controls
       lock (_SyncRoot)
       {
         _Months.Clear();
+        if (Post.Posts.Count == 0) return;
+
         DateTime first;
         if (Post.Posts.Count <= 0 || !DateTime.TryParse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01", out first))
         {
