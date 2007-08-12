@@ -23,13 +23,10 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
       }
     }
 
-    if (Request.QueryString.Count == 0)
+    Page frontPage = BlogEngine.Core.Page.GetFrontPage();
+    if (Request.QueryString.Count == 0 && frontPage != null)
     {
-      Page page = BlogEngine.Core.Page.GetFrontPage();
-      if (page != null)
-      {
-        Server.Transfer("~/page.aspx?id=" + page.Id);
-      }
+      Server.Transfer("~/page.aspx?id=" + frontPage.Id);
     }
     else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
     {
