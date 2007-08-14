@@ -59,7 +59,7 @@ namespace BlogEngine.Core
 
     private static CategoryDictionary Load()
     {
-      return BlogService.SelectCategories();
+      return BlogService.SelectCategories(); 
     }
 
     #endregion

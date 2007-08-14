@@ -42,7 +42,7 @@ public partial class error404 : BlogBasePage
     int index = from.LastIndexOf("/") + 1;
     string title = from.Substring(index).Replace(".aspx", string.Empty).Replace("-", " ");
 
-    List<Post> posts = Search.Hits(Post.Posts, title, false);
+    List<Post> posts = Search.Hits(title, false);
     if (posts.Count > 0)
     {
       LiteralControl result = new LiteralControl(string.Format("<li><a href=\"{0}\">{1}</a></li>", posts[0].RelativeLink.ToString(), posts[0].Title));
@@ -52,7 +52,7 @@ public partial class error404 : BlogBasePage
 
   private void BindSearchResult()
   {
-    List<Post> posts = Search.Hits(Post.Posts, SearchTerm, false);
+    List<Post> posts = Search.Hits(SearchTerm, false);
     int max = 1;
     foreach (Post post in posts)
     {

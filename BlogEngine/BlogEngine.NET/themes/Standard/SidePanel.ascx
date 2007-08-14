@@ -38,12 +38,12 @@
 </div>
 
 <div class="box">
-  <h1>Pages</h1>
+  <h1><%=Resources.labels.pages %></h1>
   <blog:PageList runat="Server" />
 </div>
 
 <div class="box recent">
-  <h1>Recent posts</h1>
+  <h1><%=Resources.labels.recentPosts %></h1>
   <blog:RecentPosts runat="Server" />
 </div>
 
@@ -53,7 +53,7 @@
 </div>
 
 <div class="box">
-  <h1>Archive</h1>
+  <h1><%=Resources.labels.archive %></h1>
   <blog:MonthList runat="server" />
 </div>
 
@@ -68,14 +68,14 @@
 </div>
 
 <div class="box">
-  <h1>Categories</h1>
+  <h1><%=Resources.labels.categories %></h1>
   <blog:CategoryList runat="Server" /><br />
   <a href="~/archive.aspx" runat="Server">Archive</a>
   <blog:SearchBox runat="server" />
 </div>
 
 <div class="box">
-  <h1>Blogroll</h1>   
+  <h1><%=Resources.labels.blogroll %></h1>   
   <blog:Blogroll runat="server" />
   <a href="opml.axd" style="display:block;text-align:right" title="Download OPML file" >Download OPML file <asp:Image ID="Image1" runat="server" ImageUrl="~/pics/opml.png" AlternateText="OPML" /></a>
 </div>

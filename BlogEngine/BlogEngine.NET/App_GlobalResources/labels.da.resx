@@ -279,6 +279,9 @@
   <data name="handleWwwSubdomain" xml:space="preserve">
     <value>www subdomæne regel</value>
   </data>
+  <data name="home" xml:space="preserve">
+    <value>Forside</value>
+  </data>
   <data name="htmlHeadSection" xml:space="preserve">
     <value>HTML head sektion</value>
   </data>
@@ -369,6 +372,9 @@
   <data name="referrers" xml:space="preserve">
     <value>Henvisninger</value>
   </data>
+  <data name="relatedPosts" xml:space="preserve">
+    <value>Relaterede indlæg</value>
+  </data>
   <data name="remove" xml:space="preserve">
     <value>Fjern</value>
   </data>
@@ -428,6 +434,9 @@
   </data>
   <data name="subject" xml:space="preserve">
     <value>Emne</value>
+  </data>
+  <data name="subscribe" xml:space="preserve">
+    <value>Abonnér</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
     <value>Tak meddelelse</value>
