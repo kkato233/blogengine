@@ -120,7 +120,7 @@ namespace Controls
 
     private List<Post> SearchForPosts()
     {
-      return Search.Hits(this.Post.Title, false);
+      return Search.FindRelatedPosts(this.Post);
     }
   }
 }
