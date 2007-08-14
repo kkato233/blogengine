@@ -70,7 +70,6 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         ///<remarks>Need to remove this because it Category was promoted to BusinessBase</remarks>
         public abstract void SaveCategories(CategoryDictionary categories);
-
         /// <summary>
         /// Retrieves a Category from the provider based on the specified id.
         /// </summary>
@@ -92,57 +91,57 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public abstract List<Category> FillCategories();
 
-      // Settings
-      /// <summary>
-      /// Loads the settings from the provider.
-      /// </summary>
-      public abstract StringDictionary LoadSettings();
-      /// <summary>
-      /// Saves the settings to the provider.
-      /// </summary>
-      public abstract void SaveSettings(StringDictionary settings);
+        // Settings
+        /// <summary>
+        /// Loads the settings from the provider.
+        /// </summary>
+        public abstract StringDictionary LoadSettings();
+        /// <summary>
+        /// Saves the settings to the provider.
+        /// </summary>
+        public abstract void SaveSettings(StringDictionary settings);
 
-      //Ping services
-      /// <summary>
-      /// Loads the ping services.
-      /// </summary>
-      /// <returns></returns>
-      public abstract StringCollection LoadPingServices();
-      /// <summary>
-      /// Saves the ping services.
-      /// </summary>
-      /// <param name="services">The services.</param>
-      public abstract void SavePingServices(StringCollection services);
+        //Ping services
+        /// <summary>
+        /// Loads the ping services.
+        /// </summary>
+        /// <returns></returns>
+        public abstract StringCollection LoadPingServices();
+        /// <summary>
+        /// Saves the ping services.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        public abstract void SavePingServices(StringCollection services);
 
-    }
-
-  /// <summary>
-  /// A collection of all registered providers.
-  /// </summary>
-  public class BlogProviderCollection : ProviderCollection
-  {
-    /// <summary>
-    /// Gets a provider by its name.
-    /// </summary>
-    public new BlogProvider this[string name]
-    {
-      get { return (BlogProvider)base[name]; }
     }
 
     /// <summary>
-    /// Add a provider to the collection.
+    /// A collection of all registered providers.
     /// </summary>
-    public override void Add(ProviderBase provider)
+    public class BlogProviderCollection : ProviderCollection
     {
-      if (provider == null)
-        throw new ArgumentNullException("provider");
+        /// <summary>
+        /// Gets a provider by its name.
+        /// </summary>
+        public new BlogProvider this[string name]
+        {
+            get { return (BlogProvider)base[name]; }
+        }
 
-      if (!(provider is BlogProvider))
-        throw new ArgumentException
-            ("Invalid provider type", "provider");
+        /// <summary>
+        /// Add a provider to the collection.
+        /// </summary>
+        public override void Add(ProviderBase provider)
+        {
+            if (provider == null)
+                throw new ArgumentNullException("provider");
 
-      base.Add(provider);
+            if (!(provider is BlogProvider))
+                throw new ArgumentException
+                    ("Invalid provider type", "provider");
+
+            base.Add(provider);
+        }
     }
-  }
 
 }

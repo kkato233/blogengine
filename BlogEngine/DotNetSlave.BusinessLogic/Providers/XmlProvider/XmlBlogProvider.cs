@@ -372,7 +372,6 @@ namespace BlogEngine.Core.Providers
 
                 foreach (Guid key in categories.Keys)
                 {
-                    //writer.WriteRaw("<category id=\"" + key.ToString() + "\">" + categories[key] + "</category>");
                     writer.WriteStartElement("category");
                     writer.WriteAttributeString("id", key.ToString());
                     writer.WriteAttributeString("description", string.Empty);
@@ -384,31 +383,29 @@ namespace BlogEngine.Core.Providers
             }
         }
 
-
+        /// <summary>
+        /// Gets a Category based on a Guid
+        /// </summary>
+        /// <param name="id">The category's Guid.</param>
+        /// <returns>A matching Category</returns>
         public override Category SelectCategory(Guid id)
         {
-            string fileName = _Folder + "categories.xml";
-            if (!File.Exists(fileName))
-                return null;
-
-            XmlDocument doc = new XmlDocument();
-            doc.Load(fileName);
+            List<Category> categories = Category.Categories;
 
             Category category = new Category();
 
-            foreach (XmlNode node in doc.SelectNodes("categories/category"))
+            foreach (Category cat in categories)
             {
-                if (new Guid(node.Attributes["id"].InnerText) == id)
-                {
-                    category.Id = new Guid(node.Attributes["id"].InnerText);
-                    category.Title = node.InnerText;
-                    if (node.Attributes["id"].InnerText != null)
-                        category.Description = node.Attributes["description"].InnerText;
-                }
+                if (cat.Id == id)
+                    category = cat;
             }
             return category;
         }
 
+        /// <summary>
+        /// Inserts a Category
+        /// </summary>
+        /// <param name="category">Must be a valid Category object.</param>
         public override void InsertCategory(Category category)
         {
             List<Category> categories = Category.Categories;
@@ -427,7 +424,7 @@ namespace BlogEngine.Core.Providers
                     writer.WriteStartElement("category");
                     writer.WriteAttributeString("id", cat.Id.ToString());
                     writer.WriteAttributeString("description", cat.Description);
-                    writer.WriteElementString("title", cat.Title);
+                    writer.WriteValue(cat.Title);
                     writer.WriteEndElement();
                 }
 
@@ -436,6 +433,10 @@ namespace BlogEngine.Core.Providers
 
         }
 
+        /// <summary>
+        /// Updates a Category
+        /// </summary>
+        /// <param name="category">Must be a valid Category object.</param>
         public override void UpdateCategory(Category category)
         {
             List<Category> categories = Category.Categories;
@@ -463,6 +464,10 @@ namespace BlogEngine.Core.Providers
             }
         }
 
+        /// <summary>
+        /// Deletes a Category
+        /// </summary>
+        /// <param name="category">Must be a valid Category object.</param>
         public override void DeleteCategory(Category category)
         {
             List<Category> categories = Category.Categories;
@@ -470,7 +475,7 @@ namespace BlogEngine.Core.Providers
             categories.Add(category);
             string fileName = _Folder + "categories.xml";
 
-        if (File.Exists(fileName))
+            if (File.Exists(fileName))
                 File.Delete(fileName);
 
             if (Category.Categories.Contains(category))
@@ -497,6 +502,10 @@ namespace BlogEngine.Core.Providers
 
         }
 
+        /// <summary>
+        /// Fills an unsorted list of categories.
+        /// </summary>
+        /// <returns>A List<Category> of all Categories</returns>
         public override List<Category> FillCategories()
         {
 
@@ -514,7 +523,8 @@ namespace BlogEngine.Core.Providers
 
                 category.Id = new Guid(node.Attributes["id"].InnerText);
                 category.Title = node.ChildNodes.Item(0).InnerText;
-                category.Description = node.Attributes["description"].InnerText;
+                if (node.Attributes["description"].InnerText != null)
+                    category.Description = node.Attributes["description"].InnerText;
                 categories.Add(category);
             }
 
