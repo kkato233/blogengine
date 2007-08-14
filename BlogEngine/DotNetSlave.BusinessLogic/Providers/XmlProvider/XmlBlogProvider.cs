@@ -12,429 +12,566 @@ using BlogEngine.Core;
 
 namespace BlogEngine.Core.Providers
 {
-  /// <summary>
-  /// A storage provider for BlogEngine that uses XML files.
-  /// <remarks>
-  /// To build another provider, you can just copy and modify
-  /// this one. Then add it to the web.config's BlogEngine section.
-  /// </remarks>
-  /// </summary>
-  public partial class XmlBlogProvider : BlogProvider
-  {
-    private static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
-
-    #region Posts
-
     /// <summary>
-    /// Retrieves a post based on the specified Id.
+    /// A storage provider for BlogEngine that uses XML files.
+    /// <remarks>
+    /// To build another provider, you can just copy and modify
+    /// this one. Then add it to the web.config's BlogEngine section.
+    /// </remarks>
     /// </summary>
-    public override Post SelectPost(Guid id)
+    public partial class XmlBlogProvider : BlogProvider
     {
-      string fileName = _Folder + "posts\\" + id.ToString() + ".xml";
-      Post post = new Post();
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
+        private static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
 
-      post.Title = doc.SelectSingleNode("post/title").InnerText;
-      post.Description = doc.SelectSingleNode("post/description").InnerText;
-      post.Content = doc.SelectSingleNode("post/content").InnerText;
-      post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
-      post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText, CultureInfo.InvariantCulture);
+        #region Posts
 
-      if (doc.SelectSingleNode("post/author") != null)
-        post.Author = doc.SelectSingleNode("post/author").InnerText;
-
-      if (doc.SelectSingleNode("post/ispublished") != null)
-        post.IsPublished = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
-
-      if (doc.SelectSingleNode("post/iscommentsenabled") != null)
-        post.IsCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
-
-      if (doc.SelectSingleNode("post/raters") != null)
-        post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText);
-
-      if (doc.SelectSingleNode("post/rating") != null)
-        post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.GetCultureInfo("en-gb"));
-
-      if (doc.SelectSingleNode("post/slug") != null)
-        post.Slug = doc.SelectSingleNode("post/slug").InnerText;
-
-      // Tags
-      foreach (XmlNode node in doc.SelectNodes("post/tags/tag"))
-      {
-        if (!string.IsNullOrEmpty(node.InnerText))
-          post.Tags.Add(node.InnerText);
-      }
-
-      // comments
-      foreach (XmlNode node in doc.SelectNodes("post/comments/comment"))
-      {
-        Comment comment = new Comment();
-        comment.Id = new Guid(node.Attributes["id"].InnerText);
-        comment.Author = node.SelectSingleNode("author").InnerText;
-        comment.Email = node.SelectSingleNode("email").InnerText;
-        comment.Post = post;
-
-        if (node.SelectSingleNode("country") != null)
-          comment.Country = node.SelectSingleNode("country").InnerText;
-
-        if (node.SelectSingleNode("ip") != null)
-          comment.IP = node.SelectSingleNode("ip").InnerText;
-
-        if (node.SelectSingleNode("website") != null)
+        /// <summary>
+        /// Retrieves a post based on the specified Id.
+        /// </summary>
+        public override Post SelectPost(Guid id)
         {
-          Uri website;
-          if (Uri.TryCreate(node.SelectSingleNode("website").InnerText, UriKind.Absolute, out website))
-            comment.Website = website;
-        }
-        comment.Content = node.SelectSingleNode("content").InnerText;
-        comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
-        post.Comments.Add(comment);
-      }
+            string fileName = _Folder + "posts\\" + id.ToString() + ".xml";
+            Post post = new Post();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
 
-      post.Comments.Sort();
+            post.Title = doc.SelectSingleNode("post/title").InnerText;
+            post.Description = doc.SelectSingleNode("post/description").InnerText;
+            post.Content = doc.SelectSingleNode("post/content").InnerText;
+            post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
+            post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText, CultureInfo.InvariantCulture);
 
-      // categories
-      foreach (XmlNode node in doc.SelectNodes("post/categories/category"))
-      {
-        Guid key = new Guid(node.InnerText);
-        if (CategoryDictionary.Instance.ContainsKey(key))
-          post.Categories.Add(key);
-      }
+            if (doc.SelectSingleNode("post/author") != null)
+                post.Author = doc.SelectSingleNode("post/author").InnerText;
 
-      // Notification e-mails
-      foreach (XmlNode node in doc.SelectNodes("post/notifications/email"))
-      {
-        post.NotificationEmails.Add(node.InnerText);
-      }
+            if (doc.SelectSingleNode("post/ispublished") != null)
+                post.IsPublished = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
 
-      return post;
-    }
+            if (doc.SelectSingleNode("post/iscommentsenabled") != null)
+                post.IsCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
 
-    /// <summary>
-    /// Inserts a new Post to the data store.
-    /// </summary>
-    /// <param name="post"></param>
-    public override void InsertPost(Post post)
-    {
-      string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
-      XmlWriterSettings settings = new XmlWriterSettings();
-      settings.Indent = true;
+            if (doc.SelectSingleNode("post/raters") != null)
+                post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText);
 
-      using (XmlWriter writer = XmlWriter.Create(fileName, settings))
-      {
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("post");
+            if (doc.SelectSingleNode("post/rating") != null)
+                post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.GetCultureInfo("en-gb"));
 
-        writer.WriteElementString("author", post.Author);
-        writer.WriteElementString("title", post.Title);
-        writer.WriteElementString("description", post.Description);
-        writer.WriteElementString("content", post.Content);
-        writer.WriteElementString("ispublished", post.IsPublished.ToString());
-        writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
-        writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-        writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-        writer.WriteElementString("raters", post.Raters.ToString());
-        writer.WriteElementString("rating", post.Rating.ToString(CultureInfo.InvariantCulture));
-        writer.WriteElementString("slug", post.Slug);
+            if (doc.SelectSingleNode("post/slug") != null)
+                post.Slug = doc.SelectSingleNode("post/slug").InnerText;
 
-        // Tags
-        writer.WriteStartElement("tags");
-        foreach (string tag in post.Tags)
-        {
-          writer.WriteElementString("tag", tag);
-        }
-        writer.WriteEndElement();
+            // Tags
+            foreach (XmlNode node in doc.SelectNodes("post/tags/tag"))
+            {
+                if (!string.IsNullOrEmpty(node.InnerText))
+                    post.Tags.Add(node.InnerText);
+            }
 
-        // comments
-        writer.WriteStartElement("comments");
-        foreach (Comment comment in post.Comments)
-        {
-          writer.WriteStartElement("comment");
-          writer.WriteAttributeString("id", comment.Id.ToString());
-          writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-          writer.WriteElementString("author", comment.Author);
-          writer.WriteElementString("email", comment.Email);
-          writer.WriteElementString("country", comment.Country);
-          writer.WriteElementString("ip", comment.IP);
-          if (comment.Website != null)
-            writer.WriteElementString("website", comment.Website.ToString());
-          writer.WriteElementString("content", comment.Content);
-          writer.WriteEndElement();
-        }
-        writer.WriteEndElement();
+            // comments
+            foreach (XmlNode node in doc.SelectNodes("post/comments/comment"))
+            {
+                Comment comment = new Comment();
+                comment.Id = new Guid(node.Attributes["id"].InnerText);
+                comment.Author = node.SelectSingleNode("author").InnerText;
+                comment.Email = node.SelectSingleNode("email").InnerText;
+                comment.Post = post;
 
-        // categories
-        writer.WriteStartElement("categories");
-        foreach (Guid key in post.Categories)
-        {
-          if (CategoryDictionary.Instance.ContainsKey(key))
-            writer.WriteElementString("category", key.ToString());
-        }
-        writer.WriteEndElement();
+                if (node.SelectSingleNode("country") != null)
+                    comment.Country = node.SelectSingleNode("country").InnerText;
 
-        // Notification e-mails
-        writer.WriteStartElement("notifications");
-        foreach (string email in post.NotificationEmails)
-        {
-            writer.WriteElementString("email", email);
-        }
-        writer.WriteEndElement();
+                if (node.SelectSingleNode("ip") != null)
+                    comment.IP = node.SelectSingleNode("ip").InnerText;
 
-        writer.WriteEndElement();
-      }
-    }
+                if (node.SelectSingleNode("website") != null)
+                {
+                    Uri website;
+                    if (Uri.TryCreate(node.SelectSingleNode("website").InnerText, UriKind.Absolute, out website))
+                        comment.Website = website;
+                }
+                comment.Content = node.SelectSingleNode("content").InnerText;
+                comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
+                post.Comments.Add(comment);
+            }
 
-    /// <summary>
-    /// Updates a Post.
-    /// </summary>
-    public override void UpdatePost(Post post)
-    {
-      InsertPost(post);
-    }
+            post.Comments.Sort();
 
-    /// <summary>
-    /// Deletes a post from the data store.
-    /// </summary>
-    public override void DeletePost(Post post)
-    {
-      string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
-      if (File.Exists(fileName))
-        File.Delete(fileName);
-    }
+            // categories
+            foreach (XmlNode node in doc.SelectNodes("post/categories/category"))
+            {
+                Guid key = new Guid(node.InnerText);
+                if (CategoryDictionary.Instance.ContainsKey(key))
+                    post.Categories.Add(key);
+            }
 
-    /// <summary>
-    /// Retrieves all posts from the data store
-    /// </summary>
-    /// <returns>List of Posts</returns>
-    public override List<Post> FillPosts()
-    {
-      string folder = CategoryDictionary._Folder + "posts\\";
-      List<Post> posts = new List<Post>();
+            // Notification e-mails
+            foreach (XmlNode node in doc.SelectNodes("post/notifications/email"))
+            {
+                post.NotificationEmails.Add(node.InnerText);
+            }
 
-      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-      {
-        FileInfo info = new FileInfo(file);
-        string id = info.Name.Replace(".xml", string.Empty);
-        //Post post = SelectPost(new Guid(id));
-        Post post = Post.Load(new Guid(id));
-        posts.Add(post);
-      }
-
-      posts.Sort();
-      return posts;
-    }
-
-    #endregion
-
-    #region Pages
-
-    /// <summary>
-    /// Retrieves a Page from the data store.
-    /// </summary>
-    public override Page SelectPage(Guid id)
-    {
-      string fileName = _Folder + "pages\\" + id.ToString() + ".xml";
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
-
-      Page page = new Page();
-
-      page.Title = doc.SelectSingleNode("page/title").InnerText;
-      page.Description = doc.SelectSingleNode("page/description").InnerText;
-      page.Content = doc.SelectSingleNode("page/content").InnerText;
-      page.Keywords = doc.SelectSingleNode("page/keywords").InnerText;
-
-      if (doc.SelectSingleNode("page/parent") != null)
-        page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
-
-      if (doc.SelectSingleNode("page/isfrontpage") != null)
-        page.IsFrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
-
-      if (doc.SelectSingleNode("page/showinlist") != null)
-        page.ShowInList = bool.Parse(doc.SelectSingleNode("page/showinlist").InnerText);
-
-      page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
-      page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
-
-      return page;
-    }
-
-    /// <summary>
-    /// Inserts a new Page to the data store.
-    /// </summary>
-    public override void InsertPage(Page page)
-    {
-      string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
-      XmlWriterSettings settings = new XmlWriterSettings();
-      settings.Indent = true;
-
-      using (XmlWriter writer = XmlWriter.Create(fileName, settings))
-      {
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("page");
-
-        writer.WriteElementString("title", page.Title);
-        writer.WriteElementString("description", page.Description);
-        writer.WriteElementString("content", page.Content);
-        writer.WriteElementString("keywords", page.Keywords);
-        writer.WriteElementString("parent", page.Parent.ToString());
-        writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
-        writer.WriteElementString("showinlist", page.ShowInList.ToString());
-        writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-        writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-
-        writer.WriteEndElement();
-      }
-    }
-
-    /// <summary>
-    /// Updates a Page.
-    /// </summary>
-    public override void UpdatePage(Page page)
-    {
-      InsertPage(page);
-    }
-
-    /// <summary>
-    /// Deletes a page from the data store.
-    /// </summary>
-    public override void DeletePage(Page page)
-    {
-      string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
-      if (File.Exists(fileName))
-        File.Delete(fileName);
-
-      if (Page.Pages.Contains(page))
-        Page.Pages.Remove(page);
-    }
-
-    /// <summary>
-    /// Retrieves all pages from the data store
-    /// </summary>
-    /// <returns>List of Pages</returns>
-    public override List<Page> FillPages()
-    {
-      string folder = CategoryDictionary._Folder + "pages\\";
-      List<Page> pages = new List<Page>();
-
-      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-      {
-        FileInfo info = new FileInfo(file);
-        string id = info.Name.Replace(".xml", string.Empty);
-        Page page = Page.Load(new Guid(id));
-        pages.Add(page);
-      }
-
-      return pages;
-    }
-
-    #endregion
-
-    #region Categories
-
-    /// <summary>
-    /// Loads all categories from the data store.
-    /// </summary>
-    public override CategoryDictionary LoadCategories()
-    {
-      string fileName = _Folder + "categories.xml";
-      if (!File.Exists(fileName))
-        return null;
-
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
-      CategoryDictionary dic = new CategoryDictionary();
-
-      foreach (XmlNode node in doc.SelectNodes("categories/category"))
-      {
-        Guid id = new Guid(node.Attributes["id"].InnerText);
-        string title = node.InnerText;
-        dic.Add(id, title);
-      }
-
-      return dic;
-    }
-
-    /// <summary>
-    /// Saves the categories to the data store.
-    /// </summary>
-    public override void SaveCategories(CategoryDictionary categories)
-    {
-      string fileName = _Folder + "categories.xml";
-
-      using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
-      {
-        writer.Formatting = Formatting.Indented;
-        writer.Indentation = 4;
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("categories");
-
-        foreach (Guid key in categories.Keys)
-        {
-          //writer.WriteRaw("<category id=\"" + key.ToString() + "\">" + categories[key] + "</category>");
-          writer.WriteStartElement("category");
-          writer.WriteAttributeString("id", key.ToString());
-          writer.WriteValue(categories[key]);
-          writer.WriteEndElement();
+            return post;
         }
 
-        writer.WriteEndElement();
-      }
-    }
-
-    #endregion
-
-    #region Settings
-
-    /// <summary>
-    /// Loads the settings from the provider.
-    /// </summary>
-    public override StringDictionary LoadSettings()
-    {
-      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
-      StringDictionary dic = new StringDictionary();
-
-      XmlDocument doc = new XmlDocument();
-      doc.Load(filename);
-
-      foreach (XmlNode settingsNode in doc.SelectSingleNode("settings").ChildNodes)
-      {
-        string name = settingsNode.Name;
-        string value = settingsNode.InnerText;
-
-        dic.Add(name, value);
-      }
-
-      return dic;
-    }
-
-    /// <summary>
-    /// Saves the settings to the provider.
-    /// </summary>
-    public override void SaveSettings(StringDictionary settings)
-    {
-      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
-      XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
-      writerSettings.Indent = true;
-
-      //------------------------------------------------------------
-      //	Create XML writer against file path
-      //------------------------------------------------------------
-      using (XmlWriter writer = XmlWriter.Create(filename, writerSettings))
-      {
-        writer.WriteStartElement("settings");
-
-        foreach (string key in settings.Keys)
+        /// <summary>
+        /// Inserts a new Post to the data store.
+        /// </summary>
+        /// <param name="post"></param>
+        public override void InsertPost(Post post)
         {
-          writer.WriteElementString(key, settings[key]);
+            string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+
+            using (XmlWriter writer = XmlWriter.Create(fileName, settings))
+            {
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("post");
+
+                writer.WriteElementString("author", post.Author);
+                writer.WriteElementString("title", post.Title);
+                writer.WriteElementString("description", post.Description);
+                writer.WriteElementString("content", post.Content);
+                writer.WriteElementString("ispublished", post.IsPublished.ToString());
+                writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
+                writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+                writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+                writer.WriteElementString("raters", post.Raters.ToString());
+                writer.WriteElementString("rating", post.Rating.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("slug", post.Slug);
+
+                // Tags
+                writer.WriteStartElement("tags");
+                foreach (string tag in post.Tags)
+                {
+                    writer.WriteElementString("tag", tag);
+                }
+                writer.WriteEndElement();
+
+                // comments
+                writer.WriteStartElement("comments");
+                foreach (Comment comment in post.Comments)
+                {
+                    writer.WriteStartElement("comment");
+                    writer.WriteAttributeString("id", comment.Id.ToString());
+                    writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+                    writer.WriteElementString("author", comment.Author);
+                    writer.WriteElementString("email", comment.Email);
+                    writer.WriteElementString("country", comment.Country);
+                    writer.WriteElementString("ip", comment.IP);
+                    if (comment.Website != null)
+                        writer.WriteElementString("website", comment.Website.ToString());
+                    writer.WriteElementString("content", comment.Content);
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+
+                // categories
+                writer.WriteStartElement("categories");
+                foreach (Guid key in post.Categories)
+                {
+                    if (CategoryDictionary.Instance.ContainsKey(key))
+                        writer.WriteElementString("category", key.ToString());
+                }
+                writer.WriteEndElement();
+
+                // Notification e-mails
+                writer.WriteStartElement("notifications");
+                foreach (string email in post.NotificationEmails)
+                {
+                    writer.WriteElementString("email", email);
+                }
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+            }
         }
 
-        writer.WriteEndElement();
-      }
+        /// <summary>
+        /// Updates a Post.
+        /// </summary>
+        public override void UpdatePost(Post post)
+        {
+            InsertPost(post);
+        }
+
+        /// <summary>
+        /// Deletes a post from the data store.
+        /// </summary>
+        public override void DeletePost(Post post)
+        {
+            string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+        }
+
+        /// <summary>
+        /// Retrieves all posts from the data store
+        /// </summary>
+        /// <returns>List of Posts</returns>
+        public override List<Post> FillPosts()
+        {
+            string folder = CategoryDictionary._Folder + "posts\\";
+            List<Post> posts = new List<Post>();
+
+            foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
+            {
+                FileInfo info = new FileInfo(file);
+                string id = info.Name.Replace(".xml", string.Empty);
+                //Post post = SelectPost(new Guid(id));
+                Post post = Post.Load(new Guid(id));
+                posts.Add(post);
+            }
+
+            posts.Sort();
+            return posts;
+        }
+
+        #endregion
+
+        #region Pages
+
+        /// <summary>
+        /// Retrieves a Page from the data store.
+        /// </summary>
+        public override Page SelectPage(Guid id)
+        {
+            string fileName = _Folder + "pages\\" + id.ToString() + ".xml";
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+
+            Page page = new Page();
+
+            page.Title = doc.SelectSingleNode("page/title").InnerText;
+            page.Description = doc.SelectSingleNode("page/description").InnerText;
+            page.Content = doc.SelectSingleNode("page/content").InnerText;
+            page.Keywords = doc.SelectSingleNode("page/keywords").InnerText;
+
+            if (doc.SelectSingleNode("page/parent") != null)
+                page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
+
+            if (doc.SelectSingleNode("page/isfrontpage") != null)
+                page.IsFrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
+
+            if (doc.SelectSingleNode("page/showinlist") != null)
+                page.ShowInList = bool.Parse(doc.SelectSingleNode("page/showinlist").InnerText);
+
+            page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
+            page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
+
+            return page;
+        }
+
+        /// <summary>
+        /// Inserts a new Page to the data store.
+        /// </summary>
+        public override void InsertPage(Page page)
+        {
+            string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+
+            using (XmlWriter writer = XmlWriter.Create(fileName, settings))
+            {
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("page");
+
+                writer.WriteElementString("title", page.Title);
+                writer.WriteElementString("description", page.Description);
+                writer.WriteElementString("content", page.Content);
+                writer.WriteElementString("keywords", page.Keywords);
+                writer.WriteElementString("parent", page.Parent.ToString());
+                writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
+                writer.WriteElementString("showinlist", page.ShowInList.ToString());
+                writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+                writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+
+                writer.WriteEndElement();
+            }
+        }
+
+        /// <summary>
+        /// Updates a Page.
+        /// </summary>
+        public override void UpdatePage(Page page)
+        {
+            InsertPage(page);
+        }
+
+        /// <summary>
+        /// Deletes a page from the data store.
+        /// </summary>
+        public override void DeletePage(Page page)
+        {
+            string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+
+            if (Page.Pages.Contains(page))
+                Page.Pages.Remove(page);
+        }
+
+        /// <summary>
+        /// Retrieves all pages from the data store
+        /// </summary>
+        /// <returns>List of Pages</returns>
+        public override List<Page> FillPages()
+        {
+            string folder = CategoryDictionary._Folder + "pages\\";
+            List<Page> pages = new List<Page>();
+
+            foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
+            {
+                FileInfo info = new FileInfo(file);
+                string id = info.Name.Replace(".xml", string.Empty);
+                Page page = Page.Load(new Guid(id));
+                pages.Add(page);
+            }
+
+            return pages;
+        }
+
+        #endregion
+
+        #region Categories
+
+        /// <summary>
+        /// Loads all categories from the data store.
+        /// </summary>
+        public override CategoryDictionary LoadCategories()
+        {
+            string fileName = _Folder + "categories.xml";
+            if (!File.Exists(fileName))
+                return null;
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+            CategoryDictionary dic = new CategoryDictionary();
+
+            foreach (XmlNode node in doc.SelectNodes("categories/category"))
+            {
+                Guid id = new Guid(node.Attributes["id"].InnerText);
+                string title = node.InnerText;
+                dic.Add(id, title);
+            }
+
+            return dic;
+        }
+
+        /// <summary>
+        /// Saves the categories to the data store.
+        /// </summary>
+        public override void SaveCategories(CategoryDictionary categories)
+        {
+            string fileName = _Folder + "categories.xml";
+
+            using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("categories");
+
+                foreach (Guid key in categories.Keys)
+                {
+                    //writer.WriteRaw("<category id=\"" + key.ToString() + "\">" + categories[key] + "</category>");
+                    writer.WriteStartElement("category");
+                    writer.WriteAttributeString("id", key.ToString());
+                    writer.WriteValue(categories[key]);
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndElement();
+            }
+        }
+
+
+        public override Category SelectCategory(Guid id)
+        {
+            string fileName = _Folder + "categories.xml";
+            if (!File.Exists(fileName))
+                return null;
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+
+            Category category = new Category();
+
+            foreach (XmlNode node in doc.SelectNodes("categories/category"))
+            {
+                if (new Guid(node.Attributes["id"].InnerText) == id)
+                {
+                    category.Id = new Guid(node.Attributes["id"].InnerText);
+                    category.Title = node.InnerText;
+                    if (node.Attributes["id"].InnerText != null)
+                        category.Description = node.Attributes["description"].InnerText;
+                }
+            }
+            return category;
+        }
+
+        public override void InsertCategory(Category category)
+        {
+            List<Category> categories = Category.Categories;
+            categories.Add(category);
+            string fileName = _Folder + "categories.xml";
+
+            using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("categories");
+
+                foreach (Category cat in categories)
+                {
+                    writer.WriteStartElement("category");
+                    writer.WriteAttributeString("id", cat.Id.ToString());
+                    writer.WriteAttributeString("description", cat.Description);
+                    writer.WriteElementString("title", cat.Title);
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndElement();
+            }
+
+        }
+
+        public override void UpdateCategory(Category category)
+        {
+            List<Category> categories = Category.Categories;
+            categories.Remove(category);
+            categories.Add(category);
+            string fileName = _Folder + "categories.xml";
+
+            using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("categories");
+
+                foreach (Category cat in categories)
+                {
+                    writer.WriteStartElement("category");
+                    writer.WriteAttributeString("id", cat.Id.ToString());
+                    writer.WriteAttributeString("description", cat.Description);
+                    writer.WriteElementString("title", cat.Title);
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndElement();
+            }
+        }
+
+        public override void DeleteCategory(Category category)
+        {
+            List<Category> categories = Category.Categories;
+            categories.Remove(category);
+            categories.Add(category);
+            string fileName = _Folder + "categories.xml";
+
+        if (File.Exists(fileName))
+                File.Delete(fileName);
+
+            if (Category.Categories.Contains(category))
+                Category.Categories.Remove(category);
+
+            using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("categories");
+
+                foreach (Category cat in categories)
+                {
+                    writer.WriteStartElement("category");
+                    writer.WriteAttributeString("id", cat.Id.ToString());
+                    writer.WriteAttributeString("description", cat.Description);
+                    writer.WriteElementString("title", cat.Title);
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndElement();
+            }
+
+        }
+
+        public override List<Category> FillCategories()
+        {
+
+            string fileName = _Folder + "categories.xml";
+            if (!File.Exists(fileName))
+                return null;
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
+            List<Category> categories = new List<Category>();
+
+            foreach (XmlNode node in doc.SelectNodes("categories/category"))
+            {
+                Category category = new Category();
+
+                category.Id = new Guid(node.Attributes["id"].InnerText);
+                category.Title = node.ChildNodes.Item(0).InnerText;
+                category.Description = node.Attributes["description"].InnerText;
+                categories.Add(category);
+            }
+
+            return categories;
+        }
+
+        #endregion
+
+        #region Settings
+
+        /// <summary>
+        /// Loads the settings from the provider.
+        /// </summary>
+        public override StringDictionary LoadSettings()
+        {
+            string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
+            StringDictionary dic = new StringDictionary();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+
+            foreach (XmlNode settingsNode in doc.SelectSingleNode("settings").ChildNodes)
+            {
+                string name = settingsNode.Name;
+                string value = settingsNode.InnerText;
+
+                dic.Add(name, value);
+            }
+
+            return dic;
+        }
+
+        /// <summary>
+        /// Saves the settings to the provider.
+        /// </summary>
+        public override void SaveSettings(StringDictionary settings)
+        {
+            string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
+            XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
+            writerSettings.Indent = true;
+
+            //------------------------------------------------------------
+            //	Create XML writer against file path
+            //------------------------------------------------------------
+            using (XmlWriter writer = XmlWriter.Create(filename, writerSettings))
+            {
+                writer.WriteStartElement("settings");
+
+                foreach (string key in settings.Keys)
+                {
+                    writer.WriteElementString(key, settings[key]);
+                }
+
+                writer.WriteEndElement();
+            }
+        }
+
+        #endregion
+
     }
-
-    #endregion
-
-  }
 }

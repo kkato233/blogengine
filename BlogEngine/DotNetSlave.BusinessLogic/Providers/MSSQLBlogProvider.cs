@@ -713,5 +713,30 @@ namespace BlogEngine.Core.Providers
       }
     }
 
-  }
+
+    public override Category SelectCategory(Guid id)
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+
+    public override void InsertCategory(Category category)
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+
+    public override void UpdateCategory(Category category)
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+
+    public override void DeleteCategory(Category category)
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+
+    public override List<Category> FillCategories()
+    {
+        throw new Exception("The method or operation is not implemented.");
+    }
+}
 }
