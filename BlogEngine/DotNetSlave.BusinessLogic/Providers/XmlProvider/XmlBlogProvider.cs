@@ -375,6 +375,7 @@ namespace BlogEngine.Core.Providers
                     //writer.WriteRaw("<category id=\"" + key.ToString() + "\">" + categories[key] + "</category>");
                     writer.WriteStartElement("category");
                     writer.WriteAttributeString("id", key.ToString());
+                    writer.WriteAttributeString("description", string.Empty);
                     writer.WriteValue(categories[key]);
                     writer.WriteEndElement();
                 }
