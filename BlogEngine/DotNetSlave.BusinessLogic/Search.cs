@@ -79,8 +79,29 @@ namespace BlogEngine.Core
       lock (_SyncRoot)
       {
         List<Result> results = BuildResultSet(searchTerm, includeComments);
-        return results.ConvertAll(new Converter<Result, Post>(ResultToPost));
+        List<Post> posts = results.ConvertAll(new Converter<Result, Post>(ResultToPost));
+        return posts;
       }
+    }
+
+    /// <summary>
+    /// Returns a list of posts that is related to the specified post.
+    /// </summary>
+    public static List<Post> FindRelatedPosts(Post post)
+    {
+      string term = post.Title;
+      foreach (string tag in post.Tags)
+      {
+        term += " " + tag;
+      }
+
+      foreach (Guid category in post.Categories)
+      {
+        term += " " + CategoryDictionary.Instance[category];
+      }
+
+      term = CleanContent(term, false);
+      return Hits(term, false);
     }
 
     /// <summary>
@@ -89,8 +110,8 @@ namespace BlogEngine.Core
     private static List<Result> BuildResultSet(string searchTerm, bool includeComments)
     {
       List<Result> results = new List<Result>();
-      string term = searchTerm.ToLowerInvariant().Trim();
-      string[] terms = term.Split(' ');
+      string term = CleanContent(searchTerm.ToLowerInvariant().Trim(), false);
+      string[] terms = term.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
       string regex = string.Format("({0})", string.Join("|", terms));
 
       foreach (Entry entry in _Catalog)
@@ -192,7 +213,10 @@ namespace BlogEngine.Core
     {
       using (StreamReader reader = new StreamReader(System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "stopwords.txt"))
       {
-        string file = reader.ReadToEnd();
+        string file = reader.ReadToEnd()
+                      .Replace(".", " ")
+                      .Replace(",", " ")
+                      .Replace("-", " ");
         string[] words = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
         StringCollection col = new StringCollection();
