@@ -149,7 +149,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     post.IsCommentsEnabled = cbEnableComments.Checked;
 
     if (!string.IsNullOrEmpty(txtSlug.Text))
-      post.Slug = txtSlug.Text.Trim();
+      post.Slug = Server.UrlDecode(txtSlug.Text.Trim());
 
     post.Categories.Clear();
 

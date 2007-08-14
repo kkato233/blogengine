@@ -279,6 +279,10 @@
   <data name="handleWwwSubdomain" xml:space="preserve">
     <value>www subdomain policy</value>
   </data>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+    <comment>As used for linking to the front-page</comment>
+  </data>
   <data name="htmlHeadSection" xml:space="preserve">
     <value>HTML head section</value>
   </data>
@@ -369,6 +373,9 @@
   <data name="referrers" xml:space="preserve">
     <value>Referrers</value>
   </data>
+  <data name="relatedPosts" xml:space="preserve">
+    <value>Related posts</value>
+  </data>
   <data name="remove" xml:space="preserve">
     <value>Remove</value>
   </data>
@@ -428,6 +435,9 @@
   </data>
   <data name="subject" xml:space="preserve">
     <value>Subject</value>
+  </data>
+  <data name="subscribe" xml:space="preserve">
+    <value>Subscribe</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
     <value>Thank you message</value>

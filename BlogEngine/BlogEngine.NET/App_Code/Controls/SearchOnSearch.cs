@@ -63,7 +63,7 @@ namespace Controls
       {
         string referrer = HttpContext.Current.Request.UrlReferrer.ToString().ToLowerInvariant();
         string searchTerm = GetSearchTerm(referrer);
-        List<Post> posts = Search.Hits(Post.Posts, searchTerm, false);
+        List<Post> posts = Search.Hits(searchTerm, false);
         if (posts.Count == 0)
           return null;
 

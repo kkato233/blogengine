@@ -76,7 +76,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
   private void DisplaySearch()
   {
     bool includeComments = Request.QueryString["comment"] != null;
-    PostList1.Posts = Search.Hits(Post.Posts, Request.QueryString["q"], includeComments);
+    PostList1.Posts = Search.Hits(Request.QueryString["q"], includeComments);
     Page.Title = "Search result for '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
     AddMetaTag("description", BlogSettings.Instance.Description);
   }

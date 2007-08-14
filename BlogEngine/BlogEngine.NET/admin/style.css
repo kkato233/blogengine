@@ -175,6 +175,16 @@ table.referrer caption {
 
 .category td {
 	padding: 2px 10px;
+  vertical-align: top;
+}
+
+.category td input {
+	width: 200px;
+}
+
+.category td textarea {
+	height: 70px;
+	width: 400px;
 }
 
 /*- Menu Tabs --------------------------- */

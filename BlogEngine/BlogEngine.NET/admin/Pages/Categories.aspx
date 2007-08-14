@@ -28,7 +28,7 @@
           <%# Eval("description")%>
         </ItemTemplate>
         <EditItemTemplate>
-          <asp:TextBox runat="server" ID="txtDescription" Text='<%# Eval("description") %>'  />
+          <asp:TextBox runat="server" ID="txtDescription" Text='<%# Eval("description") %>' TextMode="multiLine" />
         </EditItemTemplate>
       </asp:TemplateField>
     </Columns>

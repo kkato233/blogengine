@@ -49,7 +49,7 @@ namespace Controls
       set { _DescriptionMaxLength = value; }
     }
 
-    private string _Headline = "Related posts";
+    private string _Headline = Resources.labels.relatedPosts;
 
     public string Headline
     {
@@ -120,8 +120,7 @@ namespace Controls
 
     private List<Post> SearchForPosts()
     {
-      //TODO: Base the comparison on more than the title alone.
-      return Search.Hits(Post.Posts, this.Post.Title, false);
+      return Search.Hits(this.Post.Title, false);
     }
   }
 }
