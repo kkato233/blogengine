@@ -193,6 +193,52 @@ namespace BlogEngine.Core.Providers
       _provider.SaveCategories(categories);
     }
 
+    /// <summary>
+    /// Returns a Category based on the specified id.
+    /// </summary>
+    public static Category SelectCategory(Guid id)
+    {
+        LoadProviders();
+        return _provider.SelectCategory(id);
+    }
+
+    /// <summary>
+    /// Persists a new Category in the current provider.
+    /// </summary>
+      public static void InsertCategory(Category category)
+    {
+        LoadProviders();
+        _provider.InsertCategory(category);
+    }
+
+    /// <summary>
+    /// Updates an exsiting Category.
+    /// </summary>
+      public static void UpdateCategory(Category category)
+    {
+        LoadProviders();
+        _provider.UpdateCategory(category);
+    }
+
+    /// <summary>
+    /// Deletes the specified Category from the current provider.
+    /// </summary>
+      public static void DeleteCategory(Category category)
+    {
+        LoadProviders();
+        _provider.DeleteCategory(category);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+      public static List<Category> FillCategories()
+    {
+        LoadProviders();
+        return _provider.FillCategories();
+    }
+
     #endregion
 
     #region Settings

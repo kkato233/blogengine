@@ -1,4 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <categories>
-    <category id="19770e74-9ec9-4cde-b2ab-e5051aaaf348">General</category>
+  <category id="de89f0d2-691a-46d7-a897-375bfe040508" description="This is a sample category">
+    test 1
+  </category>
+  <category id="eb99ff62-d9da-46eb-bbb7-e8e7d092c787" description="asdf asdf asdf asdf asdf asdf asdf asdf asdf">
+    test2
+  </category>
+  <category id="1e8e134e-aeb5-42db-9907-a292cb965f71" description="This is a second sample category.">
+    Test 2
+  </category>
 </categories>
