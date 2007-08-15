@@ -98,8 +98,9 @@ namespace BlogEngine.Core.Providers
             foreach (XmlNode node in doc.SelectNodes("post/categories/category"))
             {
                 Guid key = new Guid(node.InnerText);
-                if (CategoryDictionary.Instance.ContainsKey(key))
-                    post.Categories.Add(key);
+                Category cat = Category.GetCategory(key);
+                if (cat != null)//CategoryDictionary.Instance.ContainsKey(key))
+                    post.Categories.Add(cat);
             }
 
             // Notification e-mails
@@ -166,10 +167,12 @@ namespace BlogEngine.Core.Providers
 
                 // categories
                 writer.WriteStartElement("categories");
-                foreach (Guid key in post.Categories)
+                foreach (Category cat in post.Categories)
                 {
-                    if (CategoryDictionary.Instance.ContainsKey(key))
-                        writer.WriteElementString("category", key.ToString());
+                    //if (cat.Id = .Instance.ContainsKey(key))
+                   //     writer.WriteElementString("category", key.ToString());
+                    writer.WriteElementString("category", cat.Id.ToString());
+
                 }
                 writer.WriteEndElement();
 
@@ -209,7 +212,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>List of Posts</returns>
         public override List<Post> FillPosts()
         {
-            string folder = CategoryDictionary._Folder + "posts\\";
+            string folder = Category._Folder + "posts\\";
             List<Post> posts = new List<Post>();
 
             foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
@@ -315,7 +318,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>List of Pages</returns>
         public override List<Page> FillPages()
         {
-            string folder = CategoryDictionary._Folder + "pages\\";
+            string folder = Category._Folder + "pages\\";
             List<Page> pages = new List<Page>();
 
             foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
@@ -333,57 +336,7 @@ namespace BlogEngine.Core.Providers
 
         #region Categories
 
-        /// <summary>
-        /// Loads all categories from the data store.
-        /// </summary>
-        public override CategoryDictionary LoadCategories()
-        {
-            string fileName = _Folder + "categories.xml";
-            if (!File.Exists(fileName))
-                return null;
-
-            XmlDocument doc = new XmlDocument();
-            doc.Load(fileName);
-            CategoryDictionary dic = new CategoryDictionary();
-
-            foreach (XmlNode node in doc.SelectNodes("categories/category"))
-            {
-                Guid id = new Guid(node.Attributes["id"].InnerText);
-                string title = node.InnerText;
-                dic.Add(id, title);
-            }
-
-            return dic;
-        }
-
-        /// <summary>
-        /// Saves the categories to the data store.
-        /// </summary>
-        public override void SaveCategories(CategoryDictionary categories)
-        {
-            string fileName = _Folder + "categories.xml";
-
-            using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 4;
-                writer.WriteStartDocument(true);
-                writer.WriteStartElement("categories");
-
-                foreach (Guid key in categories.Keys)
-                {
-                    writer.WriteStartElement("category");
-                    writer.WriteAttributeString("id", key.ToString());
-                    writer.WriteAttributeString("description", string.Empty);
-                    writer.WriteValue(categories[key]);
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-            }
-        }
-
-        /// <summary>
+    /// <summary>
         /// Gets a Category based on a Guid
         /// </summary>
         /// <param name="id">The category's Guid.</param>

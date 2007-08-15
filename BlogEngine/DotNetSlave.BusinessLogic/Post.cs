@@ -32,7 +32,7 @@ namespace BlogEngine.Core
     {
       base.Id = Guid.NewGuid();
       _Comments = new List<Comment>();
-      _Categories = new StateCollection<Guid>();
+      _Categories =   new List<Category>();
       _Tags = new StateCollection<string>();
       DateCreated = DateTime.Now;
       _IsPublished = true;
@@ -108,15 +108,24 @@ namespace BlogEngine.Core
       get { return _Comments; }
     }
 
-    private StateCollection<Guid> _Categories;
+    private List<Category> _Categories;
     /// <summary>
-    /// An unsorted collection of categories.
+    /// An unsorted List of categories.
     /// </summary>
-    public StateCollection<Guid> Categories
+      public List<Category> Categories
     {
-      get { return _Categories; }
+        get { return _Categories; }
     }
 
+      private bool _IsCategoriesChanged;
+      /// <summary>
+      /// Gets or sets to check if the List has changed.
+      /// </summary>
+      public bool IsCategoriesChanged
+      {
+          get{ return _IsCategoriesChanged;}
+          set { _IsCategoriesChanged = value; }
+      }
     private StateCollection<string> _Tags;
     /// <summary>
     /// An unsorted collection of tags.
@@ -301,7 +310,7 @@ namespace BlogEngine.Core
       List<Post> col = new List<Post>();
       foreach (Post post in Posts)
       {
-        if (post.Categories.Contains(categoryId))
+        if (post.Categories.Contains(Category.GetCategory(categoryId)))
           col.Add(post);
       }
 
@@ -541,7 +550,7 @@ namespace BlogEngine.Core
         if (base.IsDirty)
           return true;
 
-        if (Categories.IsChanged || Tags.IsChanged)
+        if (IsCategoriesChanged || Tags.IsChanged)
           return true;
 
         return false;

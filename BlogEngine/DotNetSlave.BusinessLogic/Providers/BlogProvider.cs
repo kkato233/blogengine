@@ -59,18 +59,7 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public abstract List<Page> FillPages();
 
-        // Category
-        /// <summary>
-        /// Load all categories from the provider and adds them to a CategoryDictionary.
-        /// </summary>
-        ///<remarks>Need to remove this because it Category was promoted to BusinessBase</remarks>
-        public abstract CategoryDictionary LoadCategories();
-        /// <summary>
-        /// Saves the specified categories in the data store of the provider.
-        /// </summary>
-        ///<remarks>Need to remove this because it Category was promoted to BusinessBase</remarks>
-        public abstract void SaveCategories(CategoryDictionary categories);
-        /// <summary>
+       /// <summary>
         /// Retrieves a Category from the provider based on the specified id.
         /// </summary>
         public abstract Category SelectCategory(Guid id);

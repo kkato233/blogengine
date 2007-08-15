@@ -95,9 +95,9 @@ namespace BlogEngine.Core
         term += " " + tag;
       }
 
-      foreach (Guid category in post.Categories)
+      foreach (Category cat in post.Categories)
       {
-        term += " " + CategoryDictionary.Instance[category];
+          term += " " + cat.Title;
       }
 
       term = CleanContent(term, false);

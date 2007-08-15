@@ -44,7 +44,8 @@ namespace BlogEngine.Core.Syndication.Data
         /// <summary>
         /// Private member to hold the categories defined for the blog.
         /// </summary>
-        private CategoryDictionary adapterCategories;
+        //private CategoryDictionary adapterCategories;
+        private List<Category> adapterCategories;
         /// <summary>
         /// Private member to hold the URI of a syndication feed's absolute root web.
         /// </summary>
@@ -130,13 +131,13 @@ namespace BlogEngine.Core.Syndication.Data
 
         #region EngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories)
         /// <summary>
-        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="CategoryDictionary"/>.
+        /// Initializes a new instance of the <see cref="EngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="Category"/>.
         /// </summary>
         /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
         /// <param name="blogSettings">The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
-        /// <param name="categories">The <see cref="CategoryDictionary"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
+        /// <param name="categories">The <see cref="Category"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="posts"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="blogSettings"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="categories"/> is a null reference (Nothing in Visual Basic).</exception>
-        protected EngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories)
+        protected EngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, List<Category> categories)
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state
@@ -235,16 +236,23 @@ namespace BlogEngine.Core.Syndication.Data
 
         #region Categories
         /// <summary>
-        /// Gets the <see cref="CategoryDictionary"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.
+        /// Gets the <see cref="Category"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.
         /// </summary>
-        /// <value>The <see cref="CategoryDictionary"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</value>
-        public CategoryDictionary Categories
+        /// <value>The <see cref="Category"/> that the syndication feed adapter uses when filling a <see cref="SyndicationFeed"/>.</value>
+        public List<Category> Categories
         {
             get
             {
                 return adapterCategories;
             }
         }
+        //public CategoryDictionary Categories
+        //{
+        //    get
+        //    {
+        //        return adapterCategories;
+        //    }
+        //}
         #endregion
 
         #region FeedLocation

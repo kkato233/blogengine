@@ -396,7 +396,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                         //------------------------------------------------------------
                         //	Create adapter to fill feed
                         //------------------------------------------------------------
-                        AtomEngineSyndicationFeedAdapter atomAdapter    = new AtomEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, CategoryDictionary.Instance);
+                        AtomEngineSyndicationFeedAdapter atomAdapter    = new AtomEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, Category.Categories);
 
                         //------------------------------------------------------------
                         //	Set adapter properties
@@ -426,7 +426,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                         //------------------------------------------------------------
                         //	Create adapter to fill feed
                         //------------------------------------------------------------
-                        RssEngineSyndicationFeedAdapter rssAdapter  = new RssEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, CategoryDictionary.Instance);
+                        RssEngineSyndicationFeedAdapter rssAdapter  = new RssEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, Category.Categories);
 
                         //------------------------------------------------------------
                         //	Set adapter properties
