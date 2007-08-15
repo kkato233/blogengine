@@ -93,13 +93,13 @@ namespace BlogEngine.Core.Syndication.Data
 
         #region AtomEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories)
         /// <summary>
-        /// Initializes a new instance of the <see cref="AtomEngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="CategoryDictionary"/>.
+        /// Initializes a new instance of the <see cref="AtomEngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="Category"/>.
         /// </summary>
         /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="AtomFeed"/>.</param>
         /// <param name="blogSettings">The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="AtomFeed"/>.</param>
-        /// <param name="categories">The <see cref="CategoryDictionary"/> that the syndication feed adapter uses when filling a <see cref="AtomFeed"/>.</param>
+        /// <param name="categories">The <see cref="Category"/> that the syndication feed adapter uses when filling a <see cref="AtomFeed"/>.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="posts"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="blogSettings"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="categories"/> is a null reference (Nothing in Visual Basic).</exception>
-        public AtomEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories) : base(posts, blogSettings, categories)
+        public AtomEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, List<Category> categories) : base(posts, blogSettings, categories)
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state
@@ -342,11 +342,11 @@ namespace BlogEngine.Core.Syndication.Data
                     //------------------------------------------------------------
                     if (post.Categories.Count > 0)
                     {
-                        foreach (Guid categoryId in post.Categories)
+                        foreach (Category cat in post.Categories)
                         {
-                            if (this.Categories.ContainsKey(categoryId))
+                            if (this.Categories.Contains(cat))
                             {
-                                AtomCategory category = new AtomCategory(this.Categories[categoryId]);
+                                AtomCategory category = new AtomCategory(cat.Title);
                                 if (!entry.Categories.Contains(category))
                                 {
                                     entry.Categories.Add(category);
@@ -354,13 +354,33 @@ namespace BlogEngine.Core.Syndication.Data
                             }
                             else
                             {
-                                AtomCategory unknownCategory    = new AtomCategory(categoryId.ToString());
+                                AtomCategory unknownCategory = new AtomCategory(cat.Title);
+                                //AtomCategory unknownCategory = new AtomCategory(categoryId.ToString());
                                 if (!entry.Categories.Contains(unknownCategory))
                                 {
                                     entry.Categories.Add(unknownCategory);
                                 }
                             }
                         }
+                        //foreach (Guid categoryId in post.Categories)
+                        //{
+                        //    if (this.Categories.ContainsKey(categoryId))
+                        //    {
+                        //        AtomCategory category = new AtomCategory(this.Categories[categoryId]);
+                        //        if (!entry.Categories.Contains(category))
+                        //        {
+                        //            entry.Categories.Add(category);
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        AtomCategory unknownCategory    = new AtomCategory(categoryId.ToString());
+                        //        if (!entry.Categories.Contains(unknownCategory))
+                        //        {
+                        //            entry.Categories.Add(unknownCategory);
+                        //        }
+                        //    }
+                        //}
                     }
 
                     //------------------------------------------------------------

@@ -83,19 +83,20 @@ namespace BlogEngine.Core.Web.HttpModules
         context.RewritePath("~/post.aspx?id=" + post.Id.ToString() + GetQueryString(context), false);
     }
 
+      //todo:  Need to rewrite for Category BO
     private static void RewriteCategory(HttpContext context)
     {
       string title = ExtractTitle(context, "/category/");
-      foreach (KeyValuePair<Guid, string> entry in CategoryDictionary.Instance)
-      {
-        string legalTitle = Utils.RemoveIlegalCharacters(entry.Value).ToLowerInvariant();
-        if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
+        foreach (Category cat in Category.Categories)
         {
-          context.RewritePath("~/default.aspx?id=" + entry.Key.ToString() + GetQueryString(context), false);
-          break;
+            string legalTitle = Utils.RemoveIlegalCharacters(cat.Title).ToLowerInvariant();
+            if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
+            {
+                context.RewritePath("~/default.aspx?id=" + cat.Id.ToString() + GetQueryString(context), false);
+                break;
+            }
         }
-      }
-    }
+   }
 
     private static void RewritePage(HttpContext context)
     {

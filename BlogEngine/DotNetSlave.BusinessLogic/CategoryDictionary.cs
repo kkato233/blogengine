@@ -53,13 +53,14 @@ namespace BlogEngine.Core
     /// </summary>
     public void Save()
     {
-      BlogService.SaveCategories(this);
+      //BlogService.SaveCategories(this);
       OnSaved();
     }
 
     private static CategoryDictionary Load()
     {
-      return BlogService.SelectCategories(); 
+     // return BlogService.SelectCategories(); 
+        return null;
     }
 
     #endregion

@@ -15,6 +15,8 @@ namespace BlogEngine.Core
     public class Category : BusinessBase<Category, Guid>
     {
 
+        internal static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+
         #region Constructor
 
         ///<summary>
@@ -149,6 +151,5 @@ namespace BlogEngine.Core
         }
 
         #endregion
-
-    }
+                   }
 }

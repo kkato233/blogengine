@@ -81,22 +81,19 @@ public class RssImporter : System.Web.Services.WebService
   {
     foreach (string category in categories)
     {
-      if (CategoryDictionary.Instance.ContainsValue(category))
-      {
-        foreach (Guid key in CategoryDictionary.Instance.Keys)
+        foreach (Category cat in Category.Categories)
         {
-          if (CategoryDictionary.Instance[key].Equals(category, StringComparison.OrdinalIgnoreCase))
-          {
-            post.Categories.Add(key);
-          }
-        }
-      }
-      else
-      {
-        Guid id = CategoryDictionary.Instance.Add(category);
-        CategoryDictionary.Instance.Save();
-        post.Categories.Add(id);
-      }
+            if (cat.Title.Equals(category, StringComparison.OrdinalIgnoreCase))
+            {
+                post.Categories.Add(cat);
+            }
+            else
+            {
+                Category newCat = new Category(category, string.Empty);
+                newCat.Save(); 
+                post.Categories.Add(newCat);
+            }
+        } 
     }
   }
 

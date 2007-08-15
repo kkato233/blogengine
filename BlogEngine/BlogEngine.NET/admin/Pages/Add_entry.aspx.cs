@@ -54,9 +54,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   {
     args.IsValid = true;
 
-    foreach (string cat in CategoryDictionary.Instance.Values)
+    foreach (Category cat in Category.Categories)
     {
-      if (cat.Equals(txtCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+      if (cat.Title.Equals(txtCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
         args.IsValid = false;
     }
   }
@@ -110,9 +110,11 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   {
     if (Page.IsValid)
     {
-      Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
-      CategoryDictionary.Instance.Save();
-      ListItem item = new ListItem(txtCategory.Text, id.ToString());
+        Category cat = new Category(txtCategory.Text, string.Empty);
+     cat.Save();
+        //Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
+      //CategoryDictionary.Instance.Save();
+      ListItem item = new ListItem(txtCategory.Text, cat.Id.ToString());
       item.Selected = true;
       cblCategories.Items.Add(item);
     }
@@ -156,7 +158,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     foreach (ListItem item in cblCategories.Items)
     {
       if (item.Selected)
-        post.Categories.Add(new Guid(item.Value));
+        post.Categories.Add(Category.GetCategory(new Guid(item.Value)));
     }
 
     post.Tags.Clear();
@@ -196,9 +198,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
   private void BindCategories()
   {
-    foreach (Guid key in CategoryDictionary.Instance.Keys)
+    foreach (Category cat in Category.Categories)
     {
-      cblCategories.Items.Add(new ListItem(CategoryDictionary.Instance[key], key.ToString()));
+      cblCategories.Items.Add(new ListItem(cat.Title, cat.Id.ToString()));
     }
   }
 
@@ -214,9 +216,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     cbPublish.Checked = post.IsPublished;
     txtSlug.Text = post.Slug;
 
-    foreach (Guid key in post.Categories)
+    foreach (Category cat in post.Categories)
     {
-      ListItem item = cblCategories.Items.FindByValue(key.ToString());
+      ListItem item = cblCategories.Items.FindByValue(cat.Id.ToString());
       if (item != null)
         item.Selected = true;
     }

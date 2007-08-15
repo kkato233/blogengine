@@ -12,7 +12,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// <summary>
     /// HTTP Handler for MetaWeblog API
     /// </summary>
-    public class MetaWeblogHandler: IHttpHandler, IMetaWeblogAPI
+    public class MetaWeblogHandler : IHttpHandler, IMetaWeblogAPI
     {
         private HttpContext _request;
 
@@ -122,9 +122,9 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Categories.Clear();
             foreach (string item in sentPost.categories)
             {
-                Guid key;
-                if (LookupCategoryGuidByName(item, out key))
-                    post.Categories.Add(key);
+                Category cat;
+                if (LookupCategoryGuidByName(item, out cat))
+                    post.Categories.Add(cat);
             }
             post.Tags.Clear();
             foreach (string item in sentPost.tags)
@@ -161,13 +161,16 @@ namespace BlogEngine.Core.API.MetaWeblog
             {
                 // Ignore categories not found (as per spec)
                 Guid key;
-                if (LookupCategoryGuidByName(item, out key))
-                    post.Categories.Add(key);
+                Category cat;
+                if (LookupCategoryGuidByName(item, out cat))
+                    post.Categories.Add(cat);
+                //if (LookupCategoryGuidByName(item, out key))
+                //    post.Categories.Add(key);
             }
             post.Tags.Clear();
             foreach (string item in sentPost.tags)
             {
-              post.Tags.Add(item);
+                post.Tags.Add(item);
             }
 
             post.Save();
@@ -193,20 +196,20 @@ namespace BlogEngine.Core.API.MetaWeblog
             sendPost.postDate = post.DateCreated;
             sendPost.title = post.Title;
             sendPost.description = post.Content;
-            sendPost.link = post.AbsoluteLink.AbsoluteUri; 
+            sendPost.link = post.AbsoluteLink.AbsoluteUri;
             sendPost.publish = post.IsPublished;
 
             List<string> cats = new List<string>();
             for (int i = 0; i < post.Categories.Count; i++)
             {
-                cats.Add(CategoryDictionary.Instance[post.Categories[i]]);
+                cats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
             }
             sendPost.categories = cats;
 
             List<string> tags = new List<string>();
             for (int i = 0; i < post.Tags.Count; i++)
             {
-              tags.Add(post.Tags[i]);
+                tags.Add(post.Tags[i]);
             }
             sendPost.tags = tags;
 
@@ -237,7 +240,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             {
                 saveFolder += mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
                 saveFolder = saveFolder.Replace('/', '\\');
-                
+
 
                 fileName = mediaObject.name.Substring(mediaObject.name.LastIndexOf('/') + 1);
             }
@@ -272,7 +275,7 @@ namespace BlogEngine.Core.API.MetaWeblog
                     rootUrl += "file.axd?file=";
                     break;
             }
-            
+
             mediaInfo.url = rootUrl + mediaObject.name;
             return mediaInfo;
         }
@@ -292,12 +295,12 @@ namespace BlogEngine.Core.API.MetaWeblog
 
             string rootUrl = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd"));
 
-            foreach (KeyValuePair<Guid, string> kvp in CategoryDictionary.Instance)
+            foreach (Category cat in Category.Categories)
             {
                 MWACategory temp = new MWACategory();
-                temp.description = kvp.Value;
-                temp.htmlUrl = rootUrl + "category/" + kvp.Value + ".aspx";
-                temp.rssUrl = rootUrl + "category/syndication.axd?category=" + kvp.Key.ToString();
+                temp.description = cat.Description;
+                temp.htmlUrl = rootUrl + "category/" + cat.Title + ".aspx";
+                temp.rssUrl = rootUrl + "category/syndication.axd?category=" + cat.Id.ToString();
                 categories.Add(temp);
 
             }
@@ -339,13 +342,13 @@ namespace BlogEngine.Core.API.MetaWeblog
                 tempPost.publish = post.IsPublished;
                 for (int i = 0; i < post.Categories.Count; i++)
                 {
-                    tempCats.Add(CategoryDictionary.Instance[post.Categories[i]]);
+                    tempCats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
                 }
                 tempPost.categories = tempCats;
-                
+
                 for (int i = 0; i < post.Tags.Count; i++)
                 {
-                  tempTags.Add(post.Tags[i]);
+                    tempTags.Add(post.Tags[i]);
                 }
                 tempPost.tags = tempTags;
 
@@ -443,16 +446,16 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// Reverse dictionary lookups are ugly.
         /// </remarks>
         /// <param name="name"></param>
-        /// <param name="key"></param>
+        /// <param name="cat"></param>
         /// <returns></returns>
-        private bool LookupCategoryGuidByName(string name, out Guid key)
+        private bool LookupCategoryGuidByName(string name, out Category cat)
         {
-            key = new Guid();
-            foreach (KeyValuePair<Guid, string> kvp in CategoryDictionary.Instance)
+            cat = new Category();
+            foreach (Category item in Category.Categories)
             {
-                if (kvp.Value == name)
+                if (item.Title == name)
                 {
-                    key = kvp.Key;
+                    cat = item;
                     return true;
                 }
             }

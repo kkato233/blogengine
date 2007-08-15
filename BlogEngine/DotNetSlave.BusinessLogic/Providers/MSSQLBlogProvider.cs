@@ -86,8 +86,8 @@ namespace BlogEngine.Core.Providers
       while (rdr.Read())
       {
         Guid key = rdr.GetGuid(0);
-        if (CategoryDictionary.Instance.ContainsKey(key))
-          post.Categories.Add(key);
+        if (Category.GetCategory(key) != null)//.Instance.ContainsKey(key))
+            post.Categories.Add(Category.GetCategory(key));
       }
 
       rdr.Close();
@@ -433,35 +433,11 @@ namespace BlogEngine.Core.Providers
     #endregion
 
     #region Categories
-    /// <summary>
-    /// Loads all categories from the data store.
-    /// </summary>
-    public override CategoryDictionary LoadCategories()
-    {
-      CategoryDictionary dic = new CategoryDictionary();
-
-      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
-      string sqlQuery = "SELECT CategoryID, CategoryName FROM be_Categories ";
-      SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
-      DataTable dtCategories = new DataTable();
-      sa.Fill(dtCategories);
-
-      foreach (DataRow dr in dtCategories.Rows)
-      {
-        Guid id = new Guid(dr[0].ToString());
-        string title = dr[1].ToString();
-        dic.Add(id, title);
-      }
-
-      conn.Close();
-      return dic;
-    }
-
+   
     /// <summary>
     /// Saves the categories to the data store.
     /// </summary>
-    public override void SaveCategories(CategoryDictionary categories)
+    public void SaveCategories(List<Category> categories)
     {
       SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 
@@ -470,14 +446,14 @@ namespace BlogEngine.Core.Providers
       conn.Open();
       cmd.ExecuteNonQuery();
 
-      foreach (Guid key in categories.Keys)
+      foreach (Category cat in categories)
       {
         sqlQuery = "INSERT INTO be_Categories (CategoryID, CategoryName) " +
                     "VALUES (@id, @name)";
         cmd.CommandText = sqlQuery;
         cmd.Parameters.Clear();
-        cmd.Parameters.Add(new SqlParameter("@id", key.ToString()));
-        cmd.Parameters.Add(new SqlParameter("@name", categories[key]));
+        cmd.Parameters.Add(new SqlParameter("@id", cat.Id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@name", cat.Title));
         cmd.ExecuteNonQuery();
       }
 
@@ -644,16 +620,16 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
       cmd.ExecuteNonQuery();
 
-      foreach (Guid key in post.Categories)
+      foreach (Category cat in post.Categories)
       {
-        if (CategoryDictionary.Instance.ContainsKey(key))
-        {
+        //if (Category.GetCategory(key) != null)
+        //{
           cmd.CommandText = "INSERT INTO be_PostCategory (PostID, CategoryID) VALUES (@id, @cat)";
           cmd.Parameters.Clear();
           cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
-          cmd.Parameters.Add(new SqlParameter("@cat", key.ToString()));
+          cmd.Parameters.Add(new SqlParameter("@cat", cat.Title));
           cmd.ExecuteNonQuery();
-        }
+        //}
       }
     }
 
@@ -721,7 +697,7 @@ namespace BlogEngine.Core.Providers
 
     public override void InsertCategory(Category category)
     {
-        throw new Exception("The method or operation is not implemented.");
+
     }
 
     public override void UpdateCategory(Category category)
@@ -736,7 +712,25 @@ namespace BlogEngine.Core.Providers
 
     public override List<Category> FillCategories()
     {
-        throw new Exception("The method or operation is not implemented.");
+        List<Category> categories = new List<Category>();
+        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+
+        string sqlQuery = "SELECT CategoryID, CategoryName FROM be_Categories ";
+        SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
+        DataTable dtCategories = new DataTable();
+        sa.Fill(dtCategories);
+
+        foreach (DataRow dr in dtCategories.Rows)
+        {
+            Category cat = Category.GetCategory(new Guid(dr[0].ToString()));
+            cat.Title = dr[1].ToString();
+            categories.Add(cat);
+        }
+
+        conn.Close();
+        return categories;
     }
+
+      
 }
 }

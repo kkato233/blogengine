@@ -90,13 +90,13 @@ namespace BlogEngine.Core.Syndication.Data
 
         #region RssEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories)
         /// <summary>
-        /// Initializes a new instance of the <see cref="RssEngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="CategoryDictionary"/>.
+        /// Initializes a new instance of the <see cref="RssEngineSyndicationFeedAdapter"/> class using the supplied collection of <see cref="Post"/> instances, <see cref="BlogSettings"/> and <see cref="Category"/>.
         /// </summary>
         /// <param name="posts">The collection of blog posts that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
         /// <param name="blogSettings">The <see cref="BlogSettings"/> that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
-        /// <param name="categories">The <see cref="CategoryDictionary"/> that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
+        /// <param name="categories">The <see cref="Category"/> that the syndication feed adapter uses when filling a <see cref="RssFeed"/>.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="posts"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="blogSettings"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="categories"/> is a null reference (Nothing in Visual Basic).</exception>
-        public RssEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, CategoryDictionary categories) : base(posts, blogSettings, categories)
+        public RssEngineSyndicationFeedAdapter(List<Post> posts, BlogSettings blogSettings, List<Category> categories) : base(posts, blogSettings, categories)
         {
             //------------------------------------------------------------
             //	Attempt to initialize class state
@@ -311,11 +311,11 @@ namespace BlogEngine.Core.Syndication.Data
                     //------------------------------------------------------------
                     if (post.Categories.Count > 0)
                     {
-                        foreach (Guid categoryId in post.Categories)
+                        foreach (Category cat in post.Categories)
                         {
-                            if (this.Categories.ContainsKey(categoryId))
+                            if (this.Categories.Contains(cat))
                             {
-                                RssCategory category = new RssCategory(this.Categories[categoryId]);
+                                RssCategory category = new RssCategory(cat.Title);
                                 if (!item.Categories.Contains(category))
                                 {
                                     item.Categories.Add(category);
@@ -323,7 +323,7 @@ namespace BlogEngine.Core.Syndication.Data
                             }
                             else
                             {
-                                RssCategory unknownCategory = new RssCategory(categoryId.ToString());
+                                RssCategory unknownCategory = new RssCategory(cat.Title);
                                 if (!item.Categories.Contains(unknownCategory))
                                 {
                                     item.Categories.Add(unknownCategory);
