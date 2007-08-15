@@ -68,15 +68,18 @@ namespace Controls
       HtmlGenericControl ul = new HtmlGenericControl("ul");
       foreach (BlogEngine.Core.Page page in BlogEngine.Core.Page.Pages)
       {
-        HtmlGenericControl li = new HtmlGenericControl("li");
+        if (page.ShowInList)
+        {
+          HtmlGenericControl li = new HtmlGenericControl("li");
 
-        HtmlAnchor anc = new HtmlAnchor();
-        anc.HRef = page.RelativeLink.ToString();
-        anc.InnerHtml = page.Title;
-        anc.Title = page.Description;
-        
-        li.Controls.Add(anc);
-        ul.Controls.Add(li);
+          HtmlAnchor anc = new HtmlAnchor();
+          anc.HRef = page.RelativeLink.ToString();
+          anc.InnerHtml = page.Title;
+          anc.Title = page.Description;
+
+          li.Controls.Add(anc);
+          ul.Controls.Add(li);
+        }
       }
 
       return ul;

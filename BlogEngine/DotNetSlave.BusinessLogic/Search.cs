@@ -203,7 +203,7 @@ namespace BlogEngine.Core
           sb.Append(word + " ");
       }
 
-      return sb.ToString();
+      return sb.ToString().Replace("\\", string.Empty);
     }
 
     /// <summary>
