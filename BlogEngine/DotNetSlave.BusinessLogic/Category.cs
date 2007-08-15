@@ -131,7 +131,7 @@ namespace BlogEngine.Core
 
         protected override void DataDelete()
         {
-            ///BlogService.DeletePage(this);
+            BlogService.DeleteCategory(this);
             if (Categories.Contains(this))
                 Categories.Remove(this);
         }
