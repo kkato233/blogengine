@@ -21,27 +21,26 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
   private void CreateAdminMenu()
   {
-    SortedDictionary<string, Guid> dic = SortCategories(CategoryDictionary.Instance);
+    foreach(Category cat in Category.Categories)
+      {
+          HtmlAnchor a = new HtmlAnchor();
+          a.InnerHtml = cat.Title;
+          a.HRef = "#" + Utils.RemoveIlegalCharacters(cat.Title);
+          a.Attributes.Add("rel", "directory");
 
-    foreach (string cat in dic.Keys)
-    {
-      HtmlAnchor a = new HtmlAnchor();
-      a.InnerHtml = cat;
-      a.HRef = "#" + Utils.RemoveIlegalCharacters(cat);
-      a.Attributes.Add("rel", "directory");
+          HtmlGenericControl li = new HtmlGenericControl("li");
+          li.Controls.Add(a);
+          ulMenu.Controls.Add(li);
+      }
 
-      HtmlGenericControl li = new HtmlGenericControl("li");
-      li.Controls.Add(a);
-      ulMenu.Controls.Add(li);
-    }
   }
 
   private SortedDictionary<string, Guid> SortCategories(Dictionary<Guid, string> categories)
   {
     SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
-    foreach (Guid key in categories.Keys)
+    foreach (Category cat in Category.Categories)
     {
-        dic.Add(categories[key], key);
+        dic.Add(cat.Title, cat.Id);
     }
 
     return dic;
@@ -49,14 +48,13 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
   private void CreateArchive()
   {
-    SortedDictionary<string, Guid> dic = SortCategories(CategoryDictionary.Instance);
-    foreach (Guid key in dic.Values)
+   foreach (Category cat in Category.Categories)
     {
-      string name = CategoryDictionary.Instance[key];
-      List<Post> list = Post.GetPostsByCategory(key);      
+        string name = cat.Title;
+      List<Post> list = Post.GetPostsByCategory(cat.Id);      
 
       HtmlAnchor feed = new HtmlAnchor();
-      feed.HRef = "~/category/syndication.axd?category=" + key.ToString();
+      feed.HRef = "~/category/syndication.axd?category=" + cat.Id.ToString();
 
       HtmlImage img = new HtmlImage();
       img.Src = "~/pics/rssbutton.gif";
