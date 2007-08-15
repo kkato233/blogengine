@@ -67,7 +67,7 @@ namespace BlogEngine.Core
                 _Description = value;
             }
         }
-        
+
         /// <summary>
         /// Returns a category based on the specified id.
         /// </summary>
@@ -103,7 +103,7 @@ namespace BlogEngine.Core
                 return _Categories;
             }
         }
-        
+
         #endregion
 
         #region Base overrides
@@ -120,22 +120,34 @@ namespace BlogEngine.Core
 
         protected override void DataUpdate()
         {
-            BlogService.UpdateCategory(this);
+            if (IsDirty)
+                BlogService.UpdateCategory(this);
         }
 
         protected override void DataInsert()
         {
             if (IsNew)
-                BlogService.InsertCategory(this);     
+                BlogService.InsertCategory(this);
         }
 
         protected override void DataDelete()
         {
-            BlogService.DeleteCategory(this);
+            if (IsDeleted)
+                BlogService.DeleteCategory(this);
             if (Categories.Contains(this))
                 Categories.Remove(this);
         }
-        
+
+        public override void Save()
+        {
+            if (this.IsDeleted)
+                BlogService.DeleteCategory(this);
+            if (this.IsDirty && !this.IsDeleted && !this.IsNew)
+                BlogService.UpdateCategory(this);
+            if (this.IsNew)
+                BlogService.InsertCategory(this);
+        }
+
         #endregion
 
     }

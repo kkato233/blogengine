@@ -30,12 +30,6 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     {
         args.IsValid = true;
 
-        //foreach (string cat in CategoryDictionary.Instance.Values)
-        //{
-        //  if (cat.Equals(txtNewCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
-        //    args.IsValid = false;
-        //}
-
         foreach (Category category in Category.Categories)
         {
             if (category.Title.Equals(txtNewCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
@@ -49,9 +43,6 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     {
         if (Page.IsValid)
         {
-            //CategoryDictionary.Instance.Add(txtNewCategory.Text);
-            //CategoryDictionary.Instance.Save();
-
             Category cat = new Category(txtNewCategory.Text, txtNewNewDescription.Text);
             cat.Save();
 
@@ -65,8 +56,6 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
         Category cat = Category.GetCategory(id);
         cat.Delete();
         cat.Save();
-        //CategoryDictionary.Instance.Remove(id);
-        //CategoryDictionary.Instance.Save();
         Response.Redirect(Request.RawUrl);
     }
 
@@ -80,8 +69,6 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
         cat.Description = textboxDescription.Text;
         cat.Save();
 
-        //CategoryDictionary.Instance[id] = textbox.Text;
-        //CategoryDictionary.Instance.Save();
         Response.Redirect(Request.RawUrl);
     }
 
@@ -95,7 +82,6 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     {
         grid.DataKeyNames = new string[] { "Id" };
         grid.DataSource = Category.Categories;
-        //grid.DataSource = CategoryDictionary.Instance;
         grid.DataBind();
     }
 
