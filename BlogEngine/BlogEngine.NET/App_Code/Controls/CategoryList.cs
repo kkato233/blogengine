@@ -22,8 +22,7 @@ namespace Controls
         {
             Post.Saved += delegate { _Html = null; };
             Category.Saved += delegate { _Html = null; };
-            //CategoryDictionary.Saved += delegate { _Html = null; };
-        }
+      }
 
         #region Properties
 

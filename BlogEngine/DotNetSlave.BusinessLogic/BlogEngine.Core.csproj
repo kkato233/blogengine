@@ -133,7 +133,6 @@
     <Compile Include="Providers\BlogService.cs" />
     <Compile Include="BlogSettings.cs" />
     <Compile Include="BusinessBase.cs" />
-    <Compile Include="CategoryDictionary.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="Web\Controls\BlogBasePage.cs">
       <SubType>ASPXCodeBehind</SubType>
