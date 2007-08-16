@@ -31,11 +31,11 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="_Title"></param>
         /// <param name="_Description"></param>
-        public Category(string _Title, string _Description)
+        public Category(string title, string description)
         {
             this.Id = Guid.NewGuid();
-            this._Title = _Title;
-            this._Description = _Description;
+            this._Title = title;
+            this._Description = description;
         }
 
         #endregion

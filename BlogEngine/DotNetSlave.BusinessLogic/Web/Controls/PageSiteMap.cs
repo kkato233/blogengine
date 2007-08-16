@@ -63,6 +63,9 @@ namespace BlogEngine.Core.Web
     /// </returns>
     public override SiteMapNode GetParentNode(SiteMapNode node)
     {
+      if (node == null)
+        return null;
+
       Guid id = new Guid(node.Key);
       Guid parentId = Page.GetPage(id).Parent;
       if (parentId != Guid.Empty && parentId != id)

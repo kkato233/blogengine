@@ -11,7 +11,7 @@ namespace BlogEngine.Core.Web.HttpModules
   /// <summary>
   /// Compresses the output using standard gzip/deflate.
   /// </summary>
-  public class CompressionModule : IHttpModule
+  public sealed class CompressionModule : IHttpModule
   {
 
     #region IHttpModule Members

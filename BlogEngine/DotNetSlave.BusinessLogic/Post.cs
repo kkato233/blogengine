@@ -442,7 +442,7 @@ namespace BlogEngine.Core
     /// <param name="comment">The comment to add to the post.</param>
     public void AddComment(Comment comment)
     {
-      OnBeforeAddingComment(this);
+      OnAddingComment(this);
       Comments.Add(comment);
       DataUpdate();
       OnCommentAdded(this);
@@ -468,6 +468,7 @@ namespace BlogEngine.Core
       {
         if (email != comment.Email)
         {
+          mail.To.Clear();
           mail.To.Add(email);
           Utils.SendMailMessageAsync(mail);
         }
@@ -480,7 +481,7 @@ namespace BlogEngine.Core
     /// <param name="comment">The comment to remove from the post.</param>
     public void RemoveComment(Comment comment)
     {
-      OnBeforeRemovingComment(this);
+      OnRemovingComment(this);
       Comments.Remove(comment);
       DataUpdate();
       OnCommentRemoved(this);
@@ -583,15 +584,15 @@ namespace BlogEngine.Core
     /// <summary>
     /// Occurs before a new comment is added.
     /// </summary>
-    public static event EventHandler<EventArgs> BeforeAddingComment;
+    public static event EventHandler<EventArgs> AddingComment;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnBeforeAddingComment(Post post)
+    protected virtual void OnAddingComment(Post post)
     {
-      if (BeforeAddingComment != null)
+      if (AddingComment != null)
       {
-        BeforeAddingComment(post, new EventArgs());
+        AddingComment(post, new EventArgs());
       }
     }
 
@@ -613,15 +614,15 @@ namespace BlogEngine.Core
     /// <summary>
     /// Occurs before a new comment is added.
     /// </summary>
-    public static event EventHandler<EventArgs> BeforeRemovingComment;
+    public static event EventHandler<EventArgs> RemovingComment;
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnBeforeRemovingComment(Post post)
+    protected virtual void OnRemovingComment(Post post)
     {
-      if (BeforeRemovingComment != null)
+      if (RemovingComment != null)
       {
-        BeforeRemovingComment(post, new EventArgs());
+        RemovingComment(post, new EventArgs());
       }
     }
 
@@ -667,21 +668,6 @@ namespace BlogEngine.Core
       if (Serving != null)
       {
         Serving(post, arg);
-      }
-    }
-
-    /// <summary>
-    /// Occurs when a comment is being served to the output stream.
-    /// </summary>
-    public static event EventHandler<ServingEventArgs> CommentServing;
-    /// <summary>
-    /// Raises the event in a safe way
-    /// </summary>
-    public static void OnCommentServing(Comment comment, ServingEventArgs arg)
-    {
-      if (CommentServing != null)
-      {
-        CommentServing(comment, arg);
       }
     }
 

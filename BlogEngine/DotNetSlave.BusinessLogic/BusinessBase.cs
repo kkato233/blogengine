@@ -263,7 +263,7 @@ namespace BlogEngine.Core
         throw new InvalidOperationException(ValidationMessage);
 
       if (IsDisposed && !IsDeleted)
-        throw new InvalidOperationException(string.Format("You cannot save a disposed {0}", this.GetType().Name));
+        throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "You cannot save a disposed {0}", this.GetType().Name));
 
       if (IsDirty)
       {

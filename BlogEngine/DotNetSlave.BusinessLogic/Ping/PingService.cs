@@ -21,12 +21,12 @@ namespace BlogEngine.Core.Ping
   /// updated posts from the blog.
   /// </remarks>
   /// </summary>
-  public class PingService
+  public static class PingService
   {
     /// <summary>
     /// Sends a ping to various ping services asynchronously.
     /// </summary>
-    public void Send()
+    public static void Send()
     {
       StringCollection services = BlogService.LoadPingServices();
       foreach (string service in services)
@@ -38,7 +38,7 @@ namespace BlogEngine.Core.Ping
     /// <summary>
     /// Creates a web request and invokes the response asynchronous.
     /// </summary>
-    private void Execute(string url)
+    private static void Execute(string url)
     {
       try
       {

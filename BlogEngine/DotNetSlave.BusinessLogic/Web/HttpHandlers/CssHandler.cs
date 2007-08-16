@@ -28,7 +28,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     public void ProcessRequest(HttpContext context)
     {
       string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
-      ReduceCSS(file, context);
+      ReduceCss(file, context);
       SetHeaders(file, context);
       Compress(context);
     }
@@ -37,7 +37,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// Removes all unwanted text from the CSS file,
     /// including comments and whitespace.
     /// </summary>
-    private void ReduceCSS(string file, HttpContext context)
+    private static void ReduceCss(string file, HttpContext context)
     {
       if (!file.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
       {
@@ -71,7 +71,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// This will make the browser and server keep the output
     /// in its cache and thereby improve performance.
     /// </summary>
-    private void SetHeaders(string file, HttpContext context)
+    private static void SetHeaders(string file, HttpContext context)
     {
       context.Response.ContentType = "text/css";
       // Server-side caching 
@@ -90,7 +90,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     private const string GZIP = "gzip";
     private const string DEFLATE = "deflate";
 
-    private void Compress(HttpContext context)
+    private static void Compress(HttpContext context)
     {
       if (context.Request.UserAgent == null || context.Request.UserAgent.Contains("MSIE 6"))
         return;

@@ -69,7 +69,7 @@ namespace BlogEngine.Core.Web.Controls
           AddOpenSearchLinkInHeader();
 
         if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
-          CompressCSS();
+          CompressCss();
 
         // JavaScripts
         AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
@@ -104,7 +104,7 @@ namespace BlogEngine.Core.Web.Controls
     /// Finds all stylesheets in the header and changes the 
     /// path so it points to css.axd which removes the whitespace.
     /// </summary>
-    protected virtual void CompressCSS()
+    protected virtual void CompressCss()
     {
       if (Request.QueryString["theme"] != null)
         return;
@@ -170,10 +170,10 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(ms);
     }
 
-    protected virtual void AddGenericLink(string rel, string title, string href)
+    protected virtual void AddGenericLink(string relation, string title, string href)
     {
       HtmlLink link = new HtmlLink();
-      link.Attributes["rel"] = rel;
+      link.Attributes["rel"] = relation;
       link.Attributes["title"] = title;
       link.Attributes["href"] = href;
       Page.Header.Controls.Add(link);
@@ -206,7 +206,7 @@ namespace BlogEngine.Core.Web.Controls
     /// </summary>
     protected virtual void AddCustomCodeToHead()
     {
-      string code = string.Format("{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}", Environment.NewLine, BlogSettings.Instance.HtmlHeader);
+      string code = string.Format(CultureInfo.InvariantCulture, "{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}", Environment.NewLine, BlogSettings.Instance.HtmlHeader);
       LiteralControl control = new LiteralControl(code);
       Page.Header.Controls.Add(control);
     }

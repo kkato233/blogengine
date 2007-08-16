@@ -25,6 +25,7 @@ public partial class contact : BlogBasePage
     {
       GetCookie();
       phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
+      InititializeCaptcha();
     }
 
     Page.Title = Resources.labels.contact;
@@ -97,5 +98,48 @@ public partial class contact : BlogBasePage
     cookie.Values.Add("country", string.Empty);
     Response.Cookies.Add(cookie);
   }
+
+  #region CAPTCHA
+
+  /// <summary> 
+  /// Initializes the captcha and registers the JavaScript 
+  /// </summary> 
+  private void InititializeCaptcha()
+  {
+    if (ViewState["captchavalue"] == null)
+    {
+      ViewState["captchavalue"] = Guid.NewGuid().ToString();
+    }
+
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+    sb.AppendLine("function SetCaptcha(){");
+    sb.AppendLine("var form = document.getElementById('" + Page.Form.ClientID + "');");
+    sb.AppendLine("var el = document.createElement('input');");
+    sb.AppendLine("el.type = 'hidden';");
+    sb.AppendLine("el.name = 'captcha';");
+    sb.AppendLine("el.value = '" + ViewState["captchavalue"] + "';");
+    sb.AppendLine("form.appendChild(el);}");
+
+    Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
+    Page.ClientScript.RegisterOnSubmitStatement(GetType(), "captchayo", "SetCaptcha()");
+  }
+
+  /// <summary> 
+  /// Gets whether or not the user is human 
+  /// </summary> 
+  private bool IsCaptchaValid
+  {
+    get
+    {
+      if (ViewState["captchavalue"] != null)
+      {
+        return Request.Form["captcha"] == ViewState["captchavalue"].ToString();
+      }
+
+      return false;
+    }
+  } 
+
+  #endregion
 
 }

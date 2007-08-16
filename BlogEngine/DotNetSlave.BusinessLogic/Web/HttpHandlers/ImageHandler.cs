@@ -42,7 +42,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </param>
     public void ProcessRequest(HttpContext context)
     {
-      OnBeforeServing();
+      OnServing();
 
       if (!string.IsNullOrEmpty(context.Request.QueryString["picture"]))
       {
@@ -51,14 +51,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
         FileInfo fi = new FileInfo(context.Server.MapPath(folder) + fileName);
 
         if (fi.Exists && fi.Directory.Name.Equals("files", StringComparison.OrdinalIgnoreCase))
-        {
-          OnImageServing();
-          
+        { 
           int index = fileName.LastIndexOf(".") + 1;
           string extension = fileName.Substring(index).ToUpperInvariant();
           
           // Fix for IE not handling jpg image types
-          if (extension == "JPG")
+          if (string.Compare(extension, "JPG") == 0)
             context.Response.ContentType = "image/jpeg";
           else
             context.Response.ContentType = "image/" + extension;
@@ -67,6 +65,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
           context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
           context.Response.Cache.SetLastModified(fi.CreationTimeUtc);
           context.Server.Transfer(folder + fileName, false);
+          OnServed();
         }
         else
         {
@@ -83,24 +82,24 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Occurs when the requested file does not exist;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> BeforeServing;
-    private static void OnBeforeServing()
+    public static event EventHandler<FileHandlerEventArgs> Serving;
+    private static void OnServing()
     {
-      if (BeforeServing != null)
+      if (Serving != null)
       {
-        BeforeServing(null, new FileHandlerEventArgs(HttpContext.Current));
+        Serving(null, new FileHandlerEventArgs(HttpContext.Current));
       }
     }
 
     /// <summary>
     /// Occurs when a file is served;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> ImageServing;
-    private static void OnImageServing()
+    public static event EventHandler<FileHandlerEventArgs> Served;
+    private static void OnServed()
     {
-      if (ImageServing != null)
+      if (Served != null)
       {
-        ImageServing(null, new FileHandlerEventArgs(HttpContext.Current));
+        Served(null, new FileHandlerEventArgs(HttpContext.Current));
       }
     }
 
@@ -114,36 +113,6 @@ namespace BlogEngine.Core.Web.HttpHandlers
       {
         BadRequest(null, new FileHandlerEventArgs(HttpContext.Current));
       }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class FileHandlerEventArgs : EventArgs
-    {
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="context"></param>
-      public FileHandlerEventArgs(HttpContext context)
-      {
-        FileName = context.Request.QueryString["file"];
-        UserAgent = context.Request.UserAgent;
-        IpAddress = context.Request.UserHostAddress;
-      }
-        
-      /// <summary>
-      /// 
-      /// </summary>
-      public string FileName;
-      /// <summary>
-      /// 
-      /// </summary>
-      public string UserAgent;
-      /// <summary>
-      /// 
-      /// </summary>
-      public string IpAddress;
     }
 
     #endregion

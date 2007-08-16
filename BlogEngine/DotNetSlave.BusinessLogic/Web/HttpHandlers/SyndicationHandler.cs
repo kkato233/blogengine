@@ -285,7 +285,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 //------------------------------------------------------------
                 if (!String.IsNullOrEmpty(eTag))
                 {
-                    notModified = (eTag.Equals(lastModified.Ticks.ToString()));
+                    notModified = (eTag.Equals(lastModified.Ticks.ToString(CultureInfo.InvariantCulture)));
                 }
                 else
                 {
@@ -326,7 +326,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                     context.Response.Cache.SetCacheability(HttpCacheability.Public);
                     // Mads set this to DateTime.Now because lastModified threws an error (utcDate)
                     context.Response.Cache.SetLastModified(DateTime.Now);
-                    context.Response.Cache.SetETag(lastModified.Ticks.ToString());
+                    context.Response.Cache.SetETag(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
 
                     switch (format)
                     {

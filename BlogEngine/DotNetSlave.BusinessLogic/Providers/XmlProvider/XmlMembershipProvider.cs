@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration.Provider;
 using System.Web.Security;
+using System.Globalization;
 using System.Web.Hosting;
 using System.Web.Management;
 using System.Security.Permissions;
@@ -283,7 +284,7 @@ namespace BlogEngine.Core.Providers
           xmlUserName.InnerText = username;
           xmlPassword.InnerText = password;
           xmlEmail.InnerText = email;
-          xmlLastLoginTime.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+          xmlLastLoginTime.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
           xmlUserRoot.AppendChild(xmlUserName);
           xmlUserRoot.AppendChild(xmlPassword);
@@ -328,6 +329,9 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
+          if (providerUserKey == null)
+            throw new ArgumentNullException("providerUserKey");
+          
           XmlDocument doc = new XmlDocument();
           doc.Load(_XmlFileName);
 
@@ -338,7 +342,7 @@ namespace BlogEngine.Core.Providers
               string userName = node.ChildNodes[0].InnerText;
               string password = node.ChildNodes[1].InnerText;
               string email = node.ChildNodes[2].InnerText;
-              DateTime lastLoginTime = DateTime.Parse(node.ChildNodes[3].InnerText);
+              DateTime lastLoginTime = DateTime.Parse(node.ChildNodes[3].InnerText, CultureInfo.InvariantCulture);
               return new MembershipUser(Name, providerUserKey.ToString(), providerUserKey, email, string.Empty, password, true, false, DateTime.Now, lastLoginTime, DateTime.Now, DateTime.Now, DateTime.MaxValue);
             }
           }
@@ -351,6 +355,9 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public override string GetUserNameByEmail(string email)
         {
+          if (email == null)
+            throw new ArgumentNullException("email");
+
           XmlDocument doc = new XmlDocument();
           doc.Load(_XmlFileName);
 
@@ -382,7 +389,7 @@ namespace BlogEngine.Core.Providers
                 node.ChildNodes[1].InnerText = user.Comment;
               }
               node.ChildNodes[2].InnerText = user.Email;
-              node.ChildNodes[3].InnerText = user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss");
+              node.ChildNodes[3].InnerText = user.LastLoginDate.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
               doc.Save(_XmlFileName);
               _Users[user.UserName] = user;
             }
@@ -419,7 +426,7 @@ namespace BlogEngine.Core.Providers
                     true,                       // isApproved
                     false,                      // isLockedOut
                     DateTime.Now,               // creationDate
-                    DateTime.Parse(node["LastLoginTime"].InnerText), // lastLoginDate
+                    DateTime.Parse(node["LastLoginTime"].InnerText, CultureInfo.InvariantCulture), // lastLoginDate
                     DateTime.Now,               // lastActivityDate
                     DateTime.Now, // lastPasswordChangedDate
                     new DateTime(1980, 1, 1)    // lastLockoutDate

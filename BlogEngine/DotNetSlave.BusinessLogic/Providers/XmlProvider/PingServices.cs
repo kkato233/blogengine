@@ -50,6 +50,9 @@ namespace BlogEngine.Core.Providers
     /// <param name="services">The services.</param>
     public override void SavePingServices(StringCollection services)
     {
+      if (services == null)
+        throw new ArgumentNullException("services");
+
       string fileName = _Folder + "pingservices.xml";
 
       using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))

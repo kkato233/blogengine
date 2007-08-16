@@ -437,7 +437,7 @@ namespace BlogEngine.Core.Providers
     /// <summary>
     /// Saves the categories to the data store.
     /// </summary>
-    public void SaveCategories(List<Category> categories)
+    public static void SaveCategories(List<Category> categories)
     {
       SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 

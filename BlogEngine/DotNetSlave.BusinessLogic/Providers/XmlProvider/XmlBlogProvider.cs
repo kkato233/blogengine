@@ -51,7 +51,7 @@ namespace BlogEngine.Core.Providers
                 post.IsCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
 
             if (doc.SelectSingleNode("post/raters") != null)
-                post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText);
+                post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText, CultureInfo.InvariantCulture);
 
             if (doc.SelectSingleNode("post/rating") != null)
                 post.Rating = float.Parse(doc.SelectSingleNode("post/rating").InnerText, System.Globalization.CultureInfo.GetCultureInfo("en-gb"));
@@ -135,7 +135,7 @@ namespace BlogEngine.Core.Providers
                 writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
                 writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
                 writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-                writer.WriteElementString("raters", post.Raters.ToString());
+                writer.WriteElementString("raters", post.Raters.ToString(CultureInfo.InvariantCulture));
                 writer.WriteElementString("rating", post.Rating.ToString(CultureInfo.InvariantCulture));
                 writer.WriteElementString("slug", post.Slug);
 
@@ -520,6 +520,9 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public override void SaveSettings(StringDictionary settings)
         {
+          if (settings == null)
+            throw new ArgumentNullException("settings");
+
             string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
             XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
             writerSettings.Indent = true;
