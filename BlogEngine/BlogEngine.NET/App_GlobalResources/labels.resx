@@ -237,6 +237,9 @@
   <data name="enableCommentSearch" xml:space="preserve">
     <value>Enable comment search</value>
   </data>
+  <data name="enableCommentsModeration" xml:space="preserve">
+    <value>Moderate Comments</value>
+  </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Enable HTTP compression</value>
   </data>
