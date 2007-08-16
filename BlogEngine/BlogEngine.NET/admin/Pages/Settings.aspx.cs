@@ -10,7 +10,6 @@ using System.IO;
 using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Globalization;
 
@@ -96,6 +95,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
     BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
     BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
+    BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
 
     //-----------------------------------------------------------------------
     // Set Advanced settings
@@ -168,6 +168,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
     cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
     ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
+    cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
 
     //-----------------------------------------------------------------------
     // Bind Email settings

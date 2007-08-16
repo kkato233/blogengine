@@ -28,6 +28,7 @@
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />
   <iscocommentenabled>False</iscocommentenabled>
+  <enablecommentsmoderation>True</enablecommentsmoderation>
   <trackingscript />
   <description>Short description of the blog</description>
   <enableopensearch>True</enableopensearch>
