@@ -23,7 +23,7 @@
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
-  <timezone>1</timezone>
+  <timezone>-6</timezone>
   <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />

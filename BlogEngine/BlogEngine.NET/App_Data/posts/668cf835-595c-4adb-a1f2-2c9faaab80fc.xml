@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<post>
+  <author>Admin</author>
+  <title>Post 1</title>
+  <description />
+  <content>&lt;p&gt;
+asdfasdf 
+&lt;/p&gt;
+</content>
+  <ispublished>True</ispublished>
+  <iscommentsenabled>True</iscommentsenabled>
+  <pubDate>2007-08-11 00:59:00</pubDate>
+  <lastModified>2007-08-15 17:38:55</lastModified>
+  <raters>0</raters>
+  <rating>0</rating>
+  <slug>Post 1</slug>
+  <tags>
+    <tag>aa</tag>
+  </tags>
+  <comments />
+  <categories>
+    <category>19770e74-9ec9-4cde-b2ab-e5051aaaf348</category>
+    <category>f85c4cea-9b84-4a91-a899-947a5ed3efba</category>
+  </categories>
+  <notifications />
+</post>

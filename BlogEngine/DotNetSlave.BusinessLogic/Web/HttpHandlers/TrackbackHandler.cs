@@ -87,7 +87,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       comment.Post = post;
       comment.DateCreated = DateTime.Now;
       comment.IP = HttpContext.Current.Request.UserHostAddress;
-
+      comment.Approved = true; //NOTE: Trackback comments are approved by default 
       post.AddComment(comment);
     }
 
