@@ -135,6 +135,9 @@
   <data name="advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
+  <data name="approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
   <data name="archive" xml:space="preserve">
     <value>Archive</value>
   </data>
