@@ -100,7 +100,7 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
       if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
         comment.Website = website;
     }
-
+    comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
     Post.AddComment(comment);
   }
 
@@ -417,7 +417,8 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     comment.IP = Request.UserHostAddress;
     comment.Country = country;
     comment.DateCreated = DateTime.Now;
-    comment.Post = Post;    
+    comment.Post = Post;
+    comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
 
     if (website.Trim().Length > 0)
     {

@@ -118,6 +118,15 @@ namespace BlogEngine.Core
       }
       set { _DateCreated = value.ToUniversalTime(); }
     }
+    private bool _approved;
+    /// <summary>
+    /// Gets or sets the Comment approval status
+    /// </summary>
+    public bool Approved
+    {
+        get { return _approved; }
+        set { _approved = value; }
+    }
 
     #endregion
 

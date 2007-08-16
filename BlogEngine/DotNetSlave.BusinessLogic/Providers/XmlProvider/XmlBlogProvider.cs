@@ -87,6 +87,12 @@ namespace BlogEngine.Core.Providers
                     if (Uri.TryCreate(node.SelectSingleNode("website").InnerText, UriKind.Absolute, out website))
                         comment.Website = website;
                 }
+
+                if (node.Attributes["approved"] != null)
+                    comment.Approved = bool.Parse(node.Attributes["approved"].InnerText);
+                else
+                    comment.Approved = true;
+
                 comment.Content = node.SelectSingleNode("content").InnerText;
                 comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
                 post.Comments.Add(comment);
@@ -153,6 +159,7 @@ namespace BlogEngine.Core.Providers
                 {
                     writer.WriteStartElement("comment");
                     writer.WriteAttributeString("id", comment.Id.ToString());
+                    writer.WriteAttributeString("approved", comment.Approved.ToString());
                     writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
                     writer.WriteElementString("author", comment.Author);
                     writer.WriteElementString("email", comment.Email);

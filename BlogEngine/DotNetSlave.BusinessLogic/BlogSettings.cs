@@ -120,6 +120,10 @@ namespace BlogEngine.Core
     /// </summary>
     private int daysCommentsAreEnabled = Int32.MinValue;
     /// <summary>
+    /// Private member to hold info on whether comments are moderated or not.
+    /// </summary>
+    private bool areCommentsModerated = false;
+    /// <summary>
     /// Private member to hold default number of recent posts to display.
     /// </summary>
     private int numberOfRecentPosts = Int32.MinValue;
@@ -922,6 +926,25 @@ namespace BlogEngine.Core
       {
         areCommentsEnabled = value;
       }
+    }
+    #endregion
+
+    #region EnableCommentsModeration
+    /// <summary>
+    /// Gets or sets a value indicating if comments moderation is used for posts.
+    /// </summary>
+    /// <value><b>true</b> if comments are moderated for posts, otherwise returns <b>false</b>.</value>
+    public bool EnableCommentsModeration
+    {
+        get
+        {
+            return areCommentsModerated;
+        }
+
+        set
+        {
+            areCommentsModerated = value;
+        }
     }
     #endregion
 
