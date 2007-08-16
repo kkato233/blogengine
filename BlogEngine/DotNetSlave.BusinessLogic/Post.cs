@@ -128,7 +128,7 @@ namespace BlogEngine.Core
             }
         }
 
-        /// <summary>
+                /// <summary>
         /// A Collection of Approved Comments for the post
         /// </summary>
         public List<Comment> Comments
@@ -522,9 +522,8 @@ namespace BlogEngine.Core
         public void ApproveComment(Comment comment)
         {
             //NOTE: Implement Later the Before and After Event if needed
-            int inx = this.Comments.IndexOf(comment);
-            Comment tempComment = Comments[inx];
-            tempComment.Approved= true;
+            int inx = Comments.IndexOf(comment);
+            Comments[inx].Approved = true;
             DataUpdate();
         }
 

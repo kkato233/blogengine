@@ -472,6 +472,9 @@
   <data name="trimStylesheetDescription" xml:space="preserve">
     <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
   </data>
+  <data name="unapprovedcomments" xml:space="preserve">
+    <value>Unapproved Comments</value>
+  </data>
   <data name="updateFrequenzy" xml:space="preserve">
     <value>Update frequency (minutes)</value>
   </data>

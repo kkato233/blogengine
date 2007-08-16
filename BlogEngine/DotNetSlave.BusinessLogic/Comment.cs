@@ -11,7 +11,7 @@ namespace BlogEngine.Core
   /// Represents a comment to a blog post.
   /// </summary>
   [Serializable]
-  public struct Comment : IComparable<Comment>
+    public class Comment : IComparable<Comment>
   {
 
     #region Properties
@@ -118,6 +118,7 @@ namespace BlogEngine.Core
       }
       set { _DateCreated = value.ToUniversalTime(); }
     }
+
     private bool _approved;
     /// <summary>
     /// Gets or sets the Comment approval status
@@ -160,10 +161,10 @@ namespace BlogEngine.Core
     /// </summary>
     public static void OnServing(Comment comment, ServingEventArgs arg)
     {
-      if (Serving != null)
-      {
-        Serving(comment, arg);
-      }
+        if (Serving != null)
+        {
+            Serving(comment, arg);
+        }
     }
 
     #endregion

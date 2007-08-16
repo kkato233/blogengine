@@ -24,8 +24,11 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
 
     if (!Page.IsPostBack && !Page.IsCallback)
     {
-      if (Request.QueryString["deletecomment"] != null)
-        DeleteComment();
+        if (Request.QueryString["deletecomment"] != null)
+            DeleteComment();
+
+        if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
+            ApproveComment();
 
       string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
       foreach (Comment comment in Post.Comments)
@@ -52,6 +55,23 @@ public partial class User_controls_CommentView : System.Web.UI.UserControl, ICal
     InititializeCaptcha();
     btnSave.Click += new EventHandler(btnSave_Click);
   }
+
+
+    private void ApproveComment()
+    {
+        foreach (Comment comment in Post.NotApprovedComments)
+        {
+            if (comment.Id == new Guid(Request.QueryString["approvecomment"]))
+            {
+                Response.Write(Request.Url);
+                Post.ApproveComment(comment);
+
+                int index = Request.RawUrl.IndexOf("?");
+                string url = Request.RawUrl.Substring(0, index);
+                Response.Redirect(url, true);
+            }
+        }
+    }
 
   private void DeleteComment()
   {

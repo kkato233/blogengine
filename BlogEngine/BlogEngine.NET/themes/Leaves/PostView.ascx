@@ -13,7 +13,7 @@
         Actions: <%=AdminLinks %>
         <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | 
         <a href="<%=Post.PermaLink %>">Permalink</a> |
-        <a href="<%=Post.RelativeLink %>#comment">Comments (<%=Post.Comments.Count %>)</a> |
+        <a rel="nofollow" href="<%=Post.RelativeLink %>#comment"><%=Resources.labels.comments %> (<%=Post.ApprovedComments.Count %>)</a> |
         <a href="<%=Post.TrackbackLink %>">Trackback</a>
     </div>
 </div>
