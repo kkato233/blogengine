@@ -22,7 +22,7 @@ public partial class admin_newuser : System.Web.UI.Page
         }
 
         int count = 0;
-        gridUsers.DataSource = Membership.Provider.GetAllUsers(0, 0, out count);
+        gridUsers.DataSource = Membership.Provider.GetAllUsers(0, 999, out count);
         gridUsers.DataBind();
       }
 

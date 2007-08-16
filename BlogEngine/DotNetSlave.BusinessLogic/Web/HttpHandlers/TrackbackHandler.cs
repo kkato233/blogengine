@@ -76,7 +76,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Insert the pingback as a comment on the post.
     /// </summary>
-    private void AddComment(string sourceUrl, Post post, string blogName, string excerpt)
+    private static void AddComment(string sourceUrl, Post post, string blogName, string excerpt)
     {
       Comment comment = new Comment();
       comment.Id = Guid.NewGuid();
@@ -115,7 +115,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// Checks to see if the source has already pinged the target.
     /// If it has, there is no reason to add it again.
     /// </summary>
-    private bool IsFirstPingBack(Post post, string sourceUrl)
+    private static bool IsFirstPingBack(Post post, string sourceUrl)
     {
       foreach (Comment comment in post.Comments)
       {

@@ -122,7 +122,7 @@
     <Compile Include="Web\HttpHandlers\OpenSearchHandler.cs" />
     <Compile Include="Web\HttpHandlers\PingbackHandler.cs" />
     <Compile Include="Web\HttpHandlers\RsdHandler.cs" />
-    <Compile Include="Web\HttpHandlers\Sitemap.cs" />
+    <Compile Include="Web\HttpHandlers\SiteMap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -153,7 +153,7 @@
     <Compile Include="Web\HttpHandlers\TrackbackHandler.cs" />
     <Compile Include="Web\HttpModules\CompressionModule.cs" />
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
-    <Compile Include="Web\HttpModules\WwwSubdomainModule.cs" />
+    <Compile Include="Web\HttpModules\WwwSubDomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>

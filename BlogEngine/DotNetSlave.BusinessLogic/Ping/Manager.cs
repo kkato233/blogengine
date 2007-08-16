@@ -17,18 +17,18 @@ namespace BlogEngine.Core.Ping
     /// <param name="post"></param>
     public static void Send(Post post)
     {
-      foreach (string url in GetUrlsFromContent(post.Content))
+      foreach (Uri url in GetUrlsFromContent(post.Content))
       {
         string rdfContents = ReadFromWeb(url);
-        string urlToNotifyTrackback = GetTrackBackLinkFromText(rdfContents);
+        Uri urlToNotifyTrackback = GetTrackBackLinkFromText(rdfContents);
 
-        if (!string.IsNullOrEmpty(urlToNotifyTrackback.Trim()))
+        if (urlToNotifyTrackback != null)
         {
           TrackbackMessage tMessage = new TrackbackMessage(post, urlToNotifyTrackback);
           bool isTrackbackSent = Trackback.Send(tMessage);
           if (!isTrackbackSent)
           {
-            Pingback.Send(post.AbsoluteLink.ToString(), url);
+            Pingback.Send(post.AbsoluteLink, url);
           }
         }
       }
@@ -40,20 +40,29 @@ namespace BlogEngine.Core.Ping
 
     private static readonly Regex trackbackLinkRegex = new Regex("trackback:ping=\"([^\"]+)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-    private static List<string> GetUrlsFromContent(string content)
+    private static List<Uri> GetUrlsFromContent(string content)
     {
-      List<string> urlsList = new List<string>();
+      List<Uri> urlsList = new List<Uri>();
       foreach (Match myMatch in urlsRegex.Matches(content))
       {
-        urlsList.Add(myMatch.Groups[1].ToString().Trim());
+        string url = myMatch.Groups[1].ToString().Trim();
+        Uri uri;
+        if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+          urlsList.Add(uri);
       }
 
       return urlsList;
     }
 
-    private static string GetTrackBackLinkFromText(string input)
+    private static Uri GetTrackBackLinkFromText(string input)
     {
-      return trackbackLinkRegex.Match(input).Groups[1].ToString();
+      string url = trackbackLinkRegex.Match(input).Groups[1].ToString().Trim();
+      Uri uri;
+
+      if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+        return uri;
+      else
+        return null;
     }
     #endregion
     /// <summary>
@@ -61,7 +70,7 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     /// <param name="sourceUrl">The URL you want to extract the html code.</param>
     /// <returns></returns>
-    private static string ReadFromWeb(string sourceUrl)
+    private static string ReadFromWeb(Uri sourceUrl)
     {
       string html;
       using (WebClient client = new WebClient())

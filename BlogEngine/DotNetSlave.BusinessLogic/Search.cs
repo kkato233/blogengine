@@ -97,7 +97,7 @@ namespace BlogEngine.Core
 
       foreach (Category cat in post.Categories)
       {
-          term += " " + cat.Title;
+        term += " " + cat.Title;
       }
 
       term = CleanContent(term, false);
@@ -112,7 +112,7 @@ namespace BlogEngine.Core
       List<Result> results = new List<Result>();
       string term = CleanContent(searchTerm.ToLowerInvariant().Trim(), false);
       string[] terms = term.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-      string regex = string.Format("({0})", string.Join("|", terms));
+      string regex = string.Format(System.Globalization.CultureInfo.InvariantCulture, "({0})", string.Join("|", terms));
 
       foreach (Entry entry in _Catalog)
       {
@@ -194,6 +194,10 @@ namespace BlogEngine.Core
       if (removeHtml)
         content = _StripHtml.Replace(content, string.Empty);
 
+      content = content
+                      .Replace("\\", string.Empty)
+                      .Replace("|", string.Empty);
+
       string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
       StringBuilder sb = new StringBuilder();
       for (int i = 0; i < words.Length; i++)
@@ -203,7 +207,7 @@ namespace BlogEngine.Core
           sb.Append(word + " ");
       }
 
-      return sb.ToString().Replace("\\", string.Empty);
+      return sb.ToString();
     }
 
     /// <summary>
@@ -213,10 +217,7 @@ namespace BlogEngine.Core
     {
       using (StreamReader reader = new StreamReader(System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "stopwords.txt"))
       {
-        string file = reader.ReadToEnd()
-                      .Replace(".", " ")
-                      .Replace(",", " ")
-                      .Replace("-", " ");
+        string file = reader.ReadToEnd();
         string[] words = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
         StringCollection col = new StringCollection();

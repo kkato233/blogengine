@@ -26,7 +26,7 @@ public class Smilies
 {
   public Smilies()
   {
-    Post.CommentServing += new EventHandler<ServingEventArgs>(Post_CommentServing);
+    Comment.Serving += new EventHandler<ServingEventArgs>(Post_CommentServing);
   }
 
   void Post_CommentServing(object sender, ServingEventArgs e)

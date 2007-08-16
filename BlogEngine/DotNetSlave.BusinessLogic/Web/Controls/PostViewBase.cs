@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using BlogEngine.Core;
 
 #endregion
@@ -61,7 +62,7 @@ namespace BlogEngine.Core.Web.Controls
                       // Now we will update our position.
                       currentPosition = myMatch.Index + myMatch.Groups[0].Length;
                   }
-                  catch
+                  catch (Exception)
                   {
                       // Whoopss, can't load that control so lets output something that tells the developer that theres a problem.
                       bodyContent.Controls.Add(new LiteralControl("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value));
@@ -82,10 +83,11 @@ namespace BlogEngine.Core.Web.Controls
       private static readonly Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     /// <summary>
-    /// Manages the deletion of posts.
+    /// Shows the post if it isn\t published.
     /// </summary>
-    private void Page_Init(object sender, EventArgs e)
+    protected override void OnInit(EventArgs e)
     {
+      base.OnInit(e);
       if (!Post.IsPublished && !Page.User.Identity.IsAuthenticated)
       {
         this.Visible = false;
@@ -195,7 +197,7 @@ namespace BlogEngine.Core.Web.Controls
             if (Category.Categories.Contains((Category)Post.Categories[i]))
           {
             string category = Category.GetCategory(Post.Categories[i].Id).Title;
-            keywords[i] = string.Format(link, path, Utils.RemoveIlegalCharacters(category), category);
+            keywords[i] = string.Format(CultureInfo.InvariantCulture, link, path, Utils.RemoveIlegalCharacters(category), category);
           }
         }
         //for (int i = 0; i < Post.Categories.Count; i++)
@@ -224,7 +226,7 @@ namespace BlogEngine.Core.Web.Controls
         for (int i = 0; i < Post.Tags.Count; i++)
         {
           string tag = HttpUtility.HtmlEncode(Post.Tags[i]);
-          tags[i] = string.Format(link, path, tag);
+          tags[i] = string.Format(CultureInfo.InvariantCulture, link, path, tag);
         }
 
         return string.Join(separator, tags);
@@ -241,7 +243,7 @@ namespace BlogEngine.Core.Web.Controls
           if (Page.User.Identity.IsAuthenticated)
           {
             BlogBasePage page = (BlogBasePage)Page;
-            string confirmDelete = string.Format(page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
+            string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
             sb.AppendFormat("<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
@@ -269,7 +271,7 @@ namespace BlogEngine.Core.Web.Controls
           BlogBasePage page = (BlogBasePage)Page;
 
           if (Post.Raters > 0)
-            sb.AppendFormat("<p>" + page.Translate("currentlyRated") + "</p>", Post.Rating.ToString("#.0"), Post.Raters);
+            sb.AppendFormat("<p>" + page.Translate("currentlyRated") + "</p>", Post.Rating.ToString("#.0", CultureInfo.InvariantCulture), Post.Raters);
           else
             sb.Append("<p>Be the first to rate this post</p>");
 

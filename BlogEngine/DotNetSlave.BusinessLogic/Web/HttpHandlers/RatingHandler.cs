@@ -43,7 +43,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.Write("FAIL");
     }
 
-    private void SetCookie(string id, HttpContext context)
+    private static void SetCookie(string id, HttpContext context)
     {
       HttpCookie cookie;
       if (context.Request.Cookies["rating"] != null)
@@ -60,7 +60,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.Cookies.Add(cookie);
     }
 
-    private bool HasRated(string postId)
+    private static bool HasRated(string postId)
     {
       if (HttpContext.Current.Request.Cookies["rating"] != null)
       {

@@ -1,3 +1,5 @@
+using System;
+
 namespace BlogEngine.Core.Web
 {
   /// <summary>
@@ -9,7 +11,8 @@ namespace BlogEngine.Core.Web
   /// an instance of the extension through reflection.
   /// </remarks>
   /// </summary>
-  public class ExtensionAttribute : System.Attribute
+  [AttributeUsage(AttributeTargets.Class)]
+  public sealed class ExtensionAttribute : System.Attribute
   {
     /// <summary>
     /// Creates an instance of the attribute and assigns a description.

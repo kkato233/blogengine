@@ -43,23 +43,22 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </param>
     public void ProcessRequest(HttpContext context)
     {
-      OnBeforeServing();
+      OnServing();
 
       if (!string.IsNullOrEmpty(context.Request.QueryString["file"]))
       {
-        string fileName = context.Request.QueryString["file"];
+        string fileName = context.Request.QueryString["file"].ToLowerInvariant();
         string folder = BlogSettings.Instance.StorageLocation + "/files/";
         FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);
         
         if (info.Exists && info.Directory.Name.Equals("files", StringComparison.OrdinalIgnoreCase))
         {
-          OnFileServing();
-
-          SetContentDisposition(context, fileName.ToLowerInvariant());
-          SetContentType(context, fileName.ToLowerInvariant());
+          SetContentDisposition(context, fileName);
+          SetContentType(context, fileName);
 
           context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
           context.Server.Transfer(folder + fileName, false);
+          OnServed();
         }
         else
         {
@@ -100,26 +99,26 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Occurs when the requested file does not exist;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> BeforeServing;
+    public static event EventHandler<FileHandlerEventArgs> Serving;
 
-    private static void OnBeforeServing()
+    private static void OnServing()
     {
-      if (BeforeServing != null)
+      if (Serving != null)
       {
-        BeforeServing(null, new FileHandlerEventArgs(HttpContext.Current));
+        Serving(null, new FileHandlerEventArgs(HttpContext.Current));
       }
     }
 
     /// <summary>
     /// Occurs when a file is served;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> FileServing;
+    public static event EventHandler<FileHandlerEventArgs> Served;
 
-    private static void OnFileServing()
+    private static void OnServed()
     {
-      if (FileServing != null)
+      if (Served != null)
       {
-        FileServing(null, new FileHandlerEventArgs(HttpContext.Current));
+        Served(null, new FileHandlerEventArgs(HttpContext.Current));
       }
     }
 
@@ -134,39 +133,49 @@ namespace BlogEngine.Core.Web.HttpHandlers
       {
         BadRequest(null, new FileHandlerEventArgs(HttpContext.Current));
       }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class FileHandlerEventArgs : EventArgs
-    {
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="context"></param>
-      public FileHandlerEventArgs(HttpContext context)
-      {
-        FileName = context.Request.QueryString["file"];
-        UserAgent = context.Request.UserAgent;
-        IpAddress = context.Request.UserHostAddress;
-      }
-
-      /// <summary>
-      /// 
-      /// </summary>
-      public string FileName;
-      /// <summary>
-      /// 
-      /// </summary>
-      public string UserAgent;
-      /// <summary>
-      /// 
-      /// </summary>
-      public string IpAddress;
-    }
+    } 
 
     #endregion
 
   }
+
+  /// <summary>
+  /// 
+  /// </summary>
+  public class FileHandlerEventArgs : EventArgs
+  {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    public FileHandlerEventArgs(HttpContext context)
+    {
+      if (context == null)
+        throw new ArgumentNullException("context");
+
+      _FileName = context.Request.QueryString["file"];
+      _UserAgent = context.Request.UserAgent;
+      _IPAddress = context.Request.UserHostAddress;
+    }
+
+    private string _FileName;
+    public string FileName
+    {
+      get { return _FileName; }
+    }
+
+    private string _UserAgent;
+    public string UserAgent
+    {
+      get { return _UserAgent; }
+    }
+
+    private string _IPAddress;
+    public string IPAddress
+    {
+      get { return _IPAddress; }
+    }
+
+  }
+
 }

@@ -86,10 +86,11 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private static bool IsSearchEngine(string referrer)
     {
-      if (referrer.Contains("yahoo") && referrer.Contains("p="))
+      string lower = referrer.ToLowerInvariant();
+      if (lower.Contains("yahoo") && lower.Contains("p="))
         return true;
 
-      return referrer.ToLowerInvariant().Contains("?q=") || referrer.ToLowerInvariant().Contains("&q=");
+      return lower.Contains("?q=") || lower.Contains("&q=");
     }
 
     /// <summary>
@@ -142,7 +143,7 @@ namespace BlogEngine.Core.Web.HttpModules
       return null;
     }
 
-    private void BeginRegisterClick(object stateInfo)
+    private static void BeginRegisterClick(object stateInfo)
     {
       DictionaryEntry entry = (DictionaryEntry)stateInfo;
       string referrer = (string)entry.Key;
@@ -170,7 +171,7 @@ namespace BlogEngine.Core.Web.HttpModules
         else
         {
           int count = int.Parse(node.InnerText, CultureInfo.InvariantCulture);
-          node.InnerText = (count + 1).ToString();
+          node.InnerText = (count + 1).ToString(CultureInfo.InvariantCulture);
         }
 
         doc.Save(fileName);

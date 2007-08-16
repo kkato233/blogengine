@@ -4,6 +4,7 @@ using System;
 using System.Net.Mail;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 using System.Web;
 using System.Threading;
 
@@ -76,7 +77,7 @@ namespace BlogEngine.Core
         {
           HttpContext context = HttpContext.Current;
           if (context == null)
-            throw new Exception("The current HttpContext is null");
+            throw new NullReferenceException("The current HttpContext is null");
 
           _AbsoluteWebRoot = new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
         }
@@ -89,6 +90,9 @@ namespace BlogEngine.Core
     /// </summary>
     public static void SendMailMessage(MailMessage message)
     {
+      if (message == null)
+        throw new ArgumentNullException("message");
+
       try
       {
         message.BodyEncoding = Encoding.UTF8;
@@ -143,7 +147,7 @@ namespace BlogEngine.Core
       string sub = Encode(subject == null ? null : ",'" + HttpUtility.HtmlEncode(subject.Replace("'", "\\'")) + "'");
       string link = "javascript:SafeMail('{0}','{1}'{2});";
 
-      return string.Format(link, name, domain, sub);
+      return string.Format(CultureInfo.InvariantCulture, link, name, domain, sub);
     }
 
     private static Random _Random = new Random();

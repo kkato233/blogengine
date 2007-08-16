@@ -37,8 +37,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
         txtDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
         txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
+        BindBookmarklet();
       }
-      
+
       cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
       Page.Form.DefaultButton = btnSave.UniqueID;
     }
@@ -48,7 +49,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
     btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
     valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
-  }
+  }  
 
   private void valExist_ServerValidate(object source, ServerValidateEventArgs args)
   {
@@ -110,9 +111,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   {
     if (Page.IsValid)
     {
-        Category cat = new Category(txtCategory.Text, string.Empty);
-     cat.Save();
-        //Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
+      Category cat = new Category(txtCategory.Text, string.Empty);
+      cat.Save();
+      //Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
       //CategoryDictionary.Instance.Save();
       ListItem item = new ListItem(txtCategory.Text, cat.Id.ToString());
       item.Selected = true;
@@ -172,7 +173,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     }
 
     post.Save();
-    if (!Request.IsLocal && post.Content.ToLowerInvariant().Contains("http")  && post.IsPublished)
+    if (!Request.IsLocal && post.Content.ToLowerInvariant().Contains("http") && post.IsPublished)
     {
       ThreadStart threadStart = delegate { Ping(post); };
       Thread thread = new Thread(threadStart);
@@ -188,7 +189,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   {
     System.Threading.Thread.Sleep(2000);
     Post post = (Post)stateInfo;
-    new BlogEngine.Core.Ping.PingService().Send();
+    BlogEngine.Core.Ping.PingService.Send();
     BlogEngine.Core.Ping.Manager.Send(post);
   }
 
@@ -231,6 +232,18 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     txtTags.Text = string.Join(",", tags);
   }
 
+  private void BindBookmarklet()
+  {
+    if (Request.QueryString["title"] != null && Request.QueryString["url"] != null)
+    {
+      string title = Request.QueryString["title"];
+      string url = Request.QueryString["url"];
+
+      txtTitle.Text = title;
+      txtContent.Text = string.Format("<p><a href=\"{0}\" title=\"{1}\">{1}</a></p>", url, title);
+    }
+  }
+
   private void BindUsers()
   {
     foreach (MembershipUser user in Membership.GetAllUsers())
@@ -251,7 +264,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
     foreach (Post post in Post.Posts)
     {
-      if (!post.IsPublished && post.Id  != id)
+      if (!post.IsPublished && post.Id != id)
       {
         HtmlGenericControl li = new HtmlGenericControl();
         HtmlAnchor a = new HtmlAnchor();
@@ -261,7 +274,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
         System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" by " + post.Author + " (" + post.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
 
         li.Controls.Add(a);
-        li.Controls.Add(text);        
+        li.Controls.Add(text);
         ulDrafts.Controls.Add(li);
         counter++;
       }
@@ -294,7 +307,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     }
     else
     {
-    _Callback = Utils.RemoveIlegalCharacters(eventArgument.Trim());
+      _Callback = Utils.RemoveIlegalCharacters(eventArgument.Trim());
     }
   }
 

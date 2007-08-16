@@ -20,7 +20,6 @@
   <Columns>
     <asp:BoundField DataField="username" HeaderText="<%$ Resources:labels, userName %>" />
     <asp:BoundField DataField="email" HeaderText="E-mail" />
-    <asp:BoundField DataField="lastlogindate" HeaderText="Last login" />
     <asp:TemplateField HeaderText="<%$ Resources:labels, delete %>">
       <ItemTemplate>
         <a href="?delete=<%# Eval("username") %>" onclick="return confirm('<%# string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLower(), Eval("username")) %>')"><%=Resources.labels.delete %></a>

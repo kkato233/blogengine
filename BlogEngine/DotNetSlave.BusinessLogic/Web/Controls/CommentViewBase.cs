@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -88,7 +89,7 @@ namespace BlogEngine.Core.Web.Controls
         body = body.Replace("\n", "<br />");
         
         ServingEventArgs arg = new ServingEventArgs(body);
-        Post.OnCommentServing(this.Comment, arg);
+        Comment.OnServing(this.Comment, arg);
 
         return arg.Body;
       }
@@ -107,7 +108,7 @@ namespace BlogEngine.Core.Web.Controls
           System.Text.StringBuilder sb = new System.Text.StringBuilder();
           sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", Comment.Email);
           sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
-          string confirmDelete = string.Format(page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
+          string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
           sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
           return sb.ToString();
         }
@@ -169,7 +170,7 @@ namespace BlogEngine.Core.Web.Controls
             //------------------------------------------------------------
             //	Return WebSnapr image for web site
             //------------------------------------------------------------
-            return string.Format("<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
+            return string.Format(CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
           }
 
           //------------------------------------------------------------
@@ -186,7 +187,7 @@ namespace BlogEngine.Core.Web.Controls
           //------------------------------------------------------------
           //	Return WebSnapr image for web site
           //------------------------------------------------------------
-          return string.Format("<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
+          return string.Format(CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
         }
 
         //------------------------------------------------------------
@@ -198,7 +199,7 @@ namespace BlogEngine.Core.Web.Controls
         System.Text.StringBuilder hash = new System.Text.StringBuilder();
         for (int i = 0; i < result.Length; i++)
         {
-          hash.Append(result[i].ToString("x2"));
+          hash.Append(result[i].ToString( "x2", CultureInfo.InvariantCulture));
         }
 
         //------------------------------------------------------------
