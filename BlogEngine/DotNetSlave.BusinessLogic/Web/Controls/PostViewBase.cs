@@ -245,9 +245,16 @@ namespace BlogEngine.Core.Web.Controls
             BlogBasePage page = (BlogBasePage)Page;
             string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
             StringBuilder sb = new StringBuilder();
+
+            if (Post.NotApprovedComments.Count > 0)
+                sb.AppendFormat("<a href=\"{0}\">{1} ({2})</a> | ", Post.RelativeLink, page.Translate("unapprovedcomments"), Post.NotApprovedComments.Count);
             sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
             sb.AppendFormat("<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
             return sb.ToString();
+
+            //sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
+            //sb.AppendFormat("<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
+            //return sb.ToString();
           }
 
           return string.Empty;

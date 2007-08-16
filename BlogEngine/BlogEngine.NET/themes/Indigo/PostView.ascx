@@ -15,7 +15,9 @@
         <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | 
         <a rel="nofollow" href="http://www.dotnetkicks.com/submit?url=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>&amp;title=<%=Server.UrlEncode(Post.Title) %>">Kick it!</a> |
         <a href="<%=Post.PermaLink %>">Permalink</a> |
-        <a href="<%=Post.RelativeLink %>#comment"><img id="Img3" src="~/themes/indigo/img/comments.gif" runat="server" alt="comment" /> Comments (<%=Post.Comments.Count %>)</a> |
+        <a rel="nofollow" href="<%=Post.RelativeLink %>#comment">
+             <img id="Img4" runat="server" alt="comment" src="~/themes/indigo/img/comments.gif" /><%=Resources.labels.comments %> (<%=Post.ApprovedComments.Count %>)</a>
+         |   
         <a rel="nofollow" href="<%=CommentFeed %>"><asp:Image ID="Image1" runat="Server" ImageUrl="~/pics/rssbutton.gif" AlternateText="RSS comment feed" style="margin-right:3px" />Comment RSS</a>
     </div>
     <br />
