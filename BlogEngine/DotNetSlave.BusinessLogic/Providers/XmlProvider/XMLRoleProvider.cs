@@ -16,7 +16,7 @@ namespace BlogEngine.Core.Providers
 
         #region Static Fields
 
-        public static string DefaultFileName = "Roles.config";
+        public static string DefaultFileName = "roles.xml";
         public static string DefaultProviderName = "XmlRoleProvider";
         public static string DefaultProviderDescription = "XML Role Provider";
 
@@ -341,9 +341,10 @@ namespace BlogEngine.Core.Providers
             // initialize custom fields
             _applicationName = ProviderUtil.GetConfigValue(config["applicationName"],
                 System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath);
-            _fileName = ProviderUtil.GetConfigValue(config["fileName"],
+            _fileName = ProviderUtil.GetConfigValue(config["xmlFileName"],
                 ProviderUtil.MapPath(string.Format("~/App_Data/{0}", DefaultFileName)));
         }
+
         #endregion
         #endregion
     }
