@@ -49,9 +49,9 @@ namespace Controls
 
         foreach (Post post in Post.Posts)
         {
-          foreach (Comment comment in post.Comments)
+          foreach (Comment comment in post.Comments) 
           {
-            comments.Add(comment);
+              if (comment.Approved) comments.Add(comment);
           }
         }
 
@@ -82,49 +82,53 @@ namespace Controls
 
       foreach (Comment comment in _Comments)
       {
-        HtmlGenericControl li = new HtmlGenericControl("li");
+          if (comment.Approved)
+          {
+              HtmlGenericControl li = new HtmlGenericControl("li");
 
-        // The post title
-        HtmlAnchor title = new HtmlAnchor();
-        title.HRef = comment.Post.RelativeLink.ToString();
-        title.InnerHtml = comment.Post.Title;
-        title.Attributes.Add("class", "postTitle");
-        li.Controls.Add(title);
+              // The post title
+              HtmlAnchor title = new HtmlAnchor();
+              title.HRef = comment.Post.RelativeLink.ToString();
+              title.InnerHtml = comment.Post.Title;
+              title.Attributes.Add("class", "postTitle");
+              li.Controls.Add(title);
 
-        // The comment count on the post
-        LiteralControl count = new LiteralControl(" (" + comment.Post.Comments.Count + ")<br />");
-        li.Controls.Add(count);
+              // The comment count on the post
+              LiteralControl count = new LiteralControl(" (" + comment.Post.ApprovedComments.Count + ")<br />");
+              li.Controls.Add(count);
 
-        // The author
-        if (comment.Website != null)
-        {
-          HtmlAnchor author = new HtmlAnchor();
-          author.HRef = comment.Website.ToString();
-          author.InnerHtml = comment.Author;
-          li.Controls.Add(author);
+              // The author
+              if (comment.Website != null)
+              {
+                  HtmlAnchor author = new HtmlAnchor();
+                  author.HRef = comment.Website.ToString();
+                  author.InnerHtml = comment.Author;
+                  li.Controls.Add(author);
 
-          LiteralControl wrote = new LiteralControl(" " + Resources.labels.wrote + ": ");
-          li.Controls.Add(wrote);
-        }
-        else
-        {
-          LiteralControl author = new LiteralControl(comment.Author + " " + Resources.labels.wrote + ": ");
-          li.Controls.Add(author);
-        }
+                  LiteralControl wrote = new LiteralControl(" " + Resources.labels.wrote + ": ");
+                  li.Controls.Add(wrote);
+              }
+              else
+              {
+                  LiteralControl author = new LiteralControl(comment.Author + " " + Resources.labels.wrote + ": ");
+                  li.Controls.Add(author);
+              }
 
-        // The comment body
-        int bodyLength = comment.Content.Length <= 50 ? comment.Content.Length : 50;
-        LiteralControl body = new LiteralControl(comment.Content.Substring(0, bodyLength) + "... ");
-        li.Controls.Add(body);
+              // The comment body
+              int bodyLength = comment.Content.Length <= 50 ? comment.Content.Length : 50;
+              LiteralControl body = new LiteralControl(comment.Content.Substring(0, bodyLength) + "... ");
+              li.Controls.Add(body);
 
-        // The comment link
-        HtmlAnchor link = new HtmlAnchor();
-        link.HRef = comment.Post.RelativeLink + "#id_" + comment.Id;
-        link.InnerHtml = "[" + Resources.labels.more + "]";
-        link.Attributes.Add("class", "moreLink");
-        li.Controls.Add(link);
+              // The comment link
+              HtmlAnchor link = new HtmlAnchor();
+              link.HRef = comment.Post.RelativeLink + "#id_" + comment.Id;
+              link.InnerHtml = "[" + Resources.labels.more + "]";
+              link.Attributes.Add("class", "moreLink");
+              li.Controls.Add(link);
 
-        ul.Controls.Add(li);
+              ul.Controls.Add(li);
+          }
+  
       }
 
       StringWriter sw = new StringWriter();

@@ -70,7 +70,7 @@ namespace Controls
         string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         string link = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";
-        string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comment, post.Comments.Count);
+        string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comment, post.ApprovedComments.Count);
         string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
 
         if (!BlogSettings.Instance.DisplayCommentsOnRecentPosts)
