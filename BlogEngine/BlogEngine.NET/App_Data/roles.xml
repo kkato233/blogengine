@@ -1,23 +1,15 @@
-<?xml version="1.0"?>
-<ArrayOfXmlRole xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <XmlRole>
+<Roles>
+  <Role>
     <Name>admin</Name>
     <Users>
       <string>Admin</string>
     </Users>
-  </XmlRole>
-  <XmlRole>
+  </Role>
+  <Role>
     <Name>publisher</Name>
     <Users>
       <string>Admin</string>
-      <string>editor</string>
+      <string>Editor</string>
     </Users>
-  </XmlRole>
-  <XmlRole>
-    <Name>editor</Name>
-    <Users>
-      <string>Admin</string>
-      <string>editor</string>
-    </Users>
-  </XmlRole>
-</ArrayOfXmlRole>
+  </Role>
+  </Roles>
