@@ -55,11 +55,6 @@
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="PostLists.cs" />
-    <Compile Include="Providers\XmlProvider\Persistable.cs" />
-    <Compile Include="Providers\XmlProvider\ProviderUtil.cs" />
-    <Compile Include="Providers\XmlProvider\XmlRole.cs" />
-    <Compile Include="Providers\XmlProvider\XMLRoleProvider.cs" />
-    <Compile Include="Providers\XmlProvider\XmlRoleStore.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\MSSQLBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
