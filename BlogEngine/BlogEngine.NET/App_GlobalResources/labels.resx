@@ -138,6 +138,9 @@
   <data name="approve" xml:space="preserve">
     <value>Approve</value>
   </data>
+  <data name="approveallcomments" xml:space="preserve">
+    <value>Approve all Post Comments</value>
+  </data>
   <data name="archive" xml:space="preserve">
     <value>Archive</value>
   </data>

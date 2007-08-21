@@ -527,6 +527,18 @@ namespace BlogEngine.Core
             DataUpdate();
         }
 
+        /// <summary>
+        /// Approves all the comments in a post.  Included to save time on the approval process.
+        /// </summary>
+        public void ApproveAllComments()
+        {
+            foreach (Comment comment in Comments)
+            {
+                comment.Approved = true;
+            }
+            DataUpdate();
+        }
+
         #endregion
 
         #region Base overrides
