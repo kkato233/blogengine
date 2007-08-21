@@ -114,9 +114,9 @@ namespace BlogEngine.Core.Web.Controls
                     if (!Comment.Approved)
                     {
                         sb.AppendFormat(" | <a href=\"?approvecomment={0}\">{1}</a>", Comment.Id, page.Translate("approve"));
-                        return sb.ToString();
+                       
                     }
-
+                    return sb.ToString();
                 }
                 return string.Empty;
             }
