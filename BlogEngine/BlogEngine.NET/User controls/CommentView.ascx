@@ -4,10 +4,9 @@
 <% if (Post.Comments.Count > 0){ %>
 <h1 id="comment"><%=Resources.labels.comments %></h1>
 <%} %>
-
 <div id="commentlist">
   <asp:PlaceHolder runat="server" ID="phComments" />
-</div>
+    </div>
 
 <asp:PlaceHolder runat="Server" ID="phAddComment">
 

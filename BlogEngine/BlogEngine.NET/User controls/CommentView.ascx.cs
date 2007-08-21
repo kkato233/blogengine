@@ -30,7 +30,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     public void RaiseCallbackEvent(string eventArgument)
     {
-        string[] args = eventArgument.Split(new string[] {"-|-"}, StringSplitOptions.None);
+        string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
         string author = args[0];
         string email = args[1];
         string website = args[2];
@@ -71,7 +71,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
         string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
 
-        CommentViewBase control = (CommentViewBase) LoadControl(path);
+        CommentViewBase control = (CommentViewBase)LoadControl(path);
         control.Comment = comment;
         control.Post = Post;
 
@@ -97,25 +97,27 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
                 ApproveComment();
 
+            if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
+                ApproveAllComments();
+
             string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
 
             //Add approved Comments
             foreach (Comment comment in Post.Comments)
             {
-                CommentViewBase control = (CommentViewBase) LoadControl(path);
+                CommentViewBase control = (CommentViewBase)LoadControl(path);
                 if (comment.Approved || !BlogSettings.Instance.EnableCommentsModeration)
                 {
                     control.Comment = comment;
                     control.Post = Post;
                     phComments.Controls.Add(control);
                 }
-                
             }
 
             //Add unapproved comments
             foreach (Comment comment in Post.Comments)
             {
-                CommentViewBase control = (CommentViewBase) LoadControl(path);
+                CommentViewBase control = (CommentViewBase)LoadControl(path);
 
                 if (!comment.Approved && Page.User.Identity.IsAuthenticated)
                 {
@@ -123,8 +125,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                     control.Post = Post;
                     phComments.Controls.Add(control);
                 }
-
-                
             }
 
             if (!BlogSettings.Instance.IsCommentsEnabled || !Post.IsCommentsEnabled ||
@@ -160,6 +160,16 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                 Response.Redirect(url, true);
             }
         }
+    }
+
+    private void ApproveAllComments()
+    {
+
+        Post.ApproveAllComments();
+
+        int index = Request.RawUrl.IndexOf("?");
+        string url = Request.RawUrl.Substring(0, index);
+        Response.Redirect(url, true);
     }
 
     private void DeleteComment()
@@ -245,7 +255,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     private void BindLivePreview()
     {
         string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
-        CommentViewBase control = (CommentViewBase) LoadControl(path);
+        CommentViewBase control = (CommentViewBase)LoadControl(path);
         Comment comment = new Comment();
         comment.Content = string.Empty;
         comment.DateCreated = DateTime.Now;
@@ -280,6 +290,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             if (txtName.Text.ToLowerInvariant() == Post.Author.ToLowerInvariant())
                 e.IsValid = false;
         }
+    }
+
+    protected void lbApproveAllComments_Click(object sender, EventArgs e)
+    {
+
     }
 
     #region Cookies
@@ -464,6 +479,8 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         return image.ToString();
     }
 
+
+
     #endregion
 
     //#region Send mail
@@ -505,4 +522,5 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     //}
 
     //#endregion
+
 }
