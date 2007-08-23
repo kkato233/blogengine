@@ -119,7 +119,7 @@ namespace BlogEngine.Core.Web.HttpModules
     {
       int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(lookFor) + lookFor.Length;
       int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(".aspx");
-      string title = context.Request.RawUrl.Substring(index, stop - index).Replace(".aspx", string.Empty).ToLowerInvariant();
+      string title = context.Request.RawUrl.Substring(index, stop - index).Replace(".aspx", string.Empty);
       return context.Server.UrlEncode(title);
     }
 

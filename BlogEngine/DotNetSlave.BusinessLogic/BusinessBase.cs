@@ -42,13 +42,12 @@ namespace BlogEngine.Core
         if (_DateCreated == DateTime.MinValue)
           return _DateCreated;
 
-        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
-        return _DateCreated.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours);
+        return _DateCreated.AddHours(BlogSettings.Instance.Timezone);
       }
-      set { _DateCreated = value.ToUniversalTime(); }
+      set { _DateCreated = value; }
     }
 
-    private DateTime _DateModified;
+    private DateTime _DateModified = DateTime.MinValue;
     /// <summary>
     /// The date on which the instance was modified.
     /// </summary>
@@ -59,10 +58,10 @@ namespace BlogEngine.Core
         if (_DateModified == DateTime.MinValue)
           return _DateModified;
 
-        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
-        return _DateModified.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours); 
+        //DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
+        return _DateModified.AddHours(BlogSettings.Instance.Timezone); 
       }
-      set { _DateModified = value.ToUniversalTime(); }
+      set { _DateModified = value; }
     }
 
     #endregion
@@ -290,15 +289,16 @@ namespace BlogEngine.Core
       {
         if (this.IsNew)
         {
-          if (DateCreated == DateTime.MinValue)
+          if (_DateCreated == DateTime.MinValue)
             _DateCreated = DateTime.Now;
 
+          _DateModified = DateTime.Now;
           DataInsert();
           action = SaveAction.Insert;
         }
         else
         {
-          this._DateModified = DateTime.Now.ToUniversalTime();
+          this._DateModified = DateTime.Now; ;
           DataUpdate();
           action = SaveAction.Update;
         }

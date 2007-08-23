@@ -74,7 +74,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
     BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
     BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
-    BlogSettings.Instance.Timezone = int.Parse(ddlTimezone.SelectedValue, CultureInfo.InvariantCulture);
+    BlogSettings.Instance.Timezone = double.Parse(txtTimeZone.Text, CultureInfo.InvariantCulture);
 
     //-----------------------------------------------------------------------
     // Set Email settings
@@ -158,7 +158,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
     cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
     ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
-    ddlTimezone.SelectedValue = BlogSettings.Instance.Timezone.ToString();
+    txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
 
     //-----------------------------------------------------------------------
     // Bind Comments settings

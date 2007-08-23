@@ -244,7 +244,7 @@
     <value>Enable comment search</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Moderate Comments</value>
+    <value>Moderate comments</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Enable HTTP compression</value>
@@ -464,7 +464,7 @@
     <value>There are {0} unpublished post(s)</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Timezone</value>
+    <value>Server time offset</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Title</value>

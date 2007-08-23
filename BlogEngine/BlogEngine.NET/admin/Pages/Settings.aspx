@@ -20,81 +20,43 @@ function PreviewTheme()
     </div>
     <br />
     <div class="settings">
-        <h1>
-            <%=Resources.labels.basic %>
-            <%=Resources.labels.settings %>
-        </h1>
-        <label for="<%=txtName.ClientID %>">
-            <%=Resources.labels.name %>
-        </label>
+        <h1><%=Resources.labels.basic %><%=Resources.labels.settings %></h1>
+        <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
         <asp:TextBox runat="server" ID="txtName" Width="300" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName"
-            ErrorMessage="Required" /><br />
-        <label for="<%=txtDescription.ClientID %>">
-            <%=Resources.labels.description %>
-        </label>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="Required" /><br />
+        
+        <label for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label>
         <asp:TextBox runat="server" ID="txtDescription" Width="300" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDescription"
-            ErrorMessage="Required" /><br />
-        <label for="<%=txtPostsPerPage.ClientID %>">
-            <%=Resources.labels.postPerPage %>
-        </label>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDescription" ErrorMessage="Required" /><br />
+        
+        <label for="<%=txtPostsPerPage.ClientID %>"><%=Resources.labels.postPerPage %></label>
         <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtPostsPerPage"
-            ErrorMessage="Required" />
-        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtPostsPerPage"
-            Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
-        <label for="<%=ddlTheme.ClientID %>">
-            <%=Resources.labels.theme %>
-        </label>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtPostsPerPage" ErrorMessage="Required" />
+        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+        
+        <label for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
         <asp:DropDownList runat="server" ID="ddlTheme" />
         <a href="javascript:void(PreviewTheme());">Preview</a><br />
-        <label for="<%=cbShowRelatedPosts.ClientID %>">
-            <%=Resources.labels.showRelatedPosts %>
-        </label>
+        
+        <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
         <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />
-        <label for="<%=cbEnableRating.ClientID %>">
-            <%=Resources.labels.enableRating %>
-        </label>
+        
+        <label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label>
         <asp:CheckBox runat="server" ID="cbEnableRating" /><br />
-        <label for="<%=cbShowDescriptionInPostList.ClientID %>">
-            <%=Resources.labels.showDescriptionInPostList %>
-        </label>
+        
+        <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" /><br />
-        <label for="<%=ddlCulture.ClientID %>">
-            <%=Resources.labels.language %>
-        </label>
+        
+        <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
         <asp:DropDownList runat="Server" ID="ddlCulture" Style="text-transform: capitalize">
             <asp:ListItem Text="Auto" />
             <asp:ListItem Text="english" Value="en" />
         </asp:DropDownList><br />
-        <label for="<%=ddlTimezone.ClientID %>">
-            <%=Resources.labels.timezone %>
-        </label>
-        <asp:DropDownList ID="ddlTimezone" runat="server">
-            <asp:ListItem Text="Samoa (GMT -11)" Value="-11" />
-            <asp:ListItem Text="Hawaii (GMT -10)" Value="-10" />
-            <asp:ListItem Text="Alaska (GMT -9)" Value="-9" />
-            <asp:ListItem Text="Pacific Time (GMT -8)" Value="-8" />
-            <asp:ListItem Text="Mountain Time (GMT -7)" Value="-7" />
-            <asp:ListItem Text="Central Time (GMT -6)" Value="-6" />
-            <asp:ListItem Text="Eastern Time (GMT -5)" Value="-5" />
-            <asp:ListItem Text="Atlantic Time (GMT -4)" Value="-4" />
-            <asp:ListItem Text="Brasilia Time (GMT -3)" Value="-3" />
-            <asp:ListItem Text="Greenwich Mean Time (GMT +0)" Value="0" />
-            <asp:ListItem Text="Central Europe Time (GMT +1)" Value="1" />
-            <asp:ListItem Text="Eastern Europe Time (GMT +2)" Value="2" />
-            <asp:ListItem Text="Middle Eastern Time (GMT +3)" Value="3" />
-            <asp:ListItem Text="Abu Dhabi Time (GMT +4)" Value="4" />
-            <asp:ListItem Text="Indian Time (GMT +5)" Value="5" />
-            <asp:ListItem Text="Central Asia (GMT +6)" Value="6" />
-            <asp:ListItem Text="Bangkok, Hanoi, Jakarta (GMT +7)" Value="7" />
-            <asp:ListItem Text="Eastern China Time (GMT +8)" Value="8" />
-            <asp:ListItem Text="Japan Time (GMT +9)" Value="9" />
-            <asp:ListItem Text="Australian Time (GMT +10)" Value="10" />
-            <asp:ListItem Text="Pacific Rim Time (GMT +11)" Value="11" />
-            <asp:ListItem Text="New Zealand Time (GMT +12)" Value="12" />
-        </asp:DropDownList>
+        
+        <label for="<%=txtTimeZone.ClientID %>"><%=Resources.labels.timezone %></label>
+        <asp:TextBox runat="Server" ID="txtTimeZone" Width="30" /> Server time: <%=DateTime.Now.ToShortTimeString() %>
+        <asp:CompareValidator runat="server" ControlToValidate="txtTimeZone" Operator="dataTypeCheck" Type="double" Display="dynamic" ErrorMessage="Please specify a valid number (positive or negative)" />
+        
     </div>
     <div class="settings">
         <h1>
@@ -147,24 +109,16 @@ function PreviewTheme()
         <label for="<%=cbEnableCountryInComments.ClientID %>">
             <%=Resources.labels.showCountryChooser %>
         </label>
-        <asp:CheckBox runat="server" ID="cbEnableCountryInComments" />
-        <%=Resources.labels.showCountryChooserDescription %>
-        <br />
-        <label for="<%=cbEnableCoComment.ClientID %>">
-            <%=Resources.labels.enableCoComments %>
-        </label>
+        <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /><%=Resources.labels.showCountryChooserDescription %><br />
+        <label for="<%=cbEnableCoComment.ClientID %>"><%=Resources.labels.enableCoComments %></label>
         <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />
         
-        <label for="<%=cbShowLivePreview.ClientID %>">
-            <%=Resources.labels.showLivePreview %>
-        </label>
+        <label for="<%=cbShowLivePreview.ClientID %>"><%=Resources.labels.showLivePreview %></label>
         <asp:CheckBox runat="server" ID="cbShowLivePreview" /><br />
         
-        <br />
-        <label for="<%=cbEnableCommentsModeration.ClientID %>">
-            <%=Resources.labels.enableCommentsModeration%>
-        </label>
+        <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=Resources.labels.enableCommentsModeration%></label>
         <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" /><br />
+        
         <label for="<%=ddlCloseComments.ClientID %>" style="position: relative; top: 4px">
             <%=Resources.labels.closeCommetsAfter %>
         </label>
