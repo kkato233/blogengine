@@ -34,7 +34,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
       else
       {
         ddlAuthor.SelectedValue = Page.User.Identity.Name;
-        txtDate.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+        txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
         txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
         BindBookmarklet();
@@ -135,15 +135,10 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     else
       post = new Post();
 
-    // If the title ends with a period, IIS will not send it to the ASP.NET engine.
-    if (txtTitle.Text.EndsWith("."))
-      txtTitle.Text = txtTitle.Text.Substring(0, txtTitle.Text.Length - 1);
-
     if (string.IsNullOrEmpty(txtContent.Text))
       txtContent.Text = "[No text]";
 
-    post.DateCreated = DateTime.Parse(txtDate.Text);
-    post.DateModified = DateTime.Now;
+    post.DateCreated = DateTime.Parse(txtDate.Text).AddHours(-BlogSettings.Instance.Timezone);
     post.Author = ddlAuthor.SelectedValue;
     post.Title = txtTitle.Text.Trim();
     post.Content = txtContent.Text;
@@ -173,25 +168,10 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     }
 
     post.Save();
-    if (!Request.IsLocal && post.Content.ToLowerInvariant().Contains("http") && post.IsPublished)
-    {
-      ThreadStart threadStart = delegate { Ping(post); };
-      Thread thread = new Thread(threadStart);
-      thread.IsBackground = true;
-      thread.Start();
-    }
-
+    
     Session.Remove("autosave");
     Response.Redirect(post.RelativeLink.ToString());
-  }
-
-  private void Ping(object stateInfo)
-  {
-    System.Threading.Thread.Sleep(2000);
-    Post post = (Post)stateInfo;
-    BlogEngine.Core.Ping.PingService.Send();
-    BlogEngine.Core.Ping.Manager.Send(post);
-  }
+  }  
 
   #endregion
 

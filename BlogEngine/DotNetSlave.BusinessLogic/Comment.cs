@@ -101,7 +101,7 @@ namespace BlogEngine.Core
       set { _Post = value; }
     }
 
-    private DateTime _DateCreated;
+    private DateTime _DateCreated = DateTime.MinValue;
     /// <summary>
     /// Gets or sets when the comment was created.
     /// </summary>
@@ -112,11 +112,10 @@ namespace BlogEngine.Core
         if (_DateCreated == DateTime.MinValue)
           return _DateCreated;
 
-        DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
-        return _DateCreated.AddHours(BlogSettings.Instance.Timezone + time.Delta.Hours);
+        return _DateCreated.AddHours(BlogSettings.Instance.Timezone);
 
       }
-      set { _DateCreated = value.ToUniversalTime(); }
+      set { _DateCreated = value; }
     }
 
     private bool _approved;

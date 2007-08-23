@@ -1,0 +1,31 @@
+Internationalization - Done
+Custom headers
+Custom ping endpoints
+More super nice themes
+BlogML import and export
+Customizable contact form page - DONE
+OpenID or/and Cardspace authentication
+Podcasting
+Comment statistics (conversions)
+Print functionality (if possible in custom themes)
+File and image browser in tinyMCE editor
+Add settings to provider model - DONE
+Add MSSQL provider - DONE
+Comment filter (filter out comments with many links etc.)
+Run in medium trust with web request permissions - DONE
+Synchronization of blogroll OPML (download/upload)
+Emoticon mappings in comments and posts
+Delete multiple comments
+Use feedburner as standard RSS link if choosen - DONE
+Poll/survey control with admin page for configuring and reporting
+Gallery feature
+Stand-alone search page
+Visitors should be able to edit their own comments for a few minutes
+Error page (404's, 403's etc)
+Table of contents control
+Q&A feature. Could be the same as an FAQ.
+Theme CSS editing from the admin section
+Thumbnail/Show-larger-picture functionality
+Star voting for posts - DONE
+Edit javascript from the admin
+Test page for checking write permissions etc.

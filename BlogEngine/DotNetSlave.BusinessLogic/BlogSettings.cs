@@ -200,7 +200,7 @@ namespace BlogEngine.Core
     private string contactThankMessage;
     private string htmlHeader;
     private string culture;
-    private int timezone;
+    private double timezone;
     private int postsPerFeed;
     private bool displayCommentsOnRecentPosts;
     private bool displayRatingsOnRecentPosts;
@@ -1371,7 +1371,7 @@ namespace BlogEngine.Core
     /// Gets or sets the maximum number of characters that are displayed from a blog-roll retrieved post.
     /// </summary>
     /// <value>The maximum number of characters to display.</value>
-    public int Timezone
+    public double Timezone
     {
       get { return timezone; }
       set { timezone = value; }

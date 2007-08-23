@@ -237,6 +237,9 @@
   <data name="enableCommentSearch" xml:space="preserve">
     <value>Tillad kommentar søgning</value>
   </data>
+  <data name="enableCommentsModeration" xml:space="preserve">
+    <value>Godkend kommentarer</value>
+  </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Slå HTTP kompression til</value>
   </data>
@@ -454,7 +457,7 @@
     <value>Der er {0} upubliceret indlæg</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Tidszone</value>
+    <value>Server tidsforskel</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Titel</value>

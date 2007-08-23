@@ -18,6 +18,7 @@
   <postsperpage>10</postsperpage>
   <htmlheader />
   <syndicationformat>Rss</syndicationformat>
+  <blogrollmaxlength>23</blogrollmaxlength>
   <geocodinglatitude>0</geocodinglatitude>
   <email>name@example.com</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
@@ -28,7 +29,6 @@
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <mssqlconnectionstring />
   <iscocommentenabled>False</iscocommentenabled>
-  <enablecommentsmoderation>True</enablecommentsmoderation>
   <trackingscript />
   <description>Short description of the blog</description>
   <enableopensearch>True</enableopensearch>
@@ -52,6 +52,6 @@
   <enablecontactattachments>True</enablecontactattachments>
   <blogrollupdateminutes>60</blogrollupdateminutes>
   <sendmailoncomment>True</sendmailoncomment>
-  <blogrollmaxlength>23</blogrollmaxlength>
+  <enablecommentsmoderation>True</enablecommentsmoderation>
   <enablehttpcompression>True</enablehttpcompression>
 </settings>
