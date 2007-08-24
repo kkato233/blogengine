@@ -1,15 +1,15 @@
-<Roles>
-  <Role>
-    <Name>admin</Name>
-    <Users>
-      <string>Admin</string>
-    </Users>
-  </Role>
-  <Role>
-    <Name>publisher</Name>
-    <Users>
-      <string>Admin</string>
-      <string>Editor</string>
-    </Users>
-  </Role>
-  </Roles>
+<roles>
+  <role>
+    <name>admin</name>
+    <users>
+      <user>Admin</user>
+    </users>
+  </role>
+  <role>
+    <name>editor</name>
+    <users>
+      <user>Admin</user>
+      <user>Editor</user>
+    </users>
+  </role>
+</roles>
