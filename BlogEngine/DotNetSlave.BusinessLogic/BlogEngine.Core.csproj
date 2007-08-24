@@ -168,6 +168,9 @@
     <EmbeddedResource Include="Web\Scripts\blog.js" />
     <EmbeddedResource Include="Web\Scripts\se_hilite.js" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
