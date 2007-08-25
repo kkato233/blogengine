@@ -292,7 +292,7 @@ namespace BlogEngine.Core
         /// </summary>
         public Uri AbsoluteLink
         {
-            get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIlegalCharacters(Title) + ".aspx"); }
+            get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIlegalCharacters(Slug) + ".aspx"); }
         }
 
         /// <summary>
