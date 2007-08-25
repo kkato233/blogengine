@@ -4,13 +4,11 @@
     <Password>admin</Password>
     <Email>post@example.com</Email>
     <LastLoginTime>2007-04-09 13:00:23</LastLoginTime>
-    <Roles>Admin</Roles>
   </User>
   <User>
     <UserName>Editor</UserName>
     <Password>editor</Password>
     <Email>editor@example.com</Email>
     <LastLoginTime>2007-04-09 13:00:23</LastLoginTime>
-    <Roles>Editor</Roles>
   </User>
 </Users>

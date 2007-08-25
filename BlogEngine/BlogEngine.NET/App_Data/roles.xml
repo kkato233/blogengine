@@ -1,12 +1,12 @@
 <roles>
   <role>
-    <name>admin</name>
+    <name>administrators</name>
     <users>
       <user>Admin</user>
     </users>
   </role>
   <role>
-    <name>editor</name>
+    <name>editors</name>
     <users>
       <user>Admin</user>
       <user>Editor</user>
