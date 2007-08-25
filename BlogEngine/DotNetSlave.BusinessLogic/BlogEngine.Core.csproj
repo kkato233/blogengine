@@ -54,7 +54,6 @@
     <Compile Include="Category.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
-    <Compile Include="PostLists.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\MSSQLBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
