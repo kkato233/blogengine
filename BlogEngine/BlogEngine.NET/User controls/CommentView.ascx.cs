@@ -19,510 +19,465 @@ using BlogEngine.Core.Web.Controls;
 
 public partial class User_controls_CommentView : UserControl, ICallbackEventHandler
 {
-    private string _Callback;
+  private string _Callback;
 
-    #region ICallbackEventHandler Members
+  #region ICallbackEventHandler Members
 
-    public string GetCallbackResult()
+  public string GetCallbackResult()
+  {
+    return _Callback;
+  }
+
+  public void RaiseCallbackEvent(string eventArgument)
+  {
+    string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
+    string author = args[0];
+    string email = args[1];
+    string website = args[2];
+    string country = args[3];
+    string content = args[4];
+    bool notify = bool.Parse(args[5]);
+
+    Comment comment = new Comment();
+    comment.Id = Guid.NewGuid();
+    comment.Author = Server.HtmlEncode(author);
+    comment.Email = email;
+    comment.Content = Server.HtmlEncode(content);
+    comment.IP = Request.UserHostAddress;
+    comment.Country = country;
+    comment.DateCreated = DateTime.Now;
+    comment.Post = Post;
+    comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
+
+    if (Page.User.Identity.IsAuthenticated)
+      comment.Approved = true;
+
+    if (website.Trim().Length > 0)
     {
-        return _Callback;
+      if (!website.ToLowerInvariant().Contains("://"))
+        website = "http://" + website;
+
+      Uri url;
+      if (Uri.TryCreate(website, UriKind.Absolute, out url))
+        comment.Website = url;
     }
 
-    public void RaiseCallbackEvent(string eventArgument)
+    if (notify && !Post.NotificationEmails.Contains(email))
+      Post.NotificationEmails.Add(email);
+    else if (!notify && Post.NotificationEmails.Contains(email))
+      Post.NotificationEmails.Remove(email);
+
+    Post.AddComment(comment);
+    SetCookie(author, email, website, country);
+
+    string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+
+    CommentViewBase control = (CommentViewBase)LoadControl(path);
+    control.Comment = comment;
+    control.Post = Post;
+
+    using (StringWriter sw = new StringWriter())
     {
-        string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
-        string author = args[0];
-        string email = args[1];
-        string website = args[2];
-        string country = args[3];
-        string content = args[4];
-        bool notify = bool.Parse(args[5]);
+      control.RenderControl(new HtmlTextWriter(sw));
+      _Callback = sw.ToString();
+    }
+  }
 
-        Comment comment = new Comment();
-        comment.Id = Guid.NewGuid();
-        comment.Author = Server.HtmlEncode(author);
-        comment.Email = email;
-        comment.Content = Server.HtmlEncode(content);
-        comment.IP = Request.UserHostAddress;
-        comment.Country = country;
-        comment.DateCreated = DateTime.Now;
-        comment.Post = Post;
-        comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
+  #endregion
 
-        if (Page.User.Identity.IsAuthenticated)
-            comment.Approved = true;
+  protected void Page_Load(object sender, EventArgs e)
+  {
+    if (Post == null)
+      Response.Redirect("~/");
 
-        if (website.Trim().Length > 0)
-        {
-            if (!website.ToLowerInvariant().Contains("://"))
-                website = "http://" + website;
+    if (!Page.IsPostBack && !Page.IsCallback)
+    {
+      if (Request.QueryString["deletecomment"] != null)
+        DeleteComment();
 
-            Uri url;
-            if (Uri.TryCreate(website, UriKind.Absolute, out url))
-                comment.Website = url;
-        }
+      if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
+        ApproveComment();
 
-        if (notify && !Post.NotificationEmails.Contains(email))
-            Post.NotificationEmails.Add(email);
-        else if (!notify && Post.NotificationEmails.Contains(email))
-            Post.NotificationEmails.Remove(email);
+      if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
+        ApproveAllComments();
 
-        Post.AddComment(comment);
+      string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
 
-        SetCookie(author, email, website, country);
-        //SendMail(author, email, content);
-
-        string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
-
+      //Add approved Comments
+      foreach (Comment comment in Post.Comments)
+      {
         CommentViewBase control = (CommentViewBase)LoadControl(path);
-        control.Comment = comment;
-        control.Post = Post;
-
-        using (StringWriter sw = new StringWriter())
+        if (comment.Approved || !BlogSettings.Instance.EnableCommentsModeration)
         {
-            control.RenderControl(new HtmlTextWriter(sw));
-            _Callback = sw.ToString();
+          control.Comment = comment;
+          control.Post = Post;
+          phComments.Controls.Add(control);
         }
+      }
+
+      //Add unapproved comments
+      foreach (Comment comment in Post.Comments)
+      {
+        CommentViewBase control = (CommentViewBase)LoadControl(path);
+
+        if (!comment.Approved && Page.User.Identity.IsAuthenticated)
+        {
+          control.Comment = comment;
+          control.Post = Post;
+          phComments.Controls.Add(control);
+        }
+      }
+
+      if (!BlogSettings.Instance.IsCommentsEnabled || !Post.IsCommentsEnabled ||
+          (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
+           Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
+      {
+        phAddComment.Visible = false;
+        lbCommentsDisabled.Visible = true;
+      }
+      else
+      {
+        BindCountries();
+        GetCookie();
+      }
     }
 
-    #endregion
+    BindLivePreview();
+    InititializeCaptcha();
+    btnSave.Click += new EventHandler(btnSave_Click);
+  }
 
-    protected void Page_Load(object sender, EventArgs e)
+  private void ApproveComment()
+  {
+    foreach (Comment comment in Post.NotApprovedComments)
     {
-        if (Post == null)
-            Response.Redirect("~/");
-
-        if (!Page.IsPostBack && !Page.IsCallback)
-        {
-            if (Request.QueryString["deletecomment"] != null)
-                DeleteComment();
-
-            if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
-                ApproveComment();
-
-            if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
-                ApproveAllComments();
-
-            string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
-
-            //Add approved Comments
-            foreach (Comment comment in Post.Comments)
-            {
-                CommentViewBase control = (CommentViewBase)LoadControl(path);
-                if (comment.Approved || !BlogSettings.Instance.EnableCommentsModeration)
-                {
-                    control.Comment = comment;
-                    control.Post = Post;
-                    phComments.Controls.Add(control);
-                }
-            }
-
-            //Add unapproved comments
-            foreach (Comment comment in Post.Comments)
-            {
-                CommentViewBase control = (CommentViewBase)LoadControl(path);
-
-                if (!comment.Approved && Page.User.Identity.IsAuthenticated)
-                {
-                    control.Comment = comment;
-                    control.Post = Post;
-                    phComments.Controls.Add(control);
-                }
-            }
-
-            if (!BlogSettings.Instance.IsCommentsEnabled || !Post.IsCommentsEnabled ||
-                (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
-                 Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
-            {
-                phAddComment.Visible = false;
-                lbCommentsDisabled.Visible = true;
-            }
-            else
-            {
-                BindCountries();
-                GetCookie();
-            }
-        }
-
-        BindLivePreview();
-        InititializeCaptcha();
-        btnSave.Click += new EventHandler(btnSave_Click);
-    }
-
-    private void ApproveComment()
-    {
-        foreach (Comment comment in Post.NotApprovedComments)
-        {
-            if (comment.Id == new Guid(Request.QueryString["approvecomment"]))
-            {
-                Response.Write(Request.Url);
-                Post.ApproveComment(comment);
-
-                int index = Request.RawUrl.IndexOf("?");
-                string url = Request.RawUrl.Substring(0, index);
-                Response.Redirect(url, true);
-            }
-        }
-    }
-
-    private void ApproveAllComments()
-    {
-
-        Post.ApproveAllComments();
+      if (comment.Id == new Guid(Request.QueryString["approvecomment"]))
+      {
+        Response.Write(Request.Url);
+        Post.ApproveComment(comment);
 
         int index = Request.RawUrl.IndexOf("?");
         string url = Request.RawUrl.Substring(0, index);
         Response.Redirect(url, true);
+      }
     }
+  }
 
-    private void DeleteComment()
+  private void ApproveAllComments()
+  {
+
+    Post.ApproveAllComments();
+
+    int index = Request.RawUrl.IndexOf("?");
+    string url = Request.RawUrl.Substring(0, index);
+    Response.Redirect(url, true);
+  }
+
+  private void DeleteComment()
+  {
+    foreach (Comment comment in Post.Comments)
     {
-        foreach (Comment comment in Post.Comments)
-        {
-            if (comment.Id == new Guid(Request.QueryString["deletecomment"]))
-            {
-                Response.Write(Request.Url);
-                Post.RemoveComment(comment);
+      if (comment.Id == new Guid(Request.QueryString["deletecomment"]))
+      {
+        Response.Write(Request.Url);
+        Post.RemoveComment(comment);
 
-                int index = Request.RawUrl.IndexOf("?");
-                string url = Request.RawUrl.Substring(0, index);
-                Response.Redirect(url, true);
-            }
-        }
+        int index = Request.RawUrl.IndexOf("?");
+        string url = Request.RawUrl.Substring(0, index);
+        Response.Redirect(url, true);
+      }
     }
+  }
 
-    private void btnSave_Click(object sender, EventArgs e)
+  private void btnSave_Click(object sender, EventArgs e)
+  {
+    if (!IsCaptchaValid || !Page.IsValid)
+      Response.Redirect(Post.RelativeLink.ToString(), true);
+
+    SaveComment();
+    SetCookie(txtName.Text, txtEmail.Text, txtWebsite.Text, ddlCountry.SelectedValue);
+    Response.Redirect(Post.RelativeLink.ToString() + "?comment=1#addcomment", true);
+  }
+
+  private void SaveComment()
+  {
+    Comment comment = new Comment();
+    comment.Id = Guid.NewGuid();
+    comment.Author = txtName.Text;
+    comment.Email = txtEmail.Text;
+    comment.IP = Request.UserHostAddress;
+    comment.Country = ddlCountry.SelectedValue;
+    comment.Content = Server.HtmlEncode(txtContent.Text);
+    comment.DateCreated = DateTime.Now;
+    comment.Post = Post;
+    if (txtWebsite.Text.Trim().Length > 0)
     {
-        if (!IsCaptchaValid || !Page.IsValid)
-            Response.Redirect(Post.RelativeLink.ToString(), true);
+      if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
+        txtWebsite.Text = "http://" + txtWebsite.Text;
 
-        SaveComment();
-        SetCookie(txtName.Text, txtEmail.Text, txtWebsite.Text, ddlCountry.SelectedValue);
-        //SendMail(txtName.Text, txtEmail.Text, txtContent.Text);
-        Response.Redirect(Post.RelativeLink.ToString() + "?comment=1#addcomment", true);
+      Uri website;
+      if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
+        comment.Website = website;
     }
+    comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
 
-    private void SaveComment()
+    if (Page.User.Identity.IsAuthenticated)
+      comment.Approved = true;
+
+    Post.AddComment(comment);
+  }
+
+  public void BindCountries()
+  {
+    StringDictionary dic = new StringDictionary();
+    List<string> col = new List<string>();
+
+    foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
     {
-        Comment comment = new Comment();
-        comment.Id = Guid.NewGuid();
-        comment.Author = txtName.Text;
-        comment.Email = txtEmail.Text;
-        comment.IP = Request.UserHostAddress;
-        comment.Country = ddlCountry.SelectedValue;
-        comment.Content = Server.HtmlEncode(txtContent.Text);
-        comment.DateCreated = DateTime.Now;
-        comment.Post = Post;
-        if (txtWebsite.Text.Trim().Length > 0)
-        {
-            if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
-                txtWebsite.Text = "http://" + txtWebsite.Text;
+      RegionInfo ri = new RegionInfo(ci.Name);
+      if (!dic.ContainsKey(ri.EnglishName))
+        dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
 
-            Uri website;
-            if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
-                comment.Website = website;
-        }
-        comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
-
-        if (Page.User.Identity.IsAuthenticated)
-            comment.Approved = true;
-
-        Post.AddComment(comment);
+      if (!col.Contains(ri.EnglishName))
+        col.Add(ri.EnglishName);
     }
 
-    public void BindCountries()
+    col.Sort();
+
+    ddlCountry.Items.Add(new ListItem("[Not specified]", ""));
+    foreach (string key in col)
     {
-        StringDictionary dic = new StringDictionary();
-        List<string> col = new List<string>();
-
-        foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
-        {
-            RegionInfo ri = new RegionInfo(ci.Name);
-            if (!dic.ContainsKey(ri.EnglishName))
-                dic.Add(ri.EnglishName, ri.TwoLetterISORegionName.ToLowerInvariant());
-
-            if (!col.Contains(ri.EnglishName))
-                col.Add(ri.EnglishName);
-        }
-
-        col.Sort();
-
-        ddlCountry.Items.Add(new ListItem("[Not specified]", ""));
-        foreach (string key in col)
-        {
-            ddlCountry.Items.Add(new ListItem(key, dic[key]));
-        }
-
-        if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
-        {
-            ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
-        }
+      ddlCountry.Items.Add(new ListItem(key, dic[key]));
     }
 
-    private void BindLivePreview()
+    if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
     {
-        string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
-        CommentViewBase control = (CommentViewBase)LoadControl(path);
-        Comment comment = new Comment();
-        comment.Content = string.Empty;
-        comment.DateCreated = DateTime.Now;
-        comment.IP = Request.UserHostAddress;
-
-        if (!string.IsNullOrEmpty(txtName.Text))
-            comment.Author = txtName.Text;
-
-        if (!string.IsNullOrEmpty(txtEmail.Text))
-            comment.Email = txtEmail.Text;
-
-        if (txtWebsite.Text.Trim().Length > 0)
-        {
-            if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
-                txtWebsite.Text = "http://" + txtWebsite.Text;
-
-            Uri website;
-            if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
-                comment.Website = website;
-        }
-
-        control.Comment = comment;
-        control.Post = Post;
-        phLivePreview.Controls.Add(control);
+      ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
     }
+  }
 
-    protected void CheckAuthorName(object sender, ServerValidateEventArgs e)
+  private void BindLivePreview()
+  {
+    string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+    CommentViewBase control = (CommentViewBase)LoadControl(path);
+    Comment comment = new Comment();
+    comment.Content = string.Empty;
+    comment.DateCreated = DateTime.Now;
+    comment.IP = Request.UserHostAddress;
+
+    if (!string.IsNullOrEmpty(txtName.Text))
+      comment.Author = txtName.Text;
+
+    if (!string.IsNullOrEmpty(txtEmail.Text))
+      comment.Email = txtEmail.Text;
+
+    if (txtWebsite.Text.Trim().Length > 0)
     {
-        e.IsValid = true;
-        if (!Page.User.Identity.IsAuthenticated)
-        {
-            if (txtName.Text.ToLowerInvariant() == Post.Author.ToLowerInvariant())
-                e.IsValid = false;
-        }
+      if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
+        txtWebsite.Text = "http://" + txtWebsite.Text;
+
+      Uri website;
+      if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
+        comment.Website = website;
     }
 
-    #region Cookies
+    control.Comment = comment;
+    control.Post = Post;
+    phLivePreview.Controls.Add(control);
+  }
 
-    /// <summary>
-    /// Sets a cookie with the entered visitor information
-    /// so it can be prefilled on next visit.
-    /// </summary>
-    private void SetCookie(string name, string email, string website, string country)
+  protected void CheckAuthorName(object sender, ServerValidateEventArgs e)
+  {
+    e.IsValid = true;
+    if (!Page.User.Identity.IsAuthenticated)
     {
-        HttpCookie cookie = new HttpCookie("comment");
-        cookie.Expires = DateTime.Now.AddMonths(24);
-        cookie.Values.Add("name", name);
-        cookie.Values.Add("email", email);
-        cookie.Values.Add("url", website);
-        cookie.Values.Add("country", country);
-        Response.Cookies.Add(cookie);
+      if (txtName.Text.ToLowerInvariant() == Post.Author.ToLowerInvariant())
+        e.IsValid = false;
     }
+  }
 
-    /// <summary>
-    /// Gets the cookie with visitor information if any is set.
-    /// Then fills the contact information fields in the form.
-    /// </summary>
-    private void GetCookie()
+  #region Cookies
+
+  /// <summary>
+  /// Sets a cookie with the entered visitor information
+  /// so it can be prefilled on next visit.
+  /// </summary>
+  private void SetCookie(string name, string email, string website, string country)
+  {
+    HttpCookie cookie = new HttpCookie("comment");
+    cookie.Expires = DateTime.Now.AddMonths(24);
+    cookie.Values.Add("name", name);
+    cookie.Values.Add("email", email);
+    cookie.Values.Add("url", website);
+    cookie.Values.Add("country", country);
+    Response.Cookies.Add(cookie);
+  }
+
+  /// <summary>
+  /// Gets the cookie with visitor information if any is set.
+  /// Then fills the contact information fields in the form.
+  /// </summary>
+  private void GetCookie()
+  {
+    HttpCookie cookie = Request.Cookies["comment"];
+    if (cookie != null)
     {
-        HttpCookie cookie = Request.Cookies["comment"];
-        if (cookie != null)
-        {
-            txtName.Text = cookie.Values["name"];
-            txtEmail.Text = cookie.Values["email"];
-            txtWebsite.Text = cookie.Values["url"];
-            ddlCountry.SelectedValue = cookie.Values["country"];
-            imgFlag.ImageUrl = "~/pics/flags/" + cookie.Values["country"] + ".png";
-        }
-        else if (Page.User.Identity.IsAuthenticated)
-        {
-            MembershipUser user = Membership.GetUser();
-            txtName.Text = user.UserName;
-            txtEmail.Text = user.Email;
-            txtWebsite.Text = Request.Url.Host;
-        }
+      txtName.Text = cookie.Values["name"];
+      txtEmail.Text = cookie.Values["email"];
+      txtWebsite.Text = cookie.Values["url"];
+      ddlCountry.SelectedValue = cookie.Values["country"];
+      imgFlag.ImageUrl = "~/pics/flags/" + cookie.Values["country"] + ".png";
     }
-
-    #endregion
-
-    #region CAPTCHA
-
-    /// <summary>
-    /// Gets whether or not the user is human
-    /// </summary>
-    private bool IsCaptchaValid
+    else if (Page.User.Identity.IsAuthenticated)
     {
-        get
-        {
-            if (ViewState["captchavalue"] != null)
-            {
-                return Request.Form["captcha"] == ViewState["captchavalue"].ToString();
-            }
-
-            return false;
-        }
+      MembershipUser user = Membership.GetUser();
+      txtName.Text = user.UserName;
+      txtEmail.Text = user.Email;
+      txtWebsite.Text = Request.Url.Host;
     }
+  }
 
-    /// <summary>
-    /// Initializes the captcha and registers the JavaScript
-    /// </summary>
-    private void InititializeCaptcha()
+  #endregion
+
+  #region CAPTCHA
+
+  /// <summary>
+  /// Gets whether or not the user is human
+  /// </summary>
+  private bool IsCaptchaValid
+  {
+    get
     {
-        if (ViewState["captchavalue"] == null)
-        {
-            ViewState["captchavalue"] = Guid.NewGuid().ToString();
-        }
+      if (ViewState["captchavalue"] != null)
+      {
+        return Request.Form["captcha"] == ViewState["captchavalue"].ToString();
+      }
 
-        StringBuilder sb = new StringBuilder();
-        sb.Append("function SetCaptcha(){");
-        sb.Append("var form = document.getElementById('" + Page.Form.ClientID + "');");
-        sb.Append("var el = document.createElement('input');");
-        sb.Append("el.type = 'hidden';");
-        sb.Append("el.name = 'captcha';");
-        sb.Append("el.value = '" + ViewState["captchavalue"] + "';");
-        sb.Append("form.appendChild(el);}");
-
-        Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
-        Page.ClientScript.RegisterOnSubmitStatement(GetType(), "captchayo", "SetCaptcha()");
+      return false;
     }
+  }
 
-    #endregion
-
-    #region Protected methods and properties
-
-    /// <summary>
-    /// The regular expression used to parse links.
-    /// </summary>
-    private static Regex regex =
-        new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&=-_\\./]{2,})",
-                  RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-    private Post _Post;
-
-    /// <summary>
-    /// Gets or sets the post from which the comments are parsed.
-    /// </summary>
-    public Post Post
+  /// <summary>
+  /// Initializes the captcha and registers the JavaScript
+  /// </summary>
+  private void InititializeCaptcha()
+  {
+    if (ViewState["captchavalue"] == null)
     {
-        get { return _Post; }
-        set { _Post = value; }
+      ViewState["captchavalue"] = Guid.NewGuid().ToString();
     }
 
-    /// <summary>
-    /// Examins the comment body for any links and turns them
-    /// automatically into one that can be clicked.
-    /// <remarks>
-    /// All links added to comments will have the rel attribute set
-    /// to nofollow to prevent negative pagerank.
-    /// </remarks>
-    /// </summary>
-    protected string ResolveLinks(string body)
+    StringBuilder sb = new StringBuilder();
+    sb.Append("function SetCaptcha(){");
+    sb.Append("var form = document.getElementById('" + Page.Form.ClientID + "');");
+    sb.Append("var el = document.createElement('input');");
+    sb.Append("el.type = 'hidden';");
+    sb.Append("el.name = 'captcha';");
+    sb.Append("el.value = '" + ViewState["captchavalue"] + "';");
+    sb.Append("form.appendChild(el);}");
+
+    Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
+    Page.ClientScript.RegisterOnSubmitStatement(GetType(), "captchayo", "SetCaptcha()");
+  }
+
+  #endregion
+
+  #region Protected methods and properties
+
+  /// <summary>
+  /// The regular expression used to parse links.
+  /// </summary>
+  private static Regex regex =
+      new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&=-_\\./]{2,})",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+  private Post _Post;
+
+  /// <summary>
+  /// Gets or sets the post from which the comments are parsed.
+  /// </summary>
+  public Post Post
+  {
+    get { return _Post; }
+    set { _Post = value; }
+  }
+
+  /// <summary>
+  /// Examins the comment body for any links and turns them
+  /// automatically into one that can be clicked.
+  /// <remarks>
+  /// All links added to comments will have the rel attribute set
+  /// to nofollow to prevent negative pagerank.
+  /// </remarks>
+  /// </summary>
+  protected string ResolveLinks(string body)
+  {
+    foreach (Match match in regex.Matches(body))
     {
-        foreach (Match match in regex.Matches(body))
-        {
-            if (!match.Value.Contains("://"))
-                body = body.Replace(match.Value, regex.Replace(body, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>"));
-            else
-                body = body.Replace(match.Value, regex.Replace(body, "<a href=\"$1\" rel=\"nofollow\">$1</a>"));
-        }
-
-        return body.Replace(Environment.NewLine, "<br />");
+      if (!match.Value.Contains("://"))
+        body = body.Replace(match.Value, regex.Replace(body, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>"));
+      else
+        body = body.Replace(match.Value, regex.Replace(body, "<a href=\"$1\" rel=\"nofollow\">$1</a>"));
     }
 
-    /// <summary>
-    /// Displays a delete link to visitors that is authenticated
-    /// using the default membership provider.
-    /// </summary>
-    /// <param name="id">The id of the comment.</param>
-    protected string AdminLink(string id)
+    return body.Replace(Environment.NewLine, "<br />");
+  }
+
+  /// <summary>
+  /// Displays a delete link to visitors that is authenticated
+  /// using the default membership provider.
+  /// </summary>
+  /// <param name="id">The id of the comment.</param>
+  protected string AdminLink(string id)
+  {
+    if (Page.User.Identity.IsAuthenticated)
     {
-        if (Page.User.Identity.IsAuthenticated)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (Comment comment in Post.Comments)
-            {
-                if (comment.Id.ToString() == id)
-                    sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", comment.Email);
-            }
+      StringBuilder sb = new StringBuilder();
+      foreach (Comment comment in Post.Comments)
+      {
+        if (comment.Id.ToString() == id)
+          sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", comment.Email);
+      }
 
-            string confirmDelete = "Are you sure you want to delete the comment?";
-            sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>",
-                            id.ToString(), confirmDelete, "Delete");
-            return sb.ToString();
-        }
-
-        return string.Empty;
+      string confirmDelete = "Are you sure you want to delete the comment?";
+      sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>",
+                      id.ToString(), confirmDelete, "Delete");
+      return sb.ToString();
     }
 
-    /// <summary>
-    /// Displays the Gravatar image that matches the specified email.
-    /// </summary>
-    protected string Gravatar(string email, string name, int size)
-    {
-        if (email.Contains("://"))
-            return
-                string.Format(
-                    "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", name,
-                    email);
-        //http://www.artviper.net/screenshots/screener.php?&url={0}&h={1}&w={1}
-        MD5 md5 = new MD5CryptoServiceProvider();
-        byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(email));
+    return string.Empty;
+  }
 
-        StringBuilder hash = new StringBuilder();
-        for (int i = 0; i < result.Length; i++)
-            hash.Append(result[i].ToString("x2"));
+  /// <summary>
+  /// Displays the Gravatar image that matches the specified email.
+  /// </summary>
+  protected string Gravatar(string email, string name, int size)
+  {
+    if (email.Contains("://"))
+      return
+          string.Format(
+              "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", name,
+              email);
+    //http://www.artviper.net/screenshots/screener.php?&url={0}&h={1}&w={1}
+    MD5 md5 = new MD5CryptoServiceProvider();
+    byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(email));
 
-        StringBuilder image = new StringBuilder();
-        image.Append("<img src=\"");
-        image.Append("http://www.gravatar.com/avatar.php?");
-        image.Append("gravatar_id=" + hash.ToString());
-        image.Append("&amp;rating=G");
-        image.Append("&amp;size=" + size);
-        image.Append("&amp;default=");
-        image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
-        image.Append("\" alt=\"\" />");
-        return image.ToString();
-    }
+    StringBuilder hash = new StringBuilder();
+    for (int i = 0; i < result.Length; i++)
+      hash.Append(result[i].ToString("x2"));
 
+    StringBuilder image = new StringBuilder();
+    image.Append("<img src=\"");
+    image.Append("http://www.gravatar.com/avatar.php?");
+    image.Append("gravatar_id=" + hash.ToString());
+    image.Append("&amp;rating=G");
+    image.Append("&amp;size=" + size);
+    image.Append("&amp;default=");
+    image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
+    image.Append("\" alt=\"\" />");
+    return image.ToString();
+  }
 
-
-    #endregion
-
-    //#region Send mail
-
-    //private void SendMail(string author, string email, string content)
-    //{
-    //  if (!BlogSettings.Instance.SendMailOnComment || Page.User.Identity.IsAuthenticated)
-    //    return;
-
-    //  MailMessage mail = new MailMessage();
-    //  mail.From = new MailAddress(email, author);
-    //  mail.To.Add(BlogSettings.Instance.Email);
-    //  mail.Subject = "Weblog comment on " + Post.Title;
-    //  mail.Body = "Comment by " + author + " (" + email + ")" + Environment.NewLine + Environment.NewLine;
-    //  mail.Body += content + "\n\n" + Post.PermaLink.ToString();
-
-    //  ThreadStart threadStart = delegate { Send(mail); };
-    //  Thread thread = new Thread(threadStart);
-    //  thread.IsBackground = true;
-    //  thread.Start();
-    //}
-
-    //private void Send(MailMessage message)
-    //{
-    //  try
-    //  {
-    //    Utils.SendMailMessage(message);
-    //  }
-    //  catch (Exception)
-    //  {
-    //    // Ignores if the mail server does not respond.
-    //  }
-    //  finally
-    //  {
-    //    // Remove the pointer to the message object so the GC can close the thread.
-    //    message.Dispose();
-    //    message = null;
-    //  }
-    //}
-
-    //#endregion
+  #endregion
 
 }

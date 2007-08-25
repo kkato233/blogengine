@@ -119,7 +119,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       foreach (Comment comment in post.Comments)
       {
-        if (comment.Website != null && comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
+        if (comment.Website != null && comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))          
+            return false;
+
           if (comment.IP != null && comment.IP == HttpContext.Current.Request.UserHostAddress)
             return false;
       }
