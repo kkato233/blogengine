@@ -230,20 +230,37 @@ public class CodeFormatters&lt;br /&gt;
 </content>
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
-  <pubDate>2007-08-15 15:09:00</pubDate>
-  <lastModified>2007-08-24 13:11:56</lastModified>
+  <pubDate>2007-08-15 03:09:00</pubDate>
+  <lastModified>2007-08-24 01:11:56</lastModified>
   <raters>0</raters>
   <rating>0</rating>
   <slug>test code</slug>
   <tags />
   <comments>
     <comment id="32641ff5-3e9b-4c15-9de5-0b964defbbeb" approved="True">
-      <date>2007-08-22 08:01:24</date>
+      <date>2007-08-21 20:01:24</date>
       <author>Admin</author>
       <email>post@example.com</email>
       <country>us</country>
       <ip>127.0.0.1</ip>
       <content>afaf</content>
+    </comment>
+    <comment id="5c892651-e6cd-462c-a969-238c0a97c724" approved="True">
+      <date>2007-08-25 01:22:54</date>
+      <author>تورج</author>
+      <email>post@madskristensen2.dk</email>
+      <country>dk</country>
+      <ip>127.0.0.1</ip>
+      <website>http://blog.madskristensen.dk/</website>
+      <content>mads</content>
+    </comment>
+    <comment id="8375be2c-4ff8-43d7-9375-a9448c77c05b" approved="False">
+      <date>2007-08-25 07:28:45</date>
+      <author>تورج</author>
+      <email>post@madskriestndsf.dk</email>
+      <country>dk</country>
+      <ip>127.0.0.1</ip>
+      <content>sdf</content>
     </comment>
   </comments>
   <categories />
