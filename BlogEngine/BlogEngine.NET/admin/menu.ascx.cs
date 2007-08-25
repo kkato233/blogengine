@@ -3,6 +3,7 @@ using System.IO;
 using System.Web;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using BlogEngine.Core.Providers;
 
 public partial class admin_menu : System.Web.UI.UserControl
 {
@@ -14,20 +15,19 @@ public partial class admin_menu : System.Web.UI.UserControl
 
     private void BindMenu()
     {
-        string folder = Server.MapPath("~/admin/pages/");
-        foreach (string file in Directory.GetFiles(folder, "*.aspx", SearchOption.TopDirectoryOnly))
+        foreach (SiteMapNode adminNode in SiteMap.Providers["SecuritySiteMap"].RootNode.ChildNodes)
         {
-            FileInfo info = new FileInfo(file);
-            HtmlAnchor a = new HtmlAnchor();
-            a.HRef = "~/admin/pages/" + info.Name;
-            a.InnerHtml = "<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-
-            if (Request.RawUrl.EndsWith(info.Name, StringComparison.OrdinalIgnoreCase))
-                a.Attributes["class"] = "current";
-
-            HtmlGenericControl li = new HtmlGenericControl("li");
-            li.Controls.Add(a);
-            ulMenu.Controls.Add(li);
+            if(adminNode.IsAccessibleToUser(HttpContext.Current))
+            {
+                HtmlAnchor a = new HtmlAnchor();
+                a.HRef = adminNode.Url;
+                a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
+                if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
+                          a.Attributes["class"] = "current";
+                HtmlGenericControl li = new HtmlGenericControl("li");
+                li.Controls.Add(a);
+                ulMenu.Controls.Add(li);
+            }
         }
     }
 

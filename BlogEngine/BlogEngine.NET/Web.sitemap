@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="default.aspx" title="Blog Engine"  description="" roles="administrators, editors">
+        <siteMapNode url="~/admin/pages/add_entry.aspx" title="Add Entry"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/pages/blogroll.aspx" title="Blogroll"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/pages/categories.aspx" title="Categories"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/pages/pages.aspx" title="Pages"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/pages/pingservice.aspx" title="Ping Service"  description=""  roles="administrators"/>
+        <siteMapNode url="~/admin/pages/referrers.aspx" title="Referrers"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/pages/settings.aspx" title="Settings"  description=""  roles="administrators"/>
+        <siteMapNode url="~/admin/pages/users.aspx" title="Users"  description=""  roles="administrators"/>
+    </siteMapNode>
+</siteMap>
