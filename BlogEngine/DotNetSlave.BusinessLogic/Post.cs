@@ -266,6 +266,18 @@ namespace BlogEngine.Core
             }
         }
 
+        private Post _Prev;
+        public Post Previous
+        {
+          get { return _Prev; }
+        }
+
+        private Post _Next;
+        public Post Next
+        {
+          get { return _Next; }
+        }
+
         #endregion
 
         #region Links
@@ -321,8 +333,18 @@ namespace BlogEngine.Core
                 {
                     lock (_SyncRoot)
                     {
-                        if (_Posts == null)
-                            _Posts = BlogService.FillPosts();
+                      if (_Posts == null)
+                      {
+                        _Posts = BlogService.FillPosts();
+                        for (int i = 0; i < _Posts.Count; i++)
+                        {
+                          if (i > 0)
+                            _Posts[i]._Next = _Posts[i - 1];
+
+                          if (i < _Posts.Count - 1)
+                            _Posts[i]._Prev = _Posts[i + 1];
+                        }
+                      }
                     }
                 }
 
