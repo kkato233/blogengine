@@ -170,7 +170,7 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(ms);
     }
 
-    protected virtual void AddGenericLink(string relation, string title, string href)
+    public virtual void AddGenericLink(string relation, string title, string href)
     {
       HtmlLink link = new HtmlLink();
       link.Attributes["rel"] = relation;

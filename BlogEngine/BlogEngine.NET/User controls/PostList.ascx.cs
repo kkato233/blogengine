@@ -43,7 +43,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     string path = "~/themes/" + theme + "/postview.ascx";
     int counter = 0;
 
-    foreach (Post post in Posts.GetRange(index, Posts.Count - index))   
+    foreach (Post post in Posts.GetRange(index, Posts.Count - index))
     {
       if (counter == stop)
         break;
@@ -55,7 +55,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
         postView.Post = post;
         posts.Controls.Add(postView);
         counter++;
-      }      
+      }
     }
 
     if (index + stop == Posts.Count)
@@ -102,10 +102,15 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     string url = path + "page={0}";
 
     hlNext.HRef = string.Format(url, page);
-    hlPrev.HRef = string.Format(url, page +2);    
+    hlPrev.HRef = string.Format(url, page + 2);
 
     if (page == 0)
       hlNext.Visible = false;
+    else
+      (Page as BlogBasePage).AddGenericLink("next", "Next page", hlNext.HRef);
+
+    if (hlPrev.Visible)
+      (Page as BlogBasePage).AddGenericLink("prev", "Previous page", string.Format(url, page + 2));
   }
 
   #region Properties
