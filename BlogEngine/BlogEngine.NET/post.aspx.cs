@@ -47,6 +47,8 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         Page.Title = Post.Title;
         AddMetaKeywords();
         AddMetaDescription();
+        AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());
+        AddGenericLink("first", Post.Posts[Post.Posts.Count - 1].Title, Post.Posts[Post.Posts.Count - 1].RelativeLink.ToString());
 
         if (Post.Next != null)
           base.AddGenericLink("next", Post.Next.Title, Post.Next.RelativeLink.ToString());
