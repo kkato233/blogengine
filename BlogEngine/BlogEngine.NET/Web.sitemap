@@ -3,6 +3,7 @@
     <siteMapNode url="default.aspx" title="Blog Engine"  description="" roles="administrators, editors">
         <siteMapNode url="~/admin/pages/add_entry.aspx" title="add_entry"  description=""  roles="administrators, editors"/>
         <siteMapNode url="~/admin/pages/blogroll.aspx" title="blogroll"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/pages/controls.aspx" title="controls"  description=""  roles="administrators"/>
         <siteMapNode url="~/admin/pages/categories.aspx" title="categories"  description=""  roles="administrators, editors"/>
         <siteMapNode url="~/admin/pages/pages.aspx" title="pages"  description=""  roles="administrators, editors"/>
         <siteMapNode url="~/admin/pages/PingServices.aspx" title="PingServices"  description=""  roles="administrators"/>
