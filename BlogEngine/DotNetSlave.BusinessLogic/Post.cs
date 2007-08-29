@@ -267,12 +267,20 @@ namespace BlogEngine.Core
     }
 
     private Post _Prev;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public Post Previous
     {
       get { return _Prev; }
     }
 
     private Post _Next;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public Post Next
     {
       get { return _Next; }

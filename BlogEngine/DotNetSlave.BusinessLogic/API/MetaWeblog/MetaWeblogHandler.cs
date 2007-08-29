@@ -160,7 +160,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             foreach (string item in sentPost.categories)
             {
                 // Ignore categories not found (as per spec)
-                Guid key;
+                //Guid key;
                 Category cat;
                 if (LookupCategoryGuidByName(item, out cat))
                     post.Categories.Add(cat);

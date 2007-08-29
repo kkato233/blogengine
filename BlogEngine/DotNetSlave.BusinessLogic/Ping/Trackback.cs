@@ -21,7 +21,7 @@ namespace BlogEngine.Core.Ping
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="tMessage"></param>
+    /// <param name="message"></param>
     /// <returns></returns>    
     public static bool Send(TrackbackMessage message)
     {
@@ -88,6 +88,9 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     private string _Title;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string Title
     {
       get { return _Title; }
@@ -99,6 +102,9 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     private Uri _PostUrl;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public Uri PostUrl
     {
       get { return _PostUrl; }
@@ -110,6 +116,9 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     private string _Excerpt;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string Excerpt
     {
       get { return _Excerpt; }
@@ -121,6 +130,9 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     private string _BlogName;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string BlogName
     {
       get { return _BlogName; }
@@ -132,6 +144,9 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     private Uri _UrlToNotifyTrackback;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public Uri UrlToNotifyTrackback
     {
       get { return _UrlToNotifyTrackback; }

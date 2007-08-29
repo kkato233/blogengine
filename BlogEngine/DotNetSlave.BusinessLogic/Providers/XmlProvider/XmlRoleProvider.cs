@@ -23,7 +23,7 @@ namespace BlogEngine.Core.Providers
         #region Properties
 
         private string _XmlFileName;
-        private List<Role> _Roles;
+        private List<Role> _Roles = new List<Role>();
 
 
         ///<summary>

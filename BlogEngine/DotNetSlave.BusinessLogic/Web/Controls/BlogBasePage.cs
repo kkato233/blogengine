@@ -85,6 +85,9 @@ namespace BlogEngine.Core.Web.Controls
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected virtual void AddSyndicationLink()
     {
       HtmlLink link = new HtmlLink();
@@ -119,6 +122,9 @@ namespace BlogEngine.Core.Web.Controls
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected virtual void AddRsdLinkHeader()
     {
       HtmlLink link = new HtmlLink();
@@ -129,6 +135,9 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(link);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected virtual void AddMetaContentType()
     {
       HtmlMeta meta = new HtmlMeta();
@@ -151,6 +160,9 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(meta);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected virtual void AddOpenSearchLinkInHeader()
     {
       HtmlLink link = new HtmlLink();
@@ -161,6 +173,10 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(link);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="postId"></param>
     protected virtual void AddMicroSummary(string postId)
     {
       HtmlLink ms = new HtmlLink();
@@ -170,6 +186,12 @@ namespace BlogEngine.Core.Web.Controls
       Page.Header.Controls.Add(ms);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="relation"></param>
+    /// <param name="title"></param>
+    /// <param name="href"></param>
     public virtual void AddGenericLink(string relation, string title, string href)
     {
       HtmlLink link = new HtmlLink();
