@@ -95,6 +95,9 @@ namespace BlogEngine.Core
 
     private Post _Post;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public Post Post
     {
       get { return _Post; }

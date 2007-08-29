@@ -8,7 +8,9 @@ using BlogEngine.Core;
 
 namespace BlogEngine.Core.Web.HttpHandlers
 {
-
+  /// <summary>
+  /// 
+  /// </summary>
   public class OpmlHandler : IHttpHandler
   {
 

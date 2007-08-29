@@ -123,6 +123,7 @@ namespace BlogEngine.Core.Web.HttpModules
       }
     }
 
+    /// <summary>
     /// Retrieves the subdomain from the specified URL.
     /// </summary>
     /// <param name="url">The URL from which to retrieve the subdomain.</param>

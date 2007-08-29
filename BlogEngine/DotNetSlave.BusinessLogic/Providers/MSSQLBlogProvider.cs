@@ -466,6 +466,10 @@ namespace BlogEngine.Core.Providers
 
     #region Settings
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public override StringDictionary LoadSettings()
     {
       StringDictionary dic = new StringDictionary();
@@ -490,6 +494,10 @@ namespace BlogEngine.Core.Providers
       return dic;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="settings"></param>
     public override void SaveSettings(StringDictionary settings)
     {
       SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
@@ -693,26 +701,47 @@ namespace BlogEngine.Core.Providers
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public override Category SelectCategory(Guid id)
     {
         throw new Exception("The method or operation is not implemented.");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="category"></param>
     public override void InsertCategory(Category category)
     {
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="category"></param>
     public override void UpdateCategory(Category category)
     {
         throw new Exception("The method or operation is not implemented.");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="category"></param>
     public override void DeleteCategory(Category category)
     {
         throw new Exception("The method or operation is not implemented.");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public override List<Category> FillCategories()
     {
         List<Category> categories = new List<Category>();

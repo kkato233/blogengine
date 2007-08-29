@@ -469,7 +469,7 @@ namespace BlogEngine.Core.Providers
         /// <summary>
         /// Fills an unsorted list of categories.
         /// </summary>
-        /// <returns>A List<Category> of all Categories</returns>
+        /// <returns>A List&lt;Category&gt; of all Categories.</returns>
         public override List<Category> FillCategories()
         {
 

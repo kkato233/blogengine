@@ -29,8 +29,8 @@ namespace BlogEngine.Core
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="_Title"></param>
-        /// <param name="_Description"></param>
+        /// <param name="title"></param>
+        /// <param name="description"></param>
         public Category(string title, string description)
         {
             this.Id = Guid.NewGuid();
@@ -110,28 +110,45 @@ namespace BlogEngine.Core
 
         #region Base overrides
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void ValidationRules()
         {
             AddRule("Title", "Title must be set", string.IsNullOrEmpty(Title));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         protected override Category DataSelect(Guid id)
         {
             return BlogService.SelectCategory(id);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void DataUpdate()
         {
             if (IsDirty)
                 BlogService.UpdateCategory(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void DataInsert()
         {
             if (IsNew)
                 BlogService.InsertCategory(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void DataDelete()
         {
             if (IsDeleted)
@@ -140,6 +157,9 @@ namespace BlogEngine.Core
                 Categories.Remove(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Save()
         {
             if (this.IsDeleted)
@@ -151,5 +171,5 @@ namespace BlogEngine.Core
         }
 
         #endregion
-                   }
+    }
 }

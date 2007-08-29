@@ -114,6 +114,10 @@ namespace BlogEngine.Core
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="message"></param>
     public static void SendMailMessageAsync(MailMessage message)
     {
       ThreadStart threadStart = delegate { Utils.SendMailMessage(message); };

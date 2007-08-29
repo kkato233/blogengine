@@ -159,18 +159,30 @@ namespace BlogEngine.Core.Web.HttpHandlers
     }
 
     private string _FileName;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string FileName
     {
       get { return _FileName; }
     }
 
     private string _UserAgent;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string UserAgent
     {
       get { return _UserAgent; }
     }
 
     private string _IPAddress;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string IPAddress
     {
       get { return _IPAddress; }

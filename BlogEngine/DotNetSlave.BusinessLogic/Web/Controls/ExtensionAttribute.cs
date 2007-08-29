@@ -34,12 +34,20 @@ namespace BlogEngine.Core.Web
     }
 
     private string _Version;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string Version
     {
       get { return _Version; }
     }
 
     private string _Author;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string Author
     {
       get { return _Author; }
