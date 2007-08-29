@@ -1,0 +1,11 @@
+﻿<div class="codeSnippet">
+	<div class="codeHeader">
+		<!--<img src="http://blog.furred.net/pics/page_white_code.png" />-->
+		<a href="" onclick="document.getElementById('snippet_{0}').style.display = document.getElementById('snippet_{0}').style.display == 'none' ? 'block' : 'none'; return false;"
+		title="Click for expanding..">{1}-Code: {2}</a>
+	</div>
+	<pre id="snippet_{0}" class="codeContainer">{3}</pre>
+</div>
+<script type="text/javascript">
+	document.getElementById('snippet_{0}').style.display='none';
+</script>
