@@ -259,7 +259,7 @@ namespace BlogEngine.Core
     {
       get
       {
-        if (IsPublished && DateCreated <= DateTime.Now)
+        if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
           return true;
 
         return false;
@@ -269,7 +269,10 @@ namespace BlogEngine.Core
     private Post _Prev;
 
     /// <summary>
-    /// 
+    /// Gets the previous post relative to this one based on time.
+    /// <remarks>
+    /// If this post is the oldest, then it returns null.
+    /// </remarks>
     /// </summary>
     public Post Previous
     {
@@ -279,7 +282,10 @@ namespace BlogEngine.Core
     private Post _Next;
 
     /// <summary>
-    /// 
+    /// Gets the next post relative to this one based on time.
+    /// <remarks>
+    /// If this post is the newest, then it returns null.
+    /// </remarks>
     /// </summary>
     public Post Next
     {
@@ -525,7 +531,7 @@ namespace BlogEngine.Core
         return;
 
       MailMessage mail = new MailMessage();
-      mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
+      mail.From = new MailAddress("noreply@notexisting.com", BlogSettings.Instance.Name);
       mail.Subject = "New comment on " + Title;
       mail.Body = "Comment by " + comment.Author + Environment.NewLine + Environment.NewLine;
       mail.Body += comment.Content + "\n\n" + PermaLink.ToString();

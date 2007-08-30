@@ -18,6 +18,10 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     }
   }
 
+  /// <summary>
+  /// Binds the list of posts to individual postview.ascx controls
+  /// from the current theme. 
+  /// </summary>
   private void BindPosts()
   {
     if (Posts == null || Posts.Count == 0)
@@ -115,6 +119,9 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 
   #region Properties
 
+  /// <summary>
+  /// The list of posts to display.
+  /// </summary>
   public List<Post> Posts
   {
     get { return (List<Post>)(ViewState["Posts"] ?? default(List<Post>)); }

@@ -148,7 +148,7 @@ namespace BlogEngine.Core.Providers
           string path = config["xmlFileName"];
 
           if (String.IsNullOrEmpty(path))
-            path = BlogSettings.Instance.StorageLocation + "Users.xml";
+            path = BlogSettings.Instance.StorageLocation + "users.xml";
 
           if (!VirtualPathUtility.IsAppRelative(path))
             throw new ArgumentException

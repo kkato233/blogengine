@@ -58,7 +58,6 @@ namespace BlogEngine.Core
         if (_DateModified == DateTime.MinValue)
           return _DateModified;
 
-        //DaylightTime time = TimeZone.CurrentTimeZone.GetDaylightChanges(_DateCreated.Year);
         return _DateModified.AddHours(BlogSettings.Instance.Timezone); 
       }
       set { _DateModified = value; }

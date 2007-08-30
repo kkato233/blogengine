@@ -199,6 +199,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     Response.Redirect(Post.RelativeLink.ToString() + "?comment=1#addcomment", true);
   }
 
+  /// <summary>
+  /// Saves a comment made from a postback. This only runs when 
+  /// the browser doesn't support AJAX.
+  /// </summary>
   private void SaveComment()
   {
     Comment comment = new Comment();
@@ -227,6 +231,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     Post.AddComment(comment);
   }
 
+  /// <summary>
+  /// Binds the country dropdown list with countries retrieved
+  /// from the .NET Framework.
+  /// </summary>
   public void BindCountries()
   {
     StringDictionary dic = new StringDictionary();
@@ -286,6 +294,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     phLivePreview.Controls.Add(control);
   }
 
+  /// <summary>
+  /// Validates that the name of the person writing posting a comment
+  /// cannot be the same as the author of the post.
+  /// </summary>
   protected void CheckAuthorName(object sender, ServerValidateEventArgs e)
   {
     e.IsValid = true;
