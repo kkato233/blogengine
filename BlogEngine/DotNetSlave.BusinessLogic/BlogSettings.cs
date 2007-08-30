@@ -512,7 +512,7 @@ namespace BlogEngine.Core
     /// </summary>
     /// <value>The default syndication format used by the blog.</value>
     /// <remarks>If no value is specified, blog defaults to using RSS 2.0 format.</remarks>
-    /// <seealso cref="BlogEngine.Core.Syndication.SyndicationFormat"/>
+    /// <seealso cref="BlogEngine.Core.SyndicationFormat"/>
     public string SyndicationFormat
     {
       get

@@ -3,32 +3,29 @@ Modification History:
 *****************************************************************************
 Date		Author		Description
 *****************************************************************************
-04/18/2007	brian.kuhn		Created TextType Enumeration
+04/11/2007	brian.kuhn  Created SyndicationFormat Enumeration
+08/30/2007  brian.kuhn  Moved SyndicationFormat enum to root of library
 ****************************************************************************/
 using System;
 
-namespace BlogEngine.Core.Syndication.Atom
+namespace BlogEngine.Core
 {
     /// <summary>
-    /// Represents common types of encoding of human-readable text.
+    /// Represents common types of syndication formats.
     /// </summary>
-    public enum TextType
+    public enum SyndicationFormat
     {
         /// <summary>
-        /// No texy type specified.
+        /// No syndication format specified.
         /// </summary>
         None    = 0,
         /// <summary>
-        ///  Signifies that the text is intended to be presented to humans in a readable fashion.
+        ///  Indicates that a feed conforms to the Atom syndication format.
         /// </summary>
-        Html    = 1,
+        Atom    = 1,
         /// <summary>
-        /// Signifies that the text represents HTML markup.
+        /// Indicates that a feed conforms to the RSS syndication format.
         /// </summary>
-        Text    = 2,
-        /// <summary>
-        /// Signifies that the text represents XHTML markup.
-        /// </summary>
-        Xhtml   = 3
+        Rss     = 2
     };
 }

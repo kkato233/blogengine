@@ -3,7 +3,8 @@ Modification History:
 *****************************************************************************
 Date		Author		Description
 *****************************************************************************
-04/27/2007	brian.kuhn		Created CommentFeedHandler Class
+04/27/2007	brian.kuhn	Created CommentFeedHandler Class
+08/30/2007  brian.kuhn  Modified to use new SyndicationGenerator class.
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,6 @@ using System.Xml;
 
 using BlogEngine.Core;
 
-using BlogEngine.Core.Syndication;
-using BlogEngine.Core.Syndication.Atom;
-using BlogEngine.Core.Syndication.Data;
-using BlogEngine.Core.Syndication.Rss;
-
 namespace BlogEngine.Core.Web.HttpHandlers
 {
   /// <summary>
@@ -26,7 +22,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
   /// </summary>
   /// <remarks>This handler can generate syndication feeds in a variety of formats and filtering options based on the query string parmaeters provided.</remarks>
   /// <seealso cref="IHttpHandler"/>
-  /// <seealso cref="SyndicationFeed"/>
+  /// <seealso cref="SyndicationGenerator"/>
   public class CommentFeedHandler : IHttpHandler
   {
     //============================================================
@@ -344,127 +340,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
         }
 
         //------------------------------------------------------------
-        //	Determine output processing based on format
+        //	Initialize syndication generator
         //------------------------------------------------------------
-        switch (this.Format)
-        {
-          case SyndicationFormat.Atom:
+        SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
 
-            //------------------------------------------------------------
-            //	Create Atom 1.0 feed instance
-            //------------------------------------------------------------
-            AtomFeed atomFeed = new AtomFeed();
-
-            //------------------------------------------------------------
-            //	Set feed properties
-            //------------------------------------------------------------
-            atomFeed.Title = new AtomText(post.Title + " (Comments)");
-            atomFeed.Description = new AtomText("Comments regarding: " + post.Description);
-            atomFeed.Id = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("commentfeed.axd")));
-            atomFeed.UpdatedOn = new W3CDateTime(post.DateModified);
-
-            //------------------------------------------------------------
-            //	Add feed link(s)
-            //------------------------------------------------------------
-            AtomLink feedLink = new AtomLink(new Uri(String.Concat(atomFeed.Id.ToString().TrimEnd('/'), "/commentfeed.axd?id=", post.Id.ToString())));
-            atomFeed.Links.Add(feedLink);
-
-            AtomLink feedWebSiteLink = new AtomLink(atomFeed.Id);
-            feedWebSiteLink.Relation = LinkRelation.Related;
-            atomFeed.Links.Add(feedWebSiteLink);
-
-            //------------------------------------------------------------
-            //	Enumerate through post comments
-            //------------------------------------------------------------
-            foreach (Comment comment in post.Comments)
-            {
-              //------------------------------------------------------------
-              //	Create feed entry for comment
-              //------------------------------------------------------------
-              AtomEntry entry = new AtomEntry();
-              entry.Id = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
-              entry.Title = new AtomText(String.Format(CultureInfo.InvariantCulture, "{0}{1}", comment.DateCreated.ToString("MMMM d. yyyy HH:mm", CultureInfo.InvariantCulture), !String.IsNullOrEmpty(comment.Author) ? String.Concat(" by ", comment.Author) : String.Empty));
-              entry.UpdatedOn = new W3CDateTime(comment.DateCreated);
-
-              //------------------------------------------------------------
-              //	Add entry link(s)
-              //------------------------------------------------------------
-              AtomLink entrySelfLink = new AtomLink(entry.Id);
-              entry.Links.Add(entrySelfLink);
-
-              AtomLink entryDefaultLink = new AtomLink();
-              entryDefaultLink.Link = entry.Id;
-              entry.Links.Add(entryDefaultLink);
-
-              //------------------------------------------------------------
-              //	Set feed entry summary (Html type needed to display correctly)
-              //------------------------------------------------------------
-              AtomText entrySummary = new AtomText();
-              entrySummary.Type = TextType.Html;
-              entrySummary.Value = MakeReferencesAbsolute(comment.Content);
-              entry.Summary = entrySummary;
-
-              //------------------------------------------------------------
-              //	Add entry to feed
-              //------------------------------------------------------------
-              if (!atomFeed.Entries.Contains(entry))
-              {
-                atomFeed.Entries.Add(entry);
-              }
-            }
-
-            //------------------------------------------------------------
-            //	Write feed to context stream
-            //------------------------------------------------------------
-            atomFeed.Save(context.Response.OutputStream);
-
-            break;
-
-          case SyndicationFormat.Rss:
-
-            //------------------------------------------------------------
-            //	Create RSS 2.0 feed instance
-            //------------------------------------------------------------
-            RssFeed rssFeed = new RssFeed();
-
-            //------------------------------------------------------------
-            //	Set channel properties
-            //------------------------------------------------------------
-            rssFeed.Channel.Title = post.Title + " (Comments)";
-            rssFeed.Channel.Language = BlogSettings.Instance.Language;
-            rssFeed.Channel.Description = "Comments regarding: " + post.Description;
-            rssFeed.Channel.Link = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("commentfeed.axd")));
-
-            //------------------------------------------------------------
-            //	Enumerate through post comments
-            //------------------------------------------------------------
-            foreach (Comment comment in post.Comments)
-            {
-              //------------------------------------------------------------
-              //	Create channel item for comment
-              //------------------------------------------------------------
-              RssItem item = new RssItem();
-              item.Link = new Uri(String.Concat(post.AbsoluteLink.ToString(), "#comments"));
-              item.Title = String.Format(null, "{0}{1}", comment.DateCreated.ToString("MMMM d. yyyy HH:mm", CultureInfo.InvariantCulture), !String.IsNullOrEmpty(comment.Author) ? String.Concat(" by ", comment.Author) : String.Empty);
-              item.PublicationDate = new Rfc822DateTime(comment.DateCreated);
-              item.Description = MakeReferencesAbsolute(comment.Content);
-              item.Guid = new RssGuid(String.Concat(post.PermaLink.ToString(), "#comments"));
-
-              //------------------------------------------------------------
-              //	Add item to channel
-              //------------------------------------------------------------
-              if (!rssFeed.Channel.Items.Contains(item))
-              {
-                rssFeed.Channel.Items.Add(item);
-              }
-            }
-
-            //------------------------------------------------------------
-            //	Write feed to context stream
-            //------------------------------------------------------------
-            rssFeed.Save(context.Response.OutputStream);
-            break;
-        }
+        //------------------------------------------------------------
+        //	Generate feed and write to output stream
+        //------------------------------------------------------------
+        generator.WritePostCommentsFeed(this.Format, context.Response.OutputStream, post);
+        
       }
       catch
       {
@@ -473,29 +357,6 @@ namespace BlogEngine.Core.Web.HttpHandlers
         //------------------------------------------------------------
         throw;
       }
-    }
-    #endregion
-
-    //============================================================
-    //	PUBLIC FORMATTING ROUTINES
-    //============================================================
-    #region MakeReferencesAbsolute(string content)
-    /// <summary>
-    /// Replaces references to handlers in the specified content with their absolute representation.
-    /// </summary>
-    /// <param name="content">The content to format.</param>
-    /// <returns>A <see cref="System.String"/> that has had its relative handler references changed to their absolute representation.</returns>
-    public static string MakeReferencesAbsolute(string content)
-    {
-      if (content == null)
-        throw new ArgumentNullException("content");
-
-      //------------------------------------------------------------
-      //	Perform conversion
-      //------------------------------------------------------------
-      content = content.Replace("\"/image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
-      content = content.Replace("\"/file.axd", "\"" + Utils.AbsoluteWebRoot + "file.axd");
-      return content;
     }
     #endregion
   }

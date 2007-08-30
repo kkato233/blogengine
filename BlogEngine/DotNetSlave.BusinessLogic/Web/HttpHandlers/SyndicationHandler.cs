@@ -6,6 +6,7 @@ Date		Author		Description
 04/27/2007	brian.kuhn	Created SyndicationHandler Class
 05/03/2007  brian.kuhn  Removed using(adapter) calls to prevent the 
                         category dictionary from being cleared.
+08/30/2007  brian.kuhn  Modified to use new SyndicationGenerator class.
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,6 @@ using System.Xml;
 
 using BlogEngine.Core;
 
-using BlogEngine.Core.Syndication;
-using BlogEngine.Core.Syndication.Atom;
-using BlogEngine.Core.Syndication.Data;
-using BlogEngine.Core.Syndication.Rss;
-
 namespace BlogEngine.Core.Web.HttpHandlers
 {
     /// <summary>
@@ -28,7 +24,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     /// <remarks>This handler can generate syndication feeds in a variety of formats and filtering options based on the query string parmaeters provided.</remarks>
     /// <seealso cref="IHttpHandler"/>
-    /// <seealso cref="SyndicationFeed"/>
+    /// <seealso cref="SyndicationGenerator"/>
     public class SyndicationHandler : IHttpHandler
     {
         //============================================================
@@ -382,69 +378,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 }
 
                 //------------------------------------------------------------
-                //	Determine output processing based on format
+                //	Initialize syndication generator
                 //------------------------------------------------------------
-                switch(this.Format)
-                {
-                    case SyndicationFormat.Atom:
+                SyndicationGenerator generator  = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
 
-                        //------------------------------------------------------------
-                        //	Create Atom 1.0 feed instance
-                        //------------------------------------------------------------
-                        AtomFeed atomFeed   = new AtomFeed();
-
-                        //------------------------------------------------------------
-                        //	Create adapter to fill feed
-                        //------------------------------------------------------------
-                        AtomEngineSyndicationFeedAdapter atomAdapter    = new AtomEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, Category.Categories);
-
-                        //------------------------------------------------------------
-                        //	Set adapter properties
-                        //------------------------------------------------------------
-                        atomAdapter.FeedLocation    = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("syndication.axd")));
-                        atomAdapter.WebRoot         = Utils.AbsoluteWebRoot;
-
-                        //------------------------------------------------------------
-                        //	Fill feed using adapter
-                        //------------------------------------------------------------
-                        atomAdapter.Fill(atomFeed);
-
-                        //------------------------------------------------------------
-                        //	Write feed to context stream
-                        //------------------------------------------------------------
-                        atomFeed.Save(context.Response.OutputStream);
-
-                        break;
-
-                    case SyndicationFormat.Rss:
-
-                        //------------------------------------------------------------
-                        //	Create RSS 2.0 feed instance
-                        //------------------------------------------------------------
-                        RssFeed rssFeed = new RssFeed();
-
-                        //------------------------------------------------------------
-                        //	Create adapter to fill feed
-                        //------------------------------------------------------------
-                        RssEngineSyndicationFeedAdapter rssAdapter  = new RssEngineSyndicationFeedAdapter(posts, BlogSettings.Instance, Category.Categories);
-
-                        //------------------------------------------------------------
-                        //	Set adapter properties
-                        //------------------------------------------------------------
-                        rssAdapter.FeedLocation = new Uri(context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("syndication.axd")));
-                        rssAdapter.WebRoot      = Utils.AbsoluteWebRoot;
-
-                        //------------------------------------------------------------
-                        //	Fill feed using adapter
-                        //------------------------------------------------------------
-                        rssAdapter.Fill(rssFeed);
-
-                        //------------------------------------------------------------
-                        //	Write feed to context stream
-                        //------------------------------------------------------------
-                        rssFeed.Save(context.Response.OutputStream);
-                        break;
-                }
+                //------------------------------------------------------------
+                //	Generate feed and write to output stream
+                //------------------------------------------------------------
+                generator.WriteFeed(this.Format, context.Response.OutputStream, posts);
             }
             catch
             {
