@@ -4,26 +4,32 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Configuration.Provider;
 using System.Globalization;
+using System.IO;
 using System.Security.Permissions;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Security;
 using System.Xml;
+using System.Xml.Serialization;
+using BlogEngine.Core;
 
 namespace BlogEngine.Core.Providers
 {
     ///<summary>
     ///</summary>
-    public class XmlRoleProvider : System.Web.Security.RoleProvider
+    public class XmlRoleProvider : RoleProvider
     {
+        private static string _Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
 
         #region Properties
 
+        private List<Role> _Roles;
+        private List<string> _UserNames;
         private string _XmlFileName;
-        private List<Role> _Roles = new List<Role>();
 
 
         ///<summary>
@@ -36,8 +42,8 @@ namespace BlogEngine.Core.Providers
         ///
         public override string ApplicationName
         {
-            get { throw new System.NotImplementedException(); }
-            set { throw new System.NotImplementedException(); }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         ///<summary>
@@ -99,6 +105,7 @@ namespace BlogEngine.Core.Providers
                         }
                     }
                 }
+
             }
             return UsersInRole.ToArray();
         }
@@ -130,12 +137,10 @@ namespace BlogEngine.Core.Providers
                                 return true;
                         }
                     }
-
                 }
             }
             return false;
         }
-
 
         ///<summary>
         ///Gets a list of the roles that a specified user is in for the configured applicationName.
@@ -148,7 +153,8 @@ namespace BlogEngine.Core.Providers
         ///<param name="username">The user to return a list of roles for.</param>
         public override string[] GetRolesForUser(string username)
         {
-            List<string> rolesForUser = new List<string>(); ;
+            List<string> rolesForUser = new List<string>();
+            ;
             lock (this)
             {
                 XmlDocument doc = new XmlDocument();
@@ -158,25 +164,37 @@ namespace BlogEngine.Core.Providers
                 {
                     foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
                     {
-
                         if (userNode.InnerText.ToLower() == username.ToLower())
                         {
                             rolesForUser.Add(roleNode.SelectSingleNode("name").InnerText);
                         }
-
                     }
-
                 }
             }
             return rolesForUser.ToArray();
         }
 
-
-
         #endregion
 
-
         #region Supported methods
+
+        ///<summary>
+        ///Gets an array of user names in a role where the user name contains the specified user name to match.
+        ///</summary>
+        ///
+        ///<returns>
+        ///A string array containing the names of all the users where the user name matches usernameToMatch and the user is a member of the specified role.
+        ///</returns>
+        ///
+        ///<param name="usernameToMatch">The user name to search for.</param>
+        ///<param name="roleName">The role to search in.</param>
+        public override string[] FindUsersInRole(string roleName, string usernameToMatch)
+        {
+            List<string> UsersInRole = new List<string>();
+            if (IsUserInRole(usernameToMatch, roleName))
+                UsersInRole.Add(usernameToMatch);
+            return UsersInRole.ToArray();
+        }
 
         /// <summary>
         /// 
@@ -206,13 +224,14 @@ namespace BlogEngine.Core.Providers
             if (String.IsNullOrEmpty(path))
                 path = BlogSettings.Instance.StorageLocation + "roles.xml";
 
+
             if (!VirtualPathUtility.IsAppRelative(path))
                 throw new ArgumentException
                     ("xmlFileName must be app-relative");
 
             string fullyQualifiedPath = VirtualPathUtility.Combine
                 (VirtualPathUtility.AppendTrailingSlash
-                (HttpRuntime.AppDomainAppVirtualPath), path);
+                     (HttpRuntime.AppDomainAppVirtualPath), path);
 
             _XmlFileName = HostingEnvironment.MapPath(fullyQualifiedPath);
             config.Remove("xmlFileName");
@@ -221,6 +240,9 @@ namespace BlogEngine.Core.Providers
             // throw an exception if we don't
             FileIOPermission permission = new FileIOPermission(FileIOPermissionAccess.Write, _XmlFileName);
             permission.Demand();
+
+            if (!System.IO.File.Exists(_XmlFileName))
+                InstallMissingXMLFile(_XmlFileName);
 
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0)
@@ -233,58 +255,44 @@ namespace BlogEngine.Core.Providers
             ReadRoleDataStore();
         }
 
-
-
-        #endregion
-
-
-        #region Helper methods
-
-        /// <summary>
-        /// Builds the internal cache of users.
-        /// </summary>
-        private void ReadRoleDataStore()
-        {
-            lock (this)
-            {
-
-                XmlDocument doc = new XmlDocument();
-                doc.Load(_XmlFileName);
-                XmlNodeList nodes = doc.GetElementsByTagName("role/name");
-
-                foreach (XmlNode node in nodes)
-                {
-                    _Roles.Add(new Role(node.InnerText.ToLower()));
-                }
-
-            }
-        }
-
-      ///<summary>
+        ///<summary>
+        ///Adds the specified user names to the specified roles for the configured applicationName.
         ///</summary>
-        public void Save()
+        ///
+        ///<param name="roleNames">A string array of the role names to add the specified user names to. </param>
+        ///<param name="usernames">A string array of user names to be added to the specified roles. </param>
+        public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-
+            throw new NotImplementedException();
         }
-
-        #endregion
-
-
-        #region Unsupported methods
 
         ///<summary>
-        ///Gets an array of user names in a role where the user name contains the specified user name to match.
+        ///Removes the specified user names from the specified roles for the configured applicationName.
         ///</summary>
         ///
-        ///<returns>
-        ///A string array containing the names of all the users where the user name matches usernameToMatch and the user is a member of the specified role.
-        ///</returns>
-        ///
-        ///<param name="usernameToMatch">The user name to search for.</param>
-        ///<param name="roleName">The role to search in.</param>
-        public override string[] FindUsersInRole(string roleName, string usernameToMatch)
+        ///<param name="roleNames">A string array of role names to remove the specified user names from. </param>
+        ///<param name="usernames">A string array of user names to be removed from the specified roles. </param>
+        public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            throw new System.NotImplementedException();
+            if (usernames.Length != 0 && roleNames.Length != 0)
+            {
+                foreach (string s in roleNames)
+                {
+                    _Roles.Remove(new Role(s));
+                }
+
+                foreach (Role role in _Roles)
+                {
+                    foreach (string s in usernames)
+                    {
+                        if (role.Users.Contains(s))
+                            role.Users.Remove(s);
+                    }
+                }
+            }
+            Save();
+
+
         }
 
         ///<summary>
@@ -299,7 +307,9 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to delete.</param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            throw new System.NotImplementedException();
+            _Roles.Remove(new Role(roleName));
+            Save();
+            return false;
         }
 
         ///<summary>
@@ -309,59 +319,132 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to create.</param>
         public override void CreateRole(string roleName)
         {
-            throw new System.NotImplementedException();
-        }
-
-        ///<summary>
-        ///Adds the specified user names to the specified roles for the configured applicationName.
-        ///</summary>
-        ///
-        ///<param name="roleNames">A string array of the role names to add the specified user names to. </param>
-        ///<param name="usernames">A string array of user names to be added to the specified roles. </param>
-        public override void AddUsersToRoles(string[] usernames, string[] roleNames)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        ///<summary>
-        ///Removes the specified user names from the specified roles for the configured applicationName.
-        ///</summary>
-        ///
-        ///<param name="roleNames">A string array of role names to remove the specified user names from. </param>
-        ///<param name="usernames">A string array of user names to be removed from the specified roles. </param>
-        public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
-        {
-            throw new System.NotImplementedException();
+            _Roles.Add(new Core.Role(roleName));
+            Save();
         }
 
         #endregion
-    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Role
-    {
-        private string _Name;
-
+        #region Helper methods
 
         /// <summary>
-        /// 
+        /// Builds the internal cache of users.
         /// </summary>
-        /// <param name="_Name"></param>
-        public Role(string _Name)
+        private void ReadRoleDataStore()
         {
-            this._Name = _Name;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Name
-        {
-            get { return _Name; }
-            set { _Name = value; }
+            lock (this)
+            {
+                XmlDocument doc = new XmlDocument();
+
+                doc.Load(_XmlFileName);
+                XmlNodeList nodes = doc.GetElementsByTagName("role/name");
+
+                foreach (XmlNode node in nodes)
+                {
+                    Role tempRole = new Role(node.InnerText.ToLower());
+                    tempRole.Users = new List<string>(GetUsersInRole(tempRole.Name));
+                    _Roles.Add(new Role(node.InnerText.ToLower()));
+                }
+            }
         }
 
+        private void InstallMissingXMLFile(string _FileName)
+        {
+
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            ReadMembershipDataStore();
+            using (XmlWriter writer = XmlWriter.Create(_FileName, settings))
+            {
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("roles");
+
+                //Start by fixing the Administrators role.
+                writer.WriteStartElement("role");
+                writer.WriteElementString("name", "Administrators");
+                writer.WriteStartElement("users");
+
+
+                foreach (string username in _UserNames)
+                {
+                    writer.WriteElementString("user", username);
+                }
+                writer.WriteEndElement(); //closes Administrators users
+                writer.WriteEndElement(); //closes Administrators role
+
+                //End by fixing the Editors role.
+                writer.WriteStartElement("role");
+                writer.WriteElementString("name", "Editors");
+                writer.WriteStartElement("users");
+
+                foreach (string username in _UserNames)//.GetAllUsers(0, 0, out _usercount))
+                {
+                    writer.WriteElementString("user", username);
+                }
+                writer.WriteEndElement(); //closes Editors users
+                writer.WriteEndElement(); //closes Editors role
+            }
+        }
+
+        ///<summary>
+        ///</summary>
+        public void Save()
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+
+            using (XmlWriter writer = XmlWriter.Create(_XmlFileName, settings))
+            {
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("roles");
+
+                foreach (Role _role in _Roles)
+                {
+                    writer.WriteStartElement("role");
+                    writer.WriteElementString("name", _role.Name);
+                    writer.WriteStartElement("users");
+                    foreach (string username in _role.Users)
+                    {
+                        writer.WriteElementString("user", username);
+                    }
+                    writer.WriteEndElement(); //closes users
+                }
+                writer.WriteEndElement(); //closes role
+
+            }
+
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Only so we can add users to the adminstrators and editors roles.
+        /// </summary>
+        private void ReadMembershipDataStore()
+        {
+            string fullyQualifiedPath = VirtualPathUtility.Combine
+              (VirtualPathUtility.AppendTrailingSlash
+              (HttpRuntime.AppDomainAppVirtualPath), BlogSettings.Instance.StorageLocation + "Users.xml");
+
+            lock (this)
+            {
+                if (_UserNames == null)
+                {
+                    _UserNames = new List<string>();
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(HostingEnvironment.MapPath(fullyQualifiedPath));
+                    XmlNodeList nodes = doc.GetElementsByTagName("User");
+
+                    foreach (XmlNode node in nodes)
+                    {
+                        _UserNames.Add(node["UserName"].InnerText);
+                    }
+
+                }
+            }
+        }
 
     }
+
+
 }
