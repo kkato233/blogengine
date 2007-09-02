@@ -102,10 +102,6 @@ namespace BlogEngine.Core
         smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
         smtp.Send(message);
       }
-      catch (Exception)
-      {
-        // Ignores if the mail server does not respond.
-      }
       finally
       {
         // Remove the pointer to the message object so the GC can close the thread.

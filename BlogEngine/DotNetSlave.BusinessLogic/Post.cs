@@ -531,7 +531,7 @@ namespace BlogEngine.Core
         return;
 
       MailMessage mail = new MailMessage();
-      mail.From = new MailAddress("noreply@notexisting.com", BlogSettings.Instance.Name);
+      mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
       mail.Subject = "New comment on " + Title;
       mail.Body = "Comment by " + comment.Author + Environment.NewLine + Environment.NewLine;
       mail.Body += comment.Content + "\n\n" + PermaLink.ToString();
