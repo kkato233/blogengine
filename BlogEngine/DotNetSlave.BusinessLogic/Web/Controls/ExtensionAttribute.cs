@@ -1,6 +1,6 @@
 using System;
 
-namespace BlogEngine.Core.Web
+namespace BlogEngine.Core.Web.Controls
 {
   /// <summary>
   /// All extensions must decorate the class with this attribute.

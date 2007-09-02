@@ -23,7 +23,7 @@ namespace BlogEngine.Core.Providers
     ///</summary>
     public class XmlRoleProvider : RoleProvider
     {
-        private static string _Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+        //private static string _Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
 
         #region Properties
 
@@ -57,7 +57,7 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to search for in the data source. </param>
         public override bool RoleExists(string roleName)
         {
-            return _Roles.Contains(new Role(roleName.ToLower()));
+            return _Roles.Contains(new Role(roleName.ToLowerInvariant()));
         }
 
         ///<summary>
@@ -73,7 +73,7 @@ namespace BlogEngine.Core.Providers
             List<string> allRoles = new List<string>();
             foreach (Role role in _Roles)
             {
-                allRoles.Add(role.Name.ToLower());
+                allRoles.Add(role.Name.ToLowerInvariant());
             }
             return allRoles.ToArray();
         }
@@ -97,11 +97,11 @@ namespace BlogEngine.Core.Providers
                 XmlNodeList nodes = doc.GetElementsByTagName("role");
                 foreach (XmlNode roleNode in nodes)
                 {
-                    if (roleNode.InnerText.ToLower() == roleName.ToLower())
+                    if (roleNode.InnerText.Equals(roleName, StringComparison.OrdinalIgnoreCase))
                     {
                         foreach (XmlNode userNode in doc.SelectNodes("role/users"))
                         {
-                            UsersInRole.Add(userNode.InnerText.ToLower());
+                            UsersInRole.Add(userNode.InnerText.ToLowerInvariant());
                         }
                     }
                 }
@@ -122,6 +122,12 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The role to search in.</param>
         public override bool IsUserInRole(string username, string roleName)
         {
+          if (string.IsNullOrEmpty(username))
+            throw new ArgumentNullException("username");
+
+          if (string.IsNullOrEmpty(roleName))
+            throw new ArgumentNullException("roleName");
+
             lock (this)
             {
                 XmlDocument doc = new XmlDocument();
@@ -129,11 +135,11 @@ namespace BlogEngine.Core.Providers
 
                 foreach (XmlNode roleNode in doc.SelectNodes("roles/role"))
                 {
-                    if (roleNode.SelectSingleNode("name").InnerText.ToLower() == roleName.ToLower())
+                    if (roleNode.SelectSingleNode("name").InnerText.Equals(roleName, StringComparison.OrdinalIgnoreCase))
                     {
                         foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
                         {
-                            if (userNode.InnerText.ToLower() == username.ToLower())
+                            if (userNode.InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
                                 return true;
                         }
                     }
@@ -164,7 +170,7 @@ namespace BlogEngine.Core.Providers
                 {
                     foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
                     {
-                        if (userNode.InnerText.ToLower() == username.ToLower())
+                        if (userNode.InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
                         {
                             rolesForUser.Add(roleNode.SelectSingleNode("name").InnerText);
                         }
@@ -341,9 +347,9 @@ namespace BlogEngine.Core.Providers
 
                 foreach (XmlNode node in nodes)
                 {
-                    Role tempRole = new Role(node.InnerText.ToLower());
+                    Role tempRole = new Role(node.InnerText.ToLowerInvariant());
                     tempRole.Users = new List<string>(GetUsersInRole(tempRole.Name));
-                    _Roles.Add(new Role(node.InnerText.ToLower()));
+                    _Roles.Add(new Role(node.InnerText.ToLowerInvariant()));
                 }
             }
         }
