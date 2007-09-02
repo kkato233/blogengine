@@ -66,7 +66,7 @@ namespace BlogEngine.Core.Web.HttpModules
     private static void AddWww(HttpContext context)
     {
       string url = context.Request.Url.ToString().Replace("://", "://www.");
-      context.Response.Redirect(url);
+      PermanentRedirect(url, context);
     }
 
     /// <summary>
@@ -77,10 +77,21 @@ namespace BlogEngine.Core.Web.HttpModules
       string url = context.Request.Url.ToString();
       if (_Regex.IsMatch(url))
       {
-        url = _Regex.Replace(url, "$1://");
-        context.Response.Redirect(url);
+        url = _Regex.Replace(url, "$1://");        
+        PermanentRedirect(url, context);
       }
     }
+
+    /// <summary>
+    /// Sends permanent redirection headers (301)
+    /// </summary>
+    private static void PermanentRedirect(string url, HttpContext context)
+    {
+      context.Response.Clear();
+      context.Response.StatusCode = 301;
+      context.Response.AppendHeader("location", url);
+      context.Response.End();
+    } 
 
   }
 }

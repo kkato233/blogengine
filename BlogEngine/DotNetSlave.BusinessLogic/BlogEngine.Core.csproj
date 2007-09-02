@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
+    <Compile Include="role.cs" />
     <Compile Include="SyndicationGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

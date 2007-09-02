@@ -30,7 +30,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override Post SelectPost(Guid id)
     {
-      string fileName = String.Format("{0}{1}", Path.Combine(_Folder, "posts" + Path.DirectorySeparatorChar), id.ToString() + ".xml");
+      string fileName = _Folder + "posts\\" + id.ToString() + ".xml";
       Post post = new Post();
       XmlDocument doc = new XmlDocument();
       doc.Load(fileName);
@@ -124,7 +124,7 @@ namespace BlogEngine.Core.Providers
     /// <param name="post"></param>
     public override void InsertPost(Post post)
     {
-      string fileName = String.Format("{0}{1}", Path.Combine(_Folder, "posts" + Path.DirectorySeparatorChar), post.Id.ToString() + ".xml");
+      string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
 
@@ -208,7 +208,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void DeletePost(Post post)
     {
-      string fileName = String.Format("{0}{1}", Path.Combine(_Folder, "posts" + Path.DirectorySeparatorChar), post.Id.ToString() + ".xml");
+      string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
       if (File.Exists(fileName))
         File.Delete(fileName);
     }
@@ -219,7 +219,7 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Posts</returns>
     public override List<Post> FillPosts()
     {
-      string folder = Path.Combine(_Folder, "posts" + Path.DirectorySeparatorChar);
+      string folder = Category._Folder + "posts\\";
       List<Post> posts = new List<Post>();
 
       foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
@@ -244,7 +244,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override Page SelectPage(Guid id)
     {
-      string fileName = String.Format("{0}{1}", Path.Combine(_Folder, "pages" + Path.DirectorySeparatorChar), id.ToString() + ".xml");
+      string fileName = _Folder + "pages\\" + id.ToString() + ".xml";
       XmlDocument doc = new XmlDocument();
       doc.Load(fileName);
 
@@ -275,7 +275,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void InsertPage(Page page)
     {
-      string fileName = String.Format("{0}{1}", Path.Combine(_Folder, "pages" + Path.DirectorySeparatorChar), page.Id.ToString() + ".xml");
+      string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
 
@@ -311,7 +311,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void DeletePage(Page page)
     {
-      string fileName = String.Format("{0}{1}", Path.Combine(_Folder, "pages" + Path.DirectorySeparatorChar), page.Id.ToString() + ".xml");
+      string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
       if (File.Exists(fileName))
         File.Delete(fileName);
 
@@ -325,7 +325,7 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Pages</returns>
     public override List<Page> FillPages()
     {
-      string folder = Path.Combine(_Folder, "pages" + Path.DirectorySeparatorChar);
+      string folder = Category._Folder + "pages\\";
       List<Page> pages = new List<Page>();
 
       foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
@@ -505,7 +505,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override StringDictionary LoadSettings()
     {
-      string filename = _Folder + "settings.xml";
+      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
       StringDictionary dic = new StringDictionary();
 
       XmlDocument doc = new XmlDocument();
@@ -530,12 +530,12 @@ namespace BlogEngine.Core.Providers
       if (settings == null)
         throw new ArgumentNullException("settings");
 
-      string filename = _Folder + "settings.xml";
+      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
       XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
       writerSettings.Indent = true;
 
       //------------------------------------------------------------
-      //	Create XML writer against file path
+      //    Create XML writer against file path
       //------------------------------------------------------------
       using (XmlWriter writer = XmlWriter.Create(filename, writerSettings))
       {
