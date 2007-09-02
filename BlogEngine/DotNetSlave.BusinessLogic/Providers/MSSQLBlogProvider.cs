@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Text;
+using System.Globalization;
 using BlogEngine.Core;
 
 namespace BlogEngine.Core.Providers
@@ -181,7 +182,7 @@ namespace BlogEngine.Core.Providers
         cmd.Parameters.Add(new SqlParameter("@author", post.Author));
       cmd.Parameters.Add(new SqlParameter("@published", post.IsPublished));
       cmd.Parameters.Add(new SqlParameter("@commentEnabled", post.IsCommentsEnabled));
-      cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString()));
+      cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString(CultureInfo.InvariantCulture)));
       cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture)));
       if (post.Slug == null)
         cmd.Parameters.Add(new SqlParameter("@slug", ""));
@@ -237,8 +238,8 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@published", post.IsPublished));
       cmd.Parameters.Add(new SqlParameter("@commentEnabled", post.IsCommentsEnabled));
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
-      cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString()));
-      cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+      cmd.Parameters.Add(new SqlParameter("@raters", post.Raters.ToString(CultureInfo.InvariantCulture)));
+      cmd.Parameters.Add(new SqlParameter("@rating", post.Rating.ToString(CultureInfo.InvariantCulture)));
       if (post.Slug == null)
         cmd.Parameters.Add(new SqlParameter("@slug", ""));
       else
@@ -295,6 +296,7 @@ namespace BlogEngine.Core.Providers
       string sqlQuery = "SELECT PostID FROM be_Posts ";
       SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, providerConn);
       DataTable dtPosts = new DataTable();
+      dtPosts.Locale = CultureInfo.InvariantCulture;
       sa.Fill(dtPosts);
 
       foreach (DataRow dr in dtPosts.Rows)
@@ -374,6 +376,9 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void UpdatePage(Page page)
     {
+      if (page == null)
+        throw new ArgumentNullException("page");
+
       OpenConnection();
 
       string sqlQuery = "UPDATE be_Pages " +
@@ -421,6 +426,7 @@ namespace BlogEngine.Core.Providers
       string sqlQuery = "SELECT PageID FROM be_Pages ";
       SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, providerConn);
       DataTable dtPages = new DataTable();
+      dtPages.Locale = CultureInfo.InvariantCulture;
       sa.Fill(dtPages);
 
       foreach (DataRow dr in dtPages.Rows)
@@ -500,6 +506,9 @@ namespace BlogEngine.Core.Providers
     /// <param name="settings"></param>
     public override void SaveSettings(StringDictionary settings)
     {
+      if (settings == null)
+        throw new ArgumentNullException("settings");
+
       SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 
       string sqlQuery = "TRUNCATE TABLE be_Settings";
@@ -559,6 +568,9 @@ namespace BlogEngine.Core.Providers
     /// <param name="services">The services.</param>
     public override void SavePingServices(StringCollection services)
     {
+      if (services == null)
+        throw new ArgumentNullException("services");
+
       SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
 
       string sqlQuery = "TRUNCATE TABLE be_PingService";
@@ -750,6 +762,7 @@ namespace BlogEngine.Core.Providers
         string sqlQuery = "SELECT CategoryID, CategoryName FROM be_Categories ";
         SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
         DataTable dtCategories = new DataTable();
+        dtCategories.Locale = CultureInfo.InvariantCulture;
         sa.Fill(dtCategories);
 
         foreach (DataRow dr in dtCategories.Rows)

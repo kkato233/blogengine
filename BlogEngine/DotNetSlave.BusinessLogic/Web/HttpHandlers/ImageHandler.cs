@@ -50,7 +50,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         string folder = BlogSettings.Instance.StorageLocation + "files/";
         FileInfo fi = new FileInfo(context.Server.MapPath(folder) + fileName);
 
-        if (fi.Exists && fi.Directory.FullName.ToLower().Contains("\\files"))
+        if (fi.Exists && fi.Directory.FullName.ToLowerInvariant().Contains("\\files"))
         { 
           int index = fileName.LastIndexOf(".") + 1;
           string extension = fileName.Substring(index).ToUpperInvariant();

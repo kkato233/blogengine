@@ -3,7 +3,7 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Reflection" %>
 <%@ Import Namespace="BlogEngine.Core" %>
-<%@ Import Namespace="BlogEngine.Core.Web" %>
+<%@ Import Namespace="BlogEngine.Core.Web.Controls" %>
 
 <script RunAt="server">
 

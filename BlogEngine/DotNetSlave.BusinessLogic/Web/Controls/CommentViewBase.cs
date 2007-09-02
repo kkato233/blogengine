@@ -73,7 +73,7 @@ namespace BlogEngine.Core.Web.Controls
         /// to nofollow to prevent negative pagerank.
         /// </remarks>
         /// </summary>
-        protected string ResolveLinks(string body)
+        protected static string ResolveLinks(string body)
         {
             if (string.IsNullOrEmpty(body))
                 return body;

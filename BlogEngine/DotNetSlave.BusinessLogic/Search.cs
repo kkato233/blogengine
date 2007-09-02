@@ -248,32 +248,32 @@ namespace BlogEngine.Core
   /// <summary>
   /// A search optimized post object cleansed from HTML and stop words.
   /// </summary>
-  public struct Entry
+  internal struct Entry
   {
     /// <summary>The post object reference</summary>
-    public Post Post;
+    internal Post Post;
     /// <summary>The title of the post cleansed for stop words</summary>
-    public string Title;
+    internal string Title;
     /// <summary>The content of the post cleansed for stop words and HTML</summary>
-    public string Content;
+    internal string Content;
     /// <summary>All the comments and their authors in a single string.</summary>
-    public string Comments;
+    internal string Comments;
   }
 
   /// <summary>
   /// A result is a search result which contains a post and its ranking.
   /// </summary>
-  public struct Result : IComparable<Result>
+  internal struct Result : IComparable<Result>
   {
     /// <summary>
     /// The rank of the post based on the search term. The higher the rank, the higher the post is in the result set.
     /// </summary>
-    public int Rank;
+    internal int Rank;
 
     /// <summary>
     /// The post of the result.
     /// </summary>
-    public Post Post;
+    internal Post Post;
 
     /// <summary>
     /// Compares the current object with another object of the same type.

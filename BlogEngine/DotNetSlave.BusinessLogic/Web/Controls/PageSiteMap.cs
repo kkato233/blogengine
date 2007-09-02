@@ -2,7 +2,7 @@ using System;
 using System.Web;
 using System.Text;
 
-namespace BlogEngine.Core.Web
+namespace BlogEngine.Core.Web.Controls
 {
   /// <summary>
   /// A site map provider for the Pages in BlogEngine.

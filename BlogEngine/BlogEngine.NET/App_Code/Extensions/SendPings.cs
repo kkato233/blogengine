@@ -2,7 +2,7 @@
 
 using System;
 using System.Web;
-using BlogEngine.Core.Web;
+using BlogEngine.Core.Web.Controls;
 using BlogEngine.Core;
 using System.Net.Mail;
 using System.Threading;

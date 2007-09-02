@@ -5,7 +5,7 @@ using System.IO;
 using System.Web;
 using System.Text.RegularExpressions;
 using BlogEngine.Core;
-using BlogEngine.Core.Web;
+using BlogEngine.Core.Web.Controls;
 
 #endregion
 

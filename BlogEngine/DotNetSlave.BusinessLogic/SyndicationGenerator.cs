@@ -2106,7 +2106,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 if(post.Comments != null)
                 {
-                    writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString());
+                    writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString(CultureInfo.InvariantCulture));
                 }
 
                 //------------------------------------------------------------
@@ -3025,7 +3025,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 if(post.Comments != null)
                 {
-                    writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString());
+                    writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString(CultureInfo.InvariantCulture));
                 }
 
                 //------------------------------------------------------------

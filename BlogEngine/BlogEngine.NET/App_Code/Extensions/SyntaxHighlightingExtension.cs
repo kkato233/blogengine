@@ -93,7 +93,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Diagnostics;
 
-using BlogEngine.Core.Web;
+using BlogEngine.Core.Web.Controls;
 using BlogEngine.Core;
 using Wilco.SyntaxHighlighting;
 
