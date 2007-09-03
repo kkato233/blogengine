@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using BlogEngine.Core.Providers;
 
 public partial class admin_newuser : System.Web.UI.Page
 {
@@ -34,36 +35,44 @@ public partial class admin_newuser : System.Web.UI.Page
     {
         Response.Redirect("users.aspx", true);
     }
-    protected void cblRoles_PreRender(object sender, EventArgs e)
+
+
+    protected void cb_CheckedChanged(object sender, EventArgs e)
     {
-        CheckBoxList cbl = (CheckBoxList)sender;
-        GridViewRow drv = (GridViewRow)cbl.Parent.BindingContainer;
-
-        if (User.IsInRole("administrators"))
-            cbl.Items[0].Selected = true;
-        if (User.IsInRole("editors"))
-            cbl.Items[1].Selected = true;
-
-
-    }
-    protected void cblRoles_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckBoxList cbl = (CheckBoxList)sender;
-
-        for (int i = 0; i < cbl.Items.Count; i++)
+        CheckBox cb = (CheckBox)sender;
+        GridViewRow drv = (GridViewRow)cb.Parent.BindingContainer;
+        string _userName = gridUsers.DataKeys[drv.DataItemIndex].Value.ToString();
+        string _roleToUse = cb.Text;
+        if (cb.Checked == false)
         {
-            if (cbl.Items[i].Selected == false)
-            {
-                if (Roles.GetUsersInRole(cbl.Items[0].Value).Length == 1)
-                    Roles.RemoveUserFromRole(User.Identity.Name, cbl.Items[0].Value);
-            }
-            else
-            {
-                if (!Roles.IsUserInRole(cbl.Items[0].Value))
-                    Roles.AddUserToRole(User.Identity.Name, cbl.Items[0].Value);
-            }
-
+            if (User.Identity.Name !=_userName.ToLower())
+                Roles.RemoveUserFromRole(_userName, _roleToUse);
         }
+        else
+        {
+            if (!Roles.IsUserInRole(_userName, _roleToUse))
+                Roles.AddUserToRole(_userName, _roleToUse);
+        }
+        Response.Redirect("users.aspx", true);
+    }
 
+    protected void gridUsers_Load(object sender, EventArgs e)
+    {
+        for (int i = 0; i < gridUsers.Rows.Count; i++)
+        {
+            string[] allRoles = Roles.GetAllRoles();
+            foreach (string _role in allRoles)
+            {
+                CheckBox cb = new CheckBox();
+                cb.Text = _role;
+                cb.Checked = Roles.IsUserInRole(gridUsers.DataKeys[i].Value.ToString(), _role);
+                cb.AutoPostBack = true;
+                cb.TextAlign = TextAlign.Right;
+                cb.Style.Add("display", "inline");
+                cb.Style.Add("padding-right", "15px");
+                cb.CheckedChanged += new EventHandler(cb_CheckedChanged);
+                gridUsers.Rows[i].Cells[3].Controls.Add(cb);
+            }
+        }
     }
 }

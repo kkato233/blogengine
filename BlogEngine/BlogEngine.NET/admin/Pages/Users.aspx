@@ -18,7 +18,7 @@
     <br />
     <div class="settings">
         <asp:GridView runat="server" ID="gridUsers" AutoGenerateColumns="false" UseAccessibleHeader="true"
-            Width="100%" HeaderStyle-HorizontalAlign="left" DataKeyNames="username">
+             HeaderStyle-HorizontalAlign="left" DataKeyNames="username" OnLoad="gridUsers_Load">
             <Columns>
                 <asp:BoundField DataField="username" HeaderText="<%$ Resources:labels, userName %>" />
                 <asp:BoundField DataField="email" HeaderText="E-mail" />
@@ -29,13 +29,7 @@
                         </a>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="Roles">
-                    <ItemTemplate>
-                        <asp:CheckBoxList ID="cblRoles" runat="server" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0" OnPreRender="cblRoles_PreRender" RepeatLayout="Flow" AutoPostBack="True" OnSelectedIndexChanged="cblRoles_SelectedIndexChanged"  >
-                            <asp:ListItem Value="Administrators">Administrator</asp:ListItem>
-                            <asp:ListItem Value="Editors">Editor</asp:ListItem>
-                        </asp:CheckBoxList>
-                    </ItemTemplate>
+                <asp:TemplateField HeaderText="Roles" ItemStyle-Wrap="false" ItemStyle-Width="100%" >
                 </asp:TemplateField>
             </Columns>
             <HeaderStyle HorizontalAlign="Left" />

@@ -23,11 +23,11 @@ namespace BlogEngine.Core.Providers
     ///</summary>
     public class XmlRoleProvider : RoleProvider
     {
-        //private static string _Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+        private static string _Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
 
         #region Properties
 
-        private List<Role> _Roles;
+        private List<Role> _Roles = new List<Role>();
         private List<string> _UserNames;
         private string _XmlFileName;
 
@@ -57,7 +57,8 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to search for in the data source. </param>
         public override bool RoleExists(string roleName)
         {
-            return _Roles.Contains(new Role(roleName.ToLowerInvariant()));
+            //ReadRoleDataStore();
+            return _Roles.Contains(new Role(roleName.ToLower()));
         }
 
         ///<summary>
@@ -70,10 +71,11 @@ namespace BlogEngine.Core.Providers
         ///
         public override string[] GetAllRoles()
         {
+            //ReadRoleDataStore();
             List<string> allRoles = new List<string>();
             foreach (Role role in _Roles)
             {
-                allRoles.Add(role.Name.ToLowerInvariant());
+                allRoles.Add(role.Name.ToLower());
             }
             return allRoles.ToArray();
         }
@@ -89,23 +91,18 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to get the list of users for. </param>
         public override string[] GetUsersInRole(string roleName)
         {
+            //  ReadRoleDataStore();
             List<string> UsersInRole = new List<string>();
-            lock (this)
+
+            foreach (Role role in _Roles)
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(_XmlFileName);
-                XmlNodeList nodes = doc.GetElementsByTagName("role");
-                foreach (XmlNode roleNode in nodes)
+                if (role.Name.ToLower() == roleName.ToLower())
                 {
-                    if (roleNode.InnerText.Equals(roleName, StringComparison.OrdinalIgnoreCase))
+                    foreach (string user in role.Users)
                     {
-                        foreach (XmlNode userNode in doc.SelectNodes("role/users"))
-                        {
-                            UsersInRole.Add(userNode.InnerText.ToLowerInvariant());
-                        }
+                        UsersInRole.Add(user.ToLower());
                     }
                 }
-
             }
             return UsersInRole.ToArray();
         }
@@ -122,26 +119,17 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The role to search in.</param>
         public override bool IsUserInRole(string username, string roleName)
         {
-          if (string.IsNullOrEmpty(username))
-            throw new ArgumentNullException("username");
+            //  ReadRoleDataStore();
+            List<string> UsersInRole = new List<string>();
 
-          if (string.IsNullOrEmpty(roleName))
-            throw new ArgumentNullException("roleName");
-
-            lock (this)
+            foreach (Role role in _Roles)
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(_XmlFileName);
-
-                foreach (XmlNode roleNode in doc.SelectNodes("roles/role"))
+                if (role.Name.ToLower() == roleName.ToLower())
                 {
-                    if (roleNode.SelectSingleNode("name").InnerText.Equals(roleName, StringComparison.OrdinalIgnoreCase))
+                    foreach (string user in role.Users)
                     {
-                        foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
-                        {
-                            if (userNode.InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
-                                return true;
-                        }
+                        if (user == username)
+                            return true;
                     }
                 }
             }
@@ -159,22 +147,15 @@ namespace BlogEngine.Core.Providers
         ///<param name="username">The user to return a list of roles for.</param>
         public override string[] GetRolesForUser(string username)
         {
+            //  ReadRoleDataStore();
             List<string> rolesForUser = new List<string>();
-            ;
-            lock (this)
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(_XmlFileName);
 
-                foreach (XmlNode roleNode in doc.SelectNodes("roles/role"))
+            foreach (Role role in _Roles)
+            {
+                foreach (string user in role.Users)
                 {
-                    foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
-                    {
-                        if (userNode.InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
-                        {
-                            rolesForUser.Add(roleNode.SelectSingleNode("name").InnerText);
-                        }
-                    }
+                    if (user.ToLower() == username.ToLower())
+                        rolesForUser.Add(role.Name.ToLower());
                 }
             }
             return rolesForUser.ToArray();
@@ -198,7 +179,7 @@ namespace BlogEngine.Core.Providers
         {
             List<string> UsersInRole = new List<string>();
             if (IsUserInRole(usernameToMatch, roleName))
-                UsersInRole.Add(usernameToMatch);
+                UsersInRole.AddRange(_UserNames);
             return UsersInRole.ToArray();
         }
 
@@ -269,7 +250,24 @@ namespace BlogEngine.Core.Providers
         ///<param name="usernames">A string array of user names to be added to the specified roles. </param>
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            throw new NotImplementedException();
+            if (usernames.Length != 0 && roleNames.Length != 0)
+            {
+                foreach (Role role in _Roles)
+                {
+                    foreach (string _name in roleNames)
+                    {
+                        if (role.Name.ToLower() == _name)
+                        {
+                            foreach (string s in usernames)
+                            {
+                                if (!role.Users.Contains(s))
+                                    role.Users.Add(s);
+                            }
+                        }
+                    }
+                }
+            }
+            Save();
         }
 
         ///<summary>
@@ -282,23 +280,34 @@ namespace BlogEngine.Core.Providers
         {
             if (usernames.Length != 0 && roleNames.Length != 0)
             {
-                foreach (string s in roleNames)
-                {
-                    _Roles.Remove(new Role(s));
-                }
-
                 foreach (Role role in _Roles)
                 {
-                    foreach (string s in usernames)
+                    foreach (string _name in roleNames)
                     {
-                        if (role.Users.Contains(s))
-                            role.Users.Remove(s);
+                        if (role.Name.ToLower() == _name)
+                        {
+                            foreach (string user in usernames)
+                            {
+                                if (role.Name == "administrators")
+                                {
+                                    if (role.Users.Count != 1)
+                                    {
+                                        if (role.Users.Contains(user))
+                                            role.Users.Remove(user);
+                                    }
+                                }
+                                else
+                                {
+                                    if (role.Users.Contains(user))
+                                        role.Users.Remove(user);
+                                }
+                            }
+
+                        }
                     }
                 }
             }
             Save();
-
-
         }
 
         ///<summary>
@@ -313,8 +322,12 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to delete.</param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            _Roles.Remove(new Role(roleName));
-            Save();
+            if (roleName != "administrators")
+            {
+                _Roles.Remove(new Role(roleName));
+                Save();
+                return true;
+            }
             return false;
         }
 
@@ -325,8 +338,12 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to create.</param>
         public override void CreateRole(string roleName)
         {
-            _Roles.Add(new Core.Role(roleName));
-            Save();
+            if (!_Roles.Contains(new Core.Role(roleName)))
+            {
+                _Roles.Add(new Core.Role(roleName));
+                Save();
+            }
+
         }
 
         #endregion
@@ -341,15 +358,18 @@ namespace BlogEngine.Core.Providers
             lock (this)
             {
                 XmlDocument doc = new XmlDocument();
-
                 doc.Load(_XmlFileName);
-                XmlNodeList nodes = doc.GetElementsByTagName("role/name");
-
-                foreach (XmlNode node in nodes)
+                XmlNodeList nodes = doc.GetElementsByTagName("role");
+                foreach (XmlNode roleNode in nodes)
+                //foreach (XmlNode roleNode in doc.SelectNodes("roles/role"))
                 {
-                    Role tempRole = new Role(node.InnerText.ToLowerInvariant());
-                    tempRole.Users = new List<string>(GetUsersInRole(tempRole.Name));
-                    _Roles.Add(new Role(node.InnerText.ToLowerInvariant()));
+                    Role tempRole = new Role(roleNode.SelectSingleNode("name").InnerText);
+                    foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
+                    {
+                        tempRole.Users.Add(userNode.InnerText);
+                    }
+                    _Roles.Add(tempRole);
+
                 }
             }
         }
