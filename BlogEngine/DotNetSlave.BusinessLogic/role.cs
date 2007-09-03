@@ -8,7 +8,6 @@ namespace BlogEngine.Core
     /// <summary>
     /// 
     /// </summary>
-    [Serializable()]
     public class Role
     {
         private string _Name;
@@ -33,10 +32,21 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Role"/> class.
+        /// </summary>
+        /// <param name="name">A name.</param>
+        /// <param name="usernames">A list of users in role.</param>
+        public Role(string name, List<string> usernames)
+        {
+            _Name = name;
+            _UserNames = usernames;
+        }
+
+
+        /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        [XmlAttribute("name")]
         public string Name
         {
             get { return _Name; }
@@ -47,7 +57,6 @@ namespace BlogEngine.Core
         /// Gets the users.
         /// </summary>
         /// <value>The users.</value>
-        [XmlElement("user")]
         public List<string> Users
         {
             get { return _UserNames; }
