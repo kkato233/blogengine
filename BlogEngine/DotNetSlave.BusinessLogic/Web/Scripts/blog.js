@@ -70,7 +70,7 @@ function Search(root)
   var input = document.getElementById("searchfield");
   var check = document.getElementById("searchcomments");
   
-  var search = "?q=" + escape(input.value);
+  var search = "?q=" + encodeURI(input.value);
   if (check != null && check.checked)
     search += "&comment=true";
   

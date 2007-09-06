@@ -456,6 +456,18 @@ namespace BlogEngine.Core
       }
     }
 
+    /// <summary>
+    /// Occurs when the class is Saved
+    /// </summary>
+    public static event EventHandler<SavedEventArgs> Saving;
+
+    private static void OnSaving(BusinessBase<TYPE, KEY> businessObject, SaveAction action)
+    {
+      if (Saving!= null)
+      {
+        Saving(businessObject, new SavedEventArgs(action));
+      }
+    }
 
     #endregion
 
