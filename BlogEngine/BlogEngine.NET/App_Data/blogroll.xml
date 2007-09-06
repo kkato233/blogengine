@@ -3,5 +3,6 @@
     <outline xfn="contact" title=".NET slave" description="Samples in ASP.NET and C#" xmlUrl="http://feeds.feedburner.com/netslave" htmlUrl="http://www.madskristensen.dk" />
     <outline title="Al Nyveldt" description="Adventures in Code and Other Stories " xfn="contact" xmlUrl="http://feeds.feedburner.com/razorant" htmlUrl="http://www.nyveldt.com/blog/" />
     <outline title="Brian Kuhn" description="Bridging the gap between the ideal and the real." xfn="contact" xmlUrl="http://feeds.feedburner.com/OppositionallyDefiant" htmlUrl="http://oppositionallydefiant.com/" />
+    <outline title="Roman D. Clarkson" description="BlogEngine.Net Developer" xfn="contact" xmlUrl="http://www.romanclarkson.us/syndication.axd" htmlUrl="http://www.romanclarkson.us" />
   </body>
 </opml>

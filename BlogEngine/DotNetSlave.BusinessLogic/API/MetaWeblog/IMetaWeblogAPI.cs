@@ -156,6 +156,14 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// Url to RSS for category
         /// </summary>
         public string rssUrl;
+        /// <summary>
+        /// The guid of the category
+        /// </summary>
+        public string id;
+        /// <summary>
+        /// The title/name of the category
+        /// </summary>
+        public string title;
     }
 
     /// <summary>
