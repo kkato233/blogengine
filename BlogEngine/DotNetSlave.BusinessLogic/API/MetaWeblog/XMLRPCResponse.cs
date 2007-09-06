@@ -263,13 +263,13 @@ namespace BlogEngine.Core.API.MetaWeblog
                 // categoryid
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "categoryid");
-                data.WriteElementString("value", category.description);
+                data.WriteElementString("value", category.id);
                 data.WriteEndElement();
 
                 // title
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "title");
-                data.WriteElementString("value", category.description);
+                data.WriteElementString("value", category.title);
                 data.WriteEndElement();
 
                 // htmlUrl 
