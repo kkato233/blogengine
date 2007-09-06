@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
@@ -178,7 +179,7 @@ namespace BlogEngine.Core
       Entry entry = new Entry();
       entry.Post = post;
       entry.Title = CleanContent(post.Title, false);
-      entry.Content = CleanContent(post.Content, true);
+      entry.Content = HttpUtility.HtmlDecode(CleanContent(post.Content, true));
 
       if (BlogSettings.Instance.EnableCommentSearch)
         entry.Comments = GetCommentString(post);
