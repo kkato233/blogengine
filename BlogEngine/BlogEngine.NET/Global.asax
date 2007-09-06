@@ -26,17 +26,24 @@
   /// </summary>
   void Application_Start(object sender, EventArgs e)
   {
-    Assembly a = Assembly.Load("__code");
-    Type[] types = a.GetTypes();
+    try
+    {
+      Assembly a = Assembly.Load("__code");
+      Type[] types = a.GetTypes();
 
-    foreach (Type type in types)
-    {      
-      object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
-      foreach (object attribute in attributes)
+      foreach (Type type in types)
       {
-        a.CreateInstance(type.FullName);
+        object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
+        foreach (object attribute in attributes)
+        {
+          a.CreateInstance(type.FullName);
+        }
       }
     }
+    catch (System.IO.FileNotFoundException)
+    {
+      // There are no extension in the App_Code folder, this error can be safely ignored
+    } 
   }
 
   /// <summary>
