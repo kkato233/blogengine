@@ -1,13 +1,4 @@
-﻿// Opens the caller's default e-mail client
-// with the subject filled if specified.
-function SafeMail(name, domain, subject)
-{
-  if (subject != null)
-    subject = "?subject=" + subject;
-  location.href="mailto:" + name + "@" + domain + subject;
-}
-
-var _Regex = new RegExp("\\n","gi");
+﻿var _Regex = new RegExp("\\n","gi");
 var _RegexUrl = new RegExp("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&#=\\-_\\./]{2,})", "gi");
 var _Preview;
 var _PreviewAuthor;
@@ -180,3 +171,61 @@ function ToggleMonth(year)
     }
   }
 }
+
+/*-----------------------------------------------------------------------------
+                              XFN HIGHLIGHTER
+-----------------------------------------------------------------------------*/
+
+var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
+						            , 'co-worker', 'colleague', 'co-resident'
+						            , 'neighbor', 'child', 'parent', 'sibling'
+						            , 'spouse', 'kin', 'muse', 'crush', 'date'
+						            , 'sweetheart', 'me']
+
+// Applies the XFN tags of a link to the title tag
+function HightLightXfn()
+{
+  var content = document.getElementById('content');
+  if (content == null)
+    return;
+    
+  var links = document.getElementsByTagName('a')
+  for (i = 0; i < links.length; i++)
+  {
+    var link = links[i];
+    var rel = link.getAttribute('rel');
+    if (rel && rel != "nofollow") 
+    {
+      for (j = 0; j < xfnRelationships.length; j++)
+      {
+        if(rel.indexOf(xfnRelationships[j]) > -1)
+        {
+          link.title = 'XFN relationship: ' + rel;
+          break;
+        }
+      }
+    }
+  }
+}
+
+// addLoadEvent()
+// Adds event to window.onload without overwriting currently assigned onload functions.
+// Function found at Simon Willison's weblog - http://simon.incutio.com/
+function addLoadEvent(func)
+{	
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function')
+	{
+    	window.onload = func;
+	} 
+	else 
+	{
+		window.onload = function()
+		{
+			oldonload();
+			func();
+		}
+	}
+}
+
+addLoadEvent(HightLightXfn);
