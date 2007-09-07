@@ -1,12 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <roles>
   <role>
-    <name>administrators</name>
+    <name>Administrators</name>
     <users>
       <user>Admin</user>
+      <user>Editor</user>
     </users>
   </role>
   <role>
-    <name>editors</name>
+    <name>Editors</name>
     <users>
       <user>Admin</user>
       <user>Editor</user>
