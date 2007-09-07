@@ -30,6 +30,7 @@ namespace BlogEngine.Core.Providers
         private List<Role> _Roles = new List<Role>();
         private List<string> _UserNames;
         private string _XmlFileName;
+        readonly string[] _DefaultRolesToAdd = new string[] { "Administrators", "Editors" };
 
 
         ///<summary>
@@ -57,8 +58,8 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The name of the role to search for in the data source. </param>
         public override bool RoleExists(string roleName)
         {
-            //ReadRoleDataStore();
-            return _Roles.Contains(new Role(roleName.ToLower()));
+            List<string> currentRoles = new List<string>(GetAllRoles());
+            return (currentRoles.Contains(roleName)) ? true : false;
         }
 
         ///<summary>
@@ -71,11 +72,10 @@ namespace BlogEngine.Core.Providers
         ///
         public override string[] GetAllRoles()
         {
-            //ReadRoleDataStore();
             List<string> allRoles = new List<string>();
             foreach (Role role in _Roles)
             {
-                allRoles.Add(role.Name.ToLower());
+                allRoles.Add(role.Name);
             }
             return allRoles.ToArray();
         }
@@ -190,6 +190,7 @@ namespace BlogEngine.Core.Providers
         /// <param name="config"></param>
         public override void Initialize(string name, NameValueCollection config)
         {
+            ReadMembershipDataStore();
             if (config == null)
                 throw new ArgumentNullException("config");
 
@@ -229,7 +230,15 @@ namespace BlogEngine.Core.Providers
             permission.Demand();
 
             if (!System.IO.File.Exists(_XmlFileName))
-                InstallMissingXMLFile(_XmlFileName);
+                AddUsersToRoles(_UserNames.ToArray(), _DefaultRolesToAdd);
+
+            //Now that we know a xml file exists we can call it.
+            ReadRoleDataStore();
+
+            if (!RoleExists("Administrators") || !RoleExists("Editors"))
+                AddUsersToRoles(_UserNames.ToArray(), _DefaultRolesToAdd);
+
+
 
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0)
@@ -239,7 +248,7 @@ namespace BlogEngine.Core.Providers
                     throw new ProviderException("Unrecognized attribute: " + attr);
             }
 
-            ReadRoleDataStore();
+
         }
 
         ///<summary>
@@ -250,13 +259,22 @@ namespace BlogEngine.Core.Providers
         ///<param name="usernames">A string array of user names to be added to the specified roles. </param>
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
+            List<string> currentRoles = new List<string>(GetAllRoles());
             if (usernames.Length != 0 && roleNames.Length != 0)
             {
+                foreach (string _rolename in roleNames)
+                {
+                    if (!currentRoles.Contains(_rolename))
+                    {
+                        _Roles.Add(new Role(_rolename, new List<string>(usernames)));
+                    }
+                }
+
                 foreach (Role role in _Roles)
                 {
                     foreach (string _name in roleNames)
                     {
-                        if (role.Name.ToLower() == _name)
+                        if (role.Name.ToLower() == _name.ToLower())
                         {
                             foreach (string s in usernames)
                             {
@@ -358,57 +376,28 @@ namespace BlogEngine.Core.Providers
             lock (this)
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load(_XmlFileName);
-                XmlNodeList nodes = doc.GetElementsByTagName("role");
-                foreach (XmlNode roleNode in nodes)
-                //foreach (XmlNode roleNode in doc.SelectNodes("roles/role"))
+
+                try
                 {
-                    Role tempRole = new Role(roleNode.SelectSingleNode("name").InnerText);
-                    foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
+                    doc.Load(_XmlFileName);
+                    XmlNodeList nodes = doc.GetElementsByTagName("role");
+                    foreach (XmlNode roleNode in nodes)
                     {
-                        tempRole.Users.Add(userNode.InnerText);
+                        Role tempRole = new Role(roleNode.SelectSingleNode("name").InnerText);
+                        foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
+                        {
+                            tempRole.Users.Add(userNode.InnerText);
+                        }
+                        _Roles.Add(tempRole);
+
                     }
-                    _Roles.Add(tempRole);
-
                 }
-            }
-        }
 
-        private void InstallMissingXMLFile(string _FileName)
-        {
-
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            ReadMembershipDataStore();
-            using (XmlWriter writer = XmlWriter.Create(_FileName, settings))
-            {
-                writer.WriteStartDocument(true);
-                writer.WriteStartElement("roles");
-
-                //Start by fixing the Administrators role.
-                writer.WriteStartElement("role");
-                writer.WriteElementString("name", "Administrators");
-                writer.WriteStartElement("users");
-
-
-                foreach (string username in _UserNames)
+                catch (XmlException)
                 {
-                    writer.WriteElementString("user", username);
+                    AddUsersToRoles(_UserNames.ToArray(), _DefaultRolesToAdd);
                 }
-                writer.WriteEndElement(); //closes Administrators users
-                writer.WriteEndElement(); //closes Administrators role
 
-                //End by fixing the Editors role.
-                writer.WriteStartElement("role");
-                writer.WriteElementString("name", "Editors");
-                writer.WriteStartElement("users");
-
-                foreach (string username in _UserNames)//.GetAllUsers(0, 0, out _usercount))
-                {
-                    writer.WriteElementString("user", username);
-                }
-                writer.WriteEndElement(); //closes Editors users
-                writer.WriteEndElement(); //closes Editors role
             }
         }
 
@@ -434,14 +423,11 @@ namespace BlogEngine.Core.Providers
                         writer.WriteElementString("user", username);
                     }
                     writer.WriteEndElement(); //closes users
+                    writer.WriteEndElement(); //closes role
                 }
-                writer.WriteEndElement(); //closes role
-
             }
 
         }
-
-        #endregion
 
         /// <summary>
         /// Only so we can add users to the adminstrators and editors roles.
@@ -469,6 +455,9 @@ namespace BlogEngine.Core.Providers
                 }
             }
         }
+        #endregion
+
+
 
     }
 
