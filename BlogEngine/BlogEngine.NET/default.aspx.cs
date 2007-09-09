@@ -13,16 +13,6 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
         if (Page.IsCallback)
             return;
 
-        if (Request.QueryString.Count == 0)
-        {
-            if (!(Request.UrlReferrer != null && Request.UrlReferrer.Host == Request.Url.Host))
-            {
-                BlogEngine.Core.Page page = BlogEngine.Core.Page.GetFrontPage();
-                if (page != null)
-                    Response.Redirect(BlogEngine.Core.Page.GetFrontPage().RelativeLink.ToString(), true);
-            }
-        }
-
         Page frontPage = BlogEngine.Core.Page.GetFrontPage();
         if (Request.QueryString.Count == 0 && frontPage != null)
         {
@@ -115,16 +105,20 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 
     private void DisplayDateRange()
     {
-        if (!string.IsNullOrEmpty(Request.QueryString["year"]) && !string.IsNullOrEmpty(Request.QueryString["month"]))
+      string year = Request.QueryString["year"];
+      string month = Request.QueryString["month"];
+      string specificDate = Request.QueryString["date"];
+
+        if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(month))
         {
-            DateTime dateFrom = DateTime.Parse(Request.QueryString["year"] + "-" + Request.QueryString["month"] + "-01", CultureInfo.InvariantCulture);
+            DateTime dateFrom = DateTime.Parse(year.Substring(0, 4) + "-" + month + "-01", CultureInfo.InvariantCulture);
             DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
             PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo);
             Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("MMMM yyyy");
         }
-        else if (!string.IsNullOrEmpty(Request.QueryString["date"]))
+        else if (!string.IsNullOrEmpty(specificDate) && specificDate.Length == 10)
         {
-            DateTime date = DateTime.Parse(Request.QueryString["date"], CultureInfo.InvariantCulture);
+          DateTime date = DateTime.Parse(specificDate, CultureInfo.InvariantCulture);
             PostList1.Posts = Post.GetPostsByDate(date, date);
             Title = BlogSettings.Instance.Name + " - " + date.ToString("MMMM d. yyyy");
         }

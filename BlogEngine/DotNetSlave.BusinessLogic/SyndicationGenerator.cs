@@ -1970,10 +1970,13 @@ namespace BlogEngine.Core
 
                 //------------------------------------------------------------
                 //	Modify post content to make references absolute
-                //------------------------------------------------------------
-                string content  = page.Content;
+                //------------------------------------------------------------                
+                ServingEventArgs arg = new ServingEventArgs(page.Content);
+                Page.OnServing(page, arg);
+                string content = arg.Body;
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "file.axd", "\"" + Utils.AbsoluteWebRoot + "file.axd");
+                content         = content.Replace("href=\"/", "href=\"" + Utils.AbsoluteWebRoot);
 
                 //------------------------------------------------------------
                 //	Write required channel item elements
@@ -2052,9 +2055,12 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 //	Modify post content to make references absolute
                 //------------------------------------------------------------
-                string content  = post.Content;
+                ServingEventArgs arg = new ServingEventArgs(post.Content);
+                Post.OnServing(post, arg);
+                string content = post.Content;
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "file.axd", "\"" + Utils.AbsoluteWebRoot + "file.axd");
+                content         = content.Replace("href=\"/", "href=\"" + Utils.AbsoluteWebRoot);
 
                 //------------------------------------------------------------
                 //	Write required channel item elements
