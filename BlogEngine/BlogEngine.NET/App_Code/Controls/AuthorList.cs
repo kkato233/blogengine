@@ -96,7 +96,7 @@ namespace Controls
         }
 
         HtmlAnchor anc = new HtmlAnchor();
-        anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + ".aspx";
+        anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + BlogSettings.Instance.FileExtension;
         anc.InnerHtml = user.UserName + " (" + Post.GetPostsByAuthor(user.UserName).Count + ")";
         anc.Title = "Author: " + user.UserName;
         

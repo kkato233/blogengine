@@ -151,6 +151,9 @@ namespace BlogEngine.Core.Web.Controls
         /// </summary>
         protected string Gravatar(int size)
         {
+          if (!BlogSettings.Instance.EnableGravatar)
+            return null;
+
             //------------------------------------------------------------
             //	Local members
             //------------------------------------------------------------

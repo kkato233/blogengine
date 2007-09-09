@@ -58,38 +58,23 @@ function PreviewTheme()
         <asp:CompareValidator runat="server" ControlToValidate="txtTimeZone" Operator="dataTypeCheck" Type="double" Display="dynamic" ErrorMessage="Please specify a valid number (positive or negative)" />
         
     </div>
+    
     <div class="settings">
-        <h1>
-            <%=Resources.labels.advanced %>
-            <%=Resources.labels.settings %>
-        </h1>
-        <label for="<%=cbEnableCompression.ClientID %>">
-            <%=Resources.labels.enableHttpCompression %>
-        </label>
-        <asp:CheckBox runat="server" ID="cbEnableCompression" />
-        <%=Resources.labels.enableHttpCompressionDescription %>
-        <br />
-        <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>">
-            <%=Resources.labels.trimStylesheet %>
-        </label>
-        <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" />
-        <%=Resources.labels.trimStylesheetDescription %>
-        <br />
-        <label for="<%=cbEnableOpenSearch.ClientID %>">
-            <%=Resources.labels.enableOpenSearch %>
-        </label>
-        <asp:CheckBox runat="server" ID="cbEnableOpenSearch" />
-        <%=Resources.labels.enableOpenSearchDescription %>
-        <br />
-        <label for="<%=cbEnableSearchHighlight.ClientID %>">
-            <%=Resources.labels.enableSearchHighlight %>
-        </label>
-        <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" />
-        <%=Resources.labels.enableSearchHighlightDescription %>
-        <br />
-        <label for="<%=rblWwwSubdomain.ClientID %>">
-            <%=Resources.labels.handleWwwSubdomain %>
-        </label>
+        <h1><%=Resources.labels.advancedSettings %></h1>
+        
+        <label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label>
+        <asp:CheckBox runat="server" ID="cbEnableCompression" /><%=Resources.labels.enableHttpCompressionDescription %><br />
+        
+        <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>"><%=Resources.labels.trimStylesheet %></label>
+        <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /><%=Resources.labels.trimStylesheetDescription %><br />
+        
+        <label for="<%=cbEnableOpenSearch.ClientID %>"><%=Resources.labels.enableOpenSearch %></label>
+        <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /><%=Resources.labels.enableOpenSearchDescription %><br />
+        
+        <label for="<%=cbEnableSearchHighlight.ClientID %>"><%=Resources.labels.enableSearchHighlight %></label>
+        <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /><%=Resources.labels.enableSearchHighlightDescription %><br />
+        
+        <label for="<%=rblWwwSubdomain.ClientID %>"><%=Resources.labels.handleWwwSubdomain %></label>
         <asp:RadioButtonList runat="server" ID="rblWwwSubdomain" RepeatLayout="flow" RepeatDirection="horizontal">
             <asp:ListItem Text="<%$ Resources:labels, remove %>" Value="remove" />
             <asp:ListItem Text="<%$ Resources:labels, enforce %>" Value="add" />
@@ -97,24 +82,22 @@ function PreviewTheme()
         </asp:RadioButtonList>
     </div>
     <div class="settings">
-        <h1>
-            <%=Resources.labels.comments %>
-        </h1>
-        <label for="<%=cbEnableComments.ClientID %>">
-            <%=Resources.labels.enableComments %>
-        </label>
-        <asp:CheckBox runat="server" ID="cbEnableComments" />
-        <%=Resources.labels.enableCommentsDescription %>
-        <br />
-        <label for="<%=cbEnableCountryInComments.ClientID %>">
-            <%=Resources.labels.showCountryChooser %>
-        </label>
+        <h1><%=Resources.labels.comments %></h1>
+        
+        <label for="<%=cbEnableComments.ClientID %>"><%=Resources.labels.enableComments %></label>
+        <asp:CheckBox runat="server" ID="cbEnableComments" /><%=Resources.labels.enableCommentsDescription %><br />
+        
+        <label for="<%=cbEnableCountryInComments.ClientID %>"><%=Resources.labels.showCountryChooser %></label>
         <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /><%=Resources.labels.showCountryChooserDescription %><br />
+        
         <label for="<%=cbEnableCoComment.ClientID %>"><%=Resources.labels.enableCoComments %></label>
         <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />
         
         <label for="<%=cbShowLivePreview.ClientID %>"><%=Resources.labels.showLivePreview %></label>
         <asp:CheckBox runat="server" ID="cbShowLivePreview" /><br />
+        
+        <label for="<%=cbEnableGravatars.ClientID %>"><%=Resources.labels.enableGravatars%></label>
+        <asp:CheckBox runat="server" ID="cbEnableGravatars" /><br />
         
         <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=Resources.labels.enableCommentsModeration%></label>
         <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" /><br />
@@ -175,53 +158,38 @@ function PreviewTheme()
         <asp:Label runat="Server" ID="lbSmtpStatus" />
     </div>
     <div class="settings">
-        <h1>
-            Feed
-            <%=Resources.labels.settings.ToLowerInvariant() %>
+        <h1>Feed <%=Resources.labels.settings.ToLowerInvariant() %>
         </h1>
-        <label for="<%=ddlSyndicationFormat.ClientID %>" style="position: relative; top: 4px">
-            <%=Resources.labels.defaultFeedOutput %>
-        </label>
+        <label for="<%=ddlSyndicationFormat.ClientID %>" style="position: relative; top: 4px"><%=Resources.labels.defaultFeedOutput %></label>
         <asp:DropDownList runat="server" ID="ddlSyndicationFormat">
             <asp:ListItem Text="RSS 2.0" Value="Rss" Selected="True" />
             <asp:ListItem Text="Atom 1.0" Value="Atom" />
         </asp:DropDownList>
-        format.<br />
-        <br />
-        <label for="<%=txtPostsPerFeed.ClientID %>">
-            <%=Resources.labels.postsPerFeed %>
-        </label>
+        format.<br /><br />
+        
+        <label for="<%=txtPostsPerFeed.ClientID %>"><%=Resources.labels.postsPerFeed %></label>
         <asp:TextBox runat="server" ID="txtPostsPerFeed" Width="50" MaxLength="4" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPostsPerFeed" ErrorMessage="Required" />
-        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck"
-            Type="integer" ErrorMessage="Please enter a valid number" /><br />
-        <label for="<%=txtDublinCoreCreator.ClientID %>">
-            <%=Resources.labels.author %>
-        </label>
+        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+        
+        <label for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label>
         <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" /><br />
-        <label for="<%=txtDublinCoreLanguage.ClientID %>">
-            <%=Resources.labels.languageCode %>
-        </label>
-        <asp:TextBox runat="server" ID="txtDublinCoreLanguage" MaxLength="5" Width="50" /><br />
-        <br />
-        <label for="<%=txtGeocodingLatitude.ClientID %>">
-            <%=Resources.labels.latitude %>
-        </label>
+        
+        <label for="<%=txtDublinCoreLanguage.ClientID %>"><%=Resources.labels.languageCode %></label>
+        <asp:TextBox runat="server" ID="txtDublinCoreLanguage" MaxLength="5" Width="50" /><br /><br />
+        
+        <label for="<%=txtGeocodingLatitude.ClientID %>"><%=Resources.labels.latitude %></label>
         <asp:TextBox runat="server" ID="txtGeocodingLatitude" Width="300" /><br />
-        <label for="<%=txtGeocodingLongitude.ClientID %>">
-            <%=Resources.labels.longtitude %>
-        </label>
-        <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" /><br />
-        <br />
-        <label for="<%=txtBlogChannelBLink.ClientID %>">
-            <%=Resources.labels.endorsment %>
-        </label>
-        <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="400" /><br />
-        <label for="<%=txtBlogChannelBLink.ClientID %>">
-            Feedburner
-            <%=Resources.labels.userName.ToLowerInvariant() %>
-        </label>
-        <asp:TextBox runat="server" ID="txtFeedburnerUserName" MaxLength="255" Width="120" />
+        
+        <label for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label>
+        <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" /><br /><br />
+        
+        <label for="<%=txtBlogChannelBLink.ClientID %>"><%=Resources.labels.endorsment %></label>
+        <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="300" /><br />
+        
+        <label for="<%=txtAlternateFeedUrl.ClientID %>"><%=Resources.labels.alternateFeedUrl %></label>
+        <asp:TextBox runat="server" ID="txtAlternateFeedUrl"  Width="300" /> <em>(http://feeds.feedburner.com/username)</em>
+        <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtAlternateFeedUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" />
     </div>
     <div class="settings">
         <h1>

@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
+  <enablegravatar>True</enablegravatar>
   <storagelocation>~/app_data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <enablerating>True</enablerating>
   <enablerelatedposts>True</enablerelatedposts>
+  <fileextension>.htm</fileextension>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
-  <endorsement>http://www.dotnetblogengine.net/syndication.axd?format=rss</endorsement>
+  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <showlivepreview>True</showlivepreview>
   <enablecommentsearch>True</enablecommentsearch>
-  <feedburnerusername />
   <authorname>My name</authorname>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>Standard</theme>
@@ -21,7 +22,7 @@
   <blogrollmaxlength>23</blogrollmaxlength>
   <geocodinglatitude>0</geocodinglatitude>
   <email>name@example.com</email>
-  <dayscommentsareenabled>0</dayscommentsareenabled>
+  <dayscommentsareenabled>2</dayscommentsareenabled>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <timezone>-2</timezone>
@@ -31,6 +32,7 @@
   <iscocommentenabled>False</iscocommentenabled>
   <trackingscript />
   <description>Short description of the blog</description>
+  <alternatefeedurl />
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
@@ -38,7 +40,7 @@
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>
-  <handlewwwsubdomain>add</handlewwwsubdomain>
+  <handlewwwsubdomain />
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <smtppassword>password</smtppassword>
   <smtpserverport>25</smtpserverport>
