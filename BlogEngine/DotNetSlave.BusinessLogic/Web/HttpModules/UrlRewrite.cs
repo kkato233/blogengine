@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Web.HttpModules
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
-      if (context.Request.RawUrl.ToLowerInvariant().Contains(".aspx") && !context.Request.RawUrl.Contains("error404.aspx"))
+      if (context.Request.RawUrl.ToLowerInvariant().Contains(BlogSettings.Instance.FileExtension) && !context.Request.RawUrl.Contains("error404.aspx"))
       {
         if (context.Request.Path.Contains("/blog.aspx"))
         {
@@ -67,11 +67,6 @@ namespace BlogEngine.Core.Web.HttpModules
           string author = ExtractTitle(context, "/author/");
           context.RewritePath("~/default.aspx?name=" + author + GetQueryString(context), false);
         }
-        //else if (context.Request.RawUrl.ToLowerInvariant().Contains("/tag.aspx/"))
-        //{
-        //  string tag = ExtractTitle(context, "/tag.aspx/");
-        //  context.RewritePath("~/default.aspx?name=" + tag + GetQueryString(context), false);
-        //}
       }
     }
 
@@ -118,8 +113,8 @@ namespace BlogEngine.Core.Web.HttpModules
     private static string ExtractTitle(HttpContext context, string lookFor)
     {
       int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(lookFor) + lookFor.Length;
-      int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(".aspx");
-      string title = context.Request.RawUrl.Substring(index, stop - index).Replace(".aspx", string.Empty);
+      int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(BlogSettings.Instance.FileExtension);
+      string title = context.Request.RawUrl.Substring(index, stop - index).Replace(BlogSettings.Instance.FileExtension, string.Empty);
       return context.Server.UrlEncode(title);
     }
 

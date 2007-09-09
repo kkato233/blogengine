@@ -96,6 +96,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
     BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
     BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
+    BlogSettings.Instance.EnableGravatar = cbEnableGravatars.Checked;
 
     //-----------------------------------------------------------------------
     // Set Advanced settings
@@ -126,7 +127,11 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     }
 
     BlogSettings.Instance.Endorsement = txtBlogChannelBLink.Text;
-    BlogSettings.Instance.FeedburnerUserName = txtFeedburnerUserName.Text;
+    
+    if (txtAlternateFeedUrl.Text.Trim().Length > 0 && !txtAlternateFeedUrl.Text.Contains("://"))
+      txtAlternateFeedUrl.Text = "http://" + txtAlternateFeedUrl.Text;
+
+    BlogSettings.Instance.AlternateFeedUrl = txtAlternateFeedUrl.Text;
 
     //-----------------------------------------------------------------------
     // HTML header section
@@ -169,6 +174,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
     ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
     cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
+    cbEnableGravatars.Checked = BlogSettings.Instance.EnableGravatar;
 
     //-----------------------------------------------------------------------
     // Bind Email settings
@@ -202,7 +208,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtGeocodingLongitude.Text = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString() : String.Empty;
 
     txtBlogChannelBLink.Text = BlogSettings.Instance.Endorsement;
-    txtFeedburnerUserName.Text = BlogSettings.Instance.FeedburnerUserName;
+    txtAlternateFeedUrl.Text = BlogSettings.Instance.AlternateFeedUrl;
 
     //-----------------------------------------------------------------------
     // HTML header section

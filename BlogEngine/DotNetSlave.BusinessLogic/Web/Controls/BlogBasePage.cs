@@ -94,11 +94,7 @@ namespace BlogEngine.Core.Web.Controls
       link.Attributes["rel"] = "alternate";
       link.Attributes["type"] = "application/rss+xml";
       link.Attributes["title"] = BlogSettings.Instance.Name;
-
-      if (!string.IsNullOrEmpty(BlogSettings.Instance.FeedburnerUserName))
-        link.Attributes["href"] = "http://feeds.feedburner.com/" + BlogSettings.Instance.FeedburnerUserName;
-      else
-        link.Attributes["href"] = Utils.AbsoluteWebRoot + "syndication.axd";
+      link.Attributes["href"] = Utils.FeedUrl;
 
       Page.Header.Controls.Add(link);
     }

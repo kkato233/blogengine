@@ -135,6 +135,12 @@
   <data name="advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
+  <data name="advancedSettings" xml:space="preserve">
+    <value>Advanced settings</value>
+  </data>
+  <data name="alternateFeedUrl" xml:space="preserve">
+    <value>Alternate feed URL</value>
+  </data>
   <data name="approve" xml:space="preserve">
     <value>Approve</value>
   </data>
@@ -245,6 +251,9 @@
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
     <value>Moderate comments</value>
+  </data>
+  <data name="enableGravatars" xml:space="preserve">
+    <value>Enable Gravatars</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Enable HTTP compression</value>

@@ -72,7 +72,6 @@ public class AutoLink
     public string Url;
     public string Name;
     public string Xfn;
-    public Regex Regex;
   }
 
 }

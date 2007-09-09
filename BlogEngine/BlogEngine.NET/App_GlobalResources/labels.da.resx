@@ -135,6 +135,12 @@
   <data name="advanced" xml:space="preserve">
     <value>Avancerede</value>
   </data>
+  <data name="advancedSettings" xml:space="preserve">
+    <value>Avancerede instillinger</value>
+  </data>
+  <data name="alternateFeedUrl" xml:space="preserve">
+    <value>Alternativ feed adresse</value>
+  </data>
   <data name="archive" xml:space="preserve">
     <value>Arkiv</value>
   </data>
@@ -239,6 +245,9 @@
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
     <value>Godkend kommentarer</value>
+  </data>
+  <data name="enableGravatars" xml:space="preserve">
+    <value>Vis Gravatar ikoner</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>Slå HTTP kompression til</value>

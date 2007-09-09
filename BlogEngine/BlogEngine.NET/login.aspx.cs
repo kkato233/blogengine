@@ -18,5 +18,7 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
       FormsAuthentication.SignOut();
       Response.Redirect(Request.UrlReferrer.ToString(), true);  
     }
+
+    Login1.FindControl("username").Focus();
   }
 }

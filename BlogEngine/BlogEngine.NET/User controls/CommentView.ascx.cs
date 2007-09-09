@@ -318,7 +318,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   {
     HttpCookie cookie = new HttpCookie("comment");
     cookie.Expires = DateTime.Now.AddMonths(24);
-    cookie.Values.Add("name", Server.HtmlEncode(name));
+    cookie.Values.Add("name", Server.UrlEncode(name));
     cookie.Values.Add("email", email);
     cookie.Values.Add("url", website);
     cookie.Values.Add("country", country);
@@ -334,7 +334,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     HttpCookie cookie = Request.Cookies["comment"];
     if (cookie != null)
     {
-      txtName.Text = cookie.Values["name"];
+      txtName.Text = Server.UrlDecode(cookie.Values["name"]);
       txtEmail.Text = cookie.Values["email"];
       txtWebsite.Text = cookie.Values["url"];
       ddlCountry.SelectedValue = cookie.Values["country"];

@@ -30,10 +30,11 @@
       
       <div id="navigation">
         <ul>
-          <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/">Home</asp:HyperLink></li>
-          <li><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/archive.aspx">Archive</asp:HyperLink></li>
-          <li><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/contact.aspx">Contact</asp:HyperLink></li>
-          <li><a href="<%=Utils.FeedUrl %>">Feed</a></li>
+          <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/"><%=Resources.labels.home %></asp:HyperLink></li>
+          <li><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/archive.aspx"><%=Resources.labels.archive %></asp:HyperLink></li>
+          <li><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/contact.aspx"><%=Resources.labels.contact %></asp:HyperLink></li>
+          <li><a href="<%=Utils.FeedUrl %>"><%=Resources.labels.subscribe %></a></li>
+          <li><asp:LoginStatus runat="Server" /></li>
         </ul>
       </div>
       

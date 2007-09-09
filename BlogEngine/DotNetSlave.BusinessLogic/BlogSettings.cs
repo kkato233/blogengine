@@ -194,7 +194,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Feedburner user name.
     /// </summary>
-    private string feedburnerUserName;
+    private string alternateFeedUrl;
 
     private string contactFormMessage;
     private string contactThankMessage;
@@ -209,6 +209,7 @@ namespace BlogEngine.Core
     private bool enableRating;
     private string handleWwwSubdomain;
     private bool showDescriptionInPostList;
+    private bool enableGravatar;
     #endregion
 
     //============================================================
@@ -349,14 +350,14 @@ namespace BlogEngine.Core
     }
     #endregion
 
-    #region FeedburnerUserName
+    #region AlternateFeedUrl
     /// <summary>
     /// Gets or sets the FeedBurner user name.
     /// </summary>
-    public string FeedburnerUserName
+    public string AlternateFeedUrl
     {
-      get { return feedburnerUserName; }
-      set { feedburnerUserName = value; }
+      get { return alternateFeedUrl; }
+      set { alternateFeedUrl = value; }
     }
     #endregion
 
@@ -505,6 +506,15 @@ namespace BlogEngine.Core
       }
     }
     #endregion
+        
+    /// <summary>
+    /// The  file extension used for aspx pages
+    /// </summary>
+    public string FileExtension
+    {
+      get { return ConfigurationManager.AppSettings["FileExtension"] ?? ".aspx"; }
+    }
+
 
     #region SyndicationFormat
     /// <summary>
@@ -944,6 +954,25 @@ namespace BlogEngine.Core
         set
         {
             areCommentsModerated = value;
+        }
+    }
+    #endregion
+
+    #region EnableGravatar
+    /// <summary>
+    /// Gets or sets a value indicating if Gravatars are enabled or not.
+    /// </summary>
+    /// <value><b>true</b> if Gravatars are enabled, otherwise returns <b>false</b>.</value>
+    public bool EnableGravatar
+    {
+        get
+        {
+            return enableGravatar;
+        }
+
+        set
+        {
+            enableGravatar = value;
         }
     }
     #endregion
