@@ -34,6 +34,8 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
       Page.Title = Resources.labels.search;
       h1Headline.InnerHtml = Resources.labels.search;
     }
+
+    base.AddMetaTag("description", BlogSettings.Instance.Description);
   }
 
   void rep_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -111,7 +113,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
       rep.DataSource = list.GetRange(start, size);
       rep.DataBind();
-
+      
       BindPaging(list.Count, page - 1);
     }
   }
@@ -122,14 +124,25 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
       return;
 
     decimal pages = Math.Ceiling((decimal)results / (decimal)PAGE_SIZE);
+    
     for (int i = 0; i < pages; i++)
     {
       HtmlGenericControl li = new HtmlGenericControl("li");
       if (i == page)
+      {
         li.Attributes.Add("class", "active");
+      }
+
       HtmlAnchor a = new HtmlAnchor();
       a.InnerHtml = (i + 1).ToString();
-      a.HRef = "?q=" + Request.QueryString["q"] + "&amp;page=" + (i + 1);
+
+      string comment = string.Empty;
+      if (Request.QueryString["comment"] != null)
+      {
+        comment = "&amp;comment=true";
+      }
+      
+      a.HRef = "?q=" + Request.QueryString["q"] + comment + "&amp;page=" + (i + 1);
 
       li.Controls.Add(a);
       paging.Controls.Add(li);
