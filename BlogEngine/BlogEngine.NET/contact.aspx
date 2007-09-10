@@ -33,7 +33,7 @@
       <br /><br />
       
       <asp:button runat="server" id="btnSend" Text="Send" />    
-      <asp:label runat="server" id="lblStatus" visible="false">An error occured. Please try again.</asp:label>
+      <asp:label runat="server" id="lblStatus" visible="false">This form does not work at the moment. Sorry for the inconvenience.</asp:label>
     </div>
     
     <div id="divThank" runat="Server" visible="False">      

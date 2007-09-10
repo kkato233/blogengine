@@ -355,6 +355,9 @@
   <data name="numberOfPosts" xml:space="preserve">
     <value>Number of posts</value>
   </data>
+  <data name="page" xml:space="preserve">
+    <value>Page</value>
+  </data>
   <data name="pages" xml:space="preserve">
     <value>Pages</value>
   </data>
@@ -369,6 +372,9 @@
   </data>
   <data name="possibleSpam" xml:space="preserve">
     <value>Possible spam</value>
+  </data>
+  <data name="post" xml:space="preserve">
+    <value>Post</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
     <value>Posts per page</value>
@@ -412,11 +418,17 @@
   <data name="saveSettings" xml:space="preserve">
     <value>Save settings</value>
   </data>
+  <data name="search" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="searchField" xml:space="preserve">
     <value>Search field</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
     <value>Search field text</value>
+  </data>
+  <data name="searchResultsFor" xml:space="preserve">
+    <value>Search results for</value>
   </data>
   <data name="selectDay" xml:space="preserve">
     <value>Select day</value>

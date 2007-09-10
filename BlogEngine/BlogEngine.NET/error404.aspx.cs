@@ -42,29 +42,29 @@ public partial class error404 : BlogBasePage
     int index = from.LastIndexOf("/") + 1;
     string title = from.Substring(index).Replace(".aspx", string.Empty).Replace("-", " ");
 
-    List<Post> posts = Search.Hits(title, false);
-    if (posts.Count > 0)
+    List<IPublishable> items = Search.Hits(title, false);
+    if (items.Count > 0)
     {
-      LiteralControl result = new LiteralControl(string.Format("<li><a href=\"{0}\">{1}</a></li>", posts[0].RelativeLink.ToString(), posts[0].Title));
+      LiteralControl result = new LiteralControl(string.Format("<li><a href=\"{0}\">{1}</a></li>", items[0].RelativeLink.ToString(), items[0].Title));
       phSearchResult.Controls.Add(result);
     }
   }
 
   private void BindSearchResult()
   {
-    List<Post> posts = Search.Hits(SearchTerm, false);
+    List<IPublishable> items = Search.Hits(SearchTerm, false);
     int max = 1;
-    foreach (Post post in posts)
+    foreach (IPublishable item in items)
     {
       HtmlAnchor link = new HtmlAnchor();
-      link.InnerHtml = post.Title;
-      link.HRef = post.RelativeLink.ToString();
+      link.InnerHtml = item.Title;
+      link.HRef = item.RelativeLink.ToString();
       divSearchResult.Controls.Add(link);
 
-      if (!string.IsNullOrEmpty(post.Description))
+      if (!string.IsNullOrEmpty(item.Description))
       {
         HtmlGenericControl desc = new HtmlGenericControl("span");
-        desc.InnerHtml = post.Description;
+        desc.InnerHtml = item.Description;
 
         divSearchResult.Controls.Add(new LiteralControl("<br />"));
         divSearchResult.Controls.Add(desc);

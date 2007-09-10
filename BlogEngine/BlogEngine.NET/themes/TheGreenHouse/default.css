@@ -325,3 +325,53 @@ padding-left:16px;font-size:12px}
 font-family:Monospace;width:600px;overflow:auto;font-size:12px;padding:5px;padding-bottom:15px;border:1px solid #cecece;background-color:#fff;/*max-height:400px;min-height:40px;*/}
 .lineNumber{
 color:#aaa;border-right:1px dotted #bebee7;padding-right:2px;margin-right:3px}
+
+
+/*----------------------------
+				Search page
+----------------------------*/
+
+.searchresult{
+	margin-bottom: 20px;
+}
+
+.searchresult a{
+	font-weight: bold;
+}
+
+.searchresult span.text{
+	clear: both;
+	display: block;
+	margin: 3px 0;
+}
+
+.searchresult span.type{
+	display: block;
+}
+
+.searchresult span.url{
+	color: Gray;
+}
+
+.searchpage ul.paging{
+ list-style-type: none;
+ margin:0px;
+ margin-bottom: 20px;
+ padding:0px;
+}
+
+.searchpage ul.paging li{
+ display: inline;
+ border: 1px solid gray; 
+ background: #f1f1f1;
+ margin-right: 5px;
+}
+
+.searchpage ul.paging li a{
+ padding: 5px 8px;
+}
+
+.searchpage ul.paging li.active{
+ background: #f1f1f1;
+ border: 1px solid black;
+}

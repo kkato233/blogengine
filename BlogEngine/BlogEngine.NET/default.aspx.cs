@@ -39,10 +39,6 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
             PostList1.Posts = Post.Posts;
             Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;
         }
-        else if (!string.IsNullOrEmpty(Request.QueryString["q"]))
-        {
-            DisplaySearch();
-        }
 
         base.AddMetaTag("description", BlogSettings.Instance.Description);
         base.AddMetaTag("author", BlogSettings.Instance.AuthorName);
@@ -64,14 +60,6 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
             }
             base.AddMetaTag("keywords", string.Join(",", categories));
         }
-    }
-
-    private void DisplaySearch()
-    {
-        bool includeComments = Request.QueryString["comment"] != null;
-        PostList1.Posts = Search.Hits(Request.QueryString["q"], includeComments);
-        Page.Title = "Search result for '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
-        AddMetaTag("description", BlogSettings.Instance.Description);
     }
 
     private void DisplayCategories()

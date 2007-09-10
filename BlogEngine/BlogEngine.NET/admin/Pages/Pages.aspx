@@ -2,7 +2,22 @@
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
-
+  <script type="text/javascript">
+  function ToggleVisibility()
+  {
+    var element = document.getElementById('<%=ulPages.ClientID%>');
+    if (element.style.display == "none")
+      element.style.display = "block";
+    else
+      element.style.display = "none";
+  }
+  </script>
+  
+  <div id="divPages" runat="server" visible="true" enableviewstate="False" style="margin-bottom: 10px">
+    <a id="aPages" runat="server" href="javascript:void(ToggleVisibility());" />
+    <ul id="ulPages" runat="server" style="display:none;list-style-type:circle" />
+  </div>
+  
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="400px" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" Display="Dynamic" ErrorMessage="Please enter a title" />&nbsp;&nbsp;&nbsp;

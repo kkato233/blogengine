@@ -38,7 +38,7 @@
                 <h1>About the author</h1>
                 <div class="vcard"><span class="fn">Author Name</span> is someone.</div>
                 <!-- Email -->
-                <div style="float:right;"><a href="<%=Utils.SafeMail(BlogSettings.Instance.Email, BlogSettings.Instance.Name) %>" >
+                <div style="float:right;"><a href="~/contact.aspx" runat="Server">
                   E-mail me <img id="Img1" src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
                 </a></div>
                 <div style="clear:both"></div>

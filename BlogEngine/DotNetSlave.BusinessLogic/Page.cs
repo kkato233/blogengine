@@ -20,7 +20,7 @@ namespace BlogEngine.Core
   /// information.
   /// </remarks>
   /// </summary>
-  public class Page : BusinessBase<Page, Guid>
+  public class Page : BusinessBase<Page, Guid>, IPublishable
   {
 
     #region Constructor
@@ -203,6 +203,16 @@ namespace BlogEngine.Core
       return null;
     }
 
+    String IPublishable.Author
+    {
+      get { return BlogSettings.Instance.AuthorName; }
+    }
+
+    List<Category> IPublishable.Categories
+    {
+      get { return null; }
+    }
+
     #endregion
 
     #region Base overrides
@@ -270,6 +280,17 @@ namespace BlogEngine.Core
       if (Serving != null)
       {
         Serving(page, arg);
+      }
+    }
+
+    /// <summary>
+    /// Raises the Serving event
+    /// </summary>
+    public void OnServing(ServingEventArgs arg)
+    {
+      if (Serving != null)
+      {
+        Serving(this, arg);
       }
     }
 

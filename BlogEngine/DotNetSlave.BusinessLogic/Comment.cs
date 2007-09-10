@@ -2,6 +2,7 @@
 
 using System;
 using System.Globalization;
+using System.Collections.Generic;
 
 #endregion
 
@@ -11,7 +12,7 @@ namespace BlogEngine.Core
   /// Represents a comment to a blog post.
   /// </summary>
   [Serializable]
-    public class Comment : IComparable<Comment>
+  public class Comment : IComparable<Comment>, IPublishable
   {
 
     #region Properties
@@ -104,13 +105,23 @@ namespace BlogEngine.Core
       set { _Post = value; }
     }
 
+    private bool _approved;
+    /// <summary>
+    /// Gets or sets the Comment approval status
+    /// </summary>
+    public bool Approved
+    {
+      get { return _approved; }
+      set { _approved = value; }
+    }
+
     private DateTime _DateCreated = DateTime.MinValue;
     /// <summary>
     /// Gets or sets when the comment was created.
     /// </summary>
     public DateTime DateCreated
     {
-      get 
+      get
       {
         if (_DateCreated == DateTime.MinValue)
           return _DateCreated;
@@ -121,14 +132,41 @@ namespace BlogEngine.Core
       set { _DateCreated = value; }
     }
 
-    private bool _approved;
-    /// <summary>
-    /// Gets or sets the Comment approval status
-    /// </summary>
-    public bool Approved
+    DateTime IPublishable.DateModified
     {
-        get { return _approved; }
-        set { _approved = value; }
+      get { return DateCreated; }
+    }
+
+    /// <summary>
+    /// Gets the title of the object
+    /// </summary>
+    /// <value></value>
+    public String Title
+    {
+      get { return Author + " on " + Post.Title; }
+    }
+
+    /// <summary>
+    /// Gets the relative link of the comment.
+    /// </summary>
+    /// <value>The relative link.</value>
+    public Uri RelativeLink
+    {
+      get { return new Uri(Post.RelativeLink.ToString() + "#id_" + Id, UriKind.Relative); }
+    }
+
+    /// <summary>
+    /// Gets the description. Returns always string.empty.
+    /// </summary>
+    /// <value>The description.</value>
+    public String Description
+    {
+      get { return string.Empty; }
+    }
+
+    List<Category> IPublishable.Categories
+    {
+      get { return null; }
     }
 
     #endregion
@@ -163,10 +201,21 @@ namespace BlogEngine.Core
     /// </summary>
     public static void OnServing(Comment comment, ServingEventArgs arg)
     {
-        if (Serving != null)
-        {
-            Serving(comment, arg);
-        }
+      if (Serving != null)
+      {
+        Serving(comment, arg);
+      }
+    }
+
+    /// <summary>
+    /// Raises the Serving event
+    /// </summary>
+    public void OnServing(ServingEventArgs arg)
+    {
+      if (Serving != null)
+      {
+        Serving(this, arg);
+      }
     }
 
     #endregion

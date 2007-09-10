@@ -120,7 +120,15 @@ namespace Controls
 
     private List<Post> SearchForPosts()
     {
-      return Search.FindRelatedPosts(this.Post);
+      List<IPublishable> list = Search.FindRelatedPosts(this.Post);
+      List<Post> posts = new List<Post>();
+      foreach (IPublishable item in list)
+      {
+        if (item is Post)
+          posts.Add((Post)item);
+      }
+
+      return posts;
     }
   }
 }

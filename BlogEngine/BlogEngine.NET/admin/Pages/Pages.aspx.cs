@@ -4,6 +4,7 @@ using System;
 using System.Web;
 using System.Text;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 
 #endregion
@@ -20,12 +21,14 @@ public partial class admin_Pages_pages : System.Web.UI.Page
       {
         Guid id = new Guid(Request.QueryString["id"]);
         BindPage(id);
-        BindParents(id);
+        BindParents(id);        
       }
       else
       {
         BindParents(Guid.Empty);
       }
+
+      BindPageList();
     }
 
     btnSave.Click += new EventHandler(btnSave_Click);
@@ -149,6 +152,26 @@ public partial class admin_Pages_pages : System.Web.UI.Page
       if (parent != null)
         ddlParent.SelectedValue = parent.Parent.ToString();
     }
+  }
+
+  private void BindPageList()
+  {
+    foreach (Page page in BlogEngine.Core.Page.Pages)
+    {
+        HtmlGenericControl li = new HtmlGenericControl("li");
+        HtmlAnchor a = new HtmlAnchor();
+        a.HRef = "?id=" + page.Id.ToString();
+        a.InnerHtml = page.Title;
+
+        System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" (" + page.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+
+        li.Controls.Add(a);
+        li.Controls.Add(text);
+        ulPages.Controls.Add(li);
+    }
+
+      divPages.Visible = true;
+      aPages.InnerHtml = BlogEngine.Core.Page.Pages.Count + " " + Resources.labels.pages;
   }
 
   #endregion

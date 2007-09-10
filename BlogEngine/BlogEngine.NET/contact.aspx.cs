@@ -37,7 +37,7 @@ public partial class contact : BlogBasePage
     bool success = SendEmail();
     divForm.Visible = !success;
     lblStatus.Visible = !success;
-    divThank.Visible = success;
+    divThank.Visible = success;    
     SetCookie();
   }
 
@@ -64,8 +64,13 @@ public partial class contact : BlogBasePage
 
       return true;
     }
-    catch (Exception)
+    catch (Exception ex)
     {
+      if (User.Identity.IsAuthenticated)
+      {
+        lblStatus.Text = ex.InnerException.Message;
+      }
+
       return false;
     }
   }
