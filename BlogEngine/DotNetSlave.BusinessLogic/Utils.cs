@@ -47,10 +47,10 @@ namespace BlogEngine.Core
     {
       get
       {
-        if (!string.IsNullOrEmpty(BlogSettings.Instance.FeedburnerUserName))
-          return "http://feeds.feedburner.com/" + BlogSettings.Instance.FeedburnerUserName;
+        if (!string.IsNullOrEmpty(BlogSettings.Instance.AlternateFeedUrl))
+          return BlogSettings.Instance.AlternateFeedUrl;
         else
-          return RelativeWebRoot + "syndication.axd";
+          return AbsoluteWebRoot + "syndication.axd";
       }
     }
 
@@ -77,7 +77,7 @@ namespace BlogEngine.Core
         {
           HttpContext context = HttpContext.Current;
           if (context == null)
-            throw new NullReferenceException("The current HttpContext is null");
+            throw new System.Net.WebException("The current HttpContext is null");
 
           _AbsoluteWebRoot = new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
         }
