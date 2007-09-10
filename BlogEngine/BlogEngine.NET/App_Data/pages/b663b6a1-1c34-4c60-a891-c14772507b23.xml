@@ -3,13 +3,16 @@
   <title>Example page</title>
   <description>The description is used as meta description</description>
   <content>&lt;p&gt;
-This is an example page.
+This is an example page. 
 &lt;/p&gt;
 &lt;p&gt;
-&amp;nbsp;For more information about pages and how to use them,&amp;nbsp;visit the &lt;a href="http://www.dotnetblogengine.net/wiki/Pages.ashx"&gt;BlogEngine.NET wiki&lt;/a&gt;.
+&amp;nbsp;For more information about pages and how to use them,&amp;nbsp;visit the &lt;a href="http://www.dotnetblogengine.net/wiki/Pages.ashx"&gt;BlogEngine.NET wiki&lt;/a&gt;. 
 &lt;/p&gt;
 </content>
   <keywords>Is, added, to, meta, keywords</keywords>
-  <datecreated>2007-07-14 12:06:59</datecreated>
-  <datemodified>2007-07-14 12:10:43</datemodified>
+  <parent>00000000-0000-0000-0000-000000000000</parent>
+  <isfrontpage>False</isfrontpage>
+  <showinlist>True</showinlist>
+  <datecreated>2007-07-14 10:06:59</datecreated>
+  <datemodified>2007-09-10 17:45:28</datemodified>
 </page>

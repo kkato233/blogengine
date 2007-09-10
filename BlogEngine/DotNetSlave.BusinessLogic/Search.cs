@@ -26,33 +26,10 @@ namespace BlogEngine.Core
     {
       BuildCatalog();
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
-      BlogSettings.Changed += new EventHandler<EventArgs>(BlogSettings_Changed);
+      BlogSettings.Changed += delegate { BuildCatalog(); };
     }
 
     #region Event handlers
-
-    /// <summary>
-    /// rebuilds the catalog of entries if the EnableCommentSearch setting have been changed.
-    /// </summary>
-    private static void BlogSettings_Changed(object sender, EventArgs e)
-    {
-      bool catalogContainComments = false;
-
-      lock (_SyncRoot)
-      {
-        foreach (Entry entry in _Catalog)
-        {
-          if (!string.IsNullOrEmpty(entry.Comments))
-          {
-            catalogContainComments = true;
-            break;
-          }
-        }
-      }
-
-      if (catalogContainComments != BlogSettings.Instance.EnableCommentSearch)
-        BuildCatalog();
-    }
 
     /// <summary>
     /// Adds a post to the catalog when it is added.
@@ -62,7 +39,7 @@ namespace BlogEngine.Core
       lock (_SyncRoot)
       {
         if (e.Action == SaveAction.Insert)
-          AddPost(sender as Post);
+          AddItem(sender as Post);
       }
     }
 
@@ -75,26 +52,26 @@ namespace BlogEngine.Core
     /// </summary>
     /// <param name="searchTerm">The term to search for</param>
     /// <param name="includeComments">True to include a post's comments and their authors in search</param>
-    public static List<Post> Hits(string searchTerm, bool includeComments)
+    public static List<IPublishable> Hits(string searchTerm, bool includeComments)
     {
       lock (_SyncRoot)
       {
         List<Result> results = BuildResultSet(searchTerm, includeComments);
-        List<Post> posts = results.ConvertAll(new Converter<Result, Post>(ResultToPost));
-        return posts;
+        List<IPublishable> items = results.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
+        return items;
       }
     }
 
     /// <summary>
     /// Returns a list of posts that is related to the specified post.
     /// </summary>
-    public static List<Post> FindRelatedPosts(Post post)
+    public static List<IPublishable> FindRelatedPosts(IPublishable post)
     {
       string term = post.Title;
-      foreach (string tag in post.Tags)
-      {
-        term += " " + tag;
-      }
+      //foreach (string tag in post.Tags)
+      //{
+      //  term += " " + tag;
+      //}
 
       foreach (Category cat in post.Categories)
       {
@@ -118,21 +95,23 @@ namespace BlogEngine.Core
       foreach (Entry entry in _Catalog)
       {
         Result result = new Result();
-        int titleMatches = Regex.Matches(entry.Title, regex).Count;
-        result.Rank = titleMatches * 20;
+        if (!(entry.Item is Comment))
+        {          
+          int titleMatches = Regex.Matches(entry.Title, regex).Count;
+          result.Rank = titleMatches * 20;
 
-        int postMatches = Regex.Matches(entry.Content, regex).Count;
-        result.Rank += postMatches;
-
-        if (includeComments)
+          int postMatches = Regex.Matches(entry.Content, regex).Count;
+          result.Rank += postMatches;
+        }
+        else if (includeComments)
         {
-          int commentMatches = Regex.Matches(entry.Comments, regex).Count;
+          int commentMatches = Regex.Matches(entry.Content + entry.Title, regex).Count;
           result.Rank += commentMatches;
         }
 
         if (result.Rank > 0)
         {
-          result.Post = entry.Post;
+          result.Item = entry.Item;
           results.Add(result);
         }
       }
@@ -144,9 +123,9 @@ namespace BlogEngine.Core
     /// <summary>
     /// A converter delegate used for converting Results to Posts.
     /// </summary>
-    private static Post ResultToPost(Result result)
+    private static IPublishable ResultToPost(Result result)
     {
-      return result.Post;
+      return result.Item;
     }
 
     #endregion
@@ -169,20 +148,32 @@ namespace BlogEngine.Core
         _Catalog.Clear();
         foreach (Post post in Post.Posts)
         {
-          AddPost(post);
+          AddItem(post);
+          if (BlogSettings.Instance.EnableCommentSearch)
+          {
+            foreach (Comment comment in post.Comments)
+            {
+              AddItem(comment);
+            }
+          }
+        }
+
+        foreach (Page page in Page.Pages)
+        {
+          AddItem(page);
         }
       }
     }
 
-    private static void AddPost(Post post)
+    private static void AddItem(IPublishable item)
     {
       Entry entry = new Entry();
-      entry.Post = post;
-      entry.Title = CleanContent(post.Title, false);
-      entry.Content = HttpUtility.HtmlDecode(CleanContent(post.Content, true));
+      entry.Item = item;
+      entry.Title = CleanContent(item.Title, false);
+      entry.Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true));
 
-      if (BlogSettings.Instance.EnableCommentSearch)
-        entry.Comments = GetCommentString(post);
+      //if (BlogSettings.Instance.EnableCommentSearch)
+      //  entry.Comments = GetCommentString(item);
 
       _Catalog.Add(entry);
     }
@@ -252,13 +243,11 @@ namespace BlogEngine.Core
   internal struct Entry
   {
     /// <summary>The post object reference</summary>
-    internal Post Post;
+    internal IPublishable Item;
     /// <summary>The title of the post cleansed for stop words</summary>
     internal string Title;
     /// <summary>The content of the post cleansed for stop words and HTML</summary>
     internal string Content;
-    /// <summary>All the comments and their authors in a single string.</summary>
-    internal string Comments;
   }
 
   /// <summary>
@@ -274,7 +263,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// The post of the result.
     /// </summary>
-    internal Post Post;
+    internal IPublishable Item;
 
     /// <summary>
     /// Compares the current object with another object of the same type.

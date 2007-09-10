@@ -246,7 +246,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     {
       if (!post.IsPublished && post.Id != id)
       {
-        HtmlGenericControl li = new HtmlGenericControl();
+        HtmlGenericControl li = new HtmlGenericControl("li");
         HtmlAnchor a = new HtmlAnchor();
         a.HRef = "?id=" + post.Id.ToString();
         a.InnerHtml = post.Title;

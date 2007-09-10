@@ -86,6 +86,15 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
+    /// Converts a relative URL to an absolute one.
+    /// </summary>
+    public static Uri ConvertToAbsolute(Uri relativeUri)
+    {
+      string absolute = AbsoluteWebRoot.ToString();
+      return new Uri(absolute.Substring(0, absolute.Length -1) + relativeUri.ToString());
+    }
+
+    /// <summary>
     /// Sends a MailMessage object using the SMTP settings.
     /// </summary>
     public static void SendMailMessage(MailMessage message)
@@ -121,53 +130,6 @@ namespace BlogEngine.Core
       thread.IsBackground = true;
       thread.Start();
     }
-
-    #region Safe mail
-
-    /// <summary>
-    /// Creates a email address that is hidden from spam robots.
-    /// </summary>
-    public static string SafeMail(string email)
-    {
-      return SafeMail(email, null);
-    }
-
-    /// <summary>
-    /// Creates a email address that is hidden from spam robots
-    /// and adds a subject to the e-mail.
-    /// </summary>
-    public static string SafeMail(string email, string subject)
-    {
-      if (email == null)
-        throw new ArgumentNullException("email");
-
-      int index = email.IndexOf("@");
-      string name = Encode(email.Substring(0, index));
-      string domain = Encode(email.Substring(index + 1));
-      string sub = Encode(subject == null ? null : ",'" + HttpUtility.HtmlEncode(subject.Replace("'", "\\'")) + "'");
-      string link = "javascript:SafeMail('{0}','{1}'{2});";
-
-      return string.Format(CultureInfo.InvariantCulture, link, name, domain, sub);
-    }
-
-    private static Random _Random = new Random();
-
-    private static string Encode(string value)
-    {
-      StringBuilder sb = new StringBuilder();
-
-      for (int i = 0; i < value.Length; i++)
-      {
-        if (_Random.Next(2) == 1)
-          sb.AppendFormat("&#{0};", Convert.ToInt32(value[i]));
-        else
-          sb.Append(value[i]);
-      }
-
-      return sb.ToString();
-    }
-
-    #endregion
 
   }
 }

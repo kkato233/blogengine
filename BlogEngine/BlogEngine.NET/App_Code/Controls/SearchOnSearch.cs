@@ -63,11 +63,11 @@ namespace Controls
       {
         string referrer = HttpContext.Current.Request.UrlReferrer.ToString().ToLowerInvariant();
         string searchTerm = GetSearchTerm(referrer);
-        List<Post> posts = Search.Hits(searchTerm, false);
-        if (posts.Count == 0)
+        List<IPublishable> items = Search.Hits(searchTerm, false);
+        if (items.Count == 0)
           return null;
 
-        return WriteHtml(posts, searchTerm);
+        return WriteHtml(items, searchTerm);
       }
 
       return null;
@@ -76,9 +76,9 @@ namespace Controls
     /// <summary>
     /// Writes the search results as HTML.
     /// </summary>
-    private string WriteHtml(List<Post> posts, string searchTerm)
+    private string WriteHtml(List<IPublishable> items, string searchTerm)
     {
-      int results = MaxResults < posts.Count ? MaxResults : posts.Count;
+      int results = MaxResults < items.Count ? MaxResults : items.Count;
       StringBuilder sb = new StringBuilder();
       sb.Append("<div id=\"searchonsearch\">");
       sb.AppendFormat("<h3>{0} '{1}'</h3>", Headline, searchTerm);
@@ -87,7 +87,7 @@ namespace Controls
 
       for (int i = 0; i < results; i++)
       {
-        sb.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", posts[i].RelativeLink, posts[i].Title);
+        sb.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", items[i].RelativeLink, items[i].Title);
       }
 
       sb.Append("</ol>");
