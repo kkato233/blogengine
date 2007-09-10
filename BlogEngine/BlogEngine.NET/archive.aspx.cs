@@ -17,6 +17,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     }
 
     Page.Title = Resources.labels.archive;
+    base.AddMetaTag("description", BlogSettings.Instance.Description);
   }
 
   private void CreateAdminMenu()
