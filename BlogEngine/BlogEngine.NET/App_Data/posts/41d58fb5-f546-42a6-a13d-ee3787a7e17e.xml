@@ -16,7 +16,7 @@ Simply replace the &amp;quot;lang&amp;quot; in [code:lang]&amp;nbsp; with the op
 By the way you need the current builds or need to add the style sheet additions at the end of the post. 
 &lt;/p&gt;
 &lt;p&gt;
-[code=c#] 
+[code=c#;ln=on;alt=on] 
 &lt;/p&gt;
 &lt;p&gt;
 #region using 
@@ -112,15 +112,15 @@ public class CodeFormatters&lt;br /&gt;
 </content>
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
-  <pubDate>2007-08-14 19:09:00</pubDate>
-  <lastModified>2007-09-11 14:28:50</lastModified>
+  <pubDate>2007-08-14 17:09:00</pubDate>
+  <lastModified>2007-09-11 14:39:47</lastModified>
   <raters>0</raters>
   <rating>0</rating>
   <slug>test code</slug>
   <tags />
   <comments>
     <comment id="32641ff5-3e9b-4c15-9de5-0b964defbbeb" approved="True">
-      <date>2007-08-21 12:01:24</date>
+      <date>2007-08-21 10:01:24</date>
       <author>Admin</author>
       <email>post@example.com</email>
       <country>us</country>
@@ -128,7 +128,7 @@ public class CodeFormatters&lt;br /&gt;
       <content>afaf</content>
     </comment>
     <comment id="5c892651-e6cd-462c-a969-238c0a97c724" approved="True">
-      <date>2007-08-24 17:22:54</date>
+      <date>2007-08-24 15:22:54</date>
       <author>تورج</author>
       <email>post@madskristensen2.dk</email>
       <country>dk</country>
@@ -137,7 +137,7 @@ public class CodeFormatters&lt;br /&gt;
       <content>mads</content>
     </comment>
     <comment id="8375be2c-4ff8-43d7-9375-a9448c77c05b" approved="False">
-      <date>2007-08-24 23:28:45</date>
+      <date>2007-08-24 21:28:45</date>
       <author>تورج</author>
       <email>post@madskriestndsf.dk</email>
       <country>dk</country>

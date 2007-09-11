@@ -22,7 +22,7 @@ using CodeFormatter;
 [Extension("Changes <code:lang></code>.  Adapted from Jean-Claude Manoli [jc@manoli.net].", "0.0.0.1", "www.manoli.net")]
 public class CodeFormatterExtension
 {
-    private Regex codeRegex = new Regex(@"\[code=(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;(?<title>.*?))?\](?<code>.*?)\[/code\]",
+    private Regex codeRegex = new Regex(@"\[code=(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\](?<code>.*?)\[/code\]",
         RegexOptions.Compiled
         | RegexOptions.CultureInvariant
         | RegexOptions.IgnoreCase
@@ -48,9 +48,9 @@ public class CodeFormatterExtension
 
         options.Language = match.Groups["lang"].Value;
         options.Code = match.Groups["code"].Value;
-        options.DisplayLineNumbers = match.Groups["ln"].Value == "on" ? true : false;
+        options.DisplayLineNumbers = match.Groups["linenumbers"].Value == "on" ? true : false;
         options.Title = match.Groups["title"].Value;
-        options.AlternateLineNumbers = match.Groups["alt"].Value == "on" ? true : false;
+        options.AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on" ? true : false;
 
         return Highlight(options, match.Value);
     }
@@ -64,7 +64,36 @@ public class CodeFormatterExtension
                 csf.LineNumbers = options.DisplayLineNumbers;
                 csf.Alternate = options.AlternateLineNumbers;
                 return HttpContext.Current.Server.HtmlDecode(csf.FormatCode(text));
-             
+            case "vb":
+                VisualBasicFormat vbf = new VisualBasicFormat();
+                vbf.LineNumbers = options.DisplayLineNumbers;
+                vbf.Alternate = options.AlternateLineNumbers;
+                return HttpContext.Current.Server.HtmlEncode(vbf.FormatCode(text));
+            case "js":
+                JavaScriptFormat jsf = new JavaScriptFormat();
+                jsf.LineNumbers = options.DisplayLineNumbers;
+                jsf.Alternate = options.AlternateLineNumbers;
+                return HttpContext.Current.Server.HtmlDecode(jsf.FormatCode(text));
+            case "html":
+                HtmlFormat htmlf = new HtmlFormat();
+                htmlf.LineNumbers = options.DisplayLineNumbers;
+                htmlf.Alternate = options.AlternateLineNumbers;
+                return HttpContext.Current.Server.HtmlDecode(htmlf.FormatCode(text));
+            case "xml":
+                HtmlFormat xmlf = new HtmlFormat();
+                xmlf.LineNumbers = options.DisplayLineNumbers;
+                xmlf.Alternate = options.AlternateLineNumbers;
+                return HttpContext.Current.Server.HtmlDecode(xmlf.FormatCode(text));
+            case "tsql":
+                TsqlFormat tsqlf = new TsqlFormat();
+                tsqlf.LineNumbers = options.DisplayLineNumbers;
+                tsqlf.Alternate = options.AlternateLineNumbers;
+                return HttpContext.Current.Server.HtmlDecode(tsqlf.FormatCode(text));
+            case "msh":
+                MshFormat mshf = new MshFormat();
+                mshf.LineNumbers = options.DisplayLineNumbers;
+                mshf.Alternate = options.AlternateLineNumbers;
+                return HttpContext.Current.Server.HtmlDecode(mshf.FormatCode(text));
         }
 
         return string.Empty;
