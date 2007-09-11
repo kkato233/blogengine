@@ -22,7 +22,7 @@ using CodeFormatter;
 [Extension("Changes <code:lang></code>.  Adapted from Jean-Claude Manoli [jc@manoli.net].", "0.0.0.1", "www.manoli.net")]
 public class CodeFormatterExtension
 {
-    private Regex codeRegex = new Regex(@"\[code=(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\](?<code>.*?)\[/code\]",
+    private Regex codeRegex = new Regex(@"\[code=(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\](?<code>.*?)\[code\]",
         RegexOptions.Compiled
         | RegexOptions.CultureInvariant
         | RegexOptions.IgnoreCase

@@ -7,13 +7,84 @@
 Here is the code being used as and Extension to render code. 
 &lt;/p&gt;
 &lt;p&gt;
-The format is [code:lang] Your code [code].&amp;nbsp; I am tinkering with the format because I am curious if there will be a need for other options.&amp;nbsp; Like forcing&amp;nbsp; a block display so that the code wraps, does not wrap, etc.&amp;nbsp; the 
+The format is [code:lang;ln=on|off;alt=on|off] all of your code [code].&amp;nbsp; I am tinkering with the format because I am curious if there will be a need for other options.&amp;nbsp; Like forcing&amp;nbsp; a block display so that the code wraps, does not wrap, etc.&amp;nbsp; the 
 &lt;/p&gt;
 &lt;p&gt;
-Simply replace the &amp;quot;lang&amp;quot; in [code:lang]&amp;nbsp; with the options c#, vb, js, html, xml, tsl, or msh.&amp;nbsp; The system handles the rest. 
+Replace LANG in [code:lang]&amp;nbsp; with the options c#, vb, js, html, xml, tsql, or msh.&amp;nbsp;&amp;nbsp;&amp;lt;--Sets language&lt;br /&gt;
+Set LN= to on or off &amp;lt;-- Sets line numbers&lt;br /&gt;
+Set ALT= to on or off &amp;lt;-- Sets alternating background line colors.
+&lt;/p&gt;
+&lt;p&gt;
+The system handles the rest. 
 &lt;/p&gt;
 &lt;p&gt;
 By the way you need the current builds or need to add the style sheet additions at the end of the post. 
+&lt;/p&gt;
+&lt;p&gt;
+[code=c#;ln=off;alt=off] 
+&lt;/p&gt;
+&lt;p&gt;
+#region using 
+&lt;/p&gt;
+&lt;p&gt;
+using System;&lt;br /&gt;
+using System.IO;&lt;br /&gt;
+using System.Web;&lt;br /&gt;
+using System.Text.RegularExpressions;&lt;br /&gt;
+using BlogEngine.Core;&lt;br /&gt;
+using BlogEngine.Core.Web;&lt;br /&gt;
+using CodeFormatter; 
+&lt;/p&gt;
+&lt;p&gt;
+#endregion 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;br /&gt;
+/// &amp;lt;summary&amp;gt;&lt;br /&gt;
+/// &amp;lt;/summary&amp;gt;&lt;br /&gt;
+/// &amp;lt;remarks&amp;gt;&lt;br /&gt;
+/// It is a work in progress.....&lt;br /&gt;
+/// &amp;lt;/remarks&amp;gt;&lt;br /&gt;
+[Extension(&amp;quot;Changes &amp;lt;code:lang&amp;gt;&amp;lt;/code&amp;gt;.&amp;nbsp; Adapted from Jean-Claude Manoli [jc@manoli.net].&amp;quot;, &amp;quot;0.0.0.1&amp;quot;, &amp;quot;&lt;a href="http://www.manoli.net/"&gt;www.manoli.net&lt;/a&gt;&amp;quot;)]&lt;br /&gt;
+public class CodeFormatters&lt;br /&gt;
+{ 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; private enum CodeLanguages&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; csharp, vb, js, html, xml, tsql, msh&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; } 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; public CodeFormatters()&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Post.Serving += new EventHandler&amp;lt;ServingEventArgs&amp;gt;(Post_Serving);&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; } 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; void Post_Serving(object sender, ServingEventArgs e)&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; /*&amp;nbsp; It supports the following.&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * C#&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * VB&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * JS&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * HTML&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * XML&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * T-SQL&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * MSH (code name Monad) --I don&amp;#39;t have a clue.&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; */&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; if (!string.IsNullOrEmpty(e.Body))&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _CSharpRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _VBRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; } 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;} 
+&lt;/p&gt;
+&lt;p&gt;
+[code] 
 &lt;/p&gt;
 &lt;p&gt;
 [code=c#;ln=on;alt=on] 
@@ -76,75 +147,87 @@ public class CodeFormatters&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; } 
 &lt;/p&gt;
 &lt;p&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; private static string MatchEval(Match match)&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;} 
+&lt;/p&gt;
+&lt;p&gt;
+[code] 
+&lt;/p&gt;
+&lt;p&gt;
+[code=c#;ln=off;alt=on] 
+&lt;/p&gt;
+&lt;p&gt;
+#region using 
+&lt;/p&gt;
+&lt;p&gt;
+using System;&lt;br /&gt;
+using System.IO;&lt;br /&gt;
+using System.Web;&lt;br /&gt;
+using System.Text.RegularExpressions;&lt;br /&gt;
+using BlogEngine.Core;&lt;br /&gt;
+using BlogEngine.Core.Web;&lt;br /&gt;
+using CodeFormatter; 
+&lt;/p&gt;
+&lt;p&gt;
+#endregion 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;br /&gt;
+/// &amp;lt;summary&amp;gt;&lt;br /&gt;
+/// &amp;lt;/summary&amp;gt;&lt;br /&gt;
+/// &amp;lt;remarks&amp;gt;&lt;br /&gt;
+/// It is a work in progress.....&lt;br /&gt;
+/// &amp;lt;/remarks&amp;gt;&lt;br /&gt;
+[Extension(&amp;quot;Changes &amp;lt;code:lang&amp;gt;&amp;lt;/code&amp;gt;.&amp;nbsp; Adapted from Jean-Claude Manoli [jc@manoli.net].&amp;quot;, &amp;quot;0.0.0.1&amp;quot;, &amp;quot;&lt;a href="http://www.manoli.net/"&gt;www.manoli.net&lt;/a&gt;&amp;quot;)]&lt;br /&gt;
+public class CodeFormatters&lt;br /&gt;
+{ 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; private enum CodeLanguages&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; foreach (Match mat in match.Groups)&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; csharp, vb, js, html, xml, tsql, msh&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; } 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; public CodeFormatters()&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Post.Serving += new EventHandler&amp;lt;ServingEventArgs&amp;gt;(Post_Serving);&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; } 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; void Post_Serving(object sender, ServingEventArgs e)&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; /*&amp;nbsp; It supports the following.&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * C#&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * VB&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * JS&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * HTML&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * XML&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * T-SQL&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; * MSH (code name Monad) --I don&amp;#39;t have a clue.&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; */&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; if (!string.IsNullOrEmpty(e.Body))&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; if (mat.Success)&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; string matchString = match.ToString();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; string langType = matchString.Remove(0, 6);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; langType = langType.Remove(langType.IndexOf(&amp;quot;]&amp;quot;)); 
-&lt;/p&gt;
-&lt;p&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; switch (langType)&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;c#&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:c#]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CSharpFormat csf = new CSharpFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return HttpContext.Current.Server.HtmlDecode(csf.FormatCode(matchString));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;vb&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:vb]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.VisualBasicFormat vbf = new VisualBasicFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return HttpContext.Current.Server.HtmlEncode(vbf.FormatCode(matchString));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;}&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _CSharpRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _VBRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return &amp;quot;&amp;quot;; //no match&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
-} 
+&amp;nbsp;&amp;nbsp;&amp;nbsp; } 
 &lt;/p&gt;
 &lt;p&gt;
-[/code] &lt;font size="2" color="#008000"&gt;&lt;/font&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;} 
+&lt;/p&gt;
+&lt;p&gt;
+[code] 
 &lt;/p&gt;
 </content>
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
-  <pubDate>2007-08-14 17:09:00</pubDate>
-  <lastModified>2007-09-11 14:39:47</lastModified>
+  <pubDate>2007-08-14 13:09:00</pubDate>
+  <lastModified>2007-09-11 14:59:45</lastModified>
   <raters>0</raters>
   <rating>0</rating>
   <slug>test code</slug>
   <tags />
-  <comments>
-    <comment id="32641ff5-3e9b-4c15-9de5-0b964defbbeb" approved="True">
-      <date>2007-08-21 10:01:24</date>
-      <author>Admin</author>
-      <email>post@example.com</email>
-      <country>us</country>
-      <ip>127.0.0.1</ip>
-      <content>afaf</content>
-    </comment>
-    <comment id="5c892651-e6cd-462c-a969-238c0a97c724" approved="True">
-      <date>2007-08-24 15:22:54</date>
-      <author>تورج</author>
-      <email>post@madskristensen2.dk</email>
-      <country>dk</country>
-      <ip>127.0.0.1</ip>
-      <website>http://blog.madskristensen.dk/</website>
-      <content>mads</content>
-    </comment>
-    <comment id="8375be2c-4ff8-43d7-9375-a9448c77c05b" approved="False">
-      <date>2007-08-24 21:28:45</date>
-      <author>تورج</author>
-      <email>post@madskriestndsf.dk</email>
-      <country>dk</country>
-      <ip>127.0.0.1</ip>
-      <content>sdf</content>
-    </comment>
-  </comments>
+  <comments />
   <categories />
   <notifications />
 </post>
