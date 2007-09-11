@@ -113,6 +113,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
     page.IsFrontPage = cbIsFrontPage.Checked;
     page.ShowInList = cbShowInList.Checked;
+    page.IsPublished = cbIsPublished.Checked;
 
     if (ddlParent.SelectedIndex != 0)
       page.Parent = new Guid(ddlParent.SelectedValue);
@@ -135,6 +136,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     txtKeyword.Text = page.Keywords;
     cbIsFrontPage.Checked = page.IsFrontPage;
     cbShowInList.Checked = page.ShowInList;
+    cbIsPublished.Checked = page.IsPublished;
   }
 
   private void BindParents(Guid pageId)

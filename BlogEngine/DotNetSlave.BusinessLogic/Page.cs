@@ -109,6 +109,29 @@ namespace BlogEngine.Core
       }
     }
 
+    private bool _IsPublished;
+    /// <summary>
+    /// Gets or sets whether or not this page should be published.
+    /// </summary>
+    public bool IsPublished
+    {
+      get { return _IsPublished; }
+      set
+      {
+        if (_IsPublished != value) MarkDirty("IsPublished");
+        _IsPublished = value;
+      }
+    }
+
+    /// <summary>
+    /// Gets whether or not this page should be shown
+    /// </summary>
+    /// <value></value>
+    public bool IsVisible
+    {
+      get { return IsPublished; }
+    }
+
     private bool _IsFrontPage;
     /// <summary>
     /// Gets or sets whether or not this page should be displayed on the front page.

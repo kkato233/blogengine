@@ -30,6 +30,9 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
       this.Page = BlogEngine.Core.Page.GetPage(id);
       if (this.Page != null)
       {
+        if (!this.Page.IsPublished && !this.User.Identity.IsAuthenticated)
+          Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
+
         h1Title.InnerHtml = this.Page.Title;
 
         ServingEventArgs arg = new ServingEventArgs(this.Page.Content);

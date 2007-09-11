@@ -56,6 +56,10 @@
       <td class="label"><%=Resources.labels.keywords %></td>
       <td><asp:TextBox runat="server" ID="txtKeyword" Width="400" /></td>
     </tr>
+    <tr>
+      <td class="label"><%=Resources.labels.settings %></td>
+      <td><asp:CheckBox runat="Server" ID="cbIsPublished" Checked="true" Text="<%$ Resources:labels, publish %>" /></td>
+    </tr>
   </table>  
   
   <div style="text-align:right">

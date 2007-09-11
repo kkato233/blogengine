@@ -136,6 +136,7 @@ label.wide {
 
 td.label{
 	vertical-align: top;
+	padding-top: 5px;
 }
 
 .settings span label{

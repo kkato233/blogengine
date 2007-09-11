@@ -39,7 +39,13 @@ namespace BlogEngine.Core
       lock (_SyncRoot)
       {
         if (e.Action == SaveAction.Insert)
+        {
           AddItem(sender as Post);
+        }
+        else
+        {
+          BuildCatalog();
+        }
       }
     }
 
@@ -96,7 +102,7 @@ namespace BlogEngine.Core
       {
         Result result = new Result();
         if (!(entry.Item is Comment))
-        {          
+        {
           int titleMatches = Regex.Matches(entry.Title, regex).Count;
           result.Rank = titleMatches * 20;
 
@@ -148,19 +154,24 @@ namespace BlogEngine.Core
         _Catalog.Clear();
         foreach (Post post in Post.Posts)
         {
+          if (!post.IsVisible)
+            continue;
+
           AddItem(post);
           if (BlogSettings.Instance.EnableCommentSearch)
           {
             foreach (Comment comment in post.Comments)
             {
-              AddItem(comment);
+              if (comment.IsVisible)
+                AddItem(comment);
             }
           }
         }
 
         foreach (Page page in Page.Pages)
         {
-          AddItem(page);
+          if (page.IsVisible)
+            AddItem(page);
         }
       }
     }

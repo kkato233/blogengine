@@ -75,5 +75,10 @@ namespace BlogEngine.Core
     /// </summary>
     /// <value>The categories.</value>
     List<Category> Categories { get;}
+
+    /// <summary>
+    /// Gets whether or not this item should be shown
+    /// </summary>
+    bool IsVisible { get;}
   }
 }

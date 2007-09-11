@@ -115,6 +115,15 @@ namespace BlogEngine.Core
       set { _approved = value; }
     }
 
+    /// <summary>
+    /// Gets whether or not this comment should be shown
+    /// </summary>
+    /// <value></value>
+    public bool IsVisible
+    {
+      get { return Approved; }
+    }
+
     private DateTime _DateCreated = DateTime.MinValue;
     /// <summary>
     /// Gets or sets when the comment was created.

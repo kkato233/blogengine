@@ -318,7 +318,7 @@ namespace BlogEngine.Core.Providers
     public override Page SelectPage(Guid id)
     {
       bool connClose = OpenConnection();
-
+      //TODO: add support for page.IsPublished boolean
       Page page = new Page();
       string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
                           "DateModified, Keywords " +
@@ -355,7 +355,7 @@ namespace BlogEngine.Core.Providers
     public override void InsertPage(Page page)
     {
       OpenConnection();
-
+      //TODO: add support for page.IsPublished boolean
       string sqlQuery = "INSERT INTO be_Pages (PageID, Title, Description, PageContent, " +
                           "DateCreated, DateModified, Keywords) " +
                           "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords)";
@@ -378,7 +378,7 @@ namespace BlogEngine.Core.Providers
     {
       if (page == null)
         throw new ArgumentNullException("page");
-
+      //TODO: add support for page.IsPublished boolean
       OpenConnection();
 
       string sqlQuery = "UPDATE be_Pages " +

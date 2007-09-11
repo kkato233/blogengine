@@ -14,7 +14,7 @@ using BlogEngine.Core;
 public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 {
 
-  private const int PAGE_SIZE = 10;
+  private const int PAGE_SIZE = 20;
 
   #region Event handlers
 
@@ -26,8 +26,8 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       bool includeComments = Request.QueryString["comment"] == "true";
       BindSearchResult(Request.QueryString["q"], includeComments);
-      Page.Title = Request.QueryString["q"];
-      h1Headline.InnerHtml = Resources.labels.searchResultsFor + " '" +Request.QueryString["q"] +"'";
+      Page.Title = Resources.labels.searchResultsFor + " '" + Request.QueryString["q"] + "'";
+      h1Headline.InnerHtml = Page.Title;
     }
     else
     {
