@@ -815,11 +815,6 @@ ul#monthList ul.open{
 
 .csharpcode .attr { color: #ff0000; }
 
-.csharpcode .alt 
-{
-	background-color: #f4f4f4;
-	width: 100%;
-	margin: 0em;
-}
+.csharpcode .alt {	background-color: #f4f4f4; }
 
-.csharpcode .lnum { color: #606060; }
+.csharpcode .lnum { color: #606060; white-space: normal;}
