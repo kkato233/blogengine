@@ -16,10 +16,10 @@ Simply replace the &amp;quot;lang&amp;quot; in [code:lang]&amp;nbsp; with the op
 By the way you need the current builds or need to add the style sheet additions at the end of the post. 
 &lt;/p&gt;
 &lt;p&gt;
-[code:c#] 
+[code=c#] 
 &lt;/p&gt;
 &lt;p&gt;
-&amp;nbsp;#region using 
+#region using 
 &lt;/p&gt;
 &lt;p&gt;
 using System;&lt;br /&gt;
@@ -45,17 +45,7 @@ public class CodeFormatters&lt;br /&gt;
 { 
 &lt;/p&gt;
 &lt;p&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; //Characters other than . $ ^ { [ ( | ) * + ? \ match themselves.&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _CSharpRegex = new Regex(@&amp;quot;\[code\:c\#].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.Singleline);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _VBRegex = new Regex(@&amp;quot;\[code\:vb].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _JavaScriptRegex = new Regex(@&amp;quot;\[code\:js].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _HTMLRegex = new Regex(@&amp;quot;\[code\:html].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _XMLRegex = new Regex(@&amp;quot;\[code\:xml].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _TSQLRegex = new Regex(@&amp;quot;\[code\:tsql].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; static readonly Regex _MSHRegex = new Regex(@&amp;quot;\[code\:msh].*\[code]&amp;quot;, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled); 
-&lt;/p&gt;
-&lt;p&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; private enum CodeLanguages&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; private enum CodeLanguages&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; csharp, vb, js, html, xml, tsql, msh&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; } 
@@ -82,13 +72,6 @@ public class CodeFormatters&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; {&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _CSharpRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _VBRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _JavaScriptRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _HTMLRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _XMLRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _TSQLRegex.Replace(e.Body, new MatchEvaluator(MatchEval));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; e.Body = _MSHRegex.Replace(e.Body, new MatchEvaluator(MatchEval)); 
-&lt;/p&gt;
-&lt;p&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; } 
 &lt;/p&gt;
@@ -116,32 +99,7 @@ public class CodeFormatters&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.VisualBasicFormat vbf = new VisualBasicFormat();&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return HttpContext.Current.Server.HtmlEncode(vbf.FormatCode(matchString));&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;js&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:js]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.JavaScriptFormat jsf = new JavaScriptFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return jsf.FormatCode(matchString);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;html&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:html]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.HtmlFormat htmlf = new HtmlFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return htmlf.FormatCode(matchString);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;xml&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:xml]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.HtmlFormat xmlf = new HtmlFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return xmlf.FormatCode(matchString);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;tsql&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:tsql]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.TsqlFormat tsqlf = new TsqlFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return tsqlf.FormatCode(matchString);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; case &amp;quot;msh&amp;quot;:&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code:msh]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; matchString = matchString.Replace(&amp;quot;[code]&amp;quot;, &amp;quot;&amp;quot;);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; CodeFormatter.MshFormat mshf = new MshFormat();&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return mshf.FormatCode(matchString);&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;}&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;br /&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return &amp;quot;&amp;quot;; //no match&lt;br /&gt;
@@ -149,96 +107,20 @@ public class CodeFormatters&lt;br /&gt;
 } 
 &lt;/p&gt;
 &lt;p&gt;
-[code] 
+[/code] &lt;font size="2" color="#008000"&gt;&lt;/font&gt;
 &lt;/p&gt;
-&lt;font size="2" color="#008000"&gt;
-&lt;p&gt;
-/* code styles for CodeFormatter Extension*/ 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt;, &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.csharpcode&lt;/font&gt;&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;pre&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2"&gt;
-&lt;p&gt;
-{ 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;font-size&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;small&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt;&lt;font size="2"&gt; 
-&lt;p&gt;
-&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;black&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;font-family&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;Consolas,&lt;/font&gt;&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;&amp;quot;Courier New&amp;quot;,&lt;/font&gt;&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;Courier,&lt;/font&gt;&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;Monospace&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt;&lt;font size="2"&gt;&lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;background-color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#ffffff&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt;&lt;font size="2"&gt; 
-&lt;p&gt;
-&amp;nbsp;
-&lt;/p&gt;
-&lt;p&gt;
-} 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;pre&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;margin&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;0em&lt;/font&gt;&lt;font size="2"&gt;;}&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.rem&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#008000&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.kwrd&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#0000ff&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.str&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#006080&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.op&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#0000c0&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.preproc&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#cc6633&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.asp&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;background-color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#ffff00&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.html&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#800000&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.attr&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#ff0000&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.csharpcode&lt;/font&gt;&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.alt&lt;/font&gt;&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2"&gt;
-&lt;p&gt;
-{ 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;background-color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#f4f4f4&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt;&lt;font size="2"&gt; 
-&lt;p&gt;
-&lt;font size="2" color="#ff0000"&gt;width&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;100%&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;margin&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;0em&lt;/font&gt;&lt;font size="2"&gt;;&lt;/font&gt;&lt;font size="2"&gt; 
-&lt;p&gt;
-} 
-&lt;/p&gt;
-&lt;/font&gt;&lt;font size="2" color="#a31515"&gt;
-&lt;p&gt;
-.csharpcode&lt;font size="2"&gt; &lt;/font&gt;&lt;font size="2" color="#a31515"&gt;.lnum&lt;/font&gt;&lt;font size="2"&gt; { &lt;/font&gt;&lt;font size="2" color="#ff0000"&gt;color&lt;/font&gt;&lt;font size="2"&gt;: &lt;/font&gt;&lt;font size="2" color="#0000ff"&gt;#606060&lt;/font&gt;&lt;font size="2"&gt;; }&lt;/font&gt; 
-&lt;/p&gt;
-&lt;/font&gt;
 </content>
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
-  <pubDate>2007-08-15 03:09:00</pubDate>
-  <lastModified>2007-08-24 01:11:56</lastModified>
+  <pubDate>2007-08-14 19:09:00</pubDate>
+  <lastModified>2007-09-11 14:28:50</lastModified>
   <raters>0</raters>
   <rating>0</rating>
   <slug>test code</slug>
   <tags />
   <comments>
     <comment id="32641ff5-3e9b-4c15-9de5-0b964defbbeb" approved="True">
-      <date>2007-08-21 20:01:24</date>
+      <date>2007-08-21 12:01:24</date>
       <author>Admin</author>
       <email>post@example.com</email>
       <country>us</country>
@@ -246,7 +128,7 @@ public class CodeFormatters&lt;br /&gt;
       <content>afaf</content>
     </comment>
     <comment id="5c892651-e6cd-462c-a969-238c0a97c724" approved="True">
-      <date>2007-08-25 01:22:54</date>
+      <date>2007-08-24 17:22:54</date>
       <author>تورج</author>
       <email>post@madskristensen2.dk</email>
       <country>dk</country>
@@ -255,7 +137,7 @@ public class CodeFormatters&lt;br /&gt;
       <content>mads</content>
     </comment>
     <comment id="8375be2c-4ff8-43d7-9375-a9448c77c05b" approved="False">
-      <date>2007-08-25 07:28:45</date>
+      <date>2007-08-24 23:28:45</date>
       <author>تورج</author>
       <email>post@madskriestndsf.dk</email>
       <country>dk</country>
