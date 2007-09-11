@@ -68,7 +68,7 @@ namespace Controls
       HtmlGenericControl ul = new HtmlGenericControl("ul");
       foreach (BlogEngine.Core.Page page in BlogEngine.Core.Page.Pages)
       {
-        if (page.ShowInList)
+        if (page.ShowInList && page.IsPublished)
         {
           HtmlGenericControl li = new HtmlGenericControl("li");
 

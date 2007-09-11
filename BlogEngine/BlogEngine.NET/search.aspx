@@ -4,7 +4,34 @@
   <div class="searchpage post">
     <h1 runat="server" id="h1Headline" />
     <br />
-    <blog:SearchBox runat="Server" /><br /><br />
+    
+    <div id="searchpage">
+      <input type="text" name="q" id="q" value="<%=Request.QueryString["q"] %>" onkeypress="if(event.keyCode==13) SearchPage()" />
+      <input type="button" value="<%=Resources.labels.search %>" onclick="SearchPage()" onkeypress="SearchPage()" />
+      <% if (BlogSettings.Instance.EnableCommentSearch){ %>
+      <input type="checkbox" name="comment" id="comment" /><label for="comment"><%=BlogSettings.Instance.SearchCommentLabelText %></label>
+      <%} %>
+    </div>
+
+    <script type="text/javascript">      
+      var check = document.getElementById('comment');
+      
+      function SearchPage()
+      {        
+        var searchTerm = document.getElementById('q').value;
+        var include = check.checked;
+        var comment = '&comment=true';
+        
+        if (!include)
+        {
+          comment = ''
+        }
+        
+        location.href = 'search.aspx?q=' + searchTerm + comment;
+      }
+      
+      check.checked = <%=(Request.QueryString["comment"] != null).ToString().ToLowerInvariant() %>
+    </script>
   
     <asp:repeater runat="server" id="rep">
       <ItemTemplate>

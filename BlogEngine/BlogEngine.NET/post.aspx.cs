@@ -33,7 +33,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
       if (Post != null)
       {
         if (!this.Post.IsVisible && !Page.User.Identity.IsAuthenticated)
-          Response.Redirect(Utils.RelativeWebRoot, true);
+          Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
 
         string path = "~/themes/" + BlogSettings.Instance.Theme + "/postview.ascx";
 

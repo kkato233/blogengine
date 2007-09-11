@@ -697,6 +697,18 @@ ul#monthList ul.open{
 				Search page
 ----------------------------*/
 
+#searchpage{
+	margin-bottom: 30px;
+}
+
+#searchpage input#q{
+	width: 300px;
+}
+
+#searchpage input#comment{
+	clear: both;
+}
+
 .searchresult{
 	margin-bottom: 20px;
 }
@@ -782,6 +794,8 @@ ul#monthList ul.open{
 	background-color: #ffffff;
 	/*white-space: pre;*/
 }
+
+.csharpcode p { white-space: normal; }
 
 .csharpcode pre { margin: 0em; }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Web;
 using System.Text;
+using System.Threading;
 
 namespace BlogEngine.Core.Web.Controls
 {
@@ -25,7 +26,8 @@ namespace BlogEngine.Core.Web.Controls
 
       foreach (Page page in Page.Pages)
       {
-        if (url.Equals(Utils.RemoveIlegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
+        if ((page.IsPublished || Thread.CurrentPrincipal.Identity.IsAuthenticated) 
+          && url.Equals(Utils.RemoveIlegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
         {
           return new SiteMapNode(this, page.Id.ToString(), page.RelativeLink.ToString(), page.Title, page.Description);
         }
@@ -47,7 +49,7 @@ namespace BlogEngine.Core.Web.Controls
       Guid id = new Guid(node.Key);
       foreach (Page page in Page.Pages)
       {
-        if (page.Parent == id && page.ShowInList)
+        if ((page.IsPublished || Thread.CurrentPrincipal.Identity.IsAuthenticated) && page.Parent == id && page.ShowInList)
           col.Add(new SiteMapNode(this, page.Id.ToString(), page.RelativeLink.ToString(), page.Title, page.Description));
       }
 
@@ -71,7 +73,10 @@ namespace BlogEngine.Core.Web.Controls
       if (parentId != Guid.Empty && parentId != id)
       {
         Page parent = Page.GetPage(parentId);
-        return new SiteMapNode(this, parent.Id.ToString(), parent.RelativeLink.ToString(), parent.Title, parent.Description);
+        if (parent.IsPublished)
+        {
+          return new SiteMapNode(this, parent.Id.ToString(), parent.RelativeLink.ToString(), parent.Title, parent.Description);
+        }
       }
 
       return null;
