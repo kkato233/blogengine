@@ -26,7 +26,7 @@ public class SendCommentMail
 
   private void Post_CommentAdded(object sender, EventArgs e)
   {
-    Post post = (Post)sender;
+    Post post = ((Comment)sender).Post;
     if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)
     {
       Comment comment = post.Comments[post.Comments.Count - 1];
