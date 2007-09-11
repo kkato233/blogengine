@@ -20,7 +20,7 @@ namespace BlogEngine.Core
   /// A post is an entry on the blog - a blog post.
   /// </summary>
   [Serializable]
-  public class Post : BusinessBase<Post, Guid>, IComparable<Post>
+  public class Post : BusinessBase<Post, Guid>, IComparable<Post>, IPublishable
   {
 
     #region Constructor
@@ -310,7 +310,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri RelativeLink
     {
-      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIlegalCharacters(Slug) + ".aspx"), UriKind.Relative); }
+      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIlegalCharacters(Slug) + BlogSettings.Instance.FileExtension), UriKind.Relative); }
     }
 
     /// <summary>
@@ -318,7 +318,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri AbsoluteLink
     {
-      get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIlegalCharacters(Slug) + ".aspx"); }
+      get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIlegalCharacters(Slug) + BlogSettings.Instance.FileExtension); }
     }
 
     /// <summary>
@@ -768,6 +768,17 @@ namespace BlogEngine.Core
       if (Serving != null)
       {
         Serving(post, arg);
+      }
+    }
+
+    /// <summary>
+    /// Raises the Serving event
+    /// </summary>
+    public void OnServing(ServingEventArgs arg)
+    {
+      if (Serving != null)
+      {
+        Serving(this, arg);
       }
     }
 
