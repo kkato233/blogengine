@@ -18,7 +18,7 @@
       
       function SearchPage()
       {        
-        var searchTerm = document.getElementById('q').value;
+        var searchTerm = encodeURIComponent(document.getElementById('q').value);
         var include = check.checked;
         var comment = '&comment=true';
         
