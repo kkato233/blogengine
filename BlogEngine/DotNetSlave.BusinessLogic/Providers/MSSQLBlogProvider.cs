@@ -767,8 +767,9 @@ namespace BlogEngine.Core.Providers
 
         foreach (DataRow dr in dtCategories.Rows)
         {
-            Category cat = Category.GetCategory(new Guid(dr[0].ToString()));
+            Category cat = new Category();
             cat.Title = dr[1].ToString();
+            cat.Id = new Guid(dr[0].ToString());
             categories.Add(cat);
         }
 
