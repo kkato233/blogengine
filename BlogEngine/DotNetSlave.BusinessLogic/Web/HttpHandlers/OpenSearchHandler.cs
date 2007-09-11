@@ -37,7 +37,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
         writer.WriteStartElement("Url");
         writer.WriteAttributeString("type", "text/html");
-        writer.WriteAttributeString("template", Utils.AbsoluteWebRoot.ToString() + "search.aspxq={searchTerms}");
+        writer.WriteAttributeString("template", Utils.AbsoluteWebRoot.ToString() + "search.aspx?q={searchTerms}");
 
         writer.WriteStartElement("Url");
         writer.WriteAttributeString("type", "application/rss+xml");
