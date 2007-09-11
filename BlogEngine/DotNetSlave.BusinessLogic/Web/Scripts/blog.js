@@ -61,7 +61,7 @@ function Search(root)
   var input = document.getElementById("searchfield");
   var check = document.getElementById("searchcomments");
   
-  var search = "search.aspx?q=" + encodeURI(input.value);
+  var search = "search.aspx?q=" + encodeURIComponent(input.value);
   if (check != null && check.checked)
     search += "&comment=true";
   

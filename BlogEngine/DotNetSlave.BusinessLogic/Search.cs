@@ -26,9 +26,19 @@ namespace BlogEngine.Core
     {
       BuildCatalog();
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+      Page.Saved += new EventHandler<SavedEventArgs>(Page_Saved);
       BlogSettings.Changed += delegate { BuildCatalog(); };
+      Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
+      Post.CommentRemoved += delegate { BuildCatalog(); };
     }
 
+    static void Post_CommentAdded(object sender, EventArgs e)
+    {
+      Comment comment = (Comment)sender;
+      if (comment.Approved)
+        AddItem(comment);
+    }
+    
     #region Event handlers
 
     /// <summary>
@@ -41,6 +51,21 @@ namespace BlogEngine.Core
         if (e.Action == SaveAction.Insert)
         {
           AddItem(sender as Post);
+        }
+        else
+        {
+          BuildCatalog();
+        }
+      }
+    }
+
+    private static void Page_Saved(object sender, SavedEventArgs e)
+    {
+      lock (_SyncRoot)
+      {
+        if (e.Action == SaveAction.Insert)
+        {
+          AddItem(sender as Page);
         }
         else
         {

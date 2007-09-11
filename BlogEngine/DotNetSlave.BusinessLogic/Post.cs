@@ -514,10 +514,10 @@ namespace BlogEngine.Core
     /// <param name="comment">The comment to add to the post.</param>
     public void AddComment(Comment comment)
     {
-      OnAddingComment(this);
+      OnAddingComment(comment);
       Comments.Add(comment);
       DataUpdate();
-      OnCommentAdded(this);
+      OnCommentAdded(comment);
       SendNotifications(comment);
     }
 
@@ -553,10 +553,10 @@ namespace BlogEngine.Core
     /// <param name="comment">The comment to remove from the post.</param>
     public void RemoveComment(Comment comment)
     {
-      OnRemovingComment(this);
+      OnRemovingComment(comment);
       Comments.Remove(comment);
       DataUpdate();
-      OnCommentRemoved(this);
+      OnCommentRemoved(comment);
     }
 
     /// <summary>
@@ -688,11 +688,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnAddingComment(Post post)
+    protected virtual void OnAddingComment(Comment comment)
     {
       if (AddingComment != null)
       {
-        AddingComment(post, new EventArgs());
+        AddingComment(comment, new EventArgs());
       }
     }
 
@@ -703,11 +703,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnCommentAdded(Post post)
+    protected virtual void OnCommentAdded(Comment comment)
     {
       if (CommentAdded != null)
       {
-        CommentAdded(post, new EventArgs());
+        CommentAdded(comment, new EventArgs());
       }
     }
 
@@ -718,11 +718,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnRemovingComment(Post post)
+    protected virtual void OnRemovingComment(Comment comment)
     {
       if (RemovingComment != null)
       {
-        RemovingComment(post, new EventArgs());
+        RemovingComment(comment, new EventArgs());
       }
     }
 
@@ -733,11 +733,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    protected virtual void OnCommentRemoved(Post post)
+    protected virtual void OnCommentRemoved(Comment comment)
     {
       if (CommentRemoved != null)
       {
-        CommentRemoved(post, new EventArgs());
+        CommentRemoved(comment, new EventArgs());
       }
     }
 
