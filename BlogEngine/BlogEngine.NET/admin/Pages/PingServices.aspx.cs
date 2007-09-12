@@ -31,7 +31,7 @@ public partial class admin_Pages_PingServices : System.Web.UI.Page
   void btnAdd_Click(object sender, EventArgs e)
   {
     StringCollection col = BlogService.LoadPingServices();
-    col.Add(txtNewCategory.Text);
+    col.Add(txtNewCategory.Text.ToLowerInvariant());
     BlogService.SavePingServices(col);
     Response.Redirect(Request.RawUrl);
   }
@@ -52,7 +52,7 @@ public partial class admin_Pages_PingServices : System.Web.UI.Page
     
     StringCollection col = BlogService.LoadPingServices();
     col.Remove(service);
-    col.Add(textbox.Text);
+    col.Add(textbox.Text.ToLowerInvariant());
     BlogService.SavePingServices(col);
     
     Response.Redirect(Request.RawUrl);
