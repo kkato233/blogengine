@@ -786,35 +786,35 @@ ul#monthList ul.open{
 }
 
 /* code styles for CodeFormatter Extension*/
-.csharpcode, .csharpcode pre
+.code
 {
-	font-size: small;
+	font-size: 12px;
 	color: black;
 	font-family: Consolas, "Courier New", Courier, Monospace;
 	background-color: #ffffff;
 	/*white-space: pre;*/
 }
 
-.csharpcode p { white-space: normal; }
+.code span{
+	line-height: 14px;
+}
 
-.csharpcode pre { margin: 0em; }
+.code .rem { color: #008000; }
 
-.csharpcode .rem { color: #008000; }
+.code .kwrd { color: #0000ff; }
 
-.csharpcode .kwrd { color: #0000ff; }
+.code .str { color: #006080; }
 
-.csharpcode .str { color: #006080; }
+.code .op { color: #0000c0; }
 
-.csharpcode .op { color: #0000c0; }
+.code .preproc { color: #cc6633; }
 
-.csharpcode .preproc { color: #cc6633; }
+.code .asp { background-color: #ffff00; }
 
-.csharpcode .asp { background-color: #ffff00; }
+.code .html { color: #800000; }
 
-.csharpcode .html { color: #800000; }
+.code .attr { color: #ff0000; }
 
-.csharpcode .attr { color: #ff0000; }
+.code .alt {	background-color: #f4f4f4; }
 
-.csharpcode .alt {	background-color: #f4f4f4; }
-
-.csharpcode .lnum { color: #606060; white-space: normal;}
+.code .lnum { color: #606060;}

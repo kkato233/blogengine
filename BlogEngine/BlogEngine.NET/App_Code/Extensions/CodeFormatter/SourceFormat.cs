@@ -53,7 +53,7 @@ namespace CodeFormatter
 			_tabSpaces = 4;
 			_lineNumbers = false;
 			_alternate = false;
-			_embedStyleSheet = false;
+			//_embedStyleSheet = false;
 		}
 
 		private byte _tabSpaces;
@@ -95,8 +95,8 @@ namespace CodeFormatter
 			get { return _alternate; }
 			set { _alternate = value; }
 		}
-
-		private bool _embedStyleSheet;
+    /*
+		private bool _embedStyleSheet; 
 
 		/// <summary>
 		/// Enables or disables the embedded CSS style sheet.
@@ -108,7 +108,7 @@ namespace CodeFormatter
 			get { return _embedStyleSheet; }
 			set { _embedStyleSheet = value; }
 		}
-
+    */
 		/// <overloads>Transform source code to HTML 4.01.</overloads>
 		/// 
 		/// <summary>
@@ -121,7 +121,7 @@ namespace CodeFormatter
 			StreamReader reader = new StreamReader(source);
 			string s = reader.ReadToEnd();
 			reader.Close();
-			return FormatCode(s, _lineNumbers, _alternate, _embedStyleSheet, false);
+			return FormatCode(s, _lineNumbers, _alternate, false, false);
 		}
 
 		/// <summary>
@@ -130,7 +130,7 @@ namespace CodeFormatter
 		/// <returns>A string containing the HTML formatted code.</returns>
 		public string FormatCode(string source)
 		{
-			return FormatCode(source, _lineNumbers, _alternate, _embedStyleSheet, false);
+			return FormatCode(source, _lineNumbers, _alternate, false, false);
 		}
 
 		/// <summary>
@@ -142,25 +142,25 @@ namespace CodeFormatter
 			return FormatCode(source, false, false, false, true);
 		}
 
-		/// <summary>
-		/// Gets the CSS stylesheet as a stream.
-		/// </summary>
-		/// <returns>A text <see cref="Stream"/> of the CSS definitions.</returns>
-		public static Stream GetCssStream()
-		{
-			return Assembly.GetExecutingAssembly().GetManifestResourceStream(
-				"CodeFormatter.csharp.css");
-		}
+    ///// <summary>
+    ///// Gets the CSS stylesheet as a stream.
+    ///// </summary>
+    ///// <returns>A text <see cref="Stream"/> of the CSS definitions.</returns>
+    //public static Stream GetCssStream()
+    //{
+    //  return Assembly.GetExecutingAssembly().GetManifestResourceStream(
+    //    "CodeFormatter.csharp.css");
+    //}
 
-		/// <summary>
-		/// Gets the CSS stylesheet as a string.
-		/// </summary>
-		/// <returns>A string containing the CSS definitions.</returns>
-		public static string GetCssString()
-		{
-			StreamReader reader = new StreamReader(GetCssStream());
-			return reader.ReadToEnd();
-		}
+    ///// <summary>
+    ///// Gets the CSS stylesheet as a string.
+    ///// </summary>
+    ///// <returns>A string containing the CSS definitions.</returns>
+    //public static string GetCssString()
+    //{
+    //  StreamReader reader = new StreamReader(GetCssStream());
+    //  return reader.ReadToEnd();
+    //}
 
 		private Regex codeRegex;
 
@@ -202,17 +202,17 @@ namespace CodeFormatter
 
 			sb = new StringBuilder();
 			
-			if (embedStyleSheet)
-			{
-				sb.Append("<style type=\"text/css\">\n");
-				sb.Append(GetCssString());
-				sb.Append("</style>\n");
-			}
+      //if (embedStyleSheet)
+      //{
+      //  sb.Append("<style type=\"text/css\">\n");
+      //  sb.Append(GetCssString());
+      //  sb.Append("</style>\n");
+      //}
 
 			if (lineNumbers || alternate) //we have to process the code line by line
 			{
 				if(!subCode)
-					sb.Append("<div class=\"csharpcode\">\n");
+					sb.Append("<div class=\"code\">\n");
 				StringReader reader = new StringReader(source);
 				int i = 0;
 				string spaces = "    ";
@@ -227,7 +227,7 @@ namespace CodeFormatter
 					}
 					else
 					{
-						sb.Append("<pre>");
+						sb.Append("<div>");
 					}
 
 					if(lineNumbers)
@@ -242,7 +242,7 @@ namespace CodeFormatter
 						sb.Append("&nbsp;");
 					else
 						sb.Append(line);
-					sb.Append("</pre>\n");
+					sb.Append("</div>\n");
 				}
 				reader.Close();
 				if(!subCode)
@@ -253,10 +253,10 @@ namespace CodeFormatter
 				//have to use a <pre> because IE below ver 6 does not understand 
 				//the "white-space: pre" CSS value
 				if(!subCode)
-					sb.Append("<pre class=\"csharpcode\">\n");
+					sb.Append("<div class=\"code\">\n");
 				sb.Append(source);
 				if(!subCode)
-					sb.Append("</pre>");
+					sb.Append("</div>");
 			}
 			
 			return sb.ToString();
