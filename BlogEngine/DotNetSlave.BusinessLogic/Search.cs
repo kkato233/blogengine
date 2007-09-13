@@ -224,14 +224,18 @@ namespace BlogEngine.Core
 
       content = content
                       .Replace("\\", string.Empty)
-                      .Replace("|", string.Empty);
+                      .Replace("|", string.Empty)
+                      .Replace("(", string.Empty)
+                      .Replace(")", string.Empty)
+                      .Replace("[", string.Empty)
+                      .Replace("]", string.Empty);
 
       string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
       StringBuilder sb = new StringBuilder();
       for (int i = 0; i < words.Length; i++)
       {
         string word = words[i].ToLowerInvariant().Trim();
-        if (!_StopWords.Contains(word))
+        if (word.Length > 1 && !_StopWords.Contains(word))
           sb.Append(word + " ");
       }
 
