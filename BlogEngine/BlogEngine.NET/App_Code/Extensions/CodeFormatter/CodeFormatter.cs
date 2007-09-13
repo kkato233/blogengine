@@ -64,9 +64,12 @@ RegexOptions.Compiled
     /// <param name="e"></param>
     void ServingContent(object sender, ServingEventArgs e)
     {
+      if (e.Body.Contains("[/code]"))
+      {
         e.Body = codeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
         e.Body = codeBeginTagRegex.Replace(e.Body, string.Empty);
         e.Body = codeEndTagRegex.Replace(e.Body, string.Empty);
+      }
     }
 
     /// <summary>
