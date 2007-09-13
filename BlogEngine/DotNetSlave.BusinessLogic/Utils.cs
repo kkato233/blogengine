@@ -35,6 +35,8 @@ namespace BlogEngine.Core
       text = text.Replace("@", string.Empty);
       text = text.Replace(".", string.Empty);
       text = text.Replace("\"", string.Empty);
+      text = text.Replace("&", string.Empty);
+      text = text.Replace("%", string.Empty);
       return HttpUtility.UrlEncode(text.Replace(" ", "-"));
     }
 
