@@ -21,7 +21,7 @@ The system handles the rest.
 By the way you need the current builds or need to add the style sheet additions at the end of the post. 
 &lt;/p&gt;
 &lt;p&gt;
-[code:c#;ln=on;alt=on] 
+[code:c#] 
 &lt;/p&gt;
 &lt;p&gt;
 #region using 
@@ -87,7 +87,7 @@ public class CodeFormatters&lt;br /&gt;
 [/code] 
 &lt;/p&gt;
 &lt;p&gt;
-[code:c#;ln=on;alt=on] 
+[code:c#;ln=on] 
 &lt;/p&gt;
 &lt;p&gt;
 #region using 
@@ -153,7 +153,7 @@ public class CodeFormatters&lt;br /&gt;
 [/code] 
 &lt;/p&gt;
 &lt;p&gt;
-[code:c#;ln=off;alt=on] 
+[code:c#;ln=off] 
 &lt;/p&gt;
 &lt;p&gt;
 private string CodeEvaluator(Match match) 
@@ -197,8 +197,8 @@ private string CodeEvaluator(Match match)
 </content>
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
-  <pubDate>2007-08-13 23:09:00</pubDate>
-  <lastModified>2007-09-12 23:04:17</lastModified>
+  <pubDate>2007-08-13 21:09:00</pubDate>
+  <lastModified>2007-09-13 16:22:05</lastModified>
   <raters>0</raters>
   <rating>0</rating>
   <slug>test code</slug>
