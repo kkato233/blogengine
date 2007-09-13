@@ -84,7 +84,7 @@ public partial class contact : BlogBasePage
     HttpCookie cookie = Request.Cookies["comment"];
     if (cookie != null)
     {
-      txtName.Text = cookie.Values["name"];
+      txtName.Text = Server.UrlDecode(cookie.Values["name"]);
       txtEmail.Text = cookie.Values["email"];
     }
   }
@@ -97,7 +97,7 @@ public partial class contact : BlogBasePage
   {
     HttpCookie cookie = new HttpCookie("comment");
     cookie.Expires = DateTime.Now.AddMonths(24);
-    cookie.Values.Add("name", txtName.Text);
+    cookie.Values.Add("name", Server.UrlEncode(txtName.Text));
     cookie.Values.Add("email", txtEmail.Text);
     cookie.Values.Add("url", string.Empty);
     cookie.Values.Add("country", string.Empty);
