@@ -78,7 +78,7 @@ namespace BlogEngine.Core.Web.Controls
     {
       if (string.IsNullOrEmpty(body))
         return body;
-      
+
       foreach (Match match in regex.Matches(body))
       {
         if (!match.Value.Contains("://"))
@@ -99,52 +99,53 @@ namespace BlogEngine.Core.Web.Controls
     /// <summary>
     /// Shortens any absolute URL to a specified maximum length
     /// </summary>
-    private static string ShortenUrl(string url, int max)
-    {
-      if (url.Length <= max)
-        return url;
+private static string ShortenUrl(string url, int max)
+{
+  if (url.Length <= max)
+    return url;
 
-      // Remove the protocal
-      int startIndex = url.IndexOf("://");
-      if (startIndex > -1)
-        url = url.Substring(startIndex + 3);
+  // Remove the protocal
+  int startIndex = url.IndexOf("://");
+  if (startIndex > -1)
+    url = url.Substring(startIndex + 3);
 
-      if (url.Length <= max)
-        return url;
+  if (url.Length <= max)
+    return url;
 
-      // Remove the folder structure
-      int firstIndex = url.IndexOf("/") + 1;
-      int lastIndex = url.LastIndexOf("/");
-      url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
+  // Remove the folder structure
+  int firstIndex = url.IndexOf("/") + 1;
+  int lastIndex = url.LastIndexOf("/");
+  if (firstIndex < lastIndex)
+    url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
 
-      if (url.Length <= max)
-        return url;
+  if (url.Length <= max)
+    return url;
 
-      // Shorten page
-      firstIndex = url.LastIndexOf("/") + 1;
-      lastIndex = url.LastIndexOf(".");
-      if (lastIndex - firstIndex > 10)
-      {
-        string page = url.Substring(firstIndex, lastIndex - firstIndex);
-        int length = url.Length - max + 3;
-        url = url.Replace(page, "..." + page.Substring(length));
-      }
+  // Shorten page
+  firstIndex = url.LastIndexOf("/") + 1;
+  lastIndex = url.LastIndexOf(".");
+  if (lastIndex - firstIndex > 10)
+  {
+    string page = url.Substring(firstIndex, lastIndex - firstIndex);
+    int length = url.Length - max + 3;
+    url = url.Replace(page, "..." + page.Substring(length));
+  }
 
-      // Remove URL parameters
-      int queryIndex = url.IndexOf("?");
-      if (queryIndex > -1)
-        url = url.Substring(0, queryIndex);
+  // Remove URL parameters
+  int queryIndex = url.IndexOf("?");
+  if (queryIndex > -1)
+    url = url.Substring(0, queryIndex);
 
-      if (url.Length <= max)
-        return url;
+  if (url.Length <= max)
+    return url;
 
-      // Remove URL fragment
-      int fragmentIndex = url.IndexOf("#");
-      if (fragmentIndex > -1)
-        url = url.Substring(0, fragmentIndex);
+  // Remove URL fragment
+  int fragmentIndex = url.IndexOf("#");
+  if (fragmentIndex > -1)
+    url = url.Substring(0, fragmentIndex);
 
-      return url;
-    }
+  return url;
+}
 
     /// <summary>
     /// Displays a delete link to visitors that are authenticated
