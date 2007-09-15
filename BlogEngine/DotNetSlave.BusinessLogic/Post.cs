@@ -310,7 +310,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri RelativeLink
     {
-      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIlegalCharacters(Slug) + BlogSettings.Instance.FileExtension), UriKind.Relative); }
+      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension), UriKind.Relative); }
     }
 
     /// <summary>
@@ -318,7 +318,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri AbsoluteLink
     {
-      get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIlegalCharacters(Slug) + BlogSettings.Instance.FileExtension); }
+      get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension); }
     }
 
     /// <summary>
@@ -415,7 +415,7 @@ namespace BlogEngine.Core
     {
       foreach (Post post in Posts)
       {
-        if (Utils.RemoveIlegalCharacters(post.Title).Equals(Utils.RemoveIlegalCharacters(title), StringComparison.OrdinalIgnoreCase))
+        if (Utils.RemoveIllegalCharacters(post.Title).Equals(Utils.RemoveIllegalCharacters(title), StringComparison.OrdinalIgnoreCase))
           return false;
       }
 
@@ -429,7 +429,7 @@ namespace BlogEngine.Core
     {
       foreach (Post post in Post.Posts)
       {
-        if (slug.Equals(Utils.RemoveIlegalCharacters(post.Slug), StringComparison.OrdinalIgnoreCase))
+        if (slug.Equals(Utils.RemoveIllegalCharacters(post.Slug), StringComparison.OrdinalIgnoreCase))
         {
           return post;
         }
@@ -446,8 +446,8 @@ namespace BlogEngine.Core
       List<Post> list = new List<Post>();
       foreach (Post post in Post.Posts)
       {
-        string legalTitle = Utils.RemoveIlegalCharacters(post.Author);
-        if (Utils.RemoveIlegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
+        string legalTitle = Utils.RemoveIllegalCharacters(post.Author);
+        if (Utils.RemoveIllegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
         {
           list.Add(post);
         }

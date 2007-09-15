@@ -130,8 +130,11 @@ public class BlogImporter : System.Web.Services.WebService
       Uri url;
       if (Uri.TryCreate(website, UriKind.Absolute, out url))
         comment.Website = url;
+      
       comment.Content = description;
       comment.DateCreated = date;
+      comment.Post = post;
+      comment.Approved = true;
       post.Comments.Add(comment);
       post.Save();
     }

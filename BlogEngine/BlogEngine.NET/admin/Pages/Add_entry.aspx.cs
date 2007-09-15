@@ -287,7 +287,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     }
     else
     {
-      _Callback = Utils.RemoveIlegalCharacters(eventArgument.Trim());
+      _Callback = Utils.RemoveIllegalCharacters(eventArgument.Trim());
     }
   }
 

@@ -26,7 +26,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       {
           HtmlAnchor a = new HtmlAnchor();
           a.InnerHtml = cat.Title;
-          a.HRef = "#" + Utils.RemoveIlegalCharacters(cat.Title);
+          a.HRef = "#" + Utils.RemoveIllegalCharacters(cat.Title);
           a.Attributes.Add("rel", "directory");
 
           HtmlGenericControl li = new HtmlGenericControl("li");
@@ -64,7 +64,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       feed.Controls.Add(img);
 
       HtmlGenericControl h2 = new HtmlGenericControl("h2");
-      h2.Attributes["id"] = Utils.RemoveIlegalCharacters(name);
+      h2.Attributes["id"] = Utils.RemoveIllegalCharacters(name);
       h2.Controls.Add(feed);
 
       Control header = new LiteralControl(name + " (" + list.Count + ")");

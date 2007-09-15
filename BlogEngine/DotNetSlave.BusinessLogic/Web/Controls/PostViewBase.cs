@@ -196,7 +196,7 @@ namespace BlogEngine.Core.Web.Controls
         if (Category.Categories.Contains((Category)Post.Categories[i]))
         {
           string category = Category.GetCategory(Post.Categories[i].Id).Title;
-          keywords[i] = string.Format(CultureInfo.InvariantCulture, link, path, Utils.RemoveIlegalCharacters(category), category);
+          keywords[i] = string.Format(CultureInfo.InvariantCulture, link, path, Utils.RemoveIllegalCharacters(category), category);
         }
       }
       //for (int i = 0; i < Post.Categories.Count; i++)

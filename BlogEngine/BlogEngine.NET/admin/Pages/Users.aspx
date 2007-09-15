@@ -17,8 +17,8 @@
     </div>
     <br />
     <div class="settings">
-        <asp:GridView runat="server" ID="gridUsers" AutoGenerateColumns="false" UseAccessibleHeader="true"
-             HeaderStyle-HorizontalAlign="left" DataKeyNames="username" OnLoad="gridUsers_Load">
+        <asp:GridView runat="server" ID="gridUsers" AutoGenerateColumns="false" UseAccessibleHeader="true" CellPadding="4"
+             HeaderStyle-HorizontalAlign="left" DataKeyNames="username" OnLoad="gridUsers_Load" AlternatingRowStyle-CssClass="alt">
             <Columns>
                 <asp:BoundField DataField="username" HeaderText="<%$ Resources:labels, userName %>" />
                 <asp:BoundField DataField="email" HeaderText="E-mail" />

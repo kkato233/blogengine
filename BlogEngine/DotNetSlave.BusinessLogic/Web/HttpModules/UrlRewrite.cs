@@ -84,7 +84,7 @@ namespace BlogEngine.Core.Web.HttpModules
       string title = ExtractTitle(context, "/category/");
         foreach (Category cat in Category.Categories)
         {
-            string legalTitle = Utils.RemoveIlegalCharacters(cat.Title).ToLowerInvariant();
+            string legalTitle = Utils.RemoveIllegalCharacters(cat.Title).ToLowerInvariant();
             if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
             {
                 context.RewritePath("~/default.aspx?id=" + cat.Id.ToString() + GetQueryString(context), false);
@@ -98,7 +98,7 @@ namespace BlogEngine.Core.Web.HttpModules
       string title = ExtractTitle(context, "/page/");
       foreach (Page page in Page.Pages)
       {
-        string legalTitle = Utils.RemoveIlegalCharacters(page.Title).ToLowerInvariant();
+        string legalTitle = Utils.RemoveIllegalCharacters(page.Title).ToLowerInvariant();
         if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
         {
           context.RewritePath("~/page.aspx?id=" + page.Id + GetQueryString(context), false);
