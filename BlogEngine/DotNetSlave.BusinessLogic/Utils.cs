@@ -21,7 +21,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Strips all illegal characters from the specified title.
     /// </summary>
-    public static string RemoveIlegalCharacters(string text)
+    public static string RemoveIllegalCharacters(string text)
     {
       if (string.IsNullOrEmpty(text))
         return text;

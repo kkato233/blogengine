@@ -185,7 +185,7 @@ var TinyMCE_AdvancedTheme = {
 						return true;
 				}
 
-				var href = "", target = "", title = "", onclick = "", action = "insert", style_class = "";
+				var href = "", target = "", title = "", onclick = "", action = "insert", style_class = "", xfn = "";
 
 				if (tinyMCE.selectedElement.nodeName.toLowerCase() == "a")
 					tinyMCE.linkElement = tinyMCE.selectedElement;
@@ -200,6 +200,7 @@ var TinyMCE_AdvancedTheme = {
 					title = tinyMCE.getAttrib(tinyMCE.linkElement, 'title');
 					onclick = tinyMCE.getAttrib(tinyMCE.linkElement, 'onclick');
 					style_class = tinyMCE.getAttrib(tinyMCE.linkElement, 'class');
+					xfn = tinyMCE.getAttrib(tinyMCE.linkElement, 'rel');
 
 					// Try old onclick to if copy/pasted content
 					if (onclick == "")
@@ -232,11 +233,11 @@ var TinyMCE_AdvancedTheme = {
 				template['height'] += tinyMCE.getLang('lang_insert_link_delta_height', 0);
 
 				if (inst.settings['insertlink_callback']) {
-					var returnVal = eval(inst.settings['insertlink_callback'] + "(href, target, title, onclick, action, style_class);");
+					var returnVal = eval(inst.settings['insertlink_callback'] + "(href, target, title, onclick, action, style_class, xfn);");
 					if (returnVal && returnVal['href'])
-						TinyMCE_AdvancedTheme._insertLink(returnVal['href'], returnVal['target'], returnVal['title'], returnVal['onclick'], returnVal['style_class']);
+						TinyMCE_AdvancedTheme._insertLink(returnVal['href'], returnVal['target'], returnVal['title'], returnVal['onclick'], returnVal['style_class'],returnVal['xfn']);
 				} else {
-					tinyMCE.openWindow(template, {href : href, target : target, title : title, onclick : onclick, action : action, className : style_class, inline : "yes"});
+					tinyMCE.openWindow(template, {href : href, target : target, title : title, onclick : onclick, action : action, className : style_class, rel : xfn, inline : "yes"});
 				}
 
 				return true;
@@ -1493,7 +1494,7 @@ var TinyMCE_AdvancedTheme = {
 		tinyMCE.execCommand('mceEndUndoLevel');
 	},
 
-	_insertLink : function(href, target, title, onclick, style_class) {
+	_insertLink : function(href, target, title, onclick, style_class, xfn) {
 		tinyMCE.execCommand('mceBeginUndoLevel');
 
 		if (tinyMCE.selectedInstance && tinyMCE.selectedElement && tinyMCE.selectedElement.nodeName.toLowerCase() == "img") {
@@ -1516,6 +1517,7 @@ var TinyMCE_AdvancedTheme = {
 			tinyMCE.setAttrib(linkElement, 'title', title);
 			tinyMCE.setAttrib(linkElement, 'onclick', onclick);
 			tinyMCE.setAttrib(linkElement, 'class', style_class);
+			tinyMCE.setAttrib(linkElement, 'rel', xfn);
 
 			if (newLink) {
 				linkElement.appendChild(tinyMCE.selectedElement.cloneNode(true));
@@ -1546,6 +1548,7 @@ var TinyMCE_AdvancedTheme = {
 				tinyMCE.setAttrib(elementArray[i], 'title', title);
 				tinyMCE.setAttrib(elementArray[i], 'onclick', onclick);
 				tinyMCE.setAttrib(elementArray[i], 'class', style_class);
+				tinyMCE.setAttrib(elementArray[i], 'rel', xfn);
 			}
 
 			tinyMCE.linkElement = elementArray[0];
@@ -1562,6 +1565,7 @@ var TinyMCE_AdvancedTheme = {
 			tinyMCE.setAttrib(tinyMCE.linkElement, 'title', title);
 			tinyMCE.setAttrib(tinyMCE.linkElement, 'onclick', onclick);
 			tinyMCE.setAttrib(tinyMCE.linkElement, 'class', style_class);
+			tinyMCE.setAttrib(tinyMCE.linkElement, 'rel', xfn);
 		}
 
 		tinyMCE.execCommand('mceEndUndoLevel');

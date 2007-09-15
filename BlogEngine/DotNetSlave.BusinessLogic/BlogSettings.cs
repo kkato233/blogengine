@@ -52,10 +52,6 @@ namespace BlogEngine.Core
     /// </summary>
     private string storageLocation = String.Empty;
     /// <summary>
-    /// Private member to hold a value indicating if the search word hightlight feature is enabled.
-    /// </summary>
-    private bool enableSearchHighlight;
-    /// <summary>
     /// Private member to hold maximum number of characters that are displayed from a blog-roll retrieved post.
     /// </summary>
     private int blogrollMaxLength = Int32.MinValue;
@@ -1055,25 +1051,6 @@ namespace BlogEngine.Core
       set
       {
         enableCommentSearch = value;
-      }
-    }
-    #endregion
-
-    #region EnableSearchHightlight
-    /// <summary>
-    /// Gets or sets a value indicating if highlighting of search term matches is enabled.
-    /// </summary>
-    /// <value><b>true</b> if search terms are highlighted, otherwise returns <b>false</b>.</value>
-    public bool EnableSearchHightlight
-    {
-      get
-      {
-        return enableSearchHighlight;
-      }
-
-      set
-      {
-        enableSearchHighlight = value;
       }
     }
     #endregion

@@ -264,6 +264,9 @@ namespace BlogEngine.Core.Providers
       if (doc.SelectSingleNode("page/showinlist") != null)
         page.ShowInList = bool.Parse(doc.SelectSingleNode("page/showinlist").InnerText);
 
+      if (doc.SelectSingleNode("page/ispublished") != null)
+        page.IsPublished = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
+
       page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
       page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
 
@@ -291,6 +294,7 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("parent", page.Parent.ToString());
         writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
         writer.WriteElementString("showinlist", page.ShowInList.ToString());
+        writer.WriteElementString("ispublished", page.IsPublished.ToString());
         writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
         writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 

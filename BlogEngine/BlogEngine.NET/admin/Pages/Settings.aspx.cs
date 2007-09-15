@@ -102,7 +102,6 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Set Advanced settings
     //-----------------------------------------------------------------------
     BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
-    BlogSettings.Instance.EnableSearchHightlight = cbEnableSearchHighlight.Checked;
     BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
     BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
     BlogSettings.Instance.HandleWwwSubdomain = rblWwwSubdomain.SelectedItem.Value;
@@ -191,7 +190,6 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     // Bind Advanced settings
     //-----------------------------------------------------------------------
     cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
-    cbEnableSearchHighlight.Checked = BlogSettings.Instance.EnableSearchHightlight;
     cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
     cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
     rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;

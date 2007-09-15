@@ -6,7 +6,7 @@
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <enablerating>True</enablerating>
   <enablerelatedposts>True</enablerelatedposts>
-  <fileextension>.htm</fileextension>
+  <fileextension>.aspx</fileextension>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <showlivepreview>True</showlivepreview>
@@ -36,7 +36,7 @@
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
-  <enablesearchhightlight>True</enablesearchhightlight>
+  <enablesearchhightlight>False</enablesearchhightlight>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>

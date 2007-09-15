@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Web.Controls
       foreach (Page page in Page.Pages)
       {
         if ((page.IsPublished || Thread.CurrentPrincipal.Identity.IsAuthenticated) 
-          && url.Equals(Utils.RemoveIlegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
+          && url.Equals(Utils.RemoveIllegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
         {
           return new SiteMapNode(this, page.Id.ToString(), page.RelativeLink.ToString(), page.Title, page.Description);
         }

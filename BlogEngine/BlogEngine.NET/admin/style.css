@@ -55,7 +55,7 @@ label.wide {
 #footer {
 	font-size: .8em;
 	padding-top: 4px;
-	padding-left: 30px;
+	text-indent: 30px;
 	background-color: #959595;
 	color: white;
 	width: 100%;
@@ -106,7 +106,7 @@ label.wide {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #B8C1CA;
-	padding: 45px 10px 3px 20px;
+	padding: 45px 10px 3px 10px;
 	background-color: #F1F1F1;
 	border-top: solid 1px #B8C1CA;
 }

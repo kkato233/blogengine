@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" ValidateRequest="false"
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="false"
     AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration"
     Title="Settings" %>
 
@@ -70,9 +70,6 @@ function PreviewTheme()
         
         <label for="<%=cbEnableOpenSearch.ClientID %>"><%=Resources.labels.enableOpenSearch %></label>
         <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /><%=Resources.labels.enableOpenSearchDescription %><br />
-        
-        <label for="<%=cbEnableSearchHighlight.ClientID %>"><%=Resources.labels.enableSearchHighlight %></label>
-        <asp:CheckBox runat="server" ID="cbEnableSearchHighlight" /><%=Resources.labels.enableSearchHighlightDescription %><br />
         
         <label for="<%=rblWwwSubdomain.ClientID %>"><%=Resources.labels.handleWwwSubdomain %></label>
         <asp:RadioButtonList runat="server" ID="rblWwwSubdomain" RepeatLayout="flow" RepeatDirection="horizontal">
@@ -218,27 +215,4 @@ function PreviewTheme()
     <div align="right">
         <asp:Button runat="server" ID="btnSave" /></div>
     <br />
-</asp:Content>
-<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="rightAdmin">
-    <div class="settings">
-        <h1>
-            Import (beta)</h1>
-        <p>
-            This is an experimental import tool for importing posts, comments, files and images
-            from RSS feeds.<br />
-            <br />
-            Nothing bad will happen if you try the beta tool. It import posts and files and
-            add them to the App_Data folder.<br />
-            If you don't like the result, just delete the posts and files from App_Data/posts
-            and App_Data/files.<br />
-            <br />
-            <strong>NB:</strong> The tool has only been tested with dasBlog. If you use any
-            other blog software, you should be aware when you import comments or download files
-            automatically.
-        </p>
-        <p>
-            <a href="http://www.madskristensen.dk/clickonce/blogconverter/BlogConverter.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=System.Threading.Thread.CurrentPrincipal.Identity.Name %>">
-                Launch import tool</a>
-        </p>
-    </div>
 </asp:Content>

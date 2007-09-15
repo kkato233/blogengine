@@ -147,7 +147,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
             foreach (Post post in Post.Posts)
             {
-                string legalTitle = Utils.RemoveIlegalCharacters(post.Title).ToLowerInvariant();
+                string legalTitle = Utils.RemoveIllegalCharacters(post.Title).ToLowerInvariant();
                 if (name == legalTitle)
                 {
                     return post;

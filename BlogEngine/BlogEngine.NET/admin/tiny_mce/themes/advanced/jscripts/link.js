@@ -10,7 +10,7 @@ if (url != null) {
 function init() {
 	tinyMCEPopup.resizeToInnerSize();
 
-	document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','theme_advanced_link');
+	//document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','');
 
 	// Handle file browser
 	if (isVisible('hrefbrowser'))
@@ -26,10 +26,11 @@ function init() {
 	}
 
 	document.forms[0].href.value = tinyMCE.getWindowArg('href');
+	document.forms[0].xfntags.value = tinyMCE.getWindowArg('rel');
 	document.forms[0].linktitle.value = tinyMCE.getWindowArg('title');
 	document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
 
-	addClassesToList('styleSelect', 'theme_advanced_link_styles');
+	//addClassesToList('styleSelect', 'theme_advanced_link_styles');
 	selectByValue(formObj, 'styleSelect', tinyMCE.getWindowArg('className'), true);
 
 	// Hide css select row if no CSS classes
@@ -55,12 +56,13 @@ function insertLink() {
 	var target = document.forms[0].target.options[document.forms[0].target.selectedIndex].value;
 	var title = document.forms[0].linktitle.value;
 	var style_class = document.forms[0].styleSelect ? document.forms[0].styleSelect.value : "";
+	var xfn = document.forms[0].xfntags.value;
 	var dummy;
 
 	if (target == '_self')
 		target = '';
 
 	tinyMCEPopup.restoreSelection();
-	tinyMCE.themes['advanced']._insertLink(href, target, title, dummy, style_class);
+	tinyMCE.themes['advanced']._insertLink(href, target, title, dummy, style_class, xfn);
 	tinyMCEPopup.close();
 }

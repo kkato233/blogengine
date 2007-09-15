@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Scripts\blog.js" />
-    <EmbeddedResource Include="Web\Scripts\se_hilite.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPublishable.cs" />
