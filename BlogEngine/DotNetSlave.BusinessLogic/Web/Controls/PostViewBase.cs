@@ -284,7 +284,7 @@ namespace BlogEngine.Core.Web.Controls
         if (Post.Raters > 0)
           sb.AppendFormat("<p>" + page.Translate("currentlyRated") + "</p>", Post.Rating.ToString("#.0", CultureInfo.InvariantCulture), Post.Raters);
         else
-          sb.Append("<p>Be the first to rate this post</p>");
+          sb.Append("<p>" + page.Translate("beTheFirstToRate") + "</p>");
 
         string script = "Rate('{0}', {1});";
         if (Request.Cookies["rating"] != null && Request.Cookies["rating"].Value.Contains(Post.Id.ToString()))
