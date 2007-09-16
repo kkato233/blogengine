@@ -77,12 +77,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
       // Server-side caching 
       context.Response.AddFileDependency(file);
       context.Response.Cache.VaryByParams["name"] = true;
+      context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
       context.Response.Cache.SetValidUntilExpires(true);
       // Client-side caching
       context.Response.Cache.SetExpires(DateTime.Now.AddDays(3));
       context.Response.Cache.SetLastModifiedFromFileDependencies();
       context.Response.Cache.SetCacheability(HttpCacheability.Public);
-      context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
+      context.Response.Cache.SetETag("\"" + DateTime.Now.ToUniversalTime().ToString() + "\"");
     }
 
     #region Compression
@@ -92,7 +93,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     private static void Compress(HttpContext context)
     {
-      if (context.Request.UserAgent == null || context.Request.UserAgent.Contains("MSIE 6"))
+      if (context.Request.UserAgent != null && context.Request.UserAgent.Contains("MSIE 6"))
         return;
 
       if (IsEncodingAccepted(GZIP))
