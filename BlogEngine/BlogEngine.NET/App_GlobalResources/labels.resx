@@ -165,6 +165,9 @@
   <data name="basic" xml:space="preserve">
     <value>Basic</value>
   </data>
+  <data name="beTheFirstToRate" xml:space="preserve">
+    <value>Be the first to rate this post</value>
+  </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>

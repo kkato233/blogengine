@@ -20,7 +20,7 @@ function PreviewTheme()
     </div>
     <br />
     <div class="settings">
-        <h1><%=Resources.labels.basic %><%=Resources.labels.settings %></h1>
+        <h1><%=Resources.labels.basic %> <%=Resources.labels.settings.ToLowerInvariant() %></h1>
         <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
         <asp:TextBox runat="server" ID="txtName" Width="300" />
         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="Required" /><br />
