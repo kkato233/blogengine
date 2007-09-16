@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.Net;
 using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -44,14 +45,27 @@ namespace BlogEngine.Core.Web.HttpHandlers
         throw new System.Security.SecurityException("No access");
       }
 
-      string body;
-
-      using (StreamReader reader = new StreamReader(file))
+      if (context.Cache[file + "date"] == null)
       {
-        body = reader.ReadToEnd();
+        FileInfo fi = new FileInfo(file);
+        using (StreamReader reader = fi.OpenText())
+        {
+          string body = StripWhitespace(reader);
+          context.Cache.Insert(file, body, new CacheDependency(file));
+          context.Cache.Insert(file + "date", fi.LastWriteTimeUtc, new CacheDependency(file));
+        }
       }
 
-      body += DateTime.Now.ToString();
+      context.Response.Write((string)context.Cache[file]);
+    }
+
+    /// <summary>
+    /// Strips the whitespace from any .css file.
+    /// </summary>
+    private static string StripWhitespace(StreamReader reader)
+    {
+      string body = reader.ReadToEnd();
+
       body = body.Replace("  ", String.Empty);
       body = body.Replace(Environment.NewLine, String.Empty);
       body = body.Replace("\t", string.Empty);
@@ -64,7 +78,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       //body = Regex.Replace(body, @"/\*[^\*]*\*+([^/\*]*\*+)*/", "$1");
       body = Regex.Replace(body, @"(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,}(?=&nbsp;)|(?<=&ndsp;)\s{2,}(?=[<])", String.Empty);
 
-      context.Response.Write(body);
+      return body;
     }
 
     /// <summary>
@@ -74,16 +88,24 @@ namespace BlogEngine.Core.Web.HttpHandlers
     private static void SetHeaders(string file, HttpContext context)
     {
       context.Response.ContentType = "text/css";
-      // Server-side caching 
-      context.Response.AddFileDependency(file);
-      context.Response.Cache.VaryByParams["name"] = true;
       context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
-      context.Response.Cache.SetValidUntilExpires(true);
-      // Client-side caching
-      context.Response.Cache.SetExpires(DateTime.Now.AddDays(3));
-      context.Response.Cache.SetLastModifiedFromFileDependencies();
+
+      DateTime date = (DateTime)context.Cache[file + "date"];
+      string etag = "\"" + date.GetHashCode() + "\"";
+      string incomingEtag = context.Request.Headers["If-None-Match"];
+
+      context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
       context.Response.Cache.SetCacheability(HttpCacheability.Public);
-      context.Response.Cache.SetETag("\"" + DateTime.Now.ToUniversalTime().ToString() + "\"");
+      context.Response.Cache.SetLastModified(date);
+      context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+      context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+      context.Response.Cache.SetETag(etag);
+
+      if (String.Compare(incomingEtag, etag) == 0)
+      {
+        context.Response.StatusCode = (int)HttpStatusCode.NotModified;
+        context.Response.End();
+      }
     }
 
     #region Compression
