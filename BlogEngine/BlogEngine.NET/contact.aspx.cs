@@ -30,6 +30,9 @@ public partial class contact : BlogBasePage
 
     Page.Title = Resources.labels.contact;
     base.AddMetaTag("description", _Regex.Replace(BlogSettings.Instance.ContactFormMessage, string.Empty));
+    Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+    Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+    Response.Cache.SetRevalidation(System.Web.HttpCacheRevalidation.AllCaches);
   }
 
   private void btnSend_Click(object sender, EventArgs e)

@@ -346,6 +346,7 @@ ul.recentComments li a.postTitle{
 .comment .content {
 	min-height: 85px;
 	margin: 5px;
+	margin-left: 85px;
 }
 
 .comment img.flag {
@@ -557,6 +558,7 @@ ul#monthList ul.open{
 	padding: 3px 10px;
 	margin-bottom: 20px;
 	background-color: white;
+	line-height: 17px;
 }
 
 #page h1 {

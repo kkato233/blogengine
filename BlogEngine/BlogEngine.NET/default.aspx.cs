@@ -40,10 +40,13 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
             Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;
         }
 
-        base.AddMetaTag("description", BlogSettings.Instance.Description);
-        base.AddMetaTag("author", BlogSettings.Instance.AuthorName);
         AddMetaKeywords();
-        base.AddMicroSummary(string.Empty);
+        base.AddMetaTag("description", BlogSettings.Instance.Description);
+        base.AddMetaTag("author", BlogSettings.Instance.AuthorName);        
+        //base.AddMicroSummary(string.Empty);
+        Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+        Response.Cache.SetMaxAge(new TimeSpan(0, 5, 0));
+        Response.Cache.SetRevalidation(System.Web.HttpCacheRevalidation.AllCaches);
     }
 
     /// <summary>
