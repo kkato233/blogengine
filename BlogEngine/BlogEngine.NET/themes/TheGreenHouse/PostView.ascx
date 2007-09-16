@@ -17,7 +17,7 @@
             </a>
         </p>
         <p class="file">
-            <a rel="nofollow" href="<%=Post.PermaLink %>">Permalink</a> | <a rel="nofollow" href="<%=Post.RelativeLink %>#comment">
+            <a rel="bookmark" href="<%=Post.PermaLink %>">Permalink</a> | <a rel="nofollow" href="<%=Post.RelativeLink %>#comment">
                 <%=Resources.labels.comments %>
                 (<%=Post.ApprovedComments.Count %>)</a> | <a rel="nofollow" href="<%=CommentFeed %>">
                     Post RSS<asp:Image ID="Image1" runat="Server" ImageUrl="~/pics/rssbutton.gif" AlternateText="RSS comment feed"
