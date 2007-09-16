@@ -14,7 +14,7 @@
         Actions: <%=AdminLinks %>
         <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=Thought you might like this: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | 
         <a rel="nofollow" href="http://www.dotnetkicks.com/submit?url=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>&amp;title=<%=Server.UrlEncode(Post.Title) %>">Kick it!</a> |
-        <a href="<%=Post.PermaLink %>">Permalink</a> |
+        <a href="<%=Post.PermaLink %>" rel="bookmark">Permalink</a> |
         <a rel="nofollow" href="<%=Post.RelativeLink %>#comment">
              <img id="Img4" runat="server" alt="comment" src="~/themes/indigo/img/comments.gif" /><%=Resources.labels.comments %> (<%=Post.ApprovedComments.Count %>)</a>
          |   
