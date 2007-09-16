@@ -153,6 +153,7 @@ namespace BlogEngine.Core.Web.HttpModules
       string etag = "\"" + app.Context.Request.QueryString.ToString().GetHashCode().ToString() + "\"";
       string incomingEtag = app.Request.Headers["If-None-Match"];
 
+      app.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
       app.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
       app.Response.Cache.SetCacheability(HttpCacheability.Public);
       app.Response.Cache.SetLastModified(DateTime.Now.AddDays(-30));
