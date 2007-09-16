@@ -31,7 +31,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
       ReduceCss(file, context);
       SetHeaders(file, context);
-      Compress(context);
+
+      if (BlogSettings.Instance.EnableHttpCompression)
+        Compress(context);
     }
 
     /// <summary>

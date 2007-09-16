@@ -113,8 +113,11 @@ namespace BlogEngine.Core.Web.HttpModules
       {
         SetCachingHeaders(app);
 
-        if (IsBrowserSupported() && app.Context.Request.QueryString["c"] == null && (IsEncodingAccepted(DEFLATE) || IsEncodingAccepted(GZIP)))
-          app.CompleteRequest();        
+        if (BlogSettings.Instance.EnableHttpCompression)
+        {
+          if (IsBrowserSupported() && app.Context.Request.QueryString["c"] == null && (IsEncodingAccepted(DEFLATE) || IsEncodingAccepted(GZIP)))
+            app.CompleteRequest();
+        }
       }
     }
 
@@ -125,6 +128,9 @@ namespace BlogEngine.Core.Web.HttpModules
     /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
     private void context_EndRequest(object sender, EventArgs e)
     {
+      if (!BlogSettings.Instance.EnableHttpCompression)
+        return;
+
       if (!IsBrowserSupported() || (!IsEncodingAccepted(DEFLATE) && !IsEncodingAccepted(GZIP)))
         return;
 

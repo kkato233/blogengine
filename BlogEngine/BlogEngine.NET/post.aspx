@@ -1,6 +1,5 @@
 <%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" CodeFile="post.aspx.cs" Inherits="post" %>
-<%@ Register Src="User controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc2" %>
-<%@ Register Src="~/themes/standard/PostView.ascx" TagName="PostView" TagPrefix="uc1" %>
+<%@ Register Src="User controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   <asp:placeholder runat="server" id="pwPost" />
 <!-- 
@@ -16,5 +15,5 @@ trackback:ping="<%=Post.TrackbackLink %>" />
 -->
   
   <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" Headline="Related posts" />
-  <uc2:CommentView ID="CommentView1" runat="server" />
+  <uc:CommentView ID="CommentView1" runat="server" />
 </asp:content>

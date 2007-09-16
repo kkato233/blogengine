@@ -2057,7 +2057,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 ServingEventArgs arg = new ServingEventArgs(post.Content);
                 Post.OnServing(post, arg);
-                string content = post.Content;
+                string content = arg.Body;
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "file.axd", "\"" + Utils.AbsoluteWebRoot + "file.axd");
                 content         = content.Replace("href=\"/", "href=\"" + Utils.AbsoluteWebRoot);

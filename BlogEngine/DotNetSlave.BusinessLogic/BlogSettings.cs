@@ -205,7 +205,7 @@ namespace BlogEngine.Core
     private bool enableRating;
     private string handleWwwSubdomain;
     private bool showDescriptionInPostList;
-    private bool enableGravatar;
+    private string avatar;
     #endregion
 
     //============================================================
@@ -954,21 +954,21 @@ namespace BlogEngine.Core
     }
     #endregion
 
-    #region EnableGravatar
+    #region Avatar
     /// <summary>
     /// Gets or sets a value indicating if Gravatars are enabled or not.
     /// </summary>
     /// <value><b>true</b> if Gravatars are enabled, otherwise returns <b>false</b>.</value>
-    public bool EnableGravatar
+    public string Avatar
     {
         get
         {
-            return enableGravatar;
+            return avatar;
         }
 
         set
         {
-            enableGravatar = value;
+            avatar = value;
         }
     }
     #endregion

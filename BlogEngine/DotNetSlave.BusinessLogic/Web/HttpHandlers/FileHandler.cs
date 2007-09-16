@@ -75,7 +75,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     private static void SetContentDisposition(HttpContext context, string fileName)
     {
       string disp = "attachment";
-      if (fileName.Contains(".pdf"))
+      if (fileName.EndsWith(".pdf"))
         disp = "inline";
 
       context.Response.AppendHeader("Content-Disposition", disp + "; filename=" + context.Server.UrlEncode(fileName));
@@ -86,9 +86,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     private static void SetContentType(HttpContext context, string fileName)
     {
-      if (fileName.Contains(".pdf"))
+      if (fileName.EndsWith(".pdf"))
       {
         context.Response.AddHeader("Content-Type", "application/pdf");
+      }
+      else if (fileName.EndsWith(".zip"))
+      {
+        context.Response.AddHeader("Content-Type", "application/zip");
       }
     }
 

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <enablegravatar>True</enablegravatar>
+  <avatar>gravatar</avatar>
   <storagelocation>~/app_data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
@@ -36,7 +36,6 @@
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
-  <enablesearchhightlight>False</enablesearchhightlight>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>
