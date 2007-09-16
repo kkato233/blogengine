@@ -159,6 +159,9 @@
   <data name="author" xml:space="preserve">
     <value>Author</value>
   </data>
+  <data name="avatars" xml:space="preserve">
+    <value>Avatars</value>
+  </data>
   <data name="basic" xml:space="preserve">
     <value>Basic</value>
   </data>
@@ -176,6 +179,9 @@
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Close comments after</value>
+  </data>
+  <data name="combine" xml:space="preserve">
+    <value>Combination</value>
   </data>
   <data name="comment" xml:space="preserve">
     <value>Comment</value>
@@ -334,11 +340,17 @@
   <data name="message" xml:space="preserve">
     <value>Message</value>
   </data>
+  <data name="monster" xml:space="preserve">
+    <value>Monster</value>
+  </data>
   <data name="more" xml:space="preserve">
     <value>More</value>
   </data>
   <data name="name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>Don't show</value>
   </data>
   <data name="noParent" xml:space="preserve">
     <value>No parent</value>

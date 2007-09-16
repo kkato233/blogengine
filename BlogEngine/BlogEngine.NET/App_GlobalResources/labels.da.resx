@@ -153,6 +153,9 @@
   <data name="author" xml:space="preserve">
     <value>Forfatter</value>
   </data>
+  <data name="avatars" xml:space="preserve">
+    <value>Avatarer</value>
+  </data>
   <data name="basic" xml:space="preserve">
     <value>Basis</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Luk kommentarer efter</value>
+  </data>
+  <data name="combine" xml:space="preserve">
+    <value>Kombination</value>
   </data>
   <data name="comment" xml:space="preserve">
     <value>Kommentar</value>
@@ -327,11 +333,17 @@
   <data name="message" xml:space="preserve">
     <value>Besked</value>
   </data>
+  <data name="monster" xml:space="preserve">
+    <value>Monster</value>
+  </data>
   <data name="more" xml:space="preserve">
     <value>Mere</value>
   </data>
   <data name="name" xml:space="preserve">
     <value>Navn</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>Vis ikke</value>
   </data>
   <data name="noParent" xml:space="preserve">
     <value>Ingen parent</value>

@@ -96,7 +96,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
     BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
     BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
-    BlogSettings.Instance.EnableGravatar = cbEnableGravatars.Checked;
+    BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;
 
     //-----------------------------------------------------------------------
     // Set Advanced settings
@@ -173,7 +173,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
     ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
     cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
-    cbEnableGravatars.Checked = BlogSettings.Instance.EnableGravatar;
+    rblAvatar.SelectedValue = BlogSettings.Instance.Avatar;
 
     //-----------------------------------------------------------------------
     // Bind Email settings

@@ -18,9 +18,6 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
     Page.Title = Resources.labels.archive;
     base.AddMetaTag("description", BlogSettings.Instance.Description);
-    Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
-    Response.Cache.SetMaxAge(new TimeSpan(1, 0, 0, 0));
-    Response.Cache.SetRevalidation(System.Web.HttpCacheRevalidation.AllCaches);
   }
 
   private void CreateAdminMenu()

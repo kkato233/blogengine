@@ -58,9 +58,6 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
         base.AddMicroSummary(Post.Id.ToString());
         Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
-        Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
-        Response.Cache.SetMaxAge(new TimeSpan(0, 5, 0));
-        Response.Cache.SetRevalidation(System.Web.HttpCacheRevalidation.AllCaches);
       }
     }
   }

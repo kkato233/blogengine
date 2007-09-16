@@ -93,8 +93,13 @@ function PreviewTheme()
         <label for="<%=cbShowLivePreview.ClientID %>"><%=Resources.labels.showLivePreview %></label>
         <asp:CheckBox runat="server" ID="cbShowLivePreview" /><br />
         
-        <label for="<%=cbEnableGravatars.ClientID %>"><%=Resources.labels.enableGravatars%></label>
-        <asp:CheckBox runat="server" ID="cbEnableGravatars" /><br />
+        <label for="<%=rblAvatar.ClientID %>"><%=Resources.labels.avatars %></label>
+        <asp:RadioButtonList runat="Server" ID="rblAvatar" RepeatLayout="flow" RepeatDirection="horizontal">
+          <asp:ListItem Text="Gravatar" Value="gravatar" />
+          <asp:ListItem Text="<%$ Resources:labels, monster %>" Value="monster" />
+          <asp:ListItem Text="<%$ Resources:labels, combine %>" Value="combine" />
+          <asp:ListItem Text="<%$ Resources:labels, none %>" Value="none" />
+        </asp:RadioButtonList><br />
         
         <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=Resources.labels.enableCommentsModeration%></label>
         <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" /><br />

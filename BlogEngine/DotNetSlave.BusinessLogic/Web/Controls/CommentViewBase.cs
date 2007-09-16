@@ -210,89 +210,56 @@ namespace BlogEngine.Core.Web.Controls
     /// </summary>
     protected string Gravatar(int size)
     {
-      if (!BlogSettings.Instance.EnableGravatar)
+      if (BlogSettings.Instance.Avatar == "none")
         return null;
 
-      //------------------------------------------------------------
-      //	Local members
-      //------------------------------------------------------------
-      StringBuilder image = new StringBuilder();
-
-      //------------------------------------------------------------
-      //	Attempt to display Gravatar image
-      //------------------------------------------------------------
-      try
+      if (String.IsNullOrEmpty(Comment.Email) || !Comment.Email.Contains("@"))
       {
-        //------------------------------------------------------------
-        //	Determine if both email address and web site unavailable
-        //------------------------------------------------------------
-        if (String.IsNullOrEmpty(Comment.Email) || !Comment.Email.Contains("@"))
+        if (Comment.Website != null && Comment.Website.ToString().Length > 0 && Comment.Website.ToString().Contains("http://"))
         {
-
-          //------------------------------------------------------------
-          //	Determine if valid email address was not provided
-          //------------------------------------------------------------
-          if (Comment.Website != null && Comment.Website.ToString().Length > 0 && Comment.Website.ToString().Contains("http://"))
-          {
-            //------------------------------------------------------------
-            //	Return WebSnapr image for web site
-            //------------------------------------------------------------
-            return string.Format(CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
-          }
-
-          //------------------------------------------------------------
-          //	Return default avatar image if no email address or web site available
-          //------------------------------------------------------------
-          return "<img src=\"" + Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"Gravatar\" />";
-        }
-
-        //------------------------------------------------------------
-        //	Determine if valid email address was not provided
-        //------------------------------------------------------------
-        if (!Comment.Email.Contains("@"))
-        {
-          //------------------------------------------------------------
-          //	Return WebSnapr image for web site
-          //------------------------------------------------------------
           return string.Format(CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
         }
 
-        //------------------------------------------------------------
-        //	Calculate MD5 hash digest for email address
-        //------------------------------------------------------------
-        System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-        byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email));
-
-        System.Text.StringBuilder hash = new System.Text.StringBuilder();
-        for (int i = 0; i < result.Length; i++)
-        {
-          hash.Append(result[i].ToString("x2", CultureInfo.InvariantCulture));
-        }
-
-        //------------------------------------------------------------
-        //	Build Gravatar image for email address
-        //------------------------------------------------------------
-        image.Append("<img src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\" ");
-        image.Append("style=\"background: url(");
-        image.Append("http://www.gravatar.com/avatar.php?");
-        image.Append("gravatar_id=" + hash.ToString());
-        image.Append("&amp;size=" + size);
-        image.Append("&amp;default=");
-        image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
-        image.Append(")\" alt=\"Gravatar\" />");
+        return "<img src=\"" + Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + Comment.Author + "\" />";
       }
-      catch
+
+      string img = "<img style=\"background-image:url({0})\" src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\" alt=\"{1}\" />";
+      string hash = CreateMd5Hash();
+      string noavatar = Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg";
+      string monster = Utils.AbsoluteWebRoot + "monster.axd?seed=" + hash + "&amp;size=" + size;
+      string gravatar = "http://www.gravatar.com/avatar.php?gravatar_id=" + hash + "&amp;size=" + size + "&amp;default=";
+
+      string link = string.Empty;
+      switch (BlogSettings.Instance.Avatar)
       {
-        //------------------------------------------------------------
-        //	Rethrow exception
-        //------------------------------------------------------------
-        throw;
+        case "monster":
+          link = monster;
+          break;
+
+        case "gravatar":
+          link = gravatar + Server.UrlEncode(noavatar);
+          break;
+
+        case "combine":
+          link = gravatar + Server.UrlEncode(monster);
+          break;
+      }
+      
+      return string.Format(img, link, Comment.Author);
+    }
+
+    private string CreateMd5Hash()
+    {
+      System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+      byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email));
+
+      System.Text.StringBuilder hash = new System.Text.StringBuilder();
+      for (int i = 0; i < result.Length; i++)
+      {
+        hash.Append(result[i].ToString("x2", CultureInfo.InvariantCulture));
       }
 
-      //------------------------------------------------------------
-      //	Return result
-      //------------------------------------------------------------
-      return image.ToString();
+      return hash.ToString();
     }
     #endregion
 
