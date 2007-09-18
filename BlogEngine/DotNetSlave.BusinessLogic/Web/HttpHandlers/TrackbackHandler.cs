@@ -104,6 +104,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       {
         using (WebClient client = new WebClient())
         {
+          client.Credentials = CredentialCache.DefaultNetworkCredentials;
           string html = client.DownloadString(sourceUrl);
           _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
         }

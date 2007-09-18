@@ -145,7 +145,7 @@ namespace BlogEngine.Core.Web.HttpModules
         }
 
         SetEncoding((string)app.Application[key + "enc"]);
-        app.Context.Response.ContentType = "text/javascript";
+        app.Context.Response.ContentType = (string)app.Application[key + "contenttype"];
         app.Context.Response.BinaryWrite((byte[])app.Application[key]);
       }
     }
@@ -193,8 +193,10 @@ namespace BlogEngine.Core.Web.HttpModules
     private static void AddCompressedBytesToCache(HttpApplication app, string key)
     {
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(app.Context.Request.Url.OriginalString + "&c=1");
+      request.Credentials = CredentialCache.DefaultNetworkCredentials;
       using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
       {
+        app.Application.Add(key + "contenttype", response.ContentType);
         Stream responseStream = response.GetResponseStream();
 
         using (MemoryStream ms = CompressResponse(responseStream, app, key))
