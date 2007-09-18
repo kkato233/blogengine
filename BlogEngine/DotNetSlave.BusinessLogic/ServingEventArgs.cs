@@ -13,9 +13,10 @@ namespace BlogEngine.Core
     /// <summary>
     /// Creates a new instance of the class and applies the specified body.
     /// </summary>
-    public ServingEventArgs(string body)
+    public ServingEventArgs(string body, ServingLocation location)
     {
       _Body = body;
+      _Location = location;
     }
 
     private string _Body;
@@ -29,5 +30,38 @@ namespace BlogEngine.Core
       set { _Body = value; }
     }
 
+    private ServingLocation _Location;
+
+    public ServingLocation Location
+    {
+      get { return _Location; }
+      set { _Location = value; }
+    }
+
+
+  }
+
+  /// <summary>
+  /// The location where the serving takes place
+  /// </summary>
+  public enum ServingLocation
+  {
+    /// <summary>Is used to indicate that a location hasn't been chosen.</summary>
+    None,
+
+    /// <summary>Is used when a single post is served from post.aspx.</summary>
+    SinglePost,
+    
+    /// <summary>Is used when multiple posts are served using postlist.ascx.</summary>
+    PostList,
+
+    /// <summary>Is used when a single page is displayed on page.aspx.</summary>
+    SinglePage,
+
+    /// <summary>Is used when content is served from a feed (RSS or ATOM).</summary>
+    Feed,
+
+    /// <summary>Is used when content is served on a custom location.</summary>
+    Other
   }
 }

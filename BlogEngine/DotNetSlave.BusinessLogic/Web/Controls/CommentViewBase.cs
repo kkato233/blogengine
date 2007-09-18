@@ -93,7 +93,7 @@ namespace BlogEngine.Core.Web.Controls
 
       body = body.Replace("\n", "<br />");
 
-      ServingEventArgs arg = new ServingEventArgs(body);
+      ServingEventArgs arg = new ServingEventArgs(body, ServingLocation.SinglePost);
       Comment.OnServing(Comment, arg);
 
       return arg.Body;

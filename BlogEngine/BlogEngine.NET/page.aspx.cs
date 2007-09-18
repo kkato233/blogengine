@@ -35,7 +35,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 
         h1Title.InnerHtml = this.Page.Title;
 
-        ServingEventArgs arg = new ServingEventArgs(this.Page.Content);
+        ServingEventArgs arg = new ServingEventArgs(this.Page.Content, ServingLocation.SinglePage);
         Page.OnServing(this.Page, arg);
         divText.InnerHtml = arg.Body;
 

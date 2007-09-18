@@ -39,6 +39,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
         PostViewBase postView = (PostViewBase)LoadControl(path);
         postView.Post = Post;
+        postView.Location = ServingLocation.SinglePost;
 
         pwPost.Controls.Add(postView);
         related.Post = this.Post;
