@@ -1,10 +1,5 @@
-/****************************************************************************
-Modification History:
-*****************************************************************************
-Date		Author		Description
-*****************************************************************************
-05/03/2007  brian.kuhn  Fixed bug in Gravatar(int) method
-****************************************************************************/
+#region Using
+
 using System;
 using System.IO;
 using System.Text;
@@ -15,6 +10,8 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
+
+#endregion
 
 namespace BlogEngine.Core.Web.Controls
 {
@@ -170,7 +167,7 @@ namespace BlogEngine.Core.Web.Controls
           string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
           sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
 
-          if (!Comment.Approved)
+          if (!Comment.IsApproved)
           {
             sb.AppendFormat(" | <a href=\"?approvecomment={0}\">{1}</a>", Comment.Id, page.Translate("approve"));
 

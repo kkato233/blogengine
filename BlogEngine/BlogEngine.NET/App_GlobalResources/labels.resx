@@ -364,6 +364,9 @@
   <data name="notRatedYet" xml:space="preserve">
     <value>Not rated yet</value>
   </data>
+  <data name="numberOfComments" xml:space="preserve">
+    <value>Number of comments</value>
+  </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
     <value># of displayed items</value>
   </data>
@@ -402,6 +405,9 @@
   </data>
   <data name="rating" xml:space="preserve">
     <value>Rating</value>
+  </data>
+  <data name="recentComments" xml:space="preserve">
+    <value>Recent comments</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
     <value>Recent posts</value>

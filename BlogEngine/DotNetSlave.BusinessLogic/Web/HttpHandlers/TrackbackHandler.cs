@@ -36,6 +36,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </param>
     public void ProcessRequest(HttpContext context)
     {
+      OnReceived();
       string postId = context.Request.Params["id"]; ;
       string title = context.Request.Params["title"];
       string excerpt = context.Request.Params["excerpt"];
@@ -53,16 +54,19 @@ namespace BlogEngine.Core.Web.HttpHandlers
         if (post != null && IsFirstPingBack(post, url) && _SourceHasLink)
         {
           AddComment(url, post, blog_name, title);
+          OnAccepted(url);
           context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>0</error></response>");
           context.Response.End();
         }
         else if (!IsFirstPingBack(post, url))
         {
+          OnRejected(url);
           context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>Trackback already registered</error></response>");
           context.Response.End();
         }
         else if (!_SourceHasLink)
         {
+          OnSpammed(url);
           context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>The source page does not link</error></response>");
           context.Response.End();
         }
@@ -87,7 +91,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       comment.Post = post;
       comment.DateCreated = DateTime.Now;
       comment.IP = HttpContext.Current.Request.UserHostAddress;
-      comment.Approved = true; //NOTE: Trackback comments are approved by default 
+      comment.IsApproved = true; //NOTE: Trackback comments are approved by default 
       post.AddComment(comment);
     }
 
@@ -138,6 +142,71 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       get { return true; }
     }
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when a hit is made to the trackback.axd handler.
+    /// </summary>
+    public static event EventHandler<EventArgs> Received;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnReceived()
+    {
+      if (Received != null)
+      {
+        Received(null, EventArgs.Empty);
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a trackback is accepted as valid and added as a comment.
+    /// </summary>
+    public static event EventHandler<EventArgs> Accepted;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnAccepted(string url)
+    {
+      if (Accepted != null)
+      {
+        Accepted(url, EventArgs.Empty);
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a trackback request is rejected because the sending
+    /// website already made a trackback or pingback to the specific page.
+    /// </summary>
+    public static event EventHandler<EventArgs> Rejected;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnRejected(string url)
+    {
+      if (Accepted != null)
+      {
+        Accepted(url, EventArgs.Empty);
+      }
+    }
+
+    /// <summary>
+    /// Occurs when the request comes from a spammer.
+    /// </summary>
+    public static event EventHandler<EventArgs> Spammed;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    protected virtual void OnSpammed(string url)
+    {
+      if (Spammed != null)
+      {
+        Spammed(url, EventArgs.Empty);
+      }
+    }
+
+    #endregion
 
   }
 }

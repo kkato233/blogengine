@@ -89,9 +89,9 @@ namespace BlogEngine.Core.Providers
         }
 
         if (node.Attributes["approved"] != null)
-          comment.Approved = bool.Parse(node.Attributes["approved"].InnerText);
+          comment.IsApproved = bool.Parse(node.Attributes["approved"].InnerText);
         else
-          comment.Approved = true;
+          comment.IsApproved = true;
 
         comment.Content = node.SelectSingleNode("content").InnerText;
         comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
@@ -159,7 +159,7 @@ namespace BlogEngine.Core.Providers
         {
           writer.WriteStartElement("comment");
           writer.WriteAttributeString("id", comment.Id.ToString());
-          writer.WriteAttributeString("approved", comment.Approved.ToString());
+          writer.WriteAttributeString("approved", comment.IsApproved.ToString());
           writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
           writer.WriteElementString("author", comment.Author);
           writer.WriteElementString("email", comment.Email);

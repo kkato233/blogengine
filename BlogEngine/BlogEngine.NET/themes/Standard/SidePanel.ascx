@@ -48,7 +48,7 @@
 </div>
 
 <div class="box recent">
-  <h1>Recent comments</h1>
+  <h1><%=Resources.labels.recentComments %></h1>
   <blog:RecentComments runat="Server" />
 </div>
 

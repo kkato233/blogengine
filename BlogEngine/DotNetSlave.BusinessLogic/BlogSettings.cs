@@ -122,7 +122,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Private member to hold default number of recent posts to display.
     /// </summary>
-    private int numberOfRecentPosts = Int32.MinValue;
+    private int numberOfRecentPosts = 10;
     /// <summary>
     /// Private member to hold the search button text.
     /// </summary>
@@ -206,6 +206,7 @@ namespace BlogEngine.Core
     private string handleWwwSubdomain;
     private bool showDescriptionInPostList;
     private string avatar;
+    private int numberOfRecentComments = 10;
     #endregion
 
     //============================================================
@@ -398,6 +399,25 @@ namespace BlogEngine.Core
       set
       {
         numberOfRecentPosts = value;
+      }
+    }
+    #endregion
+
+    #region NumberOfRecentComments
+    /// <summary>
+    /// Gets or sets the default number of recent posts to display.
+    /// </summary>
+    /// <value>The number of recent posts to display.</value>
+    public int NumberOfRecentComments
+    {
+      get
+      {
+        return numberOfRecentComments;
+      }
+
+      set
+      {
+        numberOfRecentComments = value;
       }
     }
     #endregion

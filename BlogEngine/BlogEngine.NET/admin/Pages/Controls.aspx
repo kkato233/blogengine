@@ -19,6 +19,16 @@
 
 <div class="settings">
 
+  <h1><%=Resources.labels.recentComments %></h1>
+  <label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfComments %></label>
+  <asp:TextBox runat="server" ID="txtNumberOfComments" Width="30" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfComments" ErrorMessage="Required" />
+  <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfComments" Operator="dataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+
+</div>
+
+<div class="settings">
+
   <h1><%=Resources.labels.searchField %></h1>
   <label for="<%=txtSearchButtonText.ClientID %>"><%=Resources.labels.buttonText %></label>
   <asp:TextBox runat="server" ID="txtSearchButtonText" />

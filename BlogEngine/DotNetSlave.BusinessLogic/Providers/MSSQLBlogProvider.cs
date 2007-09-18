@@ -104,13 +104,13 @@ namespace BlogEngine.Core.Providers
       {
         Comment comment = new Comment();
         comment.Id = rdr.GetGuid(0);
-        comment.Approved = true;
+        comment.IsApproved = true;
         comment.Author = rdr.GetString(2);
         comment.Email = rdr.GetString(3);
         comment.Content = rdr.GetString(5);
         comment.DateCreated = rdr.GetDateTime(1);
         comment.Post = post;
-        comment.Approved = rdr.GetBoolean(8);
+        comment.IsApproved = rdr.GetBoolean(8);
 
         if (!rdr.IsDBNull(6))
           comment.Country = rdr.GetString(6);
@@ -674,7 +674,7 @@ namespace BlogEngine.Core.Providers
         cmd.Parameters.Add(new SqlParameter("@date", new SqlDateTime(comment.DateCreated)));
         cmd.Parameters.Add(new SqlParameter("@author", comment.Author));
         cmd.Parameters.Add(new SqlParameter("@email", comment.Email));
-        cmd.Parameters.Add(new SqlParameter("@approved", comment.Approved));
+        cmd.Parameters.Add(new SqlParameter("@approved", comment.IsApproved));
         if (comment.Website == null)
           cmd.Parameters.Add(new SqlParameter("@website", ""));
         else

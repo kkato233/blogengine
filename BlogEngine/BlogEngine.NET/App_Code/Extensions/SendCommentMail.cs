@@ -30,11 +30,11 @@ public class SendCommentMail
     if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)
     {
       Comment comment = post.Comments[post.Comments.Count - 1];
-
-      string receiver = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
+      // Trackback and pingback comments don't have a '@' symbol in the e-mail field.
+      string from = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
 
       MailMessage mail = new MailMessage();
-      mail.From = new MailAddress(receiver, comment.Author);
+      mail.From = new MailAddress(from, comment.Author);
       mail.To.Add(BlogSettings.Instance.Email);
       mail.Subject = "Weblog comment on " + post.Title;
       mail.Body = "Comment by " + comment.Author + " (" + comment.Email + ")" + Environment.NewLine + Environment.NewLine;

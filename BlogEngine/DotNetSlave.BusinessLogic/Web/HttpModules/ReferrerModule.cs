@@ -153,6 +153,7 @@ namespace BlogEngine.Core.Web.HttpModules
 
       RegisterClick(referrer, isSpam);
       stateInfo = null;
+      OnReferrerRegistered(referrer);
     }
 
     private static void RegisterClick(string url, bool isSpam)
@@ -224,6 +225,25 @@ namespace BlogEngine.Core.Web.HttpModules
       doc.Load(fileName);
       return doc;
     }
-  }
 
+    #region Events
+
+    /// <summary>
+    /// Occurs when a visitor enters the website and the referrer is logged.
+    /// </summary>
+    public static event EventHandler<EventArgs> ReferrerRegistered;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    private static void OnReferrerRegistered(string referrer)
+    {
+      if (ReferrerRegistered != null)
+      {
+        ReferrerRegistered(referrer, EventArgs.Empty);
+      }
+    }
+
+    #endregion
+
+  }
 }

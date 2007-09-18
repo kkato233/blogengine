@@ -1467,7 +1467,7 @@ namespace BlogEngine.Core
                     //------------------------------------------------------------
                     //	Skip blog comment if it has not been approved
                     //------------------------------------------------------------
-                    if (!comment.Approved)
+                    if (!comment.IsApproved)
                     {
                         continue;
                     }
@@ -1820,7 +1820,7 @@ namespace BlogEngine.Core
                     //------------------------------------------------------------
                     //	Skip post comment if it has not been approved
                     //------------------------------------------------------------
-                    if (!comment.Approved)
+                    if (!comment.IsApproved)
                     {
                         continue;
                     }
@@ -2299,7 +2299,7 @@ namespace BlogEngine.Core
                     //------------------------------------------------------------
                     //	Skip blog comment if it is not approved
                     //------------------------------------------------------------
-                    if (!comment.Approved)
+                    if (!comment.IsApproved)
                     {
                         continue;
                     }
@@ -2682,7 +2682,7 @@ namespace BlogEngine.Core
                     //------------------------------------------------------------
                     //	Skip post comment if it has not been approved
                     //------------------------------------------------------------
-                    if (!comment.Approved)
+                    if (!comment.IsApproved)
                     {
                         continue;
                     }

@@ -42,13 +42,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </param>
     public void ProcessRequest(HttpContext context)
     {
-      OnServing();
-
       if (!string.IsNullOrEmpty(context.Request.QueryString["picture"]))
       {
         string fileName = context.Request.QueryString["picture"];
         string folder = BlogSettings.Instance.StorageLocation + "files/";
         FileInfo fi = new FileInfo(context.Server.MapPath(folder) + fileName);
+
+        OnServing(fileName);
 
         if (fi.Exists && fi.Directory.FullName.ToLowerInvariant().Contains("\\files"))
         { 
@@ -76,11 +76,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
           }
 
           context.Server.Transfer(folder + fileName, false);
-          OnServed();
+          OnServed(fileName);
         }
         else
         {
-          OnBadRequest();
+          OnBadRequest(fileName);
           context.Response.Status = "404 Bad Request";
         }
       }
@@ -93,36 +93,36 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Occurs when the requested file does not exist;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> Serving;
-    private static void OnServing()
+    public static event EventHandler<EventArgs> Serving;
+    private static void OnServing(string file)
     {
       if (Serving != null)
       {
-        Serving(null, new FileHandlerEventArgs(HttpContext.Current));
+        Serving(file, EventArgs.Empty);
       }
     }
 
     /// <summary>
     /// Occurs when a file is served;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> Served;
-    private static void OnServed()
+    public static event EventHandler<EventArgs> Served;
+    private static void OnServed(string file)
     {
       if (Served != null)
       {
-        Served(null, new FileHandlerEventArgs(HttpContext.Current));
+        Served(file, EventArgs.Empty);
       }
     }
 
     /// <summary>
     /// Occurs when the requested file does not exist;
     /// </summary>
-    public static event EventHandler<FileHandlerEventArgs> BadRequest;
-    private static void OnBadRequest()
+    public static event EventHandler<EventArgs> BadRequest;
+    private static void OnBadRequest(string file)
     {
       if (BadRequest != null)
       {
-        BadRequest(null, new FileHandlerEventArgs(HttpContext.Current));
+        BadRequest(file, EventArgs.Empty);
       }
     }
 
