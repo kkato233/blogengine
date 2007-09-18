@@ -105,14 +105,14 @@ namespace BlogEngine.Core
       set { _Post = value; }
     }
 
-    private bool _approved;
+    private bool _IsApproved;
     /// <summary>
     /// Gets or sets the Comment approval status
     /// </summary>
-    public bool Approved
+    public bool IsApproved
     {
-      get { return _approved; }
-      set { _approved = value; }
+      get { return _IsApproved; }
+      set { _IsApproved = value; }
     }
 
     /// <summary>
@@ -121,7 +121,7 @@ namespace BlogEngine.Core
     /// <value></value>
     public bool IsVisible
     {
-      get { return Approved; }
+      get { return IsApproved; }
     }
 
     private DateTime _DateCreated = DateTime.MinValue;
@@ -224,6 +224,36 @@ namespace BlogEngine.Core
       if (Serving != null)
       {
         Serving(this, arg);
+      }
+    }
+
+    /// <summary>
+    /// Occurs just before a comment is approved by the comment moderator.
+    /// </summary>
+    public static event EventHandler<EventArgs> Approving;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    internal static void OnApproving(Comment comment)
+    {
+      if (Approving != null)
+      {
+        Approving(comment, EventArgs.Empty);
+      }
+    }
+
+    /// <summary>
+    /// Occurs after a comment is approved by the comment moderator.
+    /// </summary>
+    public static event EventHandler<EventArgs> Approved;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    internal static void OnApproved(Comment comment)
+    {
+      if (Approved != null)
+      {
+        Approved(comment, EventArgs.Empty);
       }
     }
 

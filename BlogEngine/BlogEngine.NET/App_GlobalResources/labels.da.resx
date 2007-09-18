@@ -357,6 +357,9 @@
   <data name="notRatedYet" xml:space="preserve">
     <value>Ingen point endnu</value>
   </data>
+  <data name="numberOfComments" xml:space="preserve">
+    <value>Vist antal kommentarer</value>
+  </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
     <value>Antal viste indlæg</value>
   </data>
@@ -395,6 +398,9 @@
   </data>
   <data name="rating" xml:space="preserve">
     <value>Point</value>
+  </data>
+  <data name="recentComments" xml:space="preserve">
+    <value>Seneste kommentarer</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
     <value>Seneste indlæg</value>

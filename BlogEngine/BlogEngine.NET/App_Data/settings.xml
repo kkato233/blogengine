@@ -36,6 +36,7 @@
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
+  <numberofrecentcomments>10</numberofrecentcomments>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>

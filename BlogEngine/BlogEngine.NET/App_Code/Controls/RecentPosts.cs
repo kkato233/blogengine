@@ -73,10 +73,10 @@ namespace Controls
         string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comment, post.ApprovedComments.Count);
         string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
 
-        if (!BlogSettings.Instance.DisplayCommentsOnRecentPosts)
+        if (!BlogSettings.Instance.DisplayCommentsOnRecentPosts || !BlogSettings.Instance.IsCommentsEnabled)
           comments = null;
 
-        if (!BlogSettings.Instance.DisplayRatingsOnRecentPosts)
+        if (!BlogSettings.Instance.DisplayRatingsOnRecentPosts || !BlogSettings.Instance.EnableRating)
           rate = null;
 
         if (post.Raters == 0)

@@ -37,6 +37,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
+          OnReceived();
             string html = string.Empty;
             try
             {
@@ -55,11 +56,27 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 ExamineSourcePage(sourceUrl, targetUrl);
 
                 Post post = GetPostByUrl(targetUrl);
-                if (post != null && IsFirstPingBack(post, sourceUrl) && _SourceHasLink)
+                if (post != null)
                 {
-                    AddComment(sourceUrl, post);
-                    context.Response.Write("OK");
+                  if (IsFirstPingBack(post, sourceUrl))
+                  {
+                    if (_SourceHasLink)
+                    {
+                      AddComment(sourceUrl, post);
+                      OnAccepted(sourceUrl);
+                      context.Response.Write("OK");
+                    }
+                    else
+                    {
+                      OnSpammed(sourceUrl);
+                    }
+                  }
+                  else
+                  {
+                    OnRejected(sourceUrl);
+                  }
                 }
+                
             }
             catch
             {
@@ -81,7 +98,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
             comment.Email = "pingback";
             comment.IP = HttpContext.Current.Request.UserHostAddress;
             comment.Post = post;
-            comment.Approved = true; //NOTE: Pingback comments are approved by default.
+            comment.IsApproved = true; //NOTE: Pingback comments are approved by default.
             post.AddComment(comment);
         }
 
@@ -166,6 +183,71 @@ namespace BlogEngine.Core.Web.HttpHandlers
         {
             get { return true; }
         }
+
+        #region Events
+
+        /// <summary>
+        /// Occurs when a hit is made to the trackback.axd handler.
+        /// </summary>
+        public static event EventHandler<EventArgs> Received;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnReceived()
+        {
+          if (Received != null)
+          {
+            Received(null, EventArgs.Empty);
+          }
+        }
+
+        /// <summary>
+        /// Occurs when a pingback is accepted as valid and added as a comment.
+        /// </summary>
+        public static event EventHandler<EventArgs> Accepted;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnAccepted(string url)
+        {
+          if (Accepted != null)
+          {
+            Accepted(url, EventArgs.Empty);
+          }
+        }
+
+        /// <summary>
+        /// Occurs when a pingback request is rejected because the sending
+        /// website already made a trackback or pingback to the specific page.
+        /// </summary>
+        public static event EventHandler<EventArgs> Rejected;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnRejected(string url)
+        {
+          if (Accepted != null)
+          {
+            Accepted(url, EventArgs.Empty);
+          }
+        }
+
+        /// <summary>
+        /// Occurs when the request comes from a spammer.
+        /// </summary>
+        public static event EventHandler<EventArgs> Spammed;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnSpammed(string url)
+        {
+          if (Spammed != null)
+          {
+            Spammed(url, EventArgs.Empty);
+          }
+        }
+
+        #endregion
 
     }
 }

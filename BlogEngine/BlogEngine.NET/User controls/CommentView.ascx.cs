@@ -47,10 +47,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     comment.Country = country;
     comment.DateCreated = DateTime.Now;
     comment.Post = Post;
-    comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
+    comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
 
     if (Page.User.Identity.IsAuthenticated)
-      comment.Approved = true;
+      comment.IsApproved = true;
 
     if (website.Trim().Length > 0)
     {
@@ -107,7 +107,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       foreach (Comment comment in Post.Comments)
       {
         CommentViewBase control = (CommentViewBase)LoadControl(path);
-        if (comment.Approved || !BlogSettings.Instance.EnableCommentsModeration)
+        if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration)
         {
           control.Comment = comment;
           control.Post = Post;
@@ -120,7 +120,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       {
         CommentViewBase control = (CommentViewBase)LoadControl(path);
 
-        if (!comment.Approved && Page.User.Identity.IsAuthenticated)
+        if (!comment.IsApproved && Page.User.Identity.IsAuthenticated)
         {
           control.Comment = comment;
           control.Post = Post;
@@ -153,7 +153,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     {
       if (comment.Id == new Guid(Request.QueryString["approvecomment"]))
       {
-        Response.Write(Request.Url);
         Post.ApproveComment(comment);
 
         int index = Request.RawUrl.IndexOf("?");
@@ -223,10 +222,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
         comment.Website = website;
     }
-    comment.Approved = !BlogSettings.Instance.EnableCommentsModeration;
+    comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
 
     if (Page.User.Identity.IsAuthenticated)
-      comment.Approved = true;
+      comment.IsApproved = true;
 
     Post.AddComment(comment);
   }

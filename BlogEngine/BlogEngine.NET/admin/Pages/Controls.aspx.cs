@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Configuration;
+using System.Globalization;
 using System.Collections;
 using System.Web;
 using System.Web.Security;
@@ -25,9 +26,11 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
 
   void btnSave_Click(object sender, EventArgs e)
   {
-    BlogSettings.Instance.NumberOfRecentPosts = int.Parse(txtNumberOfPosts.Text);
+    BlogSettings.Instance.NumberOfRecentPosts = int.Parse(txtNumberOfPosts.Text, CultureInfo.InvariantCulture);
     BlogSettings.Instance.DisplayCommentsOnRecentPosts = cbDisplayComments.Checked;
     BlogSettings.Instance.DisplayRatingsOnRecentPosts = cbDisplayRating.Checked;
+
+    BlogSettings.Instance.NumberOfRecentComments = int.Parse(txtNumberOfComments.Text, CultureInfo.InvariantCulture);
 
     BlogSettings.Instance.SearchButtonText = txtSearchButtonText.Text;
     BlogSettings.Instance.SearchCommentLabelText = txtCommentLabelText.Text;
@@ -46,6 +49,8 @@ public partial class admin_Pages_Controls : System.Web.UI.Page
     txtNumberOfPosts.Text = BlogSettings.Instance.NumberOfRecentPosts.ToString();
     cbDisplayComments.Checked = BlogSettings.Instance.DisplayCommentsOnRecentPosts;
     cbDisplayRating.Checked = BlogSettings.Instance.DisplayRatingsOnRecentPosts;
+
+    txtNumberOfComments.Text = BlogSettings.Instance.NumberOfRecentComments.ToString();
 
     txtSearchButtonText.Text = BlogSettings.Instance.SearchButtonText;
     txtCommentLabelText.Text = BlogSettings.Instance.SearchCommentLabelText;

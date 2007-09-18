@@ -87,7 +87,7 @@ namespace BlogEngine.Core.Web.Controls
     protected override void OnInit(EventArgs e)
     {
       base.OnInit(e);
-      if (!Post.IsPublished && !Page.User.Identity.IsAuthenticated)
+      if (!Post.IsVisible && !Page.User.Identity.IsAuthenticated)
       {
         this.Visible = false;
       }

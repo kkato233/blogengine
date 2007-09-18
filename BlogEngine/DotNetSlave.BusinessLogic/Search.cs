@@ -30,12 +30,13 @@ namespace BlogEngine.Core
       BlogSettings.Changed += delegate { BuildCatalog(); };
       Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
       Post.CommentRemoved += delegate { BuildCatalog(); };
+      Comment.Approved += new EventHandler<EventArgs>(Post_CommentAdded);
     }
 
     static void Post_CommentAdded(object sender, EventArgs e)
     {
       Comment comment = (Comment)sender;
-      if (comment.Approved)
+      if (comment.IsApproved)
         AddItem(comment);
     }
     
@@ -269,6 +270,25 @@ namespace BlogEngine.Core
       }
 
       return sb.ToString();
+    }
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when a search is performed. (The search term is the sender).
+    /// </summary>
+    public static event EventHandler<EventArgs> Searching;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    private static void OnSearcing(string searchTerm)
+    {
+      if (Searching != null)
+      {
+        Searching(searchTerm, EventArgs.Empty);
+      }
     }
 
     #endregion

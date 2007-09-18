@@ -109,7 +109,7 @@ namespace BlogEngine.Core
       {
         return _Comments.FindAll(delegate(Comment obj)
                                  {
-                                   return obj.Approved;
+                                   return obj.IsApproved;
                                  });
       }
     }
@@ -123,7 +123,7 @@ namespace BlogEngine.Core
       {
         return _Comments.FindAll(delegate(Comment obj)
                                  {
-                                   return !obj.Approved;
+                                   return !obj.IsApproved;
                                  });
       }
     }
@@ -534,7 +534,7 @@ namespace BlogEngine.Core
       mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
       mail.Subject = "New comment on " + Title;
       mail.Body = "Comment by " + comment.Author + Environment.NewLine + Environment.NewLine;
-      mail.Body += comment.Content + "\n\n" + PermaLink.ToString();
+      mail.Body += comment.Content + "\n\n" + AbsoluteLink.ToString();
 
       foreach (string email in NotificationEmails)
       {
@@ -565,10 +565,11 @@ namespace BlogEngine.Core
     /// <param name="comment">The Comment to approve</param>
     public void ApproveComment(Comment comment)
     {
-      //NOTE: Implement Later the Before and After Event if needed
+      Comment.OnApproved(comment);
       int inx = Comments.IndexOf(comment);
-      Comments[inx].Approved = true;
+      Comments[inx].IsApproved = true;
       DataUpdate();
+      Comment.OnApproved(comment);
     }
 
     /// <summary>
@@ -578,9 +579,8 @@ namespace BlogEngine.Core
     {
       foreach (Comment comment in Comments)
       {
-        comment.Approved = true;
+        ApproveComment(comment);
       }
-      DataUpdate();
     }
 
     #endregion

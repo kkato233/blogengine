@@ -22,8 +22,10 @@ namespace Controls
     {
       BindComments();
       Post.CommentAdded += delegate { BindComments(); };
-      Post.CommentRemoved += delegate { BindComments(); };
+      Post.CommentRemoved += delegate { BindComments(); };      
       Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+      Comment.Approved += delegate { BindComments(); };
+      BlogSettings.Changed += delegate { BindComments(); };
     }
 
     static void Post_Saved(object sender, SavedEventArgs e)
@@ -34,7 +36,6 @@ namespace Controls
 
     #region Private fields
 
-    private const int NUMBER_OF_COMMENTS = 10;
     private static object _SyncRoot = new object();
     private static List<Comment> _Comments = new List<Comment>();
 
@@ -51,7 +52,8 @@ namespace Controls
         {
           foreach (Comment comment in post.Comments) 
           {
-              if (comment.Approved) comments.Add(comment);
+              if (comment.IsApproved) 
+                comments.Add(comment);
           }
         }
 
@@ -61,7 +63,7 @@ namespace Controls
 
         foreach (Comment comment in comments)
         {
-          if (counter == NUMBER_OF_COMMENTS)
+          if (counter == BlogSettings.Instance.NumberOfRecentComments)
             break;
 
           if (comment.Email == "pingback" || comment.Email == "trackback")
@@ -82,7 +84,7 @@ namespace Controls
 
       foreach (Comment comment in _Comments)
       {
-          if (comment.Approved)
+          if (comment.IsApproved)
           {
               HtmlGenericControl li = new HtmlGenericControl("li");
 
