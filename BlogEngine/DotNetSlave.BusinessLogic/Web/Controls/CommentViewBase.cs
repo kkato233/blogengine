@@ -220,17 +220,17 @@ namespace BlogEngine.Core.Web.Controls
         return "<img src=\"" + Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + Comment.Author + "\" />";
       }
 
-      string img = "<img style=\"background-image:url({0})\" src=\"" + Utils.RelativeWebRoot + "pics/pixel.gif\" alt=\"{1}\" />";
+      string img = "<img src=\"{0}\" alt=\"{1}\" />";
       string hash = CreateMd5Hash();
       string noavatar = Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg";
-      string monster = Utils.AbsoluteWebRoot + "monster.axd?seed=" + hash + "&amp;size=" + size;
+      string monster = Utils.AbsoluteWebRoot + "monster.axd?seed=" + hash.Substring(0, 10) + "&size=" + size;
       string gravatar = "http://www.gravatar.com/avatar.php?gravatar_id=" + hash + "&amp;size=" + size + "&amp;default=";
 
       string link = string.Empty;
       switch (BlogSettings.Instance.Avatar)
       {
         case "monster":
-          link = monster;
+          link = monster.Replace("&", "&amp;");
           break;
 
         case "gravatar":

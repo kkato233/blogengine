@@ -227,7 +227,10 @@ namespace Controls
       item.Xfn = xfn;
 
       if (_CurrentLevel > AspNetHostingPermissionLevel.Medium)
-        item.Request = (HttpWebRequest)WebRequest.Create(feedUrl); ;
+      {
+        item.Request = (HttpWebRequest)WebRequest.Create(feedUrl);
+        item.Request.Credentials = CredentialCache.DefaultNetworkCredentials;
+      }
 
       _Items.Add(item);
 

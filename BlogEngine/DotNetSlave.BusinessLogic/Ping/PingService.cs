@@ -46,9 +46,9 @@ namespace BlogEngine.Core.Ping
         request.Method = "POST";
         request.ContentType = "text/xml";
         request.Timeout = 3000;
+        request.Credentials = CredentialCache.DefaultNetworkCredentials;
 
         AddXmlToRequest(request);
-        //request.BeginGetResponse(EndGetResponse, request);
         request.GetResponse();
       }
       catch (Exception)
@@ -56,27 +56,6 @@ namespace BlogEngine.Core.Ping
         // Log the error.
       }
     }
-
-    ///// <summary>
-    ///// Receives the response.
-    ///// </summary>
-    //private void EndGetResponse(IAsyncResult result)
-    //{
-    //  HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-    //  HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-    //  //string filename = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "ping.txt";
-
-    //  //StreamReader reade = new StreamReader(response.GetResponseStream());
-    //  //string content = reade.ReadToEnd();
-
-    //  //StreamWriter writer = new StreamWriter(filename, true);
-    //  //writer.WriteLine(request.RequestUri.ToString() + Environment.NewLine);
-    //  //writer.WriteLine(content);
-    //  //writer.WriteLine("--------------------------------------------------------------------");
-    //  //writer.Flush();
-    //  //writer.Close();
-    //}
 
     /// <summary>
     /// Adds the XML to web request. The XML is the standard

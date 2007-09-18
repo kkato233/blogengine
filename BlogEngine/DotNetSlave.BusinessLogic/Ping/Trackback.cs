@@ -31,6 +31,7 @@ namespace BlogEngine.Core.Ping
       //Warning:next line if for local debugging porpuse please donot remove it until you need to
       //tMessage.PostURL = new Uri("http://www.artinsoft.com/webmaster/trackback.html");
       HttpWebRequest request = (HttpWebRequest)System.Net.HttpWebRequest.Create(message.UrlToNotifyTrackback); //HttpHelper.CreateRequest(trackBackItem);
+      request.Credentials = CredentialCache.DefaultNetworkCredentials;
       request.Method = "POST";
       request.ContentLength = message.ToString().Length;
       request.ContentType = "application/x-www-form-urlencoded";

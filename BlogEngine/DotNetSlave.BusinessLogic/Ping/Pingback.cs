@@ -29,6 +29,7 @@ namespace BlogEngine.Core.Ping
       try
       {
         HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(targetUrl);
+        request.Credentials = CredentialCache.DefaultNetworkCredentials;
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         string pingUrl = response.Headers["x-pingback"];
         Uri url;
