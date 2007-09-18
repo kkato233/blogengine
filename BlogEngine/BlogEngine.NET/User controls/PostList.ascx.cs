@@ -57,6 +57,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
         PostViewBase postView = (PostViewBase)LoadControl(path);
         postView.ShowExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
         postView.Post = post;
+        postView.Location = ServingLocation.PostList;
         posts.Controls.Add(postView);
         counter++;
       }

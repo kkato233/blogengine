@@ -1971,7 +1971,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 //	Modify post content to make references absolute
                 //------------------------------------------------------------                
-                ServingEventArgs arg = new ServingEventArgs(page.Content);
+                ServingEventArgs arg = new ServingEventArgs(page.Content, ServingLocation.Feed);
                 Page.OnServing(page, arg);
                 string content = arg.Body;
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
@@ -2055,7 +2055,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 //	Modify post content to make references absolute
                 //------------------------------------------------------------
-                ServingEventArgs arg = new ServingEventArgs(post.Content);
+                ServingEventArgs arg = new ServingEventArgs(post.Content, ServingLocation.Feed);
                 Post.OnServing(post, arg);
                 string content = arg.Body;
                 content         = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");

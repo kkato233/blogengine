@@ -103,6 +103,14 @@ namespace BlogEngine.Core.Web.Controls
       set { ViewState["Post"] = value; }
     }
 
+    private ServingLocation _Location = ServingLocation.None;
+
+    public ServingLocation Location
+    {
+      get { return _Location; }
+      set { _Location = value; }
+    }
+
     private bool _ShowExcerpt;
     /// <summary>
     /// Gets or sets whether or not to show the entire post or just the excerpt/description.
@@ -155,7 +163,7 @@ namespace BlogEngine.Core.Web.Controls
           }
         }
 
-        ServingEventArgs arg = new ServingEventArgs(body);
+        ServingEventArgs arg = new ServingEventArgs(body, this.Location);
         Post.OnServing(Post, arg);
         
         return arg.Body;
