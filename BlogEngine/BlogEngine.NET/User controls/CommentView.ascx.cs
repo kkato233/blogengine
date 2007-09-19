@@ -128,21 +128,25 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         }
       }
 
-      if (!BlogSettings.Instance.IsCommentsEnabled || !Post.IsCommentsEnabled ||
-          (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
-           Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
+      if (BlogSettings.Instance.IsCommentsEnabled)
       {
-        phAddComment.Visible = false;
-        lbCommentsDisabled.Visible = true;
+        if (!Post.IsCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
+           Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
+        {
+          phAddComment.Visible = false;
+          lbCommentsDisabled.Visible = true;
+        }
+
+        BindCountries();
+        GetCookie();
+        BindLivePreview();
       }
       else
       {
-        BindCountries();
-        GetCookie();
+        phAddComment.Visible = false;
       }
     }
-
-    BindLivePreview();
+    
     InititializeCaptcha();
     btnSave.Click += new EventHandler(btnSave_Click);
   }

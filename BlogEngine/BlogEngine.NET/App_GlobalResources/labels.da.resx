@@ -189,6 +189,12 @@
   <data name="comments" xml:space="preserve">
     <value>Kommentarer</value>
   </data>
+  <data name="commentsAreClosed" xml:space="preserve">
+    <value>Kommentarerne er lukkede</value>
+  </data>
+  <data name="commentWasSaved" xml:space="preserve">
+    <value>Kommentaren er gemt. Tak for din feedback</value>
+  </data>
   <data name="contact" xml:space="preserve">
     <value>Kontakt</value>
   </data>

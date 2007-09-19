@@ -27,6 +27,8 @@ function ShowCommentPreview(target, sender)
     return; 
     
   var body = sender.value.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
+  body = body.replace(new RegExp(">","gi"), "&gt;");  
+  body = body.replace(new RegExp("<","gi"), "&lt;");
     
   _PreviewAuthor.innerHTML = _TxtName.value;
   _PreviewContent.innerHTML = body.replace(_Regex, "<br />");

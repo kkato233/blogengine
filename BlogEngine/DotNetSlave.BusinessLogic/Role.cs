@@ -60,7 +60,7 @@ namespace BlogEngine.Core
         public List<string> Users
         {
             get { return _UserNames; }
-            set { _UserNames = value; }
+            //set { _UserNames = value; }
         }
     }
 

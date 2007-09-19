@@ -22,7 +22,7 @@
   <blogrollmaxlength>23</blogrollmaxlength>
   <geocodinglatitude>0</geocodinglatitude>
   <email>name@example.com</email>
-  <dayscommentsareenabled>2</dayscommentsareenabled>
+  <dayscommentsareenabled>0</dayscommentsareenabled>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <timezone>-2</timezone>

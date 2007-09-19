@@ -61,7 +61,7 @@ namespace BlogEngine.Core.Web.Controls
     /// The regular expression used to parse links.
     /// </summary>
     private static readonly Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?;~&#=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly string link = "<a href=\"{0}{1}\" rel=\"nofollow\">{2}</a>";
+    private const string link = "<a href=\"{0}{1}\" rel=\"nofollow\">{2}</a>";
 
     /// <summary>
     /// Examins the comment body for any links and turns them
@@ -76,15 +76,17 @@ namespace BlogEngine.Core.Web.Controls
       if (string.IsNullOrEmpty(body))
         return body;
 
+      CultureInfo info = CultureInfo.InvariantCulture;
+
       foreach (Match match in regex.Matches(body))
       {
         if (!match.Value.Contains("://"))
         {
-          body = body.Replace(match.Value, string.Format(link, "http://", match.Value, ShortenUrl(match.Value, 50)));
+          body = body.Replace(match.Value, string.Format(info, link, "http://", match.Value, ShortenUrl(match.Value, 50)));
         }
         else
         {
-          body = body.Replace(match.Value, string.Format(link, string.Empty, match.Value, ShortenUrl(match.Value, 50)));
+          body = body.Replace(match.Value, string.Format(info, link, string.Empty, match.Value, ShortenUrl(match.Value, 50)));
         }
       }
 
@@ -242,7 +244,7 @@ namespace BlogEngine.Core.Web.Controls
           break;
       }
       
-      return string.Format(img, link, Comment.Author);
+      return string.Format(CultureInfo.InvariantCulture, img, link, Comment.Author);
     }
 
     private string CreateMd5Hash()

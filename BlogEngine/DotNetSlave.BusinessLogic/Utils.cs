@@ -92,6 +92,9 @@ namespace BlogEngine.Core
     /// </summary>
     public static Uri ConvertToAbsolute(Uri relativeUri)
     {
+      if (relativeUri == null)
+        throw new ArgumentNullException("relativeUri");
+
       string absolute = AbsoluteWebRoot.ToString();
       return new Uri(absolute.Substring(0, absolute.Length -1) + relativeUri.ToString());
     }

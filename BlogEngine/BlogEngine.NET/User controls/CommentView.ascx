@@ -98,7 +98,7 @@ function AppendComment(args, context)
     document.getElementById("<%=txtContent.ClientID %>").value = "";
     document.getElementById("ajaxLoader").style.display = "none";
     document.getElementById("status").className = "success";
-    document.getElementById("status").innerHTML = "The comment was saved. Thank you for the feedback";
+    document.getElementById("status").innerHTML = "<%=Resources.labels.commentWasSaved %>";
   }
   
   document.getElementById("btnSave").disabled = false;
@@ -149,4 +149,4 @@ coco =
 <%} %>
 </asp:PlaceHolder>
 
-<asp:label runat="server" id="lbCommentsDisabled" visible="false">Comments are closed</asp:label>
+<asp:label runat="server" id="lbCommentsDisabled" visible="false"><%=Resources.labels.commentsAreClosed %></asp:label>
