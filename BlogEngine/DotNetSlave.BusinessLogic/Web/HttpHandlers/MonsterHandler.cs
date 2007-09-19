@@ -95,15 +95,16 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Gets the filename of the monster based on the seed and size.
     /// </summary>
-    protected string GetMonsterFilename(int seed, int size)
+    private static string GetMonsterFilename(int seed, int size)
     {
-      return Path.Combine(HostingEnvironment.MapPath(string.Format(CACHE_PATH, size)), string.Format("{0}.png", seed));
+      CultureInfo info = CultureInfo.InvariantCulture;
+      return Path.Combine(HostingEnvironment.MapPath(string.Format(info, CACHE_PATH, size)), string.Format(info, "{0}.png", seed));
     }
 
     /// <summary>
     /// Creates the monster image and saves it to the cache on disk.
     /// </summary>
-    protected void CreateMonster(int seed, int size, string filename)
+    private static void CreateMonster(int seed, int size, string filename)
     {
       string sourcedir = HostingEnvironment.MapPath(PARTS_PATH);
       Random rnd = new Random(seed);
@@ -124,7 +125,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
           for (int i = 0; i < currentParts.Length; i++)
           {
-            using (overlay = new Bitmap(Path.Combine(sourcedir, string.Format("{0}_{1}.png", parts[i], currentParts[i]))))
+            using (overlay = new Bitmap(Path.Combine(sourcedir, string.Format(CultureInfo.InvariantCulture, "{0}_{1}.png", parts[i], currentParts[i]))))
             {
               Rectangle rect = new Rectangle(new Point(0), overlay.Size);
               gfx.DrawImage(overlay, new Rectangle(new Point(0), bmp.Size), rect, GraphicsUnit.Pixel);

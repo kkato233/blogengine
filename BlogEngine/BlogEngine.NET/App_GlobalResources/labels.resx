@@ -195,6 +195,12 @@
   <data name="comments" xml:space="preserve">
     <value>Comments</value>
   </data>
+  <data name="commentsAreClosed" xml:space="preserve">
+    <value>Comments are closed</value>
+  </data>
+  <data name="commentWasSaved" xml:space="preserve">
+    <value>The comment was saved. Thank you for the feedback</value>
+  </data>
   <data name="contact" xml:space="preserve">
     <value>Contact</value>
   </data>

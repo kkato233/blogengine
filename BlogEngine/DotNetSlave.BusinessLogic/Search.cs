@@ -90,6 +90,7 @@ namespace BlogEngine.Core
       {
         List<Result> results = BuildResultSet(searchTerm, includeComments);
         List<IPublishable> items = results.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
+        OnSearcing(searchTerm);
         return items;
       }
     }
@@ -209,9 +210,6 @@ namespace BlogEngine.Core
       entry.Title = CleanContent(item.Title, false);
       entry.Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true));
 
-      //if (BlogSettings.Instance.EnableCommentSearch)
-      //  entry.Comments = GetCommentString(item);
-
       _Catalog.Add(entry);
     }
 
@@ -258,18 +256,6 @@ namespace BlogEngine.Core
 
         return col;
       }
-    }
-
-    private static string GetCommentString(Post post)
-    {
-      StringBuilder sb = new StringBuilder();
-      foreach (Comment comment in post.Comments)
-      {
-        sb.Append(comment.Content);
-        sb.Append(" " + comment.Author);
-      }
-
-      return sb.ToString();
     }
 
     #endregion

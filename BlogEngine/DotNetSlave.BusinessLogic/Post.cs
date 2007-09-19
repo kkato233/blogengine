@@ -565,7 +565,7 @@ namespace BlogEngine.Core
     /// <param name="comment">The Comment to approve</param>
     public void ApproveComment(Comment comment)
     {
-      Comment.OnApproved(comment);
+      Comment.OnApproving(comment);
       int inx = Comments.IndexOf(comment);
       Comments[inx].IsApproved = true;
       DataUpdate();

@@ -156,7 +156,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// </summary>
     private static void SetCachingHeaders(HttpApplication app)
     {
-      string etag = "\"" + app.Context.Request.QueryString.ToString().GetHashCode().ToString() + "\"";
+      string etag = "\"" + app.Context.Request.QueryString.ToString().GetHashCode() + "\"";
       string incomingEtag = app.Request.Headers["If-None-Match"];
 
       app.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
