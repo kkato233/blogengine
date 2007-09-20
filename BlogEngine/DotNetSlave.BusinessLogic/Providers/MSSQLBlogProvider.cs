@@ -649,7 +649,7 @@ namespace BlogEngine.Core.Providers
           cmd.CommandText = "INSERT INTO be_PostCategory (PostID, CategoryID) VALUES (@id, @cat)";
           cmd.Parameters.Clear();
           cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
-          cmd.Parameters.Add(new SqlParameter("@cat", cat.Title));
+          cmd.Parameters.Add(new SqlParameter("@cat", cat.Id));
           cmd.ExecuteNonQuery();
         //}
       }
