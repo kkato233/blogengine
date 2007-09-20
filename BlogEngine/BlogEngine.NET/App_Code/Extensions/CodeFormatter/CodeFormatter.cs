@@ -43,13 +43,18 @@ RegexOptions.Compiled
 | RegexOptions.IgnoreCase
 | RegexOptions.Singleline);
 
-    private Regex codeBeginTagRegex = new Regex(@"<p>\[code:.*?\]<\/p>",
+    /// new regex <p>\r\n<div class=\"code\">\n[code:c#]\r\n</p>\r\n
+    /// <summary>
+    /// old regex <p><div.*?>\[code:.*?\]</p>
+    private Regex codeBeginTagRegex = new Regex(@"<p>\r\n<div class=""code"">\n\[code:.*?\]\r\n</p>\r\n",
     RegexOptions.Compiled
     | RegexOptions.CultureInvariant
     | RegexOptions.IgnoreCase
     | RegexOptions.Singleline);
-
-    private Regex codeEndTagRegex = new Regex(@"<p>\[/code\]<\/p>",
+    
+    
+    /// Old regex\[/code\]
+    private Regex codeEndTagRegex = new Regex(@"<p>\r\n\[/code]</div>\r\n</p>\r\n",
     RegexOptions.Compiled
     | RegexOptions.CultureInvariant
     | RegexOptions.IgnoreCase
@@ -67,8 +72,8 @@ RegexOptions.Compiled
       if (e.Body.Contains("[/code]"))
       {
         e.Body = codeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
-        e.Body = codeBeginTagRegex.Replace(e.Body, string.Empty);
-        e.Body = codeEndTagRegex.Replace(e.Body, string.Empty);
+        e.Body = codeBeginTagRegex.Replace(e.Body, @"<div class=""code"">");
+        e.Body = codeEndTagRegex.Replace(e.Body, @"</div>");
       }
     }
 
