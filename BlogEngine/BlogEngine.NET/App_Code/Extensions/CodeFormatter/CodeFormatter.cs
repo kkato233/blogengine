@@ -43,13 +43,13 @@ RegexOptions.Compiled
 | RegexOptions.IgnoreCase
 | RegexOptions.Singleline);
 
-    private Regex codeBeginTagRegex = new Regex(@"\[code:.*?\]",
+    private Regex codeBeginTagRegex = new Regex(@"<p>\[code:.*?\]<\/p>",
     RegexOptions.Compiled
     | RegexOptions.CultureInvariant
     | RegexOptions.IgnoreCase
     | RegexOptions.Singleline);
 
-    private Regex codeEndTagRegex = new Regex(@"\[/code\]",
+    private Regex codeEndTagRegex = new Regex(@"<p>\[/code\]<\/p>",
     RegexOptions.Compiled
     | RegexOptions.CultureInvariant
     | RegexOptions.IgnoreCase
