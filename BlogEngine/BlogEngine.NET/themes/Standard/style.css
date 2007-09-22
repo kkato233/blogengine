@@ -790,7 +790,7 @@ ul#monthList ul.open{
 	color: black;
 	font-family: Consolas, "Courier New", Courier, Monospace;
 	background-color: #F1F1F1;
-	/*white-space: pre;*/
+  line-height: normal;
 }
 
 .code p{
@@ -805,7 +805,7 @@ ul#monthList ul.open{
 
 .code .op { color: #0000c0; }
 
-.code .preproc { color: #cc6633; }
+.code .preproc { color: #0000ff; }
 
 .code .asp { background-color: #ffff00; }
 
