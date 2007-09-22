@@ -54,7 +54,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         {
           string body = StripWhitespace(reader);
           context.Cache.Insert(file, body, new CacheDependency(file));
-          context.Cache.Insert(file + "date", fi.LastWriteTimeUtc, new CacheDependency(file));
+          context.Cache.Insert(file + "date", fi.LastWriteTime, new CacheDependency(file));
         }
       }
 
@@ -98,7 +98,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
       context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
       context.Response.Cache.SetCacheability(HttpCacheability.Public);
-      context.Response.Cache.SetLastModified(date);
+      //context.Response.Cache.SetLastModified(date);
       context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
       context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
       context.Response.Cache.SetETag(etag);

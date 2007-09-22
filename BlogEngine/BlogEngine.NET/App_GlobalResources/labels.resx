@@ -168,6 +168,9 @@
   <data name="beTheFirstToRate" xml:space="preserve">
     <value>Be the first to rate this post</value>
   </data>
+  <data name="blogMLDescription" xml:space="preserve">
+    <value>BlogEngine.NET uses BlogML as the format for exporting. The import support both BlogML and RSS.</value>
+  </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
@@ -303,6 +306,9 @@
   <data name="enforce" xml:space="preserve">
     <value>Enforce</value>
   </data>
+  <data name="export" xml:space="preserve">
+    <value>Export</value>
+  </data>
   <data name="formMessage" xml:space="preserve">
     <value>Form message</value>
   </data>
@@ -321,6 +327,9 @@
   </data>
   <data name="ignore" xml:space="preserve">
     <value>Ignore</value>
+  </data>
+  <data name="import" xml:space="preserve">
+    <value>Import</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
     <value>Is front page</value>

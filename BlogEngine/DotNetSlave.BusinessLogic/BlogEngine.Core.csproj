@@ -125,6 +125,7 @@
     <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SyndicationGenerator.cs" />
+    <Compile Include="Web\HttpHandlers\BlogMLExportHandler.cs" />
     <Compile Include="Web\HttpHandlers\MonsterHandler.cs" />
   </ItemGroup>
   <ItemGroup>

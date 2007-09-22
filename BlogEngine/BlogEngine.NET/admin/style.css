@@ -258,7 +258,7 @@ table.referrer caption {
 
 /*-------------*/
 
-.main input[type="submit"] {
+.main input[type="submit"], .main input[type="button"] {
 	color: #000000;
 	background: #FFFFFF;
 	border: 1px solid #B8C1CA;
@@ -271,13 +271,13 @@ table.referrer caption {
 	cursor: pointer;
 }
 
-.settings input[type="submit"] {
+.settings input[type="submit"], .settings input[type="button"] {
 	color: #666;
 	background: #F1F1F1;
 	border: 1px solid #B8C1CA;
 }
 
-.settings input[type="submit"]:hover {
+.settings input[type="submit"]:hover, .settings input[type="button"]:hover {
 	color: #FFFFFF;
 	background: #B8C1CA;
 	cursor: pointer;
