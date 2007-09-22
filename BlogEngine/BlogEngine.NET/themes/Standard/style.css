@@ -780,7 +780,10 @@ ul#monthList ul.open{
 	margin: 0;
 }
 
-/* code styles for CodeFormatter Extension*/
+/*----------------------------
+			Syntax highlighter
+----------------------------*/
+
 .code
 {
 	font-size: 12px;
@@ -790,8 +793,8 @@ ul#monthList ul.open{
 	/*white-space: pre;*/
 }
 
-.code span{
-	line-height: 14px;
+.code p{
+	padding: 5px;
 }
 
 .code .rem { color: #008000; }

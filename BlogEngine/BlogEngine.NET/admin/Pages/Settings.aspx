@@ -204,19 +204,23 @@ function PreviewTheme()
             Width="500" />
     </div>
     <div class="settings">
-        <h1>
-            Tracking script</h1>
+        <h1>Tracking script</h1>
         <label for="<%=txtTrackingScript.ClientID %>">
-            Visitor tracking script<br />
-            <br />
-            The JavaScript code from i.e. Google Analytics.<br />
-            <br />
-            Will be added in the bottom of each page regardless of the theme.<br />
-            <br />
-            (remember to add the &lt;script&gt; tags)</label>
-        <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9"
-            Columns="30" Width="500" />
+          Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />
+          Will be added in the bottom of each page regardless of the theme.<br /><br />(remember to add the &lt;script&gt; tags)</label>
+        <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
     </div>
+    
+    <div class="settings">
+      <h1><%=Resources.labels.import %> & <%=Resources.labels.export %></h1>
+      <p>
+        <%=Resources.labels.blogMLDescription %>
+        (<a href="http://blogml.org/">blogml.org</a>)
+      </p>
+      <input type="button" value="<%=Resources.labels.import %>" disabled="disabled" title="Coming soon" />&nbsp;&nbsp;
+      <input type="button" value="<%=Resources.labels.export %>" onclick="location.href='blogml.axd'" />
+    </div>
+    
     <div align="right">
         <asp:Button runat="server" ID="btnSave" /></div>
     <br />

@@ -162,6 +162,9 @@
   <data name="beTheFirstToRate" xml:space="preserve">
     <value>Vær den første til at give point</value>
   </data>
+  <data name="blogMLDescription" xml:space="preserve">
+    <value>BlogEngine.NET benytter BlogML som eksporteringsformat. Importen kan både bruge BlogML og RSS.</value>
+  </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
@@ -297,6 +300,9 @@
   <data name="enforce" xml:space="preserve">
     <value>Benyt</value>
   </data>
+  <data name="export" xml:space="preserve">
+    <value>Eksport</value>
+  </data>
   <data name="formMessage" xml:space="preserve">
     <value>Formular tekst</value>
   </data>
@@ -314,6 +320,9 @@
   </data>
   <data name="ignore" xml:space="preserve">
     <value>Ignorér</value>
+  </data>
+  <data name="import" xml:space="preserve">
+    <value>Import</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
     <value>Er forsiden</value>

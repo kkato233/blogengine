@@ -124,6 +124,9 @@ namespace BlogEngine.Core.Providers
     /// <param name="post"></param>
     public override void InsertPost(Post post)
     {
+      if (!Directory.Exists(_Folder + "posts"))
+        Directory.CreateDirectory(_Folder + "posts");
+
       string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
@@ -278,6 +281,9 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void InsertPage(Page page)
     {
+      if (!Directory.Exists(_Folder + "pages"))
+        Directory.CreateDirectory(_Folder + "pages");
+
       string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
