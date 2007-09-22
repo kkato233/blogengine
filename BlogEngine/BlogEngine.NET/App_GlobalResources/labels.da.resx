@@ -405,11 +405,17 @@
   <data name="postPerPage" xml:space="preserve">
     <value>Indlæg pr. side</value>
   </data>
+  <data name="posts" xml:space="preserve">
+    <value>Indlæg</value>
+  </data>
   <data name="postsPerFeed" xml:space="preserve">
     <value>Antal indlæg i feed</value>
   </data>
   <data name="publish" xml:space="preserve">
     <value>Publicér</value>
+  </data>
+  <data name="raters" xml:space="preserve">
+    <value>Pointgivere</value>
   </data>
   <data name="rating" xml:space="preserve">
     <value>Point</value>
@@ -512,6 +518,9 @@
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
     <value>Der er {0} upubliceret indlæg</value>
+  </data>
+  <data name="timeStampPostLinks" xml:space="preserve">
+    <value>Tilføj dato til links</value>
   </data>
   <data name="timezone" xml:space="preserve">
     <value>Server tidsforskel</value>

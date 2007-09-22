@@ -1,10 +1,5 @@
-/****************************************************************************
-Modification History:
-*****************************************************************************
-Date		Author		Description
-*****************************************************************************
-05/03/2007  brian.kuhn  Added syndication settings controls/logic
-****************************************************************************/
+#region Using
+
 using System;
 using System.IO;
 using System.Net.Mail;
@@ -14,6 +9,8 @@ using System.Web.UI.WebControls;
 using System.Globalization;
 
 using BlogEngine.Core;
+
+#endregion
 
 public partial class admin_Pages_configuration : System.Web.UI.Page
 {
@@ -73,6 +70,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
     BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
     BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
+    BlogSettings.Instance.TimeStampPostLinks = cbTimeStampPostLinks.Checked;
     BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
     BlogSettings.Instance.Timezone = double.Parse(txtTimeZone.Text, CultureInfo.InvariantCulture);
 
@@ -161,6 +159,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
     cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
     cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
+    cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
     ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
     txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
 

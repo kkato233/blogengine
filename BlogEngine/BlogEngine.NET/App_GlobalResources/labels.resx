@@ -412,11 +412,17 @@
   <data name="postPerPage" xml:space="preserve">
     <value>Posts per page</value>
   </data>
+  <data name="posts" xml:space="preserve">
+    <value>Posts</value>
+  </data>
   <data name="postsPerFeed" xml:space="preserve">
     <value>Items shown in feed</value>
   </data>
   <data name="publish" xml:space="preserve">
     <value>Publish</value>
+  </data>
+  <data name="raters" xml:space="preserve">
+    <value>Raters</value>
   </data>
   <data name="rating" xml:space="preserve">
     <value>Rating</value>
@@ -519,6 +525,9 @@
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
     <value>There are {0} unpublished post(s)</value>
+  </data>
+  <data name="timeStampPostLinks" xml:space="preserve">
+    <value>Add date to post links</value>
   </data>
   <data name="timezone" xml:space="preserve">
     <value>Server time offset</value>
