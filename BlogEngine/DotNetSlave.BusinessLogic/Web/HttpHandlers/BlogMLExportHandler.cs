@@ -10,14 +10,10 @@ using BlogEngine.Core;
 
 namespace BlogEngine.Core.Web.HttpHandlers
 {
+
   /// <summary>
-  /// Displays the open search XML provider as
-  /// descriped at http://opensearch.a9.com/
+  /// Exports all posts to the BlogML xml format.
   /// </summary>
-  /// <remarks>
-  /// The OpenSearch document needs to be linked to from the 
-  /// HTML head tag. This link will be added automatically.
-  /// </remarks>
   public class BlogMLExportHandler : IHttpHandler
   {
 
@@ -26,7 +22,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <summary>
     /// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"></see> interface.
     /// </summary>
-    /// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
+    /// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server 
+    /// objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
     public void ProcessRequest(HttpContext context)
     {
       context.Response.ContentType = "text/xml";
@@ -48,21 +45,24 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #region XML creation
 
+    /// <summary>
+    /// Writes the BlogML to the output stream.
+    /// </summary>
     private static void WriteXml(HttpContext context)
     {
-      using (XmlWriter writer = XmlWriter.Create(context.Response.OutputStream))
+      XmlWriterSettings settings = new XmlWriterSettings();
+      settings.Encoding = System.Text.Encoding.UTF8;
+      settings.Indent = true;
+
+      using (XmlWriter writer = XmlWriter.Create(context.Response.OutputStream, settings))
       {
-        writer.WriteStartElement("blog", "http://www.blogml.com/2006/09/BlogML");
-        writer.WriteAttributeString("date-created", DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString());
+        writer.WriteStartElement("blog", "http://www.blogml.com/2006/09/BlogML");        
+        writer.WriteAttributeString("root-url", Utils.RelativeWebRoot.ToString());
+        writer.WriteAttributeString("date-created", DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("xmlns", "xs", null, "http://www.w3.org/2001/XMLSchema");
 
-        writer.WriteStartElement("title");
-        writer.WriteAttributeString("type", "text");
-        writer.WriteCData(BlogSettings.Instance.Name);
-
-        writer.WriteStartElement("sub-title");
-        writer.WriteAttributeString("type", "text");
-        writer.WriteCData(BlogSettings.Instance.Description);
-
+        AddTitle(writer);
+        AddSubTitle(writer);
         AddAuthors(writer);
         AddExtendedProperties(writer);
         AddCategories(writer);
@@ -70,6 +70,22 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
         writer.WriteEndElement();
       }
+    }
+
+    private static void AddTitle(XmlWriter writer)
+    {
+      writer.WriteStartElement("title");
+      writer.WriteAttributeString("type", "text");
+      writer.WriteCData(BlogSettings.Instance.Name);
+      writer.WriteEndElement();
+    }
+
+    private static void AddSubTitle(XmlWriter writer)
+    {
+      writer.WriteStartElement("sub-title");
+      writer.WriteAttributeString("type", "text");
+      writer.WriteCData(BlogSettings.Instance.Description);
+      writer.WriteEndElement();
     }
 
     private static void AddAuthors(XmlWriter writer)
@@ -81,8 +97,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
         writer.WriteStartElement("author");
 
         writer.WriteAttributeString("id", user.UserName);
-        writer.WriteAttributeString("date-created", user.CreationDate.AddHours(BlogSettings.Instance.Timezone).ToString());
-        writer.WriteAttributeString("date-modified", user.CreationDate.AddHours(BlogSettings.Instance.Timezone).ToString());
+        writer.WriteAttributeString("date-created", user.CreationDate.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("date-modified", user.CreationDate.ToString("yyyy-MM-ddTHH:mm:ss"));
         writer.WriteAttributeString("approved", "true");
         writer.WriteAttributeString("email", user.Email);
 
@@ -102,11 +118,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
       writer.WriteStartElement("extended-properties");
 
       writer.WriteStartElement("property");
-      writer.WriteAttributeString("CommentModeration", "true");
+      writer.WriteAttributeString("name", "CommentModeration");
+      writer.WriteAttributeString("value", "Anonymous");
       writer.WriteEndElement();
 
       writer.WriteStartElement("property");
-      writer.WriteAttributeString("SendTrackback", "true");
+      writer.WriteAttributeString("name", "SendTrackback");
+      writer.WriteAttributeString("value", "Yes");
       writer.WriteEndElement();
 
       writer.WriteEndElement();
@@ -121,11 +139,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
         writer.WriteStartElement("category");
 
         writer.WriteAttributeString("id", category.Id.ToString());
-        writer.WriteAttributeString("date-created", category.DateCreated.ToString());
-        writer.WriteAttributeString("date-modified", category.DateModified.ToString());
-        writer.WriteAttributeString("approved", "true");
-        writer.WriteAttributeString("description", category.Description);
+        writer.WriteAttributeString("date-created", category.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("date-modified", category.DateModified.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("approved", "true");        
         writer.WriteAttributeString("parentref", "0");
+
+        if (!String.IsNullOrEmpty(category.Description))
+        {
+          writer.WriteAttributeString("description", category.Description);
+        }
 
         writer.WriteStartElement("title");
         writer.WriteAttributeString("type", "text");
@@ -147,12 +169,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
         writer.WriteStartElement("post");
 
         writer.WriteAttributeString("id", post.Id.ToString());
-        writer.WriteAttributeString("date-created", post.DateCreated.ToString());
-        writer.WriteAttributeString("date-modified", post.DateModified.ToString());
+        writer.WriteAttributeString("date-created", post.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("date-modified", post.DateModified.ToString("yyyy-MM-ddTHH:mm:ss"));
         writer.WriteAttributeString("approved", "true");
         writer.WriteAttributeString("post-url", post.RelativeLink.ToString());
         writer.WriteAttributeString("type", "normal");
         writer.WriteAttributeString("hasexcerpt", (!string.IsNullOrEmpty(post.Description)).ToString().ToLowerInvariant());
+        writer.WriteAttributeString("views", "0");
 
         AddPostTitle(writer, post);
         AddPostContent(writer, post);
@@ -169,26 +192,65 @@ namespace BlogEngine.Core.Web.HttpHandlers
       writer.WriteEndElement();
     }
 
-    private static void AddPostTrackbacks(XmlWriter writer, Post post)
+    #region Add post elements
+
+    private static void AddPostTitle(XmlWriter writer, Post post)
     {
-      writer.WriteStartElement("trackbacks");
-      foreach (Comment comment in post.Comments)
+      writer.WriteStartElement("title");
+      writer.WriteAttributeString("type", "text");
+      writer.WriteCData(post.Title);
+      writer.WriteEndElement();
+    }
+
+    private static void AddPostContent(XmlWriter writer, Post post)
+    {
+      writer.WriteStartElement("content");
+      writer.WriteAttributeString("type", "text");
+      writer.WriteCData(post.Content);
+      writer.WriteEndElement();
+    }
+
+    /// <summary>
+    /// The post-name element contains the same as the title.
+    /// </summary>
+    private static void AddPostName(XmlWriter writer, Post post)
+    {
+      writer.WriteStartElement("post-name");
+      writer.WriteAttributeString("type", "text");
+      writer.WriteCData(post.Title);
+      writer.WriteEndElement();
+    }
+
+    private static void AddPostExcerpt(XmlWriter writer, Post post)
+    {
+      if (!String.IsNullOrEmpty(post.Description))
       {
-        if (comment.Email != "trackback" || comment.Email != "pingback")
-          continue;
-
-        writer.WriteStartElement("trackback");
-        writer.WriteAttributeString("id", comment.Id.ToString());
-        writer.WriteAttributeString("date-created", comment.DateCreated.ToString());
-        writer.WriteAttributeString("date-modified", comment.DateCreated.ToString());
-        writer.WriteAttributeString("approved", comment.IsApproved.ToString().ToLowerInvariant());
-        writer.WriteAttributeString("url", comment.Website.ToString());
-
-        writer.WriteStartElement("title");
+        writer.WriteStartElement("excerpt");
         writer.WriteAttributeString("type", "text");
-        writer.WriteCData(comment.Content);
+        writer.WriteCData(post.Description);
         writer.WriteEndElement();
+      }
+    }
 
+    private static void AddPostAuthor(XmlWriter writer, Post post)
+    {
+      writer.WriteStartElement("authors");
+      writer.WriteStartElement("author");
+      writer.WriteAttributeString("ref", post.Author);
+      writer.WriteEndElement();
+      writer.WriteEndElement();
+    }    
+
+    private static void AddPostCategories(XmlWriter writer, Post post)
+    {
+      if (post.Categories.Count == 0)
+        return;
+
+      writer.WriteStartElement("categories");
+      foreach (Category category in post.Categories)
+      {
+        writer.WriteStartElement("category");
+        writer.WriteAttributeString("ref", category.Id.ToString());
         writer.WriteEndElement();
       }
       writer.WriteEndElement();
@@ -196,6 +258,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     private static void AddPostComments(XmlWriter writer, Post post)
     {
+      if (post.Comments.Count == 0)
+        return;
+
       writer.WriteStartElement("comments");
       foreach (Comment comment in post.Comments)
       {
@@ -204,14 +269,18 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
         writer.WriteStartElement("comment");
         writer.WriteAttributeString("id", comment.Id.ToString());
-        writer.WriteAttributeString("date-created", comment.DateCreated.ToString());
-        writer.WriteAttributeString("date-modified", comment.DateCreated.ToString());
+        writer.WriteAttributeString("date-created", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("date-modified", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss"));
         writer.WriteAttributeString("approved", comment.IsApproved.ToString().ToLowerInvariant());
         writer.WriteAttributeString("user-name", comment.Author);
 
         if (comment.Website != null)
         {
           writer.WriteAttributeString("user-url", comment.Website.ToString());
+        }
+        else
+        {
+          writer.WriteAttributeString("user-url", "");
         }
 
         writer.WriteStartElement("title");
@@ -229,61 +298,35 @@ namespace BlogEngine.Core.Web.HttpHandlers
       writer.WriteEndElement();
     }
 
-    private static void AddPostCategories(XmlWriter writer, Post post)
+    private static void AddPostTrackbacks(XmlWriter writer, Post post)
     {
-      writer.WriteStartElement("categories");
-      foreach (Category category in post.Categories)
-      {
-        writer.WriteStartElement("category");
-        writer.WriteAttributeString("ref", category.Id.ToString());
-        writer.WriteEndElement();
-      }
-      writer.WriteEndElement();
-    }
+      if (post.Comments.Count == 0)
+        return;
 
-    private static void AddPostAuthor(XmlWriter writer, Post post)
-    {
-      writer.WriteStartElement("authors");
-      writer.WriteStartElement("author");
-      writer.WriteAttributeString("ref", post.Author);
-      writer.WriteEndElement();
-      writer.WriteEndElement();
-    }
-
-    private static void AddPostExcerpt(XmlWriter writer, Post post)
-    {
-      if (!String.IsNullOrEmpty(post.Description))
+      writer.WriteStartElement("trackbacks");
+      foreach (Comment comment in post.Comments)
       {
-        writer.WriteStartElement("excerpt");
+        if (comment.Email != "trackback" || comment.Email != "pingback")
+          continue;
+
+        writer.WriteStartElement("trackback");
+        writer.WriteAttributeString("id", comment.Id.ToString());
+        writer.WriteAttributeString("date-created", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("date-modified", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss"));
+        writer.WriteAttributeString("approved", comment.IsApproved.ToString().ToLowerInvariant());
+        writer.WriteAttributeString("url", comment.Website.ToString());
+
+        writer.WriteStartElement("title");
         writer.WriteAttributeString("type", "text");
-        writer.WriteCData(post.Description);
+        writer.WriteCData(comment.Content);
+        writer.WriteEndElement();
+
         writer.WriteEndElement();
       }
-    }
-
-    private static void AddPostName(XmlWriter writer, Post post)
-    {
-      writer.WriteStartElement("post-name");
-      writer.WriteAttributeString("type", "text");
-      writer.WriteCData(post.Title);
       writer.WriteEndElement();
     }
 
-    private static void AddPostContent(XmlWriter writer, Post post)
-    {
-      writer.WriteStartElement("content");
-      writer.WriteAttributeString("type", "text");
-      writer.WriteCData(post.Content);
-      writer.WriteEndElement();
-    }
-
-    private static void AddPostTitle(XmlWriter writer, Post post)
-    {
-      writer.WriteStartElement("title");
-      writer.WriteAttributeString("type", "text");
-      writer.WriteCData(post.Title);
-      writer.WriteEndElement();
-    }
+    #endregion
 
     #endregion
 
