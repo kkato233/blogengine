@@ -46,7 +46,7 @@ RegexOptions.Compiled
     /// new regex <p>\r\n<div class=\"code\">\n[code:c#]\r\n</p>\r\n
     /// <summary>
     /// old regex <p><div.*?>\[code:.*?\]</p>
-  private Regex codeBeginTagRegex = new Regex(@"<p>\r\n<div class=""code"">\n\[code:.*?\](\s|)\r\n</p>\r\n",
+  private Regex codeBeginTagRegex = new Regex(@"(<p>\r\n<div class=""code"">\n\[code:.*?\](\s|)\r\n</p>\r\n|<p>\r\n<div class=""code"">\n\[code:.*?\](\s|)<br /><br /><br />)",
     RegexOptions.Compiled
     | RegexOptions.CultureInvariant
     | RegexOptions.IgnoreCase
@@ -54,7 +54,7 @@ RegexOptions.Compiled
     
     
     /// Old regex\[/code\]
-  private Regex codeEndTagRegex = new Regex(@"<p>\r\n\[/code\]</div>(\s|)\r\n</p>\r\n",
+  private Regex codeEndTagRegex = new Regex(@"(<p>\r\n\[/code\]</div>(\s|)\r\n</p>\r\n|<br /><br /><br />\[/code\]</div>(\s|)\r\n</p>\r\n)",
     RegexOptions.Compiled
     | RegexOptions.CultureInvariant
     | RegexOptions.IgnoreCase
@@ -131,15 +131,17 @@ RegexOptions.Compiled
                 HtmlFormat htmlf = new HtmlFormat();
                 htmlf.LineNumbers = options.DisplayLineNumbers;
                 htmlf.Alternate = options.AlternateLineNumbers;
-                text = text.Replace("<br />", string.Empty);
-                string code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text));
+                text = StripHtml(text).Trim();
+                string code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
                 return code.Replace(Environment.NewLine, "<br />");
 
             case "xml":
                 HtmlFormat xmlf = new HtmlFormat();
                 xmlf.LineNumbers = options.DisplayLineNumbers;
                 xmlf.Alternate = options.AlternateLineNumbers;
-                return HttpContext.Current.Server.HtmlDecode(xmlf.FormatCode(text));
+                text = StripHtml(text).Trim();
+                string xml = xmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
+                return xml.Replace(Environment.NewLine, "<br />");
 
             case "tsql":
                 TsqlFormat tsqlf = new TsqlFormat();
@@ -155,6 +157,16 @@ RegexOptions.Compiled
         }
 
         return string.Empty;
+    }
+
+    private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
+
+    private static string StripHtml(string html)
+    {
+      if (string.IsNullOrEmpty(html))
+        return string.Empty;
+
+      return _Regex.Replace(html, string.Empty);
     }
 
     /// <summary>

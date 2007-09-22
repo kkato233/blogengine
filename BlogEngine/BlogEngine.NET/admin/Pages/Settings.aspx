@@ -32,7 +32,7 @@ function PreviewTheme()
         <label for="<%=txtPostsPerPage.ClientID %>"><%=Resources.labels.postPerPage %></label>
         <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" />
         <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtPostsPerPage" ErrorMessage="Required" />
-        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
         
         <label for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
         <asp:DropDownList runat="server" ID="ddlTheme" />
@@ -46,6 +46,9 @@ function PreviewTheme()
         
         <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" /><br />
+        
+        <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
+        <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" /><br />
         
         <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
         <asp:DropDownList runat="Server" ID="ddlCulture" Style="text-transform: capitalize">

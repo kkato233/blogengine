@@ -310,7 +310,15 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri RelativeLink
     {
-      get { return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension), UriKind.Relative); }
+      get
+      {
+        string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
+
+        if (BlogSettings.Instance.TimeStampPostLinks)
+          return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + DateCreated.Year + "/" + DateCreated.ToString("MM") + "/" + slug), UriKind.Relative);
+
+        return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + slug), UriKind.Relative);
+      }
     }
 
     /// <summary>
@@ -318,7 +326,15 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri AbsoluteLink
     {
-      get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension); }
+      get 
+      {
+        string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
+
+        if (BlogSettings.Instance.TimeStampPostLinks)
+          return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM") + "/" + slug);
+
+        return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + slug); 
+      }
     }
 
     /// <summary>
@@ -425,10 +441,13 @@ namespace BlogEngine.Core
     /// <summary>
     /// Returns a post based on it's title.
     /// </summary>
-    public static Post GetPostBySlug(string slug)
+    public static Post GetPostBySlug(string slug, DateTime date)
     {
       foreach (Post post in Post.Posts)
       {
+        if (BlogSettings.Instance.TimeStampPostLinks && date != DateTime.MinValue && (post.DateCreated.Year != date.Year || post.DateCreated.Month != date.Month))
+          continue;
+
         if (slug.Equals(Utils.RemoveIllegalCharacters(post.Slug), StringComparison.OrdinalIgnoreCase))
         {
           return post;
@@ -712,7 +731,7 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
-    /// Occurs before a new comment is added.
+    /// Occurs before comment is removed.
     /// </summary>
     public static event EventHandler<EventArgs> RemovingComment;
     /// <summary>
@@ -727,7 +746,7 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
-    /// Occurs when a comment is added.
+    /// Occurs when a comment has been removed.
     /// </summary>
     public static event EventHandler<EventArgs> CommentRemoved;
     /// <summary>

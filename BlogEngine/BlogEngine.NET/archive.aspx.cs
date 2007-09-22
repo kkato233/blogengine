@@ -14,6 +14,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     {
       CreateAdminMenu();
       CreateArchive();
+      AddTotals();
     }
 
     Page.Title = Resources.labels.archive;
@@ -22,17 +23,17 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
   private void CreateAdminMenu()
   {
-    foreach(Category cat in Category.Categories)
-      {
-          HtmlAnchor a = new HtmlAnchor();
-          a.InnerHtml = cat.Title;
-          a.HRef = "#" + Utils.RemoveIllegalCharacters(cat.Title);
-          a.Attributes.Add("rel", "directory");
+    foreach (Category cat in Category.Categories)
+    {
+      HtmlAnchor a = new HtmlAnchor();
+      a.InnerHtml = cat.Title;
+      a.HRef = "#" + Utils.RemoveIllegalCharacters(cat.Title);
+      a.Attributes.Add("rel", "directory");
 
-          HtmlGenericControl li = new HtmlGenericControl("li");
-          li.Controls.Add(a);
-          ulMenu.Controls.Add(li);
-      }
+      HtmlGenericControl li = new HtmlGenericControl("li");
+      li.Controls.Add(a);
+      ulMenu.Controls.Add(li);
+    }
 
   }
 
@@ -41,7 +42,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
     foreach (Category cat in Category.Categories)
     {
-        dic.Add(cat.Title, cat.Id);
+      dic.Add(cat.Title, cat.Id);
     }
 
     return dic;
@@ -49,10 +50,10 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
   private void CreateArchive()
   {
-   foreach (Category cat in Category.Categories)
+    foreach (Category cat in Category.Categories)
     {
-        string name = cat.Title;
-      List<Post> list = Post.GetPostsByCategory(cat.Id);      
+      string name = cat.Title;
+      List<Post> list = Post.GetPostsByCategory(cat.Id);
 
       HtmlAnchor feed = new HtmlAnchor();
       feed.HRef = "~/category/syndication.axd?category=" + cat.Id.ToString();
@@ -72,13 +73,13 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
       phArchive.Controls.Add(h2);
 
-      HtmlTable table = CreateTable(name);     
+      HtmlTable table = CreateTable(name);
 
-      
+
       foreach (Post post in list)
       {
         HtmlTableRow row = new HtmlTableRow();
-        
+
         HtmlTableCell date = new HtmlTableCell();
         date.InnerHtml = post.DateCreated.ToString("yyyy-MM-dd");
         date.Attributes.Add("class", "date");
@@ -146,5 +147,23 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
     table.Rows.Add(header);
 
     return table;
+  }
+
+  private void AddTotals()
+  {
+    int comments = 0;
+    int raters = 0;
+    foreach (Post post in Post.Posts)
+    {
+      comments += post.ApprovedComments.Count;
+      raters += post.Raters;
+    }
+
+    ltPosts.Text = Post.Posts.Count + " " + Resources.labels.posts.ToLowerInvariant();
+    if (BlogSettings.Instance.IsCommentsEnabled)
+      ltComments.Text = comments + " " + Resources.labels.comments.ToLowerInvariant();
+
+    if (BlogSettings.Instance.EnableRating)
+      ltRaters.Text = raters + " " + Resources.labels.raters.ToLowerInvariant();
   }
 }

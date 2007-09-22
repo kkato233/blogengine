@@ -358,6 +358,20 @@ namespace BlogEngine.Core
     }
     #endregion
 
+    #region TimeStampPostLinks
+
+    private bool _TimeStampPostLinks;
+    /// <summary>
+    /// Gets or sets whether or not to time stamp post links.
+    /// </summary>
+    public bool TimeStampPostLinks
+    {
+      get { return _TimeStampPostLinks; }
+      set { _TimeStampPostLinks = value; }
+    }
+
+    #endregion
+
     #region Name
     /// <summary>
     /// Gets or sets the name of the blog.
