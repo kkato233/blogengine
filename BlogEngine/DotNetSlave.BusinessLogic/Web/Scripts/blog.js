@@ -84,7 +84,6 @@ function SearchClear(defaultText)
 
 function Rate(id, rating)
 {
-  //WebForm_DoCallback('ctl00$cphBody$ctl00', id + rating, RatingCallback, 'rating', null, false) 
   CreateCallback("rating.axd?id=" + id + "&rating=" + rating, RatingCallback);
 }
 
@@ -177,7 +176,6 @@ function ToggleMonth(year)
 /*-----------------------------------------------------------------------------
                               XFN HIGHLIGHTER
 -----------------------------------------------------------------------------*/
-
 var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
 						            , 'co-worker', 'colleague', 'co-resident'
 						            , 'neighbor', 'child', 'parent', 'sibling'
@@ -210,7 +208,6 @@ function HightLightXfn()
   }
 }
 
-// addLoadEvent()
 // Adds event to window.onload without overwriting currently assigned onload functions.
 // Function found at Simon Willison's weblog - http://simon.incutio.com/
 function addLoadEvent(func)

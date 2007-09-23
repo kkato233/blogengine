@@ -50,11 +50,16 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
     }
   }
 
+
   /// <summary>
   /// 
   /// </summary>
   public new BlogEngine.Core.Page Page;
 
+  /// <summary>
+  /// Gets the admin links to edit and delete a page.
+  /// </summary>
+  /// <value>The admin links.</value>
   public string AdminLinks
   {
     get 

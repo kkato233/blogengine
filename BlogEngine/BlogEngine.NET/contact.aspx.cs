@@ -103,6 +103,8 @@ public partial class contact : BlogBasePage
     }
   }
 
+  #region Cookies
+
   /// <summary>
   /// Gets the cookie with visitor information if any is set.
   /// Then fills the contact information fields in the form.
@@ -131,6 +133,8 @@ public partial class contact : BlogBasePage
     cookie.Values.Add("country", string.Empty);
     Response.Cookies.Add(cookie);
   }
+
+  #endregion
 
   #region CAPTCHA
 

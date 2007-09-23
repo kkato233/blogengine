@@ -99,6 +99,8 @@ namespace BlogEngine.Core
       return new Uri(absolute.Substring(0, absolute.Length -1) + relativeUri.ToString());
     }
 
+    #region Send e-mail
+
     /// <summary>
     /// Sends a MailMessage object using the SMTP settings.
     /// </summary>
@@ -115,6 +117,7 @@ namespace BlogEngine.Core
         smtp.Port = BlogSettings.Instance.SmtpServerPort;
         smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
         smtp.Send(message);
+        OnEmailSent(message);
       }
       finally
       {
@@ -125,9 +128,9 @@ namespace BlogEngine.Core
     }
 
     /// <summary>
-    /// 
+    /// Sends the mail message asynchronously in another thread.
     /// </summary>
-    /// <param name="message"></param>
+    /// <param name="message">The message to send.</param>
     public static void SendMailMessageAsync(MailMessage message)
     {
       ThreadStart threadStart = delegate { Utils.SendMailMessage(message); };
@@ -135,6 +138,20 @@ namespace BlogEngine.Core
       thread.IsBackground = true;
       thread.Start();
     }
+
+    /// <summary>
+    /// Occurs after an e-mail has been sent. The sender is the MailMessage object.
+    /// </summary>
+    public static event EventHandler<EventArgs> EmailSent;
+    private static void OnEmailSent(MailMessage message)
+    {
+      if (EmailSent != null)
+      {
+        EmailSent(message, new EventArgs());
+      }
+    }
+        
+    #endregion
 
   }
 }

@@ -77,11 +77,6 @@
     <Compile Include="Web\HttpHandlers\PingbackHandler.cs" />
     <Compile Include="Web\HttpHandlers\RsdHandler.cs" />
     <Compile Include="Web\HttpHandlers\SiteMap.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Providers\BlogProvider.cs" />
     <Compile Include="Providers\BlogProviderSection.cs" />
     <Compile Include="Providers\BlogService.cs" />
@@ -109,13 +104,6 @@
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
     <Compile Include="Web\HttpModules\WwwSubDomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Web\Scripts\blog.js" />

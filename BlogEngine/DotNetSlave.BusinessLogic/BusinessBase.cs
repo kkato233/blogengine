@@ -125,6 +125,7 @@ namespace BlogEngine.Core
       {
         _DirtyProperties.Add(propertyName.ToLowerInvariant());
       }
+      OnMarkedDirty();
     }
 
     /// <summary>
@@ -468,6 +469,22 @@ namespace BlogEngine.Core
         Saving(businessObject, new SavedEventArgs(action));
       }
     }
+
+    /// <summary>
+    /// Occurs when this instance is marked dirty. 
+    /// It means the instance has been changed but not saved.
+    /// </summary>
+    public event EventHandler<EventArgs> MarkedDirty;
+    /// <summary>
+    /// Raises the MarkedDirty event safely.
+    /// </summary>
+    protected virtual void OnMarkedDirty()
+    {
+      if (MarkedDirty != null)
+      {
+        MarkedDirty(this, new EventArgs());
+      }
+    }        
 
     #endregion
 
