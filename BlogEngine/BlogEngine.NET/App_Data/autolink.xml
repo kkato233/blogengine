@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<links>
-  <link shortcut="BE" url="http://www.dotnetblogengine.net">BlogEngine.NET</link>
-  <link shortcut="HAACKED" url="http://www.haacked.com" xfn="contact friend">Phil Haack</link>
-  <link shortcut="MADS" url="http://blog.madskristensen.dk/" tags="" >Mads Kristensen</link>
-  <link shortcut="ROMAN"  url="http://www.romanclarkson.us" tags="contact friend" >Roman Clarkson</link>
-  <link shortcut="BENCODE"  url="http://www.codeplex.com/" tags="contact friend" >BlogEngine.Net at CodePlex</link>
-</links>

@@ -176,6 +176,8 @@ namespace BlogEngine.Core
 
     private static void BuildCatalog()
     {
+      OnIndexBuilding();
+
       lock (_SyncRoot)
       {
         _Catalog.Clear();
@@ -201,9 +203,15 @@ namespace BlogEngine.Core
             AddItem(page);
         }
       }
+
+      OnIndexBuild();
     }
 
-    private static void AddItem(IPublishable item)
+    /// <summary>
+    /// Adds an IPublishable item to the search catalog. 
+    /// That will make it immediately searchable.
+    /// </summary>
+    public static void AddItem(IPublishable item)
     {
       Entry entry = new Entry();
       entry.Item = item;
@@ -274,6 +282,36 @@ namespace BlogEngine.Core
       if (Searching != null)
       {
         Searching(searchTerm, EventArgs.Empty);
+      }
+    }
+
+    /// <summary>
+    /// Occurs just before the search index is being build.
+    /// </summary>
+    public static event EventHandler<EventArgs> IndexBuilding;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    private static void OnIndexBuilding()
+    {
+      if (IndexBuilding != null)
+      {
+        IndexBuilding(null, EventArgs.Empty);
+      }
+    }
+
+    /// <summary>
+    /// Occurs after the index has been build.
+    /// </summary>
+    public static event EventHandler<EventArgs> IndexBuild;
+    /// <summary>
+    /// Raises the event in a safe way
+    /// </summary>
+    private static void OnIndexBuild()
+    {
+      if (IndexBuild != null)
+      {
+        IndexBuild(null, EventArgs.Empty);
       }
     }
 

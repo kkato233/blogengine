@@ -177,7 +177,6 @@ RegexOptions.Compiled
         private string language, title, code;
         private bool displayLineNumbers = false;
         private bool alternateLineNumbers = false;
-        private bool usejavascript = true;
 
         public HighlightOptions()
         {

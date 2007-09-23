@@ -23,13 +23,41 @@ public partial class contact : BlogBasePage
     btnSend.Click += new EventHandler(btnSend_Click);
     if (!Page.IsPostBack)
     {
+      txtSubject.Text = Request.QueryString["subject"];
+      txtName.Text = Request.QueryString["name"];
+      txtEmail.Text = Request.QueryString["email"];
+
       GetCookie();
       phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
-      InititializeCaptcha();
+      InititializeCaptcha();      
+      SetFocus();
     }
 
     Page.Title = Resources.labels.contact;
     base.AddMetaTag("description", _Regex.Replace(BlogSettings.Instance.ContactFormMessage, string.Empty));
+  }
+
+  /// <summary>
+  /// Sets the focus on the first empty textbox.
+  /// </summary>
+  private void SetFocus()
+  {
+    if (string.IsNullOrEmpty(Request.QueryString["name"]) && txtName.Text == string.Empty)
+    {
+      txtName.Focus();
+    }
+    else if (string.IsNullOrEmpty(Request.QueryString["email"]) && txtEmail.Text == string.Empty)
+    {
+      txtEmail.Focus();
+    }
+    else if (string.IsNullOrEmpty(Request.QueryString["subject"]))
+    {
+      txtSubject.Focus();
+    }
+    else
+    {
+      txtMessage.Focus();
+    }
   }
 
   private void btnSend_Click(object sender, EventArgs e)
@@ -37,7 +65,7 @@ public partial class contact : BlogBasePage
     bool success = SendEmail();
     divForm.Visible = !success;
     lblStatus.Visible = !success;
-    divThank.Visible = success;    
+    divThank.Visible = success;
     SetCookie();
   }
 
@@ -143,7 +171,7 @@ public partial class contact : BlogBasePage
 
       return false;
     }
-  } 
+  }
 
   #endregion
 
