@@ -104,7 +104,9 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     private ServingLocation _Location = ServingLocation.None;
-
+    /// <summary>
+    /// The location where the serving takes place.
+    /// </summary>
     public ServingLocation Location
     {
       get { return _Location; }
@@ -142,24 +144,6 @@ namespace BlogEngine.Core.Web.Controls
             body = StripHtml(Post.Content);
             if (body.Length > 300)
               body = body.Substring(0, 300) + "..." + link;
-          }
-        }
-        
-        int more = body.IndexOf("[more]");
-
-        if (more > -1)
-        {
-          if (!Request.Url.OriginalString.Contains("/post.aspx?"))
-          {
-            body = body.Substring(0, more);
-            body += "<a href=\"" + Post.RelativeLink.ToString() + "#continue\">" + (Page as BlogBasePage).Translate("more") + "...</a>";
-          }
-          else
-          {
-            if (Request.UrlReferrer == null || Request.UrlReferrer.Host != Request.Url.Host)
-              body = body.Replace("[more]", string.Empty);
-            else
-              body = body.Replace("[more]", "<span id=\"continue\"></span>");
           }
         }
 

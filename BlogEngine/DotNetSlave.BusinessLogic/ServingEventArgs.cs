@@ -31,14 +31,14 @@ namespace BlogEngine.Core
     }
 
     private ServingLocation _Location;
-
+    /// <summary>
+    /// The location where the serving takes place.
+    /// </summary>
     public ServingLocation Location
     {
       get { return _Location; }
       set { _Location = value; }
     }
-
-
   }
 
   /// <summary>

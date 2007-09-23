@@ -186,9 +186,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     protected virtual void OnRejected(string url)
     {
-      if (Accepted != null)
+      if (Rejected != null)
       {
-        Accepted(url, EventArgs.Empty);
+        Rejected(url, EventArgs.Empty);
       }
     }
 
