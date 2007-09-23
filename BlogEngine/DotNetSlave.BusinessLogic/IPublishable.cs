@@ -21,7 +21,6 @@ namespace BlogEngine.Core
     /// </summary>
     String Title { get; }
 
-
     /// <summary>
     /// Gets the content.
     /// </summary>

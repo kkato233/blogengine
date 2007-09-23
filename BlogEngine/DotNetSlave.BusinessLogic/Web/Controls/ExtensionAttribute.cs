@@ -36,7 +36,7 @@ namespace BlogEngine.Core.Web.Controls
     private string _Version;
 
     /// <summary>
-    /// 
+    /// Gets the version number of the extension
     /// </summary>
     public string Version
     {
@@ -46,7 +46,7 @@ namespace BlogEngine.Core.Web.Controls
     private string _Author;
 
     /// <summary>
-    /// 
+    /// Gets the author of the extension
     /// </summary>
     public string Author
     {

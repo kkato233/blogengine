@@ -1,12 +1,5 @@
-/****************************************************************************
-Modification History:
-*****************************************************************************
-Date		Author		Description
-*****************************************************************************
-04/01/2007  mads        Created BlogSettings Class
-04/27/2007	brian.kuhn	Refactored code, grouped properties, added comments.
-04/27/2007  brian.kuhn  Added syndication extension specific properties.
-****************************************************************************/
+#region Using
+
 using System;
 using System.ComponentModel;
 using System.Configuration;
@@ -14,7 +7,8 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Web;
-using System.Xml;
+
+#endregion
 
 namespace BlogEngine.Core
 {
