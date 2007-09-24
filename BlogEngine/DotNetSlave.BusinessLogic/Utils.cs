@@ -4,6 +4,7 @@ using System;
 using System.Net.Mail;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
 using System.Globalization;
 using System.Web;
 using System.Threading;
@@ -62,7 +63,7 @@ namespace BlogEngine.Core
     /// <value>A string that ends with a '/'.</value>
     public static string RelativeWebRoot
     {
-      get { return VirtualPathUtility.ToAbsolute("~/"); }
+      get { return VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["BlogEngine.VirtualPath"]); }
     }
 
     private static Uri _AbsoluteWebRoot;

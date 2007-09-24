@@ -165,7 +165,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri RelativeLink
     {
-      get { return new Uri(VirtualPathUtility.ToAbsolute("~/page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension), UriKind.Relative); }
+      get { return new Uri(Utils.RelativeWebRoot + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension, UriKind.Relative); }
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri AbsoluteLink
     {
-      get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension); }
+      get { return new Uri(Utils.ConvertToAbsolute(new Uri(Utils.RelativeWebRoot)) + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension); }
     }
 
     private static object _SyncRoot = new object();

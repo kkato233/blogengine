@@ -536,7 +536,7 @@ namespace BlogEngine.Core
     /// </summary>
     public string FileExtension
     {
-      get { return ConfigurationManager.AppSettings["FileExtension"] ?? ".aspx"; }
+      get { return ConfigurationManager.AppSettings["BlogEngine.FileExtension"] ?? ".aspx"; }
     }
 
 
