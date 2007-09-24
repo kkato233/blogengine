@@ -315,9 +315,9 @@ namespace BlogEngine.Core
         string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
 
         if (BlogSettings.Instance.TimeStampPostLinks)
-          return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + DateCreated.Year + "/" + DateCreated.ToString("MM") + "/" + slug), UriKind.Relative);
+          return new Uri(Utils.RelativeWebRoot + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM") + "/" + slug, UriKind.Relative);
 
-        return new Uri(VirtualPathUtility.ToAbsolute("~/post/" + slug), UriKind.Relative);
+        return new Uri(Utils.RelativeWebRoot + "post/" + slug, UriKind.Relative);
       }
     }
 

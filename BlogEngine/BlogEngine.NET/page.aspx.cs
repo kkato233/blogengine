@@ -3,46 +3,32 @@
 using System;
 using System.Text;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using System.Text.RegularExpressions;
 using BlogEngine.Core;
 
 #endregion
 
 public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 {
+  /// <summary>
+  /// Handles the Load event of the Page control.
+  /// </summary>
+  /// <param name="sender">The source of the event.</param>
+  /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
   protected void Page_Load(object sender, EventArgs e)
   {
     if (Request.QueryString["deletepage"] != null && Request.QueryString["deletepage"].Length == 36)
     {
-      if (System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
-      {
-        Guid id = new Guid(Request.QueryString["deletepage"]);
-        Page page = Page.GetPage(id);
-        page.Delete();
-        page.Save();
-        Response.Redirect("~/", true);
-      }
+      DeletePage(new Guid(Request.QueryString["deletepage"]));
     }
-    else if (Request.QueryString["id"] != null && Request.QueryString["id"].Length == 36)
+
+    if (Request.QueryString["id"] != null && Request.QueryString["id"].Length == 36)
     {
-      Guid id = new Guid(Request.QueryString["id"]);
-      this.Page = BlogEngine.Core.Page.GetPage(id);
-      if (this.Page != null)
-      {
-        if (!this.Page.IsPublished && !this.User.Identity.IsAuthenticated)
-          Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
-
-        h1Title.InnerHtml = this.Page.Title;
-
-        ServingEventArgs arg = new ServingEventArgs(this.Page.Content, ServingLocation.SinglePage);
-        Page.OnServing(this.Page, arg);
-        divText.InnerHtml = arg.Body;
-
-        base.Title = this.Page.Title;
-        base.AddMetaTag("keywords", this.Page.Keywords);
-        base.AddMetaTag("description", this.Page.Description);
-      }
+      ServePage(new Guid(Request.QueryString["id"]));
+      AddMetaTags();
     }
     else
     {
@@ -50,9 +36,95 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
     }
   }
 
+  /// <summary>
+  /// Serves the page to the containing DIV tag on the page.
+  /// </summary>
+  /// <param name="id">The id of the page to serve.</param>
+  private void ServePage(Guid id)
+  {
+    this.Page = BlogEngine.Core.Page.GetPage(id);
+
+    if (this.Page == null || (!this.Page.IsVisible && !this.User.Identity.IsAuthenticated))
+      Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
+
+    h1Title.InnerHtml = this.Page.Title;
+
+    ServingEventArgs arg = new ServingEventArgs(this.Page.Content, ServingLocation.SinglePage);
+    BlogEngine.Core.Page.OnServing(this.Page, arg);
+
+    if (arg.Body.ToLowerInvariant().Contains("[usercontrol"))
+    {
+      InjectUserControls(arg.Body);
+    }
+    else
+    {
+      divText.InnerHtml = arg.Body;
+    }
+  }
 
   /// <summary>
-  /// 
+  /// Adds the meta tags and title to the HTML header.
+  /// </summary>
+  private void AddMetaTags()
+  {
+    if (this.Page != null)
+    {
+      base.Title = this.Page.Title;
+      base.AddMetaTag("keywords", this.Page.Keywords);
+      base.AddMetaTag("description", this.Page.Description);
+    }
+  }
+
+  /// <summary>
+  /// Deletes the page.
+  /// </summary>
+  private void DeletePage(Guid id)
+  {
+    if (System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
+    {
+      BlogEngine.Core.Page page = BlogEngine.Core.Page.GetPage(id);
+      page.Delete();
+      page.Save();
+      Response.Redirect("~/", true);
+    }
+  }
+
+  private static readonly Regex _BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+  /// <summary>
+  /// Injects any user controls if one is referenced in the text.
+  /// </summary>
+  private void InjectUserControls(string content)
+  {
+    int currentPosition = 0;
+    MatchCollection myMatches = _BodyRegex.Matches(content);
+
+    foreach (Match myMatch in myMatches)
+    {
+      if (myMatch.Index > currentPosition)
+      {
+        divText.Controls.Add(new LiteralControl(content.Substring(currentPosition, myMatch.Index - currentPosition)));
+      }
+
+      try
+      {
+        divText.Controls.Add(LoadControl(myMatch.Groups[1].Value));
+        currentPosition = myMatch.Index + myMatch.Groups[0].Length;
+      }
+      catch (Exception)
+      {
+        divText.Controls.Add(new LiteralControl("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value));
+        currentPosition = myMatch.Index + ((string)("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value)).Length;
+      }
+    }
+
+    // Finally we add any trailing static text.
+    divText.Controls.Add(new LiteralControl(content.Substring(currentPosition, content.Length - currentPosition)));
+  }
+
+
+  /// <summary>
+  /// The Page instance to render on the page.
   /// </summary>
   public new BlogEngine.Core.Page Page;
 
@@ -62,7 +134,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
   /// <value>The admin links.</value>
   public string AdminLinks
   {
-    get 
+    get
     {
       if (System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
       {
@@ -77,6 +149,5 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
       return string.Empty;
     }
   }
-
 
 }
