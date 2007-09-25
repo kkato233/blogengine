@@ -24,4 +24,4 @@ using System;
 
 [assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.blog.js", "application/x-javascript")]
 
-[assembly: AssemblyVersion("1.1.3.4")]
+[assembly: AssemblyVersion("1.1.3.5")]

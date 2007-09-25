@@ -83,7 +83,7 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// 
+    /// Adds the syndication link to the header.
     /// </summary>
     protected virtual void AddSyndicationLink()
     {
@@ -110,13 +110,14 @@ namespace BlogEngine.Core.Web.Controls
         HtmlControl c = control as HtmlControl;
         if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
         {
-          c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+          if (!c.Attributes["href"].StartsWith("http://"))
+            c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
         }
       }
     }
 
     /// <summary>
-    /// 
+    /// Adds the RSD link header.
     /// </summary>
     protected virtual void AddRsdLinkHeader()
     {
@@ -129,7 +130,7 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// 
+    /// Adds the content-type meta tag to the header.
     /// </summary>
     protected virtual void AddMetaContentType()
     {
@@ -154,7 +155,7 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// 
+    /// Adds the open search link in header.
     /// </summary>
     protected virtual void AddOpenSearchLinkInHeader()
     {
@@ -167,9 +168,9 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// 
+    /// Adds the micro summary.
     /// </summary>
-    /// <param name="postId"></param>
+    /// <param name="postId">The post id.</param>
     protected virtual void AddMicroSummary(string postId)
     {
       HtmlLink ms = new HtmlLink();
@@ -180,11 +181,8 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// 
+    /// Adds the generic link to the header.
     /// </summary>
-    /// <param name="relation"></param>
-    /// <param name="title"></param>
-    /// <param name="href"></param>
     public virtual void AddGenericLink(string relation, string title, string href)
     {
       HtmlLink link = new HtmlLink();
