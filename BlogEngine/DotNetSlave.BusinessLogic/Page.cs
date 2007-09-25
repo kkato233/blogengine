@@ -173,7 +173,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri AbsoluteLink
     {
-      get { return new Uri(Utils.ConvertToAbsolute(new Uri(Utils.RelativeWebRoot)) + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension); }
+      get { return Utils.ConvertToAbsolute(RelativeLink); }
     }
 
     private static object _SyncRoot = new object();

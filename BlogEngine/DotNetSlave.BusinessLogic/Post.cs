@@ -326,15 +326,7 @@ namespace BlogEngine.Core
     /// </summary>
     public Uri AbsoluteLink
     {
-      get 
-      {
-        string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
-
-        if (BlogSettings.Instance.TimeStampPostLinks)
-          return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM") + "/" + slug);
-
-        return new Uri(Utils.AbsoluteWebRoot.ToString() + "post/" + slug); 
-      }
+      get { return Utils.ConvertToAbsolute(RelativeLink); }
     }
 
     /// <summary>
