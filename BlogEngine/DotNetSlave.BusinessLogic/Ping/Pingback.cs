@@ -35,6 +35,7 @@ namespace BlogEngine.Core.Ping
         Uri url;
         if (!string.IsNullOrEmpty(pingUrl) && Uri.TryCreate(pingUrl, UriKind.Absolute, out url))
         {
+          OnSending(url);
           request = (HttpWebRequest)HttpWebRequest.Create(url);
           request.Method = "POST";
           request.Timeout = 10000;
@@ -42,6 +43,7 @@ namespace BlogEngine.Core.Ping
           request.ProtocolVersion = HttpVersion.Version11;
           AddXmlToRequest(sourceUrl, targetUrl, request);
           request.GetResponse();
+          OnSent(url);
         }
       }
       catch (Exception)
@@ -63,11 +65,11 @@ namespace BlogEngine.Core.Ping
         writer.WriteStartElement("methodCall");
         writer.WriteElementString("methodName", "pingback.ping");
         writer.WriteStartElement("params");
-        
-        writer.WriteStartElement("param");        
+
+        writer.WriteStartElement("param");
         writer.WriteStartElement("value");
         writer.WriteElementString("string", sourceUrl.ToString());
-        writer.WriteEndElement();        
+        writer.WriteEndElement();
         writer.WriteEndElement();
 
         writer.WriteStartElement("param");
@@ -80,5 +82,34 @@ namespace BlogEngine.Core.Ping
         writer.WriteEndElement();
       }
     }
+
+    #region
+
+    /// <summary>
+    /// Occurs just before a pingback is sent.
+    /// </summary>
+    public static event EventHandler<EventArgs> Sending;
+    private static void OnSending(Uri url)
+    {
+      if (Sending != null)
+      {
+        Sending(url, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a pingback has been sent
+    /// </summary>
+    public static event EventHandler<EventArgs> Sent;
+    private static void OnSent(Uri url)
+    {
+      if (Sent != null)
+      {
+        Sent(url, new EventArgs());
+      }
+    }
+
+    #endregion
+
   }
 }

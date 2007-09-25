@@ -28,6 +28,7 @@ namespace BlogEngine.Core.Ping
       if (message == null)
         throw new ArgumentNullException("message");
 
+      OnSending(message.UrlToNotifyTrackback);
       //Warning:next line if for local debugging porpuse please donot remove it until you need to
       //tMessage.PostURL = new Uri("http://www.artinsoft.com/webmaster/trackback.html");
       HttpWebRequest request = (HttpWebRequest)System.Net.HttpWebRequest.Create(message.UrlToNotifyTrackback); //HttpHelper.CreateRequest(trackBackItem);
@@ -48,6 +49,7 @@ namespace BlogEngine.Core.Ping
       try
       {
         response = (HttpWebResponse)request.GetResponse();
+        OnSent(message.UrlToNotifyTrackback);
         string answer;
         using (System.IO.StreamReader sr = new System.IO.StreamReader(response.GetResponseStream()))
         {
@@ -77,6 +79,35 @@ namespace BlogEngine.Core.Ping
       }
       return result;
     }
+
+    #region
+
+    /// <summary>
+    /// Occurs just before a trackback is sent.
+    /// </summary>
+    public static event EventHandler<EventArgs> Sending;
+    private static void OnSending(Uri url)
+    {
+      if (Sending != null)
+      {
+        Sending(url, new EventArgs());
+      }
+    }
+
+    /// <summary>
+    /// Occurs when a trackback has been sent
+    /// </summary>
+    public static event EventHandler<EventArgs> Sent;
+    private static void OnSent(Uri url)
+    {
+      if (Sent != null)
+      {
+        Sent(url, new EventArgs());
+      }
+    }
+
+    #endregion
+
   }
 
   /// <summary>
@@ -186,5 +217,6 @@ namespace BlogEngine.Core.Ping
         return String.Format(CultureInfo.InvariantCulture, "&title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostUrl, Excerpt, BlogName);
       }
     }
+
   }
 }
