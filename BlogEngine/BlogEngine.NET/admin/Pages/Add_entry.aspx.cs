@@ -138,7 +138,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     if (string.IsNullOrEmpty(txtContent.Text))
       txtContent.Text = "[No text]";
 
-    post.DateCreated = DateTime.Parse(txtDate.Text).AddHours(-BlogSettings.Instance.Timezone);
+    post.DateCreated = DateTime.Parse(txtDate.Text, System.Globalization.CultureInfo.InvariantCulture).AddHours(-BlogSettings.Instance.Timezone);
     post.Author = ddlAuthor.SelectedValue;
     post.Title = txtTitle.Text.Trim();
     post.Content = txtContent.Text;
@@ -192,7 +192,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     txtContent.Text = post.Content;
     txtDescription.Text = post.Description;
     ddlAuthor.SelectedValue = post.Author;
-    txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
+    txtDate.Text = post.DateCreated.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
     cbEnableComments.Checked = post.IsCommentsEnabled;
     cbPublish.Checked = post.IsPublished;
     txtSlug.Text = post.Slug;

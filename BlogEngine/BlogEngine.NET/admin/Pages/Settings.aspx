@@ -6,12 +6,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
     <script type="text/javascript">
-function PreviewTheme()
-{
-  var theme = document.getElementById('<%=ddlTheme.ClientID %>').value;
-  var path = '../../?theme=' + theme;
-  window.open(path);
-}
+      function PreviewTheme()
+      {
+        var theme = document.getElementById('<%=ddlTheme.ClientID %>').value;
+        var path = '../../?theme=' + theme;
+        window.open(path);
+      }
     </script>
 
     <br />
@@ -36,7 +36,8 @@ function PreviewTheme()
         
         <label for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
         <asp:DropDownList runat="server" ID="ddlTheme" />
-        <a href="javascript:void(PreviewTheme());">Preview</a><br />
+        <a href="javascript:void(PreviewTheme());">Preview</a> | 
+        <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank">Download</a><br />
         
         <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
         <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />

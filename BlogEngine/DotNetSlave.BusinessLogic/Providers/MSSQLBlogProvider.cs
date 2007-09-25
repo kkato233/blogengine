@@ -171,11 +171,11 @@ namespace BlogEngine.Core.Providers
       else
         cmd.Parameters.Add(new SqlParameter("@desc", post.Description));
       cmd.Parameters.Add(new SqlParameter("@content", post.Content));
-      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(post.DateCreated)));
+      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(post.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
       if (post.DateModified == new DateTime())
         cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime()));
       else
-        cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(post.DateModified)));
+        cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
       if (post.Author == null)
         cmd.Parameters.Add(new SqlParameter("@author", ""));
       else
@@ -226,11 +226,11 @@ namespace BlogEngine.Core.Providers
       else
         cmd.Parameters.Add(new SqlParameter("@desc", post.Description));
       cmd.Parameters.Add(new SqlParameter("@content", post.Content));
-      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(post.DateCreated)));
+      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(post.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
       if (post.DateModified == new DateTime())
         cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime()));
       else
-        cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(post.DateModified)));
+        cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
       if (post.Author == null)
         cmd.Parameters.Add(new SqlParameter("@author", ""));
       else
@@ -364,8 +364,8 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@title", page.Title));
       cmd.Parameters.Add(new SqlParameter("@desc", page.Description));
       cmd.Parameters.Add(new SqlParameter("@content", page.Content));
-      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated)));
-      cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated)));
+      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
+      cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
       cmd.Parameters.Add(new SqlParameter("@keywords", page.Keywords));
       cmd.ExecuteNonQuery();
       providerConn.Close();
@@ -389,8 +389,8 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@title", page.Title));
       cmd.Parameters.Add(new SqlParameter("@desc", page.Description));
       cmd.Parameters.Add(new SqlParameter("@content", page.Content));
-      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated)));
-      cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated)));
+      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
+      cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
       cmd.Parameters.Add(new SqlParameter("@keywords", page.Keywords));
       cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
 
