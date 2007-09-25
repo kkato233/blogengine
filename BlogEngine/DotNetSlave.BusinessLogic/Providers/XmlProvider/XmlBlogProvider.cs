@@ -142,8 +142,8 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("content", post.Content);
         writer.WriteElementString("ispublished", post.IsPublished.ToString());
         writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
-        writer.WriteElementString("pubDate", post.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-        writer.WriteElementString("lastModified", post.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+        writer.WriteElementString("pubDate", post.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+        writer.WriteElementString("lastModified", post.DateModified.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
         writer.WriteElementString("raters", post.Raters.ToString(CultureInfo.InvariantCulture));
         writer.WriteElementString("rating", post.Rating.ToString(CultureInfo.InvariantCulture));
         writer.WriteElementString("slug", post.Slug);
@@ -163,7 +163,7 @@ namespace BlogEngine.Core.Providers
           writer.WriteStartElement("comment");
           writer.WriteAttributeString("id", comment.Id.ToString());
           writer.WriteAttributeString("approved", comment.IsApproved.ToString());
-          writer.WriteElementString("date", comment.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+          writer.WriteElementString("date", comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
           writer.WriteElementString("author", comment.Author);
           writer.WriteElementString("email", comment.Email);
           writer.WriteElementString("country", comment.Country);
@@ -301,8 +301,8 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
         writer.WriteElementString("showinlist", page.ShowInList.ToString());
         writer.WriteElementString("ispublished", page.IsPublished.ToString());
-        writer.WriteElementString("datecreated", page.DateCreated.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-        writer.WriteElementString("datemodified", page.DateModified.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+        writer.WriteElementString("datecreated", page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+        writer.WriteElementString("datemodified", page.DateModified.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 
         writer.WriteEndElement();
       }
