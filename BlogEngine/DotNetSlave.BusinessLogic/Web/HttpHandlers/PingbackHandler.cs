@@ -135,6 +135,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       {
         if (comment.Website != null && comment.Website.ToString().Equals(sourceUrl, StringComparison.OrdinalIgnoreCase))
           return false;
+
+        if (comment.IP != null && comment.IP == HttpContext.Current.Request.UserHostAddress)
+          return false;
       }
 
       return true;
