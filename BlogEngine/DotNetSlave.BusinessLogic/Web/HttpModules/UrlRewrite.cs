@@ -134,7 +134,7 @@ namespace BlogEngine.Core.Web.HttpModules
         return DateTime.MinValue;
 
       Match match = _Regex.Match(context.Request.RawUrl);
-      if (match != null)
+      if (match.Success)
       {
         int year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
         int month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
