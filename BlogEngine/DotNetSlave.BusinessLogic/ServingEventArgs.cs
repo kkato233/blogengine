@@ -39,6 +39,18 @@ namespace BlogEngine.Core
       get { return _Location; }
       set { _Location = value; }
     }
+
+    private bool _Cancel;
+    /// <summary>
+    /// Cancels the serving of the content.
+    /// <remarks>If the serving is cancelled then the item will not be displayed.</remarks>
+    /// </summary>
+    public bool Cancel
+    {
+      get { return _Cancel; }
+      set { _Cancel = value; }
+    }
+
   }
 
   /// <summary>

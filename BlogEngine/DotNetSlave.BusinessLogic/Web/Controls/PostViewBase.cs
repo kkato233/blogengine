@@ -149,6 +149,18 @@ namespace BlogEngine.Core.Web.Controls
 
         ServingEventArgs arg = new ServingEventArgs(body, this.Location);
         Post.OnServing(Post, arg);
+
+        if (arg.Cancel)
+        {
+          if (arg.Location == ServingLocation.SinglePost)
+          {
+            Response.Redirect("~/error404.aspx", true);
+          }
+          else
+          {
+            this.Visible = false;
+          }
+        }
         
         return arg.Body;
       }

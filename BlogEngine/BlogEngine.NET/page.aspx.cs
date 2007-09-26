@@ -52,6 +52,9 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
     ServingEventArgs arg = new ServingEventArgs(this.Page.Content, ServingLocation.SinglePage);
     BlogEngine.Core.Page.OnServing(this.Page, arg);
 
+    if (arg.Cancel)
+      Response.Redirect("error404.aspx", true);
+
     if (arg.Body.ToLowerInvariant().Contains("[usercontrol"))
     {
       InjectUserControls(arg.Body);
