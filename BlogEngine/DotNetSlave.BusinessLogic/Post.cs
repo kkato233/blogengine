@@ -259,7 +259,7 @@ namespace BlogEngine.Core
     {
       get
       {
-        if (IsPublished && DateCreated <= DateTime.Now.AddHours(-BlogSettings.Instance.Timezone))
+        if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
           return true;
 
         return false;
