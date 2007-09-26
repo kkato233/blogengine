@@ -274,15 +274,16 @@ namespace BlogEngine.Core
     /// Is called by the save method when the object is old and dirty.
     /// </summary>
     private void Update()
-    {
+    {      
       SaveAction action = SaveAction.None;
       
       if (this.IsDeleted)
       {
         if (!this.IsNew)
         {
-          DataDelete();
           action = SaveAction.Delete;
+          OnSaving(this, action);
+          DataDelete();          
         }
       }
       else
@@ -293,14 +294,16 @@ namespace BlogEngine.Core
             _DateCreated = DateTime.Now;
 
           _DateModified = DateTime.Now;
-          DataInsert();
           action = SaveAction.Insert;
+          OnSaving(this, action);
+          DataInsert();          
         }
         else
         {
           this._DateModified = DateTime.Now; ;
-          DataUpdate();
           action = SaveAction.Update;
+          OnSaving(this, action);
+          DataUpdate();          
         }
 
         MarkOld();        
@@ -448,8 +451,10 @@ namespace BlogEngine.Core
     /// Occurs when the class is Saved
     /// </summary>
     public static event EventHandler<SavedEventArgs> Saved;
-
-    private static void OnSaved(BusinessBase<TYPE, KEY> businessObject, SaveAction action)
+    /// <summary>
+    /// Raises the Saved event.
+    /// </summary>
+    protected static void OnSaved(BusinessBase<TYPE, KEY> businessObject, SaveAction action)
     {
       if (Saved != null)
       {
@@ -461,8 +466,10 @@ namespace BlogEngine.Core
     /// Occurs when the class is Saved
     /// </summary>
     public static event EventHandler<SavedEventArgs> Saving;
-
-    private static void OnSaving(BusinessBase<TYPE, KEY> businessObject, SaveAction action)
+    /// <summary>
+    /// Raises the Saving event
+    /// </summary>
+    protected static void OnSaving(BusinessBase<TYPE, KEY> businessObject, SaveAction action)
     {
       if (Saving!= null)
       {

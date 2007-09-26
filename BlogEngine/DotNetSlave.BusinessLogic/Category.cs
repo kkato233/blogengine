@@ -168,13 +168,25 @@ namespace BlogEngine.Core
    public override void Save()
     {
       if (this.IsDeleted)
+      {
+        BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Delete);
         BlogService.DeleteCategory(this);
-    
-     if (this.IsDirty && !this.IsDeleted && !this.IsNew)
+        BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Delete);
+      }
+
+      if (this.IsDirty && !this.IsDeleted && !this.IsNew)
+      {
+        BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Update);
         BlogService.UpdateCategory(this);
-     
-     if (this.IsNew)
+        BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Update);
+      }
+
+      if (this.IsNew)
+      {
+        BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Insert);
         BlogService.InsertCategory(this);
+        BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Insert);
+      }
     }
 
     /// <summary>
