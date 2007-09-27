@@ -30,7 +30,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override Post SelectPost(Guid id)
     {
-      string fileName = _Folder + "posts\\" + id.ToString() + ".xml";
+      string fileName = _Folder + "posts" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
       Post post = new Post();
       XmlDocument doc = new XmlDocument();
       doc.Load(fileName);
@@ -127,7 +127,7 @@ namespace BlogEngine.Core.Providers
       if (!Directory.Exists(_Folder + "posts"))
         Directory.CreateDirectory(_Folder + "posts");
 
-      string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
+      string fileName = _Folder + "posts" + Path.DirectorySeparatorChar + post.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
 
@@ -211,7 +211,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void DeletePost(Post post)
     {
-      string fileName = _Folder + "posts\\" + post.Id.ToString() + ".xml";
+      string fileName = _Folder + "posts" + Path.DirectorySeparatorChar + post.Id.ToString() + ".xml";
       if (File.Exists(fileName))
         File.Delete(fileName);
     }
@@ -222,7 +222,7 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Posts</returns>
     public override List<Post> FillPosts()
     {
-      string folder = Category._Folder + "posts\\";
+      string folder = Category._Folder + "posts" + Path.DirectorySeparatorChar;
       List<Post> posts = new List<Post>();
 
       foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
@@ -247,7 +247,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override Page SelectPage(Guid id)
     {
-      string fileName = _Folder + "pages\\" + id.ToString() + ".xml";
+      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
       XmlDocument doc = new XmlDocument();
       doc.Load(fileName);
 
@@ -284,7 +284,7 @@ namespace BlogEngine.Core.Providers
       if (!Directory.Exists(_Folder + "pages"))
         Directory.CreateDirectory(_Folder + "pages");
 
-      string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
+      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
 
@@ -321,7 +321,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void DeletePage(Page page)
     {
-      string fileName = _Folder + "pages\\" + page.Id.ToString() + ".xml";
+      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
       if (File.Exists(fileName))
         File.Delete(fileName);
 
@@ -335,7 +335,7 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Pages</returns>
     public override List<Page> FillPages()
     {
-      string folder = Category._Folder + "pages\\";
+      string folder = Category._Folder + "pages" + Path.DirectorySeparatorChar;
       List<Page> pages = new List<Page>();
 
       foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
@@ -515,7 +515,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override StringDictionary LoadSettings()
     {
-      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
+      string filename = System.Web.HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot + "App_Data/settings.xml");
       StringDictionary dic = new StringDictionary();
 
       XmlDocument doc = new XmlDocument();
@@ -540,7 +540,7 @@ namespace BlogEngine.Core.Providers
       if (settings == null)
         throw new ArgumentNullException("settings");
 
-      string filename = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/settings.xml");
+      string filename = _Folder + "settings.xml";
       XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
       writerSettings.Indent = true;
 
