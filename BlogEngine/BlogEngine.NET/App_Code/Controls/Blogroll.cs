@@ -24,7 +24,6 @@ namespace Controls
     static Blogroll()
     {
       BlogSettings.Changed += new EventHandler<EventArgs>(BlogSettings_Changed);
-      _CurrentLevel = GetCurrentTrustLevel();
     }
 
     protected override void Render(HtmlTextWriter writer)
@@ -51,7 +50,6 @@ namespace Controls
 
     private static Collection<RssItem> _Items;
     private static DateTime _LastUpdated = DateTime.Now;
-    private static AspNetHostingPermissionLevel _CurrentLevel = AspNetHostingPermissionLevel.None;
 
     #endregion
 
@@ -60,32 +58,6 @@ namespace Controls
     public static void Update()
     {
       _Items = null;
-    }
-
-    private static AspNetHostingPermissionLevel GetCurrentTrustLevel()
-    {
-      foreach (AspNetHostingPermissionLevel trustLevel in
-              new AspNetHostingPermissionLevel[] {
-                AspNetHostingPermissionLevel.Unrestricted,
-                AspNetHostingPermissionLevel.High,
-                AspNetHostingPermissionLevel.Medium,
-                AspNetHostingPermissionLevel.Low,
-                AspNetHostingPermissionLevel.Minimal 
-            })
-      {
-        try
-        {
-          new AspNetHostingPermission(trustLevel).Demand();
-        }
-        catch (System.Security.SecurityException)
-        {
-          continue;
-        }
-
-        return trustLevel;
-      }
-
-      return AspNetHostingPermissionLevel.None;
     }
 
     private static object _SyncRoot = new object();
@@ -226,16 +198,12 @@ namespace Controls
       item.Description = description;
       item.Xfn = xfn;
 
-      if (_CurrentLevel > AspNetHostingPermissionLevel.Medium)
-      {
-        item.Request = (HttpWebRequest)WebRequest.Create(feedUrl);
-        item.Request.Credentials = CredentialCache.DefaultNetworkCredentials;
-      }
+      item.Request = (HttpWebRequest)WebRequest.Create(feedUrl);
+      item.Request.Credentials = CredentialCache.DefaultNetworkCredentials;
 
       _Items.Add(item);
 
-      if (_CurrentLevel > AspNetHostingPermissionLevel.Medium)
-        item.Request.BeginGetResponse(ProcessRespose, item);
+      item.Request.BeginGetResponse(ProcessRespose, item);
     }
 
     /// <summary>

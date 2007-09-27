@@ -3,6 +3,7 @@
 using System;
 using System.Web;
 using System.Text;
+using System.IO;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
@@ -64,7 +65,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
   private void btnUploadImage_Click(object sender, EventArgs e)
   {
-    Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadImage);
+    Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadImage);
     string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
     string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
     txtContent.Text += string.Format(img, txtUploadImage.FileName);
@@ -72,7 +73,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
   private void btnUploadFile_Click(object sender, EventArgs e)
   {
-    Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadFile);
+    Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadFile);
 
     string a = "<p><a href=\"{0}file.axd?file={1}\" rel=\"enclosure\">{2}</a></p>";
     string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
@@ -113,8 +114,6 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     {
       Category cat = new Category(txtCategory.Text, string.Empty);
       cat.Save();
-      //Guid id = CategoryDictionary.Instance.Add(txtCategory.Text);
-      //CategoryDictionary.Instance.Save();
       ListItem item = new ListItem(txtCategory.Text, cat.Id.ToString());
       item.Selected = true;
       cblCategories.Items.Add(item);
@@ -192,7 +191,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     txtContent.Text = post.Content;
     txtDescription.Text = post.Description;
     ddlAuthor.SelectedValue = post.Author;
-    txtDate.Text = post.DateCreated.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
+    txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
     cbEnableComments.Checked = post.IsCommentsEnabled;
     cbPublish.Checked = post.IsPublished;
     txtSlug.Text = post.Slug;

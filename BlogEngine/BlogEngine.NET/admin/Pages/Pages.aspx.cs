@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.IO;
 using System.Web;
 using System.Text;
 using System.Web.UI.WebControls;
@@ -40,7 +41,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
   private void btnUploadImage_Click(object sender, EventArgs e)
   {
-    Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadImage);
+    Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadImage);
     string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
     string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
     txtContent.Text += string.Format(img, txtUploadImage.FileName);
@@ -48,7 +49,7 @@ public partial class admin_Pages_pages : System.Web.UI.Page
 
   private void btnUploadFile_Click(object sender, EventArgs e)
   {
-    Upload(BlogSettings.Instance.StorageLocation + "files/", txtUploadFile);
+    Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadFile);
 
     string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
     string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";

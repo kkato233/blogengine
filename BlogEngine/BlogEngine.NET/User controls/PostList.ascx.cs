@@ -44,7 +44,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
     if (Request.QueryString["theme"] != null)
       theme = Request.QueryString["theme"];
 
-    string path = "~/themes/" + theme + "/postview.ascx";
+    string path = "~/themes/" + theme + "/PostView.ascx";
     int counter = 0;
 
     foreach (Post post in Posts.GetRange(index, Posts.Count - index))

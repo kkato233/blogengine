@@ -109,10 +109,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
           _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
         }
       }
-      catch (WebException ex)
+      catch (WebException)
       {
         _SourceHasLink = false;
-        throw new ArgumentException("Trackback sender does not exists: " + sourceUrl, ex);
+        //throw new ArgumentException("Trackback sender does not exists: " + sourceUrl, ex);
       }
     }
 

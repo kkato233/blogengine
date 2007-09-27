@@ -148,12 +148,19 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     private void ExamineSourcePage(string sourceUrl, string targetUrl)
     {
-      using (WebClient client = new WebClient())
+      try
       {
-        client.Credentials = CredentialCache.DefaultNetworkCredentials;
-        string html = client.DownloadString(sourceUrl);
-        _Title = _Regex.Match(html).Value.Trim();
-        _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
+        using (WebClient client = new WebClient())
+        {
+          client.Credentials = CredentialCache.DefaultNetworkCredentials;
+          string html = client.DownloadString(sourceUrl);
+          _Title = _Regex.Match(html).Value.Trim();
+          _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
+        }
+      }
+      catch (WebException)
+      {
+        _SourceHasLink = false;
       }
     }
 
