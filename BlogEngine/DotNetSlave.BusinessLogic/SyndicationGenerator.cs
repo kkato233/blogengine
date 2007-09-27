@@ -703,7 +703,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 writer.WriteElementString("title", this.Settings.Name);
                 writer.WriteElementString("description", this.Settings.Description);
-                writer.WriteElementString("link", new Uri(Utils.FeedUrl).ToString());
+                writer.WriteElementString("link", Utils.AbsoluteWebRoot.ToString());
 
                 //------------------------------------------------------------
                 //	Write common/shared channel elements
@@ -1039,7 +1039,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 //	Write required feed elements
                 //------------------------------------------------------------
-                writer.WriteElementString("id", new Uri(Utils.FeedUrl).ToString());
+                writer.WriteElementString("id", Utils.AbsoluteWebRoot.ToString());
                 writer.WriteElementString("title", this.Settings.Name);
                 writer.WriteElementString("updated", (publishables.Count > 0) ? SyndicationGenerator.ToW3cDateTime(publishables[0].DateModified.ToUniversalTime()) : SyndicationGenerator.ToW3cDateTime(DateTime.UtcNow));
 
@@ -1048,12 +1048,12 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 writer.WriteStartElement("link");
                 writer.WriteAttributeString("rel", "self");
-                writer.WriteAttributeString("href", new Uri(Utils.FeedUrl).ToString());
+                writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("link");
                 writer.WriteAttributeString("rel", "related");
-                writer.WriteAttributeString("href", new Uri(Utils.FeedUrl).ToString());
+                writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
                 writer.WriteEndElement();
 
                 //------------------------------------------------------------
