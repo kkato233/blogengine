@@ -1047,13 +1047,17 @@ namespace BlogEngine.Core
                 //	Write recommended feed elements
                 //------------------------------------------------------------
                 writer.WriteStartElement("link");
+                writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("link");
                 writer.WriteAttributeString("rel", "self");
                 writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("link");
-                writer.WriteAttributeString("rel", "related");
-                writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
+                writer.WriteAttributeString("rel", "alternate");
+                writer.WriteAttributeString("href", Utils.FeedUrl.ToString());
                 writer.WriteEndElement();
 
                 //------------------------------------------------------------
