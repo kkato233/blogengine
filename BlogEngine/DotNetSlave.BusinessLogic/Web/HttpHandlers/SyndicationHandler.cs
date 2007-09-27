@@ -385,7 +385,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 //------------------------------------------------------------
                 //	Generate feed and write to output stream
                 //------------------------------------------------------------
-                generator.WriteFeed(this.Format, context.Response.OutputStream, posts);
+                List<IPublishable> list = new List<IPublishable>();
+                foreach(Post post in posts)
+                {
+                    list.Add(post);
+                }
+                generator.WriteFeed(this.Format, context.Response.OutputStream, list);
             }
             catch
             {
