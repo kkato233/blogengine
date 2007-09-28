@@ -97,7 +97,9 @@ namespace BlogEngine.Core
         throw new ArgumentNullException("relativeUri");
 
       string absolute = AbsoluteWebRoot.ToString();
-      return new Uri(absolute.Substring(0, absolute.Length -1) + relativeUri.ToString());
+      int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
+
+      return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
     }
 
     #region Send e-mail

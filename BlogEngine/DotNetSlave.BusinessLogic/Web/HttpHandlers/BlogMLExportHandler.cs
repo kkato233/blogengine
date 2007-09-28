@@ -5,6 +5,7 @@ using System.Xml;
 using System.Web;
 using System.Web.Security;
 using BlogEngine.Core;
+using System.Threading;
 
 #endregion
 
@@ -26,9 +27,16 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
     public void ProcessRequest(HttpContext context)
     {
-      context.Response.ContentType = "text/xml";
-      context.Response.AppendHeader("Content-Disposition", "attachment; filename=BlogML.xml");
-      WriteXml(context);      
+      if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+      {
+        context.Response.ContentType = "text/xml";
+        context.Response.AppendHeader("Content-Disposition", "attachment; filename=BlogML.xml");
+        WriteXml(context);
+      }
+      else
+      {
+        context.Response.StatusCode = 403;
+      }
     }
 
     /// <summary>

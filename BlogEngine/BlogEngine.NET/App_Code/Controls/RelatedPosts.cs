@@ -70,7 +70,7 @@ namespace Controls
     {
       if (!BlogSettings.Instance.EnableRelatedPosts || Post == null)
         return;
-
+      
       if (!_Cache.ContainsKey(Post.Id))
       {
         lock (_SyncRoot)
