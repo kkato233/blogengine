@@ -777,7 +777,10 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 writer.WriteElementString("docs", "http://www.rssboard.org/rss-specification");
                 writer.WriteElementString("generator", String.Format(null, "{0} {1} ({2})", GENERATOR_NAME, GENERATOR_VERSION, GENERATOR_URI));
-                writer.WriteElementString("language", this.Settings.Language);
+                if (!String.IsNullOrEmpty(this.Settings.Language))
+                {
+                    writer.WriteElementString("language", this.Settings.Language);
+                }
 
                 //------------------------------------------------------------
                 //	Write blogChannel syndication extension elements
@@ -807,10 +810,6 @@ namespace BlogEngine.Core
                 if (!String.IsNullOrEmpty(this.Settings.Description))
                 {
                     writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
-                }
-                if (!String.IsNullOrEmpty(this.Settings.Language))
-                {
-                    writer.WriteElementString("dc", "language", "http://purl.org/dc/elements/1.1/", this.Settings.Language);
                 }
                 if (!String.IsNullOrEmpty(this.Settings.Name))
                 {
@@ -948,7 +947,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 if (!String.IsNullOrEmpty(publishable.Author))
                 {
-                    writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", publishable.Author);
+                    writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
                 }
                 if (!String.IsNullOrEmpty(publishable.Description))
                 {
@@ -1334,7 +1333,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 if (!String.IsNullOrEmpty(publishable.Author))
                 {
-                    writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", publishable.Author);
+                    writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
                 }
                 if (!String.IsNullOrEmpty(publishable.Description))
                 {
