@@ -115,12 +115,20 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     float latitude;
     if (Single.TryParse(txtGeocodingLatitude.Text, out latitude))
     {
-      BlogSettings.Instance.GeocodingLatitude = latitude;
+        BlogSettings.Instance.GeocodingLatitude = latitude;
+    }
+    else
+    {
+        BlogSettings.Instance.GeocodingLatitude = Single.MinValue;
     }
     float longitude;
     if (Single.TryParse(txtGeocodingLongitude.Text, out longitude))
     {
-      BlogSettings.Instance.GeocodingLongitude = longitude;
+        BlogSettings.Instance.GeocodingLongitude = longitude;
+    }
+    else
+    {
+        BlogSettings.Instance.GeocodingLongitude = Single.MinValue;
     }
 
     BlogSettings.Instance.Endorsement = txtBlogChannelBLink.Text;
