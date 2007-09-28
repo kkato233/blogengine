@@ -14,6 +14,6 @@ trackback:ping="<%=Post.TrackbackLink %>" />
 </rdf:RDF>
 -->
   
-  <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" Headline="Related posts" />
+  <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" />
   <uc:CommentView ID="CommentView1" runat="server" />
 </asp:content>

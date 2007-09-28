@@ -925,7 +925,10 @@ namespace BlogEngine.Core
                 //	Write optional channel item elements
                 //------------------------------------------------------------
                 writer.WriteElementString("author", publishable.Author);
-                writer.WriteElementString("comments", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comments"));
+                if (post != null)
+                {
+                  writer.WriteElementString("comments", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
+                }
                 writer.WriteElementString("guid", SyndicationGenerator.GetPermaLink(publishable).ToString());
                 writer.WriteElementString("pubDate", SyndicationGenerator.ToRfc822DateTime(publishable.DateCreated));
 
@@ -981,7 +984,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 //	Write well-formed web syndication extension elements
                 //------------------------------------------------------------
-                writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comments"));
+                writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
                 writer.WriteElementString("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/", Utils.AbsoluteWebRoot.ToString().TrimEnd('/') + "/commentfeed.axd?id=" + publishable.Id.ToString());
 
                 //------------------------------------------------------------
@@ -1310,7 +1313,7 @@ namespace BlogEngine.Core
 
                 writer.WriteStartElement("link");
                 writer.WriteAttributeString("rel", "related");
-                writer.WriteAttributeString("href", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comments"));
+                writer.WriteAttributeString("href", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
                 writer.WriteEndElement();
 
                 //------------------------------------------------------------
@@ -1367,7 +1370,7 @@ namespace BlogEngine.Core
                 //------------------------------------------------------------
                 //	Write well-formed web syndication extension elements
                 //------------------------------------------------------------
-                writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comments"));
+                writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
                 writer.WriteElementString("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/", Utils.AbsoluteWebRoot.ToString().TrimEnd('/') + "/commentfeed.axd?id=" + publishable.Id.ToString());
 
                 //------------------------------------------------------------
