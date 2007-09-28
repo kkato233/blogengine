@@ -21,7 +21,7 @@
   <htmlheader />
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>
-  <geocodinglatitude>0</geocodinglatitude>
+  <geocodinglatitude />
   <email>name@example.com</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
@@ -49,7 +49,7 @@
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;
 &lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <timestamppostlinks>True</timestamppostlinks>
-  <geocodinglongitude>0</geocodinglongitude>
+  <geocodinglongitude />
   <language>en-GB</language>
   <enablereferrertracking>False</enablereferrertracking>
   <enablecontactattachments>True</enablecontactattachments>
