@@ -118,327 +118,458 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Thêm vào</value>
-  </data>
-  <data name="add_Entry" xml:space="preserve">
-    <value>Thêm bài mới</value>
+    <value>Ajouter</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Thêm Bình luận</value>
+    <value>Ajouter un commentaire</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>thêm mã người đọc vào  HTML head section</value>
+    <value>Ajouter du texte spécifique à la section HEAD du code HTML</value>
+  </data>
+  <data name="add_Entry" xml:space="preserve">
+    <value>Ajouter un billet</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Bảng Điều khiển của Quản Trị</value>
+    <value>Panneau de contrôle</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Nâng cao</value>
+    <value>Avancé</value>
+  </data>
+  <data name="advancedSettings" xml:space="preserve">
+    <value>Paramètres avancés</value>
+  </data>
+  <data name="alternateFeedUrl" xml:space="preserve">
+    <value>Fil de remplacement</value>
+  </data>
+  <data name="approve" xml:space="preserve">
+    <value>Approuver</value>
+  </data>
+  <data name="approveallcomments" xml:space="preserve">
+    <value>Approuver tous les commentaires de billet</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Lưu trữ</value>
+    <value>Archive</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Bạn chắc chắn muốn  {0} {1}?</value>
+    <value>Etes vous sur de vouloir {0} {1}?</value>
+  </data>
+  <data name="attachFile" xml:space="preserve">
+    <value>Joindre un fichier</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Tác Giả</value>
+    <value>Auteur</value>
+  </data>
+  <data name="avatars" xml:space="preserve">
+    <value>Avatars</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Căn bản</value>
+    <value>Basique</value>
+  </data>
+  <data name="beTheFirstToRate" xml:space="preserve">
+    <value>Soyez le premier à noter ce billet</value>
+  </data>
+  <data name="blogMLDescription" xml:space="preserve">
+    <value>BlogEngine.NET emploie BlogML comme format pour l'exportation. L'importation supporte à la fois  BlogML et RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
-    <value>Danh mục Blog</value>
+    <value>Autres blogs</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Chữ trên nút</value>
+    <value>Texte du bouton</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Các thể loại</value>
+    <value>Catégories</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Thể Loại</value>
+    <value>Catégorie</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Đóng bình luận sau</value>
+    <value>Bloquer les commentaires après</value>
+  </data>
+  <data name="combine" xml:space="preserve">
+    <value>Combinaison</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Bình Luận</value>
+    <value>Commentaire</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Chữ trên nhãn bình luận</value>
+    <value>Texte de l'étiquette de commentaires</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Các bài bình luận</value>
+    <value>Commentaires</value>
+  </data>
+  <data name="commentsAreClosed" xml:space="preserve">
+    <value>Les commentaires sont clos</value>
+  </data>
+  <data name="commentWasSaved" xml:space="preserve">
+    <value>Le commentaire a été enregistré. Merci de votre feed-back</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Liên hệ</value>
+    <value>Contact</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Form Liên hệ</value>
+    <value>Formulaire de contact</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Điều Khiển</value>
+    <value>Contrôles</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Nước</value>
+    <value>Pays</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Tạo Người Sử  Dụng Mới</value>
+    <value>Créer un nouvel utilisateur</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Đánh giá hiện thời {0} bởi {1} người</value>
+    <value>Actuellement noté {0} par {1} personne(s)</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Thời gian</value>
+    <value>Date</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Xuất Feed Mặc định</value>
+    <value>Format de fil par défaut</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>Chữ mặc định xuất hiện trong textbox tìm kiếm</value>
+    <value>Texte affiché par défaut dans la boite de recherche</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Xóa</value>
+    <value>Supprimer</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Mô tả</value>
+    <value>Description</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Hiển thị bình luận</value>
+    <value>Afficher les commentaires</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>hiện Đánh giá</value>
+    <value>Afficher les notes</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Hiệu chỉnh</value>
+    <value>Modifier</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>Thư Điện tử</value>
+    <value>E-mail</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>Địa chỉ thư điện tử</value>
+    <value>Adresse e-mail</value>
+  </data>
+  <data name="enableAttachments" xml:space="preserve">
+    <value>Autoriser les pièces jointes</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Cho phép Đồng-Bình Luận</value>
+    <value>Autoriser les coComments</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Cho phép bình luận</value>
+    <value>Autoriser les commentaires</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Nếu Bình Luận không cho phép, Không ai có thể viết bất kỳ ý kiến nào tới bất kỳ bài nào </value>
+    <value>Si les commentaires ne sont pas activés, personne ne peut écrire de commentaire sur aucun billet</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Cho phép tìm Bình Luận</value>
+    <value>Activer la recherche dans les commentaires</value>
+  </data>
+  <data name="enableCommentsModeration" xml:space="preserve">
+    <value>Modérer les commentaires</value>
+  </data>
+  <data name="enableGravatars" xml:space="preserve">
+    <value>Autoriser les Gravatars</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Cho phép nén HTTP</value>
+    <value>Activer la compression HTTP</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Làm trang tải nhanh (Đề nghị).</value>
+    <value>Accélère le chargement des pages (conseillé).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>cho phép mở tìm kiếm</value>
+    <value>Activer OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Thêm đặc điểm tìm kiếm với tất cả người duyệt xem mới ( Đề nghị)</value>
+    <value>Ajoute la fonctionnalité de recherche à tous les nouveaux navigateurs (conseillé).</value>
+  </data>
+  <data name="enableRating" xml:space="preserve">
+    <value>Autoriser la notation des billets</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Cho phép chuyển dấu vết đã đi</value>
+    <value>Activer le suivi des liens entrants</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Cho phép tô sáng chuỗi tìm kiếm</value>
+    <value>Activer la mise en valeur de la recherche</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Mầu của ký tự tìm kiếm trong trang</value>
+    <value>Colorier les mots recherchés</value>
+  </data>
+  <data name="enableSsl" xml:space="preserve">
+    <value>Autoriser SSL</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Xác nhận (bLink)</value>
+    <value>Lien de soutien</value>
+  </data>
+  <data name="enforce" xml:space="preserve">
+    <value>Imposer</value>
+  </data>
+  <data name="export" xml:space="preserve">
+    <value>Exporter</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Form Thông Điệp</value>
+    <value>Message du formulaire</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>chuyển tới Front page</value>
+    <value>Retour à l'accueil</value>
+  </data>
+  <data name="handleWwwSubdomain" xml:space="preserve">
+    <value>www politique de sous domaine</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Accueil</value>
+    <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head section</value>
+    <value>Entête HTML</value>
+  </data>
+  <data name="ignore" xml:space="preserve">
+    <value>Ignorer</value>
+  </data>
+  <data name="import" xml:space="preserve">
+    <value>Importer</value>
+  </data>
+  <data name="isFrontPage" xml:space="preserve">
+    <value>Est la page d'accueil</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Từ khóa</value>
+    <value>Mots clés</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Chọn ngôn ngữ</value>
+    <value>Choix de la langue</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Mã ngôn ngữ</value>
+    <value>Code langue</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>Vĩ Độ</value>
+    <value>Latitude</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Xem trước trực tiếp</value>
+    <value>Aperçu immédiat</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>Kinh độ</value>
+    <value>Longitude</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Chiều dài lớn nhât của từ mục</value>
+    <value>Longueur maxi des éléments</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Thông điệp</value>
+    <value>Message</value>
+  </data>
+  <data name="monster" xml:space="preserve">
+    <value>Monster</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>Nữa</value>
+    <value>Plus</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Tên</value>
+    <value>Nom</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>Ne pas montrer</value>
+  </data>
+  <data name="noParent" xml:space="preserve">
+    <value>Pas de parent</value>
+  </data>
+  <data name="notifyOnNewComments" xml:space="preserve">
+    <value>Notifier quand de nouveaux commentaires sont ajoutés</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Chưa được đánh giá</value>
+    <value>Pas encore noté</value>
+  </data>
+  <data name="numberOfComments" xml:space="preserve">
+    <value>Nombre de commentaires</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># của từ mục hiển thị</value>
+    <value>Nombre d'éléments affichés</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Số lượng bài đưa lên</value>
+    <value>Nombre de billets</value>
+  </data>
+  <data name="page" xml:space="preserve">
+    <value>Page</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Trang</value>
+    <value>Pages</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Mật Khẩu</value>
+    <value>Mot de passe</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Số Cổng</value>
+    <value>Numéro de port</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Cổng 25 là cổng chuẩn</value>
+    <value>Le standard est 25</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Có thể là thư rác</value>
+    <value>Spam probable</value>
+  </data>
+  <data name="post" xml:space="preserve">
+    <value>Billet</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Bài mỗi trang</value>
+    <value>Billets par page</value>
+  </data>
+  <data name="posts" xml:space="preserve">
+    <value>Billets</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Từ mục hiển thị trong feed</value>
+    <value>Entrées par fil</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Đưa lên</value>
+    <value>Publier</value>
+  </data>
+  <data name="raters" xml:space="preserve">
+    <value>Noteurs</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Đánh giá</value>
+    <value>Notation</value>
+  </data>
+  <data name="recentComments" xml:space="preserve">
+    <value>Commentaires récents</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Bài mới nhất</value>
+    <value>Billets récents</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Tham Khảo</value>
+    <value>Lien entrant</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Tham Khảo</value>
+    <value>Liens entrants</value>
+  </data>
+  <data name="relatedPosts" xml:space="preserve">
+    <value>Billets liés</value>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Retirer</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Lưu</value>
+    <value>Enregistrer</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Lưu Bình luận</value>
+    <value>Enregistrer les commentaires</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Lưu trang</value>
+    <value>Enregistrer la page</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Lưu bài đưa lên</value>
+    <value>Enregistrer le billet</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Lưu Thiết Lập</value>
+    <value>Enregistrer les paramètres</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Recherche</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Tìm field</value>
+    <value>Champ de recherche</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Tìm field text</value>
+    <value>Texte du champ de recherche</value>
+  </data>
+  <data name="searchResultsFor" xml:space="preserve">
+    <value>Résultats de recherche pour</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Chọn ngày</value>
+    <value>Choix du jour</value>
+  </data>
+  <data name="selectParent" xml:space="preserve">
+    <value>Sélectionner le parent</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Gửi Email binh luận</value>
+    <value>Envoyer un mail de commentaire</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Phân cách mỗi thẻ bằng dấu phẩy</value>
+    <value>Séparer les tags par des virgules</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Thiết lập</value>
+    <value>Paramètres</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Hiện các nước để chọn</value>
+    <value>Afficher le sélecteur de pays</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Nếu quốc gia không hiển thị, cờ nước đó sẽ không hiện trong Bình luận</value>
+    <value>Si le sélecteur de pays n'est pas affiché, aucun drapeau ne peut être affiché à coté des commentaires</value>
+    <comment>If the country chooser isn't shown, no flag can be shown on each comment.</comment>
+  </data>
+  <data name="showDescriptionInPostList" xml:space="preserve">
+    <value>Montrer seulement la description des billets</value>
+  </data>
+  <data name="showInList" xml:space="preserve">
+    <value>Montrer dans la liste</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Hiển thị Xem trước trực tiếp</value>
+    <value>Afficher l'aperçu immédiat</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Hiển thị bài liên hệ</value>
+    <value>Afficher les billets liés</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Chủ Đề</value>
+    <value>Sujet</value>
+  </data>
+  <data name="subscribe" xml:space="preserve">
+    <value>Souscrire</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Thông Điệp Cám ơn</value>
+    <value>Message de remerciement</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>bài Bình Luận</value>
+    <value>le commentaire</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Loại giao diện</value>
+    <value>Thème</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>Bài đưa lên</value>
+    <value>le billet</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Có {0} bài chưa đưa lên</value>
+    <value>Il y a {0} billet(s) non publié(s)</value>
+  </data>
+  <data name="timeStampPostLinks" xml:space="preserve">
+    <value>Ajouter la date aux liens de billet</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Múi giờ</value>
+    <value>Fuseau horaire</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Tựa bài</value>
+    <value>Titre</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Sắp Xếp stylesheets</value>
+    <value>Compresser les feuilles de style</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Bỏ khoảng trắng lúc chạy để làm nhẹ stylesheet</value>
+    <value>Réduit toutes les feuilles de style d'un thème en supprimant les espaces à l'exécution.</value>
+  </data>
+  <data name="unapprovedcomments" xml:space="preserve">
+    <value>Commentaires non approuvés</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Tần số cập nhật (Phút)</value>
+    <value>Fréquence de mise à jour (en minutes)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>File tải lên</value>
+    <value>Transmettre un fichier</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Hình tải lên</value>
+    <value>Transférer une image</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Tên đăng nhập</value>
+    <value>Identifiant</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Người sử dụng</value>
+    <value>Utilisateurs</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>trang Web</value>
+    <value>Site Internet</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>sẽ hiển thị {0} biểu tượng của bạn</value>
+    <value>Affichera votre icône {0}</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>Đã viết</value>
+    <value>a écrit</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>Bạn sẵn sàng đánh giá bài này</value>
+    <value>Vous avez déjà noté ce billet</value>
   </data>
 </root>
