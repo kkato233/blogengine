@@ -31,8 +31,12 @@ public partial class admin_Pages_PingServices : System.Web.UI.Page
   void btnAdd_Click(object sender, EventArgs e)
   {
     StringCollection col = BlogService.LoadPingServices();
-    col.Add(txtNewCategory.Text.ToLowerInvariant());
-    BlogService.SavePingServices(col);
+    string service = txtNewCategory.Text.ToLowerInvariant();
+    if (!col.Contains(service))
+    {
+      col.Add(service);
+      BlogService.SavePingServices(col);
+    }
     Response.Redirect(Request.RawUrl);
   }
 

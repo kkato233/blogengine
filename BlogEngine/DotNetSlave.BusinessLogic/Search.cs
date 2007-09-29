@@ -217,7 +217,10 @@ namespace BlogEngine.Core
       entry.Item = item;
       entry.Title = CleanContent(item.Title, false);
       entry.Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true));
-
+      if (item is Comment)
+      {
+        entry.Content += HttpUtility.HtmlDecode(CleanContent(item.Author, false));
+      }
       _Catalog.Add(entry);
     }
 
