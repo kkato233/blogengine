@@ -64,6 +64,16 @@ namespace BlogEngine.Core.Web.HttpHandlers
         writer.WriteElementString("changefreq", "monthly");
         writer.WriteEndElement();
 
+        // Blog
+        if (Page.GetFrontPage() != null)
+        {
+          writer.WriteStartElement("url");
+          writer.WriteElementString("loc", Utils.AbsoluteWebRoot.ToString() + "blog.aspx");
+          writer.WriteElementString("lastmod", DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+          writer.WriteElementString("changefreq", "daily");
+          writer.WriteEndElement();
+        }
+
         writer.WriteEndElement();
       }
 
