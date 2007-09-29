@@ -118,457 +118,457 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Shto</value>
+    <value>Toevoegen</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Shto Prolog</value>
+    <value>Voeg post toe</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Shto Koment</value>
+    <value>Reactie plaatsen</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Shto kod të përshtatur në HTML seksionin në krye (head)</value>
+    <value>Voeg code toe aan de HTML head sectie</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Paneli i Kontollit</value>
+    <value>Configuratie panel</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Avancuar</value>
+    <value>Geavanceerd</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Mjedis i Avancuar</value>
+    <value>Geavanceerde instellingen</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>URL Shteg alternativ</value>
+    <value>Alternatieve feed URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>Mirato</value>
+    <value>Ga akkoord</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Mirato Të Gjitha Komentet e Publikuara</value>
+    <value>Ga akkoord met alle post reacties</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Arkivo</value>
+    <value>Archiveer</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>A jeni të sigurt {0} {1}?</value>
+    <value>Weet u zeker dat u {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Ngjit Fajll</value>
+    <value>Bestand toevoegen</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Autor</value>
+    <value>Auteur</value>
   </data>
   <data name="avatars" xml:space="preserve">
-    <value>Avataret</value>
+    <value>Avatars</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Elementar</value>
+    <value>Standaard</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>Bëhuni i pari që vlerësoni këtë Publikim</value>
+    <value>Waardeer als eerste deze post</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET shfrytëzon BlogML si format për eksportim. Për importim përkrah të dyja BlogML dhe RSS.</value>
+    <value>BlogEngine.NET gebruikt BlogML als export formaat. Import ondersteund zowel BlogML als RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
-    <value>BlogApel</value>
+    <value>Blogroll</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Teksti i Butonit</value>
+    <value>Knop tekst</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Kategoritë</value>
+    <value>Categorien</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Kategorija</value>
+    <value>Categorie</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Mbyll komentet pas</value>
+    <value>Sluit commentaar na</value>
   </data>
   <data name="combine" xml:space="preserve">
-    <value>Kombinim</value>
+    <value>Combinatie</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Koment</value>
+    <value>Reactie</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Koment i tekstit të etiketës</value>
+    <value>Reactie label tekst</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Komentet</value>
+    <value>Reacties</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>Komentimet janë të mbyllura</value>
+    <value>Reactie is gesloten</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>Komenti juaj u rujt. Ju falemnderit për vlerësimin tuaj</value>
+    <value>Uw reactie is opgeslagen. Bedankt voor uw reactie.</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Kontakt</value>
+    <value>Contact</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Kontakt Forma</value>
+    <value>Contact formulier</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Kontrollet</value>
+    <value>Gereedschappen</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Shteti</value>
+    <value>Land</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Krijo Shfrytëzues të ri</value>
+    <value>Creeer nieuwe gebruiker</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Momentalisht u vlerësua prej {0} nga {1} njerëz</value>
+    <value>Gewaardeerd op {0} door {1} mensen</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Data</value>
+    <value>Datum</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Shtegu i parazgjedhur për prodhim</value>
+    <value>Standaard feed output</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>Teksti i parazgjedhur në tekstboksin për kërkim</value>
+    <value>De standaard tekst in de zoek tekst box</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Fshije</value>
+    <value>Verwijder</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Përshkrimi</value>
+    <value>Omschrijving</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Paraqit Komentet</value>
+    <value>Toon reacties</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Paraqit Vlerësimet</value>
+    <value>Toon waardering</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Edito</value>
+    <value>Edit</value>
   </data>
   <data name="email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mail adresa</value>
+    <value>E-mail addres</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>Lejo ngjitjet</value>
+    <value>Sta bijlagen toe</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Lejo ndër Komentet</value>
+    <value>Sta co-reacties toe</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Lejo Komentet</value>
+    <value>Sta reacties toe</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Nëse komentet nuk janë të lejuara, askush nuk mund të shkruaj asnjë koment në asnjërin nga publikimet. </value>
+    <value>Als reacties niet toegestaan zijn, dan kan niemand reageren op posts.</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Lejo kërkimin e komenteve</value>
+    <value>Sta doorzoeken van reacties toe</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Komentet modeste</value>
+    <value>Wijzig reacties</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>Lejo Gravatarët</value>
+    <value>Sta Gravatars toe</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Lejo HTTP kompresimin</value>
+    <value>Sta HTTP compressie toe</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Mundëson hapjen e faqes më shpejt. (e rekomanduar)</value>
+    <value>Maak het laden van pagina's sneller (aanbevolen).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Lejo Kerkimin e Hapur</value>
+    <value>Sta OpenSearch toe</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Vendos tiparin e kërkimit tek të gjith shfletuesit. (e rekomanduar)</value>
+    <value>Voeg de zoek functie toe aan alle nieuwe browsers (aanbevolen).</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Lejo vlerësimin e publikimeve</value>
+    <value>Sta post waardering toe</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Lejo ridrejtimin e gjurmuesve</value>
+    <value>Sta verwijzings tracering toe</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Lejo kërkimin e theksimeve</value>
+    <value>Sta zoek markering toe</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Ngjyros fjalët e kërkuara në faqe.</value>
+    <value>Kleur de zoekwoorden op de pagina.</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>Lejo SSL</value>
+    <value>Sta SSL toe</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Endorsmentet (bLink)</value>
+    <value>Goedkeuring (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Përforco</value>
+    <value>Dwing af</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>Eksporto</value>
+    <value>Exporteer</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Nga mesazhi</value>
+    <value>Formulier boodschap</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Shko në faqen e parë</value>
+    <value>Ga naar de startpagina</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>www politika e nën domejnit</value>
+    <value>www subdomein beleid</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>Fillim</value>
-    <comment>As used for linking to the front-page</comment>
+    <value>Start</value>
+    <comment>Gebruikt voor het linken naar de startpagina</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML krye seksioni</value>
+    <value>HTML head sectie</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>Injoro</value>
+    <value>Negeer</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>Importo</value>
+    <value>Importeer</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>Është faqja e parë</value>
+    <value>Is startpagina</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Fjalët kyq</value>
+    <value>Sleutelwoorden</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Zgjidh Gjuhën</value>
+    <value>Kies taal</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Kodi i Gjuhës</value>
+    <value>Taalcode</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>Gjërësi</value>
+    <value>breedte</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Shikim i parakohshëm Live</value>
+    <value>Live voorbeschouwing</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>Gjatësi</value>
+    <value>lengte</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Max gjatësia e sendeve</value>
+    <value>Max lengte van items</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Mesazh</value>
+    <value>Boodschap</value>
   </data>
   <data name="monster" xml:space="preserve">
-    <value>Përbindësh</value>
+    <value>Monster</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>Më shum</value>
+    <value>Meer</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Emri</value>
+    <value>Naam</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>Mos e trego</value>
+    <value>Niet tonen</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>Pa prind</value>
+    <value>Geen ouder</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Me lajmëro kur të shtohen komentet e reja.</value>
+    <value>Informeer mij wanneer nieuwe reacties zijn toegevoegd</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>E pa vlerësuar ende</value>
+    <value>Nog geen waardering</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>Numri i Komenteve</value>
+    <value>Aantal reacties</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># e sendeve të paraqituara</value>
+    <value># van getoonde items</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Numri i publikimeve</value>
+    <value>Aantal berichten</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>Faqja</value>
+    <value>Pagina</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Faqe</value>
+    <value>Pagina's</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Fjalëkalimi</value>
+    <value>Wachtwoord</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Numri i portit</value>
+    <value>Poort nummer</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Porti 25 është standard</value>
+    <value>Poort 25 is de standaard</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>E mundshme të jet i padëshiruar</value>
+    <value>Waarschijnlijk spam</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>Publikim</value>
+    <value>Bericht</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Publikime në faqe</value>
+    <value>Berichten per pagina</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Publikimet</value>
+    <value>Berichten</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Sendet e paraqituara në shteg</value>
+    <value>Items getoond in feed</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Botoj</value>
+    <value>Publiseer</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>Vlerësuesit</value>
+    <value>Waardeerders</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Vlerësimi</value>
+    <value>Waardering</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>Komentet e fundit</value>
+    <value>Recente reacties</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Publikimet e fundit</value>
+    <value>Recente berichten</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Ridrejtuesi</value>
+    <value>Verwijzing</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Ridrejtuesit</value>
+    <value>Verwijzingen</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>Publikimet e ngjajshme</value>
+    <value>Gerelateerde berichten</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Fshije</value>
+    <value>Verwijder</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Ruaje</value>
+    <value>Bewaren</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Ruaje Komentin</value>
+    <value>Bewaar reactie</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Ruaje Faqen</value>
+    <value>Bewaar pagina</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Ruaje Publikimin</value>
+    <value>Bewaar bericht</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Ruaje Mjedisin</value>
+    <value>Bewaar instellingen</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>Kërko</value>
+    <value>Zoek</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Kërko fushën</value>
+    <value>Zoek veld</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Kërko teksin në fushë</value>
+    <value>Zoek veld tekst</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>Kërko rezultatet për</value>
+    <value>Zoek in resultaten naar</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Zgjidh Ditën</value>
+    <value>Selecteer dag</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>Zgjidh prindin</value>
+    <value>Selecteer ouder</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Dërgo e-mail koment</value>
+    <value>Stuur reactie email</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Ndaj secilen shenjë me presje</value>
+    <value>Splits iedere label met een komma</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Mjedisi</value>
+    <value>Instellingen</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Paraqit kërkuesin e shtetit</value>
+    <value>Toon land keuze</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Nëse kërkuesi i shtetit nuk është i paraqitur, asnjë flamur nuk mund të paraqitet në secilin koment.</value>
+    <value>Als de landkeuze niet getoond wordt, dan kan er geen vlag getoond worden bij de reacties.</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Vetëm paraqit përshkrimin e publikimeve</value>
+    <value>Toon alleen beschrijving van berichten</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Paraqit në listë</value>
+    <value>Toon in lijst</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Paraqit shikimin e parakohshëm LIVE</value>
+    <value>Toon live voorbeschouwing</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Paraqit publikimet e ngjajshme</value>
+    <value>Toon gerelateerde berichten</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Subjekti</value>
+    <value>Onderwerp</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>Abonohu</value>
+    <value>Abonneer</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Mesazh falenderimi</value>
+    <value>Bedankt bericht</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>Komenti</value>
+    <value>de reactie</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Tema</value>
+    <value>Thema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>Publikimi</value>
+    <value>het bericht</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Janë {0} publikime të pa botuara.</value>
+    <value>Er zijn {0} niet gepubliceerde bericht(en)</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Shto datën ne linqet e publikimit</value>
+    <value>Voeg datum toe aan bericht links</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Koha kompenzuese e Serverit</value>
+    <value>Server tijd compensatie</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Titulli</value>
+    <value>Titel</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Shkurto fletëstilin</value>
+    <value>Trim stijl schema's</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>I bën të gjitha fletëstilet e të gjitha Temave më të vogla duke larguar të gjitha hapsirat e zbrazëta në prodhim.</value>
+    <value>Maak de stijlschema's van alle thema's kleiner door het verwijderen van witruimte tijdens verwerking.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>Komentet e pa miratuara.</value>
+    <value>Niet nagekeken reacties</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Shpeshtësia e freskimit (minuta)</value>
+    <value>Update frequentie (minuten)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Ngarko fajll</value>
+    <value>Upload bestand</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Ngarko pamje</value>
+    <value>Upload afbeelding</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Shfrytëzuesi</value>
+    <value>Gebruikersnaam</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Shfrytëzuesit</value>
+    <value>Gebruikers</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Ueb Faqja</value>
+    <value>Website</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Do të paraqes {0} ikonin</value>
+    <value>Zal uw {0} icon tonen</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>shkruajti</value>
+    <value>heeft geschreven</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>Ju tanimë keni vlerësuar këtë publikim</value>
+    <value>U heeft dit bericht al gewaardeerd</value>
   </data>
 </root>

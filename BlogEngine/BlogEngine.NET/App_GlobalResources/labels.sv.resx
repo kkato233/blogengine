@@ -118,457 +118,457 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Dodaj</value>
+    <value>Lägg till</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Dodaj vpis</value>
+    <value>Lägg till post</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Dodaj komentar</value>
+    <value>Lägg till kommentar</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Dodaj dodatno kodo v glavo HTML-ja</value>
+    <value>Lägg till personlig kod till HTML huvudsektion</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Nadzorna plošča</value>
+    <value>Kontrollpanel</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Napredno</value>
+    <value>Avancerat</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Napredne nastavitve</value>
+    <value>Avancerade inställningar</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>URL nadomestnega feed-a</value>
+    <value>Alternativ feed URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>Odobri</value>
+    <value>Godkänn</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Odobri vse komentarje</value>
+    <value>Godkänn postens kommentarer</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Arhiv</value>
+    <value>Arkiv</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Si prepričan da želiš {0} {1}?</value>
+    <value>Är du säker att du vill {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Priloži datoteko</value>
+    <value>Bifoga fil</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Avtor</value>
+    <value>Författare</value>
   </data>
   <data name="avatars" xml:space="preserve">
-    <value>Avatarji</value>
+    <value>Avatars</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Osnovni</value>
+    <value>Enkel</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>Bodi prvi, ki bo ocenil to sporočilo</value>
+    <value>Bli den första att värdera denna post</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET uporablja BlogML kot format za izvoz. Uvoz podpira tako BlogML kot RSS.</value>
+    <value>BlogEngine.NET använder BlogML som format för exportering. Importeringen stödjer både BlogML och RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Tekst gumba</value>
+    <value>Knapptext</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Kategorije</value>
+    <value>Kategorier</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Kategorija</value>
+    <value>Kategori</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Zapri komentarje po</value>
+    <value>Stäng kommentarer efter</value>
   </data>
   <data name="combine" xml:space="preserve">
-    <value>Kombinacija</value>
+    <value>Kombination</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Komentar</value>
+    <value>Kommentar</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Tekst oznake komentarja</value>
+    <value>Kommentar etikettext</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Komentarji</value>
+    <value>Kommentarer</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>Komentarji so zaprti</value>
+    <value>Kommentarer är stängt</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>Komentar je bil shranjen. Hvala za vaš odziv.</value>
+    <value>Kommentaren sparades. Tack för din feedback.</value>
   </data>
   <data name="contact" xml:space="preserve">
     <value>Kontakt</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Kontaktni obrazec</value>
+    <value>Kontaktformulär</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Kontrole</value>
+    <value>Kontroller</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Država</value>
+    <value>Land</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Ustvari novega uporabnika</value>
+    <value>Skapa ny användare</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Trenutno ocenjen z {0} od {1} ljudi</value>
+    <value>Just nu värderat {0} av {1} människor</value>
   </data>
   <data name="date" xml:space="preserve">
     <value>Datum</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Privzet izpis feed-a</value>
+    <value>Standard feed utmatning</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>Privzet tekst prikazan v iskalnem polju</value>
+    <value>Standardtext som visas i sökrutan</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Izbriši</value>
+    <value>Ta bort</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Opis</value>
+    <value>Beskrivning</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Prikaži komentarje</value>
+    <value>Visa kommentarer</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Prikaži rangiranje</value>
+    <value>Visa värderingar</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Uredi</value>
+    <value>Redigera</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>E-post</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mail naslov</value>
+    <value>E-post adress</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>Omogoči priponke</value>
+    <value>Aktivera bifogningar</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Omogoči komentarje komentarjev</value>
+    <value>Aktivera coKommentarer</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Omogoči komentarje</value>
+    <value>Aktivera kommentarer</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Če so komentarji onemogočeni, ni mogoče komentirati nobene objave!</value>
+    <value>Om kommentarer inte är aktiverade så kan inte någon skriva kommentarer.</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Omogoči iskanje komentarjev</value>
+    <value>Aktivera kommentarsökning</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Upravljaj komentarje</value>
+    <value>Moderera kommentarer</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>Omogoči Gravatar-je</value>
+    <value>Aktivera Gravatars</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Omogoči HTTP kompresiranje</value>
+    <value>Aktivera HTTP kompression</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Povzroči hitrejše prikazovanje strani (priporočljivo)</value>
+    <value>Ladda sidorna snabbare (rekommenderas).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Omogoči OpenSearch</value>
+    <value>Aktivera OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Omogoči iskanje v vseh novejših brskalnikih (priporočljivo)</value>
+    <value>Lägger till sökfunktionen till alla nya webbläsare (rekommenderas).</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Omogoči rangiranje objav</value>
+    <value>Aktivera postvärdering</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Omogoči sledenje</value>
+    <value>Aktivera hänvisningsspårning</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Omogoči označevanje iskanega</value>
+    <value>Aktivera sökning highlights</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Obarva iskane besede na prikazani strani.</value>
+    <value>Färglägg sökord på sidan.</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>Omogoči SSL</value>
+    <value>Aktivera SSL</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Enforce</value>
+    <value>Genomdriv</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>Izvozi</value>
+    <value>Exportera</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Sporočilo obrazca</value>
+    <value>Formulär meddelande</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Pojdi na prvo stran</value>
+    <value>Gå till första sidan</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>www subdomain policy</value>
+    <value>www subdomän policy</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>Domov</value>
+    <value>Hem</value>
     <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>Glava HTML kode</value>
+    <value>HTML huvudsektion</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>Prezri</value>
+    <value>Ignorera</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>Uvozi</value>
+    <value>Importera</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>Je prva stran</value>
+    <value>Är förstasida</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Ključne besede</value>
+    <value>Nyckelord</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Izberi jezik</value>
+    <value>Välj språk</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Jezikovna koda</value>
+    <value>Språkkod</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>Širina</value>
+    <value>Latitud</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Predogled</value>
+    <value>Live överblick</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>Dolžina</value>
+    <value>Longitud</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Maksimalna dolžina delov</value>
+    <value>Maximal längd av saker</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Sporočilo</value>
+    <value>Meddelande</value>
   </data>
   <data name="monster" xml:space="preserve">
     <value>Monster</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>Več</value>
+    <value>Mer</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Ime</value>
+    <value>Namn</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>Ne prikaži</value>
+    <value>Visa inte</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>Ni starša</value>
+    <value>Ingen parent</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Obvesti me, ko bo dodano novo sporočilo</value>
+    <value>Notifiera mig när nya kommentarer läggs till</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Še ni ocenjeno</value>
+    <value>Ej värderad än</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>Število komentarjev</value>
+    <value>Antal kommentarer</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># prikazanih delov</value>
+    <value># av visade poster</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Število objav</value>
+    <value>Antal posts</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>Stran</value>
+    <value>Sida</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Strani</value>
+    <value>Sidor</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Geslo</value>
+    <value>Lösenord</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Številka porta</value>
+    <value>Portnummer</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Port 25 je standarden</value>
+    <value>Port 25 är standard</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Možen spam</value>
+    <value>Möjligtvis spam</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>Objava</value>
+    <value>Post</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Objav na stran</value>
+    <value>Poster per sida</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Objave</value>
+    <value>Poster</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Delov prikazanih v feed-u</value>
+    <value>Posts som visas i feed</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Objavi</value>
+    <value>Publicera</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>Ocenjevalci</value>
+    <value>Värderare</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Ocena</value>
+    <value>Värdering</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>Zadnji komentarji</value>
+    <value>Senaste kommentarer</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Zadnje objave</value>
+    <value>Senaste poster</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Referenca</value>
+    <value>Hänvisare</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Referenca</value>
+    <value>Hänvisare</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>Podobne objave</value>
+    <value>Relaterade poster</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Odstrani</value>
+    <value>Ta bort</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Shrani</value>
+    <value>Spara</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Shrani komentar</value>
+    <value>Spara kommentar</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Shrani stran</value>
+    <value>Spara sida</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Shrani objavo</value>
+    <value>Spara post</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Shrani nastavitve</value>
+    <value>Spara inställningar</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>Išči</value>
+    <value>Sök</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Iskalno polje</value>
+    <value>Sökfält</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Tekst iskalnega polja</value>
+    <value>Sökfältets text</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>Išči rezultate za</value>
+    <value>Sökresultat för</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Izberi dan</value>
+    <value>Välj dag</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>Izberi straša</value>
+    <value>Välj parent</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Pošlji e-mail komentarja</value>
+    <value>Skicka kommentar e-post</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Loči vsako zvezo z vejico</value>
+    <value>Separera varje tag med ett komma</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Nastavitve</value>
+    <value>Inställningar</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Pokaži izbiro za države</value>
+    <value>Visa landväljare</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Če izbira držav ni prikazana, ne bo prikaza zastav držav</value>
+    <value>Om landväljaren inte visas så kommer det inte visas någon flagga vid varje kommentar.</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Only show description of posts</value>
+    <value>Visa bara beskrivning i post</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Prikaži na seznamu</value>
+    <value>Visa i lista</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Prikaži predogled</value>
+    <value>Visa live överblick</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Prikaži podobne objave</value>
+    <value>Visa relaterade poster</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Zadeva</value>
+    <value>Ämne</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>Vpiši se</value>
+    <value>Prenumerera</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Hvala za vaše sporočilo</value>
+    <value>Tack meddelande</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>komentar</value>
+    <value>kommentaren</value>
   </data>
   <data name="theme" xml:space="preserve">
     <value>Tema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>objava</value>
+    <value>posten</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Trenutno je {0} neobjavljenih objav(s)</value>
+    <value>Där är {0} opublicerade post(er)</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Dodaj datum k povezavam na objave</value>
+    <value>Lägg till datum på postlänkar</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Offset časa za server</value>
+    <value>Servertidsutjämning</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Naslov</value>
+    <value>Titel</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Skrči oblikovno predloge (stylesheets)</value>
+    <value>Reducera stylesheet</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Omogoči da so vse oblikovne predloge manjše, ker odstrani vse nepotrebne presledke.</value>
+    <value>Gör att alla stylesheets blir mindre storlek genom att ta bort alla mellanrum vid körning.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>Neodobreni komentarji</value>
+    <value>Icke godkända kommentarer</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Frekvenca posodabljanja (v minutah)</value>
+    <value>Uppdatera frekvens (minuter)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Naloži datoteko</value>
+    <value>Ladda upp fil</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Naloži sliko</value>
+    <value>Ladda upp bild</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Uporabniško ime</value>
+    <value>Användarnamn</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Uporabniki</value>
+    <value>Användare</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Spletna stran</value>
+    <value>Hemsida</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Bo prikazalo tvojo {0} ikono</value>
+    <value>Kommer visa din {0} ikon</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>je napisal</value>
+    <value>skrev</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>Si že ocenil to sporočilo</value>
+    <value>Du har redan värderat denna post</value>
   </data>
 </root>

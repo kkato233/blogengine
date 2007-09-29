@@ -21,7 +21,13 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         Guid id = new Guid(Request.QueryString["id"]);
         Post post = Post.GetPost(id);
         if (post != null)
-          Response.Redirect(post.RelativeLink.ToString());
+        {
+          Response.Clear();
+          Response.StatusCode = 301;
+          Response.AppendHeader("location", post.RelativeLink.ToString());
+          Response.End(); 
+
+        }
       }
     }
 
@@ -57,7 +63,6 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         if (Post.Previous != null)
           base.AddGenericLink("prev", Post.Previous.Title, Post.Previous.RelativeLink.ToString());
 
-        base.AddMicroSummary(Post.Id.ToString());
         Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
       }
     }

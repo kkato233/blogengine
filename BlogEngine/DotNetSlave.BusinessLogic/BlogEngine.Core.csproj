@@ -66,13 +66,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Web\Controls\PageSiteMap.cs" />
-    <Compile Include="Web\HttpHandlers\CommentFeedHandler.cs" />
     <Compile Include="Web\HttpHandlers\OpmlHandler.cs" />
     <Compile Include="Web\HttpHandlers\RatingHandler.cs" />
     <Compile Include="Web\HttpHandlers\CssHandler.cs" />
     <Compile Include="Web\HttpHandlers\FileHandler.cs" />
     <Compile Include="Web\HttpHandlers\ImageHandler.cs" />
-    <Compile Include="Web\HttpHandlers\MicroSummary.cs" />
     <Compile Include="Web\HttpHandlers\OpenSearchHandler.cs" />
     <Compile Include="Web\HttpHandlers\PingbackHandler.cs" />
     <Compile Include="Web\HttpHandlers\RsdHandler.cs" />

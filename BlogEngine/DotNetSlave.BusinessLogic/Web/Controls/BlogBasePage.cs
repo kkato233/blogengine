@@ -168,19 +168,6 @@ namespace BlogEngine.Core.Web.Controls
     }
 
     /// <summary>
-    /// Adds the micro summary.
-    /// </summary>
-    /// <param name="postId">The post id.</param>
-    protected virtual void AddMicroSummary(string postId)
-    {
-      HtmlLink ms = new HtmlLink();
-      ms.Attributes["rel"] = "microsummary";
-      ms.Attributes["type"] = "application/x.microsummary+xml";
-      ms.Href = Utils.AbsoluteWebRoot + "microsummary.axd?id=" + postId;
-      Page.Header.Controls.Add(ms);
-    }
-
-    /// <summary>
     /// Adds the generic link to the header.
     /// </summary>
     public virtual void AddGenericLink(string relation, string title, string href)

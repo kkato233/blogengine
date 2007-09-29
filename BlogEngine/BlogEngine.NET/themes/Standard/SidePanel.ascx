@@ -21,6 +21,8 @@
   </table>  
 </div>
 
+<blog:SearchBox ID="SearchBox1" runat="server" /><br />
+
 <% if (Page.User.Identity.IsAuthenticated){ %>
 <div class="box">
   <h1>Administration</h1>
@@ -70,8 +72,6 @@
 <div class="box">
   <h1><%=Resources.labels.categories %></h1>
   <blog:CategoryList runat="Server" /><br />
-  <a href="~/archive.aspx" runat="Server">Archive</a>
-  <blog:SearchBox runat="server" />
 </div>
 
 <div class="box">
