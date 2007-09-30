@@ -87,14 +87,14 @@ namespace BlogEngine.Core.Providers
       while (rdr.Read())
       {
         Guid key = rdr.GetGuid(0);
-        if (Category.GetCategory(key) != null)//.Instance.ContainsKey(key))
+        if (Category.GetCategory(key) != null)
             post.Categories.Add(Category.GetCategory(key));
       }
 
       rdr.Close();
 
       // Comments
-      sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip " +
+      sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved " +
                   "FROM be_PostComment " +
                   "WHERE PostID = @id";
       cmd.CommandText = sqlQuery;
@@ -106,23 +106,25 @@ namespace BlogEngine.Core.Providers
         comment.Id = rdr.GetGuid(0);
         comment.IsApproved = true;
         comment.Author = rdr.GetString(2);
-        comment.Email = rdr.GetString(3);
-        comment.Content = rdr.GetString(5);
-        comment.DateCreated = rdr.GetDateTime(1);
-        comment.Post = post;
-        comment.IsApproved = rdr.GetBoolean(8);
-
-        if (!rdr.IsDBNull(6))
-          comment.Country = rdr.GetString(6);
-        if (!rdr.IsDBNull(7))
-          comment.IP = rdr.GetString(7);
-
         if (!rdr.IsDBNull(4))
         {
           Uri website;
           if (Uri.TryCreate(rdr.GetString(4), UriKind.Absolute, out website))
             comment.Website = website;
         }
+        comment.Email = rdr.GetString(3);
+        comment.Content = rdr.GetString(5);
+        comment.DateCreated = rdr.GetDateTime(1);
+        comment.Post = post;
+
+        if (!rdr.IsDBNull(6))
+          comment.Country = rdr.GetString(6);
+        if (!rdr.IsDBNull(7))
+          comment.IP = rdr.GetString(7);
+        if (!rdr.IsDBNull(8))
+          comment.IsApproved = rdr.GetBoolean(8);
+        else
+          comment.IsApproved = true;
 
         post.Comments.Add(comment);
       }
@@ -270,7 +272,7 @@ namespace BlogEngine.Core.Providers
     {
       OpenConnection();
 
-      string sqlQuery = "DELETE FROM be_Posts WHERE PostID = @id;" +
+      string sqlQuery =   "DELETE FROM be_Posts WHERE PostID = @id;" +
                           "DELETE FROM be_PostTag WHERE PostID = @id;" +
                           "DELETE FROM be_PostCategory WHERE PostID = @id;" +
                           "DELETE FROM be_PostNotify WHERE PostID = @id;" +
@@ -309,310 +311,6 @@ namespace BlogEngine.Core.Providers
       posts.Sort();
       return posts;
     }
-    #endregion
-
-    #region Pages
-    /// <summary>
-    /// Retrieves a Page from the data store.
-    /// </summary>
-    public override Page SelectPage(Guid id)
-    {
-      bool connClose = OpenConnection();
-      //TODO: add support for IsPublished, IsFrontPage and Parent properties
-      Page page = new Page();
-      string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
-                          "DateModified, Keywords " +
-                          "FROM be_Pages " +
-                          "WHERE PageID = @id";
-      SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
-      cmd.Parameters.Add(new SqlParameter("@id", id.ToString()));
-      SqlDataReader rdr = cmd.ExecuteReader();
-      rdr.Read();
-			
-      page.Id = rdr.GetGuid(0);
-      page.Title = rdr.GetString(1);
-      page.Content = rdr.GetString(3);
-      if (!rdr.IsDBNull(2))
-        page.Description = rdr.GetString(2);
-      if (!rdr.IsDBNull(4))
-        page.DateCreated = rdr.GetDateTime(4);
-      if (!rdr.IsDBNull(5))
-        page.DateModified = rdr.GetDateTime(5);
-      if (!rdr.IsDBNull(6))
-        page.Keywords = rdr.GetString(6);
-
-      rdr.Close();
-
-      if (connClose)
-        providerConn.Close();
-
-      return page;
-    }
-
-    /// <summary>
-    /// Inserts a new Page to the data store.
-    /// </summary>
-    public override void InsertPage(Page page)
-    {
-      OpenConnection();
-			//TODO: add support for IsPublished, IsFrontPage and Parent properties
-      string sqlQuery = "INSERT INTO be_Pages (PageID, Title, Description, PageContent, " +
-                          "DateCreated, DateModified, Keywords) " +
-                          "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords)";
-      SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
-      cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
-      cmd.Parameters.Add(new SqlParameter("@title", page.Title));
-      cmd.Parameters.Add(new SqlParameter("@desc", page.Description));
-      cmd.Parameters.Add(new SqlParameter("@content", page.Content));
-      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
-      cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
-      cmd.Parameters.Add(new SqlParameter("@keywords", page.Keywords));
-      cmd.ExecuteNonQuery();
-      providerConn.Close();
-    }
-
-    /// <summary>
-    /// Updates a Page in the data store.
-    /// </summary>
-    public override void UpdatePage(Page page)
-    {
-      if (page == null)
-        throw new ArgumentNullException("page");
-			//TODO: add support for IsPublished, IsFrontPage and Parent properties
-      OpenConnection();
-
-      string sqlQuery = "UPDATE be_Pages " +
-                          "SET Title = @title, Description = @desc, PageContent = @content, " +
-                          "DateCreated = @created, DateModified = @modified, Keywords = @keywords " +
-                          "WHERE PageID = @id";
-      SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
-      cmd.Parameters.Add(new SqlParameter("@title", page.Title));
-      cmd.Parameters.Add(new SqlParameter("@desc", page.Description));
-      cmd.Parameters.Add(new SqlParameter("@content", page.Content));
-      cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
-      cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
-      cmd.Parameters.Add(new SqlParameter("@keywords", page.Keywords));
-      cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
-
-      cmd.ExecuteNonQuery();
-      providerConn.Close();
-    }
-
-    /// <summary>
-    /// Deletes a Page from the data store.
-    /// </summary>
-    public override void DeletePage(Page page)
-    {
-      OpenConnection();
-
-      string sqlQuery = "DELETE FROM be_Pages WHERE PageID = @id";
-      SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
-      cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
-
-      cmd.ExecuteNonQuery();
-      providerConn.Close();
-    }
-
-    /// <summary>
-    /// Retrieves all pages from the data store
-    /// </summary>
-    /// <returns>List of Pages</returns>
-    public override List<Page> FillPages()
-    {
-      List<Page> pages = new List<Page>();
-
-      OpenConnection();
-
-      string sqlQuery = "SELECT PageID FROM be_Pages ";
-      SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, providerConn);
-      DataTable dtPages = new DataTable();
-      dtPages.Locale = CultureInfo.InvariantCulture;
-      sa.Fill(dtPages);
-
-      foreach (DataRow dr in dtPages.Rows)
-      {
-        pages.Add(Page.Load(new Guid(dr[0].ToString())));
-      }
-
-      providerConn.Close();
-
-      return pages;
-    }
-    #endregion
-
-    #region Categories
-   
-    /// <summary>
-    /// Saves the categories to the data store.
-    /// </summary>
-    public static void SaveCategories(List<Category> categories)
-    {
-      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
-      string sqlQuery = "DELETE FROM be_Categories";
-      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
-      conn.Open();
-      cmd.ExecuteNonQuery();
-
-      foreach (Category cat in categories)
-      {
-        sqlQuery = "INSERT INTO be_Categories (CategoryID, CategoryName) " +
-                    "VALUES (@id, @name)";
-        cmd.CommandText = sqlQuery;
-        cmd.Parameters.Clear();
-        cmd.Parameters.Add(new SqlParameter("@id", cat.Id.ToString()));
-        cmd.Parameters.Add(new SqlParameter("@name", cat.Title));
-        cmd.ExecuteNonQuery();
-      }
-
-      conn.Close();
-
-    }
-    #endregion
-
-    #region Settings
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public override StringDictionary LoadSettings()
-    {
-      StringDictionary dic = new StringDictionary();
-      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
-      string sqlQuery = "SELECT SettingName, SettingValue FROM be_Settings";
-      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
-      conn.Open();
-      SqlDataReader rdr = cmd.ExecuteReader();
-
-      while (rdr.Read())
-      {
-        string name = rdr.GetString(0);
-        string value = rdr.GetString(1);
-
-        dic.Add(name, value);
-      }
-
-      rdr.Close();
-      conn.Close();
-
-      return dic;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="settings"></param>
-    public override void SaveSettings(StringDictionary settings)
-    {
-      if (settings == null)
-        throw new ArgumentNullException("settings");
-
-      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
-      string sqlQuery = "TRUNCATE TABLE be_Settings";
-      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
-      conn.Open();
-      cmd.ExecuteNonQuery();
-
-      foreach (string key in settings.Keys)
-      {
-        sqlQuery = "INSERT INTO be_Settings (SettingName, SettingValue) " +
-                    "VALUES (@name, @value)";
-        cmd.CommandText = sqlQuery;
-        cmd.Parameters.Clear();
-        cmd.Parameters.Add(new SqlParameter("@name", key));
-        cmd.Parameters.Add(new SqlParameter("@value", settings[key]));
-        cmd.ExecuteNonQuery();
-      }
-
-      conn.Close();
-
-    }
-
-    #endregion
-
-    #region Ping services
-
-    /// <summary>
-    /// Loads the ping services.
-    /// </summary>
-    /// <returns></returns>
-    public override StringCollection LoadPingServices()
-    {
-      StringCollection col = new StringCollection();
-      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
-      string sqlQuery = "SELECT Link FROM be_PingService";
-      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
-      conn.Open();
-      SqlDataReader rdr = cmd.ExecuteReader();
-
-      while (rdr.Read())
-      {
-        if (!col.Contains(rdr.GetString(0)))
-          col.Add(rdr.GetString(0));
-      }
-
-      rdr.Close();
-      conn.Close();
-
-      return col;
-
-    }
-
-    /// <summary>
-    /// Saves the ping services.
-    /// </summary>
-    /// <param name="services">The services.</param>
-    public override void SavePingServices(StringCollection services)
-    {
-      if (services == null)
-        throw new ArgumentNullException("services");
-
-      SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
-      string sqlQuery = "TRUNCATE TABLE be_PingService";
-      SqlCommand cmd = new SqlCommand(sqlQuery, conn);
-      conn.Open();
-      cmd.ExecuteNonQuery();
-
-      foreach (string service in services)
-      {
-        sqlQuery = "INSERT INTO be_PingService (Link) " +
-                    "VALUES (@link)";
-        cmd.CommandText = sqlQuery;
-        cmd.Parameters.Clear();
-        cmd.Parameters.Add(new SqlParameter("@link", service));
-        cmd.ExecuteNonQuery();
-      }
-
-      conn.Close();
-
-    }
-
-    #endregion
-
-    /// <summary>
-    /// Handles Opening the SQL Connection
-    /// </summary>
-    private bool OpenConnection()
-    {
-      bool result = false;
-
-      // Initial if needed
-      if (providerConn == null)
-        providerConn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-      // Open it if needed
-      if (providerConn.State == System.Data.ConnectionState.Closed)
-      {
-        result = true;
-        providerConn.Open();
-      }
-
-      return result;
-    }
 
     private void UpdateTags(Post post)
     {
@@ -646,11 +344,11 @@ namespace BlogEngine.Core.Providers
       {
         //if (Category.GetCategory(key) != null)
         //{
-          cmd.CommandText = "INSERT INTO be_PostCategory (PostID, CategoryID) VALUES (@id, @cat)";
-          cmd.Parameters.Clear();
-          cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
-          cmd.Parameters.Add(new SqlParameter("@cat", cat.Id));
-          cmd.ExecuteNonQuery();
+        cmd.CommandText = "INSERT INTO be_PostCategory (PostID, CategoryID) VALUES (@id, @cat)";
+        cmd.Parameters.Clear();
+        cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@cat", cat.Id));
+        cmd.ExecuteNonQuery();
         //}
       }
     }
@@ -666,15 +364,14 @@ namespace BlogEngine.Core.Providers
 
       foreach (Comment comment in post.Comments)
       {
-        cmd.CommandText = "INSERT INTO be_PostComment (PostCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip) " +
-                            "VALUES (@postcommentid, @id, @date, @author, @email, @website, @comment, @country, @ip)";
+        cmd.CommandText = "INSERT INTO be_PostComment (PostCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved) " +
+                            "VALUES (@postcommentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved)";
         cmd.Parameters.Clear();
         cmd.Parameters.Add(new SqlParameter("@postcommentid", comment.Id.ToString()));
         cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
         cmd.Parameters.Add(new SqlParameter("@date", new SqlDateTime(comment.DateCreated)));
         cmd.Parameters.Add(new SqlParameter("@author", comment.Author));
         cmd.Parameters.Add(new SqlParameter("@email", comment.Email));
-        cmd.Parameters.Add(new SqlParameter("@approved", comment.IsApproved));
         if (comment.Website == null)
           cmd.Parameters.Add(new SqlParameter("@website", ""));
         else
@@ -688,7 +385,7 @@ namespace BlogEngine.Core.Providers
           cmd.Parameters.Add(new SqlParameter("@ip", ""));
         else
           cmd.Parameters.Add(new SqlParameter("@ip", comment.IP));
-
+        cmd.Parameters.Add(new SqlParameter("@isapproved", comment.IsApproved));
         cmd.ExecuteNonQuery();
       }
     }
@@ -711,54 +408,255 @@ namespace BlogEngine.Core.Providers
         cmd.ExecuteNonQuery();
       }
     }
+    #endregion
 
+    #region Pages
+    /// <summary>
+    /// Retrieves a Page from the data store.
+    /// </summary>
+    public override Page SelectPage(Guid id)
+    {
+      bool connClose = OpenConnection();      
+      Page page = new Page();
+      string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
+                          "DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList " +
+                          "FROM be_Pages " +
+                          "WHERE PageID = @id";
+      SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
+      cmd.Parameters.Add(new SqlParameter("@id", id.ToString()));
+      SqlDataReader rdr = cmd.ExecuteReader();
+      rdr.Read();
+			
+      page.Id = rdr.GetGuid(0);
+      page.Title = rdr.GetString(1);
+      page.Content = rdr.GetString(3);
+      if (!rdr.IsDBNull(2))
+        page.Description = rdr.GetString(2);
+      if (!rdr.IsDBNull(4))
+        page.DateCreated = rdr.GetDateTime(4);
+      if (!rdr.IsDBNull(5))
+        page.DateModified = rdr.GetDateTime(5);
+      if (!rdr.IsDBNull(6))
+        page.Keywords = rdr.GetString(6);
+      if (!rdr.IsDBNull(7))
+        page.IsPublished = rdr.GetBoolean(7);
+      if (!rdr.IsDBNull(8))
+        page.IsFrontPage = rdr.GetBoolean(8);
+      if (!rdr.IsDBNull(9))
+        page.Parent = rdr.GetGuid(9);
+      if (!rdr.IsDBNull(10))
+        page.ShowInList = rdr.GetBoolean(10);
+
+      rdr.Close();
+
+      if (connClose)
+        providerConn.Close();
+
+      return page;
+    }
 
     /// <summary>
-    /// 
+    /// Inserts a new Page to the data store.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    public override void InsertPage(Page page)
+    {
+      OpenConnection();
+      string sqlQuery = "INSERT INTO be_Pages (PageID, Title, Description, PageContent, " +
+                          "DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList) " +
+                          "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist)";
+      using (SqlCommand cmd = new SqlCommand(sqlQuery, providerConn))
+      {
+        cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
+        cmd.Parameters.Add(new SqlParameter("@title", page.Title));
+        cmd.Parameters.Add(new SqlParameter("@desc", page.Description));
+        cmd.Parameters.Add(new SqlParameter("@content", page.Content));
+        cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
+        cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
+        cmd.Parameters.Add(new SqlParameter("@keywords", page.Keywords));
+        cmd.Parameters.Add(new SqlParameter("@ispublished", page.IsPublished));
+        cmd.Parameters.Add(new SqlParameter("@isfrontpage", page.IsFrontPage));
+        cmd.Parameters.Add(new SqlParameter("@parent", page.Parent));
+        cmd.Parameters.Add(new SqlParameter("@showinlist", page.ShowInList));
+        cmd.ExecuteNonQuery();
+      }
+      providerConn.Close();
+    }
+
+    /// <summary>
+    /// Updates a Page in the data store.
+    /// </summary>
+    public override void UpdatePage(Page page)
+    {
+      if (page == null)
+        throw new ArgumentNullException("page");
+
+      OpenConnection();
+
+      string sqlQuery =   "UPDATE be_Pages " +
+                          "SET Title = @title, Description = @desc, PageContent = @content, " +
+                          "DateCreated = @created, DateModified = @modified, Keywords = @keywords, " +
+                          "IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist " +
+                          "WHERE PageID = @id";
+      using (SqlCommand cmd = new SqlCommand(sqlQuery, providerConn))
+      {
+        cmd.Parameters.Add(new SqlParameter("@title", page.Title));
+        cmd.Parameters.Add(new SqlParameter("@desc", page.Description));
+        cmd.Parameters.Add(new SqlParameter("@content", page.Content));
+        cmd.Parameters.Add(new SqlParameter("@created", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
+        cmd.Parameters.Add(new SqlParameter("@modified", new SqlDateTime(page.DateCreated.AddHours(-BlogSettings.Instance.Timezone))));
+        cmd.Parameters.Add(new SqlParameter("@keywords", page.Keywords));
+        cmd.Parameters.Add(new SqlParameter("@ispublished", page.IsPublished));
+        cmd.Parameters.Add(new SqlParameter("@isfrontpage", page.IsFrontPage));
+        cmd.Parameters.Add(new SqlParameter("@parent", page.Parent));
+        cmd.Parameters.Add(new SqlParameter("@showinlist", page.ShowInList));
+        cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
+
+        cmd.ExecuteNonQuery();
+      }
+      providerConn.Close();
+    }
+
+    /// <summary>
+    /// Deletes a Page from the data store.
+    /// </summary>
+    public override void DeletePage(Page page)
+    {
+      OpenConnection();
+      string sqlQuery = "DELETE FROM be_Pages WHERE PageID = @id";
+      using (SqlCommand cmd = new SqlCommand(sqlQuery, providerConn))
+      {
+        cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
+        cmd.ExecuteNonQuery();
+      }
+      providerConn.Close();
+    }
+
+    /// <summary>
+    /// Retrieves all pages from the data store
+    /// </summary>
+    /// <returns>List of Pages</returns>
+    public override List<Page> FillPages()
+    {
+      List<Page> pages = new List<Page>();
+
+      OpenConnection();
+
+      string sqlQuery = "SELECT PageID FROM be_Pages ";
+      SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, providerConn);
+      DataTable dtPages = new DataTable();
+      dtPages.Locale = CultureInfo.InvariantCulture;
+      sa.Fill(dtPages);
+
+      foreach (DataRow dr in dtPages.Rows)
+      {
+        pages.Add(Page.Load(new Guid(dr[0].ToString())));
+      }
+
+      providerConn.Close();
+
+      return pages;
+    }
+    #endregion
+
+    #region Categories
+    /// <summary>
+    /// Gets a Category based on a Guid
+    /// </summary>
+    /// <param name="id">The category's Guid.</param>
+    /// <returns>A matching Category</returns>
     public override Category SelectCategory(Guid id)
     {
-        throw new Exception("The method or operation is not implemented.");
+      List<Category> categories = Category.Categories;
+
+      Category category = new Category();
+
+      foreach (Category cat in categories)
+      {
+        if (cat.Id == id)
+          category = cat;
+      }
+      category.MarkOld();
+      return category;
     }
 
     /// <summary>
-    /// 
+    /// Inserts a Category
     /// </summary>
-    /// <param name="category"></param>
+    /// <param name="category">Must be a valid Category object.</param>
     public override void InsertCategory(Category category)
     {
+      List<Category> categories = Category.Categories;
+      categories.Add(category);
 
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery =   "INSERT INTO be_Categories (CategoryID, CategoryName) " +
+                            "VALUES (@catid, @catname)";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          cmd.Parameters.Add(new SqlParameter("@catid", category.Id));
+          cmd.Parameters.Add(new SqlParameter("@catname", category.Title));
+          conn.Open();
+          cmd.ExecuteNonQuery();
+        }
+      }
     }
 
     /// <summary>
-    /// 
+    /// Updates a Category
     /// </summary>
-    /// <param name="category"></param>
+    /// <param name="category">Must be a valid Category object.</param>
     public override void UpdateCategory(Category category)
     {
-        throw new Exception("The method or operation is not implemented.");
+      List<Category> categories = Category.Categories;
+      categories.Remove(category);
+      categories.Add(category);
+
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery = "UPDATE be_Categories " +
+                          "SET CategoryName = @catname " +
+                          "WHERE CategoryID = @catid";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          cmd.Parameters.Add(new SqlParameter("@catid", category.Id));
+          cmd.Parameters.Add(new SqlParameter("@catname", category.Title));
+          conn.Open();
+          cmd.ExecuteNonQuery();
+        }
+      }
     }
 
     /// <summary>
-    /// 
+    /// Deletes a Category
     /// </summary>
-    /// <param name="category"></param>
+    /// <param name="category">Must be a valid Category object.</param>
     public override void DeleteCategory(Category category)
     {
-        throw new Exception("The method or operation is not implemented.");
+      List<Category> categories = Category.Categories;
+      categories.Remove(category);
+
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery = "DELETE FROM be_Categories WHERE CategoryID = @catid";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          cmd.Parameters.Add(new SqlParameter("@catid", category.Id));
+          conn.Open();
+          cmd.ExecuteNonQuery();
+        }
+      }
     }
 
     /// <summary>
-    /// 
+    /// Fills an unsorted list of categories.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A List&lt;Category&gt; of all Categories.</returns>
     public override List<Category> FillCategories()
     {
-        List<Category> categories = new List<Category>();
-        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
-
+      List<Category> categories = new List<Category>();
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
         string sqlQuery = "SELECT CategoryID, CategoryName FROM be_Categories ";
         SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
         DataTable dtCategories = new DataTable();
@@ -767,16 +665,167 @@ namespace BlogEngine.Core.Providers
 
         foreach (DataRow dr in dtCategories.Rows)
         {
-            Category cat = new Category();
-            cat.Title = dr[1].ToString();
-            cat.Id = new Guid(dr[0].ToString());
-            categories.Add(cat);
+          Category cat = new Category();
+          cat.Title = dr[1].ToString();
+          cat.Id = new Guid(dr[0].ToString());
+          categories.Add(cat);
+          cat.MarkOld();
         }
+      }
 
-        conn.Close();
-        return categories;
+      return categories;
     }
 
+    #endregion
+
+    #region Settings
+
+    /// <summary>
+    /// Loads the settings from the provider.
+    /// </summary>
+    /// <returns></returns>
+    public override StringDictionary LoadSettings()
+    {
+      StringDictionary dic = new StringDictionary();
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery = "SELECT SettingName, SettingValue FROM be_Settings";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+          using (SqlDataReader rdr = cmd.ExecuteReader())
+          {
+            while (rdr.Read())
+            {
+              string name = rdr.GetString(0);
+              string value = rdr.GetString(1);
+
+              dic.Add(name, value);
+            }
+          }
+        }
+      }
+
+      return dic;
+    }
+
+    /// <summary>
+    /// Saves the settings to the provider.
+    /// </summary>
+    /// <param name="settings"></param>
+    public override void SaveSettings(StringDictionary settings)
+    {
+      if (settings == null)
+        throw new ArgumentNullException("settings");
+
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery = "TRUNCATE TABLE be_Settings";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+          cmd.ExecuteNonQuery();
+
+          foreach (string key in settings.Keys)
+          {
+            sqlQuery = "INSERT INTO be_Settings (SettingName, SettingValue) " +
+                        "VALUES (@name, @value)";
+            cmd.CommandText = sqlQuery;
+            cmd.Parameters.Clear();
+            cmd.Parameters.Add(new SqlParameter("@name", key));
+            cmd.Parameters.Add(new SqlParameter("@value", settings[key]));
+            cmd.ExecuteNonQuery();
+          }
+        }
+      }
+
+    }
+
+    #endregion
+
+    #region Ping services
+
+    /// <summary>
+    /// Loads the ping services.
+    /// </summary>
+    /// <returns></returns>
+    public override StringCollection LoadPingServices()
+    {
+      StringCollection col = new StringCollection();
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery = "SELECT Link FROM be_PingService";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          while (rdr.Read())
+          {
+            if (!col.Contains(rdr.GetString(0)))
+              col.Add(rdr.GetString(0));
+          }
+
+          rdr.Close();
+        }
+      }
+
+      return col;
+
+    }
+
+    /// <summary>
+    /// Saves the ping services.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    public override void SavePingServices(StringCollection services)
+    {
+      if (services == null)
+        throw new ArgumentNullException("services");
+
+      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      {
+        string sqlQuery = "TRUNCATE TABLE be_PingService";
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+          cmd.ExecuteNonQuery();
+
+          foreach (string service in services)
+          {
+            sqlQuery = "INSERT INTO be_PingService (Link) " +
+                        "VALUES (@link)";
+            cmd.CommandText = sqlQuery;
+            cmd.Parameters.Clear();
+            cmd.Parameters.Add(new SqlParameter("@link", service));
+            cmd.ExecuteNonQuery();
+          }
+        }
+      }
+
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Handles Opening the SQL Connection
+    /// </summary>
+    private bool OpenConnection()
+    {
+      bool result = false;
+
+      // Initial if needed
+      if (providerConn == null)
+        providerConn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+      // Open it if needed
+      if (providerConn.State == System.Data.ConnectionState.Closed)
+      {
+        result = true;
+        providerConn.Open();
+      }
+
+      return result;
+    }
       
 }
 }

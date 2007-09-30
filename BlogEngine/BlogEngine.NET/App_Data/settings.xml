@@ -1,60 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <avatar>combine</avatar>
-  <storagelocation>~/app_data/</storagelocation>
-  <enablecountryincomments>True</enablecountryincomments>
-  <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
-  <enablerating>True</enablerating>
-  <enablerelatedposts>True</enablerelatedposts>
-  <postsperfeed>15</postsperfeed>
-  <fileextension>.aspx</fileextension>
-  <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
-  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
-  <showlivepreview>True</showlivepreview>
-  <enablecommentsearch>True</enablecommentsearch>
-  <authorname>My name</authorname>
-  <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
-  <theme>Standard</theme>
-  <iscommentsenabled>True</iscommentsenabled>
-  <enablessl>False</enablessl>
-  <postsperpage>10</postsperpage>
-  <htmlheader />
-  <syndicationformat>Rss</syndicationformat>
-  <blogrollmaxlength>23</blogrollmaxlength>
-  <geocodinglatitude />
-  <email>name@example.com</email>
-  <dayscommentsareenabled>0</dayscommentsareenabled>
-  <showdescriptioninpostlist>False</showdescriptioninpostlist>
-  <blogrollvisibleposts>3</blogrollvisibleposts>
-  <timezone>2</timezone>
-  <smtpusername>username</smtpusername>
-  <searchdefaulttext>Enter search term</searchdefaulttext>
-  <mssqlconnectionstring />
-  <iscocommentenabled>False</iscocommentenabled>
-  <trackingscript />
-  <description>Short description of the blog</description>
   <alternatefeedurl />
-  <enableopensearch>True</enableopensearch>
-  <numberofrecentposts>10</numberofrecentposts>
-  <displayratingsonrecentposts>True</displayratingsonrecentposts>
-  <numberofrecentcomments>10</numberofrecentcomments>
-  <searchbuttontext>Search</searchbuttontext>
-  <name>Name of the blog</name>
-  <culture>Auto</culture>
-  <handlewwwsubdomain />
-  <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
-  <smtppassword>password</smtppassword>
-  <smtpserverport>25</smtpserverport>
-  <smtpserver>mail.example.com</smtpserver>
-  <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;
-&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
-  <timestamppostlinks>True</timestamppostlinks>
-  <geocodinglongitude />
-  <language>en-GB</language>
-  <enablereferrertracking>False</enablereferrertracking>
-  <enablecontactattachments>True</enablecontactattachments>
+  <authorname>My name</authorname>
+  <avatar>combine</avatar>
+  <blogrollmaxlength>23</blogrollmaxlength>
   <blogrollupdateminutes>60</blogrollupdateminutes>
-  <sendmailoncomment>True</sendmailoncomment>
+  <blogrollvisibleposts>3</blogrollvisibleposts>
+  <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
+  <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
+  <culture>Auto</culture>
+  <dayscommentsareenabled>0</dayscommentsareenabled>
+  <description>Short description of the blog</description>
+  <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
+  <displayratingsonrecentposts>True</displayratingsonrecentposts>
+  <email>name@example.com</email>
+  <enablecommentsearch>True</enablecommentsearch>
   <enablecommentsmoderation>True</enablecommentsmoderation>
+  <enablecontactattachments>True</enablecontactattachments>
+  <enablecountryincomments>True</enablecountryincomments>
   <enablehttpcompression>True</enablehttpcompression>
+  <enableopensearch>True</enableopensearch>
+  <enablerating>True</enablerating>
+  <enablereferrertracking>False</enablereferrertracking>
+  <enablerelatedposts>True</enablerelatedposts>
+  <enablessl>False</enablessl>
+  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
+  <fileextension>.aspx</fileextension>
+  <geocodinglatitude />
+  <geocodinglongitude />
+  <handlewwwsubdomain />
+  <htmlheader />
+  <iscocommentenabled>False</iscocommentenabled>
+  <iscommentsenabled>True</iscommentsenabled>
+  <language>en-GB</language>
+  <name>Name of the blog</name>
+  <numberofrecentcomments>10</numberofrecentcomments>
+  <numberofrecentposts>10</numberofrecentposts>
+  <postsperfeed>15</postsperfeed>
+  <postsperpage>10</postsperpage>
+  <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <searchbuttontext>Search</searchbuttontext>
+  <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
+  <searchdefaulttext>Enter search term</searchdefaulttext>
+  <sendmailoncomment>True</sendmailoncomment>
+  <showdescriptioninpostlist>False</showdescriptioninpostlist>
+  <showlivepreview>True</showlivepreview>
+  <smtppassword>password</smtppassword>
+  <smtpserver>mail.example.com</smtpserver>
+  <smtpserverport>25</smtpserverport>
+  <smtpusername>username</smtpusername>
+  <storagelocation>~/app_data/</storagelocation>
+  <syndicationformat>Rss</syndicationformat>
+  <theme>Standard</theme>
+  <timestamppostlinks>True</timestamppostlinks>
+  <timezone>2</timezone>
+  <trackingscript />
 </settings>

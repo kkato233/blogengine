@@ -311,6 +311,19 @@ namespace BlogEngine.Core.API.MetaWeblog
             }
             temp.categories = cats;
 
+            if (node.SelectSingleNode("value/struct/member[name='pubDate']") != null)
+            {
+              try
+              {
+                string tempDate = node.SelectSingleNode("value/struct/member[name='pubDate']").LastChild.InnerText;
+                temp.postDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", null);
+              }
+              catch
+              {
+                // Ignore PubDate Error
+              }
+            }
+
             // WLW tags implementation using mt_keywords
             if (node.SelectSingleNode("value/struct/member[name='mt_keywords']") != null)
             {
