@@ -1,5 +1,3 @@
-/* This is the working 1.2 schema for those playing along at home. :)
-
 /****** Object:  Table [dbo].[be_Categories]    Script Date: 06/24/2007 22:17:50 ******/
 SET ANSI_NULLS ON
 GO
