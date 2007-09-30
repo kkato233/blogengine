@@ -1,3 +1,5 @@
+#region Using
+
 using System;
 using System.Web;
 using System.Collections.Generic;
@@ -5,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
+
+#endregion
 
 public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 {
@@ -78,6 +82,9 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
       foreach (Post post in list)
       {
+				if (!post.IsVisible)
+					continue;
+
         HtmlTableRow row = new HtmlTableRow();
 
         HtmlTableCell date = new HtmlTableCell();
