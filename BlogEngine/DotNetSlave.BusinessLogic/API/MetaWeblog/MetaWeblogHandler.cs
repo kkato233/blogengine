@@ -132,6 +132,9 @@ namespace BlogEngine.Core.API.MetaWeblog
                 post.Tags.Add(item);
             }
 
+            if (sentPost.postDate != new DateTime())
+              post.DateCreated = sentPost.postDate;
+
             post.Save();
 
             return post.Id.ToString();
