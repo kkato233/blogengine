@@ -9,6 +9,9 @@ using BlogEngine.Core.Web.Controls;
 /// <summary>
 /// Converts ASCII smilies into real smilies in the comments
 /// </summary>
+/// <remarks>
+/// Based on the extension by John Knipper - http://www.happytocode.com
+/// </remarks>
 [Extension("Converts ASCII smilies into real smilies in the comments", "1.0.0.0", "BlogEngine.NET")]
 public class Smilies
 {

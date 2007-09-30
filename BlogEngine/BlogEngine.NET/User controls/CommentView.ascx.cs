@@ -264,6 +264,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
     {
       ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
+			imgFlag.ImageUrl = "~/pics/flags/" + ddlCountry.SelectedValue + ".png";
     }
   }
 

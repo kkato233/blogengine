@@ -20,9 +20,12 @@ namespace BlogEngine.Core.Web.Controls
     /// </returns>
     public override SiteMapNode FindSiteMapNode(string rawUrl)
     {
-      int start = rawUrl.LastIndexOf('/') + 1;
-      int stop = rawUrl.LastIndexOf('.');
-      string url = rawUrl.Substring(start, stop - start);
+			int i = rawUrl.IndexOf('?');
+			string url = rawUrl;
+			if (i > 0) url = rawUrl.Substring(0, i);
+			int start = url.LastIndexOf('/') + 1;
+			int stop = url.LastIndexOf('.');
+			url = url.Substring(start, stop - start); 
 
       foreach (Page page in Page.Pages)
       {
