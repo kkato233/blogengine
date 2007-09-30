@@ -53,11 +53,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
         
         if (info.Exists && info.Directory.FullName.ToLowerInvariant().Contains("\\files"))
         {
-          SetContentDisposition(context, fileName);
+					context.Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
           SetContentType(context, fileName);
 
-          context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-          context.Server.Transfer(folder + fileName, false);
+          context.Response.TransmitFile(info.FullName);
           OnServed(fileName);
         }
         else
@@ -69,19 +68,6 @@ namespace BlogEngine.Core.Web.HttpHandlers
     }
 
     /// <summary>
-    /// Sets the content disposition to inline or attachment
-    /// appending on the content type.
-    /// </summary>
-    private static void SetContentDisposition(HttpContext context, string fileName)
-    {
-      string disp = "attachment";
-      if (fileName.EndsWith(".pdf"))
-        disp = "inline";
-
-      context.Response.AppendHeader("Content-Disposition", disp + "; filename=" + context.Server.UrlEncode(fileName));
-    }
-
-    /// <summary>
     /// Sets the content type depending on the filename's extension.
     /// </summary>
     private static void SetContentType(HttpContext context, string fileName)
@@ -90,9 +76,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
       {
         context.Response.AddHeader("Content-Type", "application/pdf");
       }
-      else if (fileName.EndsWith(".zip"))
+      else 
       {
-        context.Response.AddHeader("Content-Type", "application/zip");
+				context.Response.AddHeader("Content-Type", "application/octet-stream");
       }
     }
 
