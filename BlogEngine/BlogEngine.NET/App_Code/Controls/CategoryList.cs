@@ -86,7 +86,7 @@ namespace Controls
         }
 
         HtmlAnchor anc = new HtmlAnchor();
-        anc.HRef = VirtualPathUtility.ToAbsolute("~/") + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
+        anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
         anc.InnerHtml = key + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
         anc.Title = "Category: " + key;
 

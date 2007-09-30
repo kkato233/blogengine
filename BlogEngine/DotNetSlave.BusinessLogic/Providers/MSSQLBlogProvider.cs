@@ -318,7 +318,7 @@ namespace BlogEngine.Core.Providers
     public override Page SelectPage(Guid id)
     {
       bool connClose = OpenConnection();
-      //TODO: add support for page.IsPublished boolean
+      //TODO: add support for IsPublished, IsFrontPage and Parent properties
       Page page = new Page();
       string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
                           "DateModified, Keywords " +
@@ -328,7 +328,7 @@ namespace BlogEngine.Core.Providers
       cmd.Parameters.Add(new SqlParameter("@id", id.ToString()));
       SqlDataReader rdr = cmd.ExecuteReader();
       rdr.Read();
-
+			
       page.Id = rdr.GetGuid(0);
       page.Title = rdr.GetString(1);
       page.Content = rdr.GetString(3);
@@ -355,7 +355,7 @@ namespace BlogEngine.Core.Providers
     public override void InsertPage(Page page)
     {
       OpenConnection();
-      //TODO: add support for page.IsPublished boolean
+			//TODO: add support for IsPublished, IsFrontPage and Parent properties
       string sqlQuery = "INSERT INTO be_Pages (PageID, Title, Description, PageContent, " +
                           "DateCreated, DateModified, Keywords) " +
                           "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords)";
@@ -378,7 +378,7 @@ namespace BlogEngine.Core.Providers
     {
       if (page == null)
         throw new ArgumentNullException("page");
-      //TODO: add support for page.IsPublished boolean
+			//TODO: add support for IsPublished, IsFrontPage and Parent properties
       OpenConnection();
 
       string sqlQuery = "UPDATE be_Pages " +

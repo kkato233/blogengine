@@ -12,108 +12,108 @@ using BlogEngine.Core;
 
 namespace Controls
 {
-  /// <summary>
-  /// Builds a authro list.
-  /// </summary>
-  public class AuthorList : Control
-  {
+	/// <summary>
+	/// Builds a authro list.
+	/// </summary>
+	public class AuthorList : Control
+	{
 
-    /// <summary>
-    /// Initializes the <see cref="AuthorList"/> class.
-    /// </summary>
-    static AuthorList()
-    {
-      Post.Saved += delegate { _Html = null; };
-    }
+		/// <summary>
+		/// Initializes the <see cref="AuthorList"/> class.
+		/// </summary>
+		static AuthorList()
+		{
+			Post.Saved += delegate { _Html = null; };
+		}
 
-    #region Properties
+		#region Properties
 
-    private bool _ShowRssIcon = true;
-    /// <summary>
-    /// Gets or sets whether or not to show feed icons next to the category links.
-    /// </summary>
-    public bool ShowRssIcon
-    {
-      get { return _ShowRssIcon; }
-      set { _ShowRssIcon = value; }
-    }
+		private bool _ShowRssIcon = true;
+		/// <summary>
+		/// Gets or sets whether or not to show feed icons next to the category links.
+		/// </summary>
+		public bool ShowRssIcon
+		{
+			get { return _ShowRssIcon; }
+			set { _ShowRssIcon = value; }
+		}
 
-    private static object _SyncRoot = new object();
+		private static object _SyncRoot = new object();
 
-    private static string _Html;
-    /// <summary>
-    /// Caches the rendered HTML in the private field and first
-    /// updates it when a post has been saved (new or updated).
-    /// </summary>
-    private string Html
-    {
-      get
-      {
-        if (_Html == null)
-        {
-          lock (_SyncRoot)
-          {
-            if (_Html == null)
-            {
-              HtmlGenericControl ul = BindAuthors();
-              System.IO.StringWriter sw = new System.IO.StringWriter();
-              ul.RenderControl(new HtmlTextWriter(sw));
-              _Html = sw.ToString();
-            }
-          }
-        }
+		private static string _Html;
+		/// <summary>
+		/// Caches the rendered HTML in the private field and first
+		/// updates it when a post has been saved (new or updated).
+		/// </summary>
+		private string Html
+		{
+			get
+			{
+				if (_Html == null)
+				{
+					lock (_SyncRoot)
+					{
+						if (_Html == null)
+						{
+							HtmlGenericControl ul = BindAuthors();
+							System.IO.StringWriter sw = new System.IO.StringWriter();
+							ul.RenderControl(new HtmlTextWriter(sw));
+							_Html = sw.ToString();
+						}
+					}
+				}
 
-        return _Html;
-      }
-    }
+				return _Html;
+			}
+		}
 
-    #endregion
+		#endregion
 
-    /// <summary>
-    /// Loops through all users and builds the HTML
-    /// presentation.
-    /// </summary>
-    private HtmlGenericControl BindAuthors()
-    {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");
-      foreach (MembershipUser user in Membership.GetAllUsers())
-      {
-        HtmlGenericControl li = new HtmlGenericControl("li");
+		/// <summary>
+		/// Loops through all users and builds the HTML
+		/// presentation.
+		/// </summary>
+		private HtmlGenericControl BindAuthors()
+		{
+			HtmlGenericControl ul = new HtmlGenericControl("ul");
+			foreach (MembershipUser user in Membership.GetAllUsers())
+			{
+				HtmlGenericControl li = new HtmlGenericControl("li");
 
-        if (ShowRssIcon)
-        {
-          HtmlImage img = new HtmlImage();
-          img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
-          img.Alt = "RSS feed for " + user.UserName;
-          img.Attributes["class"] = "rssButton";
+				if (ShowRssIcon)
+				{
+					HtmlImage img = new HtmlImage();
+					img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
+					img.Alt = "RSS feed for " + user.UserName;
+					img.Attributes["class"] = "rssButton";
 
-          HtmlAnchor feedAnchor = new HtmlAnchor();
-          feedAnchor.HRef = VirtualPathUtility.ToAbsolute("~/") + "syndication.axd?author=" + Utils.RemoveIllegalCharacters( user.UserName);
-          feedAnchor.Attributes["rel"] = "nofollow";
-          feedAnchor.Controls.Add(img);
+					HtmlAnchor feedAnchor = new HtmlAnchor();
+					feedAnchor.HRef = Utils.RelativeWebRoot + "syndication.axd?author=" + Utils.RemoveIllegalCharacters(user.UserName);
+					feedAnchor.Attributes["rel"] = "nofollow";
+					feedAnchor.Controls.Add(img);
 
-          li.Controls.Add(feedAnchor);
-        }
+					li.Controls.Add(feedAnchor);
+				}
 
-        HtmlAnchor anc = new HtmlAnchor();
-        anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + BlogSettings.Instance.FileExtension;
-        anc.InnerHtml = user.UserName + " (" + Post.GetPostsByAuthor(user.UserName).Count + ")";
-        anc.Title = "Author: " + user.UserName;
-        
-        li.Controls.Add(anc);
-        ul.Controls.Add(li);
-      }
+				HtmlAnchor anc = new HtmlAnchor();
+				anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + BlogSettings.Instance.FileExtension;
+				anc.InnerHtml = user.UserName + " (" + Post.GetPostsByAuthor(user.UserName).Count + ")";
+				anc.Title = "Author: " + user.UserName;
 
-      return ul;
-    }
+				li.Controls.Add(anc);
+				ul.Controls.Add(li);
+			}
 
-    /// <summary>
-    /// Renders the control.
-    /// </summary>
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-      writer.Write(Html);
-      writer.Write(Environment.NewLine);
-    }
-  }
+			return ul;
+		}
+
+		/// <summary>
+		/// Renders the control.
+		/// </summary>
+		public override void RenderControl(HtmlTextWriter writer)
+		{
+			writer.Write(Html);
+			writer.Write(Environment.NewLine);
+		}
+	}
 }
