@@ -119,9 +119,10 @@ function AutoSave()
     <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, savePost %> " TabIndex="16" />
   </div>
   <br />
-  
+<% if (Request.QueryString["id"] == null){ %>  
   <script type="text/javascript">
     setTimeout("AutoSave()", 5000);
   </script>
+<%} %>
 </asp:Content>
 
