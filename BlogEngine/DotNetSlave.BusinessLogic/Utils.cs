@@ -38,7 +38,9 @@ namespace BlogEngine.Core
       text = text.Replace("\"", string.Empty);
       text = text.Replace("&", string.Empty);
       text = text.Replace("%", string.Empty);
-      return HttpUtility.UrlEncode(text.Replace(" ", "-"));
+			text = text.Replace(" ", "-");
+
+      return HttpUtility.UrlEncode(text);
     }
 
     /// <summary>

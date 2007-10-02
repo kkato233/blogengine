@@ -194,7 +194,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
     cbEnableComments.Checked = post.IsCommentsEnabled;
     cbPublish.Checked = post.IsPublished;
-    txtSlug.Text = post.Slug;
+    txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
 
     foreach (Category cat in post.Categories)
     {
