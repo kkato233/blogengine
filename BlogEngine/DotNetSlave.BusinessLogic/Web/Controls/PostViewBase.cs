@@ -224,12 +224,12 @@ namespace BlogEngine.Core.Web.Controls
         return null;
 
       string[] tags = new string[Post.Tags.Count];
-      string link = "<a href=\"{0}/{1}\" rel=\"tag\">{1}</a>";
+      string link = "<a href=\"{0}/{1}\" rel=\"tag\">{2}</a>";
       string path = Utils.RelativeWebRoot + "?tag=";
       for (int i = 0; i < Post.Tags.Count; i++)
       {
-        string tag = HttpUtility.HtmlEncode(Post.Tags[i]);
-        tags[i] = string.Format(CultureInfo.InvariantCulture, link, path, tag);
+        string tag = Post.Tags[i];
+        tags[i] = string.Format(CultureInfo.InvariantCulture, link, path, HttpUtility.UrlEncode(tag), HttpUtility.HtmlEncode(tag)	);
       }
 
       return string.Join(separator, tags);

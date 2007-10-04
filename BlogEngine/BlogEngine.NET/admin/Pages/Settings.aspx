@@ -26,8 +26,7 @@
         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="Required" /><br />
         
         <label for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label>
-        <asp:TextBox runat="server" ID="txtDescription" Width="300" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDescription" ErrorMessage="Required" /><br />
+        <asp:TextBox runat="server" ID="txtDescription" Width="300" /><br />
         
         <label for="<%=txtPostsPerPage.ClientID %>"><%=Resources.labels.postPerPage %></label>
         <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" />
