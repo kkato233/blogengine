@@ -8,112 +8,115 @@ using BlogEngine.Core;
 
 public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        if (Page.IsCallback)
-            return;
+	protected void Page_Load(object sender, EventArgs e)
+	{
+		if (Page.IsCallback)
+			return;
 
-        Page frontPage = BlogEngine.Core.Page.GetFrontPage();
-        if (Request.QueryString.Count == 0 && frontPage != null)
-        {
-            Server.Transfer("~/page.aspx?id=" + frontPage.Id);
-        }
-        else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
-        {
-            DisplayCategories();
-        }
-        else if (Request.RawUrl.ToLowerInvariant().Contains("/author/"))
-        {
-            DisplayAuthors();
-        }
-        else if (Request.RawUrl.ToLowerInvariant().Contains("?tag="))
-        {
-            DisplayTags();
-        }
-        else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null || Request.QueryString["calendar"] != null)
-        {
-            DisplayDateRange();
-        }
-        else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
-        {
-            PostList1.Posts = Post.Posts;
-            Page.Title = BlogSettings.Instance.Name + " - " + BlogSettings.Instance.Description;
-        }
+		Page frontPage = BlogEngine.Core.Page.GetFrontPage();
+		if (Request.QueryString.Count == 0 && frontPage != null)
+		{
+			Server.Transfer("~/page.aspx?id=" + frontPage.Id);
+		}
+		else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
+		{
+			DisplayCategories();
+		}
+		else if (Request.RawUrl.ToLowerInvariant().Contains("/author/"))
+		{
+			DisplayAuthors();
+		}
+		else if (Request.RawUrl.ToLowerInvariant().Contains("?tag="))
+		{
+			DisplayTags();
+		}
+		else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null || Request.QueryString["calendar"] != null)
+		{
+			DisplayDateRange();
+		}
+		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
+		{
+			PostList1.Posts = Post.Posts;
+			Page.Title = BlogSettings.Instance.Name;
+			if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
+				Page.Title += " - " + BlogSettings.Instance.Description;
+		}
 
-        AddMetaKeywords();
-        base.AddMetaTag("description", BlogSettings.Instance.Description);
-        base.AddMetaTag("author", BlogSettings.Instance.AuthorName);        
-    }
+		AddMetaKeywords();
+		base.AddMetaTag("description", BlogSettings.Instance.Description);
+		base.AddMetaTag("author", BlogSettings.Instance.AuthorName);
+	}
 
-    /// <summary>
-    /// Adds the post's tags as meta keywords.
-    /// </summary>
-    private void AddMetaKeywords()
-    {
-        if (Category.Categories.Count > 0)
-        {
-            string[] categories = new string[Category.Categories.Count];
-            for (int i = 0; i < Category.Categories.Count; i++)
-            {
-                categories[i] = Category.Categories[i].Title;
-            }
-            base.AddMetaTag("keywords", string.Join(",", categories));
-        }
-    }
+	/// <summary>
+	/// Adds the post's tags as meta keywords.
+	/// </summary>
+	private void AddMetaKeywords()
+	{
+		if (Category.Categories.Count > 0)
+		{
+			string[] categories = new string[Category.Categories.Count];
+			for (int i = 0; i < Category.Categories.Count; i++)
+			{
+				categories[i] = Category.Categories[i].Title;
+			}
+			base.AddMetaTag("keywords", string.Join(",", categories));
+		}
+	}
 
-    private void DisplayCategories()
-    {
-        if (!String.IsNullOrEmpty(Request.QueryString["id"]))
-        {
-            Guid categoryId = new Guid(Request.QueryString["id"]);
-            PostList1.Posts = Post.GetPostsByCategory(categoryId);
-            Page.Title = BlogSettings.Instance.Name + " - " + Category.GetCategory(categoryId);
-        }
-    }
+	private void DisplayCategories()
+	{
+		if (!String.IsNullOrEmpty(Request.QueryString["id"]))
+		{
+			Guid categoryId = new Guid(Request.QueryString["id"]);
+			PostList1.Posts = Post.GetPostsByCategory(categoryId);
+			Page.Title = BlogSettings.Instance.Name + " - " + Category.GetCategory(categoryId);
+		}
+	}
 
-    private void DisplayAuthors()
-    {
-        if (!string.IsNullOrEmpty(Request.QueryString["name"]))
-        {
-            PostList1.Posts = Post.GetPostsByAuthor(Request.QueryString["name"]); ;
-            Title = BlogSettings.Instance.Name + " - All posts by " + Request.QueryString["name"];
-        }
-    }
+	private void DisplayAuthors()
+	{
+		if (!string.IsNullOrEmpty(Request.QueryString["name"]))
+		{
+			PostList1.Posts = Post.GetPostsByAuthor(Request.QueryString["name"]); ;
+			Title = BlogSettings.Instance.Name + " - All posts by " + Request.QueryString["name"];
+		}
+	}
 
-    private void DisplayTags()
-    {
-        if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
-        {
-            PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)); ;
-            base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
-            base.AddMetaTag("description", BlogSettings.Instance.Description);
-        }
-    }
+	private void DisplayTags()
+	{
+		if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
+		{
+			PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)); ;
+			base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
+			base.AddMetaTag("description", BlogSettings.Instance.Description);
+		}
+	}
 
-    private void DisplayDateRange()
-    {
-      string year = Request.QueryString["year"];
-      string month = Request.QueryString["month"];
-      string specificDate = Request.QueryString["date"];
+	private void DisplayDateRange()
+	{
+		string year = Request.QueryString["year"];
+		string month = Request.QueryString["month"];
+		string specificDate = Request.QueryString["date"];
 
-        if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(month))
-        {
-            DateTime dateFrom = DateTime.Parse(year.Substring(0, 4) + "-" + month + "-01", CultureInfo.InvariantCulture);
-            DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
-            PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo);
-            Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("MMMM yyyy");
-        }
-        else if (!string.IsNullOrEmpty(specificDate) && specificDate.Length == 10)
-        {
-          DateTime date = DateTime.Parse(specificDate, CultureInfo.InvariantCulture);
-            PostList1.Posts = Post.GetPostsByDate(date, date);
-            Title = BlogSettings.Instance.Name + " - " + date.ToString("MMMM d. yyyy");
-        }
-        else if (!string.IsNullOrEmpty(Request.QueryString["calendar"]))
-        {
-            calendar.Visible = true;
-            PostList1.Visible = false;
-        }
-    }
+		if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(month))
+		{
+			DateTime dateFrom = DateTime.Parse(year.Substring(0, 4) + "-" + month + "-01", CultureInfo.InvariantCulture);
+			DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
+			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo);
+			Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("MMMM yyyy");
+		}
+		else if (!string.IsNullOrEmpty(specificDate) && specificDate.Length == 10)
+		{
+			DateTime date = DateTime.Parse(specificDate, CultureInfo.InvariantCulture);
+			PostList1.Posts = Post.GetPostsByDate(date, date);
+			Title = BlogSettings.Instance.Name + " - " + date.ToString("MMMM d. yyyy");
+		}
+		else if (!string.IsNullOrEmpty(Request.QueryString["calendar"]))
+		{
+			calendar.Visible = true;
+			PostList1.Visible = false;
+			Title = BlogSettings.Instance.Name;
+		}
+	}
 
 }

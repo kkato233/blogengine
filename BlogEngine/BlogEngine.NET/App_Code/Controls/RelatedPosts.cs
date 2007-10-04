@@ -15,6 +15,21 @@ namespace Controls
   public class RelatedPosts : Control
   {
 
+		public RelatedPosts()
+		{
+			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+		}
+
+		void Post_Saved(object sender, SavedEventArgs e)
+		{
+			if (e.Action == SaveAction.Update)
+			{
+				Post post = (Post)sender;
+				if (_Cache.ContainsKey(post.Id))
+					_Cache.Remove(post.Id);
+			}
+		}
+
     #region Properties
 
     private Post _Post;

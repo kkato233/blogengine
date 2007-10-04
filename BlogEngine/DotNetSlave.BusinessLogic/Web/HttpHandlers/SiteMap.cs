@@ -31,24 +31,30 @@ namespace BlogEngine.Core.Web.HttpHandlers
         writer.WriteStartElement("urlset", "http://www.google.com/schemas/sitemap/0.84");
 
         // Posts
-        foreach (Post post in Post.Posts)
-        {
-          writer.WriteStartElement("url");
-          writer.WriteElementString("loc", post.AbsoluteLink.ToString());
-          writer.WriteElementString("lastmod", post.DateModified.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
-          writer.WriteElementString("changefreq", "monthly");
-          writer.WriteEndElement();
-        }
+				foreach (Post post in Post.Posts)
+				{
+					if (post.IsVisible)
+					{
+						writer.WriteStartElement("url");
+						writer.WriteElementString("loc", post.AbsoluteLink.ToString());
+						writer.WriteElementString("lastmod", post.DateModified.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+						writer.WriteElementString("changefreq", "monthly");
+						writer.WriteEndElement();
+					}
+				}
 
         // Pages
-        foreach (Page page in Page.Pages)
-        {
-          writer.WriteStartElement("url");
-          writer.WriteElementString("loc", page.AbsoluteLink.ToString());
-          writer.WriteElementString("lastmod", page.DateModified.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
-          writer.WriteElementString("changefreq", "monthly");
-          writer.WriteEndElement();
-        }
+				foreach (Page page in Page.Pages)
+				{
+					if (page.IsVisible)
+					{
+						writer.WriteStartElement("url");
+						writer.WriteElementString("loc", page.AbsoluteLink.ToString());
+						writer.WriteElementString("lastmod", page.DateModified.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+						writer.WriteElementString("changefreq", "monthly");
+						writer.WriteEndElement();
+					}
+				}
 
         // Archive
         writer.WriteStartElement("url");
