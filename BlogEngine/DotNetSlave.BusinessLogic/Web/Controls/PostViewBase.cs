@@ -58,16 +58,15 @@ namespace BlogEngine.Core.Web.Controls
             bodyContent.Controls.Add(LoadControl(myMatch.Groups[1].Value));
 
             // Now we will update our position.
-            currentPosition = myMatch.Index + myMatch.Groups[0].Length;
+            //currentPosition = myMatch.Index + myMatch.Groups[0].Length;
           }
           catch (Exception)
           {
             // Whoopss, can't load that control so lets output something that tells the developer that theres a problem.
             bodyContent.Controls.Add(new LiteralControl("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value));
-
-            // Now we will update our position based on our error message as opposed to our control text as we would normally.
-            currentPosition = myMatch.Index + ((string)("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value)).Length;
           }
+
+					currentPosition = myMatch.Index + myMatch.Groups[0].Length;
         }
 
         // Finally we add any trailing static text.

@@ -100,9 +100,15 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
 
       element.Attributes.Append(xfn);
 
+			if (!txtFeedUrl.Text.Contains("://"))
+				txtFeedUrl.Text = "http://" + txtFeedUrl.Text;
+
       XmlAttribute feed = doc.CreateAttribute("xmlUrl");
       feed.InnerText = txtFeedUrl.Text;
       element.Attributes.Append(feed);
+
+			if (!txtWebUrl.Text.Contains("://"))
+				txtWebUrl.Text = "http://" + txtWebUrl.Text;
 
       XmlAttribute web = doc.CreateAttribute("htmlUrl");
       web.InnerText = txtWebUrl.Text;
