@@ -303,7 +303,7 @@ namespace BlogEngine.Core
 				//------------------------------------------------------------
 				//	Get offset and time zone
 				//------------------------------------------------------------
-				int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).Hours;
+				int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now.AddHours(BlogSettings.Instance.Timezone)).Hours;
 				string timeZone = "+" + offset.ToString(NumberFormatInfo.InvariantInfo).PadLeft(2, '0');
 
 				//------------------------------------------------------------

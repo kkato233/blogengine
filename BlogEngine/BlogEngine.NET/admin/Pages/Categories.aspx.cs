@@ -43,7 +43,7 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
     {
         if (Page.IsValid)
         {
-            Category cat = new Category(txtNewCategory.Text, txtNewNewDescription.Text);
+            Category cat = new Category(Server.HtmlEncode(txtNewCategory.Text), Server.HtmlEncode(txtNewNewDescription.Text));
             cat.Save();
 
             BindGrid();

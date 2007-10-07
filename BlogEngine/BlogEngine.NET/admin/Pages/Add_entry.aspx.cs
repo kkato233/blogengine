@@ -112,9 +112,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   {
     if (Page.IsValid)
     {
-      Category cat = new Category(txtCategory.Text, string.Empty);
+      Category cat = new Category(Server.HtmlEncode(txtCategory.Text), string.Empty);
       cat.Save();
-      ListItem item = new ListItem(txtCategory.Text, cat.Id.ToString());
+      ListItem item = new ListItem(Server.HtmlEncode(txtCategory.Text), cat.Id.ToString());
       item.Selected = true;
       cblCategories.Items.Add(item);
     }
@@ -139,9 +139,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
     post.DateCreated = DateTime.Parse(txtDate.Text, System.Globalization.CultureInfo.InvariantCulture).AddHours(-BlogSettings.Instance.Timezone);
     post.Author = ddlAuthor.SelectedValue;
-    post.Title = txtTitle.Text.Trim();
+    post.Title = Server.HtmlEncode(txtTitle.Text.Trim());
     post.Content = txtContent.Text;
-    post.Description = txtDescription.Text.Trim();
+    post.Description = Server.HtmlEncode(txtDescription.Text.Trim());
     post.IsPublished = cbPublish.Checked;
     post.IsCommentsEnabled = cbEnableComments.Checked;
 

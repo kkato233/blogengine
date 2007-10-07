@@ -91,7 +91,7 @@ namespace Controls
               // The post title
               HtmlAnchor title = new HtmlAnchor();
               title.HRef = comment.Post.RelativeLink.ToString();
-              title.InnerHtml = comment.Post.Title;
+              title.InnerText = comment.Post.Title;
               title.Attributes.Add("class", "postTitle");
               li.Controls.Add(title);
 

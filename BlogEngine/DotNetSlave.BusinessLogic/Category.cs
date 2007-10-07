@@ -13,7 +13,7 @@ namespace BlogEngine.Core
   /// A post can be in multiple categories.
   /// </summary>
   [Serializable]
-  public class Category : BusinessBase<Category, Guid>
+  public class Category : BusinessBase<Category, Guid>, IComparable<Category>
   {
 
     internal static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
@@ -100,7 +100,10 @@ namespace BlogEngine.Core
           lock (_SyncRoot)
           {
             if (_Categories == null)
+						{
               _Categories = BlogService.FillCategories();
+							_Categories.Sort();
+						}
           }
         }
 
@@ -201,5 +204,23 @@ namespace BlogEngine.Core
     }
 
     #endregion
-  }
+
+		#region IComparable<Category> Members
+
+		/// <summary>
+		/// Compares the current object with another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// A 32-bit signed integer that indicates the relative order of the objects being compared. 
+		/// The return value has the following meanings: Value Meaning Less than zero This object is 
+		/// less than the other parameter.Zero This object is equal to other. Greater than zero This object is greater than other.
+		/// </returns>
+		public int CompareTo(Category other)
+		{
+			return this.Title.CompareTo(other.Title);
+		}
+
+		#endregion
+	}
 }

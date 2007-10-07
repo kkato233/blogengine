@@ -111,14 +111,14 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 
       try
       {
-        divText.Controls.Add(LoadControl(myMatch.Groups[1].Value));
-        currentPosition = myMatch.Index + myMatch.Groups[0].Length;
+        divText.Controls.Add(LoadControl(myMatch.Groups[1].Value));        
       }
       catch (Exception)
       {
         divText.Controls.Add(new LiteralControl("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value));
-        currentPosition = myMatch.Index + ((string)("ERROR - UNABLE TO LOAD CONTROL : " + myMatch.Groups[1].Value)).Length;
       }
+
+			currentPosition = myMatch.Index + myMatch.Groups[0].Length;
     }
 
     // Finally we add any trailing static text.
