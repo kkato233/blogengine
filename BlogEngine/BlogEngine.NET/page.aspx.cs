@@ -72,9 +72,9 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
   {
     if (this.Page != null)
     {
-      base.Title = this.Page.Title;
-      base.AddMetaTag("keywords", this.Page.Keywords);
-      base.AddMetaTag("description", this.Page.Description);
+      base.Title = Server.HtmlEncode(this.Page.Title);
+      base.AddMetaTag("keywords", Server.HtmlEncode(this.Page.Keywords));
+      base.AddMetaTag("description", Server.HtmlEncode(this.Page.Description));
     }
   }
 
