@@ -82,7 +82,7 @@ namespace Controls
         if (post.Raters == 0)
           rating = Resources.labels.notRatedYet;
 
-        sb.AppendFormat(link, post.RelativeLink, post.Title, comments, rate);
+        sb.AppendFormat(link, post.RelativeLink, HttpUtility.HtmlEncode(post.Title), comments, rate);
       }
 
       sb.Append("</ul>");

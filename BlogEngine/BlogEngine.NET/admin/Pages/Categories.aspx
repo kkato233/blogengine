@@ -17,7 +17,7 @@
     <Columns>      
       <asp:TemplateField HeaderText="<%$ Resources:labels, name %>">
         <ItemTemplate>
-          <%# Eval("title") %>
+          <%# Server.HtmlEncode(Eval("title").ToString()) %>
         </ItemTemplate>
         <EditItemTemplate>
           <asp:TextBox runat="server" ID="txtTitle" Text='<%# Eval("title") %>' />
@@ -25,7 +25,7 @@
       </asp:TemplateField>
       <asp:TemplateField HeaderText="<%$ Resources:labels, description %>">
        <ItemTemplate>
-          <%# Eval("description")%>
+          <%# Server.HtmlEncode(Eval("description").ToString())%>
         </ItemTemplate>
         <EditItemTemplate>
           <asp:TextBox runat="server" ID="txtDescription" Text='<%# Eval("description") %>'  />

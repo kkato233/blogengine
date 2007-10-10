@@ -87,7 +87,7 @@ namespace Controls
 
         HtmlAnchor anc = new HtmlAnchor();
         anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
-        anc.InnerHtml = key + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
+        anc.InnerHtml = HttpUtility.HtmlEncode(key) + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
         anc.Title = "Category: " + key;
 
         li.Controls.Add(anc);

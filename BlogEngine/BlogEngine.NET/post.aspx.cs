@@ -51,7 +51,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         related.Post = this.Post;
         CommentView1.Post = Post;
 
-        Page.Title = Post.Title;
+        Page.Title = Server.HtmlEncode(Post.Title);
         AddMetaKeywords();
         AddMetaDescription();
         AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());
@@ -74,7 +74,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
   private void AddMetaDescription()
   {
     if (!string.IsNullOrEmpty(Post.Description))
-      base.AddMetaTag("description", Post.Description);
+      base.AddMetaTag("description", Server.HtmlEncode(Post.Description));
     else
       base.AddMetaTag("description", BlogSettings.Instance.Description);
   }
@@ -91,7 +91,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
       {
         tags[i] = Post.Tags[i];
       }
-      base.AddMetaTag("keywords", string.Join(",", tags));
+      base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", tags)));
     }
   }
 

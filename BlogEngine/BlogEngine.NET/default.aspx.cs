@@ -37,14 +37,14 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
 			PostList1.Posts = Post.Posts;
-			Page.Title = BlogSettings.Instance.Name;
+			Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
 			if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
-				Page.Title += " - " + BlogSettings.Instance.Description;
+				Page.Title += " - " + Server.HtmlEncode(BlogSettings.Instance.Description);
 		}
 
 		AddMetaKeywords();
-		base.AddMetaTag("description", BlogSettings.Instance.Description);
-		base.AddMetaTag("author", BlogSettings.Instance.AuthorName);
+		base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
+		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));
 	}
 
 	/// <summary>
@@ -59,7 +59,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			{
 				categories[i] = Category.Categories[i].Title;
 			}
-			base.AddMetaTag("keywords", string.Join(",", categories));
+			base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", categories)));
 		}
 	}
 
@@ -88,7 +88,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)); ;
 			base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
-			base.AddMetaTag("description", BlogSettings.Instance.Description);
+			base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
 		}
 	}
 
@@ -115,7 +115,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			calendar.Visible = true;
 			PostList1.Visible = false;
-			Title = BlogSettings.Instance.Name;
+			Title = Server.HtmlEncode(BlogSettings.Instance.Name);
 		}
 	}
 

@@ -55,9 +55,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				list = list.GetRange(0, max);
 			}
 
-			SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
-			generator.WriteFeed(format, context.Response.OutputStream, list, title);
 			SetHeaderInformation(context, list, format);
+			SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
+			generator.WriteFeed(format, context.Response.OutputStream, list, title);			
 		}
 
 		#endregion

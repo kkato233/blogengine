@@ -95,9 +95,9 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     if (string.IsNullOrEmpty(txtContent.Text))
       txtContent.Text = "[No text]";
 
-    page.Title = Server.HtmlEncode(txtTitle.Text);
+    page.Title = txtTitle.Text;
     page.Content = txtContent.Text;
-    page.Description = Server.HtmlEncode(txtDescription.Text);
+    page.Description = txtDescription.Text;
     page.Keywords = txtKeyword.Text;
 
     if (cbIsFrontPage.Checked)
