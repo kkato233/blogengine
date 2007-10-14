@@ -22,7 +22,7 @@ function GetSlug()
 function ApplySlug(arg, context)
 {
   var slug = document.getElementById('<%=txtSlug.ClientID %>');
-  slug.value = arg;alert(arg);
+  slug.value = arg;
 }
 
 function AutoSave()

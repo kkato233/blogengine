@@ -116,8 +116,10 @@ public partial class admin_Pages_pages : System.Web.UI.Page
     page.ShowInList = cbShowInList.Checked;
     page.IsPublished = cbIsPublished.Checked;
 
-    if (ddlParent.SelectedIndex != 0)
-      page.Parent = new Guid(ddlParent.SelectedValue);
+		if (ddlParent.SelectedIndex != 0)
+			page.Parent = new Guid(ddlParent.SelectedValue);
+		else
+			page.Parent = Guid.Empty;
 
     page.Save();
 

@@ -36,7 +36,7 @@ public class SendCommentMail
       MailMessage mail = new MailMessage();
       mail.From = new MailAddress(from, comment.Author);
       mail.To.Add(BlogSettings.Instance.Email);
-      mail.Subject = "Weblog comment on " + post.Title;
+      mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " comment on " + post.Title;
       mail.Body = "Comment by " + comment.Author + " (" + comment.Email + ")" + Environment.NewLine + Environment.NewLine;
       mail.Body += comment.Content + "\n\n" + post.PermaLink + "#id_" + comment.Id;
 

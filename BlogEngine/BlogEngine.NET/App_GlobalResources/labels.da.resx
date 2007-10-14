@@ -246,6 +246,9 @@
   <data name="emailAddress" xml:space="preserve">
     <value>E-mail adresse</value>
   </data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Emne prefiks</value>
+  </data>
   <data name="enableAttachments" xml:space="preserve">
     <value>Tillad vedhæftninger</value>
   </data>

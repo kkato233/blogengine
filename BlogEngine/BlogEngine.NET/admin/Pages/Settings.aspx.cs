@@ -84,6 +84,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     BlogSettings.Instance.SmtpPassword = txtSmtpPassword.Text;
     BlogSettings.Instance.SendMailOnComment = cbComments.Checked;
     BlogSettings.Instance.EnableSsl = cbEnableSsl.Checked;
+		BlogSettings.Instance.EmailSubjectPrefix = txtEmailSubjectPrefix.Text;
 
     //-----------------------------------------------------------------------
     // Set Comments settings
@@ -192,6 +193,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
     txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
     cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
     cbEnableSsl.Checked = BlogSettings.Instance.EnableSsl;
+		txtEmailSubjectPrefix.Text = BlogSettings.Instance.EmailSubjectPrefix;
 
     //-----------------------------------------------------------------------
     // Bind Advanced settings
