@@ -77,7 +77,7 @@ public partial class contact : BlogBasePage
       {
         mail.From = new MailAddress(txtEmail.Text, txtName.Text);
         mail.To.Add(BlogSettings.Instance.Email);
-        mail.Subject = "Weblog e-mail - " + txtSubject.Text;
+        mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " e-mail - " + txtSubject.Text;
         mail.Body = txtMessage.Text;
         mail.IsBodyHtml = false;
 

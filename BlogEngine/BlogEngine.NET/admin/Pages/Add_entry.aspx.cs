@@ -34,7 +34,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
       }
       else
       {
-        ddlAuthor.SelectedValue = Page.User.Identity.Name;
+        PreSelectAuthor(Page.User.Identity.Name);
         txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
         txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
@@ -189,12 +189,13 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     Post post = Post.GetPost(postId);
     txtTitle.Text = post.Title;
     txtContent.Text = post.Content;
-    txtDescription.Text = post.Description;
-    ddlAuthor.SelectedValue = post.Author;
+    txtDescription.Text = post.Description;    
     txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
     cbEnableComments.Checked = post.IsCommentsEnabled;
     cbPublish.Checked = post.IsPublished;
     txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
+
+		PreSelectAuthor(post.Author);
 
     foreach (Category cat in post.Categories)
     {
@@ -210,6 +211,19 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
     }
     txtTags.Text = string.Join(",", tags);
   }
+
+	private void PreSelectAuthor(string author)
+	{
+		ddlAuthor.ClearSelection();
+		foreach (ListItem item in ddlAuthor.Items)
+		{
+			if (item.Text.Equals(author, StringComparison.OrdinalIgnoreCase))
+			{
+				item.Selected = true;
+				break;
+			}
+		}
+	}
 
   private void BindBookmarklet()
   {

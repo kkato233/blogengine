@@ -252,6 +252,9 @@
   <data name="emailAddress" xml:space="preserve">
     <value>E-mail address</value>
   </data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Subject prefix</value>
+  </data>
   <data name="enableAttachments" xml:space="preserve">
     <value>Enable attachments</value>
   </data>

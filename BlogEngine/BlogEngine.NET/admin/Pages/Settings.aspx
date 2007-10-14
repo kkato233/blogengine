@@ -126,39 +126,33 @@
         days.
     </div>
     <div class="settings">
-        <h1>
-            E-mail</h1>
-        <label for="<%=txtEmail.ClientID %>">
-            <%=Resources.labels.emailAddress %>
-        </label>
+        <h1>E-mail</h1>
+        
+        <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.emailAddress %></label>
         <asp:TextBox runat="server" ID="txtEmail" Width="300" /><br />
-        <label for="<%=txtSmtpServer.ClientID %>">
-            SMTP server</label>
+        
+        <label for="<%=txtSmtpServer.ClientID %>">SMTP server</label>
         <asp:TextBox runat="server" ID="txtSmtpServer" Width="300" /><br />
-        <label for="<%=txtSmtpServerPort.ClientID %>">
-            <%=Resources.labels.portNumber %>
-        </label>
-        <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" />
-        <%=Resources.labels.portNumberDescription %>
-        <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort"
-            Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
-        <label for="<%=txtSmtpUsername.ClientID %>">
-            <%=Resources.labels.userName %>
-        </label>
+        
+        <label for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.portNumber %></label>
+        <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /><%=Resources.labels.portNumberDescription %>
+        <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
+        
+        <label for="<%=txtSmtpUsername.ClientID %>"><%=Resources.labels.userName %></label>
         <asp:TextBox runat="server" ID="txtSmtpUsername" Width="300" /><br />
-        <label for="<%=txtSmtpPassword.ClientID %>">
-            <%=Resources.labels.password %>
-        </label>
+        
+        <label for="<%=txtSmtpPassword.ClientID %>"><%=Resources.labels.password %></label>
         <asp:TextBox runat="server" ID="txtSmtpPassword" Width="300" /><br />
-        <label for="<%=cbEnableSsl.ClientID %>">
-            <%=Resources.labels.enableSsl%>
-        </label>
+        
+        <label for="<%=cbEnableSsl.ClientID %>"><%=Resources.labels.enableSsl%></label>
         <asp:CheckBox runat="Server" ID="cbEnableSsl" /><br />
-        <label for="<%=cbComments.ClientID %>">
-            <%=Resources.labels.sendCommentEmail %>
-        </label>
+        
+        <label for="<%=cbComments.ClientID %>"><%=Resources.labels.sendCommentEmail %></label>
         <asp:CheckBox runat="Server" ID="cbComments" /><br />
-        <br />
+        
+        <label for="<%=txtEmailSubjectPrefix.ClientID %>"><%=Resources.labels.emailSubjectPrefix %></label>
+        <asp:TextBox runat="server" ID="txtEmailSubjectPrefix" Width="300" /><br /><br />
+        
         <asp:Button runat="server" CausesValidation="False" ID="btnTestSmtp" Text="Test mail settings" />
         <asp:Label runat="Server" ID="lbSmtpStatus" />
     </div>
