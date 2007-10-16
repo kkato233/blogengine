@@ -36,7 +36,7 @@
   <% if(BlogSettings.Instance.EnableCountryInComments){ %>
   <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
   <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="4" EnableViewState="false" ValidationGroup="AddComment" />&nbsp;
-  <asp:Image runat="server" ImageUrl="~/pics/pixel.gif" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
+  <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
   <%} %>
 
   <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label>
@@ -109,9 +109,9 @@ var flagImage = document.getElementById("<%= imgFlag.ClientID %>");
 function SetFlag(iso)
 {  
   if (iso.length > 0)
-    flagImage.src = "<%=VirtualPathUtility.ToAbsolute("~/") %>pics/flags/" + iso + ".png";
+    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/flags/" + iso + ".png";
   else
-    flagImage.src = "<%=VirtualPathUtility.ToAbsolute("~/") %>pics/pixel.gif";
+    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/pixel.gif";
 }
 
 function CheckAuthorName(sender, args)

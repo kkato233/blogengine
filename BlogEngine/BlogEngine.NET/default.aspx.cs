@@ -16,7 +16,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		Page frontPage = BlogEngine.Core.Page.GetFrontPage();
 		if (Request.QueryString.Count == 0 && frontPage != null)
 		{
-			Server.Transfer("~/page.aspx?id=" + frontPage.Id);
+			Server.Transfer(Utils.RelativeWebRoot + "page.aspx?id=" + frontPage.Id);
 		}
 		else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
 		{

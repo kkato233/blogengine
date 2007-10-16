@@ -27,7 +27,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
       bool includeComments = Request.QueryString["comment"] == "true";
       BindSearchResult(Request.QueryString["q"], includeComments);
       Page.Title = Resources.labels.searchResultsFor + " '" + Request.QueryString["q"] + "'";
-      h1Headline.InnerHtml = Page.Title;
+      h1Headline.InnerText = Page.Title;
     }
     else
     {

@@ -73,7 +73,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       }
       else
       {
-        context.Response.Redirect("~/");
+        context.Response.Redirect(Utils.RelativeWebRoot);
       }
     }
 

@@ -60,10 +60,10 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       List<Post> list = Post.GetPostsByCategory(cat.Id);
 
       HtmlAnchor feed = new HtmlAnchor();
-      feed.HRef = "~/category/syndication.axd?category=" + cat.Id.ToString();
+      feed.HRef = Utils.RelativeWebRoot + "category/syndication.axd?category=" + cat.Id.ToString();
 
       HtmlImage img = new HtmlImage();
-      img.Src = "~/pics/rssbutton.gif";
+      img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
       img.Alt = "RSS";
 
       feed.Controls.Add(img);

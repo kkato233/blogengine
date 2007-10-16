@@ -66,7 +66,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
   private void btnUploadImage_Click(object sender, EventArgs e)
   {
     Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadImage);
-    string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
+    string path = Utils.AbsoluteWebRoot.ToString();
     string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
     txtContent.Text += string.Format(img, txtUploadImage.FileName);
   }

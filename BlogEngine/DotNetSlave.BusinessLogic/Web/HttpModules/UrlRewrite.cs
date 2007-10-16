@@ -50,7 +50,7 @@ namespace BlogEngine.Core.Web.HttpModules
       {
         if (context.Request.Path.Contains("/blog.aspx"))
         {
-          context.RewritePath("~/default.aspx?blog=true");
+          context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true");
         }
         else if (context.Request.RawUrl.ToLowerInvariant().Contains("/post/"))
         {
@@ -67,7 +67,7 @@ namespace BlogEngine.Core.Web.HttpModules
         else if (context.Request.RawUrl.ToLowerInvariant().Contains("/author/"))
         {
           string author = ExtractTitle(context);
-          context.RewritePath("~/default.aspx?name=" + author + GetQueryString(context), false);
+          context.RewritePath(Utils.RelativeWebRoot + "default.aspx?name=" + author + GetQueryString(context), false);
         }
       }
     }
@@ -80,7 +80,7 @@ namespace BlogEngine.Core.Web.HttpModules
 
       if (post != null)
       {
-        context.RewritePath("~/post.aspx?id=" + post.Id.ToString() + GetQueryString(context), false);
+        context.RewritePath(Utils.RelativeWebRoot + "post.aspx?id=" + post.Id.ToString() + GetQueryString(context), false);
       }
     }    
 
@@ -93,7 +93,7 @@ namespace BlogEngine.Core.Web.HttpModules
         string legalTitle = Utils.RemoveIllegalCharacters(cat.Title).ToLowerInvariant();
         if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
         {
-          context.RewritePath("~/default.aspx?id=" + cat.Id.ToString() + GetQueryString(context), false);
+          context.RewritePath(Utils.RelativeWebRoot + "default.aspx?id=" + cat.Id.ToString() + GetQueryString(context), false);
           break;
         }
       }
@@ -107,7 +107,7 @@ namespace BlogEngine.Core.Web.HttpModules
         string legalTitle = Utils.RemoveIllegalCharacters(page.Title).ToLowerInvariant();
         if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
         {
-          context.RewritePath("~/page.aspx?id=" + page.Id + GetQueryString(context), false);
+          context.RewritePath(Utils.RelativeWebRoot + "page.aspx?id=" + page.Id + GetQueryString(context), false);
           break;
         }
       }

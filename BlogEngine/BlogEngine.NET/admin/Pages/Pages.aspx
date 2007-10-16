@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Pages.aspx.cs" ValidateRequest="false" Inherits="admin_Pages_pages" Title="Add page" %>
-<%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
+<%@ Page Language="C#" MasterPageFile="../admin1.master" AutoEventWireup="true" CodeFile="Pages.aspx.cs" ValidateRequest="false" Inherits="admin_Pages_pages" Title="Add page" %>
+<%@ Register Src="../htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
   <script type="text/javascript">
