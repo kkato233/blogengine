@@ -32,7 +32,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
     }
     else
     {
-      Response.Redirect("~/");
+      Response.Redirect(Utils.RelativeWebRoot);
     }
   }
 

@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" ValidateRequest="False" %>
-<%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
+<%@ Page Language="C#" MasterPageFile="../admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" ValidateRequest="False" %>
+<%@ Register Src="../htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">

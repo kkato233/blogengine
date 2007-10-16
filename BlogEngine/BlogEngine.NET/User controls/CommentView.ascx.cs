@@ -88,7 +88,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   protected void Page_Load(object sender, EventArgs e)
   {
     if (Post == null)
-      Response.Redirect("~/");
+      Response.Redirect(Utils.RelativeWebRoot);
 
     if (!Page.IsPostBack && !Page.IsCallback)
     {
@@ -101,7 +101,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
         ApproveAllComments();
 
-      string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+      string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
 
       //Add approved Comments
       foreach (Comment comment in Post.Comments)
@@ -264,13 +264,13 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
     {
       ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
-			imgFlag.ImageUrl = "~/pics/flags/" + ddlCountry.SelectedValue + ".png";
+			imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + ddlCountry.SelectedValue + ".png";
     }
   }
 
   private void BindLivePreview()
   {
-    string path = "~/themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+    string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
     CommentViewBase control = (CommentViewBase)LoadControl(path);
     Comment comment = new Comment();
     comment.Content = string.Empty;
@@ -342,7 +342,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       txtEmail.Text = cookie.Values["email"];
       txtWebsite.Text = cookie.Values["url"];
       ddlCountry.SelectedValue = cookie.Values["country"];
-      imgFlag.ImageUrl = "~/pics/flags/" + cookie.Values["country"] + ".png";
+      imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + cookie.Values["country"] + ".png";
     }
     else if (Page.User.Identity.IsAuthenticated)
     {

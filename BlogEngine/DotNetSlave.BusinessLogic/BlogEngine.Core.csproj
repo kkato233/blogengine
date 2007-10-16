@@ -94,7 +94,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateCollection.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="Providers\XmlProvider\XmlBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\XmlMembershipProvider.cs" />
     <Compile Include="Web\HttpHandlers\SyndicationHandler.cs" />
     <Compile Include="Web\HttpHandlers\TrackbackHandler.cs" />
@@ -108,6 +107,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPublishable.cs" />
+    <Compile Include="Providers\XmlProvider\Categories.cs" />
+    <Compile Include="Providers\XmlProvider\Settings.cs" />
+    <Compile Include="Providers\XmlProvider\Pages.cs" />
+    <Compile Include="Providers\XmlProvider\Posts.cs" />
     <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SyndicationGenerator.cs" />

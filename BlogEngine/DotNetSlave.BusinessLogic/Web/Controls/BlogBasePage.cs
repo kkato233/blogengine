@@ -33,7 +33,7 @@ namespace BlogEngine.Core.Web.Controls
       if (Request.QueryString["theme"] != null)
         _Theme = Request.QueryString["theme"];
 
-      MasterPageFile = "~/themes/" + _Theme + "/site.master";
+      MasterPageFile = Utils.RelativeWebRoot + "themes/" + _Theme + "/site.master";
 
       base.OnPreInit(e);
 
@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Web.Controls
           Post post = BlogEngine.Core.Post.GetPost(new Guid(Request.QueryString["deletepost"]));
           post.Delete();
           post.Save();
-          Response.Redirect("~/");
+          Response.Redirect(Utils.RelativeWebRoot);
         }
       }
     }
@@ -161,7 +161,7 @@ namespace BlogEngine.Core.Web.Controls
     {
       HtmlLink link = new HtmlLink();
       link.Attributes["rel"] = "search";
-      link.Attributes["href"] = VirtualPathUtility.ToAbsolute("~/") + "opensearch.axd";
+      link.Attributes["href"] = Utils.AbsoluteWebRoot + "opensearch.axd";
       link.Attributes["type"] = "application/opensearchdescription+xml";
       link.Attributes["title"] = BlogSettings.Instance.Name;
       Page.Header.Controls.Add(link);

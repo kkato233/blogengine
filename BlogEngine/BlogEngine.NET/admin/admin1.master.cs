@@ -14,7 +14,6 @@ public partial class admin_admin : System.Web.UI.MasterPage
   protected void Page_Load(object sender, EventArgs e)
   {
     if (!System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
-      Response.Redirect("~/");
-
+      Response.Redirect(BlogEngine.Core.Utils.RelativeWebRoot);
   }
 }

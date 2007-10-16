@@ -127,7 +127,7 @@ namespace Controls
         feedAnchor.HRef = item.RssUrl;
 
         HtmlImage image = new HtmlImage();
-        image.Src = "~/pics/rssbutton.gif";
+        image.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
         image.Alt = "RSS feed for " + item.Name;
 
         feedAnchor.Controls.Add(image);
@@ -152,7 +152,7 @@ namespace Controls
 
     private void AddRssChildItems(RssItem item, HtmlGenericControl li)
     {
-      if (item.Items.Count > 0)
+      if (item.Items.Count > 0 && BlogSettings.Instance.BlogrollVisiblePosts > 0)
       {
         HtmlGenericControl div = new HtmlGenericControl("ul");
         int i = 0;

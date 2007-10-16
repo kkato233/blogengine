@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Blogroll.aspx.cs" Inherits="admin_Pages_blogroll" Title="Blogroll" %>
+<%@ Page Language="C#" MasterPageFile="../admin1.master" AutoEventWireup="true" CodeFile="Blogroll.aspx.cs" Inherits="admin_Pages_blogroll" Title="Blogroll" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
 <br />

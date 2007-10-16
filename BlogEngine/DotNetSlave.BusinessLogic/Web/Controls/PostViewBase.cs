@@ -248,7 +248,7 @@ namespace BlogEngine.Core.Web.Controls
 
           }
 
-          sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", VirtualPathUtility.ToAbsolute("~/") + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
+          sb.AppendFormat("<a href=\"{0}\">{1}</a> | ", Utils.AbsoluteWebRoot + "admin/pages/add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
           sb.AppendFormat("<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
           return sb.ToString();
 
