@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,457 +118,457 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Toevoegen</value>
+    <value>Új bejegyzés</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Voeg post toe</value>
+    <value>Új hozzászólás</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Reactie plaatsen</value>
+    <value>Megjegyzés Hozzáfűzése</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Voeg code toe aan de HTML head sectie</value>
+    <value>Adj saját kódot az HTML fejléchez</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Configuratie panel</value>
+    <value>Adminisztrációs Felület</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Geavanceerd</value>
+    <value>Beállítások</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Geavanceerde instellingen</value>
+    <value>Haladó Beállítások</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>Alternatieve feed URL</value>
+    <value>Alternatív feed URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>Ga akkoord</value>
+    <value>Jóváhagy</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Ga akkoord met alle post reacties</value>
+    <value>A bejgyezés minden megjegyzésének jóváhagyása</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archief</value>
+    <value>Archívum</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Weet u zeker dat u {0} {1}?</value>
+    <value>Biztosan akarod hogy {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Bestand toevoegen</value>
+    <value>Csatolj egy fájlt</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Auteur</value>
+    <value>Szerzők</value>
   </data>
   <data name="avatars" xml:space="preserve">
-    <value>Avatars</value>
+    <value>Avatarok</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Standaard</value>
+    <value>Alapvető</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>Waardeer als eerste deze post</value>
+    <value>Legyél a bejegyzés első értékelője</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET gebruikt BlogML als export formaat. Import ondersteund zowel BlogML als RSS.</value>
+    <value>A BlogEngine.NET BlogML exportálási formátumot használ. Az importálás BlogML-t és RSS-t támogat.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Knop tekst</value>
+    <value>Nyomógomb szövege</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Categorieën</value>
+    <value>Kategóriák</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Categorie</value>
+    <value>Kategória</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Sluit commentaar na</value>
+    <value>Zárd le a hozzászólásokat</value>
   </data>
   <data name="combine" xml:space="preserve">
-    <value>Combinatie</value>
+    <value>Kombináció</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Reactie</value>
+    <value>Megjegyzés</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Reactie label tekst</value>
+    <value>Megjegyzés cimke szövege</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Reacties</value>
+    <value>Megjegyzések</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>Reacties zijn gesloten</value>
+    <value>Megjegyzések lezárva</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>Uw reactie is opgeslagen. Bedankt voor uw reactie.</value>
+    <value>Megjegyzés mentve. Kösz a választ.</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>Kapcsolat</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Contact formulier</value>
+    <value>Üzenet</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Gereedschappen</value>
+    <value>Vezérlők</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Land</value>
+    <value>Ország</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Nieuwe gebruiker aanmaken</value>
+    <value>Új felhasználó létrehozása</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Gewaardeerd op {0} door {1} mensen</value>
+    <value>Jelenlegi értékelés {0} {1} felhasználótol</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Datum</value>
+    <value>Dátum</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Standaard feed output</value>
+    <value>Default feed output</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>De standaard tekst in de zoek tekst box</value>
+    <value>Default szöveg a kereső dobozban</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Verwijderen</value>
+    <value>Töröl</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Omschrijving</value>
+    <value>Leírás</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Toon reacties</value>
+    <value>Mutasd a megjegyzéseket</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Toon waardering</value>
+    <value>Értékelés mutatása</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Bewerken</value>
+    <value>Szerkesztés</value>
   </data>
   <data name="email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mailadres</value>
+    <value>E-mail cím</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>Activeer bijlagen</value>
+    <value>Engedélyezz csatolakat</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Activeer co-reacties</value>
+    <value>Engedélyezz Meg-Megjegyzéseket</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Activeer reacties</value>
+    <value>Engedélyezz megjegyzéseket</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Als reacties niet toegestaan zijn, dan kan niemand reageren op posts.</value>
+    <value>Ha a megjegyzés küldése le van tiltva, senki sem adhat megjegyzést egyik bejegyzéshez sem</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Activeer doorzoeken van reacties</value>
+    <value>Engedélyezz keresést a megjegyzésekben</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Activeer wijzigen van reacties</value>
+    <value>Megjegyzések elnöklése</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>Gebruik Gravatars</value>
+    <value>Engedélyezz Gravatar-ok használatát</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Gebruik HTTP compressie</value>
+    <value>Használj HTTP tömörítést</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Maak het laden van pagina's sneller (aanbevolen).</value>
+    <value>A lapok gyorsabban töltödnek (ajánlott).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Gebruik OpenSearch</value>
+    <value>Használj OpenSearch-t</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Voeg de zoek functie toe aan alle nieuwe browsers (aanbevolen).</value>
+    <value>Keresőt ad minden új böngészőhöz (ajánlott).</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Activeer reactie waardering</value>
+    <value>Bejegyzés értékelése</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Activeer verwijzings tracering</value>
+    <value>Engedélyezz hívatkozó követést</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Activeer zoek markering</value>
+    <value>Keresés kihangsúlyozása</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Kleur de zoekwoorden op de pagina.</value>
+    <value>Színesen jelöli az oldalon a keresett szavakat</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>Gebruik SSL</value>
+    <value>SSL Engedélyezése</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Goedkeuring (bLink)</value>
+    <value>Jóváhagyás (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Dwing af</value>
+    <value>Kényszerít</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>Exporteer</value>
+    <value>Export</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Formulier boodschap</value>
+    <value>Form message</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Ga naar de startpagina</value>
+    <value>Ugorj a kezdőlapra</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>www subdomein beleid</value>
+    <value>www subdomain vezérelv</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>Start</value>
-    <comment>Gebruikt voor het linken naar de startpagina</comment>
+    <value>Kezdőlap</value>
+    <comment>Kapcsolat a kezdőlaphoz</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head sectie</value>
+    <value>HTML fejléc</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>Negeer</value>
+    <value>Mellőz</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>Importeer</value>
+    <value>Import</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>Is startpagina</value>
+    <value>Kezdőlap-e</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Sleutelwoorden</value>
+    <value>Kulcsszavak</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Kies taal</value>
+    <value>Válassz nyelvet</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Taalcode</value>
+    <value>Nyelv kód</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>breedte</value>
+    <value>Szélesség</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Live voorbeeld</value>
+    <value>Előnézet</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>lengte</value>
+    <value>Hosszúság</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Max. lengte van items</value>
+    <value>Cikkek maximum hosszúsága</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Boodschap</value>
+    <value>Üzenet</value>
   </data>
   <data name="monster" xml:space="preserve">
-    <value>Monster</value>
+    <value>Szörnyeteg</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>Meer</value>
+    <value>Több</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Naam</value>
+    <value>Név</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>Niet tonen</value>
+    <value>Ne mutasd</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>Geen ouder</value>
+    <value>Nincs szülő</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Informeer mij wanneer nieuwe reacties zijn toegevoegd</value>
+    <value>Értesits új hozzászólások kuldésekor.</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Nog geen waardering</value>
+    <value>Még nincs értékelve</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>Aantal reacties</value>
+    <value>Megjegyzések száma</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># van getoonde items</value>
+    <value>A mutatott cikkek #</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Aantal berichten</value>
+    <value>összes bejegyzés</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>Pagina</value>
+    <value>Lap</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Pagina's</value>
+    <value>Lapok</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Wachtwoord</value>
+    <value>Jelszó</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Poortnummer</value>
+    <value>Port szám</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Poort 25 is de standaard</value>
+    <value>Port 25 a standard</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Waarschijnlijk spam</value>
+    <value>Lehetséges spam</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>Bericht</value>
+    <value>Bejegyzés</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Berichten per pagina</value>
+    <value>Bejegyzések oldalanként</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Berichten</value>
+    <value>Bejegyzések</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Items getoond in feed</value>
+    <value>Cikkek száma a feed-ben</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Publiseer</value>
+    <value>Publikál</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>Waardeerders</value>
+    <value>Értékelők</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Waardering</value>
+    <value>Értékelés</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>Recente reacties</value>
+    <value>Legújabb hozzászólások</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Recente berichten</value>
+    <value>Legújabb bejegyzések</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Verwijzing</value>
+    <value>Hivatkozó</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Verwijzingen</value>
+    <value>Hivatkozók</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>Gerelateerde berichten</value>
+    <value>Hasonló bejegyzések</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Verwijder</value>
+    <value>Eltávolít</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Opslaan</value>
+    <value>Mentés</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Reactie toevoegen</value>
+    <value>Hozzászólás mentése</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Bewaar pagina</value>
+    <value>Oldal mentése</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Bewaar bericht</value>
+    <value>Bejegyzés mentése</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Bewaar instellingen</value>
+    <value>Beállítások mentése</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>Zoek</value>
+    <value>Keresés</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Zoekveld</value>
+    <value>Keresési mező</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Zoekveld tekst</value>
+    <value>Keresési mező szövege</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>Zoek in resultaten naar</value>
+    <value>Keresési találatok</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Selecteer dag</value>
+    <value>Válassz napot</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>Selecteer ouder</value>
+    <value>Válassz szülőt</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Stuur reactie email</value>
+    <value>Hozzászólás email-ben</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Splits iedere tag met een komma</value>
+    <value>Vesszővel válaszd el a tag-eket</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Instellingen</value>
+    <value>Beállítások</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Activieer land keuze</value>
+    <value>Mutasd az ország választót</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Als de landkeuze niet getoond wordt, dan kan er geen vlag getoond worden bij de reacties.</value>
+    <value>Ha az ország választó nem látszik, akkor a zászló nem jelenik meg a hozzászólások mellett.</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Toon alleen beschrijving van berichten</value>
+    <value>Csak a bejegyzés leírását mutasd</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Toon in lijst</value>
+    <value>Mutasd listában</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Toon live voorbeeld</value>
+    <value>Előnézet</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Toon gerelateerde berichten</value>
+    <value>Mutass hasonló bejegyzéseket</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Onderwerp</value>
+    <value>Téma</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>Abonneer</value>
+    <value>Iratkozz fel</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Bedankt bericht</value>
+    <value>Köszönet üzenet</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>de reactie</value>
+    <value>a megjegyzés</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Thema</value>
+    <value>Stílus</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>het bericht</value>
+    <value>a bejegyzés</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Er zijn {0} niet gepubliceerde bericht(en)</value>
+    <value>{0} vázlatod van</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Voeg datum toe aan bericht links</value>
+    <value>Fűzz dátumot a bejegyzés kapcsolataihoz</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Servertijd compensatie</value>
+    <value>Szerver idő különbség</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Titel</value>
+    <value>Cím</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Trim stijl schema's</value>
+    <value>Trim stylesheets</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Maak de stijlschema's van alle thema's kleiner door het verwijderen van witruimte tijdens verwerking.</value>
+    <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>Niet nagekeken reacties</value>
+    <value>Unapproved Comments</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Update frequentie (minuten)</value>
+    <value>Update frequency (minutes)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Upload bestand</value>
+    <value>Fájl feltöltés</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Upload afbeelding</value>
+    <value>Kép feltöltés</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Gebruikersnaam</value>
+    <value>Felhasználónév</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Gebruikers</value>
+    <value>Felhasználók</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Website</value>
+    <value>Honlap</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Zal uw {0} icon tonen</value>
+    <value>A(z) {0} ikon-odat fogja mutatni</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>schreef</value>
+    <value>írta</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>U heeft dit bericht al gewaardeerd</value>
+    <value>Már értékelted ezt a bejegyzést</value>
   </data>
 </root>

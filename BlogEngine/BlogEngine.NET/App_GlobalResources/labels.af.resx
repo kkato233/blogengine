@@ -118,245 +118,245 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Toevoegen</value>
+    <value>Voeg by</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Voeg post toe</value>
+    <value>Voeg inskrywing  by</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Reactie plaatsen</value>
+    <value>Voeg kommentaar By</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Voeg code toe aan de HTML head sectie</value>
+    <value>Voeg gebruiklike kode tot die HTML hoof seksie</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Configuratie panel</value>
+    <value>Beheer paneel</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Geavanceerd</value>
+    <value>Gevorderd</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Geavanceerde instellingen</value>
+    <value>gevorderde stellings</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>Alternatieve feed URL</value>
+    <value>Alternatiewe voedings URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>Ga akkoord</value>
+    <value>Bevestig(Keur goed)</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Ga akkoord met alle post reacties</value>
+    <value>Bevestig alle pos kommentare</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archief</value>
+    <value>Argief</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Weet u zeker dat u {0} {1}?</value>
+    <value>Is u seker u wil {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Bestand toevoegen</value>
+    <value>Heg 'n lêer aan</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Auteur</value>
+    <value>Outeur</value>
   </data>
   <data name="avatars" xml:space="preserve">
     <value>Avatars</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Standaard</value>
+    <value>Basies</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>Waardeer als eerste deze post</value>
+    <value>Wees die eerste om hierdie pos te gradeer</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET gebruikt BlogML als export formaat. Import ondersteund zowel BlogML als RSS.</value>
+    <value>BlogEngine.NET gebruik BlogML as die uitvoer formaat. die invoer ondersteun beide BlogML en RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Knop tekst</value>
+    <value>Knop teks</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Categorieën</value>
+    <value>Kategorieë</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Categorie</value>
+    <value>kategorie</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Sluit commentaar na</value>
+    <value>Maak kommentare toe na</value>
   </data>
   <data name="combine" xml:space="preserve">
-    <value>Combinatie</value>
+    <value>Kombineer</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Reactie</value>
+    <value>Opmerkings</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Reactie label tekst</value>
+    <value>kommentaar etiket teks</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Reacties</value>
+    <value>Kommentare</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>Reacties zijn gesloten</value>
+    <value>Kommentare is gesluit</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>Uw reactie is opgeslagen. Bedankt voor uw reactie.</value>
+    <value>Hierdie kommentaar was gwstoor. Dankie vir die terugvoering terugvoering</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>Kontak</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Contact formulier</value>
+    <value>Kontak form</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Gereedschappen</value>
+    <value>Kontrole</value>
   </data>
   <data name="country" xml:space="preserve">
     <value>Land</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Nieuwe gebruiker aanmaken</value>
+    <value>Maak nuwe gebruiker</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Gewaardeerd op {0} door {1} mensen</value>
+    <value>Tans gradeer {0} deur {1} mense</value>
   </data>
   <data name="date" xml:space="preserve">
     <value>Datum</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Standaard feed output</value>
+    <value>Standaard terugvoerings afvoer</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>De standaard tekst in de zoek tekst box</value>
+    <value>Die standaard teks gewys in die soek teksboks</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Verwijderen</value>
+    <value>Verwyder</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Omschrijving</value>
+    <value>Beskrywing</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Toon reacties</value>
+    <value>Vertoon kommentare</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Toon waardering</value>
+    <value>vertoon gradering</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Bewerken</value>
+    <value>Redigeer</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>E-pos</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mailadres</value>
+    <value>E-posl adres</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>Activeer bijlagen</value>
+    <value>Aanvaar aanheggings</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Activeer co-reacties</value>
+    <value>Aanvaar coComments</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Activeer reacties</value>
+    <value>Aanvaar Kommentare</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Als reacties niet toegestaan zijn, dan kan niemand reageren op posts.</value>
+    <value>Indien kommentare nie aanvaar word nie, kan niemand  kommentare  tot enige pos Lewer nie</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Activeer doorzoeken van reacties</value>
+    <value>Aanvaar Kommentaar Soek</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Activeer wijzigen van reacties</value>
+    <value>Modureer Kommentare</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>Gebruik Gravatars</value>
+    <value>Aanvaar Gravatars</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Gebruik HTTP compressie</value>
+    <value>AanvaarHTTP Kompressie</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Maak het laden van pagina's sneller (aanbevolen).</value>
+    <value>Laat die bladsye vinniger laai (Voorgestel).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Gebruik OpenSearch</value>
+    <value>Aanvaar OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Voeg de zoek functie toe aan alle nieuwe browsers (aanbevolen).</value>
+    <value>Voeg die soek kenmerk tot alle nuwe blaaiers(Browser) (aanbeveel).</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Activeer reactie waardering</value>
+    <value>Aanvaar pos gradeering</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Activeer verwijzings tracering</value>
+    <value>Aanvaar verwyser speuring</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Activeer zoek markering</value>
+    <value>Aaanvaar soek "uitstaan"</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Kleur de zoekwoorden op de pagina.</value>
+    <value>Kleur die gesoekte woorde op die bladsy in.</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>Gebruik SSL</value>
+    <value>Enable SSL</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Goedkeuring (bLink)</value>
+    <value>Endorsment (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Dwing af</value>
+    <value>Dwing</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>Exporteer</value>
+    <value>Uitvoer</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Formulier boodschap</value>
+    <value>Form Boodskap</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Ga naar de startpagina</value>
+    <value>Gaan na die eerste bladsy</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>www subdomein beleid</value>
+    <value>www subdomain policy</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>Start</value>
-    <comment>Gebruikt voor het linken naar de startpagina</comment>
+    <value>Tuisblad</value>
+    <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head sectie</value>
+    <value>HTML head section</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>Negeer</value>
+    <value>Ignoreer</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>Importeer</value>
+    <value>Invoer</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>Is startpagina</value>
+    <value>Iseerste bladsy</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Sleutelwoorden</value>
+    <value>Sleutelwoorde</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Kies taal</value>
+    <value>Kies taaal</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Taalcode</value>
+    <value>Taal kode</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>breedte</value>
+    <value>Breedte graad</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Live voorbeeld</value>
+    <value>Voorskou</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>lengte</value>
+    <value>Lengte graad</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Max. lengte van items</value>
+    <value>Maksimum lengte van ietems</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Boodschap</value>
+    <value>boodskap</value>
   </data>
   <data name="monster" xml:space="preserve">
     <value>Monster</value>
@@ -368,207 +368,207 @@
     <value>Naam</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>Niet tonen</value>
+    <value>Moet nie wys nie</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>Geen ouder</value>
+    <value>Geen ouer</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Informeer mij wanneer nieuwe reacties zijn toegevoegd</value>
+    <value>Stel my in kennis wanneer nuwe kommentaar gelewer is</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Nog geen waardering</value>
+    <value>Nog nie gegradeer nie</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>Aantal reacties</value>
+    <value>Hoeveelheid komentare</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># van getoonde items</value>
+    <value># vertoon ietems</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Aantal berichten</value>
+    <value>Hoeveelheid posse</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>Pagina</value>
+    <value>Bladsy</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Pagina's</value>
+    <value>Bladsye</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Wachtwoord</value>
+    <value>Wagwoord</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Poortnummer</value>
+    <value>Port number</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Poort 25 is de standaard</value>
+    <value>Port 25 is die norm</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Waarschijnlijk spam</value>
+    <value>Moontlike gemors pos</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>Bericht</value>
+    <value>pos</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Berichten per pagina</value>
+    <value>Posse per bladsy</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Berichten</value>
+    <value>Posse</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Items getoond in feed</value>
+    <value>Ietems vertoon in voed</value>
   </data>
   <data name="publish" xml:space="preserve">
     <value>Publiseer</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>Waardeerders</value>
+    <value>Gradeerders</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Waardering</value>
+    <value>Gradering</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>Recente reacties</value>
+    <value>Onlangse opmerkings</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Recente berichten</value>
+    <value>Onlangse posse</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Verwijzing</value>
+    <value>Verwyser</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Verwijzingen</value>
+    <value>Verwysers</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>Gerelateerde berichten</value>
+    <value>Soortgelyke posse</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Verwijder</value>
+    <value>Verwyder</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Opslaan</value>
+    <value>Stoor</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Reactie toevoegen</value>
+    <value>Stoor opmerking</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Bewaar pagina</value>
+    <value>Stoor bladsy</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Bewaar bericht</value>
+    <value>Stoor pos</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Bewaar instellingen</value>
+    <value>Stoor stellings</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>Zoek</value>
+    <value>Soek</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Zoekveld</value>
+    <value>Soek veld</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Zoekveld tekst</value>
+    <value>Soek veld Teks</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>Zoek in resultaten naar</value>
+    <value>Soek in resultate vir</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Selecteer dag</value>
+    <value>Kies dag</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>Selecteer ouder</value>
+    <value>Kies ouer</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Stuur reactie email</value>
+    <value>Stuur opmerkings E-pos</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Splits iedere tag met een komma</value>
+    <value>Sky elke etiket met 'n komma</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Instellingen</value>
+    <value>Stellings</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Activieer land keuze</value>
+    <value>Wys land kieser</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Als de landkeuze niet getoond wordt, dan kan er geen vlag getoond worden bij de reacties.</value>
+    <value>Indien die land kieser nie vertoon word nie kan daar nie 'n vlag vertoon word vir elke kommentaar nie</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Toon alleen beschrijving van berichten</value>
+    <value>Wys net die pos beskrywing</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Toon in lijst</value>
+    <value>Wys in lys</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Toon live voorbeeld</value>
+    <value>Wys voorskou</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Toon gerelateerde berichten</value>
+    <value>Wys soortgelyke posse</value>
   </data>
   <data name="subject" xml:space="preserve">
     <value>Onderwerp</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>Abonneer</value>
+    <value>Tekin in</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Bedankt bericht</value>
+    <value>Dankie boodskap</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>de reactie</value>
+    <value>Die Kommentaar</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Thema</value>
+    <value>Tema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>het bericht</value>
+    <value>die pos</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Er zijn {0} niet gepubliceerde bericht(en)</value>
+    <value>Daar is  {0} ongepubliseerde pos(se)</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Voeg datum toe aan bericht links</value>
+    <value>Voeg datum by pos skakel in</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Servertijd compensatie</value>
+    <value>Server time offset</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Titel</value>
+    <value>Tietel</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Trim stijl schema's</value>
+    <value>Trim stylesheets</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Maak de stijlschema's van alle thema's kleiner door het verwijderen van witruimte tijdens verwerking.</value>
+    <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>Niet nagekeken reacties</value>
+    <value>Nie goedgekeurde kommentare </value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Update frequentie (minuten)</value>
+    <value>Vervris frekwensie (minute) ...</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Upload bestand</value>
+    <value>Laai leêr op</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Upload afbeelding</value>
+    <value>Laai beeld op</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Gebruikersnaam</value>
+    <value>Gebruikernaam</value>
   </data>
   <data name="users" xml:space="preserve">
     <value>Gebruikers</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Website</value>
+    <value>Webwerf</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Zal uw {0} icon tonen</value>
+    <value>Sal you  {0} ikone vertoon</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>schreef</value>
+    <value>geskryf</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>U heeft dit bericht al gewaardeerd</value>
+    <value>Jy het reed die pos gegradeer</value>
   </data>
 </root>
