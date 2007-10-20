@@ -1,4 +1,53 @@
-﻿var _Regex = new RegExp("\\n","gi");
+﻿// Global variables
+var isAjaxSupported = (window.ActiveXObject != "undefined" || window.XMLHttpRequest != "undefined");
+
+function $(id)
+{
+  return document.getElementById(id);
+}
+
+// Postback
+function __doPostBack(eventTarget, eventArgument) 
+{
+  if (!theForm.onsubmit || (theForm.onsubmit() != false)) 
+  {
+    theForm.__EVENTTARGET.value = eventTarget;
+    theForm.__EVENTARGUMENT.value = eventArgument;
+    theForm.submit();
+  }
+}
+
+// Validation
+function InitValidators()
+{
+  var Page_ValidationActive = false;
+  if (typeof(ValidatorOnLoad) == "function") 
+  {
+    ValidatorOnLoad();
+  }
+}
+
+function ValidatorOnSubmit() 
+{
+  if (Page_ValidationActive) 
+  {
+    return ValidatorCommonOnSubmit();
+  }
+  else 
+  {
+    return true;
+  }
+}
+
+// Form submit
+function CleanForm_OnSubmit()
+{
+  if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+  return true;
+}
+
+// Live preview
+var _Regex = new RegExp("\\n","gi");
 var _RegexUrl = new RegExp("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&#=\\-_\\./]{2,})", "gi");
 var _Preview;
 var _PreviewAuthor;
@@ -9,7 +58,7 @@ var _TxtName;
 function ShowCommentPreview(target, sender)
 {
   if (_Preview == null)
-    _Preview = document.getElementById("livepreview");  
+    _Preview = $("livepreview");  
     
   if (_Preview == null)
     return;
@@ -21,19 +70,20 @@ function ShowCommentPreview(target, sender)
     _PreviewContent = GetElementByClassName(_Preview, "p", "content");
   
   if (_TxtName == null)
-    _TxtName = document.getElementById("ctl00_cphBody_CommentView1_txtName");   
+    _TxtName = $("ctl00_cphBody_CommentView1_txtName");   
     
   if (!_PreviewAuthor)
     return; 
     
-  var body = sender.value.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
+  var body = sender.value;
   body = body.replace(new RegExp(">","gi"), "&gt;");  
   body = body.replace(new RegExp("<","gi"), "&lt;");
+  body = body.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
     
   _PreviewAuthor.innerHTML = _TxtName.value;
   _PreviewContent.innerHTML = body.replace(_Regex, "<br />");
   
-  var _TxtWebsite = document.getElementById("ctl00_cphBody_CommentView1_txtWebsite");
+  var _TxtWebsite = $("ctl00_cphBody_CommentView1_txtWebsite");
   if( _TxtWebsite != null && _TxtWebsite.value.length > 0)
   {
     if (_TxtWebsite.value.indexOf("://") == -1)
@@ -56,12 +106,20 @@ function GetElementByClassName(parent, tag, className)
   }
 }
 
+function SetFlag(iso)
+{  
+  if (iso.length > 0)
+    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/flags/" + iso + ".png";
+  else
+    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/pixel.gif";
+}
+
 // Searches the blog based on the entered text and
 // searches comments as well if chosen.
 function Search(root)
 {
-  var input = document.getElementById("searchfield");
-  var check = document.getElementById("searchcomments");
+  var input = $("searchfield");
+  var check = $("searchcomments");
   
   var search = "search.aspx?q=" + encodeURIComponent(input.value);
   if (check != null && check.checked)
@@ -75,7 +133,7 @@ function Search(root)
 // Clears the search fields on focus.
 function SearchClear(defaultText)
 {
-  var input = document.getElementById("searchfield");
+  var input = $("searchfield");
   if (input.value == defaultText)
     input.value = "";
   else if (input.value == "")
@@ -153,14 +211,14 @@ function GetHttpObject()
 // Updates the calendar from client-callback
 function UpdateCalendar(args, context)
 {
-  var cal = document.getElementById('calendarContainer');
+  var cal = $('calendarContainer');
   cal.innerHTML = args;
   months[context] = args;
 }
 
 function ToggleMonth(year)
 {
-  var monthList = document.getElementById("monthList");
+  var monthList = $("monthList");
   var years = monthList.getElementsByTagName("ul");
   for (i = 0; i < years.length; i++)
   {
@@ -185,7 +243,7 @@ var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
 // Applies the XFN tags of a link to the title tag
 function HightLightXfn()
 {
-  var content = document.getElementById('content');
+  var content = $('content');
   if (content == null)
     return;
     

@@ -21,9 +21,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
     #region Private fields
 
-    private static Regex _Regex = new Regex(@"(?<=<title.*>)([\s\S]*)(?=</title>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex _Regex = new Regex(@"(?<=<title.*>)([\s\S]*)(?=</title>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex REGEX_HTML = new Regex(@"</?\w+((\s+\w+(\s*=\s*(?:"".*?""|'.*?'|[^'"">\s]+))?)+\s*|\s*)/?>", RegexOptions.Singleline | RegexOptions.Compiled);
+
+
     private string _Title;
     private bool _SourceHasLink;
+		private bool _ContainsHtml;
 
     #endregion
 
@@ -60,7 +64,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         {
           if (IsFirstPingBack(post, sourceUrl))
           {
-            if (_SourceHasLink)
+            if (_SourceHasLink && !_ContainsHtml)
             {
               AddComment(sourceUrl, post);
               OnAccepted(sourceUrl);
@@ -153,8 +157,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
         using (WebClient client = new WebClient())
         {
           client.Credentials = CredentialCache.DefaultNetworkCredentials;
-          string html = client.DownloadString(sourceUrl);
+          string html = client.DownloadString(sourceUrl);					
           _Title = _Regex.Match(html).Value.Trim();
+					_ContainsHtml = REGEX_HTML.IsMatch(_Title);
           _SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
         }
       }

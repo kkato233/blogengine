@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="User_controls_CommentView" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="User_controls_CommentView" EnableViewState="false" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (Post.Comments.Count > 0){ %>
@@ -59,28 +59,27 @@
 
 <script type="text/javascript">
 <!--//
-var isAjaxSupported = (window.ActiveXObject != "undefined" || window.XMLHttpRequest != "undefined");
 if (!isAjaxSupported)
 {
-  document.getElementById('<%=btnSave.ClientID %>').style.display = "inline";
-  document.getElementById('btnSave').style.display = "none";
+  $('<%=btnSave.ClientID %>').style.display = "inline";
+  $('btnSave').style.display = "none";
 }
 
 function AddComment()
 {
-  document.getElementById("btnSave").disabled = true;
-  document.getElementById("ajaxLoader").style.display = "inline";
-  document.getElementById("status").className = "";
-  document.getElementById("status").innerHTML = "Saving the comment...";
+  $("btnSave").disabled = true;
+  $("ajaxLoader").style.display = "inline";
+  $("status").className = "";
+  $("status").innerHTML = "Saving the comment...";
   
-  var author = document.getElementById("<%=txtName.ClientID %>").value;
-  var email = document.getElementById("<%=txtEmail.ClientID %>").value;
-  var website = document.getElementById("<%=txtWebsite.ClientID %>").value;
+  var author = $("<%=txtName.ClientID %>").value;
+  var email = $("<%=txtEmail.ClientID %>").value;
+  var website = $("<%=txtWebsite.ClientID %>").value;
   var country = "";
-  if (document.getElementById("<%=ddlCountry.ClientID %>"))
-    country = document.getElementById("<%=ddlCountry.ClientID %>").value;
-  var content = document.getElementById("<%=txtContent.ClientID %>").value;
-  var notify = document.getElementById("cbNotify").checked;
+  if ($("<%=ddlCountry.ClientID %>"))
+    country = $("<%=ddlCountry.ClientID %>").value;
+  var content = $("<%=txtContent.ClientID %>").value;
+  var notify = $("cbNotify").checked;
   var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify;
   <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
   
@@ -92,27 +91,19 @@ function AppendComment(args, context)
 {
   if (context == "comment")
   {
-    if (document.getElementById("commentlist").innerHTML == "")
-      document.getElementById("commentlist").innerHTML = "<h1 id='comment'>Comments</h1>"
-    document.getElementById("commentlist").innerHTML += args;
-    document.getElementById("<%=txtContent.ClientID %>").value = "";
-    document.getElementById("ajaxLoader").style.display = "none";
-    document.getElementById("status").className = "success";
-    document.getElementById("status").innerHTML = "<%=Resources.labels.commentWasSaved %>";
+    if ($("commentlist").innerHTML == "")
+      $("commentlist").innerHTML = "<h1 id='comment'><%=Resources.labels.comments %></h1>"
+    $("commentlist").innerHTML += args;
+    $("<%=txtContent.ClientID %>").value = "";
+    $("ajaxLoader").style.display = "none";
+    $("status").className = "success";
+    $("status").innerHTML = "<%=Resources.labels.commentWasSaved %>";
   }
   
-  document.getElementById("btnSave").disabled = false;
+  $("btnSave").disabled = false;
 }
 
-var flagImage = document.getElementById("<%= imgFlag.ClientID %>");
-
-function SetFlag(iso)
-{  
-  if (iso.length > 0)
-    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/flags/" + iso + ".png";
-  else
-    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/pixel.gif";
-}
+var flagImage = $("<%= imgFlag.ClientID %>");
 
 function CheckAuthorName(sender, args)
 {
@@ -120,7 +111,7 @@ function CheckAuthorName(sender, args)
   
   <% if (!Page.User.Identity.IsAuthenticated){ %>
   var author = "<%=Post.Author %>";
-  var visitor = document.getElementById("<%=txtName.ClientID %>").value;
+  var visitor = $("<%=txtName.ClientID %>").value;
   args.IsValid = author.toLowerCase() != visitor.toLowerCase();
   <%} %>
 }
@@ -144,7 +135,6 @@ coco =
 }
 </script>
 <script id="cocomment-fetchlet" src="http://www.cocomment.com/js/enabler.js" type="text/javascript">
-// this activates coComment
 </script>
 <%} %>
 </asp:PlaceHolder>
