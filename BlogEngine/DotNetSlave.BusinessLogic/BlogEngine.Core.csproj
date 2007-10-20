@@ -116,6 +116,7 @@
     <Compile Include="SyndicationGenerator.cs" />
     <Compile Include="Web\HttpHandlers\BlogMLExportHandler.cs" />
     <Compile Include="Web\HttpHandlers\MonsterHandler.cs" />
+    <Compile Include="Web\HttpModules\CleanPageModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

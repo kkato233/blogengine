@@ -26,7 +26,6 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
           Response.StatusCode = 301;
           Response.AppendHeader("location", post.RelativeLink.ToString());
           Response.End(); 
-
         }
       }
     }
