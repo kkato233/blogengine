@@ -118,457 +118,457 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>Toevoegen</value>
+    <value>추가하기</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Voeg post toe</value>
+    <value>글 추가하기</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Reactie plaatsen</value>
+    <value>댓글 달기</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Voeg code toe aan de HTML head sectie</value>
+    <value>HTML 섹션에 사용자 코드 삽입하기</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Configuratie panel</value>
+    <value>제어판</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Geavanceerd</value>
+    <value>고급</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Geavanceerde instellingen</value>
+    <value>고급 설정</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>Alternatieve feed URL</value>
+    <value>피드를 위한 또다른 URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>Ga akkoord</value>
+    <value>승인</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Ga akkoord met alle post reacties</value>
+    <value>모든 댓글에 승인하기</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archief</value>
+    <value>저장소</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>Weet u zeker dat u {0} {1}?</value>
+    <value>정말로 {0} {1} 하시겠습니까?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Bestand toevoegen</value>
+    <value>파일 첨부</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>Auteur</value>
+    <value>글쓴이</value>
   </data>
   <data name="avatars" xml:space="preserve">
-    <value>Avatars</value>
+    <value>아바타</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>Standaard</value>
+    <value>기본</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>Waardeer als eerste deze post</value>
+    <value>이 포스트에 평점 매기기</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET gebruikt BlogML als export formaat. Import ondersteund zowel BlogML als RSS.</value>
+    <value>BlogEngine .NET은 BlogML 의 양식을 출력으로 설정합니다. 불러들일 때에는 RSS 와 BlogML 을 지원합니다</value>
   </data>
   <data name="blogroll" xml:space="preserve">
-    <value>Blogroll</value>
+    <value>블로그롤</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>Knop tekst</value>
+    <value>버튼에 표시될 글</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>Categorieën</value>
+    <value>카테고리</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>Categorie</value>
+    <value>카테고리</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Sluit commentaar na</value>
+    <value>이 방법 이후로 댓글 닫기</value>
   </data>
   <data name="combine" xml:space="preserve">
-    <value>Combinatie</value>
+    <value>조합</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>Reactie</value>
+    <value>댓글</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>Reactie label tekst</value>
+    <value>댓글 라벨 글</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>Reacties</value>
+    <value>댓글</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>Reacties zijn gesloten</value>
+    <value>댓글이 닫힘</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>Uw reactie is opgeslagen. Bedankt voor uw reactie.</value>
+    <value>댓글이 저장 되었습니다. 감사합니다.</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>연락하기</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>Contact formulier</value>
+    <value>연락 양식</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>Gereedschappen</value>
+    <value>콘트롤</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>Land</value>
+    <value>국가명</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Nieuwe gebruiker aanmaken</value>
+    <value>새로운 사용자 생성</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Gewaardeerd op {0} door {1} mensen</value>
+    <value>{1}명으로 부터 {0} 평점을 받았습니다</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Datum</value>
+    <value>날짜</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Standaard feed output</value>
+    <value>기본 피드 출력</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>De standaard tekst in de zoek tekst box</value>
+    <value>검색창에 보여지게 될 글</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Verwijderen</value>
+    <value>삭제</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>Omschrijving</value>
+    <value>내용</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Toon reacties</value>
+    <value>댓글 보이기</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Toon waardering</value>
+    <value>평점 보이기</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>Bewerken</value>
+    <value>편집</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>이메일</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mailadres</value>
+    <value>이메일 주소</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>Activeer bijlagen</value>
+    <value>첨부 허용</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>Activeer co-reacties</value>
+    <value>댓글에 댓글달기 허용</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>Activeer reacties</value>
+    <value>댓글달기 허용</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Als reacties niet toegestaan zijn, dan kan niemand reageren op posts.</value>
+    <value>댓글 달지 못하도록 설정된 경우에는 아무도 포스트에 댓글을 달 수 없게 됩니다</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Activeer doorzoeken van reacties</value>
+    <value>댓글 검색 허용</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Activeer wijzigen van reacties</value>
+    <value>댓글 줄이기</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>Gebruik Gravatars</value>
+    <value>Gravatars 허용</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Gebruik HTTP compressie</value>
+    <value>HTTP 압축 가능하게 하기</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Maak het laden van pagina's sneller (aanbevolen).</value>
+    <value>페이지가 빠르게 읽혀지도록 설정 (추천됨)</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Gebruik OpenSearch</value>
+    <value>오픈검색 허용</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Voeg de zoek functie toe aan alle nieuwe browsers (aanbevolen).</value>
+    <value>모든 브라우저에 검색 기능을 포함하기 (추천됨)</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Activeer reactie waardering</value>
+    <value>평점 매기기 허용</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Activeer verwijzings tracering</value>
+    <value>레퍼러 추적 허용</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Activeer zoek markering</value>
+    <value>검색에 하일라이트 허용</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>Kleur de zoekwoorden op de pagina.</value>
+    <value>검색된 단어에 색 입히기</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>Gebruik SSL</value>
+    <value>SSL 허용</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Goedkeuring (bLink)</value>
+    <value>승인 (깜빡임)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Dwing af</value>
+    <value>시행</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>Exporteer</value>
+    <value>외부로 보내기</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Formulier boodschap</value>
+    <value>양식에 보이게 될 메시지</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Ga naar de startpagina</value>
+    <value>첫 페이지로 가기</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>www subdomein beleid</value>
+    <value>www subdomain 정책</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>Start</value>
-    <comment>Gebruikt voor het linken naar de startpagina</comment>
+    <value>홈</value>
+    <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head sectie</value>
+    <value>HTML Head 섹션</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>Negeer</value>
+    <value>무시</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>Importeer</value>
+    <value>불러들이기</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>Is startpagina</value>
+    <value>현재 첫 페이지</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Sleutelwoorden</value>
+    <value>키워드</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Kies taal</value>
+    <value>언어 선택</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>Taalcode</value>
+    <value>언어 코드</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>breedte</value>
+    <value>위도</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Live voorbeeld</value>
+    <value>실시간 미리보기</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>lengte</value>
+    <value>경도</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Max. lengte van items</value>
+    <value>아이템의 최대 개수</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>Boodschap</value>
+    <value>메시지</value>
   </data>
   <data name="monster" xml:space="preserve">
-    <value>Monster</value>
+    <value>괴물</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>Meer</value>
+    <value>더 보기</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Naam</value>
+    <value>이름</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>Niet tonen</value>
+    <value>보이지 않기</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>Geen ouder</value>
+    <value>Parent 가 없음</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Informeer mij wanneer nieuwe reacties zijn toegevoegd</value>
+    <value>댓글이 달린 경우 알리기</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>Nog geen waardering</value>
+    <value>평점이 매겨지지 않음</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>Aantal reacties</value>
+    <value>댓글의 개수</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value># van getoonde items</value>
+    <value># 보여질 아이템 개수</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>Aantal berichten</value>
+    <value>포스트 개수</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>Pagina</value>
+    <value>페이지</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>Pagina's</value>
+    <value>페이지</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Wachtwoord</value>
+    <value>비밀번호</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Poortnummer</value>
+    <value>포트 번호</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Poort 25 is de standaard</value>
+    <value>포트 25가 표준임</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>Waarschijnlijk spam</value>
+    <value>스팸 가능</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>Bericht</value>
+    <value>포스트</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Berichten per pagina</value>
+    <value>페이지 당 포스트</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Berichten</value>
+    <value>포스트</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Items getoond in feed</value>
+    <value>피드에 보여질 아이템 개수</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>Publiseer</value>
+    <value>발행</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>Waardeerders</value>
+    <value>평점을 매긴 이들</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Waardering</value>
+    <value>평점</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>Recente reacties</value>
+    <value>최근에 달린 댓글</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Recente berichten</value>
+    <value>최근에 등록된 글</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>Verwijzing</value>
+    <value>래퍼러</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>Verwijzingen</value>
+    <value>래퍼러</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>Gerelateerde berichten</value>
+    <value>연관된 포스트</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Verwijder</value>
+    <value>제거</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Opslaan</value>
+    <value>저장</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Reactie toevoegen</value>
+    <value>댓글 저장</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Bewaar pagina</value>
+    <value>페이지 저장</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Bewaar bericht</value>
+    <value>포스트 저장</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Bewaar instellingen</value>
+    <value>설정 저장</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>Zoek</value>
+    <value>검색</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>Zoekveld</value>
+    <value>검색 필드</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>Zoekveld tekst</value>
+    <value>검색 필드의 글</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>Zoek in resultaten naar</value>
+    <value>검색 결과</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>Selecteer dag</value>
+    <value>일 선택</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>Selecteer ouder</value>
+    <value>상속자 선택</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Stuur reactie email</value>
+    <value>댓글을 이메일로 보내기</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Splits iedere tag met een komma</value>
+    <value>각 태그를 콤마로 분리</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>Instellingen</value>
+    <value>설정</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Activieer land keuze</value>
+    <value>나라 선택을 보이기</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Als de landkeuze niet getoond wordt, dan kan er geen vlag getoond worden bij de reacties.</value>
+    <value>나라 선택을 할 수 없다면 Flag 도 댓글에 보여지지 않음</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Toon alleen beschrijving van berichten</value>
+    <value>포스트의 내용만 보이기</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Toon in lijst</value>
+    <value>리스트 보이기</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Toon live voorbeeld</value>
+    <value>실시간 미리보기 보이기</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Toon gerelateerde berichten</value>
+    <value>연관된 포스트 보이기</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>Onderwerp</value>
+    <value>주제</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>Abonneer</value>
+    <value>등록하기</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Bedankt bericht</value>
+    <value>감사의 메시지</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>de reactie</value>
+    <value>댓글</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>Thema</value>
+    <value>테마</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>het bericht</value>
+    <value>포스트</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Er zijn {0} niet gepubliceerde bericht(en)</value>
+    <value>{0} 개의 발행되지 않은 포스트가 있습니다</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Voeg datum toe aan bericht links</value>
+    <value>이 포스트 링크에 날짜 더하기</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Servertijd compensatie</value>
+    <value>서버 타임 오프셋</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Titel</value>
+    <value>타이틀</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>Trim stijl schema's</value>
+    <value>트림 스타일시트</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Maak de stijlschema's van alle thema's kleiner door het verwijderen van witruimte tijdens verwerking.</value>
+    <value>런타임에 모든 스타일시트의 빈공백을 제거함으로서 용량을 줄임</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>Niet nagekeken reacties</value>
+    <value>승인되지 않은 댓글</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Update frequentie (minuten)</value>
+    <value>업데이트 빈도수 (한계)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Upload bestand</value>
+    <value>업로드 파일</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Upload afbeelding</value>
+    <value>업로드 이미지</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>Gebruikersnaam</value>
+    <value>사용자 이름</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>Gebruikers</value>
+    <value>사용자</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>Website</value>
+    <value>웹사이트</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>Zal uw {0} icon tonen</value>
+    <value>{0} 아이콘이 보여지게 될 것이다</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>schreef</value>
+    <value>쓰다</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>U heeft dit bericht al gewaardeerd</value>
+    <value>이미 평점을 매기었습니다</value>
   </data>
 </root>

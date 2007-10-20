@@ -71,16 +71,15 @@ namespace BlogEngine.Core.Web.Controls
 
 				if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
 					CompressCss();
-
-				// JavaScripts
-				AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
-
+								
 				if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
 					AddCustomCodeToHead();
 
 				if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
 					AddTrackingScript();
 			}
+
+			AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
 		}
 
 #if !DEBUG
