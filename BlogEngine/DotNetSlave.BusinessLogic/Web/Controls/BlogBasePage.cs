@@ -83,8 +83,8 @@ namespace BlogEngine.Core.Web.Controls
 		}
 
 #if !DEBUG
-		private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.Compiled);
+		private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.Compiled);
 
 		/// <summary>
 		/// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child 
@@ -98,7 +98,7 @@ namespace BlogEngine.Core.Web.Controls
 				base.Render(htmlwriter);
 				string html = htmlwriter.InnerWriter.ToString();
 
-				html = REGEX_BETWEEN_TAGS.Replace(html, "><");
+				html = REGEX_BETWEEN_TAGS.Replace(html, "> <");
 				html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
 				
 				writer.Write(html.Trim());
