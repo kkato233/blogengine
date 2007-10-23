@@ -118,8 +118,8 @@ namespace BlogEngine.Core.Web.HttpModules
     /// </summary>
     private static string ExtractTitle(HttpContext context)
     {
-      int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf("/") + 1;
-      int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(BlogSettings.Instance.FileExtension);
+			int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf("/", StringComparison.Ordinal) + 1;
+			int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(BlogSettings.Instance.FileExtension, StringComparison.Ordinal);
       string title = context.Request.RawUrl.Substring(index, stop - index).Replace(BlogSettings.Instance.FileExtension, string.Empty);
       return context.Server.UrlEncode(title);
     }

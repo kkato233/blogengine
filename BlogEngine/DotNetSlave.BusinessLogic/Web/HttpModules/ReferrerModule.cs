@@ -54,7 +54,7 @@ namespace BlogEngine.Core.Web.HttpModules
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
-      if (!context.Request.PhysicalPath.ToLowerInvariant().Contains(".aspx"))
+      if (!context.Request.PhysicalPath.ToUpperInvariant().Contains(".ASPX"))
         return;
 
       if (context.Request.UrlReferrer != null)
@@ -86,11 +86,11 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private static bool IsSearchEngine(string referrer)
     {
-      string lower = referrer.ToLowerInvariant();
-      if (lower.Contains("yahoo") && lower.Contains("p="))
+      string lower = referrer.ToUpperInvariant();
+      if (lower.Contains("YAHOO") && lower.Contains("P="))
         return true;
 
-      return lower.Contains("?q=") || lower.Contains("&q=");
+      return lower.Contains("?Q=") || lower.Contains("&Q=");
     }
 
     /// <summary>
@@ -135,8 +135,8 @@ namespace BlogEngine.Core.Web.HttpModules
         string host = url.Host;
         if (host.Split('.').Length > 2)
         {
-          int lastIndex = host.LastIndexOf(".");
-          int index = host.LastIndexOf(".", lastIndex - 1);
+					int lastIndex = host.LastIndexOf(".", StringComparison.Ordinal);
+					int index = host.LastIndexOf(".", lastIndex - 1, StringComparison.Ordinal);
           return host.Substring(0, index);
         }
       }

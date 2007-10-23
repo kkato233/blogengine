@@ -13,7 +13,7 @@ namespace BlogEngine.Core.Web.HttpModules
 	/// <summary>
 	/// Removes whitespace from the webpage.
 	/// </summary>
-	public class CleanPageModule : IHttpModule
+	public sealed class CleanPageModule : IHttpModule
 	{
 
 		#region IHttpModule Members
@@ -123,12 +123,12 @@ namespace BlogEngine.Core.Web.HttpModules
 				_sink.Write(outdata, 0, outdata.GetLength(0));
 			}
 
-			private String RemovePostback(string html)
+			private static String RemovePostback(string html)
 			{
 				if (html.Contains("var theForm = "))
 				{
-					int start = html.IndexOf("var theForm = ");
-					int end = html.IndexOf("// -->", start);
+					int start = html.IndexOf("var theForm = ", StringComparison.Ordinal);
+					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
 					string formId = ((System.Web.UI.Page)HttpContext.Current.CurrentHandler).Form.ClientID;
 					return html.Substring(0, start) + "var theForm=$('" + formId + "');" + html.Substring(end);
 				}
@@ -136,12 +136,12 @@ namespace BlogEngine.Core.Web.HttpModules
 				return html;
 			}
 
-			private String RemoveValidation(string html)
+			private static String RemoveValidation(string html)
 			{
 				if (html.Contains("var Page_ValidationActive = false;"))
 				{
-					int start = html.IndexOf("var Page_ValidationActive = false;");
-					int end = html.IndexOf("// -->", start);
+					int start = html.IndexOf("var Page_ValidationActive = false;", StringComparison.Ordinal);
+					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
 					return html.Substring(0, start) + "InitValidators();" + html.Substring(end);
 
 				}
@@ -149,7 +149,7 @@ namespace BlogEngine.Core.Web.HttpModules
 				return html;
 			}
 
-			private String RemoveSubmit(string html)
+			private static String RemoveSubmit(string html)
 			{
 				string js = "if (typeof(ValidatorOnSubmit) == \"function\" && ValidatorOnSubmit() == false) return false;\r\nreturn true;";
 				return html.Replace(js, "return CleanForm_OnSubmit();");
