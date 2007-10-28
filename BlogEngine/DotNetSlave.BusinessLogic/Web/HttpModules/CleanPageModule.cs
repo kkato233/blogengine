@@ -129,8 +129,11 @@ namespace BlogEngine.Core.Web.HttpModules
 				{
 					int start = html.IndexOf("var theForm = ", StringComparison.Ordinal);
 					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
-					string formId = ((System.Web.UI.Page)HttpContext.Current.CurrentHandler).Form.ClientID;
-					return html.Substring(0, start) + "var theForm=$('" + formId + "');" + html.Substring(end);
+					if (start > 0 && end > 0)
+					{
+						string formId = ((System.Web.UI.Page)HttpContext.Current.CurrentHandler).Form.ClientID;
+						return html.Substring(0, start) + "var theForm=$('" + formId + "');" + html.Substring(end);
+					}
 				}
 
 				return html;
@@ -141,9 +144,8 @@ namespace BlogEngine.Core.Web.HttpModules
 				if (html.Contains("var Page_ValidationActive = false;"))
 				{
 					int start = html.IndexOf("var Page_ValidationActive = false;", StringComparison.Ordinal);
-					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
-					return html.Substring(0, start) + "InitValidators();" + html.Substring(end);
-
+					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);					
+						return html.Substring(0, start) + "InitValidators();" + html.Substring(end);
 				}
 
 				return html;
