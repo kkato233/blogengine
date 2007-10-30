@@ -103,6 +103,21 @@ namespace BlogEngine.Core
       return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
     }
 
+		public static bool IsMobile
+		{
+			get
+			{
+				HttpContext context = HttpContext.Current;
+				if (context != null)
+				{
+					//return true;
+					return context.Request.Browser.IsMobileDevice;
+				}
+
+				return false;
+			}
+		}
+
     #region Send e-mail
 
     /// <summary>

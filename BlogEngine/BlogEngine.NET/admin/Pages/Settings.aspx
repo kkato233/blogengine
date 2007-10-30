@@ -38,6 +38,9 @@
         <a href="javascript:void(PreviewTheme());">Preview</a> | 
         <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank">Download</a><br />
         
+        <label for="<%=ddlMobileTheme.ClientID %>"><%=Resources.labels.mobileTheme %></label>
+        <asp:DropDownList runat="server" ID="ddlMobileTheme" /><br />
+        
         <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
         <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />
         

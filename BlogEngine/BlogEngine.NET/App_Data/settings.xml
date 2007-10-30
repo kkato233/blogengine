@@ -9,6 +9,7 @@
   <postsperfeed>15</postsperfeed>
   <fileextension>.aspx</fileextension>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <geocodinglatitude />
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <showlivepreview>True</showlivepreview>
   <enablecommentsearch>True</enablecommentsearch>
@@ -19,9 +20,10 @@
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
   <htmlheader />
+  <mobiletheme>Cogitation</mobiletheme>
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>
-  <geocodinglatitude />
+  <emailsubjectprefix />
   <email>name@example.com</email>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
