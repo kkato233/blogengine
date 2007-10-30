@@ -173,6 +173,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			if (!string.IsNullOrEmpty(context.Request.QueryString["post"]))
 			{
 				Post post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
+				if (post == null)
+				{
+					context.Response.StatusCode = 404;
+					context.Response.Clear();
+					context.Response.End();
+				}
 				subTitle = post.Title;
 			}
 

@@ -67,6 +67,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		BlogSettings.Instance.Description = txtDescription.Text;
 		BlogSettings.Instance.PostsPerPage = int.Parse(txtPostsPerPage.Text);
 		BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
+		BlogSettings.Instance.MobileTheme = ddlMobileTheme.SelectedValue;
 		BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
 		BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
 		BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
@@ -166,6 +167,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
 		cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
 		ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
+		ddlMobileTheme.SelectedValue = BlogSettings.Instance.MobileTheme;
 		cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
 		cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
 		cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
@@ -235,6 +237,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		{
 			int index = dic.LastIndexOf("\\") + 1;
 			ddlTheme.Items.Add(dic.Substring(index));
+			ddlMobileTheme.Items.Add(dic.Substring(index));
 		}
 	}
 

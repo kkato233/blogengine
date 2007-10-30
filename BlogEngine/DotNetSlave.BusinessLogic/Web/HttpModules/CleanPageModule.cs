@@ -125,31 +125,28 @@ namespace BlogEngine.Core.Web.HttpModules
 
 			private static String RemovePostback(string html)
 			{
-				if (html.Contains("var theForm = "))
-				{
-					int start = html.IndexOf("var theForm = ", StringComparison.Ordinal);
-					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
-					if (start > 0 && end > 0)
-					{
-						string formId = ((System.Web.UI.Page)HttpContext.Current.CurrentHandler).Form.ClientID;
-						return html.Substring(0, start) + "var theForm=$('" + formId + "');" + html.Substring(end);
-					}
-				}
+				int start = html.IndexOf("var theForm = ", StringComparison.Ordinal);
+				if (start == -1) return html;
 
-				return html;
+				int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
+				if (end == -1) end = html.IndexOf("//]]>", start, StringComparison.Ordinal);
+				if (end == -1) return html;
+
+				string formId = ((System.Web.UI.Page)HttpContext.Current.CurrentHandler).Form.ClientID;
+				return html.Substring(0, start) + "var theForm=$('" + formId + "');" + html.Substring(end);
 			}
 
 			private static String RemoveValidation(string html)
 			{
-				if (html.Contains("var Page_ValidationActive = false;"))
-				{
-					int start = html.IndexOf("var Page_ValidationActive = false;", StringComparison.Ordinal);
-					int end = html.IndexOf("// -->", start, StringComparison.Ordinal);					
-						return html.Substring(0, start) + "InitValidators();" + html.Substring(end);
-				}
+				int start = html.IndexOf("var Page_ValidationActive = false;", StringComparison.Ordinal);
+				if (start == -1) return html;
 
-				return html;
-			}
+				int end = html.IndexOf("// -->", start, StringComparison.Ordinal);
+				if (end == -1) end = html.IndexOf("//]]>", start, StringComparison.Ordinal);
+				if (end == -1) return html;
+
+				return html.Substring(0, start) + "InitValidators();" + html.Substring(end);
+			} 
 
 			private static String RemoveSubmit(string html)
 			{

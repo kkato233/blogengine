@@ -53,25 +53,29 @@ namespace Controls
           cell.Controls.Add(new LiteralControl(day.DayNumberText));
           foreach (Post post in list)
           {
-            if (post.IsVisible)
-            {
-              HtmlAnchor a = new HtmlAnchor();
-              a.InnerHtml = "<br /><br />" + post.Title;
-              a.HRef = post.RelativeLink.ToString();
-              cell.Controls.Add(a);
-            }
+						if (post.IsVisible)
+						{
+							HtmlAnchor a = new HtmlAnchor();
+							a.InnerHtml = "<br /><br />" + post.Title;
+							a.HRef = post.RelativeLink.ToString();
+							cell.Controls.Add(a);
+						}
           }
         }
         else
         {
-          if (list[0].IsVisible)
-          {
-            HtmlAnchor a = new HtmlAnchor();
-            a.InnerHtml = day.DayNumberText;
-            a.HRef = Utils.RelativeWebRoot + "?date=" + day.Date.ToString("yyyy-MM-dd");
-            a.Attributes["class"] = "exist";
-            cell.Controls.Add(a);
-          }
+					if (list[0].IsVisible)
+					{
+						HtmlAnchor a = new HtmlAnchor();
+						a.InnerHtml = day.DayNumberText;
+						a.HRef = Utils.RelativeWebRoot + "?date=" + day.Date.ToString("yyyy-MM-dd");
+						a.Attributes["class"] = "exist";
+						cell.Controls.Add(a);
+					}
+					else
+					{
+						cell.Text = day.DayNumberText;
+					}
         }
       }
       else

@@ -578,6 +578,9 @@ namespace BlogEngine.Core
 		{
 			get
 			{
+				if (Utils.IsMobile && !string.IsNullOrEmpty(MobileTheme))
+					return MobileTheme;
+
 				return configuredTheme;
 			}
 
@@ -593,6 +596,21 @@ namespace BlogEngine.Core
 				}
 			}
 		}
+		#endregion
+
+		#region MobileTheme
+
+		private string _MobileTheme;
+		/// <summary>
+		/// Gets or sets the mobile theme.
+		/// </summary>
+		/// <value>The mobile theme.</value>
+		public string MobileTheme
+		{
+			get { return _MobileTheme; }
+			set { _MobileTheme = value; }
+		}
+
 		#endregion
 
 		#region RemoveWhitespaceInStyleSheets

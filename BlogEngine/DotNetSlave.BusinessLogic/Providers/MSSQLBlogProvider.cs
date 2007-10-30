@@ -590,12 +590,13 @@ namespace BlogEngine.Core.Providers
 
       using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
       {
-        string sqlQuery =   "INSERT INTO be_Categories (CategoryID, CategoryName) " +
-                            "VALUES (@catid, @catname)";
+        string sqlQuery =   "INSERT INTO be_Categories (CategoryID, CategoryName, description) " +
+                            "VALUES (@catid, @catname, @description)";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
         {
           cmd.Parameters.Add(new SqlParameter("@catid", category.Id));
           cmd.Parameters.Add(new SqlParameter("@catname", category.Title));
+					cmd.Parameters.Add(new SqlParameter("@description", category.Description));
           conn.Open();
           cmd.ExecuteNonQuery();
         }
@@ -616,11 +617,13 @@ namespace BlogEngine.Core.Providers
       {
         string sqlQuery = "UPDATE be_Categories " +
                           "SET CategoryName = @catname " +
+													"SET description = @description " +
                           "WHERE CategoryID = @catid";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
         {
           cmd.Parameters.Add(new SqlParameter("@catid", category.Id));
           cmd.Parameters.Add(new SqlParameter("@catname", category.Title));
+					cmd.Parameters.Add(new SqlParameter("@description", category.Description));
           conn.Open();
           cmd.ExecuteNonQuery();
         }
@@ -657,7 +660,7 @@ namespace BlogEngine.Core.Providers
       List<Category> categories = new List<Category>();
       using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
       {
-        string sqlQuery = "SELECT CategoryID, CategoryName FROM be_Categories ";
+        string sqlQuery = "SELECT CategoryID, CategoryName, description FROM be_Categories ";
         SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
         DataTable dtCategories = new DataTable();
         dtCategories.Locale = CultureInfo.InvariantCulture;
@@ -667,6 +670,7 @@ namespace BlogEngine.Core.Providers
         {
           Category cat = new Category();
           cat.Title = dr[1].ToString();
+					cat.Description = dr[2].ToString();
           cat.Id = new Guid(dr[0].ToString());
           categories.Add(cat);
           cat.MarkOld();
