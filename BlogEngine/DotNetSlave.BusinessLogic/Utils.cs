@@ -4,6 +4,7 @@ using System;
 using System.Net.Mail;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Configuration;
 using System.Globalization;
 using System.Web;
@@ -103,6 +104,8 @@ namespace BlogEngine.Core
       return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
     }
 
+		private static readonly Regex MOBILE_REGEX = new Regex(ConfigurationManager.AppSettings.Get("BlogEngine.MobileDevices"), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
 		public static bool IsMobile
 		{
 			get
@@ -110,8 +113,11 @@ namespace BlogEngine.Core
 				HttpContext context = HttpContext.Current;
 				if (context != null)
 				{
-					//return true;
-					return context.Request.Browser.IsMobileDevice;
+					if (context.Request.Browser.IsMobileDevice)
+						return true;
+
+					if (!string.IsNullOrEmpty(context.Request.UserAgent) && MOBILE_REGEX.IsMatch(context.Request.UserAgent))
+						return true;
 				}
 
 				return false;
