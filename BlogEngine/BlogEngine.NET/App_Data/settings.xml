@@ -20,7 +20,7 @@
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
   <htmlheader />
-  <mobiletheme>Cogitation</mobiletheme>
+  <mobiletheme>Mobile</mobiletheme>
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>
   <emailsubjectprefix />
