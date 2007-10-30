@@ -102,10 +102,16 @@ namespace BlogEngine.Core
       int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
 
       return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
-    }
+		}
+
+		#region Is mobile device
 
 		private static readonly Regex MOBILE_REGEX = new Regex(ConfigurationManager.AppSettings.Get("BlogEngine.MobileDevices"), RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+		/// <summary>
+		/// Gets a value indicating whether the client is a mobile device.
+		/// </summary>
+		/// <value><c>true</c> if this instance is mobile; otherwise, <c>false</c>.</value>
 		public static bool IsMobile
 		{
 			get
@@ -113,10 +119,11 @@ namespace BlogEngine.Core
 				HttpContext context = HttpContext.Current;
 				if (context != null)
 				{
-					if (context.Request.Browser.IsMobileDevice)
+					HttpRequest request = context.Request;
+					if (request.Browser.IsMobileDevice)
 						return true;
 
-					if (!string.IsNullOrEmpty(context.Request.UserAgent) && MOBILE_REGEX.IsMatch(context.Request.UserAgent))
+					if (!string.IsNullOrEmpty(request.UserAgent) && MOBILE_REGEX.IsMatch(request.UserAgent))
 						return true;
 				}
 
@@ -124,9 +131,11 @@ namespace BlogEngine.Core
 			}
 		}
 
-    #region Send e-mail
+		#endregion
 
-    /// <summary>
+		#region Send e-mail
+
+		/// <summary>
     /// Sends a MailMessage object using the SMTP settings.
     /// </summary>
     public static void SendMailMessage(MailMessage message)
