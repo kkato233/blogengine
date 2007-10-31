@@ -57,56 +57,31 @@ namespace BlogEngine.Core
 		/// </summary>
 		/// <param name="settings">The <see cref="BlogSettings"/> to use when generating syndication results.</param>
 		/// <param name="categories">A collection of <see cref="Category"/> objects used to categorize the web log content.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="settings"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="categories"/> is a null reference (Nothing in Visual Basic).</exception>
 		public SyndicationGenerator(BlogSettings settings, List<Category> categories)
 		{
-			//------------------------------------------------------------
-			//	Attempt to handle class initialization
-			//------------------------------------------------------------
-			try
+			if (settings == null)
 			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (settings == null)
-				{
-					throw new ArgumentNullException("settings");
-				}
-				if (categories == null)
-				{
-					throw new ArgumentNullException("categories");
-				}
-
-				//------------------------------------------------------------
-				//	Initialize class state
-				//------------------------------------------------------------
-				this.Settings = settings;
-
-				if (categories.Count > 0)
-				{
-					Category[] values = new Category[categories.Count];
-					categories.CopyTo(values);
-
-					foreach (Category category in values)
-					{
-						this.Categories.Add(category);
-					}
-				}
+				throw new ArgumentNullException("settings");
 			}
-			catch (ArgumentNullException)
+			if (categories == null)
 			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
+				throw new ArgumentNullException("categories");
 			}
-			catch
+
+			//------------------------------------------------------------
+			//	Initialize class state
+			//------------------------------------------------------------
+			this.Settings = settings;
+
+			if (categories.Count > 0)
 			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
+				Category[] values = new Category[categories.Count];
+				categories.CopyTo(values);
+
+				foreach (Category category in values)
+				{
+					this.Categories.Add(category);
+				}
 			}
 		}
 		#endregion
@@ -200,38 +175,14 @@ namespace BlogEngine.Core
 		/// <returns>A string representation of the TimeSpan.</returns>
 		private static string FormatW3cOffset(TimeSpan offset, string separator)
 		{
-			//------------------------------------------------------------
-			//	Local members
-			//------------------------------------------------------------
 			string formattedOffset = String.Empty;
 
-			//------------------------------------------------------------
-			//	Attempt to return string representation
-			//------------------------------------------------------------
-			try
+			if (offset >= TimeSpan.Zero)
 			{
-				//------------------------------------------------------------
-				//	Generate formatted result
-				//------------------------------------------------------------
-				if (offset >= TimeSpan.Zero)
-				{
-					formattedOffset = "+";
-				}
-
-				formattedOffset = String.Concat(formattedOffset, offset.Hours.ToString("00", CultureInfo.InvariantCulture), separator, offset.Minutes.ToString("00", CultureInfo.InvariantCulture));
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
+				formattedOffset = "+";
 			}
 
-			//------------------------------------------------------------
-			//	Return result
-			//------------------------------------------------------------
-			return formattedOffset;
+			return String.Concat(formattedOffset, offset.Hours.ToString("00", CultureInfo.InvariantCulture), separator, offset.Minutes.ToString("00", CultureInfo.InvariantCulture));
 		}
 		#endregion
 
@@ -242,48 +193,15 @@ namespace BlogEngine.Core
 		/// <param name="publishable">The <see cref="IPublishable"/> used to generate the permalink for.</param>
 		/// <returns>A <see cref="Uri"/> that represents the peramlink for the supplied <see cref="IPublishable"/>.</returns>
 		/// <exception cref="ArgumentNullException">The <paramref name="publishable"/> is a null reference (Nothing in Visual Basic).</exception>
-		public static Uri GetPermaLink(IPublishable publishable)
+		private static Uri GetPermaLink(IPublishable publishable)
 		{
-			//------------------------------------------------------------
-			//	Attempt to create permalink
-			//------------------------------------------------------------
-			try
+			Post post = publishable as Post;
+			if (post != null)
 			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (publishable == null)
-				{
-					throw new ArgumentNullException("publishable");
-				}
+				return post.PermaLink;
+			}
 
-				//------------------------------------------------------------
-				//	Return result
-				//------------------------------------------------------------
-				Post post = publishable as Post;
-				if (post != null)
-				{
-					return post.PermaLink;
-				}
-				else
-				{
-					return Utils.ConvertToAbsolute(publishable.RelativeLink);
-				}
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
+			return Utils.ConvertToAbsolute(publishable.RelativeLink);
 		}
 		#endregion
 
@@ -295,98 +213,33 @@ namespace BlogEngine.Core
 		/// <returns>The equivalent <a href="http://asg.web.cmu.edu/rfc/rfc822.html">RFC-822 DateTime</a> string representation.</returns>
 		public static string ToRfc822DateTime(DateTime dateTime)
 		{
+			int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now.AddHours(BlogSettings.Instance.Timezone)).Hours;
+			string timeZone = "+" + offset.ToString(NumberFormatInfo.InvariantInfo).PadLeft(2, '0');
+
 			//------------------------------------------------------------
-			//	Attempt to return string representation
+			//	Adjust time zone based on offset
 			//------------------------------------------------------------
-			try
+			if (offset < 0)
 			{
-				//------------------------------------------------------------
-				//	Get offset and time zone
-				//------------------------------------------------------------
-				int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now.AddHours(BlogSettings.Instance.Timezone)).Hours;
-				string timeZone = "+" + offset.ToString(NumberFormatInfo.InvariantInfo).PadLeft(2, '0');
-
-				//------------------------------------------------------------
-				//	Adjust time zone based on offset
-				//------------------------------------------------------------
-				if (offset < 0)
-				{
-					int i = offset * -1;
-					timeZone = "-" + i.ToString(NumberFormatInfo.InvariantInfo).PadLeft(2, '0');
-
-				}
-
-				//------------------------------------------------------------
-				//	Return RFC-822 formatted DateTime
-				//------------------------------------------------------------
-				return dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss " + timeZone.PadRight(5, '0'), DateTimeFormatInfo.InvariantInfo);
+				int i = offset * -1;
+				timeZone = "-" + i.ToString(NumberFormatInfo.InvariantInfo).PadLeft(2, '0');
 
 			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
+
+			return dateTime.ToString("ddd, dd MMM yyyy HH:mm:ss " + timeZone.PadRight(5, '0'), DateTimeFormatInfo.InvariantInfo);
 		}
 		#endregion
 
-		#region ToW3cDateTime(DateTime utcDateTime)
+		#region ToW3CDateTime(DateTime utcDateTime)
 		/// <summary>
 		/// Converts the supplied <see cref="DateTime"/> to its equivalent <a href="http://www.w3.org/TR/NOTE-datetime">W3C DateTime</a> string representation.
 		/// </summary>
 		/// <param name="utcDateTime">The Coordinated Universal Time (UTC) <see cref="DateTime"/> to convert.</param>
 		/// <returns>The equivalent <a href="http://www.w3.org/TR/NOTE-datetime">W3C DateTime</a> string representation.</returns>
-		public static string ToW3cDateTime(DateTime utcDateTime)
+		private static string ToW3CDateTime(DateTime utcDateTime)
 		{
-			//------------------------------------------------------------
-			//	Attempt to return string representation
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Return result
-				//------------------------------------------------------------
-				TimeSpan utcOffset = TimeSpan.Zero;
-				return (utcDateTime + utcOffset).ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + SyndicationGenerator.FormatW3cOffset(utcOffset, ":");
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
-		}
-		#endregion
-
-		#region ToW3cDateTime(DateTime utcDateTime, TimeSpan utcOffset)
-		/// <summary>
-		/// Converts the supplied <see cref="DateTime"/> to its equivalent <a href="http://www.w3.org/TR/NOTE-datetime">W3C DateTime</a> string representation.
-		/// </summary>
-		/// <param name="utcDateTime">The Coordinated Universal Time (UTC) <see cref="DateTime"/> to convert.</param>
-		/// <param name="utcOffset">The UTC offest of the <paramref name="utcDateTime"/>.</param>
-		/// <returns>The equivalent <a href="http://www.w3.org/TR/NOTE-datetime">W3C DateTime</a> string representation.</returns>
-		public static string ToW3cDateTime(DateTime utcDateTime, TimeSpan utcOffset)
-		{
-			//------------------------------------------------------------
-			//	Attempt to return string representation
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Return result
-				//------------------------------------------------------------
-				return (utcDateTime + utcOffset).ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + SyndicationGenerator.FormatW3cOffset(utcOffset, ":");
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
+			TimeSpan utcOffset = TimeSpan.Zero;
+			return (utcDateTime + utcOffset).ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + SyndicationGenerator.FormatW3cOffset(utcOffset, ":");
 		}
 		#endregion
 
@@ -414,84 +267,36 @@ namespace BlogEngine.Core
 		/// <param name="stream">The <see cref="Stream"/> to which you want to write the syndication feed.</param>
 		/// <param name="publishables">The collection of <see cref="IPublishable"/> objects used to generate the syndication feed content.</param>
 		/// <param name="title">The title of the RSS channel</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="stream"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishables"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentException">The provided <paramref name="stream"/> does not support writing.</exception>
-		/// <exception cref="NotImplementedException">The provided <paramref name="format"/> has not been implemented by the <see cref="SyndicationGenerator"/>.</exception>
 		public void WriteFeed(SyndicationFormat format, Stream stream, List<IPublishable> publishables, string title)
 		{
+			if (stream == null)
+			{
+				throw new ArgumentNullException("stream");
+			}
+			if (publishables == null)
+			{
+				throw new ArgumentNullException("publishables");
+			}
+			if (!stream.CanWrite)
+			{
+				throw new ArgumentException(String.Format(null, "Unable to generate {0} syndication feed. The provided stream does not support writing.", format), "stream");
+			}
+
 			//------------------------------------------------------------
-			//	Attempt to generate syndication feed and write to stream
+			//	Write syndication feed based on specified format
 			//------------------------------------------------------------
-			try
+			switch (format)
 			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (stream == null)
-				{
-					throw new ArgumentNullException("stream");
-				}
-				if (publishables == null)
-				{
-					throw new ArgumentNullException("publishables");
-				}
-				if (!stream.CanWrite)
-				{
-					throw new ArgumentException(String.Format(null, "Unable to generate {0} syndication feed. The provided stream does not support writing.", format), "stream");
-				}
+				case SyndicationFormat.Atom:
+					this.WriteAtomFeed(stream, publishables, title);
+					break;
 
-				//------------------------------------------------------------
-				//	Write syndication feed based on specified format
-				//------------------------------------------------------------
-				switch (format)
-				{
-					case SyndicationFormat.Atom:
-						this.WriteAtomFeed(stream, publishables, title);
-						break;
+				case SyndicationFormat.Rss:
+					this.WriteRssFeed(stream, publishables, title);
+					break;
 
-					case SyndicationFormat.Rss:
-						this.WriteRssFeed(stream, publishables, title);
-						break;
-
-					default:
-						throw new NotImplementedException(String.Format(null, "The syndication format '{0}' has not been implemented.", format));
-				}
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch (ArgumentException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch (XmlException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow XML exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch (NotImplementedException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow not implemented exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
+				default:
+					throw new NotImplementedException(String.Format(null, "The syndication format '{0}' has not been implemented.", format));
 			}
 		}
 		#endregion
@@ -506,85 +311,34 @@ namespace BlogEngine.Core
 		/// <param name="stream">The <see cref="Stream"/> to which you want to write the syndication feed.</param>
 		/// <param name="publishables">The collection of <see cref="IPublishable"/> objects used to generate the syndication feed content.</param>
 		/// <param name="title">The title of the ATOM content.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="stream"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishables"/> is a null reference (Nothing in Visual Basic).</exception>
-		protected void WriteAtomFeed(Stream stream, List<IPublishable> publishables, string title)
+		private void WriteAtomFeed(Stream stream, List<IPublishable> publishables, string title)
 		{
+			XmlWriterSettings writerSettings = new XmlWriterSettings();
+			writerSettings.Encoding = System.Text.Encoding.UTF8;
+			writerSettings.Indent = true;
+
 			//------------------------------------------------------------
-			//	Attempt to generate syndication feed and write to stream
+			//	Create writer against stream using defined settings
 			//------------------------------------------------------------
-			try
+			using (XmlWriter writer = XmlWriter.Create(stream, writerSettings))
 			{
+				writer.WriteStartElement("feed", "http://www.w3.org/2005/Atom");
+				writer.WriteAttributeString("version", "1.0");
+
 				//------------------------------------------------------------
-				//	Validate parameters
+				//	Write XML namespaces used to support syndication extensions
 				//------------------------------------------------------------
-				if (stream == null)
+				foreach (string prefix in SyndicationGenerator.SupportedNamespaces.Keys)
 				{
-					throw new ArgumentNullException("stream");
-				}
-				if (publishables == null)
-				{
-					throw new ArgumentNullException("publishables");
+					writer.WriteAttributeString("xmlns", prefix, null, SyndicationGenerator.SupportedNamespaces[prefix]);
 				}
 
 				//------------------------------------------------------------
-				//	Define writer settings
+				//	Write feed content
 				//------------------------------------------------------------
-				XmlWriterSettings writerSettings = new XmlWriterSettings();
-				writerSettings.Encoding = System.Text.Encoding.UTF8;
-				writerSettings.Indent = true;
+				this.WriteAtomContent(writer, publishables, title);
 
-				//------------------------------------------------------------
-				//	Create writer against stream using defined settings
-				//------------------------------------------------------------
-				using (XmlWriter writer = XmlWriter.Create(stream, writerSettings))
-				{
-					//------------------------------------------------------------
-					//	Write root element
-					//------------------------------------------------------------
-					writer.WriteStartElement("feed", "http://www.w3.org/2005/Atom");
-
-					//------------------------------------------------------------
-					//	Write syndication feed version attribute
-					//------------------------------------------------------------
-					writer.WriteAttributeString("version", "1.0");
-
-					//------------------------------------------------------------
-					//	Write XML namespaces used to support syndication extensions
-					//------------------------------------------------------------
-					foreach (string prefix in SyndicationGenerator.SupportedNamespaces.Keys)
-					{
-						writer.WriteAttributeString("xmlns", prefix, null, SyndicationGenerator.SupportedNamespaces[prefix]);
-					}
-
-					//------------------------------------------------------------
-					//	Write feed content
-					//------------------------------------------------------------
-					this.WriteAtomContent(writer, publishables, title);
-
-					writer.WriteFullEndElement();
-				}
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch (XmlException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow XML exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
+				writer.WriteFullEndElement();
 			}
 		}
 		#endregion
@@ -596,85 +350,34 @@ namespace BlogEngine.Core
 		/// <param name="stream">The <see cref="Stream"/> to which you want to write the syndication feed.</param>
 		/// <param name="publishables">The collection of <see cref="IPublishable"/> objects used to generate the syndication feed content.</param>
 		/// <param name="title">The title of the RSS channel.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="stream"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishables"/> is a null reference (Nothing in Visual Basic).</exception>
-		protected void WriteRssFeed(Stream stream, List<IPublishable> publishables, string title)
+		private void WriteRssFeed(Stream stream, List<IPublishable> publishables, string title)
 		{
+			XmlWriterSettings writerSettings = new XmlWriterSettings();
+			writerSettings.Encoding = System.Text.Encoding.UTF8;
+			writerSettings.Indent = true;
+
 			//------------------------------------------------------------
-			//	Attempt to generate syndication feed and write to stream
+			//	Create writer against stream using defined settings
 			//------------------------------------------------------------
-			try
+			using (XmlWriter writer = XmlWriter.Create(stream, writerSettings))
 			{
+				writer.WriteStartElement("rss");
+				writer.WriteAttributeString("version", "2.0");
+
 				//------------------------------------------------------------
-				//	Validate parameters
+				//	Write XML namespaces used to support syndication extensions
 				//------------------------------------------------------------
-				if (stream == null)
+				foreach (string prefix in SyndicationGenerator.SupportedNamespaces.Keys)
 				{
-					throw new ArgumentNullException("stream");
-				}
-				if (publishables == null)
-				{
-					throw new ArgumentNullException("publishables");
+					writer.WriteAttributeString("xmlns", prefix, null, SyndicationGenerator.SupportedNamespaces[prefix]);
 				}
 
 				//------------------------------------------------------------
-				//	Define writer settings
+				//	Write <channel> element
 				//------------------------------------------------------------
-				XmlWriterSettings writerSettings = new XmlWriterSettings();
-				writerSettings.Encoding = System.Text.Encoding.UTF8;
-				writerSettings.Indent = true;
+				this.WriteRssChannel(writer, publishables, title);
 
-				//------------------------------------------------------------
-				//	Create writer against stream using defined settings
-				//------------------------------------------------------------
-				using (XmlWriter writer = XmlWriter.Create(stream, writerSettings))
-				{
-					//------------------------------------------------------------
-					//	Write root element
-					//------------------------------------------------------------
-					writer.WriteStartElement("rss");
-
-					//------------------------------------------------------------
-					//	Write syndication feed version attribute
-					//------------------------------------------------------------
-					writer.WriteAttributeString("version", "2.0");
-
-					//------------------------------------------------------------
-					//	Write XML namespaces used to support syndication extensions
-					//------------------------------------------------------------
-					foreach (string prefix in SyndicationGenerator.SupportedNamespaces.Keys)
-					{
-						writer.WriteAttributeString("xmlns", prefix, null, SyndicationGenerator.SupportedNamespaces[prefix]);
-					}
-
-					//------------------------------------------------------------
-					//	Write <channel> element
-					//------------------------------------------------------------
-					this.WriteRssChannel(writer, publishables, title);
-
-					writer.WriteFullEndElement();
-				}
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch (XmlException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow XML exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
+				writer.WriteFullEndElement();
 			}
 		}
 		#endregion
@@ -689,82 +392,34 @@ namespace BlogEngine.Core
 		/// <param name="writer">The <see cref="XmlWriter"/> to write channel element information to.</param>
 		/// <param name="publishables">The collection of <see cref="IPublishable"/> objects used to generate syndication content.</param>
 		/// <param name="title">The title of the RSS channel.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishables"/> is a null reference (Nothing in Visual Basic).</exception>
 		private void WriteRssChannel(XmlWriter writer, List<IPublishable> publishables, string title)
 		{
+			writer.WriteStartElement("channel");
+
+			writer.WriteElementString("title", title);
+			writer.WriteElementString("description", this.Settings.Description);
+			writer.WriteElementString("link", Utils.AbsoluteWebRoot.ToString());
+
 			//------------------------------------------------------------
-			//	Attempt to write channel information
+			//	Write common/shared channel elements
 			//------------------------------------------------------------
-			try
+			this.WriteRssChannelCommonElements(writer);
+
+			foreach (IPublishable publishable in publishables)
 			{
 				//------------------------------------------------------------
-				//	Validate parameters
+				//	Skip publishable content if it is not visible
 				//------------------------------------------------------------
-				if (writer == null)
+				if (publishable.IsVisible)
 				{
-					throw new ArgumentNullException("writer");
+					WriteRssItem(writer, publishable);
 				}
-				if (publishables == null)
-				{
-					throw new ArgumentNullException("publishables");
-				}
-
-				//------------------------------------------------------------
-				//	Write <channel> element
-				//------------------------------------------------------------
-				writer.WriteStartElement("channel");
-
-				//------------------------------------------------------------
-				//	Write required channel elements
-				//------------------------------------------------------------
-				writer.WriteElementString("title", title);
-				writer.WriteElementString("description", this.Settings.Description);
-				writer.WriteElementString("link", Utils.AbsoluteWebRoot.ToString());
-
-				//------------------------------------------------------------
-				//	Write common/shared channel elements
-				//------------------------------------------------------------
-				this.WriteRssChannelCommonElements(writer);
-
-				//------------------------------------------------------------
-				//	Enumerate through publishable content
-				//------------------------------------------------------------
-				foreach (IPublishable publishable in publishables)
-				{
-					//------------------------------------------------------------
-					//	Skip publishable content if it is not visible
-					//------------------------------------------------------------
-					if (!publishable.IsVisible)
-					{
-						continue;
-					}
-
-					//------------------------------------------------------------
-					//	Write <item> element for publishable content
-					//------------------------------------------------------------
-					this.WriteRssItem(writer, publishable);
-				}
-
-				//------------------------------------------------------------
-				//	Write </channel> element
-				//------------------------------------------------------------
-				writer.WriteEndElement();
 			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
+
+			//------------------------------------------------------------
+			//	Write </channel> element
+			//------------------------------------------------------------
+			writer.WriteEndElement();
 		}
 		#endregion
 
@@ -773,94 +428,65 @@ namespace BlogEngine.Core
 		/// Writes the common/shared RSS channel element information to the specified <see cref="XmlWriter"/>.
 		/// </summary>
 		/// <param name="writer">The <see cref="XmlWriter"/> to write channel element information to.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
 		private void WriteRssChannelCommonElements(XmlWriter writer)
 		{
 			//------------------------------------------------------------
-			//	Attempt to write channel information
+			//	Write optional channel elements
 			//------------------------------------------------------------
-			try
+			writer.WriteElementString("docs", "http://www.rssboard.org/rss-specification");
+			writer.WriteElementString("generator", String.Format(null, "{0} {1} ({2})", GENERATOR_NAME, GENERATOR_VERSION, GENERATOR_URI));
+			if (!String.IsNullOrEmpty(this.Settings.Language))
 			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (writer == null)
-				{
-					throw new ArgumentNullException("writer");
-				}
+				writer.WriteElementString("language", this.Settings.Language);
+			}
 
-				//------------------------------------------------------------
-				//	Write optional channel elements
-				//------------------------------------------------------------
-				writer.WriteElementString("docs", "http://www.rssboard.org/rss-specification");
-				writer.WriteElementString("generator", String.Format(null, "{0} {1} ({2})", GENERATOR_NAME, GENERATOR_VERSION, GENERATOR_URI));
-				if (!String.IsNullOrEmpty(this.Settings.Language))
-				{
-					writer.WriteElementString("language", this.Settings.Language);
-				}
+			//------------------------------------------------------------
+			//	Write blogChannel syndication extension elements
+			//------------------------------------------------------------
+			Uri blogRoll;
+			if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/opml.axd"), UriKind.RelativeOrAbsolute, out blogRoll))
+			{
+				writer.WriteElementString("blogChannel", "blogRoll", "http://backend.userland.com/blogChannelModule", blogRoll.ToString());
+			}
 
-				//------------------------------------------------------------
-				//	Write blogChannel syndication extension elements
-				//------------------------------------------------------------
-				Uri blogRoll;
-				if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/opml.axd"), UriKind.RelativeOrAbsolute, out blogRoll))
+			if (!String.IsNullOrEmpty(this.Settings.Endorsement))
+			{
+				Uri blink;
+				if (Uri.TryCreate(this.Settings.Endorsement, UriKind.RelativeOrAbsolute, out blink))
 				{
-					writer.WriteElementString("blogChannel", "blogRoll", "http://backend.userland.com/blogChannelModule", blogRoll.ToString());
-				}
-
-				if (!String.IsNullOrEmpty(this.Settings.Endorsement))
-				{
-					Uri blink;
-					if (Uri.TryCreate(this.Settings.Endorsement, UriKind.RelativeOrAbsolute, out blink))
-					{
-						writer.WriteElementString("blogChannel", "blink", "http://backend.userland.com/blogChannelModule", blink.ToString());
-					}
-				}
-
-				//------------------------------------------------------------
-				//	Write Dublin Core syndication extension elements
-				//------------------------------------------------------------
-				if (!String.IsNullOrEmpty(this.Settings.AuthorName))
-				{
-					writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", this.Settings.AuthorName);
-				}
-				if (!String.IsNullOrEmpty(this.Settings.Description))
-				{
-					writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
-				}
-				if (!String.IsNullOrEmpty(this.Settings.Name))
-				{
-					writer.WriteElementString("dc", "title", "http://purl.org/dc/elements/1.1/", this.Settings.Name);
-				}
-
-				//------------------------------------------------------------
-				//	Write basic geo-coding syndication extension elements
-				//------------------------------------------------------------
-				NumberFormatInfo decimalFormatInfo = new NumberFormatInfo();
-				decimalFormatInfo.NumberDecimalDigits = 6;
-
-				if (this.Settings.GeocodingLatitude != Single.MinValue)
-				{
-					writer.WriteElementString("geo", "lat", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLatitude.ToString("N", decimalFormatInfo));
-				}
-				if (this.Settings.GeocodingLongitude != Single.MinValue)
-				{
-					writer.WriteElementString("geo", "long", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLongitude.ToString("N", decimalFormatInfo));
+					writer.WriteElementString("blogChannel", "blink", "http://backend.userland.com/blogChannelModule", blink.ToString());
 				}
 			}
-			catch (ArgumentNullException)
+
+			//------------------------------------------------------------
+			//	Write Dublin Core syndication extension elements
+			//------------------------------------------------------------
+			if (!String.IsNullOrEmpty(this.Settings.AuthorName))
 			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
+				writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", this.Settings.AuthorName);
 			}
-			catch
+			if (!String.IsNullOrEmpty(this.Settings.Description))
 			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
+				writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
+			}
+			if (!String.IsNullOrEmpty(this.Settings.Name))
+			{
+				writer.WriteElementString("dc", "title", "http://purl.org/dc/elements/1.1/", this.Settings.Name);
+			}
+
+			//------------------------------------------------------------
+			//	Write basic geo-coding syndication extension elements
+			//------------------------------------------------------------
+			NumberFormatInfo decimalFormatInfo = new NumberFormatInfo();
+			decimalFormatInfo.NumberDecimalDigits = 6;
+
+			if (this.Settings.GeocodingLatitude != Single.MinValue)
+			{
+				writer.WriteElementString("geo", "lat", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLatitude.ToString("N", decimalFormatInfo));
+			}
+			if (this.Settings.GeocodingLongitude != Single.MinValue)
+			{
+				writer.WriteElementString("geo", "long", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLongitude.ToString("N", decimalFormatInfo));
 			}
 		}
 		#endregion
@@ -871,27 +497,8 @@ namespace BlogEngine.Core
 		/// </summary>
 		/// <param name="writer">The <see cref="XmlWriter"/> to write channel item element information to.</param>
 		/// <param name="publishable">The <see cref="IPublishable"/> used to generate channel item content.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishable"/> is a null reference (Nothing in Visual Basic).</exception>
-		private void WriteRssItem(XmlWriter writer, IPublishable publishable)
+		private static void WriteRssItem(XmlWriter writer, IPublishable publishable)
 		{
-			//------------------------------------------------------------
-			//	Attempt to write channel item information
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (writer == null)
-				{
-					throw new ArgumentNullException("writer");
-				}
-				if (publishable == null)
-				{
-					throw new ArgumentNullException("publishable");
-				}
-
 				//------------------------------------------------------------
 				//	Cast IPublishable as Post to support comments/trackback
 				//------------------------------------------------------------
@@ -991,21 +598,6 @@ namespace BlogEngine.Core
 				//	Write </item> element
 				//------------------------------------------------------------
 				writer.WriteEndElement();
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
 		}
 		#endregion
 
@@ -1019,33 +611,14 @@ namespace BlogEngine.Core
 		/// <param name="writer">The <see cref="XmlWriter"/> to write channel element information to.</param>
 		/// <param name="publishables">The collection of <see cref="IPublishable"/> objects used to generate syndication content.</param>
 		/// <param name="title">The title of the ATOM content.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishables"/> is a null reference (Nothing in Visual Basic).</exception>
 		private void WriteAtomContent(XmlWriter writer, List<IPublishable> publishables, string title)
 		{
-			//------------------------------------------------------------
-			//	Attempt to write channel information
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (writer == null)
-				{
-					throw new ArgumentNullException("writer");
-				}
-				if (publishables == null)
-				{
-					throw new ArgumentNullException("publishables");
-				}
-
 				//------------------------------------------------------------
 				//	Write required feed elements
 				//------------------------------------------------------------
 				writer.WriteElementString("id", Utils.AbsoluteWebRoot.ToString());
 				writer.WriteElementString("title", title);
-				writer.WriteElementString("updated", (publishables.Count > 0) ? SyndicationGenerator.ToW3cDateTime(publishables[0].DateModified.ToUniversalTime()) : SyndicationGenerator.ToW3cDateTime(DateTime.UtcNow));
+				writer.WriteElementString("updated", (publishables.Count > 0) ? SyndicationGenerator.ToW3CDateTime(publishables[0].DateModified.ToUniversalTime()) : SyndicationGenerator.ToW3CDateTime(DateTime.UtcNow));
 
 				//------------------------------------------------------------
 				//	Write recommended feed elements
@@ -1074,9 +647,6 @@ namespace BlogEngine.Core
 				//------------------------------------------------------------
 				this.WriteAtomContentCommonElements(writer);
 
-				//------------------------------------------------------------
-				//	Enumerate through publishable content
-				//------------------------------------------------------------
 				foreach (IPublishable publishable in publishables)
 				{
 					//------------------------------------------------------------
@@ -1090,23 +660,8 @@ namespace BlogEngine.Core
 					//------------------------------------------------------------
 					//	Write <entry> element for publishable content
 					//------------------------------------------------------------
-					this.WriteAtomEntry(writer, publishable);
+					WriteAtomEntry(writer, publishable);
 				}
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
 		}
 		#endregion
 
@@ -1115,22 +670,8 @@ namespace BlogEngine.Core
 		/// Writes the common/shared Atom feed element information to the specified <see cref="XmlWriter"/>.
 		/// </summary>
 		/// <param name="writer">The <see cref="XmlWriter"/> to write channel element information to.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
-		private void WriteAtomContentCommonElements(XmlWriter writer)
+	private void WriteAtomContentCommonElements(XmlWriter writer)
 		{
-			//------------------------------------------------------------
-			//	Attempt to write channel information
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (writer == null)
-				{
-					throw new ArgumentNullException("writer");
-				}
-
 				//------------------------------------------------------------
 				//	Write optional feed elements
 				//------------------------------------------------------------
@@ -1196,21 +737,6 @@ namespace BlogEngine.Core
 				{
 					writer.WriteElementString("geo", "long", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLongitude.ToString("N", decimalFormatInfo));
 				}
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
 		}
 		#endregion
 
@@ -1220,27 +746,8 @@ namespace BlogEngine.Core
 		/// </summary>
 		/// <param name="writer">The <see cref="XmlWriter"/> to write feed entry element information to.</param>
 		/// <param name="publishable">The <see cref="IPublishable"/> used to generate feed entry content.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="writer"/> is a null reference (Nothing in Visual Basic).</exception>
-		/// <exception cref="ArgumentNullException">The <paramref name="publishable"/> is a null reference (Nothing in Visual Basic).</exception>
-		private void WriteAtomEntry(XmlWriter writer, IPublishable publishable)
+		private static void WriteAtomEntry(XmlWriter writer, IPublishable publishable)
 		{
-			//------------------------------------------------------------
-			//	Attempt to write feed entry information
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Validate parameters
-				//------------------------------------------------------------
-				if (writer == null)
-				{
-					throw new ArgumentNullException("writer");
-				}
-				if (publishable == null)
-				{
-					throw new ArgumentNullException("publishable");
-				}
-
 				Post post = publishable as Post;
 				Comment comment = publishable as Comment;
 
@@ -1265,7 +772,7 @@ namespace BlogEngine.Core
 				//------------------------------------------------------------
 				writer.WriteElementString("id", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
 				writer.WriteElementString("title", publishable.Title);
-				writer.WriteElementString("updated", SyndicationGenerator.ToW3cDateTime(publishable.DateCreated.ToUniversalTime()));
+				writer.WriteElementString("updated", SyndicationGenerator.ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
 
 				//------------------------------------------------------------
 				//	Write recommended entry elements
@@ -1291,7 +798,7 @@ namespace BlogEngine.Core
 				//------------------------------------------------------------
 				//	Write optional entry elements
 				//------------------------------------------------------------
-				writer.WriteElementString("published", SyndicationGenerator.ToW3cDateTime(publishable.DateCreated.ToUniversalTime()));
+				writer.WriteElementString("published", SyndicationGenerator.ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
 
 				writer.WriteStartElement("link");
 				writer.WriteAttributeString("rel", "related");
@@ -1359,23 +866,7 @@ namespace BlogEngine.Core
 				//	Write </entry> element
 				//------------------------------------------------------------
 				writer.WriteEndElement();
-			}
-			catch (ArgumentNullException)
-			{
-				//------------------------------------------------------------
-				//	Rethrow argument null exception
-				//------------------------------------------------------------
-				throw;
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
 		}
-
 		#endregion
 	}
 }

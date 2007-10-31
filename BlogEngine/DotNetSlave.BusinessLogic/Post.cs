@@ -315,7 +315,7 @@ namespace BlogEngine.Core
 				string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
 
 				if (BlogSettings.Instance.TimeStampPostLinks)
-					return new Uri(Utils.RelativeWebRoot + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM") + "/" + slug, UriKind.Relative);
+					return new Uri(Utils.RelativeWebRoot + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM", CultureInfo.InvariantCulture) + "/" + slug, UriKind.Relative);
 
 				return new Uri(Utils.RelativeWebRoot + "post/" + slug, UriKind.Relative);
 			}
@@ -796,11 +796,11 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Raises the Serving event
 		/// </summary>
-		public void OnServing(ServingEventArgs arg)
+		public void OnServing(ServingEventArgs eventArgs)
 		{
 			if (Serving != null)
 			{
-				Serving(this, arg);
+				Serving(this, eventArgs);
 			}
 		}
 

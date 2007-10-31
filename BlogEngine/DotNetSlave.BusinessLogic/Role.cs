@@ -35,11 +35,11 @@ namespace BlogEngine.Core
         /// Initializes a new instance of the <see cref="Role"/> class.
         /// </summary>
         /// <param name="name">A name.</param>
-        /// <param name="usernames">A list of users in role.</param>
-        public Role(string name, List<string> usernames)
+        /// <param name="userNames">A list of users in role.</param>
+        public Role(string name, List<string> userNames)
         {
             _Name = name;
-            _UserNames = usernames;
+            _UserNames = userNames;
         }
 
 

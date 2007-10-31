@@ -1,3 +1,5 @@
+#region Using
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,12 +11,14 @@ using System.Text;
 using System.Globalization;
 using BlogEngine.Core;
 
+#endregion
+
 namespace BlogEngine.Core.Providers
 {
   /// <summary>
   /// Microsoft SQL Server Implementation of BlogProvider
   /// </summary>
-  public class MSSQLBlogProvider : BlogProvider
+  public class MSSQLBlogProvider : BlogProvider, IDisposable
   {
     private SqlConnection providerConn;
 
@@ -830,6 +834,26 @@ namespace BlogEngine.Core.Providers
 
       return result;
     }
-      
-}
+
+		#region IDisposable Members
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				this.providerConn.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion
+	}
 }

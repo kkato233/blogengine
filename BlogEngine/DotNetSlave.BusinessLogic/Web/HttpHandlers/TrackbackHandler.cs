@@ -112,7 +112,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				{
 					client.Credentials = CredentialCache.DefaultNetworkCredentials;
 					string html = client.DownloadString(sourceUrl);
-					_SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
+					_SourceHasLink = html.ToUpperInvariant().Contains(targetUrl.ToUpperInvariant());
 				}
 			}
 			catch (WebException)

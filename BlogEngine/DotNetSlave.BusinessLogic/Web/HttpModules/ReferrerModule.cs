@@ -62,7 +62,7 @@ namespace BlogEngine.Core.Web.HttpModules
         Uri referrer = context.Request.UrlReferrer;
         if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) && !IsSearchEngine(referrer.ToString()))
         {
-          ThreadStart threadStart = delegate { BeginRegisterClick(new DictionaryEntry(referrer.ToString(), context.Request.Url)); };
+          ThreadStart threadStart = delegate { BeginRegisterClick(new DictionaryEntry(referrer, context.Request.Url)); };
           Thread thread = new Thread(threadStart);
           thread.IsBackground = true;
           thread.Start();
@@ -101,7 +101,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// <returns>
     /// 	<c>true</c> if the specified referrer is spam; otherwise, <c>false</c>.
     /// </returns>
-    private static bool IsSpam(string referrer, Uri url)
+    private static bool IsSpam(Uri referrer, Uri url)
     {
       try
       {
@@ -147,16 +147,15 @@ namespace BlogEngine.Core.Web.HttpModules
     private static void BeginRegisterClick(object stateInfo)
     {
       DictionaryEntry entry = (DictionaryEntry)stateInfo;
-      string referrer = (string)entry.Key;
+      Uri referrer = (Uri)entry.Key;
       Uri url = (Uri)entry.Value;
-      bool isSpam = IsSpam(referrer, url);
-
-      RegisterClick(referrer, isSpam);
+			
+      RegisterClick(url, referrer);
       stateInfo = null;
       OnReferrerRegistered(referrer);
     }
 
-    private static void RegisterClick(string url, bool isSpam)
+    private static void RegisterClick(Uri url, Uri referrer)
     {
       string fileName = _Folder + DateTime.Now.Date.ToString("dddd", CultureInfo.InvariantCulture) + ".xml";
 
@@ -164,10 +163,22 @@ namespace BlogEngine.Core.Web.HttpModules
       {
         XmlDocument doc = CreateDocument(fileName);
 
-        string address = HttpUtility.HtmlEncode(url);
+        string address = HttpUtility.HtmlEncode(referrer.ToString());
         XmlNode node = doc.SelectSingleNode("urls/url[@address='" + address + "']");
+
+				if (node == null)
+				{					
+					node = doc.SelectSingleNode("urls/url[@address='" + HttpUtility.HtmlEncode("http://" + referrer.Host) + "']");
+				}
+				
         if (node == null)
         {
+					bool isSpam = IsSpam(referrer, url);
+					if (isSpam)
+					{
+						address = HttpUtility.HtmlEncode("http://" + referrer.Host);
+					}
+
           AddNewUrl(doc, address, isSpam);
         }
         else
@@ -235,7 +246,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// <summary>
     /// Raises the event in a safe way
     /// </summary>
-    private static void OnReferrerRegistered(string referrer)
+    private static void OnReferrerRegistered(Uri referrer)
     {
       if (ReferrerRegistered != null)
       {

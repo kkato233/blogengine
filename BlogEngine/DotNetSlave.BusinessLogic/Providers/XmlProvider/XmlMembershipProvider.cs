@@ -409,7 +409,7 @@ namespace BlogEngine.Core.Providers
           {
             if (_Users == null)
             {
-              _Users = new Dictionary<string, MembershipUser>(16, StringComparer.InvariantCultureIgnoreCase);
+              _Users = new Dictionary<string, MembershipUser>(16, StringComparer.OrdinalIgnoreCase);
               XmlDocument doc = new XmlDocument();
               doc.Load(_XmlFileName);
               XmlNodeList nodes = doc.GetElementsByTagName("User");

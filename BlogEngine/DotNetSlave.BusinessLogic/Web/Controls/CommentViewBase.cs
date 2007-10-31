@@ -107,7 +107,7 @@ namespace BlogEngine.Core.Web.Controls
         return url;
 
       // Remove the protocal
-      int startIndex = url.IndexOf("://");
+			int startIndex = url.IndexOf("://", StringComparison.Ordinal);
       if (startIndex > -1)
         url = url.Substring(startIndex + 3);
 
@@ -115,8 +115,8 @@ namespace BlogEngine.Core.Web.Controls
         return url;
 
       // Compress folder structure
-      int firstIndex = url.IndexOf("/") + 1;
-      int lastIndex = url.LastIndexOf("/");
+			int firstIndex = url.IndexOf("/", StringComparison.Ordinal) + 1;
+      int lastIndex = url.LastIndexOf("/", StringComparison.Ordinal);
       if (firstIndex < lastIndex)
         url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
 
@@ -124,7 +124,7 @@ namespace BlogEngine.Core.Web.Controls
         return url;
 
       // Remove URL parameters
-      int queryIndex = url.IndexOf("?");
+			int queryIndex = url.IndexOf("?", StringComparison.Ordinal);
       if (queryIndex > -1)
         url = url.Substring(0, queryIndex);
 
@@ -132,7 +132,7 @@ namespace BlogEngine.Core.Web.Controls
         return url;
 
       // Remove URL fragment
-      int fragmentIndex = url.IndexOf("#");
+			int fragmentIndex = url.IndexOf("#", StringComparison.Ordinal);
       if (fragmentIndex > -1)
         url = url.Substring(0, fragmentIndex);
 
@@ -140,8 +140,8 @@ namespace BlogEngine.Core.Web.Controls
         return url;
 
       // Compress page
-      firstIndex = url.LastIndexOf("/") + 1;
-      lastIndex = url.LastIndexOf(".");
+      firstIndex = url.LastIndexOf("/", StringComparison.Ordinal) + 1;
+			lastIndex = url.LastIndexOf(".", StringComparison.Ordinal);
       if (lastIndex - firstIndex > 10)
       {
         string page = url.Substring(firstIndex, lastIndex - firstIndex);

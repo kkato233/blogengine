@@ -12,7 +12,7 @@ namespace BlogEngine.Core
   /// Represents a comment to a blog post.
   /// </summary>
   [Serializable]
-  public class Comment : IComparable<Comment>, IPublishable
+  public sealed class Comment : IComparable<Comment>, IPublishable
   {
 
     #region Properties
@@ -219,11 +219,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Raises the Serving event
     /// </summary>
-    public void OnServing(ServingEventArgs arg)
+    public void OnServing(ServingEventArgs eventArgs)
     {
       if (Serving != null)
       {
-        Serving(this, arg);
+        Serving(this, eventArgs);
       }
     }
 

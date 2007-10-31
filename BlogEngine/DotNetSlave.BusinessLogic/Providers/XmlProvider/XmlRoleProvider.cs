@@ -23,8 +23,6 @@ namespace BlogEngine.Core.Providers
     ///</summary>
     public class XmlRoleProvider : RoleProvider
     {
-        private static string _Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
-
         #region Properties
 
         private List<Role> _Roles = new List<Role>();
@@ -43,8 +41,8 @@ namespace BlogEngine.Core.Providers
         ///
         public override string ApplicationName
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return "BlogEngine.NET"; }
+            set {  }
         }
 
         ///<summary>
@@ -96,11 +94,11 @@ namespace BlogEngine.Core.Providers
 
             foreach (Role role in _Roles)
             {
-                if (role.Name.ToLower() == roleName.ToLower())
+                if (role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (string user in role.Users)
                     {
-                        UsersInRole.Add(user.ToLower());
+                        UsersInRole.Add(user.ToLowerInvariant());
                     }
                 }
             }
@@ -119,12 +117,9 @@ namespace BlogEngine.Core.Providers
         ///<param name="roleName">The role to search in.</param>
         public override bool IsUserInRole(string username, string roleName)
         {
-            //  ReadRoleDataStore();
-            List<string> UsersInRole = new List<string>();
-
             foreach (Role role in _Roles)
             {
-                if (role.Name.ToLower() == roleName.ToLower())
+                if (role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (string user in role.Users)
                     {
@@ -154,8 +149,8 @@ namespace BlogEngine.Core.Providers
             {
                 foreach (string user in role.Users)
                 {
-                    if (user.ToLower() == username.ToLower())
-                        rolesForUser.Add(role.Name.ToLower());
+                    if (user.Equals(username, StringComparison.OrdinalIgnoreCase))
+                        rolesForUser.Add(role.Name.ToLowerInvariant());
                 }
             }
             return rolesForUser.ToArray();
@@ -274,7 +269,7 @@ namespace BlogEngine.Core.Providers
                 {
                     foreach (string _name in roleNames)
                     {
-                        if (role.Name.ToLower() == _name.ToLower())
+                        if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase))
                         {
                             foreach (string s in usernames)
                             {
@@ -302,7 +297,7 @@ namespace BlogEngine.Core.Providers
                 {
                     foreach (string _name in roleNames)
                     {
-                        if (role.Name.ToLower() == _name)
+                        if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase))
                         {
                             foreach (string user in usernames)
                             {
