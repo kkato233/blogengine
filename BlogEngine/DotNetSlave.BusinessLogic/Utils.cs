@@ -99,7 +99,7 @@ namespace BlogEngine.Core
         throw new ArgumentNullException("relativeUri");
 
       string absolute = AbsoluteWebRoot.ToString();
-      int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
+      int index = absolute.LastIndexOf(RelativeWebRoot.ToString(), StringComparison.Ordinal);
 
       return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
 		}
@@ -147,7 +147,7 @@ namespace BlogEngine.Core
       {
         message.BodyEncoding = Encoding.UTF8;
         SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
-        smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUsername, BlogSettings.Instance.SmtpPassword);
+        smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUserName, BlogSettings.Instance.SmtpPassword);
         smtp.Port = BlogSettings.Instance.SmtpServerPort;
         smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
         smtp.Send(message);

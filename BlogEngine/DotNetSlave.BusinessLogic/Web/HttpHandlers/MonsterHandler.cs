@@ -85,7 +85,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
       context.Response.Cache.SetETag(md5);
 
-      if (String.Compare(incomingEtag, etag) == 0)
+      if (String.Compare(incomingEtag, etag, StringComparison.Ordinal) == 0)
       {
         context.Response.StatusCode = (int)HttpStatusCode.NotModified;
         context.Response.End();

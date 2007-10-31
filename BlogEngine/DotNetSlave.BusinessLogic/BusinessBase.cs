@@ -121,9 +121,9 @@ namespace BlogEngine.Core
     protected void MarkDirty(string propertyName)
     {
       _IsDirty = true;
-      if (!_DirtyProperties.Contains(propertyName.ToLowerInvariant()))
+      if (!_DirtyProperties.Contains(propertyName))
       {
-        _DirtyProperties.Add(propertyName.ToLowerInvariant());
+        _DirtyProperties.Add(propertyName);
       }
       OnMarkedDirty();
     }
@@ -139,32 +139,32 @@ namespace BlogEngine.Core
       _DirtyProperties.Clear();
     }
 
-    /// <summary>
-    /// Check whether or not the specified property has been changed
-    /// </summary>
-    /// <param name="propertyName">The name of the property to check.</param>
-    protected bool IsPropertyDirty(string propertyName)
-    {
-      return DirtyProperties.Contains(propertyName.ToLowerInvariant());
-    }
+		///// <summary>
+		///// Check whether or not the specified property has been changed
+		///// </summary>
+		///// <param name="propertyName">The name of the property to check.</param>
+		//protected bool IsPropertyDirty(string propertyName)
+		//{
+		//  return DirtyProperties.Contains(propertyName.ToLowerInvariant());
+		//}
 
-    /// <summary>
-    /// Check whether or not the specified properties has been changed
-    /// </summary>
-    /// <param name="propertyNames">The names of the properties to check.</param>
-    /// <returns>True if all of the specified properties have been changed.</returns>
-    protected bool IsPropertyDirty(string[] propertyNames)
-    {
-      foreach (string name in propertyNames)
-      {
-        if (!DirtyProperties.Contains(name.ToLowerInvariant()))
-        {
-          return false;
-        }
-      }
+		///// <summary>
+		///// Check whether or not the specified properties has been changed
+		///// </summary>
+		///// <param name="propertyNames">The names of the properties to check.</param>
+		///// <returns>True if all of the specified properties have been changed.</returns>
+		//protected bool IsPropertyDirty(string[] propertyNames)
+		//{
+		//  foreach (string name in propertyNames)
+		//  {
+		//    if (!DirtyProperties.Contains(name.ToUpperInvariant()))
+		//    {
+		//      return false;
+		//    }
+		//  }
 
-      return true;
-    }
+		//  return true;
+		//}
 
     #endregion
 

@@ -93,7 +93,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
+			using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter(CultureInfo.InvariantCulture	)))
 			{
 				base.Render(htmlwriter);
 				string html = htmlwriter.InnerWriter.ToString();
@@ -134,7 +134,7 @@ namespace BlogEngine.Core.Web.Controls
 				HtmlControl c = control as HtmlControl;
 				if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
 				{
-					if (!c.Attributes["href"].StartsWith("http://"))
+					if (!c.Attributes["href"].StartsWith("http://", StringComparison.Ordinal))
 						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
 				}
 			}

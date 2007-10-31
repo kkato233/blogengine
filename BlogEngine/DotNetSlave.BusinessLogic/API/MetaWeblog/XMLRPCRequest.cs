@@ -11,7 +11,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// Obejct is the incoming XML-RPC Request.  Handles parsing the XML-RPC and 
     /// fills its properties with the values sent in the request.
     /// </summary>
-    public class XMLRPCRequest
+    internal class XMLRPCRequest
     {
         #region Contructors
         /// <summary>
@@ -24,14 +24,14 @@ namespace BlogEngine.Core.API.MetaWeblog
             LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
         }
 
-        /// <summary>
-        /// Loads XMLRPCRequest object from string.  This is used by Unit Tests.
-        /// </summary>
-        /// <param name="inputXML">string containing incoming XML</param>
-        public XMLRPCRequest(string inputXML)
-        {
-            LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
-        }
+				///// <summary>
+				///// Loads XMLRPCRequest object from string.  This is used by Unit Tests.
+				///// </summary>
+				///// <param name="inputXML">string containing incoming XML</param>
+				//public XMLRPCRequest(string inputXML)
+				//{
+				//    LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
+				//}
         #endregion
 
         #region Local Vars
@@ -161,7 +161,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// and return it as plain text.
         /// </summary>
         //HACK: This function was found elsewhere in the project.
-        private string ParseRequest(HttpContext context)
+        private static string ParseRequest(HttpContext context)
         {
             byte[] buffer = new byte[context.Request.InputStream.Length];
             context.Request.InputStream.Read(buffer, 0, buffer.Length);
@@ -180,7 +180,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             {
               if (!(xml.StartsWith("<?xml", StringComparison.Ordinal) || xml.StartsWith("<method", StringComparison.Ordinal))) 
                 {
-                    xml = xml.Substring(xml.IndexOf("<?xml"));
+									xml = xml.Substring(xml.IndexOf("<?xml", StringComparison.Ordinal));
                 }
                 request.LoadXml(xml);
             }
@@ -244,7 +244,7 @@ namespace BlogEngine.Core.API.MetaWeblog
                     _blogID = _inputParams[0].InnerText;
                     _userName = _inputParams[1].InnerText;
                     _password = _inputParams[2].InnerText;
-                    _numberOfPosts = Int32.Parse(_inputParams[3].InnerText);
+                    _numberOfPosts = Int32.Parse(_inputParams[3].InnerText, System.Globalization.CultureInfo.InvariantCulture);
                     break;
                 case "blogger.getUsersBlogs":
                 case "metaWeblog.getUsersBlogs":
@@ -280,7 +280,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// </summary>
         /// <param name="node">XML contains a Metaweblog Post Struct</param>
         /// <returns>Metaweblog Post Struct Obejct</returns>
-        private MWAPost GetPost(XmlNode node)
+        private static MWAPost GetPost(XmlNode node)
         {
             MWAPost temp = new MWAPost();
             List<string> cats = new List<string>();
@@ -344,7 +344,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// </summary>
         /// <param name="node">XML contains a Metaweblog MediaObject Struct</param>
         /// <returns>Metaweblog MediaObject Struct Obejct</returns>
-        private MWAMediaObject GetMediaObject(XmlNode node)
+        private static MWAMediaObject GetMediaObject(XmlNode node)
         {
             MWAMediaObject temp = new MWAMediaObject();
             temp.name = node.SelectSingleNode("value/struct/member[name='name']").LastChild.InnerText;

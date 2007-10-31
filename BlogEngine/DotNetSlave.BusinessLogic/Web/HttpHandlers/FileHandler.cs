@@ -45,13 +45,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       if (!string.IsNullOrEmpty(context.Request.QueryString["file"]))
       {
-        string fileName = context.Request.QueryString["file"].ToLowerInvariant();
+        string fileName = context.Request.QueryString["file"];
         string folder = BlogSettings.Instance.StorageLocation + "/files/";
         FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);
 
         OnServing(fileName);
         
-        if (info.Exists && info.Directory.FullName.ToLowerInvariant().Contains("\\files"))
+        if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
         {
 					context.Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
           SetContentType(context, fileName);
@@ -72,7 +72,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     private static void SetContentType(HttpContext context, string fileName)
     {
-      if (fileName.EndsWith(".pdf"))
+			if (fileName.EndsWith(".pdf", StringComparison.Ordinal))
       {
         context.Response.AddHeader("Content-Type", "application/pdf");
       }

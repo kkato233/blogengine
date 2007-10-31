@@ -23,7 +23,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 		private static readonly Regex _Regex = new Regex(@"(?<=<title.*>)([\s\S]*)(?=</title>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 		private static readonly Regex REGEX_HTML = new Regex(@"</?\w+((\s+\w+(\s*=\s*(?:"".*?""|'.*?'|[^'"">\s]+))?)+\s*|\s*)/?>", RegexOptions.Singleline | RegexOptions.Compiled);
-		private static readonly string SUCCESS = "<methodResponse><params><param><value><string>Thanks!</string></value></param></params></methodResponse>";
+		private const string SUCCESS = "<methodResponse><params><param><value><string>Thanks!</string></value></param></params></methodResponse>";
 
 		private string _Title;
 		private bool _SourceHasLink;
@@ -104,7 +104,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			return doc;
 		}
 
-		private void SendError(HttpContext context, int code, string message)
+		private static void SendError(HttpContext context, int code, string message)
 		{
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
 			sb.Append("<?xml version=\"1.0\"?>");
@@ -164,8 +164,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </summary>
 		private static string GetDomain(string sourceUrl)
 		{
-			int start = sourceUrl.IndexOf("://") + 3;
-			int stop = sourceUrl.IndexOf("/", start);
+			int start = sourceUrl.IndexOf("://", StringComparison.Ordinal) + 3;
+			int stop = sourceUrl.IndexOf("/", start, StringComparison.Ordinal);
 			return sourceUrl.Substring(start, stop - start).Replace("www.", string.Empty);
 		}
 
@@ -200,7 +200,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					string html = client.DownloadString(sourceUrl);
 					_Title = _Regex.Match(html).Value.Trim();
 					_ContainsHtml = REGEX_HTML.IsMatch(_Title);
-					_SourceHasLink = html.ToLowerInvariant().Contains(targetUrl.ToLowerInvariant());
+					_SourceHasLink = html.ToUpperInvariant().Contains(targetUrl.ToUpperInvariant());
 				}
 			}
 			catch (WebException)
@@ -214,8 +214,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </summary>
 		private static Post GetPostByUrl(string url)
 		{
-			int start = url.LastIndexOf("/") + 1;
-			int stop = url.ToLowerInvariant().IndexOf(".aspx");
+			int start = url.LastIndexOf("/", StringComparison.Ordinal) + 1;
+			int stop = url.ToUpperInvariant().IndexOf(".ASPX", StringComparison.Ordinal);
 			string name = url.Substring(start, stop - start).ToLowerInvariant();
 
 			foreach (Post post in Post.Posts)

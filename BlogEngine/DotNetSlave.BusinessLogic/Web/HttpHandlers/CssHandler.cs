@@ -103,7 +103,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
       context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
       context.Response.Cache.SetETag(etag);
 
-      if (String.Compare(incomingEtag, etag) == 0)
+			if (String.Compare(incomingEtag, etag, StringComparison.Ordinal) == 0)
       {
         context.Response.StatusCode = (int)HttpStatusCode.NotModified;
         context.Response.End();

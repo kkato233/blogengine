@@ -222,7 +222,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				{
 					// ifModifiedSince can have a length param in there
 					// If-Modified-Since: Wed, 29 Dec 2004 18:34:27 GMT; length=126275
-					if (ifModifiedSince.IndexOf(";") > -1)
+					if (ifModifiedSince.IndexOf(";", StringComparison.Ordinal) > -1)
 					{
 						ifModifiedSince = ifModifiedSince.Split(';').GetValue(0).ToString();
 					}

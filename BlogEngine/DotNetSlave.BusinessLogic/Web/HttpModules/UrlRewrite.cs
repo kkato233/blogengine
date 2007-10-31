@@ -46,25 +46,27 @@ namespace BlogEngine.Core.Web.HttpModules
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
-      if (context.Request.RawUrl.ToLowerInvariant().Contains(BlogSettings.Instance.FileExtension) && !context.Request.RawUrl.Contains("error404.aspx"))
+			string url = context.Request.RawUrl.ToUpperInvariant();
+
+      if (url.Contains(BlogSettings.Instance.FileExtension.ToUpperInvariant()) && !url.Contains("ERROR404.ASPX"))
       {
         if (context.Request.Path.Contains("/blog.aspx"))
         {
           context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true");
         }
-        else if (context.Request.RawUrl.ToLowerInvariant().Contains("/post/"))
+        else if (url.Contains("/POST/"))
         {
           RewritePost(context);
         }
-        else if (context.Request.RawUrl.ToLowerInvariant().Contains("/category/"))
+        else if (url.Contains("/CATEGORY/"))
         {
           RewriteCategory(context);
         }
-        else if (context.Request.RawUrl.ToLowerInvariant().Contains("/page/"))
+        else if (url.Contains("/PAGE/"))
         {
           RewritePage(context);
         }
-        else if (context.Request.RawUrl.ToLowerInvariant().Contains("/author/"))
+        else if (url.Contains("/AUTHOR/"))
         {
           string author = ExtractTitle(context);
           context.RewritePath(Utils.RelativeWebRoot + "default.aspx?name=" + author + GetQueryString(context), false);
@@ -118,8 +120,16 @@ namespace BlogEngine.Core.Web.HttpModules
     /// </summary>
     private static string ExtractTitle(HttpContext context)
     {
-			int index = context.Request.RawUrl.ToLowerInvariant().LastIndexOf("/", StringComparison.Ordinal) + 1;
-			int stop = context.Request.RawUrl.ToLowerInvariant().LastIndexOf(BlogSettings.Instance.FileExtension, StringComparison.Ordinal);
+			string url = context.Request.RawUrl.ToLowerInvariant();
+			if (url.Contains(BlogSettings.Instance.FileExtension) && url.EndsWith("/", StringComparison.Ordinal))
+			{
+				url = url.Substring(0, url.Length - 1);
+				context.Response.AppendHeader("location", url);
+				context.Response.StatusCode = 301;
+			}
+
+			int index = url.LastIndexOf("/", StringComparison.Ordinal) + 1;
+			int stop = url.LastIndexOf(BlogSettings.Instance.FileExtension, StringComparison.Ordinal);
       string title = context.Request.RawUrl.Substring(index, stop - index).Replace(BlogSettings.Instance.FileExtension, string.Empty);
       return context.Server.UrlEncode(title);
     }

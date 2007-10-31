@@ -11,7 +11,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// Object is the outgoing XML-RPC response.  This objects properties are set
     /// and the Response method is called sending the response via the HttpContext Response.
     /// </summary>
-    public class XMLRPCResponse
+    internal class XMLRPCResponse
     {
         #region Contructors
 
@@ -45,14 +45,14 @@ namespace BlogEngine.Core.API.MetaWeblog
 
         #region Public Properties
 
-        /// <summary>
-        /// Name of Called Metaweblog Function
-        /// </summary>
-        public string MethodName
-        {
-            // Read Only
-            get { return _methodName; }
-        }
+				///// <summary>
+				///// Name of Called Metaweblog Function
+				///// </summary>
+				//public string MethodName
+				//{
+				//    // Read Only
+				//    get { return _methodName; }
+				//}
 
         /// <summary>
         /// List of blog structs.  Used by blogger.getUsersBlogs.
@@ -578,7 +578,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// </summary>
         /// <param name="date">DateTime to convert</param>
         /// <returns>ISO8601 date string</returns>
-        private string ConvertDatetoISO8601(DateTime date)
+        private static string ConvertDatetoISO8601(DateTime date)
         {
             string temp = date.Year.ToString() + date.Month.ToString().PadLeft(2, '0') + date.Day.ToString().PadLeft(2, '0') +
                 "T" + date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0') + ":" + date.Second.ToString().PadLeft(2, '0');

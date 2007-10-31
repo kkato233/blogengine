@@ -32,13 +32,6 @@ namespace BlogEngine.Core
       Post.CommentRemoved += delegate { BuildCatalog(); };
       Comment.Approved += new EventHandler<EventArgs>(Post_CommentAdded);
     }
-
-    static void Post_CommentAdded(object sender, EventArgs e)
-    {
-      Comment comment = (Comment)sender;
-      if (comment.IsApproved)
-        AddItem(comment);
-    }
     
     #region Event handlers
 
@@ -75,6 +68,16 @@ namespace BlogEngine.Core
       }
     }
 
+		static void Post_CommentAdded(object sender, EventArgs e)
+		{
+			if (BlogSettings.Instance.EnableCommentSearch)
+			{
+				Comment comment = (Comment)sender;
+				if (comment.IsVisible)
+					AddItem(comment);
+			}
+		}
+
     #endregion
 
     #region Search
@@ -90,6 +93,7 @@ namespace BlogEngine.Core
       {
         List<Result> results = BuildResultSet(searchTerm, includeComments);
         List<IPublishable> items = results.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
+				results.Clear();
         OnSearcing(searchTerm);
         return items;
       }
@@ -101,10 +105,6 @@ namespace BlogEngine.Core
     public static List<IPublishable> FindRelatedPosts(IPublishable post)
     {
       string term = post.Title;
-      //foreach (string tag in post.Tags)
-      //{
-      //  term += " " + tag;
-      //}
 
       foreach (Category cat in post.Categories)
       {

@@ -81,7 +81,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		BlogSettings.Instance.Email = txtEmail.Text;
 		BlogSettings.Instance.SmtpServer = txtSmtpServer.Text;
 		BlogSettings.Instance.SmtpServerPort = int.Parse(txtSmtpServerPort.Text);
-		BlogSettings.Instance.SmtpUsername = txtSmtpUsername.Text;
+		BlogSettings.Instance.SmtpUserName = txtSmtpUsername.Text;
 		BlogSettings.Instance.SmtpPassword = txtSmtpPassword.Text;
 		BlogSettings.Instance.SendMailOnComment = cbComments.Checked;
 		BlogSettings.Instance.EnableSsl = cbEnableSsl.Checked;
@@ -191,7 +191,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		txtEmail.Text = BlogSettings.Instance.Email;
 		txtSmtpServer.Text = BlogSettings.Instance.SmtpServer;
 		txtSmtpServerPort.Text = BlogSettings.Instance.SmtpServerPort.ToString();
-		txtSmtpUsername.Text = BlogSettings.Instance.SmtpUsername;
+		txtSmtpUsername.Text = BlogSettings.Instance.SmtpUserName;
 		txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
 		cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
 		cbEnableSsl.Checked = BlogSettings.Instance.EnableSsl;

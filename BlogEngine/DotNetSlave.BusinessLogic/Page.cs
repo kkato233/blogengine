@@ -20,7 +20,7 @@ namespace BlogEngine.Core
   /// information.
   /// </remarks>
   /// </summary>
-  public class Page : BusinessBase<Page, Guid>, IPublishable
+  public sealed class Page : BusinessBase<Page, Guid>, IPublishable
   {
 
     #region Constructor
@@ -320,11 +320,11 @@ namespace BlogEngine.Core
     /// <summary>
     /// Raises the Serving event
     /// </summary>
-    public void OnServing(ServingEventArgs arg)
+    public void OnServing(ServingEventArgs eventArgs)
     {
       if (Serving != null)
       {
-        Serving(this, arg);
+        Serving(this, eventArgs);
       }
     }
 

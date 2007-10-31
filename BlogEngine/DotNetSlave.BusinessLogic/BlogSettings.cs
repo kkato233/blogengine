@@ -863,7 +863,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the user name used to connect to the SMTP server.
 		/// </summary>
 		/// <value>The user name used to connect to the SMTP server.</value>
-		public string SmtpUsername
+		public string SmtpUserName
 		{
 			get
 			{
