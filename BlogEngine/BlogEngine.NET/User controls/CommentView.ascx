@@ -39,7 +39,7 @@
   <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
   <%} %>
 
-  <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label>
+  <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label> <span class="bbcode" title="BBCode tags">[b][/b] - [i][/i]</span>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" /><br />
   <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" /><br />
     

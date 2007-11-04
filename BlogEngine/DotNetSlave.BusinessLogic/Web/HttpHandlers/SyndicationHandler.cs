@@ -51,7 +51,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			if (context.Request.QueryString["post"] == null)
 			{
 				// Shorten the list to the number of posts stated in the settings, except for the comment feed.
-				int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
+				int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);				
+				list = list.FindAll(delegate(IPublishable item)
+				{
+					return item.IsVisible == true;
+				});
+
 				list = list.GetRange(0, max);
 			}
 
