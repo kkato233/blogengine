@@ -24,16 +24,35 @@ public class BBCode
 	/// </summary>
 	private void Post_CommentServing(object sender, ServingEventArgs e)
 	{
-		if (e.Body.Contains("[b]") && e.Body.Contains("[/b]"))
-		{
-			e.Body = e.Body.Replace("[b]", "<strong>");
-			e.Body = e.Body.Replace("[/b]", "</strong>");
-		}
+		string body = e.Body;
 
-		if (e.Body.Contains("[i]") && e.Body.Contains("[/i]"))
+		Parse(ref body, "b", "strong");
+		Parse(ref body, "i", "em");
+		Parse(ref body, "cite", "cite");
+
+		e.Body = body;
+	}
+
+	/// <summary>
+	/// Parses the BBCode into XHTML in a safe non-breaking manor.
+	/// </summary>
+	private static void Parse(ref string body, string code, string tag)
+	{
+		int start = body.IndexOf("[" + code + "]", StringComparison.Ordinal);
+		if (start > -1)
 		{
-			e.Body = e.Body.Replace("[i]", "<em>");
-			e.Body = e.Body.Replace("[/i]", "</em>");
+			if (body.Contains("[/" + code + "]"))
+			{
+				body = body.Remove(start, code.Length + 2);
+				body = body.Insert(start, "<" + tag + ">");
+
+				int end = body.IndexOf("[/" + code + "]", start, StringComparison.Ordinal);
+
+				body = body.Remove(end, code.Length + 3);
+				body = body.Insert(end, "</" + tag + ">");
+
+				Parse(ref body, code, tag);
+			}
 		}
 	}
 
