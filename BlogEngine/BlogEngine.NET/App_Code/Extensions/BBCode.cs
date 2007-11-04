@@ -41,7 +41,7 @@ public class BBCode
 		int start = body.IndexOf("[" + code + "]", StringComparison.Ordinal);
 		if (start > -1)
 		{
-			if (body.Contains("[/" + code + "]"))
+			if (body.IndexOf("[/" + code + "]", start, StringComparison.Ordinal) > -1)
 			{
 				body = body.Remove(start, code.Length + 2);
 				body = body.Insert(start, "<" + tag + ">");
