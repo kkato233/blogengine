@@ -54,7 +54,7 @@ namespace BlogEngine.Core.Web.HttpModules
     private void context_BeginRequest(object sender, EventArgs e)
     {
       HttpContext context = ((HttpApplication)sender).Context;
-      if (!context.Request.PhysicalPath.ToUpperInvariant().Contains(".ASPX"))
+      if (!context.Request.Path.ToUpperInvariant().Contains(".ASPX"))
         return;
 
       if (context.Request.UrlReferrer != null)
@@ -62,10 +62,11 @@ namespace BlogEngine.Core.Web.HttpModules
         Uri referrer = context.Request.UrlReferrer;
         if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) && !IsSearchEngine(referrer.ToString()))
         {
-          ThreadStart threadStart = delegate { BeginRegisterClick(new DictionaryEntry(referrer, context.Request.Url)); };
-          Thread thread = new Thread(threadStart);
-          thread.IsBackground = true;
-          thread.Start();
+					//ThreadStart threadStart = delegate { BeginRegisterClick(new DictionaryEntry(referrer, context.Request.Url)); };
+					//Thread thread = new Thread(threadStart);
+					//thread.IsBackground = true;
+					//thread.Start();
+					ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer, context.Request.Url));
         }
       }
     }
@@ -166,10 +167,14 @@ namespace BlogEngine.Core.Web.HttpModules
         string address = HttpUtility.HtmlEncode(referrer.ToString());
         XmlNode node = doc.SelectSingleNode("urls/url[@address='" + address + "']");
 
+				if (node == null && address.Contains("www."))
+					node = doc.SelectSingleNode("urls/url[@address='" + address.Replace("www.", string.Empty) + "']");
+
+				if (node == null && !address.Contains("www."))
+					node = doc.SelectSingleNode("urls/url[@address='" + address.Replace("://", "://www.") + "']");
+
 				if (node == null)
-				{					
 					node = doc.SelectSingleNode("urls/url[@address='" + HttpUtility.HtmlEncode("http://" + referrer.Host) + "']");
-				}
 				
         if (node == null)
         {
