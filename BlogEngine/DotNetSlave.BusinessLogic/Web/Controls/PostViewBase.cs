@@ -278,17 +278,17 @@ namespace BlogEngine.Core.Web.Controls
         else
           sb.Append("<p>" + page.Translate("beTheFirstToRate") + "</p>");
 
-        string script = "Rate('{0}', {1});";
-        if (Request.Cookies["rating"] != null && Request.Cookies["rating"].Value.Contains(Post.Id.ToString()))
-          script = "alert('" + page.Translate("youAlreadyRated") + "');";
+        string script = "void(Rate('{0}', {1}))";
+				//if (Request.Cookies["rating"] != null && Request.Cookies["rating"].Value.Contains(Post.Id.ToString()))
+				//  script = "alert('" + page.Translate("youAlreadyRated") + "');";
 
         sb.Append("<ul class=\"star-rating small-star\">");
         sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", Math.Round(rating, 0), Post.Rating);
-        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" rev=\"vote-against\" title=\"Rate this 1 star out of 5\" class=\"one-star\">1</a></li>", Post.Id.ToString(), 1);
-        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" rev=\"vote-against\" title=\"Rate this 2 stars out of 5\" class=\"two-stars\">2</a></li>", Post.Id.ToString(), 2);
-        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" rev=\"vote-abstain\" title=\"Rate this 3 stars out of 5\" class=\"three-stars\">3</a></li>", Post.Id.ToString(), 3);
-        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" rev=\"vote-for\" title=\"Rate this 4 stars out of 5\" class=\"four-stars\">4</a></li>", Post.Id.ToString(), 4);
-        sb.AppendFormat("<li><a href=\"javascript:" + script + "void(0)\" rev=\"vote-for\" title=\"Rate this 5 stars out of 5\" class=\"five-stars\">5</a></li>", Post.Id.ToString(), 5);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-against\" title=\"Rate this 1 star out of 5\" class=\"one-star\">1</a></li>", Post.Id.ToString(), 1);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-against\" title=\"Rate this 2 stars out of 5\" class=\"two-stars\">2</a></li>", Post.Id.ToString(), 2);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-abstain\" title=\"Rate this 3 stars out of 5\" class=\"three-stars\">3</a></li>", Post.Id.ToString(), 3);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-for\" title=\"Rate this 4 stars out of 5\" class=\"four-stars\">4</a></li>", Post.Id.ToString(), 4);
+        sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-for\" title=\"Rate this 5 stars out of 5\" class=\"five-stars\">5</a></li>", Post.Id.ToString(), 5);
         sb.Append("</ul>");
         sb.Append("</div>");
         return sb.ToString();
