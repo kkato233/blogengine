@@ -109,9 +109,9 @@ function GetElementByClassName(parent, tag, className)
 function SetFlag(iso)
 {  
   if (iso.length > 0)
-    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/flags/" + iso + ".png";
+    flagImage.src = KEYwebRoot + "pics/flags/" + iso + ".png";
   else
-    flagImage.src = "<%=Utils.RelativeWebRoot %>pics/pixel.gif";
+    flagImage.src = KEYwebRoot + "pics/pixel.gif";
 }
 
 // Searches the blog based on the entered text and
@@ -157,6 +157,10 @@ function RatingCallback(response)
     
     alert("You rating has been registered. Thank you!");
   }  
+  else if (status == "HASRATED")
+  {
+    alert(KEYhasRated);
+  }
   else
   {
     alert("An error occured while registering your rating. Please try again");

@@ -26,10 +26,19 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       string id = context.Request.QueryString["id"];
       string rating = context.Request.QueryString["rating"];
+			
       if (!string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(rating))
       {
-        int rate = 0;
-        if (int.TryParse(rating, out rate) && rate > 0 && rate < 6 && !HasRated(id))
+				bool hasRated = HasRated(id);
+
+				if (hasRated)
+				{
+					context.Response.Write(rating + "HASRATED");
+					context.Response.End();
+				}
+  
+				int rate = 0;
+        if (int.TryParse(rating, out rate) && rate > 0 && rate < 6)
         {
           Post post = Post.GetPost(new Guid(id));
           post.Rate(rate);

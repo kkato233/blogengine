@@ -3,6 +3,7 @@
 using System;
 using System.Globalization;
 using System.Web;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -66,11 +67,10 @@ namespace BlogEngine.Core.Web.Controls
 				AddGenericLink("contents", "Archive", Utils.RelativeWebRoot + "archive.aspx");
 				AddGenericLink("start", BlogSettings.Instance.Name, Utils.RelativeWebRoot);
 
-				if (BlogSettings.Instance.EnableOpenSearch)
-					AddOpenSearchLinkInHeader();
+				AddLocalizationKeys();
 
-				if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
-					CompressCss();
+				if (BlogSettings.Instance.EnableOpenSearch)
+					AddOpenSearchLinkInHeader();				
 								
 				if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
 					AddCustomCodeToHead();
@@ -80,6 +80,8 @@ namespace BlogEngine.Core.Web.Controls
 			}
 
 			AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
+			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
+				CompressCss();
 		}
 
 #if !DEBUG
@@ -105,6 +107,21 @@ namespace BlogEngine.Core.Web.Controls
 			}
 		}
 #endif
+
+		/// <summary>
+		/// Adds the localization keys to JavaScript for use globally.
+		/// </summary>
+		protected virtual void AddLocalizationKeys()
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendFormat("KEYhasRated='{0}';", Translate("youAlreadyRated"));
+			sb.AppendFormat("KEYwebRoot='{0}';", Utils.RelativeWebRoot);
+
+			HtmlGenericControl script = new HtmlGenericControl("script");
+			script.Attributes.Add("type", "text/javascript");
+			script.InnerText = sb.ToString();
+			Page.Header.Controls.Add(script);
+		}
 
 		/// <summary>
 		/// Adds the syndication link to the header.
@@ -135,7 +152,10 @@ namespace BlogEngine.Core.Web.Controls
 				if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
 				{
 					if (!c.Attributes["href"].StartsWith("http://", StringComparison.Ordinal))
+					{
 						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+						c.EnableViewState = false;
+					}
 				}
 			}
 		}
