@@ -18,7 +18,7 @@
 
   <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
   <asp:TextBox runat="Server" ID="txtName" TabIndex="1" ValidationGroup="AddComment" />
-  <asp:CustomValidator runat="server" ControlToValidate="txtName" ErrorMessage="Please choose another name" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
+  <asp:CustomValidator runat="server" ControlToValidate="txtName" ErrorMessage=" Please choose another name" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" /><br />
 
   <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
@@ -111,8 +111,8 @@ function CheckAuthorName(sender, args)
   
   <% if (!Page.User.Identity.IsAuthenticated){ %>
   var author = "<%=Post.Author %>";
-  var visitor = $("<%=txtName.ClientID %>").value;
-  args.IsValid = author.toLowerCase() != visitor.toLowerCase();
+  var visitor = $("<%=txtName.ClientID %>").value;  
+  args.IsValid = !Equal(author, visitor);
   <%} %>
 }
 //-->

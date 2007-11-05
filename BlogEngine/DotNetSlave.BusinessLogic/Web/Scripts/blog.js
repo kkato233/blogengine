@@ -235,6 +235,14 @@ function ToggleMonth(year)
   }
 }
 
+// Adds a trim method to all strings.
+function Equal(first, second) 
+{
+  var f = first.toLowerCase().replace(new RegExp(' ','gi'), '');
+  var s = second.toLowerCase().replace(new RegExp(' ','gi'), '');
+	return f == s;
+}
+
 /*-----------------------------------------------------------------------------
                               XFN HIGHLIGHTER
 -----------------------------------------------------------------------------*/
