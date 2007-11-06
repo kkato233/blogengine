@@ -7,12 +7,12 @@ using BlogEngine.Core.Web.Controls;
 #endregion
 
 /// <summary>
-/// Converts ASCII smilies into real smilies in the comments
+/// Converts ASCII smilies into real smilies in the comments.
 /// </summary>
 /// <remarks>
 /// Based on the extension by John Knipper - http://www.happytocode.com
 /// </remarks>
-[Extension("Converts ASCII smilies into real smilies in the comments", "1.0.0.0", "BlogEngine.NET")]
+[Extension("Converts ASCII smilies into real smilies in the comments", "1.2.0.0", "BlogEngine.NET")]
 public class Smilies
 {
 
@@ -21,7 +21,7 @@ public class Smilies
     Comment.Serving += new EventHandler<ServingEventArgs>(Post_CommentServing);
   }
 
-  private static readonly string _Link = "<img src=\"{0}admin/tiny_mce/plugins/emotions/images/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
+  private const string LINK = "<img src=\"{0}admin/tiny_mce/plugins/emotions/images/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
 
   /// <summary>
   /// The event handler that is triggered every time a comment is served to a client.
@@ -45,7 +45,7 @@ public class Smilies
       e.Body = e.Body.Replace(":-O", Convert("surprised", "Surprised"));
       e.Body = e.Body.Replace(":P", Convert("tongue-out", "Tong"));
       e.Body = e.Body.Replace("*-)", Convert("undecided", "Undecided"));
-      e.Body = e.Body.Replace(";)", Convert("wink", "Wink"));
+      e.Body = e.Body.Replace(";-)", Convert("wink", "Wink"));
       e.Body = e.Body.Replace("8o|", Convert("yell", "Yell"));
     }
   }
@@ -55,6 +55,6 @@ public class Smilies
   /// </summary>
   private static string Convert(string name, string alt)
   {
-    return string.Format(_Link, Utils.RelativeWebRoot, name, alt);
+    return string.Format(LINK, Utils.RelativeWebRoot, name, alt);
   }
 }

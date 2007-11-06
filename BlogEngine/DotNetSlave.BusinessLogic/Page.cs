@@ -187,11 +187,14 @@ namespace BlogEngine.Core
       {
         if (_Pages == null)
         {
-          lock (_SyncRoot)
-          {
-            if (_Pages == null)
-              _Pages = BlogService.FillPages();             
-          }          
+					lock (_SyncRoot)
+					{
+						if (_Pages == null)
+						{
+							_Pages = BlogService.FillPages();
+							_Pages.Sort(delegate(Page p1, Page p2) { return String.Compare(p1.Title, p2.Title); });
+						}
+					}        
         }
 
         return _Pages;

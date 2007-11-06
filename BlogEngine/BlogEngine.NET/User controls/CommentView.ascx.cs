@@ -64,8 +64,8 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     if (notify && !Post.NotificationEmails.Contains(email))
       Post.NotificationEmails.Add(email);
-    else if (!notify && Post.NotificationEmails.Contains(email))
-      Post.NotificationEmails.Remove(email);
+		//else if (!notify && Post.NotificationEmails.Contains(email))
+		//  Post.NotificationEmails.Remove(email);
 
     Post.AddComment(comment);
     SetCookie(author, email, website, country);
