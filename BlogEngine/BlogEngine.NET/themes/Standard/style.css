@@ -349,6 +349,11 @@ ul.recentComments li a.postTitle{
 	margin-left: 85px;
 }
 
+.comment cite{
+	font-family: Monospace;
+	font-style: normal;
+}
+
 .comment img.flag {
 	position: relative;
 	top: 2px;

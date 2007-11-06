@@ -10,5 +10,5 @@
       <p class="date"><%= Comment.DateCreated.ToLongDateString() + " " + Comment.DateCreated.ToShortTimeString() %></p>
   </div>
   <p class="gravatar"><%= Gravatar(80)%></p>
-  <p class="content"><%= ResolveLinks(Comment.Content) %></p>
+  <p class="content"><%= Text%></p>
 </div>

@@ -28,15 +28,21 @@ public class BBCode
 
 		Parse(ref body, "b", "strong");
 		Parse(ref body, "i", "em");
-		Parse(ref body, "cite", "cite");
+		Parse(ref body, "u", "span style=\"text-decoration:underline\"", "span");
+		Parse(ref body, "quote", "cite title=\"Quote\"", "cite");
 
 		e.Body = body;
+	}
+
+	private static void Parse(ref string body, string code, string tag)
+	{
+		Parse(ref body, code, tag, tag);
 	}
 
 	/// <summary>
 	/// Parses the BBCode into XHTML in a safe non-breaking manor.
 	/// </summary>
-	private static void Parse(ref string body, string code, string tag)
+	private static void Parse(ref string body, string code, string startTag, string endTag)
 	{
 		int start = body.IndexOf("[" + code + "]", StringComparison.Ordinal);
 		if (start > -1)
@@ -44,14 +50,14 @@ public class BBCode
 			if (body.IndexOf("[/" + code + "]", start, StringComparison.Ordinal) > -1)
 			{
 				body = body.Remove(start, code.Length + 2);
-				body = body.Insert(start, "<" + tag + ">");
+				body = body.Insert(start, "<" + startTag + ">");
 
 				int end = body.IndexOf("[/" + code + "]", start, StringComparison.Ordinal);
 
 				body = body.Remove(end, code.Length + 3);
-				body = body.Insert(end, "</" + tag + ">");
+				body = body.Insert(end, "</" + endTag + ">");
 
-				Parse(ref body, code, tag);
+				Parse(ref body, code, startTag);
 			}
 		}
 	}
