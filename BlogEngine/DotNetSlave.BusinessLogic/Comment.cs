@@ -159,9 +159,9 @@ namespace BlogEngine.Core
     /// Gets the relative link of the comment.
     /// </summary>
     /// <value>The relative link.</value>
-    public Uri RelativeLink
+    public string RelativeLink
     {
-      get { return new Uri(Post.RelativeLink.ToString() + "#id_" + Id, UriKind.Relative); }
+        get { return Post.RelativeLink.ToString() + "#id_" + Id; }
     }
 
     /// <summary>

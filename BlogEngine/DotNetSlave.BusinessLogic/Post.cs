@@ -270,14 +270,14 @@ namespace BlogEngine.Core {
         /// A relative-to-the-site-root path to the post.
         /// Only for in-site use.
         /// </summary>
-        public Uri RelativeLink {
+        public string RelativeLink {
             get {
                 string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
 
                 if (BlogSettings.Instance.TimeStampPostLinks)
-                    return new Uri(Utils.RelativeWebRoot + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM", CultureInfo.InvariantCulture) + "/" + slug, UriKind.Relative);
+                    return Utils.RelativeWebRoot + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM", CultureInfo.InvariantCulture) + "/" + slug;
 
-                return new Uri(Utils.RelativeWebRoot + "post/" + slug, UriKind.Relative);
+                return Utils.RelativeWebRoot + "post/" + slug;
             }
         }
 

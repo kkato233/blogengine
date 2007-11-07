@@ -49,7 +49,7 @@ namespace BlogEngine.Core
     /// Gets the relative link.
     /// </summary>
     /// <value>The relative link.</value>
-    Uri RelativeLink { get;}
+    String RelativeLink { get;}
 
     /// <summary>
     /// Gets the description.
