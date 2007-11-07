@@ -17,12 +17,10 @@ using System.Xml;
 using System.Xml.Serialization;
 using BlogEngine.Core;
 
-namespace BlogEngine.Core.Providers
-{
+namespace BlogEngine.Core.Providers {
     ///<summary>
     ///</summary>
-    public class XmlRoleProvider : RoleProvider
-    {
+    public class XmlRoleProvider : RoleProvider {
         #region Properties
 
         private List<Role> _Roles = new List<Role>();
@@ -39,10 +37,9 @@ namespace BlogEngine.Core.Providers
         ///The name of the application to store and retrieve role information for.
         ///</returns>
         ///
-        public override string ApplicationName
-        {
+        public override string ApplicationName {
             get { return "BlogEngine.NET"; }
-            set {  }
+            set { }
         }
 
         ///<summary>
@@ -54,8 +51,7 @@ namespace BlogEngine.Core.Providers
         ///</returns>
         ///
         ///<param name="roleName">The name of the role to search for in the data source. </param>
-        public override bool RoleExists(string roleName)
-        {
+        public override bool RoleExists(string roleName) {
             List<string> currentRoles = new List<string>(GetAllRoles());
             return (currentRoles.Contains(roleName)) ? true : false;
         }
@@ -68,11 +64,9 @@ namespace BlogEngine.Core.Providers
         ///A string array containing the names of all the roles stored in the data source for the configured applicationName.
         ///</returns>
         ///
-        public override string[] GetAllRoles()
-        {
+        public override string[] GetAllRoles() {
             List<string> allRoles = new List<string>();
-            foreach (Role role in _Roles)
-            {
+            foreach (Role role in _Roles) {
                 allRoles.Add(role.Name);
             }
             return allRoles.ToArray();
@@ -87,17 +81,13 @@ namespace BlogEngine.Core.Providers
         ///</returns>
         ///
         ///<param name="roleName">The name of the role to get the list of users for. </param>
-        public override string[] GetUsersInRole(string roleName)
-        {
+        public override string[] GetUsersInRole(string roleName) {
             //  ReadRoleDataStore();
             List<string> UsersInRole = new List<string>();
 
-            foreach (Role role in _Roles)
-            {
-                if (role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase))
-                {
-                    foreach (string user in role.Users)
-                    {
+            foreach (Role role in _Roles) {
+                if (role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase)) {
+                    foreach (string user in role.Users) {
                         UsersInRole.Add(user.ToLowerInvariant());
                     }
                 }
@@ -115,14 +105,10 @@ namespace BlogEngine.Core.Providers
         ///
         ///<param name="username">The user name to search for.</param>
         ///<param name="roleName">The role to search in.</param>
-        public override bool IsUserInRole(string username, string roleName)
-        {
-            foreach (Role role in _Roles)
-            {
-                if (role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase))
-                {
-                    foreach (string user in role.Users)
-                    {
+        public override bool IsUserInRole(string username, string roleName) {
+            foreach (Role role in _Roles) {
+                if (role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase)) {
+                    foreach (string user in role.Users) {
                         if (user == username)
                             return true;
                     }
@@ -140,15 +126,12 @@ namespace BlogEngine.Core.Providers
         ///</returns>
         ///
         ///<param name="username">The user to return a list of roles for.</param>
-        public override string[] GetRolesForUser(string username)
-        {
+        public override string[] GetRolesForUser(string username) {
             //  ReadRoleDataStore();
             List<string> rolesForUser = new List<string>();
 
-            foreach (Role role in _Roles)
-            {
-                foreach (string user in role.Users)
-                {
+            foreach (Role role in _Roles) {
+                foreach (string user in role.Users) {
                     if (user.Equals(username, StringComparison.OrdinalIgnoreCase))
                         rolesForUser.Add(role.Name.ToLowerInvariant());
                 }
@@ -170,8 +153,7 @@ namespace BlogEngine.Core.Providers
         ///
         ///<param name="usernameToMatch">The user name to search for.</param>
         ///<param name="roleName">The role to search in.</param>
-        public override string[] FindUsersInRole(string roleName, string usernameToMatch)
-        {
+        public override string[] FindUsersInRole(string roleName, string usernameToMatch) {
             List<string> UsersInRole = new List<string>();
             if (IsUserInRole(usernameToMatch, roleName))
                 UsersInRole.AddRange(_UserNames);
@@ -183,8 +165,7 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         /// <param name="name"></param>
         /// <param name="config"></param>
-        public override void Initialize(string name, NameValueCollection config)
-        {
+        public override void Initialize(string name, NameValueCollection config) {
             ReadMembershipDataStore();
             if (config == null)
                 throw new ArgumentNullException("config");
@@ -192,10 +173,16 @@ namespace BlogEngine.Core.Providers
             if (String.IsNullOrEmpty(name))
                 name = "XmlMembershipProvider";
 
-            if (string.IsNullOrEmpty(config["description"]))
-            {
-                config.Remove("description");
-                config.Add("description", "XML role provider");
+            if (Type.GetType("Mono.Runtime") != null) {
+                // Mono dies with a "Unrecognized attribute: description" if a description is part of the config.
+                if (!string.IsNullOrEmpty(config["description"])) {
+                    config.Remove("description");
+                }
+            } else {
+                if (string.IsNullOrEmpty(config["description"])) {
+                    config.Remove("description");
+                    config.Add("description", "XML role provider");
+                }
             }
 
             base.Initialize(name, config);
@@ -236,8 +223,7 @@ namespace BlogEngine.Core.Providers
 
 
             // Throw an exception if unrecognized attributes remain
-            if (config.Count > 0)
-            {
+            if (config.Count > 0) {
                 string attr = config.GetKey(0);
                 if (!String.IsNullOrEmpty(attr))
                     throw new ProviderException("Unrecognized attribute: " + attr);
@@ -252,27 +238,19 @@ namespace BlogEngine.Core.Providers
         ///
         ///<param name="roleNames">A string array of the role names to add the specified user names to. </param>
         ///<param name="usernames">A string array of user names to be added to the specified roles. </param>
-        public override void AddUsersToRoles(string[] usernames, string[] roleNames)
-        {
+        public override void AddUsersToRoles(string[] usernames, string[] roleNames) {
             List<string> currentRoles = new List<string>(GetAllRoles());
-            if (usernames.Length != 0 && roleNames.Length != 0)
-            {
-                foreach (string _rolename in roleNames)
-                {
-                    if (!currentRoles.Contains(_rolename))
-                    {
+            if (usernames.Length != 0 && roleNames.Length != 0) {
+                foreach (string _rolename in roleNames) {
+                    if (!currentRoles.Contains(_rolename)) {
                         _Roles.Add(new Role(_rolename, new List<string>(usernames)));
                     }
                 }
 
-                foreach (Role role in _Roles)
-                {
-                    foreach (string _name in roleNames)
-                    {
-                        if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase))
-                        {
-                            foreach (string s in usernames)
-                            {
+                foreach (Role role in _Roles) {
+                    foreach (string _name in roleNames) {
+                        if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase)) {
+                            foreach (string s in usernames) {
                                 if (!role.Users.Contains(s))
                                     role.Users.Add(s);
                             }
@@ -289,28 +267,18 @@ namespace BlogEngine.Core.Providers
         ///
         ///<param name="roleNames">A string array of role names to remove the specified user names from. </param>
         ///<param name="usernames">A string array of user names to be removed from the specified roles. </param>
-        public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
-        {
-            if (usernames.Length != 0 && roleNames.Length != 0)
-            {
-                foreach (Role role in _Roles)
-                {
-                    foreach (string _name in roleNames)
-                    {
-                        if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase))
-                        {
-                            foreach (string user in usernames)
-                            {
-                                if (role.Name == "administrators")
-                                {
-                                    if (role.Users.Count != 1)
-                                    {
+        public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames) {
+            if (usernames.Length != 0 && roleNames.Length != 0) {
+                foreach (Role role in _Roles) {
+                    foreach (string _name in roleNames) {
+                        if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase)) {
+                            foreach (string user in usernames) {
+                                if (role.Name == "administrators") {
+                                    if (role.Users.Count != 1) {
                                         if (role.Users.Contains(user))
                                             role.Users.Remove(user);
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     if (role.Users.Contains(user))
                                         role.Users.Remove(user);
                                 }
@@ -333,10 +301,8 @@ namespace BlogEngine.Core.Providers
         ///
         ///<param name="throwOnPopulatedRole">If true, throw an exception if roleName has one or more members and do not delete roleName.</param>
         ///<param name="roleName">The name of the role to delete.</param>
-        public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
-        {
-            if (roleName != "administrators")
-            {
+        public override bool DeleteRole(string roleName, bool throwOnPopulatedRole) {
+            if (roleName != "administrators") {
                 _Roles.Remove(new Role(roleName));
                 Save();
                 return true;
@@ -349,10 +315,8 @@ namespace BlogEngine.Core.Providers
         ///</summary>
         ///
         ///<param name="roleName">The name of the role to create.</param>
-        public override void CreateRole(string roleName)
-        {
-            if (!_Roles.Contains(new Core.Role(roleName)))
-            {
+        public override void CreateRole(string roleName) {
+            if (!_Roles.Contains(new Core.Role(roleName))) {
                 _Roles.Add(new Core.Role(roleName));
                 Save();
             }
@@ -366,30 +330,22 @@ namespace BlogEngine.Core.Providers
         /// <summary>
         /// Builds the internal cache of users.
         /// </summary>
-        private void ReadRoleDataStore()
-        {
-            lock (this)
-            {
+        private void ReadRoleDataStore() {
+            lock (this) {
                 XmlDocument doc = new XmlDocument();
 
-                try
-                {
+                try {
                     doc.Load(_XmlFileName);
                     XmlNodeList nodes = doc.GetElementsByTagName("role");
-                    foreach (XmlNode roleNode in nodes)
-                    {
+                    foreach (XmlNode roleNode in nodes) {
                         Role tempRole = new Role(roleNode.SelectSingleNode("name").InnerText);
-                        foreach (XmlNode userNode in roleNode.SelectNodes("users/user"))
-                        {
+                        foreach (XmlNode userNode in roleNode.SelectNodes("users/user")) {
                             tempRole.Users.Add(userNode.InnerText);
                         }
                         _Roles.Add(tempRole);
 
                     }
-                }
-
-                catch (XmlException)
-                {
+                } catch (XmlException) {
                     AddUsersToRoles(_UserNames.ToArray(), _DefaultRolesToAdd);
                 }
 
@@ -398,23 +354,19 @@ namespace BlogEngine.Core.Providers
 
         ///<summary>
         ///</summary>
-        public void Save()
-        {
+        public void Save() {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
 
-            using (XmlWriter writer = XmlWriter.Create(_XmlFileName, settings))
-            {
+            using (XmlWriter writer = XmlWriter.Create(_XmlFileName, settings)) {
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("roles");
 
-                foreach (Role _role in _Roles)
-                {
+                foreach (Role _role in _Roles) {
                     writer.WriteStartElement("role");
                     writer.WriteElementString("name", _role.Name);
                     writer.WriteStartElement("users");
-                    foreach (string username in _role.Users)
-                    {
+                    foreach (string username in _role.Users) {
                         writer.WriteElementString("user", username);
                     }
                     writer.WriteEndElement(); //closes users
@@ -427,23 +379,19 @@ namespace BlogEngine.Core.Providers
         /// <summary>
         /// Only so we can add users to the adminstrators and editors roles.
         /// </summary>
-        private void ReadMembershipDataStore()
-        {
+        private void ReadMembershipDataStore() {
             string fullyQualifiedPath = VirtualPathUtility.Combine
               (VirtualPathUtility.AppendTrailingSlash
               (HttpRuntime.AppDomainAppVirtualPath), BlogSettings.Instance.StorageLocation + "Users.xml");
 
-            lock (this)
-            {
-                if (_UserNames == null)
-                {
+            lock (this) {
+                if (_UserNames == null) {
                     _UserNames = new List<string>();
                     XmlDocument doc = new XmlDocument();
                     doc.Load(HostingEnvironment.MapPath(fullyQualifiedPath));
                     XmlNodeList nodes = doc.GetElementsByTagName("User");
 
-                    foreach (XmlNode node in nodes)
-                    {
+                    foreach (XmlNode node in nodes) {
                         _UserNames.Add(node["UserName"].InnerText);
                     }
 
