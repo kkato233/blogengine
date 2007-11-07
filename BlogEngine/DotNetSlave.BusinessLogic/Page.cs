@@ -301,6 +301,26 @@ namespace BlogEngine.Core
       return Title;
     }
 
+    /// <summary>
+    /// Loads an instance of the object based on the Id.
+    /// </summary>
+    /// <param name="id">The unique identifier of the object</param>
+      public new static Page Load(Guid id) {
+
+          // Mono throws an invalid IL exception if this method is not overriden 
+          // and handled in a non-generic fashion.
+
+          Page instance = new Page();
+          instance = instance.DataSelect(id);
+          instance.Id = id;
+          if (instance != null) {
+              instance.MarkOld();
+              return instance;
+          }
+          return null;
+      }
+
+
     #endregion
 
     #region Events
