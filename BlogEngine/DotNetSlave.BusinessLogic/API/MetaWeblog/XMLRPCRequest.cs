@@ -178,9 +178,9 @@ namespace BlogEngine.Core.API.MetaWeblog
             XmlDocument request = new XmlDocument();
             try
             {
-              if (!(xml.StartsWith("<?xml", StringComparison.Ordinal) || xml.StartsWith("<method", StringComparison.Ordinal))) 
+              if (!(xml.StartsWith("<?xml") || xml.StartsWith("<method"))) 
                 {
-									xml = xml.Substring(xml.IndexOf("<?xml", StringComparison.Ordinal));
+									xml = xml.Substring(xml.IndexOf("<?xml"));
                 }
                 request.LoadXml(xml);
             }

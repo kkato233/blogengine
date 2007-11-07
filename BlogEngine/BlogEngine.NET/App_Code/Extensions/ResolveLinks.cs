@@ -59,7 +59,7 @@ public class ResolveLinks
 			return url;
 
 		// Remove the protocal
-		int startIndex = url.IndexOf("://", StringComparison.Ordinal);
+		int startIndex = url.IndexOf("://");
 		if (startIndex > -1)
 			url = url.Substring(startIndex + 3);
 
@@ -67,8 +67,8 @@ public class ResolveLinks
 			return url;
 
 		// Compress folder structure
-		int firstIndex = url.IndexOf("/", StringComparison.Ordinal) + 1;
-		int lastIndex = url.LastIndexOf("/", StringComparison.Ordinal);
+		int firstIndex = url.IndexOf("/") + 1;
+		int lastIndex = url.LastIndexOf("/");
 		if (firstIndex < lastIndex)
 			url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
 
@@ -76,7 +76,7 @@ public class ResolveLinks
 			return url;
 
 		// Remove URL parameters
-		int queryIndex = url.IndexOf("?", StringComparison.Ordinal);
+		int queryIndex = url.IndexOf("?");
 		if (queryIndex > -1)
 			url = url.Substring(0, queryIndex);
 
@@ -84,7 +84,7 @@ public class ResolveLinks
 			return url;
 
 		// Remove URL fragment
-		int fragmentIndex = url.IndexOf("#", StringComparison.Ordinal);
+		int fragmentIndex = url.IndexOf("#");
 		if (fragmentIndex > -1)
 			url = url.Substring(0, fragmentIndex);
 
@@ -92,8 +92,8 @@ public class ResolveLinks
 			return url;
 
 		// Compress page
-		firstIndex = url.LastIndexOf("/", StringComparison.Ordinal) + 1;
-		lastIndex = url.LastIndexOf(".", StringComparison.Ordinal);
+		firstIndex = url.LastIndexOf("/") + 1;
+		lastIndex = url.LastIndexOf(".");
 		if (lastIndex - firstIndex > 10)
 		{
 			string page = url.Substring(firstIndex, lastIndex - firstIndex);

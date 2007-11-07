@@ -44,15 +44,15 @@ public class BBCode
 	/// </summary>
 	private static void Parse(ref string body, string code, string startTag, string endTag)
 	{
-		int start = body.IndexOf("[" + code + "]", StringComparison.Ordinal);
+		int start = body.IndexOf("[" + code + "]");
 		if (start > -1)
 		{
-			if (body.IndexOf("[/" + code + "]", start, StringComparison.Ordinal) > -1)
+			if (body.IndexOf("[/" + code + "]", start) > -1)
 			{
 				body = body.Remove(start, code.Length + 2);
 				body = body.Insert(start, "<" + startTag + ">");
 
-				int end = body.IndexOf("[/" + code + "]", start, StringComparison.Ordinal);
+				int end = body.IndexOf("[/" + code + "]", start);
 
 				body = body.Remove(end, code.Length + 3);
 				body = body.Insert(end, "</" + endTag + ">");

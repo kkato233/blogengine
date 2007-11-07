@@ -52,11 +52,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
         if (fi.Exists && fi.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
         {
-					int index = fileName.LastIndexOf(".", StringComparison.Ordinal) + 1;
+					int index = fileName.LastIndexOf(".") + 1;
           string extension = fileName.Substring(index).ToUpperInvariant();
           
           // Fix for IE not handling jpg image types
-					if (string.Compare(extension, "JPG", StringComparison.Ordinal) == 0)
+					if (string.Compare(extension, "JPG") == 0)
             context.Response.ContentType = "image/jpeg";
           else
             context.Response.ContentType = "image/" + extension;
@@ -69,7 +69,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
           context.Response.Cache.SetLastModified(fi.CreationTimeUtc);
           context.Response.Cache.SetETag(etag);
 
-					if (String.Compare(incomingEtag, etag, StringComparison.Ordinal) == 0)
+					if (String.Compare(incomingEtag, etag) == 0)
           {
             context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
             context.Response.End();
