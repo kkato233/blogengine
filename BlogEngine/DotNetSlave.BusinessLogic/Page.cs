@@ -163,9 +163,9 @@ namespace BlogEngine.Core
     /// <summary>
     /// The relative URI to the page. For in-site use only.
     /// </summary>
-    public Uri RelativeLink
+    public string RelativeLink
     {
-      get { return new Uri(Utils.RelativeWebRoot + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension, UriKind.Relative); }
+      get { return Utils.RelativeWebRoot + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension; }
     }
 
     /// <summary>
