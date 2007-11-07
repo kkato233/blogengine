@@ -7,8 +7,7 @@ using System.Web.Security;
 using System.Xml;
 using BlogEngine.Core;
 
-namespace BlogEngine.Core.API.MetaWeblog
-{
+namespace BlogEngine.Core.API.MetaWeblog {
     /// <summary>
     /// HTTP Handler for MetaWeblog API
     /// </summary>
@@ -23,8 +22,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// </summary>
         /// <value></value>
         /// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
-        public bool IsReusable
-        {
+        public bool IsReusable {
             get { return false; }
         }
 
@@ -33,17 +31,14 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// This is the heart of the MetaWeblog API
         /// </summary>
         /// <param name="context"></param>
-        public void ProcessRequest(HttpContext context)
-        {
+        public void ProcessRequest(HttpContext context) {
             _request = context;
 
-            try
-            {
+            try {
                 XMLRPCRequest input = new XMLRPCRequest(context);
                 XMLRPCResponse output = new XMLRPCResponse(input.MethodName);
 
-                switch (input.MethodName)
-                {
+                switch (input.MethodName) {
                     case "metaWeblog.newPost":
                         output.PostID = NewPost(input.BlogID, input.UserName, input.Password, input.Post, input.Publish);
                         break;
@@ -75,18 +70,14 @@ namespace BlogEngine.Core.API.MetaWeblog
 
                 }
                 output.Response(context);
-            }
-            catch (MetaWeblogException mex)
-            {
+            } catch (MetaWeblogException mex) {
                 XMLRPCResponse output = new XMLRPCResponse("fault");
                 MWAFault fault = new MWAFault();
                 fault.faultCode = mex.Code;
                 fault.faultString = mex.Message;
                 output.Fault = fault;
                 output.Response(context);
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 XMLRPCResponse output = new XMLRPCResponse("fault");
                 MWAFault fault = new MWAFault();
                 fault.faultCode = "0";
@@ -109,8 +100,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="sentPost">struct with post details</param>
         /// <param name="publish">mark as published?</param>
         /// <returns>postID as string</returns>
-        public static string NewPost(string blogID, string userName, string password, MWAPost sentPost, bool publish)
-        {
+        public static string NewPost(string blogID, string userName, string password, MWAPost sentPost, bool publish) {
             ValidateRequest(userName, password);
 
             Post post = new Post();
@@ -120,20 +110,18 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Content = sentPost.description;
             post.IsPublished = publish;
             post.Categories.Clear();
-            foreach (string item in sentPost.categories)
-            {
+            foreach (string item in sentPost.categories) {
                 Category cat;
                 if (LookupCategoryGuidByName(item, out cat))
                     post.Categories.Add(cat);
             }
             post.Tags.Clear();
-            foreach (string item in sentPost.tags)
-            {
+            foreach (string item in sentPost.tags) {
                 post.Tags.Add(item);
             }
 
             if (sentPost.postDate != new DateTime())
-              post.DateCreated = sentPost.postDate;
+                post.DateCreated = sentPost.postDate;
 
             post.Save();
 
@@ -149,8 +137,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="sentPost">struct with post details</param>
         /// <param name="publish">mark as published?</param>
         /// <returns>1 if successful</returns>
-        public  static bool EditPost(string postID, string userName, string password, MWAPost sentPost, bool publish)
-        {
+        public static bool EditPost(string postID, string userName, string password, MWAPost sentPost, bool publish) {
             ValidateRequest(userName, password);
 
             Post post = Post.GetPost(new Guid(postID));
@@ -160,8 +147,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             post.Content = sentPost.description;
             post.IsPublished = publish;
             post.Categories.Clear();
-            foreach (string item in sentPost.categories)
-            {
+            foreach (string item in sentPost.categories) {
                 // Ignore categories not found (as per spec)
                 //Guid key;
                 Category cat;
@@ -171,8 +157,7 @@ namespace BlogEngine.Core.API.MetaWeblog
                 //    post.Categories.Add(key);
             }
             post.Tags.Clear();
-            foreach (string item in sentPost.tags)
-            {
+            foreach (string item in sentPost.tags) {
                 post.Tags.Add(item);
             }
 
@@ -188,8 +173,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="userName">login username</param>
         /// <param name="password">login password</param>
         /// <returns>struct with post details</returns>
-        public static MWAPost GetPost(string postID, string userName, string password)
-        {
+        public static MWAPost GetPost(string postID, string userName, string password) {
             ValidateRequest(userName, password);
 
             MWAPost sendPost = new MWAPost();
@@ -203,15 +187,13 @@ namespace BlogEngine.Core.API.MetaWeblog
             sendPost.publish = post.IsPublished;
 
             List<string> cats = new List<string>();
-            for (int i = 0; i < post.Categories.Count; i++)
-            {
+            for (int i = 0; i < post.Categories.Count; i++) {
                 cats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
             }
             sendPost.categories = cats;
 
             List<string> tags = new List<string>();
-            for (int i = 0; i < post.Tags.Count; i++)
-            {
+            for (int i = 0; i < post.Tags.Count; i++) {
                 tags.Add(post.Tags[i]);
             }
             sendPost.tags = tags;
@@ -249,7 +231,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             }
             else
             {
-                if (saveFolder.EndsWith("\\", StringComparison.Ordinal))
+                if (saveFolder.EndsWith("\\"))
                     saveFolder = saveFolder.Substring(0, saveFolder.Length - 1);
             }
             if (!Directory.Exists(saveFolder))
@@ -263,7 +245,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             bw.Close();
 
             // Set Url
-						string rootUrl = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd", StringComparison.Ordinal));
+						string rootUrl = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd"));
 
             string mediaType = mediaObject.type;
             if (mediaType.IndexOf('/') > -1)
@@ -290,16 +272,14 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="userName">login username</param>
         /// <param name="password">login password</param>
         /// <returns>array of category structs</returns>
-        internal List<MWACategory> GetCategories(string blogID, string userName, string password)
-        {
+        internal List<MWACategory> GetCategories(string blogID, string userName, string password) {
             List<MWACategory> categories = new List<MWACategory>();
 
             ValidateRequest(userName, password);
 
-						string rootUrl = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd", StringComparison.Ordinal));
+            string rootUrl = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd"));
 
-            foreach (Category cat in Category.Categories)
-            {
+            foreach (Category cat in Category.Categories) {
                 MWACategory temp = new MWACategory();
                 temp.title = cat.Title;
                 temp.description = cat.Description;
@@ -320,8 +300,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="password">login password</param>
         /// <param name="numberOfPosts">number of posts to return</param>
         /// <returns>array of post structs</returns>
-        public static List<MWAPost> GetRecentPosts(string blogID, string userName, string password, int numberOfPosts)
-        {
+        public static List<MWAPost> GetRecentPosts(string blogID, string userName, string password, int numberOfPosts) {
             ValidateRequest(userName, password);
 
             List<MWAPost> sendPosts = new List<MWAPost>();
@@ -332,8 +311,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             if (stop > posts.Count)
                 stop = posts.Count;
 
-            foreach (Post post in posts.GetRange(0, stop))
-            {
+            foreach (Post post in posts.GetRange(0, stop)) {
                 MWAPost tempPost = new MWAPost();
                 List<string> tempCats = new List<string>();
                 List<string> tempTags = new List<string>();
@@ -344,14 +322,12 @@ namespace BlogEngine.Core.API.MetaWeblog
                 tempPost.description = post.Content;
                 tempPost.link = post.AbsoluteLink.AbsoluteUri; //post.PermaLink.AbsoluteUri;
                 tempPost.publish = post.IsPublished;
-                for (int i = 0; i < post.Categories.Count; i++)
-                {
+                for (int i = 0; i < post.Categories.Count; i++) {
                     tempCats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
                 }
                 tempPost.categories = tempCats;
 
-                for (int i = 0; i < post.Tags.Count; i++)
-                {
+                for (int i = 0; i < post.Tags.Count; i++) {
                     tempTags.Add(post.Tags[i]);
                 }
                 tempPost.tags = tempTags;
@@ -370,14 +346,13 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="userName">login username</param>
         /// <param name="password">login password</param>
         /// <returns>array of blog structs</returns>
-        public List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password)
-        {
+        public List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password) {
             List<MWABlogInfo> blogs = new List<MWABlogInfo>();
 
             ValidateRequest(userName, password);
 
             MWABlogInfo temp = new MWABlogInfo();
-						temp.url = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd", StringComparison.Ordinal));
+            temp.url = _request.Request.Url.ToString().Substring(0, _request.Request.Url.ToString().IndexOf("metaweblog.axd"));
             temp.blogID = "1000";
             temp.blogName = BlogSettings.Instance.Name;
             blogs.Add(temp);
@@ -394,37 +369,33 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="password">login password</param>
         /// <param name="publish">mark as published?</param>
         /// <returns></returns>
-        public static bool DeletePost(string appKey, string postID, string userName, string password, bool publish)
-        {
+        public static bool DeletePost(string appKey, string postID, string userName, string password, bool publish) {
             ValidateRequest(userName, password);
-            try
-            {
+            try {
                 Post post = Post.GetPost(new Guid(postID));
                 post.Delete();
                 post.Save();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 throw new MetaWeblogException("12", "DeletePost failed.  Error: " + ex.Message);
             }
 
             return true;
         }
 
-				///// <summary>
-				///// blogger.getUserInfo
-				///// </summary>
-				///// <remarks>
-				///// This is never called in anything I've tested.
-				///// </remarks>
-				///// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
-				///// <param name="userName">login username</param>
-				///// <param name="password">login password</param>
-				///// <returns>struct with user data</returns>
-				//public MWAUserInfo GetUserInfo(string appKey, string userName, string password)
-				//{
-				//    throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
-				//}
+        ///// <summary>
+        ///// blogger.getUserInfo
+        ///// </summary>
+        ///// <remarks>
+        ///// This is never called in anything I've tested.
+        ///// </remarks>
+        ///// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
+        ///// <param name="userName">login username</param>
+        ///// <param name="password">login password</param>
+        ///// <returns>struct with user data</returns>
+        //public MWAUserInfo GetUserInfo(string appKey, string userName, string password)
+        //{
+        //    throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
+        //}
 
         #endregion
 
@@ -435,10 +406,8 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
-        private static void ValidateRequest(string userName, string password)
-        {
-            if (!Membership.ValidateUser(userName, password))
-            {
+        private static void ValidateRequest(string userName, string password) {
+            if (!Membership.ValidateUser(userName, password)) {
                 throw new MetaWeblogException("11", "User authentication failed");
             }
         }
@@ -452,13 +421,10 @@ namespace BlogEngine.Core.API.MetaWeblog
         /// <param name="name"></param>
         /// <param name="cat"></param>
         /// <returns></returns>
-        private static bool LookupCategoryGuidByName(string name, out Category cat)
-        {
+        private static bool LookupCategoryGuidByName(string name, out Category cat) {
             cat = new Category();
-            foreach (Category item in Category.Categories)
-            {
-                if (item.Title == name)
-                {
+            foreach (Category item in Category.Categories) {
+                if (item.Title == name) {
                     cat = item;
                     return true;
                 }

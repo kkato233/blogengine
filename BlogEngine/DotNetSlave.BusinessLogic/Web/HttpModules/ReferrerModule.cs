@@ -136,8 +136,8 @@ namespace BlogEngine.Core.Web.HttpModules
         string host = url.Host;
         if (host.Split('.').Length > 2)
         {
-					int lastIndex = host.LastIndexOf(".", StringComparison.Ordinal);
-					int index = host.LastIndexOf(".", lastIndex - 1, StringComparison.Ordinal);
+					int lastIndex = host.LastIndexOf(".");
+					int index = host.LastIndexOf(".", lastIndex - 1);
           return host.Substring(0, index);
         }
       }

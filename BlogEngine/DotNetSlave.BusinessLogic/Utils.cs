@@ -89,7 +89,7 @@ namespace BlogEngine.Core {
                 throw new ArgumentNullException("relativeUri");
 
             string absolute = AbsoluteWebRoot.ToString();
-            int index = absolute.LastIndexOf(RelativeWebRoot.ToString(), StringComparison.Ordinal);
+            int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
 
             return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
         }
@@ -102,7 +102,7 @@ namespace BlogEngine.Core {
                 throw new ArgumentNullException("relativeUri");
 
             string absolute = AbsoluteWebRoot.ToString();
-            int index = absolute.LastIndexOf(RelativeWebRoot.ToString(), StringComparison.Ordinal);
+            int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
 
             return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
         }

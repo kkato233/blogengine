@@ -164,8 +164,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </summary>
 		private static string GetDomain(string sourceUrl)
 		{
-			int start = sourceUrl.IndexOf("://", StringComparison.Ordinal) + 3;
-			int stop = sourceUrl.IndexOf("/", start, StringComparison.Ordinal);
+			int start = sourceUrl.IndexOf("://") + 3;
+			int stop = sourceUrl.IndexOf("/", start);
 			return sourceUrl.Substring(start, stop - start).Replace("www.", string.Empty);
 		}
 
@@ -214,8 +214,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </summary>
 		private static Post GetPostByUrl(string url)
 		{
-			int start = url.LastIndexOf("/", StringComparison.Ordinal) + 1;
-			int stop = url.ToUpperInvariant().IndexOf(".ASPX", StringComparison.Ordinal);
+			int start = url.LastIndexOf("/") + 1;
+			int stop = url.ToUpperInvariant().IndexOf(".ASPX");
 			string name = url.Substring(start, stop - start).ToLowerInvariant();
 
 			foreach (Post post in Post.Posts)

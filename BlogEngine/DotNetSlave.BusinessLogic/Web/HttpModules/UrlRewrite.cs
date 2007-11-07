@@ -121,15 +121,15 @@ namespace BlogEngine.Core.Web.HttpModules
     private static string ExtractTitle(HttpContext context)
     {
 			string url = context.Request.RawUrl.ToLowerInvariant();
-			if (url.Contains(BlogSettings.Instance.FileExtension) && url.EndsWith("/", StringComparison.Ordinal))
+			if (url.Contains(BlogSettings.Instance.FileExtension) && url.EndsWith("/"))
 			{
 				url = url.Substring(0, url.Length - 1);
 				context.Response.AppendHeader("location", url);
 				context.Response.StatusCode = 301;
 			}
 
-			int index = url.LastIndexOf("/", StringComparison.Ordinal) + 1;
-			int stop = url.LastIndexOf(BlogSettings.Instance.FileExtension, StringComparison.Ordinal);
+			int index = url.LastIndexOf("/") + 1;
+			int stop = url.LastIndexOf(BlogSettings.Instance.FileExtension);
       string title = context.Request.RawUrl.Substring(index, stop - index).Replace(BlogSettings.Instance.FileExtension, string.Empty);
       return context.Server.UrlEncode(title);
     }

@@ -151,7 +151,7 @@ namespace BlogEngine.Core.Web.Controls
 				HtmlControl c = control as HtmlControl;
 				if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
 				{
-					if (!c.Attributes["href"].StartsWith("http://", StringComparison.Ordinal))
+					if (!c.Attributes["href"].StartsWith("http://"))
 					{
 						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
 						c.EnableViewState = false;

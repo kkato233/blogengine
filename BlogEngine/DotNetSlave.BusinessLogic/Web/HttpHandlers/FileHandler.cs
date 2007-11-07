@@ -72,7 +72,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// </summary>
     private static void SetContentType(HttpContext context, string fileName)
     {
-			if (fileName.EndsWith(".pdf", StringComparison.Ordinal))
+			if (fileName.EndsWith(".pdf"))
       {
         context.Response.AddHeader("Content-Type", "application/pdf");
       }
