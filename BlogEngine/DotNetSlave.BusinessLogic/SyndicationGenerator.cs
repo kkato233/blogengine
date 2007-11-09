@@ -465,10 +465,10 @@ namespace BlogEngine.Core
 			{
 				writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", this.Settings.AuthorName);
 			}
-			if (!String.IsNullOrEmpty(this.Settings.Description))
-			{
-				writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
-			}
+			//if (!String.IsNullOrEmpty(this.Settings.Description))
+			//{
+			//  writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
+			//}
 			if (!String.IsNullOrEmpty(this.Settings.Name))
 			{
 				writer.WriteElementString("dc", "title", "http://purl.org/dc/elements/1.1/", this.Settings.Name);
@@ -557,10 +557,10 @@ namespace BlogEngine.Core
 				{
 					writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
 				}
-				if (!String.IsNullOrEmpty(publishable.Description))
-				{
-					writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", publishable.Description);
-				}
+				//if (!String.IsNullOrEmpty(publishable.Description))
+				//{
+				//	writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", publishable.Description);
+				//}
 
 				//------------------------------------------------------------
 				//	Write pingback syndication extension elements
