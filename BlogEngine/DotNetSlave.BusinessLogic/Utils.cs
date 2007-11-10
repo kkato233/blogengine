@@ -134,6 +134,31 @@ namespace BlogEngine.Core {
 
         #endregion
 
+        #region Is Mono/Linux
+
+        /// <summary>
+        /// Gets a value indicating whether we're running under Mono.
+        /// </summary>
+        /// <value><c>true</c> if Mono; otherwise, <c>false</c>.</value>
+        public static bool IsMono {
+            get {
+                return Type.GetType("Mono.Runtime") != null;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether we're running under Linux or a Unix variant.
+        /// </summary>
+        /// <value><c>true</c> if Linux/Unix; otherwise, <c>false</c>.</value>
+        public static bool IsLinux {
+            get {
+                int p = (int) Environment.OSVersion.Platform;
+                return ((p == 4) || (p == 128));
+            }
+        }
+
+        #endregion
+
         #region Send e-mail
 
         /// <summary>
