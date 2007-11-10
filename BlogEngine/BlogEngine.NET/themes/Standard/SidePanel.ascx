@@ -13,9 +13,9 @@
         <br /><br />
         
         <!-- Email -->
-        <asp:HyperLink runat="server" NavigateUrl="~/contact.aspx" style="float:right;clear:both">
+        <a href="<%=Utils.AbsoluteWebRoot %>contact.aspx" style="float:right;clear:both">
           E-mail me <img src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
-        </asp:HyperLink>
+        </a>
       </td>
     </tr>
   </table>  
@@ -35,7 +35,7 @@
   <div style="text-align:center">
     <blog:PostCalendar runat="Server" NextMonthText=">>" DayNameFormat="FirstTwoLetters" FirstDayOfWeek="monday" PrevMonthText="<<" CssClass="calendar" BorderWidth="0" WeekendDayStyle-CssClass="weekend" OtherMonthDayStyle-CssClass="other" UseAccessibleHeader="true" EnableViewState="false" />
     <br />
-    <asp:HyperLink runat="server" NavigateUrl="~/?calendar=show" Text="View posts in large calendar" EnableViewState="false" />
+    <a href="<%=Utils.AbsoluteWebRoot %>?calendar=show" />View posts in large calendar</a>
   </div>
 </div>
 
@@ -77,7 +77,7 @@
 <div class="box">
   <h1><%=Resources.labels.blogroll %></h1>   
   <blog:Blogroll runat="server" />
-  <a href="opml.axd" style="display:block;text-align:right" title="Download OPML file" >Download OPML file <asp:Image ID="Image1" runat="server" ImageUrl="~/pics/opml.png" AlternateText="OPML" /></a>
+  <a href="<%=Utils.AbsoluteWebRoot %>opml.axd" style="display:block;text-align:right" title="Download OPML file" >Download OPML file <asp:Image ID="Image1" runat="server" ImageUrl="~/pics/opml.png" AlternateText="OPML" /></a>
 </div>
 
 <div class="box">
