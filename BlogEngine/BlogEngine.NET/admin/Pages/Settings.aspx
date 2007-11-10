@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="../admin1.master" ValidateRequest="false"
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="false"
     AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration"
     Title="Settings" %>
 

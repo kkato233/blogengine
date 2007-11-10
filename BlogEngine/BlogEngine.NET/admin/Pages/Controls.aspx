@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="../admin1.master" ValidateRequest="False" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="False" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 <br />
 <div class="settings">

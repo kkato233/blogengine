@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="../admin1.master" AutoEventWireup="true" CodeFile="PingServices.aspx.cs" Inherits="admin_Pages_PingServices" Title="Ping services" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="PingServices.aspx.cs" Inherits="admin_Pages_PingServices" Title="Ping services" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
   <asp:TextBox runat="Server" ID="txtNewCategory" Width="300" />  
   <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" />
