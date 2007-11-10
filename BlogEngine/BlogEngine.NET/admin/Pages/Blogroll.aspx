@@ -90,7 +90,7 @@
     <ItemTemplate>
       <tr>
         <td>
-          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xmlUrl"].Value %>"><img src="../../pics/rssbutton.gif" alt="RSS feed" /></a>
+          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xmlUrl"].Value %>"><img src="../../pics/rssButton.gif" alt="RSS feed" /></a>
           <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["htmlUrl"].Value %>"><%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %></a>
           &nbsp;<%#((System.Xml.XmlNode)Container.DataItem).Attributes["description"].Value %>
           &nbsp;(<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xfn"].Value.Replace(";", " ")%>)
@@ -103,7 +103,7 @@
     <AlternatingItemTemplate>
       <tr class="alt">
         <td>
-          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xmlUrl"].Value %>"><img src="../../pics/rssbutton.gif" alt="RSS feed" /></a>
+          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xmlUrl"].Value %>"><img src="../../pics/rssButton.gif" alt="RSS feed" /></a>
           <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["htmlUrl"].Value %>"><%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %></a>
           &nbsp;<%#((System.Xml.XmlNode)Container.DataItem).Attributes["description"].Value %>
           &nbsp;(<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xfn"].Value.Replace(";", " ") %>)

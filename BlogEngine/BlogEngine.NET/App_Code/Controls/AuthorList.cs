@@ -83,7 +83,7 @@ namespace Controls
 				if (ShowRssIcon)
 				{
 					HtmlImage img = new HtmlImage();
-					img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
+					img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
 					img.Alt = "RSS feed for " + user.UserName;
 					img.Attributes["class"] = "rssButton";
 

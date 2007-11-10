@@ -162,19 +162,19 @@ public class BlogImporter : System.Web.Services.WebService
       if (fileName.LastIndexOf('/') > -1)
       {
         saveFolder += fileName.Substring(0, fileName.LastIndexOf('/'));
-        saveFolder = saveFolder.Replace('/', '\\');
+        saveFolder = saveFolder.Replace('/', Path.PathSeparator);
 
         fileName = fileName.Substring(fileName.LastIndexOf('/') + 1);
       }
       else
       {
-        if (saveFolder.EndsWith("\\"))
+        if (saveFolder.EndsWith(Path.PathSeparator))
           saveFolder = saveFolder.Substring(0, saveFolder.Length - 1);
       }
 
       if (!Directory.Exists(saveFolder))
         Directory.CreateDirectory(saveFolder);
-      saveFolder += "\\";
+      saveFolder += Path.PathSeparator;
 
       using (WebClient client = new WebClient())
       {

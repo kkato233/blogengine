@@ -6,7 +6,7 @@
   <h1>About the author</h1>
   <table summary="About the author">
     <tr>
-      <td><img src="~/themes/standard/noavatar.jpg" runat="server" alt="Name of author" /></td>
+      <td><img src="~/themes/Standard/noavatar.jpg" runat="server" alt="Name of author" /></td>
       <td style="vertical-align:top">
         Author name<br />
         Something about me and what I do.

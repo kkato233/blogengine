@@ -26,7 +26,7 @@ Released for free under a Creative Commons Attribution 2.5 License
                     <%=Resources.labels.contact %>
                 </a></li>
                 <li><a href="<%=Utils.FeedUrl %>" class="feed">
-                    <img src="<%=Utils.RelativeWebRoot %>pics/rssbutton.gif" alt="Feed" />
+                    <img src="<%=Utils.RelativeWebRoot %>pics/rssButton.gif" alt="Feed" />
                     <%=Resources.labels.subscribe %>
                 </a></li>
             </ul>

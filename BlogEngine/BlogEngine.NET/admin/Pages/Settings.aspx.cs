@@ -235,7 +235,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		string path = Server.MapPath(Utils.RelativeWebRoot + "themes/");
 		foreach (string dic in Directory.GetDirectories(path))
 		{
-			int index = dic.LastIndexOf("\\") + 1;
+			int index = dic.LastIndexOf(Path.PathSeparator) + 1;
 			ddlTheme.Items.Add(dic.Substring(index));
 			ddlMobileTheme.Items.Add(dic.Substring(index));
 		}
@@ -262,7 +262,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 			string path = Server.MapPath(Utils.RelativeWebRoot + "App_GlobalResources/");
 			foreach (string file in Directory.GetFiles(path, "labels.*.resx"))
 			{
-				int index = file.LastIndexOf("\\") + 1;
+				int index = file.LastIndexOf(Path.PathSeparator) + 1;
 				string filename = file.Substring(index);
 				filename = filename.Replace("labels.", string.Empty).Replace(".resx", string.Empty);
 				System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(filename);
