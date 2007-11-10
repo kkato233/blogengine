@@ -382,7 +382,7 @@ namespace BlogEngine.Core.Providers {
         private void ReadMembershipDataStore() {
             string fullyQualifiedPath = VirtualPathUtility.Combine
               (VirtualPathUtility.AppendTrailingSlash
-              (HttpRuntime.AppDomainAppVirtualPath), BlogSettings.Instance.StorageLocation + "Users.xml");
+              (HttpRuntime.AppDomainAppVirtualPath), BlogSettings.Instance.StorageLocation + "users.xml");
 
             lock (this) {
                 if (_UserNames == null) {

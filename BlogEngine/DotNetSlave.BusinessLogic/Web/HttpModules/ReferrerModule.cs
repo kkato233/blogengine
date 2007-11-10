@@ -81,7 +81,7 @@ namespace BlogEngine.Core.Web.HttpModules
     /// <summary>
     /// The relative path of the XML file.
     /// </summary>
-    private static string _Folder = HttpContext.Current.Server.MapPath("~/app_data/log/");
+    private static string _Folder = HttpContext.Current.Server.MapPath("~/App_Data/log/");
 
     #endregion
 

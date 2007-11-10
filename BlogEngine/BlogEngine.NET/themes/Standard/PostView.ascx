@@ -24,6 +24,6 @@
     <%=AdminLinks %>
     <a rel="bookmark" href="<%=Post.PermaLink %>">Permalink</a> |
     <a rel="nofollow" href="<%=Post.RelativeLink %>#comment"><%=Resources.labels.comments %> (<%=Post.ApprovedComments.Count %>)</a> |
-    <a rel="nofollow" href="<%=CommentFeed %>">Post RSS<asp:Image runat="Server" ImageUrl="~/pics/rssbutton.gif" AlternateText="RSS comment feed" style="margin-left:3px" /></a>    
+    <a rel="nofollow" href="<%=CommentFeed %>">Post RSS<asp:Image runat="Server" ImageUrl="~/pics/rssButton.gif" AlternateText="RSS comment feed" style="margin-left:3px" /></a>    
   </div>
 </div>

@@ -127,7 +127,7 @@ namespace Controls
         feedAnchor.HRef = item.RssUrl;
 
         HtmlImage image = new HtmlImage();
-        image.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
+        image.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
         image.Alt = "RSS feed for " + item.Name;
 
         feedAnchor.Controls.Add(image);
