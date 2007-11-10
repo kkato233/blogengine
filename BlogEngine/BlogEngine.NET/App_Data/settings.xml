@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
   <avatar>combine</avatar>
-  <storagelocation>~/app_data/</storagelocation>
+  <storagelocation>~/App_Data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <enablerating>True</enablerating>
