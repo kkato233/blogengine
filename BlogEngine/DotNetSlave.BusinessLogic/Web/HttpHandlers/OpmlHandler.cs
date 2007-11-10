@@ -26,7 +26,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       context.Response.ContentType = "text/xml";
       context.Response.AppendHeader("Content-Disposition", "attachment; filename=opml.xml");
-      context.Response.TransmitFile("~/app_data/blogroll.xml");
+      context.Response.TransmitFile(context.Request.PhysicalApplicationPath + "app_data/blogroll.xml");
     }
 
     /// <summary>
