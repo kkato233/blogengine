@@ -224,19 +224,19 @@ namespace BlogEngine.Core.API.MetaWeblog {
             if (mediaObject.name.LastIndexOf('/') > -1)
             {
                 saveFolder += mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
-                saveFolder = saveFolder.Replace('/', Path.PathSeparator);
+                saveFolder = saveFolder.Replace('/', Path.DirectorySeparatorChar);
 
 
                 fileName = mediaObject.name.Substring(mediaObject.name.LastIndexOf('/') + 1);
             }
             else
             {
-                if (saveFolder.EndsWith(Path.PathSeparator.ToString()))
+                if (saveFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
                     saveFolder = saveFolder.Substring(0, saveFolder.Length - 1);
             }
             if (!Directory.Exists(saveFolder))
                 Directory.CreateDirectory(saveFolder);
-            saveFolder += Path.PathSeparator;
+            saveFolder += Path.DirectorySeparatorChar;
 
             // Save File
             FileStream fs = new FileStream(saveFolder + fileName, FileMode.Create);
