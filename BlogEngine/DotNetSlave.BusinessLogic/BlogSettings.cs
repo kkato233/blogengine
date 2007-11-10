@@ -279,9 +279,14 @@ namespace BlogEngine.Core {
         /// <value><b>true</b> if compression is enabled, otherwise returns <b>false</b>.</value>
         public bool EnableHttpCompression {
             get {
-                return enableHttpCompression;
+                if (Utils.IsMono) {
+                    // Mono has an issue with GZIP compression. See http://www.xobni.com/opensource/MonoGZipStream/README.htm
+                    // It can be fixed by compiling the the necessary libraries on Linux, so disabling it completely
+                    // like we're doing here is probably not the right solution.
+                    return false;
+                } else
+                  return enableHttpCompression;
             }
-
             set {
                 enableHttpCompression = value;
             }
