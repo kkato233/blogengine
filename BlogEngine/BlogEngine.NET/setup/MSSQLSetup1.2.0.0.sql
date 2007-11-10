@@ -244,7 +244,7 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtppassword', 'pas
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtpserver', 'mail.example.dk');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtpserverport', '25');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtpusername', 'user@example.com');
-INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('storagelocation', '~/app_data/');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('storagelocation', '~/App_Data/');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('syndicationformat', 'Rss');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('theme', 'Standard');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timestamppostlinks', 'True');
