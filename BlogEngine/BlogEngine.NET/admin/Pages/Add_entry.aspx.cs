@@ -123,7 +123,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
         if (string.IsNullOrEmpty(txtContent.Text))
             txtContent.Text = "[No text]";
 
-        post.DateCreated = DateTime.Parse(txtDate.Text, System.Globalization.CultureInfo.InvariantCulture).AddHours(-BlogSettings.Instance.Timezone);
+        post.DateCreated = DateTime.ParseExact(txtDate.Text, "yyyy-MM-dd HH:mm", null).AddHours(-BlogSettings.Instance.Timezone);
         post.Author = ddlAuthor.SelectedValue;
         post.Title = txtTitle.Text.Trim();
         post.Content = txtContent.Text;
