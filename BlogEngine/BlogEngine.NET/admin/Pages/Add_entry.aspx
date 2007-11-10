@@ -116,7 +116,7 @@ function AutoSave()
   </table>  
   
   <div style="text-align:right">  
-    <asp:Button runat="server" ID="btnSave" Text=" <%$ Resources:labels, savePost %> " TabIndex="16" />
+    <asp:Button runat="server" ID="btnSave" TabIndex="16" />
   </div>
   <br />
 <% if (Request.QueryString["id"] == null){ %>  
