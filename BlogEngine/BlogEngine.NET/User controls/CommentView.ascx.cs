@@ -101,7 +101,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
         ApproveAllComments();
 
-      string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+      string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
 
       //Add approved Comments
       foreach (Comment comment in Post.Comments)
@@ -270,7 +270,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
   private void BindLivePreview()
   {
-    string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/commentview.ascx";
+    string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
     CommentViewBase control = (CommentViewBase)LoadControl(path);
     Comment comment = new Comment();
     comment.Content = string.Empty;
