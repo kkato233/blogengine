@@ -76,6 +76,7 @@ function ShowCommentPreview(target, sender)
     return; 
     
   var body = sender.value;
+  body = body.replace(new RegExp("&","gi"), "&amp;");
   body = body.replace(new RegExp(">","gi"), "&gt;");  
   body = body.replace(new RegExp("<","gi"), "&lt;");
   body = body.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");

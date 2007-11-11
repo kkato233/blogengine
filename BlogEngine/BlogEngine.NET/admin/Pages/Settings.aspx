@@ -178,7 +178,7 @@
         <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" /><br />
         
         <label for="<%=txtDublinCoreLanguage.ClientID %>"><%=Resources.labels.languageCode %></label>
-        <asp:TextBox runat="server" ID="txtDublinCoreLanguage" MaxLength="5" Width="50" /><br /><br />
+        <asp:TextBox runat="server" ID="txtDublinCoreLanguage" Width="60" /><br /><br />
         
         <label for="<%=txtGeocodingLatitude.ClientID %>"><%=Resources.labels.latitude %></label>
         <asp:TextBox runat="server" ID="txtGeocodingLatitude" Width="300" /><br />

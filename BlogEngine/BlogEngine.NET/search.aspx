@@ -39,7 +39,7 @@
           <a href="<%# Eval("RelativeLink") %>"><%# Eval("Title") %></a>
           <span class="text"><%# GetContent((string)Eval("Description"), (string)Eval("Content")) %></span>
          <span class="type" runat="server" id="type" />
-          <span class="url"><%# ShortenUrl((Uri)Eval("RelativeLink")) %></span>
+          <span class="url"><%# ShortenUrl((String)Eval("RelativeLink")) %></span>
         </div>
       </ItemTemplate>
     </asp:repeater>

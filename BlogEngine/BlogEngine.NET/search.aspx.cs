@@ -156,7 +156,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
   /// <summary>
   /// Removes the comment anchor from the URL
   /// </summary>
-  protected string ShortenUrl(Uri uri)
+  protected string ShortenUrl(string uri)
   {
     string url = Utils.ConvertToAbsolute(uri).ToString();
     if (!url.Contains("#"))
