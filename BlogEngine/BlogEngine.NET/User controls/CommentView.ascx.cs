@@ -376,7 +376,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   /// <summary>
   /// Initializes the captcha and registers the JavaScript
   /// </summary>
-  private void InititializeCaptcha()
+	private void InititializeCaptcha()
   {
     if (ViewState["captchavalue"] == null)
     {

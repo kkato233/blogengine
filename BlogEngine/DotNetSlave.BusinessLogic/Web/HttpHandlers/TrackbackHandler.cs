@@ -35,6 +35,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
+			if (!BlogSettings.Instance.IsCommentsEnabled)
+				return;
+
 			OnReceived();
 			string postId = context.Request.Params["id"]; ;
 			string title = context.Request.Params["title"];

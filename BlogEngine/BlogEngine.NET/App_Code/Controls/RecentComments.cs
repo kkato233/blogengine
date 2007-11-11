@@ -12,143 +12,153 @@ using BlogEngine.Core;
 
 namespace Controls
 {
-  /// <summary>
-  /// Builds a category list.
-  /// </summary>
-  public class RecentComments : Control
-  {
+	/// <summary>
+	/// Builds a category list.
+	/// </summary>
+	public class RecentComments : Control
+	{
 
-    static RecentComments()
-    {
-      BindComments();
-      Post.CommentAdded += delegate { BindComments(); };
-      Post.CommentRemoved += delegate { BindComments(); };      
-      Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
-      Comment.Approved += delegate { BindComments(); };
-      BlogSettings.Changed += delegate { BindComments(); };
-    }
+		static RecentComments()
+		{
+			BindComments();
+			Post.CommentAdded += delegate { BindComments(); };
+			Post.CommentRemoved += delegate { BindComments(); };
+			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+			Comment.Approved += delegate { BindComments(); };
+			BlogSettings.Changed += delegate { BindComments(); };
+		}
 
-    static void Post_Saved(object sender, SavedEventArgs e)
-    {
-      if (e.Action == SaveAction.Delete)
-        BindComments();
-    }
+		static void Post_Saved(object sender, SavedEventArgs e)
+		{
+			if (e.Action == SaveAction.Delete)
+				BindComments();
+		}
 
-    #region Private fields
+		#region Private fields
 
-    private static object _SyncRoot = new object();
-    private static List<Comment> _Comments = new List<Comment>();
+		private static object _SyncRoot = new object();
+		private static List<Comment> _Comments = new List<Comment>();
 
-    #endregion
+		#endregion
 
-    private static void BindComments()
-    {
-      lock (_SyncRoot)
-      {
-        _Comments.Clear();
-        List<Comment> comments = new List<Comment>();
+		private static void BindComments()
+		{
+			lock (_SyncRoot)
+			{
+				_Comments.Clear();
+				List<Comment> comments = new List<Comment>();
 
-        foreach (Post post in Post.Posts)
-        {
-          foreach (Comment comment in post.Comments) 
-          {
-              if (comment.IsApproved) 
-                comments.Add(comment);
-          }
-        }
+				foreach (Post post in Post.Posts)
+				{
+					foreach (Comment comment in post.Comments)
+					{
+						if (comment.IsApproved)
+							comments.Add(comment);
+					}
+				}
 
-        comments.Sort();
-        comments.Reverse();
-        int counter = 0;
+				comments.Sort();
+				comments.Reverse();
+				int counter = 0;
 
-        foreach (Comment comment in comments)
-        {
-          if (counter == BlogSettings.Instance.NumberOfRecentComments)
-            break;
+				foreach (Comment comment in comments)
+				{
+					if (counter == BlogSettings.Instance.NumberOfRecentComments)
+						break;
 
-          if (comment.Email == "pingback" || comment.Email == "trackback")
-            continue;
+					if (comment.Email == "pingback" || comment.Email == "trackback")
+						continue;
 
-          _Comments.Add(comment);
-          counter++;
-        }
+					_Comments.Add(comment);
+					counter++;
+				}
 
-        comments.Clear();
-      }
-    }
+				comments.Clear();
+			}
+		}
 
-    private string RenderComments()
-    {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");
-      ul.Attributes.Add("class", "recentComments");
+		private string RenderComments()
+		{
+			if (_Comments.Count == 0)
+			{
+				return "<p>" + Resources.labels.none + "</p>";
+			}
 
-      foreach (Comment comment in _Comments)
-      {
-          if (comment.IsApproved)
-          {
-              HtmlGenericControl li = new HtmlGenericControl("li");
+			HtmlGenericControl ul = new HtmlGenericControl("ul");
+			ul.Attributes.Add("class", "recentComments");
 
-              // The post title
-              HtmlAnchor title = new HtmlAnchor();
-              title.HRef = comment.Post.RelativeLink.ToString();
-              title.InnerText = comment.Post.Title;
-              title.Attributes.Add("class", "postTitle");
-              li.Controls.Add(title);
+			foreach (Comment comment in _Comments)
+			{
+				if (comment.IsApproved)
+				{
+					HtmlGenericControl li = new HtmlGenericControl("li");
 
-              // The comment count on the post
-              LiteralControl count = new LiteralControl(" (" + comment.Post.ApprovedComments.Count + ")<br />");
-              li.Controls.Add(count);
+					// The post title
+					HtmlAnchor title = new HtmlAnchor();
+					title.HRef = comment.Post.RelativeLink.ToString();
+					title.InnerText = comment.Post.Title;
+					title.Attributes.Add("class", "postTitle");
+					li.Controls.Add(title);
 
-              // The author
-              if (comment.Website != null)
-              {
-                  HtmlAnchor author = new HtmlAnchor();
-                  author.HRef = comment.Website.ToString();
-                  author.InnerHtml = comment.Author;
-                  li.Controls.Add(author);
+					// The comment count on the post
+					LiteralControl count = new LiteralControl(" (" + comment.Post.ApprovedComments.Count + ")<br />");
+					li.Controls.Add(count);
 
-                  LiteralControl wrote = new LiteralControl(" " + Resources.labels.wrote + ": ");
-                  li.Controls.Add(wrote);
-              }
-              else
-              {
-                  LiteralControl author = new LiteralControl(comment.Author + " " + Resources.labels.wrote + ": ");
-                  li.Controls.Add(author);
-              }
+					// The author
+					if (comment.Website != null)
+					{
+						HtmlAnchor author = new HtmlAnchor();
+						author.HRef = comment.Website.ToString();
+						author.InnerHtml = comment.Author;
+						li.Controls.Add(author);
 
-              // The comment body
-              int bodyLength = comment.Content.Length <= 50 ? comment.Content.Length : 50;
-              LiteralControl body = new LiteralControl(comment.Content.Substring(0, bodyLength) + "... ");
-              li.Controls.Add(body);
+						LiteralControl wrote = new LiteralControl(" " + Resources.labels.wrote + ": ");
+						li.Controls.Add(wrote);
+					}
+					else
+					{
+						LiteralControl author = new LiteralControl(comment.Author + " " + Resources.labels.wrote + ": ");
+						li.Controls.Add(author);
+					}
 
-              // The comment link
-              HtmlAnchor link = new HtmlAnchor();
-              link.HRef = comment.Post.RelativeLink + "#id_" + comment.Id;
-              link.InnerHtml = "[" + Resources.labels.more + "]";
-              link.Attributes.Add("class", "moreLink");
-              li.Controls.Add(link);
+					// The comment body
+					int bodyLength = Math.Min(comment.Content.Length, 50);
+					string commentBody = comment.Content.Substring(0, bodyLength);
+					if (commentBody[commentBody.Length - 1] == '&')
+					{
+						commentBody = commentBody.Substring(0, commentBody.Length - 1);
+					}
+					commentBody += comment.Content.Length <= 50 ? " " : "… ";
+					LiteralControl body = new LiteralControl(commentBody);
+					li.Controls.Add(body);
 
-              ul.Controls.Add(li);
-          }
-  
-      }
+					// The comment link
+					HtmlAnchor link = new HtmlAnchor();
+					link.HRef = comment.Post.RelativeLink + "#id_" + comment.Id;
+					link.InnerHtml = "[" + Resources.labels.more + "]";
+					link.Attributes.Add("class", "moreLink");
+					li.Controls.Add(link);
 
-      StringWriter sw = new StringWriter();
-      ul.RenderControl(new HtmlTextWriter(sw));
-      return sw.ToString();
-    }
+					ul.Controls.Add(li);
+				}
+			}
 
-    /// <summary>
-    /// Renders the control.
-    /// </summary>
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-      if (Post.Posts.Count > 0)
-      {
-        string html = RenderComments();
-        writer.Write(html);
-        writer.Write(Environment.NewLine);
-      }
-    }
-  }
+			StringWriter sw = new StringWriter();
+			ul.RenderControl(new HtmlTextWriter(sw));
+			return sw.ToString();
+		}
+
+		/// <summary>
+		/// Renders the control.
+		/// </summary>
+		public override void RenderControl(HtmlTextWriter writer)
+		{
+			if (Post.Posts.Count > 0)
+			{
+				string html = RenderComments();
+				writer.Write(html);
+				writer.Write(Environment.NewLine);
+			}
+		}
+	}
 }

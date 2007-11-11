@@ -41,6 +41,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
+			if (!BlogSettings.Instance.IsCommentsEnabled)
+				return;
+
 			OnReceived();
 
 			XmlDocument doc = RetrieveXmlDocument(context);

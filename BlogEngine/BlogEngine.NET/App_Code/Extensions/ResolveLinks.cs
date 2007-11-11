@@ -70,7 +70,10 @@ public class ResolveLinks
 		int firstIndex = url.IndexOf("/") + 1;
 		int lastIndex = url.LastIndexOf("/");
 		if (firstIndex < lastIndex)
-			url = url.Replace(url.Substring(firstIndex, lastIndex - firstIndex), "...");
+		{
+			url = url.Remove(firstIndex, lastIndex - firstIndex);
+			url = url.Insert(firstIndex, "...");
+		}
 
 		if (url.Length <= max)
 			return url;
