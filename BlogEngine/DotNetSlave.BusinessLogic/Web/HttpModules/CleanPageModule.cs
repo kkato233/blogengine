@@ -25,7 +25,17 @@ namespace BlogEngine.Core.Web.HttpModules
 
 		void IHttpModule.Init(HttpApplication context)
 		{
-			context.PostRequestHandlerExecute += new EventHandler(context_BeginRequest);
+            //TODO Fix for Mono support
+            if (!Utils.IsMono) {
+                // On mono, this handler causes an issue where parts of a post are duplicated
+                // at the end of a page. I've confirmed that it is because the Write method assumes 
+                // a full block of text to do its pattern matching on. While tests on Windows have 
+                // shown this to be true for now, on Linux it isn't, causing a somewhat corrupt page 
+                // to be rendered. While this needs to be fixed, especially since a sufficiently long page
+                // could cause the same behaviour on Windows, I don't consider this handler a requirement 
+                // for a mono/linux release, so we can tackle this later. - Russell
+                context.PostRequestHandlerExecute += new EventHandler(context_BeginRequest);
+            }
 		}
 
 		#endregion
@@ -111,6 +121,8 @@ namespace BlogEngine.Core.Web.HttpModules
 
 			public override void Write(byte[] buffer, int offset, int count)
 			{
+                Console.WriteLine("Write:" + offset.ToString() + "," + count.ToString());
+
 				byte[] data = new byte[count];
 				Buffer.BlockCopy(buffer, offset, data, 0, count);
 				string html = System.Text.Encoding.Default.GetString(buffer);
