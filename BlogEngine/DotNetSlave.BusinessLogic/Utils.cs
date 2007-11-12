@@ -12,199 +12,223 @@ using System.Threading;
 
 #endregion
 
-namespace BlogEngine.Core {
-    /// <summary>
-    /// Utilities for the entire solution to use.
-    /// </summary>
-    public static class Utils {
+namespace BlogEngine.Core
+{
+	/// <summary>
+	/// Utilities for the entire solution to use.
+	/// </summary>
+	public static class Utils
+	{
 
-        /// <summary>
-        /// Strips all illegal characters from the specified title.
-        /// </summary>
-        public static string RemoveIllegalCharacters(string text) {
-            if (string.IsNullOrEmpty(text))
-                return text;
+		/// <summary>
+		/// Strips all illegal characters from the specified title.
+		/// </summary>
+		public static string RemoveIllegalCharacters(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				return text;
 
-            text = text.Replace(":", string.Empty);
-            text = text.Replace("/", string.Empty);
-            text = text.Replace("?", string.Empty);
-            text = text.Replace("#", string.Empty);
-            text = text.Replace("[", string.Empty);
-            text = text.Replace("]", string.Empty);
-            text = text.Replace("@", string.Empty);
-            text = text.Replace(".", string.Empty);
-            text = text.Replace("\"", string.Empty);
-            text = text.Replace("&", string.Empty);
-            text = text.Replace(" ", "-");
+			text = text.Replace(":", string.Empty);
+			text = text.Replace("/", string.Empty);
+			text = text.Replace("?", string.Empty);
+			text = text.Replace("#", string.Empty);
+			text = text.Replace("[", string.Empty);
+			text = text.Replace("]", string.Empty);
+			text = text.Replace("@", string.Empty);
+			text = text.Replace(".", string.Empty);
+			text = text.Replace("\"", string.Empty);
+			text = text.Replace("&", string.Empty);
+			text = text.Replace(" ", "-");
 
-            return HttpUtility.UrlEncode(text).Replace("%", string.Empty);
-        }
+			return HttpUtility.UrlEncode(text).Replace("%", string.Empty);
+		}
 
-        /// <summary>
-        /// Gets the relative URL of the blog feed. If a Feedburner username
-        /// is entered in the admin settings page, it will return the 
-        /// absolute Feedburner URL to the feed.
-        /// </summary>
-        public static string FeedUrl {
-            get {
-                if (!string.IsNullOrEmpty(BlogSettings.Instance.AlternateFeedUrl))
-                    return BlogSettings.Instance.AlternateFeedUrl;
-                else
-                    return AbsoluteWebRoot + "syndication.axd";
-            }
-        }
+		#region URL handling
 
-        /// <summary>
-        /// Gets the relative root of the website.
-        /// </summary>
-        /// <value>A string that ends with a '/'.</value>
-        public static string RelativeWebRoot {
-            get { return VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["BlogEngine.VirtualPath"]); }
-        }
+		/// <summary>
+		/// Gets the relative URL of the blog feed. If a Feedburner username
+		/// is entered in the admin settings page, it will return the 
+		/// absolute Feedburner URL to the feed.
+		/// </summary>
+		public static string FeedUrl
+		{
+			get
+			{
+				if (!string.IsNullOrEmpty(BlogSettings.Instance.AlternateFeedUrl))
+					return BlogSettings.Instance.AlternateFeedUrl;
+				else
+					return AbsoluteWebRoot + "syndication.axd";
+			}
+		}
 
-        private static Uri _AbsoluteWebRoot;
+		/// <summary>
+		/// Gets the relative root of the website.
+		/// </summary>
+		/// <value>A string that ends with a '/'.</value>
+		public static string RelativeWebRoot
+		{
+			get { return VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["BlogEngine.VirtualPath"]); }
+		}
 
-        /// <summary>
-        /// Gets the absolute root of the website.
-        /// </summary>
-        /// <value>A string that ends with a '/'.</value>
-        public static Uri AbsoluteWebRoot {
-            get {
-                if (_AbsoluteWebRoot == null) {
-                    HttpContext context = HttpContext.Current;
-                    if (context == null)
-                        throw new System.Net.WebException("The current HttpContext is null");
+		private static Uri _AbsoluteWebRoot;
 
-                    _AbsoluteWebRoot = new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
-                }
-                return _AbsoluteWebRoot;
-            }
-        }
+		/// <summary>
+		/// Gets the absolute root of the website.
+		/// </summary>
+		/// <value>A string that ends with a '/'.</value>
+		public static Uri AbsoluteWebRoot
+		{
+			get
+			{
+				if (_AbsoluteWebRoot == null)
+				{
+					HttpContext context = HttpContext.Current;
+					if (context == null)
+						throw new System.Net.WebException("The current HttpContext is null");
 
-        /// <summary>
-        /// Converts a relative URL to an absolute one.
-        /// </summary>
-        public static Uri ConvertToAbsolute(Uri relativeUri) {
-            if (relativeUri == null)
-                throw new ArgumentNullException("relativeUri");
+					_AbsoluteWebRoot = new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
+				}
+				return _AbsoluteWebRoot;
+			}
+		}
 
-            string absolute = AbsoluteWebRoot.ToString();
-            int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
+		/// <summary>
+		/// Converts a relative URL to an absolute one.
+		/// </summary>
+		public static Uri ConvertToAbsolute(Uri relativeUri)
+		{
+			return ConvertToAbsolute(relativeUri.ToString()); ;
+		}
 
-            return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
-        }
+		/// <summary>
+		/// Converts a relative URL to an absolute one.
+		/// </summary>
+		public static Uri ConvertToAbsolute(string relativeUri)
+		{
+			if (String.IsNullOrEmpty(relativeUri))
+				throw new ArgumentNullException("relativeUri");
 
-        /// <summary>
-        /// Converts a relative URL to an absolute one.
-        /// </summary>
-        public static Uri ConvertToAbsolute(string relativeUri) {
-            if (relativeUri == String.Empty)
-                throw new ArgumentNullException("relativeUri");
+			string absolute = AbsoluteWebRoot.ToString();
+			int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
 
-            string absolute = AbsoluteWebRoot.ToString();
-            int index = absolute.LastIndexOf(RelativeWebRoot.ToString());
+			return new Uri(absolute.Substring(0, index) + relativeUri);
+		}
 
-            return new Uri(absolute.Substring(0, index) + relativeUri.ToString());
-        }
+		#endregion
 
+		#region Is mobile device
 
-        #region Is mobile device
+		private static readonly Regex MOBILE_REGEX = new Regex(ConfigurationManager.AppSettings.Get("BlogEngine.MobileDevices"), RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex MOBILE_REGEX = new Regex(ConfigurationManager.AppSettings.Get("BlogEngine.MobileDevices"), RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		/// <summary>
+		/// Gets a value indicating whether the client is a mobile device.
+		/// </summary>
+		/// <value><c>true</c> if this instance is mobile; otherwise, <c>false</c>.</value>
+		public static bool IsMobile
+		{
+			get
+			{
+				HttpContext context = HttpContext.Current;
+				if (context != null)
+				{
+					HttpRequest request = context.Request;
+					if (request.Browser.IsMobileDevice)
+						return true;
 
-        /// <summary>
-        /// Gets a value indicating whether the client is a mobile device.
-        /// </summary>
-        /// <value><c>true</c> if this instance is mobile; otherwise, <c>false</c>.</value>
-        public static bool IsMobile {
-            get {
-                HttpContext context = HttpContext.Current;
-                if (context != null) {
-                    HttpRequest request = context.Request;
-                    if (request.Browser.IsMobileDevice)
-                        return true;
+					if (!string.IsNullOrEmpty(request.UserAgent) && MOBILE_REGEX.IsMatch(request.UserAgent))
+						return true;
+				}
 
-                    if (!string.IsNullOrEmpty(request.UserAgent) && MOBILE_REGEX.IsMatch(request.UserAgent))
-                        return true;
-                }
+				return false;
+			}
+		}
 
-                return false;
-            }
-        }
+		#endregion
 
-        #endregion
+		#region Is Mono/Linux
 
-        #region Is Mono/Linux
+		/// <summary>
+		/// Gets a value indicating whether we're running under Mono.
+		/// </summary>
+		/// <value><c>true</c> if Mono; otherwise, <c>false</c>.</value>
+		public static bool IsMono
+		{
+			get
+			{
+				return Type.GetType("Mono.Runtime") != null;
+			}
+		}
 
-        /// <summary>
-        /// Gets a value indicating whether we're running under Mono.
-        /// </summary>
-        /// <value><c>true</c> if Mono; otherwise, <c>false</c>.</value>
-        public static bool IsMono {
-            get {
-                return Type.GetType("Mono.Runtime") != null;
-            }
-        }
+		/// <summary>
+		/// Gets a value indicating whether we're running under Linux or a Unix variant.
+		/// </summary>
+		/// <value><c>true</c> if Linux/Unix; otherwise, <c>false</c>.</value>
+		public static bool IsLinux
+		{
+			get
+			{
+				int p = (int)Environment.OSVersion.Platform;
+				return ((p == 4) || (p == 128));
+			}
+		}
 
-        /// <summary>
-        /// Gets a value indicating whether we're running under Linux or a Unix variant.
-        /// </summary>
-        /// <value><c>true</c> if Linux/Unix; otherwise, <c>false</c>.</value>
-        public static bool IsLinux {
-            get {
-                int p = (int) Environment.OSVersion.Platform;
-                return ((p == 4) || (p == 128));
-            }
-        }
+		#endregion
 
-        #endregion
+		#region Send e-mail
 
-        #region Send e-mail
+		/// <summary>
+		/// Sends a MailMessage object using the SMTP settings.
+		/// </summary>
+		public static void SendMailMessage(MailMessage message)
+		{
+			if (message == null)
+				throw new ArgumentNullException("message");
 
-        /// <summary>
-        /// Sends a MailMessage object using the SMTP settings.
-        /// </summary>
-        public static void SendMailMessage(MailMessage message) {
-            if (message == null)
-                throw new ArgumentNullException("message");
+			try
+			{
+				message.IsBodyHtml = true;
+				message.BodyEncoding = Encoding.UTF8;
+				SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
+				smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUserName, BlogSettings.Instance.SmtpPassword);
+				smtp.Port = BlogSettings.Instance.SmtpServerPort;
+				smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
+				smtp.Send(message);
+				OnEmailSent(message);
+			}
+			finally
+			{
+				// Remove the pointer to the message object so the GC can close the thread.
+				message.Dispose();
+				message = null;
+			}
+		}
 
-            try {
-                message.BodyEncoding = Encoding.UTF8;
-                SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
-                smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUserName, BlogSettings.Instance.SmtpPassword);
-                smtp.Port = BlogSettings.Instance.SmtpServerPort;
-                smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
-                smtp.Send(message);
-                OnEmailSent(message);
-            } finally {
-                // Remove the pointer to the message object so the GC can close the thread.
-                message.Dispose();
-                message = null;
-            }
-        }
+		/// <summary>
+		/// Sends the mail message asynchronously in another thread.
+		/// </summary>
+		/// <param name="message">The message to send.</param>
+		public static void SendMailMessageAsync(MailMessage message)
+		{
+			//ThreadStart threadStart = delegate { Utils.SendMailMessage(message); };
+			//Thread thread = new Thread(threadStart);
+			//thread.IsBackground = true;
+			//thread.Start();
+			ThreadPool.QueueUserWorkItem(delegate { Utils.SendMailMessage(message); });
+		}
 
-        /// <summary>
-        /// Sends the mail message asynchronously in another thread.
-        /// </summary>
-        /// <param name="message">The message to send.</param>
-        public static void SendMailMessageAsync(MailMessage message) {
-            ThreadStart threadStart = delegate { Utils.SendMailMessage(message); };
-            Thread thread = new Thread(threadStart);
-            thread.IsBackground = true;
-            thread.Start();
-        }
+		/// <summary>
+		/// Occurs after an e-mail has been sent. The sender is the MailMessage object.
+		/// </summary>
+		public static event EventHandler<EventArgs> EmailSent;
+		private static void OnEmailSent(MailMessage message)
+		{
+			if (EmailSent != null)
+			{
+				EmailSent(message, new EventArgs());
+			}
+		}
 
-        /// <summary>
-        /// Occurs after an e-mail has been sent. The sender is the MailMessage object.
-        /// </summary>
-        public static event EventHandler<EventArgs> EmailSent;
-        private static void OnEmailSent(MailMessage message) {
-            if (EmailSent != null) {
-                EmailSent(message, new EventArgs());
-            }
-        }
+		#endregion
 
-        #endregion
-
-    }
+	}
 }
