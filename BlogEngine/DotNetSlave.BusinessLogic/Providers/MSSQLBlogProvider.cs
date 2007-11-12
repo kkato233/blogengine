@@ -119,7 +119,7 @@ namespace BlogEngine.Core.Providers
         comment.Email = rdr.GetString(3);
         comment.Content = rdr.GetString(5);
         comment.DateCreated = rdr.GetDateTime(1);
-        comment.Post = post;
+        comment.Parent = post;
 
         if (!rdr.IsDBNull(6))
           comment.Country = rdr.GetString(6);

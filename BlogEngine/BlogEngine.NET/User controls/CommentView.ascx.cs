@@ -46,7 +46,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     comment.IP = Request.UserHostAddress;
     comment.Country = country;
     comment.DateCreated = DateTime.Now;
-    comment.Post = Post;
+    comment.Parent = Post;
     comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
 
     if (Page.User.Identity.IsAuthenticated)
@@ -216,7 +216,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     comment.Country = ddlCountry.SelectedValue;
     comment.Content = Server.HtmlEncode(txtContent.Text);
     comment.DateCreated = DateTime.Now;
-    comment.Post = Post;
+    comment.Parent = Post;
     if (txtWebsite.Text.Trim().Length > 0)
     {
       if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))

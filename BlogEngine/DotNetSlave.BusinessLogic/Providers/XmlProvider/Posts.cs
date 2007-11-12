@@ -71,7 +71,7 @@ namespace BlogEngine.Core.Providers
 				comment.Id = new Guid(node.Attributes["id"].InnerText);
 				comment.Author = node.SelectSingleNode("author").InnerText;
 				comment.Email = node.SelectSingleNode("email").InnerText;
-				comment.Post = post;
+				comment.Parent = post;
 
 				if (node.SelectSingleNode("country") != null)
 					comment.Country = node.SelectSingleNode("country").InnerText;

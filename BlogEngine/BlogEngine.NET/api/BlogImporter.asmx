@@ -121,7 +121,7 @@ public class BlogImporter : System.Web.Services.WebService {
 
             comment.Content = description;
             comment.DateCreated = date;
-            comment.Post = post;
+            comment.Parent = post;
             comment.IsApproved = true;
             post.Comments.Add(comment);
             post.Save();

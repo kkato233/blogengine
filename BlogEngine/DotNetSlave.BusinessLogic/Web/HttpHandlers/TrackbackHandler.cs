@@ -97,7 +97,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			comment.Website = new Uri(sourceUrl);
 			comment.Content = "Trackback from " + comment.Author + Environment.NewLine + Environment.NewLine + excerpt;
 			comment.Email = "trackback";
-			comment.Post = post;
+			comment.Parent = post;
 			comment.DateCreated = DateTime.Now;
 			comment.IP = HttpContext.Current.Request.UserHostAddress;
 			comment.IsApproved = true; //NOTE: Trackback comments are approved by default 

@@ -94,12 +94,12 @@ namespace BlogEngine.Core
       set { _IP = value; }
     }
 
-    private Post _Post;
+    private IPublishable _Post;
 
     /// <summary>
     /// 
     /// </summary>
-    public Post Post
+		public IPublishable Parent
     {
       get { return _Post; }
       set { _Post = value; }
@@ -152,7 +152,7 @@ namespace BlogEngine.Core
     /// <value></value>
     public String Title
     {
-      get { return Author + " on " + Post.Title; }
+      get { return Author + " on " + Parent.Title; }
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ namespace BlogEngine.Core
     /// <value>The relative link.</value>
     public string RelativeLink
     {
-        get { return Post.RelativeLink.ToString() + "#id_" + Id; }
+        get { return Parent.RelativeLink.ToString() + "#id_" + Id; }
     }
 
     /// <summary>
