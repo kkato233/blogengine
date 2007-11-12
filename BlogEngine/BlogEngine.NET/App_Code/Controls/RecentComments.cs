@@ -95,13 +95,13 @@ namespace Controls
 
 					// The post title
 					HtmlAnchor title = new HtmlAnchor();
-					title.HRef = comment.Post.RelativeLink.ToString();
-					title.InnerText = comment.Post.Title;
+					title.HRef = comment.Parent.RelativeLink.ToString();
+					title.InnerText = comment.Parent.Title;
 					title.Attributes.Add("class", "postTitle");
 					li.Controls.Add(title);
 
 					// The comment count on the post
-					LiteralControl count = new LiteralControl(" (" + comment.Post.ApprovedComments.Count + ")<br />");
+					LiteralControl count = new LiteralControl(" (" + ((Post)comment.Parent).ApprovedComments.Count + ")<br />");
 					li.Controls.Add(count);
 
 					// The author
@@ -134,7 +134,7 @@ namespace Controls
 
 					// The comment link
 					HtmlAnchor link = new HtmlAnchor();
-					link.HRef = comment.Post.RelativeLink + "#id_" + comment.Id;
+					link.HRef = comment.Parent.RelativeLink + "#id_" + comment.Id;
 					link.InnerHtml = "[" + Resources.labels.more + "]";
 					link.Attributes.Add("class", "moreLink");
 					li.Controls.Add(link);

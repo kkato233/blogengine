@@ -144,7 +144,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			comment.DateCreated = DateTime.Now;
 			comment.Email = "pingback";
 			comment.IP = HttpContext.Current.Request.UserHostAddress;
-			comment.Post = post;
+			comment.Parent = post;
 			comment.IsApproved = true; //NOTE: Pingback comments are approved by default.
 			post.AddComment(comment);
 		}
