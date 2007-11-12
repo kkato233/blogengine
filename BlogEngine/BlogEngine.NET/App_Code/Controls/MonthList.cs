@@ -12,129 +12,132 @@ using BlogEngine.Core;
 
 namespace Controls
 {
-  /// <summary>
-  /// Builds a category list.
-  /// </summary>
-  public class MonthList : Control
-  {
+	/// <summary>
+	/// Builds a category list.
+	/// </summary>
+	public class MonthList : Control
+	{
 
-    static MonthList()
-    {
-      BindMonths();
-      Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
-    }
+		static MonthList()
+		{
+			BindMonths();
+			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+		}
 
-    static void Post_Saved(object sender, SavedEventArgs e)
-    {
-      if (e.Action != SaveAction.Update)
-        BindMonths();
-    }
+		static void Post_Saved(object sender, SavedEventArgs e)
+		{
+			if (e.Action != SaveAction.Update)
+				BindMonths();
+		}
 
-    #region Private fields
+		#region Private fields
 
-    private static object _SyncRoot = new object();
-    private static Dictionary<DateTime, int> _Months = new Dictionary<DateTime, int>();
-   
-    #endregion
+		private static object _SyncRoot = new object();
+		private static Dictionary<DateTime, int> _Months = new Dictionary<DateTime, int>();
 
-    private static void BindMonths()
-    {
-      lock (_SyncRoot)
-      {
-        _Months.Clear();
-        if (Post.Posts.Count == 0) return;
+		#endregion
 
-        DateTime first;
-        if (Post.Posts.Count <= 0 || !DateTime.TryParse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01", out first))
-        {
-            first = DateTime.Now;
-        }
-        int year = first.Year;
-        int month = first.Month;
+		private static void BindMonths()
+		{
+			lock (_SyncRoot)
+			{
+				_Months.Clear();
+				if (Post.Posts.Count == 0) return;
 
-        while (first <= DateTime.Now)
-        {
-          List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddMilliseconds(-1));
-          if (list.Count > 0)
-          {
-            DateTime date = DateTime.Parse(first.Year + "-" + first.Month + "-01");
-            int posts = list.Count;
-            _Months.Add(date, posts);
-          }
+				DateTime first;
+				if (Post.Posts.Count <= 0 || !DateTime.TryParse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01", out first))
+				{
+					first = DateTime.Now;
+				}
+				int year = first.Year;
+				int month = first.Month;
 
-          first = first.AddMonths(1);
-        }
-      }
-    }
+				while (first <= DateTime.Now)
+				{
+					List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddMilliseconds(-1));
+					if (list.Count > 0)
+					{
+						DateTime date = DateTime.Parse(first.Year + "-" + first.Month + "-01");
+						int posts = list.Count;
+						_Months.Add(date, posts);
+					}
 
-    private string RenderMonths()
-    {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");
-      ul.Attributes.Add("id", "monthList");
-      HtmlGenericControl year = null;
-      HtmlGenericControl list = null;
-      int current = 0;
+					first = first.AddMonths(1);
+				}
+			}
+		}
 
-      foreach (DateTime date in _Months.Keys)
-      {
-        if (current == 0)
-          current = date.Year;
+		private string RenderMonths()
+		{
+			if (_Months.Keys.Count == 0)
+				return "<p>" + Resources.labels.none + "</p>";
 
-        if (date.Year > current || ul.Controls.Count == 0)
-        {
-          list = new HtmlGenericControl("ul");
-          list.ID = "year" + date.Year.ToString();
+			HtmlGenericControl ul = new HtmlGenericControl("ul");
+			ul.Attributes.Add("id", "monthList");
+			HtmlGenericControl year = null;
+			HtmlGenericControl list = null;
+			int current = 0;
 
-          year = new HtmlGenericControl("li");
-          year.Attributes.Add("class", "year");
-          year.Attributes.Add("onclick", "ToggleMonth('year" + date.Year + "')");
-          year.InnerHtml = date.Year.ToString();
-          year.Controls.Add(list);
+			foreach (DateTime date in _Months.Keys)
+			{
+				if (current == 0)
+					current = date.Year;
 
-          if (date.Year == DateTime.Now.Year)
-            list.Attributes.Add("class", "open");
-         
-          ul.Controls.AddAt(0, year);
-        }
+				if (date.Year > current || ul.Controls.Count == 0)
+				{
+					list = new HtmlGenericControl("ul");
+					list.ID = "year" + date.Year.ToString();
 
-        HtmlGenericControl li = new HtmlGenericControl("li");
+					year = new HtmlGenericControl("li");
+					year.Attributes.Add("class", "year");
+					year.Attributes.Add("onclick", "ToggleMonth('year" + date.Year + "')");
+					year.InnerHtml = date.Year.ToString();
+					year.Controls.Add(list);
 
-        HtmlAnchor anc = new HtmlAnchor();
-        anc.HRef = Utils.RelativeWebRoot + "?year=" + date.Year + "&amp;month=" + date.Month;
-        anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " (" + _Months[date] + ")";
+					if (date.Year == DateTime.Now.Year)
+						list.Attributes.Add("class", "open");
 
-        li.Controls.Add(anc);
-        list.Controls.AddAt(0, li);
-        current = date.Year;
-      }
+					ul.Controls.AddAt(0, year);
+				}
 
-      System.IO.StringWriter sw = new System.IO.StringWriter();
-      ul.RenderControl(new HtmlTextWriter(sw));
-      return sw.ToString();
-    }
+				HtmlGenericControl li = new HtmlGenericControl("li");
 
-    private SortedDictionary<string, Guid> SortGategories(Dictionary<Guid, string> categories)
-    {
-      SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
-      foreach (Guid key in categories.Keys)
-      {
-        dic.Add(categories[key], key);
-      }
+				HtmlAnchor anc = new HtmlAnchor();
+				anc.HRef = Utils.RelativeWebRoot + "?year=" + date.Year + "&amp;month=" + date.Month;
+				anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " (" + _Months[date] + ")";
 
-      return dic;
-    }
+				li.Controls.Add(anc);
+				list.Controls.AddAt(0, li);
+				current = date.Year;
+			}
 
-    /// <summary>
-    /// Renders the control.
-    /// </summary>
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-      if (Post.Posts.Count > 0)
-      {
-        string html = RenderMonths();
-        writer.Write(html);
-        writer.Write(Environment.NewLine);
-      }
-    }
-  }
+			System.IO.StringWriter sw = new System.IO.StringWriter();
+			ul.RenderControl(new HtmlTextWriter(sw));
+			return sw.ToString();
+		}
+
+		private SortedDictionary<string, Guid> SortGategories(Dictionary<Guid, string> categories)
+		{
+			SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
+			foreach (Guid key in categories.Keys)
+			{
+				dic.Add(categories[key], key);
+			}
+
+			return dic;
+		}
+
+		/// <summary>
+		/// Renders the control.
+		/// </summary>
+		public override void RenderControl(HtmlTextWriter writer)
+		{
+			if (Post.Posts.Count > 0)
+			{
+				string html = RenderMonths();
+				writer.Write(html);
+				writer.Write(Environment.NewLine);
+			}
+		}
+	}
 }

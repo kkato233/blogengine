@@ -54,7 +54,7 @@ function AutoSave()
   
   <asp:RegularExpressionValidator runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]" ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter an author" Display="Dynamic" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" Display="Dynamic" />
   <br /><br />
   
   <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />

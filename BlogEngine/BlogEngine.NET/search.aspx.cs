@@ -118,36 +118,38 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
     }
   }
 
-  private void BindPaging(int results,int page)
-  {
-    if (results <= PAGE_SIZE)
-      return;
+	private void BindPaging(int results, int page)
+	{
+		if (results <= PAGE_SIZE)
+			return;
 
-    decimal pages = Math.Ceiling((decimal)results / (decimal)PAGE_SIZE);
-    
-    for (int i = 0; i < pages; i++)
-    {
-      HtmlGenericControl li = new HtmlGenericControl("li");
-      if (i == page)
-      {
-        li.Attributes.Add("class", "active");
-      }
+		decimal pages = Math.Ceiling((decimal)results / (decimal)PAGE_SIZE);
 
-      HtmlAnchor a = new HtmlAnchor();
-      a.InnerHtml = (i + 1).ToString();
+		HtmlGenericControl ul = new HtmlGenericControl("ul");
+		for (int i = 0; i < pages; i++)
+		{
+			HtmlGenericControl li = new HtmlGenericControl("li");
+			if (i == page)
+			{
+				li.Attributes.Add("class", "active");
+			}
 
-      string comment = string.Empty;
-      if (Request.QueryString["comment"] != null)
-      {
-        comment = "&amp;comment=true";
-      }
-      
-      a.HRef = "?q=" + Request.QueryString["q"] + comment + "&amp;page=" + (i + 1);
+			HtmlAnchor a = new HtmlAnchor();
+			a.InnerHtml = (i + 1).ToString();
 
-      li.Controls.Add(a);
-      paging.Controls.Add(li);
-    }
-  }
+			string comment = string.Empty;
+			if (Request.QueryString["comment"] != null)
+			{
+				comment = "&amp;comment=true";
+			}
+
+			a.HRef = "?q=" + Request.QueryString["q"] + comment + "&amp;page=" + (i + 1);
+
+			li.Controls.Add(a);
+			ul.Controls.Add(li);
+		}
+		Paging.Controls.Add(ul);
+	}
 
   #endregion
 
@@ -179,8 +181,9 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
     else
     {
       text = StripHtml(content);
-      if (text.Length > 200)
-        text = text.Substring(0, 200) + " ...";
+			if (text.Length > 200)
+				text = text.Substring(0, 200) + " …";
+			text = "“" + text.Trim() + "”";
     }
 
     return text;

@@ -14,6 +14,7 @@
     </div>
 
     <script type="text/javascript">      
+    //<![CDATA[ 
       var check = document.getElementById('comment');
       
       function SearchPage()
@@ -30,7 +31,8 @@
         location.href = 'search.aspx?q=' + searchTerm + comment;
       }
       
-      check.checked = <%=(Request.QueryString["comment"] != null).ToString().ToLowerInvariant() %>
+      check.checked = <%=(Request.QueryString["comment"] != null).ToString().ToLowerInvariant() %>;
+      //]]>
     </script>
   
     <asp:repeater runat="server" id="rep">
@@ -44,6 +46,6 @@
       </ItemTemplate>
     </asp:repeater>
     
-    <ul id="paging" runat="Server" class="paging" />
+    <asp:PlaceHolder ID="Paging" runat="server" />
   </div>
 </asp:Content>

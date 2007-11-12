@@ -12,127 +12,135 @@ using BlogEngine.Core;
 
 namespace Controls
 {
-  /// <summary>
-  /// Builds a category list.
-  /// </summary>
-  public class CategoryList : Control
-  {
+	/// <summary>
+	/// Builds a category list.
+	/// </summary>
+	public class CategoryList : Control
+	{
 
-    static CategoryList()
-    {
-      Post.Saved += delegate { _Html = null; };
-      Category.Saved += delegate { _Html = null; };
-    }
+		static CategoryList()
+		{
+			Post.Saved += delegate { _Html = null; };
+			Category.Saved += delegate { _Html = null; };
+		}
 
-    #region Properties
+		#region Properties
 
-    private bool _ShowRssIcon = true;
-    /// <summary>
-    /// Gets or sets whether or not to show feed icons next to the category links.
-    /// </summary>
-    public bool ShowRssIcon
-    {
-      get { return _ShowRssIcon; }
-      set { _ShowRssIcon = value; }
-    }
+		private bool _ShowRssIcon = true;
+		/// <summary>
+		/// Gets or sets whether or not to show feed icons next to the category links.
+		/// </summary>
+		public bool ShowRssIcon
+		{
+			get { return _ShowRssIcon; }
+			set { _ShowRssIcon = value; }
+		}
 
-    private static object _SyncRoot = new object();
-    private static string _Html;
-    private string Html
-    {
-      get
-      {
-        if (_Html == null)
-        {
-          lock (_SyncRoot)
-          {
-            if (_Html == null)
-            {
-              HtmlGenericControl ul = BindCategories();
-              System.IO.StringWriter sw = new System.IO.StringWriter();
-              ul.RenderControl(new HtmlTextWriter(sw));
-              _Html = sw.ToString();
-            }
-          }
-        }
+		private static object _SyncRoot = new object();
+		private static string _Html;
+		private string Html
+		{
+			get
+			{
+				if (_Html == null)
+				{
+					lock (_SyncRoot)
+					{
+						if (_Html == null)
+						{
+							HtmlGenericControl ul = BindCategories();
+							System.IO.StringWriter sw = new System.IO.StringWriter();
+							ul.RenderControl(new HtmlTextWriter(sw));
+							_Html = sw.ToString();
+						}
+					}
+				}
 
-        return _Html;
-      }
-    }
+				return _Html;
+			}
+		}
 
-    #endregion
+		#endregion
 
-    private HtmlGenericControl BindCategories()
-    {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");
-      SortedDictionary<string, Guid> dic = SortGategories();
-      foreach (string key in dic.Keys)
-      {
-        HtmlGenericControl li = new HtmlGenericControl("li");
+		private HtmlGenericControl BindCategories()
+		{
+			SortedDictionary<string, Guid> dic = SortGategories();
+			if (dic.Keys.Count == 0)
+			{
+				HtmlGenericControl none = new HtmlGenericControl("p");
+				none.InnerText = "None";
+				return none;
+			}
 
-        if (ShowRssIcon)
-        {
-          HtmlImage img = new HtmlImage();
-          img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
-          img.Alt = "RSS feed for " + key;
-          img.Attributes["class"] = "rssButton";
+			HtmlGenericControl ul = new HtmlGenericControl("ul");
 
-          HtmlAnchor feedAnchor = new HtmlAnchor();
-          feedAnchor.HRef = Utils.RelativeWebRoot + "syndication.axd?category=" + dic[key].ToString();
-          feedAnchor.Attributes["rel"] = "nofollow";
-          feedAnchor.Controls.Add(img);
+			foreach (string key in dic.Keys)
+			{
+				HtmlGenericControl li = new HtmlGenericControl("li");
 
-          li.Controls.Add(feedAnchor);
-        }
+				if (ShowRssIcon)
+				{
+					HtmlImage img = new HtmlImage();
+					img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
+					img.Alt = "RSS feed for " + key;
+					img.Attributes["class"] = "rssButton";
 
-        HtmlAnchor anc = new HtmlAnchor();
-        anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
-        anc.InnerHtml = HttpUtility.HtmlEncode(key) + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
-        anc.Title = "Category: " + key;
+					HtmlAnchor feedAnchor = new HtmlAnchor();
+					feedAnchor.HRef = Utils.RelativeWebRoot + "syndication.axd?category=" + dic[key].ToString();
+					feedAnchor.Attributes["rel"] = "nofollow";
+					feedAnchor.Controls.Add(img);
 
-        li.Controls.Add(anc);
-        ul.Controls.Add(li);
-      }
+					li.Controls.Add(feedAnchor);
+				}
 
-      return ul;
-    }
+				HtmlAnchor anc = new HtmlAnchor();
+				anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
+				anc.InnerHtml = HttpUtility.HtmlEncode(key) + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
+				anc.Title = "Category: " + key;
 
-    private SortedDictionary<string, Guid> SortGategories()
-    {
-      SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
-      foreach (Category cat in Category.Categories)
-      {
-        if (HasPosts(cat))
-          dic.Add(cat.Title, cat.Id);
-      }
+				li.Controls.Add(anc);
+				ul.Controls.Add(li);
+			}
 
-      return dic;
-    }
+			return ul;
+		}
 
-    private bool HasPosts(Category cat)
-    {
-      foreach (Post post in Post.Posts)
-      {
-        if (post.IsVisible)
-        {
-          foreach (Category category in post.Categories)
-          {
-            if (category == cat)
-              return true;
-          }
-        }
+		private SortedDictionary<string, Guid> SortGategories()
+		{
+			SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
+			foreach (Category cat in Category.Categories)
+			{
+				if (HasPosts(cat))
+					dic.Add(cat.Title, cat.Id);
+			}
 
-      }
-      return false;
-    }
+			return dic;
+		}
 
-    /// <summary>
-    /// Renders the control.
-    /// </summary>
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-      writer.Write(Html);
-      writer.Write(Environment.NewLine);
-    }
-  }
+		private bool HasPosts(Category cat)
+		{
+			foreach (Post post in Post.Posts)
+			{
+				if (post.IsVisible)
+				{
+					foreach (Category category in post.Categories)
+					{
+						if (category == cat)
+							return true;
+					}
+				}
+
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Renders the control.
+		/// </summary>
+		public override void RenderControl(HtmlTextWriter writer)
+		{
+			writer.Write(Html);
+			writer.Write(Environment.NewLine);
+		}
+	}
 }
