@@ -264,7 +264,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
     {
       ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
-			imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + ddlCountry.SelectedValue + ".png";
+			this.SetFlagImageUrl();
     }
   }
 
@@ -312,6 +312,18 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     }
   }
 
+	private void SetFlagImageUrl()
+	{
+		if (!string.IsNullOrEmpty(ddlCountry.SelectedValue))
+		{
+			imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + ddlCountry.SelectedValue + ".png";
+		}
+		else
+		{
+			imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/pixel.png";
+		}
+	}
+
   #region Cookies
 
   /// <summary>
@@ -342,7 +354,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       txtEmail.Text = cookie.Values["email"];
       txtWebsite.Text = cookie.Values["url"];
       ddlCountry.SelectedValue = cookie.Values["country"];
-      imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + cookie.Values["country"] + ".png";
+			this.SetFlagImageUrl();
     }
     else if (Page.User.Identity.IsAuthenticated)
     {

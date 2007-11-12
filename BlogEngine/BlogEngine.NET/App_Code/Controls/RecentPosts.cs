@@ -59,6 +59,12 @@ namespace Controls
 
     private static string RenderPosts()
     {
+
+			if (_Posts.Count == 0)
+			{
+				return "<p>" + Resources.labels.none + "</p>";
+			}
+
       StringBuilder sb = new StringBuilder();
       sb.Append("<ul class=\"recentPosts\">");
 

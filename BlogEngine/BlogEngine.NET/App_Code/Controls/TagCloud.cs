@@ -104,6 +104,11 @@ namespace Controls
     /// </summary>
     public override void RenderControl(HtmlTextWriter writer)
     {
+			if (WeightedList.Keys.Count == 0)
+			{
+				writer.Write("<p>" + Resources.labels.none + "</p>");
+			}
+
       writer.Write("<ul id=\"tagcloud\">");
       foreach (string key in WeightedList.Keys)
       {
