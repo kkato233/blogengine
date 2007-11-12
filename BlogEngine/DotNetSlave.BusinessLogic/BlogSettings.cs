@@ -285,7 +285,7 @@ namespace BlogEngine.Core {
                     // like we're doing here is probably not the right solution.
                     return false;
                 } else
-                  return enableHttpCompression;
+                    return enableHttpCompression;
             }
             set {
                 enableHttpCompression = value;
@@ -827,9 +827,13 @@ namespace BlogEngine.Core {
         /// <value><b>true</b> if commenter country display is enabled, otherwise returns <b>false</b>.</value>
         public bool EnableCountryInComments {
             get {
-                return enableCountryInComments;
+                // Mono currently does not return any country names, as such we're unable to use the countries
+                // on the comments.
+                if (!Utils.IsMono)
+                    return enableCountryInComments;
+                else
+                    return false;
             }
-
             set {
                 enableCountryInComments = value;
             }
