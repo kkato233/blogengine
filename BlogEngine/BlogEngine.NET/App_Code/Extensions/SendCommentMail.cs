@@ -16,32 +16,33 @@ using System.Threading;
 public class SendCommentMail
 {
 
-  /// <summary>
-  /// Hooks up an event handler to the Post.CommentAdded event.
-  /// </summary>
-  public SendCommentMail()
-  {
-    Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
-  }
+	/// <summary>
+	/// Hooks up an event handler to the Post.CommentAdded event.
+	/// </summary>
+	public SendCommentMail()
+	{
+		Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
+	}
 
-  private void Post_CommentAdded(object sender, EventArgs e)
-  {
-    Post post = (Post)((Comment)sender).Parent;
-    if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)
-    {
-      Comment comment = post.Comments[post.Comments.Count - 1];
-      // Trackback and pingback comments don't have a '@' symbol in the e-mail field.
-      string from = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
+	private void Post_CommentAdded(object sender, EventArgs e)
+	{
+		Post post = (Post)((Comment)sender).Parent;
+		if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)
+		{
+			Comment comment = post.Comments[post.Comments.Count - 1];
+			// Trackback and pingback comments don't have a '@' symbol in the e-mail field.
+			string from = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
 
-      MailMessage mail = new MailMessage();
-      mail.From = new MailAddress(from, comment.Author);
-      mail.To.Add(BlogSettings.Instance.Email);
-      mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " comment on " + post.Title;
-      mail.Body = "Comment by " + comment.Author + " (" + comment.Email + ")" + Environment.NewLine + Environment.NewLine;
-      mail.Body += comment.Content + "\n\n" + post.PermaLink + "#id_" + comment.Id;
+			MailMessage mail = new MailMessage();
+			mail.From = new MailAddress(from, HttpUtility.HtmlDecode(comment.Author));
+			mail.To.Add(BlogSettings.Instance.Email);
+			mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " comment on " + post.Title;
+			mail.Body = "Comment by " + comment.Author + " (" + comment.Email + ")<br /><br />";
+			mail.Body += comment.Content + "<br /><br />";
+			mail.Body += string.Format("<a href=\"{0}\">{1}</a>", post.PermaLink + "#id_" + comment.Id, post.Title);
 
-      Utils.SendMailMessageAsync(mail);
-    }
-  }
+			Utils.SendMailMessageAsync(mail);
+		}
+	}
 
 }

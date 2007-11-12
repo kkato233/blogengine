@@ -41,6 +41,7 @@ namespace BlogEngine.Core.Ping
           request.Timeout = 10000;
           request.ContentType = "text/xml";
           request.ProtocolVersion = HttpVersion.Version11;
+					request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)";
           AddXmlToRequest(sourceUrl, targetUrl, request);
           request.GetResponse();
           OnSent(url);
@@ -83,7 +84,7 @@ namespace BlogEngine.Core.Ping
       }
     }
 
-    #region
+    #region Events
 
     /// <summary>
     /// Occurs just before a pingback is sent.

@@ -18,7 +18,7 @@ namespace Controls
   public class SearchOnSearch : Control
   {
 
-    #region Using
+    #region Properties
 
     private int _MaxResults;
     /// <summary>
