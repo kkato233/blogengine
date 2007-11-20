@@ -6,13 +6,55 @@
   <content>&lt;p&gt;
 If you see this post it means that BlogEngine.NET is running and the hard part of creating your own blog is done. There is only one thing you need to do from this point on to take full advantage of the blog and that is to set up the first author profile. 
 &lt;/p&gt;
-&lt;h2&gt;Setup&lt;/h2&gt;
-&lt;p&gt;
-Find and open the users.xml file which is located in the App_Data folder. Edit the default user and provide your own name as the username and a password of your choice. Save the users.xml file with the new username and password and you are now able to log in and start writing posts. 
-&lt;/p&gt;
-&lt;h2&gt;Write permissions&lt;/h2&gt;
+&lt;h2&gt;Write Permissions&lt;/h2&gt;
 &lt;p&gt;
 To be able to log in to the blog and writing posts, you need to enable write permissions on the App_Data folder. If you&amp;rsquo;re blog is hosted at a hosting provider, you can either log into your account&amp;rsquo;s admin page or call the support. You need write permissions on the App_Data folder because all posts and comments are saved as XML files and placed in the App_Data folder. 
+&lt;/p&gt;
+&lt;h2&gt;Setup&lt;/h2&gt;
+&lt;p&gt;
+Find and open the users.xml file which is located in the App_Data folder. Edit the default user (Admin)&amp;nbsp;and provide your own name as the username and a password of your choice. You can safely remove the Editor user if you have no need for it.&amp;nbsp;Save the users.xml file. 
+&lt;/p&gt;
+&lt;p&gt;
+[code:xml] 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;lt;Users&amp;gt;&lt;br /&gt;
+&amp;nbsp; &amp;lt;User&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;UserName&amp;gt;&lt;strong&gt;Yourname&lt;/strong&gt;&amp;lt;/UserName&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;Password&amp;gt;&lt;strong&gt;yourpass&lt;/strong&gt;&amp;lt;/Password&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;Email&amp;gt;&lt;strong&gt;you@example.com&lt;/strong&gt;&amp;lt;/Email&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;LastLoginTime&amp;gt;2007-04-09 13:00:23&amp;lt;/LastLoginTime&amp;gt;&lt;br /&gt;
+&amp;nbsp; &amp;lt;/User&amp;gt;&lt;br /&gt;
+&amp;lt;/Users&amp;gt; 
+&lt;/p&gt;
+&lt;p&gt;
+[/code] 
+&lt;/p&gt;
+&lt;p&gt;
+Next, open the roles.xml file which is also in the App_Data folder. Replace the Admin username with your own username used above and remove the Editor username if you don&amp;#39;t plan to use it. Save the file and you should be able to log in using your new username&amp;nbsp;and start writing posts. 
+&lt;/p&gt;
+&lt;p&gt;
+[code:xml] 
+&lt;/p&gt;
+&lt;p&gt;
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot; standalone=&amp;quot;yes&amp;quot;?&amp;gt;&lt;br /&gt;
+&amp;lt;roles&amp;gt;&lt;br /&gt;
+&amp;nbsp; &amp;lt;role&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;name&amp;gt;Administrators&amp;lt;/name&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;users&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;user&amp;gt;&lt;strong&gt;Yourname&lt;/strong&gt;&amp;lt;/user&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;/users&amp;gt;&lt;br /&gt;
+&amp;nbsp; &amp;lt;/role&amp;gt;&lt;br /&gt;
+&amp;nbsp; &amp;lt;role&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;name&amp;gt;Editors&amp;lt;/name&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;users&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;user&amp;gt;&lt;strong&gt;Yourname&lt;/strong&gt;&amp;lt;/user&amp;gt;&lt;br /&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;/users&amp;gt;&lt;br /&gt;
+&amp;nbsp; &amp;lt;/role&amp;gt;&lt;br /&gt;
+&amp;lt;/roles&amp;gt; 
+&lt;/p&gt;
+&lt;p&gt;
+[/code] 
 &lt;/p&gt;
 &lt;h2&gt;On the web &lt;/h2&gt;
 &lt;p&gt;
@@ -28,15 +70,15 @@ The BlogEngine.NET team
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
   <pubDate>2007-09-30 00:00:00</pubDate>
-  <lastModified>2007-09-30 00:00:00</lastModified>
+  <lastModified>2007-11-20 18:52:42</lastModified>
   <raters>9</raters>
   <rating>3.333333</rating>
-  <slug>Welcome to BlogEngine.NET</slug>
+  <slug>Welcome-to-BlogEngineNET</slug>
   <tags>
     <tag>blog</tag>
     <tag>welcome</tag>
   </tags>
-  <comments/>
+  <comments />
   <categories>
     <category>19770e74-9ec9-4cde-b2ab-e5051aaaf348</category>
   </categories>
