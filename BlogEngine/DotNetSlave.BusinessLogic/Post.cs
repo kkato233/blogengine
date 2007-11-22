@@ -114,8 +114,10 @@ namespace BlogEngine.Core {
         /// <summary>
         /// A Collection of Approved Comments for the post
         /// </summary>
-        public List<Comment> Comments {
+        public List<Comment> Comments 
+        {
             get { return _Comments; }
+           
         }
 
         private List<Category> _Categories;
@@ -460,6 +462,17 @@ namespace BlogEngine.Core {
             DataUpdate();
             OnCommentAdded(comment);
             SendNotifications(comment);
+        }
+
+        /// <summary>
+        /// Imports a comment to comment collection and saves.  Does not
+        /// notify user or run extension events.
+        /// </summary>
+        /// <param name="comment">The comment to add to the post.</param>
+        public void ImportComment(Comment comment)
+        {
+            Comments.Add(comment);
+            DataUpdate();
         }
 
         /// <summary>

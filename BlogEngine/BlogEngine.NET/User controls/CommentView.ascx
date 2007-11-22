@@ -23,9 +23,11 @@
 
   <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
   <asp:TextBox runat="Server" ID="txtEmail" TabIndex="2" ValidationGroup="AddComment" />
+  <span id="gravatarmsg">
   <%if (BlogSettings.Instance.Avatar != "none"){ %>
   (<%=string.Format(Resources.labels.willShowGravatar, "<a href=\"http://www.gravatar.com\" target=\"_blank\">Gravatar</a>")%>)
   <%} %>
+  </span>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" />
   <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Please enter a valid email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
 
