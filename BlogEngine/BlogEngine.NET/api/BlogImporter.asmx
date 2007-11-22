@@ -123,7 +123,7 @@ public class BlogImporter : System.Web.Services.WebService {
             comment.DateCreated = date;
             comment.Parent = post;
             comment.IsApproved = true;
-            post.Comments.Add(comment);
+            post.ImportComment(comment);
             post.Save();
         }
     }
