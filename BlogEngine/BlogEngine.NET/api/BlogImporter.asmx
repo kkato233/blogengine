@@ -72,7 +72,7 @@ public class BlogImporter : System.Web.Services.WebService {
                 foreach (Post temp in Post.GetPostsByDate(import.PostDate.AddDays(-2), import.PostDate.AddDays(2))) {
                     if (temp.Title == import.Title) {
                         temp.Delete();
-                        temp.Save();
+                        temp.Import();
                     }
                 }
             }
@@ -89,14 +89,14 @@ public class BlogImporter : System.Web.Services.WebService {
 
         AddCategories(import.Categories, post);
         //TODO: Add Tag Support
-        post.Save();
+        post.Import();
 
         return post.Id.ToString();
 
     }
 
     /// <summary>
-    /// Add Commen to specified post
+    /// Add Comment to specified post
     /// </summary>
     /// <param name="postID">postId as string</param>
     /// <param name="author">commenter username</param>
@@ -124,8 +124,21 @@ public class BlogImporter : System.Web.Services.WebService {
             comment.Parent = post;
             comment.IsApproved = true;
             post.ImportComment(comment);
-            post.Save();
+            post.Import();
         }
+    }
+
+    /// <summary>
+    /// Force Reload of all posts
+    /// </summary>
+    [SoapHeader("AuthenticationHeader")]
+    [WebMethod]
+    public void ForceReload()
+    {
+        if (!IsAuthenticated())
+            throw new InvalidOperationException("Wrong credentials");
+
+        Post.Reload();
     }
 
     /// <summary>
