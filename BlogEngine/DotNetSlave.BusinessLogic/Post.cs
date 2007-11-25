@@ -453,6 +453,43 @@ namespace BlogEngine.Core {
         }
 
         /// <summary>
+        /// Imports Post (without all standard saving routines
+        /// </summary>
+        public void Import()
+        {
+          if (this.IsDeleted)
+          {
+            if (!this.IsNew)
+            {
+              BlogService.DeletePost(this);
+            }
+          }
+          else
+          {
+            if (this.IsNew)
+            {
+              BlogService.InsertPost(this);
+            }
+            else
+            {
+              BlogService.UpdatePost(this);
+            }
+          }
+        }
+        
+        /// <summary>
+        /// Force reload of all posts
+        /// </summary>
+        public static void Reload()
+        {
+          _Posts = BlogService.FillPosts();
+          _Posts.Sort();
+          //Posts = BlogService.FillPosts();
+          //Posts.Sort();
+          AddRelations();
+        }
+
+        /// <summary>
         /// Adds a comment to the collection and saves the post.
         /// </summary>
         /// <param name="comment">The comment to add to the post.</param>
