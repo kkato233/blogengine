@@ -66,7 +66,7 @@ namespace Controls
 			}
 
       StringBuilder sb = new StringBuilder();
-      sb.Append("<ul class=\"recentPosts\">");
+      sb.Append("<ul class=\"recentPosts\" id=\"recentPosts\">");
 
       foreach (Post post in _Posts)
       {

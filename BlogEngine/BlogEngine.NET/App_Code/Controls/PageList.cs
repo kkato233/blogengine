@@ -66,6 +66,9 @@ namespace Controls
     private HtmlGenericControl BindPages()
     {
       HtmlGenericControl ul = new HtmlGenericControl("ul");
+			ul.Attributes.Add("class", "pagelist");
+			ul.ID = "pagelist";
+
       foreach (BlogEngine.Core.Page page in BlogEngine.Core.Page.Pages)
       {
         if (page.ShowInList && page.IsPublished)

@@ -86,6 +86,7 @@ namespace Controls
 
 			HtmlGenericControl ul = new HtmlGenericControl("ul");
 			ul.Attributes.Add("class", "recentComments");
+			ul.ID = "recentComments";
 
 			foreach (Comment comment in _Comments)
 			{
