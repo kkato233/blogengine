@@ -73,6 +73,7 @@ namespace Controls
 			}
 
 			HtmlGenericControl ul = new HtmlGenericControl("ul");
+			ul.ID = "categorylist";
 
 			foreach (string key in dic.Keys)
 			{

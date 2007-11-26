@@ -76,6 +76,8 @@ namespace Controls
 		private HtmlGenericControl BindAuthors()
 		{
 			HtmlGenericControl ul = new HtmlGenericControl("ul");
+			ul.ID = "authorlist";
+
 			foreach (MembershipUser user in Membership.GetAllUsers())
 			{
 				HtmlGenericControl li = new HtmlGenericControl("li");
