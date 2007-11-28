@@ -40,8 +40,24 @@ namespace BlogEngine.Core
 			text = text.Replace("&", string.Empty);
 			text = text.Replace("'", string.Empty);
 			text = text.Replace(" ", "-");
+			text = RemoveDiacritics(text);
 
 			return HttpUtility.UrlEncode(text).Replace("%", string.Empty);
+		}
+
+		private static String RemoveDiacritics(string text)
+		{
+			String normalized = text.Normalize(NormalizationForm.FormD);
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < normalized.Length; i++)
+			{
+				Char c = normalized[i];
+				if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+					sb.Append(c);
+			}
+
+			return sb.ToString();
 		}
 
 		#region URL handling

@@ -103,7 +103,7 @@ namespace BlogEngine.Core.Web.Controls
 					sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", Comment.Email);
 					sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
 					string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
-					sb.AppendFormat(" | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
+					sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
 
 					if (!Comment.IsApproved)
 					{

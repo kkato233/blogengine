@@ -212,7 +212,7 @@ namespace BlogEngine.Core.Web.Controls {
                     }
 
                     sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a> | ", Utils.AbsoluteWebRoot + "admin/Pages/Add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
-                    sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}?deletepost={1}\" onclick=\"return confirm('{2}')\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
+										sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"javascript:void(0);\" onclick=\"if (confirm('{2}')) location.href='{0}?deletepost={1}'\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
                     return sb.ToString();
                 }
 

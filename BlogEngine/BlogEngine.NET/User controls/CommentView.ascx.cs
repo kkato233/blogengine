@@ -186,7 +186,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         Post.RemoveComment(comment);
 
         int index = Request.RawUrl.IndexOf("?");
-        string url = Request.RawUrl.Substring(0, index);
+				string url = Request.RawUrl.Substring(0, index) + "#comment";
         Response.Redirect(url, true);
       }
     }
