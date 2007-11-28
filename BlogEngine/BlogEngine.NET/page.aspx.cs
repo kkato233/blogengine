@@ -144,7 +144,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("<div id=\"admin\">");
         sb.AppendFormat("<a href=\"{0}admin/Pages/Pages.aspx?id={1}\">{2}</a> | ", Utils.RelativeWebRoot, this.Page.Id.ToString(), Resources.labels.edit);
-        sb.AppendFormat("<a href=\"?deletepage={0}\" onclick=\"return confirm('Are you sure you want to delete the page?')\">{1}</a>", this.Page.Id.ToString(), Resources.labels.delete);
+				sb.AppendFormat("<a href=\"javascript:void(0);\" onclick=\"if (confirm('Are you sure you want to delete the page?')) location.href='?deletepage={0}'\">{1}</a>", this.Page.Id.ToString(), Resources.labels.delete);
         sb.AppendLine("</div>");
         return sb.ToString();
       }
