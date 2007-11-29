@@ -45,11 +45,11 @@
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="Required" Display="dynamic" ValidationGroup="AddComment" /><br />
   <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" /><br />
     
-  <input type="checkbox" id="cbNotify" style="width: auto" />
+  <input type="checkbox" id="cbNotify" style="width: auto" tabindex="6" />
   <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
  
-  <input type="button" id="btnSave" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="6" />  
-  <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="6" ValidationGroup="AddComment" />
+  <input type="button" id="btnSave" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate()){AddComment()}" tabindex="7" />  
+  <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="7" ValidationGroup="AddComment" />
   
   <% if (BlogSettings.Instance.ShowLivePreview) { %>  
   <h2>Live preview</h2> 
