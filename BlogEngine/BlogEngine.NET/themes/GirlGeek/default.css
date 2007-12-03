@@ -101,6 +101,13 @@ h1, h2, h3, h4, h5 {
 	float: right;
 }
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}
+
 /* structure */
 .inner-container {
 	border: 2px solid #D7D7D2;

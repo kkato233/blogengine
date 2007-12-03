@@ -373,6 +373,12 @@
   <data name="name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="nextPost" xml:space="preserve">
+    <value>Next post</value>
+  </data>
+  <data name="nextPosts" xml:space="preserve">
+    <value>Next posts</value>
+  </data>
   <data name="none" xml:space="preserve">
     <value>Don't show</value>
   </data>
@@ -424,6 +430,12 @@
   <data name="postsPerFeed" xml:space="preserve">
     <value>Items shown in feed</value>
   </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Previous post</value>
+  </data>
+  <data name="previousPosts" xml:space="preserve">
+    <value>Previous posts</value>
+  </data>
   <data name="publish" xml:space="preserve">
     <value>Publish</value>
   </data>
@@ -466,6 +478,9 @@
   <data name="saveSettings" xml:space="preserve">
     <value>Save settings</value>
   </data>
+  <data name="savingTheComment" xml:space="preserve">
+    <value>Saving the comment...</value>
+  </data>
   <data name="search" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -507,6 +522,9 @@
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Show live preview</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Show post navigation links</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
     <value>Show related posts</value>

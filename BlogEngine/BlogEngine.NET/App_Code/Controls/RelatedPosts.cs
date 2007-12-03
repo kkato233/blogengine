@@ -100,7 +100,7 @@ namespace Controls
 
             string link = "<a href=\"{0}\">{1}</a>";
             string desc = "<span>{0}</span>";
-            sb.Append("<h1>" + this.Headline + "</h1>");
+            sb.Append("<h1>+++</h1>");
             sb.Append("<div id=\"relatedPosts\">");
 
             int count = 0;
@@ -130,7 +130,7 @@ namespace Controls
         }
       }
 
-      writer.Write(_Cache[Post.Id]);
+      writer.Write(_Cache[Post.Id].Replace("+++", this.Headline));
     }
 
     private List<Post> SearchForPosts()

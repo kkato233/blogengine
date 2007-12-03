@@ -366,6 +366,12 @@
   <data name="name" xml:space="preserve">
     <value>Navn</value>
   </data>
+  <data name="nextPost" xml:space="preserve">
+    <value>Næste indlæg</value>
+  </data>
+  <data name="nextPosts" xml:space="preserve">
+    <value>Næste indlæg</value>
+  </data>
   <data name="none" xml:space="preserve">
     <value>Vis ikke</value>
   </data>
@@ -417,6 +423,12 @@
   <data name="postsPerFeed" xml:space="preserve">
     <value>Antal indlæg i feed</value>
   </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Forrige indlæg</value>
+  </data>
+  <data name="previousPosts" xml:space="preserve">
+    <value>Forrige indlæg</value>
+  </data>
   <data name="publish" xml:space="preserve">
     <value>Publicér</value>
   </data>
@@ -459,6 +471,9 @@
   <data name="saveSettings" xml:space="preserve">
     <value>Gem instillingerne</value>
   </data>
+  <data name="savingTheComment" xml:space="preserve">
+    <value>Gemmer kommentaren...</value>
+  </data>
   <data name="search" xml:space="preserve">
     <value>Søg</value>
   </data>
@@ -500,6 +515,9 @@
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Vis live preview</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Vis navigationslinks over indlæg</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
     <value>Vis relaterede indlæg</value>

@@ -64,6 +64,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
         BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
         BlogSettings.Instance.TimeStampPostLinks = cbTimeStampPostLinks.Checked;
+				BlogSettings.Instance.ShowPostNavigation = cbShowPostNavigation.Checked;
         BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
         BlogSettings.Instance.Timezone = double.Parse(txtTimeZone.Text, CultureInfo.InvariantCulture);
 
@@ -166,6 +167,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         cbEnableCountryInComments.Checked = BlogSettings.Instance.EnableCountryInComments;
         cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
         cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
+				cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
         ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
         cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
         rblAvatar.SelectedValue = BlogSettings.Instance.Avatar;

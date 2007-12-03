@@ -93,6 +93,13 @@ input {
 	border-top: 1px solid #DDDDDD;
 }
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}
+
 /* FOOTER ELEMENTS */
 
 #footer {

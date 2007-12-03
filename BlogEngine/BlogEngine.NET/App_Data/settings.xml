@@ -16,7 +16,7 @@
   <authorname>My name</authorname>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>Standard</theme>
-  <iscommentsenabled>True</iscommentsenabled>
+  <showpostnavigation>True</showpostnavigation>
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
   <htmlheader />
@@ -39,6 +39,7 @@
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
   <numberofrecentcomments>10</numberofrecentcomments>
+  <enablecontactattachments>True</enablecontactattachments>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <culture>Auto</culture>
@@ -52,7 +53,7 @@
   <geocodinglongitude />
   <language>en-GB</language>
   <enablereferrertracking>False</enablereferrertracking>
-  <enablecontactattachments>True</enablecontactattachments>
+  <iscommentsenabled>True</iscommentsenabled>
   <blogrollupdateminutes>60</blogrollupdateminutes>
   <sendmailoncomment>True</sendmailoncomment>
   <enablecommentsmoderation>True</enablecommentsmoderation>

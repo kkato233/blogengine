@@ -630,8 +630,23 @@ namespace BlogEngine.Core {
         }
         #endregion
 
-        #region HandleWwwSubdomain
-        /// <summary>
+				#region ShowPostNavigation
+
+				private bool showPostNavigation;
+				/// <summary>
+				/// Gets or sets a value indicating whether or not to show the post navigation.
+				/// </summary>
+				/// <value><c>true</c> if [show post navigation]; otherwise, <c>false</c>.</value>
+				public bool ShowPostNavigation
+				{
+					get { return showPostNavigation; }
+					set { showPostNavigation = value; }
+				}
+
+				#endregion
+
+				#region HandleWwwSubdomain
+				/// <summary>
         /// Gets or sets how to handle the www subdomain of the url (for SEO purposes).
         /// </summary>
         public string HandleWwwSubdomain {

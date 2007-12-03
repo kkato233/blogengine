@@ -91,6 +91,14 @@ div.News
 	padding-left: 10px;
 }
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+	font-size: 11px;
+}
+
 /* --------------
        Header
    --------------- */

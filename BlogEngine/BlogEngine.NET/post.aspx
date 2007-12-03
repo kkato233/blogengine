@@ -1,6 +1,14 @@
 <%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" CodeFile="post.aspx.cs" Inherits="post" %>
 <%@ Register Src="User controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
+  
+  <asp:placeholder runat="server" id="phPostNavigation" visible="false">
+    <div id="postnavigation">
+      <asp:hyperlink runat="server" id="hlPrev" /> | 
+      <asp:hyperlink runat="server" id="hlNext" />
+    </div>
+  </asp:placeholder>
+  
   <asp:placeholder runat="server" id="pwPost" />
 <!-- 
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
