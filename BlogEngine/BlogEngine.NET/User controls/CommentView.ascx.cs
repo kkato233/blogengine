@@ -145,9 +145,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       {
         phAddComment.Visible = false;
       }
+			InititializeCaptcha();
     }
     
-    InititializeCaptcha();
+   
     btnSave.Click += new EventHandler(btnSave_Click);
   }
 
@@ -199,7 +200,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     SaveComment();
     SetCookie(txtName.Text, txtEmail.Text, txtWebsite.Text, ddlCountry.SelectedValue);
-    Response.Redirect(Post.RelativeLink.ToString() + "?comment=1#addcomment", true);
+    Response.Redirect(Post.RelativeLink.ToString() + "#addcomment", true);
   }
 
   /// <summary>
@@ -378,7 +379,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     {
       if (ViewState["captchavalue"] != null)
       {
-        return Request.Form["captcha"] == ViewState["captchavalue"].ToString();
+				return Request.Form[ViewState["captchafield"].ToString()] == ViewState["captchavalue"].ToString();
       }
 
       return false;
@@ -393,14 +394,15 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     if (ViewState["captchavalue"] == null)
     {
       ViewState["captchavalue"] = Guid.NewGuid().ToString();
+			ViewState["captchafield"] = Guid.NewGuid().ToString();
     }
 
     StringBuilder sb = new StringBuilder();
     sb.Append("function SetCaptcha(){");
-    sb.Append("var form = document.getElementById('" + Page.Form.ClientID + "');");
+    sb.Append("var form = $('" + Page.Form.ClientID + "');");
     sb.Append("var el = document.createElement('input');");
     sb.Append("el.type = 'hidden';");
-    sb.Append("el.name = 'captcha';");
+		sb.Append("el.name = '" + ViewState["captchafield"] + "';");
     sb.Append("el.value = '" + ViewState["captchavalue"] + "';");
     sb.Append("form.appendChild(el);}");
 

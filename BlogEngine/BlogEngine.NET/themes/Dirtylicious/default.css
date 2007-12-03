@@ -79,6 +79,13 @@ h1,h2,h3 {padding-top: 6px; color: #553; margin-bottom: 4px;}
 	padding-bottom: 64px;
 }
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}
+
 /* headere & title */
 .header {
 	background: #222 url('img/header.jpg') no-repeat;

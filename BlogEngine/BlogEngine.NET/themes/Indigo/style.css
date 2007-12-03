@@ -70,6 +70,13 @@ h1,h2,h3 {
 	clear: both;
 }
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}
+
 /* structure */
 .container {
 	background: url(img/topleft.gif) no-repeat;

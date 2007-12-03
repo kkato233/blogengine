@@ -377,6 +377,12 @@ color: #8C8C73;
 
 /* BlogEngine.NET additions */
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}
 
 
 /*----------------------------

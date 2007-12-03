@@ -466,3 +466,10 @@ div.post .story a[rel~="date"][rel~="met"] ,
 div.post .story a[rel~="sweetheart"][rel~="met"] {
 	background-image:url('../../pics/xfn/sweetMet.gif');
 }
+
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}

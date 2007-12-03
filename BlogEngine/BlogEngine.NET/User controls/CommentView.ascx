@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="User_controls_CommentView" EnableViewState="false" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="User_controls_CommentView" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (Post.Comments.Count > 0){ %>
@@ -24,7 +24,7 @@
   <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
   <asp:TextBox runat="Server" ID="txtEmail" TabIndex="2" ValidationGroup="AddComment" />
   <span id="gravatarmsg">
-  <%if (BlogSettings.Instance.Avatar != "none"){ %>
+  <%if (BlogSettings.Instance.Avatar != "none" && BlogSettings.Instance.Avatar != "monster"){ %>
   (<%=string.Format(Resources.labels.willShowGravatar, "<a href=\"http://www.gravatar.com\" target=\"_blank\">Gravatar</a>")%>)
   <%} %>
   </span>
@@ -52,7 +52,7 @@
   <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="7" ValidationGroup="AddComment" />
   
   <% if (BlogSettings.Instance.ShowLivePreview) { %>  
-  <h2>Live preview</h2> 
+  <h2><%=Resources.labels.livePreview %></h2> 
   <div id="livepreview">
     <asp:PlaceHolder runat="Server" ID="phLivePreview" />
   </div>
@@ -72,7 +72,7 @@ function AddComment()
   $("btnSave").disabled = true;
   $("ajaxLoader").style.display = "inline";
   $("status").className = "";
-  $("status").innerHTML = "Saving the comment...";
+  $("status").innerHTML = "<%=Resources.labels.savingTheComment %>";
   
   var author = $("<%=txtName.ClientID %>").value;
   var email = $("<%=txtEmail.ClientID %>").value;

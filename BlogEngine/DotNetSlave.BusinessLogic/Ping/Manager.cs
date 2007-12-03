@@ -26,6 +26,9 @@ namespace BlogEngine.Core.Ping
     {
       foreach (Uri url in GetUrlsFromContent(post.Content))
       {
+				if (url.Host == Utils.AbsoluteWebRoot.Host)
+					continue;
+
         string pageContent = ReadFromWeb(url);
 				Uri trackbackUrl = GetTrackBackUrlFromPage(pageContent);
 				bool isTrackbackSent = false;

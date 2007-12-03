@@ -53,6 +53,9 @@
         <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
         <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" /><br />
         
+        <label for="<%=cbShowPostNavigation.ClientID %>"><%=Resources.labels.showPostNavigation %></label>
+        <asp:CheckBox runat="server" ID="cbShowPostNavigation" /><br />
+        
         <label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
         <asp:DropDownList runat="Server" ID="ddlCulture" Style="text-transform: capitalize">
             <asp:ListItem Text="Auto" />

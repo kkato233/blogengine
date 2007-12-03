@@ -123,6 +123,13 @@ input {
 	color: #CC6714;
 }
 
+#postnavigation{
+	height: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	color: Gray;
+}
+
 /* THE SMALL BOX BELOW NAV */
 
 #navigation p {
