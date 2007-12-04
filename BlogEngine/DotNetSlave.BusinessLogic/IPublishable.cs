@@ -51,6 +51,12 @@ namespace BlogEngine.Core
     /// <value>The relative link.</value>
     String RelativeLink { get;}
 
+		/// <summary>
+		/// Gets the absolute link.
+		/// </summary>
+		/// <value>The absolute link.</value>
+		Uri AbsoluteLink { get;}
+
     /// <summary>
     /// Gets the description.
     /// </summary>

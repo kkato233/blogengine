@@ -23,6 +23,7 @@ public class SendPings
   public SendPings()
   {
     Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+		Page.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
   }
 
   /// <summary>
@@ -34,10 +35,10 @@ public class SendPings
   /// </summary>
   private void Post_Saved(object sender, SavedEventArgs e)
   {
-    Post post = (Post)sender;
-    if (!HttpContext.Current.Request.IsLocal && post.IsPublished)
+    IPublishable item = (IPublishable)sender;
+    if (!HttpContext.Current.Request.IsLocal && item.IsVisible)
     {
-      ThreadStart threadStart = delegate { Ping(post); };
+      ThreadStart threadStart = delegate { Ping(item); };
       Thread thread = new Thread(threadStart);
       thread.IsBackground = true;
       thread.Start();
@@ -50,14 +51,14 @@ public class SendPings
   private void Ping(object stateInfo)
   {
     System.Threading.Thread.Sleep(2000);
-    Post post = (Post)stateInfo;
+    IPublishable item = (IPublishable)stateInfo;
 
     // Ping the specified ping services.
     BlogEngine.Core.Ping.PingService.Send();
 
     // Send trackbacks and pingbacks.
-    if (post.Content.ToLowerInvariant().Contains("http"))
-      BlogEngine.Core.Ping.Manager.Send(post);
+    if (item.Content.ToLowerInvariant().Contains("http"))
+      BlogEngine.Core.Ping.Manager.Send(item);
   }
 
 }
