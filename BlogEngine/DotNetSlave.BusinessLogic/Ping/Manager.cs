@@ -22,9 +22,9 @@ namespace BlogEngine.Core.Ping
 		/// doesn't support trackbacks, a pingback is sent.
 		/// </remarks>
     /// </summary>
-    public static void Send(Post post)
+    public static void Send(IPublishable item)
     {
-      foreach (Uri url in GetUrlsFromContent(post.Content))
+      foreach (Uri url in GetUrlsFromContent(item.Content))
       {
 				if (url.Host == Utils.AbsoluteWebRoot.Host)
 					continue;
@@ -35,13 +35,13 @@ namespace BlogEngine.Core.Ping
 
 				if (trackbackUrl != null)
 				{
-					TrackbackMessage message = new TrackbackMessage(post, trackbackUrl);
+					TrackbackMessage message = new TrackbackMessage(item, trackbackUrl);
 					isTrackbackSent = Trackback.Send(message);					
 				}
 
 				if (!isTrackbackSent)
 				{
-					Pingback.Send(post.AbsoluteLink, url);
+					Pingback.Send(item.AbsoluteLink, url);
 				}
       }
     }
