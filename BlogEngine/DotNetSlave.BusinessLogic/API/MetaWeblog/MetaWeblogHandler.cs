@@ -282,7 +282,7 @@ namespace BlogEngine.Core.API.MetaWeblog {
             foreach (Category cat in Category.Categories) {
                 MWACategory temp = new MWACategory();
                 temp.title = cat.Title;
-                temp.description = cat.Description;
+                temp.description = cat.Title; //cat.Description;
                 temp.htmlUrl = rootUrl + "category/" + cat.Title + ".aspx";
                 temp.rssUrl = rootUrl + "category/syndication.axd?category=" + cat.Id.ToString();
                 categories.Add(temp);
