@@ -26,7 +26,7 @@ namespace BlogEngine.Core.Providers {
         private List<Role> _Roles = new List<Role>();
         private List<string> _UserNames;
         private string _XmlFileName;
-        readonly string[] _DefaultRolesToAdd = new string[] { "Administrators", "Editors" };
+        readonly string[] _DefaultRolesToAdd = new string[] { "Administrators" };
 
 
         ///<summary>
@@ -133,7 +133,7 @@ namespace BlogEngine.Core.Providers {
             foreach (Role role in _Roles) {
                 foreach (string user in role.Users) {
                     if (user.Equals(username, StringComparison.OrdinalIgnoreCase))
-                        rolesForUser.Add(role.Name.ToLowerInvariant());
+                        rolesForUser.Add(role.Name);
                 }
             }
             return rolesForUser.ToArray();
@@ -217,7 +217,7 @@ namespace BlogEngine.Core.Providers {
             //Now that we know a xml file exists we can call it.
             ReadRoleDataStore();
 
-            if (!RoleExists("Administrators") || !RoleExists("Editors"))
+            if (!RoleExists("Administrators"))
                 AddUsersToRoles(_UserNames.ToArray(), _DefaultRolesToAdd);
 
 
@@ -273,7 +273,7 @@ namespace BlogEngine.Core.Providers {
                     foreach (string _name in roleNames) {
                         if (role.Name.Equals(_name, StringComparison.OrdinalIgnoreCase)) {
                             foreach (string user in usernames) {
-                                if (role.Name == "administrators") {
+                                if (role.Name.Equals("administrators", StringComparison.OrdinalIgnoreCase)) {
                                     if (role.Users.Count != 1) {
                                         if (role.Users.Contains(user))
                                             role.Users.Remove(user);
@@ -302,7 +302,7 @@ namespace BlogEngine.Core.Providers {
         ///<param name="throwOnPopulatedRole">If true, throw an exception if roleName has one or more members and do not delete roleName.</param>
         ///<param name="roleName">The name of the role to delete.</param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole) {
-            if (roleName != "administrators") {
+            if (!roleName.Equals("administrators", StringComparison.OrdinalIgnoreCase)) {
                 _Roles.Remove(new Role(roleName));
                 Save();
                 return true;
@@ -377,7 +377,7 @@ namespace BlogEngine.Core.Providers {
         }
 
         /// <summary>
-        /// Only so we can add users to the adminstrators and editors roles.
+        /// Only so we can add users to the adminstrators role.
         /// </summary>
         private void ReadMembershipDataStore() {
             string fullyQualifiedPath = VirtualPathUtility.Combine

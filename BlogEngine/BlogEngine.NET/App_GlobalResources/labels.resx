@@ -183,6 +183,9 @@
   <data name="category" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Close comments after</value>
   </data>

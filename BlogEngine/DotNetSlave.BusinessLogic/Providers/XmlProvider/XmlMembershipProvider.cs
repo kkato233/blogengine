@@ -240,6 +240,9 @@ namespace BlogEngine.Core.Providers {
                   || node["Password"].InnerText.Equals(oldPassword, StringComparison.OrdinalIgnoreCase)) {
                     node["Password"].InnerText = newPassword;
                     doc.Save(_XmlFileName);
+
+										_Users = null;
+										ReadMembershipDataStore();
                     return true;
                 }
             }

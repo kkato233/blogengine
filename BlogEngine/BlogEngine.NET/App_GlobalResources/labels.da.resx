@@ -177,6 +177,9 @@
   <data name="category" xml:space="preserve">
     <value>Kategori</value>
   </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Ændr kodeord</value>
+  </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Luk kommentarer efter</value>
   </data>
