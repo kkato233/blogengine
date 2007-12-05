@@ -3,12 +3,6 @@
     <UserName>Admin</UserName>
     <Password>admin</Password>
     <Email>post@example.com</Email>
-    <LastLoginTime>2007-04-09 13:00:23</LastLoginTime>
-  </User>
-  <User>
-    <UserName>Editor</UserName>
-    <Password>editor</Password>
-    <Email>editor@example.com</Email>
-    <LastLoginTime>2007-04-09 13:00:23</LastLoginTime>
+    <LastLoginTime>2007-12-05 20:46:40</LastLoginTime>
   </User>
 </Users>

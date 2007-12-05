@@ -20,7 +20,6 @@ namespace Controls
 
 		static MonthList()
 		{
-			BindMonths();
 			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
 		}
 
@@ -134,6 +133,9 @@ namespace Controls
 		{
 			if (Post.Posts.Count > 0)
 			{
+				if (_Months.Count == 0)
+					BindMonths();
+
 				string html = RenderMonths();
 				writer.Write(html);
 				writer.Write(Environment.NewLine);

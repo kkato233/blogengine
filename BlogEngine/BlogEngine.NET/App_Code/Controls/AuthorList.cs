@@ -75,11 +75,22 @@ namespace Controls
 		/// </summary>
 		private HtmlGenericControl BindAuthors()
 		{
+			if (Post.Posts.Count == 0)
+			{
+				HtmlGenericControl p = new HtmlGenericControl("p");
+				p.InnerHtml = Resources.labels.none;
+				return p;
+			}
+
 			HtmlGenericControl ul = new HtmlGenericControl("ul");
 			ul.ID = "authorlist";
 
 			foreach (MembershipUser user in Membership.GetAllUsers())
 			{
+				int postCount = Post.GetPostsByAuthor(user.UserName).Count;
+				if (postCount == 0)
+					continue;
+
 				HtmlGenericControl li = new HtmlGenericControl("li");
 
 				if (ShowRssIcon)
@@ -96,10 +107,10 @@ namespace Controls
 
 					li.Controls.Add(feedAnchor);
 				}
-
+				
 				HtmlAnchor anc = new HtmlAnchor();
 				anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + BlogSettings.Instance.FileExtension;
-				anc.InnerHtml = user.UserName + " (" + Post.GetPostsByAuthor(user.UserName).Count + ")";
+				anc.InnerHtml = user.UserName + " (" + postCount + ")";
 				anc.Title = "Author: " + user.UserName;
 
 				li.Controls.Add(anc);

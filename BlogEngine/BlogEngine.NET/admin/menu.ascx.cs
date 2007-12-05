@@ -4,54 +4,58 @@ using System.Web;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core.Providers;
+using BlogEngine.Core;
 
 public partial class admin_menu : System.Web.UI.UserControl
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        if (!Page.IsCallback)
-            BindMenu();
-    }
+	protected void Page_Load(object sender, EventArgs e)
+	{
+		if (!Page.IsCallback)
+			BindMenu();
+	}
 
-    private void BindMenu()
-    {
-        foreach (SiteMapNode adminNode in SiteMap.Providers["SecuritySiteMap"].RootNode.ChildNodes)
-        {
-            if(adminNode.IsAccessibleToUser(HttpContext.Current))
-            {
-                HtmlAnchor a = new HtmlAnchor();
-                a.HRef = adminNode.Url;
-                a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-                if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
-                          a.Attributes["class"] = "current";
-                HtmlGenericControl li = new HtmlGenericControl("li");
-                li.Controls.Add(a);
-                ulMenu.Controls.Add(li);
-            }
-        }
-    }
+	private void BindMenu()
+	{
+		foreach (SiteMapNode adminNode in SiteMap.Providers["SecuritySiteMap"].RootNode.ChildNodes)
+		{
+			if (adminNode.IsAccessibleToUser(HttpContext.Current))
+			{
+				HtmlAnchor a = new HtmlAnchor();
+				a.HRef = adminNode.Url;
+				a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
+				if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
+					a.Attributes["class"] = "current";
+				HtmlGenericControl li = new HtmlGenericControl("li");
+				li.Controls.Add(a);
+				ulMenu.Controls.Add(li);
+			}
+		}
 
-    public void AddItem(string text, string url)
-    {
-        HtmlAnchor a = new HtmlAnchor();
-        a.InnerHtml = "<span>" + text + "</span>";
-        a.HRef = url;
+		if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
+			AddItem(Resources.labels.changePassword, Utils.RelativeWebRoot + "login.aspx");
+	}
 
-        HtmlGenericControl li = new HtmlGenericControl("li");
-        li.Controls.Add(a);
-        ulMenu.Controls.Add(li);
-    }
+	public void AddItem(string text, string url)
+	{
+		HtmlAnchor a = new HtmlAnchor();
+		a.InnerHtml = "<span>" + text + "</span>";
+		a.HRef = url;
 
-    public string Translate(string text)
-    {
-        try
-        {
-            return this.GetGlobalResourceObject("labels", text).ToString();
-        }
-        catch (NullReferenceException)
-        {
-            return text;
-        }
-    }
+		HtmlGenericControl li = new HtmlGenericControl("li");
+		li.Controls.Add(a);
+		ulMenu.Controls.Add(li);
+	}
+
+	public string Translate(string text)
+	{
+		try
+		{
+			return this.GetGlobalResourceObject("labels", text).ToString();
+		}
+		catch (NullReferenceException)
+		{
+			return text;
+		}
+	}
 
 }
