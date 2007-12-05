@@ -4,7 +4,12 @@
     <clientType>Metaweblog</clientType>
     <supportsEmbeds>Yes</supportsEmbeds>
 	<supportsKeywords>Yes</supportsKeywords>
-  </options>
+	<supportsNewCategories>Yes</supportsNewCategories>
+	<supportsNewCategoriesInline>Yes</supportsNewCategoriesInline>
+	<supportsSlug>Yes</supportsSlug>
+	<supportsPages>Yes</supportsPages>
+	<supportsPageParent>Yes</supportsPageParent>
+</options>
   <weblog>
     <ServiceName>BlogEngine.NET</ServiceName>
     <imageUrl>pics/wrenchicon16.png</imageUrl>
