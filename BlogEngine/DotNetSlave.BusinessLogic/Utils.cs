@@ -164,6 +164,7 @@ namespace BlogEngine.Core
 
 		#region Is Mono/Linux
 
+		private static int mono = 0;
 		/// <summary>
 		/// Gets a value indicating whether we're running under Mono.
 		/// </summary>
@@ -172,7 +173,15 @@ namespace BlogEngine.Core
 		{
 			get
 			{
-				return Type.GetType("Mono.Runtime") != null;
+				if (mono == 0)
+				{
+					if (Type.GetType("Mono.Runtime") != null)
+						mono = 1;
+					else
+						mono = 2;
+				}
+
+				return mono == 1;
 			}
 		}
 
