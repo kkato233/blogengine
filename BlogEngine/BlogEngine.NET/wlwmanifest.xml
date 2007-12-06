@@ -6,7 +6,9 @@
 	<supportsKeywords>Yes</supportsKeywords>
 	<supportsNewCategories>Yes</supportsNewCategories>
 	<supportsNewCategoriesInline>Yes</supportsNewCategoriesInline>
+	<supportsCommentPolicy>Yes</supportsCommentPolicy>
 	<supportsSlug>Yes</supportsSlug>
+	<supportsExcerpt>Yes</supportsExcerpt>
 	<supportsPages>Yes</supportsPages>
 	<supportsPageParent>Yes</supportsPageParent>
 </options>

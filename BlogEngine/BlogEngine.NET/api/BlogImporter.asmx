@@ -110,7 +110,8 @@ public class BlogImporter : System.Web.Services.WebService {
         if (!IsAuthenticated())
             throw new InvalidOperationException("Wrong credentials");
 
-        Post post = Post.GetPost(new Guid(postID));
+        //Post post = Post.GetPost(new Guid(postID));
+        Post post = Post.Load(new Guid(postID));
         if (post != null) {
             Comment comment = new Comment();
             comment.Author = author;

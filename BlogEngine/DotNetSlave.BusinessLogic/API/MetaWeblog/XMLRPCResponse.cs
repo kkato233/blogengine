@@ -436,6 +436,22 @@ namespace BlogEngine.Core.API.MetaWeblog
       data.WriteEndElement();
       data.WriteEndElement();
 
+      // excerpt
+      data.WriteStartElement("member");
+      data.WriteElementString("name", "mt_excerpt");
+      data.WriteStartElement("value");
+      data.WriteElementString("string", _post.excerpt);
+      data.WriteEndElement();
+      data.WriteEndElement();
+
+      // comment policy
+      data.WriteStartElement("member");
+      data.WriteElementString("name", "mt_allow_comments");
+      data.WriteStartElement("value");
+      data.WriteElementString("string", _post.commentPolicy);
+      data.WriteEndElement();
+      data.WriteEndElement();
+
       // dateCreated
       data.WriteStartElement("member");
       data.WriteElementString("name", "dateCreated");
@@ -616,6 +632,22 @@ namespace BlogEngine.Core.API.MetaWeblog
         data.WriteElementString("name", "wp_slug");
         data.WriteStartElement("value");
         data.WriteElementString("string", post.slug);
+        data.WriteEndElement();
+        data.WriteEndElement();
+
+        // excerpt
+        data.WriteStartElement("member");
+        data.WriteElementString("name", "mt_excerpt");
+        data.WriteStartElement("value");
+        data.WriteElementString("string", post.excerpt);
+        data.WriteEndElement();
+        data.WriteEndElement();
+
+        // comment policy
+        data.WriteStartElement("member");
+        data.WriteElementString("name", "mt_allow_comments");
+        data.WriteStartElement("value");
+        data.WriteElementString("string", post.commentPolicy);
         data.WriteEndElement();
         data.WriteEndElement();
         

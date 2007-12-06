@@ -136,6 +136,16 @@ namespace BlogEngine.Core.API.MetaWeblog
       post.Content = sentPost.description;
       post.IsPublished = publish;
       post.Slug = sentPost.slug;
+      post.Description = sentPost.excerpt;
+
+      if (sentPost.commentPolicy != "")
+      {
+        if (sentPost.commentPolicy == "1")
+          post.IsCommentsEnabled = true;
+        else
+          post.IsCommentsEnabled = false;
+      }
+
       post.Categories.Clear();
       foreach (string item in sentPost.categories) 
       {
@@ -184,6 +194,15 @@ namespace BlogEngine.Core.API.MetaWeblog
       post.Content = sentPost.description;
       post.IsPublished = publish;
       post.Slug = sentPost.slug;
+      post.Description = sentPost.excerpt;
+
+      if (sentPost.commentPolicy != "")
+      {
+        if (sentPost.commentPolicy == "1")
+          post.IsCommentsEnabled = true;
+        else
+          post.IsCommentsEnabled = false;
+      }
       post.Categories.Clear();
       foreach (string item in sentPost.categories) 
       {
@@ -229,6 +248,13 @@ namespace BlogEngine.Core.API.MetaWeblog
       sendPost.description = post.Content;
       sendPost.link = post.AbsoluteLink.AbsoluteUri;
       sendPost.slug = post.Slug;
+      sendPost.excerpt = post.Description;
+      if (post.IsCommentsEnabled)
+        sendPost.commentPolicy = "";
+      else
+        sendPost.commentPolicy = "0";
+
+
       sendPost.publish = post.IsPublished;
 
       List<string> cats = new List<string>();
@@ -368,6 +394,11 @@ namespace BlogEngine.Core.API.MetaWeblog
         tempPost.description = post.Content;
         tempPost.link = post.AbsoluteLink.AbsoluteUri;
         tempPost.slug = post.Slug;
+        tempPost.excerpt = post.Description;
+        if (post.IsCommentsEnabled)
+          tempPost.commentPolicy = "";
+        else
+          tempPost.commentPolicy = "0";
         tempPost.publish = post.IsPublished;
         for (int i = 0; i < post.Categories.Count; i++) 
         {
@@ -456,7 +487,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         page.DateCreated = mPage.pageDate;
       page.ShowInList = publish;
       page.IsPublished = publish;
-      if (mPage.pageParentID != null)
+      if (mPage.pageParentID != "0")
         page.Parent = new Guid(mPage.pageParentID);
 
       page.Save();
@@ -560,7 +591,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         page.DateCreated = mPage.pageDate;
       page.ShowInList = publish;
       page.IsPublished = publish;
-      if (mPage.pageParentID != null)
+      if (mPage.pageParentID != "0")
         page.Parent = new Guid(mPage.pageParentID);
 
       page.Save();
@@ -792,6 +823,14 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// Slug of post
     /// </summary>
     public string slug;
+    /// <summary>
+    /// CommentPolicy (Allow/Deny)
+    /// </summary>
+    public string commentPolicy;
+    /// <summary>
+    /// Excerpt
+    /// </summary>
+    public string excerpt;
 
   }
 
