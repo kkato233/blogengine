@@ -325,6 +325,16 @@ namespace BlogEngine.Core.API.MetaWeblog
         else
           temp.link = node.SelectSingleNode("value/struct/member[name='link']").LastChild.InnerText;
 
+        if (node.SelectSingleNode("value/struct/member[name='mt_allow_comments']") == null)
+          temp.commentPolicy = "";
+        else
+          temp.commentPolicy = node.SelectSingleNode("value/struct/member[name='mt_allow_comments']").LastChild.InnerText;
+
+        if (node.SelectSingleNode("value/struct/member[name='mt_excerpt']") == null)
+          temp.excerpt = "";
+        else
+          temp.excerpt = node.SelectSingleNode("value/struct/member[name='mt_excerpt']").LastChild.InnerText;
+
         if (node.SelectSingleNode("value/struct/member[name='wp_slug']") == null)
           temp.slug = "";
         else
