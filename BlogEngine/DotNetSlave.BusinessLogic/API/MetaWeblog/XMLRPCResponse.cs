@@ -42,7 +42,6 @@ namespace BlogEngine.Core.API.MetaWeblog
     private string _postID;
     private List<MWAPost> _posts;
     private List<MWAPage> _pages;
-    private List<MWAShortPage> _shortPages;
     private MWAPage _page;
     private string _pageID;
 
@@ -139,15 +138,6 @@ namespace BlogEngine.Core.API.MetaWeblog
     {
       get { return _pages; }
       set { _pages = value; }
-    }
-
-    /// <summary>
-    /// List of ShortPage Structs
-    /// </summary>
-    public List<MWAShortPage> ShortPages
-    {
-      get { return _shortPages; }
-      set { _shortPages = value; }
     }
 
     /// <summary>
@@ -799,7 +789,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       data.WriteStartElement("array");
       data.WriteStartElement("data");
 
-      foreach (MWAShortPage page in _shortPages)
+      foreach (MWAPage page in _pages)
       {
         data.WriteStartElement("value");
         data.WriteStartElement("struct");

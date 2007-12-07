@@ -74,8 +74,6 @@ namespace BlogEngine.Core.API.MetaWeblog
             output.PageID = NewPage(input.BlogID, input.UserName, input.Password, input.Page, input.Publish);
             break;
           case "wp.getPageList":
-            output.ShortPages = GetPageList(input.BlogID, input.UserName, input.Password);
-            break;
           case "wp.getPages":
             output.Pages = GetPages(input.BlogID, input.UserName, input.Password);
             break;
@@ -526,33 +524,6 @@ namespace BlogEngine.Core.API.MetaWeblog
     }
 
     /// <summary>
-    /// wp.getPageList
-    /// </summary>
-    /// <param name="blogID">blogID in string format</param>
-    /// <param name="userName">login username</param>
-    /// <param name="password">login password</param>
-    /// <returns></returns>
-    internal List<MWAShortPage> GetPageList(string blogID, string userName, string password)
-    {
-      ValidateRequest(userName, password);
-
-      List<MWAShortPage> shortPages = new List<MWAShortPage>();
-
-      foreach (Page page in Page.Pages)
-      {
-        MWAShortPage sPage = new MWAShortPage();
-        sPage.pageID = page.Id.ToString();
-        sPage.title = page.Title;
-        sPage.pageDate = page.DateCreated;
-        sPage.pageParentID = page.Parent.ToString();
-
-        shortPages.Add(sPage);
-      }
-
-      return shortPages;
-    }
-
-    /// <summary>
     /// wp.getPage
     /// </summary>
     /// <param name="blogID">blogID in string format</param>
@@ -902,26 +873,6 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// Page Parent ID
     /// </summary>
     public string pageParentID;
-  }
-
-  internal struct MWAShortPage
-  {
-    /// <summary>
-    /// PostID Guid in string format
-    /// </summary>
-    public string pageID;
-    /// <summary>
-    /// Title of Blog Post
-    /// </summary>
-    public string title;
-    /// <summary>
-    /// Page Parent ID
-    /// </summary>
-    public string pageParentID;
-    /// <summary>
-    /// Display date of Blog Post (DateCreated)
-    /// </summary>
-    public DateTime pageDate;
   }
 
 }
