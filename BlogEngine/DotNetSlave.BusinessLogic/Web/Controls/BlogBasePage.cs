@@ -79,7 +79,7 @@ namespace BlogEngine.Core.Web.Controls
 					AddTrackingScript();
 			}
 
-			AddEmbeddedJavaScript("BlogEngine.Core.Web.Scripts.blog.js");
+			AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
 			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
 				CompressCss();
 		}
@@ -226,12 +226,17 @@ namespace BlogEngine.Core.Web.Controls
 		/// <summary>
 		/// Adds a JavaScript reference to the HTML head tag.
 		/// </summary>
-		protected virtual void AddEmbeddedJavaScript(string name)
+		public virtual void AddJavaScriptInclude(string url)
 		{
 			HtmlGenericControl script = new HtmlGenericControl("script");
 			script.Attributes["type"] = "text/javascript";
-			script.Attributes["src"] = Page.ClientScript.GetWebResourceUrl(typeof(Post), name);
+			script.Attributes["src"] = ResolveScriptUrl(url);
 			Page.Header.Controls.Add(script);
+		}
+
+		public virtual string ResolveScriptUrl(string url)
+		{
+			return Utils.RelativeWebRoot + "js.axd?path=" + Server.UrlEncode(url);
 		}
 
 		/// <summary>
