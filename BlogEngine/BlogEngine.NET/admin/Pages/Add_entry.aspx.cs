@@ -12,258 +12,301 @@ using BlogEngine.Core;
 
 #endregion
 
-public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler {
-    protected void Page_Load(object sender, EventArgs e) {
-        this.MaintainScrollPositionOnPostBack = true;
-        if (!Page.IsPostBack && !Page.IsCallback) {
-            BindCategories();
-            BindUsers();
-            BindDrafts();
+public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
+{
+	protected void Page_Load(object sender, EventArgs e)
+	{
+		this.MaintainScrollPositionOnPostBack = true;
+		if (!Page.IsPostBack && !Page.IsCallback)
+		{
+			BindCategories();
+			BindUsers();
+			BindDrafts();
 
-            Page.Title = Resources.labels.add_Entry;
-            Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
+			Page.Title = Resources.labels.add_Entry;
+			Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
 
-            if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36) {
-                Guid id = new Guid(Request.QueryString["id"]);
-                Page.Title = "Edit post";
-                BindPost(id);
-            } else {
-                PreSelectAuthor(Page.User.Identity.Name);
-                txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
-                cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
-                txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
-                BindBookmarklet();
-            }
+			if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
+			{
+				Guid id = new Guid(Request.QueryString["id"]);
+				Page.Title = "Edit post";
+				BindPost(id);
+			}
+			else
+			{
+				PreSelectAuthor(Page.User.Identity.Name);
+				txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
+				cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
+				txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
+				BindBookmarklet();				
+			}
 
-            cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
-            if (!Utils.IsMono) Page.Form.DefaultButton = btnSave.UniqueID;
-        }
+			if (!Page.User.IsInRole("administrators"))
+				ddlAuthor.Enabled = false;
 
-        btnSave.Text = Resources.labels.savePost; // mono does not interpret the inline code correctly
-        btnSave.Click += new EventHandler(btnSave_Click);
-        btnCategory.Click += new EventHandler(btnCategory_Click);
-        btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
-        btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
-        valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
-    }
+			cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
+			if (!Utils.IsMono) Page.Form.DefaultButton = btnSave.UniqueID;
+		}
 
-    private void valExist_ServerValidate(object source, ServerValidateEventArgs args) {
-        args.IsValid = true;
+		btnSave.Text = Resources.labels.savePost; // mono does not interpret the inline code correctly
+		btnSave.Click += new EventHandler(btnSave_Click);
+		btnCategory.Click += new EventHandler(btnCategory_Click);
+		btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
+		btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
+		valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
+	}
 
-        foreach (Category cat in Category.Categories) {
-            if (cat.Title.Equals(txtCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
-                args.IsValid = false;
-        }
-    }
+	private void valExist_ServerValidate(object source, ServerValidateEventArgs args)
+	{
+		args.IsValid = true;
 
-    private void btnUploadImage_Click(object sender, EventArgs e) {
-        Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadImage);
-        string path = Utils.AbsoluteWebRoot.ToString();
-        string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
-        txtContent.Text += string.Format(img, txtUploadImage.FileName);
-    }
+		foreach (Category cat in Category.Categories)
+		{
+			if (cat.Title.Equals(txtCategory.Text.Trim(), StringComparison.OrdinalIgnoreCase))
+				args.IsValid = false;
+		}
+	}
 
-    private void btnUploadFile_Click(object sender, EventArgs e) {
-        Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadFile);
+	private void btnUploadImage_Click(object sender, EventArgs e)
+	{
+		Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadImage);
+		string path = Utils.AbsoluteWebRoot.ToString();
+		string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
+		txtContent.Text += string.Format(img, txtUploadImage.FileName);
+	}
 
-        string a = "<p><a href=\"{0}file.axd?file={1}\" rel=\"enclosure\">{2}</a></p>";
-        string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
-        txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
-    }
+	private void btnUploadFile_Click(object sender, EventArgs e)
+	{
+		Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadFile);
 
-    private void Upload(string virtualFolder, FileUpload control) {
-        string folder = Server.MapPath(virtualFolder);
-        control.PostedFile.SaveAs(folder + control.FileName);
-    }
+		string a = "<p><a href=\"{0}file.axd?file={1}\" rel=\"enclosure\">{2}</a></p>";
+		string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
+		txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
+	}
 
-    private string SizeFormat(float size, string formatString) {
-        if (size < 1024)
-            return size.ToString(formatString) + " bytes";
+	private void Upload(string virtualFolder, FileUpload control)
+	{
+		string folder = Server.MapPath(virtualFolder);
+		control.PostedFile.SaveAs(folder + control.FileName);
+	}
 
-        if (size < Math.Pow(1024, 2))
-            return (size / 1024).ToString(formatString) + " kb";
+	private string SizeFormat(float size, string formatString)
+	{
+		if (size < 1024)
+			return size.ToString(formatString) + " bytes";
 
-        if (size < Math.Pow(1024, 3))
-            return (size / Math.Pow(1024, 2)).ToString(formatString) + " mb";
+		if (size < Math.Pow(1024, 2))
+			return (size / 1024).ToString(formatString) + " kb";
 
-        if (size < Math.Pow(1024, 4))
-            return (size / Math.Pow(1024, 3)).ToString(formatString) + " gb";
+		if (size < Math.Pow(1024, 3))
+			return (size / Math.Pow(1024, 2)).ToString(formatString) + " mb";
 
-        return size.ToString(formatString);
-    }
+		if (size < Math.Pow(1024, 4))
+			return (size / Math.Pow(1024, 3)).ToString(formatString) + " gb";
 
-    #region Event handlers
+		return size.ToString(formatString);
+	}
 
-    /// <summary>
-    /// Creates and saves a new category
-    /// </summary>
-    private void btnCategory_Click(object sender, EventArgs e) {
-        if (Page.IsValid) {
-            Category cat = new Category(txtCategory.Text, string.Empty);
-            cat.Save();
-            ListItem item = new ListItem(Server.HtmlEncode(txtCategory.Text), cat.Id.ToString());
-            item.Selected = true;
-            cblCategories.Items.Add(item);
-        }
-    }
+	#region Event handlers
 
-    /// <summary>
-    /// Saves the post
-    /// </summary>
-    private void btnSave_Click(object sender, EventArgs e) {
-        if (!Page.IsValid)
-            throw new InvalidOperationException("One or more validators are invalid.");
+	/// <summary>
+	/// Creates and saves a new category
+	/// </summary>
+	private void btnCategory_Click(object sender, EventArgs e)
+	{
+		if (Page.IsValid)
+		{
+			Category cat = new Category(txtCategory.Text, string.Empty);
+			cat.Save();
+			ListItem item = new ListItem(Server.HtmlEncode(txtCategory.Text), cat.Id.ToString());
+			item.Selected = true;
+			cblCategories.Items.Add(item);
+		}
+	}
 
-        Post post;
-        if (Request.QueryString["id"] != null)
-            post = Post.GetPost(new Guid(Request.QueryString["id"]));
-        else
-            post = new Post();
+	/// <summary>
+	/// Saves the post
+	/// </summary>
+	private void btnSave_Click(object sender, EventArgs e)
+	{
+		if (!Page.IsValid)
+			throw new InvalidOperationException("One or more validators are invalid.");
 
-        if (string.IsNullOrEmpty(txtContent.Text))
-            txtContent.Text = "[No text]";
+		Post post;
+		if (Request.QueryString["id"] != null)
+			post = Post.GetPost(new Guid(Request.QueryString["id"]));
+		else
+			post = new Post();
 
-        post.DateCreated = DateTime.ParseExact(txtDate.Text, "yyyy-MM-dd HH:mm", null).AddHours(-BlogSettings.Instance.Timezone);
-        post.Author = ddlAuthor.SelectedValue;
-        post.Title = txtTitle.Text.Trim();
-        post.Content = txtContent.Text;
-        post.Description = txtDescription.Text.Trim();
-        post.IsPublished = cbPublish.Checked;
-        post.IsCommentsEnabled = cbEnableComments.Checked;
+		if (string.IsNullOrEmpty(txtContent.Text))
+			txtContent.Text = "[No text]";
 
-        if (!string.IsNullOrEmpty(txtSlug.Text))
-            post.Slug = Server.UrlDecode(txtSlug.Text.Trim());
+		post.DateCreated = DateTime.ParseExact(txtDate.Text, "yyyy-MM-dd HH:mm", null).AddHours(-BlogSettings.Instance.Timezone);
+		post.Author = ddlAuthor.SelectedValue;
+		post.Title = txtTitle.Text.Trim();
+		post.Content = txtContent.Text;
+		post.Description = txtDescription.Text.Trim();
+		post.IsPublished = cbPublish.Checked;
+		post.IsCommentsEnabled = cbEnableComments.Checked;
 
-        post.Categories.Clear();
+		if (!string.IsNullOrEmpty(txtSlug.Text))
+			post.Slug = Server.UrlDecode(txtSlug.Text.Trim());
 
-        foreach (ListItem item in cblCategories.Items) {
-            if (item.Selected)
-                post.Categories.Add(Category.GetCategory(new Guid(item.Value)));
-        }
+		post.Categories.Clear();
 
-        post.Tags.Clear();
-        if (txtTags.Text.Trim().Length > 0) {
-            string[] tags = txtTags.Text.Split(',');
-            foreach (string tag in tags) {
-                post.Tags.Add(tag.Trim().ToLowerInvariant());
-            }
-        }
+		foreach (ListItem item in cblCategories.Items)
+		{
+			if (item.Selected)
+				post.Categories.Add(Category.GetCategory(new Guid(item.Value)));
+		}
 
-        post.Save();
+		post.Tags.Clear();
+		if (txtTags.Text.Trim().Length > 0)
+		{
+			string[] tags = txtTags.Text.Split(',');
+			foreach (string tag in tags)
+			{
+				post.Tags.Add(tag.Trim().ToLowerInvariant());
+			}
+		}
 
-        Session.Remove("autosave");
-        Response.Redirect(post.RelativeLink.ToString());
-    }
+		post.Save();
 
-    #endregion
+		Session.Remove("autosave");
+		Response.Redirect(post.RelativeLink.ToString());
+	}
 
-    #region Data binding
+	#endregion
 
-    private void BindCategories() {
-        foreach (Category cat in Category.Categories) {
-            cblCategories.Items.Add(new ListItem(Server.HtmlEncode(cat.Title), cat.Id.ToString()));
-        }
-    }
+	#region Data binding
 
-    private void BindPost(Guid postId) {
-        Post post = Post.GetPost(postId);
-        txtTitle.Text = post.Title;
-        txtContent.Text = post.Content;
-        txtDescription.Text = post.Description;
-        txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
-        cbEnableComments.Checked = post.IsCommentsEnabled;
-        cbPublish.Checked = post.IsPublished;
-        txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
+	private void BindCategories()
+	{
+		foreach (Category cat in Category.Categories)
+		{
+			cblCategories.Items.Add(new ListItem(Server.HtmlEncode(cat.Title), cat.Id.ToString()));
+		}
+	}
 
-        PreSelectAuthor(post.Author);
+	private void BindPost(Guid postId)
+	{
+		Post post = Post.GetPost(postId);
+		txtTitle.Text = post.Title;
+		txtContent.Text = post.Content;
+		txtDescription.Text = post.Description;
+		txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
+		cbEnableComments.Checked = post.IsCommentsEnabled;
+		cbPublish.Checked = post.IsPublished;
+		txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
 
-        foreach (Category cat in post.Categories) {
-            ListItem item = cblCategories.Items.FindByValue(cat.Id.ToString());
-            if (item != null)
-                item.Selected = true;
-        }
+		PreSelectAuthor(post.Author);
 
-        string[] tags = new string[post.Tags.Count];
-        for (int i = 0; i < post.Tags.Count; i++) {
-            tags[i] = post.Tags[i];
-        }
-        txtTags.Text = string.Join(",", tags);
-    }
+		foreach (Category cat in post.Categories)
+		{
+			ListItem item = cblCategories.Items.FindByValue(cat.Id.ToString());
+			if (item != null)
+				item.Selected = true;
+		}
 
-    private void PreSelectAuthor(string author) {
-        ddlAuthor.ClearSelection();
-        foreach (ListItem item in ddlAuthor.Items) {
-            if (item.Text.Equals(author, StringComparison.OrdinalIgnoreCase)) {
-                item.Selected = true;
-                break;
-            }
-        }
-    }
+		string[] tags = new string[post.Tags.Count];
+		for (int i = 0; i < post.Tags.Count; i++)
+		{
+			tags[i] = post.Tags[i];
+		}
+		txtTags.Text = string.Join(",", tags);
+	}
 
-    private void BindBookmarklet() {
-        if (Request.QueryString["title"] != null && Request.QueryString["url"] != null) {
-            string title = Request.QueryString["title"];
-            string url = Request.QueryString["url"];
+	private void PreSelectAuthor(string author)
+	{
+		ddlAuthor.ClearSelection();
+		foreach (ListItem item in ddlAuthor.Items)
+		{
+			if (item.Text.Equals(author, StringComparison.OrdinalIgnoreCase))
+			{
+				item.Selected = true;
+				break;
+			}
+		}
+	}
 
-            txtTitle.Text = title;
-            txtContent.Text = string.Format("<p><a href=\"{0}\" title=\"{1}\">{1}</a></p>", url, title);
-        }
-    }
+	private void BindBookmarklet()
+	{
+		if (Request.QueryString["title"] != null && Request.QueryString["url"] != null)
+		{
+			string title = Request.QueryString["title"];
+			string url = Request.QueryString["url"];
 
-    private void BindUsers() {
-        foreach (MembershipUser user in Membership.GetAllUsers()) {
-            ddlAuthor.Items.Add(user.UserName);
-        }
-    }
+			txtTitle.Text = title;
+			txtContent.Text = string.Format("<p><a href=\"{0}\" title=\"{1}\">{1}</a></p>", url, title);
+		}
+	}
 
-    private void BindDrafts() {
-        Guid id = Guid.Empty;
-        if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36) {
-            id = new Guid(Request.QueryString["id"]);
-        }
+	private void BindUsers()
+	{
+		foreach (MembershipUser user in Membership.GetAllUsers())
+		{
+			ddlAuthor.Items.Add(user.UserName);
+		}
+	}
 
-        int counter = 0;
+	private void BindDrafts()
+	{
+		Guid id = Guid.Empty;
+		if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
+		{
+			id = new Guid(Request.QueryString["id"]);
+		}
 
-        foreach (Post post in Post.Posts) {
-            if (!post.IsPublished && post.Id != id) {
-                HtmlGenericControl li = new HtmlGenericControl("li");
-                HtmlAnchor a = new HtmlAnchor();
-                a.HRef = "?id=" + post.Id.ToString();
-                a.InnerHtml = post.Title;
+		int counter = 0;
 
-                System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" by " + post.Author + " (" + post.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+		foreach (Post post in Post.Posts)
+		{
+			if (!post.IsPublished && post.Id != id)
+			{
+				HtmlGenericControl li = new HtmlGenericControl("li");
+				HtmlAnchor a = new HtmlAnchor();
+				a.HRef = "?id=" + post.Id.ToString();
+				a.InnerHtml = post.Title;
 
-                li.Controls.Add(a);
-                li.Controls.Add(text);
-                ulDrafts.Controls.Add(li);
-                counter++;
-            }
-        }
+				System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" by " + post.Author + " (" + post.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
 
-        if (counter > 0) {
-            divDrafts.Visible = true;
-            aDrafts.InnerHtml = string.Format(Resources.labels.thereAreXDrafts, counter);
-        }
-    }
+				li.Controls.Add(a);
+				li.Controls.Add(text);
+				ulDrafts.Controls.Add(li);
+				counter++;
+			}
+		}
 
-    #endregion
+		if (counter > 0)
+		{
+			divDrafts.Visible = true;
+			aDrafts.InnerHtml = string.Format(Resources.labels.thereAreXDrafts, counter);
+		}
+	}
+
+	#endregion
 
 
-    #region ICallbackEventHandler Members
+	#region ICallbackEventHandler Members
 
-    private string _Callback;
+	private string _Callback;
 
-    public string GetCallbackResult() {
-        return _Callback;
-    }
+	public string GetCallbackResult()
+	{
+		return _Callback;
+	}
 
-    public void RaiseCallbackEvent(string eventArgument) {
-        if (eventArgument.StartsWith("_autosave")) {
-            Session["autosave"] = eventArgument.Replace("_autosave", string.Empty);
-        } else {
-            _Callback = Utils.RemoveIllegalCharacters(eventArgument.Trim());
-        }
-    }
+	public void RaiseCallbackEvent(string eventArgument)
+	{
+		if (eventArgument.StartsWith("_autosave"))
+		{
+			Session["autosave"] = eventArgument.Replace("_autosave", string.Empty);
+		}
+		else
+		{
+			_Callback = Utils.RemoveIllegalCharacters(eventArgument.Trim());
+		}
+	}
 
-    #endregion
+	#endregion
 }

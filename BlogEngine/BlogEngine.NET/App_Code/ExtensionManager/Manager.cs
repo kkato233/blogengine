@@ -161,17 +161,17 @@ public class ExtensionManager
 	#region Serialization
 	public static void SaveToXML()
 	{
-		TextWriter writer = null;
 		try
 		{
-			writer = new StreamWriter(_fileName);
-			XmlSerializer serializer = new XmlSerializer(typeof(List<Extension>));
-			serializer.Serialize(writer, _extensions);
+			using (TextWriter writer = new StreamWriter(_fileName))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(List<Extension>));
+				serializer.Serialize(writer, _extensions);
+			}
 		}
-		finally
+		catch (Exception)
 		{
-			if (writer != null)
-				writer.Close();
+			// No write access to App_Data folder. Do nothing.
 		}
 	}
 
@@ -196,7 +196,7 @@ public class ExtensionManager
 				{
 					_extensions.Remove(_extensions[i]);
 				}
-			}			
+			}
 		}
 		finally
 		{
