@@ -147,13 +147,20 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private static void BeginRegisterClick(object stateInfo)
     {
-      DictionaryEntry entry = (DictionaryEntry)stateInfo;
-      Uri referrer = (Uri)entry.Key;
-      Uri url = (Uri)entry.Value;
-			
-      RegisterClick(url, referrer);
-      stateInfo = null;
-      OnReferrerRegistered(referrer);
+			try
+			{
+				DictionaryEntry entry = (DictionaryEntry)stateInfo;
+				Uri referrer = (Uri)entry.Key;
+				Uri url = (Uri)entry.Value;
+
+				RegisterClick(url, referrer);
+				stateInfo = null;
+				OnReferrerRegistered(referrer);
+			}
+			catch (Exception)
+			{
+				// Could write to the file.
+			}
     }
 
     private static void RegisterClick(Uri url, Uri referrer)

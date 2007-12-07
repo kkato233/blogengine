@@ -13,16 +13,12 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		//if (Request.QueryString["signout"] == "true")
-		//{
-		//  FormsAuthentication.SignOut();
-		//  Response.Redirect(Request.UrlReferrer.ToString(), true);  
-		//}
 		if (Page.User.Identity.IsAuthenticated)
 		{
 			changepassword1.Visible = true;
 			changepassword1.ContinueButtonClick += new EventHandler(changepassword1_ContinueButtonClick);
 			Login1.Visible = false;
+			Page.Title = Resources.labels.changePassword;
 		}
 		else
 		{

@@ -45,25 +45,33 @@ namespace BlogEngine.Core.Web.HttpHandlers
     {
       if (!string.IsNullOrEmpty(context.Request.QueryString["file"]))
       {
-        string fileName = context.Request.QueryString["file"];
-        string folder = BlogSettings.Instance.StorageLocation + "/files/";
-        FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);
+				string fileName = context.Request.QueryString["file"];
+				OnServing(fileName);
 
-        OnServing(fileName);
-        
-        if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
-        {
-					context.Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
-          SetContentType(context, fileName);
+				try
+				{					
+					string folder = BlogSettings.Instance.StorageLocation + "/files/";
+					FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);
+					
+					if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
+					{
+						context.Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
+						SetContentType(context, fileName);
 
-          context.Response.TransmitFile(info.FullName);
-          OnServed(fileName);
-        }
-        else
-        {
-          OnBadRequest(fileName);
-          context.Response.Status = "404 Bad Request";
-        }
+						context.Response.TransmitFile(info.FullName);
+						OnServed(fileName);
+					}
+					else
+					{
+						OnBadRequest(fileName);
+						context.Response.Status = "404 Bad Request";
+					}
+				}
+				catch (Exception)
+				{
+					OnBadRequest(fileName);
+					context.Response.Status = "404 Bad Request";
+				}
       }
     }
 

@@ -266,6 +266,21 @@ namespace BlogEngine.Core
 			}
 		}
 
+		/// <summary>
+		/// Occurs when the page is being attacked by robot spam.
+		/// </summary>
+		public static event EventHandler<EventArgs> SpamAttack;
+		/// <summary>
+		/// Raises the SpamAttack event in a safe way
+		/// </summary>
+		internal static void OnSpamAttack()
+		{
+			if (SpamAttack != null)
+			{
+				SpamAttack(null, new EventArgs());
+			}
+		}
+
 		#endregion
 	}
 }

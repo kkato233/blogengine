@@ -38,27 +38,30 @@ public class SendPings
     IPublishable item = (IPublishable)sender;
     if (!HttpContext.Current.Request.IsLocal && item.IsVisible)
     {
-      ThreadStart threadStart = delegate { Ping(item); };
-      Thread thread = new Thread(threadStart);
-      thread.IsBackground = true;
-      thread.Start();
+			ThreadPool.QueueUserWorkItem(delegate { Ping(item); });
     }
   }
 
   /// <summary>
   /// Executes the pings from the new thread.
   /// </summary>
-  private void Ping(object stateInfo)
+  private void Ping(IPublishable item)
   {
-    System.Threading.Thread.Sleep(2000);
-    IPublishable item = (IPublishable)stateInfo;
+		try
+		{
+			System.Threading.Thread.Sleep(2000);
 
-    // Ping the specified ping services.
-    BlogEngine.Core.Ping.PingService.Send();
+			// Ping the specified ping services.
+			BlogEngine.Core.Ping.PingService.Send();
 
-    // Send trackbacks and pingbacks.
-    if (item.Content.ToLowerInvariant().Contains("http"))
-      BlogEngine.Core.Ping.Manager.Send(item);
+			// Send trackbacks and pingbacks.
+			if (item.Content.ToLowerInvariant().Contains("http"))
+				BlogEngine.Core.Ping.Manager.Send(item);
+		}
+		catch (Exception)
+		{
+			// We need to catch this exception so the application doesn't get killed.
+		}
   }
 
 }

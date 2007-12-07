@@ -20,7 +20,7 @@ namespace BlogEngine.Core.Web.Controls
 	/// </summary>
 	/// <remarks>
 	/// The class is responsible for assigning the theme to all
-	/// derived pages as well as adding RSS, RSD, MicroSummary, tracking script
+	/// derived pages as well as adding RSS, RSD, tracking script
 	/// and a whole lot more.
 	/// </remarks>
 	public abstract class BlogBasePage : System.Web.UI.Page
@@ -44,9 +44,12 @@ namespace BlogEngine.Core.Web.Controls
 				if (Page.User.Identity.IsAuthenticated)
 				{
 					Post post = BlogEngine.Core.Post.GetPost(new Guid(Request.QueryString["deletepost"]));
-					post.Delete();
-					post.Save();
-					Response.Redirect(Utils.RelativeWebRoot);
+					if (Page.User.IsInRole("administrators") || Page.User.Identity.Name == post.Author)
+					{
+						post.Delete();
+						post.Save();
+						Response.Redirect(Utils.RelativeWebRoot);
+					}
 				}
 			}
 		}
@@ -273,6 +276,26 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				return text;
 			}
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.TemplateControl.Error"></see> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
+		protected override void OnError(EventArgs e)
+		{
+			HttpContext ctx = HttpContext.Current;
+			Exception exception = ctx.Server.GetLastError();
+
+			if (exception != null && exception.Message.Contains("callback"))
+			{
+				// This is a robot spam attack so we send it a 404 status to make it go away.
+				ctx.Response.StatusCode = 404;				
+				ctx.Server.ClearError();
+				Comment.OnSpamAttack();
+			}
+
+			base.OnError(e);
 		}
 
 	}

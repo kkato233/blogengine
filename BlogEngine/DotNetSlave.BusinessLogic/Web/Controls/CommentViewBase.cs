@@ -96,7 +96,7 @@ namespace BlogEngine.Core.Web.Controls
 		{
 			get
 			{
-				if (Page.User.Identity.IsAuthenticated)
+				if (Page.User.IsInRole("administrators") || Page.User.Identity.Name.Equals(Post.Author))
 				{
 					BlogBasePage page = (BlogBasePage)Page;
 					System.Text.StringBuilder sb = new System.Text.StringBuilder();
