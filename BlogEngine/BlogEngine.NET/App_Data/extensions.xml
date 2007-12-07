@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Extension Name="BBCode">
+    <Version>1.0.0.0</Version>
+    <Description>Converts BBCode to XHTML in the comments</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="BreakPost">
+    <Version>1.2</Version>
+    <Description>Breaks a post where [more] is found in the body and adds a link to full post</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="CodeFormatterExtension">
+    <Version>0.0.0.1</Version>
+    <Description>Changes &lt;code:lang&gt;&lt;/code&gt;.  Adapted from Jean-Claude Manoli [jc@manoli.net].</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="ResolveLinks">
+    <Version>1.2.5.0</Version>
+    <Description>Auto resolves URLs in the comments and turn them into valid hyperlinks.</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="SendCommentMail">
+    <Version>1.3</Version>
+    <Description>Sends an e-mail to the blog owner whenever a comment is added</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="SendPings">
+    <Version>1.1</Version>
+    <Description>Pings all the ping services specified on the PingServices admin page and send track- and pingbacks</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="Smilies">
+    <Version>1.2</Version>
+    <Description>Converts ASCII smilies into real smilies in the comments</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+  <Extension Name="Odiogo">
+    <Version>1.2.0.0</Version>
+    <Description>Adds an Odiogo 'Listen' image button to the top of all posts</Description>
+    <Enabled>true</Enabled>
+    <ParamsDescription />
+  </Extension>
+</ArrayOfExtension>

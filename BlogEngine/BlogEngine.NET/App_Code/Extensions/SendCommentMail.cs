@@ -12,7 +12,7 @@ using System.Threading;
 /// <summary>
 /// Sends an e-mail to the blog owner whenever a comment is added.
 /// </summary>
-[Extension("Sends an e-mail to the blog owner whenever a comment is added", "", "")]
+[Extension("Sends an e-mail to the blog owner whenever a comment is added", "1.3", "BlogEngine.NET")]
 public class SendCommentMail
 {
 

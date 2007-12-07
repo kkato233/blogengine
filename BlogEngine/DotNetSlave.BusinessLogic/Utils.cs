@@ -221,6 +221,10 @@ namespace BlogEngine.Core
 				smtp.Send(message);
 				OnEmailSent(message);
 			}
+			catch (SmtpException)
+			{
+				OnEmailFailed(message);
+			}
 			finally
 			{
 				// Remove the pointer to the message object so the GC can close the thread.
@@ -251,6 +255,18 @@ namespace BlogEngine.Core
 			if (EmailSent != null)
 			{
 				EmailSent(message, new EventArgs());
+			}
+		}
+
+		/// <summary>
+		/// Occurs after an e-mail has been sent. The sender is the MailMessage object.
+		/// </summary>
+		public static event EventHandler<EventArgs> EmailFailed;
+		private static void OnEmailFailed(MailMessage message)
+		{
+			if (EmailFailed != null)
+			{
+				EmailFailed(message, new EventArgs());
 			}
 		}
 

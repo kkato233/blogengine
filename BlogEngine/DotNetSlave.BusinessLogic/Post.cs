@@ -386,13 +386,6 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByCategory(Guid categoryId)
 		{
-			//List<Post> col = new List<Post>();
-			//foreach (Post post in Posts)
-			//{
-			//  if (post.Categories.Contains(Category.GetCategory(categoryId)))
-			//    col.Add(post);
-			//}
-
 			List<Post> col = Posts.FindAll(delegate(Post p) 
 			{
 				return p.Categories.Contains(Category.GetCategory(categoryId));
@@ -411,14 +404,6 @@ namespace BlogEngine.Core
 			{
 				return p.Id == id;
 			});
-
-			//foreach (Post post in Posts)
-			//{
-			//  if (post.Id == id)
-			//    return post;
-			//}
-
-			//return null;
 		}
 
 		/// <summary>
@@ -444,17 +429,6 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static Post GetPostBySlug(string slug, DateTime date)
 		{
-			//foreach (Post post in Post.Posts)
-			//{
-			//  if (BlogSettings.Instance.TimeStampPostLinks && date != DateTime.MinValue && (post.DateCreated.Year != date.Year || post.DateCreated.Month != date.Month))
-			//    continue;
-
-			//  if (slug.Equals(Utils.RemoveIllegalCharacters(post.Slug), StringComparison.OrdinalIgnoreCase))
-			//  {
-			//    return post;
-			//  }
-			//}
-
 			return Posts.Find(delegate(Post p)
 			{
 				if (BlogSettings.Instance.TimeStampPostLinks && date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
@@ -462,8 +436,6 @@ namespace BlogEngine.Core
 
 				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
 			});
-
-			//return null;
 		}
 
 		/// <summary>
@@ -471,16 +443,6 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByAuthor(string author)
 		{
-			//List<Post> list = new List<Post>();
-			//foreach (Post post in Post.Posts)
-			//{
-			//  string legalTitle = Utils.RemoveIllegalCharacters(post.Author);
-			//  if (Utils.RemoveIllegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
-			//  {
-			//    list.Add(post);
-			//  }
-			//}
-
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
 				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);
@@ -495,13 +457,6 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByTag(string tag)
 		{
-			//List<Post> list = new List<Post>();
-			//foreach (Post post in Post.Posts)
-			//{
-			//  if (post.Tags.Contains(tag))
-			//    list.Add(post);
-			//}
-
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
 				return p.Tags.Contains(tag);
@@ -515,13 +470,6 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByDate(DateTime dateFrom, DateTime dateTo)
 		{
-			//List<Post> list = new List<Post>();
-			//foreach (Post post in Post.Posts)
-			//{
-			//  if (post.DateCreated.Date >= dateFrom && post.DateCreated.Date <= dateTo)
-			//    list.Add(post);
-			//}
-
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
 				return (p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
@@ -584,8 +532,6 @@ namespace BlogEngine.Core
 		{
 			_Posts = BlogService.FillPosts();
 			_Posts.Sort();
-			//Posts = BlogService.FillPosts();
-			//Posts.Sort();
 			AddRelations();
 		}
 

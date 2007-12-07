@@ -168,8 +168,11 @@ namespace BlogEngine.Core.Providers
 
         category.Id = new Guid(node.Attributes["id"].InnerText);
         category.Title = node.InnerText;
-        if (node.Attributes["description"] != null)
-          category.Description = node.Attributes["description"].InnerText;
+				if (node.Attributes["description"] != null)
+					category.Description = node.Attributes["description"].InnerText;
+				else
+					category.Description = string.Empty;
+
         categories.Add(category);
         category.MarkOld();
       }

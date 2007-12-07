@@ -20,8 +20,12 @@ public partial class admin_menu : System.Web.UI.UserControl
 		{
 			if (adminNode.IsAccessibleToUser(HttpContext.Current))
 			{
+				if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") && (adminNode.Url.Contains("xmanager") || adminNode.Url.Contains("PingServices")))
+					continue;
+
 				HtmlAnchor a = new HtmlAnchor();
 				a.HRef = adminNode.Url;
+
 				a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
 				if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
 					a.Attributes["class"] = "current";

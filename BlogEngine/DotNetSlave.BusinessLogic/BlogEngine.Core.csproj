@@ -102,9 +102,6 @@
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Web\Scripts\blog.js" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="IPublishable.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\Settings.cs" />
@@ -113,7 +110,9 @@
     <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SyndicationGenerator.cs" />
+    <Compile Include="Web\Controls\RewriteFormHtmlTextWriter.cs" />
     <Compile Include="Web\HttpHandlers\BlogMLExportHandler.cs" />
+    <Compile Include="Web\HttpHandlers\JavaScriptHandler.cs" />
     <Compile Include="Web\HttpHandlers\MonsterHandler.cs" />
     <Compile Include="Web\HttpModules\CleanPageModule.cs" />
   </ItemGroup>

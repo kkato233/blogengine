@@ -22,6 +22,4 @@ using System;
 [assembly: ComVisible(false)]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: System.Web.UI.WebResource("BlogEngine.Core.Web.Scripts.blog.js", "application/x-javascript")]
-
-[assembly: AssemblyVersion("1.2.0.22")]
+[assembly: AssemblyVersion("1.2.0.23")]

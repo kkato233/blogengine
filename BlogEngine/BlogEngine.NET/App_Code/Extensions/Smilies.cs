@@ -12,7 +12,7 @@ using BlogEngine.Core.Web.Controls;
 /// <remarks>
 /// Based on the extension by John Knipper - http://www.happytocode.com
 /// </remarks>
-[Extension("Converts ASCII smilies into real smilies in the comments", "1.2.0.0", "BlogEngine.NET")]
+[Extension("Converts ASCII smilies into real smilies in the comments", "1.2", "BlogEngine.NET")]
 public class Smilies
 {
 

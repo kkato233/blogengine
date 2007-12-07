@@ -94,9 +94,14 @@ namespace Controls
 					li.Controls.Add(feedAnchor);
 				}
 
+				int posts = Post.GetPostsByCategory(dic[key]).FindAll(delegate(Post p)
+				{
+					return p.IsVisible;
+				}).Count;
+
 				HtmlAnchor anc = new HtmlAnchor();
 				anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
-				anc.InnerHtml = HttpUtility.HtmlEncode(key) + " (" + Post.GetPostsByCategory(dic[key]).Count + ")";
+				anc.InnerHtml = HttpUtility.HtmlEncode(key) + " (" + posts + ")";
 				anc.Title = "Category: " + key;
 
 				li.Controls.Add(anc);
