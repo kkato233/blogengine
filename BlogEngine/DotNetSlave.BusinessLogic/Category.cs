@@ -168,29 +168,29 @@ namespace BlogEngine.Core
     /// <summary>
     /// Saves the object to the database.
     /// </summary>
-   public override void Save()
-    {
-      if (this.IsDeleted)
-      {
-        BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Delete);
-        BlogService.DeleteCategory(this);
-        BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Delete);
-      }
+   //public override void Save()
+   // {
+   //   if (this.IsDeleted)
+   //   {
+   //     BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Delete);
+   //     BlogService.DeleteCategory(this);
+   //     BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Delete);
+   //   }
 
-      if (this.IsDirty && !this.IsDeleted && !this.IsNew)
-      {
-        BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Update);
-        BlogService.UpdateCategory(this);
-        BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Update);
-      }
+   //   if (this.IsDirty && !this.IsDeleted && !this.IsNew)
+   //   {
+   //     BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Update);
+   //     BlogService.UpdateCategory(this);
+   //     BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Update);
+   //   }
 
-      if (this.IsNew)
-      {
-        BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Insert);
-        BlogService.InsertCategory(this);
-        BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Insert);
-      }
-    }
+   //   if (this.IsNew)
+   //   {
+   //     BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Insert);
+   //     BlogService.InsertCategory(this);
+   //     BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Insert);
+   //   }
+   // }
 
     /// <summary>
     /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
