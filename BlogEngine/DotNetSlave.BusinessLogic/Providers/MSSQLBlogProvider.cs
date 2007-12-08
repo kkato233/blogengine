@@ -620,8 +620,8 @@ namespace BlogEngine.Core.Providers
       using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
       {
         string sqlQuery = "UPDATE be_Categories " +
-                          "SET CategoryName = @catname " +
-													"SET description = @description " +
+                          "SET CategoryName = @catname, " +
+													"Description = @description " +
                           "WHERE CategoryID = @catid";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
         {
