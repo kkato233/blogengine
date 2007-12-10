@@ -47,6 +47,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			string title = RetrieveTitle(context);
 			SyndicationFormat format = RetrieveFormat(context);
 			List<IPublishable> list = GenerateItemList(context);
+			list = CleanList(list);
 
 			if (context.Request.QueryString["post"] == null)
 			{
@@ -105,6 +106,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			return Post.Posts.ConvertAll(new Converter<Post, IPublishable>(ConvertToIPublishable));
 		}
 
+		private static List<IPublishable> CleanList(List<IPublishable> list)
+		{
+			return list.FindAll(delegate(IPublishable item)
+			{
+				return item.IsVisible;
+			});
+		}
+
 		/// <summary>
 		/// Creates a list of the most recent comments
 		/// </summary>
@@ -156,7 +165,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				format = context.Request.QueryString["format"];
 			}
 
-			return (SyndicationFormat)Enum.Parse(typeof(SyndicationFormat), format, true);
+			try
+			{
+				return (SyndicationFormat)Enum.Parse(typeof(SyndicationFormat), format, true);
+			}
+			catch (ArgumentException)
+			{
+				return SyndicationFormat.None;
+			}
 		}
 
 		private static string RetrieveTitle(HttpContext context)
