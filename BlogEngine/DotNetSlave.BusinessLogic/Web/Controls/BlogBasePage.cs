@@ -87,29 +87,29 @@ namespace BlogEngine.Core.Web.Controls
 				CompressCss();
 		}
 
-#if !DEBUG
-		private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.Compiled);
-		private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.Compiled);
+//#if !DEBUG
+//    private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.Compiled);
+//    private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.Compiled);
 
-		/// <summary>
-		/// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child 
-		/// controls of the <see cref="T:System.Web.UI.Page"></see> to render.
-		/// </summary>
-		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
-		protected override void Render(HtmlTextWriter writer)
-		{
-			using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter(CultureInfo.InvariantCulture	)))
-			{
-				base.Render(htmlwriter);
-				string html = htmlwriter.InnerWriter.ToString();
+//    /// <summary>
+//    /// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child 
+//    /// controls of the <see cref="T:System.Web.UI.Page"></see> to render.
+//    /// </summary>
+//    /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
+//    protected override void Render(HtmlTextWriter writer)
+//    {
+//      using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter(CultureInfo.InvariantCulture	)))
+//      {
+//        base.Render(htmlwriter);
+//        string html = htmlwriter.InnerWriter.ToString();
 
-				html = REGEX_BETWEEN_TAGS.Replace(html, "> <");
-				html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
+//        html = REGEX_BETWEEN_TAGS.Replace(html, "> <");
+//        html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
 				
-				writer.Write(html.Trim());
-			}
-		}
-#endif
+//        writer.Write(html.Trim());
+//      }
+//    }
+//#endif
 
 		/// <summary>
 		/// Adds the localization keys to JavaScript for use globally.
@@ -296,6 +296,18 @@ namespace BlogEngine.Core.Web.Controls
 			}
 
 			base.OnError(e);
+		}
+
+		/// <summary>
+		/// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on 
+		/// the child controls of the <see cref="T:System.Web.UI.Page"></see> to render.
+		/// </summary>
+		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
+		protected override void Render(HtmlTextWriter writer)
+		{
+			// Overwrite the default HtmlTextWriter in order to rewrite the form tag's action attribute
+			// due to mono rewrite path issues.
+			base.Render(new RewriteFormHtmlTextWriter(writer));
 		}
 
 	}

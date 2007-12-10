@@ -56,34 +56,64 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
         AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());
         AddGenericLink("first", Post.Posts[Post.Posts.Count - 1].Title, Post.Posts[Post.Posts.Count - 1].RelativeLink.ToString());
 
-        if (Post.Next != null)
-          base.AddGenericLink("next", Post.Next.Title, Post.Next.RelativeLink.ToString());
-
-        if (Post.Previous != null)
-          base.AddGenericLink("prev", Post.Previous.Title, Post.Previous.RelativeLink.ToString());
-
 				InitNavigationLinks();
         Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
       }
     }
   }
 
+	/// <summary>
+	/// Gets the next post filtered for invisible posts.
+	/// </summary>
+	private Post GetNextPost(Post post)
+	{
+		if (post.Next == null)
+			return null;
+
+		if (post.Next.IsVisible || Page.User.IsInRole("administrators") || Page.User.Identity.Name == post.Next.Author)
+			return post.Next;
+
+		return GetNextPost(post.Next);
+	}
+
+	/// <summary>
+	/// Gets the prev post filtered for invisible posts.
+	/// </summary>
+	private Post GetPrevPost(Post post)
+	{
+		if (post.Previous == null)
+			return null;
+
+		if (post.Previous.IsVisible || Page.User.IsInRole("administrators") || Page.User.Identity.Name == post.Previous.Author)
+			return post.Previous;
+
+		return GetPrevPost(post.Previous);
+	}
+
+	/// <summary>
+	/// Inits the navigation links above the post and in the HTML head section.
+	/// </summary>
 	private void InitNavigationLinks()
 	{
 		if (BlogSettings.Instance.ShowPostNavigation)
 		{
-			if (Post.Next != null)
+			Post next = GetNextPost(Post);
+			Post prev = GetPrevPost(Post);
+
+			if (next != null)
 			{
-				hlNext.NavigateUrl = Post.Next.RelativeLink;
-				hlNext.Text = Server.HtmlEncode(Post.Next.Title + " >>");
+				hlNext.NavigateUrl = next.RelativeLink;
+				hlNext.Text = Server.HtmlEncode(next.Title + " >>");
 				hlNext.ToolTip = Resources.labels.nextPost;
+				base.AddGenericLink("next", Post.Next.Title, Post.Next.RelativeLink.ToString());
 			}
 
-			if (Post.Previous != null)
+			if (prev != null)
 			{
-				hlPrev.NavigateUrl = Post.Previous.RelativeLink;
-				hlPrev.Text = Server.HtmlEncode("<< " + Post.Previous.Title);
+				hlPrev.NavigateUrl = prev.RelativeLink;
+				hlPrev.Text = Server.HtmlEncode("<< " + prev.Title);
 				hlPrev.ToolTip = Resources.labels.previousPost;
+				base.AddGenericLink("prev", Post.Previous.Title, Post.Previous.RelativeLink.ToString());
 			}
 
 			phPostNavigation.Visible = true;
@@ -116,13 +146,6 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
       base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", tags)));
     }
   }
-
-	protected override void Render(HtmlTextWriter writer)
-	{
-		// Overwrite the default HtmlTextWriter in order to rewrite the form tag's action attribute
-		// due to mono rewrite path issues.
-		base.Render(new RewriteFormHtmlTextWriter(writer));
-	}
 
   public Post Post;
 }

@@ -37,8 +37,15 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 				PreSelectAuthor(Page.User.Identity.Name);
 				txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
 				cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
-				txtContent.Text = (string)(Session["autosave"] ?? string.Empty);
-				BindBookmarklet();				
+				if (Session["content"] != null)
+				{
+					txtContent.Text = Session["content"].ToString();
+					txtTitle.Text = Session["title"].ToString();
+					txtDescription.Text = Session["description"].ToString();
+					txtSlug.Text = Session["slug"].ToString();
+					txtTags.Text = Session["tags"].ToString();
+				}
+				BindBookmarklet();
 			}
 
 			if (!Page.User.IsInRole("administrators"))
@@ -172,7 +179,11 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
 		post.Save();
 
-		Session.Remove("autosave");
+		Session.Remove("content");
+		Session.Remove("title");
+		Session.Remove("description");
+		Session.Remove("slug");
+		Session.Remove("tags");
 		Response.Redirect(post.RelativeLink.ToString());
 	}
 
@@ -300,7 +311,12 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 	{
 		if (eventArgument.StartsWith("_autosave"))
 		{
-			Session["autosave"] = eventArgument.Replace("_autosave", string.Empty);
+			string[] fields = eventArgument.Replace("_autosave", string.Empty).Split(new string[] { ";|;" }, StringSplitOptions.None);
+			Session["content"] = fields[0];
+			Session["title"] = fields[1];
+			Session["description"] = fields[2];
+			Session["slug"] = fields[3];
+			Session["tags"] = fields[4];
 		}
 		else
 		{

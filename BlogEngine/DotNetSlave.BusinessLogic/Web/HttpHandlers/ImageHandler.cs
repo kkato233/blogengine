@@ -48,7 +48,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				OnServing(fileName);
 				try
 				{
-					string folder = BlogSettings.Instance.StorageLocation + "files/";
+					string folder = BlogSettings.Instance.StorageLocation + "/files/";
 					FileInfo fi = new FileInfo(context.Server.MapPath(folder) + fileName);
 
 					if (fi.Exists && fi.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
