@@ -128,13 +128,13 @@ namespace BlogEngine.Core.Web.HttpModules
 				context.Response.StatusCode = 301;
 			}
 
+			url = url.Substring(0, url.IndexOf(BlogSettings.Instance.FileExtension));
 			int index = url.LastIndexOf("/") + 1;
-			int stop = url.LastIndexOf(BlogSettings.Instance.FileExtension);
-      string title = context.Request.RawUrl.Substring(index, stop - index).Replace(BlogSettings.Instance.FileExtension, string.Empty);
+			string title = url.Substring(index);
       return context.Server.UrlEncode(title);
     }
 
-    private static Regex _Regex = new Regex("/([0-9][0-9][0-9][0-9])/([01][0-9])/", RegexOptions.Compiled);
+    private static readonly Regex _Regex = new Regex("/([0-9][0-9][0-9][0-9])/([01][0-9])/", RegexOptions.Compiled);
     /// <summary>
     /// Extracts the year and month from the requested URL and returns that as a DateTime.
     /// </summary>
