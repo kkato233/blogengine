@@ -28,10 +28,16 @@ function ApplySlug(arg, context)
 function AutoSave()
 {  
   var content = tinyMCE.getContent('mce_editor_0');
-
+  var title = document.getElementById('<%=txtTitle.ClientID %>').value;
+  var desc = document.getElementById('<%=txtDescription.ClientID %>').value;
+  var slug = document.getElementById('<%=txtSlug.ClientID %>').value;
+  var tags = document.getElementById('<%=txtTags.ClientID %>').value;
+  var s = ';|;';
+  var post = content + s + title + s + desc + s + slug + s + tags;
+  
   if (content.length > 10)
   {
-    WebForm_DoCallback('__Page', '_autosave' + content, null, 'autosave', null, false);
+    WebForm_DoCallback('__Page', '_autosave' + post, null, 'autosave', null, false);
   }
   
   setTimeout("AutoSave()", 5000);
