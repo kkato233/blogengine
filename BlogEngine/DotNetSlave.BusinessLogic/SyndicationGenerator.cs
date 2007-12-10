@@ -294,9 +294,6 @@ namespace BlogEngine.Core
 				case SyndicationFormat.Rss:
 					this.WriteRssFeed(stream, publishables, title);
 					break;
-
-				default:
-					throw new NotImplementedException(String.Format(null, "The syndication format '{0}' has not been implemented.", format));
 			}
 		}
 		#endregion
