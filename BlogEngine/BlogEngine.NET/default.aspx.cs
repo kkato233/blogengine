@@ -12,7 +12,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		if (Page.IsCallback)
 			return;
-		BlogEngine.Core.Comment.OnSpamAttack();
+		
 		Page frontPage = BlogEngine.Core.Page.GetFrontPage();
 		if (Request.QueryString.Count == 0 && frontPage != null)
 		{
