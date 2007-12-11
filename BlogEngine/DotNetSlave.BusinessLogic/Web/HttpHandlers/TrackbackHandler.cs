@@ -6,6 +6,7 @@ using System.Web;
 using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 using BlogEngine.Core;
 
 #endregion
@@ -38,7 +39,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			if (!BlogSettings.Instance.IsCommentsEnabled)
 				return;
 
-			OnReceived();
+			CancelEventArgs e = new CancelEventArgs();
+			OnReceived(e);
+			if (e.Cancel)
+				return;
+
 			string postId = context.Request.Params["id"]; ;
 			string title = context.Request.Params["title"];
 			string excerpt = context.Request.Params["excerpt"];
@@ -158,15 +163,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// <summary>
 		/// Occurs when a hit is made to the trackback.axd handler.
 		/// </summary>
-		public static event EventHandler<EventArgs> Received;
+		public static event EventHandler<CancelEventArgs> Received;
 		/// <summary>
 		/// Raises the event in a safe way
 		/// </summary>
-		protected virtual void OnReceived()
+		protected virtual void OnReceived(CancelEventArgs e)
 		{
 			if (Received != null)
 			{
-				Received(null, EventArgs.Empty);
+				Received(null, e);
 			}
 		}
 
@@ -208,7 +213,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// <summary>
 		/// Raises the event in a safe way
 		/// </summary>
-		protected virtual void OnSpammed(string url)
+		public static void OnSpammed(string url)
 		{
 			if (Spammed != null)
 			{

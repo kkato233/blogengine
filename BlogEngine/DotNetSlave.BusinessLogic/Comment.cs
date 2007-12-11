@@ -3,6 +3,7 @@
 using System;
 using System.Globalization;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #endregion
 
@@ -239,15 +240,15 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Occurs just before a comment is approved by the comment moderator.
 		/// </summary>
-		public static event EventHandler<EventArgs> Approving;
+		public static event EventHandler<CancelEventArgs> Approving;
 		/// <summary>
 		/// Raises the event in a safe way
 		/// </summary>
-		internal static void OnApproving(Comment comment)
+		internal static void OnApproving(Comment comment, CancelEventArgs e)
 		{
 			if (Approving != null)
 			{
-				Approving(comment, EventArgs.Empty);
+				Approving(comment, e);
 			}
 		}
 

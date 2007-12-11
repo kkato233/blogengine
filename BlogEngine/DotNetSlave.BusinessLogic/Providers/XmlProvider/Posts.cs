@@ -37,7 +37,9 @@ namespace BlogEngine.Core.Providers
 			post.Description = doc.SelectSingleNode("post/description").InnerText;
 			post.Content = doc.SelectSingleNode("post/content").InnerText;
 			post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
-			post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText, CultureInfo.InvariantCulture);
+
+			if (doc.SelectSingleNode("post/lastModified") != null)
+				post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText, CultureInfo.InvariantCulture);
 
 			if (doc.SelectSingleNode("post/author") != null)
 				post.Author = doc.SelectSingleNode("post/author").InnerText;

@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.ComponentModel;
 using BlogEngine.Core.Providers;
 
 #endregion
@@ -541,11 +542,15 @@ namespace BlogEngine.Core
 		/// <param name="comment">The comment to add to the post.</param>
 		public void AddComment(Comment comment)
 		{
-			OnAddingComment(comment);
-			Comments.Add(comment);
-			DataUpdate();
-			OnCommentAdded(comment);
-			SendNotifications(comment);
+			CancelEventArgs e = new CancelEventArgs();
+			OnAddingComment(comment, e);
+			if (!e.Cancel)
+			{
+				Comments.Add(comment);
+				DataUpdate();
+				OnCommentAdded(comment);
+				SendNotifications(comment);
+			}
 		}
 
 		/// <summary>
@@ -591,10 +596,14 @@ namespace BlogEngine.Core
 		/// <param name="comment">The comment to remove from the post.</param>
 		public void RemoveComment(Comment comment)
 		{
-			OnRemovingComment(comment);
-			Comments.Remove(comment);
-			DataUpdate();
-			OnCommentRemoved(comment);
+			CancelEventArgs e = new CancelEventArgs();
+			OnRemovingComment(comment, e);
+			if (!e.Cancel)
+			{
+				Comments.Remove(comment);
+				DataUpdate();
+				OnCommentRemoved(comment);
+			}
 		}
 
 		/// <summary>
@@ -603,11 +612,15 @@ namespace BlogEngine.Core
 		/// <param name="comment">The Comment to approve</param>
 		public void ApproveComment(Comment comment)
 		{
-			Comment.OnApproving(comment);
-			int inx = Comments.IndexOf(comment);
-			Comments[inx].IsApproved = true;
-			DataUpdate();
-			Comment.OnApproved(comment);
+			CancelEventArgs e = new CancelEventArgs();
+			Comment.OnApproving(comment, e);
+			if (!e.Cancel)
+			{
+				int inx = Comments.IndexOf(comment);
+				Comments[inx].IsApproved = true;
+				DataUpdate();
+				Comment.OnApproved(comment);
+			}
 		}
 
 		/// <summary>
@@ -755,15 +768,15 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Occurs before a new comment is added.
 		/// </summary>
-		public static event EventHandler<EventArgs> AddingComment;
+		public static event EventHandler<CancelEventArgs> AddingComment;
 		/// <summary>
 		/// Raises the event in a safe way
 		/// </summary>
-		protected virtual void OnAddingComment(Comment comment)
+		protected virtual void OnAddingComment(Comment comment, CancelEventArgs e)
 		{
 			if (AddingComment != null)
 			{
-				AddingComment(comment, new EventArgs());
+				AddingComment(comment, e);
 			}
 		}
 
@@ -785,15 +798,15 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Occurs before comment is removed.
 		/// </summary>
-		public static event EventHandler<EventArgs> RemovingComment;
+		public static event EventHandler<CancelEventArgs> RemovingComment;
 		/// <summary>
 		/// Raises the event in a safe way
 		/// </summary>
-		protected virtual void OnRemovingComment(Comment comment)
+		protected virtual void OnRemovingComment(Comment comment, CancelEventArgs e)
 		{
 			if (RemovingComment != null)
 			{
-				RemovingComment(comment, new EventArgs());
+				RemovingComment(comment, e);
 			}
 		}
 
