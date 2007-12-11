@@ -52,7 +52,7 @@ public class ExtensionManager
 			{
 				x.Enabled = enabled;
 				SaveToXML();
-				SaveToCache(); ;
+				SaveToCache();
 				break;
 			}
 		}
@@ -169,7 +169,7 @@ public class ExtensionManager
 				serializer.Serialize(writer, _extensions);
 			}
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
 			// No write access to App_Data folder. Do nothing.
 		}

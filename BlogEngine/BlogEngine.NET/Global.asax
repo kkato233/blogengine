@@ -43,11 +43,11 @@
         object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
         foreach (object attribute in attributes)
         {
-          if (!ExtensionManager.Contains(type))
-          {
-            ExtensionManager.AddExtension(type, attribute);
-            ExtensionManager.SaveToXML();
-          }
+          //if (!ExtensionManager.Contains(type))
+          //{
+          //  ExtensionManager.AddExtension(type, attribute);
+          //  ExtensionManager.SaveToXML();
+          //}
           
           if (ExtensionManager.ExtensionEnabled(type.Name))
           {

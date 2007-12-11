@@ -3,5 +3,5 @@
 <div>
     <asp:TextBox ID="txtEditor" runat="server" TextMode="multiLine" Width="100%" Height="350"></asp:TextBox>
     <br />
-    <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />
+    <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" OnClientClick="return confirm('The website will be unavailable for a few seconds.\nAre you sure you wish to continue?');" />
 </div>
