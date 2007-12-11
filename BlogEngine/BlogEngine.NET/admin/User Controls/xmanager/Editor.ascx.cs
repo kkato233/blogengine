@@ -13,6 +13,8 @@ using System.Web.UI.HtmlControls;
 
 public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserControl
 {
+    static string _errorMsg = string.Empty;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         btnSave.Enabled = true;
@@ -21,8 +23,18 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
     protected void btnSave_Click(object sender, EventArgs e)
     {
         string ext = Request.QueryString["ext"];
-        WriteFile(GetExtFileName(), txtEditor.Text);
-        Response.Redirect("Default.aspx");
+
+        if (WriteFile(GetExtFileName(), txtEditor.Text))
+        {
+            Response.Redirect("Default.aspx");
+        }
+        else
+        {
+
+            txtEditor.Text = _errorMsg;
+            txtEditor.ForeColor = System.Drawing.Color.Red;
+            btnSave.Enabled = false;
+        }
     }
 
     string GetExtFileName()
@@ -55,8 +67,9 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
             sw.Write(val);
             sw.Close();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _errorMsg = e.Message;
             return false;
         }
         return true;
