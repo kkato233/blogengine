@@ -273,7 +273,7 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Raises the SpamAttack event in a safe way
 		/// </summary>
-		internal static void OnSpamAttack()
+		public static void OnSpamAttack()
 		{
 			if (SpamAttack != null)
 			{
