@@ -55,11 +55,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			Post post = null;
 
-			if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(postId) && postId.Length == 36)
+			if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(postId) && !string.IsNullOrEmpty(blog_name) && postId.Length == 36)
 			{
 				post = Post.GetPost(new Guid(postId));
 				ExamineSourcePage(url, post.AbsoluteLink.ToString());
-				bool containsHtml = REGEX_HTML.IsMatch(excerpt) || REGEX_HTML.IsMatch(title) || REGEX_HTML.IsMatch(blog_name);
+				bool containsHtml = !string.IsNullOrEmpty(excerpt) && (REGEX_HTML.IsMatch(excerpt) || REGEX_HTML.IsMatch(title) || REGEX_HTML.IsMatch(blog_name));
 
 				if (post != null && IsFirstPingBack(post, url) && _SourceHasLink && !containsHtml)
 				{
