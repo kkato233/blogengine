@@ -29,35 +29,25 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
-			string file = context.Request.QueryString["path"];
+			string path = context.Request.QueryString["path"];
 			string script = null;
 
-			if (!string.IsNullOrEmpty(file))
+			if (!string.IsNullOrEmpty(path))
 			{
-				if (context.Cache[file] == null)
+				if (context.Cache[path] == null)
 				{
-					if (file.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+					if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
 					{
-						using (WebClient client = new WebClient())
-						{
-							client.Credentials = CredentialCache.DefaultNetworkCredentials;
-							script = client.DownloadString(file);
-							context.Cache.Insert(file, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
-						}
+						script = RetrieveRemoteScript(path);
 					}
 					else
 					{
-						string path = context.Server.MapPath(file);
-						using (StreamReader reader = new StreamReader(path))
-						{
-							script = reader.ReadToEnd();
-							context.Cache.Insert(file, script, new CacheDependency(path));
-						}
+						script = RetrieveLocalScript(path);
 					}
 				}
 			}
 
-			script = (string)context.Cache[file];
+			script = (string)context.Cache[path];
 			if (!string.IsNullOrEmpty(script))
 			{
 				script = StripWhitespace(script);
@@ -67,6 +57,48 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				if (BlogSettings.Instance.EnableHttpCompression)
 					Compress(context);
 			}
+		}
+
+		/// <summary>
+		/// Retrieves the local script from the disk
+		/// </summary>
+		private static string RetrieveLocalScript(string file)
+		{
+			string path = HttpContext.Current.Server.MapPath(file);
+			string script = null;
+			
+			using (StreamReader reader = new StreamReader(path))
+			{
+				script = reader.ReadToEnd();
+				HttpContext.Current.Cache.Insert(file, script, new CacheDependency(path));
+			}
+
+			return script;
+		}
+
+		/// <summary>
+		/// Retrieves the specified remote script using a WebClient.
+		/// </summary>
+		/// <param name="file">The remote URL</param>
+		private static string RetrieveRemoteScript(string file)
+		{
+			string script = null;
+
+			try
+			{
+				using (WebClient client = new WebClient())
+				{
+					client.Credentials = CredentialCache.DefaultNetworkCredentials;
+					script = client.DownloadString(file);
+					HttpContext.Current.Cache.Insert(file, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+				}
+			}
+			catch (System.Net.Sockets.SocketException)
+			{
+				// The remote site is currently down. Try again next time.
+			}
+
+			return script;
 		}
 
 		/// <summary>
