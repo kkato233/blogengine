@@ -47,6 +47,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
 
 	private string GetExtensions()
 	{
+        //TODO: localize strings
         string confirm = "The website will be unavailable for a few seconds. Are you sure you wish to continue?";
         string jsOnClick = "onclick=\"if (confirm('" + confirm + "')) { window.location.href = this.href } return false;\"";
         string clickToEnable = "Click to enable ";
@@ -55,8 +56,8 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
         string disabled = "Disabled";
 
 		List<Extension> extList = ExtensionManager.Extensions;
-		StringBuilder sb = new StringBuilder("<table style='background:#F1F1F1;border:2px solid #fff;width:100%'>");
-		sb.Append("<tr style='background:#f9f9f9'>");
+		StringBuilder sb = new StringBuilder("<table style='background:#fff;width:100%'>");
+		sb.Append("<tr style='background:#fff'>");
 		sb.Append("<th>Name</th>");
 		sb.Append("<th>Version</th>");
 		sb.Append("<th>Description</th>");
@@ -71,12 +72,12 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
 			foreach (Extension x in extList)
 			{
 				if (alt % 2 == 0)
-					sb.Append("<tr style='background:#f7f7f7'>");
+					sb.Append("<tr style='background:#f9f9f9'>");
 				else
 					sb.Append("<tr>");
-				sb.Append("<td>" + x.Name + "</td>");
-				sb.Append("<td>" + x.Version + "</td>");
-				sb.Append("<td>" + x.Description + "</td>");
+				sb.Append("<td style='padding:2px'>" + x.Name + "</td>");
+                sb.Append("<td style='padding:2px'>" + x.Version + "</td>");
+                sb.Append("<td style='padding:2px'>" + x.Description + "</td>");
 
 				if (x.Enabled)
                     sb.Append("<td align='center' style='background:#ccffcc'><a href='?act=dis&ext=" + x.Name + "' title='" + clickToDisable + x.Name + "' " + jsOnClick + ">" + enabled + "</a></td>");
@@ -84,8 +85,17 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
                     sb.Append("<td align='center' style='background:#ffcc66'><a href='?act=enb&ext=" + x.Name + "' title='" + clickToEnable + x.Name + "' " + jsOnClick + ">" + disabled + "</a></td>");
 
 				sb.Append("<td align='center'><a href='?ctrl=editor&ext=" + x.Name + "'>" + Resources.labels.edit + "</a></td>");
-				sb.Append("<td align='center'><a href='?ctrl=params&ext=" + x.Name + "'>" + Resources.labels.edit + "</a></td>");
-				sb.Append("</tr>");
+                
+                if (x.Settings == null)
+                {
+                    sb.Append("<td>&nbsp;</td>");
+                }
+                else
+                {
+                    sb.Append("<td align='center'><a href='?ctrl=params&ext=" + x.Name + "'>" + Resources.labels.edit + "</a></td>");
+                } 
+                
+                sb.Append("</tr>");
 				alt++;
 			}
 		}

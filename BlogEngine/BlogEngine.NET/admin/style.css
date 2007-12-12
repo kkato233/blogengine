@@ -298,3 +298,9 @@ input[type="file"]:hover {
 input[type="checkbox"] {
 	border: none;
 }
+
+.info {
+	background: url(images/info.gif) right top no-repeat;
+	padding:10px 50px 10px 10px;
+	border: 1px solid #ccc; 
+}

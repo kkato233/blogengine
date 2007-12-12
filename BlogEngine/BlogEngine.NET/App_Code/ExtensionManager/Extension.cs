@@ -17,8 +17,7 @@ public class Extension
     string _version = string.Empty;
     string _description = string.Empty;
     bool _enabled = true;
-    string _pardesc = string.Empty;
-    List<ExtParameter> _params = new List<ExtParameter>();
+    ExtensionSettings _settings = null;
     #endregion
 
     #region Constructor
@@ -28,6 +27,7 @@ public class Extension
         _name = name;
         _version = version;
         _description = desc;
+        _settings = null; // new ExtensionSettings(_name);
     }
     #endregion
 
@@ -45,32 +45,13 @@ public class Extension
     public bool Enabled { get { return _enabled; } set { _enabled = value; } }
 
     [XmlElement(IsNullable = true)]
-    public string ParamsDescription { get { return _pardesc; } set { _pardesc = value; } }
+    public ExtensionSettings Settings { get { return _settings; } set { _settings = value; } }
 
-    [XmlElement(IsNullable = true)]
-    public List<ExtParameter> Parameters { get { return _params; } set { _params = value; } }
     #endregion
 
-    public void SaveSettings(Dictionary<string, string[]> settings)
+    public void SaveSettings(ExtensionSettings settings)
     {
-        _params.Clear();
-        foreach (string key in settings.Keys)
-        {
-            _params.Add(new ExtParameter(key, string.Join(",", settings[key])));
-        }
+        _settings = settings;
     }
 
-    [XmlIgnore]
-    public Dictionary<string, string[]> Settings
-    {
-        get
-        {
-            Dictionary<string, string[]> settings = new Dictionary<string, string[]>();
-            foreach (ExtParameter p in _params)
-            {
-                settings.Add(p.Name, p.Value.Split(','));
-            }
-            return settings;
-        }
-    }
 }
