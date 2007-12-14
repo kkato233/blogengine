@@ -109,18 +109,34 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
 		try
 		{
             if (act == "dis")
+            {
                 ExtensionManager.ChangeStatus(ext, false);
+            }
             else
+            {
                 ExtensionManager.ChangeStatus(ext, true);
+            }
 
-			string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "\\web.config";
-			System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
-            Response.Redirect("~/admin/User controls/xmanager/default.aspx");
+            if (ExtensionManager.FileAccessException == null)
+            {
+                string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "\\web.config";
+                System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
+                Response.Redirect("default.aspx");
+            }
+            else
+            {
+                ShowError(ExtensionManager.FileAccessException);
+            }
 		}
 		catch (Exception e)
 		{
-			lblErrorMsg.Visible = true;
-			lblErrorMsg.InnerHtml = e.Message;
+            ShowError(e);
 		}
 	}
+
+    void ShowError(Exception e)
+    {
+        lblErrorMsg.Visible = true;
+        lblErrorMsg.InnerHtml = "Changes will not be applied: " + e.Message;
+    }
 }

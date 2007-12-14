@@ -21,6 +21,9 @@ public class ExtensionManager
     private static string _fileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "extensions.xml");
     private static List<Extension> _extensions = new List<Extension>();
 
+    [XmlIgnore]
+    public static Exception FileAccessException = null;
+
     [XmlElement]
     public static List<Extension> Extensions { get { return _extensions; } }
 
@@ -194,8 +197,9 @@ public class ExtensionManager
                 return true;
             }
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            FileAccessException = e;
             return false;
         }
     }

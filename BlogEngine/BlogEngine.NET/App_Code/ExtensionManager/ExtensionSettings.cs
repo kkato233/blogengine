@@ -7,11 +7,27 @@ using System.Collections.Generic;
 /// </summary>
 public class ExtensionSettings
 {
+    #region Private members
     string _extensionName = string.Empty;
     string _settingsHelp = string.Empty;
     char[] _delimiter = null;
-    List<ExtensionParameter> _params = null; // new List<ExtensionParameter>();
+    List<ExtensionParameter> _params = null;
+    string _lblName = "Name";
+    string _lblValue = "Value";
+    #endregion
 
+    #region Constructors
+    // required for serialization to work
+    public ExtensionSettings() { }
+
+    public ExtensionSettings(string extensionName)
+    {
+        _extensionName = extensionName;
+        _delimiter = ",".ToCharArray();
+    }
+    #endregion
+
+    #region Public members
     [XmlElement]
     public string ExtensionName { get { return _extensionName; } }
     [XmlElement]
@@ -21,15 +37,13 @@ public class ExtensionSettings
     [XmlElement(IsNullable = true)]
     public List<ExtensionParameter> Parameters { get { return _params; } set { _params = value; } }
 
-    // required for serialization to work
-    public ExtensionSettings() { }
+    [XmlElement]
+    public string LabelName { get { return _lblName; } set { _lblName = value; } }
+    [XmlElement]
+    public string LabelValue { get { return _lblValue; } set { _lblValue = value; } }
+    #endregion
 
-    public ExtensionSettings(string extensionName)
-    {
-        _extensionName = extensionName;
-        _delimiter = ",".ToCharArray();
-    }
-
+    #region Public methods
     public void AddParameter(string name, string val)
     {
         if (_params == null)
@@ -61,6 +75,7 @@ public class ExtensionSettings
             }
         }
     }
+    #endregion
 }
 
 public class ExtensionParameter

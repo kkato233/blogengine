@@ -15,11 +15,18 @@ using BlogEngine.Core;
 public partial class User_controls_xmanager_Parameters : System.Web.UI.UserControl
 {
     static protected string _extensionName = string.Empty;
-    static protected string _settingsHelp = string.Empty;
+    static protected ExtensionSettings _settings = null;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         _extensionName = Request.QueryString["ext"];
+        _settings = ExtensionManager.GetSettings(_extensionName);
+
+        lblName.Text = _settings.LabelName;
+        lblVal.Text = _settings.LabelValue;
+
+        grid.Columns[0].HeaderText = _settings.LabelName;
+        grid.Columns[1].HeaderText = _settings.LabelValue;
 
         if (!Page.IsPostBack)
         {
@@ -87,10 +94,8 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
 
     private void BindGrid()
     {
-        ExtensionSettings settings = ExtensionManager.GetSettings(_extensionName);
         grid.DataKeyNames = new string[] { "Name" };
-        _settingsHelp = settings.SettingsHelp;
-        grid.DataSource = settings.Parameters;
+        grid.DataSource = _settings.Parameters;
         grid.DataBind();
     }
 }
