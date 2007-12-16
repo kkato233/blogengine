@@ -52,10 +52,10 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
         {
             val = File.ReadAllText(fileName);
         }
-        catch (Exception) 
+        catch (Exception)
         {
             btnSave.Enabled = false;
-        }       
+        }
         return val;
     }
 

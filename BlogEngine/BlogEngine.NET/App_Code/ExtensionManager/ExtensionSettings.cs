@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Specialized;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 
@@ -12,8 +14,7 @@ public class ExtensionSettings
     string _settingsHelp = string.Empty;
     char[] _delimiter = null;
     List<ExtensionParameter> _params = null;
-    string _lblName = "Name";
-    string _lblValue = "Value";
+    string _keyField = string.Empty;
     #endregion
 
     #region Constructors
@@ -30,70 +31,172 @@ public class ExtensionSettings
     #region Public members
     [XmlElement]
     public string ExtensionName { get { return _extensionName; } }
+
     [XmlElement]
-    public string SettingsHelp { get { return _settingsHelp; } set { _settingsHelp = value; } }
+    public string Help { get { return _settingsHelp; } set { _settingsHelp = value; } }
+
     [XmlElement]
-    public char[] ParametersDelimiter { get { return _delimiter; } set { _delimiter = value; } }
+    public char[] Delimiter { get { return _delimiter; } set { _delimiter = value; } }
+
     [XmlElement(IsNullable = true)]
     public List<ExtensionParameter> Parameters { get { return _params; } set { _params = value; } }
 
     [XmlElement]
-    public string LabelName { get { return _lblName; } set { _lblName = value; } }
-    [XmlElement]
-    public string LabelValue { get { return _lblValue; } set { _lblValue = value; } }
+    public string KeyField
+    {
+        get
+        {
+            string rval = string.Empty;
+            foreach (ExtensionParameter par in _params)
+            {
+                if (par.KeyField == true)
+                {
+                    rval = par.Name;
+                    break;
+                }
+            }
+            if (string.IsNullOrEmpty(rval))
+            {
+                rval = _params[0].Name;
+            }
+            return rval;
+        }
+        set
+        {
+            _keyField = value;
+        }
+    }
     #endregion
 
-    #region Public methods
-    public void AddParameter(string name, string val)
+    #region Parameter methods
+
+    public void AddParameter(string name)
+    {
+        AddParameter(name, name);
+    }
+
+    public void AddParameter(string name, string label)
+    {
+        AddParameter(name, label, 100);
+    }
+
+    public void AddParameter(string name, string label, int maxLength)
+    {
+        AddParameter(name, label, maxLength, false);
+    }
+
+    public void AddParameter(string name, string label, int maxLength, bool required)
+    {
+        AddParameter(name, label, maxLength, required, false);
+    }
+
+    public void AddParameter(string name, string label, int maxLength, bool required, bool keyfield)
     {
         if (_params == null)
             _params = new List<ExtensionParameter>();
 
-        _params.Add(new ExtensionParameter(name, val));
+        ExtensionParameter par = new ExtensionParameter(name);
+        par.Label = label;
+        par.MaxLength = maxLength;
+        par.Required = required;
+        par.KeyField = keyfield;
+
+        _params.Add(par);
     }
 
-    public void RemoveParameter(string name)
+    public bool IsRequiredParameter(string paramName)
     {
-        foreach (ExtensionParameter p in _params)
+        foreach (ExtensionParameter par in _params)
         {
-            if (p.Name == name)
+            if (par.Name == paramName)
             {
-                _params.Remove(p);
+                if (par.Required == true)
+                {
+                    return true;
+                }
                 break;
             }
         }
+        return false;
     }
-
-    public void UpdateParameter(string name, string val)
+    public bool IsKeyValueExists(string newVal)
     {
-        foreach (ExtensionParameter p in _params)
+        foreach (ExtensionParameter par in _params)
         {
-            if (p.Name == name)
+            if (par.Name == KeyField)
             {
-                p.Value = val;
-                break;
+                foreach (string val in par.Values)
+                {
+                    if (val == newVal)
+                    {
+                        return true;
+                    }
+                }
             }
         }
+        return false;
     }
     #endregion
-}
 
-public class ExtensionParameter
-{
-    string _name = string.Empty;
-    string _value = string.Empty;
+    #region Values Methods
 
-    [XmlElement]
-    public string Name { get { return _name; } set { _name = value; } }
-
-    [XmlElement]
-    public string Value { get { return _value; } set { _value = value; } }
-
-    public ExtensionParameter() { }
-    public ExtensionParameter(string name, string val)
+    public void AddValue(string parameterName, string val)
     {
-        _name = name;
-        _value = val;
+        foreach (ExtensionParameter par in _params)
+        {
+            if (par.Name == parameterName)
+            {
+                par.AddValue(val);
+                break;
+            }
+        }
     }
-}
 
+    public void AddValues(string[] values)
+    {
+        if (_params.Count > 0)
+        {
+            for (int i = 0; i < _params.Count; i++)
+            {
+                _params[i].AddValue(values[i]);
+            }
+        }
+    }
+
+    public void AddValues(StringCollection values)
+    {
+        if (_params.Count > 0)
+        {
+            for (int i = 0; i < _params.Count; i++)
+            {
+                _params[i].AddValue(values[i]);
+            }
+        }
+    }
+
+    public System.Data.DataTable GetDataTable()
+    {
+        System.Data.DataTable objDataTable = new System.Data.DataTable();
+        foreach (ExtensionParameter p in _params)
+        {
+            objDataTable.Columns.Add(p.Name, string.Empty.GetType());
+        }
+
+        if (_params[0].Values != null)
+        {
+            for (int i = 0; i < _params[0].Values.Count; i++)
+            {
+                string[] row = new string[_params.Count];
+                for (int j = 0; j < _params.Count; j++)
+                {
+                    row[j] = _params[j].Values[i];
+                }
+                objDataTable.Rows.Add(row);
+            }
+        }
+
+        return objDataTable;
+    }
+
+    #endregion
+}
