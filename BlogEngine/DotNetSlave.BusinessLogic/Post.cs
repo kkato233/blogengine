@@ -53,7 +53,7 @@ namespace BlogEngine.Core
 			get { return _Author; }
 			set
 			{
-				if (_Author != value) MarkDirty("Author");
+				if (_Author != value) MarkChanged("Author");
 				_Author = value;
 			}
 		}
@@ -67,7 +67,7 @@ namespace BlogEngine.Core
 			get { return _Title; }
 			set
 			{
-				if (_Title != value) MarkDirty("Title");
+				if (_Title != value) MarkChanged("Title");
 				_Title = value;
 			}
 		}
@@ -81,7 +81,7 @@ namespace BlogEngine.Core
 			get { return _Description; }
 			set
 			{
-				if (_Description != value) MarkDirty("Description");
+				if (_Description != value) MarkChanged("Description");
 				_Description = value;
 			}
 		}
@@ -95,7 +95,7 @@ namespace BlogEngine.Core
 			get { return _Content; }
 			set
 			{
-				if (_Content != value) MarkDirty("Content");
+				if (_Content != value) MarkChanged("Content");
 				_Content = value;
 			}
 		}
@@ -174,7 +174,7 @@ namespace BlogEngine.Core
 			get { return _IsCommentsEnabled; }
 			set
 			{
-				if (_IsCommentsEnabled != value) MarkDirty("IsCommentsEnabled");
+				if (_IsCommentsEnabled != value) MarkChanged("IsCommentsEnabled");
 				_IsCommentsEnabled = value;
 			}
 		}
@@ -188,7 +188,7 @@ namespace BlogEngine.Core
 			get { return _IsPublished; }
 			set
 			{
-				if (_IsPublished != value) MarkDirty("IsPublished");
+				if (_IsPublished != value) MarkChanged("IsPublished");
 				_IsPublished = value;
 			}
 		}
@@ -202,7 +202,7 @@ namespace BlogEngine.Core
 			get { return _Rating; }
 			set
 			{
-				if (_Rating != value) MarkDirty("Rating");
+				if (_Rating != value) MarkChanged("Rating");
 				_Rating = value;
 			}
 		}
@@ -216,7 +216,7 @@ namespace BlogEngine.Core
 			get { return _Raters; }
 			set
 			{
-				if (_Raters != value) MarkDirty("Raters");
+				if (_Raters != value) MarkChanged("Raters");
 				_Raters = value;
 			}
 		}
@@ -695,11 +695,11 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Gets if the Post have been changed.
 		/// </summary>
-		public override bool IsDirty
+		public override bool IsChanged
 		{
 			get
 			{
-				if (base.IsDirty)
+				if (base.IsChanged)
 					return true;
 
 				if (IsCategoriesChanged || Tags.IsChanged)

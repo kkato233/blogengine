@@ -6,7 +6,7 @@
   <h1>About the author</h1>
   <table summary="About the author">
     <tr>
-      <td><img src="~/themes/Standard/noavatar.jpg" runat="server" alt="Name of author" /></td>
+      <td><img src="<%=Utils.RelativeWebRoot %>themes/Standard/noavatar.jpg" alt="Name of author" /></td>
       <td style="vertical-align:top">
         Author name<br />
         Something about me and what I do.
@@ -14,7 +14,7 @@
         
         <!-- Email -->
         <a href="<%=Utils.AbsoluteWebRoot %>contact.aspx" style="float:right;clear:both">
-          E-mail me <img src="~/pics/mail.gif" alt="Send mail" runat="server" style="width:16px" />
+          E-mail me <img src="<%=Utils.RelativeWebRoot %>pics/mail.gif" alt="Send mail" style="width:16px" />
         </a>
       </td>
     </tr>
@@ -35,7 +35,7 @@
   <div style="text-align:center">
     <blog:PostCalendar runat="Server" NextMonthText=">>" DayNameFormat="FirstTwoLetters" FirstDayOfWeek="monday" PrevMonthText="<<" CssClass="calendar" BorderWidth="0" WeekendDayStyle-CssClass="weekend" OtherMonthDayStyle-CssClass="other" UseAccessibleHeader="true" EnableViewState="false" />
     <br />
-    <a href="<%=Utils.AbsoluteWebRoot %>?calendar=show" />View posts in large calendar</a>
+    <a href="<%=Utils.AbsoluteWebRoot %>default.aspx/calendar/" />View posts in large calendar</a>
   </div>
 </div>
 

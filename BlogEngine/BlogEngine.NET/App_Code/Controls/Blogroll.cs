@@ -107,7 +107,7 @@ namespace Controls
           string website = node.Attributes["htmlUrl"].InnerText;
           string xfn = null;
           if (node.Attributes["xfn"] != null)
-            xfn = node.Attributes["xfn"].InnerText;
+            xfn = node.Attributes["xfn"].InnerText.Replace(";", string.Empty);
 
           AddBlog(title, description, rss, website, xfn);
         }

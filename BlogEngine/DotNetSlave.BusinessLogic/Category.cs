@@ -53,7 +53,7 @@ namespace BlogEngine.Core
       get { return _Title; }
       set
       {
-        if (_Title != value) MarkDirty("Title");
+        if (_Title != value) MarkChanged("Title");
         _Title = value;
       }
     }
@@ -67,7 +67,7 @@ namespace BlogEngine.Core
       get { return _Description; }
       set
       {
-        if (_Description != value) MarkDirty("Description");
+        if (_Description != value) MarkChanged("Description");
         _Description = value;
       }
     }
@@ -141,7 +141,7 @@ namespace BlogEngine.Core
     /// </summary>
     protected override void DataUpdate()
     {
-      if (IsDirty)
+      if (IsChanged)
         BlogService.UpdateCategory(this);
     }
 
