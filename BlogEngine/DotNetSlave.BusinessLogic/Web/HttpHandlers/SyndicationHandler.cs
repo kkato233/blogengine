@@ -230,7 +230,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			if (items.Count > 0)
 			{
-				lastModified = items[0].DateModified;
+				lastModified = (items[0].DateModified > items[0].DateCreated ? items[0].DateModified : items[0].DateCreated);
 			}
 
 			if (!String.IsNullOrEmpty(eTag))

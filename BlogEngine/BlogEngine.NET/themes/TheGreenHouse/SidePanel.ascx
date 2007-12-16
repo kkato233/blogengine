@@ -23,8 +23,7 @@
             WeekendDayStyle-CssClass="weekend" OtherMonthDayStyle-CssClass="other" UseAccessibleHeader="true"
             EnableViewState="false" />
         <br />
-        <asp:HyperLink runat="server" NavigateUrl="~/?calendar=show" Text="View posts in large calendar"
-            EnableViewState="false" />
+        <a href="<%=Utils.AbsoluteWebRoot %>default.aspx/calendar/" />View posts in large calendar</a>
     </div>
 </div>
 <div class="links">

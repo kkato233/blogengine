@@ -90,7 +90,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       foreach (ListItem item in cblXfn.Items)
       {
         if (item.Selected)
-          xfn.InnerText += item.Text + ";";
+          xfn.InnerText += item.Text + " ";
       }
 
       if (xfn.InnerText.Length > 0)

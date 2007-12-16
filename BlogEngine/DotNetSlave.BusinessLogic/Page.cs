@@ -47,7 +47,7 @@ namespace BlogEngine.Core
       get { return _Title; }
       set
       {
-        if (_Title != value) MarkDirty("Title");
+        if (_Title != value) MarkChanged("Title");
         _Title = value;
       }
     }
@@ -61,7 +61,7 @@ namespace BlogEngine.Core
       get { return _Content; }
       set
       {
-        if (_Content != value) MarkDirty("Content");
+        if (_Content != value) MarkChanged("Content");
         _Content = value;
       }
     }
@@ -75,7 +75,7 @@ namespace BlogEngine.Core
       get { return _Description; }
       set
       {
-        if (_Description != value) MarkDirty("Description");
+        if (_Description != value) MarkChanged("Description");
         _Description = value;
       }
     }
@@ -89,7 +89,7 @@ namespace BlogEngine.Core
       get { return _Keywords; }
       set
       {
-        if (_Keywords != value) MarkDirty("Keywords");
+        if (_Keywords != value) MarkChanged("Keywords");
         _Keywords = value;
       }
     }
@@ -104,7 +104,7 @@ namespace BlogEngine.Core
       get { return _Parent; }
       set 
       {
-        if (_Parent != value) MarkDirty("Parent");
+        if (_Parent != value) MarkChanged("Parent");
         _Parent = value; 
       }
     }
@@ -118,7 +118,7 @@ namespace BlogEngine.Core
       get { return _IsPublished; }
       set
       {
-        if (_IsPublished != value) MarkDirty("IsPublished");
+        if (_IsPublished != value) MarkChanged("IsPublished");
         _IsPublished = value;
       }
     }
@@ -141,7 +141,7 @@ namespace BlogEngine.Core
       get { return _IsFrontPage; }
       set
       {
-        if (_IsFrontPage != value) MarkDirty("IsFrontPage");
+        if (_IsFrontPage != value) MarkChanged("IsFrontPage");
         _IsFrontPage = value; 
       }
     }
@@ -155,7 +155,7 @@ namespace BlogEngine.Core
       get { return _ShowInList; }
       set
       {
-        if (_ShowInList != value) MarkDirty("ShowInList");
+        if (_ShowInList != value) MarkChanged("ShowInList");
         _ShowInList = value; 
       }
     }
