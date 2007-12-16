@@ -19,21 +19,21 @@ public class ExtensionManager
     public ExtensionManager() { }
 
     private static string _fileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "extensions.xml");
-    private static List<Extension> _extensions = new List<Extension>();
+    private static List<ManagedExtension> _extensions = new List<ManagedExtension>();
 
     [XmlIgnore]
     public static Exception FileAccessException = null;
 
     [XmlElement]
-    public static List<Extension> Extensions { get { return _extensions; } }
+    public static List<ManagedExtension> Extensions { get { return _extensions; } }
 
     public static bool ExtensionEnabled(string extensionName)
     {
         bool val = true;
         LoadExtensions();
-        _extensions.Sort(delegate(Extension p1, Extension p2) { return String.Compare(p1.Name, p2.Name); });
+        _extensions.Sort(delegate(ManagedExtension p1, ManagedExtension p2) { return String.Compare(p1.Name, p2.Name); });
 
-        foreach (Extension x in _extensions)
+        foreach (ManagedExtension x in _extensions)
         {
             if (x.Name == extensionName)
             {
@@ -49,11 +49,25 @@ public class ExtensionManager
 
     public static void ChangeStatus(string extension, bool enabled)
     {
-        foreach (Extension x in _extensions)
+        foreach (ManagedExtension x in _extensions)
         {
             if (x.Name == extension)
             {
                 x.Enabled = enabled;
+                SaveToXML();
+                SaveToCache();
+                break;
+            }
+        }
+    }
+
+    public static void SetAdminPage(string extension, string url)
+    {
+        foreach (ManagedExtension x in _extensions)
+        {
+            if (x.Name == extension)
+            {
+                x.AdminPage = url;
                 SaveToXML();
                 SaveToCache();
                 break;
@@ -131,7 +145,7 @@ public class ExtensionManager
     #region Contains and Add
     public static bool Contains(Type type)
     {
-        foreach (Extension extension in _extensions)
+        foreach (ManagedExtension extension in _extensions)
         {
             if (extension.Name == type.Name)
                 return true;
@@ -143,7 +157,7 @@ public class ExtensionManager
     public static void AddExtension(Type type, object attribute)
     {
         ExtensionAttribute xa = (ExtensionAttribute)attribute;
-        Extension x = new Extension(type.Name, xa.Version, xa.Description);
+        ManagedExtension x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
         _extensions.Add(x);
     }
     #endregion
@@ -151,13 +165,26 @@ public class ExtensionManager
     #region Settings
     public static ExtensionSettings GetSettings(string extensionName)
     {
-        foreach (Extension x in _extensions)
+        foreach (ManagedExtension x in _extensions)
         {
             if (x.Name == extensionName)
                 return x.Settings;
         }
 
         return null;
+    }
+
+    public static void SaveSettings(string extensionName, ExtensionSettings settings)
+    {
+        foreach (ManagedExtension x in _extensions)
+        {
+            if (x.Name == extensionName)
+            {
+                x.Settings = settings;
+                break;
+            }
+        }
+        Save();
     }
 
     /// <summary>
@@ -167,7 +194,7 @@ public class ExtensionManager
     /// </summary>
     public static bool ImportSettings(ExtensionSettings settings)
     {
-        foreach (Extension x in _extensions)
+        foreach (ManagedExtension x in _extensions)
         {
             if (x.Name == settings.ExtensionName)
             {
@@ -192,7 +219,7 @@ public class ExtensionManager
         {
             using (TextWriter writer = new StreamWriter(_fileName))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Extension>));
+                XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
                 serializer.Serialize(writer, _extensions);
                 return true;
             }
@@ -210,8 +237,8 @@ public class ExtensionManager
         try
         {
             reader = new StreamReader(_fileName);
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Extension>));
-            _extensions = (List<Extension>)serializer.Deserialize(reader);
+            XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
+            _extensions = (List<ManagedExtension>)serializer.Deserialize(reader);
 
             string assemblyName = "__code";
             if (Utils.IsMono)
