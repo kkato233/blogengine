@@ -36,7 +36,8 @@ public class SendPings
   private void Post_Saved(object sender, SavedEventArgs e)
   {
     IPublishable item = (IPublishable)sender;
-    if (!HttpContext.Current.Request.IsLocal && item.IsVisible)
+
+		if ((HttpContext.Current == null || !HttpContext.Current.Request.IsLocal) && item.IsVisible)
     {
 			ThreadPool.QueueUserWorkItem(delegate { Ping(item); });
     }
