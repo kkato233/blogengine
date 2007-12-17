@@ -21,7 +21,16 @@ namespace BlogEngine.Core.Providers
 	/// </summary>
 	public partial class XmlBlogProvider : BlogProvider
 	{
-		private static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+		//private static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+
+		internal static string _Folder
+		{
+			get
+			{
+				string p = BlogSettings.Instance.StorageLocation.Replace("~/", "");
+				return System.IO.Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, p);
+			}
+		}
 
 		/// <summary>
 		/// Retrieves a post based on the specified Id.

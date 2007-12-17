@@ -73,10 +73,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						if (String.Compare(incomingEtag, etag) == 0)
 						{
 							context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
-							context.Response.End();
+						}
+						else
+						{
+							context.Response.TransmitFile(fi.FullName);
 						}
 
-						context.Server.Transfer(folder + fileName, false);
 						OnServed(fileName);
 					}
 					else
@@ -85,9 +87,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						context.Response.Status = "404 Bad Request";
 					}
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
-					OnBadRequest(fileName);
+					OnBadRequest(ex.Message);
 					context.Response.Status = "404 Bad Request";
 				}
 			}
