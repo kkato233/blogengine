@@ -79,7 +79,7 @@ namespace BlogEngine.Core
     /// Gets the categories.
     /// </summary>
     /// <value>The categories.</value>
-    List<Category> Categories { get;}
+    StateList<Category> Categories { get;}
 
     /// <summary>
     /// Gets whether or not this item should be shown

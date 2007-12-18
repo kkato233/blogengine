@@ -33,8 +33,8 @@ namespace BlogEngine.Core
 		{
 			base.Id = Guid.NewGuid();
 			_Comments = new List<Comment>();
-			_Categories = new List<Category>();
-			_Tags = new StateCollection<string>();
+			_Categories = new StateList<Category>();
+			_Tags = new StateList<string>();
 			DateCreated = DateTime.Now;
 			_IsPublished = true;
 			_IsCommentsEnabled = true;
@@ -138,29 +138,20 @@ namespace BlogEngine.Core
 
 		}
 
-		private List<Category> _Categories;
+		private StateList<Category> _Categories;
 		/// <summary>
 		/// An unsorted List of categories.
 		/// </summary>
-		public List<Category> Categories
+		public StateList<Category> Categories
 		{
 			get { return _Categories; }
 		}
-
-		private bool _IsCategoriesChanged;
-		/// <summary>
-		/// Gets or sets to check if the List has changed.
-		/// </summary>
-		public bool IsCategoriesChanged
-		{
-			get { return _IsCategoriesChanged; }
-			set { _IsCategoriesChanged = value; }
-		}
-		private StateCollection<string> _Tags;
+				
+		private StateList<string> _Tags;
 		/// <summary>
 		/// An unsorted collection of tags.
 		/// </summary>
-		public StateCollection<string> Tags
+		public StateList<string> Tags
 		{
 			get { return _Tags; }
 		}
@@ -358,6 +349,7 @@ namespace BlogEngine.Core
 						if (_Posts == null)
 						{
 							_Posts = BlogService.FillPosts();
+							_Posts.TrimExcess();
 							AddRelations();
 						}
 					}
@@ -393,6 +385,7 @@ namespace BlogEngine.Core
 			});
 
 			col.Sort();
+			col.TrimExcess();
 			return col;
 		}
 
@@ -450,6 +443,7 @@ namespace BlogEngine.Core
 				return Utils.RemoveIllegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase);				
 			});
 
+			list.TrimExcess();
 			return list;
 		}
 
@@ -463,6 +457,7 @@ namespace BlogEngine.Core
 				return p.Tags.Contains(tag);
 			});
 
+			list.TrimExcess();
 			return list;
 		}
 
@@ -476,6 +471,7 @@ namespace BlogEngine.Core
 				return (p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
 			});
 
+			list.TrimExcess();
 			return list;
 		}
 
@@ -702,7 +698,7 @@ namespace BlogEngine.Core
 				if (base.IsChanged)
 					return true;
 
-				if (IsCategoriesChanged || Tags.IsChanged)
+				if (Categories.IsChanged || Tags.IsChanged)
 					return true;
 
 				return false;
@@ -718,6 +714,17 @@ namespace BlogEngine.Core
 		public override string ToString()
 		{
 			return Title;
+		}
+
+		/// <summary>
+		/// Marks the object as being an clean,
+		/// which means not dirty.
+		/// </summary>
+		public override void MarkOld()
+		{
+			this.Categories.MarkOld();
+			this.Tags.MarkOld();
+			base.MarkOld();
 		}
 
 		/// <summary>
