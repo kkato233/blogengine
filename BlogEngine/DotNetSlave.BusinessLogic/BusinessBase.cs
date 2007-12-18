@@ -134,7 +134,7 @@ namespace BlogEngine.Core
 		/// Marks the object as being an clean, 
 		/// which means not dirty.
 		/// </summary>
-		public void MarkOld()
+		public virtual void MarkOld()
 		{
 			_IsChanged = false;
 			_IsNew = false;

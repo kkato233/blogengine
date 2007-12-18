@@ -234,7 +234,7 @@ namespace BlogEngine.Core
       get { return BlogSettings.Instance.AuthorName; }
     }
 
-    List<Category> IPublishable.Categories
+    StateList<Category> IPublishable.Categories
     {
       get { return null; }
     }

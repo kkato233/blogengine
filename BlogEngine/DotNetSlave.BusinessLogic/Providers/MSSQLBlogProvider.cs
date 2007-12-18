@@ -80,6 +80,7 @@ namespace BlogEngine.Core.Providers
       }
 
       rdr.Close();
+			post.Tags.MarkOld();
 
       // Categories
       sqlQuery = "SELECT CategoryID " +
@@ -132,6 +133,7 @@ namespace BlogEngine.Core.Providers
 
         post.Comments.Add(comment);
       }
+
       post.Comments.Sort();
 
       rdr.Close();

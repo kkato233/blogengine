@@ -183,7 +183,7 @@ namespace BlogEngine.Core
 			get { return string.Empty; }
 		}
 
-		List<Category> IPublishable.Categories
+		StateList<Category> IPublishable.Categories
 		{
 			get { return null; }
 		}
