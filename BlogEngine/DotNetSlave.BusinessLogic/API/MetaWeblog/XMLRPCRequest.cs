@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Web;
@@ -236,7 +237,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             _blogID = _inputParams[0].InnerText;
             _userName = _inputParams[1].InnerText;
             _password = _inputParams[2].InnerText;
-            _numberOfPosts = Int32.Parse(_inputParams[3].InnerText, System.Globalization.CultureInfo.InvariantCulture);
+            _numberOfPosts = Int32.Parse(_inputParams[3].InnerText, CultureInfo.InvariantCulture);
             break;
           case "blogger.getUsersBlogs":
           case "metaWeblog.getUsersBlogs":
@@ -355,7 +356,7 @@ namespace BlogEngine.Core.API.MetaWeblog
           try
           {
             string tempDate = node.SelectSingleNode("value/struct/member[name='pubDate']").LastChild.InnerText;
-            temp.postDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", null);
+            temp.postDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
           }
           catch
           {
@@ -406,7 +407,7 @@ namespace BlogEngine.Core.API.MetaWeblog
           try
           {
             string tempDate = node.SelectSingleNode("value/struct/member[name='dateCreated']").LastChild.InnerText;
-            temp.pageDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", null);
+            temp.pageDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
           }
           catch
           {

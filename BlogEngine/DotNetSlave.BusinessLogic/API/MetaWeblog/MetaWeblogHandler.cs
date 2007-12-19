@@ -165,7 +165,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       }
 
       if (sentPost.postDate != new DateTime())
-        post.DateCreated = sentPost.postDate;
+        post.DateCreated = sentPost.postDate.AddHours(BlogSettings.Instance.Timezone * -1);
 
       post.Save();
 
@@ -220,6 +220,9 @@ namespace BlogEngine.Core.API.MetaWeblog
       {
         post.Tags.Add(item);
       }
+
+      if (sentPost.postDate != new DateTime())
+        post.DateCreated = sentPost.postDate.AddHours(BlogSettings.Instance.Timezone * -1);
 
       post.Save();
 
@@ -482,7 +485,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       page.Title = mPage.title;
       page.Content = mPage.description;
       if (mPage.pageDate != new DateTime())
-        page.DateCreated = mPage.pageDate;
+        page.DateCreated = mPage.pageDate.AddHours(BlogSettings.Instance.Timezone * -1); ;
       page.ShowInList = publish;
       page.IsPublished = publish;
       if (mPage.pageParentID != "0")
@@ -558,8 +561,6 @@ namespace BlogEngine.Core.API.MetaWeblog
 
       page.Title = mPage.title;
       page.Content = mPage.description;
-      if (mPage.pageDate != new DateTime())
-        page.DateCreated = mPage.pageDate;
       page.ShowInList = publish;
       page.IsPublished = publish;
       if (mPage.pageParentID != "0")
