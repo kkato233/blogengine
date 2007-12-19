@@ -11,7 +11,7 @@ using BlogEngine.Core.Web.Controls;
 /// <summary>
 /// Converts BBCode to XHTML in the comments.
 /// </summary>
-[Extension("Converts BBCode to XHTML in the comments", "1.0.0.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
+[Extension("Converts BBCode to XHTML in the comments", "1.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
 public class BBCode
 {
     static protected ExtensionSettings _settings = null;

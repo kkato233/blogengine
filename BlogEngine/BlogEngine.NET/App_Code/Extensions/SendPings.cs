@@ -39,6 +39,9 @@ public class SendPings
 			return;
 
     IPublishable item = (IPublishable)sender;
+
+		if (!BlogSettings.Instance.EnableTrackBackSend && !BlogSettings.Instance.EnablePingBackSend)
+			return;
 		
 		if ((HttpContext.Current == null || !HttpContext.Current.Request.IsLocal) && item.IsVisible)
     {

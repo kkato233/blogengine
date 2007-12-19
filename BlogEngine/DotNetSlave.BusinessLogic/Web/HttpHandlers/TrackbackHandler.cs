@@ -36,8 +36,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
-			if (!BlogSettings.Instance.IsCommentsEnabled)
-				return;
+			if (!BlogSettings.Instance.IsCommentsEnabled || BlogSettings.Instance.EnableTrackBackReceive)
+			{
+				context.Response.StatusCode = 404;
+				context.Response.End();
+			}
 
 			CancelEventArgs e = new CancelEventArgs();
 			OnReceived(e);

@@ -98,6 +98,10 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
         BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
         BlogSettings.Instance.HandleWwwSubdomain = rblWwwSubdomain.SelectedItem.Value;
+				BlogSettings.Instance.EnableTrackBackSend = cbEnableTrackBackSend.Checked;
+				BlogSettings.Instance.EnableTrackBackReceive = cbEnableTrackBackReceive.Checked;
+				BlogSettings.Instance.EnablePingBackSend = cbEnablePingBackSend.Checked;
+				BlogSettings.Instance.EnablePingBackReceive = cbEnablePingBackReceive.Checked;
 
         //-----------------------------------------------------------------------
         // Set Syndication settings
@@ -191,6 +195,10 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
         cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
         rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;
+				cbEnablePingBackSend.Checked = BlogSettings.Instance.EnablePingBackSend;
+				cbEnablePingBackReceive.Checked = BlogSettings.Instance.EnablePingBackReceive;
+				cbEnableTrackBackSend.Checked = BlogSettings.Instance.EnableTrackBackSend;
+				cbEnableTrackBackReceive.Checked = BlogSettings.Instance.EnableTrackBackReceive;
 
         //-----------------------------------------------------------------------
         // Bind Syndication settings

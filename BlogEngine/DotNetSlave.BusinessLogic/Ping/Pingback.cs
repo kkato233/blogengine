@@ -23,6 +23,9 @@ namespace BlogEngine.Core.Ping
     /// </summary>
     public static void Send(Uri sourceUrl, Uri targetUrl)
     {
+			if (!BlogSettings.Instance.EnablePingBackSend)
+				return;
+
       if (sourceUrl == null || targetUrl == null)
         return;
 

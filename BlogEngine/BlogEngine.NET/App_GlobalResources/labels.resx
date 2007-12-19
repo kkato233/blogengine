@@ -291,6 +291,9 @@
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Adds the search feature to all new browsers (recommended).</value>
   </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Enable pingbacks</value>
+  </data>
   <data name="enableRating" xml:space="preserve">
     <value>Enable post ratings</value>
   </data>
@@ -305,6 +308,9 @@
   </data>
   <data name="enableSsl" xml:space="preserve">
     <value>Enable SSL</value>
+  </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Enable trackbacks</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
@@ -448,6 +454,9 @@
   <data name="rating" xml:space="preserve">
     <value>Rating</value>
   </data>
+  <data name="receive" xml:space="preserve">
+    <value>Receive</value>
+  </data>
   <data name="recentComments" xml:space="preserve">
     <value>Recent comments</value>
   </data>
@@ -501,6 +510,9 @@
   </data>
   <data name="selectParent" xml:space="preserve">
     <value>Select parent</value>
+  </data>
+  <data name="send" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Send comment e-mail</value>

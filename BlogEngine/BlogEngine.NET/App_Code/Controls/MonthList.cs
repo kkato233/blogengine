@@ -102,7 +102,7 @@ namespace Controls
 				HtmlGenericControl li = new HtmlGenericControl("li");
 
 				HtmlAnchor anc = new HtmlAnchor();
-				anc.HRef = Utils.RelativeWebRoot + "default.aspx/" + date.Year + "/" + date.ToString("MM") + "/";
+				anc.HRef = Utils.RelativeWebRoot + date.Year + "/" + date.ToString("MM") + "/default.aspx";
 				anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " (" + _Months[date] + ")";
 
 				li.Controls.Add(anc);
