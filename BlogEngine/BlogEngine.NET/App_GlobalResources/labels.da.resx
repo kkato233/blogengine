@@ -285,6 +285,9 @@
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Tilføjer bloggen til listen over søgemaskiner i alle nye browsere (anbefalet).</value>
   </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Aktivér pingbacks</value>
+  </data>
   <data name="enableRating" xml:space="preserve">
     <value>Tillad at stemme på indlæg</value>
   </data>
@@ -299,6 +302,9 @@
   </data>
   <data name="enableSsl" xml:space="preserve">
     <value>Benyt SSL</value>
+  </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Aktivér trackbacks</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
@@ -441,6 +447,9 @@
   <data name="rating" xml:space="preserve">
     <value>Point</value>
   </data>
+  <data name="receive" xml:space="preserve">
+    <value>Modtag</value>
+  </data>
   <data name="recentComments" xml:space="preserve">
     <value>Seneste kommentarer</value>
   </data>
@@ -494,6 +503,9 @@
   </data>
   <data name="selectParent" xml:space="preserve">
     <value>Vælg parent</value>
+  </data>
+  <data name="send" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Send kommentar e-mail</value>

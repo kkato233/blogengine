@@ -32,12 +32,12 @@ namespace Controls
 
     #region Properties
 
-    private Post _Post;
+    private IPublishable _Item;
 
-    public Post Post
+    public IPublishable Item
     {
-      get { return _Post; }
-      set { _Post = value; }
+			get { return _Item; }
+			set { _Item = value; }
     }
 
     private int _MaxResults = 3;
@@ -83,16 +83,16 @@ namespace Controls
 
     public override void RenderControl(HtmlTextWriter writer)
     {
-      if (!BlogSettings.Instance.EnableRelatedPosts || Post == null)
+      if (!BlogSettings.Instance.EnableRelatedPosts || Item == null)
         return;
       
-      if (!_Cache.ContainsKey(Post.Id))
+      if (!_Cache.ContainsKey(Item.Id))
       {
         lock (_SyncRoot)
         {
-          if (!_Cache.ContainsKey(Post.Id))
+          if (!_Cache.ContainsKey(Item.Id))
           {            
-            List<Post> relatedPosts = SearchForPosts();
+            List<IPublishable> relatedPosts = SearchForPosts();
             if (relatedPosts.Count <= 1)
               return;
 
@@ -104,9 +104,9 @@ namespace Controls
             sb.Append("<div id=\"relatedPosts\">");
 
             int count = 0;
-            foreach (Post post in relatedPosts)
+            foreach (IPublishable post in relatedPosts)
             {
-              if (post != this.Post)
+              if (post != this.Item)
               {
                 sb.Append(string.Format(link, post.RelativeLink, post.Title));
                 if (ShowDescription)
@@ -125,22 +125,22 @@ namespace Controls
             }
 
             sb.Append("</div>");
-            _Cache.Add(Post.Id, sb.ToString());
+            _Cache.Add(Item.Id, sb.ToString());
           }
         }
       }
 
-      writer.Write(_Cache[Post.Id].Replace("+++", this.Headline));
+      writer.Write(_Cache[Item.Id].Replace("+++", this.Headline));
     }
 
-    private List<Post> SearchForPosts()
+    private List<IPublishable> SearchForPosts()
     {
-      List<IPublishable> list = Search.FindRelatedPosts(this.Post);
-      List<Post> posts = new List<Post>();
+      List<IPublishable> list = Search.FindRelatedItems(this.Item);
+      List<IPublishable> posts = new List<IPublishable>();
       foreach (IPublishable item in list)
       {
-        if (item is Post)
-          posts.Add((Post)item);
+        if (item is Post || item is BlogEngine.Core.Page)
+          posts.Add(item);
       }
 
       return posts;

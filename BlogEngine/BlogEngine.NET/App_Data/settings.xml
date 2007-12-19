@@ -13,27 +13,30 @@
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <showlivepreview>True</showlivepreview>
   <enablecommentsearch>True</enablecommentsearch>
+  <iscocommentenabled>False</iscocommentenabled>
   <authorname>My name</authorname>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>Standard</theme>
-  <showpostnavigation>True</showpostnavigation>
+  <enabletrackbacksend>True</enabletrackbacksend>
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
   <htmlheader />
   <mobiletheme>Mobile</mobiletheme>
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>
-  <emailsubjectprefix />
+  <showpostnavigation>True</showpostnavigation>
   <email>name@example.com</email>
+  <enablepingbacksend>True</enablepingbacksend>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <timezone>-6</timezone>
+  <enablepingbackreceive>True</enablepingbackreceive>
   <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
-  <iscocommentenabled>False</iscocommentenabled>
-  <trackingscript />
   <description>Short description of the blog</description>
+  <trackingscript />
+  <enabletrackbackreceive>True</enabletrackbackreceive>
   <alternatefeedurl />
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
@@ -42,7 +45,7 @@
   <enablecontactattachments>True</enablecontactattachments>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
-  <culture>Auto</culture>
+  <emailsubjectprefix />
   <handlewwwsubdomain />
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <smtppassword>password</smtppassword>
@@ -55,6 +58,7 @@
   <enablereferrertracking>False</enablereferrertracking>
   <iscommentsenabled>True</iscommentsenabled>
   <blogrollupdateminutes>60</blogrollupdateminutes>
+  <culture>Auto</culture>
   <sendmailoncomment>True</sendmailoncomment>
   <enablecommentsmoderation>False</enablecommentsmoderation>
   <enablehttpcompression>True</enablehttpcompression>

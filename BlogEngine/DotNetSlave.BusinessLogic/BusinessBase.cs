@@ -45,7 +45,11 @@ namespace BlogEngine.Core
 
 				return _DateCreated.AddHours(BlogSettings.Instance.Timezone);
 			}
-			set { _DateCreated = value; }
+			set 
+			{
+				if (_DateCreated != value) MarkChanged("DateCreated");
+				_DateCreated = value; 
+			}
 		}
 
 		private DateTime _DateModified = DateTime.MinValue;

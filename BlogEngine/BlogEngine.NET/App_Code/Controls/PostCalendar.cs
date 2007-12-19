@@ -68,7 +68,7 @@ namespace Controls
 					{
 						HtmlAnchor a = new HtmlAnchor();
 						a.InnerHtml = day.DayNumberText;
-						a.HRef = Utils.RelativeWebRoot + "default.aspx/" + day.Date.Year + "/" + day.Date.ToString("MM") + "/" + day.Date.ToString("dd") + "/";
+						a.HRef = Utils.RelativeWebRoot  + day.Date.Year + "/" + day.Date.ToString("MM") + "/" + day.Date.ToString("dd") + "/default.aspx";
 						a.Attributes["class"] = "exist";
 						cell.Controls.Add(a);
 					}

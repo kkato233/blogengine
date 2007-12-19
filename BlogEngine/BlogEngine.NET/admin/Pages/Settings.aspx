@@ -80,6 +80,14 @@
         <label for="<%=cbEnableOpenSearch.ClientID %>"><%=Resources.labels.enableOpenSearch %></label>
         <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /><%=Resources.labels.enableOpenSearchDescription %><br />
         
+        <label for=""><%=Resources.labels.enableTrackbacks %></label>
+        <asp:CheckBox runat="server" ID="cbEnableTrackBackSend" /><%=Resources.labels.send %> &nbsp;&nbsp;
+        <asp:CheckBox runat="server" ID="cbEnableTrackBackReceive" /><%=Resources.labels.receive %><br />
+        
+        <label for=""><%=Resources.labels.enablePingbacks %></label>
+        <asp:CheckBox runat="server" ID="cbEnablePingBackSend" /><%=Resources.labels.send %> &nbsp;&nbsp;
+        <asp:CheckBox runat="server" ID="cbEnablePingBackReceive" /><%=Resources.labels.receive %><br />
+        
         <label for="<%=rblWwwSubdomain.ClientID %>"><%=Resources.labels.handleWwwSubdomain %></label>
         <asp:RadioButtonList runat="server" ID="rblWwwSubdomain" RepeatLayout="flow" RepeatDirection="horizontal">
             <asp:ListItem Text="<%$ Resources:labels, remove %>" Value="remove" />
@@ -141,7 +149,7 @@
         <asp:TextBox runat="server" ID="txtSmtpServer" Width="300" /><br />
         
         <label for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.portNumber %></label>
-        <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /><%=Resources.labels.portNumberDescription %>
+        <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /> <%=Resources.labels.portNumberDescription %>
         <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
         
         <label for="<%=txtSmtpUsername.ClientID %>"><%=Resources.labels.userName %></label>

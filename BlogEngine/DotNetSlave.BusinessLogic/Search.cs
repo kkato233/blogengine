@@ -101,7 +101,7 @@ namespace BlogEngine.Core
     /// <summary>
     /// Returns a list of posts that is related to the specified post.
     /// </summary>
-    public static List<IPublishable> FindRelatedPosts(IPublishable post)
+    public static List<IPublishable> FindRelatedItems(IPublishable post)
     {
       string term = post.Title;
 

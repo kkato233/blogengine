@@ -25,6 +25,9 @@ namespace BlogEngine.Core.Ping
     /// <returns></returns>    
     public static bool Send(TrackbackMessage message)
     {
+			if (!BlogSettings.Instance.EnableTrackBackSend)
+				return false;
+
       if (message == null)
         throw new ArgumentNullException("message");
 

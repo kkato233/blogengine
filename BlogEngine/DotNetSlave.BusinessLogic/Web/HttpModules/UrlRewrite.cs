@@ -66,11 +66,19 @@ namespace BlogEngine.Core.Web.HttpModules
         {
           RewritePage(context);
         }
-        else if (url.Contains("/AUTHOR/"))
-        {
-          string author = ExtractTitle(context);
-          context.RewritePath(Utils.RelativeWebRoot + "default.aspx?name=" + author + GetQueryString(context), false);
-        }
+				else if (url.Contains("/CALENDAR/"))
+				{
+					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?calendar=show", false);
+				}
+				else if (url.EndsWith("DEFAULT.ASPX"))
+				{
+					RewriteDefault(context);
+				}
+				else if (url.Contains("/AUTHOR/"))
+				{
+					string author = ExtractTitle(context);
+					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?name=" + author + GetQueryString(context), false);
+				}
       }
     }
 
@@ -114,6 +122,39 @@ namespace BlogEngine.Core.Web.HttpModules
         }
       }
     }
+
+		private static readonly Regex YEAR = new Regex("/([0-9][0-9][0-9][0-9])/", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex YEAR_MONTH = new Regex("/([0-9][0-9][0-9][0-9])/([0-1][0-9])/", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex YEAR_MONTH_DAY = new Regex("/([0-9][0-9][0-9][0-9])/([0-1][0-9])/([0-3][0-9])/", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+		private static void RewriteDefault(HttpContext context)
+		{
+			string url = context.Request.RawUrl;
+			if (YEAR_MONTH_DAY.IsMatch(url))
+			{
+				Match match = YEAR_MONTH_DAY.Match(url);
+				string year = match.Groups[1].Value;
+				string month = match.Groups[2].Value;
+				string day = match.Groups[3].Value;
+				string date = year + "-" + month + "-" + day;
+				context.RewritePath(Utils.RelativeWebRoot + "default.aspx?date=" + date, false);
+			}
+			else if (YEAR_MONTH.IsMatch(url))
+			{
+				Match match = YEAR_MONTH.Match(url);
+				string year = match.Groups[1].Value;
+				string month = match.Groups[2].Value;
+				string path = string.Format("default.aspx?year={0}&month={1}", year, month);
+				context.RewritePath(Utils.RelativeWebRoot + path, false);
+			}
+			else if (YEAR.IsMatch(url))
+			{
+				Match match = YEAR.Match(url);
+				string year = match.Groups[1].Value;
+				string path = string.Format("default.aspx?year={0}", year);
+				context.RewritePath(Utils.RelativeWebRoot + path, false);
+			}
+		}
 
     /// <summary>
     /// Extracts the title from the requested URL.
