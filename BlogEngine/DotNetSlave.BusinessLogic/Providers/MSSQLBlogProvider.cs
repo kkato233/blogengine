@@ -20,6 +20,7 @@ namespace BlogEngine.Core.Providers
   /// </summary>
   public class MSSQLBlogProvider : BlogProvider, IDisposable
   {
+    private string connStringName;
     private SqlConnection providerConn;
 
     #region Posts
@@ -730,7 +731,7 @@ namespace BlogEngine.Core.Providers
 
       using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
       {
-        string sqlQuery = "TRUNCATE TABLE be_Settings";
+        string sqlQuery = "DELETE FROM be_Settings";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
         {
           conn.Open();
@@ -795,7 +796,7 @@ namespace BlogEngine.Core.Providers
 
       using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
       {
-        string sqlQuery = "TRUNCATE TABLE be_PingService";
+        string sqlQuery = "DELETE FROM be_PingService";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
         {
           conn.Open();
@@ -818,6 +819,52 @@ namespace BlogEngine.Core.Providers
     #endregion
 
     /// <summary>
+    /// Initializes the provider
+    /// </summary>
+    /// <param name="name">Configuration name</param>
+    /// <param name="config">Configuration settings</param>
+    public override void Initialize(string name, NameValueCollection config)
+    {
+      if (config == null)
+      {
+        throw new ArgumentNullException("config");
+      }
+
+      if (String.IsNullOrEmpty(name))
+      {
+        name = "MSSQLBlogProvider";
+      }
+
+      if (String.IsNullOrEmpty(config["description"]))
+      {
+        config.Remove("description");
+        config.Add("description", "MSSQL Blog Provider");
+      }
+
+      base.Initialize(name, config);
+
+      if (config["connectionStringName"] == null)
+      {
+        // default to BlogEngine
+        config["connectionStringName"] = "BlogEngine";
+      }
+
+      connStringName = config["connectionStringName"].ToString();
+      config.Remove("connectionStringName");
+    }
+
+    /// <summary>
+    /// Connection string
+    /// </summary>
+    public string ConnectionString
+    {
+      get
+      {
+        return ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+      }
+    }
+
+    /// <summary>
     /// Handles Opening the SQL Connection
     /// </summary>
     private bool OpenConnection()
@@ -826,7 +873,7 @@ namespace BlogEngine.Core.Providers
 
       // Initial if needed
       if (providerConn == null)
-        providerConn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString);
+        providerConn = new SqlConnection(ConnectionString);
       // Open it if needed
       if (providerConn.State == System.Data.ConnectionState.Closed)
       {
