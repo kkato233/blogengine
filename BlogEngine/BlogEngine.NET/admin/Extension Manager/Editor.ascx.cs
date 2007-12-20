@@ -30,7 +30,6 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
         }
         else
         {
-
             txtEditor.Text = _errorMsg;
             txtEditor.ForeColor = System.Drawing.Color.Red;
             btnSave.Enabled = false;

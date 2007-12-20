@@ -11,22 +11,36 @@ using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
 
 /// <summary>
-/// Summary description for ExtensionManager
+/// Extension Manager - top level object in the hierarchy
+/// Holds collection of extensions and methods to manipulate
+/// extensions
 /// </summary>
 [XmlRoot]
 public class ExtensionManager
 {
+    /// <summary>
+    /// Default constructor, requred for serialization to work
+    /// </summary>
     public ExtensionManager() { }
 
     private static string _fileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "extensions.xml");
     private static List<ManagedExtension> _extensions = new List<ManagedExtension>();
-
+    /// <summary>
+    /// Used to hold exeption thrown when extension can not be serialized because of
+    /// file access permission. Not serializable, used by UI to show error message.
+    /// </summary>
     [XmlIgnore]
     public static Exception FileAccessException = null;
-
+    /// <summary>
+    /// Collection of extensions
+    /// </summary>
     [XmlElement]
     public static List<ManagedExtension> Extensions { get { return _extensions; } }
-
+    /// <summary>
+    /// Enabled / Disabled
+    /// </summary>
+    /// <param name="extensionName"></param>
+    /// <returns>True if enabled</returns>
     public static bool ExtensionEnabled(string extensionName)
     {
         bool val = true;
