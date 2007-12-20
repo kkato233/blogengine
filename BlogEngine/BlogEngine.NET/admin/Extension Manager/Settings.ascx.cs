@@ -28,17 +28,31 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
 
         if (!Page.IsPostBack)
         {
-            CreateTemplatedGridView();
-            BindGrid();
+            if (_settings.IsScalar)
+            {
+                BindScalar();
+            }
+            else
+            {
+                CreateTemplatedGridView();
+                BindGrid();
+            }
         }
 
-        grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
-        grid.RowUpdating += new GridViewUpdateEventHandler(grid_RowUpdating);
-        grid.RowCancelingEdit += delegate { Response.Redirect(Request.RawUrl); };
-        grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
-        btnAdd.Click += new EventHandler(btnAdd_Click);
-        btnAdd.Text = Resources.labels.add;
+        if (_settings.IsScalar)
+        {
+            btnAdd.Text = Resources.labels.save;
+        }
+        else
+        {
+            grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
+            grid.RowUpdating += new GridViewUpdateEventHandler(grid_RowUpdating);
+            grid.RowCancelingEdit += delegate { Response.Redirect(Request.RawUrl); };
+            grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
+            btnAdd.Text = Resources.labels.add;
+        }
 
+        btnAdd.Click += new EventHandler(btnAdd_Click);
     }
 
     void btnAdd_Click(object sender, EventArgs e)
@@ -50,26 +64,23 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
                 if (ctl.GetType().Name == "TextBox")
                 {
                     TextBox txt = (TextBox)ctl;
-                    _settings.AddValue(txt.ID, txt.Text);
-                }
-            }
 
-            bool focusSet = false;
-            foreach (Control ctl in phAddForm.Controls)
-            {
-                if (ctl.GetType().Name == "TextBox")
-                {
-                    TextBox txt = (TextBox)ctl;
-                    txt.Text = string.Empty;
-                    if (!focusSet)
-                    {
-                        txt.Focus();
-                        focusSet = true;
-                    }
+                    if (_settings.IsScalar)
+                        _settings.UpdateScalarValue(txt.ID, txt.Text);
+                    else
+                        _settings.AddValue(txt.ID, txt.Text);
                 }
             }
             ExtensionManager.SaveSettings(_extensionName, _settings);
-            BindGrid();
+            if (_settings.IsScalar)
+            {
+                InfoMsg.InnerHtml = "The values has been saved";
+                InfoMsg.Visible = true;
+            }
+            else
+            {
+                BindGrid();
+            }
         }
     }
 
@@ -85,6 +96,7 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
 
     void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
+        // extract and store input values in the collection
         StringCollection updateValues = new StringCollection();
         foreach (DataControlFieldCell cel in grid.Rows[e.RowIndex].Controls)
         {
@@ -100,7 +112,30 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
 
         for (int i = 0; i < _settings.Parameters.Count; i++)
         {
-            _settings.Parameters[i].Values[e.RowIndex] = updateValues[i];
+            string parName = _settings.Parameters[i].Name;
+            if (_settings.IsRequiredParameter(parName) && string.IsNullOrEmpty(updateValues[i]))
+            {
+                // throw error if required field is empty
+                ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(parName) + "\" is a required field";
+                ErrorMsg.Visible = true;
+                e.Cancel = true;
+                return;
+            }
+            else if (parName == _settings.KeyField && _settings.IsKeyValueExists(updateValues[i]))
+            {
+                // check if key value was changed; if not, it's ok to update
+                if (!_settings.IsOldValue(parName, updateValues[i], e.RowIndex))
+                {
+                    // trying to update key field with value that already exists
+                    ErrorMsg.InnerHtml = "\"" + updateValues[i] + "\" is already exists";
+                    ErrorMsg.Visible = true;
+                    e.Cancel = true;
+                    return;
+                }
+
+            }
+            else
+                _settings.Parameters[i].Values[e.RowIndex] = updateValues[i];
         }
 
         ExtensionManager.SaveSettings(_extensionName, _settings);
@@ -119,13 +154,33 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         grid.DataSource = _settings.GetDataTable();
         grid.DataBind();
     }
+
+    private void BindScalar()
+    {
+        foreach (ExtensionParameter par in _settings.Parameters)
+        {
+            foreach (Control ctl in phAddForm.Controls)
+            {
+                if (ctl.GetType().Name == "TextBox")
+                {
+                    TextBox txt = (TextBox)ctl;
+                    if (txt.ID.ToLower() == par.Name.ToLower())
+                    {
+                        if (par.Values != null)
+                            txt.Text = par.Values[0];
+                    }
+                }
+            }
+        }
+    }
+
     void CreateTemplatedGridView()
     {
         foreach (ExtensionParameter par in _settings.Parameters)
         {
             BoundField col = new BoundField();
             col.DataField = par.Name;
-            col.HeaderText = par.Label;
+            col.HeaderText = par.Name;
             grid.Columns.Add(col);
         }
     }
@@ -139,10 +194,12 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         {
             ErrorMsg.InnerHtml = string.Empty;
             ErrorMsg.Visible = false;
+            InfoMsg.InnerHtml = string.Empty;
+            InfoMsg.Visible = false;
 
             // add label
             Label lbl = new Label();
-            lbl.Width = new Unit(100);
+            lbl.Width = new Unit("100");
             lbl.Text = par.Label;
             phAddForm.Controls.Add(lbl);
 
@@ -175,20 +232,51 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
                 TextBox txt = (TextBox)ctl;
                 if (_settings.IsRequiredParameter(txt.ID) && string.IsNullOrEmpty(txt.Text.Trim()))
                 {
-                    ErrorMsg.InnerHtml = txt.ID + " is a required field";
+                    ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" is a required field";
                     ErrorMsg.Visible = true;
                     rval = false;
                     break;
                 }
-                if (_settings.KeyField == (txt.ID) && _settings.IsKeyValueExists(txt.Text.Trim()))
+                if (!_settings.IsScalar)
                 {
-                    ErrorMsg.InnerHtml = txt.Text + " is already exists";
-                    ErrorMsg.Visible = true;
-                    rval = false;
-                    break;
+                    if (_settings.KeyField == (txt.ID) && _settings.IsKeyValueExists(txt.Text.Trim()))
+                    {
+                        ErrorMsg.InnerHtml = "\"" + txt.Text + "\" is already exists";
+                        ErrorMsg.Visible = true;
+                        rval = false;
+                        break;
+                    }
                 }
             }
         }
         return rval;
+    }
+
+    protected void grid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        AddConfirmDelete((GridView)sender, e);
+    }
+
+    protected static void AddConfirmDelete(GridView gv, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType != DataControlRowType.DataRow)
+            return;
+
+        foreach (DataControlFieldCell dcf in e.Row.Cells)
+        {
+            if (string.IsNullOrEmpty(dcf.Text.Trim()))
+            {
+                foreach (Control ctrl in dcf.Controls)
+                {
+                    LinkButton deleteButton = ctrl as LinkButton;
+                    if (deleteButton != null && deleteButton.Text == "Delete")
+                    {
+                        deleteButton.Attributes.Add("onClick", "return confirm('Are you sure you want to delete this row?');");
+                        break;
+                    }
+                }
+                break;
+            }
+        }
     }
 }

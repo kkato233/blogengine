@@ -87,7 +87,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
                 else
                     sb.Append("<td align='center' style='background:#ffcc66'><a href='?act=enb&ext=" + x.Name + "' title='" + clickToEnable + x.Name + "' " + jsOnClick + ">" + disabled + "</a></td>");
 
-                sb.Append("<td align='center'><a href='?ctrl=editor&ext=" + x.Name + "'>" + Resources.labels.edit + "</a></td>");
+                sb.Append("<td align='center'><a href='?ctrl=editor&ext=" + x.Name + "'>" + "View" + "</a></td>");
 
                 // link to settings page
                 if (!string.IsNullOrEmpty(x.AdminPage))

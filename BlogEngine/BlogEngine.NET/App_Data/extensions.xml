@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfManagedExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ManagedExtension Name="BBCode">
-    <Version>1.0.0.0</Version>
+    <Version>1.0</Version>
     <Description>Converts BBCode to XHTML in the comments</Description>
     <Author>&lt;a href="http://dotnetblogengine.net"&gt;BlogEngine.NET&lt;/a&gt;</Author>
     <AdminPage />
@@ -28,7 +28,7 @@
         <KeyField>false</KeyField>
         <Values>strong</Values>
         <Values>em</Values>
-        <Values>em,span style="text-decoration:underline"</Values>
+        <Values>span style="text-decoration:underline"</Values>
         <Values>cite title="Quote"</Values>
       </Parameters>
       <Parameters>
@@ -43,6 +43,9 @@
         <Values>cite</Values>
       </Parameters>
       <KeyField>Code</KeyField>
+      <RequiredFields>Code</RequiredFields>
+      <RequiredFields>OpenTag</RequiredFields>
+      <IsScalar>false</IsScalar>
     </Settings>
   </ManagedExtension>
   <ManagedExtension Name="BlackLister">
