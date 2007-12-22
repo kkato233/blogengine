@@ -1,35 +1,30 @@
-/****** Object:  Table [dbo].[be_Categories]    Script Date: 06/24/2007 22:17:50 ******/
+/****** BlogEngine.NET 1.3 SQL Setup Script ******/
+/****** Object:  Table [dbo].[be_Categories]    Script Date: 12/22/2007 14:14:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[be_Categories](
 	[CategoryID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Categories_CategoryID]  DEFAULT (newid()),
-	[CategoryName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[CategoryName] [nvarchar](50) NULL,
+	[Description] [nvarchar](200) NULL,
  CONSTRAINT [PK_be_Categories] PRIMARY KEY CLUSTERED 
 (
 	[CategoryID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
 GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_Pages]    Script Date: 09/30/2007 14:24:26 ******/
+/****** Object:  Table [dbo].[be_Pages]    Script Date: 12/22/2007 14:15:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
 CREATE TABLE [dbo].[be_Pages](
 	[PageID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Pages_PageID]  DEFAULT (newid()),
-	[Title] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Description] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PageContent] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Keywords] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Title] [nvarchar](255) NULL,
+	[Description] [nvarchar](max) NULL,
+	[PageContent] [ntext] NULL,
+	[Keywords] [nvarchar](max) NULL,
 	[DateCreated] [datetime] NULL,
 	[DateModified] [datetime] NULL,
 	[IsPublished] [bit] NULL,
@@ -39,32 +34,62 @@ CREATE TABLE [dbo].[be_Pages](
  CONSTRAINT [PK_be_Pages] PRIMARY KEY CLUSTERED 
 (
 	[PageID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
 GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_PingService]    Script Date: 06/24/2007 22:19:26 ******/
+/****** Object:  Table [dbo].[be_PingService]    Script Date: 12/22/2007 14:15:47 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-SET ANSI_PADDING ON
-GO
 CREATE TABLE [dbo].[be_PingService](
 	[PingServiceID] [int] IDENTITY(1,1) NOT NULL,
-	[Link] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Link] [nvarchar](255) NULL,
  CONSTRAINT [PK_be_PingService] PRIMARY KEY CLUSTERED 
 (
 	[PingServiceID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-
 GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_PostCategory]    Script Date: 06/24/2007 22:20:22 ******/
+/****** Object:  Table [dbo].[be_Posts]    Script Date: 12/22/2007 14:16:27 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[be_Posts](
+	[PostID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Posts_PostID]  DEFAULT (newid()),
+	[Title] [nvarchar](255) NULL,
+	[Description] [nvarchar](max) NULL,
+	[PostContent] [ntext] NULL,
+	[DateCreated] [datetime] NULL,
+	[DateModified] [datetime] NULL,
+	[Author] [nvarchar](50) NULL,
+	[IsPublished] [bit] NULL,
+	[IsCommentEnabled] [bit] NULL,
+	[Raters] [int] NULL,
+	[Rating] [real] NULL,
+	[Slug] [nvarchar](255) NULL,
+ CONSTRAINT [PK_be_Posts] PRIMARY KEY CLUSTERED 
+(
+	[PostID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[be_Settings]    Script Date: 12/22/2007 14:16:07 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[be_Settings](
+	[SettingName] [nvarchar](50) NOT NULL,
+	[SettingValue] [nvarchar](max) NULL,
+ CONSTRAINT [PK_be_Settings] PRIMARY KEY CLUSTERED 
+(
+	[SettingName] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[be_PostCategory]    Script Date: 12/22/2007 14:17:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -76,123 +101,119 @@ CREATE TABLE [dbo].[be_PostCategory](
  CONSTRAINT [PK_be_PostCategory] PRIMARY KEY CLUSTERED 
 (
 	[PostCategoryID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-/****** Object:  Table [dbo].[be_PostComment]    Script Date: 09/30/2007 14:25:08 ******/
+GO
+ALTER TABLE [dbo].[be_PostCategory]  WITH CHECK ADD  CONSTRAINT [FK_be_PostCategory_be_Categories] FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[be_Categories] ([CategoryID])
+GO
+ALTER TABLE [dbo].[be_PostCategory] CHECK CONSTRAINT [FK_be_PostCategory_be_Categories]
+GO
+ALTER TABLE [dbo].[be_PostCategory]  WITH CHECK ADD  CONSTRAINT [FK_be_PostCategory_be_Posts] FOREIGN KEY([PostID])
+REFERENCES [dbo].[be_Posts] ([PostID])
+GO
+ALTER TABLE [dbo].[be_PostCategory] CHECK CONSTRAINT [FK_be_PostCategory_be_Posts]
+GO
+/****** Object:  Table [dbo].[be_PostComment]    Script Date: 12/22/2007 14:17:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[be_PostComment](
 	[PostCommentID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_PostComment_PostCommentID]  DEFAULT (newid()),
 	[PostID] [uniqueidentifier] NOT NULL,
 	[CommentDate] [datetime] NOT NULL,
-	[Author] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Email] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Website] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Comment] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Country] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Ip] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Author] [nvarchar](255) NULL,
+	[Email] [nvarchar](255) NULL,
+	[Website] [nvarchar](255) NULL,
+	[Comment] [nvarchar](max) NULL,
+	[Country] [nvarchar](255) NULL,
+	[Ip] [nvarchar](50) NULL,
 	[IsApproved] [bit] NULL,
  CONSTRAINT [PK_be_PostComment] PRIMARY KEY CLUSTERED 
 (
 	[PostCommentID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_PostNotify]    Script Date: 08/09/2007 22:33:17 ******/
+ALTER TABLE [dbo].[be_PostComment]  WITH CHECK ADD  CONSTRAINT [FK_be_PostComment_be_Posts] FOREIGN KEY([PostID])
+REFERENCES [dbo].[be_Posts] ([PostID])
+GO
+ALTER TABLE [dbo].[be_PostComment] CHECK CONSTRAINT [FK_be_PostComment_be_Posts]
+GO
+/****** Object:  Table [dbo].[be_PostNotify]    Script Date: 12/22/2007 14:17:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[be_PostNotify](
 	[PostNotifyID] [int] IDENTITY(1,1) NOT NULL,
 	[PostID] [uniqueidentifier] NOT NULL,
-	[NotifyAddress] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[NotifyAddress] [nvarchar](255) NULL,
  CONSTRAINT [PK_be_PostNotify] PRIMARY KEY CLUSTERED 
 (
 	[PostNotifyID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_Posts]    Script Date: 07/24/2007 22:33:21 ******/
+ALTER TABLE [dbo].[be_PostNotify]  WITH CHECK ADD  CONSTRAINT [FK_be_PostNotify_be_Posts] FOREIGN KEY([PostID])
+REFERENCES [dbo].[be_Posts] ([PostID])
+GO
+ALTER TABLE [dbo].[be_PostNotify] CHECK CONSTRAINT [FK_be_PostNotify_be_Posts]
+GO
+/****** Object:  Table [dbo].[be_PostTag]    Script Date: 12/22/2007 14:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [dbo].[be_Posts](
-	[PostID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Posts_PostID]  DEFAULT (newid()),
-	[Title] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Description] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PostContent] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[DateCreated] [datetime] NULL,
-	[DateModified] [datetime] NULL,
-	[Author] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[IsPublished] [bit] NULL,
-	[IsCommentEnabled] [bit] NULL,
-	[Raters] [int] NULL,
-	[Rating] [real] NULL,
-	[Slug] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_be_Posts] PRIMARY KEY CLUSTERED 
-(
-	[PostID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-
-GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_PostTag]    Script Date: 06/24/2007 22:22:31 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[be_PostTag](
 	[PostTagID] [int] IDENTITY(1,1) NOT NULL,
 	[PostID] [uniqueidentifier] NOT NULL,
-	[Tag] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Tag] [nvarchar](50) NULL,
  CONSTRAINT [PK_be_PostTag] PRIMARY KEY CLUSTERED 
 (
 	[PostTagID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-SET ANSI_PADDING OFF
-
-/****** Object:  Table [dbo].[be_Settings]    Script Date: 06/24/2007 22:23:13 ******/
-SET ANSI_NULLS ON
+ALTER TABLE [dbo].[be_PostTag]  WITH CHECK ADD  CONSTRAINT [FK_be_PostTag_be_Posts] FOREIGN KEY([PostID])
+REFERENCES [dbo].[be_Posts] ([PostID])
 GO
-SET QUOTED_IDENTIFIER ON
+ALTER TABLE [dbo].[be_PostTag] CHECK CONSTRAINT [FK_be_PostTag_be_Posts]
 GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [dbo].[be_Settings](
-	[SettingName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[SettingValue] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_be_Settings] PRIMARY KEY CLUSTERED 
+/****** Object:  Index [FK_PostID]    Script Date: 12/22/2007 14:18:36 ******/
+CREATE NONCLUSTERED INDEX [FK_PostID] ON [dbo].[be_PostCategory] 
 (
-	[SettingName] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-
+	[PostID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
-SET ANSI_PADDING OFF
+/****** Object:  Index [FK_CategoryID]    Script Date: 12/22/2007 14:19:19 ******/
+CREATE NONCLUSTERED INDEX [FK_CategoryID] ON [dbo].[be_PostCategory] 
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [FK_PostID]    Script Date: 12/22/2007 14:19:45 ******/
+CREATE NONCLUSTERED INDEX [FK_PostID] ON [dbo].[be_PostComment] 
+(
+	[PostID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [FK_PostID]    Script Date: 12/22/2007 14:20:29 ******/
+CREATE NONCLUSTERED INDEX [FK_PostID] ON [dbo].[be_PostNotify] 
+(
+	[PostID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [FK_PostID]    Script Date: 12/22/2007 14:20:43 ******/
+CREATE NONCLUSTERED INDEX [FK_PostID] ON [dbo].[be_PostTag] 
+(
+	[PostID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 
 /***  Load initial Data ***/
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('alternatefeedurl', '');
@@ -209,16 +230,21 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('description', 'Shor
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('displaycommentsonrecentposts', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('displayratingsonrecentposts', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('email', 'user@example.com');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('emailsubjectprefix', 'Weblog');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecommentsearch', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecommentsmoderation', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecontactattachments', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecountryincomments', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablehttpcompression', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enableopensearch', 'True');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablepingbackreceive', 'True');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablepingbacksend', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablerating', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablereferrertracking', 'False');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablerelatedposts', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablessl', 'False');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enabletrackbackreceive', 'True');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enabletrackbacksend', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('endorsement', 'http://www.dotnetblogengine.net/syndication.axd');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('fileextension', '.aspx');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('geocodinglatitude', '0');
@@ -240,6 +266,7 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('searchdefaulttext',
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('sendmailoncomment', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('showdescriptioninpostlist', 'False');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('showlivepreview', 'True');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('showpostnavigation', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtppassword', 'password');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtpserver', 'mail.example.dk');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('smtpserverport', '25');
@@ -261,11 +288,11 @@ INSERT INTO be_Categories (CategoryID, CategoryName)
 
 INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Author, IsPublished)
 	VALUES (@postID, 
-	'Welcome to BlogEngine.NET with MSSQL provider', 
+	'Welcome to BlogEngine.NET 1.3 with MSSQL provider', 
 	'The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory',
-	'<p>If you see this post it means that BlogEngine.NET is running and the SQL Server provider is configured correctly.</p>
+	'<p>If you see this post it means that BlogEngine.NET 1.3 is running and the SQL Server provider is configured correctly.</p>
 	<h2>Setup</h2>
-	<p>If you are using the ASP.NET Membership provider, you are set to use existing users.  If you are using the default BlogEngine.NET XML provider, find and open the users.xml file which is located in the App_Data folder. Edit the default user and provide your own name as the username and a password of your choice. Save the users.xml file with the new username and password and you are now able to log in and start writing posts.</p>
+	<p>If you are using the ASP.NET Membership provider, you are set to use existing users.  If you are using the default BlogEngine.NET XML provider, it is time to setup some users.  Find the sign-in link located either at the bottom or top of the page depending on your current theme and click it. Now enter "admin" in both the username and password fields and click the button. You will now see an admin menu appear. It has a link to the "Users" admin page. From there you can change the username and password.</p>
 	<h2>Write permissions</h2>
 	<p>Since you are using SQL to store your posts, most information is stored there.  However, if you want to store attachments or images in the blog, you will want write permissions setup on the App_Data folder.</p>
 	<h2>On the web </h2>

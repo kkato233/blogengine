@@ -279,11 +279,11 @@ namespace BlogEngine.Core.Providers
     {
       OpenConnection();
 
-      string sqlQuery =   "DELETE FROM be_Posts WHERE PostID = @id;" +
-                          "DELETE FROM be_PostTag WHERE PostID = @id;" +
+      string sqlQuery =   "DELETE FROM be_PostTag WHERE PostID = @id;" +
                           "DELETE FROM be_PostCategory WHERE PostID = @id;" +
                           "DELETE FROM be_PostNotify WHERE PostID = @id;" +
-                          "DELETE FROM be_PostComment WHERE PostID = @id;";
+                          "DELETE FROM be_PostComment WHERE PostID = @id;" +
+                          "DELETE FROM be_Posts WHERE PostID = @id;";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
       cmd.Parameters.Add(new SqlParameter("@id", post.Id.ToString()));
 
@@ -595,7 +595,7 @@ namespace BlogEngine.Core.Providers
       List<Category> categories = Category.Categories;
       categories.Add(category);
 
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery =   "INSERT INTO be_Categories (CategoryID, CategoryName, description) " +
                             "VALUES (@catid, @catname, @description)";
@@ -620,7 +620,7 @@ namespace BlogEngine.Core.Providers
       categories.Remove(category);
       categories.Add(category);
 
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery = "UPDATE be_Categories " +
                           "SET CategoryName = @catname, " +
@@ -646,9 +646,10 @@ namespace BlogEngine.Core.Providers
       List<Category> categories = Category.Categories;
       categories.Remove(category);
 
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
-        string sqlQuery = "DELETE FROM be_Categories WHERE CategoryID = @catid";
+        string sqlQuery = "DELETE FROM be_PostCategory WHERE CategoryID = @catid;" +
+                          "DELETE FROM be_Categories WHERE CategoryID = @catid";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
         {
           cmd.Parameters.Add(new SqlParameter("@catid", category.Id));
@@ -665,7 +666,7 @@ namespace BlogEngine.Core.Providers
     public override List<Category> FillCategories()
     {
       List<Category> categories = new List<Category>();
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery = "SELECT CategoryID, CategoryName, description FROM be_Categories ";
         SqlDataAdapter sa = new SqlDataAdapter(sqlQuery, conn);
@@ -698,7 +699,7 @@ namespace BlogEngine.Core.Providers
     public override StringDictionary LoadSettings()
     {
       StringDictionary dic = new StringDictionary();
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery = "SELECT SettingName, SettingValue FROM be_Settings";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
@@ -729,7 +730,7 @@ namespace BlogEngine.Core.Providers
       if (settings == null)
         throw new ArgumentNullException("settings");
 
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery = "DELETE FROM be_Settings";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
@@ -763,7 +764,7 @@ namespace BlogEngine.Core.Providers
     public override StringCollection LoadPingServices()
     {
       StringCollection col = new StringCollection();
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery = "SELECT Link FROM be_PingService";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
@@ -794,7 +795,7 @@ namespace BlogEngine.Core.Providers
       if (services == null)
         throw new ArgumentNullException("services");
 
-      using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString))
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
       {
         string sqlQuery = "DELETE FROM be_PingService";
         using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
