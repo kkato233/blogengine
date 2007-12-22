@@ -16,9 +16,17 @@ using BlogEngine.Core;
 
 public partial class User_controls_xmanager_Parameters : System.Web.UI.UserControl
 {
+    #region Private members
     static protected string _extensionName = string.Empty;
     static protected ExtensionSettings _settings = null;
+    #endregion
 
+    /// <summary>
+    /// Dynamically loads form controls or
+    /// data grid and binds data to controls
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
         _extensionName = Request.QueryString["ext"];
@@ -55,6 +63,11 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         btnAdd.Click += new EventHandler(btnAdd_Click);
     }
 
+    /// <summary>
+    /// Handels adding a new value(s)
+    /// </summary>
+    /// <param name="sender">Button</param>
+    /// <param name="e">Arguments</param>
     void btnAdd_Click(object sender, EventArgs e)
     {
         if (IsValidForm())
@@ -84,6 +97,11 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         }
     }
 
+    /// <summary>
+    /// Deliting row in the data grid
+    /// </summary>
+    /// <param name="sender">Grid View</param>
+    /// <param name="e">Arguments</param>
     void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
         foreach (ExtensionParameter par in _settings.Parameters)
@@ -94,6 +112,11 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         Response.Redirect(Request.RawUrl);
     }
 
+    /// <summary>
+    /// Updating row in the grid
+    /// </summary>
+    /// <param name="sender">Grid View</param>
+    /// <param name="e">Event args</param>
     void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         // extract and store input values in the collection
@@ -142,12 +165,21 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         Response.Redirect(Request.RawUrl);
     }
 
+    /// <summary>
+    /// Editing data in the data grid
+    /// </summary>
+    /// <param name="sender">Grid View</param>
+    /// <param name="e">Event args</param>
     void grid_RowEditing(object sender, GridViewEditEventArgs e)
     {
         grid.EditIndex = e.NewEditIndex;
         BindGrid();
     }
 
+    /// <summary>
+    /// Binds settings values formatted as
+    /// data table to grid view
+    /// </summary>
     private void BindGrid()
     {
         grid.DataKeyNames = new string[] { _settings.KeyField };
@@ -155,6 +187,10 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         grid.DataBind();
     }
 
+    /// <summary>
+    /// Binds single value parameters
+    /// to text boxes
+    /// </summary>
     private void BindScalar()
     {
         foreach (ExtensionParameter par in _settings.Parameters)
@@ -174,6 +210,9 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         }
     }
 
+    /// <summary>
+    /// Creates template for data grid view
+    /// </summary>
     void CreateTemplatedGridView()
     {
         foreach (ExtensionParameter par in _settings.Parameters)
@@ -221,6 +260,10 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         }
     }
 
+    /// <summary>
+    /// Validate the form
+    /// </summary>
+    /// <returns>True if valid</returns>
     private bool IsValidForm()
     {
         bool rval = true;
@@ -251,12 +294,24 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         }
         return rval;
     }
-
+    
+    /// <summary>
+    /// Gets a handle on grid data just before
+    /// bound them to grid view
+    /// </summary>
+    /// <param name="sender">Grid view</param>
+    /// <param name="e">Event args</param>
     protected void grid_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         AddConfirmDelete((GridView)sender, e);
     }
 
+    /// <summary>
+    /// Adds confirmation box to delete buttons
+    /// in the data grid
+    /// </summary>
+    /// <param name="gv">Data grid view</param>
+    /// <param name="e">Event args</param>
     protected static void AddConfirmDelete(GridView gv, GridViewRowEventArgs e)
     {
         if (e.Row.RowType != DataControlRowType.DataRow)

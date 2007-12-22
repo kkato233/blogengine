@@ -4,6 +4,12 @@ using System.Web.UI;
 
 public partial class User_controls_xdashboard_Default : System.Web.UI.Page
 {
+    /// <summary>
+    /// Handles page load, loading control
+    /// based on query string parameter
+    /// </summary>
+    /// <param name="sender">Page</param>
+    /// <param name="e">Event args</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         string ctrlToLoad = string.Empty;

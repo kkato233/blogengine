@@ -85,13 +85,15 @@ public class ManagedExtension
     public ExtensionSettings Settings { get { return _settings; } set { _settings = value; } }
 
     #endregion
+
+    #region Public methods
     /// <summary>
-    /// Method to save settings object. Object will be cached and serialized.
+    /// Method to cache and serialize settings object
     /// </summary>
     /// <param name="settings">Settings object</param>
     public void SaveSettings(ExtensionSettings settings)
     {
         _settings = settings;
     }
-
+    #endregion
 }

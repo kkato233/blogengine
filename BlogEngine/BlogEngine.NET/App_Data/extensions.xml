@@ -43,8 +43,6 @@
         <Values>cite</Values>
       </Parameters>
       <KeyField>Code</KeyField>
-      <RequiredFields>Code</RequiredFields>
-      <RequiredFields>OpenTag</RequiredFields>
       <IsScalar>false</IsScalar>
     </Settings>
   </ManagedExtension>

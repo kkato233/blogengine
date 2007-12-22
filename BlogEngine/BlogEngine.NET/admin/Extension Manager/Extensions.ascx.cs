@@ -9,6 +9,11 @@ using System.Threading;
 
 public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserControl
 {
+    /// <summary>
+    /// handles page load event
+    /// </summary>
+    /// <param name="sender">Page</param>
+    /// <param name="e">Arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         lblErrorMsg.InnerHtml = string.Empty;
@@ -28,6 +33,11 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
         btnRestart.Click += new EventHandler(btnRestart_Click);
     }
 
+    /// <summary>
+    /// Test stuff - ignore for now
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     void btnRestart_Click(object sender, EventArgs e)
     {
         // This short cercuits the IIS process. Need to find a better way to restart the app.
@@ -39,12 +49,16 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
         Response.Redirect(Request.RawUrl, true);
 
     }
-
     public void ForceRestart()
     {
         throw new ApplicationException();
     }
 
+    /// <summary>
+    /// Get extensions data from extension manager
+    /// and format data as html table
+    /// </summary>
+    /// <returns>Html-formated table</returns>
     private string GetExtensions()
     {
         //TODO: localize strings
@@ -124,7 +138,15 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
         sb.Append("</table>");
         return sb.ToString();
     }
-
+    
+    /// <summary>
+    /// Method to change extension status
+    /// to enable or disable extension and
+    /// then will restart applicaton by
+    /// touching web.config file
+    /// </summary>
+    /// <param name="act">Enable or Disable</param>
+    /// <param name="ext">Extension Name</param>
     void ChangeStatus(string act, string ext)
     {
         // UnloadAppDomain() requires full trust - touch web.config to reload app
@@ -155,7 +177,12 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
             ShowError(e);
         }
     }
-
+    
+    /// <summary>
+    /// Show error message if something
+    /// goes wrong
+    /// </summary>
+    /// <param name="e">Exception</param>
     void ShowError(Exception e)
     {
         lblErrorMsg.Visible = true;
