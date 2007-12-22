@@ -74,6 +74,18 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 	{
 		Guid id = (Guid)grid.DataKeys[e.RowIndex].Value;
 		Category cat = Category.GetCategory(id);
+		
+		// Removes all references to the category
+		foreach (Post post in Post.Posts)
+		{
+			if (post.Categories.Contains(cat))
+			{
+				post.Categories.Remove(cat);
+				break;
+			}
+		}
+
+		Category cat = Category.GetCategory(id);
 		cat.Delete();
 		cat.Save();
 		Response.Redirect(Request.RawUrl);
