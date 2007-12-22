@@ -27,7 +27,15 @@ namespace Controls
 
     #endregion
 
-    private static Dictionary<string, string> WeightedList
+		private int _MinimumPosts = 1;
+
+		public int MinimumPosts
+		{
+			get { return _MinimumPosts; }
+			set { _MinimumPosts = value; }
+		}
+
+    private Dictionary<string, string> WeightedList
     {
       get
       {
@@ -56,7 +64,7 @@ namespace Controls
       SortedDictionary<string, int> dic = new SortedDictionary<string, int>();
       foreach (Post post in Post.Posts)
       {
-        if (post.IsPublished)
+        if (post.IsVisible)
         {
           foreach (string tag in post.Tags)
           {
@@ -73,7 +81,7 @@ namespace Controls
     /// <summary>
     /// Sorts the list of tags based on how much they are used.
     /// </summary>
-    private static void SortList()
+    private void SortList()
     {
       SortedDictionary<string, int> dic = CreateRawList();
       int max = 0;
@@ -85,6 +93,9 @@ namespace Controls
 
       foreach (string key in dic.Keys)
       {
+				if (dic[key] < MinimumPosts)
+					continue;
+
         double weight = ((double)dic[key] / max) * 100;
         if (weight >= 99)
           _WeightedList.Add(key, "biggest");

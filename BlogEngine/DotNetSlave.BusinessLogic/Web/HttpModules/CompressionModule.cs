@@ -71,6 +71,10 @@ namespace BlogEngine.Core.Web.HttpModules
           SetEncoding(GZIP);
         }
       }
+			else if (app.Context.Request.Path.Contains("WebResource.axd"))
+			{
+				app.Context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+			}
     }
 
     /// <summary>

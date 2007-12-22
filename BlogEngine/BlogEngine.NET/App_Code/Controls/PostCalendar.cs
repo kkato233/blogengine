@@ -19,6 +19,12 @@ namespace Controls
   public class PostCalendar : Calendar, ICallbackEventHandler
   {
 
+		protected override void OnLoad(EventArgs e)
+		{
+			Page.ClientScript.GetCallbackEventReference(this, "arg", null, "context");
+			base.OnLoad(e);
+		}
+
     protected override void OnPreRender(EventArgs e)
     {
       if (!Page.IsCallback && !Page.IsPostBack)
@@ -30,7 +36,7 @@ namespace Controls
         if (DateTime.TryParse(Context.Request.QueryString["date"], out date))
           base.VisibleDate = date;
       }
-
+			
       base.OnPreRender(e);
       if (!ShowPostTitles)
         ShowTitle = false;
@@ -68,7 +74,7 @@ namespace Controls
 					{
 						HtmlAnchor a = new HtmlAnchor();
 						a.InnerHtml = day.DayNumberText;
-						a.HRef = Utils.RelativeWebRoot  + day.Date.Year + "/" + day.Date.ToString("MM") + "/" + day.Date.ToString("dd") + "/default.aspx";
+						a.HRef = Utils.RelativeWebRoot  + day.Date.Year + "/" + day.Date.ToString("MM") + "/" + day.Date.ToString("dd") + "/default" + BlogSettings.Instance.FileExtension;
 						a.Attributes["class"] = "exist";
 						cell.Controls.Add(a);
 					}

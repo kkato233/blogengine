@@ -31,30 +31,12 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			DisplayTags();
 		}
-		//else if (Request.PathInfo.StartsWith("/CALENDAR", StringComparison.OrdinalIgnoreCase))
-		//{
-		//  calendar.Visible = true;
-		//  PostList1.Visible = false;
-		//  Title = Server.HtmlEncode(BlogSettings.Instance.Name);
-		//}
-		//else if (Request.PathInfo.Length > 6 && Request.PathInfo.Length < 9 && YEAR_MONTH.IsMatch(Request.PathInfo))
-		//{
-		//  Match match = YEAR_MONTH.Match(Request.PathInfo);
-		//  string year = match.Groups[1].Value;
-		//  string month = match.Groups[2].Value;
-		//  DisplayDateRange(year, month, null);
-		//}
-		//else if (Request.PathInfo.Length > 9 && YEAR_MONTH_DAY.IsMatch(Request.PathInfo))
-		//{
-		//  Match match = YEAR_MONTH_DAY.Match(Request.PathInfo);
-		//  string year = match.Groups[1].Value;
-		//  string month = match.Groups[2].Value;
-		//  string day = match.Groups[3].Value;
-		//  DisplayDateRange(year, month, day);
-		//}
 		else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null || Request.QueryString["calendar"] != null)
 		{
-			DisplayDateRange();
+			if (Request.RawUrl.Contains("year="))
+				Redirect();
+			else
+				DisplayDateRange();
 		}
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
@@ -67,6 +49,45 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		AddMetaKeywords();
 		base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
 		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));
+	}
+
+	/// <summary>
+	/// Permanently redirects to the correct URL format if the page is requested with
+	/// the old URL: /default.aspx?year=2007&month=12
+	/// <remarks>
+	/// The redirection is important so that we don't end up having 2 URLs 
+	/// to the same resource. It's for SEO purposes.
+	/// </remarks>
+	/// </summary>
+	private void Redirect()
+	{
+		string year = Request.QueryString["year"];
+		string month = Request.QueryString["month"];
+		string date = Request.QueryString["date"];
+		string page = string.IsNullOrEmpty(Request.QueryString["page"]) ? string.Empty : "?page=" + Request.QueryString["page"];
+		string rewrite = null;
+
+		if (!string.IsNullOrEmpty(date))
+		{
+			DateTime dateParsed = DateTime.Parse(date);
+			rewrite = Utils.RelativeWebRoot + dateParsed.Year + "/" + dateParsed.Month + "/" + dateParsed.Day + "/default.aspx";	
+		}
+		else if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(year))
+		{
+			rewrite = Utils.RelativeWebRoot + year + "/default.aspx";	
+		}
+		else if (!string.IsNullOrEmpty(year))
+		{
+			rewrite = Utils.RelativeWebRoot + year + "/default.aspx";
+		}
+
+		if (rewrite != null)
+		{
+			Response.Clear();
+			Response.StatusCode = 301;
+			Response.AppendHeader("location", rewrite + page);
+			Response.End();
+		}
 	}
 
 	private static readonly Regex YEAR_MONTH = new Regex("/([0-9][0-9][0-9][0-9])/([0-1][0-9])", RegexOptions.IgnoreCase | RegexOptions.Compiled);

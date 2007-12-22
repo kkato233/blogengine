@@ -70,14 +70,14 @@ namespace BlogEngine.Core.Web.HttpModules
 				{
 					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?calendar=show", false);
 				}
-				else if (url.EndsWith("DEFAULT.ASPX"))
+				else if (url.Contains("/DEFAULT" + BlogSettings.Instance.FileExtension.ToUpperInvariant()))
 				{
 					RewriteDefault(context);
 				}
 				else if (url.Contains("/AUTHOR/"))
 				{
 					string author = ExtractTitle(context);
-					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?name=" + author + GetQueryString(context), false);
+					context.RewritePath(Utils.RelativeWebRoot + "default" + BlogSettings.Instance.FileExtension + "?name=" + author + GetQueryString(context), false);
 				}
       }
     }
@@ -130,6 +130,10 @@ namespace BlogEngine.Core.Web.HttpModules
 		private static void RewriteDefault(HttpContext context)
 		{
 			string url = context.Request.RawUrl;
+			string page = "&page=" + context.Request.QueryString["page"];
+			if (string.IsNullOrEmpty(context.Request.QueryString["page"]))
+				page = null;
+
 			if (YEAR_MONTH_DAY.IsMatch(url))
 			{
 				Match match = YEAR_MONTH_DAY.Match(url);
@@ -137,7 +141,7 @@ namespace BlogEngine.Core.Web.HttpModules
 				string month = match.Groups[2].Value;
 				string day = match.Groups[3].Value;
 				string date = year + "-" + month + "-" + day;
-				context.RewritePath(Utils.RelativeWebRoot + "default.aspx?date=" + date, false);
+				context.RewritePath(Utils.RelativeWebRoot + "default.aspx?date=" + date + page, false);
 			}
 			else if (YEAR_MONTH.IsMatch(url))
 			{
@@ -145,14 +149,14 @@ namespace BlogEngine.Core.Web.HttpModules
 				string year = match.Groups[1].Value;
 				string month = match.Groups[2].Value;
 				string path = string.Format("default.aspx?year={0}&month={1}", year, month);
-				context.RewritePath(Utils.RelativeWebRoot + path, false);
+				context.RewritePath(Utils.RelativeWebRoot + path + page, false);
 			}
 			else if (YEAR.IsMatch(url))
 			{
 				Match match = YEAR.Match(url);
 				string year = match.Groups[1].Value;
 				string path = string.Format("default.aspx?year={0}", year);
-				context.RewritePath(Utils.RelativeWebRoot + path, false);
+				context.RewritePath(Utils.RelativeWebRoot + path + page, false);
 			}
 		}
 

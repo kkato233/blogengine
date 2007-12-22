@@ -8,8 +8,6 @@
   </role>
   <role>
     <name>Editors</name>
-    <users>
-      <user>mads</user>
-    </users>
+    <users />
   </role>
 </roles>

@@ -55,7 +55,32 @@ namespace BlogEngine.Core.Web.Controls
 					// Now lets add our user control.
 					try
 					{
-						bodyContent.Controls.Add(LoadControl(myMatch.Groups[1].Value));
+						string all = myMatch.Groups[1].Value.Trim();
+						UserControl usercontrol = null;
+
+						if (!all.EndsWith(".ascx", StringComparison.OrdinalIgnoreCase))
+						{
+							int index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) + 5;
+							usercontrol = (UserControl)LoadControl(all.Substring(0, index));
+
+							string parameters = Server.HtmlDecode(all.Substring(index));
+							Type type = usercontrol.GetType();
+							string[] paramCollection = parameters.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+							foreach (string param in paramCollection)
+							{
+								string name = param.Split('=')[0].Trim();
+								string value = param.Split('=')[1].Trim();
+								System.Reflection.PropertyInfo property = type.GetProperty(name);
+								property.SetValue(usercontrol, Convert.ChangeType(value, property.PropertyType, CultureInfo.InvariantCulture), null);
+							}
+						}
+						else
+						{
+							usercontrol = (UserControl)LoadControl(all);
+						}
+
+						bodyContent.Controls.Add(usercontrol);
 
 						// Now we will update our position.
 						//currentPosition = myMatch.Index + myMatch.Groups[0].Length;
