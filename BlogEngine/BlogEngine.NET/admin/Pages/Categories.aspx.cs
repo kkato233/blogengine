@@ -81,11 +81,9 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 			if (post.Categories.Contains(cat))
 			{
 				post.Categories.Remove(cat);
-				break;
 			}
 		}
 
-		Category cat = Category.GetCategory(id);
 		cat.Delete();
 		cat.Save();
 		Response.Redirect(Request.RawUrl);
