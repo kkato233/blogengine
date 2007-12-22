@@ -72,7 +72,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			DateTime dateParsed = DateTime.Parse(date);
 			rewrite = Utils.RelativeWebRoot + dateParsed.Year + "/" + dateParsed.Month + "/" + dateParsed.Day + "/default.aspx";	
 		}
-		else if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(year))
+		else if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(month))
 		{
 			rewrite = Utils.RelativeWebRoot + year + "/default.aspx";	
 		}
