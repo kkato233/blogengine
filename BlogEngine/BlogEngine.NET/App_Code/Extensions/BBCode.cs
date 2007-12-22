@@ -51,7 +51,7 @@ public class BBCode
 
         settings.AddValues(new string[] { "b", "strong", "" });
         settings.AddValues(new string[] { "i", "em", "" });
-        settings.AddValues(new string[] { "u", "em,span style=\"text-decoration:underline\"", "span" });
+        settings.AddValues(new string[] { "u", "span style=\"text-decoration:underline\"", "span" });
         settings.AddValues(new string[] { "quote", "cite title=\"Quote\"", "cite" });
         //------------------------------------------------------
         ExtensionManager.ImportSettings(settings);

@@ -1,5 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="Editor.ascx.cs" Inherits="User_controls_xmanager_SourceEditor" %>
-<h1>Source Viewer</h1>
+<h1>Source Viewer: <%=_extensionName%></h1>
 <div>
     <asp:TextBox ID="txtEditor" runat="server" TextMode="multiLine" Width="100%" Height="350"></asp:TextBox>
     <br />

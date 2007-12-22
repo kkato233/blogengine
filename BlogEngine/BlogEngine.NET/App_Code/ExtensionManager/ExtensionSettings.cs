@@ -17,6 +17,7 @@ public class ExtensionSettings
     List<ExtensionParameter> _params = null;
     string _keyField = string.Empty;
     bool _isScalar = false;
+    StringCollection _requiredFields = new StringCollection();
     #endregion
 
     #region Constructors
@@ -88,25 +89,23 @@ public class ExtensionSettings
         }
     }
     /// <summary>
-    /// Collection of requred field
-    /// will be validated in the UI
+    /// Returns collection of required parameters
     /// </summary>
-    [XmlElement]
+    [XmlIgnore]
     public StringCollection RequiredFields
     {
         get
         {
-            StringCollection requiredFields = new StringCollection();
             foreach (ExtensionParameter par in _params)
             {
-                if (par.Required == true)
-                    requiredFields.Add(par.Name);
+                if (par.Required == true && !_requiredFields.Contains(par.Name))
+                    _requiredFields.Add(par.Name);
             }
             // key field is required by default
-            if (!requiredFields.Contains(_keyField))
-                requiredFields.Add(_keyField);
+            if (!_requiredFields.Contains(KeyField))
+                _requiredFields.Add(KeyField);
 
-            return requiredFields;
+            return _requiredFields;
         }
     }
     /// <summary>
@@ -202,7 +201,7 @@ public class ExtensionSettings
     {
         foreach (ExtensionParameter par in _params)
         {
-            if (par.Name == _keyField)
+            if (par.Name == KeyField)
             {
                 foreach (string val in par.Values)
                 {
