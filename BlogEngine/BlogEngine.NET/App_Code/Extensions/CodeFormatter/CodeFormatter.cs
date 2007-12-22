@@ -14,12 +14,12 @@ using CodeFormatter;
 
 
 /// <summary>
-/// Changes smilies from text to image inside a comment post.
+/// Converts text to formatted syntax highlighted code.
 /// </summary>
 /// <remarks>
 /// It is a work in progress.....
 /// </remarks>
-[Extension("Changes <code:lang></code>.  Adapted from Jean-Claude Manoli [jc@manoli.net].", "0.0.0.1", "www.manoli.net")]
+[Extension("Converts text to formatted syntax highlighted code (beta).", "0.1", "www.manoli.net")]
 public class CodeFormatterExtension
 {
     #region Constructors

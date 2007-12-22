@@ -13,7 +13,7 @@ using System.Threading;
 /// Pings all the ping services specified on the 
 /// PingServices admin page and send track- and pingbacks
 /// </summary>
-[Extension("Pings all the ping services specified on the PingServices admin page and send track- and pingbacks", "1.1", "BlogEngine.NET")]
+[Extension("Pings all the ping services specified on the PingServices admin page and send track- and pingbacks", "1.3", "BlogEngine.NET")]
 public class SendPings
 {
 

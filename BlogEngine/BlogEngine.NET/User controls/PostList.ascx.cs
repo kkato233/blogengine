@@ -40,8 +40,12 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		if (index + count > Posts.Count)
 			stop = Posts.Count - index;
 
-		if (stop + index > Posts.Count)
+		if (stop < 0 || stop + index > Posts.Count)
+		{
+			hlPrev.Visible = false;
+			hlNext.Visible = false;
 			return;
+		}
 
 		string theme = BlogSettings.Instance.Theme;
 		if (Request.QueryString["theme"] != null)
