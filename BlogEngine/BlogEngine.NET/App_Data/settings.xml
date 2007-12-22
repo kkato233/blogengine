@@ -45,7 +45,7 @@
   <enablecontactattachments>True</enablecontactattachments>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
-  <emailsubjectprefix />
+  <emailsubjectprefix>Weblog</emailsubjectprefix>
   <handlewwwsubdomain />
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <smtppassword>password</smtppassword>

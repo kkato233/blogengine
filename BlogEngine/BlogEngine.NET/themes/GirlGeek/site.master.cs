@@ -15,6 +15,6 @@ public partial class site : System.Web.UI.MasterPage
 {
   protected void Page_Load(object sender, EventArgs e)
   {
-	  RssIconImage1.ImageUrl = "~/themes/" + BlogSettings.Instance.Theme + "/img/rss_24x24.png";
+	  RssIconImage1.ImageUrl = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/img/rss_24x24.png";
   }
 }

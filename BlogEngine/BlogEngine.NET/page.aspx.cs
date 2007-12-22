@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using BlogEngine.Core;
 
 #endregion
@@ -111,7 +112,32 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 
 			try
 			{
-				divText.Controls.Add(LoadControl(myMatch.Groups[1].Value));
+				string all = myMatch.Groups[1].Value.Trim();
+				UserControl usercontrol = null;
+				
+				if (!all.EndsWith(".ascx", StringComparison.OrdinalIgnoreCase))
+				{
+					int index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) +5;
+					usercontrol = (UserControl)LoadControl(all.Substring(0, index));
+				
+					string parameters = Server.HtmlDecode(all.Substring(index));
+					Type type = usercontrol.GetType();
+					string[] paramCollection = parameters.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+					
+					foreach (string param in paramCollection)
+					{
+						string name = param.Split('=')[0].Trim();
+						string value = param.Split('=')[1].Trim();
+						System.Reflection.PropertyInfo property = type.GetProperty(name);
+						property.SetValue(usercontrol, Convert.ChangeType(value, property.PropertyType, CultureInfo.InvariantCulture), null);
+					}
+				}
+				else
+				{
+					usercontrol = (UserControl)LoadControl(all);
+				}
+
+				divText.Controls.Add(usercontrol);
 			}
 			catch (Exception)
 			{

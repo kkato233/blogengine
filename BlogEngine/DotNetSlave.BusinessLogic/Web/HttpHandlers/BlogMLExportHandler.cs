@@ -133,7 +133,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			writer.WriteStartElement("property");
 			writer.WriteAttributeString("name", "SendTrackback");
-			writer.WriteAttributeString("value", "Yes");
+			writer.WriteAttributeString("value", BlogSettings.Instance.EnableTrackBackSend ? "Yes" : "No");
 			writer.WriteEndElement();
 
 			writer.WriteEndElement();
@@ -192,6 +192,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				AddPostExcerpt(writer, post);
 				AddPostAuthor(writer, post);
 				AddPostCategories(writer, post);
+				AddPostTags(writer, post);
 				AddPostComments(writer, post);
 				AddPostTrackbacks(writer, post);
 
@@ -260,6 +261,21 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			{
 				writer.WriteStartElement("category");
 				writer.WriteAttributeString("ref", category.Id.ToString());
+				writer.WriteEndElement();
+			}
+			writer.WriteEndElement();
+		}
+
+		private static void AddPostTags(XmlWriter writer, Post post)
+		{
+			if (post.Tags.Count == 0)
+				return;
+
+			writer.WriteStartElement("tags");
+			foreach (string tag in post.Tags)
+			{
+				writer.WriteStartElement("tag");
+				writer.WriteAttributeString("ref", tag);
 				writer.WriteEndElement();
 			}
 			writer.WriteEndElement();
