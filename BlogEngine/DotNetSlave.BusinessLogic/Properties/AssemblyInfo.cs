@@ -14,7 +14,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BlogEngine.NET")]
-[assembly: AssemblyCopyright("Copyright @ 2007")]
+[assembly: AssemblyCopyright("Copyright @ 2007-2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,4 +22,4 @@ using System;
 [assembly: ComVisible(false)]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.2.0.35")]
+[assembly: AssemblyVersion("1.3.0.0")]
