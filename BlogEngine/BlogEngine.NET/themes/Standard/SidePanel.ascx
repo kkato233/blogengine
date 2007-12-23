@@ -77,7 +77,7 @@
 <div class="box">
   <h1><%=Resources.labels.blogroll %></h1>   
   <blog:Blogroll runat="server" />
-  <a href="<%=Utils.AbsoluteWebRoot %>opml.axd" style="display:block;text-align:right" title="Download OPML file" >Download OPML file <asp:Image ID="Image1" runat="server" ImageUrl="~/pics/opml.png" AlternateText="OPML" /></a>
+  <a href="<%=Utils.AbsoluteWebRoot %>opml.axd" style="display:block;text-align:right" title="Download OPML file" >Download OPML file <img src="<%=Utils.AbsoluteWebRoot %>pics/opml.png" alt="OPML" /></a>
 </div>
 
 <div class="box">
