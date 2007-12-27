@@ -52,7 +52,7 @@ namespace BlogEngine.Core.Web.HttpModules
       {
         if (context.Request.Path.Contains("/blog.aspx"))
         {
-          context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true");
+          context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true" + GetQueryString(context));
         }
         else if (url.Contains("/POST/"))
         {
