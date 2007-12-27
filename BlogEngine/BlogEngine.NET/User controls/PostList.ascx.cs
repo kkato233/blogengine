@@ -113,10 +113,10 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		int page = GetPageIndex();
 		string url = path + "page={0}";
 
-		if (page != 1)
+		//if (page != 1)
 			hlNext.HRef = string.Format(url, page);
-		else
-			hlNext.HRef = path.Replace("?", string.Empty);
+		//else
+			//hlNext.HRef = path.Replace("?", string.Empty);
 
 		hlPrev.HRef = string.Format(url, page + 2);
 

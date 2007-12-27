@@ -50,6 +50,11 @@ namespace Controls
 
     protected override void OnDayRender(TableCell cell, CalendarDay day)
     {
+			if (day.IsToday)
+			{
+				cell.Attributes["id"] += "today";
+			}
+
       List<Post> list = Post.GetPostsByDate(day.Date, day.Date);
       if (list.Count > 0)
       {
