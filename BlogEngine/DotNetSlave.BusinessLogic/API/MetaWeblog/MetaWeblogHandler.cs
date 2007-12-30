@@ -484,6 +484,8 @@ namespace BlogEngine.Core.API.MetaWeblog
       Page page = new Page();
       page.Title = mPage.title;
       page.Content = mPage.description;
+      page.Description = ""; // Can not be set from WLW
+      page.Keywords = mPage.mt_keywords;
       if (mPage.pageDate != new DateTime())
         page.DateCreated = mPage.pageDate.AddHours(BlogSettings.Instance.Timezone * -1); ;
       page.ShowInList = publish;
@@ -515,6 +517,7 @@ namespace BlogEngine.Core.API.MetaWeblog
         mPage.pageID = page.Id.ToString();
         mPage.title = page.Title;
         mPage.description = page.Content;
+        mPage.mt_keywords = page.Keywords;
         mPage.pageDate = page.DateCreated;
         mPage.link = page.AbsoluteLink.AbsoluteUri;
         mPage.mt_convert_breaks = "__default__";
@@ -544,6 +547,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       sendPage.pageID = page.Id.ToString();
       sendPage.title = page.Title;
       sendPage.description = page.Content;
+      sendPage.mt_keywords = page.Keywords;
       sendPage.pageDate = page.DateCreated;
       sendPage.link = page.AbsoluteLink.AbsoluteUri;
       sendPage.mt_convert_breaks = "__default__";
@@ -561,6 +565,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 
       page.Title = mPage.title;
       page.Content = mPage.description;
+      page.Keywords = mPage.mt_keywords;
       page.ShowInList = publish;
       page.IsPublished = publish;
       if (mPage.pageParentID != "0")
@@ -874,6 +879,10 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// Page Parent ID
     /// </summary>
     public string pageParentID;
+    /// <summary>
+    /// Page keywords
+    /// </summary>
+    public string mt_keywords;
   }
 
 }

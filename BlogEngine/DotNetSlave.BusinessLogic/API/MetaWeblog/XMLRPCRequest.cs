@@ -414,6 +414,12 @@ namespace BlogEngine.Core.API.MetaWeblog
             // Ignore PubDate Error
           }
         }
+        
+        //Keywords
+        if (node.SelectSingleNode("value/struct/member[name='mt_keywords']") == null)
+          temp.mt_keywords = "";
+        else
+          temp.mt_keywords = node.SelectSingleNode("value/struct/member[name='mt_keywords']").LastChild.InnerText;
 
         if (node.SelectSingleNode("value/struct/member[name='wp_page_parent_id']") != null)
           temp.pageParentID = node.SelectSingleNode("value/struct/member[name='wp_page_parent_id']").LastChild.InnerText;
