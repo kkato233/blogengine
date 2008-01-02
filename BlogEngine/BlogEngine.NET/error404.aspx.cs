@@ -34,6 +34,8 @@ public partial class error404 : BlogBasePage
     {
       divExternalReferrer.Visible = true;
     }
+
+		Page.Title = "Page not found";
   }
 
   private void DirectHitSearch()

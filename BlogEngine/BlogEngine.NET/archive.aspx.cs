@@ -12,20 +12,28 @@ using BlogEngine.Core;
 
 public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 {
+	/// <summary>
+	/// Handles the Load event of the Page control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
   protected void Page_Load(object sender, EventArgs e)
   {
     if (!IsPostBack && !IsCallback)
     {
-      CreateAdminMenu();
+			CreateMenu();
       CreateArchive();
       AddTotals();
     }
 
     Page.Title = Resources.labels.archive;
-    base.AddMetaTag("description", BlogSettings.Instance.Description);
+    base.AddMetaTag("description", Resources.labels.archive + " | " + BlogSettings.Instance.Name);
   }
 
-  private void CreateAdminMenu()
+	/// <summary>
+	/// Creates the category top menu.
+	/// </summary>
+  private void CreateMenu()
   {
     foreach (Category cat in Category.Categories)
     {
@@ -38,9 +46,12 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       li.Controls.Add(a);
       ulMenu.Controls.Add(li);
     }
-
   }
 
+	/// <summary>
+	/// Sorts the categories.
+	/// </summary>
+	/// <param name="categories">The categories.</param>
   private SortedDictionary<string, Guid> SortCategories(Dictionary<Guid, string> categories)
   {
     SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();

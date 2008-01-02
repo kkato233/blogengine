@@ -107,8 +107,8 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			Post next = GetNextPost(Post);
 			Post prev = GetPrevPost(Post);
-
-			if (next != null)
+			
+			if (next != null && !next.IsDeleted)
 			{
 				hlNext.NavigateUrl = next.RelativeLink;
 				hlNext.Text = Server.HtmlEncode(next.Title + " >>");
@@ -116,7 +116,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				base.AddGenericLink("next", Post.Next.Title, Post.Next.RelativeLink.ToString());
 			}
 
-			if (prev != null)
+			if (prev != null && !prev.IsDeleted)
 			{
 				hlPrev.NavigateUrl = prev.RelativeLink;
 				hlPrev.Text = Server.HtmlEncode("<< " + prev.Title);
@@ -133,10 +133,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// </summary>
 	private void AddMetaDescription()
 	{
-		if (!string.IsNullOrEmpty(Post.Description))
-			base.AddMetaTag("description", Server.HtmlEncode(Post.Description));
-		else
-			base.AddMetaTag("description", BlogSettings.Instance.Description);
+		base.AddMetaTag("description", Server.HtmlEncode(Post.Description));
 	}
 
 	/// <summary>

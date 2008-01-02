@@ -18,6 +18,11 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
   #region Event handlers
 
+	/// <summary>
+	/// Handles the Load event of the Page control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
   protected void Page_Load(object sender, EventArgs e)
   {
     rep.ItemDataBound += new RepeaterItemEventHandler(rep_ItemDataBound);
@@ -34,10 +39,13 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
       Page.Title = Resources.labels.search;
       h1Headline.InnerHtml = Resources.labels.search;
     }
-
-    base.AddMetaTag("description", BlogSettings.Instance.Description);
   }
 
+	/// <summary>
+	/// Handles the ItemDataBound event of the rep control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.Web.UI.WebControls.RepeaterItemEventArgs"/> instance containing the event data.</param>
   void rep_ItemDataBound(object sender, RepeaterItemEventArgs e)
   {
     HtmlGenericControl control = (HtmlGenericControl)e.Item.FindControl("type");
