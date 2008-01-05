@@ -364,7 +364,7 @@ public class ExtensionSettings
         {
             if (par.Name.ToLower() == parameterName.ToLower())
             {
-                if (par.Values != null)
+                if (par.Values != null && par.Values.Count > 0)
                     return par.Values[0];
             }
         }
