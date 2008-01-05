@@ -28,7 +28,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
-			string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
+			//string file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
+			string file = string.Empty;
+			
+			if (context.Request.QueryString["name"].StartsWith("/"))
+				file = context.Server.MapPath(context.Request.QueryString["name"]);
+			else
+				file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
+
 			ReduceCss(file, context);
 			SetHeaders(file, context);
 

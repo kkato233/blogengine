@@ -113,86 +113,72 @@ namespace BlogEngine.Core.Ping
 
   }
 
-  /// <summary>
-  /// 
-  /// </summary>
+	/// <summary>
+	/// 
+	/// </summary>
   public class TrackbackMessage
   {
-    /// <summary>
-    /// 
-    /// </summary>
     private string _Title;
-
-    /// <summary>
-    /// 
-    /// </summary>
+		/// <summary>
+		/// Gets or sets the title.
+		/// </summary>
+		/// <value>The title.</value>
     public string Title
     {
       get { return _Title; }
       set { _Title = value; }
     }
     
-    /// <summary>
-    /// 
-    /// </summary>
     private Uri _PostUrl;
-
-    /// <summary>
-    /// 
-    /// </summary>
+		/// <summary>
+		/// Gets or sets the post URL.
+		/// </summary>
+		/// <value>The post URL.</value>
     public Uri PostUrl
     {
       get { return _PostUrl; }
       set { _PostUrl = value; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     private string _Excerpt;
-
-    /// <summary>
-    /// 
-    /// </summary>
+		/// <summary>
+		/// Gets or sets the excerpt.
+		/// </summary>
+		/// <value>The excerpt.</value>
     public string Excerpt
     {
       get { return _Excerpt; }
       set { _Excerpt = value; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     private string _BlogName;
-
-    /// <summary>
-    /// 
-    /// </summary>
+		/// <summary>
+		/// Gets or sets the name of the blog.
+		/// </summary>
+		/// <value>The name of the blog.</value>
     public string BlogName
     {
       get { return _BlogName; }
       set { _BlogName = value; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
+    
     private Uri _UrlToNotifyTrackback;
-
-    /// <summary>
-    /// 
-    /// </summary>
+		/// <summary>
+		/// Gets or sets the URL to notify trackback.
+		/// </summary>
+		/// <value>The URL to notify trackback.</value>
     public Uri UrlToNotifyTrackback
     {
       get { return _UrlToNotifyTrackback; }
       set { _UrlToNotifyTrackback = value; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="post"></param>
-    /// <param name="urlToNotifyTrackback"></param>
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TrackbackMessage"/> class.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <param name="urlToNotifyTrackback">The URL to notify trackback.</param>
     public TrackbackMessage(IPublishable item, Uri urlToNotifyTrackback)
     {
       if (item == null)
@@ -205,10 +191,12 @@ namespace BlogEngine.Core.Ping
       UrlToNotifyTrackback = urlToNotifyTrackback;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
+		/// <summary>
+		/// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+		/// </returns>
     public override string ToString()
     {
       if (string.IsNullOrEmpty(UrlToNotifyTrackback.Query))

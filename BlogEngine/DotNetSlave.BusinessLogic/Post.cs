@@ -146,7 +146,7 @@ namespace BlogEngine.Core
 		{
 			get { return _Categories; }
 		}
-				
+
 		private StateList<string> _Tags;
 		/// <summary>
 		/// An unsorted collection of tags.
@@ -306,7 +306,7 @@ namespace BlogEngine.Core
 				string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
 
 				if (BlogSettings.Instance.TimeStampPostLinks)
-					return Utils.RelativeWebRoot + "post/" + DateCreated.Year + "/" + DateCreated.ToString("MM", CultureInfo.InvariantCulture) + "/" + slug;
+					return Utils.RelativeWebRoot + "post/" + DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture) + slug;
 
 				return Utils.RelativeWebRoot + "post/" + slug;
 			}
@@ -379,7 +379,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByCategory(Guid categoryId)
 		{
-			List<Post> col = Posts.FindAll(delegate(Post p) 
+			List<Post> col = Posts.FindAll(delegate(Post p)
 			{
 				return p.Categories.Contains(Category.GetCategory(categoryId));
 			});
@@ -425,8 +425,11 @@ namespace BlogEngine.Core
 		{
 			return Posts.Find(delegate(Post p)
 			{
-				if (BlogSettings.Instance.TimeStampPostLinks && date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
-					return false;
+				if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
+				{
+					if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
+						return false;
+				}
 
 				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
 			});
@@ -440,7 +443,7 @@ namespace BlogEngine.Core
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
 				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);
-				return Utils.RemoveIllegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase);				
+				return Utils.RemoveIllegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
 			});
 
 			list.TrimExcess();

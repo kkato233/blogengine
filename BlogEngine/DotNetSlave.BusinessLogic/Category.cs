@@ -165,9 +165,9 @@ namespace BlogEngine.Core
         Categories.Remove(this);
     }
     
-    /// <summary>
-    /// Saves the object to the database.
-    /// </summary>
+		///// <summary>
+		///// Saves the object to the database.
+		///// </summary>
    //public override void Save()
    // {
    //   if (this.IsDeleted)

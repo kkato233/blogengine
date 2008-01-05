@@ -94,7 +94,6 @@ namespace BlogEngine.Core.Web.HttpModules
       }
     }    
 
-    //todo:  Need to rewrite for Category BO
     private static void RewriteCategory(HttpContext context)
     {
       string title = ExtractTitle(context);
@@ -179,7 +178,6 @@ namespace BlogEngine.Core.Web.HttpModules
       return context.Server.UrlEncode(title);
     }
 
-    private static readonly Regex _Regex = new Regex("/([0-9][0-9][0-9][0-9])/([01][0-9])/", RegexOptions.Compiled);
     /// <summary>
     /// Extracts the year and month from the requested URL and returns that as a DateTime.
     /// </summary>
@@ -188,7 +186,16 @@ namespace BlogEngine.Core.Web.HttpModules
       if (!BlogSettings.Instance.TimeStampPostLinks)
         return DateTime.MinValue;
 
-      Match match = _Regex.Match(context.Request.RawUrl);
+			Match match = YEAR_MONTH_DAY.Match(context.Request.RawUrl);
+			if (match.Success)
+			{
+				int year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+				int month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
+				int day = int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture);
+				return new DateTime(year, month, day);
+			}
+
+      match = YEAR_MONTH.Match(context.Request.RawUrl);
       if (match.Success)
       {
         int year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
