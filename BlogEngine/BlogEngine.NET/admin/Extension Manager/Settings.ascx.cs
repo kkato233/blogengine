@@ -203,7 +203,12 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
                     if (txt.ID.ToLower() == par.Name.ToLower())
                     {
                         if (par.Values != null)
-                            txt.Text = par.Values[0];
+                        {
+                            if (par.Values.Count == 0)
+                                txt.Text = string.Empty;
+                            else
+                                txt.Text = par.Values[0];
+                        }
                     }
                 }
             }

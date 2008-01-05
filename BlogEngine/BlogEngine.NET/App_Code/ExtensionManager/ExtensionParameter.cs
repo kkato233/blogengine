@@ -89,7 +89,10 @@ public class ExtensionParameter
         if (_values == null)
             _values = new StringCollection();
 
-        _values[0] = val;
+        if (_values.Count == 0)
+            _values.Add(val);
+        else
+            _values[0] = val;
     }
     /// <summary>
     /// Delete value in parameter value collection
