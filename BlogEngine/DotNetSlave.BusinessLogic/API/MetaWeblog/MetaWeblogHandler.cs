@@ -69,7 +69,6 @@ namespace BlogEngine.Core.API.MetaWeblog
           case "blogger.getUserInfo":
             //Not implemented.  Not planned.
             throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
-            break;
           case "wp.newPage":
             output.PageID = NewPage(input.BlogID, input.UserName, input.Password, input.Page, input.Publish);
             break;
@@ -282,6 +281,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// <param name="userName">login username</param>
     /// <param name="password">login password</param>
     /// <param name="mediaObject">struct with media details</param>
+		/// <param name="request">The HTTP request.</param>
     /// <returns>struct with url to media</returns>
     internal MWAMediaInfo NewMediaObject(string blogID, string userName, string password, MWAMediaObject mediaObject, HttpContext request)
     {
@@ -343,6 +343,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
     /// <param name="userName">login username</param>
     /// <param name="password">login password</param>
+		/// <param name="rootUrl">The root URL.</param>
     /// <returns>array of category structs</returns>
     internal List<MWACategory> GetCategories(string blogID, string userName, string password, string rootUrl) 
     {
@@ -426,6 +427,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
     /// <param name="userName">login username</param>
     /// <param name="password">login password</param>
+		/// <param name="rootUrl">The root URL.</param>
     /// <returns>array of blog structs</returns>
     internal List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password, string rootUrl) 
     {
@@ -679,10 +681,10 @@ namespace BlogEngine.Core.API.MetaWeblog
     /// Url to RSS for category
     /// </summary>
     public string rssUrl;
-    /// <summary>
-    /// The guid of the category
-    /// </summary>
-    public string id;
+		/// <summary>
+		/// The guid of the category
+		/// </summary>
+		public string id;
     /// <summary>
     /// The title/name of the category
     /// </summary>
@@ -811,40 +813,40 @@ namespace BlogEngine.Core.API.MetaWeblog
 
   }
 
-  /// <summary>
-  /// MetaWeblog UserInfo struct
-  /// returned from GetUserInfo call
-  /// </summary>
-  /// <remarks>
-  /// Not used currently, but here for completeness.
-  /// </remarks>
-  internal struct MWAUserInfo
-  {
-    /// <summary>
-    /// User Name Proper
-    /// </summary>
-    public string nickname;
-    /// <summary>
-    /// Login ID
-    /// </summary>
-    public string userID;
-    /// <summary>
-    /// Url to User Blog?
-    /// </summary>
-    public string url;
-    /// <summary>
-    /// Email address of User
-    /// </summary>
-    public string email;
-    /// <summary>
-    /// User LastName
-    /// </summary>
-    public string lastName;
-    /// <summary>
-    /// User First Name
-    /// </summary>
-    public string firstName;
-  }
+	///// <summary>
+	///// MetaWeblog UserInfo struct
+	///// returned from GetUserInfo call
+	///// </summary>
+	///// <remarks>
+	///// Not used currently, but here for completeness.
+	///// </remarks>
+	//internal struct MWAUserInfo
+	//{
+	//  /// <summary>
+	//  /// User Name Proper
+	//  /// </summary>
+	//  //public string nickname;
+	//  /// <summary>
+	//  /// Login ID
+	//  /// </summary>
+	//  //public string userID;
+	//  /// <summary>
+	//  /// Url to User Blog?
+	//  /// </summary>
+	//  //public string url;
+	//  /// <summary>
+	//  /// Email address of User
+	//  /// </summary>
+	//  public string email;
+	//  /// <summary>
+	//  /// User LastName
+	//  /// </summary>
+	//  public string lastName;
+	//  /// <summary>
+	//  /// User First Name
+	//  /// </summary>
+	//  public string firstName;
+	//}
 
   /// <summary>
   /// wp Page Struct

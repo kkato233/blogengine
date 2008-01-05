@@ -61,7 +61,7 @@
 
 <div class="box">
   <h1>Authors</h1>
-  <blog:AuthorList runat="Server" />
+  <blog:AuthorList runat="Server" ShowRssIcon="true"  />
 </div>
 
 <div class="box">
@@ -71,7 +71,7 @@
 
 <div class="box">
   <h1><%=Resources.labels.categories %></h1>
-  <blog:CategoryList runat="Server" /><br />
+  <blog:CategoryList runat="Server" ShowRssIcon="true" /><br />
 </div>
 
 <div class="box">

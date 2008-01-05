@@ -73,8 +73,8 @@ namespace BlogEngine.Core.Web.Controls
 				AddLocalizationKeys();
 
 				if (BlogSettings.Instance.EnableOpenSearch)
-					AddOpenSearchLinkInHeader();				
-								
+					AddOpenSearchLinkInHeader();
+
 				if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
 					AddCustomCodeToHead();
 
@@ -87,29 +87,29 @@ namespace BlogEngine.Core.Web.Controls
 				CompressCss();
 		}
 
-//#if !DEBUG
-//    private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.Compiled);
-//    private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.Compiled);
+		//#if !DEBUG
+		//    private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.Compiled);
+		//    private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.Compiled);
 
-//    /// <summary>
-//    /// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child 
-//    /// controls of the <see cref="T:System.Web.UI.Page"></see> to render.
-//    /// </summary>
-//    /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
-//    protected override void Render(HtmlTextWriter writer)
-//    {
-//      using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter(CultureInfo.InvariantCulture	)))
-//      {
-//        base.Render(htmlwriter);
-//        string html = htmlwriter.InnerWriter.ToString();
+		//    /// <summary>
+		//    /// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child 
+		//    /// controls of the <see cref="T:System.Web.UI.Page"></see> to render.
+		//    /// </summary>
+		//    /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
+		//    protected override void Render(HtmlTextWriter writer)
+		//    {
+		//      using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter(CultureInfo.InvariantCulture	)))
+		//      {
+		//        base.Render(htmlwriter);
+		//        string html = htmlwriter.InnerWriter.ToString();
 
-//        html = REGEX_BETWEEN_TAGS.Replace(html, "> <");
-//        html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
-				
-//        writer.Write(html.Trim());
-//      }
-//    }
-//#endif
+		//        html = REGEX_BETWEEN_TAGS.Replace(html, "> <");
+		//        html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
+
+		//        writer.Write(html.Trim());
+		//      }
+		//    }
+		//#endif
 
 		/// <summary>
 		/// Adds the localization keys to JavaScript for use globally.
@@ -148,21 +148,26 @@ namespace BlogEngine.Core.Web.Controls
 		{
 			if (Request.QueryString["theme"] != null)
 				return;
+		
+			CompressCss(Page.Header.Controls);
+		}
 
-			foreach (Control control in Page.Header.Controls)
+		private void CompressCss(ControlCollection ctls)
+		{
+			foreach (Control control in ctls)
 			{
+				if (control.Controls.Count != 0) CompressCss(control.Controls);
+
 				HtmlControl c = control as HtmlControl;
 				if (c != null && c.Attributes["type"] != null && c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
 				{
 					if (!c.Attributes["href"].StartsWith("http://"))
-					{
-						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
-						c.EnableViewState = false;
-					}
+						// c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" +
+						((VirtualPathUtility.IsAppRelative(c.Attributes["href"])) ? VirtualPathUtility.ToAbsolute(c.Attributes["href"]) : c.Attributes["href"]);
 				}
 			}
 		}
-
 		/// <summary>
 		/// Adds the RSD link header.
 		/// </summary>
@@ -237,6 +242,11 @@ namespace BlogEngine.Core.Web.Controls
 			Page.Header.Controls.Add(script);
 		}
 
+		/// <summary>
+		/// Resolves the script URL.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
 		public virtual string ResolveScriptUrl(string url)
 		{
 			return Utils.RelativeWebRoot + "js.axd?path=" + Server.UrlEncode(url);
@@ -290,7 +300,7 @@ namespace BlogEngine.Core.Web.Controls
 			if (exception != null && exception.Message.Contains("callback"))
 			{
 				// This is a robot spam attack so we send it a 404 status to make it go away.
-				ctx.Response.StatusCode = 404;				
+				ctx.Response.StatusCode = 404;
 				ctx.Server.ClearError();
 				Comment.OnSpamAttack();
 			}

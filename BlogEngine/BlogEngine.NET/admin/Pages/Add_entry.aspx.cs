@@ -35,7 +35,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 			else
 			{
 				PreSelectAuthor(Page.User.Identity.Name);
-				txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm");
+				txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH\\:mm");
 				cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
 				if (Session["content"] != null)
 				{
@@ -86,7 +86,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 	{
 		Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadFile);
 
-		string a = "<p><a href=\"{0}file.axd?file={1}\" rel=\"enclosure\">{2}</a></p>";
+		string a = "<p><a href=\"{0}file.axd?file={1}\" rel=\"enclosure\" length=\"0\">{2}</a></p>";
 		string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
 		txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
 	}
@@ -148,7 +148,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		if (string.IsNullOrEmpty(txtContent.Text))
 			txtContent.Text = "[No text]";
 
-		post.DateCreated = DateTime.ParseExact(txtDate.Text, "yyyy-MM-dd HH:mm", null).AddHours(-BlogSettings.Instance.Timezone);
+		post.DateCreated = DateTime.ParseExact(txtDate.Text, "yyyy-MM-dd HH\\:mm", null).AddHours(-BlogSettings.Instance.Timezone);
 		post.Author = ddlAuthor.SelectedValue;
 		post.Title = txtTitle.Text.Trim();
 		post.Content = txtContent.Text;
@@ -205,7 +205,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		txtTitle.Text = post.Title;
 		txtContent.Text = post.Content;
 		txtDescription.Text = post.Description;
-		txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH:mm");
+		txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH\\:mm");
 		cbEnableComments.Checked = post.IsCommentsEnabled;
 		cbPublish.Checked = post.IsPublished;
 		txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
@@ -279,7 +279,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 				a.HRef = "?id=" + post.Id.ToString();
 				a.InnerHtml = post.Title;
 
-				System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" by " + post.Author + " (" + post.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+				System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" by " + post.Author + " (" + post.DateCreated.ToString("yyyy-dd-MM HH\\:mm") + ")");
 
 				li.Controls.Add(a);
 				li.Controls.Add(text);

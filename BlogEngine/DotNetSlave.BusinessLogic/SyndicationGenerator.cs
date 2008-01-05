@@ -129,6 +129,7 @@ namespace BlogEngine.Core
 					xmlNamespaces.Add("wfw", "http://wellformedweb.org/CommentAPI/");
 					xmlNamespaces.Add("slash", "http://purl.org/rss/1.0/modules/slash/");
 					xmlNamespaces.Add("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
+					xmlNamespaces.Add("atom", "http://www.w3.org/2005/Atom");
 				}
 
 				return xmlNamespaces;
@@ -404,18 +405,12 @@ namespace BlogEngine.Core
 
 			foreach (IPublishable publishable in publishables)
 			{
-				//------------------------------------------------------------
-				//	Skip publishable content if it is not visible
-				//------------------------------------------------------------
 				if (publishable.IsVisible)
 				{
 					WriteRssItem(writer, publishable);
 				}
 			}
 
-			//------------------------------------------------------------
-			//	Write </channel> element
-			//------------------------------------------------------------
 			writer.WriteEndElement();
 		}
 		#endregion
@@ -430,8 +425,13 @@ namespace BlogEngine.Core
 			//------------------------------------------------------------
 			//	Write optional channel elements
 			//------------------------------------------------------------
+			string url = Utils.FeedUrl;
+			if (System.Web.HttpContext.Current != null)
+				url = System.Web.HttpContext.Current.Request.Url.ToString();
+
 			writer.WriteElementString("docs", "http://www.rssboard.org/rss-specification");
 			writer.WriteElementString("generator", String.Format(null, "{0} {1} ({2})", GENERATOR_NAME, GENERATOR_VERSION, GENERATOR_URI));
+			writer.WriteRaw("\n<atom:link href=\"" + url + "\" rel=\"self\" type=\"application/rss+xml\" />");
 			if (!String.IsNullOrEmpty(this.Settings.Language))
 			{
 				writer.WriteElementString("language", this.Settings.Language);
@@ -496,105 +496,105 @@ namespace BlogEngine.Core
 		/// <param name="publishable">The <see cref="IPublishable"/> used to generate channel item content.</param>
 		private static void WriteRssItem(XmlWriter writer, IPublishable publishable)
 		{
-				//------------------------------------------------------------
-				//	Cast IPublishable as Post to support comments/trackback
-				//------------------------------------------------------------
-				Post post = publishable as Post;
-				Comment comment = publishable as Comment;
+			//------------------------------------------------------------
+			//	Cast IPublishable as Post to support comments/trackback
+			//------------------------------------------------------------
+			Post post = publishable as Post;
+			Comment comment = publishable as Comment;
 
-				//------------------------------------------------------------
-				//	Raise serving event
-				//------------------------------------------------------------                
-				ServingEventArgs arg = new ServingEventArgs(publishable.Content, ServingLocation.Feed);
-				publishable.OnServing(arg);
-				if (arg.Cancel)
+			//------------------------------------------------------------
+			//	Raise serving event
+			//------------------------------------------------------------                
+			ServingEventArgs arg = new ServingEventArgs(publishable.Content, ServingLocation.Feed);
+			publishable.OnServing(arg);
+			if (arg.Cancel)
+			{
+				return;
+			}
+
+			//------------------------------------------------------------
+			//	Modify post content to make references absolute
+			//------------------------------------------------------------    
+			string content = ConvertPathsToAbsolute(arg.Body);
+
+			writer.WriteStartElement("item");
+			//------------------------------------------------------------
+			//	Write required channel item elements
+			//------------------------------------------------------------
+			writer.WriteElementString("title", publishable.Title);
+			writer.WriteElementString("description", content);
+			writer.WriteElementString("link", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+
+			//------------------------------------------------------------
+			//	Write optional channel item elements
+			//------------------------------------------------------------
+			writer.WriteElementString("author", BlogSettings.Instance.Email.Replace("@", ".nospam@nospam.") + " (" + publishable.Author + ")");
+			if (post != null)
+			{
+				writer.WriteElementString("comments", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
+			}
+			writer.WriteElementString("guid", SyndicationGenerator.GetPermaLink(publishable).ToString());
+			writer.WriteElementString("pubDate", SyndicationGenerator.ToRfc822DateTime(publishable.DateCreated));
+
+			//------------------------------------------------------------
+			//	Write channel item category elements
+			//------------------------------------------------------------
+			if (publishable.Categories != null)
+			{
+				foreach (Category category in publishable.Categories)
 				{
-					return;
+					writer.WriteElementString("category", category.Title);
 				}
+			}
 
-				//------------------------------------------------------------
-				//	Modify post content to make references absolute
-				//------------------------------------------------------------    
-				string content = ConvertPathsToAbsolute(arg.Body);
+			//------------------------------------------------------------
+			//	Write Dublin Core syndication extension elements
+			//------------------------------------------------------------
+			if (!String.IsNullOrEmpty(publishable.Author))
+			{
+				writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
+			}
+			//if (!String.IsNullOrEmpty(publishable.Description))
+			//{
+			//	writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", publishable.Description);
+			//}
 
-				writer.WriteStartElement("item");
-				//------------------------------------------------------------
-				//	Write required channel item elements
-				//------------------------------------------------------------
-				writer.WriteElementString("title", publishable.Title);
-				writer.WriteElementString("description", content);
-				writer.WriteElementString("link", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+			//------------------------------------------------------------
+			//	Write pingback syndication extension elements
+			//------------------------------------------------------------
+			Uri pingbackServer;
+			if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"), UriKind.RelativeOrAbsolute, out pingbackServer))
+			{
+				writer.WriteElementString("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/", pingbackServer.ToString());
+				writer.WriteElementString("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/", SyndicationGenerator.GetPermaLink(publishable).ToString());
+			}
 
-				//------------------------------------------------------------
-				//	Write optional channel item elements
-				//------------------------------------------------------------
-				writer.WriteElementString("author", publishable.Author);
-				if (post != null)
-				{
-					writer.WriteElementString("comments", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
-				}
-				writer.WriteElementString("guid", SyndicationGenerator.GetPermaLink(publishable).ToString());
-				writer.WriteElementString("pubDate", SyndicationGenerator.ToRfc822DateTime(publishable.DateCreated));
+			//------------------------------------------------------------
+			//	Write slash syndication extension elements
+			//------------------------------------------------------------
+			if (post != null && post.Comments != null)
+			{
+				writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString(CultureInfo.InvariantCulture));
+			}
 
-				//------------------------------------------------------------
-				//	Write channel item category elements
-				//------------------------------------------------------------
-				if (publishable.Categories != null)
-				{
-					foreach (Category category in publishable.Categories)
-					{
-						writer.WriteElementString("category", category.Title);
-					}
-				}
+			//------------------------------------------------------------
+			//	Write trackback syndication extension elements
+			//------------------------------------------------------------
+			if (post != null && post.TrackbackLink != null)
+			{
+				writer.WriteElementString("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/", post.TrackbackLink.ToString());
+			}
 
-				//------------------------------------------------------------
-				//	Write Dublin Core syndication extension elements
-				//------------------------------------------------------------
-				if (!String.IsNullOrEmpty(publishable.Author))
-				{
-					writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
-				}
-				//if (!String.IsNullOrEmpty(publishable.Description))
-				//{
-				//	writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", publishable.Description);
-				//}
+			//------------------------------------------------------------
+			//	Write well-formed web syndication extension elements
+			//------------------------------------------------------------
+			writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
+			writer.WriteElementString("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/", Utils.AbsoluteWebRoot.ToString().TrimEnd('/') + "/syndication.axd?post=" + publishable.Id.ToString());
 
-				//------------------------------------------------------------
-				//	Write pingback syndication extension elements
-				//------------------------------------------------------------
-				Uri pingbackServer;
-				if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"), UriKind.RelativeOrAbsolute, out pingbackServer))
-				{
-					writer.WriteElementString("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/", pingbackServer.ToString());
-					writer.WriteElementString("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/", SyndicationGenerator.GetPermaLink(publishable).ToString());
-				}
-
-				//------------------------------------------------------------
-				//	Write slash syndication extension elements
-				//------------------------------------------------------------
-				if (post != null && post.Comments != null)
-				{
-					writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString(CultureInfo.InvariantCulture));
-				}
-
-				//------------------------------------------------------------
-				//	Write trackback syndication extension elements
-				//------------------------------------------------------------
-				if (post != null && post.TrackbackLink != null)
-				{
-					writer.WriteElementString("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/", post.TrackbackLink.ToString());
-				}
-
-				//------------------------------------------------------------
-				//	Write well-formed web syndication extension elements
-				//------------------------------------------------------------
-				writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
-				writer.WriteElementString("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/", Utils.AbsoluteWebRoot.ToString().TrimEnd('/') + "/syndication.axd?post=" + publishable.Id.ToString());
-
-				//------------------------------------------------------------
-				//	Write </item> element
-				//------------------------------------------------------------
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write </item> element
+			//------------------------------------------------------------
+			writer.WriteEndElement();
 		}
 		#endregion
 
@@ -610,55 +610,55 @@ namespace BlogEngine.Core
 		/// <param name="title">The title of the ATOM content.</param>
 		private void WriteAtomContent(XmlWriter writer, List<IPublishable> publishables, string title)
 		{
-				//------------------------------------------------------------
-				//	Write required feed elements
-				//------------------------------------------------------------
-				writer.WriteElementString("id", Utils.AbsoluteWebRoot.ToString());
-				writer.WriteElementString("title", title);
-				writer.WriteElementString("updated", (publishables.Count > 0) ? SyndicationGenerator.ToW3CDateTime(publishables[0].DateModified.ToUniversalTime()) : SyndicationGenerator.ToW3CDateTime(DateTime.UtcNow));
+			//------------------------------------------------------------
+			//	Write required feed elements
+			//------------------------------------------------------------
+			writer.WriteElementString("id", Utils.AbsoluteWebRoot.ToString());
+			writer.WriteElementString("title", title);
+			writer.WriteElementString("updated", (publishables.Count > 0) ? SyndicationGenerator.ToW3CDateTime(publishables[0].DateModified.ToUniversalTime()) : SyndicationGenerator.ToW3CDateTime(DateTime.UtcNow));
 
-				//------------------------------------------------------------
-				//	Write recommended feed elements
-				//------------------------------------------------------------
-				writer.WriteStartElement("link");
-				writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write recommended feed elements
+			//------------------------------------------------------------
+			writer.WriteStartElement("link");
+			writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
+			writer.WriteEndElement();
 
-				writer.WriteStartElement("link");
-				writer.WriteAttributeString("rel", "self");
-				writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
-				writer.WriteEndElement();
+			writer.WriteStartElement("link");
+			writer.WriteAttributeString("rel", "self");
+			writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
+			writer.WriteEndElement();
 
-				writer.WriteStartElement("link");
-				writer.WriteAttributeString("rel", "alternate");
-				writer.WriteAttributeString("href", Utils.FeedUrl.ToString());
-				writer.WriteEndElement();
+			writer.WriteStartElement("link");
+			writer.WriteAttributeString("rel", "alternate");
+			writer.WriteAttributeString("href", Utils.FeedUrl.ToString());
+			writer.WriteEndElement();
 
-				//------------------------------------------------------------
-				//	Write optional feed elements
-				//------------------------------------------------------------
-				writer.WriteElementString("subtitle", this.Settings.Description);
+			//------------------------------------------------------------
+			//	Write optional feed elements
+			//------------------------------------------------------------
+			writer.WriteElementString("subtitle", this.Settings.Description);
 
-				//------------------------------------------------------------
-				//	Write common/shared feed elements
-				//------------------------------------------------------------
-				this.WriteAtomContentCommonElements(writer);
+			//------------------------------------------------------------
+			//	Write common/shared feed elements
+			//------------------------------------------------------------
+			this.WriteAtomContentCommonElements(writer);
 
-				foreach (IPublishable publishable in publishables)
+			foreach (IPublishable publishable in publishables)
+			{
+				//------------------------------------------------------------
+				//	Skip publishable content if it is not visible
+				//------------------------------------------------------------
+				if (!publishable.IsVisible)
 				{
-					//------------------------------------------------------------
-					//	Skip publishable content if it is not visible
-					//------------------------------------------------------------
-					if (!publishable.IsVisible)
-					{
-						continue;
-					}
-
-					//------------------------------------------------------------
-					//	Write <entry> element for publishable content
-					//------------------------------------------------------------
-					WriteAtomEntry(writer, publishable);
+					continue;
 				}
+
+				//------------------------------------------------------------
+				//	Write <entry> element for publishable content
+				//------------------------------------------------------------
+				WriteAtomEntry(writer, publishable);
+			}
 		}
 		#endregion
 
@@ -667,73 +667,73 @@ namespace BlogEngine.Core
 		/// Writes the common/shared Atom feed element information to the specified <see cref="XmlWriter"/>.
 		/// </summary>
 		/// <param name="writer">The <see cref="XmlWriter"/> to write channel element information to.</param>
-	private void WriteAtomContentCommonElements(XmlWriter writer)
+		private void WriteAtomContentCommonElements(XmlWriter writer)
 		{
-				//------------------------------------------------------------
-				//	Write optional feed elements
-				//------------------------------------------------------------
-				writer.WriteStartElement("author");
-				writer.WriteElementString("name", this.Settings.AuthorName);
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write optional feed elements
+			//------------------------------------------------------------
+			writer.WriteStartElement("author");
+			writer.WriteElementString("name", this.Settings.AuthorName);
+			writer.WriteEndElement();
 
-				writer.WriteStartElement("generator");
-				writer.WriteAttributeString("uri", GENERATOR_URI.ToString());
-				writer.WriteAttributeString("version", GENERATOR_VERSION.ToString());
-				writer.WriteString(GENERATOR_NAME);
-				writer.WriteEndElement();
+			writer.WriteStartElement("generator");
+			writer.WriteAttributeString("uri", GENERATOR_URI.ToString());
+			writer.WriteAttributeString("version", GENERATOR_VERSION.ToString());
+			writer.WriteString(GENERATOR_NAME);
+			writer.WriteEndElement();
 
-				//------------------------------------------------------------
-				//	Write blogChannel syndication extension elements
-				//------------------------------------------------------------
-				Uri blogRoll;
-				if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/opml.axd"), UriKind.RelativeOrAbsolute, out blogRoll))
-				{
-					writer.WriteElementString("blogChannel", "blogRoll", "http://backend.userland.com/blogChannelModule", blogRoll.ToString());
-				}
+			//------------------------------------------------------------
+			//	Write blogChannel syndication extension elements
+			//------------------------------------------------------------
+			Uri blogRoll;
+			if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/opml.axd"), UriKind.RelativeOrAbsolute, out blogRoll))
+			{
+				writer.WriteElementString("blogChannel", "blogRoll", "http://backend.userland.com/blogChannelModule", blogRoll.ToString());
+			}
 
-				if (!String.IsNullOrEmpty(this.Settings.Endorsement))
+			if (!String.IsNullOrEmpty(this.Settings.Endorsement))
+			{
+				Uri blink;
+				if (Uri.TryCreate(this.Settings.Endorsement, UriKind.RelativeOrAbsolute, out blink))
 				{
-					Uri blink;
-					if (Uri.TryCreate(this.Settings.Endorsement, UriKind.RelativeOrAbsolute, out blink))
-					{
-						writer.WriteElementString("blogChannel", "blink", "http://backend.userland.com/blogChannelModule", blink.ToString());
-					}
+					writer.WriteElementString("blogChannel", "blink", "http://backend.userland.com/blogChannelModule", blink.ToString());
 				}
+			}
 
-				//------------------------------------------------------------
-				//	Write Dublin Core syndication extension elements
-				//------------------------------------------------------------
-				if (!String.IsNullOrEmpty(this.Settings.AuthorName))
-				{
-					writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", this.Settings.AuthorName);
-				}
-				if (!String.IsNullOrEmpty(this.Settings.Description))
-				{
-					writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
-				}
-				if (!String.IsNullOrEmpty(this.Settings.Language))
-				{
-					writer.WriteElementString("dc", "language", "http://purl.org/dc/elements/1.1/", this.Settings.Language);
-				}
-				if (!String.IsNullOrEmpty(this.Settings.Name))
-				{
-					writer.WriteElementString("dc", "title", "http://purl.org/dc/elements/1.1/", this.Settings.Name);
-				}
+			//------------------------------------------------------------
+			//	Write Dublin Core syndication extension elements
+			//------------------------------------------------------------
+			if (!String.IsNullOrEmpty(this.Settings.AuthorName))
+			{
+				writer.WriteElementString("dc", "creator", "http://purl.org/dc/elements/1.1/", this.Settings.AuthorName);
+			}
+			if (!String.IsNullOrEmpty(this.Settings.Description))
+			{
+				writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", this.Settings.Description);
+			}
+			if (!String.IsNullOrEmpty(this.Settings.Language))
+			{
+				writer.WriteElementString("dc", "language", "http://purl.org/dc/elements/1.1/", this.Settings.Language);
+			}
+			if (!String.IsNullOrEmpty(this.Settings.Name))
+			{
+				writer.WriteElementString("dc", "title", "http://purl.org/dc/elements/1.1/", this.Settings.Name);
+			}
 
-				//------------------------------------------------------------
-				//	Write basic geo-coding syndication extension elements
-				//------------------------------------------------------------
-				NumberFormatInfo decimalFormatInfo = new NumberFormatInfo();
-				decimalFormatInfo.NumberDecimalDigits = 6;
+			//------------------------------------------------------------
+			//	Write basic geo-coding syndication extension elements
+			//------------------------------------------------------------
+			NumberFormatInfo decimalFormatInfo = new NumberFormatInfo();
+			decimalFormatInfo.NumberDecimalDigits = 6;
 
-				if (this.Settings.GeocodingLatitude != Single.MinValue)
-				{
-					writer.WriteElementString("geo", "lat", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLatitude.ToString("N", decimalFormatInfo));
-				}
-				if (this.Settings.GeocodingLongitude != Single.MinValue)
-				{
-					writer.WriteElementString("geo", "long", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLongitude.ToString("N", decimalFormatInfo));
-				}
+			if (this.Settings.GeocodingLatitude != Single.MinValue)
+			{
+				writer.WriteElementString("geo", "lat", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLatitude.ToString("N", decimalFormatInfo));
+			}
+			if (this.Settings.GeocodingLongitude != Single.MinValue)
+			{
+				writer.WriteElementString("geo", "long", "http://www.w3.org/2003/01/geo/wgs84_pos#", this.Settings.GeocodingLongitude.ToString("N", decimalFormatInfo));
+			}
 		}
 		#endregion
 
@@ -745,124 +745,124 @@ namespace BlogEngine.Core
 		/// <param name="publishable">The <see cref="IPublishable"/> used to generate feed entry content.</param>
 		private static void WriteAtomEntry(XmlWriter writer, IPublishable publishable)
 		{
-				Post post = publishable as Post;
-				Comment comment = publishable as Comment;
+			Post post = publishable as Post;
+			Comment comment = publishable as Comment;
 
-				//------------------------------------------------------------
-				//	Raise serving event
-				//------------------------------------------------------------                
-				ServingEventArgs arg = new ServingEventArgs(publishable.Content, ServingLocation.Feed);
-				publishable.OnServing(arg);
-				if (arg.Cancel)
+			//------------------------------------------------------------
+			//	Raise serving event
+			//------------------------------------------------------------                
+			ServingEventArgs arg = new ServingEventArgs(publishable.Content, ServingLocation.Feed);
+			publishable.OnServing(arg);
+			if (arg.Cancel)
+			{
+				return;
+			}
+
+			//------------------------------------------------------------
+			//	Modify publishable content to make references absolute
+			//------------------------------------------------------------
+			string content = ConvertPathsToAbsolute(arg.Body);
+
+			writer.WriteStartElement("entry");
+			//------------------------------------------------------------
+			//	Write required entry elements
+			//------------------------------------------------------------
+			writer.WriteElementString("id", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+			writer.WriteElementString("title", publishable.Title);
+			writer.WriteElementString("updated", SyndicationGenerator.ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
+
+			//------------------------------------------------------------
+			//	Write recommended entry elements
+			//------------------------------------------------------------
+			writer.WriteStartElement("link");
+			writer.WriteAttributeString("rel", "self");
+			writer.WriteAttributeString("href", SyndicationGenerator.GetPermaLink(publishable).ToString());
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("link");
+			writer.WriteAttributeString("href", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("author");
+			writer.WriteElementString("name", publishable.Author);
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("summary");
+			writer.WriteAttributeString("type", "html");
+			writer.WriteString(content);
+			writer.WriteEndElement();
+
+			//------------------------------------------------------------
+			//	Write optional entry elements
+			//------------------------------------------------------------
+			writer.WriteElementString("published", SyndicationGenerator.ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
+
+			writer.WriteStartElement("link");
+			writer.WriteAttributeString("rel", "related");
+			writer.WriteAttributeString("href", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
+			writer.WriteEndElement();
+
+			//------------------------------------------------------------
+			//	Write entry category elements
+			//------------------------------------------------------------
+			if (publishable.Categories != null)
+			{
+				foreach (Category category in publishable.Categories)
 				{
-					return;
+					writer.WriteStartElement("category");
+					writer.WriteAttributeString("term", category.Title);
+					writer.WriteEndElement();
 				}
+			}
 
-				//------------------------------------------------------------
-				//	Modify publishable content to make references absolute
-				//------------------------------------------------------------
-				string content = ConvertPathsToAbsolute(arg.Body);
+			//------------------------------------------------------------
+			//	Write Dublin Core syndication extension elements
+			//------------------------------------------------------------
+			if (!String.IsNullOrEmpty(publishable.Author))
+			{
+				writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
+			}
+			if (!String.IsNullOrEmpty(publishable.Description))
+			{
+				writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", publishable.Description);
+			}
 
-				writer.WriteStartElement("entry");
-				//------------------------------------------------------------
-				//	Write required entry elements
-				//------------------------------------------------------------
-				writer.WriteElementString("id", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
-				writer.WriteElementString("title", publishable.Title);
-				writer.WriteElementString("updated", SyndicationGenerator.ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
+			//------------------------------------------------------------
+			//	Write pingback syndication extension elements
+			//------------------------------------------------------------
+			Uri pingbackServer;
+			if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"), UriKind.RelativeOrAbsolute, out pingbackServer))
+			{
+				writer.WriteElementString("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/", pingbackServer.ToString());
+				writer.WriteElementString("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/", SyndicationGenerator.GetPermaLink(publishable).ToString());
+			}
 
-				//------------------------------------------------------------
-				//	Write recommended entry elements
-				//------------------------------------------------------------
-				writer.WriteStartElement("link");
-				writer.WriteAttributeString("rel", "self");
-				writer.WriteAttributeString("href", SyndicationGenerator.GetPermaLink(publishable).ToString());
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write slash syndication extension elements
+			//------------------------------------------------------------
+			if (post != null && post.Comments != null)
+			{
+				writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString(CultureInfo.InvariantCulture));
+			}
 
-				writer.WriteStartElement("link");
-				writer.WriteAttributeString("href", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write trackback syndication extension elements
+			//------------------------------------------------------------
+			if (post != null && post.TrackbackLink != null)
+			{
+				writer.WriteElementString("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/", post.TrackbackLink.ToString());
+			}
 
-				writer.WriteStartElement("author");
-				writer.WriteElementString("name", publishable.Author);
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write well-formed web syndication extension elements
+			//------------------------------------------------------------
+			writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
+			writer.WriteElementString("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/", Utils.AbsoluteWebRoot.ToString().TrimEnd('/') + "/syndication.axd?post=" + publishable.Id.ToString());
 
-				writer.WriteStartElement("summary");
-				writer.WriteAttributeString("type", "html");
-				writer.WriteString(content);
-				writer.WriteEndElement();
-
-				//------------------------------------------------------------
-				//	Write optional entry elements
-				//------------------------------------------------------------
-				writer.WriteElementString("published", SyndicationGenerator.ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
-
-				writer.WriteStartElement("link");
-				writer.WriteAttributeString("rel", "related");
-				writer.WriteAttributeString("href", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
-				writer.WriteEndElement();
-
-				//------------------------------------------------------------
-				//	Write entry category elements
-				//------------------------------------------------------------
-				if (publishable.Categories != null)
-				{
-					foreach (Category category in publishable.Categories)
-					{
-						writer.WriteStartElement("category");
-						writer.WriteAttributeString("term", category.Title);
-						writer.WriteEndElement();
-					}
-				}
-
-				//------------------------------------------------------------
-				//	Write Dublin Core syndication extension elements
-				//------------------------------------------------------------
-				if (!String.IsNullOrEmpty(publishable.Author))
-				{
-					writer.WriteElementString("dc", "publisher", "http://purl.org/dc/elements/1.1/", publishable.Author);
-				}
-				if (!String.IsNullOrEmpty(publishable.Description))
-				{
-					writer.WriteElementString("dc", "description", "http://purl.org/dc/elements/1.1/", publishable.Description);
-				}
-
-				//------------------------------------------------------------
-				//	Write pingback syndication extension elements
-				//------------------------------------------------------------
-				Uri pingbackServer;
-				if (Uri.TryCreate(String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"), UriKind.RelativeOrAbsolute, out pingbackServer))
-				{
-					writer.WriteElementString("pingback", "server", "http://madskills.com/public/xml/rss/module/pingback/", pingbackServer.ToString());
-					writer.WriteElementString("pingback", "target", "http://madskills.com/public/xml/rss/module/pingback/", SyndicationGenerator.GetPermaLink(publishable).ToString());
-				}
-
-				//------------------------------------------------------------
-				//	Write slash syndication extension elements
-				//------------------------------------------------------------
-				if (post != null && post.Comments != null)
-				{
-					writer.WriteElementString("slash", "comments", "http://purl.org/rss/1.0/modules/slash/", post.Comments.Count.ToString(CultureInfo.InvariantCulture));
-				}
-
-				//------------------------------------------------------------
-				//	Write trackback syndication extension elements
-				//------------------------------------------------------------
-				if (post != null && post.TrackbackLink != null)
-				{
-					writer.WriteElementString("trackback", "ping", "http://madskills.com/public/xml/rss/module/trackback/", post.TrackbackLink.ToString());
-				}
-
-				//------------------------------------------------------------
-				//	Write well-formed web syndication extension elements
-				//------------------------------------------------------------
-				writer.WriteElementString("wfw", "comment", "http://wellformedweb.org/CommentAPI/", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
-				writer.WriteElementString("wfw", "commentRss", "http://wellformedweb.org/CommentAPI/", Utils.AbsoluteWebRoot.ToString().TrimEnd('/') + "/syndication.axd?post=" + publishable.Id.ToString());
-
-				//------------------------------------------------------------
-				//	Write </entry> element
-				//------------------------------------------------------------
-				writer.WriteEndElement();
+			//------------------------------------------------------------
+			//	Write </entry> element
+			//------------------------------------------------------------
+			writer.WriteEndElement();
 		}
 		#endregion
 	}

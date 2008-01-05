@@ -26,14 +26,21 @@ namespace Controls
 
 		#region Properties
 
-		private bool _ShowRssIcon = true;
+		private static bool _ShowRssIcon = true;
 		/// <summary>
 		/// Gets or sets whether or not to show feed icons next to the category links.
 		/// </summary>
 		public bool ShowRssIcon
 		{
 			get { return _ShowRssIcon; }
-			set { _ShowRssIcon = value; }
+			set
+			{
+				if (_ShowRssIcon != value)
+				{
+					_ShowRssIcon = value;
+					_Html = null;
+				}
+			}
 		}
 
 		private static object _SyncRoot = new object();
