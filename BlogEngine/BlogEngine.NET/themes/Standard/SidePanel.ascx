@@ -2,6 +2,8 @@
 <%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
+<blog:WidgetZone runat="server" ID="rightzone" />
+
 <div class="box">
   <h1>About the author</h1>
   <table summary="About the author">
@@ -35,7 +37,7 @@
   <div style="text-align:center">
     <blog:PostCalendar runat="Server" NextMonthText=">>" DayNameFormat="FirstTwoLetters" FirstDayOfWeek="monday" PrevMonthText="<<" CssClass="calendar" BorderWidth="0" WeekendDayStyle-CssClass="weekend" OtherMonthDayStyle-CssClass="other" UseAccessibleHeader="true" EnableViewState="false" />
     <br />
-    <a href="<%=Utils.AbsoluteWebRoot %>calendar/default.aspx" />View posts in large calendar</a>
+    <a href="<%=Utils.AbsoluteWebRoot %>calendar/default.aspx">View posts in large calendar</a>
   </div>
 </div>
 

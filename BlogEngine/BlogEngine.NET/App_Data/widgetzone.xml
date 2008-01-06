@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widgets>
+  <widget id="8303c352-c8fc-4406-a5ab-4f43e6425afa" title="My favorite links">LinkList</widget>
+  <widget id="30459738-f0eb-4d09-8b24-21c6ca6631c5" title="Disclaimer">TextBox</widget>
+  <widget id="20459738-f0eb-4d09-8b24-21c6ca6631c5" title="About the author">TextBox</widget>
+</widgets>

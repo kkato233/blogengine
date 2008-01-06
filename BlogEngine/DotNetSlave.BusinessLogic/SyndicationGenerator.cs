@@ -430,7 +430,7 @@ namespace BlogEngine.Core
 				url = System.Web.HttpContext.Current.Request.Url.ToString();
 
 			writer.WriteElementString("docs", "http://www.rssboard.org/rss-specification");
-			writer.WriteElementString("generator", String.Format(null, "{0} {1} ({2})", GENERATOR_NAME, GENERATOR_VERSION, GENERATOR_URI));
+			writer.WriteElementString("generator", "BlogEngine.NET " + BlogSettings.Instance.Version());
 			writer.WriteRaw("\n<atom:link href=\"" + url + "\" rel=\"self\" type=\"application/rss+xml\" />");
 			if (!String.IsNullOrEmpty(this.Settings.Language))
 			{
