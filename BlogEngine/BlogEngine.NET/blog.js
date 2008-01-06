@@ -181,7 +181,7 @@ function CreateCallback(url, callback)
   {
 	  if (http.readyState == 4) 
 	  {
-	    if (http.responseText.length > 0)
+	    if (http.responseText.length > 0 && callback != null)
         callback(http.responseText);
 	  }
   }

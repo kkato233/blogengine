@@ -162,6 +162,68 @@ img {
 }
 
 /*----------------------------
+					 Widgets
+----------------------------*/
+
+div#widgetzone{
+	padding: 0;
+	background: none;
+}
+
+div#widgetzone .clear{
+	clear: left;
+}
+
+div.widget{
+	background: white;
+	border: 1px solid silver;
+	padding: 10px;
+	margin-bottom: 10px;
+	float: left;
+	position: relative;
+	z-index: 1;
+}
+
+div.widget .content{
+	line-height: 16px;
+	color: #666666;
+}
+
+div.widget h4{
+	font-size: 15px;
+	border-bottom: 1px solid silver;
+	padding-bottom: 5px;
+	margin: 0;
+	margin-bottom: 5px;
+	position: relative;
+	z-index: 0;
+	color: #999999;
+	letter-spacing: 1px;
+}
+
+div.widget a.edit{
+	font-size: 10px;
+	font-weight: normal;
+	float: right;
+	position: relative;
+	z-index: 1;
+}
+
+div.widget a.delete{
+	font-weight: bold;
+	color: #999999;
+	float: right;
+	margin-left: 5px;
+	position: relative;
+	z-index: 1;
+	text-decoration: none;
+}
+
+div.widget a.delete:hover{
+	color: black;
+}
+
+/*----------------------------
 					 Blogroll
 ----------------------------*/
 
