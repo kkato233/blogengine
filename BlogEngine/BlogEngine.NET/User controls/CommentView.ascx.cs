@@ -254,6 +254,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         col.Add(ri.EnglishName);
     }
 
+		// Add custom cultures
+		dic.Add("Bangladesh", "bd");
+		col.Add("Bangladesh");
+
+
     col.Sort();
 
     ddlCountry.Items.Add(new ListItem("[Not specified]", ""));

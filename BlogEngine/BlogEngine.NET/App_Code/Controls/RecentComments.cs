@@ -30,7 +30,7 @@ namespace Controls
 
 		static void Post_Saved(object sender, SavedEventArgs e)
 		{
-			if (e.Action == SaveAction.Delete)
+			if (e.Action != SaveAction.Update)
 				BindComments();
 		}
 
@@ -50,10 +50,13 @@ namespace Controls
 
 				foreach (Post post in Post.Posts)
 				{
-					foreach (Comment comment in post.Comments)
+					if (post.IsVisible)
 					{
-						if (comment.IsApproved)
-							comments.Add(comment);
+						foreach (Comment comment in post.Comments)
+						{
+							if (comment.IsApproved)
+								comments.Add(comment);
+						}
 					}
 				}
 
