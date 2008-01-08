@@ -48,6 +48,7 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 		link.Attributes.Append(url);
 
 		links.AppendChild(link);
+		BindGrid();
 	}
 
 	private void BindGrid()

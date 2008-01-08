@@ -161,7 +161,7 @@ namespace BlogEngine.Core.Web.Controls
 
 					if (!string.IsNullOrEmpty(Post.Description))
 					{
-						body = Post.Description + "." + link;
+						body = Post.Description + link;
 					}
 					else
 					{
