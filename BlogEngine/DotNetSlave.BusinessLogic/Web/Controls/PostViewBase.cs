@@ -223,7 +223,7 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				if (Category.Categories.Contains((Category)Post.Categories[i]))
 				{
-					string category = Server.HtmlEncode(Category.GetCategory(Post.Categories[i].Id).Title);
+					string category = Category.GetCategory(Post.Categories[i].Id).Title;
 					keywords[i] = string.Format(CultureInfo.InvariantCulture, link, path, Utils.RemoveIllegalCharacters(category), category);
 				}
 			}
