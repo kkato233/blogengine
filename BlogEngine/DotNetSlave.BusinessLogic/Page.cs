@@ -220,13 +220,18 @@ namespace BlogEngine.Core
     /// </summary>
     public static Page GetFrontPage()
     {
-      foreach (Page page in Pages)
-      {
-        if (page.IsFrontPage)
-          return page;
-      }
+			//foreach (Page page in Pages)
+			//{
+			//  if (page.IsFrontPage)
+			//    return page;
+			//}
 
-      return null;
+			return Pages.Find(delegate(Page page)
+			{
+				return page.IsFrontPage;
+			});
+
+			//return null;
     }
 
     String IPublishable.Author

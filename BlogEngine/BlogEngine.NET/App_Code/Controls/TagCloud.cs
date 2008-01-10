@@ -21,7 +21,7 @@ namespace Controls
 
     #region Private fields
 
-    private const string LINK = "<a href=\"{0}\" class=\"{1}\" title=\"{2}\">{3} </a>";
+    private const string LINK = "<a href=\"{0}\" class=\"{1}\" title=\"{2}\">{3}</a> ";
     private static Dictionary<string, string> _WeightedList;
     private static object _SyncRoot = new object();
 

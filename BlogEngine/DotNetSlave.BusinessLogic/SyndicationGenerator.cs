@@ -517,6 +517,9 @@ namespace BlogEngine.Core
 			//------------------------------------------------------------    
 			string content = ConvertPathsToAbsolute(arg.Body);
 
+			if (comment != null)
+				content = content.Replace(Environment.NewLine, "<br />");
+
 			writer.WriteStartElement("item");
 			//------------------------------------------------------------
 			//	Write required channel item elements

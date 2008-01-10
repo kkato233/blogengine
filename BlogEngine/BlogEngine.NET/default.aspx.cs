@@ -14,12 +14,12 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (Page.IsCallback)
 			return;
 
-		Page frontPage = BlogEngine.Core.Page.GetFrontPage();
-		if (Request.QueryString.Count == 0 && frontPage != null)
-		{
-			Server.Transfer(Utils.RelativeWebRoot + "page.aspx?id=" + frontPage.Id);
-		}
-		else if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
+		//Page frontPage = BlogEngine.Core.Page.GetFrontPage();
+		//if (Request.QueryString.Count == 0 && frontPage != null)
+		//{
+		//  Server.Transfer(Utils.RelativeWebRoot + "page.aspx?id=" + frontPage.Id);
+		//}
+		if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
 		{
 			DisplayCategories();
 		}
