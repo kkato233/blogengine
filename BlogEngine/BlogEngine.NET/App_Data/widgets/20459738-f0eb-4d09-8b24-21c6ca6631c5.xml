@@ -1,15 +1,12 @@
-<content>&lt;table summary=&quot;About the author&quot;&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;img src=&quot;[root]themes/Standard/noavatar.jpg&quot; alt=&quot;Name of author&quot; /&gt;&lt;/td&gt;
-    &lt;td style=&quot;vertical-align:top&quot;&gt;
-      Author name&lt;br /&gt;
-      Something about me and what I do...
-      &lt;br /&gt;&lt;br /&gt;
-      
-      &lt;!-- Email --&gt;
-      &lt;a href=&quot;[root]contact.aspx&quot; style=&quot;float:right;clear:both&quot;&gt;
-        E-mail me &lt;img src=&quot;[root]pics/mail.gif&quot; alt=&quot;Send mail&quot; style=&quot;width:16px&quot; /&gt;
-      &lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;  </content>
+<content>&lt;table border="0" summary="About the author"&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;&lt;img src="/BlogEngine.NET/themes/Standard/noavatar.jpg" alt="Name of author" width="80" height="80" /&gt;&lt;/td&gt;
+			&lt;td style="vertical-align: top"&gt;Author name&lt;br /&gt;
+			Something about me and what I do... &lt;br /&gt;
+			&lt;br /&gt;
+			&lt;!-- Email --&gt;&lt;a style="clear: both; float: right" href="/BlogEngine.NET/contact.aspx"&gt;E-mail me &lt;img style="width: 16px" src="/BlogEngine.NET/pics/mail.gif" alt="Send mail" width="16" height="10" /&gt; &lt;/a&gt;&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</content>
