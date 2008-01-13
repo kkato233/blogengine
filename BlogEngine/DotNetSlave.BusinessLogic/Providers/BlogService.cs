@@ -269,5 +269,18 @@ namespace BlogEngine.Core.Providers
 
         #endregion
 
+				#region Stop words
+
+				/// <summary>
+				/// Loads the stop words from the data store.
+				/// </summary>
+				public static StringCollection LoadStopWords()
+				{
+					LoadProviders();
+					return _provider.LoadStopWords();
+			}
+
+				#endregion
+
     }
 }
