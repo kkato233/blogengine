@@ -102,6 +102,11 @@ namespace BlogEngine.Core.Providers
         /// <param name="services">The services.</param>
         public abstract void SavePingServices(StringCollection services);
 
+				//Stop words
+				/// <summary>
+				/// Loads the stop words used in the search feature.
+				/// </summary>
+				public abstract StringCollection LoadStopWords();
     }
 
     /// <summary>

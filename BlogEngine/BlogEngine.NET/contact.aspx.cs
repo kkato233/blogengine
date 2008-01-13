@@ -16,8 +16,13 @@ using System.Text.RegularExpressions;
 public partial class contact : BlogBasePage
 {
 
-	private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
+	private static readonly Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
 
+	/// <summary>
+	/// Handles the Load event of the Page control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		btnSend.Click += new EventHandler(btnSend_Click);
@@ -60,6 +65,11 @@ public partial class contact : BlogBasePage
 		}
 	}
 
+	/// <summary>
+	/// Handles the Click event of the btnSend control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	private void btnSend_Click(object sender, EventArgs e)
 	{
 		bool success = SendEmail();
@@ -76,7 +86,9 @@ public partial class contact : BlogBasePage
 		{
 			using (MailMessage mail = new MailMessage())
 			{
-				mail.From = new MailAddress(txtEmail.Text, txtName.Text);
+				//mail.From = new MailAddress(txtEmail.Text, txtName.Text);
+				mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
+				mail.ReplyTo = new MailAddress(txtEmail.Text, txtName.Text);
 				mail.To.Add(BlogSettings.Instance.Email);
 				mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " e-mail - " + txtSubject.Text;
 

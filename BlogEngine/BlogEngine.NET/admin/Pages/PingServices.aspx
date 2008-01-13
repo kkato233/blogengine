@@ -18,7 +18,7 @@
           <%# Eval("value") %>
         </ItemTemplate>
         <EditItemTemplate>
-          <asp:TextBox runat="server" ID="txtName" Text='<%# Eval("value") %>' />
+          <asp:TextBox runat="server" ID="txtName" Width="100%" Text='<%# Eval("value") %>' />
         </EditItemTemplate>
       </asp:TemplateField>
     </Columns>

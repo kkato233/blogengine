@@ -12,7 +12,7 @@ using BlogEngine.Core.Web.Controls;
 /// <remarks>
 /// Based on the extension by John Knipper - http://www.happytocode.com
 /// </remarks>
-[Extension("Converts ASCII smilies into real smilies in the comments", "1.2", "BlogEngine.NET")]
+[Extension("Converts ASCII smilies into real smilies in the comments", "1.3", "BlogEngine.NET")]
 public class Smilies
 {
 
@@ -21,7 +21,7 @@ public class Smilies
     Comment.Serving += new EventHandler<ServingEventArgs>(Post_CommentServing);
   }
 
-  private const string LINK = "<img src=\"{0}admin/tiny_mce/plugins/emotions/images/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
+  private const string LINK = "<img src=\"{0}editors/tiny_mce/plugins/emotions/images/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
 
   /// <summary>
   /// The event handler that is triggered every time a comment is served to a client.

@@ -26,31 +26,45 @@ namespace BlogEngine.Core.Web.HttpHandlers
     /// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
     public void ProcessRequest(HttpContext context)
     {
-      using (XmlWriter writer = XmlWriter.Create(context.Response.OutputStream))
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Indent = true;
+
+      using (XmlWriter writer = XmlWriter.Create(context.Response.OutputStream, settings))
       {
-        writer.WriteStartElement("OpenSearchDescription", "http://a9.com/-/spec/opensearch/1.1/");
+				writer.WriteStartDocument();
+				writer.WriteStartElement("OpenSearchDescription", "http://a9.com/-/spec/opensearch/1.1/");
+				writer.WriteAttributeString("xmlns", "http://a9.com/-/spec/opensearch/1.1/");
 
         writer.WriteElementString("ShortName", BlogSettings.Instance.Name);
         writer.WriteElementString("Description", BlogSettings.Instance.Description);
 
-        writer.WriteRaw("<Image height=\"16\" width=\"16\" type=\"image/vnd.microsoft.icon\">" + Utils.AbsoluteWebRoot.ToString() + "pics/favicon.ico</Image>");
+        //writer.WriteRaw("<Image height=\"16\" width=\"16\" type=\"image/vnd.microsoft.icon\">" + Utils.AbsoluteWebRoot.ToString() + "pics/favicon.ico</Image>");
+
+				writer.WriteStartElement("Image");
+				writer.WriteAttributeString("height", "16");
+				writer.WriteAttributeString("width", "16");
+				writer.WriteAttributeString("type", "image/vnd.microsoft.icon");
+				writer.WriteValue(Utils.AbsoluteWebRoot.ToString() + "pics/favicon.ico");
+				writer.WriteEndElement();
 
         writer.WriteStartElement("Url");
         writer.WriteAttributeString("type", "text/html");
         writer.WriteAttributeString("template", Utils.AbsoluteWebRoot.ToString() + "search.aspx?q={searchTerms}");
+				writer.WriteEndElement();
 
         writer.WriteStartElement("Url");
         writer.WriteAttributeString("type", "application/rss+xml");
         writer.WriteAttributeString("template", Utils.AbsoluteWebRoot.ToString() + "syndication.axd?q={searchTerms}");
+				writer.WriteEndElement();
 
         writer.WriteEndElement();
       }
 
-      context.Response.ContentType = "text/xml";
+			context.Response.ContentEncoding = System.Text.Encoding.UTF8;
+			context.Response.ContentType = "text/xml";
+			context.Response.Charset = "UTF-8";
       context.Response.Cache.SetValidUntilExpires(true);
       context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
-      context.Response.Cache.SetCacheability(HttpCacheability.Public);
-      context.Response.Cache.SetLastModified(DateTime.Now);
       context.Response.Cache.SetETag(Guid.NewGuid().ToString());
 
       BlogSettings.Changed += delegate { context.Response.Cache.SetExpires(DateTime.Now.AddDays(30)); };

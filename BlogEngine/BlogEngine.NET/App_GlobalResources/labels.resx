@@ -186,6 +186,9 @@
   <data name="changePassword" xml:space="preserve">
     <value>Change password</value>
   </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>Please choose another name</value>
+  </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Close comments after</value>
   </data>
@@ -317,6 +320,12 @@
   </data>
   <data name="enforce" xml:space="preserve">
     <value>Enforce</value>
+  </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>Please enter a valid e-mail</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>Please enter a valid URL</value>
   </data>
   <data name="export" xml:space="preserve">
     <value>Export</value>
@@ -474,6 +483,9 @@
   </data>
   <data name="remove" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>Required</value>
   </data>
   <data name="save" xml:space="preserve">
     <value>Save</value>
