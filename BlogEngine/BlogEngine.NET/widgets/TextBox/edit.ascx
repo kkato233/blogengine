@@ -1,14 +1,14 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="widgets_LinkList_edit" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
-<script type="text/javascript" src="<%=Utils.RelativeWebRoot%>admin/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce/js.axd?path=<%=Server.UrlEncode(Utils.RelativeWebRoot) %>editors%2ftiny_mce%2ftiny_mce.js"></script>
 <script language="javascript" type="text/javascript">
   tinyMCE.init({
 	  mode : "exact",
     elements : "<%=txtText.ClientID %>",
 	  theme : "advanced",
 	  //plugins : "style,layer,table,save,advhr,advimage,advlink,emotions,iespell,media,searchreplace,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
-	  plugins : "fullscreen,contextmenu,cleanup,emotions,media,table,iespell",
+	  plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,media,table,iespell",
 	  theme_advanced_buttons1_add_before : "fullscreen,code,separator,cut,copy,paste,separator,undo,redo,separator,bullist,numlist,outdent,indent,separator,iespell,link,unlink,separator",
 	  //theme_advanced_buttons2_add_before : "media,sub,sup,removeformat,cleanup,charmap,emotions,separator,formatselect,fontselect,fontsizeselect",
 	  theme_advanced_buttons2_add : "",

@@ -819,7 +819,20 @@ namespace BlogEngine.Core.Providers
 
     #endregion
 
-    /// <summary>
+		#region Stop words
+
+		/// <summary>
+		/// Loads the stop words used in the search feature.
+		/// </summary>
+		public override StringCollection LoadStopWords()
+		{
+			// TODO: implement this method
+			return new StringCollection();
+		}
+
+		#endregion
+
+		/// <summary>
     /// Initializes the provider
     /// </summary>
     /// <param name="name">Configuration name</param>

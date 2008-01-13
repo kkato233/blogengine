@@ -10,20 +10,20 @@
       
       <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
       <asp:TextBox runat="server" id="txtName" cssclass="field" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtName" ErrorMessage="Please specify your name" /><br />
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtName" ErrorMessage="<%$Resources:labels, required %>" /><br />
       
       <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %></label>
       <asp:TextBox runat="server" id="txtEmail" cssclass="field" />
-      <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" display="dynamic" ErrorMessage="Please enter a valid email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtEmail" ErrorMessage="Please specify your e-mail" /><br />
+      <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" display="dynamic" ErrorMessage="<%$Resources:labels, enterValidEmail %>" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" /><br />
       
       <label for="<%=txtSubject.ClientID %>"><%=Resources.labels.subject %></label>
       <asp:TextBox runat="server" id="txtSubject" cssclass="field" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtSubject" ErrorMessage="Please specify a subject" /><br />
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtSubject" ErrorMessage="<%$Resources:labels, required %>" /><br />
       
       <label for="<%=txtMessage.ClientID %>"><%=Resources.labels.message %></label>
       <asp:TextBox runat="server" id="txtMessage" textmode="multiline" rows="5" columns="30" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtMessage" ErrorMessage="Please write a message" display="dynamic" />    
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtMessage" ErrorMessage="<%$Resources:labels, required %>" display="dynamic" />    
       
       <asp:placeholder runat="server" id="phAttachment">      
         <label for="<%=txtAttachment.ClientID %>"><%=Resources.labels.attachFile %></label>

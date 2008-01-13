@@ -20,7 +20,8 @@
   <enabletrackbacksend>True</enabletrackbacksend>
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
-  <htmlheader />
+  <htmlheader>&lt;meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" /&gt;
+&lt;meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)" /&gt;</htmlheader>
   <mobiletheme>Mobile</mobiletheme>
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>

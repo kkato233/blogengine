@@ -180,6 +180,9 @@
   <data name="changePassword" xml:space="preserve">
     <value>Ændr kodeord</value>
   </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>Vælg venligst et andet navn</value>
+  </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Luk kommentarer efter</value>
   </data>
@@ -311,6 +314,12 @@
   </data>
   <data name="enforce" xml:space="preserve">
     <value>Benyt</value>
+  </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>Indtast venligst en korrekt e-mail</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>Indtast venligst en korrekt URL</value>
   </data>
   <data name="export" xml:space="preserve">
     <value>Eksport</value>
@@ -467,6 +476,9 @@
   </data>
   <data name="remove" xml:space="preserve">
     <value>Fjern</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>Obligatorisk</value>
   </data>
   <data name="save" xml:space="preserve">
     <value>Gem</value>

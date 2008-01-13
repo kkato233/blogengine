@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="IPublishable.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
+    <Compile Include="Providers\XmlProvider\StopWords.cs" />
     <Compile Include="Providers\XmlProvider\Settings.cs" />
     <Compile Include="Providers\XmlProvider\Pages.cs" />
     <Compile Include="Providers\XmlProvider\Posts.cs" />

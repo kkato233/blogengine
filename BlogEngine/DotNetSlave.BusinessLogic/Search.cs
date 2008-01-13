@@ -166,13 +166,16 @@ namespace BlogEngine.Core
 
     private readonly static object _SyncRoot = new object();
     private readonly static Regex _StripHtml = new Regex("<[^>]*>", RegexOptions.Compiled);
-    private readonly static StringCollection _StopWords = GetStopWords();
+    private readonly static StringCollection _StopWords = BlogEngine.Core.Providers.BlogService.LoadStopWords();
     private static Collection<Entry> _Catalog = new Collection<Entry>();
 
     #endregion
 
     #region BuildCatalog
 
+		/// <summary>
+		/// Builds the catalog so it can be searched.
+		/// </summary>
     private static void BuildCatalog()
     {
       OnIndexBuilding();
@@ -252,22 +255,22 @@ namespace BlogEngine.Core
       return sb.ToString();
     }
 
-    /// <summary>
-    /// Retrieves the stop words from the stopwords.txt file located in App_Data.
-    /// </summary>
-    private static StringCollection GetStopWords()
-    {
-      using (StreamReader reader = new StreamReader(System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "stopwords.txt"))
-      {
-        string file = reader.ReadToEnd();
-        string[] words = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+		///// <summary>
+		///// Retrieves the stop words from the stopwords.txt file located in App_Data.
+		///// </summary>
+		//private static StringCollection GetStopWords()
+		//{
+		//  using (StreamReader reader = new StreamReader(System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "stopwords.txt"))
+		//  {
+		//    string file = reader.ReadToEnd();
+		//    string[] words = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-        StringCollection col = new StringCollection();
-        col.AddRange(words);
+		//    StringCollection col = new StringCollection();
+		//    col.AddRange(words);
 
-        return col;
-      }
-    }
+		//    return col;
+		//  }
+		//}
 
     #endregion
 

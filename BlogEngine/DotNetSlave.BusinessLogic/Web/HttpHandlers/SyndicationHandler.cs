@@ -102,6 +102,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				return RecentComments();
 			}
 
+			if (!string.IsNullOrEmpty(context.Request.QueryString["q"]))
+			{
+				// Searches posts and pages
+				return Search.Hits(context.Request.QueryString["q"], false);
+			}
+
+
 			// The latest posts
 			return Post.Posts.ConvertAll(new Converter<Post, IPublishable>(ConvertToIPublishable));
 		}
