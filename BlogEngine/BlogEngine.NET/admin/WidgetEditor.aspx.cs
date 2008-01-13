@@ -58,18 +58,30 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	private void btnSave_Click(object sender, EventArgs e)
 	{
 		WidgetEditBase widget = (WidgetEditBase)FindControl("widget");
-		widget.Save();
+		if (widget != null)
+			widget.Save();
 
 		XmlDocument doc = GetXmlDocument();
-		XmlNode node = doc.SelectSingleNode("//widget[@id=\"" + widget.WidgetID + "\"]");
+		XmlNode node = doc.SelectSingleNode("//widget[@id=\"" + Request.QueryString["id"] + "\"]");
+		bool isChanged = false;
 
 		if (node.Attributes["title"].InnerText != txtTitle.Text.Trim())
 		{
 			node.Attributes["title"].InnerText = txtTitle.Text.Trim();
-			SaveXmlDocument(doc);
+			isChanged = true;
 		}
 
+		if (node.Attributes["showTitle"].InnerText != cbShowTitle.Checked.ToString())
+		{
+			node.Attributes["showTitle"].InnerText = cbShowTitle.Checked.ToString();
+			isChanged = true;
+		}
+
+		if (isChanged)
+			SaveXmlDocument(doc);
+
 		WidgetEditBase.OnSaved();
+		Cache.Remove("widget_" + Request.QueryString["id"]);
 
 		string script = "top.location.href = top.location.href";
 		Page.ClientScript.RegisterStartupScript(this.GetType(), "closeWindow", script, true);
@@ -90,6 +102,11 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 		{
 			node.ParentNode.RemoveChild(node);
 			SaveXmlDocument(doc);
+
+			string fileName = Server.MapPath(Utils.RelativeWebRoot + "App_Data/widgets/" + id + ".xml");
+			if (File.Exists(fileName))
+				File.Delete(fileName);
+
 			WidgetEditBase.OnSaved();
 		}
 	}
@@ -104,6 +121,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 		widget.WidgetID = Guid.NewGuid();
 		widget.Name = type;
 		widget.Title = "New widget";
+		widget.ShowTitle = cbShowTitle.Checked;
 
 		SaveNewWidget(widget);
 
@@ -135,6 +153,10 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 		XmlAttribute title = doc.CreateAttribute("title");
 		title.InnerText = widget.Title;
 		node.Attributes.Append(title);
+
+		XmlAttribute show = doc.CreateAttribute("showTitle");
+		show.InnerText = "True";
+		node.Attributes.Append(show);
 
 		doc.SelectSingleNode("widgets").AppendChild(node);
 		SaveXmlDocument(doc);
@@ -197,22 +219,28 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	{
 		XmlDocument doc = GetXmlDocument();
 		XmlNode node = doc.SelectSingleNode("//widget[@id=\"" + id + "\"]");
+		string fileName = Utils.RelativeWebRoot + "widgets/" + type + "/edit.ascx";
 
-		WidgetEditBase edit = (WidgetEditBase)LoadControl(Utils.RelativeWebRoot + "widgets/" + type + "/edit.ascx");
-		edit.WidgetID = new Guid(node.Attributes["id"].InnerText);
-		edit.Title = node.Attributes["title"].InnerText;
-		edit.ID = "widget";
-		phEdit.Controls.Add(edit);
+		if (File.Exists(Server.MapPath(fileName)))
+		{
+			WidgetEditBase edit = (WidgetEditBase)LoadControl(fileName);
+			edit.WidgetID = new Guid(node.Attributes["id"].InnerText);
+			edit.Title = node.Attributes["title"].InnerText;
+			edit.ID = "widget";
+			edit.ShowTitle = bool.Parse(node.Attributes["showTitle"].InnerText);
+			phEdit.Controls.Add(edit);
+		}
 
 		if (!Page.IsPostBack)
 		{
-			txtTitle.Text = edit.Title;
+			cbShowTitle.Checked = bool.Parse(node.Attributes["showTitle"].InnerText);
+			txtTitle.Text = node.Attributes["title"].InnerText;
 			txtTitle.Focus();
 			btnSave.Text = Resources.labels.save;
 		}
 
 		btnSave.Click += new EventHandler(btnSave_Click);
-	}	
+	}
 
 	#endregion
 

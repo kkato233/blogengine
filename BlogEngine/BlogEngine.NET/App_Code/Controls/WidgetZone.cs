@@ -40,13 +40,14 @@ namespace Controls
 		/// <param name="writer">The <see cref="T:System.Web.UI.HTmlTextWriter"></see> object that receives the control content.</param>
 		public override void RenderControl(System.Web.UI.HtmlTextWriter writer)
 		{
-			XmlNode zone = XML_DOCUMENT.SelectSingleNode("//widgets");
-			foreach (XmlNode widget in zone.ChildNodes)
+			XmlNodeList zone = XML_DOCUMENT.SelectNodes("//widget");
+			foreach (XmlNode widget in zone)
 			{
 				string fileName = Utils.RelativeWebRoot + "widgets/" + widget.InnerText + "/widget.ascx";
 				WidgetBase control = (WidgetBase)Page.LoadControl(fileName);
 				control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
 				control.Title = widget.Attributes["title"].InnerText;
+				control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
 				this.Controls.Add(control);
 			}
 

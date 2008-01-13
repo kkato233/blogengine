@@ -33,6 +33,12 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	void btnAdd_Click(object sender, EventArgs e)
 	{
 		XmlNode links = Xml.SelectSingleNode("links");
+		if (links == null)
+		{
+			links = Xml.CreateElement("links");
+			Xml.AppendChild(links);
+		}
+
 		XmlNode link = Xml.CreateElement("link");
 	
 		XmlAttribute id = Xml.CreateAttribute("id");

@@ -30,6 +30,17 @@ public abstract class WidgetEditBase : UserControl
 		set { _Title = value; }
 	}
 
+	private bool _ShowTitle;
+	/// <summary>
+	/// Gets or sets a value indicating whether [show title].
+	/// </summary>
+	/// <value><c>true</c> if [show title]; otherwise, <c>false</c>.</value>
+	public bool ShowTitle
+	{
+		get { return _ShowTitle; }
+		set { _ShowTitle = value; }
+	}
+
 	private Guid _WidgetID;
 	/// <summary>
 	/// Gets the widget ID.

@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.Hosting;
 using System.Threading;
 using System.Xml;
+using System.Text;
 using BlogEngine.Core;
 
 #endregion
@@ -28,6 +29,17 @@ public class WidgetBase : UserControl
 	{
 		get { return _Title; }
 		set { _Title = value; }
+	}
+
+	private bool _ShowTitle;
+	/// <summary>
+	/// Gets or sets a value indicating whether [show title].
+	/// </summary>
+	/// <value><c>true</c> if [show title]; otherwise, <c>false</c>.</value>
+	public bool ShowTitle
+	{
+		get { return _ShowTitle; }
+		set { _ShowTitle = value; }
 	}
 
 	private string _Name;
@@ -101,16 +113,24 @@ public class WidgetBase : UserControl
 		if (string.IsNullOrEmpty(Name))
 			throw new NullReferenceException("Name must be set on a widget");
 
-		writer.Write("<div class=\"widget\" id=\"widget" + WidgetID + "\">");
+			StringBuilder sb = new StringBuilder();
 
-		if (Thread.CurrentPrincipal.IsInRole("administrators"))
-		{
-			writer.Write("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
-			writer.Write("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
-		}
+			sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
 
-		writer.Write("<h4>" + Title + "</h4>");
-		writer.Write("<div class=\"content\">");
+			if (Thread.CurrentPrincipal.IsInRole("administrators"))
+			{
+				sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
+					sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
+			}
+
+			if (ShowTitle)
+				sb.Append("<h4>" + Title + "</h4>");
+			else
+				sb.Append("<br />");
+
+			sb.Append("<div class=\"content\">");
+
+		writer.Write(sb.ToString());
 		base.Render(writer);
 		writer.Write("</div>");
 		writer.Write("</div>");

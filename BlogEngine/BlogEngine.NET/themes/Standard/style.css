@@ -177,7 +177,7 @@ div#widgetzone .clear{
 div.widget{
 	background: white;
 	border: 1px solid silver;
-	padding: 10px;
+	padding: 10px 15px;
 	margin-bottom: 10px;
 	float: left;
 	position: relative;
@@ -221,6 +221,22 @@ div.widget a.delete{
 
 div.widget a.delete:hover{
 	color: black;
+}
+
+#widgetzone .widget ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-transform: capitalize;
+}
+
+#widgetzone .widget ul li {
+	margin-bottom: 3px;
+}
+
+#widgetzone div.search{
+	background: none;
+	border: none;
 }
 
 /*----------------------------
@@ -604,37 +620,37 @@ ul#monthList ul.open{
 				 Tag cloud
 ----------------------------*/
 
-#tagcloud {
+.tagcloud {
 	margin-bottom: 10px;
 	white-space: normal;
 }
 
-#tagcloud li {
+.tagcloud li {
 	display: inline;
 }
 
-#tagcloud a {
+.tagcloud a {
 	margin-right: 3px;
 	display: inline;
 }
 
-#tagcloud a.biggest {
+.tagcloud a.biggest {
 	font-size: 20px;
 }
 
-#tagcloud a.big {
+.tagcloud a.big {
 	font-size: 17px;
 }
 
-#tagcloud a.medium {
+.tagcloud a.medium {
 	font-size: 13px;
 }
 
-#tagcloud a.small {
+.tagcloud a.small {
 	font-size: 12px;
 }
 
-#tagcloud a.smallest {
+.tagcloud a.smallest {
 	font-size: 10px;
 }
 

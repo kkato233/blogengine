@@ -16,6 +16,8 @@
     <div id="title">
       <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>&nbsp;&nbsp;&nbsp;
       <asp:TextBox runat="server" ID="txtTitle" Width="300px" />
+      
+      <asp:CheckBox runat="Server" ID="cbShowTitle" Text="Show title" />
     </div>
     
     <div runat="server" ID="phEdit" />
