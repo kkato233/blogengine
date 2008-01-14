@@ -24,7 +24,7 @@
                 
                 <asp:TemplateField HeaderText="<%$ Resources:labels, username %>">
                   <ItemTemplate>
-                    <%# Server.HtmlEncode(Eval("username").ToString()) %>
+                    <asp:Label ID="labelUsername" runat="server" Text='<%# Server.HtmlEncode(Eval("username").ToString()) %>' ></asp:Label>
                   </ItemTemplate>
                   <EditItemTemplate>
                     <asp:TextBox runat="server" ID="txtUsername" Text='<%# Eval("username") %>' />
