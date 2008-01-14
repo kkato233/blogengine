@@ -43,12 +43,30 @@ public partial class admin_newuser : System.Web.UI.Page
 		}
 	}
 
+    /// <summary>
+    /// Implements a row control finder based on the type of control and the control Id.
+    /// </summary>
+    /// <param name="row">The row.</param>
+    /// <param name="controlType">Type of the control.</param>
+    /// <param name="id">Name of the contains.</param>
+    /// <returns>The control if found, otherwise null</returns>
+    Control FindRowControl(GridViewRow row, Type controlType, string id) {
+        foreach (TableCell cell in row.Cells) {
+            foreach (Control control in cell.Controls) {
+                if (control.GetType() == controlType && control.ID.Contains(id)) {
+                    return control;
+                }
+            }
+        }
+        return null;
+    }
+
 	void gridUsers_RowDataBound(object sender, GridViewRowEventArgs e)
 	{
 		if (e.Row.RowType == DataControlRowType.DataRow && !Page.IsPostBack)
 		{
 			LinkButton delete = e.Row.Cells[0].Controls[2] as LinkButton;
-			DataBoundLiteralControl username = e.Row.Cells[1].Controls[0] as DataBoundLiteralControl;
+            Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
 			string text = string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(), username.Text.Trim());
 			delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
 		}
@@ -143,7 +161,7 @@ public partial class admin_newuser : System.Web.UI.Page
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	void CreateUserWizard1_CreatedUser(object sender, EventArgs e)
 	{
-		Response.Redirect("users.aspx", true);
+		Response.Redirect("Users.aspx", true);
 	}
 
 
@@ -168,7 +186,7 @@ public partial class admin_newuser : System.Web.UI.Page
 			if (!Roles.IsUserInRole(_userName, _roleToUse))
 				Roles.AddUserToRole(_userName, _roleToUse);
 		}
-		Response.Redirect("users.aspx", true);
+		Response.Redirect("Users.aspx", true);
 	}
 
 	/// <summary>
