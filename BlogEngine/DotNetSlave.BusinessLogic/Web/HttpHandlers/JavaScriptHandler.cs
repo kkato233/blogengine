@@ -66,11 +66,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		{
 			string path = HttpContext.Current.Server.MapPath(file);
 			string script = null;
-			
-			using (StreamReader reader = new StreamReader(path))
+
+			if (File.Exists(path))
 			{
-				script = reader.ReadToEnd();
-				HttpContext.Current.Cache.Insert(file, script, new CacheDependency(path));
+				using (StreamReader reader = new StreamReader(path))
+				{
+					script = reader.ReadToEnd();
+					HttpContext.Current.Cache.Insert(file, script, new CacheDependency(path));
+				}
 			}
 
 			return script;

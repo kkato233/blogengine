@@ -30,44 +30,38 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 			return;
 		}
 
-		int count = BlogSettings.Instance.PostsPerPage;
-		if (Posts.Count < count)
-			count = Posts.Count;
+		List<Post> visiblePosts = Posts.FindAll(delegate(Post p) { return p.IsVisible; });
 
+		int count = Math.Min(BlogSettings.Instance.PostsPerPage, visiblePosts.Count);
 		int page = GetPageIndex();
 		int index = page * count;
 		int stop = count;
-		if (index + count > Posts.Count)
-			stop = Posts.Count - index;
+		if (index + count > visiblePosts.Count)
+			stop = visiblePosts.Count - index;
 
-		if (stop < 0 || stop + index > Posts.Count)
+		if (stop < 0 || stop + index > visiblePosts.Count)
 		{
 			hlPrev.Visible = false;
 			hlNext.Visible = false;
 			return;
 		}
 
-		string theme = BlogSettings.Instance.Theme;
-		if (Request.QueryString["theme"] != null)
-			theme = Request.QueryString["theme"];
-
+		string query = Request.QueryString["theme"];
+		string theme = !string.IsNullOrEmpty(query) ? query : BlogSettings.Instance.Theme;
 		string path = Utils.RelativeWebRoot + "themes/" + theme + "/PostView.ascx";
 		int counter = 0;
 
-		foreach (Post post in Posts.GetRange(index, stop))
+		foreach (Post post in visiblePosts.GetRange(index, stop))
 		{
 			if (counter == stop)
 				break;
 
-			if (post.IsVisible || Page.User.Identity.IsAuthenticated)
-			{
-				PostViewBase postView = (PostViewBase)LoadControl(path);
-				postView.ShowExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
-				postView.Post = post;
-				postView.Location = ServingLocation.PostList;
-				posts.Controls.Add(postView);
-				counter++;
-			}
+			PostViewBase postView = (PostViewBase)LoadControl(path);
+			postView.ShowExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
+			postView.Post = post;
+			postView.Location = ServingLocation.PostList;
+			posts.Controls.Add(postView);
+			counter++;
 		}
 
 		if (index + stop == Posts.Count)
@@ -114,9 +108,9 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		string url = path + "page={0}";
 
 		//if (page != 1)
-			hlNext.HRef = string.Format(url, page);
+		hlNext.HRef = string.Format(url, page);
 		//else
-			//hlNext.HRef = path.Replace("?", string.Empty);
+		//hlNext.HRef = path.Replace("?", string.Empty);
 
 		hlPrev.HRef = string.Format(url, page + 2);
 

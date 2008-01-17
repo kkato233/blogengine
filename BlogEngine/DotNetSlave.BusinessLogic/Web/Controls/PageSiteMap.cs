@@ -29,7 +29,7 @@ namespace BlogEngine.Core.Web.Controls
 
       foreach (Page page in Page.Pages)
       {
-        if ((page.IsPublished || Thread.CurrentPrincipal.Identity.IsAuthenticated) 
+        if ((page.IsVisible) 
           && url.Equals(Utils.RemoveIllegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
         {
           return new SiteMapNode(this, page.Id.ToString(), page.RelativeLink.ToString(), page.Title, page.Description);
@@ -52,7 +52,7 @@ namespace BlogEngine.Core.Web.Controls
       Guid id = new Guid(node.Key);
       foreach (Page page in Page.Pages)
       {
-        if ((page.IsPublished || Thread.CurrentPrincipal.Identity.IsAuthenticated) && page.Parent == id && page.ShowInList)
+        if ((page.IsVisible) && page.Parent == id && page.ShowInList)
           col.Add(new SiteMapNode(this, page.Id.ToString(), page.RelativeLink.ToString(), page.Title, page.Description));
       }
 
@@ -76,7 +76,7 @@ namespace BlogEngine.Core.Web.Controls
       if (parentId != Guid.Empty && parentId != id)
       {
         Page parent = Page.GetPage(parentId);
-        if (parent.IsPublished)
+        if (parent.IsVisible)
         {
           return new SiteMapNode(this, parent.Id.ToString(), parent.RelativeLink.ToString(), parent.Title, parent.Description);
         }

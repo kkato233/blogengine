@@ -44,7 +44,7 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	void Login1_LoggedIn(object sender, EventArgs e)
 	{
-		if (!Roles.IsUserInRole(Login1.UserName, "Administrators"))
+		if (!Roles.IsUserInRole(Login1.UserName, BlogEngine.Core.BlogSettings.Instance.AdministratorRole))
 			Response.Redirect(BlogEngine.Core.Utils.RelativeWebRoot, true);
 	}
 }

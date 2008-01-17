@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Web.Controls
 				if (Page.User.Identity.IsAuthenticated)
 				{
 					Post post = BlogEngine.Core.Post.GetPost(new Guid(Request.QueryString["deletepost"]));
-					if (Page.User.IsInRole("administrators") || Page.User.Identity.Name == post.Author)
+					if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Author)
 					{
 						post.Delete();
 						post.Save();
@@ -84,8 +84,8 @@ namespace BlogEngine.Core.Web.Controls
 
 			AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
 
-			if (User.IsInRole("administrators"))
-				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
+			//if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
+			//  AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
 
 			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
 				CompressCss();

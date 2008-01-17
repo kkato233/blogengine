@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.ComponentModel;
 using BlogEngine.Core.Providers;
+using System.Threading;
 
 #endregion
 
@@ -252,7 +253,7 @@ namespace BlogEngine.Core
 		{
 			get
 			{
-				if (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+				if (IsAuthenticated || IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
 					return true;
 
 				return false;

@@ -62,7 +62,7 @@ namespace Controls
 
 			writer.Write("</div>");
 
-			if (Thread.CurrentPrincipal.IsInRole("administrators"))
+			if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
 				writer.Write("<select id=\"widgetselector\">");
 				DirectoryInfo di = new DirectoryInfo(Page.Server.MapPath(Utils.RelativeWebRoot + "widgets"));

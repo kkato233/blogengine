@@ -45,7 +45,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		this.Page = BlogEngine.Core.Page.GetPage(id);
 
-		if (this.Page == null || (!this.Page.IsVisible && !this.User.Identity.IsAuthenticated))
+		if (this.Page == null || (!this.Page.IsVisible))
 			Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
 
 		h1Title.InnerHtml = this.Page.Title;

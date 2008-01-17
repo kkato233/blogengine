@@ -73,6 +73,9 @@ namespace BlogEngine.Core
     /// <summary>Is used when content is served from a feed (RSS or ATOM).</summary>
     Feed,
 
+		/// <summary>Is used when content is being sent by e-mail.</summary>
+		Email,
+
     /// <summary>Is used when content is served on a custom location.</summary>
     Other
   }

@@ -43,30 +43,34 @@ public partial class admin_newuser : System.Web.UI.Page
 		}
 	}
 
-    /// <summary>
-    /// Implements a row control finder based on the type of control and the control Id.
-    /// </summary>
-    /// <param name="row">The row.</param>
-    /// <param name="controlType">Type of the control.</param>
-    /// <param name="id">Name of the contains.</param>
-    /// <returns>The control if found, otherwise null</returns>
-    Control FindRowControl(GridViewRow row, Type controlType, string id) {
-        foreach (TableCell cell in row.Cells) {
-            foreach (Control control in cell.Controls) {
-                if (control.GetType() == controlType && control.ID.Contains(id)) {
-                    return control;
-                }
-            }
-        }
-        return null;
-    }
+	/// <summary>
+	/// Implements a row control finder based on the type of control and the control Id.
+	/// </summary>
+	/// <param name="row">The row.</param>
+	/// <param name="controlType">Type of the control.</param>
+	/// <param name="id">Name of the contains.</param>
+	/// <returns>The control if found, otherwise null</returns>
+	Control FindRowControl(GridViewRow row, Type controlType, string id)
+	{
+		foreach (TableCell cell in row.Cells)
+		{
+			foreach (Control control in cell.Controls)
+			{
+				if (control.GetType() == controlType && control.ID.Contains(id))
+				{
+					return control;
+				}
+			}
+		}
+		return null;
+	}
 
 	void gridUsers_RowDataBound(object sender, GridViewRowEventArgs e)
 	{
 		if (e.Row.RowType == DataControlRowType.DataRow && !Page.IsPostBack)
 		{
 			LinkButton delete = e.Row.Cells[0].Controls[2] as LinkButton;
-            Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
+			Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
 			string text = string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(), username.Text.Trim());
 			delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
 		}
@@ -79,7 +83,7 @@ public partial class admin_newuser : System.Web.UI.Page
 		gridUsers.DataKeyNames = new string[] { "username" };
 		gridUsers.DataBind();
 		if (count > 0)
-		gridUsers.HeaderRow.Cells[1].Text = Resources.labels.userName;
+			gridUsers.HeaderRow.Cells[1].Text = Resources.labels.userName;
 	}
 
 	/// <summary>
@@ -92,7 +96,10 @@ public partial class admin_newuser : System.Web.UI.Page
 		string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
 		Membership.DeleteUser(username);
 		string[] roles = Roles.GetRolesForUser(username);
-		Roles.RemoveUserFromRoles(username, roles);
+		
+		if (roles.Length > 0)
+			Roles.RemoveUserFromRoles(username, roles);
+
 		Response.Redirect(Request.RawUrl);
 	}
 

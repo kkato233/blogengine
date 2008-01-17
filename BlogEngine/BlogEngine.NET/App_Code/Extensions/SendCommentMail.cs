@@ -39,13 +39,17 @@ public class SendCommentMail
 			else if (comment.Email == "pingback")
 				subject = " pingback on ";
 
+			ServingEventArgs args = new ServingEventArgs(comment.Content, ServingLocation.Email);
+			Comment.OnServing(comment, args);
+			string body = args.Body;
+
 			MailMessage mail = new MailMessage();
 			mail.From = new MailAddress(from, HttpUtility.HtmlDecode(comment.Author));
 			mail.To.Add(BlogSettings.Instance.Email);
 			mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + subject + post.Title;
 			mail.Body = "<div style=\"font: 11px verdana, arial\">";
-			mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
-			mail.Body += string.Format("<a href=\"{0}\">{1}</a><br /><br />", post.PermaLink + "#id_" + comment.Id, post.Title);
+			mail.Body += body.Replace(Environment.NewLine, "<br />") + "<br /><br />";
+			mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br /><br />", Resources.labels.post, post.PermaLink + "#id_" + comment.Id, post.Title);
 
 			mail.Body += "_______________________________________________________________________________<br />";
 			mail.Body += "<h3>Author information</h3>";

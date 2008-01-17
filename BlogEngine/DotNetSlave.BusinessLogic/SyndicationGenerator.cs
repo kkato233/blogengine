@@ -202,7 +202,7 @@ namespace BlogEngine.Core
 				return post.PermaLink;
 			}
 
-			return Utils.ConvertToAbsolute(publishable.RelativeLink);
+			return publishable.AbsoluteLink;
 		}
 		#endregion
 

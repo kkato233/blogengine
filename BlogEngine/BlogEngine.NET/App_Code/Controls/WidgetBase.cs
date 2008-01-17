@@ -117,7 +117,7 @@ public class WidgetBase : UserControl
 
 			sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
 
-			if (Thread.CurrentPrincipal.IsInRole("administrators"))
+			if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
 				sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
 					sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");

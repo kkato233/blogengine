@@ -48,7 +48,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 				BindBookmarklet();
 			}
 
-			if (!Page.User.IsInRole("administrators"))
+			if (!Page.User.IsInRole(BlogSettings.Instance.AdministratorRole))
 				ddlAuthor.Enabled = false;
 
 			cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
