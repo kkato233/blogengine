@@ -179,7 +179,6 @@ div.widget{
 	border: 1px solid silver;
 	padding: 10px 15px;
 	margin-bottom: 10px;
-	float: left;
 	position: relative;
 	z-index: 1;
 }

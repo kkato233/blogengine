@@ -81,6 +81,10 @@ namespace Controls
 
     #endregion    
 
+		/// <summary>
+		/// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and stores tracing information about the control if tracing is enabled.
+		/// </summary>
+		/// <param name="writer">The <see cref="T:System.Web.UI.HTmlTextWriter"></see> object that receives the control content.</param>
     public override void RenderControl(HtmlTextWriter writer)
     {
       if (!BlogSettings.Instance.EnableRelatedPosts || Item == null)
@@ -96,36 +100,7 @@ namespace Controls
             if (relatedPosts.Count <= 1)
               return;
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-            string link = "<a href=\"{0}\">{1}</a>";
-            string desc = "<span>{0}</span>";
-            sb.Append("<h1>+++</h1>");
-            sb.Append("<div id=\"relatedPosts\">");
-
-            int count = 0;
-            foreach (IPublishable post in relatedPosts)
-            {
-              if (post != this.Item)
-              {
-                sb.Append(string.Format(link, post.RelativeLink, post.Title));
-                if (ShowDescription)
-                {
-                  string description = post.Description;
-                  if (description != null && description.Length > DescriptionMaxLength)
-                    description = description.Substring(0, DescriptionMaxLength) + "...";
-
-                  sb.Append(string.Format(desc, description));
-                }
-                count++;
-              }
-
-              if (count == MaxResults)
-                break;
-            }
-
-            sb.Append("</div>");
-            _Cache.Add(Item.Id, sb.ToString());
+						CreateList(relatedPosts);
           }
         }
       }
@@ -133,17 +108,47 @@ namespace Controls
       writer.Write(_Cache[Item.Id].Replace("+++", this.Headline));
     }
 
+		/// <summary>
+		/// Creates the list of related posts in HTML.
+		/// </summary>
+		/// <param name="relatedPosts">The related posts.</param>
+		private void CreateList(List<IPublishable> relatedPosts)
+		{
+			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+			string link = "<a href=\"{0}\">{1}</a>";
+			string desc = "<span>{0}</span>";
+			sb.Append("<h1>+++</h1>");
+			sb.Append("<div id=\"relatedPosts\">");
+
+			int count = 0;
+			foreach (IPublishable post in relatedPosts)
+			{
+				if (post != this.Item)
+				{
+					sb.Append(string.Format(link, post.RelativeLink, post.Title));
+					if (ShowDescription)
+					{
+						string description = post.Description;
+						if (description != null && description.Length > DescriptionMaxLength)
+							description = description.Substring(0, DescriptionMaxLength) + "...";
+
+						sb.Append(string.Format(desc, description));
+					}
+					count++;
+				}
+
+				if (count == MaxResults)
+					break;
+			}
+
+			sb.Append("</div>");
+			_Cache.Add(Item.Id, sb.ToString());
+		}
+
     private List<IPublishable> SearchForPosts()
     {
-      List<IPublishable> list = Search.FindRelatedItems(this.Item);
-      List<IPublishable> posts = new List<IPublishable>();
-      foreach (IPublishable item in list)
-      {
-        if (item is Post || item is BlogEngine.Core.Page)
-          posts.Add(item);
-      }
-
-      return posts;
+      return Search.FindRelatedItems(this.Item);
     }
   }
 }

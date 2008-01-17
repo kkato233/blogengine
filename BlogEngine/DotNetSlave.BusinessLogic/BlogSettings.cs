@@ -548,6 +548,16 @@ namespace BlogEngine.Core
 		}
 		#endregion
 
+		#region AdministratorRole
+		/// <summary>
+		/// The role that has administrator persmissions
+		/// </summary>
+		public string AdministratorRole
+		{
+			get { return ConfigurationManager.AppSettings["BlogEngine.AdminRole"] ?? "administrators"; }
+		}
+		#endregion
+
 		#region SyndicationFormat
 		/// <summary>
 		/// Gets or sets the default syndication format used by the blog.

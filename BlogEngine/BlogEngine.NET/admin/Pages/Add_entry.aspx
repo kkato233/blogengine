@@ -71,16 +71,17 @@ function AutoSave()
     <tr>
       <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
-        <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" TabIndex="5" />
-        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" CausesValidation="False" TabIndex="6" />
+        <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" TabIndex="5" ValidationGroup="imageupload" />
+        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" ValidationGroup="imageupload" TabIndex="6" />
+        <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="imageupload" />
       </td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
-        <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" TabIndex="7" />
-        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" CausesValidation="False" ValidationGroup="fileUpload" TabIndex="8" />
-        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="Specify a file name" ValidationGroup="fileUpload" />
+        <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" TabIndex="7" />
+        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" ValidationGroup="fileUpload" TabIndex="8" />
+        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="fileUpload" />
       </td>
     </tr>    
     <tr>

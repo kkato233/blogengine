@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Threading;
 
 #endregion
 
@@ -67,6 +68,21 @@ namespace BlogEngine.Core
 			}
 			set { _DateModified = value; }
 		}
+
+		/// <summary>
+		/// Gets a value indicating whether the current user is authenticated.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
+		/// </value>
+		protected bool IsAuthenticated
+		{
+			get 
+			{
+				return Thread.CurrentPrincipal.Identity.IsAuthenticated; 
+			}
+		}
+
 
 		#endregion
 
@@ -268,6 +284,9 @@ namespace BlogEngine.Core
 		/// </summary>
 		virtual public SaveAction Save()
 		{
+			if (IsDeleted && !IsAuthenticated)
+				throw new System.Security.SecurityException("You are not authorized to delete the object");
+
 			if (!IsValid && !IsDeleted)
 				throw new InvalidOperationException(ValidationMessage);
 

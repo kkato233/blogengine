@@ -122,7 +122,7 @@ namespace BlogEngine.Core
 		/// <value></value>
 		public bool IsVisible
 		{
-			get { return IsApproved; }
+			get { return IsApproved || IsApproved; }
 		}
 
 		private DateTime _DateCreated = DateTime.MinValue;

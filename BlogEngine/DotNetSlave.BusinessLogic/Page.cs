@@ -129,7 +129,7 @@ namespace BlogEngine.Core
     /// <value></value>
     public bool IsVisible
     {
-      get { return IsPublished; }
+      get { return IsAuthenticated || IsPublished; }
     }
 
     private bool _IsFrontPage;
