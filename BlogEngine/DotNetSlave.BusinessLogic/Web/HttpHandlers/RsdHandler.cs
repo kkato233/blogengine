@@ -43,7 +43,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         rsd.WriteStartElement("service");
         rsd.WriteElementString("engineName", "BlogEngine.NET " + BlogSettings.Instance.Version());
         rsd.WriteElementString("engineLink", "http://dotnetblogengine.com");
-        rsd.WriteElementString("link", Utils.AbsoluteWebRoot.ToString());
+        rsd.WriteElementString("homePageLink", Utils.AbsoluteWebRoot.ToString());
 
         // APIs
         rsd.WriteStartElement("apis");
