@@ -164,7 +164,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       }
 
       if (sentPost.postDate != new DateTime())
-        post.DateCreated = sentPost.postDate.AddHours(BlogSettings.Instance.Timezone * -1);
+        post.DateCreated = sentPost.postDate;
 
       post.Save();
 
@@ -221,7 +221,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       }
 
       if (sentPost.postDate != new DateTime())
-        post.DateCreated = sentPost.postDate.AddHours(BlogSettings.Instance.Timezone * -1);
+        post.DateCreated = sentPost.postDate;
 
       post.Save();
 
@@ -489,7 +489,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       page.Description = ""; // Can not be set from WLW
       page.Keywords = mPage.mt_keywords;
       if (mPage.pageDate != new DateTime())
-        page.DateCreated = mPage.pageDate.AddHours(BlogSettings.Instance.Timezone * -1); ;
+        page.DateCreated = mPage.pageDate;
       page.ShowInList = publish;
       page.IsPublished = publish;
       if (mPage.pageParentID != "0")
