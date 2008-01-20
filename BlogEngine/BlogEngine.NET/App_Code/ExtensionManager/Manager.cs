@@ -3,11 +3,13 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Caching;
 using System.Reflection;
+using System.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using BlogEngine.Core;
+using BlogEngine.Core.Providers;
 using BlogEngine.Core.Web.Controls;
 
 /// <summary>
@@ -28,6 +30,7 @@ public class ExtensionManager
     #region Private members
     private static string _fileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "extensions.xml");
     private static List<ManagedExtension> _extensions = new List<ManagedExtension>();
+    private static BlogProviderSection _section = (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
     #endregion
 
     #region Public members
@@ -78,7 +81,7 @@ public class ExtensionManager
             if (x.Name == extension)
             {
                 x.Enabled = enabled;
-                SaveToXML();
+                SaveToStorage();
                 SaveToCache();
                 break;
             }
@@ -97,7 +100,7 @@ public class ExtensionManager
             if (x.Name == extension)
             {
                 x.AdminPage = url;
-                SaveToXML();
+                SaveToStorage();
                 SaveToCache();
                 break;
             }
@@ -108,7 +111,7 @@ public class ExtensionManager
     /// </summary>
     public static void Save()
     {
-        SaveToXML();
+        SaveToStorage();
         SaveToCache();
     }
     /// <summary>
@@ -149,16 +152,33 @@ public class ExtensionManager
     {   // initialize on application load
         if (HttpContext.Current.Cache["Extensions"] == null)
         {
-            if (File.Exists(_fileName))
+            if (_section.DefaultProvider == "XmlBlogProvider")
             {
-                LoadFromXML();
-                AddNewExtensions();
+                if (File.Exists(_fileName))
+                {
+                    LoadFromStorage();
+                    AddNewExtensions();
+                }
+                else  // very first run
+                {
+                    LoadFromAssembly();
+                }
             }
-            else  // very first run
+            else
             {
-                LoadFromAssembly();
+                Stream settings = BlogService.LoadExtensionSettings();
+                if (!((settings == null) || (settings.Length < 3)))
+                {
+                    LoadFromStorage();
+                    AddNewExtensions();
+                }
+                else  // very first run
+                {
+                    LoadFromAssembly();
+                }
             }
-            SaveToXML();
+            
+            SaveToStorage();
             SaveToCache();
         }
     }
@@ -235,6 +255,10 @@ public class ExtensionManager
     /// </summary>
     /// <param name="extensionName">Extension Name</param>
     /// <param name="settings">Settings object</param>
+    public static void SaveSettings(ExtensionSettings settings)
+    {
+        SaveSettings(settings.ExtensionName, settings);
+    }
     public static void SaveSettings(string extensionName, ExtensionSettings settings)
     {
         foreach (ManagedExtension x in _extensions)
@@ -268,43 +292,60 @@ public class ExtensionManager
 
         SaveToCache();
 
-        return SaveToXML();
+        return SaveToStorage();
     }
     #endregion
 
     #region Serialization
     /// <summary>
     /// Saves ext. manager object to XML file
+    /// or database table using provider model
     /// </summary>
     /// <returns>True if successful</returns>
-    public static bool SaveToXML()
+    public static bool SaveToStorage()
     {
-        try
+        if (_section.DefaultProvider == "XmlBlogProvider")
         {
-            using (TextWriter writer = new StreamWriter(_fileName))
+            try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
-                serializer.Serialize(writer, _extensions);
-                return true;
+                using (TextWriter writer = new StreamWriter(_fileName))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
+                    serializer.Serialize(writer, _extensions);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                FileAccessException = e;
+                return false;
             }
         }
-        catch (Exception e)
+        else
         {
-            FileAccessException = e;
-            return false;
+            MemoryStream settings = new MemoryStream();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(settings, System.Text.Encoding.UTF8);
+            serializer.Serialize(xmlTextWriter, _extensions);
+
+            settings = (MemoryStream)xmlTextWriter.BaseStream;
+
+            BlogService.SaveExtensionSettings(settings);
+            return true;
         }
     }
     /// <summary>
-    /// Deserializes XML file back to ext. manager object
+    /// Deserializes extension manager from storage
+    /// (XML file or database) back to ext. manager object
     /// </summary>
-    private static void LoadFromXML()
+    private static void LoadFromStorage()
     {
-        TextReader reader = null;
+        Stream settings = null;
         try
         {
-            reader = new StreamReader(_fileName);
+            settings = BlogService.LoadExtensionSettings();
             XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
-            _extensions = (List<ManagedExtension>)serializer.Deserialize(reader);
+            _extensions = (List<ManagedExtension>)serializer.Deserialize(settings);
 
             string assemblyName = "__code";
             if (Utils.IsMono)
@@ -327,8 +368,8 @@ public class ExtensionManager
         }
         finally
         {
-            if (reader != null)
-                reader.Close();
+            if (settings != null)
+                settings.Close();
         }
     }
     /// <summary>

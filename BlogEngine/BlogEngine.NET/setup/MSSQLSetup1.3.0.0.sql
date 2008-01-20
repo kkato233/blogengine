@@ -310,3 +310,16 @@ INSERT INTO be_PostTag (PostID, Tag)
 	VALUES (@postID, 'blog');
 INSERT INTO be_PostTag (PostID, Tag)
 	VALUES (@postID, 'welcome');
+	
+GO
+/****** Object:  Table [dbo].[be_ExtensionSettings]    Script Date: 12/27/2007 00:12:30 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[be_ExtensionSettings](
+	[Settings] [varbinary](max) NOT NULL
+) ON [PRIMARY]
+GO
+INSERT INTO [be_ExtensionSettings] ([Settings]) VALUES (CONVERT(varbinary(max),'<?xml version="1.0"?><ArrayOfManagedExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ArrayOfManagedExtension>'))
+GO

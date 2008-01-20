@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration.Provider;
@@ -102,11 +103,23 @@ namespace BlogEngine.Core.Providers
         /// <param name="services">The services.</param>
         public abstract void SavePingServices(StringCollection services);
 
-				//Stop words
-				/// <summary>
-				/// Loads the stop words used in the search feature.
-				/// </summary>
-				public abstract StringCollection LoadStopWords();
+		//Stop words
+		/// <summary>
+		/// Loads the stop words used in the search feature.
+		/// </summary>
+		public abstract StringCollection LoadStopWords();
+
+        //Extension Settings
+        /// <summary>
+        /// Loads the extension settings to the provider..
+        /// </summary>
+        /// <returns></returns>
+        public abstract Stream LoadExtensionSettings();
+        /// <summary>
+        /// Saves the extension settings to the provider.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        public abstract void SaveExtensionSettings(Stream settings);
     }
 
     /// <summary>
