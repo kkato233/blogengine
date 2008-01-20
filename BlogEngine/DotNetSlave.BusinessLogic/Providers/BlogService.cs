@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Configuration.Provider;
 using System.Web.Configuration;
 using System.Web;
+using System.IO;
 using BlogEngine.Core;
 
 #endregion
@@ -269,18 +270,43 @@ namespace BlogEngine.Core.Providers
 
         #endregion
 
-				#region Stop words
+		#region Stop words
 
-				/// <summary>
-				/// Loads the stop words from the data store.
-				/// </summary>
-				public static StringCollection LoadStopWords()
-				{
-					LoadProviders();
-					return _provider.LoadStopWords();
-			}
+		/// <summary>
+		/// Loads the stop words from the data store.
+		/// </summary>
+		public static StringCollection LoadStopWords()
+		{
+			LoadProviders();
+			return _provider.LoadStopWords();
+	    }
 
-				#endregion
+		#endregion
+
+        #region Extension Settings
+
+        //Extension Settings
+        /// <summary>
+        /// Loads the extension settings to the provider.
+        /// </summary>
+        /// <returns></returns>
+        public static Stream LoadExtensionSettings()
+        {
+            LoadProviders();
+            return _provider.LoadExtensionSettings();
+        }
+
+        /// <summary>
+        /// Saves the extension settings to the provider.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        public static void SaveExtensionSettings(Stream settings)
+        {
+            LoadProviders();
+            _provider.SaveExtensionSettings(settings);
+        }
+
+        #endregion
 
     }
 }

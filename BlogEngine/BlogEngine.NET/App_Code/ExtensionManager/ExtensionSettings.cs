@@ -29,9 +29,13 @@ public class ExtensionSettings
     /// Constructor
     /// </summary>
     /// <param name="extensionName">Extension Name</param>
-    public ExtensionSettings(string extensionName)
+    public ExtensionSettings(object extension)
     {
-        _extensionName = extensionName;
+        if (extension is string)
+            _extensionName = (string)extension;
+        else
+            _extensionName = extension.GetType().Name;
+        
         _delimiter = ",".ToCharArray();
     }
     #endregion
