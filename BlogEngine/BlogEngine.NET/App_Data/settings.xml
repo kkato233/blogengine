@@ -6,7 +6,8 @@
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <enablerating>True</enablerating>
   <enablerelatedposts>True</enablerelatedposts>
-  <postsperfeed>15</postsperfeed>
+  <postsperfeed>10</postsperfeed>
+  <administratorrole>Administrators</administratorrole>
   <fileextension>.aspx</fileextension>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
   <geocodinglatitude />

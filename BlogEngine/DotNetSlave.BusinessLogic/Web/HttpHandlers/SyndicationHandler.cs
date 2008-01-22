@@ -49,7 +49,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			List<IPublishable> list = GenerateItemList(context);
 			list = CleanList(list);
 
-			if (context.Request.QueryString["post"] == null)
+			if (string.IsNullOrEmpty(context.Request.QueryString["post"]))
 			{
 				// Shorten the list to the number of posts stated in the settings, except for the comment feed.
 				int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);				
@@ -187,8 +187,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			string title = BlogSettings.Instance.Name;
 			string subTitle = null;
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["category"]))
+			if (!string.IsNullOrEmpty(context.Request.QueryString["category"]) )
 			{
+				if (context.Request.QueryString["category"].Length != 36)
+					StopServing(context);
+
 				Guid categoryId = new Guid(context.Request.QueryString["category"]);
 				subTitle = Category.GetCategory(categoryId).Title;
 			}
@@ -200,6 +203,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			if (!string.IsNullOrEmpty(context.Request.QueryString["post"]))
 			{
+				if (context.Request.QueryString["post"].Length != 36)
+					StopServing(context);
+
 				Post post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
 				if (post == null)
 				{
@@ -219,6 +225,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				return title + " - " + subTitle;
 
 			return title;
+		}
+
+		private static void StopServing(HttpContext context)
+		{
+			context.Response.Clear();
+			context.Response.StatusCode = 404;
+			context.Response.End();
 		}
 
 		/// <summary>
