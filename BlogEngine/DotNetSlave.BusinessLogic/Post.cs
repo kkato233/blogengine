@@ -367,6 +367,8 @@ namespace BlogEngine.Core
 		{
 			for (int i = 0; i < _Posts.Count; i++)
 			{
+				_Posts[i]._Next = null;
+				_Posts[i]._Prev = null;
 				if (i > 0)
 					_Posts[i]._Next = _Posts[i - 1];
 
@@ -601,8 +603,9 @@ namespace BlogEngine.Core
 			if (!e.Cancel)
 			{
 				Comments.Remove(comment);
-				DataUpdate();
+				DataUpdate();				
 				OnCommentRemoved(comment);
+				comment = null;
 			}
 		}
 
@@ -662,6 +665,7 @@ namespace BlogEngine.Core
 		{
 			BlogService.UpdatePost(this);
 			Posts.Sort();
+			AddRelations();
 		}
 
 		/// <summary>
@@ -688,6 +692,7 @@ namespace BlogEngine.Core
 			if (Posts.Contains(this))
 			{
 				Posts.Remove(this);
+				Dispose();
 				AddRelations();
 			}
 		}

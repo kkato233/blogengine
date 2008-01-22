@@ -163,6 +163,8 @@ namespace BlogEngine.Core
         BlogService.DeleteCategory(this);
       if (Categories.Contains(this))
         Categories.Remove(this);
+
+			Dispose();
     }
     
 		///// <summary>

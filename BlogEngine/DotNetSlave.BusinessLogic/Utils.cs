@@ -41,8 +41,20 @@ namespace BlogEngine.Core
 			text = text.Replace("'", string.Empty);
 			text = text.Replace(" ", "-");
 			text = RemoveDiacritics(text);
+			text = RemoveExtraHyphen(text);
 
 			return HttpUtility.UrlEncode(text).Replace("%", string.Empty);
+		}
+
+		private static string RemoveExtraHyphen(string text)
+		{
+			if (text.Contains("--"))
+			{
+				text = text.Replace("--", "-");
+				return RemoveExtraHyphen(text);
+			}
+
+			return text;
 		}
 
 		private static String RemoveDiacritics(string text)
