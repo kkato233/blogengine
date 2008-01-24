@@ -57,7 +57,9 @@ public class SendCommentMail
 			mail.Body += "<strong>Name:</strong> " + comment.Author + "<br />";
 			mail.Body += "<strong>E-mail:</strong> " + comment.Email + "<br />";
 			mail.Body += string.Format("<strong>Website:</strong> <a href=\"{0}\">{0}</a><br />", comment.Website);
-			mail.Body += "<strong>Country code:</strong> " + comment.Country.ToUpperInvariant() + "<br />";
+
+			if (comment.Country != null)
+				mail.Body += "<strong>Country code:</strong> " + comment.Country.ToUpperInvariant() + "<br />";
 
 			if (HttpContext.Current != null)
 			{

@@ -72,7 +72,14 @@ public partial class admin_newuser : System.Web.UI.Page
 			LinkButton delete = e.Row.Cells[0].Controls[2] as LinkButton;
 			Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
 			string text = string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(), username.Text.Trim());
-			delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
+			if (Page.User.Identity.Name.Equals(username.Text, StringComparison.OrdinalIgnoreCase))
+			{
+				delete.OnClientClick = "alert('You cannot delete your own account');return false";
+			}
+			else
+			{
+				delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
+			}
 		}
 	}
 
