@@ -255,9 +255,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     }
 
 		// Add custom cultures
-		dic.Add("Bangladesh", "bd");
-		col.Add("Bangladesh");
-
+		if (!dic.ContainsValue("bd"))
+		{
+			dic.Add("Bangladesh", "bd");
+			col.Add("Bangladesh");
+		}
 
     col.Sort();
 
