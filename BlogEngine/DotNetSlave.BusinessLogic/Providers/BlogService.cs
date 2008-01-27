@@ -85,6 +85,15 @@ namespace BlogEngine.Core.Providers
             return _provider.SelectPost(id);
         }
 
+				/// <summary>
+				/// Returns the content of a post.
+				/// </summary>
+				public static string SelectPostContent(Guid id)
+				{
+					LoadProviders();
+					return _provider.SelectPostContent(id);
+				}
+
         /// <summary>
         /// Persists a new Post in the current provider.
         /// </summary>
