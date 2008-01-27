@@ -84,8 +84,8 @@ namespace BlogEngine.Core.Web.Controls
 
 			AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
 
-			//if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
-			//  AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
+			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
+				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
 
 			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
 				CompressCss();

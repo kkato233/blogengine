@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Providers
 
 			post.Title = doc.SelectSingleNode("post/title").InnerText;
 			post.Description = doc.SelectSingleNode("post/description").InnerText;
-			post.Content = doc.SelectSingleNode("post/content").InnerText;
+			//post.Content = doc.SelectSingleNode("post/content").InnerText;
 			post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
 
 			if (doc.SelectSingleNode("post/lastModified") != null)
@@ -125,6 +125,21 @@ namespace BlogEngine.Core.Providers
 			}
 
 			return post;
+		}
+
+		/// <summary>
+		/// Retrieves the content of the post in order to lazy load.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public override string SelectPostContent(Guid id)
+		{
+			string fileName = _Folder + "posts" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
+			Post post = new Post();
+			XmlDocument doc = new XmlDocument();
+			doc.Load(fileName);
+
+			return doc.SelectSingleNode("post/content").InnerText;
 		}
 
 		/// <summary>

@@ -55,7 +55,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					
 					if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
 					{
-						context.Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
+						context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
 						SetContentType(context, fileName);
 
 						context.Response.TransmitFile(info.FullName);

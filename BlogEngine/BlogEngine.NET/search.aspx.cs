@@ -191,7 +191,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
       text = StripHtml(content);
 			if (text.Length > 200)
 				text = text.Substring(0, 200) + " ...";
-			text = "“" + text.Trim() + "”";
+			text = "\"" + text.Trim() + "\"";
     }
 
     return text;

@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Providers
 
       post.Id = rdr.GetGuid(0);
       post.Title = rdr.GetString(1);
-      post.Content = rdr.GetString(3);
+      //post.Content = rdr.GetString(3);
       if (!rdr.IsDBNull(2))
         post.Description = rdr.GetString(2);
       if (!rdr.IsDBNull(4))
@@ -160,6 +160,21 @@ namespace BlogEngine.Core.Providers
 
       return post;
     }
+
+		/// <summary>
+		/// Retrieves the content of the post in order to lazy load.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public override string SelectPostContent(Guid id)
+		{
+			bool connClose = OpenConnection();
+
+			string sqlQuery = "SELECT PostContent FROM be_Posts WHERE PostID = @id";
+			SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
+			cmd.Parameters.Add(new SqlParameter("@id", id.ToString()));
+			return cmd.ExecuteScalar() as string;
+		}
 
     /// <summary>
     /// Inserts a new Post to the data store.
