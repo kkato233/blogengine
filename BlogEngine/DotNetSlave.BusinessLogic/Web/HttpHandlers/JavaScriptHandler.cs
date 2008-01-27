@@ -49,8 +49,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			script = (string)context.Cache[path];
 			if (!string.IsNullOrEmpty(script))
-			{
-				script = StripWhitespace(script);
+			{				
 				context.Response.Write(script);
 				SetHeaders(script.GetHashCode(), context);
 
@@ -72,6 +71,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				using (StreamReader reader = new StreamReader(path))
 				{
 					script = reader.ReadToEnd();
+					script = StripWhitespace(script);
 					HttpContext.Current.Cache.Insert(file, script, new CacheDependency(path));
 				}
 			}
@@ -93,6 +93,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				{
 					client.Credentials = CredentialCache.DefaultNetworkCredentials;
 					script = client.DownloadString(file);
+					script = StripWhitespace(script);
 					HttpContext.Current.Cache.Insert(file, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
 				}
 			}
