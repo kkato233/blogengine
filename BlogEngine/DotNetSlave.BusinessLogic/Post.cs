@@ -383,7 +383,7 @@ namespace BlogEngine.Core
 			if (HttpContext.Current.Cache[key] == null)
 			{
 				string content = BlogService.SelectPostContent(this.Id);
-				HttpContext.Current.Cache.Insert(key, content, null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
+				HttpContext.Current.Cache.Insert(key, content, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 3, 0));
 			}
 
 			return (string)HttpContext.Current.Cache[key];
