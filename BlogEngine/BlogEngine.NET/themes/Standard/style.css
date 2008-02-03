@@ -477,10 +477,17 @@ ul.recentComments li a.postTitle{
 }
 
 .commentForm .bbcode {
-	font-size:10px;
-	float:right;
-	position:relative;
-	top: 3px;
+    font-size:10px;
+    float:right;
+    position:relative;
+    padding: 3px;
+}
+
+.bbcode a {
+    margin: 1px;
+    padding: 1px 3px 1px 3px;
+    background: #fff;
+    border: 1px solid #ccc;
 }
 
 /*----------------------------

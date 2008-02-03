@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
 
@@ -513,6 +514,27 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     image.Append(Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
     image.Append("\" alt=\"\" />");
     return image.ToString();
+  }
+
+  /// <summary>
+  /// Displays BBCodes dynamically loaded from settings.
+  /// </summary>
+  protected string BBCodes()
+  {
+    string retVal = string.Empty;
+    string title = string.Empty;
+    string code = string.Empty;
+
+    ExtensionSettings settings = ExtensionManager.GetSettings("BBCode");
+    DataTable table = settings.GetDataTable();
+
+    foreach (DataRow row in table.Rows)
+    {
+      code = (string)row["Code"];
+      title = "[" + code + "][/" + code + "]";
+      retVal += "<a title=\"" + title + "\" href=\"\" onclick=\"AddBbCode('" + code + "'); return false;\">" + code + "</a>";
+    }
+    return retVal;
   }
 
   #endregion
