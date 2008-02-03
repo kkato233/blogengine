@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using BlogEngine.Core;
 
 #endregion
@@ -126,12 +127,17 @@ namespace Controls
 					}
 
 					// The comment body
-					int bodyLength = Math.Min(comment.Content.Length, 50);
-					string commentBody = comment.Content.Substring(0, bodyLength);
-					if (commentBody[commentBody.Length - 1] == '&')
-					{
-						commentBody = commentBody.Substring(0, commentBody.Length - 1);
-					}
+          string commentBody = Regex.Replace(comment.Content, @"\[(.*?)\]", "");
+          int bodyLength = Math.Min(commentBody.Length, 50);
+
+          commentBody = commentBody.Substring(0, bodyLength);
+          if (commentBody.Length > 0)
+          {
+            if (commentBody[commentBody.Length - 1] == '&')
+            {
+              commentBody = commentBody.Substring(0, commentBody.Length - 1);
+            }
+          }
 					commentBody += comment.Content.Length <= 50 ? " " : "… ";
 					LiteralControl body = new LiteralControl(commentBody);
 					li.Controls.Add(body);

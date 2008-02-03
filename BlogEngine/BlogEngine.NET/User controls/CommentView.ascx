@@ -41,7 +41,7 @@
   <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
   <%} %>
 
-  <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label> <span class="bbcode" title="BBCode tags">[b][/b] - [i][/i] - [u][/u]- [quote][/quote]</span>
+  <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label> <span class="bbcode" title="BBCode tags"><%=BBCodes() %></span>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
   <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" /><br />
     
@@ -116,6 +116,27 @@ function CheckAuthorName(sender, args)
   var visitor = $("<%=txtName.ClientID %>").value;  
   args.IsValid = !Equal(author, visitor);
   <%} %>
+}
+
+function AddBbCode(v) {
+  if (document.getSelection) // firefox
+  {      
+    tt = $("<%=txtContent.ClientID %>");
+    var pretxt = tt.value.substring(0, tt.selectionStart);
+    var therest = tt.value.substr(tt.selectionEnd);
+    var sel = tt.value.substring(tt.selectionStart, tt.selectionEnd);
+    tt.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
+  }
+  else // IE
+  {
+    var str = document.selection.createRange().text;
+    $("<%=txtContent.ClientID %>").focus();
+    var sel = document.selection.createRange();
+    sel.text = "[" + v + "]" + str + "[/" + v + "]";
+  }
+
+  ShowCommentPreview('livepreview', $("<%=txtContent.ClientID %>"));
+  return;
 }
 //-->
 </script>
