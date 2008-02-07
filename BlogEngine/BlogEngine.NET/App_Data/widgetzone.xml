@@ -7,4 +7,5 @@
   <widget id="e82a4d94-10a9-4acc-8d73-dc827da2f719" title="My Links" showTitle="True">LinkList</widget>
   <widget id="74f51ab7-3d2c-46d8-a89a-573efe228758" title="Calendar" showTitle="True">Calendar</widget>
   <widget id="8edcc57d-a098-45b9-a802-e64eb9764246" title="Tag cloud" showTitle="True">Tag cloud</widget>
+  <widget id="64009d18-22b9-4409-96e2-449bce2ccb44" title="Blogroll" showTitle="True">BlogRoll</widget>
 </widgets>
