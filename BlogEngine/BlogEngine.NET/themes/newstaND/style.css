@@ -1,4 +1,4 @@
-/*  
+ta/*  
 Theme Name: Breaking News
 Theme URI: http://www.idsg.it/
 Description: A "mixed" width, three columns "daily newspaper" theme for Wordpress.<br /><br />Wordpress Widgets ready. <br /><br />Minimal style ready for personal improvements.
@@ -528,6 +528,45 @@ p.categories
 {
 	padding: 1em 0em 1em 0em;
 }
+/*----------------------------
+				 Tag cloud
+----------------------------*/
+
+.tagcloud {
+	margin-bottom: 10px;
+	white-space: normal;
+}
+
+.tagcloud li {
+	display: inline;
+}
+
+.tagcloud a {
+	margin-right: 3px;
+	display: inline;
+}
+
+.tagcloud a.biggest {
+	font-size: 20px;
+}
+
+.tagcloud a.big {
+	font-size: 17px;
+}
+
+.tagcloud a.medium {
+	font-size: 13px;
+}
+
+.tagcloud a.small {
+	font-size: 12px;
+}
+
+.tagcloud a.smallest {
+	font-size: 10px;
+}
+
+
 /*----------------------------
 					Star rater
 ----------------------------*/
