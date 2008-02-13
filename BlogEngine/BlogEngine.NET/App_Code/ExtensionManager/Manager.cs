@@ -318,7 +318,8 @@ public class ExtensionManager
             catch (Exception e)
             {
                 FileAccessException = e;
-                return false;
+                HttpContext.Current.Cache.Remove("Extensions");
+                throw;
             }
         }
         else
@@ -363,8 +364,8 @@ public class ExtensionManager
         }
         catch (Exception)
         {
-            // to avoid runtime error. In the
-            // worse case defaults will be loaded
+          HttpContext.Current.Cache.Remove("Extensions");
+          throw;
         }
         finally
         {

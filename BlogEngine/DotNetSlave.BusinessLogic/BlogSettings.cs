@@ -538,6 +538,48 @@ namespace BlogEngine.Core
 		}
 		#endregion
 
+    #region Enclosure support
+    private bool enableEnclosures = false;
+    private string mediaStorageLocation = string.Empty;
+    /// <summary>
+    /// Enable enclosures for RSS feeds
+    /// </summary>
+    public bool EnableEnclosures
+    {
+      get
+      {
+        return enableEnclosures;
+      }
+
+      set
+      {
+        enableEnclosures = value;
+      }
+    }
+    /// <summary>
+    /// Storage location for media files
+    /// </summary>
+    public string MediaStorageLocation
+    {
+      get
+      {
+        return mediaStorageLocation;
+      }
+
+      set
+      {
+        if (String.IsNullOrEmpty(value))
+        {
+          mediaStorageLocation = String.Empty;
+        }
+        else
+        {
+          mediaStorageLocation = value;
+        }
+      }
+    }
+    #endregion
+
 		#region FileExtension
 		/// <summary>
 		/// The  file extension used for aspx pages
