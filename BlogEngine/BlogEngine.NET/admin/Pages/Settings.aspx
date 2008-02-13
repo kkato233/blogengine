@@ -197,6 +197,12 @@
         <label for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label>
         <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" /><br /><br />
         
+        <label for="<%=cbEnableEnclosures.ClientID %>">Enable Enclosures</label>
+        <asp:CheckBox runat="server" ID="cbEnableEnclosures" /><br />
+        
+        <label for="<%=txtMediaStorageLocation.ClientID %>">Media Storage Location</label>
+        <asp:TextBox runat="server" ID="txtMediaStorageLocation" Width="300" /><br /><br />
+        
         <label for="<%=txtBlogChannelBLink.ClientID %>"><%=Resources.labels.endorsment %></label>
         <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="300" /><br />
         

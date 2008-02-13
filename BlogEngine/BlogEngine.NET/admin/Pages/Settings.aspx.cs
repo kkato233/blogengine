@@ -80,6 +80,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         BlogSettings.Instance.EnableSsl = cbEnableSsl.Checked;
         BlogSettings.Instance.EmailSubjectPrefix = txtEmailSubjectPrefix.Text;
 
+        BlogSettings.Instance.EnableEnclosures = cbEnableEnclosures.Checked;
+        BlogSettings.Instance.MediaStorageLocation = txtMediaStorageLocation.Text;
+
         //-----------------------------------------------------------------------
         // Set Comments settings
         //-----------------------------------------------------------------------
@@ -187,6 +190,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
         cbEnableSsl.Checked = BlogSettings.Instance.EnableSsl;
         txtEmailSubjectPrefix.Text = BlogSettings.Instance.EmailSubjectPrefix;
+
+        cbEnableEnclosures.Checked = BlogSettings.Instance.EnableEnclosures;
+        txtMediaStorageLocation.Text = BlogSettings.Instance.MediaStorageLocation;
 
         //-----------------------------------------------------------------------
         // Bind Advanced settings

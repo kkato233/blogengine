@@ -4,12 +4,15 @@ Modification History:
 Date		Author		Description
 *****************************************************************************
 08/29/2007	brian.kuhn	Created SyndicationGenerator Class
+02/12/2008  rtur.net    
 ****************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Xml;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace BlogEngine.Core
 {
@@ -528,6 +531,16 @@ namespace BlogEngine.Core
 			writer.WriteElementString("description", content);
 			writer.WriteElementString("link", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
 
+      //------------------------------------------------------------
+      //	Write enclosure tag for podcasting support
+      //------------------------------------------------------------
+      if (BlogSettings.Instance.EnableEnclosures)
+      {
+        string encloser = GetEnclosure(content);
+        if (!string.IsNullOrEmpty(encloser))
+          writer.WriteRaw(encloser);
+      }
+
 			//------------------------------------------------------------
 			//	Write optional channel item elements
 			//------------------------------------------------------------
@@ -805,6 +818,16 @@ namespace BlogEngine.Core
 			writer.WriteAttributeString("href", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));
 			writer.WriteEndElement();
 
+      //------------------------------------------------------------
+      //	Write enclosure tag for podcasting support
+      //------------------------------------------------------------
+      if (BlogSettings.Instance.EnableEnclosures)
+      {
+        string encloser = GetEnclosure(content);
+        if (!string.IsNullOrEmpty(encloser))
+          writer.WriteRaw(encloser);
+      }
+
 			//------------------------------------------------------------
 			//	Write entry category elements
 			//------------------------------------------------------------
@@ -868,5 +891,102 @@ namespace BlogEngine.Core
 			writer.WriteEndElement();
 		}
 		#endregion
+
+    #region Enclosure support
+    //------------------------------------------------------------
+    //	builds enclosure tag for podcast if post has media file
+    //------------------------------------------------------------
+    private static string GetEnclosure(string content)
+    {
+      string enclosure = string.Empty;
+      foreach (KeyValuePair<string, string> media in SupportedMedia)
+      {
+        enclosure = GetMediaEnclosure(content, media.Key, media.Value);
+        if (enclosure.Length > 0)
+          break;
+      }
+      return enclosure;
+    }
+    //------------------------------------------------------------
+    //	get enclosure for supported media types
+    //------------------------------------------------------------
+    private static string GetMediaEnclosure(string content, string media, string mediatype)
+    {
+      string regex = @"<a href=((.|\n)*?)>((.|\n)*?)</a>";
+      string enclosure = "<enclosure url=\"{0}\" length=\"{1}\" type=\"{2}\" />";
+      MatchCollection matches = Regex.Matches(content, regex);
+
+      if (matches.Count > 0)
+      {
+        string filename = string.Empty;
+        string fileLength = "0";
+
+        foreach (Match match in matches)
+        {
+          if (match.Value.Contains(media))
+          {
+            filename = match.Value.Substring(match.Value.IndexOf("http"));
+            filename = filename.Substring(0, filename.IndexOf(">")).Replace("\"", "").Trim();
+            fileLength = GetFileSize(filename);
+            enclosure = string.Format(enclosure, filename, fileLength, mediatype);
+            break;
+          }
+        }
+        return enclosure;
+      }
+      else
+        return string.Empty;
+    }
+    //------------------------------------------------------------
+    //	returns size (length in bytes) of the media file
+    //------------------------------------------------------------
+    private static string GetFileSize(string fileName)
+    {
+      long size = 0;
+      fileName = MediaStorage() + fileName.Substring(fileName.LastIndexOf("/"));
+
+      try
+      {
+        string phisicalPath = HttpContext.Current.Server.MapPath(fileName);
+        FileInfo info = new FileInfo(phisicalPath);
+        size = info.Length;
+      }
+      catch (Exception) { }
+
+      return size.ToString();
+    }
+    //------------------------------------------------------------
+    //	location where to look for media files (.mp3 etc.)
+    //------------------------------------------------------------
+    private static string MediaStorage()
+    {
+      string mediaFolder = BlogSettings.Instance.MediaStorageLocation;
+
+      if (mediaFolder.StartsWith("/"))
+        mediaFolder = mediaFolder.Substring(1);
+
+      if (mediaFolder.EndsWith("/"))
+        mediaFolder = mediaFolder.Substring(0, mediaFolder.Length - 1);
+
+      return mediaFolder;
+    }
+    //------------------------------------------------------------
+    //	all media formats that support podcasting
+    //------------------------------------------------------------
+    private static Dictionary<string, string> SupportedMedia
+    {
+      get
+      {
+        Dictionary<string, string> dic = new Dictionary<string, string>();
+        dic.Add(".mp3", "audio/mpeg");
+        dic.Add(".m4a3", "audio/x-m4a");
+        dic.Add(".mp4", "video/mp4");
+        dic.Add(".m4v", "video/x-m4v");
+        dic.Add(".mov", "video/quicktime");
+        dic.Add(".pdf", "application/pdf");
+        return dic;
+      }
+    }
+    #endregion
 	}
 }
