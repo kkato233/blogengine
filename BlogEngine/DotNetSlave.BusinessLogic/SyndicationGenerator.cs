@@ -893,12 +893,17 @@ namespace BlogEngine.Core
 		#endregion
 
     #region Enclosure support
+    private static long _fileSize = 0;
+    private static bool _fileExists = false;
     //------------------------------------------------------------
-    //	builds enclosure tag for podcast if post has media file
+    //      builds enclosure tag for podcast if post has media file
     //------------------------------------------------------------
     private static string GetEnclosure(string content)
     {
       string enclosure = string.Empty;
+      _fileSize = 0;
+      _fileExists = false;
+
       foreach (KeyValuePair<string, string> media in SupportedMedia)
       {
         enclosure = GetMediaEnclosure(content, media.Key, media.Value);
@@ -908,7 +913,7 @@ namespace BlogEngine.Core
       return enclosure;
     }
     //------------------------------------------------------------
-    //	get enclosure for supported media types
+    //      get enclosure for supported media type
     //------------------------------------------------------------
     private static string GetMediaEnclosure(string content, string media, string mediatype)
     {
@@ -919,7 +924,6 @@ namespace BlogEngine.Core
       if (matches.Count > 0)
       {
         string filename = string.Empty;
-        string fileLength = "0";
 
         foreach (Match match in matches)
         {
@@ -927,51 +931,48 @@ namespace BlogEngine.Core
           {
             filename = match.Value.Substring(match.Value.IndexOf("http"));
             filename = filename.Substring(0, filename.IndexOf(">")).Replace("\"", "").Trim();
-            fileLength = GetFileSize(filename);
-            enclosure = string.Format(enclosure, filename, fileLength, mediatype);
-            break;
+            filename = ValidateFileName(filename);
+
+            if (_fileExists)
+            {
+              enclosure = string.Format(enclosure, filename, _fileSize, mediatype);
+              return enclosure;
+            }
           }
         }
-        return enclosure;
       }
-      else
-        return string.Empty;
+      return string.Empty;
     }
     //------------------------------------------------------------
-    //	returns size (length in bytes) of the media file
+    // returns validated name of the media file
+    // this file has to be "local" - must exist on the server
     //------------------------------------------------------------
-    private static string GetFileSize(string fileName)
+    private static string ValidateFileName(string fileName)
     {
-      long size = 0;
-      fileName = MediaStorage() + fileName.Substring(fileName.LastIndexOf("/"));
+      fileName = fileName.Replace(Utils.AbsoluteWebRoot.ToString(), "");
 
       try
       {
         string phisicalPath = HttpContext.Current.Server.MapPath(fileName);
         FileInfo info = new FileInfo(phisicalPath);
-        size = info.Length;
+        _fileSize = info.Length;
+        _fileExists = true;
       }
-      catch (Exception) { }
+      catch (Exception)
+      {
+        // if file does not exist - try to strip down leading
+        // directory in the path; sometimes it duplicated
+        if (fileName.IndexOf("/") > 0)
+        {
+          fileName = fileName.Substring(fileName.IndexOf("/") + 1);
+          ValidateFileName(fileName);
+        }
+      }
 
-      return size.ToString();
+      return Utils.AbsoluteWebRoot + fileName;
     }
     //------------------------------------------------------------
-    //	location where to look for media files (.mp3 etc.)
-    //------------------------------------------------------------
-    private static string MediaStorage()
-    {
-      string mediaFolder = BlogSettings.Instance.MediaStorageLocation;
-
-      if (mediaFolder.StartsWith("/"))
-        mediaFolder = mediaFolder.Substring(1);
-
-      if (mediaFolder.EndsWith("/"))
-        mediaFolder = mediaFolder.Substring(0, mediaFolder.Length - 1);
-
-      return mediaFolder;
-    }
-    //------------------------------------------------------------
-    //	all media formats that support podcasting
+    //      all media formats that support podcasting
     //------------------------------------------------------------
     private static Dictionary<string, string> SupportedMedia
     {
