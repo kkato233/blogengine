@@ -1,5 +1,5 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Settings.ascx.cs" Inherits="User_controls_xmanager_Parameters" %>
-<h1>Settings: <%=_extensionName%></h1>
+<h1><%=SettingName%></h1>
 <div id="ErrorMsg" runat="server" style="color:Red; display:block;"></div>
 <div id="InfoMsg" runat="server" style="color:Green; display:block;"></div>
 
