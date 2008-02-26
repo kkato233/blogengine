@@ -17,9 +17,11 @@ using BlogEngine.Core;
 public partial class User_controls_xmanager_Parameters : System.Web.UI.UserControl
 {
     #region Private members
-    static protected string _extensionName = string.Empty;
-    static protected ExtensionSettings _settings = null;
+    private string _extensionName = string.Empty;
+    protected ExtensionSettings _settings = null;
     #endregion
+
+    public string SettingName { get { return _extensionName; } set { _extensionName = value; } }
 
     /// <summary>
     /// Dynamically loads form controls or
@@ -29,7 +31,7 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        _extensionName = Request.QueryString["ext"];
+        _extensionName = this.ID;
         _settings = ExtensionManager.GetSettings(_extensionName);
 
         CreateFormFields();

@@ -17,18 +17,33 @@ public partial class User_controls_xdashboard_Default : System.Web.UI.Page
 
         switch (Request.QueryString["ctrl"])
         {
-            case "params":
-                uc = (UserControl)Page.LoadControl("Settings.ascx");
-                ucPlaceHolder.Controls.Add(uc);
-                break;
-            case "editor":
-                uc = (UserControl)Page.LoadControl("Editor.ascx");
-                ucPlaceHolder.Controls.Add(uc);
-                break;
-            default:
-                uc = (UserControl)Page.LoadControl("Extensions.ascx");
-                ucPlaceHolder.Controls.Add(uc);
-                break;
+          case "params":
+            string xName = Request.QueryString["ext"].ToString();
+
+            //if (xName.IndexOf(".") > 0)
+            //  xName = xName.Substring(0, xName.IndexOf(".") - 1);
+
+            foreach (ManagedExtension x in ExtensionManager.Extensions)
+            {
+              if (x.Name == xName)
+              {
+                foreach (ExtensionSettings setting in x.Settings)
+                {
+                  uc = (UserControl)Page.LoadControl("Settings.ascx");
+                  uc.ID = setting.Name;
+                  ucPlaceHolder.Controls.Add(uc);
+                }
+              }
+            }
+            break;
+          case "editor":
+              uc = (UserControl)Page.LoadControl("Editor.ascx");
+              ucPlaceHolder.Controls.Add(uc);
+              break;
+          default:
+              uc = (UserControl)Page.LoadControl("Extensions.ascx");
+              ucPlaceHolder.Controls.Add(uc);
+              break;
         }
     }
 }
