@@ -166,8 +166,8 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
 
       if (ExtensionManager.FileAccessException == null)
       {
-        string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "\\web.config";
-        System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
+        //string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "\\web.config";
+        //System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
         Response.Redirect("default.aspx");
       }
       else

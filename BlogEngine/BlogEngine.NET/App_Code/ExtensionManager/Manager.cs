@@ -5,6 +5,7 @@ using System.Web.Caching;
 using System.Reflection;
 using System.Configuration;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -31,6 +32,7 @@ public class ExtensionManager
   private static string _fileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "extensions.xml");
   private static List<ManagedExtension> _extensions = new List<ManagedExtension>();
   private static BlogProviderSection _section = (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
+  private static StringCollection _newExtensions = new StringCollection();
   #endregion
 
   #region Public members
@@ -70,6 +72,21 @@ public class ExtensionManager
     return val;
   }
   /// <summary>
+  /// Only change status on first load;
+  /// This allows to enable/disable extension on
+  /// initial load and then be able to override it with
+  /// change status from admin interface
+  /// </summary>
+  /// <param name="extension">Extension Name</param>
+  /// <param name="enabled">Enable/disable extension on initial load</param>
+  public static void SetStatus(string extension, bool enabled)
+  {
+    if (IsNewExtension(extension))
+    {
+      ChangeStatus(extension, enabled);
+    }
+  }
+  /// <summary>
   /// Method to change extension status
   /// </summary>
   /// <param name="extension">Extensio Name</param>
@@ -83,6 +100,10 @@ public class ExtensionManager
         x.Enabled = enabled;
         SaveToStorage();
         SaveToCache();
+
+        string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "web.config";
+        System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
+
         break;
       }
     }
@@ -227,7 +248,10 @@ public class ExtensionManager
       foreach (object attribute in attributes)
       {
         if (!Contains(type))
+        {
+          _newExtensions.Add(type.Name);
           AddExtension(type, attribute);
+        }
       }
     }
   }
@@ -334,18 +358,6 @@ public class ExtensionManager
   }
   #endregion
 
-  //public static void EnableExtension(string extensionName, bool enable)
-  //{
-  //    foreach (ManagedExtension x in _extensions)
-  //    {
-  //        if (x.Name == extensionName)
-  //        {
-  //            x.Enabled = enable;
-  //            return;
-  //        }
-  //    }
-  //}
-
   #region Serialization
   /// <summary>
   /// Saves ext. manager object to XML file
@@ -434,4 +446,20 @@ public class ExtensionManager
     HttpContext.Current.Cache["Extensions"] = _extensions;
   }
   #endregion
+  
+  /// <summary>
+  /// Extension is "new" if it is loaded from assembly
+  /// but not yet saved to the disk. This state is needed
+  /// so that we can initialize extension and its settings
+  /// on the first load and then override it from admin
+  /// </summary>
+  /// <param name="name">Extension name</param>
+  /// <returns>True if new</returns>
+  private static bool IsNewExtension(string name)
+  {
+    if (_newExtensions.Contains(name))
+      return true;
+    else
+      return false;
+  }
 }

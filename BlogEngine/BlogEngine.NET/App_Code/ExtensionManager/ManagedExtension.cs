@@ -42,6 +42,7 @@ public class ManagedExtension
     _description = desc;
     _author = author;
     _settings = new List<ExtensionSettings>();
+    _enabled = true;
   }
   #endregion
 
