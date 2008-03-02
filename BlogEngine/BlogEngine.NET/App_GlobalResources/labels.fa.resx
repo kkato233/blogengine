@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-    Translated by Touradg Morassaei - Blogengine.Net 1.3.0.1 - 2007/12/23
     Microsoft ResX Schema 
     
     Version 2.0
@@ -122,7 +121,7 @@
     <value>اضافه کردن</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>ارسال ورودی</value>
+    <value>ارسال مطلب</value>
   </data>
   <data name="addComment" xml:space="preserve">
     <value>ارسال نظر</value>
@@ -186,6 +185,9 @@
   </data>
   <data name="changePassword" xml:space="preserve">
     <value>تغییر رمز عبور</value>
+  </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>لطفاً نام دیگری را انتخاب کنید</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>بستن امکان ارسال نظر بعد از</value>
@@ -263,7 +265,7 @@
     <value>فعالسازی امکان الصاق فایل</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>فعال سازی نظر برای نظرات</value>
+    <value>فعال سازی coComments</value>
   </data>
   <data name="enableComments" xml:space="preserve">
     <value>فعال سازی ارسال نظرات</value>
@@ -278,7 +280,7 @@
     <value>مدیریت نظرات (بررسی قبل از ثبت)</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>فعال سازی Gravatars</value>
+    <value>فعال کردن Gravatars</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
     <value>فعال کردن فشرده سازی اطلاعات</value>
@@ -287,13 +289,13 @@
     <value>صفحات را سریعتر بارگذاری کن (توصیه می شود)</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>فعال کردن OpenSearch</value>
+    <value>فعال سازی OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>ویژگی جستجو را به تمام جستجوگرهای جدید اضافه می کند</value>
   </data>
   <data name="enablePingbacks" xml:space="preserve">
-    <value>فعالسازی pingbacks</value>
+    <value>فعال سازی pingbacks</value>
   </data>
   <data name="enableRating" xml:space="preserve">
     <value>فعال سازی امکان امتیازدهی به ارسالها</value>
@@ -311,13 +313,19 @@
     <value>فعال سازی SSL</value>
   </data>
   <data name="enableTrackbacks" xml:space="preserve">
-    <value>فعالسازی trackbacks</value>
+    <value>فعال سازی trackbacks</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>امضا (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>وادار کردن</value>
+    <value>اجبار</value>
+  </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>لطفاً آدرس پست اکترونیکی معتبری را وارد کنید</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>لطفاً آدرس اینترنتی معتبری را وارد کنید</value>
   </data>
   <data name="export" xml:space="preserve">
     <value>ایجاد خروجی</value>
@@ -390,7 +398,7 @@
     <value>ارسالهای بعدی</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>موردی یافت نشد</value>
+    <value>هیچ چیز</value>
   </data>
   <data name="noParent" xml:space="preserve">
     <value>بدون صفحه والد</value>
@@ -476,6 +484,9 @@
   <data name="remove" xml:space="preserve">
     <value>حذف</value>
   </data>
+  <data name="required" xml:space="preserve">
+    <value>الزامی است</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>ذخیره</value>
   </data>
@@ -492,7 +503,7 @@
     <value>ذخیره تنظیمات</value>
   </data>
   <data name="savingTheComment" xml:space="preserve">
-    <value>در حال ذخیره نظر...</value>
+    <value>در حال ثبت نظر...</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>جستجو</value>

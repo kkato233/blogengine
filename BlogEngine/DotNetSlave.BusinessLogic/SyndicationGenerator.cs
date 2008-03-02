@@ -217,7 +217,7 @@ namespace BlogEngine.Core
 		/// <returns>The equivalent <a href="http://asg.web.cmu.edu/rfc/rfc822.html">RFC-822 DateTime</a> string representation.</returns>
 		public static string ToRfc822DateTime(DateTime dateTime)
 		{
-			int offset = TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now.AddHours(BlogSettings.Instance.Timezone)).Hours;
+			int offset = (int)(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalHours + BlogSettings.Instance.Timezone);
 			string timeZone = "+" + offset.ToString(NumberFormatInfo.InvariantInfo).PadLeft(2, '0');
 
 			//------------------------------------------------------------
