@@ -130,5 +130,22 @@ public class ManagedExtension
     }
     return false;
   }
+  /// <summary>
+  /// Method to find out if extension has setting with this name
+  /// </summary>
+  /// <param name="settingName">Setting Name</param>
+  /// <returns>True if settings with this name already exists</returns>
+  public bool ContainsSetting(string settingName)
+  {
+    foreach (ExtensionSettings xset in _settings)
+    {
+      if (xset.Name == settingName)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   #endregion
 }

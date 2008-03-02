@@ -128,14 +128,6 @@ public class ExtensionManager
     }
   }
   /// <summary>
-  /// Will serialize and cache ext. mgr. object
-  /// </summary>
-  public static void Save()
-  {
-    SaveToStorage();
-    SaveToCache();
-  }
-  /// <summary>
   /// Tell if manager already has this extension
   /// </summary>
   /// <param name="type">Extension Type</param>
@@ -198,9 +190,7 @@ public class ExtensionManager
           LoadFromAssembly();
         }
       }
-
-      SaveToStorage();
-      SaveToCache();
+      Save();
     }
   }
   /// <summary>
@@ -265,21 +255,7 @@ public class ExtensionManager
   /// <returns>Collection of settings</returns>
   public static ExtensionSettings GetSettings(string extensionName)
   {
-    foreach (ManagedExtension x in _extensions)
-    {
-      foreach (ExtensionSettings setting in x.Settings)
-      {
-        if (setting != null)
-        {
-          if (setting.Name == extensionName)
-          {
-            return setting;
-          }
-        }
-      }
-    }
-
-    return null;
+    return GetSettings(extensionName, extensionName);
   }
   public static ExtensionSettings GetSettings(string extensionName, string settingName)
   {
@@ -299,7 +275,6 @@ public class ExtensionManager
         }
       }
     }
-
     return null;
   }
   /// <summary>
@@ -314,14 +289,9 @@ public class ExtensionManager
   }
   public static void SaveSettings(string extensionName, ExtensionSettings settings)
   {
-    string xName = settings.Name;
-
-    if (xName.IndexOf(".") > 0)
-      xName = xName.Substring(0, xName.IndexOf(".") - 1);
-
     foreach (ManagedExtension x in _extensions)
     {
-      if (x.Name == xName)
+      if (x.Name == extensionName)
       {
         x.SaveSettings(settings);
         break;
@@ -351,14 +321,19 @@ public class ExtensionManager
         break;
       }
     }
-
-    SaveToCache();
-
-    return SaveToStorage();
+    return Save();
   }
   #endregion
 
   #region Serialization
+  /// <summary>
+  /// Will serialize and cache ext. mgr. object
+  /// </summary>
+  public static bool Save()
+  {
+    SaveToCache();
+    return SaveToStorage();
+  }
   /// <summary>
   /// Saves ext. manager object to XML file
   /// or database table using provider model
@@ -421,6 +396,21 @@ public class ExtensionManager
         if (a.GetType(_extensions[i].Name, false) == null)
         {
           _extensions.Remove(_extensions[i]);
+        }
+        else
+        {
+          // fix setting name for older extensions 
+          // set it to extension name
+          foreach (ExtensionSettings xset in _extensions[i].Settings)
+          {
+            if (xset != null)
+            {
+              if (string.IsNullOrEmpty(xset.Name))
+              {
+                xset.Name = _extensions[i].Name;
+              }
+            }
+          }
         }
       }
     }

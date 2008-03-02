@@ -20,18 +20,18 @@ public partial class User_controls_xdashboard_Default : System.Web.UI.Page
           case "params":
             string xName = Request.QueryString["ext"].ToString();
 
-            //if (xName.IndexOf(".") > 0)
-            //  xName = xName.Substring(0, xName.IndexOf(".") - 1);
-
             foreach (ManagedExtension x in ExtensionManager.Extensions)
             {
               if (x.Name == xName)
               {
                 foreach (ExtensionSettings setting in x.Settings)
                 {
-                  uc = (UserControl)Page.LoadControl("Settings.ascx");
-                  uc.ID = setting.Name;
-                  ucPlaceHolder.Controls.Add(uc);
+                  if (!string.IsNullOrEmpty(setting.Name))
+                  {
+                    uc = (UserControl)Page.LoadControl("Settings.ascx");
+                    uc.ID = setting.Name;
+                    ucPlaceHolder.Controls.Add(uc);
+                  }
                 }
               }
             }
