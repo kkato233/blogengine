@@ -483,15 +483,42 @@ namespace BlogEngine.Core.Providers {
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="answer"></param>
-        /// <returns></returns>
-        public override string GetPassword(string username, string answer) {
-            throw new NotSupportedException();
-        }
+				/// <summary>
+				/// Gets the password for the user with the given username.
+				/// </summary>
+				/// <param name="username">the given username</param>
+				/// <returns>the password if user is found, null otherwise.</returns>
+				public string GetPassword(string username)
+				{
+					return GetPassword(username, null);
+				}
+
+				/// <summary>
+				/// Gets the password for the specified user name from the data source.
+				/// </summary>
+				/// <param name="username">The user to retrieve the password for.</param>
+				/// <param name="answer">The password answer for the user.</param>
+				/// <returns>
+				/// The password for the specified user name.
+				/// </returns>
+				public override string GetPassword(string username, string answer)
+				{
+					if (String.IsNullOrEmpty(username))
+						throw new ArgumentException("username");
+
+					XmlDocument doc = new XmlDocument();
+					doc.Load(this._XmlFileName);
+
+					foreach (XmlNode node in doc.SelectNodes("//User"))
+					{
+						if (node.ChildNodes[0].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
+						{
+							string pass = node.ChildNodes[1].InnerText;
+							return pass;
+						}
+					}
+					return null;
+				}
 
         #endregion
 

@@ -31,7 +31,11 @@
         location.href = 'search.aspx?q=' + searchTerm + comment;
       }
       
-      check.checked = <%=(Request.QueryString["comment"] != null).ToString().ToLowerInvariant() %>;
+      if (check != null)
+      {
+        check.checked = <%=(Request.QueryString["comment"] != null).ToString().ToLowerInvariant() %>;
+      }
+
       //]]>
     </script>
   

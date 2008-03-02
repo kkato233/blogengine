@@ -255,7 +255,14 @@ namespace BlogEngine.Core
 		{
 			content = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "image.axd", "\"" + Utils.AbsoluteWebRoot + "image.axd");
 			content = content.Replace("\"" + Utils.AbsoluteWebRoot.AbsolutePath + "file.axd", "\"" + Utils.AbsoluteWebRoot + "file.axd");
-			content = content.Replace("href=\"/", "href=\"" + Utils.AbsoluteWebRoot);
+			content = content.Replace("href=\"" + Utils.RelativeWebRoot + "", "href=\"" + Utils.AbsoluteWebRoot);
+			
+			if (HttpContext.Current != null)
+			{
+				Uri url = HttpContext.Current.Request.Url;
+				content = content.Replace("href=\"/", "href=\"" + url.Scheme + "://" + url.Authority + "/");
+			}
+
 			return content;
 		}
 		#endregion

@@ -6,7 +6,7 @@
 <%} %>
 <div id="commentlist">
   <asp:PlaceHolder runat="server" ID="phComments" />
-    </div>
+</div>
 
 <asp:PlaceHolder runat="Server" ID="phAddComment">
 
@@ -48,8 +48,7 @@
   <input type="checkbox" id="cbNotify" style="width: auto" tabindex="6" />
   <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
  
-  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){AddComment()}" tabindex="7" />  
-  <asp:Button runat="server" ID="btnSave" style="display:none" Text="<%$Resources:labels, addComment %>" UseSubmitBehavior="false" TabIndex="7" ValidationGroup="AddComment" />
+  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){AddComment()}" tabindex="7" />    
   
   <% if (BlogSettings.Instance.ShowLivePreview) { %>  
   <h2><%=Resources.labels.livePreview %></h2> 
@@ -61,12 +60,6 @@
 
 <script type="text/javascript">
 <!--//
-if (!isAjaxSupported)
-{
-  $('<%=btnSave.ClientID %>').style.display = "inline";
-  $('btnSaveAjax').style.display = "none";
-}
-
 function AddComment()
 {
   $("btnSaveAjax").disabled = true;
@@ -93,8 +86,9 @@ function AppendComment(args, context)
 {
   if (context == "comment")
   {
-    if ($("commentlist").innerHTML == "")
+    if ($("commentlist").innerHTML.length < 10)
       $("commentlist").innerHTML = "<h1 id='comment'><%=Resources.labels.comments %></h1>"
+      
     $("commentlist").innerHTML += args;
     $("<%=txtContent.ClientID %>").value = "";
     $("ajaxLoader").style.display = "none";
@@ -154,7 +148,7 @@ coco =
      author        : "<%=this.Post.Title %>",
      formID        : "<%=Page.Form.ClientID %>",
      textareaID    : "<%=txtContent.UniqueID %>",
-     buttonID      : "<%=btnSave.ClientID %>"
+     buttonID      : "btnSaveAjax"
 }
 </script>
 <script id="cocomment-fetchlet" src="http://www.cocomment.com/js/enabler.js" type="text/javascript">

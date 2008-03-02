@@ -45,7 +45,9 @@ namespace BlogEngine.Core.Providers
 			post.Title = doc.SelectSingleNode("post/title").InnerText;
 			post.Description = doc.SelectSingleNode("post/description").InnerText;
 			//post.Content = doc.SelectSingleNode("post/content").InnerText;
-			post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
+
+			if (doc.SelectSingleNode("post/pubDate") != null)
+				post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
 
 			if (doc.SelectSingleNode("post/lastModified") != null)
 				post.DateModified = DateTime.Parse(doc.SelectSingleNode("post/lastModified").InnerText, CultureInfo.InvariantCulture);
@@ -139,7 +141,10 @@ namespace BlogEngine.Core.Providers
 			XmlDocument doc = new XmlDocument();
 			doc.Load(fileName);
 
-			return doc.SelectSingleNode("post/content").InnerText;
+			if (doc.SelectSingleNode("post/content") != null)
+				return doc.SelectSingleNode("post/content").InnerText;
+
+			return string.Empty;
 		}
 
 		/// <summary>

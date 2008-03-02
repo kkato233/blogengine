@@ -20,17 +20,29 @@ using BlogEngine.Core.Web.Controls;
 
 public partial class User_controls_CommentView : UserControl, ICallbackEventHandler
 {
-  private string _Callback;
-
+  
   #region ICallbackEventHandler Members
 
+	private string _Callback;
+
+	/// <summary>
+	/// Returns the results of a callback event that targets a control.
+	/// </summary>
+	/// <returns>The result of the callback.</returns>
   public string GetCallbackResult()
   {
     return _Callback;
   }
 
+	/// <summary>
+	/// Processes a callback event that targets a control.
+	/// </summary>
+	/// <param name="eventArgument">A string that represents an event argument to pass to the event handler.</param>
   public void RaiseCallbackEvent(string eventArgument)
   {
+		if (!BlogSettings.Instance.IsCommentsEnabled)
+			return;
+
     string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
     string author = args[0];
     string email = args[1];
@@ -65,8 +77,8 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     if (notify && !Post.NotificationEmails.Contains(email))
       Post.NotificationEmails.Add(email);
-		//else if (!notify && Post.NotificationEmails.Contains(email))
-		//  Post.NotificationEmails.Remove(email);
+		else if (!notify && Post.NotificationEmails.Contains(email))
+		  Post.NotificationEmails.Remove(email);
 
     Post.AddComment(comment);
     SetCookie(author, email, website, country);
@@ -146,11 +158,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       {
         phAddComment.Visible = false;
       }
-			InititializeCaptcha();
+			//InititializeCaptcha();
     }
     
    
-    btnSave.Click += new EventHandler(btnSave_Click);
+		//btnSave.Click += new EventHandler(btnSave_Click);
   }
 
   private void ApproveComment()
@@ -194,47 +206,47 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     }
   }
 
-  private void btnSave_Click(object sender, EventArgs e)
-  {
-    if (!IsCaptchaValid || !Page.IsValid)
-      Response.Redirect(Post.RelativeLink.ToString(), true);
+	//private void btnSave_Click(object sender, EventArgs e)
+	//{
+	//  if (!IsCaptchaValid || !Page.IsValid)
+	//    Response.Redirect(Post.RelativeLink.ToString(), true);
 
-    SaveComment();
-    SetCookie(txtName.Text, txtEmail.Text, txtWebsite.Text, ddlCountry.SelectedValue);
-    Response.Redirect(Post.RelativeLink.ToString() + "#addcomment", true);
-  }
+	//  SaveComment();
+	//  SetCookie(txtName.Text, txtEmail.Text, txtWebsite.Text, ddlCountry.SelectedValue);
+	//  Response.Redirect(Post.RelativeLink.ToString() + "#addcomment", true);
+	//}
 
-  /// <summary>
-  /// Saves a comment made from a postback. This only runs when 
-  /// the browser doesn't support AJAX.
-  /// </summary>
-  private void SaveComment()
-  {
-    Comment comment = new Comment();
-    comment.Id = Guid.NewGuid();
-    comment.Author = txtName.Text;
-    comment.Email = txtEmail.Text;
-    comment.IP = Request.UserHostAddress;
-    comment.Country = ddlCountry.SelectedValue;
-    comment.Content = Server.HtmlEncode(txtContent.Text);
-    comment.DateCreated = DateTime.Now;
-    comment.Parent = Post;
-    if (txtWebsite.Text.Trim().Length > 0)
-    {
-      if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
-        txtWebsite.Text = "http://" + txtWebsite.Text;
+	///// <summary>
+	///// Saves a comment made from a postback. This only runs when 
+	///// the browser doesn't support AJAX.
+	///// </summary>
+	//private void SaveComment()
+	//{
+	//  Comment comment = new Comment();
+	//  comment.Id = Guid.NewGuid();
+	//  comment.Author = txtName.Text;
+	//  comment.Email = txtEmail.Text;
+	//  comment.IP = Request.UserHostAddress;
+	//  comment.Country = ddlCountry.SelectedValue;
+	//  comment.Content = Server.HtmlEncode(txtContent.Text);
+	//  comment.DateCreated = DateTime.Now;
+	//  comment.Parent = Post;
+	//  if (txtWebsite.Text.Trim().Length > 0)
+	//  {
+	//    if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
+	//      txtWebsite.Text = "http://" + txtWebsite.Text;
 
-      Uri website;
-      if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
-        comment.Website = website;
-    }
-    comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
+	//    Uri website;
+	//    if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
+	//      comment.Website = website;
+	//  }
+	//  comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
 
-    if (Page.User.Identity.IsAuthenticated)
-      comment.IsApproved = true;
+	//  if (Page.User.Identity.IsAuthenticated)
+	//    comment.IsApproved = true;
 
-    Post.AddComment(comment);
-  }
+	//  Post.AddComment(comment);
+	//}
 
   /// <summary>
   /// Binds the country dropdown list with countries retrieved
@@ -376,49 +388,49 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
   #endregion
 
-  #region CAPTCHA
+	//#region CAPTCHA
 
-  /// <summary>
-  /// Gets whether or not the user is human
-  /// </summary>
-  private bool IsCaptchaValid
-  {
-    get
-    {
-      if (ViewState["captchavalue"] != null)
-      {
-				return Request.Form[ViewState["captchafield"].ToString()] == ViewState["captchavalue"].ToString();
-      }
+	///// <summary>
+	///// Gets whether or not the user is human
+	///// </summary>
+	//private bool IsCaptchaValid
+	//{
+	//  get
+	//  {
+	//    if (ViewState["captchavalue"] != null)
+	//    {
+	//      return Request.Form[ViewState["captchafield"].ToString()] == ViewState["captchavalue"].ToString();
+	//    }
 
-      return false;
-    }
-  }
+	//    return false;
+	//  }
+	//}
 
-  /// <summary>
-  /// Initializes the captcha and registers the JavaScript
-  /// </summary>
-	private void InititializeCaptcha()
-  {
-    if (ViewState["captchavalue"] == null)
-    {
-      ViewState["captchavalue"] = Guid.NewGuid().ToString();
-			ViewState["captchafield"] = Guid.NewGuid().ToString();
-    }
+	///// <summary>
+	///// Initializes the captcha and registers the JavaScript
+	///// </summary>
+	//private void InititializeCaptcha()
+	//{
+	//  if (ViewState["captchavalue"] == null)
+	//  {
+	//    ViewState["captchavalue"] = Guid.NewGuid().ToString();
+	//    ViewState["captchafield"] = Guid.NewGuid().ToString();
+	//  }
 
-    StringBuilder sb = new StringBuilder();
-    sb.Append("function SetCaptcha(){");
-    sb.Append("var form = $('" + Page.Form.ClientID + "');");
-    sb.Append("var el = document.createElement('input');");
-    sb.Append("el.type = 'hidden';");
-		sb.Append("el.name = '" + ViewState["captchafield"] + "';");
-    sb.Append("el.value = '" + ViewState["captchavalue"] + "';");
-    sb.Append("form.appendChild(el);}");
+	//  StringBuilder sb = new StringBuilder();
+	//  sb.Append("function SetCaptcha(){");
+	//  sb.Append("var form = $('" + Page.Form.ClientID + "');");
+	//  sb.Append("var el = document.createElement('input');");
+	//  sb.Append("el.type = 'hidden';");
+	//  sb.Append("el.name = '" + ViewState["captchafield"] + "';");
+	//  sb.Append("el.value = '" + ViewState["captchavalue"] + "';");
+	//  sb.Append("form.appendChild(el);}");
 
-    Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
-    Page.ClientScript.RegisterOnSubmitStatement(GetType(), "captchayo", "SetCaptcha()");
-  }
+	//  Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
+	//  Page.ClientScript.RegisterOnSubmitStatement(GetType(), "captchayo", "SetCaptcha()");
+	//}
 
-  #endregion
+	//#endregion
 
   #region Protected methods and properties
 
