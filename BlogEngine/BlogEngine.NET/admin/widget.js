@@ -366,6 +366,9 @@
 	function initdragableElements()
 	{
 		dragableElementsParentBox = document.getElementById('widgetzone');
+		if (!dragableElementsParentBox)
+		  return;
+		
 		dragableAreaWidth = dragableElementsParentBox.offsetWidth;
 		
 		dragDropMoveLayer = document.createElement('DIV');

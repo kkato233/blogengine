@@ -234,16 +234,9 @@ namespace BlogEngine.Core
       if (removeHtml)
         content = _StripHtml.Replace(content, string.Empty);
 
-			content = content
-											.Replace("\\", string.Empty)
-											.Replace("|", string.Empty)
-											.Replace("(", string.Empty)
-											.Replace(")", string.Empty)
-											.Replace("[", string.Empty)
-											.Replace("]", string.Empty)
-											.Replace("+", string.Empty);
+			Regex.Escape(content);
 
-      string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+			string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
       StringBuilder sb = new StringBuilder();
       for (int i = 0; i < words.Length; i++)
       {

@@ -398,7 +398,7 @@
     <value>Next posts</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>Don't show</value>
+    <value>None</value>
   </data>
   <data name="noParent" xml:space="preserve">
     <value>No parent</value>

@@ -145,7 +145,7 @@
     <value>Aprobar</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Aprovar todos los comentarios</value>
+    <value>Aprobar todos los comentarios</value>
   </data>
   <data name="archive" xml:space="preserve">
     <value>Archivo</value>
@@ -182,6 +182,12 @@
   </data>
   <data name="category" xml:space="preserve">
     <value>Categoria</value>
+  </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Cambiar Pasword</value>
+  </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>Por favor elija otro nombreanother name</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Cerrar comentarios después</value>
@@ -252,6 +258,9 @@
   <data name="emailAddress" xml:space="preserve">
     <value>Dirección E-mail</value>
   </data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Prefijo de Asunto</value>
+  </data>
   <data name="enableAttachments" xml:space="preserve">
     <value>Activar adjuntos</value>
   </data>
@@ -285,6 +294,9 @@
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Añade la capacidad de búsqueda a todos los nuevos navegadores (recomendado).</value>
   </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Habilitar pingbacks</value>
+  </data>
   <data name="enableRating" xml:space="preserve">
     <value>Activar calificación de posts</value>
   </data>
@@ -300,11 +312,20 @@
   <data name="enableSsl" xml:space="preserve">
     <value>Activar SSL</value>
   </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Habilitar trackbacks</value>
+  </data>
   <data name="endorsment" xml:space="preserve">
     <value>Asignado (intermitente)</value>
   </data>
   <data name="enforce" xml:space="preserve">
     <value>Forzar</value>
+  </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>Por favor ingrese un e-mail válido</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>Por favor ingrese un URL válido</value>
   </data>
   <data name="export" xml:space="preserve">
     <value>Exportar</value>
@@ -358,6 +379,9 @@
   <data name="message" xml:space="preserve">
     <value>Mensaje</value>
   </data>
+  <data name="mobileTheme" xml:space="preserve">
+    <value>Estilo para Mobile</value>
+  </data>
   <data name="monster" xml:space="preserve">
     <value>Monstruo</value>
   </data>
@@ -367,6 +391,12 @@
   <data name="name" xml:space="preserve">
     <value>Nombre</value>
   </data>
+  <data name="nextPost" xml:space="preserve">
+    <value>Post Siguiente</value>
+  </data>
+  <data name="nextPosts" xml:space="preserve">
+    <value>Posts Siguientes</value>
+  </data>
   <data name="none" xml:space="preserve">
     <value>No mostrar</value>
   </data>
@@ -374,7 +404,7 @@
     <value>No superior</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Notifarme cuando son añadidos nuevos comentarios</value>
+    <value>Notiicfarme cuando son añadidos nuevos comentarios</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
     <value>No calificado todavia</value>
@@ -418,6 +448,12 @@
   <data name="postsPerFeed" xml:space="preserve">
     <value>Asuntos mostrados en el Feed</value>
   </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Publicación Anterior</value>
+  </data>
+  <data name="previousPosts" xml:space="preserve">
+    <value>Publicaciones Anteriores</value>
+  </data>
   <data name="publish" xml:space="preserve">
     <value>Publicar</value>
   </data>
@@ -426,6 +462,9 @@
   </data>
   <data name="rating" xml:space="preserve">
     <value>Calificación</value>
+  </data>
+  <data name="receive" xml:space="preserve">
+    <value>Recibir</value>
   </data>
   <data name="recentComments" xml:space="preserve">
     <value>Comentarios recientes</value>
@@ -445,6 +484,9 @@
   <data name="remove" xml:space="preserve">
     <value>Eliminar</value>
   </data>
+  <data name="required" xml:space="preserve">
+    <value>Requerido</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>Guardar</value>
   </data>
@@ -455,10 +497,13 @@
     <value>Guardar página</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Guaradar publicación</value>
+    <value>Guardar publicación</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
     <value>Guardar configuración</value>
+  </data>
+  <data name="savingTheComment" xml:space="preserve">
+    <value>Guardando el comentario...</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>Buscar</value>
@@ -478,6 +523,9 @@
   <data name="selectParent" xml:space="preserve">
     <value>Seleccione superior</value>
   </data>
+  <data name="send" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Enviar comentario por e-mail</value>
   </data>
@@ -494,13 +542,16 @@
     <value>Si el selector de pais no está seleccionado , no se mostrará una bandera en cada comentario.</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Sólo mostrar descripción de las publicaciones</value>
+    <value>Sólo mostrar descripción de posts</value>
   </data>
   <data name="showInList" xml:space="preserve">
     <value>Mostrar en lista</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Mostrar vista previa</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Enlaces de navegación entre post</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
     <value>Mostrar publicaciones relacionadas</value>
@@ -527,7 +578,7 @@
     <value>Hay {0} posts sin publicar</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Añadir fecha a los links de cada publicación</value>
+    <value>Añadir fecha a los links de post</value>
   </data>
   <data name="timezone" xml:space="preserve">
     <value>Diferenecia horaria del servidor</value>

@@ -134,6 +134,8 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 		decimal pages = Math.Ceiling((decimal)results / (decimal)PAGE_SIZE);
 
 		HtmlGenericControl ul = new HtmlGenericControl("ul");
+		ul.Attributes.Add("class", "paging");
+
 		for (int i = 0; i < pages; i++)
 		{
 			HtmlGenericControl li = new HtmlGenericControl("li");

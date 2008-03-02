@@ -1,49 +1,6 @@
-﻿// Global variables
-var isAjaxSupported = (window.ActiveXObject != "undefined" || window.XMLHttpRequest != "undefined");
-
-function $(id)
+﻿function $(id)
 {
   return document.getElementById(id);
-}
-
-// Postback
-function __doPostBack(eventTarget, eventArgument) 
-{
-  if (!theForm.onsubmit || (theForm.onsubmit() != false)) 
-  {
-    theForm.__EVENTTARGET.value = eventTarget;
-    theForm.__EVENTARGUMENT.value = eventArgument;
-    theForm.submit();
-  }
-}
-
-// Validation
-function InitValidators()
-{
-  var Page_ValidationActive = false;
-  if (typeof(ValidatorOnLoad) == "function") 
-  {
-    ValidatorOnLoad();
-  }
-}
-
-function ValidatorOnSubmit() 
-{
-  if (Page_ValidationActive) 
-  {
-    return ValidatorCommonOnSubmit();
-  }
-  else 
-  {
-    return true;
-  }
-}
-
-// Form submit
-function CleanForm_OnSubmit()
-{
-  if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
-  return true;
 }
 
 // Live preview
