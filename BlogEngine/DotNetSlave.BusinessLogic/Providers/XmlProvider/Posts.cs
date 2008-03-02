@@ -160,7 +160,9 @@ namespace BlogEngine.Core.Providers
 			XmlWriterSettings settings = new XmlWriterSettings();
 			settings.Indent = true;
 
-			using (XmlWriter writer = XmlWriter.Create(fileName, settings))
+			MemoryStream ms = new MemoryStream();
+
+			using (XmlWriter writer = XmlWriter.Create(ms, settings))
 			{
 				writer.WriteStartDocument(true);
 				writer.WriteStartElement("post");
@@ -224,6 +226,12 @@ namespace BlogEngine.Core.Providers
 				writer.WriteEndElement();
 
 				writer.WriteEndElement();
+			}
+
+			using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
+			{
+				ms.WriteTo(fs);
+				ms.Dispose();
 			}
 		}
 

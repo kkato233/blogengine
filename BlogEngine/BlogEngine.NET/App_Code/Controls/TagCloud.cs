@@ -120,7 +120,7 @@ namespace Controls
 				writer.Write("<p>" + Resources.labels.none + "</p>");
 			}
 
-      writer.Write("<ul id=\"tagcloud\">");
+      writer.Write("<ul id=\"tagcloud\" class=\"tagcloud\">");
       foreach (string key in WeightedList.Keys)
       {
         writer.Write("<li>");

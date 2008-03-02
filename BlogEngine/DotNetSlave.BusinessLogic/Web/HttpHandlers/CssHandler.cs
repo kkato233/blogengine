@@ -28,6 +28,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
+
 			string file = string.Empty;
 			
 			if (context.Request.QueryString["name"].StartsWith("/"))
@@ -42,6 +43,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				Compress(context);
 		}
 
+		private class Pair<T1, T2>
+		{
+			public T1 First;
+			public T2 Second;
+			public Pair(T1 first, T2 second) { First = first; Second = second; }
+		}
+
 		/// <summary>
 		/// Removes all unwanted text from the CSS file,
 		/// including comments and whitespace.
@@ -52,18 +60,19 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			{
 				throw new System.Security.SecurityException("No access");
 			}
+			
+			Pair<string, DateTime> result = (Pair<string, DateTime>)context.Cache[file];
 
-			if (context.Cache[file + "date"] == null)
+			if (result == null)
 			{
 				using (StreamReader reader = new StreamReader(file))
 				{
-					string body = StripWhitespace(reader);
-					context.Cache.Insert(file, body, new CacheDependency(file));
-					context.Cache.Insert(file + "date", File.GetLastWriteTime(file), new CacheDependency(file));
+					result = new Pair<string, DateTime>(StripWhitespace(reader), File.GetLastWriteTime(file));
+					context.Cache.Insert(file, result, new CacheDependency(file));
 				}
 			}
 
-			context.Response.Write((string)context.Cache[file]);
+			context.Response.Write(result.First);
 		}
 
 		/// <summary>

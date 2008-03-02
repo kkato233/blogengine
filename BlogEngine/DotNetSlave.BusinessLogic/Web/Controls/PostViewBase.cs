@@ -186,7 +186,7 @@ namespace BlogEngine.Core.Web.Controls
 					}
 				}
 
-				return arg.Body;
+				return arg.Body ?? string.Empty;
 			}
 		}
 
