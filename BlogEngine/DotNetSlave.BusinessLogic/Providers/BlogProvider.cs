@@ -21,10 +21,10 @@ namespace BlogEngine.Core.Providers
         /// Retrieves a Post from the provider based on the specified id.
         /// </summary>
         public abstract Post SelectPost(Guid id);
-				/// <summary>
-				/// Retrieves the content of the post in order to lazy load.
-				/// </summary>
-				public abstract string SelectPostContent(Guid id);
+				///// <summary>
+				///// Retrieves the content of the post in order to lazy load.
+				///// </summary>
+				//public abstract string SelectPostContent(Guid id);
         /// <summary>
         /// Inserts a new Post into the data store specified by the provider.
         /// </summary>

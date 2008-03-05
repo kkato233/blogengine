@@ -93,15 +93,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public string Content
 		{
-			get
-			{
-				if (_Content == null)
-				{
-					return LoadPostContent();
-				}
-
-				return _Content;
-			}
+			get { return _Content; }
 			set
 			{
 				if (_Content != value)
@@ -372,22 +364,22 @@ namespace BlogEngine.Core
 			}
 		}
 
-		/// <summary>
-		/// Lazy loads the content of the post into cache to reduce memory footprint.
-		/// </summary>
-		/// <returns>The content of the post.</returns>
-		private string LoadPostContent()
-		{
-			string key = string.Format("content_{0}", this.Id);
+		///// <summary>
+		///// Lazy loads the content of the post into cache to reduce memory footprint.
+		///// </summary>
+		///// <returns>The content of the post.</returns>
+		//private string LoadPostContent()
+		//{
+		//  string key = string.Format("content_{0}", this.Id);
 
-			if (HttpContext.Current.Cache[key] == null)
-			{
-				string content = BlogService.SelectPostContent(this.Id);
-				HttpContext.Current.Cache.Insert(key, content, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 3, 0));
-			}
+		//  if (HttpContext.Current.Cache[key] == null)
+		//  {
+		//    string content = BlogService.SelectPostContent(this.Id);
+		//    HttpContext.Current.Cache.Insert(key, content, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 3, 0));
+		//  }
 
-			return (string)HttpContext.Current.Cache[key];
-		}
+		//  return (string)HttpContext.Current.Cache[key];
+		//}
 
 		/// <summary>
 		/// Sets the Previous and Next properties to all posts.
@@ -670,18 +662,18 @@ namespace BlogEngine.Core
 
 		#region Base overrides
 
-		/// <summary>
-		/// Saves the object to the data store (inserts, updates or deletes).
-		/// </summary>
-		/// <returns></returns>
-		public override SaveAction Save()
-		{
-			SaveAction action = base.Save();
-			if (action == SaveAction.Insert || action == SaveAction.Update)
-				_Content = null;
+		///// <summary>
+		///// Saves the object to the data store (inserts, updates or deletes).
+		///// </summary>
+		///// <returns></returns>
+		//public override SaveAction Save()
+		//{
+		//  SaveAction action = base.Save();
+		//  if (action == SaveAction.Insert || action == SaveAction.Update)
+		//    _Content = null;
 
-			return action;
-		}
+		//  return action;
+		//}
 
 		/// <summary>
 		/// Validates the Post instance.
