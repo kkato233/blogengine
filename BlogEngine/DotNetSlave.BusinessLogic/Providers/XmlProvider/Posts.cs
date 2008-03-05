@@ -44,7 +44,7 @@ namespace BlogEngine.Core.Providers
 
 			post.Title = doc.SelectSingleNode("post/title").InnerText;
 			post.Description = doc.SelectSingleNode("post/description").InnerText;
-			//post.Content = doc.SelectSingleNode("post/content").InnerText;
+			post.Content = doc.SelectSingleNode("post/content").InnerText;
 
 			if (doc.SelectSingleNode("post/pubDate") != null)
 				post.DateCreated = DateTime.Parse(doc.SelectSingleNode("post/pubDate").InnerText, CultureInfo.InvariantCulture);
@@ -129,23 +129,23 @@ namespace BlogEngine.Core.Providers
 			return post;
 		}
 
-		/// <summary>
-		/// Retrieves the content of the post in order to lazy load.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		public override string SelectPostContent(Guid id)
-		{
-			string fileName = _Folder + "posts" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
-			Post post = new Post();
-			XmlDocument doc = new XmlDocument();
-			doc.Load(fileName);
+		///// <summary>
+		///// Retrieves the content of the post in order to lazy load.
+		///// </summary>
+		///// <param name="id"></param>
+		///// <returns></returns>
+		//public override string SelectPostContent(Guid id)
+		//{
+		//  string fileName = _Folder + "posts" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
+		//  Post post = new Post();
+		//  XmlDocument doc = new XmlDocument();
+		//  doc.Load(fileName);
 
-			if (doc.SelectSingleNode("post/content") != null)
-				return doc.SelectSingleNode("post/content").InnerText;
+		//  if (doc.SelectSingleNode("post/content") != null)
+		//    return doc.SelectSingleNode("post/content").InnerText;
 
-			return string.Empty;
-		}
+		//  return string.Empty;
+		//}
 
 		/// <summary>
 		/// Inserts a new Post to the data store.
