@@ -538,23 +538,23 @@ namespace BlogEngine.Core
 		}
 		#endregion
 
-    #region Enclosure support
-    private bool enableEnclosures = false;
-    /// <summary>
-    /// Enable enclosures for RSS feeds
-    /// </summary>
-    public bool EnableEnclosures
-    {
-      get
-      {
-        return enableEnclosures;
-      }
-      set
-      {
-        enableEnclosures = value;
-      }
-    }
-    #endregion
+		#region Enclosure support
+		private bool enableEnclosures = false;
+		/// <summary>
+		/// Enable enclosures for RSS feeds
+		/// </summary>
+		public bool EnableEnclosures
+		{
+			get
+			{
+				return enableEnclosures;
+			}
+			set
+			{
+				enableEnclosures = value;
+			}
+		}
+		#endregion
 
 		#region FileExtension
 		/// <summary>
@@ -1715,6 +1715,8 @@ namespace BlogEngine.Core
 		#endregion
 
 		#region Version()
+
+		private static string _Version;
 		/// <summary>
 		/// Returns the BlogEngine.NET version information.
 		/// </summary>
@@ -1722,23 +1724,10 @@ namespace BlogEngine.Core
 		/// <remarks>The current version is determined by extracting the build version of the BlogEngine.Core assembly.</remarks>
 		public string Version()
 		{
-			//------------------------------------------------------------
-			//	Attempt to retrieve version information
-			//------------------------------------------------------------
-			try
-			{
-				//------------------------------------------------------------
-				//	Return assembly version information
-				//------------------------------------------------------------
-				return GetType().Assembly.GetName().Version.ToString();
-			}
-			catch
-			{
-				//------------------------------------------------------------
-				//	Rethrow exception
-				//------------------------------------------------------------
-				throw;
-			}
+			if (_Version == null)
+				_Version = GetType().Assembly.GetName().Version.ToString();
+
+			return _Version;
 		}
 		#endregion
 	}

@@ -16,22 +16,26 @@ public partial class admin_menu : System.Web.UI.UserControl
 
 	private void BindMenu()
 	{
-		foreach (SiteMapNode adminNode in SiteMap.Providers["SecuritySiteMap"].RootNode.ChildNodes)
+		SiteMapNode root = SiteMap.Providers["SecuritySiteMap"].RootNode;
+		if (root != null)
 		{
-			if (adminNode.IsAccessibleToUser(HttpContext.Current))
+			foreach (SiteMapNode adminNode in root.ChildNodes)
 			{
-				if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") && (adminNode.Url.Contains("xmanager") || adminNode.Url.Contains("PingServices")))
-					continue;
+				if (adminNode.IsAccessibleToUser(HttpContext.Current))
+				{
+					if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") && (adminNode.Url.Contains("xmanager") || adminNode.Url.Contains("PingServices")))
+						continue;
 
-				HtmlAnchor a = new HtmlAnchor();
-				a.HRef = adminNode.Url;
+					HtmlAnchor a = new HtmlAnchor();
+					a.HRef = adminNode.Url;
 
-				a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-				if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
-					a.Attributes["class"] = "current";
-				HtmlGenericControl li = new HtmlGenericControl("li");
-				li.Controls.Add(a);
-				ulMenu.Controls.Add(li);
+					a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
+					if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
+						a.Attributes["class"] = "current";
+					HtmlGenericControl li = new HtmlGenericControl("li");
+					li.Controls.Add(a);
+					ulMenu.Controls.Add(li);
+				}
 			}
 		}
 
