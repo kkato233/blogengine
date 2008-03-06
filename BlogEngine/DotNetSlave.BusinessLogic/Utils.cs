@@ -72,6 +72,20 @@ namespace BlogEngine.Core
 			return sb.ToString();
 		}
 
+		private static readonly Regex STRIP_HTML = new Regex("<[^>]*>", RegexOptions.Compiled);
+		/// <summary>
+		/// Strips all HTML tags from the specified string.
+		/// </summary>
+		/// <param name="html">The string containing HTML</param>
+		/// <returns>A string without HTML tags</returns>
+		public static string StripHtml(string html)
+		{
+			if (string.IsNullOrEmpty(html))
+				return string.Empty;
+
+			return STRIP_HTML.Replace(html, string.Empty);
+		}
+
 		#region URL handling
 
 		/// <summary>

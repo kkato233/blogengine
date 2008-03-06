@@ -165,7 +165,6 @@ namespace BlogEngine.Core
     #region Properties and private fields
 
     private readonly static object _SyncRoot = new object();
-    private readonly static Regex _StripHtml = new Regex("<[^>]*>", RegexOptions.Compiled);
     private readonly static StringCollection _StopWords = BlogEngine.Core.Providers.BlogService.LoadStopWords();
     private static Collection<Entry> _Catalog = new Collection<Entry>();
 
@@ -231,8 +230,8 @@ namespace BlogEngine.Core
     /// </summary>
     private static string CleanContent(string content, bool removeHtml)
     {
-      if (removeHtml)
-        content = _StripHtml.Replace(content, string.Empty);
+			if (removeHtml)
+				content = Utils.StripHtml(content);// _StripHtml.Replace(content, string.Empty);
 
 			Regex.Escape(content);
 

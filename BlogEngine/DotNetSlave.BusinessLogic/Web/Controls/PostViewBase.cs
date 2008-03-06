@@ -165,7 +165,7 @@ namespace BlogEngine.Core.Web.Controls
 					}
 					else
 					{
-						body = StripHtml(Post.Content);
+						body = Utils.StripHtml(Post.Content);
 						if (body.Length > 300)
 							body = body.Substring(0, 300) + "..." + link;
 					}
@@ -188,16 +188,6 @@ namespace BlogEngine.Core.Web.Controls
 
 				return arg.Body ?? string.Empty;
 			}
-		}
-
-		private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
-
-		private static string StripHtml(string html)
-		{
-			if (string.IsNullOrEmpty(html))
-				return string.Empty;
-
-			return _Regex.Replace(html, string.Empty);
 		}
 
 		/// <summary>
