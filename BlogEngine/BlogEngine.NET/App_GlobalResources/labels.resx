@@ -622,4 +622,7 @@
   <data name="youAlreadyRated" xml:space="preserve">
     <value>You already rated this post</value>
   </data>
+  <data name="userProfiles" xml:space="preserve">
+    <value>User Profile(s)</value>
+  </data>
 </root>
