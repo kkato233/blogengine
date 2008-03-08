@@ -625,4 +625,52 @@
   <data name="userProfiles" xml:space="preserve">
     <value>User Profile(s)</value>
   </data>
+  <data name="view" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="firstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="aboutMe" xml:space="preserve">
+    <value>AboutMe</value>
+  </data>
+  <data name="birthday" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="cityTown" xml:space="preserve">
+    <value>City/Town</value>
+  </data>
+  <data name="displayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="fullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="industry" xml:space="preserve">
+    <value>Industry</value>
+  </data>
+  <data name="interests" xml:space="preserve">
+    <value>Interests</value>
+  </data>
+  <data name="isPrivate" xml:space="preserve">
+    <value>Is Private</value>
+  </data>
+  <data name="lastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="occupation" xml:space="preserve">
+    <value>Occupation</value>
+  </data>
+  <data name="photoURL" xml:space="preserve">
+    <value>PhotoURL</value>
+  </data>
+  <data name="regionState" xml:space="preserve">
+    <value>State/Region</value>
+  </data>
+  <data name="saveProfile" xml:space="preserve">
+    <value>Save Profile</value>
+  </data>
 </root>

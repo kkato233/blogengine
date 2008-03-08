@@ -40,6 +40,12 @@ namespace BlogEngine.Core.Providers
             }
         }
 
+        public override string ApplicationName
+        {
+            get { return "BlogEngine.NET"; }
+            set { }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -47,7 +53,7 @@ namespace BlogEngine.Core.Providers
         {
             get
             {
-                return HttpContext.Current.Server.MapPath("App_Data/profiles.xml");
+                return HttpContext.Current.Server.MapPath("~/App_Data/profiles.xml");
             }
         }
 
@@ -84,7 +90,7 @@ namespace BlogEngine.Core.Providers
         /// <b>null</b> is returned.</returns>
         protected virtual Dictionary<string, object> GetUserProfile(string username)
         {
-            XmlNode profileXml = GetProfileXmlNode(username);
+            XmlNode profileXml = GetProfileXmlNode(username.ToLowerInvariant());
 
             if (profileXml == null)
                 return null;        // No profile for the specified username
@@ -106,11 +112,11 @@ namespace BlogEngine.Core.Providers
 
         protected virtual XmlNode CreateUserProfile(string username, DateTime lastUpdatedTime)
         {
-            XmlNode node = ProfilesXml.CreateNode(XmlNodeType.Element, "Extension", "");
-            XmlAttribute usernameAttribute = ProfilesXml.CreateAttribute("username");
+            XmlNode node = ProfilesXml.CreateNode(XmlNodeType.Element, "profile", "");
+            XmlAttribute usernameAttribute = ProfilesXml.CreateAttribute("userName");
             XmlAttribute lastUpdatedTimeAttribute = ProfilesXml.CreateAttribute("lastUpdatedTime");
 
-            usernameAttribute.Value = username;
+            usernameAttribute.Value = username.ToLowerInvariant();
             lastUpdatedTimeAttribute.Value = lastUpdatedTime.ToString();
 
             node.Attributes.Append(usernameAttribute);
@@ -121,7 +127,7 @@ namespace BlogEngine.Core.Providers
 
         protected virtual XmlNode GetProfileXmlNode(string username)
         {
-            XmlNode profile = ProfilesXml.SelectSingleNode("/Profiles/Profile[@username=\"" + username + "\"]");
+            XmlNode profile = ProfilesXml.SelectSingleNode("/profiles/profile[@userName=\"" + username.ToLowerInvariant() + "\"]");
 
             return profile;
         }
@@ -144,18 +150,18 @@ namespace BlogEngine.Core.Providers
         {
             base.Initialize(name, config);
 
-            ApplicationName = config["applicationName"];
+            //ApplicationName = config["applicationName"];
 
             // TODO: Replace with profilePath
             //if (!string.IsNullOrEmpty(config["profileFolder"]))
             //  ProfileFolder = config["profileFolder"];
 
-            if (string.IsNullOrEmpty(ApplicationName))
-                throw new ProviderException("You _must_ provide the 'applicationName' setting when using the XmlProfileProvider");
+            //if (string.IsNullOrEmpty(ApplicationName))
+            //    throw new ProviderException("You _must_ provide the 'applicationName' setting when using the XmlProfileProvider");
 
             // Make sure that there are no unknown settings
-            config.Remove("applicationName");
-            config.Remove("profileFolder");
+            //config.Remove("applicationName");
+            //config.Remove("profileFolder");
 
             if (config.Count > 0)
                 throw new ProviderException("Unrecognized attribute: " + config.GetKey(0));
@@ -215,45 +221,12 @@ namespace BlogEngine.Core.Providers
             return false;
         }
 
-        public override ProfileInfoCollection FindInactiveProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override ProfileInfoCollection FindProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override ProfileInfoCollection GetAllInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public override ProfileInfoCollection GetAllProfiles(ProfileAuthenticationOption authenticationOption, int pageIndex, int pageSize, out int totalRecords)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
         public override int GetNumberOfInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
         {
             int totalRecords = 0;
             ProfileInfoCollection profiles = GetAllInactiveProfiles(authenticationOption, userInactiveSinceDate, 1, Int32.MaxValue, out totalRecords);
 
             return totalRecords;
-        }
-
-        private string _AppName;
-        public override string ApplicationName
-        {
-            get { return _AppName; }
-            set
-            {
-                if (value.Length > 256)
-                    throw new ProviderException("ApplicationName too long - cannot exceed 256 characters in length");
-
-                _AppName = value;
-            }
         }
 
         public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection collection)
@@ -269,7 +242,7 @@ namespace BlogEngine.Core.Providers
                     throw new ProviderException("Cannot access profile data for users with a username that contains '..'");
 
                 // Get the profile values for the user
-                Dictionary<string, object> usersProperties = GetUserProfile(username);
+                Dictionary<string, object> usersProperties = GetUserProfile(username.ToLowerInvariant());
 
                 foreach (SettingsProperty property in collection)
                 {
@@ -316,7 +289,7 @@ namespace BlogEngine.Core.Providers
             if (!HasDirtyProperty(collection))
                 return;
 
-            XmlNode newProfile = CreateUserProfile(username, DateTime.Now);
+            XmlNode newProfile = CreateUserProfile(username.ToLowerInvariant(), DateTime.Now);
 
             foreach (SettingsPropertyValue setting in collection)
             {
@@ -354,8 +327,33 @@ namespace BlogEngine.Core.Providers
 
                 newProfile.AppendChild(propertyNode);
             }
-
-
+            Save();
         }
+        
+        #region Not Implemented
+
+        public override ProfileInfoCollection FindInactiveProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override ProfileInfoCollection FindProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override ProfileInfoCollection GetAllInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override ProfileInfoCollection GetAllProfiles(ProfileAuthenticationOption authenticationOption, int pageIndex, int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        #endregion
+
+
     } 
 }
