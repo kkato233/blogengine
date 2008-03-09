@@ -107,11 +107,11 @@ namespace BlogEngine.Core.Providers
         /// <param name="services">The services.</param>
         public abstract void SavePingServices(StringCollection services);
 
-		//Stop words
-		/// <summary>
-		/// Loads the stop words used in the search feature.
-		/// </summary>
-		public abstract StringCollection LoadStopWords();
+		    //Stop words
+		    /// <summary>
+		    /// Loads the stop words used in the search feature.
+		    /// </summary>
+		    public abstract StringCollection LoadStopWords();
 
         //Extension Settings
         /// <summary>
@@ -124,6 +124,22 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         /// <param name="settings">The settings.</param>
         public abstract void SaveExtensionSettings(Stream settings);
+
+        // Data Store
+        /// <summary>
+        /// Loads settings from data store
+        /// </summary>
+        /// <param name="exType">Extension Type</param>
+        /// <param name="exId">Extensio Id</param>
+        /// <returns>Settings as stream</returns>
+        public abstract Stream LoadFromDataStore(DataStore.ExtensionType exType, string exId);
+        /// <summary>
+        /// Saves settings to data store
+        /// </summary>
+        /// <param name="exType">Extensio Type</param>
+        /// <param name="exId">Extensio Id</param>
+        /// <param name="settings">Settings object</param>
+        public abstract void SaveToDataStore(DataStore.ExtensionType exType, string exId, object settings);
     }
 
     /// <summary>
