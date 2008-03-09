@@ -323,3 +323,17 @@ CREATE TABLE [dbo].[be_ExtensionSettings](
 GO
 INSERT INTO [be_ExtensionSettings] ([Settings]) VALUES (CONVERT(varbinary(max),'<?xml version="1.0"?><ArrayOfManagedExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ArrayOfManagedExtension>'))
 GO
+
+/****** Object:  Table [dbo].[be_DataStoreSettings]    Script Date: 03/09/2008 12:32:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[be_DataStoreSettings](
+    [ExtensionType] [nvarchar](50) NOT NULL,
+    [ExtensionId] [nvarchar](100) NOT NULL,
+	[Settings] [varbinary](max) NOT NULL
+) ON [PRIMARY]
+GO

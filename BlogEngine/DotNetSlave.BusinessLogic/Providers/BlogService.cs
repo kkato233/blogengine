@@ -9,6 +9,7 @@ using System.Web.Configuration;
 using System.Web;
 using System.IO;
 using BlogEngine.Core;
+using BlogEngine.Core.DataStore;
 
 #endregion
 
@@ -316,6 +317,32 @@ namespace BlogEngine.Core.Providers
 		}
 
 		#endregion
+
+    #region Data Store
+    /// <summary>
+    /// Loads settings from data storage
+    /// </summary>
+    /// <param name="exType">Extension Type</param>
+    /// <param name="exId">Extension ID</param>
+    /// <returns>Settings as stream</returns>
+    public static Stream LoadFromDataStore(ExtensionType exType, string exId)
+    {
+      LoadProviders();
+      return _provider.LoadFromDataStore(exType, exId);
+    }
+
+    /// <summary>
+    /// Saves settings to data store
+    /// </summary>
+    /// <param name="exType">Extension Type</param>
+    /// <param name="exId">Extensio ID</param>
+    /// <param name="settings">Settings object</param>
+    public static void SaveToDataStore(ExtensionType exType, string exId, object settings)
+    {
+      LoadProviders();
+      _provider.SaveToDataStore(exType, exId, settings);
+    }
+    #endregion
 
 	}
 }

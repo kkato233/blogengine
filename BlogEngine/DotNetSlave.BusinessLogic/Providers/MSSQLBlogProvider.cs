@@ -11,6 +11,10 @@ using System.Data.SqlTypes;
 using System.Text;
 using System.Globalization;
 using BlogEngine.Core;
+using BlogEngine.Core.DataStore;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
@@ -887,6 +891,77 @@ namespace BlogEngine.Core.Providers
                 cmd.ExecuteNonQuery();
             }
         }
+    }
+
+    #endregion
+
+    #region Data Store
+
+    /// <summary>
+    /// Loads settings object from the storage
+    /// </summary>
+    /// <param name="exType">Extension Type</param>
+    /// <param name="exId">Extension ID</param>
+    /// <returns>Settings as a stream</returns>
+    public override Stream LoadFromDataStore(ExtensionType exType, string exId)
+    {
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
+      {
+        string sqlQuery = string.Format("SELECT Settings FROM be_DataStoreSettings WHERE ExtensionType = '{0}' AND ExtensionId = '{1}'", exType, exId);
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+
+          object o = cmd.ExecuteScalar();
+
+          if (o == null)
+            return null;
+
+          return new MemoryStream((byte[])o);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Saves settings to data storage
+    /// </summary>
+    /// <param name="exType">Extension Type</param>
+    /// <param name="exId">Extension ID</param>
+    /// <param name="settings">Settings object</param>
+    public override void SaveToDataStore(ExtensionType exType, string exId, object settings)
+    {
+      if (settings == null)
+        throw new ArgumentNullException("settings");
+
+      MemoryStream stm = new MemoryStream();
+      BinaryFormatter bf = new BinaryFormatter();
+      try
+      {
+        bf.Serialize(stm, settings);
+      }
+      catch (Exception e)
+      {
+        string s = e.Message;
+        throw;
+      }
+
+      byte[] file = new byte[stm.Length];
+
+      stm.Seek(0, SeekOrigin.Begin);
+      stm.Read(file, 0, (int)stm.Length);
+
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
+      {
+        string sqlQuery = string.Format("DELETE FROM be_DataStoreSettings WHERE ExtensionType = '{0}' AND ExtensionId = '{1}'; " +
+            "INSERT INTO be_DataStoreSettings (ExtensionType, ExtensionId, Settings) VALUES ('{0}','{1}',@file)", exType, exId);
+
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+          cmd.Parameters.Add(new SqlParameter("@file", file));
+          cmd.ExecuteNonQuery();
+        }
+      }
     }
 
     #endregion
