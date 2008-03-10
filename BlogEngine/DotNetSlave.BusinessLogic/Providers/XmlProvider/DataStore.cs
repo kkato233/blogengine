@@ -14,7 +14,7 @@ namespace BlogEngine.Core.Providers
   /// </summary>
   public partial class XmlBlogProvider : BlogProvider
   {
-    private static string _storageDirectory = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "datastore");
+    private static string _storageDirectory = System.Web.Hosting.HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "datastore");
 
     /// <summary>
     /// Loads settings from generic data store
