@@ -40,6 +40,8 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				if (!this.Post.IsVisible && !Page.User.Identity.IsAuthenticated)
 					Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
 
+				SetConditionalGetHeaders(Post.DateModified);
+				
 				string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";
 
 				PostViewBase postView = (PostViewBase)LoadControl(path);
@@ -52,9 +54,10 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
 				Page.Title = Server.HtmlEncode(Post.Title);
 				AddMetaKeywords();
-				AddMetaDescription();
+				AddMetaDescription();				
 				AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());
 				AddGenericLink("first", Post.Posts[Post.Posts.Count - 1].Title, Post.Posts[Post.Posts.Count - 1].RelativeLink.ToString());
+				Response.Cache.SetMaxAge(new TimeSpan(24, 0, 0));
 
 				InitNavigationLinks();
 

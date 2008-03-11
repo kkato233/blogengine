@@ -642,7 +642,8 @@ namespace BlogEngine.Core
 			{
 				int inx = Comments.IndexOf(comment);
 				Comments[inx].IsApproved = true;
-				DataUpdate();
+				this.DateModified = comment.DateCreated;
+				this.DataUpdate();
 				Comment.OnApproved(comment);
 			}
 		}
