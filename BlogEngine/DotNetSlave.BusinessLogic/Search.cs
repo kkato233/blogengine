@@ -72,7 +72,7 @@ namespace BlogEngine.Core
 			if (BlogSettings.Instance.EnableCommentSearch)
 			{
 				Comment comment = (Comment)sender;
-				if (comment.IsVisible)
+				if (comment.IsApproved)
 					AddItem(comment);
 			}
 		}
@@ -184,7 +184,7 @@ namespace BlogEngine.Core
         _Catalog.Clear();
         foreach (Post post in Post.Posts)
         {
-          if (!post.IsVisible)
+          if (!post.IsPublished)
             continue;
 
           AddItem(post);
@@ -192,7 +192,7 @@ namespace BlogEngine.Core
           {
             foreach (Comment comment in post.Comments)
             {
-              if (comment.IsVisible)
+              if (comment.IsApproved)
                 AddItem(comment);
             }
           }
@@ -200,7 +200,7 @@ namespace BlogEngine.Core
 
         foreach (Page page in Page.Pages)
         {
-          if (page.IsVisible)
+          if (page.IsPublished)
             AddItem(page);
         }
       }
@@ -246,23 +246,6 @@ namespace BlogEngine.Core
 
       return sb.ToString();
     }
-
-		///// <summary>
-		///// Retrieves the stop words from the stopwords.txt file located in App_Data.
-		///// </summary>
-		//private static StringCollection GetStopWords()
-		//{
-		//  using (StreamReader reader = new StreamReader(System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation) + "stopwords.txt"))
-		//  {
-		//    string file = reader.ReadToEnd();
-		//    string[] words = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-		//    StringCollection col = new StringCollection();
-		//    col.AddRange(words);
-
-		//    return col;
-		//  }
-		//}
 
     #endregion
 
