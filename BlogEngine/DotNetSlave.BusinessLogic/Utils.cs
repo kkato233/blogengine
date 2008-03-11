@@ -158,6 +158,26 @@ namespace BlogEngine.Core
             return new Uri(absolute.Substring(0, index) + relativeUri);
         }
 
+        /// Retrieves the subdomain from the specified URL.
+        /// </summary>
+        /// <param name="url">The URL from which to retrieve the subdomain.</param>
+        /// <returns>The subdomain if it exist, otherwise null.</returns>
+        private static string GetSubDomain(Uri url)
+        {
+            if (url.HostNameType == UriHostNameType.Dns)
+            {
+                string host = url.Host;
+                if (host.Split('.').Length > 2)
+                {
+                    int lastIndex = host.LastIndexOf(".");
+                    int index = host.LastIndexOf(".", lastIndex - 1);
+                    return host.Substring(0, index);
+                }
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Is mobile device
