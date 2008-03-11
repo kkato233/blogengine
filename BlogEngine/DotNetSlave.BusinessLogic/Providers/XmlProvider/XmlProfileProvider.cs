@@ -53,7 +53,9 @@ namespace BlogEngine.Core.Providers
         {
             get
             {
-                return HttpContext.Current.Server.MapPath("~/App_Data/profiles.xml");
+                //return HttpContext.Current.Server.MapPath("~/App_Data/profiles.xml");
+                return HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation + "profiles.xml");
+                
             }
         }
 
