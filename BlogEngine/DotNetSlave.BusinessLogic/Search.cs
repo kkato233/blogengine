@@ -231,9 +231,9 @@ namespace BlogEngine.Core
     private static string CleanContent(string content, bool removeHtml)
     {
 			if (removeHtml)
-				content = Utils.StripHtml(content);// _StripHtml.Replace(content, string.Empty);
+				content = Utils.StripHtml(content);
 
-			Regex.Escape(content);
+			content = Regex.Escape(content);
 
 			string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
       StringBuilder sb = new StringBuilder();
