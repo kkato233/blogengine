@@ -105,16 +105,23 @@ namespace BlogEngine.Core
             }
         }
 
+			private static string _RelativeWebRoot;
         /// <summary>
         /// Gets the relative root of the website.
         /// </summary>
         /// <value>A string that ends with a '/'.</value>
         public static string RelativeWebRoot
         {
-            get { return VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["BlogEngine.VirtualPath"]); }
+            get 
+						{
+							if (_RelativeWebRoot == null)
+							_RelativeWebRoot = VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["BlogEngine.VirtualPath"]);
+
+							return  _RelativeWebRoot;
+						}
         }
 
-        private static Uri _AbsoluteWebRoot;
+        //private static Uri _AbsoluteWebRoot;
 
         /// <summary>
         /// Gets the absolute root of the website.
@@ -124,15 +131,19 @@ namespace BlogEngine.Core
         {
             get
             {
-                if (_AbsoluteWebRoot == null)
-                {
+								//if (_AbsoluteWebRoot == null)
+								//{
                     HttpContext context = HttpContext.Current;
                     if (context == null)
                         throw new System.Net.WebException("The current HttpContext is null");
 
-                    _AbsoluteWebRoot = new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
-                }
-                return _AbsoluteWebRoot;
+											if (context.Items["absoluteurl"] == null)
+												context.Items["absoluteurl"] = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
+
+											return context.Items["absoluteurl"] as Uri;
+											//_AbsoluteWebRoot = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);// new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
+                //}
+                //return _AbsoluteWebRoot;
             }
         }
 
