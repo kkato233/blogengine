@@ -162,7 +162,7 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="url">The URL from which to retrieve the subdomain.</param>
         /// <returns>The subdomain if it exist, otherwise null.</returns>
-        private static string GetSubDomain(Uri url)
+        public static string GetSubDomain(Uri url)
         {
             if (url.HostNameType == UriHostNameType.Dns)
             {
