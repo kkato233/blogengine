@@ -1592,6 +1592,7 @@ namespace BlogEngine.Core
 			//	Enumerate through individual settings nodes
 			//------------------------------------------------------------
 			System.Collections.Specialized.StringDictionary dic = Providers.BlogService.LoadSettings();
+		    StorageLocation = Providers.BlogService.GetStorageLocation();
 			foreach (string key in dic.Keys)
 			{
 				//------------------------------------------------------------

@@ -21,10 +21,10 @@ namespace BlogEngine.Core.Providers
         /// Retrieves a Post from the provider based on the specified id.
         /// </summary>
         public abstract Post SelectPost(Guid id);
-				///// <summary>
-				///// Retrieves the content of the post in order to lazy load.
-				///// </summary>
-				//public abstract string SelectPostContent(Guid id);
+        ///// <summary>
+        ///// Retrieves the content of the post in order to lazy load.
+        ///// </summary>
+        //public abstract string SelectPostContent(Guid id);
         /// <summary>
         /// Inserts a new Post into the data store specified by the provider.
         /// </summary>
@@ -64,7 +64,7 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public abstract List<Page> FillPages();
 
-       /// <summary>
+        /// <summary>
         /// Retrieves a Category from the provider based on the specified id.
         /// </summary>
         public abstract Category SelectCategory(Guid id);
@@ -107,11 +107,11 @@ namespace BlogEngine.Core.Providers
         /// <param name="services">The services.</param>
         public abstract void SavePingServices(StringCollection services);
 
-		    //Stop words
-		    /// <summary>
-		    /// Loads the stop words used in the search feature.
-		    /// </summary>
-		    public abstract StringCollection LoadStopWords();
+        //Stop words
+        /// <summary>
+        /// Loads the stop words used in the search feature.
+        /// </summary>
+        public abstract StringCollection LoadStopWords();
 
         //Extension Settings
         /// <summary>
@@ -140,6 +140,12 @@ namespace BlogEngine.Core.Providers
         /// <param name="exId">Extensio Id</param>
         /// <param name="settings">Settings object</param>
         public abstract void SaveToDataStore(DataStore.ExtensionType exType, string exId, object settings);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract string StorageLocation();
     }
 
     /// <summary>

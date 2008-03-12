@@ -964,6 +964,18 @@ namespace BlogEngine.Core.Providers
       }
     }
 
+    /// <summary>
+    /// The storage location is to allow Blog Providers to use alternative storage locations that app_data root directory.
+    /// </summary>
+    /// <returns></returns>
+    public override string StorageLocation()
+    {
+        string p = System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"];
+        return Utils.RelativeWebRoot + p;
+
+    }
+
+
     #endregion
 
 		#region Stop words
@@ -1065,5 +1077,7 @@ namespace BlogEngine.Core.Providers
 		}
 
 		#endregion
-	}
+
+
+  }
 }
