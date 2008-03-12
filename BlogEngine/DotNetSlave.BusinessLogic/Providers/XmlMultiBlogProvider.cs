@@ -31,12 +31,17 @@ namespace BlogEngine.Core.Providers
             if (_bEnableMultiByHostname)
             {
                 //Add the hostname as a subdirectory of the configured storage location
-                lsStorageLocation = "~" + System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"]  + Utils.GetSubDomain(HttpContext.Current.Request.Url) + HttpContext.Current.Request.Url.DnsSafeHost + HttpContext.Current.Request.Url.Port.ToString() + "/";
+                string subdomain = Utils.GetSubDomain(HttpContext.Current.Request.Url);
+                if (!string.IsNullOrEmpty(subdomain))
+                    subdomain = subdomain.Replace("www", string.Empty);
+                lsStorageLocation += System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"] + subdomain + HttpContext.Current.Request.Url.DnsSafeHost + HttpContext.Current.Request.Url.Port.ToString() + "/";
             }
             if (_bEnableMultiBySubdirectory)
             {
+                string segment = HttpContext.Current.Request.Url.Segments[1].ToLowerInvariant();
                 //Add the subdirectory as a subdirectory of the configured storage location
-                lsStorageLocation = HttpContext.Current.Request.Url.Segments[1].ToLowerInvariant() + "/";
+                if (!segment.Contains("."))
+                    lsStorageLocation += HttpContext.Current.Request.Url.Segments[1].ToLowerInvariant() + "/";
             }
             return lsStorageLocation;
 
@@ -75,12 +80,12 @@ namespace BlogEngine.Core.Providers
         public override void Initialize(string name, NameValueCollection config)
         {
 
-
             if (config == null)
                 throw new ArgumentNullException("config");
 
+
             if (String.IsNullOrEmpty(name))
-                name = "XmlBlogEngineProvider";
+                name = "XmlMultiBlogProvider";
 
             if (Type.GetType("Mono.Runtime") != null)
             {
@@ -95,7 +100,7 @@ namespace BlogEngine.Core.Providers
                 if (string.IsNullOrEmpty(config["description"]))
                 {
                     config.Remove("description");
-                    config.Add("description", "XML BlogEngine provider");
+                    config.Add("description", "XML Multi BlogEngine provider");
                 }
             }
 
@@ -113,30 +118,27 @@ namespace BlogEngine.Core.Providers
                 config.Remove("enableMultiBySubdirectory");
             }
 
-            //// Initialize _XmlFileName and make sure the path
-            //// is app-relative
-            string path = config["xmlFileDirectory"];
+            string path = string.Empty;
 
             if (String.IsNullOrEmpty(path))
                 path = StorageLocation();
 
-            //if (!VirtualPathUtility.IsAppRelative(path))
-            //    throw new ArgumentException
-            //            ("xmlFileDirectory must be app-relative");
 
-            //string fullyQualifiedPath = VirtualPathUtility.Combine
-            //        (VirtualPathUtility.AppendTrailingSlash
-            //        (HttpRuntime.AppDomainAppVirtualPath), path);
+            if (!String.IsNullOrEmpty(config["enabled"]))
+            {
 
-            //_XmlFileDirectory = fullyQualifiedPath;
-            //config.Remove("xmlFileDirectory");
-
+                if (bool.Parse(config["enabled"]))
+                {
+                    CheckIfInstalIsNecessary();
+                }
+                config.Remove("enabled");
+            }
 
 
             // Make sure we have permission to read the XML data source and
             // throw an exception if we don't
-            //FileIOPermission permission = new FileIOPermission(FileIOPermissionAccess.Write, HostingEnvironment.MapPath(StorageLocation()));
-            //permission.Demand();
+            FileIOPermission permission = new FileIOPermission(FileIOPermissionAccess.Write, HostingEnvironment.MapPath(StorageLocation()));
+            permission.Demand();
 
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0)
@@ -147,7 +149,13 @@ namespace BlogEngine.Core.Providers
             }
 
 
-            CheckIfInstalIsNecessary();
+
+
+
+
+            //}
+
+
 
         }
 

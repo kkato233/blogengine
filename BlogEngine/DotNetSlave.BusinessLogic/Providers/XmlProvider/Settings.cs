@@ -28,8 +28,9 @@ namespace BlogEngine.Core.Providers
         /// <returns></returns>
         public override string StorageLocation()
         {
-            string p = System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"];
-            return Utils.RelativeWebRoot + p ;
+           if(String.IsNullOrEmpty(System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"]))
+               return @"~/app_data/";
+            return System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"];
 
         }
         /// <summary>
