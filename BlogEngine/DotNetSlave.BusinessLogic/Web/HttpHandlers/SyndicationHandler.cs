@@ -243,64 +243,87 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// <exception cref="ArgumentNullException">The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="posts"/> is a null reference (Nothing in Visual Basic).</exception>
 		private static void SetHeaderInformation(HttpContext context, List<IPublishable> items, SyndicationFormat format)
 		{
-			DateTime lastModified = DateTime.Now;
-			bool notModified = false;
-			string eTag = context.Request.Headers["If-None-Match"];
-			string ifModifiedSince = context.Request.Headers["if-modified-since"];
-
-			if (items.Count > 0)
+			DateTime lastModified = DateTime.MinValue;
+			foreach (IPublishable item in items)
 			{
-				lastModified = (items[0].DateModified > items[0].DateCreated ? items[0].DateModified : items[0].DateCreated);
+				if (item.DateModified > lastModified)
+					lastModified = item.DateModified;
 			}
 
-			if (!String.IsNullOrEmpty(eTag))
+			switch (format)
 			{
-				notModified = eTag.Equals(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
-			}
-			else
-			{
-				if (!String.IsNullOrEmpty(ifModifiedSince))
-				{
-					// ifModifiedSince can have a length param in there
-					// If-Modified-Since: Wed, 29 Dec 2004 18:34:27 GMT; length=126275
-					if (ifModifiedSince.IndexOf(";") > -1)
-					{
-						ifModifiedSince = ifModifiedSince.Split(';').GetValue(0).ToString();
-					}
+				case SyndicationFormat.Atom:
+					context.Response.ContentType = "application/atom+xml";
+					context.Response.AppendHeader("Content-Disposition", "inline; filename=atom.xml");
+					break;
 
-					DateTime ifModifiedDate;
-					if (DateTime.TryParse(ifModifiedSince, out ifModifiedDate))
-					{
-						notModified = (lastModified <= ifModifiedDate);
-					}
-				}
+				case SyndicationFormat.Rss:
+					context.Response.ContentType = "application/rss+xml";
+					context.Response.AppendHeader("Content-Disposition", "inline; filename=rss.xml");
+					break;
 			}
 
-			if (notModified)
-			{
-				context.Response.StatusCode = 304;
-				context.Response.SuppressContent = true;
-				context.Response.End();
-			}
-			else
-			{
-				context.Response.Cache.SetCacheability(HttpCacheability.Public);
-				context.Response.Cache.SetLastModified(DateTime.Now);
-				context.Response.Cache.SetETag(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
+			Utils.SetConditionalGetHeaders(lastModified);
+			return;
 
-				switch (format)
-				{
-					case SyndicationFormat.Atom:
-						context.Response.ContentType = "application/atom+xml";
-						context.Response.AppendHeader("Content-Disposition", "inline; filename=atom.xml");
-						break;
+			//DateTime lastModified = DateTime.Now;
+			//bool notModified = false;
+			//string eTag = context.Request.Headers["If-None-Match"];
+			//string ifModifiedSince = context.Request.Headers["if-modified-since"];
 
-					case SyndicationFormat.Rss:
-						context.Response.ContentType = "application/rss+xml";
-						context.Response.AppendHeader("Content-Disposition", "inline; filename=rss.xml");
-						break;
-				}
-			}
+			//if (items.Count > 0)
+			//{
+			//  lastModified = (items[0].DateModified > items[0].DateCreated ? items[0].DateModified : items[0].DateCreated);
+			//}
+
+			//if (!String.IsNullOrEmpty(eTag))
+			//{
+			//  notModified = eTag.Equals(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
+			//}
+			//else
+			//{
+			//  if (!String.IsNullOrEmpty(ifModifiedSince))
+			//  {
+			//    // ifModifiedSince can have a length param in there
+			//    // If-Modified-Since: Wed, 29 Dec 2004 18:34:27 GMT; length=126275
+			//    if (ifModifiedSince.IndexOf(";") > -1)
+			//    {
+			//      ifModifiedSince = ifModifiedSince.Split(';').GetValue(0).ToString();
+			//    }
+
+			//    DateTime ifModifiedDate;
+			//    if (DateTime.TryParse(ifModifiedSince, out ifModifiedDate))
+			//    {
+			//      notModified = (lastModified <= ifModifiedDate);
+			//    }
+			//  }
+			//}
+
+			//if (notModified)
+			//{
+			//  context.Response.StatusCode = 304;
+			//  context.Response.SuppressContent = true;
+			//  context.Response.End();
+			//}
+			//else
+			//{
+			//  context.Response.Cache.SetCacheability(HttpCacheability.Public);
+			//  context.Response.Cache.SetLastModified(DateTime.Now);
+			//  context.Response.Cache.SetETag(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
+
+			//  switch (format)
+			//  {
+			//    case SyndicationFormat.Atom:
+			//      context.Response.ContentType = "application/atom+xml";
+			//      context.Response.AppendHeader("Content-Disposition", "inline; filename=atom.xml");
+			//      break;
+
+			//    case SyndicationFormat.Rss:
+			//      context.Response.ContentType = "application/rss+xml";
+			//      context.Response.AppendHeader("Content-Disposition", "inline; filename=rss.xml");
+			//      break;
+			//  }
+			//}
 		}
 
 		#endregion

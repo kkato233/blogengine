@@ -39,8 +39,6 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 			{
 				if (!this.Post.IsVisible && !Page.User.Identity.IsAuthenticated)
 					Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
-
-				SetConditionalGetHeaders(Post.DateModified);
 				
 				string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";
 

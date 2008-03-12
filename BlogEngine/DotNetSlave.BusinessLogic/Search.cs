@@ -233,7 +233,19 @@ namespace BlogEngine.Core
 			if (removeHtml)
 				content = Utils.StripHtml(content);
 
-			content = Regex.Escape(content);
+			content = content
+											.Replace("\\", string.Empty)
+											.Replace("|", string.Empty)
+											.Replace("(", string.Empty)
+											.Replace(")", string.Empty)
+											.Replace("[", string.Empty)
+											.Replace("]", string.Empty)
+											.Replace("*", string.Empty)
+											.Replace("?", string.Empty)
+											.Replace("}", string.Empty)
+											.Replace("{", string.Empty)
+											.Replace("^", string.Empty)
+											.Replace("+", string.Empty);
 
 			string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
       StringBuilder sb = new StringBuilder();
