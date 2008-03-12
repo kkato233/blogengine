@@ -281,29 +281,6 @@ namespace BlogEngine.Core.Web.Controls
 		}
 
 		/// <summary>
-		/// Writes ETag and Last-Modified headers and sets the conditional get headers.
-		/// </summary>
-		/// <param name="date">The date.</param>
-		protected void SetConditionalGetHeaders(DateTime date)
-		{
-			string lastModified = date.ToString("yyyy-MM-ddTHH:mm:ss");
-			string etag = "\"" + date.Ticks + "\"";
-			string incomingEtag = Request.Headers["If-None-Match"];
-			string incomingLastModified = Request.Headers["If-Modified-Since"];
-
-			if (String.Compare(incomingEtag, etag) == 0 || String.Compare(incomingLastModified, lastModified) == 0)
-			{				
-				Response.Clear();
-				Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
-				Response.SuppressContent = true;
-				Response.End();
-			}
-
-			Response.AppendHeader("ETag", etag);
-			Response.AppendHeader("Last-Modified	", lastModified);
-		}
-
-		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.TemplateControl.Error"></see> event.
 		/// </summary>
 		/// <param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
