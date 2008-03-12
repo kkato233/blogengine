@@ -16,7 +16,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public class XmlMultiBlogProvider : XmlBlogProvider
     {
-        private string _XmlFileDirectory = "";
+        //private string _XmlFileDirectory = "";
         private bool _bEnableMultiByHostname = false;
         private bool _bEnableMultiBySubdirectory = false;
 
@@ -27,41 +27,44 @@ namespace BlogEngine.Core.Providers
         public override string StorageLocation()
         {
 
-                string lsStorageLocation = _XmlFileDirectory;
-                if (_bEnableMultiByHostname)
-                {
-                    //Add the hostname as a subdirectory of the configured storage location
-                    lsStorageLocation += Utils.GetSubDomain(HttpContext.Current.Request.Url) + HttpContext.Current.Request.Url.DnsSafeHost + HttpContext.Current.Request.Url.Port.ToString() + "/";
-                }
-                if (_bEnableMultiBySubdirectory)
-                {
-                    //Add the subdirectory as a subdirectory of the configured storage location
-                    lsStorageLocation += HttpContext.Current.Request.Url.Segments[1].ToLowerInvariant() + "/";
-                }
-                return lsStorageLocation;
-       
+            string lsStorageLocation = string.Empty;// = _XmlFileDirectory;
+            if (_bEnableMultiByHostname)
+            {
+                //Add the hostname as a subdirectory of the configured storage location
+                lsStorageLocation = "~" + System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"]  + Utils.GetSubDomain(HttpContext.Current.Request.Url) + HttpContext.Current.Request.Url.DnsSafeHost + HttpContext.Current.Request.Url.Port.ToString() + "/";
+            }
+            if (_bEnableMultiBySubdirectory)
+            {
+                //Add the subdirectory as a subdirectory of the configured storage location
+                lsStorageLocation = HttpContext.Current.Request.Url.Segments[1].ToLowerInvariant() + "/";
+            }
+            return lsStorageLocation;
+
         }
-       
-       void CheckIfInstalIsNecessary()
+
+        void CheckIfInstalIsNecessary()
         {
-      
-                string p = StorageLocation().Replace("~/", "");
 
-                string folder = System.IO.Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, p);
+            string p = StorageLocation();
 
-                string defaultDataFolder = HttpContext.Current.Server.MapPath("~/setup/DefaultInstall/");
+            //string folder = System.IO.Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, p);
+            string folder = System.IO.Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, p);
+            folder = folder.Replace("~/", "");
+            folder = folder.Replace("/", @"\");
 
-                if (!Directory.Exists(folder))
+            string defaultDataFolder = HttpContext.Current.Server.MapPath("~/setup/DefaultInstall/");
+
+            if (!Directory.Exists(HttpContext.Current.Server.MapPath(p)))
+            {
+                object _lock = new object();
+                lock (_lock)
                 {
-                    object _lock = new object();
-                    lock (_lock)
-                    {
-                        //Create the folder with default files in the storage location
-                        Directory.CreateDirectory(folder);
-                        Utils.RecursiveDirectoryCopy(defaultDataFolder, folder, true, false);
-                    }
+                    //Create the folder with default files in the storage location
+                    Directory.CreateDirectory(folder);
+                    Utils.RecursiveDirectoryCopy(defaultDataFolder, folder, true, false);
                 }
-      }
+            }
+        }
 
 
         /// <summary>
@@ -71,6 +74,8 @@ namespace BlogEngine.Core.Providers
         /// <param name="config">Configuration settings</param>
         public override void Initialize(string name, NameValueCollection config)
         {
+
+
             if (config == null)
                 throw new ArgumentNullException("config");
 
@@ -96,24 +101,6 @@ namespace BlogEngine.Core.Providers
 
             base.Initialize(name, config);
 
-            //// Initialize _XmlFileName and make sure the path
-            //// is app-relative
-            string path = config["xmlFileDirectory"];
-
-            if (String.IsNullOrEmpty(path))
-                path = StorageLocation();  // "~/App_Data/";
-
-            if (!VirtualPathUtility.IsAppRelative(path))
-                throw new ArgumentException
-                        ("xmlFileDirectory must be app-relative");
-
-            string fullyQualifiedPath = VirtualPathUtility.Combine
-                    (VirtualPathUtility.AppendTrailingSlash
-                    (HttpRuntime.AppDomainAppVirtualPath), path);
-
-            _XmlFileDirectory = fullyQualifiedPath;
-            config.Remove("xmlFileDirectory");
-
             if (!String.IsNullOrEmpty(config["enableMultiByHostname"]))
             {
                 bool.TryParse(config["enableMultiByHostname"], out _bEnableMultiByHostname);
@@ -126,10 +113,30 @@ namespace BlogEngine.Core.Providers
                 config.Remove("enableMultiBySubdirectory");
             }
 
+            //// Initialize _XmlFileName and make sure the path
+            //// is app-relative
+            string path = config["xmlFileDirectory"];
+
+            if (String.IsNullOrEmpty(path))
+                path = StorageLocation();
+
+            //if (!VirtualPathUtility.IsAppRelative(path))
+            //    throw new ArgumentException
+            //            ("xmlFileDirectory must be app-relative");
+
+            //string fullyQualifiedPath = VirtualPathUtility.Combine
+            //        (VirtualPathUtility.AppendTrailingSlash
+            //        (HttpRuntime.AppDomainAppVirtualPath), path);
+
+            //_XmlFileDirectory = fullyQualifiedPath;
+            //config.Remove("xmlFileDirectory");
+
+
+
             // Make sure we have permission to read the XML data source and
             // throw an exception if we don't
-            FileIOPermission permission = new FileIOPermission(FileIOPermissionAccess.Write, HostingEnvironment.MapPath(fullyQualifiedPath));
-            permission.Demand();
+            //FileIOPermission permission = new FileIOPermission(FileIOPermissionAccess.Write, HostingEnvironment.MapPath(StorageLocation()));
+            //permission.Demand();
 
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0)
@@ -138,6 +145,7 @@ namespace BlogEngine.Core.Providers
                 if (!String.IsNullOrEmpty(attr))
                     throw new ProviderException("Unrecognized attribute: " + attr);
             }
+
 
             CheckIfInstalIsNecessary();
 

@@ -23,11 +23,11 @@ namespace BlogEngine.Core.Providers
 	{
 		//private static string _Folder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
 
-		internal static string _Folder
+		internal string _Folder
 		{
 			get
 			{
-				string p = BlogSettings.Instance.StorageLocation.Replace("~/", "");
+				string p =  StorageLocation().Replace("~/", "");
 				return System.IO.Path.Combine(System.Web.HttpRuntime.AppDomainAppPath, p);
 			}
 		}
