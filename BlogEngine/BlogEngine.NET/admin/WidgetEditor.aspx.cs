@@ -187,7 +187,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 
 	#region Helper methods
 
-	private static readonly string FILE_NAME = HostingEnvironment.MapPath(Utils.RelativeWebRoot + "App_Data/widgetzone.xml");
+    private static readonly string FILE_NAME = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgetzone.xml");
 
 	/// <summary>
 	/// Gets the XML document.
@@ -206,7 +206,8 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	/// <param name="doc">The doc.</param>
 	private void SaveXmlDocument(XmlDocument doc)
 	{
-		string fileName = Server.MapPath(Utils.RelativeWebRoot + "App_Data/widgetzone.xml");
+        //string fileName = Server.MapPath(Utils.RelativeWebRoot + "App_Data/widgetzone.xml");
+        string fileName = Server.MapPath(BlogSettings.Instance.StorageLocation + "widgetzone.xml");
 		doc.Save(FILE_NAME);
 	}
 
