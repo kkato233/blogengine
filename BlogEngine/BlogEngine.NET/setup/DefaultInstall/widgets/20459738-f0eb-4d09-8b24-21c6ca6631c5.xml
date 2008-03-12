@@ -1,0 +1,12 @@
+<content>&lt;table border="0" summary="About the author"&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;&lt;img src="/BlogEngine.NET/themes/Standard/noavatar.jpg" alt="Name of author" width="80" height="80" /&gt;&lt;/td&gt;
+			&lt;td style="vertical-align: top"&gt;Author name&lt;br /&gt;
+			Something about me and what I do... &lt;br /&gt;
+			&lt;br /&gt;
+			&lt;!-- Email --&gt;&lt;a style="clear: both; float: right" href="/BlogEngine.NET/contact.aspx"&gt;E-mail me &lt;img style="width: 16px" src="/BlogEngine.NET/pics/mail.gif" alt="Send mail" width="16" height="10" /&gt; &lt;/a&gt;&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</content>
