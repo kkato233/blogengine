@@ -38,7 +38,7 @@ namespace BlogEngine.Core.Providers
        
         }
        
-       void CheckIfInstallIsNecessary()
+       void CheckIfInstalIsNecessary()
         {
       
                 string p = StorageLocation().Replace("~/", "");
@@ -135,7 +135,7 @@ namespace BlogEngine.Core.Providers
                     throw new ProviderException("Unrecognized attribute: " + attr);
             }
 
-            CheckIfInstallIsNecessary();
+            CheckIfInstalIsNecessary();
 
         }
 
