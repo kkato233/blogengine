@@ -20,6 +20,10 @@ namespace BlogEngine.Core.Providers
         private bool _bEnableMultiByHostname = false;
         private bool _bEnableMultiBySubdirectory = false;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string StorageLocation()
         {
 
@@ -92,12 +96,12 @@ namespace BlogEngine.Core.Providers
 
             base.Initialize(name, config);
 
-            // Initialize _XmlFileName and make sure the path
-            // is app-relative
+            //// Initialize _XmlFileName and make sure the path
+            //// is app-relative
             string path = config["xmlFileDirectory"];
 
             if (String.IsNullOrEmpty(path))
-                path = "~/App_Data/";
+                path = StorageLocation();  // "~/App_Data/";
 
             if (!VirtualPathUtility.IsAppRelative(path))
                 throw new ArgumentException
