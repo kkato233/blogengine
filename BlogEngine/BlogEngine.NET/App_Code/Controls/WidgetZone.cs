@@ -29,7 +29,7 @@ namespace Controls
 		private static XmlDocument RetrieveXml()
 		{
 			XmlDocument doc = new XmlDocument();
-			doc.Load(HostingEnvironment.MapPath(Utils.RelativeWebRoot + "App_Data/widgetzone.xml"));
+            doc.Load(HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgetzone.xml"));
 			return doc;
 		}
 

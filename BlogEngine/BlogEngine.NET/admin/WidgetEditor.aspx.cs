@@ -103,7 +103,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 			node.ParentNode.RemoveChild(node);
 			SaveXmlDocument(doc);
 
-			string fileName = Server.MapPath(Utils.RelativeWebRoot + "App_Data/widgets/" + id + ".xml");
+            string fileName = Server.MapPath(BlogSettings.Instance.StorageLocation + "widgets/" + id + ".xml");
 			if (File.Exists(fileName))
 				File.Delete(fileName);
 

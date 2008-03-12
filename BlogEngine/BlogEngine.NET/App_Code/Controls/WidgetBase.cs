@@ -96,7 +96,7 @@ public class WidgetBase : UserControl
 		get
 		{
 			if (string.IsNullOrEmpty(_FileName))
-				_FileName = HostingEnvironment.MapPath(Utils.RelativeWebRoot + "App_Data/widgets/" + WidgetID + ".xml");
+				_FileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgets/" + WidgetID + ".xml");
 
 			return _FileName;
 		}

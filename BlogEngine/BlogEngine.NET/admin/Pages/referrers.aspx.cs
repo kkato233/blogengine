@@ -74,7 +74,7 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
   private void BindReferrers(string day)
   {
-    string filename = Server.MapPath("~/App_Data/log/" + day + ".xml");
+      string filename = Server.MapPath(BlogSettings.Instance.StorageLocation + "log/" + day + ".xml");
     if (File.Exists(filename))
     {
       DataSet ds = new DataSet();
