@@ -168,6 +168,7 @@ img {
 div#widgetzone{
 	padding: 0;
 	background: none;
+	width:100%;
 }
 
 div#widgetzone .clear{
@@ -181,6 +182,7 @@ div.widget{
 	margin-bottom: 10px;
 	position: relative;
 	z-index: 1;
+	min-width: 1px;
 }
 
 div.widget .content{
@@ -438,7 +440,7 @@ ul.recentComments li a.postTitle{
 .comment .content {
 	min-height: 85px;
 	margin: 5px;
-	margin-left: 85px;
+	margin-left: 90px;
 }
 
 .comment cite{
@@ -471,6 +473,36 @@ ul.recentComments li a.postTitle{
 	height: 150px;
 }
 
+#commentMenu{
+	padding: 0;
+	margin:0;
+	clear:both;
+}
+
+#commentMenu li{
+	float:left;
+	border:1px solid silver;
+	border-bottom: transparent;
+	margin:0;
+	list-style:none;
+	margin-right:5px;
+	padding: 3px 8px;	
+	cursor:pointer;
+	position:relative;
+	top: 2px;
+	background:#d8d8d8;
+}
+
+#commentMenu li.selected{
+	background:white;
+	border-bottom:1px solid white;
+}
+
+#commentPreview{
+	display:none;
+	clear:both;
+}
+
 .success {
 	color: green;
 	font-weight: bold;
@@ -480,6 +512,7 @@ ul.recentComments li a.postTitle{
     font-size:10px;
     float:right;
     position:relative;
+    top:20px;
     padding: 3px;
 }
 
