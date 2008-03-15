@@ -412,6 +412,36 @@ div.commentForm label
 	height: 150px;
 }
 
+#commentMenu{
+	padding: 0;
+	margin:0;
+	clear:both;
+}
+
+#commentMenu li{
+	float:left;
+	border:1px solid silver;
+	border-bottom: none;
+	margin:0;
+	list-style:none;
+	margin-right:5px;
+	padding: 3px 8px;	
+	cursor:pointer;
+	position:relative;
+	top: 2px;
+	background:#d8d8d8;
+}
+
+#commentMenu li.selected{
+	background:white;
+	border-bottom:1px solid white;
+}
+
+#commentPreview{
+	display:none;
+	clear:both;
+}
+
 .success {
 	color: green;
 	font-weight: bold;

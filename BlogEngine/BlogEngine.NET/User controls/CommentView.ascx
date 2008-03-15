@@ -41,31 +41,73 @@
   <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
   <%} %>
 
-  <label for="<%=txtContent.ClientID %>"><%=Resources.labels.comment %>*</label> <span class="bbcode" title="BBCode tags"><%=BBCodes() %></span>
+  <span class="bbcode" title="BBCode tags"><%=BBCodes() %></span>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
-  <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" /><br />
-    
+
+  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
+  <ul id="commentMenu">
+    <li id="compose" class="selected" onclick="ToggleCommentMenu(this)"><%=Resources.labels.comment%></li>
+    <li id="preview" onclick="ToggleCommentMenu(this)"><%=Resources.labels.livePreview%></li>
+  </ul>
+  <% } %> 
+  <div id="commentCompose">
+    <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" />
+  </div>
+  <div id="commentPreview">
+    <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" alt="Loading" />  
+  </div>
+  
+  <br />
   <input type="checkbox" id="cbNotify" style="width: auto" tabindex="6" />
   <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
  
   <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){AddComment()}" tabindex="7" />    
   
-  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
+  <%--<% if (BlogSettings.Instance.ShowLivePreview) { %>  
   <h2><%=Resources.labels.livePreview %></h2> 
   <div id="livepreview">
     <asp:PlaceHolder runat="Server" ID="phLivePreview" />
   </div>
-  <%} %>
+  <%} %>--%>
 </div>
 
 <script type="text/javascript">
 <!--//
-function AddComment()
+function ToggleCommentMenu(element)
 {
-  $("btnSaveAjax").disabled = true;
-  $("ajaxLoader").style.display = "inline";
-  $("status").className = "";
-  $("status").innerHTML = "<%=Resources.labels.savingTheComment %>";
+  element.className = 'selected';
+  if (element.id == 'preview')
+  {
+    $('compose').className = '';    
+    $('commentCompose').style.display = 'none';
+    $('commentPreview').style.display = 'block';
+    $('commentPreview').innerHTML = '<img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" alt="Loading" />';
+    var argument = $('commentPreview').innerHTML;
+    AddComment(true);
+  }
+  else
+  {
+    $('preview').className = '';    
+    $('commentPreview').style.display = 'none';
+    $('commentCompose').style.display = 'block';    
+  }
+}
+
+function EndShowPreview(arg, context)
+{
+  $('commentPreview').innerHTML = arg;
+}
+
+function AddComment(preview)
+{
+  var isPreview = preview == true;
+  if (!isPreview)
+  {
+    $("btnSaveAjax").disabled = true;
+    $("ajaxLoader").style.display = "inline";
+    $("status").className = "";
+    $("status").innerHTML = "<%=Resources.labels.savingTheComment %>";
+  }
   
   var author = $("<%=txtName.ClientID %>").value;
   var email = $("<%=txtEmail.ClientID %>").value;
@@ -75,10 +117,13 @@ function AddComment()
     country = $("<%=ddlCountry.ClientID %>").value;
   var content = $("<%=txtContent.ClientID %>").value;
   var notify = $("cbNotify").checked;
-  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify;
-  <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
+   
+  var callback = isPreview ? EndShowPreview : AppendComment;
+  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview;
+//  <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
+  WebForm_DoCallback('ctl00$cphBody$CommentView1',argument, callback,'comment',null,false);
   
-  if (typeof OnComment != "undefined")
+  if (!isPreview && typeof OnComment != "undefined")
     OnComment(author, email, website, country, content);
 }
 

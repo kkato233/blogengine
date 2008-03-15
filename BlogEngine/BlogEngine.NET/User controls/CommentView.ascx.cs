@@ -50,6 +50,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     string country = args[3];
     string content = args[4];
     bool notify = bool.Parse(args[5]);
+		bool isPreview = bool.Parse(args[6]);
 
     Comment comment = new Comment();
     comment.Id = Guid.NewGuid();
@@ -80,8 +81,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 		else if (!notify && Post.NotificationEmails.Contains(email))
 		  Post.NotificationEmails.Remove(email);
 
-    Post.AddComment(comment);
-    SetCookie(author, email, website, country);
+		if (!isPreview)
+		{
+			Post.AddComment(comment);
+			SetCookie(author, email, website, country);
+		}
 
     string path = "~/themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
 
@@ -152,7 +156,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
         BindCountries();
         GetCookie();
-        BindLivePreview();
+        //BindLivePreview();
       }
       else
       {
@@ -289,35 +293,35 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     }
   }
 
-  private void BindLivePreview()
-  {
-    string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
-    CommentViewBase control = (CommentViewBase)LoadControl(path);
-    Comment comment = new Comment();
-    comment.Content = string.Empty;
-    comment.DateCreated = DateTime.Now;
-    comment.IP = Request.UserHostAddress;
+	//private void BindLivePreview()
+	//{
+	//  string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
+	//  CommentViewBase control = (CommentViewBase)LoadControl(path);
+	//  Comment comment = new Comment();
+	//  comment.Content = string.Empty;
+	//  comment.DateCreated = DateTime.Now;
+	//  comment.IP = Request.UserHostAddress;
 
-    if (!string.IsNullOrEmpty(txtName.Text))
-      comment.Author = txtName.Text;
+	//  if (!string.IsNullOrEmpty(txtName.Text))
+	//    comment.Author = txtName.Text;
 
-    if (!string.IsNullOrEmpty(txtEmail.Text))
-      comment.Email = txtEmail.Text;
+	//  if (!string.IsNullOrEmpty(txtEmail.Text))
+	//    comment.Email = txtEmail.Text;
 
-    if (txtWebsite.Text.Trim().Length > 0)
-    {
-      if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
-        txtWebsite.Text = "http://" + txtWebsite.Text;
+	//  if (txtWebsite.Text.Trim().Length > 0)
+	//  {
+	//    if (!txtWebsite.Text.ToLowerInvariant().Contains("://"))
+	//      txtWebsite.Text = "http://" + txtWebsite.Text;
 
-      Uri website;
-      if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
-        comment.Website = website;
-    }
+	//    Uri website;
+	//    if (Uri.TryCreate(txtWebsite.Text, UriKind.Absolute, out website))
+	//      comment.Website = website;
+	//  }
 
-    control.Comment = comment;
-    control.Post = Post;
-    phLivePreview.Controls.Add(control);
-  }
+	//  control.Comment = comment;
+	//  control.Post = Post;
+	//  phLivePreview.Controls.Add(control);
+	//}
 
   /// <summary>
   /// Validates that the name of the person writing posting a comment

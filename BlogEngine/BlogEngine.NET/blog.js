@@ -217,7 +217,7 @@ function HightLightXfn()
   if (content == null)
     return;
     
-  var links = document.getElementsByTagName('a')
+  var links = content.getElementsByTagName('a')
   for (i = 0; i < links.length; i++)
   {
     var link = links[i];
