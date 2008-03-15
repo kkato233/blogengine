@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using BlogEngine.Core.DataStore;
 using System.Xml.Serialization;
+using System.Web.Hosting;
 
 namespace BlogEngine.Core.Providers
 {
@@ -14,8 +15,6 @@ namespace BlogEngine.Core.Providers
   /// </summary>
   public partial class XmlBlogProvider : BlogProvider
   {
-    private static string _storageDirectory = System.Web.Hosting.HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "datastore");
-
     /// <summary>
     /// Loads settings from generic data store
     /// </summary>
@@ -24,13 +23,19 @@ namespace BlogEngine.Core.Providers
     /// <returns>Stream Settings</returns>
     public override Stream LoadFromDataStore(ExtensionType exType, string exId)
     {
-      string _fileName = FileName(exType, exId);
+      string _fileName = StorageLocation(exType) + exId + ".xml";
       StreamReader reader = null;
       Stream str = null;
       try
       {
-        reader = new StreamReader(_fileName);
-        str = reader.BaseStream;
+        if (!Directory.Exists(StorageLocation(exType)))
+          Directory.CreateDirectory(StorageLocation(exType));
+
+        if (File.Exists(_fileName))
+        {
+          reader = new StreamReader(_fileName);
+          str = reader.BaseStream;
+        }
       }
       catch (Exception)
       {
@@ -47,14 +52,37 @@ namespace BlogEngine.Core.Providers
     /// <param name="settings">Stream Settings</param>
     public override void SaveToDataStore(ExtensionType exType, string exId, object settings)
     {
-      string _fileName = FileName(exType, exId);
+      string _fileName = StorageLocation(exType) + exId + ".xml";
       try
       {
+        if (!Directory.Exists(StorageLocation(exType)))
+          Directory.CreateDirectory(StorageLocation(exType));
+
         using (TextWriter writer = new StreamWriter(_fileName))
         {
           XmlSerializer x = new XmlSerializer(settings.GetType());
           x.Serialize(writer, settings);
+          writer.Close();
         }
+      }
+      catch (Exception e)
+      {
+        string s = e.Message;
+        throw;
+      }
+    }
+
+    /// <summary>
+    /// Removes settings from data store
+    /// </summary>
+    /// <param name="exType">Extension Type</param>
+    /// <param name="exId">Extension Id</param>
+    public override void RemoveFromDataStore(DataStore.ExtensionType exType, string exId)
+    {
+      string _fileName = StorageLocation(exType) + exId + ".xml";
+      try
+      {
+        File.Delete(_fileName);
       }
       catch (Exception e)
       {
@@ -69,26 +97,22 @@ namespace BlogEngine.Core.Providers
     /// <param name="exType">Extension Type</param>
     /// <param name="exId">Extension ID</param>
     /// <returns>String file name</returns>
-    private string FileName(ExtensionType exType, string exId)
+    private string StorageLocation(ExtensionType exType)
     {
-      string fileName = string.Empty;
+      string storageDirectory = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "datastore");
       switch (exType)
       {
         case ExtensionType.Extension:
-          fileName += @"\extensions\" + exId + ".xml";
+          storageDirectory += @"\extensions\";
           break;
         case ExtensionType.Widget:
-          fileName += @"\widgets\" + exId + ".xml";
+          storageDirectory += @"\widgets\";
           break;
         case ExtensionType.Theme:
-          fileName += @"\themes\" + exId + ".xml";
-          break;
-        default:
+          storageDirectory += @"\themes\";
           break;
       }
-
-
-      return _storageDirectory + fileName;
+      return storageDirectory;
     }
   }
 }

@@ -9,7 +9,7 @@ using BlogEngine.Core;
 /// Serializable object that holds extension,
 /// extension attributes and methods
 /// </summary>
-
+[Serializable()]
 public class ManagedExtension
 {
   #region Private members

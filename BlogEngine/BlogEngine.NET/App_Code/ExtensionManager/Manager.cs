@@ -7,11 +7,12 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 using BlogEngine.Core;
 using BlogEngine.Core.Providers;
 using BlogEngine.Core.Web.Controls;
+using BlogEngine.Core.DataStore;
+using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// Extension Manager - top level object in the hierarchy
@@ -98,12 +99,13 @@ public class ExtensionManager
       if (x.Name == extension)
       {
         x.Enabled = enabled;
-        SaveToStorage();
+        BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
+        xs.SettingID = x.Name;
+        xs.SaveSettings(x);
         SaveToCache();
 
         string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "web.config";
         System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
-
         break;
       }
     }
@@ -142,17 +144,6 @@ public class ExtensionManager
 
     return false;
   }
-  /// <summary>
-  /// Adds extension to ext. collection in the manager
-  /// </summary>
-  /// <param name="type">Extension type</param>
-  /// <param name="attribute">Extension attribute</param>
-  public static void AddExtension(Type type, object attribute)
-  {
-    ExtensionAttribute xa = (ExtensionAttribute)attribute;
-    ManagedExtension x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
-    _extensions.Add(x);
-  }
   #endregion
 
   #region Private methods
@@ -162,88 +153,67 @@ public class ExtensionManager
   /// will load from assembly using reflection
   /// </summary>
   static void LoadExtensions()
-  {   // initialize on application load
+  {
     if (HttpContext.Current.Cache["Extensions"] == null)
     {
-      if (_section.DefaultProvider == "XmlBlogProvider")
+      string assemblyName = "__code";
+      if (Utils.IsMono) assemblyName = "App_Code";
+
+      Assembly a = Assembly.Load(assemblyName);
+      Type[] types = a.GetTypes();
+
+      foreach (Type type in types)
       {
-        if (File.Exists(_fileName))
+        object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
+        foreach (object attribute in attributes)
         {
-          LoadFromStorage();
-          AddNewExtensions();
+          ExtensionAttribute xa = (ExtensionAttribute)attribute;
+          // try to load from storage
+          ManagedExtension x = DataStoreExtension(type.Name);
+          // if nothing, crete new extension
+          if (x == null)
+          {
+            x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
+            _newExtensions.Add(type.Name);
+          }
+          else
+          {
+            // update attributes from assembly
+            x.Version = xa.Version;
+            x.Description = xa.Description;
+            x.Author = xa.Author;
+          }
+          _extensions.Add(x);
         }
-        else  // very first run
-        {
-          LoadFromAssembly();
-        }
+      }
+      SaveToStorage();
+      SaveToCache();
+    }
+  }
+
+  static ManagedExtension DataStoreExtension(string name)
+  {
+    ManagedExtension ex = null;
+    BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
+    xs.SettingID = name;
+    Stream stm = (Stream)xs.GetSettings(ExtensionType.Extension, name);
+
+    if (stm != null)
+    {
+      if (stm.GetType().Name == "FileStream")
+      {
+        XmlSerializer x = new XmlSerializer(typeof(ManagedExtension));
+        ex = (ManagedExtension)x.Deserialize(stm);
+        stm.Close();
       }
       else
       {
-        Stream settings = BlogService.LoadExtensionSettings();
-        if (!((settings == null) || (settings.Length < 3)))
-        {
-          LoadFromStorage();
-          AddNewExtensions();
-        }
-        else  // very first run
-        {
-          LoadFromAssembly();
-        }
-      }
-      Save();
-    }
-  }
-  /// <summary>
-  /// Populates extensions collection with
-  /// information loaded from assembly
-  /// </summary>
-  static void LoadFromAssembly()
-  {
-    string assemblyName = "__code";
-
-    if (Utils.IsMono)
-      assemblyName = "App_Code";
-
-    Assembly a = Assembly.Load(assemblyName);
-    Type[] types = a.GetTypes();
-
-    foreach (Type type in types)
-    {
-      object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
-
-      foreach (object attribute in attributes)
-      {
-        AddExtension(type, attribute);
+        BinaryFormatter bf = new BinaryFormatter();
+        stm.Position = 0;
+        ex = (ManagedExtension)bf.Deserialize(stm);
       }
     }
-  }
-  /// <summary>
-  /// After loading from XML file, checks if
-  /// there were new extensions added to application
-  /// </summary>
-  static void AddNewExtensions()
-  {
-    string assemblyName = "__code";
-
-    if (Utils.IsMono)
-      assemblyName = "App_Code";
-
-    Assembly a = Assembly.Load(assemblyName);
-    Type[] types = a.GetTypes();
-
-    foreach (Type type in types)
-    {
-      object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
-
-      foreach (object attribute in attributes)
-      {
-        if (!Contains(type))
-        {
-          _newExtensions.Add(type.Name);
-          AddExtension(type, attribute);
-        }
-      }
-    }
+    return ex;
   }
   #endregion
 
@@ -255,8 +225,28 @@ public class ExtensionManager
   /// <returns>Collection of settings</returns>
   public static ExtensionSettings GetSettings(string extensionName)
   {
-    return GetSettings(extensionName, extensionName);
+    foreach (ManagedExtension x in _extensions)
+    {
+      foreach (ExtensionSettings setting in x.Settings)
+      {
+        if (setting != null)
+        {
+          if (setting.Name == extensionName)
+          {
+            return setting;
+          }
+        }
+      }
+    }
+
+    return null;
   }
+  /// <summary>
+  /// Returns settings for specified extension
+  /// </summary>
+  /// <param name="extensionName">Extension Name</param>
+  /// <param name="settingName">Settings Name</param>
+  /// <returns>Settings object</returns>
   public static ExtensionSettings GetSettings(string extensionName, string settingName)
   {
     foreach (ManagedExtension x in _extensions)
@@ -321,7 +311,8 @@ public class ExtensionManager
         break;
       }
     }
-    return Save();
+    SaveToCache();
+    return SaveToStorage();
   }
   #endregion
 
@@ -329,101 +320,10 @@ public class ExtensionManager
   /// <summary>
   /// Will serialize and cache ext. mgr. object
   /// </summary>
-  public static bool Save()
+  public static void Save()
   {
+    SaveToStorage();
     SaveToCache();
-    return SaveToStorage();
-  }
-  /// <summary>
-  /// Saves ext. manager object to XML file
-  /// or database table using provider model
-  /// </summary>
-  /// <returns>True if successful</returns>
-  public static bool SaveToStorage()
-  {
-    if (_section.DefaultProvider == "XmlBlogProvider")
-    {
-      try
-      {
-        using (TextWriter writer = new StreamWriter(_fileName))
-        {
-          XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
-          serializer.Serialize(writer, _extensions);
-          return true;
-        }
-      }
-      catch (Exception e)
-      {
-        FileAccessException = e;
-        HttpContext.Current.Cache.Remove("Extensions");
-        throw;
-      }
-    }
-    else
-    {
-      MemoryStream settings = new MemoryStream();
-      XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
-      XmlTextWriter xmlTextWriter = new XmlTextWriter(settings, System.Text.Encoding.UTF8);
-      serializer.Serialize(xmlTextWriter, _extensions);
-
-      settings = (MemoryStream)xmlTextWriter.BaseStream;
-
-      BlogService.SaveExtensionSettings(settings);
-      return true;
-    }
-  }
-  /// <summary>
-  /// Deserializes extension manager from storage
-  /// (XML file or database) back to ext. manager object
-  /// </summary>
-  private static void LoadFromStorage()
-  {
-    Stream settings = null;
-    try
-    {
-      settings = BlogService.LoadExtensionSettings();
-      XmlSerializer serializer = new XmlSerializer(typeof(List<ManagedExtension>));
-      _extensions = (List<ManagedExtension>)serializer.Deserialize(settings);
-
-      string assemblyName = "__code";
-      if (Utils.IsMono)
-        assemblyName = "App_Code";
-
-      Assembly a = Assembly.Load(assemblyName);
-
-      for (int i = _extensions.Count - 1; i >= 0; i--)
-      {
-        if (a.GetType(_extensions[i].Name, false) == null)
-        {
-          _extensions.Remove(_extensions[i]);
-        }
-        else
-        {
-          // fix setting name for older extensions 
-          // set it to extension name
-          foreach (ExtensionSettings xset in _extensions[i].Settings)
-          {
-            if (xset != null)
-            {
-              if (string.IsNullOrEmpty(xset.Name))
-              {
-                xset.Name = _extensions[i].Name;
-              }
-            }
-          }
-        }
-      }
-    }
-    catch (Exception)
-    {
-      HttpContext.Current.Cache.Remove("Extensions");
-      throw;
-    }
-    finally
-    {
-      if (settings != null)
-        settings.Close();
-    }
   }
   /// <summary>
   /// Caches for performance. If manager cached
@@ -435,8 +335,39 @@ public class ExtensionManager
     HttpContext.Current.Cache.Remove("Extensions");
     HttpContext.Current.Cache["Extensions"] = _extensions;
   }
+  /// <summary>
+  /// Saves ext. manager object to XML file
+  /// or database table using provider model
+  /// </summary>
+  /// <returns>True if successful</returns>
+  public static bool SaveToStorage()
+  {
+    foreach (ManagedExtension ext in _extensions)
+    {
+      BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
+      xs.SettingID = ext.Name;
+      xs.SaveSettings(ext);
+    }
+    return true;
+  }
+
+  ///// <summary>
+  ///// Saves ext. manager object to XML file
+  ///// or database table using provider model
+  ///// </summary>
+  ///// <returns>True if successful</returns>
+  //public static bool SaveToStorage(string extName)
+  //{
+  //  foreach (ManagedExtension ext in _extensions)
+  //  {
+  //    BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
+  //    xs.SettingID = ext.Name;
+  //    xs.SaveSettings(ext);
+  //  }
+  //  return true;
+  //}
   #endregion
-  
+
   /// <summary>
   /// Extension is "new" if it is loaded from assembly
   /// but not yet saved to the disk. This state is needed

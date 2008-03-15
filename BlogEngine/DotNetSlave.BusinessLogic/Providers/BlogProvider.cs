@@ -136,10 +136,16 @@ namespace BlogEngine.Core.Providers
         /// <summary>
         /// Saves settings to data store
         /// </summary>
-        /// <param name="exType">Extensio Type</param>
-        /// <param name="exId">Extensio Id</param>
+        /// <param name="exType">Extension Type</param>
+        /// <param name="exId">Extension Id</param>
         /// <param name="settings">Settings object</param>
         public abstract void SaveToDataStore(DataStore.ExtensionType exType, string exId, object settings);
+        /// <summary>
+        /// Removes settings from data store
+        /// </summary>
+        /// <param name="exType">Extension Type</param>
+        /// <param name="exId">Extension Id</param>
+        public abstract void RemoveFromDataStore(DataStore.ExtensionType exType, string exId);
 
         /// <summary>
         /// 

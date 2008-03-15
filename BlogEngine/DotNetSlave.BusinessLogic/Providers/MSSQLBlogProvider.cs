@@ -965,6 +965,24 @@ namespace BlogEngine.Core.Providers
     }
 
     /// <summary>
+    /// Removes settings from data store
+    /// </summary>
+    /// <param name="exType">Extension Type</param>
+    /// <param name="exId">Extension Id</param>
+    public override void RemoveFromDataStore(DataStore.ExtensionType exType, string exId)
+    {
+      using (SqlConnection conn = new SqlConnection(ConnectionString))
+      {
+        string sqlQuery = string.Format("DELETE FROM be_DataStoreSettings WHERE ExtensionType = '{0}' AND ExtensionId = '{1}'", exType, exId);
+        using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+        {
+          conn.Open();
+          cmd.ExecuteNonQuery();
+        }
+      }
+    }
+
+    /// <summary>
     /// The storage location is to allow Blog Providers to use alternative storage locations that app_data root directory.
     /// </summary>
     /// <returns></returns>
