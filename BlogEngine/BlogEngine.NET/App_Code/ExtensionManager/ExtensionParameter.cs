@@ -9,6 +9,7 @@ using System.Collections.Generic;
 /// that holds parameter attributes and collection
 /// of values
 /// </summary>
+[Serializable()]
 public class ExtensionParameter
 {
     #region Private members

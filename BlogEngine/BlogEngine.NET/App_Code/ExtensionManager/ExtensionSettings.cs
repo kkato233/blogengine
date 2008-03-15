@@ -8,6 +8,7 @@ using System.Collections.Generic;
 /// Serializable object that holds collection of
 /// parameters and methods to manipulate them 
 /// </summary>
+[Serializable()]
 public class ExtensionSettings
 {
   #region Private members
