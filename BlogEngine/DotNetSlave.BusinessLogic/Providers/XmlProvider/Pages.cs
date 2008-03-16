@@ -38,6 +38,9 @@ namespace BlogEngine.Core.Providers
       page.Content = doc.SelectSingleNode("page/content").InnerText;
       page.Keywords = doc.SelectSingleNode("page/keywords").InnerText;
 
+			if (doc.SelectSingleNode("page/slug") != null)
+				page.Slug = doc.SelectSingleNode("page/slug").InnerText;
+
       if (doc.SelectSingleNode("page/parent") != null)
         page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
 
@@ -77,6 +80,7 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("description", page.Description);
         writer.WriteElementString("content", page.Content);
         writer.WriteElementString("keywords", page.Keywords);
+				writer.WriteElementString("slug", page.Slug);
         writer.WriteElementString("parent", page.Parent.ToString());
         writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
         writer.WriteElementString("showinlist", page.ShowInList.ToString());

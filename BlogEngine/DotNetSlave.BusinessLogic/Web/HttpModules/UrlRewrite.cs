@@ -92,9 +92,18 @@ namespace BlogEngine.Core.Web.HttpModules
 
 		private static void RewritePost(HttpContext context, string url)
 		{
-			DateTime stamp = ExtractDate(context);
+			DateTime date = ExtractDate(context);
 			string slug = ExtractTitle(context, url);
-			Post post = Post.GetPostBySlug(slug, stamp);
+			Post post = Post.Posts.Find(delegate(Post p)
+			{
+				if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
+				{
+					if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
+						return false;
+				}
+
+				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
+			});
 
 			if (post != null)
 			{
@@ -118,15 +127,15 @@ namespace BlogEngine.Core.Web.HttpModules
 
 		private static void RewritePage(HttpContext context, string url)
 		{
-			string title = ExtractTitle(context, url);
-			foreach (Page page in Page.Pages)
+			string slug = ExtractTitle(context, url);
+			Page page = Page.Pages.Find(delegate(Page p)
 			{
-				string legalTitle = Utils.RemoveIllegalCharacters(page.Title).ToLowerInvariant();
-				if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
-				{
-					context.RewritePath(Utils.RelativeWebRoot + "page.aspx?id=" + page.Id + GetQueryString(context), false);
-					break;
-				}
+				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
+			});
+
+			if (page != null)
+			{
+				context.RewritePath(Utils.RelativeWebRoot + "page.aspx?id=" + page.Id + GetQueryString(context), false);
 			}
 		}
 

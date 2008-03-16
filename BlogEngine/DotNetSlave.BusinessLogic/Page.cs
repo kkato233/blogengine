@@ -109,6 +109,23 @@ namespace BlogEngine.Core
       }
     }
 
+		private string _Slug;
+		/// <summary>
+		/// Gets or sets the Slug of the Page.
+		/// A Slug is the relative URL used by the pages.
+		/// </summary>
+		public string Slug
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(_Slug))
+					return Utils.RemoveIllegalCharacters(Title);
+
+				return _Slug;
+			}
+			set { _Slug = value; }
+		}
+
     private bool _IsPublished;
     /// <summary>
     /// Gets or sets whether or not this page should be published.
@@ -160,21 +177,26 @@ namespace BlogEngine.Core
       }
     }
 
-    /// <summary>
-    /// The relative URI to the page. For in-site use only.
-    /// </summary>
-    public string RelativeLink
-    {
-      get { return Utils.RelativeWebRoot + "page/" + Utils.RemoveIllegalCharacters(Title) + BlogSettings.Instance.FileExtension; }
-    }
+		/// <summary>
+		/// A relative-to-the-site-root path to the post.
+		/// Only for in-site use.
+		/// </summary>
+		public string RelativeLink
+		{
+			get
+			{
+				string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
+				return Utils.RelativeWebRoot + "page/" + slug;
+			}
+		}
 
-    /// <summary>
-    /// The absolute URI to the path.
-    /// </summary>
-    public Uri AbsoluteLink
-    {
-      get { return Utils.ConvertToAbsolute(RelativeLink); }
-    }
+		/// <summary>
+		/// The absolute link to the post.
+		/// </summary>
+		public Uri AbsoluteLink
+		{
+			get { return Utils.ConvertToAbsolute(RelativeLink); }
+		}
 
     private static object _SyncRoot = new object();
     private static List<Page> _Pages;
