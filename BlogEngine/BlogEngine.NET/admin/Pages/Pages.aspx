@@ -11,6 +11,18 @@
     else
       element.style.display = "none";
   }
+
+  function GetSlug()
+  {
+    var title = document.getElementById('<%=txtTitle.ClientID %>').value;
+    WebForm_DoCallback('__Page', title, ApplySlug, 'slug', null, false) 
+  }
+
+  function ApplySlug(arg, context)
+  {
+    var slug = document.getElementById('<%=txtSlug.ClientID %>');
+    slug.value = arg;
+  }
   </script>
   
   <div id="divPages" runat="server" visible="true" enableviewstate="False" style="margin-bottom: 10px">
@@ -48,10 +60,17 @@
         <asp:Button runat="server" ID="btnUploadFile" Text="Upload" ValidationGroup="fileUpload" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="fileUpload" />
       </td>
+    </tr>
+    <tr>
+      <td class="label">Slug (optional)</td>
+      <td>
+        <asp:TextBox runat="server" ID="txtSlug" TabIndex="9" Width="400" />
+        <a href="javascript:void(GetSlug());">Extract from title</a>
+      </td>
     </tr>    
     <tr>
       <td class="label"><%=Resources.labels.description %></td>
-      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="5" /></td>
+      <td><asp:TextBox runat="server" ID="txtDescription" Width="400" TextMode="multiLine" Columns="50" Rows="4" /></td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.keywords %></td>

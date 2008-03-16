@@ -41,7 +41,7 @@ namespace BlogEngine.Core.Web.HttpModules
     public void Init(HttpApplication context)
     {
       if (BlogSettings.Instance.EnableReferrerTracking)
-        context.BeginRequest += new EventHandler(context_BeginRequest);
+        context.EndRequest += new EventHandler(context_BeginRequest);
     }
 
     #endregion
@@ -62,10 +62,6 @@ namespace BlogEngine.Core.Web.HttpModules
         Uri referrer = context.Request.UrlReferrer;
         if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) && !IsSearchEngine(referrer.ToString()))
         {
-					//ThreadStart threadStart = delegate { BeginRegisterClick(new DictionaryEntry(referrer, context.Request.Url)); };
-					//Thread thread = new Thread(threadStart);
-					//thread.IsBackground = true;
-					//thread.Start();
 					ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer, context.Request.Url));
         }
       }

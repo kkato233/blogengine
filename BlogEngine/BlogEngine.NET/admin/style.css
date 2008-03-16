@@ -297,6 +297,7 @@ input[type="file"]:hover {
 
 input[type="checkbox"] {
 	border: none;
+	background: none;
 }
 
 .info {
@@ -308,4 +309,23 @@ input[type="checkbox"] {
 .mgr input {
     margin-top: 2px;
     margin-bottom: 2px;
+}
+
+/*-----------------------------*/
+
+#tagselector{
+	background: white;
+	border: 3px solid gray;
+	width: 500px;	
+	position: absolute;
+	left: 553px;
+	bottom: 40px;
+	padding-bottom: 10px
+}
+
+#tagselector a{
+	display: block;
+	float: left;
+	margin-right: 10px;
+	padding: 2px 4px;
 }

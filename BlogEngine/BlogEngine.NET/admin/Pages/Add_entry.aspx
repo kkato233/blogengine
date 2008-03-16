@@ -3,6 +3,14 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+
+<div id="tagselector" style="display: none">
+    <a href="javascript:void(ToggleTagSelector())" style="color:Black;float:right">Close</a>
+    <div style="clear:both"></div>
+    <asp:PlaceHolder runat="server" ID="phTags" />
+    <div style="clear:both"></div>
+  </div>
+  
 <script type="text/javascript">
 function ToggleVisibility()
 {
@@ -41,6 +49,32 @@ function AutoSave()
   }
   
   setTimeout("AutoSave()", 5000);
+}
+
+document.body.onkeypress = ESCclose;
+
+function ESCclose(evt) 
+{
+  if (!evt)
+    evt = window.event; 
+    
+  if (evt.keyCode == 27) 
+    document.getElementById('tagselector').style.display = 'none';  
+ }
+
+function AddTag(element)
+{
+  var input = document.getElementById('<%=txtTags.ClientID %>');  
+  input.value += element.innerHTML + ', ';
+}
+
+function ToggleTagSelector()
+{
+  var element = document.getElementById('tagselector');
+  if (element.style.display == "none")
+    element.style.display = "block";
+  else
+    element.style.display = "none";
 }
 </script>
 
@@ -102,14 +136,16 @@ function AutoSave()
         <asp:Button runat="server" ID="btnCategory" Text="<%$ Resources:labels, add %>" ValidationGroup="category" TabIndex="11" />
         <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="The category already exist" Display="dynamic" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="Required" ValidationGroup="category" /><br />
-        
+        <div style="width:400px">
         <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" TabIndex="12" />
+        </div>
       </td>
     </tr>
     <tr>
       <td class="label">Tags</td>
       <td>
         <asp:TextBox runat="server" ID="txtTags" Width="400" TabIndex="13" />
+        <a href="javascript:void(ToggleTagSelector())">Show selector</a>
         <span><%=Resources.labels.separateTagsWitComma %></span>
       </td>
     </tr>

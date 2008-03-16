@@ -442,22 +442,22 @@ namespace BlogEngine.Core
 			return true;
 		}
 
-		/// <summary>
-		/// Returns a post based on it's title.
-		/// </summary>
-		public static Post GetPostBySlug(string slug, DateTime date)
-		{
-			return Posts.Find(delegate(Post p)
-			{
-				if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
-				{
-					if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
-						return false;
-				}
+		///// <summary>
+		///// Returns a post based on it's title.
+		///// </summary>
+		//public static Post GetPostBySlug(string slug, DateTime date)
+		//{
+		//  return Posts.Find(delegate(Post p)
+		//  {
+		//    if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
+		//    {
+		//      if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
+		//        return false;
+		//    }
 
-				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
-			});
-		}
+		//    return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
+		//  });
+		//}
 
 		/// <summary>
 		/// Returns all posts written by the specified author.

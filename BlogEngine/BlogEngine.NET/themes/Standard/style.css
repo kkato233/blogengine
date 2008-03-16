@@ -471,6 +471,7 @@ ul.recentComments li a.postTitle{
 .commentForm textarea {
 	width: 100%;
 	height: 150px;
+	border:1px solid silver;
 }
 
 #commentMenu{
@@ -501,6 +502,7 @@ ul.recentComments li a.postTitle{
 #commentPreview{
 	display:none;
 	clear:both;
+	min-height: 150px;
 }
 
 .success {

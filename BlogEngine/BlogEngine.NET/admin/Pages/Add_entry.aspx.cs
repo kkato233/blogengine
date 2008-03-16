@@ -19,6 +19,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		this.MaintainScrollPositionOnPostBack = true;
 		if (!Page.IsPostBack && !Page.IsCallback)
 		{
+			BindTags();
 			BindCategories();
 			BindUsers();
 			BindDrafts();
@@ -190,6 +191,30 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 	#endregion
 
 	#region Data binding
+
+	private void BindTags()
+	{
+		System.Collections.Generic.List<string> col = new System.Collections.Generic.List<string>();
+		foreach (Post post in Post.Posts)
+		{
+			foreach (string tag in post.Tags)
+			{
+				if (!col.Contains(tag))
+					col.Add(tag);
+			}
+		}
+
+		col.Sort(delegate(string s1, string s2) { return String.Compare(s1, s2); });
+
+		foreach (string tag in col)
+		{
+			HtmlAnchor a = new HtmlAnchor();
+			a.HRef = "javascript:void(0)";
+			a.Attributes.Add("onclick", "AddTag(this)");
+			a.InnerText = tag;
+			phTags.Controls.Add(a);
+		}
+	}
 
 	private void BindCategories()
 	{

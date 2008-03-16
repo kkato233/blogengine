@@ -446,7 +446,7 @@ namespace BlogEngine.Core.Providers
       bool connClose = OpenConnection();      
       Page page = new Page();
       string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
-                          "DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList " +
+                          "DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug " +
                           "FROM be_Pages " +
                           "WHERE PageID = @id";
       SqlCommand cmd = new SqlCommand(sqlQuery, providerConn);
@@ -473,6 +473,8 @@ namespace BlogEngine.Core.Providers
         page.Parent = rdr.GetGuid(9);
       if (!rdr.IsDBNull(10))
         page.ShowInList = rdr.GetBoolean(10);
+			if (!rdr.IsDBNull(11))
+				page.Slug = rdr.GetString(11);
 
       rdr.Close();
 
@@ -489,8 +491,8 @@ namespace BlogEngine.Core.Providers
     {
       OpenConnection();
       string sqlQuery = "INSERT INTO be_Pages (PageID, Title, Description, PageContent, " +
-                          "DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList) " +
-                          "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist)";
+                          "DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug) " +
+													"VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist, @slug)";
       using (SqlCommand cmd = new SqlCommand(sqlQuery, providerConn))
       {
         cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
@@ -504,6 +506,7 @@ namespace BlogEngine.Core.Providers
         cmd.Parameters.Add(new SqlParameter("@isfrontpage", page.IsFrontPage));
         cmd.Parameters.Add(new SqlParameter("@parent", page.Parent));
         cmd.Parameters.Add(new SqlParameter("@showinlist", page.ShowInList));
+				cmd.Parameters.Add(new SqlParameter("@slug", page.Slug));
         cmd.ExecuteNonQuery();
       }
       providerConn.Close();
@@ -522,7 +525,7 @@ namespace BlogEngine.Core.Providers
       string sqlQuery =   "UPDATE be_Pages " +
                           "SET Title = @title, Description = @desc, PageContent = @content, " +
                           "DateCreated = @created, DateModified = @modified, Keywords = @keywords, " +
-                          "IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist " +
+                          "IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug " +
                           "WHERE PageID = @id";
       using (SqlCommand cmd = new SqlCommand(sqlQuery, providerConn))
       {
@@ -536,6 +539,7 @@ namespace BlogEngine.Core.Providers
         cmd.Parameters.Add(new SqlParameter("@isfrontpage", page.IsFrontPage));
         cmd.Parameters.Add(new SqlParameter("@parent", page.Parent));
         cmd.Parameters.Add(new SqlParameter("@showinlist", page.ShowInList));
+				cmd.Parameters.Add(new SqlParameter("@slug", page.Slug));
         cmd.Parameters.Add(new SqlParameter("@id", page.Id.ToString()));
 
         cmd.ExecuteNonQuery();
