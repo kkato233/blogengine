@@ -10,9 +10,10 @@ namespace BlogEngine.Core.DataStore
     /// <summary>
     /// Default constructor
     /// </summary>
-    public WidgetSettings()
+    public WidgetSettings(string setId)
     {
-      base.ExType = ExtensionType.Widget;
+      SettingID = setId;
+      ExType = ExtensionType.Widget;
       SettingsBehavior = new XMLDocumentBehavior();
     }
   }

@@ -99,8 +99,7 @@ public class ExtensionManager
       if (x.Name == extension)
       {
         x.Enabled = enabled;
-        BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
-        xs.SettingID = x.Name;
+        BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(x.Name);
         xs.SaveSettings(x);
         SaveToCache();
 
@@ -194,9 +193,8 @@ public class ExtensionManager
   static ManagedExtension DataStoreExtension(string name)
   {
     ManagedExtension ex = null;
-    BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
-    xs.SettingID = name;
-    Stream stm = (Stream)xs.GetSettings(ExtensionType.Extension, name);
+    BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(name);
+    Stream stm = (Stream)xs.GetSettings();
 
     if (stm != null)
     {
@@ -344,28 +342,12 @@ public class ExtensionManager
   {
     foreach (ManagedExtension ext in _extensions)
     {
-      BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
-      xs.SettingID = ext.Name;
+      BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(ext.Name);
       xs.SaveSettings(ext);
     }
     return true;
   }
 
-  ///// <summary>
-  ///// Saves ext. manager object to XML file
-  ///// or database table using provider model
-  ///// </summary>
-  ///// <returns>True if successful</returns>
-  //public static bool SaveToStorage(string extName)
-  //{
-  //  foreach (ManagedExtension ext in _extensions)
-  //  {
-  //    BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings();
-  //    xs.SettingID = ext.Name;
-  //    xs.SaveSettings(ext);
-  //  }
-  //  return true;
-  //}
   #endregion
 
   /// <summary>

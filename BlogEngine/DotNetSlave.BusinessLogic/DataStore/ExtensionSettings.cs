@@ -9,9 +9,10 @@ namespace BlogEngine.Core.DataStore
     /// <summary>
     /// Default constructor
     /// </summary>
-    public ExtensionSettings()
+    public ExtensionSettings(string setId)
     {
-      base.ExType = ExtensionType.Extension;
+      SettingID = setId;
+      ExType = ExtensionType.Extension;
       SettingsBehavior = new ExtensionSettingsBehavior();
     }
   }

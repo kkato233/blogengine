@@ -2,6 +2,9 @@ using System;
 using System.Xml;
 using BlogEngine.Core.Providers;
 using System.IO;
+using System.Configuration;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BlogEngine.Core.DataStore
 {
@@ -11,6 +14,8 @@ namespace BlogEngine.Core.DataStore
   /// </summary>
   public class XMLDocumentBehavior : ISettingsBehavior   
   {
+    private static BlogProviderSection _section = (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
+
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -30,9 +35,26 @@ namespace BlogEngine.Core.DataStore
     /// <returns>True if saved</returns>
     public bool SaveSettings(ExtensionType exType, string exId, object settings)
     {
-      Stream stm = (Stream)settings;
-      BlogService.SaveToDataStore(exType, exId, settings);
-      return true;
+      try
+      {
+        XmlDocument xml = (XmlDocument)settings;
+
+        if (_section.DefaultProvider == "XmlBlogProvider")
+        {
+          BlogService.SaveToDataStore(exType, exId, xml);
+        }
+        else
+        {
+          WidgetData wd = new WidgetData();
+          wd.Settings = xml.InnerXml;
+          BlogService.SaveToDataStore(exType, exId, wd);
+        }
+        return true;
+      }
+      catch (Exception)
+      {
+        throw;
+      }
     }
 
     /// <summary>
@@ -43,7 +65,46 @@ namespace BlogEngine.Core.DataStore
     /// <returns>Settings as Stream</returns>
     public object GetSettings(ExtensionType exType, string exId)
     {
-      return BlogService.LoadFromDataStore(exType, exId);
+      Stream stm = BlogService.LoadFromDataStore(exType, exId);
+      WidgetData wd = new WidgetData();
+      XmlDocument xml = new XmlDocument();
+
+      if (stm != null)
+      {
+        if (_section.DefaultProvider == "XmlBlogProvider")
+        {
+          XmlSerializer x = new XmlSerializer(typeof(XmlDocument));
+          xml = (XmlDocument)x.Deserialize(stm);
+          stm.Close();
+        }
+        else
+        {
+          BinaryFormatter bf = new BinaryFormatter();
+          stm.Position = 0;
+          wd = (WidgetData)bf.Deserialize(stm);
+
+          if (wd.Settings.Length > 0)
+            xml.InnerXml = wd.Settings;
+        }
+      }
+      return xml;
     }
+  }
+  /// <summary>
+  /// Wrap around xml document
+  /// </summary>
+  [Serializable()]
+  public class WidgetData 
+  {
+    /// <summary>
+    /// Defatul constructor
+    /// </summary>
+    public WidgetData() { }
+
+    private string settings = string.Empty;
+    /// <summary>
+    /// Settings data
+    /// </summary>
+    public string Settings { get { return settings; } set { settings = value; } }
   }
 }

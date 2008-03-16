@@ -9,6 +9,9 @@ using System.Threading;
 using System.Xml;
 using System.Text;
 using BlogEngine.Core;
+using BlogEngine.Core.DataStore;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
@@ -72,33 +75,16 @@ public class WidgetBase : UserControl
 	{
 		get
 		{
-			if (Cache["xml_" + WidgetID] == null)
+      string cacheId = "be_widget_" + WidgetID;
+      XmlDocument xml = new XmlDocument();
+      if (Cache[cacheId] == null)
 			{
-				XmlDocument xml = new XmlDocument();
-				if (File.Exists(FileName))
-				{
-					xml.Load(FileName);
-				}
-				Cache.Insert("xml_" + WidgetID, xml, new System.Web.Caching.CacheDependency(FileName));
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+        xml = (XmlDocument)ws.GetSettings();
+
+        HttpContext.Current.Cache[cacheId] = xml;
 			}
-
-			return (XmlDocument)Cache["xml_" + WidgetID];
-		}
-	}
-
-	private string _FileName;
-	/// <summary>
-	/// Gets the name of the file.
-	/// </summary>
-	/// <value>The name of the file.</value>
-	protected string FileName
-	{
-		get
-		{
-			if (string.IsNullOrEmpty(_FileName))
-				_FileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgets/" + WidgetID + ".xml");
-
-			return _FileName;
+      return (XmlDocument)Cache[cacheId];
 		}
 	}
 
