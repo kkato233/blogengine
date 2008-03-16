@@ -7,7 +7,10 @@ using System.Web.Hosting;
 using System.Web.UI;
 using System.Threading;
 using System.Xml;
+using System.Xml.Serialization;
 using BlogEngine.Core;
+using BlogEngine.Core.DataStore;
+using System.Runtime.Serialization.Formatters.Binary;
 
 #endregion
 
@@ -60,33 +63,16 @@ public abstract class WidgetEditBase : UserControl
 	{
 		get 
 		{
-			if (Cache["xml_" + WidgetID] == null)
-			{
-				XmlDocument xml = new XmlDocument();
-				if (File.Exists(FileName))
-				{					
-					xml.Load(FileName);					
-				}
-				Cache.Insert("xml_" + WidgetID, xml, new System.Web.Caching.CacheDependency(FileName));
-			}
+      string cacheId = "be_widget_" + WidgetID;
+      XmlDocument xml = new XmlDocument();
+      if (Cache[cacheId] == null)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+        xml = (XmlDocument)ws.GetSettings();
 
-			return (XmlDocument)Cache["xml_" + WidgetID]; 
-		}
-	}
-
-	private string _FileName;
-	/// <summary>
-	/// Gets the name of the file.
-	/// </summary>
-	/// <value>The name of the file.</value>
-	protected string FileName
-	{
-		get 
-		{
-			if (string.IsNullOrEmpty(_FileName))
-                _FileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgets/" + WidgetID + ".xml");
-
-			return _FileName;
+        HttpContext.Current.Cache[cacheId] = xml;
+      }
+      return (XmlDocument)Cache[cacheId];
 		}
 	}
 
@@ -99,7 +85,8 @@ public abstract class WidgetEditBase : UserControl
 
 	protected virtual void SaveXml()
 	{
-		Xml.Save(FileName);
+    WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+    ws.SaveSettings(Xml);
 	}
 
 	public static event EventHandler<EventArgs> Saved;
@@ -113,6 +100,5 @@ public abstract class WidgetEditBase : UserControl
 			Saved(null, new EventArgs());
 		}
 	}
-        
 
 }

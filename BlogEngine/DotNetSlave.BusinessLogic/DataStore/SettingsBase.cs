@@ -56,12 +56,10 @@ namespace BlogEngine.Core.DataStore
     }
 
     /// <summary>
-    /// Retreves settings object from data storage
+    /// Get settings object from data storage
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
     /// <returns>Stream representing extension object</returns>
-    public object GetSettings(ExtensionType exType, string exId)
+    public object GetSettings()
     {
       return _settingsBehavior.GetSettings(_type, _settingId);
     }

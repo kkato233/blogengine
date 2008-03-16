@@ -10,8 +10,11 @@ namespace BlogEngine.Core.DataStore
     /// <summary>
     /// Default constructor
     /// </summary>
-    public ThemeSettings()
+    public ThemeSettings(string setId)
     {
+      SettingID = setId;
+      ExType = ExtensionType.Theme;
+      SettingsBehavior = new XMLDocumentBehavior();
     }
   }
 }
