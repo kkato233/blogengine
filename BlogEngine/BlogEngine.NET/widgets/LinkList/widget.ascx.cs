@@ -29,7 +29,8 @@ public partial class widgets_LinkList_widget : WidgetBase
 
 	private void BindLinks()
 	{
-		XmlNodeList links = base.Xml.SelectNodes("//link");
+    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+		XmlNodeList links = doc.SelectNodes("//link");
 
 		if (links.Count == 0)
 		{

@@ -125,7 +125,9 @@
     <Compile Include="DataStore\ExtensionSettings.cs" />
     <Compile Include="DataStore\ExtensionSettingsBehavior.cs" />
     <Compile Include="DataStore\Interfaces.cs" />
+    <Compile Include="DataStore\SerializableStringDictionary.cs" />
     <Compile Include="DataStore\SettingsBase.cs" />
+    <Compile Include="DataStore\StringDictionaryBehavior.cs" />
     <Compile Include="DataStore\ThemeSettings.cs" />
     <Compile Include="DataStore\WidgetSettings.cs" />
     <Compile Include="DataStore\XMLDocumentBehavior.cs" />
