@@ -32,37 +32,40 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 
 	void btnAdd_Click(object sender, EventArgs e)
 	{
-		XmlNode links = Xml.SelectSingleNode("links");
+    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+		XmlNode links = doc.SelectSingleNode("links");
 		if (links == null)
 		{
-			links = Xml.CreateElement("links");
-			Xml.AppendChild(links);
+			links = doc.CreateElement("links");
+			doc.AppendChild(links);
 		}
 
-		XmlNode link = Xml.CreateElement("link");
+		XmlNode link = doc.CreateElement("link");
 	
-		XmlAttribute id = Xml.CreateAttribute("id");
+		XmlAttribute id = doc.CreateAttribute("id");
 		id.InnerText = Guid.NewGuid().ToString();
 		link.Attributes.Append(id);
 
-		XmlAttribute title = Xml.CreateAttribute("title");
+		XmlAttribute title = doc.CreateAttribute("title");
 		title.InnerText = txtTitle.Text.Trim(); ;
 		link.Attributes.Append(title);
 
-		XmlAttribute url = Xml.CreateAttribute("url");
+		XmlAttribute url = doc.CreateAttribute("url");
 		url.InnerText = txtUrl.Text.Trim();
 		link.Attributes.Append(url);
 
 		links.AppendChild(link);
+    SaveSettings(doc);
 		BindGrid();
 	}
 
 	private void BindGrid()
 	{
-		XmlNodeList list = base.Xml.SelectNodes("//link");
+    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+		XmlNodeList list = doc.SelectNodes("//link");
 		if (list.Count > 0)
 		{			
-			using (XmlTextReader reader = new XmlTextReader(base.Xml.OuterXml, XmlNodeType.Document, null))
+			using (XmlTextReader reader = new XmlTextReader(doc.OuterXml, XmlNodeType.Document, null))
 			{
 				System.Data.DataSet ds = new System.Data.DataSet();
 				ds.ReadXml(reader);
@@ -81,11 +84,13 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.</param>
 	void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
 	{
+    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
 		string id = (string)grid.DataKeys[e.RowIndex].Value;
-		XmlNode node = base.Xml.SelectSingleNode("//link[@id=\"" + id + "\"]");
+		XmlNode node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
 		if (node != null)
 		{
 			node.ParentNode.RemoveChild(node);
+      SaveSettings(doc);
 			BindGrid();
 		}
 	}
@@ -97,16 +102,18 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
 	void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
 	{
+    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
 		string id = (string)grid.DataKeys[e.RowIndex].Value;
 		TextBox textboxTitle = (TextBox)grid.Rows[e.RowIndex].FindControl("txtTitle");
 		TextBox textboxUrl = (TextBox)grid.Rows[e.RowIndex].FindControl("txtUrl");
-		XmlNode node = base.Xml.SelectSingleNode("//link[@id=\"" + id + "\"]");
+		XmlNode node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
 		
 		if (node != null)
 		{
 			node.Attributes["title"].InnerText = textboxTitle.Text;
 			node.Attributes["url"].InnerText = textboxUrl.Text;
 			grid.EditIndex = -1;
+      SaveSettings(doc);
 			BindGrid();
 		}
 	}
@@ -127,6 +134,6 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// </summary>
 	public override void Save()
 	{
-		base.SaveXml();
+		//base.SaveXml();
 	}
 }

@@ -12,6 +12,7 @@ using BlogEngine.Core;
 using BlogEngine.Core.DataStore;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Specialized;
 
 #endregion
 
@@ -88,9 +89,45 @@ public class WidgetBase : UserControl
 		}
 	}
 
-	#endregion
+  #endregion
 
-	/// <summary>
+  #region Settings
+
+  /// <summary>
+  /// Object types supported by data store
+  /// </summary>
+  public enum ObjectType
+  {
+    XmlDocument,
+    StringDictionary
+  }
+  /// <summary>
+  /// Gets settings object from data store
+  /// </summary>
+  /// <param name="type">Object Type</param>
+  /// <returns>Settings as object</returns>
+  public object GetSettings(ObjectType type)
+  {
+    string cacheId = "be_widget_" + type.ToString() + "_" + WidgetID;
+    if (Cache[cacheId] == null)
+    {
+      if (type == ObjectType.XmlDocument)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
+        Cache[cacheId] = (XmlDocument)ws.GetSettings();
+      }
+      else if (type == ObjectType.StringDictionary)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+        Cache[cacheId] = (StringDictionary)ws.GetSettings();
+      }
+    }
+    return Cache[cacheId];
+  }
+
+  #endregion
+
+  /// <summary>
 	/// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> object, which writes the content to be rendered on the client.
 	/// </summary>
 	/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> object that receives the server control content.</param>

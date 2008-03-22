@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 using BlogEngine.Core;
 using BlogEngine.Core.DataStore;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Specialized;
 
 #endregion
 
@@ -19,10 +20,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 /// </summary>
 public abstract class WidgetEditBase : UserControl
 {
-
 	#region Properties
 
-	private string _Title;
+  private string _Title;
 	/// <summary>
 	/// Gets or sets the title of the widget. It is mandatory for all widgets to set the Title.
 	/// </summary>
@@ -87,9 +87,69 @@ public abstract class WidgetEditBase : UserControl
 	{
     WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
     ws.SaveSettings(Xml);
-	}
+  }
 
-	public static event EventHandler<EventArgs> Saved;
+  #region Settings
+
+  /// <summary>
+  /// Object types supported by data store
+  /// </summary>
+  public enum ObjectType
+  {
+    XmlDocument,
+    StringDictionary
+  }
+
+  /// <summary>
+  /// Gets settings object from data store
+  /// </summary>
+  /// <param name="type">Object Type</param>
+  /// <returns>Settings as object</returns>
+  public object GetSettings(ObjectType type)
+  {
+    string cacheId = "be_widget_" + type.ToString() + "_" + WidgetID;
+    if (Cache[cacheId] == null)
+    {
+      if (type == ObjectType.XmlDocument)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
+        Cache[cacheId] = (XmlDocument)ws.GetSettings();
+      }
+      else if (type == ObjectType.StringDictionary)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+        Cache[cacheId] = (StringDictionary)ws.GetSettings();
+      }
+    }
+    return Cache[cacheId];
+  }
+
+  /// <summary>
+  /// Saves settings to data store
+  /// </summary>
+  /// <param name="settings">Object Settings</param>
+  protected virtual void SaveSettings(object settings)
+  {
+    string objType = settings.GetType().Name;
+    string cacheId = "be_widget_" + objType + "_" + WidgetID;
+
+    if (objType == "XmlDocument")
+    {
+      WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
+      ws.SaveSettings(settings);
+    }
+    else if (objType == "StringDictionary")
+    {
+      WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+      ws.SaveSettings(settings);
+      
+    }
+    Cache[cacheId] = settings;
+  }
+
+  #endregion
+
+  public static event EventHandler<EventArgs> Saved;
 	/// <summary>
 	/// Occurs when the class is Saved
 	/// </summary>
