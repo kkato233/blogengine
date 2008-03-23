@@ -26,29 +26,29 @@ namespace BlogEngine.Core.Ping
     /// <summary>
     /// Sends a ping to various ping services asynchronously.
     /// </summary>
-    public static void Send()
+    public static void Send(Uri url)
     {
       StringCollection services = BlogService.LoadPingServices();
       foreach (string service in services)
       {
-        Execute(service);
+        Execute(service, url);
       }
     }
 
     /// <summary>
     /// Creates a web request and invokes the response asynchronous.
     /// </summary>
-    private static void Execute(string url)
+    private static void Execute(string service, Uri url)
     {
       try
       {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(service);
         request.Method = "POST";
         request.ContentType = "text/xml";
         request.Timeout = 3000;
         request.Credentials = CredentialCache.DefaultNetworkCredentials;
 
-        AddXmlToRequest(request);
+        AddXmlToRequest(request, url);
         request.GetResponse();
       }
       catch (Exception)
@@ -61,7 +61,7 @@ namespace BlogEngine.Core.Ping
     /// Adds the XML to web request. The XML is the standard
     /// XML used by RPC-XML requests.
     /// </summary>
-    private static void AddXmlToRequest(HttpWebRequest request)
+    private static void AddXmlToRequest(HttpWebRequest request, Uri url)
     {
       Stream stream = (Stream)request.GetRequestStream();
       using (XmlTextWriter writer = new XmlTextWriter(stream, Encoding.ASCII))
@@ -74,7 +74,7 @@ namespace BlogEngine.Core.Ping
         writer.WriteElementString("value", BlogSettings.Instance.Name);
         writer.WriteEndElement();
         writer.WriteStartElement("param");
-        writer.WriteElementString("value", Utils.AbsoluteWebRoot.ToString());
+        writer.WriteElementString("value", url.ToString());
         writer.WriteEndElement();
         writer.WriteEndElement();
         writer.WriteEndElement();

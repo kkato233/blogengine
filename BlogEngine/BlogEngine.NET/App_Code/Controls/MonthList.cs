@@ -54,6 +54,11 @@ namespace Controls
 				while (first <= DateTime.Now)
 				{
 					List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddMilliseconds(-1));
+					list = list.FindAll(delegate(Post p)
+					{
+						return p.IsVisible;
+					});
+
 					if (list.Count > 0)
 					{
 						DateTime date = DateTime.Parse(first.Year + "-" + first.Month + "-01");

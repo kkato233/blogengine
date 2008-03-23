@@ -35,7 +35,7 @@ namespace BlogEngine.Core.API.MetaWeblog
     {
       try 
       {
-        string rootUrl = context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("metaweblog.axd"));
+				string rootUrl = Utils.AbsoluteWebRoot.ToString();// context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("metaweblog.axd"));
         XMLRPCRequest input = new XMLRPCRequest(context);
         XMLRPCResponse output = new XMLRPCResponse(input.MethodName);
 
@@ -317,7 +317,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       bw.Close();
 
       // Set Url
-			string rootUrl = request.Request.Url.ToString().Substring(0, request.Request.Url.ToString().IndexOf("metaweblog.axd"));
+			string rootUrl = Utils.AbsoluteWebRoot.ToString();// request.Request.Url.ToString().Substring(0, request.Request.Url.ToString().IndexOf("metaweblog.axd"));
 
       string mediaType = mediaObject.type;
       if (mediaType.IndexOf('/') > -1)

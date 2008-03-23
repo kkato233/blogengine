@@ -179,13 +179,13 @@ namespace BlogEngine.Core.Ping
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <param name="urlToNotifyTrackback">The URL to notify trackback.</param>
-    public TrackbackMessage(IPublishable item, Uri urlToNotifyTrackback)
+    public TrackbackMessage(IPublishable item, Uri urlToNotifyTrackback, Uri itemUrl)
     {
       if (item == null)
         throw new ArgumentNullException("post");
 
       Title = item.Title;
-      PostUrl = item.AbsoluteLink;
+      PostUrl = itemUrl;
       Excerpt = item.Title;
       BlogName = BlogSettings.Instance.Name;
       UrlToNotifyTrackback = urlToNotifyTrackback;

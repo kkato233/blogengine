@@ -40,34 +40,35 @@ public class SendPings
 
     IPublishable item = (IPublishable)sender;
 
-		if (!BlogSettings.Instance.EnableTrackBackSend && !BlogSettings.Instance.EnablePingBackSend)
-			return;
-		
 		if ((HttpContext.Current == null || !HttpContext.Current.Request.IsLocal) && item.IsVisible)
-    {
-			ThreadPool.QueueUserWorkItem(delegate { Ping(item); });
-    }
+		{
+			Uri url = item.AbsoluteLink;
+			ThreadPool.QueueUserWorkItem(delegate { Ping(item, url); });
+		}
   }
 
   /// <summary>
   /// Executes the pings from the new thread.
   /// </summary>
-  private void Ping(IPublishable item)
+  private void Ping(IPublishable item, Uri itemUrl)
   {
 		try
 		{
 			System.Threading.Thread.Sleep(2000);
 
 			// Ping the specified ping services.
-			BlogEngine.Core.Ping.PingService.Send();
+			BlogEngine.Core.Ping.PingService.Send(itemUrl);
 
 			// Send trackbacks and pingbacks.
-			if (item.Content.ToLowerInvariant().Contains("http"))
-				BlogEngine.Core.Ping.Manager.Send(item);
+			if (!BlogSettings.Instance.EnableTrackBackSend && !BlogSettings.Instance.EnablePingBackSend)
+				return;
+
+			if (item.Content.ToUpperInvariant().Contains("\"HTTP"))
+				BlogEngine.Core.Ping.Manager.Send(item, itemUrl);
 		}
 		catch (Exception)
 		{
-			// We need to catch this exception so the application doesn't get killed.
+		  // We need to catch this exception so the application doesn't get killed.
 		}
   }
 
