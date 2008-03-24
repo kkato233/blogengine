@@ -107,13 +107,14 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			Post next = GetNextPost(Post);
 			Post prev = GetPrevPost(Post);
-			
+
 			if (next != null && !next.IsDeleted)
 			{
 				hlNext.NavigateUrl = next.RelativeLink;
 				hlNext.Text = Server.HtmlEncode(next.Title + " >>");
 				hlNext.ToolTip = Resources.labels.nextPost;
 				base.AddGenericLink("next", Post.Next.Title, Post.Next.RelativeLink.ToString());
+				phPostNavigation.Visible = true;
 			}
 
 			if (prev != null && !prev.IsDeleted)
@@ -122,9 +123,8 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				hlPrev.Text = Server.HtmlEncode("<< " + prev.Title);
 				hlPrev.ToolTip = Resources.labels.previousPost;
 				base.AddGenericLink("prev", Post.Previous.Title, Post.Previous.RelativeLink.ToString());
+				phPostNavigation.Visible = true;
 			}
-
-			phPostNavigation.Visible = true;
 		}
 	}
 

@@ -62,13 +62,7 @@
   <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
  
   <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){AddComment()}" tabindex="7" />    
-  
-  <%--<% if (BlogSettings.Instance.ShowLivePreview) { %>  
-  <h2><%=Resources.labels.livePreview %></h2> 
-  <div id="livepreview">
-    <asp:PlaceHolder runat="Server" ID="phLivePreview" />
-  </div>
-  <%} %>--%>
+  <asp:HiddenField runat="server" ID="hfCaptcha" />
 </div>
 
 <script type="text/javascript">
@@ -117,9 +111,11 @@ function AddComment(preview)
     country = $("<%=ddlCountry.ClientID %>").value;
   var content = $("<%=txtContent.ClientID %>").value;
   var notify = $("cbNotify").checked;
+  var captcha = $('<%=hfCaptcha.ClientID %>').value;
    
   var callback = isPreview ? EndShowPreview : AppendComment;
-  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview;
+  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha;
+  
 //  <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
   WebForm_DoCallback('ctl00$cphBody$CommentView1',argument, callback,'comment',null,false);
   

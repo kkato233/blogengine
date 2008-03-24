@@ -11,8 +11,19 @@ using System.Web.UI.HtmlControls;
 
 public partial class widgets_Calendar_widget : WidgetBase
 {
-	protected void Page_Load(object sender, EventArgs e)
+
+	public override string Name
 	{
-		Name = "Calendar";
+		get { return "Calendar"; }
+	}
+
+	public override bool IsEditable
+	{
+		get { return false; }
+	}
+
+	public override void LoadWidget()
+	{
+		// nothing to load
 	}
 }

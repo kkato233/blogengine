@@ -6,8 +6,19 @@ using System.Web.UI.HtmlControls;
 
 public partial class widgets_BlogRoll_widget : WidgetBase
 {
-	protected void Page_Load(object sender, EventArgs e)
+
+	public override string Name
 	{
-		Name = "Blogroll";
+		get { return "Blogroll"; }
+	}
+
+	public override bool IsEditable
+	{
+		get { return true; }
+	}
+
+	public override void LoadWidget()
+	{
+		// Nothing to load
 	}
 }

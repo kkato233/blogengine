@@ -14,14 +14,9 @@ using BlogEngine.Core;
 
 public partial class widgets_Tag_cloud_widget : WidgetBase
 {
-	/// <summary>
-	/// Handles the Load event of the Page control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
+
+	public override void LoadWidget()
 	{
-		Name = "Tag cloud";
 		foreach (string key in WeightedList.Keys)
 		{
 			HtmlGenericControl li = new HtmlGenericControl("li");
@@ -140,6 +135,17 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 			else if (weight >= 3)
 				_WeightedList.Add(key, "smallest");
 		}
+	}
+
+
+	public override string Name
+	{
+		get { return "Tag cloud"; }
+	}
+
+	public override bool IsEditable
+	{
+		get { return true; }
 	}
 
 }

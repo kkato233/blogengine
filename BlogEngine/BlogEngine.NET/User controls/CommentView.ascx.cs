@@ -51,6 +51,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     string content = args[4];
     bool notify = bool.Parse(args[5]);
 		bool isPreview = bool.Parse(args[6]);
+		string sentCaptcha = args[7];
+		string storedCaptcha = hfCaptcha.Value;
+
+		if (sentCaptcha != storedCaptcha)
+			return;
 
     Comment comment = new Comment();
     comment.Id = Guid.NewGuid();
@@ -106,7 +111,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   {
     if (Post == null)
       Response.Redirect(Utils.RelativeWebRoot);
-
+		
     if (!Page.IsPostBack && !Page.IsCallback)
     {
       if (Request.QueryString["deletecomment"] != null)
@@ -156,7 +161,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
         BindCountries();
         GetCookie();
-        //BindLivePreview();
+				hfCaptcha.Value = Guid.NewGuid().ToString();
       }
       else
       {

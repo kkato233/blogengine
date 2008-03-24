@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SerializableStringDictionary>
+  <SerializableStringDictionary>
+    <DictionaryEntry Key="content" Value="&lt;table border=&quot;0&quot; width=&quot;100%&quot; summary=&quot;About the author&quot;&gt;&#xD;&#xA;	&lt;tbody&gt;&#xD;&#xA;		&lt;tr&gt;&#xD;&#xA;			&lt;td&gt;&lt;img src=&quot;/BlogEngine.NET/themes/Standard/noavatar.jpg&quot; alt=&quot;Name of author&quot; width=&quot;80&quot; height=&quot;80&quot; /&gt;&lt;/td&gt;&#xD;&#xA;			&lt;td style=&quot;vertical-align: top&quot;&gt;Author name&lt;br /&gt;&#xD;&#xA;			Something about me and what I do. &lt;br /&gt;&#xD;&#xA;			&lt;br /&gt;&#xD;&#xA;			&lt;!-- Email --&gt;&lt;a style=&quot;float: right; clear: both&quot; href=&quot;/BlogEngine.NET/contact.aspx&quot;&gt;E-mail me &lt;img style=&quot;width: 16px&quot; src=&quot;/BlogEngine.NET/pics/mail.gif&quot; alt=&quot;Send mail&quot; width=&quot;16&quot; height=&quot;10&quot; /&gt; &lt;/a&gt;&lt;/td&gt;&#xD;&#xA;		&lt;/tr&gt;&#xD;&#xA;	&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;&#xD;&#xA;" />
+  </SerializableStringDictionary>
+</SerializableStringDictionary>

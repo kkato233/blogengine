@@ -48,6 +48,7 @@ namespace Controls
 				control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
 				control.Title = widget.Attributes["title"].InnerText;
 				control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
+				control.LoadWidget();
 				this.Controls.Add(control);
 			}
 

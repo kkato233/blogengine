@@ -4,7 +4,10 @@
   <legend>Add new link</legend>
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
   <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" ValidationGroup="add" /><br />
-  <asp:TextBox runat="server" ID="txtTitle" Width="250px" /><br /><br />
+  <asp:TextBox runat="server" ID="txtTitle" Width="250px" />
+  
+  <asp:CheckBox runat="server" ID="cbNewWindow" Text="Open link in new window" />
+  <br /><br />
   
   <label for="<%=txtTitle.ClientID %>">Website URL</label>
   <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" ValidationGroup="add" /><br />
@@ -40,6 +43,15 @@
     </ItemTemplate>
     <EditItemTemplate>
       <asp:TextBox runat="server" ID="txtUrl" Width="90%" Text='<%# Eval("url") %>' />
+    </EditItemTemplate>
+  </asp:TemplateField>
+  
+  <asp:TemplateField HeaderText="New window">
+    <ItemTemplate>
+      <asp:CheckBox runat="server" Enabled="False" ID="cbNewWindow" Checked='<%# bool.Parse((string)Eval("newwindow")) %>' />
+    </ItemTemplate>
+    <EditItemTemplate>
+      <asp:CheckBox runat="server" ID="cbNewWindow" Checked='<%# bool.Parse((string)Eval("newwindow")) %>' />
     </EditItemTemplate>
   </asp:TemplateField>
  
