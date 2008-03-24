@@ -19,7 +19,7 @@ using System.Collections.Specialized;
 /// <summary>
 /// Summary description for WidgetBase
 /// </summary>
-public class WidgetBase : UserControl
+public abstract class WidgetBase : UserControl
 {
 
 	#region Properties
@@ -46,16 +46,18 @@ public class WidgetBase : UserControl
 		set { _ShowTitle = value; }
 	}
 
-	private string _Name;
 	/// <summary>
-	/// Gets or sets the name. It must be exactly the same as the folder that contains the widget.
+	/// Gets the name. It must be exactly the same as the folder that contains the widget.
 	/// </summary>
-	/// <value>The name.</value>
-	public string Name
-	{
-		get { return _Name; }
-		set { _Name = value; }
-	}
+	public abstract string Name { get; }
+
+	/// <summary>
+	/// Gets wether or not the widget can be edited.
+	/// <remarks>
+	/// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+	/// </remarks>
+	/// </summary>
+	public abstract bool IsEditable { get; }
 
 	private Guid _WidgetID;
 	/// <summary>
@@ -76,59 +78,66 @@ public class WidgetBase : UserControl
 	{
 		get
 		{
-      string cacheId = "be_widget_" + WidgetID;
-      XmlDocument xml = new XmlDocument();
-      if (Cache[cacheId] == null)
+			string cacheId = "be_widget_" + WidgetID;
+			XmlDocument xml = new XmlDocument();
+			if (Cache[cacheId] == null)
 			{
-        WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-        xml = (XmlDocument)ws.GetSettings();
+				WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+				xml = (XmlDocument)ws.GetSettings();
 
-        HttpContext.Current.Cache[cacheId] = xml;
+				HttpContext.Current.Cache[cacheId] = xml;
 			}
-      return (XmlDocument)Cache[cacheId];
+			return (XmlDocument)Cache[cacheId];
 		}
 	}
 
-  #endregion
+	#endregion
 
-  #region Settings
+	/// <summary>
+	/// This method works as a substitute for Page_Load. You should use this method for
+	/// data binding etc. instead of Page_Load.
+	/// </summary>
+	public abstract void LoadWidget();
 
-  /// <summary>
-  /// Object types supported by data store
-  /// </summary>
-  public enum ObjectType
-  {
-    XmlDocument,
-    StringDictionary
-  }
-  /// <summary>
-  /// Gets settings object from data store
-  /// </summary>
-  /// <param name="type">Object Type</param>
-  /// <returns>Settings as object</returns>
-  public object GetSettings(ObjectType type)
-  {
-    string cacheId = "be_widget_" + type.ToString() + "_" + WidgetID;
-    if (Cache[cacheId] == null)
-    {
-      if (type == ObjectType.XmlDocument)
-      {
-        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
-        Cache[cacheId] = (XmlDocument)ws.GetSettings();
-      }
-      else if (type == ObjectType.StringDictionary)
-      {
-        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
-        Cache[cacheId] = (StringDictionary)ws.GetSettings();
-      }
-    }
-    return Cache[cacheId];
-  }
+	#region Settings
 
-  #endregion
+	/// <summary>
+	/// Object types supported by data store
+	/// </summary>
+	public enum ObjectType
+	{
+		XmlDocument,
+		StringDictionary
+	}
+	/// <summary>
+	/// Gets settings object from data store
+	/// </summary>
+	/// <param name="type">Object Type</param>
+	/// <returns>Settings as object</returns>
+	public object GetSettings(ObjectType type)
+	{
+		string cacheId = "be_widget_" + type.ToString() + "_" + WidgetID;
+		if (Cache[cacheId] == null)
+		{
+			if (type == ObjectType.XmlDocument)
+			{
+				WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
+				Cache[cacheId] = (XmlDocument)ws.GetSettings();
+			}
+			else if (type == ObjectType.StringDictionary)
+			{
+				WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+				Cache[cacheId] = (StringDictionary)ws.GetSettings();
+			}
+		}
+		return Cache[cacheId];
+	}
 
-  /// <summary>
-	/// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> object, which writes the content to be rendered on the client.
+	#endregion
+
+	/// <summary>
+	/// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> 
+	/// object, which writes the content to be rendered on the client.
 	/// </summary>
 	/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> object that receives the server control content.</param>
 	protected override void Render(HtmlTextWriter writer)
@@ -136,22 +145,23 @@ public class WidgetBase : UserControl
 		if (string.IsNullOrEmpty(Name))
 			throw new NullReferenceException("Name must be set on a widget");
 
-			StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
-			sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
+		sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
 
-			if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
-			{
-				sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
-					sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
-			}
+		if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+		{
+			sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
+			if (IsEditable)
+				sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
+		}
 
-			if (ShowTitle)
-				sb.Append("<h4>" + Title + "</h4>");
-			else
-				sb.Append("<br />");
+		if (ShowTitle)
+			sb.Append("<h4>" + Title + "</h4>");
+		else
+			sb.Append("<br />");
 
-			sb.Append("<div class=\"content\">");
+		sb.Append("<div class=\"content\">");
 
 		writer.Write(sb.ToString());
 		base.Render(writer);

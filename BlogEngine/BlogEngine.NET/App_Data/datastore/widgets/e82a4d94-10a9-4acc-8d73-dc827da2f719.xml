@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <links>
-  <link id="770a8d4f-bad0-4132-8c09-239a60a26867" title="Google" url="http://www.google.com" />
-  <link id="01c018cc-af70-4a52-b6c9-80c14335c2a9" title="Yahoo" url="http://www.yahoo.com" />
+  <link id="770a8d4f-bad0-4132-8c09-239a60a26867" title="Google" url="http://www.google.com" newwindow="True" />
+  <link id="01c018cc-af70-4a52-b6c9-80c14335c2a9" title="Yahoo" url="http://www.yahoo.com" newwindow="False" />
+  <link id="9c500faa-f214-4537-96e8-89330d368944" title="Mads" url="http://blog.madskristensen.dk" newwindow="True" />
 </links>

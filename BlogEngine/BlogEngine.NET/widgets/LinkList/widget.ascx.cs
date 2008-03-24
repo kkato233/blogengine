@@ -14,20 +14,7 @@ using BlogEngine.Core;
 
 public partial class widgets_LinkList_widget : WidgetBase
 {
-	/// <summary>
-	/// Handles the Load event of the Page control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		if (!Page.IsPostBack)
-			BindLinks();
-
-		base.Name = "LinkList";
-	}
-
-	private void BindLinks()
+	public override void LoadWidget()
 	{
     XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
 		XmlNodeList links = doc.SelectNodes("//link");
@@ -48,10 +35,24 @@ public partial class widgets_LinkList_widget : WidgetBase
 				if (node.Attributes["title"] != null)
 					a.InnerText = node.Attributes["title"].InnerText;
 
+				if (node.Attributes["newwindow"] != null && node.Attributes["newwindow"].InnerText.Equals("true", StringComparison.OrdinalIgnoreCase))
+					a.Target = "_blank";
+
 				HtmlGenericControl li = new HtmlGenericControl("li");
 				li.Controls.Add(a);
 				ulLinks.Controls.Add(li);
 			}
 		}
 	}
+
+	public override string Name
+	{
+		get { return "LinkList"; }
+	}
+
+	public override bool IsEditable
+	{
+		get { return true; }
+	}
+
 }

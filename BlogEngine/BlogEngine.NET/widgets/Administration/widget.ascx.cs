@@ -6,8 +6,19 @@ using System.Web.UI.HtmlControls;
 
 public partial class widgets_Administration_widget : WidgetBase
 {
-	protected void Page_Load(object sender, EventArgs e)
+
+	public override string Name
 	{
-		Name = "Administration";
+		get { return "Administration"; }
+	}
+
+	public override bool IsEditable
+	{
+		get { return false; }
+	}
+
+	public override void LoadWidget()
+	{
+		// Nothing to load.
 	}
 }

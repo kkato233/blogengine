@@ -54,6 +54,10 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 		url.InnerText = txtUrl.Text.Trim();
 		link.Attributes.Append(url);
 
+		XmlAttribute newwindow = doc.CreateAttribute("newwindow");
+		newwindow.InnerText = cbNewWindow.Checked.ToString();
+		link.Attributes.Append(newwindow);
+
 		links.AppendChild(link);
     SaveSettings(doc);
 		BindGrid();
@@ -106,12 +110,14 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 		string id = (string)grid.DataKeys[e.RowIndex].Value;
 		TextBox textboxTitle = (TextBox)grid.Rows[e.RowIndex].FindControl("txtTitle");
 		TextBox textboxUrl = (TextBox)grid.Rows[e.RowIndex].FindControl("txtUrl");
+		CheckBox checkboxNewWindow = (CheckBox)grid.Rows[e.RowIndex].FindControl("cbNewWindow");
 		XmlNode node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
 		
 		if (node != null)
 		{
 			node.Attributes["title"].InnerText = textboxTitle.Text;
 			node.Attributes["url"].InnerText = textboxUrl.Text;
+			node.Attributes["newwindow"].InnerText = checkboxNewWindow.Checked.ToString();
 			grid.EditIndex = -1;
       SaveSettings(doc);
 			BindGrid();
@@ -134,6 +140,6 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// </summary>
 	public override void Save()
 	{
-		//base.SaveXml();
+		
 	}
 }

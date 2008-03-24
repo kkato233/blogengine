@@ -11,8 +11,19 @@ using System.Web.UI.HtmlControls;
 
 public partial class widgets_Search_widget : WidgetBase
 {
-	protected void Page_Load(object sender, EventArgs e)
+
+	public override string Name
 	{
-		Name = "Search";
+		get { return "Search"; }
+	}
+
+	public override bool IsEditable
+	{
+		get { return true; }
+	}
+
+	public override void LoadWidget()
+	{
+		// Nothing to load
 	}
 }

@@ -83,7 +83,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 		WidgetEditBase.OnSaved();
 		Cache.Remove("widget_" + Request.QueryString["id"]);
 
-		string script = "top.location.href = top.location.href";
+		string script = "top.location.reload(false);";
 		Page.ClientScript.RegisterStartupScript(this.GetType(), "closeWindow", script, true);
 	}
 
@@ -119,9 +119,10 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	{
 		WidgetBase widget = (WidgetBase)LoadControl(Utils.RelativeWebRoot + "widgets/" + type + "/widget.ascx");
 		widget.WidgetID = Guid.NewGuid();
-		widget.Name = type;
-		widget.Title = "New widget";
-		widget.ShowTitle = cbShowTitle.Checked;
+		//widget.Name = type;
+		widget.Title = type;
+		widget.ShowTitle = true;
+		widget.LoadWidget();
 
 		SaveNewWidget(widget);
 

@@ -138,7 +138,7 @@ public abstract class WidgetEditBase : UserControl
       WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
       ws.SaveSettings(settings);
     }
-    else if (objType == "StringDictionary")
+    else if (objType.EndsWith("StringDictionary"))
     {
       WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
       ws.SaveSettings(settings);

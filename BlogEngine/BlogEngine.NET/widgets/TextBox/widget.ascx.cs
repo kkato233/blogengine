@@ -1,47 +1,51 @@
 #region Using
 
 using System;
-using System.Collections;
+using System.Collections.Specialized;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.Xml;
-using System.IO;
 using BlogEngine.Core;
 
 #endregion
 
 public partial class widgets_LinkList_widget : WidgetBase
 {
+
 	/// <summary>
-	/// Handles the Load event of the Page control.
+	/// This method works as a substitute for Page_Load. You should use this method for
+	/// data binding etc. instead of Page_Load.
 	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
+	public override void LoadWidget()
 	{
-		if (!Page.IsPostBack)
-			BindText();
-
-		base.Name = "TextBox";
-	}
-
-	private void BindText()
-	{
-		if (Cache["textbox_" + base.WidgetID] == null)
+		StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+		if (settings.ContainsKey("content"))
 		{
-			XmlNode node = base.Xml.SelectSingleNode("content");
-			string content = "<content></content>";
-			if (node != null)
-			{
-				content = node.InnerText.Replace("[root]", Utils.RelativeWebRoot);				
-			}
-
-			Cache["textbox_" + base.WidgetID] = content;
+			LiteralControl text = new LiteralControl(settings["content"]);
+			this.Controls.Add(text);
 		}
-
-		LiteralControl text = new LiteralControl((string)Cache["textbox_" + base.WidgetID]);
-		this.Controls.Add(text);
 	}
+
+	/// <summary>
+	/// Gets the name. It must be exactly the same as the folder that contains the widget.
+	/// </summary>
+	/// <value></value>
+	public override string Name
+	{
+		get { return "TextBox"; }
+	}
+
+	/// <summary>
+	/// Gets wether or not the widget can be edited.
+	/// <remarks>
+	/// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+	/// </remarks>
+	/// </summary>
+	/// <value></value>
+	public override bool IsEditable
+	{
+		get { return true; }
+	}
+
 }
