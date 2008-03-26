@@ -7,6 +7,8 @@ namespace BlogEngine.Core.Web
     /// </summary>
     public class AuthorProfile : ProfileBase
     {
+
+
         /// <summary>
         /// 
         /// </summary>
