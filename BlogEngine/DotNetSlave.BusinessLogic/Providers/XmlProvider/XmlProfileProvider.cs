@@ -19,7 +19,7 @@ namespace BlogEngine.Core.Providers
     {
         #region Properties
 
-        private string _AppName;
+        private readonly string _AppName = "BlogEngine.Net";
 
         private string _ProfileFolder = BlogSettings.Instance.StorageLocation;
 
@@ -27,15 +27,11 @@ namespace BlogEngine.Core.Providers
         {
             get
             {
-                //return _AppName;
-                return "BlogEngine.Net";
+                return _AppName;
             }
             set
             {
-                //if (value.Length > 256)
-                //    throw new ProviderException("ApplicationName too long - cannot exceed 256 characters in length");
-
-                //_AppName = value;
+                //
             }
         }
 
@@ -95,7 +91,7 @@ namespace BlogEngine.Core.Providers
                     // Indicate that provider-specific serialized properties should be
                     // serialized as strings for primitive types and as XML for non-primitive types
                     if (property.SerializeAs == SettingsSerializeAs.ProviderSpecific)
-                        if (property.PropertyType.IsPrimitive || property.PropertyType == typeof (String))
+                        if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(String))
                             property.SerializeAs = SettingsSerializeAs.String;
                         else
                             property.SerializeAs = SettingsSerializeAs.Xml;
@@ -122,7 +118,7 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
-        /// Searches the <see cref="ProfileFile"/> file for a &lt;user&gt; section with a matching username
+        /// Searches the users profile file for a &lt;user&gt; section with a matching username
         /// and returns this content as a string dictionary.
         /// </summary>
         /// <param name="username">The username to search for.</param>
@@ -130,34 +126,52 @@ namespace BlogEngine.Core.Providers
         /// <b>null</b> is returned.</returns>
         protected virtual Dictionary<string, object> GetUserProfile(string username)
         {
+            Dictionary<string, object> propertyValues = new Dictionary<string, object>();
             // Open the XML file            
             if (!File.Exists(GetProfileFilePath(username)))
-                return null; // file doesn't exist!
-            else
+                CreateInitialProfile(username);
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(GetProfileFilePath(username));
+            XmlNode rootNode = xmlDoc.DocumentElement;
+
+            foreach (XmlNode xmlProperty in rootNode.ChildNodes)
             {
-                Dictionary<string, object> propertyValues = new Dictionary<string, object>();
-
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(GetProfileFilePath(username));
-                XmlNode rootNode = xmlDoc.DocumentElement;
-
-                foreach (XmlNode xmlProperty in rootNode.ChildNodes)
-                {
-                    if (xmlProperty.InnerXml.StartsWith("<![CDATA"))
-                        propertyValues.Add(xmlProperty.Name, Convert.FromBase64String(xmlProperty.InnerText));
-                    else
-                        propertyValues.Add(xmlProperty.Name, xmlProperty.InnerXml);
-                }
-
-                return propertyValues;
+                if (xmlProperty.InnerXml.StartsWith("<![CDATA"))
+                    propertyValues.Add(xmlProperty.Name, Convert.FromBase64String(xmlProperty.InnerText));
+                else
+                    propertyValues.Add(xmlProperty.Name, xmlProperty.InnerXml);
             }
+
+            return propertyValues;
+        }
+
+        private void CreateInitialProfile(string username)
+        {
+            string profileFilePath = Path.Combine(HttpContext.Current.Server.MapPath(ProfileFolder),
+                            string.Format(@"{0}\{1}.xml", "profiles", username));
+            using (StreamWriter sw = new StreamWriter(profileFilePath, false))
+            {
+                using (XmlTextWriter writer = new XmlTextWriter(sw))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("profileData");
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+
+                    writer.Close();
+                }
+                sw.Close();
+            }
+
         }
 
 
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
         {
             string username = context["UserName"] as string;
-            bool userIsAuthenticated = (bool) context["IsAuthenticated"];
+            bool userIsAuthenticated = (bool)context["IsAuthenticated"];
 
             // If no username is specified, or if no properties are to be saved, exit
             if (string.IsNullOrEmpty(username) || collection.Count == 0)
@@ -183,7 +197,7 @@ namespace BlogEngine.Core.Providers
                     foreach (SettingsPropertyValue setting in collection)
                     {
                         // If the user is not authenticated and the property does not allow anonymous access, skip serializing it
-                        if (!userIsAuthenticated && !(bool) setting.Property.Attributes["AllowAnonymous"])
+                        if (!userIsAuthenticated && !(bool)setting.Property.Attributes["AllowAnonymous"])
                             continue;
 
                         // Skip the current property if it's not dirty and is currently assigned its default value
@@ -229,9 +243,8 @@ namespace BlogEngine.Core.Providers
 
         protected virtual string GetProfileFilePath(string username)
         {
-            return
-                Path.Combine(HttpContext.Current.Server.MapPath(ProfileFolder),
-                             string.Format(@"{0}\{1}.xml", ApplicationName, username));
+            return Path.Combine(HttpContext.Current.Server.MapPath(ProfileFolder),
+                             string.Format(@"{0}\{1}.xml", "profiles", username));
         }
 
         protected virtual bool ExistsDirtyProperty(SettingsPropertyValueCollection collection)

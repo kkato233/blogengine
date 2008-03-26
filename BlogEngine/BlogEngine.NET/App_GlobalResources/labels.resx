@@ -673,4 +673,7 @@
   <data name="saveProfile" xml:space="preserve">
     <value>Save Profile</value>
   </data>
+  <data name="switchUserProfile" xml:space="preserve">
+    <value>Swith to user profile</value>
+  </data>
 </root>

@@ -10,8 +10,8 @@
         <asp:Panel ID="pnlAdmin" runat="server" Visible='<%# User.IsInRole("Administrator") %>'>
             <asp:DropDownList ID="ddlUserList" runat="server">
             </asp:DropDownList>
-            <asp:LinkButton ID="lbChangeUserProfile" runat="server" Text='<%# Resources.labels.view %>'
-                OnClick="lbChangeUserProfile_Click"></asp:LinkButton>
+            <asp:LinkButton ID="lbChangeUserProfile" runat="server" 
+                OnClick="lbChangeUserProfile_Click"><%= Resources.labels.switchUserProfile %></asp:LinkButton>
         </asp:Panel>
         <br />
     </div>
@@ -39,10 +39,10 @@
     <asp:TextBox ID="tbCountry" runat="server"></asp:TextBox><br />          
     
     <label for="<%=tbInterests.ClientID %>"><%=Resources.labels.interests %></label>
-    <asp:TextBox ID="tbInterests" runat="server" TextMode="multiLine" Rows="5" Columns="100"></asp:TextBox><br /> 
+    <asp:TextBox ID="tbInterests" runat="server" TextMode="multiLine" Rows="5" Columns="50"></asp:TextBox><br /> 
     
     <label for="<%=tbAboutMe.ClientID %>"><%=Resources.labels.aboutMe %></label>
-    <asp:TextBox ID="tbAboutMe" runat="server" TextMode="multiLine" Rows="5" Columns="100"></asp:TextBox><br />       
+    <asp:TextBox ID="tbAboutMe" runat="server" TextMode="multiLine" Rows="5" Columns="50"></asp:TextBox><br />       
     
         <p>
             <asp:LinkButton ID="lbSaveProfile" runat="server" OnClick="lbSaveProfile_Click"><%=Resources.labels.saveProfile %></asp:LinkButton>
