@@ -31,6 +31,12 @@ public partial class admin_profiles : System.Web.UI.Page
         ProfileCommon pc = new ProfileCommon().GetProfile(name);
         tbFirstName.Text = pc.FirstName;
         tbLastName.Text = pc.LastName;
+        cbIsPublic.Checked = pc.IsPrivate;
+        tbRegionState.Text = pc.RegionState;
+        tbCityTown.Text = pc.CityTown;
+        tbCountry.Text = pc.Country;
+        tbAboutMe.Text = pc.AboutMe;
+        tbInterests.Text = pc.Interests;
     }
 
     private void SetDDLUser()
@@ -48,7 +54,13 @@ public partial class admin_profiles : System.Web.UI.Page
         string userProfileToSave = User.IsInRole("Administrator") ? ddlUserList.SelectedValue : User.Identity.Name;
         ProfileCommon pc = new ProfileCommon().GetProfile(userProfileToSave);
         pc.FirstName = tbFirstName.Text;
-        pc.LastName = tbLastName.Text ;
+        pc.LastName = tbLastName.Text;
+        pc.IsPrivate = cbIsPublic.Checked;
+        pc.RegionState = tbRegionState.Text;
+        pc.CityTown = tbCityTown.Text;
+        pc.Country = tbCountry.Text;
+        pc.AboutMe = tbAboutMe.Text;
+        pc.Interests = tbInterests.Text;
         pc.Save();
     }
 
