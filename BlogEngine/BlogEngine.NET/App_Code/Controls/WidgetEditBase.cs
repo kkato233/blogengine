@@ -59,22 +59,22 @@ public abstract class WidgetEditBase : UserControl
 	/// Gets the XML used for storing settings for the individual widgets.
 	/// </summary>
 	/// <value>The XML document.</value>
-	public XmlDocument Xml
-	{
-		get 
-		{
-      string cacheId = "be_widget_" + WidgetID;
-      XmlDocument xml = new XmlDocument();
-      if (Cache[cacheId] == null)
-      {
-        WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-        xml = (XmlDocument)ws.GetSettings();
+	//public XmlDocument Xml
+	//{
+	//  get 
+	//  {
+	//    string cacheId = "be_widget_" + WidgetID;
+	//    XmlDocument xml = new XmlDocument();
+	//    if (Cache[cacheId] == null)
+	//    {
+	//      WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+	//      xml = (XmlDocument)ws.GetSettings();
 
-        HttpContext.Current.Cache[cacheId] = xml;
-      }
-      return (XmlDocument)Cache[cacheId];
-		}
-	}
+	//      HttpContext.Current.Cache[cacheId] = xml;
+	//    }
+	//    return (XmlDocument)Cache[cacheId];
+	//  }
+	//}
 
 	#endregion
 
@@ -83,11 +83,11 @@ public abstract class WidgetEditBase : UserControl
 	/// </summary>
 	public abstract void Save();
 
-	protected virtual void SaveXml()
-	{
-    WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-    ws.SaveSettings(Xml);
-  }
+	//protected virtual void SaveXml()
+	//{
+	//  WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+	//  ws.SaveSettings(Xml);
+	//}
 
   #region Settings
 
