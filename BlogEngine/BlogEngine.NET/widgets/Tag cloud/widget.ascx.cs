@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.Xml;
-using System.IO;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using BlogEngine.Core;
 
@@ -52,10 +51,10 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 	{
 		get 
 		{
-			XmlNode node = Xml.SelectSingleNode("//minimumPosts");
-			if (node != null)
+			StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+			if (settings.ContainsKey("minimumposts"))
 			{
-				int.TryParse(node.InnerText, out _MinimumPosts);
+				int.TryParse(settings["minimumposts"], out _MinimumPosts);
 			}
 
 			return _MinimumPosts; 		
@@ -138,11 +137,22 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 	}
 
 
+	/// <summary>
+	/// Gets the name. It must be exactly the same as the folder that contains the widget.
+	/// </summary>
+	/// <value></value>
 	public override string Name
 	{
 		get { return "Tag cloud"; }
 	}
 
+	/// <summary>
+	/// Gets wether or not the widget can be edited.
+	/// <remarks>
+	/// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+	/// </remarks>
+	/// </summary>
+	/// <value></value>
 	public override bool IsEditable
 	{
 		get { return true; }

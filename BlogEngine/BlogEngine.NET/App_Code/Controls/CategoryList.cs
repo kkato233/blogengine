@@ -43,6 +43,22 @@ namespace Controls
 			}
 		}
 
+		private bool _ShowPostCount;
+
+		public bool ShowPostCount
+		{
+			get { return _ShowPostCount; }
+			set
+			{
+				if (_ShowPostCount!= value)
+				{
+					_ShowPostCount = value;
+					_Html = null;
+				}
+			}
+		}
+
+
 		private static object _SyncRoot = new object();
 		private static string _Html;
 		private string Html
@@ -106,9 +122,13 @@ namespace Controls
 					return p.IsVisible;
 				}).Count;
 
+				string postCount = " (" + posts + ")";
+				if (!ShowPostCount)
+					postCount = null;
+
 				HtmlAnchor anc = new HtmlAnchor();
 				anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
-				anc.InnerHtml = HttpUtility.HtmlEncode(key) + " (" + posts + ")";
+				anc.InnerHtml = HttpUtility.HtmlEncode(key) + postCount;
 				anc.Title = "Category: " + key;
 
 				li.Controls.Add(anc);

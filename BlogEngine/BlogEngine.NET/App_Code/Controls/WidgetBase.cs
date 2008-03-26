@@ -70,26 +70,26 @@ public abstract class WidgetBase : UserControl
 		set { _WidgetID = value; }
 	}
 
-	/// <summary>
-	/// Gets the XML used for storing settings for the individual widgets.
-	/// </summary>
-	/// <value>The XML document.</value>
-	public XmlDocument Xml
-	{
-		get
-		{
-			string cacheId = "be_widget_" + WidgetID;
-			XmlDocument xml = new XmlDocument();
-			if (Cache[cacheId] == null)
-			{
-				WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-				xml = (XmlDocument)ws.GetSettings();
+	///// <summary>
+	///// Gets the XML used for storing settings for the individual widgets.
+	///// </summary>
+	///// <value>The XML document.</value>
+	//public XmlDocument Xml
+	//{
+	//  get
+	//  {
+	//    string cacheId = "be_widget_" + WidgetID;
+	//    XmlDocument xml = new XmlDocument();
+	//    if (Cache[cacheId] == null)
+	//    {
+	//      WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
+	//      xml = (XmlDocument)ws.GetSettings();
 
-				HttpContext.Current.Cache[cacheId] = xml;
-			}
-			return (XmlDocument)Cache[cacheId];
-		}
-	}
+	//      HttpContext.Current.Cache[cacheId] = xml;
+	//    }
+	//    return (XmlDocument)Cache[cacheId];
+	//  }
+	//}
 
 	#endregion
 

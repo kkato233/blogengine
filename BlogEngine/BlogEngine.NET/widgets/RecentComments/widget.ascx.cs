@@ -135,6 +135,9 @@ public partial class widgets_RecentComments_widget : WidgetBase
 		StringWriter sw = new StringWriter();
 		ul.RenderControl(new HtmlTextWriter(sw));
 
+		string ahref = "<a href=\"{0}syndication.axd?comments=true\">Comment RSS <img src=\"{0}pics/rssButton.gif\" alt=\"\" /></a>";
+		string rss = string.Format(ahref, Utils.RelativeWebRoot);
+		sw.Write(rss);
 		HttpRuntime.Cache.Insert("widget_recentcomments", sw.ToString());
 	}
 
