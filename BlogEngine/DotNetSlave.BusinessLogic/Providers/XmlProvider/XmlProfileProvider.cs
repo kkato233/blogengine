@@ -1,147 +1,48 @@
-#region Using
-
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
+using System.Configuration.Provider;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using System.Web.Profile;
 using System.Xml;
-using System.Collections.Specialized;
-using System.Collections.Generic;
-using System.Configuration.Provider;
-using System.Text.RegularExpressions;
-
-#endregion
 
 namespace BlogEngine.Core.Providers
-{       
-    /// <summary>
-    /// XML implementation of the ASP.NET ProfileProvider.
-    /// </summary>
-    public class XmlProfileProvider : ProfileProvider
+{
+    // Many bits of code and the overall concept were taken from:
+    //  Profile Providers
+    //  http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspp/html/aspnetprovmod_prt5.asp
+    //
+    internal class XmlProfileProvider : ProfileProvider
     {
         #region Properties
 
-        private XmlDocument _ProfilesXml;
+        private string _AppName;
 
-        protected virtual XmlDocument ProfilesXml
-        {
-            get
-            {
-                if (this._ProfilesXml == null)
-                    this._ProfilesXml = GetProfilesXmlDocument();
-
-                return _ProfilesXml;
-            }
-        }
+        private string _ProfileFolder = BlogSettings.Instance.StorageLocation;
 
         public override string ApplicationName
         {
-            get { return "BlogEngine.NET"; }
-            set { }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual string XmlFilePath
-        {
             get
             {
-                //return HttpContext.Current.Server.MapPath("~/App_Data/profiles.xml");
-                return HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation + "profiles.xml");
-                
+                //return _AppName;
+                return "BlogEngine.Net";
             }
-        }
-
-        #endregion 
-
-        #region Helper Methods
-
-        protected virtual XmlDocument GetProfilesXmlDocument()
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(XmlFilePath);
-
-            return doc;
-        }
-
-        protected virtual bool HasDirtyProperty(SettingsPropertyValueCollection collection)
-        {
-            foreach (SettingsPropertyValue setting in collection)
+            set
             {
-                if (setting.IsDirty)
-                    return true;
-            }
+                //if (value.Length > 256)
+                //    throw new ProviderException("ApplicationName too long - cannot exceed 256 characters in length");
 
-            // None are dirty
-            return false;
-        }
-
-        /// <summary>
-        /// Searches the <see cref="ProfileFile"/> file for a &lt;user&gt; section with a matching username
-        /// and returns this content as a string dictionary.
-        /// </summary>
-        /// <param name="username">The username to search for.</param>
-        /// <returns>A string dictionary object representing the user's settings. If the supplied username is not found,
-        /// <b>null</b> is returned.</returns>
-        protected virtual Dictionary<string, object> GetUserProfile(string username)
-        {
-            XmlNode profileXml = GetProfileXmlNode(username.ToLowerInvariant());
-
-            if (profileXml == null)
-                return null;        // No profile for the specified username
-            else
-            {
-                Dictionary<string, object> propertyValues = new Dictionary<string, object>();
-
-                foreach (XmlNode xmlProperty in profileXml.ChildNodes)
-                {
-                    if (xmlProperty.InnerXml.StartsWith("<![CDATA"))
-                        propertyValues.Add(xmlProperty.Name, Convert.FromBase64String(xmlProperty.InnerText));
-                    else
-                        propertyValues.Add(xmlProperty.Name, xmlProperty.InnerXml);
-                }
-
-                return propertyValues;
+                //_AppName = value;
             }
         }
 
-        protected virtual XmlNode CreateUserProfile(string username, DateTime lastUpdatedTime)
+        public string ProfileFolder
         {
-            XmlNode node = ProfilesXml.CreateNode(XmlNodeType.Element, "profile", "");
-            XmlAttribute usernameAttribute = ProfilesXml.CreateAttribute("userName");
-            XmlAttribute lastUpdatedTimeAttribute = ProfilesXml.CreateAttribute("lastUpdatedTime");
-
-            usernameAttribute.Value = username.ToLowerInvariant();
-            lastUpdatedTimeAttribute.Value = lastUpdatedTime.ToString();
-
-            node.Attributes.Append(usernameAttribute);
-            node.Attributes.Append(lastUpdatedTimeAttribute);
-
-            return node;
-        }
-
-        protected virtual XmlNode GetProfileXmlNode(string username)
-        {
-            XmlNode profile = ProfilesXml.SelectSingleNode("/profiles/profile[@userName=\"" + username.ToLowerInvariant() + "\"]");
-
-            return profile;
-        }
-
-        protected virtual void SaveNode(XmlNode node)
-        {
-            // TODO: Check if node already exists. If so, Replace. Else Add.
-        }
-
-        protected virtual void Save()
-        {
-            ProfilesXml.Save(XmlFilePath);
+            get { return _ProfileFolder; }
+            set { _ProfileFolder = value; }
         }
 
         #endregion
@@ -152,18 +53,17 @@ namespace BlogEngine.Core.Providers
         {
             base.Initialize(name, config);
 
-            //ApplicationName = config["applicationName"];
+            ApplicationName = config["applicationName"];
+            if (!string.IsNullOrEmpty(config["profileFolder"]))
+                ProfileFolder = config["profileFolder"];
 
-            // TODO: Replace with profilePath
-            //if (!string.IsNullOrEmpty(config["profileFolder"]))
-            //  ProfileFolder = config["profileFolder"];
-
-            //if (string.IsNullOrEmpty(ApplicationName))
-            //    throw new ProviderException("You _must_ provide the 'applicationName' setting when using the XmlProfileProvider");
+            if (string.IsNullOrEmpty(ApplicationName))
+                throw new ProviderException(
+                    "You _must_ provide the 'applicationName' setting when using the XmlProfileProvider");
 
             // Make sure that there are no unknown settings
-            //config.Remove("applicationName");
-            //config.Remove("profileFolder");
+            config.Remove("applicationName");
+            config.Remove("profileFolder");
 
             if (config.Count > 0)
                 throw new ProviderException("Unrecognized attribute: " + config.GetKey(0));
@@ -171,67 +71,10 @@ namespace BlogEngine.Core.Providers
 
         #endregion
 
-        public override int DeleteInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
-        {
-            int totalRecords = 0;
-            ProfileInfoCollection inactiveProfiles = GetAllInactiveProfiles(authenticationOption, userInactiveSinceDate, 1, Int32.MaxValue, out totalRecords);
+        #region Get and Set Properties Methods
 
-            return DeleteProfiles(inactiveProfiles);
-        }
-
-        public override int DeleteProfiles(string[] usernames)
-        {
-            int deletedProfilesCount = 0;
-
-            foreach (string username in usernames)
-            {
-                bool wasProfileDeleted = DeleteProfileByUserName(username);
-
-                if (wasProfileDeleted)
-                    deletedProfilesCount++;
-            }
-
-            return deletedProfilesCount;
-        }
-
-        public override int DeleteProfiles(ProfileInfoCollection profiles)
-        {
-            string[] usernames = new string[profiles.Count];
-
-            int i = 0;
-            foreach (ProfileInfo profile in profiles)
-            {
-                usernames[i] = profile.UserName;
-                i++;
-            }
-
-            return DeleteProfiles(usernames);
-        }
-
-        private bool DeleteProfileByUserName(string username)
-        {
-            XmlNode profile = GetProfileXmlNode(username);
-
-            if (profile != null)
-            {
-                ProfilesXml.DocumentElement.RemoveChild(profile);
-                Save();
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public override int GetNumberOfInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
-        {
-            int totalRecords = 0;
-            ProfileInfoCollection profiles = GetAllInactiveProfiles(authenticationOption, userInactiveSinceDate, 1, Int32.MaxValue, out totalRecords);
-
-            return totalRecords;
-        }
-
-        public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection collection)
+        public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context,
+                                                                          SettingsPropertyCollection collection)
         {
             SettingsPropertyValueCollection settings = new SettingsPropertyValueCollection();
 
@@ -241,17 +84,18 @@ namespace BlogEngine.Core.Providers
             {
                 // Make sure username doesn't contain .. in the username (like '../SomeOtherUser/')
                 if (username.IndexOf("..") >= 0)
-                    throw new ProviderException("Cannot access profile data for users with a username that contains '..'");
+                    throw new ProviderException(
+                        "Cannot access profile data for users with a username that contains '..'");
 
                 // Get the profile values for the user
-                Dictionary<string, object> usersProperties = GetUserProfile(username.ToLowerInvariant());
+                Dictionary<string, object> usersProperties = GetUserProfile(username);
 
                 foreach (SettingsProperty property in collection)
                 {
                     // Indicate that provider-specific serialized properties should be
                     // serialized as strings for primitive types and as XML for non-primitive types
                     if (property.SerializeAs == SettingsSerializeAs.ProviderSpecific)
-                        if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(String))
+                        if (property.PropertyType.IsPrimitive || property.PropertyType == typeof (String))
                             property.SerializeAs = SettingsSerializeAs.String;
                         else
                             property.SerializeAs = SettingsSerializeAs.Xml;
@@ -270,92 +114,189 @@ namespace BlogEngine.Core.Providers
                         }
                     }
 
-                    settings.Add(setting);      // Add the settings value to the collection
+                    settings.Add(setting); // Add the settings value to the collection
                 }
-
             }
 
-            return settings;    // Return the settings collection
+            return settings; // Return the settings collection
         }
+
+        /// <summary>
+        /// Searches the <see cref="ProfileFile"/> file for a &lt;user&gt; section with a matching username
+        /// and returns this content as a string dictionary.
+        /// </summary>
+        /// <param name="username">The username to search for.</param>
+        /// <returns>A string dictionary object representing the user's settings. If the supplied username is not found,
+        /// <b>null</b> is returned.</returns>
+        protected virtual Dictionary<string, object> GetUserProfile(string username)
+        {
+            // Open the XML file            
+            if (!File.Exists(GetProfileFilePath(username)))
+                return null; // file doesn't exist!
+            else
+            {
+                Dictionary<string, object> propertyValues = new Dictionary<string, object>();
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(GetProfileFilePath(username));
+                XmlNode rootNode = xmlDoc.DocumentElement;
+
+                foreach (XmlNode xmlProperty in rootNode.ChildNodes)
+                {
+                    if (xmlProperty.InnerXml.StartsWith("<![CDATA"))
+                        propertyValues.Add(xmlProperty.Name, Convert.FromBase64String(xmlProperty.InnerText));
+                    else
+                        propertyValues.Add(xmlProperty.Name, xmlProperty.InnerXml);
+                }
+
+                return propertyValues;
+            }
+        }
+
 
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
         {
             string username = context["UserName"] as string;
-            bool userIsAuthenticated = (bool)context["IsAuthenticated"];
+            bool userIsAuthenticated = (bool) context["IsAuthenticated"];
 
             // If no username is specified, or if no properties are to be saved, exit
             if (string.IsNullOrEmpty(username) || collection.Count == 0)
                 return;
 
             // If ALL properties are non-dirty, then exit
-            if (!HasDirtyProperty(collection))
+            if (!ExistsDirtyProperty(collection))
                 return;
 
-            XmlNode newProfile = CreateUserProfile(username.ToLowerInvariant(), DateTime.Now);
-
-            foreach (SettingsPropertyValue setting in collection)
+            // Otherwise, save the entire set of data, regardless of IsDirty.
+            // That is, rather than trying to piecemeal together the changes into an existing XML file,
+            // we're going to blow away the XML file (if it already exists) and just build it up based on the
+            // values passed in...
+            using (StreamWriter sw = new StreamWriter(GetProfileFilePath(username), false))
             {
-                // If the user is not authenticated and the property does not allow anonymous access, skip serializing it
-                if (!userIsAuthenticated && !(bool)setting.Property.Attributes["AllowAnonymous"])
-                    continue;
-
-                // Skip the current property if it's not dirty and is currently assigned its default value
-                if (!setting.IsDirty && setting.UsingDefaultValue)
-                    continue;
-
-                XmlNode propertyNode = ProfilesXml.CreateNode(XmlNodeType.Element, setting.Name, String.Empty);
-
-                // Serialize data based on property's SerializeAs type
-                if (setting.Property.SerializeAs == SettingsSerializeAs.String)
-                    propertyNode.InnerText = Convert.ToString(setting.SerializedValue);
-                else if (setting.Property.SerializeAs == SettingsSerializeAs.Xml)
+                using (XmlTextWriter writer = new XmlTextWriter(sw))
                 {
-                    // strip out the <?xml ... ?> portion from the serialized string
-                    string xmlData = setting.SerializedValue as string;
-                    xmlData = Regex.Replace(xmlData, @"^<\?xml .*?\?>", string.Empty);
+                    writer.Formatting = Formatting.Indented;
 
-                    propertyNode.InnerText = string.Format("<{0}>{1}</{0}>", setting.Name, xmlData);
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("profileData");
+
+                    foreach (SettingsPropertyValue setting in collection)
+                    {
+                        // If the user is not authenticated and the property does not allow anonymous access, skip serializing it
+                        if (!userIsAuthenticated && !(bool) setting.Property.Attributes["AllowAnonymous"])
+                            continue;
+
+                        // Skip the current property if it's not dirty and is currently assigned its default value
+                        if (!setting.IsDirty && setting.UsingDefaultValue)
+                            continue;
+
+                        // Serialize data based on property's SerializeAs type
+                        if (setting.Property.SerializeAs == SettingsSerializeAs.String)
+                            writer.WriteElementString(setting.Name, Convert.ToString(setting.SerializedValue));
+                        else if (setting.Property.SerializeAs == SettingsSerializeAs.Xml)
+                        {
+                            // strip out the <?xml ... ?> portion from the serialized string
+                            string xmlData = setting.SerializedValue as string;
+                            xmlData = Regex.Replace(xmlData, @"^<\?xml .*?\?>", string.Empty);
+
+                            writer.WriteRaw(string.Format("<{0}>{1}</{0}>", setting.Name, xmlData));
+                        }
+                        else if (setting.Property.SerializeAs == SettingsSerializeAs.Binary)
+                        {
+                            // encode the binary data using base64 encoding
+                            string encodedBinaryData = Convert.ToBase64String(setting.SerializedValue as byte[]);
+                            writer.WriteStartElement(setting.Name);
+                            writer.WriteCData(encodedBinaryData);
+                            writer.WriteEndElement();
+                        }
+                        else
+                            // unknown serialize type!
+                            throw new ProviderException(
+                                string.Format(
+                                    "Invalid value for SerializeAs; expected String, Xml, or Binary, received {0}",
+                                    Enum.GetName(setting.Property.SerializeAs.GetType(), setting.Property.SerializeAs)));
+                    }
+
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+
+                    writer.Close();
                 }
-                else if (setting.Property.SerializeAs == SettingsSerializeAs.Binary)
-                {
-                    // encode the binary data using base64 encoding
-                    string encodedBinaryData = Convert.ToBase64String(setting.SerializedValue as byte[]);
 
-                    propertyNode.InnerText = encodedBinaryData;
-                }
-                else
-                    // unknown serialize type!
-                    throw new ProviderException(string.Format("Invalid value for SerializeAs; expected String, Xml, or Binary, received {0}", System.Enum.GetName(setting.Property.SerializeAs.GetType(), setting.Property.SerializeAs)));
-
-                newProfile.AppendChild(propertyNode);
+                sw.Close();
             }
-            Save();
         }
-        
+
+        protected virtual string GetProfileFilePath(string username)
+        {
+            return
+                Path.Combine(HttpContext.Current.Server.MapPath(ProfileFolder),
+                             string.Format(@"{0}\{1}.xml", ApplicationName, username));
+        }
+
+        protected virtual bool ExistsDirtyProperty(SettingsPropertyValueCollection collection)
+        {
+            foreach (SettingsPropertyValue setting in collection)
+                if (setting.IsDirty)
+                    return true;
+
+            // If we reach here, none are dirty
+            return false;
+        }
+
+        #endregion
+
         #region Not Implemented
 
-        public override ProfileInfoCollection FindInactiveProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
+        public override int DeleteInactiveProfiles(ProfileAuthenticationOption authenticationOption,
+                                                   DateTime userInactiveSinceDate)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override ProfileInfoCollection FindProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
+        public override int DeleteProfiles(string[] usernames)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override ProfileInfoCollection GetAllInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
+        public override int DeleteProfiles(ProfileInfoCollection profiles)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
-        public override ProfileInfoCollection GetAllProfiles(ProfileAuthenticationOption authenticationOption, int pageIndex, int pageSize, out int totalRecords)
+        public override ProfileInfoCollection FindInactiveProfilesByUserName(
+            ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate,
+            int pageIndex, int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override ProfileInfoCollection FindProfilesByUserName(ProfileAuthenticationOption authenticationOption,
+                                                                     string usernameToMatch, int pageIndex, int pageSize,
+                                                                     out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override ProfileInfoCollection GetAllInactiveProfiles(ProfileAuthenticationOption authenticationOption,
+                                                                     DateTime userInactiveSinceDate, int pageIndex,
+                                                                     int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override ProfileInfoCollection GetAllProfiles(ProfileAuthenticationOption authenticationOption,
+                                                             int pageIndex, int pageSize, out int totalRecords)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override int GetNumberOfInactiveProfiles(ProfileAuthenticationOption authenticationOption,
+                                                        DateTime userInactiveSinceDate)
         {
             throw new Exception("The method or operation is not implemented.");
         }
 
         #endregion
-
-
-    } 
+    }
 }
