@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Xml;
+using System.Net;
 using BlogEngine.Core;
 
 #endregion
@@ -52,7 +53,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			if (string.IsNullOrEmpty(context.Request.QueryString["post"]))
 			{
 				// Shorten the list to the number of posts stated in the settings, except for the comment feed.
-				int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);				
+				int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
 				list = list.FindAll(delegate(IPublishable item)
 				{
 					return item.IsVisible == true;
@@ -63,7 +64,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			SetHeaderInformation(context, list, format);
 			SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
-			generator.WriteFeed(format, context.Response.OutputStream, list, title);			
+			generator.WriteFeed(format, context.Response.OutputStream, list, title);
 		}
 
 		#endregion
@@ -108,6 +109,34 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				return Search.Hits(context.Request.QueryString["q"], false);
 			}
 
+			if (!string.IsNullOrEmpty(context.Request.QueryString["apml"]))
+			{
+				// Finds matches to  an APML file in both posts and pages
+				try
+				{
+					using (WebClient client = new WebClient())
+					{
+						client.Credentials = CredentialCache.DefaultNetworkCredentials;
+						client.Encoding = Encoding.Default;
+						using (System.IO.Stream stream = client.OpenRead(context.Request.QueryString["apml"]))
+						{
+							XmlDocument doc = new XmlDocument();
+							doc.Load(stream);
+							List<IPublishable> list = Search.ApmlMatches(doc, 100);
+							list.Sort(delegate(IPublishable i1, IPublishable i2) { return i2.DateCreated.CompareTo(i1.DateCreated); });
+							return list;
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					context.Response.Clear();
+					context.Response.Write(ex.Message);
+					context.Response.ContentType = "text/plain";
+					context.Response.AppendHeader("Content-Disposition", "inline; filename=\"error.txt\"");
+					context.Response.End();
+				}
+			}
 
 			// The latest posts
 			return Post.Posts.ConvertAll(new Converter<Post, IPublishable>(ConvertToIPublishable));
@@ -187,7 +216,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			string title = BlogSettings.Instance.Name;
 			string subTitle = null;
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["category"]) )
+			if (!string.IsNullOrEmpty(context.Request.QueryString["category"]))
 			{
 				if (context.Request.QueryString["category"].Length != 36)
 					StopServing(context);
@@ -264,66 +293,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			}
 
 			Utils.SetConditionalGetHeaders(lastModified);
-			return;
 
-			//DateTime lastModified = DateTime.Now;
-			//bool notModified = false;
-			//string eTag = context.Request.Headers["If-None-Match"];
-			//string ifModifiedSince = context.Request.Headers["if-modified-since"];
-
-			//if (items.Count > 0)
-			//{
-			//  lastModified = (items[0].DateModified > items[0].DateCreated ? items[0].DateModified : items[0].DateCreated);
-			//}
-
-			//if (!String.IsNullOrEmpty(eTag))
-			//{
-			//  notModified = eTag.Equals(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
-			//}
-			//else
-			//{
-			//  if (!String.IsNullOrEmpty(ifModifiedSince))
-			//  {
-			//    // ifModifiedSince can have a length param in there
-			//    // If-Modified-Since: Wed, 29 Dec 2004 18:34:27 GMT; length=126275
-			//    if (ifModifiedSince.IndexOf(";") > -1)
-			//    {
-			//      ifModifiedSince = ifModifiedSince.Split(';').GetValue(0).ToString();
-			//    }
-
-			//    DateTime ifModifiedDate;
-			//    if (DateTime.TryParse(ifModifiedSince, out ifModifiedDate))
-			//    {
-			//      notModified = (lastModified <= ifModifiedDate);
-			//    }
-			//  }
-			//}
-
-			//if (notModified)
-			//{
-			//  context.Response.StatusCode = 304;
-			//  context.Response.SuppressContent = true;
-			//  context.Response.End();
-			//}
-			//else
-			//{
-			//  context.Response.Cache.SetCacheability(HttpCacheability.Public);
-			//  context.Response.Cache.SetLastModified(DateTime.Now);
-			//  context.Response.Cache.SetETag(lastModified.Ticks.ToString(CultureInfo.InvariantCulture));
-
-			//  switch (format)
-			//  {
-			//    case SyndicationFormat.Atom:
-			//      context.Response.ContentType = "application/atom+xml";
-			//      context.Response.AppendHeader("Content-Disposition", "inline; filename=atom.xml");
-			//      break;
-
-			//    case SyndicationFormat.Rss:
-			//      context.Response.ContentType = "application/rss+xml";
-			//      context.Response.AppendHeader("Content-Disposition", "inline; filename=rss.xml");
-			//      break;
-			//  }
-			//}
 		}
 
 		#endregion

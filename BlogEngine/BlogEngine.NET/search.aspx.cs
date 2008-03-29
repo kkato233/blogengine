@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Net;
+using System.Xml;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
@@ -29,17 +31,55 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
     if (!string.IsNullOrEmpty(Request.QueryString["q"]))
     {
-      bool includeComments = Request.QueryString["comment"] == "true";
-      BindSearchResult(Request.QueryString["q"], includeComments);
-      Page.Title = Resources.labels.searchResultsFor + " '" + Request.QueryString["q"] + "'";
-      h1Headline.InnerText = Page.Title;
+			bool includeComments = Request.QueryString["comment"] == "true";
+			string term = Request.QueryString["q"];
+			Page.Title = Resources.labels.searchResultsFor + " '" + Request.QueryString["q"] + "'";
+			h1Headline.InnerText = Page.Title;
+
+			Uri url;
+			if (!Uri.TryCreate(term, UriKind.Absolute, out url))
+			{
+				List<IPublishable> list = Search.Hits(term, includeComments);
+				BindSearchResult(list);
+			}
+			else
+			{
+				SearchByApml(url);
+			}
     }
-    else
-    {
-      Page.Title = Resources.labels.search;
-      h1Headline.InnerHtml = Resources.labels.search;
-    }
+		else
+		{
+			Page.Title = Resources.labels.search;
+			h1Headline.InnerHtml = Resources.labels.search;
+		}
   }
+
+	private void SearchByApml(Uri url)
+	{
+		List<IPublishable> list = new List<IPublishable>();
+		try
+		{
+			using (System.Net.WebClient client = new System.Net.WebClient())
+			{
+				client.UseDefaultCredentials = true;
+				using (System.IO.Stream stream = client.OpenRead(url))
+				{
+					XmlDocument doc = new XmlDocument();
+					doc.Load(stream);
+					list = Search.ApmlMatches(doc, 10);
+				}
+			}
+
+			Page.Title = "APML matches for '" + Request.QueryString["q"] + "'";
+			h1Headline.InnerText = Page.Title;
+		}
+		catch
+		{
+
+		}
+
+		BindSearchResult(list);
+	}
 
 	/// <summary>
 	/// Handles the ItemDataBound event of the rep control.
@@ -103,7 +143,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
   #region Data binding
 
-  private void BindSearchResult(string searchTerm, bool includeComments)
+  private void BindSearchResult(List<IPublishable> list)
   {
     int page = 1;
     if (Request.QueryString["page"] != null)
@@ -112,7 +152,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
     }
 
     int start = PAGE_SIZE * (page - 1);
-    List<IPublishable> list = Search.Hits(searchTerm, includeComments);
+    
     if (start <= list.Count - 1)
     {
       int size = PAGE_SIZE;
