@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Web;
+using System.Xml;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -14,58 +15,58 @@ using System.Text.RegularExpressions;
 
 namespace BlogEngine.Core
 {
-  /// <summary>
-  /// Searches the post collection and returns a result based on a search term.
-  /// <remarks>It is used for related posts and the in-site search feature.</remarks>
-  /// </summary>
-  public static class Search
-  {
+	/// <summary>
+	/// Searches the post collection and returns a result based on a search term.
+	/// <remarks>It is used for related posts and the in-site search feature.</remarks>
+	/// </summary>
+	public static class Search
+	{
 
-    static Search()
-    {
-      BuildCatalog();
-      Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
-      Page.Saved += new EventHandler<SavedEventArgs>(Page_Saved);
-      BlogSettings.Changed += delegate { BuildCatalog(); };
-      Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
-      Post.CommentRemoved += delegate { BuildCatalog(); };
-      Comment.Approved += new EventHandler<EventArgs>(Post_CommentAdded);
-    }
-    
-    #region Event handlers
+		static Search()
+		{
+			BuildCatalog();
+			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+			Page.Saved += new EventHandler<SavedEventArgs>(Page_Saved);
+			BlogSettings.Changed += delegate { BuildCatalog(); };
+			Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
+			Post.CommentRemoved += delegate { BuildCatalog(); };
+			Comment.Approved += new EventHandler<EventArgs>(Post_CommentAdded);
+		}
 
-    /// <summary>
-    /// Adds a post to the catalog when it is added.
-    /// </summary>
-    private static void Post_Saved(object sender, SavedEventArgs e)
-    {
-      lock (_SyncRoot)
-      {
-        if (e.Action == SaveAction.Insert)
-        {
-          AddItem(sender as Post);
-        }
-        else
-        {
-          BuildCatalog();
-        }
-      }
-    }
+		#region Event handlers
 
-    private static void Page_Saved(object sender, SavedEventArgs e)
-    {
-      lock (_SyncRoot)
-      {
-        if (e.Action == SaveAction.Insert)
-        {
-          AddItem(sender as Page);
-        }
-        else
-        {
-          BuildCatalog();
-        }
-      }
-    }
+		/// <summary>
+		/// Adds a post to the catalog when it is added.
+		/// </summary>
+		private static void Post_Saved(object sender, SavedEventArgs e)
+		{
+			lock (_SyncRoot)
+			{
+				if (e.Action == SaveAction.Insert)
+				{
+					AddItem(sender as Post);
+				}
+				else
+				{
+					BuildCatalog();
+				}
+			}
+		}
+
+		private static void Page_Saved(object sender, SavedEventArgs e)
+		{
+			lock (_SyncRoot)
+			{
+				if (e.Action == SaveAction.Insert)
+				{
+					AddItem(sender as Page);
+				}
+				else
+				{
+					BuildCatalog();
+				}
+			}
+		}
 
 		static void Post_CommentAdded(object sender, EventArgs e)
 		{
@@ -77,159 +78,241 @@ namespace BlogEngine.Core
 			}
 		}
 
-    #endregion
+		#endregion
 
-    #region Search
+		#region Search
 
-    /// <summary>
-    /// Searches all the posts and returns a ranked result set.
-    /// </summary>
-    /// <param name="searchTerm">The term to search for</param>
-    /// <param name="includeComments">True to include a post's comments and their authors in search</param>
-    public static List<IPublishable> Hits(string searchTerm, bool includeComments)
-    {
-      lock (_SyncRoot)
-      {
-        List<Result> results = BuildResultSet(searchTerm, includeComments);
-        List<IPublishable> items = results.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
+		/// <summary>
+		/// Searches all the posts and returns a ranked result set.
+		/// </summary>
+		/// <param name="searchTerm">The term to search for</param>
+		/// <param name="includeComments">True to include a post's comments and their authors in search</param>
+		public static List<IPublishable> Hits(string searchTerm, bool includeComments)
+		{
+			lock (_SyncRoot)
+			{
+				List<Result> results = BuildResultSet(searchTerm, includeComments);
+				List<IPublishable> items = results.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
 				results.Clear();
-        OnSearcing(searchTerm);
-        return items;
-      }
-    }
+				OnSearcing(searchTerm);
+				return items;
+			}
+		}
 
-    /// <summary>
-    /// Returns a list of posts that is related to the specified post.
-    /// </summary>
-    public static List<IPublishable> FindRelatedItems(IPublishable post)
-    {
-      string term = post.Title;
+		public static List<IPublishable> ApmlMatches(XmlDocument apmlFile, int maxInterests)
+		{
+			Dictionary<string, float> concepts = new Dictionary<string, float>();
+			XmlNodeList nodes = apmlFile.SelectNodes("//Concept");
+			foreach (XmlNode node in nodes)
+			{
+				string key = node.Attributes["key"].InnerText.ToLowerInvariant().Trim();
+				float value = float.Parse(node.Attributes["value"].InnerText, System.Globalization.CultureInfo.InvariantCulture);
+				if (!concepts.ContainsKey(key))
+				{
+					concepts.Add(key, value);
+				}
+				else if (concepts[key] < value)
+				{
+					concepts[key] = value;
+				}
+			}
 
-      foreach (Category cat in post.Categories)
-      {
-        term += " " + cat.Title;
-      }
+			concepts = SortDictionary(concepts);
+			int max = Math.Min(concepts.Count, maxInterests);
+			int counter = 0;
+			List<Result> resultSet = new List<Result>();
+			foreach (string key in concepts.Keys)
+			{
+				counter++;
+				List<Result> results = BuildResultSet(key, false);
+				//results = results.FindAll(delegate(Result r) { return r.Rank > 1; });
+				resultSet.AddRange(results);
+				if (counter == max)
+					break;
+			}
 
-      term = CleanContent(term, false);
-      return Hits(term, false);
-    }
+			resultSet.Sort();
+			List<Result> aggregatedResults = new List<Result>();
+			foreach (Result r in resultSet)
+			{
+				if (!aggregatedResults.Contains(r))
+				{
+					aggregatedResults.Add(r);
+				}
+				else
+				{
+					Result existingResult = aggregatedResults.Find(delegate(Result res) { return res.GetHashCode() == r.GetHashCode(); });
+					existingResult.Rank += r.Rank;
+				}
+			}
 
-    /// <summary>
-    /// Builds the results set and ranks it.
-    /// </summary>
-    private static List<Result> BuildResultSet(string searchTerm, bool includeComments)
-    {
-      List<Result> results = new List<Result>();
-      string term = CleanContent(searchTerm.ToLowerInvariant().Trim(), false);
-      string[] terms = term.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-      string regex = string.Format(System.Globalization.CultureInfo.InvariantCulture, "({0})", string.Join("|", terms));
+			aggregatedResults = aggregatedResults.FindAll(delegate(Result r) { return r.Rank > 1; });
+			List<IPublishable> items = aggregatedResults.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
+			List<IPublishable> uniqueItems = new List<IPublishable>();
+			
+			foreach (IPublishable item in items)
+			{
+				if (!uniqueItems.Contains(item))
+					uniqueItems.Add(item);
+			}
 
-      foreach (Entry entry in _Catalog)
-      {
-        Result result = new Result();
-        if (!(entry.Item is Comment))
-        {
-          int titleMatches = Regex.Matches(entry.Title, regex).Count;
-          result.Rank = titleMatches * 20;
+			return uniqueItems;
+		}
 
-          int postMatches = Regex.Matches(entry.Content, regex).Count;
-          result.Rank += postMatches;
-        }
-        else if (includeComments)
-        {
-          int commentMatches = Regex.Matches(entry.Content + entry.Title, regex).Count;
-          result.Rank += commentMatches;
-        }
+		private static Dictionary<string, float> SortDictionary(Dictionary<string, float> dic)
+		{
+			List<KeyValuePair<string, float>> list = new List<KeyValuePair<string, float>>();
+			foreach (string key in dic.Keys)
+			{
+				list.Add(new KeyValuePair<string, float>(key, dic[key]));
+			}
 
-        if (result.Rank > 0)
-        {
-          result.Item = entry.Item;
-          results.Add(result);
-        }
-      }
+			list.Sort(delegate(KeyValuePair<string, float> obj1, KeyValuePair<string, float> obj2)
+			{
+				return obj2.Value.CompareTo(obj1.Value);
+			});
 
-      results.Sort();
-      return results;
-    }
+			Dictionary<string, float> sortedDic = new Dictionary<string, float>();
+			foreach (KeyValuePair<string, float> pair in list)
+			{
+				sortedDic.Add(pair.Key, pair.Value);
+			}
 
-    /// <summary>
-    /// A converter delegate used for converting Results to Posts.
-    /// </summary>
-    private static IPublishable ResultToPost(Result result)
-    {
-      return result.Item;
-    }
+			return sortedDic;
+		}
 
-    #endregion
+		/// <summary>
+		/// Returns a list of posts that is related to the specified post.
+		/// </summary>
+		public static List<IPublishable> FindRelatedItems(IPublishable post)
+		{
+			string term = post.Title;
 
-    #region Properties and private fields
+			foreach (Category cat in post.Categories)
+			{
+				term += " " + cat.Title;
+			}
 
-    private readonly static object _SyncRoot = new object();
-    private readonly static StringCollection _StopWords = BlogEngine.Core.Providers.BlogService.LoadStopWords();
-    private static Collection<Entry> _Catalog = new Collection<Entry>();
+			term = CleanContent(term, false);
+			return Hits(term, false);
+		}
 
-    #endregion
+		/// <summary>
+		/// Builds the results set and ranks it.
+		/// </summary>
+		private static List<Result> BuildResultSet(string searchTerm, bool includeComments)
+		{
+			List<Result> results = new List<Result>();
+			string term = CleanContent(searchTerm.ToLowerInvariant().Trim(), false);
+			string[] terms = term.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			string regex = string.Format(System.Globalization.CultureInfo.InvariantCulture, "({0})", string.Join("|", terms));
 
-    #region BuildCatalog
+			foreach (Entry entry in _Catalog)
+			{
+				Result result = new Result();
+				if (!(entry.Item is Comment))
+				{
+					int titleMatches = Regex.Matches(entry.Title, regex).Count;
+					result.Rank = titleMatches * 20;
+
+					int postMatches = Regex.Matches(entry.Content, regex).Count;
+					result.Rank += postMatches;
+				}
+				else if (includeComments)
+				{
+					int commentMatches = Regex.Matches(entry.Content + entry.Title, regex).Count;
+					result.Rank += commentMatches;
+				}
+
+				if (result.Rank > 0)
+				{
+					result.Item = entry.Item;
+					results.Add(result);
+				}
+			}
+
+			results.Sort();
+			return results;
+		}
+
+		/// <summary>
+		/// A converter delegate used for converting Results to Posts.
+		/// </summary>
+		private static IPublishable ResultToPost(Result result)
+		{
+			return result.Item;
+		}
+
+		#endregion
+
+		#region Properties and private fields
+
+		private readonly static object _SyncRoot = new object();
+		private readonly static StringCollection _StopWords = BlogEngine.Core.Providers.BlogService.LoadStopWords();
+		private static Collection<Entry> _Catalog = new Collection<Entry>();
+
+		#endregion
+
+		#region BuildCatalog
 
 		/// <summary>
 		/// Builds the catalog so it can be searched.
 		/// </summary>
-    private static void BuildCatalog()
-    {
-      OnIndexBuilding();
+		private static void BuildCatalog()
+		{
+			OnIndexBuilding();
 
-      lock (_SyncRoot)
-      {
-        _Catalog.Clear();
-        foreach (Post post in Post.Posts)
-        {
-          if (!post.IsPublished)
-            continue;
+			lock (_SyncRoot)
+			{
+				_Catalog.Clear();
+				foreach (Post post in Post.Posts)
+				{
+					if (!post.IsPublished)
+						continue;
 
-          AddItem(post);
-          if (BlogSettings.Instance.EnableCommentSearch)
-          {
-            foreach (Comment comment in post.Comments)
-            {
-              if (comment.IsApproved)
-                AddItem(comment);
-            }
-          }
-        }
+					AddItem(post);
+					if (BlogSettings.Instance.EnableCommentSearch)
+					{
+						foreach (Comment comment in post.Comments)
+						{
+							if (comment.IsApproved)
+								AddItem(comment);
+						}
+					}
+				}
 
-        foreach (Page page in Page.Pages)
-        {
-          if (page.IsPublished)
-            AddItem(page);
-        }
-      }
+				foreach (Page page in Page.Pages)
+				{
+					if (page.IsPublished)
+						AddItem(page);
+				}
+			}
 
-      OnIndexBuild();
-    }
+			OnIndexBuild();
+		}
 
-    /// <summary>
-    /// Adds an IPublishable item to the search catalog. 
-    /// That will make it immediately searchable.
-    /// </summary>
-    public static void AddItem(IPublishable item)
-    {
-      Entry entry = new Entry();
-      entry.Item = item;
-      entry.Title = CleanContent(item.Title, false);
-      entry.Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true));
-      if (item is Comment)
-      {
-        entry.Content += HttpUtility.HtmlDecode(CleanContent(item.Author, false));
-      }
-      _Catalog.Add(entry);
-    }
+		/// <summary>
+		/// Adds an IPublishable item to the search catalog. 
+		/// That will make it immediately searchable.
+		/// </summary>
+		public static void AddItem(IPublishable item)
+		{
+			Entry entry = new Entry();
+			entry.Item = item;
+			entry.Title = CleanContent(item.Title, false);
+			entry.Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true));
+			if (item is Comment)
+			{
+				entry.Content += HttpUtility.HtmlDecode(CleanContent(item.Author, false));
+			}
+			_Catalog.Add(entry);
+		}
 
-    /// <summary>
-    /// Removes stop words and HTML from the specified string.
-    /// </summary>
-    private static string CleanContent(string content, bool removeHtml)
-    {
+		/// <summary>
+		/// Removes stop words and HTML from the specified string.
+		/// </summary>
+		private static string CleanContent(string content, bool removeHtml)
+		{
 			if (removeHtml)
 				content = Utils.StripHtml(content);
 
@@ -248,115 +331,120 @@ namespace BlogEngine.Core
 											.Replace("+", string.Empty);
 
 			string[] words = content.Split(new char[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-      StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < words.Length; i++)
-      {
-        string word = words[i].ToLowerInvariant().Trim();
-        if (word.Length > 1 && !_StopWords.Contains(word))
-          sb.Append(word + " ");
-      }
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < words.Length; i++)
+			{
+				string word = words[i].ToLowerInvariant().Trim();
+				if (word.Length > 1 && !_StopWords.Contains(word))
+					sb.Append(word + " ");
+			}
 
-      return sb.ToString();
-    }
+			return sb.ToString();
+		}
 
-    #endregion
+		#endregion
 
-    #region Events
+		#region Events
 
-    /// <summary>
-    /// Occurs when a search is performed. (The search term is the sender).
-    /// </summary>
-    public static event EventHandler<EventArgs> Searching;
-    /// <summary>
-    /// Raises the event in a safe way
-    /// </summary>
-    private static void OnSearcing(string searchTerm)
-    {
-      if (Searching != null)
-      {
-        Searching(searchTerm, EventArgs.Empty);
-      }
-    }
+		/// <summary>
+		/// Occurs when a search is performed. (The search term is the sender).
+		/// </summary>
+		public static event EventHandler<EventArgs> Searching;
+		/// <summary>
+		/// Raises the event in a safe way
+		/// </summary>
+		private static void OnSearcing(string searchTerm)
+		{
+			if (Searching != null)
+			{
+				Searching(searchTerm, EventArgs.Empty);
+			}
+		}
 
-    /// <summary>
-    /// Occurs just before the search index is being build.
-    /// </summary>
-    public static event EventHandler<EventArgs> IndexBuilding;
-    /// <summary>
-    /// Raises the event in a safe way
-    /// </summary>
-    private static void OnIndexBuilding()
-    {
-      if (IndexBuilding != null)
-      {
-        IndexBuilding(null, EventArgs.Empty);
-      }
-    }
+		/// <summary>
+		/// Occurs just before the search index is being build.
+		/// </summary>
+		public static event EventHandler<EventArgs> IndexBuilding;
+		/// <summary>
+		/// Raises the event in a safe way
+		/// </summary>
+		private static void OnIndexBuilding()
+		{
+			if (IndexBuilding != null)
+			{
+				IndexBuilding(null, EventArgs.Empty);
+			}
+		}
 
-    /// <summary>
-    /// Occurs after the index has been build.
-    /// </summary>
-    public static event EventHandler<EventArgs> IndexBuild;
-    /// <summary>
-    /// Raises the event in a safe way
-    /// </summary>
-    private static void OnIndexBuild()
-    {
-      if (IndexBuild != null)
-      {
-        IndexBuild(null, EventArgs.Empty);
-      }
-    }
+		/// <summary>
+		/// Occurs after the index has been build.
+		/// </summary>
+		public static event EventHandler<EventArgs> IndexBuild;
+		/// <summary>
+		/// Raises the event in a safe way
+		/// </summary>
+		private static void OnIndexBuild()
+		{
+			if (IndexBuild != null)
+			{
+				IndexBuild(null, EventArgs.Empty);
+			}
+		}
 
-    #endregion
+		#endregion
 
-  }
+	}
 
-  #region Entry and Result structs
+	#region Entry and Result structs
 
-  /// <summary>
-  /// A search optimized post object cleansed from HTML and stop words.
-  /// </summary>
-  internal struct Entry
-  {
-    /// <summary>The post object reference</summary>
-    internal IPublishable Item;
-    /// <summary>The title of the post cleansed for stop words</summary>
-    internal string Title;
-    /// <summary>The content of the post cleansed for stop words and HTML</summary>
-    internal string Content;
-  }
+	/// <summary>
+	/// A search optimized post object cleansed from HTML and stop words.
+	/// </summary>
+	internal struct Entry
+	{
+		/// <summary>The post object reference</summary>
+		internal IPublishable Item;
+		/// <summary>The title of the post cleansed for stop words</summary>
+		internal string Title;
+		/// <summary>The content of the post cleansed for stop words and HTML</summary>
+		internal string Content;
+	}
 
-  /// <summary>
-  /// A result is a search result which contains a post and its ranking.
-  /// </summary>
-  internal struct Result : IComparable<Result>
-  {
-    /// <summary>
-    /// The rank of the post based on the search term. The higher the rank, the higher the post is in the result set.
-    /// </summary>
-    internal int Rank;
+	/// <summary>
+	/// A result is a search result which contains a post and its ranking.
+	/// </summary>
+	internal class Result : IComparable<Result>
+	{
+		/// <summary>
+		/// The rank of the post based on the search term. The higher the rank, the higher the post is in the result set.
+		/// </summary>
+		internal int Rank;
 
-    /// <summary>
-    /// The post of the result.
-    /// </summary>
-    internal IPublishable Item;
+		/// <summary>
+		/// The post of the result.
+		/// </summary>
+		internal IPublishable Item;
 
-    /// <summary>
-    /// Compares the current object with another object of the same type.
-    /// </summary>
-    /// <param name="other">An object to compare with this object.</param>
-    /// <returns>
-    /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value 
-    /// has the following meanings: Value Meaning Less than zero This object is less than the other parameter.Zero 
-    /// This object is equal to other. Greater than zero This object is greater than other.
-    /// </returns>
-    public int CompareTo(Result other)
-    {
-      return other.Rank.CompareTo(Rank);
-    }
-  }
+		/// <summary>
+		/// Compares the current object with another object of the same type.
+		/// </summary>
+		/// <param name="other">An object to compare with this object.</param>
+		/// <returns>
+		/// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value 
+		/// has the following meanings: Value Meaning Less than zero This object is less than the other parameter.Zero 
+		/// This object is equal to other. Greater than zero This object is greater than other.
+		/// </returns>
+		public int CompareTo(Result other)
+		{
+			return other.Rank.CompareTo(Rank);
+		}
 
-  #endregion
+		public override int GetHashCode()
+		{
+			return Item.Id.GetHashCode();
+		}
+	}
+
+	#endregion
 
 }

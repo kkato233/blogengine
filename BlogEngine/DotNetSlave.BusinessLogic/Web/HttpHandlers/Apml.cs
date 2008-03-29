@@ -105,28 +105,27 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			writer.WriteEndElement();  // Profile
 
 			// categories
-			writer.WriteStartElement("Profile");
-			writer.WriteAttributeString("name", "categories");
-			writer.WriteStartElement("ImplicitData");
-			writer.WriteStartElement("Concepts");
+			//writer.WriteStartElement("Profile");
+			//writer.WriteAttributeString("name", "categories");
+			//writer.WriteStartElement("ImplicitData");
+			//writer.WriteStartElement("Concepts");
 
-			Dictionary<string, Concept> catList = CreateCategoryList();
-			foreach (string key in catList.Keys)
-			{
-				writer.WriteStartElement("Concept");
-				writer.WriteAttributeString("key", key);
-				writer.WriteAttributeString("value", catList[key].Score.ToString());
-				writer.WriteAttributeString("from", Utils.AbsoluteWebRoot.ToString());
-				writer.WriteAttributeString("updated", catList[key].LastUpdated.ToString());
-				writer.WriteEndElement();  // Concept
-			}
+			//Dictionary<string, Concept> catList = CreateCategoryList();
+			//foreach (string key in catList.Keys)
+			//{
+			//  writer.WriteStartElement("Concept");
+			//  writer.WriteAttributeString("key", key);
+			//  writer.WriteAttributeString("value", catList[key].Score.ToString());
+			//  writer.WriteAttributeString("from", Utils.AbsoluteWebRoot.ToString());
+			//  writer.WriteAttributeString("updated", catList[key].LastUpdated.ToString());
+			//  writer.WriteEndElement();  // Concept
+			//}
 
-			writer.WriteEndElement();  // Concepts
-			writer.WriteEndElement();  // ImplicitData
-			writer.WriteEndElement();  // Profile
+			//writer.WriteEndElement();  // Concepts
+			//writer.WriteEndElement();  // ImplicitData
+			//writer.WriteEndElement();  // Profile
 
 
-			// TODO: Parse blog roll
 			// links
 			writer.WriteStartElement("Profile");
 			writer.WriteAttributeString("name", "links");
