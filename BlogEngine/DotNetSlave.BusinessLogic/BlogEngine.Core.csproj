@@ -122,6 +122,7 @@
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStore\CustomObjectBehavior.cs" />
     <Compile Include="DataStore\ExtensionSettings.cs" />
     <Compile Include="DataStore\ExtensionSettingsBehavior.cs" />
     <Compile Include="DataStore\Interfaces.cs" />

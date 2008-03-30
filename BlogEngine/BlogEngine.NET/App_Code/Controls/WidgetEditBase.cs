@@ -97,17 +97,29 @@ public abstract class WidgetEditBase : UserControl
   public enum ObjectType
   {
     XmlDocument,
-    StringDictionary
+    StringDictionary,
+    CustomObject
   }
 
   /// <summary>
-  /// Gets settings object from data store
+  /// Get settings from data store
   /// </summary>
-  /// <param name="type">Object Type</param>
-  /// <returns>Settings as object</returns>
+  /// <param name="type">Object type</param>
+  /// <returns>Settings</returns>
   public object GetSettings(ObjectType type)
   {
-    string cacheId = "be_widget_" + type.ToString() + "_" + WidgetID;
+    return GetSettings(type, null);
+  }
+
+  /// <summary>
+  /// Get settings from data store
+  /// </summary>
+  /// <param name="type">Object type</param>
+  /// <param name="obj">Object</param>
+  /// <returns>Settings</returns>
+  public object GetSettings(ObjectType type, object obj)
+  {
+    string cacheId = "be_widget_" + WidgetID;
     if (Cache[cacheId] == null)
     {
       if (type == ObjectType.XmlDocument)
@@ -120,6 +132,11 @@ public abstract class WidgetEditBase : UserControl
         WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
         Cache[cacheId] = (StringDictionary)ws.GetSettings();
       }
+      else if (type == ObjectType.CustomObject)
+      {
+        object widgetData = CustomObject.GetObject(WidgetID.ToString(), obj.GetType());
+        Cache[cacheId] = widgetData;
+      }
     }
     return Cache[cacheId];
   }
@@ -131,18 +148,26 @@ public abstract class WidgetEditBase : UserControl
   protected virtual void SaveSettings(object settings)
   {
     string objType = settings.GetType().Name;
-    string cacheId = "be_widget_" + objType + "_" + WidgetID;
+    string cacheId = "be_widget_" + WidgetID;
 
     if (objType == "XmlDocument")
-    {
+    { 
       WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
       ws.SaveSettings(settings);
     }
-    else if (objType.EndsWith("StringDictionary"))
+    else if (objType == "SerializableStringDictionary")
     {
       WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
       ws.SaveSettings(settings);
-      
+    }
+    else if (settings.GetType().BaseType.Name == "CustomObjectBase")
+    {
+      WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(CustomObjectBase));
+      ws.SaveSettings(settings);
+    }
+    else
+    {
+      throw new ApplicationException(objType + " is not supported by Data Store");
     }
     Cache[cacheId] = settings;
   }

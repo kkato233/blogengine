@@ -107,31 +107,51 @@ public abstract class WidgetBase : UserControl
 	public enum ObjectType
 	{
 		XmlDocument,
-		StringDictionary
+		StringDictionary,
+    CustomObject
 	}
-	/// <summary>
-	/// Gets settings object from data store
-	/// </summary>
-	/// <param name="type">Object Type</param>
-	/// <returns>Settings as object</returns>
-	public object GetSettings(ObjectType type)
-	{
-		string cacheId = "be_widget_" + type.ToString() + "_" + WidgetID;
-		if (Cache[cacheId] == null)
-		{
-			if (type == ObjectType.XmlDocument)
-			{
-				WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
-				Cache[cacheId] = (XmlDocument)ws.GetSettings();
-			}
-			else if (type == ObjectType.StringDictionary)
-			{
-				WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
-				Cache[cacheId] = (StringDictionary)ws.GetSettings();
-			}
-		}
-		return Cache[cacheId];
-	}
+  /// <summary>
+  /// Get settings from data store
+  /// </summary>
+  /// <param name="type">Object type</param>
+  /// <returns>Settings</returns>
+  public object GetSettings(ObjectType type)
+  {
+    return GetSettings(type, null);
+  }
+  /// <summary>
+  /// Get settings from data store
+  /// </summary>
+  /// <param name="type">Object type</param>
+  /// <param name="obj">Object</param>
+  /// <returns>Settings</returns>
+  public object GetSettings(ObjectType type, object obj)
+  {
+    string cacheId = "be_widget_" + WidgetID;
+    if (Cache[cacheId] == null)
+    {
+      if (type == ObjectType.XmlDocument)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
+        Cache[cacheId] = (XmlDocument)ws.GetSettings();
+      }
+      else if (type == ObjectType.StringDictionary)
+      {
+        WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+        Cache[cacheId] = (StringDictionary)ws.GetSettings();
+      }
+      else if (type == ObjectType.CustomObject)
+      {
+        object widgetData = CustomObject.GetObject(WidgetID.ToString(), obj.GetType());
+
+        if (widgetData == null)
+          widgetData = obj;
+
+        Cache[cacheId] = widgetData;
+      }
+    }
+    return Cache[cacheId];
+  }
 
 	#endregion
 
