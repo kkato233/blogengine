@@ -30,9 +30,17 @@ namespace BlogEngine.Core.DataStore
       {
         SettingsBehavior = new StringDictionaryBehavior();
       }
-      else
+      else if (objType.Name == "XmlDocument")
       {
         SettingsBehavior = new XMLDocumentBehavior();
+      }
+      else if (objType.Name == "CustomObjectBase")
+      {
+        SettingsBehavior = new CustomObjectBehavior();
+      }
+      else
+      {
+        throw new ApplicationException(objType.Name + " is not supported by Data Store");
       }
     }
   }

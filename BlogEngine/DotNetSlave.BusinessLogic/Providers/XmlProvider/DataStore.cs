@@ -92,11 +92,10 @@ namespace BlogEngine.Core.Providers
     }
 
     /// <summary>
-    /// File name to store settings to
+    /// Data Store Location
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
-    /// <returns>String file name</returns>
+    /// <param name="exType">Type of extension</param>
+    /// <returns>Path to storage directory</returns>
     private string StorageLocation(ExtensionType exType)
     {
       string storageDirectory = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "datastore");
