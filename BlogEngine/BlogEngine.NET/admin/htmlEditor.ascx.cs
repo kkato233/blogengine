@@ -17,4 +17,16 @@ public partial class admin_htmlEditor : System.Web.UI.UserControl
       set { TinyMCE1.TabIndex = value; }
   }
 
+  public Unit Width
+  {
+      get { return TinyMCE1.Width; }
+      set { TinyMCE1.Width = value; }
+  }
+
+  public Unit Height
+  {
+      get { return TinyMCE1.Height; }
+      set { TinyMCE1.Height = value; }
+  }
+
 }
