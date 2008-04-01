@@ -27,7 +27,9 @@
     <asp:TextBox ID="tbLastName" runat="server"></asp:TextBox><br />
 
     <label for="<%=cblGender.ClientID %>"><%=Resources.labels.gender %></label>
-    <asp:CheckBoxList ID="cblGender" runat="server" EnableViewState="false" RepeatDirection="Horizontal" TextAlign="Right" CellPadding="0" CellSpacing="0">
+    <asp:CheckBoxList ID="cblGender" runat="server" EnableViewState="false" 
+            RepeatDirection="Horizontal" TextAlign="Right" CellPadding="0" CellSpacing="0" 
+            RepeatLayout="Flow">
     <asp:ListItem Text="Male" Value="Male"></asp:ListItem>
     <asp:ListItem Text="Female" Value="Female"></asp:ListItem>
     </asp:CheckBoxList><br />
@@ -42,15 +44,17 @@
     <asp:TextBox ID="tbRegionState" runat="server"></asp:TextBox><br />
     
     <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
-    <asp:DropDownList ID="ddlCountry" runat="server" onchange="SetFlag(this.value)" ></asp:DropDownList>
+    <asp:DropDownList ID="ddlCountry" runat="server" onchange="SetFlag(this.value)" 
+            AutoPostBack="True" ></asp:DropDownList>
     <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" />
     <br />          
     
     <label for="<%=tbInterests.ClientID %>"><%=Resources.labels.interests %></label>
-    <Blog:TextEditor runat="server" id="tbInterests"      /><br /> 
+    <asp:TextBox runat="server" id="tbInterests" Rows="5" Width="50%" TextMode="MultiLine" />
+    <br /> 
     
     <label for="<%=tbAboutMe.ClientID %>"><%=Resources.labels.aboutMe %></label>
-    <Blog:TextEditor runat="server" id="tbAboutMe" TabIndex="4" /><br /> 
+  <asp:TextBox runat="server" id="tbAboutMe" Rows="5" Width="50%" TextMode="MultiLine"  /><br /> 
         
         <p>
             <asp:LinkButton ID="lbSaveProfile" runat="server" OnClick="lbSaveProfile_Click"><%=Resources.labels.saveProfile %></asp:LinkButton>

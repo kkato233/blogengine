@@ -17,8 +17,10 @@ public partial class admin_profiles : Page
     {
         if (!Page.IsPostBack)
         {
+            
             SetDDLUser();
             SetProfile(User.Identity.Name);
+            BindCountries();
         }
     }
 
@@ -28,6 +30,7 @@ public partial class admin_profiles : Page
         tbFirstName.Text = pc.FirstName;
         tbLastName.Text = pc.LastName;
         cbIsPublic.Checked = pc.IsPrivate;
+        cblGender.SelectedValue = pc.Gender;
         tbRegionState.Text = pc.RegionState;
         tbCityTown.Text = pc.CityTown;
         ddlCountry.SelectedValue = pc.Country;
@@ -57,6 +60,7 @@ public partial class admin_profiles : Page
         pc.Country = ddlCountry.SelectedValue;
         pc.AboutMe = tbAboutMe.Text;
         pc.Interests = tbInterests.Text;
+        pc.Gender = cblGender.SelectedValue;
         pc.Save();
     }
 
@@ -118,4 +122,5 @@ public partial class admin_profiles : Page
             imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/pixel.png";
         }
     }
+
 }
