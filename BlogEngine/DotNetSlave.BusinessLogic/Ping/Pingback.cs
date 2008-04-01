@@ -34,7 +34,7 @@ namespace BlogEngine.Core.Ping
         HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(targetUrl);
         request.Credentials = CredentialCache.DefaultNetworkCredentials;
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-        string pingUrl = response.Headers["x-pingback"];
+        string pingUrl = (string.IsNullOrEmpty(response.Headers["x-pingback"])) ? response.Headers["x-pingback"] : response.Headers["pingback"];
         Uri url;
         if (!string.IsNullOrEmpty(pingUrl) && Uri.TryCreate(pingUrl, UriKind.Absolute, out url))
         {
