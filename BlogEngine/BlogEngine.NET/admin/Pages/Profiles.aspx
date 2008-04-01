@@ -1,6 +1,6 @@
 <%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true"
     CodeFile="Profiles.aspx.cs" Inherits="admin_profiles" Title="Modify Profiles" %>
-
+<%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <br />
     <div class="settings">
@@ -26,8 +26,14 @@
     <label for="<%=tbLastName.ClientID %>"><%=Resources.labels.lastName %></label>
     <asp:TextBox ID="tbLastName" runat="server"></asp:TextBox><br />
 
-    <label for="<%=tbGender.ClientID %>"><%=Resources.labels.gender %></label>
-    <asp:TextBox ID="tbGender" runat="server"></asp:TextBox><br />
+    <label for="<%=cblGender.ClientID %>"><%=Resources.labels.gender %></label>
+    <asp:CheckBoxList ID="cblGender" runat="server" EnableViewState="false" RepeatDirection="Horizontal" TextAlign="Right" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Male" Value="Male"></asp:ListItem>
+    <asp:ListItem Text="Female" Value="Female"></asp:ListItem>
+    </asp:CheckBoxList><br />
+
+    <label for="<%=tbPhotoUrl.ClientID %>"><%=Resources.labels.photoURL %></label>
+    <asp:TextBox ID="tbPhotoUrl" runat="server" Columns="50"></asp:TextBox><br />
 
     <label for="<%=tbCityTown.ClientID %>"><%=Resources.labels.cityTown %></label>
     <asp:TextBox ID="tbCityTown" runat="server"></asp:TextBox><br />
@@ -35,15 +41,17 @@
     <label for="<%=tbRegionState.ClientID %>"><%=Resources.labels.regionState %></label>
     <asp:TextBox ID="tbRegionState" runat="server"></asp:TextBox><br />
     
-    <label for="<%=tbCountry.ClientID %>"><%=Resources.labels.country %></label>
-    <asp:TextBox ID="tbCountry" runat="server"></asp:TextBox><br />          
+    <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
+    <asp:DropDownList ID="ddlCountry" runat="server" onchange="SetFlag(this.value)" ></asp:DropDownList>
+    <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" />
+    <br />          
     
     <label for="<%=tbInterests.ClientID %>"><%=Resources.labels.interests %></label>
-    <asp:TextBox ID="tbInterests" runat="server" TextMode="multiLine" Rows="5" Columns="50"></asp:TextBox><br /> 
+    <Blog:TextEditor runat="server" id="tbInterests"      /><br /> 
     
     <label for="<%=tbAboutMe.ClientID %>"><%=Resources.labels.aboutMe %></label>
-    <asp:TextBox ID="tbAboutMe" runat="server" TextMode="multiLine" Rows="5" Columns="50"></asp:TextBox><br />       
-    
+    <Blog:TextEditor runat="server" id="tbAboutMe" TabIndex="4" /><br /> 
+        
         <p>
             <asp:LinkButton ID="lbSaveProfile" runat="server" OnClick="lbSaveProfile_Click"><%=Resources.labels.saveProfile %></asp:LinkButton>
         </p>
