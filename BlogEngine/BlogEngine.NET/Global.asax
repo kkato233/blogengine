@@ -30,7 +30,6 @@
     {
         try
         {
-            InstallUtil.CheckInstallation();
             // Mono does not use "__code" as the name of the App_Data assembly.
             // Rather, it uses "App_Code", which is case sensitive!
             string assemblyName = "__code";
