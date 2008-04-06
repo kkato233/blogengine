@@ -10,5 +10,4 @@
   <widget id="64009d18-22b9-4409-96e2-449bce2ccb44" title="Blogroll" showTitle="True">BlogRoll</widget>
   <widget id="749c43dc-78fe-45cc-b7d1-b623d15208c5" title="Recent comments" showTitle="True">RecentComments</widget>
   <widget id="0ac769b9-db8b-41b2-9a0a-913e1fac2639" title="Disclaimer" showTitle="True">TextBox</widget>
-  <widget id="4fa4780c-e3ab-4959-a82b-1e3993614575" title="Latest from Twitter" showTitle="True">Twitter</widget>
 </widgets>
