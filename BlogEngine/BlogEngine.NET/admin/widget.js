@@ -17,7 +17,7 @@
 	
 	var rectangleBorderWidth = 2;	// Used to set correct size of the rectangle with red dashed border
 	var useRectangle = true;	
-	var autoScrollSpeed = 4;	// Autoscroll speed	- Higher = faster
+	var autoScrollSpeed = 5;	// Autoscroll speed	- Higher = faster
 	
 	/* The saveData function creates a string containing the ids of your dragable elements. 
 	
@@ -149,6 +149,11 @@
 	function initDrag(e)
 	{
 		if(document.all)e = event;
+		
+		var target = e.target || e.srcElement;
+		if (target.tagName == 'INPUT' || target.tagName == 'TEXTAREA')
+		  return;
+		
 		mouse_x = e.clientX;
 		mouse_y = e.clientY;
 		if(!documentScrollHeight)documentScrollHeight = document.documentElement.scrollHeight + 100;

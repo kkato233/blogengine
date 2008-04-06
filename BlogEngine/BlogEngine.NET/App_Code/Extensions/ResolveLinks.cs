@@ -101,7 +101,8 @@ public class ResolveLinks
 		{
 			string page = url.Substring(firstIndex, lastIndex - firstIndex);
 			int length = url.Length - max + 3;
-			url = url.Replace(page, "..." + page.Substring(length));
+			if (page.Length > length)
+				url = url.Replace(page, "..." + page.Substring(length));
 		}
 
 		return url;

@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -19,6 +20,6 @@ public partial class widgets_Administration_widget : WidgetBase
 
 	public override void LoadWidget()
 	{
-		// Nothing to load.
+		Visible = Page.User.Identity.IsAuthenticated;
 	}
 }
