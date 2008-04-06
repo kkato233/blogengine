@@ -155,7 +155,7 @@ public abstract class WidgetEditBase : UserControl
       WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(XmlDocument));
       ws.SaveSettings(settings);
     }
-    else if (objType == "SerializableStringDictionary")
+    else if (objType.Contains("StringDictionary")) // Use contains because objType can be both StringDictionary and SerializableStringDictionary
     {
       WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
       ws.SaveSettings(settings);
