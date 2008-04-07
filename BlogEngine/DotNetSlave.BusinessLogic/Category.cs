@@ -38,6 +38,7 @@ namespace BlogEngine.Core
       this.Id = Guid.NewGuid();
       this._Title = title;
       this._Description = description;
+        this.Parent = null;
     }
 
     #endregion
@@ -60,7 +61,7 @@ namespace BlogEngine.Core
 
     private string _Description;
     /// <summary>
-    /// Gets or sets the Description or the object.
+    /// Gets or sets the Description of the object.
     /// </summary>
     public string Description
     {
@@ -72,7 +73,36 @@ namespace BlogEngine.Core
       }
     }
 
-    /// <summary>
+    private Guid? _Parent;
+      /// <summary>
+      /// Gets or sets the Parent ID of the object
+      /// </summary>
+      public Guid? Parent
+      {
+          get { return _Parent; }
+          set
+          {
+              if (_Parent != value)
+                  MarkChanged("Parent");
+              _Parent = value;
+          }
+      }
+
+      /// <summary>
+      /// Gets the full title with Parent names included
+      /// </summary>
+      public string CompleteTitle()
+      {
+          if (_Parent == null)
+              return _Title;
+          else
+          {
+              string temp = GetCategory((Guid) _Parent).CompleteTitle() + " - " + _Title;
+              return temp;
+          }
+      }
+
+      /// <summary>
     /// Returns a category based on the specified id.
     /// </summary>
     public static Category GetCategory(Guid id)
@@ -85,7 +115,7 @@ namespace BlogEngine.Core
 
       return null;
     }
-
+    
     private static object _SyncRoot = new object();
     private static List<Category> _Categories;
     /// <summary>
@@ -202,7 +232,7 @@ namespace BlogEngine.Core
     /// </returns>
     public override string ToString()
     {
-      return Title;
+      return CompleteTitle();
     }
 
     #endregion
@@ -220,7 +250,7 @@ namespace BlogEngine.Core
 		/// </returns>
 		public int CompareTo(Category other)
 		{
-			return this.Title.CompareTo(other.Title);
+			return this.CompleteTitle().CompareTo(other.CompleteTitle());
 		}
 
 		#endregion

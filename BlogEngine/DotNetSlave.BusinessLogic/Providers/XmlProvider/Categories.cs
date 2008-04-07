@@ -66,6 +66,7 @@ namespace BlogEngine.Core.Providers
           writer.WriteStartElement("category");
           writer.WriteAttributeString("id", cat.Id.ToString());
           writer.WriteAttributeString("description", cat.Description);
+            writer.WriteAttributeString("parent", cat.Parent.ToString());
           writer.WriteValue(cat.Title);
           writer.WriteEndElement();
           cat.MarkOld();
@@ -99,6 +100,7 @@ namespace BlogEngine.Core.Providers
           writer.WriteStartElement("category");
           writer.WriteAttributeString("id", cat.Id.ToString());
           writer.WriteAttributeString("description", cat.Description);
+            writer.WriteAttributeString("parent", cat.Parent.ToString());
           writer.WriteValue(cat.Title);
           writer.WriteEndElement();
           cat.MarkOld();
@@ -172,6 +174,15 @@ namespace BlogEngine.Core.Providers
 					category.Description = node.Attributes["description"].InnerText;
 				else
 					category.Description = string.Empty;
+                if (node.Attributes["parent"] != null)
+                {
+                    if (String.IsNullOrEmpty(node.Attributes["parent"].InnerText))
+                        category.Parent = null;
+                    else 
+                        category.Parent = new Guid(node.Attributes["parent"].InnerText);
+                }
+                else
+                    category.Parent = null;
 
         categories.Add(category);
         category.MarkOld();

@@ -144,7 +144,7 @@ namespace Controls
 			foreach (Category cat in Category.Categories)
 			{
 				if (HasPosts(cat))
-					dic.Add(cat.Title, cat.Id);
+					dic.Add(cat.CompleteTitle(), cat.Id);
 			}
 
 			return dic;
