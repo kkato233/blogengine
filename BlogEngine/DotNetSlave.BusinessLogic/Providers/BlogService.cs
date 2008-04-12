@@ -343,6 +343,17 @@ namespace BlogEngine.Core.Providers
             _provider.SaveToDataStore(exType, exId, settings);
         }
 
+        /// <summary>
+        /// Removes object from data store
+        /// </summary>
+        /// <param name="exType">Extension Type</param>
+        /// <param name="exId">Extension Id</param>
+        public static void RemoveFromDataStore(ExtensionType exType, string exId)
+        {
+          LoadProviders();
+          _provider.RemoveFromDataStore(exType, exId);
+        }
+
         ///<summary>
         ///</summary>
         ///<returns></returns>

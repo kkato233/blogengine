@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <widgets>
   <widget id="fde4d0ae-788d-4873-a591-b92a16dfd1d5" title="About the author" showTitle="True">TextBox</widget>
   <widget id="08032675-72aa-4e69-9d41-76547dd9181c" title="Search2" showTitle="False">Search</widget>
