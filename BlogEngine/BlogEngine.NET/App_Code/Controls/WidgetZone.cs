@@ -7,6 +7,7 @@ using System.Xml;
 using System.Web;
 using System.Web.Hosting;
 using BlogEngine.Core;
+using BlogEngine.Core.DataStore;
 using System.IO;
 
 #endregion
@@ -28,9 +29,9 @@ namespace Controls
 
 		private static XmlDocument RetrieveXml()
 		{
-			XmlDocument doc = new XmlDocument();
-            doc.Load(HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgetzone.xml"));
-			return doc;
+      WidgetSettings ws = new WidgetSettings("be_WIDGET_ZONE", typeof(XmlDocument));
+      XmlDocument doc = (XmlDocument)ws.GetSettings();
+      return doc;
 		}
 
 		/// <summary>
@@ -44,12 +45,21 @@ namespace Controls
 			foreach (XmlNode widget in zone)
 			{
 				string fileName = Utils.RelativeWebRoot + "widgets/" + widget.InnerText + "/widget.ascx";
-				WidgetBase control = (WidgetBase)Page.LoadControl(fileName);
-				control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
-				control.Title = widget.Attributes["title"].InnerText;
-				control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
-				control.LoadWidget();
-				this.Controls.Add(control);
+        try
+        {
+          WidgetBase control = (WidgetBase)Page.LoadControl(fileName);
+          control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
+          control.Title = widget.Attributes["title"].InnerText;
+          control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
+          control.LoadWidget();
+          this.Controls.Add(control);
+        }
+        catch (Exception)
+        {
+          Literal lit = new Literal();
+          lit.Text = "<p style=\"color:red\">Widget " + widget.InnerText + " not found.<p>";
+          this.Controls.Add(lit);
+        }
 			}
 
 			base.RenderControl(writer);
