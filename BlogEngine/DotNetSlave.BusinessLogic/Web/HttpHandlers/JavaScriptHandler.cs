@@ -63,6 +63,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </summary>
 		private static string RetrieveLocalScript(string file)
 		{
+			if (!file.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+			{
+				throw new System.Security.SecurityException("No access");
+			}
+
 			string path = HttpContext.Current.Server.MapPath(file);
 			string script = null;
 
