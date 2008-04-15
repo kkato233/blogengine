@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
-using Page=System.Web.UI.Page;
+using Page = System.Web.UI.Page;
 
 #endregion
 
@@ -17,25 +17,34 @@ public partial class admin_profiles : Page
     {
         if (!Page.IsPostBack)
         {
-            
+
             SetDDLUser();
-            SetProfile(User.Identity.Name);
+            SetProfile(User.Identity.Name.ToLowerInvariant());
             BindCountries();
         }
+
+
     }
 
     private void SetProfile(string name)
     {
         ProfileCommon pc = new ProfileCommon().GetProfile(name);
-        tbFirstName.Text = pc.FirstName;
-        tbLastName.Text = pc.LastName;
         cbIsPublic.Checked = pc.IsPrivate;
-        cblGender.SelectedValue = pc.Gender;
-        tbRegionState.Text = pc.RegionState;
+        tbDisplayName.Text = pc.DisplayName;
+        tbFirstName.Text = pc.FirstName;
+        tbMiddleName.Text = pc.MiddleName;
+        tbLastName.Text = pc.LastName;
+        tbBirthdate.Text = pc.Birthday;
+        tbPhotoUrl.Text = pc.PhotoURL;
+        tbPhoneMain.Text = pc.PhoneMain;
+        tbPhoneMobile.Text = pc.PhoneMobile;
+        tbPhoneFax.Text = pc.PhoneFax;
+        tbEmailAddress.Text = pc.EmailAddress;
         tbCityTown.Text = pc.CityTown;
+        tbRegionState.Text = pc.RegionState;
         ddlCountry.SelectedValue = pc.Country;
+        tbCompany.Text = pc.Company;
         tbAboutMe.Text = pc.AboutMe;
-        tbInterests.Text = pc.Interests;
     }
 
     private void SetDDLUser()
@@ -50,17 +59,26 @@ public partial class admin_profiles : Page
 
     protected void lbSaveProfile_Click(object sender, EventArgs e)
     {
-        string userProfileToSave = User.IsInRole("Administrator") ? ddlUserList.SelectedValue : User.Identity.Name;
+        string userProfileToSave = User.IsInRole("Administrator") ?  User.Identity.Name : ddlUserList.SelectedValue ;
         ProfileCommon pc = new ProfileCommon().GetProfile(userProfileToSave);
-        pc.FirstName = tbFirstName.Text;
-        pc.LastName = tbLastName.Text;
+
         pc.IsPrivate = cbIsPublic.Checked;
-        pc.RegionState = tbRegionState.Text;
+        pc.DisplayName = tbDisplayName.Text;
+        pc.FirstName = tbFirstName.Text;
+        pc.MiddleName = tbMiddleName.Text;
+        pc.LastName = tbLastName.Text;
+        pc.Birthday = tbBirthdate.Text;
+        pc.PhotoURL = tbPhotoUrl.Text;
+        pc.PhoneMain = tbPhoneMain.Text;
+        pc.PhoneMobile = tbPhoneMobile.Text;
+        pc.PhoneFax = tbPhoneFax.Text;
+        pc.EmailAddress = tbEmailAddress.Text;
         pc.CityTown = tbCityTown.Text;
+        pc.RegionState = tbRegionState.Text;
         pc.Country = ddlCountry.SelectedValue;
+        pc.Company = tbCompany.Text;
         pc.AboutMe = tbAboutMe.Text;
-        pc.Interests = tbInterests.Text;
-        pc.Gender = cblGender.SelectedValue;
+
         pc.Save();
     }
 
@@ -123,4 +141,8 @@ public partial class admin_profiles : Page
         }
     }
 
+    protected void ddlUserList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SetProfile(ddlUserList.SelectedValue.ToLowerInvariant());
+    }
 }
