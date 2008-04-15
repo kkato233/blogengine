@@ -15,9 +15,8 @@ namespace BlogEngine.Core.Web
         [SettingsAllowAnonymous(false)]
         public string FullName
         {
-            get { return FirstName + " " + LastName; }    
+            get { return FirstName + " " + LastName; }
         }
-
 
         /// <summary>
         /// 
@@ -25,7 +24,7 @@ namespace BlogEngine.Core.Web
         [SettingsAllowAnonymous(false)]
         public bool IsPrivate
         {
-            get { return (bool) base["IsPrivate"]; }
+            get { return (bool)base["IsPrivate"]; }
             set { base["IsPrivate"] = value; }
         }
 
@@ -37,6 +36,16 @@ namespace BlogEngine.Core.Web
         {
             get { return base["FirstName"].ToString(); }
             set { base["FirstName"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
+        public string MiddleName
+        {
+            get { return base["MiddleName"].ToString(); }
+            set { base["MiddleName"] = value; }
         }
 
         /// <summary>
@@ -63,6 +72,16 @@ namespace BlogEngine.Core.Web
         /// 
         /// </summary>
         [SettingsAllowAnonymous(false)]
+        public string Title
+        {
+            get { return base["Title"].ToString(); }
+            set { base["Title"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
         public string PhotoURL
         {
             get { return base["PhotoURL"].ToString(); }
@@ -73,20 +92,30 @@ namespace BlogEngine.Core.Web
         /// 
         /// </summary>
         [SettingsAllowAnonymous(false)]
-        public string Gender
+        public string Birthday
         {
-            get { return base["Gender"].ToString(); }
-            set { base["Gender"] = value; }
+            get { return base["Birthday"].ToString(); }
+            set { base["Birthday"] = value; }
         }
 
         /// <summary>
         /// 
         /// </summary>
         [SettingsAllowAnonymous(false)]
-        public string Birthday
+        public string Address1
         {
-            get { return base["Birthday"].ToString(); }
-            set { base["Birthday"] = value; }
+            get { return base["Address1"].ToString(); }
+            set { base["Address1"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
+        public string Address2
+        {
+            get { return base["Address2"].ToString(); }
+            set { base["Address2"] = value; }
         }
 
         /// <summary>
@@ -123,6 +152,46 @@ namespace BlogEngine.Core.Web
         /// 
         /// </summary>
         [SettingsAllowAnonymous(false)]
+        public string PhoneMain
+        {
+            get { return base["PhoneMain"].ToString(); }
+            set { base["PhoneMain"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
+        public string PhoneFax
+        {
+            get { return base["PhoneFax"].ToString(); }
+            set { base["PhoneFax"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
+        public string PhoneMobile
+        {
+            get { return base["PhoneMobile"].ToString(); }
+            set { base["PhoneMobile"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
+        public string EmailAddress
+        {
+            get { return base["EmailAddress"].ToString(); }
+            set { base["EmailAddress"] = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [SettingsAllowAnonymous(false)]
         public string Industry
         {
             get { return base["Industry"].ToString(); }
@@ -133,20 +202,10 @@ namespace BlogEngine.Core.Web
         /// 
         /// </summary>
         [SettingsAllowAnonymous(false)]
-        public string Occupation
+        public string Company
         {
-            get { return base["Occupation"].ToString(); }
-            set { base["Occupation"] = value; }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [SettingsAllowAnonymous(false)]
-        public string Interests
-        {
-            get { return base["Interests"].ToString(); }
-            set { base["Interests"] = value; }
+            get { return base["Company"].ToString(); }
+            set { base["Company"] = value; }
         }
 
         /// <summary>

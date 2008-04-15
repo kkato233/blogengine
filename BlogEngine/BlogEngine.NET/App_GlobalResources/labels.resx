@@ -632,7 +632,7 @@
     <value>First Name</value>
   </data>
   <data name="aboutMe" xml:space="preserve">
-    <value>AboutMe</value>
+    <value>About Me</value>
   </data>
   <data name="birthday" xml:space="preserve">
     <value>Birthday</value>
@@ -675,5 +675,20 @@
   </data>
   <data name="switchUserProfile" xml:space="preserve">
     <value>Swith to user profile</value>
+  </data>
+  <data name="company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="middleName" xml:space="preserve">
+    <value>Middle Name</value>
+  </data>
+  <data name="phoneFax" xml:space="preserve">
+    <value>Phone Fax</value>
+  </data>
+  <data name="phoneMain" xml:space="preserve">
+    <value>Phone Main</value>
+  </data>
+  <data name="phoneMobile" xml:space="preserve">
+    <value>Phone Mobile</value>
   </data>
 </root>
