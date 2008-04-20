@@ -21,7 +21,7 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	{
 		if (!Page.IsPostBack)
 		{
-			StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+			StringDictionary settings = GetSettings();
 			txtText.Text = settings["content"];
 		}
 	}
@@ -31,7 +31,7 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// </summary>
 	public override void Save()
 	{
-		StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+		StringDictionary settings = GetSettings();
 		settings["content"] = txtText.Text;
 		SaveSettings(settings);
 	}

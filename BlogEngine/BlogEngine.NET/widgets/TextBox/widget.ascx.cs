@@ -19,7 +19,7 @@ public partial class widgets_LinkList_widget : WidgetBase
 	/// </summary>
 	public override void LoadWidget()
 	{
-		StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+		StringDictionary settings = GetSettings();
 		if (settings.ContainsKey("content"))
 		{
 			LiteralControl text = new LiteralControl(settings["content"]);

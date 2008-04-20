@@ -32,7 +32,7 @@ public partial class widgets_RecentComments_widget : WidgetBase
 	{
 		if (HttpRuntime.Cache["widget_recentcomments"] == null)
 		{
-			StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+			StringDictionary settings = GetSettings();
 			int numberOfComments = DEFAULT_NUMBER_OF_COMMENTS;
 			if (settings.ContainsKey("numberofcomments"))
 				numberOfComments = int.Parse(settings["numberofcomments"]);

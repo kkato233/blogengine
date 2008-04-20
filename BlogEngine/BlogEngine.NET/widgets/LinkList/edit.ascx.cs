@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using System.Collections.Specialized;
 
 #endregion
 
@@ -32,7 +33,7 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 
 	void btnAdd_Click(object sender, EventArgs e)
 	{
-    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+    XmlDocument doc = Doc();
 		XmlNode links = doc.SelectSingleNode("links");
 		if (links == null)
 		{
@@ -59,13 +60,13 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 		link.Attributes.Append(newwindow);
 
 		links.AppendChild(link);
-    SaveSettings(doc);
+    Save(doc);
 		BindGrid();
 	}
 
 	private void BindGrid()
 	{
-    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+    XmlDocument doc = Doc();
 		XmlNodeList list = doc.SelectNodes("//link");
 		if (list.Count > 0)
 		{			
@@ -88,13 +89,13 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.</param>
 	void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
 	{
-    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+    XmlDocument doc = Doc();
 		string id = (string)grid.DataKeys[e.RowIndex].Value;
 		XmlNode node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
 		if (node != null)
 		{
 			node.ParentNode.RemoveChild(node);
-      SaveSettings(doc);
+      Save(doc);
 			BindGrid();
 		}
 	}
@@ -106,7 +107,7 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
 	void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
 	{
-    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+    XmlDocument doc = Doc();
 		string id = (string)grid.DataKeys[e.RowIndex].Value;
 		TextBox textboxTitle = (TextBox)grid.Rows[e.RowIndex].FindControl("txtTitle");
 		TextBox textboxUrl = (TextBox)grid.Rows[e.RowIndex].FindControl("txtUrl");
@@ -119,7 +120,7 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 			node.Attributes["url"].InnerText = textboxUrl.Text;
 			node.Attributes["newwindow"].InnerText = checkboxNewWindow.Checked.ToString();
 			grid.EditIndex = -1;
-      SaveSettings(doc);
+      Save(doc);
 			BindGrid();
 		}
 	}
@@ -140,6 +141,23 @@ public partial class widgets_LinkList_edit : WidgetEditBase
 	/// </summary>
 	public override void Save()
 	{
-		
+    XmlDocument doc = Doc();
 	}
+
+  void Save(XmlDocument doc)
+  {
+    StringDictionary settings = GetSettings();
+    settings["content"] = doc.InnerXml;
+    SaveSettings(settings);
+  }
+
+  XmlDocument Doc()
+  {
+    StringDictionary settings = GetSettings();
+    XmlDocument doc = new XmlDocument();
+    if (settings["content"] != null)
+      doc.InnerXml = settings["content"];
+
+    return doc;
+  }
 }

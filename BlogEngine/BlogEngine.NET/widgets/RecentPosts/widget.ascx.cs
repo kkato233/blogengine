@@ -35,7 +35,7 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 	{
 		if (HttpRuntime.Cache["widget_recentposts"] == null)
 		{
-			StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+			StringDictionary settings = GetSettings();
 			
 			int numberOfPosts = DEFAULT_NUMBER_OF_POSTS;
 			if (settings.ContainsKey("numberofposts"))
