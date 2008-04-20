@@ -14,7 +14,7 @@ public partial class widgets_Tag_cloud_edit : WidgetEditBase
 
 	protected override void OnLoad(EventArgs e)
 	{
-		StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+		StringDictionary settings = GetSettings();
 		string minimumPosts = "1";
 		if (settings.ContainsKey("minimumposts"))
 			minimumPosts = settings["minimumposts"];
@@ -24,7 +24,7 @@ public partial class widgets_Tag_cloud_edit : WidgetEditBase
 
 	public override void Save()
 	{
-		StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+		StringDictionary settings = GetSettings();
 		settings["minimumposts"] = ddlNumber.SelectedValue;
 		SaveSettings(settings);
 		widgets_Tag_cloud_widget.Reload();

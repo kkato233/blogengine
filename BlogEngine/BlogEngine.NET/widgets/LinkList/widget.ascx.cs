@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Xml;
 using System.IO;
+using System.Collections.Specialized;
 using BlogEngine.Core;
 
 #endregion
@@ -16,7 +17,12 @@ public partial class widgets_LinkList_widget : WidgetBase
 {
 	public override void LoadWidget()
 	{
-    XmlDocument doc = (XmlDocument)GetSettings(ObjectType.XmlDocument);
+    StringDictionary settings = GetSettings();
+    XmlDocument doc = new XmlDocument();
+
+    if (settings["content"] != null)
+      doc.InnerXml = settings["content"];
+    
 		XmlNodeList links = doc.SelectNodes("//link");
 
 		if (links.Count == 0)

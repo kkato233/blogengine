@@ -16,7 +16,7 @@ public partial class widgets_RecentPosts_edit : WidgetEditBase
 	{
 		if (!Page.IsPostBack)
 		{
-			StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+			StringDictionary settings = GetSettings();
 			if (settings.ContainsKey("numberofcomments"))
 				txtNumberOfPosts.Text = settings["numberofcomments"];
 			else
@@ -26,7 +26,7 @@ public partial class widgets_RecentPosts_edit : WidgetEditBase
 
 	public override void Save()
 	{
-		StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+		StringDictionary settings = GetSettings();
 		settings["numberofcomments"] = txtNumberOfPosts.Text;
 		SaveSettings(settings);
 		HttpRuntime.Cache.Remove("widget_recentcomments");

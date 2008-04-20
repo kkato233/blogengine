@@ -51,7 +51,7 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 	{
 		get 
 		{
-			StringDictionary settings = (StringDictionary)GetSettings(ObjectType.StringDictionary);
+			StringDictionary settings = GetSettings();
 			if (settings.ContainsKey("minimumposts"))
 			{
 				int.TryParse(settings["minimumposts"], out _MinimumPosts);
