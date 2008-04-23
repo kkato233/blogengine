@@ -24,7 +24,7 @@
 	  //content_css : "<%= VirtualPathUtility.ToAbsolute("~/") + "themes/" + BlogSettings.Instance.Theme %>/style.css",
       plugin_insertdate_dateFormat : "%Y-%m-%d",
       plugin_insertdate_timeFormat : "%H:%M:%S",
-	  extended_valid_elements : "div[id,class,style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style],script[charset|defer|language|src|type],code,iframe[src|width|height|frameborder|name|style]",
+	  extended_valid_elements : "div[id|class|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style],script[charset|defer|language|src|type],code,iframe[src|width|height|frameborder|name|style]",
 	  external_link_list_url : "example_link_list.js",
 	  external_image_list_url : "example_image_list.js",
 	  flash_external_list_url : "example_flash_list.js",

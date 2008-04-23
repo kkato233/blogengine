@@ -94,10 +94,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			try
 			{
+				Uri url = new Uri(file, UriKind.Absolute);
+
 				using (WebClient client = new WebClient())
 				{
 					client.Credentials = CredentialCache.DefaultNetworkCredentials;
-					script = client.DownloadString(file);
+					script = client.DownloadString(url);
 					script = StripWhitespace(script);
 					HttpContext.Current.Cache.Insert(file, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
 				}
@@ -105,6 +107,10 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			catch (System.Net.Sockets.SocketException)
 			{
 				// The remote site is currently down. Try again next time.
+			}
+			catch (UriFormatException)
+			{
+				// Only valid absolute URLs are accepted
 			}
 
 			return script;
