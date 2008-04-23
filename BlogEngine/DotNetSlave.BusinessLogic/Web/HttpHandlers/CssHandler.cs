@@ -107,8 +107,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
 
 			DateTime date = DateTime.Now;
-			if (context.Cache[file + "date"] != null)
-				date = (DateTime)context.Cache[file + "date"];
+			if (context.Cache[file] != null)
+				date = ((Pair<string, DateTime>)context.Cache[file]).Second;
 
 			string etag = "\"" + date.GetHashCode() + "\"";
 			string incomingEtag = context.Request.Headers["If-None-Match"];
