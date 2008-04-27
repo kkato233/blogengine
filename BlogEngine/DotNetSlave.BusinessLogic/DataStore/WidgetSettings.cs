@@ -14,34 +14,34 @@ namespace BlogEngine.Core.DataStore
     {
       SettingID = setId;
       ExType = ExtensionType.Widget;
-      SettingsBehavior = new XMLDocumentBehavior();
+      SettingsBehavior = new StringDictionaryBehavior();
     }
-    /// <summary>
-    /// Overload to be able to save different objects
-    /// </summary>
-    /// <param name="setId">Setting Id</param>
-    /// <param name="objType">Object Type</param>
-    public WidgetSettings(string setId, Type objType)
-    {
-      SettingID = setId;
-      ExType = ExtensionType.Widget;
+    ///// <summary>
+    ///// Overload to be able to save different objects
+    ///// </summary>
+    ///// <param name="setId">Setting Id</param>
+    ///// <param name="objType">Object Type</param>
+    //public WidgetSettings(string setId, Type objType)
+    //{
+    //  SettingID = setId;
+    //  ExType = ExtensionType.Widget;
 
-      if (objType.Name == "StringDictionary")
-      {
-        SettingsBehavior = new StringDictionaryBehavior();
-      }
-      else if (objType.Name == "XmlDocument")
-      {
-        SettingsBehavior = new XMLDocumentBehavior();
-      }
-      else if (objType.Name == "CustomObjectBase")
-      {
-        SettingsBehavior = new CustomObjectBehavior();
-      }
-      else
-      {
-        throw new ApplicationException(objType.Name + " is not supported by Data Store");
-      }
-    }
+    //  if (objType.Name == "StringDictionary")
+    //  {
+    //    SettingsBehavior = new StringDictionaryBehavior();
+    //  }
+    //  else if (objType.Name == "XmlDocument")
+    //  {
+    //    SettingsBehavior = new XMLDocumentBehavior();
+    //  }
+    //  else if (objType.Name == "CustomObjectBase")
+    //  {
+    //    SettingsBehavior = new CustomObjectBehavior();
+    //  }
+    //  else
+    //  {
+    //    throw new ApplicationException(objType.Name + " is not supported by Data Store");
+    //  }
+    //}
   }
 }

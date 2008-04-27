@@ -29,57 +29,20 @@ public class MasterPageBase : System.Web.UI.MasterPage
   #region Settings
 
   /// <summary>
-  /// Object types supported by data store
-  /// </summary>
-  public enum ObjectType
-  {
-    XmlDocument,
-    StringDictionary,
-    CustomObject
-  }
-
-  /// <summary>
-  /// Get settings from data store
-  /// </summary>
-  /// <param name="type">Object type</param>
-  /// <returns>Settings</returns>
-  public object GetSettings(string id)
-  {
-    return GetSettings(ObjectType.StringDictionary, id, null);
-  }
-  public object GetSettings(string id, ObjectType type)
-  {
-    return GetSettings(type, id, null);
-  }
-
-  /// <summary>
   /// Get settings from data store
   /// </summary>
   /// <param name="type">Object type</param>
   /// <param name="obj">Object</param>
   /// <returns>Settings</returns>
-  public object GetSettings(ObjectType type, string id, object obj)
+  public StringDictionary GetSettings(string id)
   {
     string cacheId = "be_theme_" + id;
     if (Cache[cacheId] == null)
     {
-      if (type == ObjectType.XmlDocument)
-      {
-        ThemeSettings ts = new ThemeSettings(id, typeof(XmlDocument));
-        Cache[cacheId] = (XmlDocument)ts.GetSettings();
-      }
-      else if (type == ObjectType.StringDictionary)
-      {
-        ThemeSettings ts = new ThemeSettings(id, typeof(StringDictionary));
-        Cache[cacheId] = (StringDictionary)ts.GetSettings();
-      }
-      else if (type == ObjectType.CustomObject)
-      {
-        object custData = CustomObject.GetObject(id, obj.GetType());
-        Cache[cacheId] = custData;
-      }
+      ThemeSettings ts = new ThemeSettings(id);
+      Cache[cacheId] = (StringDictionary)ts.GetSettings();
     }
-    return Cache[cacheId];
+    return (StringDictionary)Cache[cacheId];
   }
 
   /// <summary>
@@ -88,28 +51,9 @@ public class MasterPageBase : System.Web.UI.MasterPage
   /// <param name="settings">Object Settings</param>
   protected virtual void SaveSettings(string id, object settings)
   {
-    string objType = settings.GetType().Name;
     string cacheId = "be_theme_" + id;
-
-    if (objType == "XmlDocument")
-    {
-      ThemeSettings ts = new ThemeSettings(id, typeof(XmlDocument));
-      ts.SaveSettings(settings);
-    }
-    else if (objType.Contains("StringDictionary")) // Use contains because objType can be both StringDictionary and SerializableStringDictionary
-    {
-      ThemeSettings ts = new ThemeSettings(id, typeof(StringDictionary));
-      ts.SaveSettings(settings);
-    }
-    else if (settings.GetType().BaseType.Name == "CustomObjectBase")
-    {
-      ThemeSettings ts = new ThemeSettings(id, typeof(CustomObjectBase));
-      ts.SaveSettings(settings);
-    }
-    else
-    {
-      throw new ApplicationException(objType + " is not supported by Data Store");
-    }
+    ThemeSettings ts = new ThemeSettings(id);
+    ts.SaveSettings(settings);
     Cache[cacheId] = settings;
   }
 
