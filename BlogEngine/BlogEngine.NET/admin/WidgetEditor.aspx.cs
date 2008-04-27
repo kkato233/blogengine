@@ -201,7 +201,8 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
     XmlDocument doc;
     if (Cache[_zoneId] == null)
     {
-      WidgetSettings ws = new WidgetSettings(_zoneId, typeof(XmlDocument));
+      WidgetSettings ws = new WidgetSettings(_zoneId);
+      ws.SettingsBehavior = new XMLDocumentBehavior();
       doc = (XmlDocument)ws.GetSettings();
       if (doc.SelectSingleNode("widgets") == null)
       {
@@ -219,7 +220,8 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	/// <param name="doc">The doc.</param>
 	private void SaveXmlDocument(XmlDocument doc)
 	{
-    WidgetSettings ws = new WidgetSettings(_zoneId, typeof(XmlDocument));
+    WidgetSettings ws = new WidgetSettings(_zoneId);
+    ws.SettingsBehavior = new XMLDocumentBehavior();
     ws.SaveSettings(doc);
     Cache[_zoneId] = doc;
 	}

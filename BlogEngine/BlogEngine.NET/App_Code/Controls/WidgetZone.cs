@@ -29,7 +29,8 @@ namespace Controls
 
 		private static XmlDocument RetrieveXml()
 		{
-      WidgetSettings ws = new WidgetSettings("be_WIDGET_ZONE", typeof(XmlDocument));
+      WidgetSettings ws = new WidgetSettings("be_WIDGET_ZONE");
+      ws.SettingsBehavior = new XMLDocumentBehavior();
       XmlDocument doc = (XmlDocument)ws.GetSettings();
       return doc;
 		}

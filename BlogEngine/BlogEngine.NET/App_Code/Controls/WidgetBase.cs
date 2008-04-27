@@ -110,7 +110,7 @@ public abstract class WidgetBase : UserControl
     string cacheId = "be_widget_" + WidgetID;
     if (Cache[cacheId] == null)
     {
-      WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+      WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
       Cache[cacheId] = (StringDictionary)ws.GetSettings();
     }
     return (StringDictionary)Cache[cacheId];

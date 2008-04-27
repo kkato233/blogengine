@@ -73,7 +73,7 @@ public abstract class WidgetEditBase : UserControl
     string cacheId = "be_widget_" + WidgetID;
     if (Cache[cacheId] == null)
     {
-      WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+      WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
       Cache[cacheId] = (StringDictionary)ws.GetSettings();
     }
     return (StringDictionary)Cache[cacheId];
@@ -87,7 +87,7 @@ public abstract class WidgetEditBase : UserControl
   {
     string cacheId = "be_widget_" + WidgetID;
 
-    WidgetSettings ws = new WidgetSettings(WidgetID.ToString(), typeof(StringDictionary));
+    WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
     ws.SaveSettings(settings);
     
     Cache[cacheId] = settings;
