@@ -41,9 +41,8 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
 			PostList1.Posts = Post.Posts;
-			Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
 			if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
-				Page.Title += " - " + Server.HtmlEncode(BlogSettings.Instance.Description);
+                Page.Title += Server.HtmlEncode(" - " + BlogSettings.Instance.Description);
 		}
 
 		AddMetaKeywords();

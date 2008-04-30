@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using BlogEngine.Core;
 
 public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 {
@@ -18,7 +19,7 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 			changepassword1.Visible = true;
 			changepassword1.ContinueButtonClick += new EventHandler(changepassword1_ContinueButtonClick);
 			Login1.Visible = false;
-			Page.Title = Resources.labels.changePassword;
+            Page.Title += Resources.labels.changePassword;
 		}
 		else
 		{

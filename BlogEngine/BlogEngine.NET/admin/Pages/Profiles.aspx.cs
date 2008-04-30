@@ -23,6 +23,7 @@ public partial class admin_profiles : Page
             BindCountries();
         }
 
+        Page.Title = Resources.labels.profile;
 
     }
 

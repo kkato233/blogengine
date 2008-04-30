@@ -50,7 +50,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				related.Item = this.Post;
 				CommentView1.Post = Post;
 
-				Page.Title = Server.HtmlEncode(Post.Title);
+                Page.Title += Server.HtmlEncode(" - " + Post.Title);
 				AddMetaKeywords();
 				AddMetaDescription();				
 				AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());

@@ -32,6 +32,10 @@ namespace BlogEngine.Core.Web.Controls
 		/// </summary>
 		protected override void OnPreInit(EventArgs e)
 		{
+
+            //Set Page Title
+            Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
+
 			if (Request.QueryString["theme"] != null)
 				_Theme = Request.QueryString["theme"];
 
@@ -62,6 +66,8 @@ namespace BlogEngine.Core.Web.Controls
 			base.OnLoad(e);
 			if (!Page.IsCallback && !Page.IsPostBack)
 			{	
+
+
 				// Links
 				AddGenericLink("contents", "Archive", Utils.RelativeWebRoot + "archive.aspx");
 				AddGenericLink("start", BlogSettings.Instance.Name, Utils.RelativeWebRoot);
