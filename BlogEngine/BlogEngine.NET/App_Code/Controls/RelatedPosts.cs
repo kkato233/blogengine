@@ -133,6 +133,9 @@ namespace Controls
 						if (description != null && description.Length > DescriptionMaxLength)
 							description = description.Substring(0, DescriptionMaxLength) + "...";
 
+                        if (String.IsNullOrEmpty(description))
+                            description = post.Content.Length > DescriptionMaxLength ? post.Content.Substring(0, DescriptionMaxLength) + "..." : post.Content;
+
 						sb.Append(string.Format(desc, description));
 					}
 					count++;
