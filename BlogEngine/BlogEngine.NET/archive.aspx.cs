@@ -26,7 +26,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       AddTotals();
     }
 
-    Page.Title = Resources.labels.archive;
+    Page.Title += " - " +Resources.labels.archive;
     base.AddMetaTag("description", Resources.labels.archive + " | " + BlogSettings.Instance.Name);
   }
 
@@ -111,7 +111,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
         if (BlogSettings.Instance.IsCommentsEnabled)
         {
           HtmlTableCell comments = new HtmlTableCell();
-          comments.InnerHtml = post.Comments.Count.ToString();
+          comments.InnerHtml = post.ApprovedComments.Count.ToString();
           comments.Attributes.Add("class", "comments");
           row.Cells.Add(comments);
         }

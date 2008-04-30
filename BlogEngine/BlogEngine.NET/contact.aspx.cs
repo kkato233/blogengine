@@ -38,7 +38,7 @@ public partial class contact : BlogBasePage
 			SetFocus();
 		}
 
-		Page.Title = Resources.labels.contact;
+        Page.Title += Server.HtmlEncode(" - " + Resources.labels.contact);
 		base.AddMetaTag("description", _Regex.Replace(BlogSettings.Instance.ContactFormMessage, string.Empty));
 	}
 

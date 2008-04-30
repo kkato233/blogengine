@@ -33,7 +33,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
     {
 			bool includeComments = Request.QueryString["comment"] == "true";
 			string term = Request.QueryString["q"];
-			Page.Title = Resources.labels.searchResultsFor + " '" + Request.QueryString["q"] + "'";
+            Page.Title +=  Server.HtmlEncode(" - " + Resources.labels.searchResultsFor) + " '" + Request.QueryString["q"] + "'";
 			h1Headline.InnerText = Page.Title;
 
 			Uri url;

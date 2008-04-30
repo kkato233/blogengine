@@ -691,4 +691,7 @@
   <data name="phoneMobile" xml:space="preserve">
     <value>Phone Mobile</value>
   </data>
+  <data name="profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
 </root>
