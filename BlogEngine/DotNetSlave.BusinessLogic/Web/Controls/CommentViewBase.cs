@@ -186,7 +186,7 @@ namespace BlogEngine.Core.Web.Controls
 		private string CreateMd5Hash()
 		{
 			System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-			byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email));
+			byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email.ToLowerInvariant()));
 
 			System.Text.StringBuilder hash = new System.Text.StringBuilder();
 			for (int i = 0; i < result.Length; i++)
