@@ -162,6 +162,10 @@ public class ExtensionSettings
   {
     AddParameter(name, label, maxLength, required, false);
   }
+  public void AddParameter(string name, string label, int maxLength, bool required, bool keyfield)
+  {
+    AddParameter(name, label, maxLength, required, keyfield, ParameterType.String);
+  }
   /// <summary>
   /// Add Parameter
   /// </summary>
@@ -170,7 +174,7 @@ public class ExtensionSettings
   /// <param name="maxLength">Maximum Length</param>
   /// <param name="required">Set if value in the parameter required when added/apdated</param>
   /// <param name="keyfield">Mark field as primary key, unique and required</param>
-  public void AddParameter(string name, string label, int maxLength, bool required, bool keyfield)
+  public void AddParameter(string name, string label, int maxLength, bool required, bool keyfield, ParameterType parType)
   {
     if (_params == null)
       _params = new List<ExtensionParameter>();
@@ -180,6 +184,7 @@ public class ExtensionSettings
     par.MaxLength = maxLength;
     par.Required = required;
     par.KeyField = keyfield;
+    par.ParamType = parType;
 
     _params.Add(par);
   }
@@ -265,6 +270,28 @@ public class ExtensionSettings
     }
     return string.Empty;
   }
+
+  public void SetParameterType(string parameterName, ParameterType t)
+  {
+    foreach (ExtensionParameter par in _params)
+    {
+      if (par.Name.ToLower() == parameterName.ToLower())
+      {
+        par.ParamType = t;
+      }
+    }
+  }
+  public ParameterType GetParameterType(string parameterName)
+  {
+    foreach (ExtensionParameter par in _params)
+    {
+      if (par.Name.ToLower() == parameterName.ToLower())
+      {
+        return par.ParamType;
+      }
+    }
+    return ParameterType.String;
+  }
   #endregion
 
   #region Values Methods
@@ -275,11 +302,66 @@ public class ExtensionSettings
   /// <param name="val">Value</param>
   public void AddValue(string parameterName, string val)
   {
+    AddObjectValue(parameterName, val);
+  }
+  public void AddValue(string parameterName, bool val)
+  {
+    AddObjectValue(parameterName, val);
+  }
+  public void AddValue(string parameterName, int val)
+  {
+    AddObjectValue(parameterName, val);
+  }
+  public void AddValue(string parameterName, long val)
+  {
+    AddObjectValue(parameterName, val);
+  }
+  public void AddValue(string parameterName, float val)
+  {
+    AddObjectValue(parameterName, val);
+  }
+  public void AddValue(string parameterName, double val)
+  {
+    AddObjectValue(parameterName, val);
+  }
+  public void AddValue(string parameterName, decimal val)
+  {
+    AddObjectValue(parameterName, val);
+  }
+  private void AddObjectValue(string parameterName, object val)
+  {
     foreach (ExtensionParameter par in _params)
     {
       if (par.Name == parameterName)
       {
         par.AddValue(val);
+        // if set to string by default - check if strong type
+        // was used in "AddValue" method and assign appropriate
+        // data type. otherwise leave it alone
+        if (par.ParamType == ParameterType.String)
+        {
+          switch (val.GetType().Name)
+          {
+            case "Int32":
+              par.ParamType = ParameterType.Integer;
+              break;
+            case "Boolean":
+              par.ParamType = ParameterType.Boolean;
+              break;
+            case "Int64":
+              par.ParamType = ParameterType.Long;
+              break;
+            case "Float":
+              par.ParamType = ParameterType.Float;
+              break;
+            case "Double":
+              par.ParamType = ParameterType.Double;
+              break;
+            case "Decimal":
+              par.ParamType = ParameterType.Decimal;
+              break;
+          }
+        }
         break;
       }
     }
@@ -340,7 +422,10 @@ public class ExtensionSettings
     System.Data.DataTable objDataTable = new System.Data.DataTable();
     foreach (ExtensionParameter p in _params)
     {
-      objDataTable.Columns.Add(p.Name, string.Empty.GetType());
+      if(p.ParamType == ParameterType.Boolean)
+        objDataTable.Columns.Add(p.Name, true.GetType());
+      else
+        objDataTable.Columns.Add(p.Name, string.Empty.GetType());
     }
 
     if (_params[0].Values != null)

@@ -4,6 +4,10 @@ using System.Collections.Specialized;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 
+// public enum ParameterType { String, Boolean }
+[Flags()]
+public enum ParameterType { String, Boolean, Integer, Long, Float, Double, Decimal }
+
 /// <summary>
 /// Extension Parameter - serializable object
 /// that holds parameter attributes and collection
@@ -19,6 +23,7 @@ public class ExtensionParameter
     bool _required = false;
     bool _keyField = false;
     StringCollection _values = null;
+    ParameterType _type = ParameterType.String;
     #endregion
 
     #region Public Serializable
@@ -52,6 +57,12 @@ public class ExtensionParameter
     /// </summary>
     [XmlElement]
     public StringCollection Values { get { return _values; } set { _values = value; } }
+    /// <summary>
+    /// Parameter Type
+    /// </summary>
+    //[XmlElement(IsNullable = true)]
+    [XmlElement]
+    public ParameterType ParamType { get { return _type; } set { _type = value; } }
     #endregion
 
     #region Constructors
@@ -81,6 +92,13 @@ public class ExtensionParameter
 
         _values.Add(val);
     }
+    public void AddValue(object val)
+    {
+      if (_values == null)
+        _values = new StringCollection();
+
+      _values.Add(val.ToString());
+    }
     /// <summary>
     /// Update value for scalar (single value) parameter
     /// </summary>
@@ -94,6 +112,20 @@ public class ExtensionParameter
             _values.Add(val);
         else
             _values[0] = val;
+    }
+    /// <summary>
+    /// Update value for scalar (single value) parameter
+    /// </summary>
+    /// <param name="val">Value</param>
+    public void UpdateScalarValue(object val)
+    {
+      if (_values == null)
+        _values = new StringCollection();
+
+      if (_values.Count == 0)
+        _values.Add(val.ToString());
+      else
+        _values[0] = val.ToString();
     }
     /// <summary>
     /// Delete value in parameter value collection
