@@ -171,7 +171,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		post.Tags.Clear();
 		if (txtTags.Text.Trim().Length > 0)
 		{
-			string[] tags = txtTags.Text.Split(',');
+			string[] tags = txtTags.Text.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (string tag in tags)
 			{
 				post.Tags.Add(tag.Trim().ToLowerInvariant());

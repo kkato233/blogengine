@@ -52,7 +52,7 @@ public class BreakPost
   {
     Post post = (Post)sender;
     int index = e.Body.IndexOf("[more]");
-    string link = "<a href=\"" + post.RelativeLink + "#continue\">" + Resources.labels.more + "...</a>";
+    string link = "<a class=\"more\" href=\"" + post.RelativeLink + "#continue\">" + Resources.labels.more + "...</a>";
     e.Body = e.Body.Substring(0, index) + link;
   }
 

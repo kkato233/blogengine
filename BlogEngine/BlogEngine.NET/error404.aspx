@@ -1,16 +1,16 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="error404.aspx.cs" Inherits="error404" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
-  <div class="post">
+  <div class="post error404">
     <h1>Ooops! I can't find the page you're looking for</h1>
-    <div id="divSearchEngine" runat="server" visible="False">
+    <div id="divSearchEngine" runat="server" visible="False" class="search">
       <p>
         You did a search on <strong><a href="<%=Request.UrlReferrer %>"><%=Request.UrlReferrer.Host %></a></strong>
         for <strong><%=SearchTerm %></strong>. However, their index seems to be out of date.
       </p>
       <h2>All is not lost!</h2>
       <p>I think that the following pages on my site will be able to help you:</p>
-      <div id="divSearchResult" runat="server" />
+      <div id="divSearchResult" runat="server" class="searchresults" />
     </div>
     
     <div id="divExternalReferrer" runat="server" visible="False">

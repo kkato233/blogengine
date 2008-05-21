@@ -100,7 +100,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		#region Events
 
 		/// <summary>
-		/// Occurs when the requested file does not exist;
+		/// Occurs before the requested image is served.
 		/// </summary>
 		public static event EventHandler<EventArgs> Serving;
 		private static void OnServing(string file)
@@ -112,7 +112,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		}
 
 		/// <summary>
-		/// Occurs when a file is served;
+		/// Occurs when a file is served.
 		/// </summary>
 		public static event EventHandler<EventArgs> Served;
 		private static void OnServed(string file)
@@ -124,7 +124,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		}
 
 		/// <summary>
-		/// Occurs when the requested file does not exist;
+		/// Occurs when the requested file does not exist.
 		/// </summary>
 		public static event EventHandler<EventArgs> BadRequest;
 		private static void OnBadRequest(string file)
