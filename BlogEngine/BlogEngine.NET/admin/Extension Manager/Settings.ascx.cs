@@ -199,19 +199,31 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         {
             foreach (Control ctl in phAddForm.Controls)
             {
-                if (ctl.GetType().Name == "TextBox")
+                if (ctl.GetType().Name == "CheckBox")
                 {
-                    TextBox txt = (TextBox)ctl;
-                    if (txt.ID.ToLower() == par.Name.ToLower())
+                    CheckBox cbx = (CheckBox)ctl;
+                    if (cbx.ID.ToLower() == par.Name.ToLower())
                     {
-                        if (par.Values != null)
+                        if (par.Values != null && par.Values.Count > 0)
                         {
-                            if (par.Values.Count == 0)
-                                txt.Text = string.Empty;
-                            else
-                                txt.Text = par.Values[0];
+                          cbx.Checked = bool.Parse(par.Values[0]);
                         }
                     }
+                }
+
+                if (ctl.GetType().Name == "TextBox")
+                {
+                  TextBox txt = (TextBox)ctl;
+                  if (txt.ID.ToLower() == par.Name.ToLower())
+                  {
+                    if (par.Values != null)
+                    {
+                      if (par.Values.Count == 0)
+                        txt.Text = string.Empty;
+                      else
+                        txt.Text = par.Values[0];
+                    }
+                  }
                 }
             }
         }
@@ -253,13 +265,25 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
             br.Text = "<br />";
             phAddForm.Controls.Add(br);
 
-            // add textbox
-            TextBox bx = new TextBox();
-            bx.Text = string.Empty;
-            bx.ID = par.Name;
-            bx.Width = new Unit(250);
-            bx.MaxLength = par.MaxLength;
-            phAddForm.Controls.Add(bx);
+            if (par.ParamType == ParameterType.Boolean)
+            {
+              // add checkbox
+              CheckBox cb = new CheckBox();
+              cb.Checked = false;
+              cb.ID = par.Name;
+              phAddForm.Controls.Add(cb);
+            }
+            else
+            {
+              // add textbox
+              TextBox bx = new TextBox();
+              bx.Text = string.Empty;
+              bx.ID = par.Name;
+              bx.Width = new Unit(250);
+              bx.MaxLength = par.MaxLength;
+              phAddForm.Controls.Add(bx);
+            }
+            
 
             Literal br2 = new Literal();
             br2.Text = "<br />";
@@ -280,6 +304,13 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
             if (ctl.GetType().Name == "TextBox")
             {
                 TextBox txt = (TextBox)ctl;
+                if (!ValidateType(txt.ID, txt.Text))
+                {
+                  ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" must be a " + _settings.GetParameterType(txt.ID).ToString();
+                  ErrorMsg.Visible = true;
+                  rval = false;
+                  break;
+                }
                 if (_settings.IsRequiredParameter(txt.ID) && string.IsNullOrEmpty(txt.Text.Trim()))
                 {
                     ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" is a required field";
@@ -300,6 +331,40 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
             }
         }
         return rval;
+    }
+
+    protected bool ValidateType(string parameterName, object val)
+    {
+      bool retVal = true;
+      try
+      {
+        switch (_settings.GetParameterType(parameterName))
+        {
+          case ParameterType.Boolean:
+            bool.Parse(val.ToString());
+            break;
+          case ParameterType.Integer:
+            int.Parse(val.ToString());
+            break;
+          case ParameterType.Long:
+            long.Parse(val.ToString());
+            break;
+          case ParameterType.Float:
+            float.Parse(val.ToString());
+            break;
+          case ParameterType.Double:
+            double.Parse(val.ToString());
+            break;
+          case ParameterType.Decimal:
+            decimal.Parse(val.ToString());
+            break;
+        }
+      }
+      catch (Exception)
+      {
+        retVal = false;
+      }
+      return retVal;
     }
     
     /// <summary>
