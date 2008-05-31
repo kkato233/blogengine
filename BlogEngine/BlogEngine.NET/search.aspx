@@ -20,7 +20,7 @@
       function SearchPage()
       {        
         var searchTerm = encodeURIComponent(document.getElementById('q').value);
-        var include = check.checked;
+        var include = check ? check.checked : false;
         var comment = '&comment=true';
         
         if (!include)

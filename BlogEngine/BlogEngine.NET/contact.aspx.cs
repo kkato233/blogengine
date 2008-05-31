@@ -81,20 +81,20 @@ public partial class contact : BlogBasePage
 
 	private bool SendEmail()
 	{
-
 		try
 		{
 			using (MailMessage mail = new MailMessage())
 			{
-				//mail.From = new MailAddress(txtEmail.Text, txtName.Text);
-				mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
+				mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.AuthorName);
 				mail.ReplyTo = new MailAddress(txtEmail.Text, txtName.Text);
+				mail.Sender = mail.ReplyTo;
+
 				mail.To.Add(BlogSettings.Instance.Email);
 				mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " e-mail - " + txtSubject.Text;
 
 				mail.Body = "<div style=\"font: 11px verdana, arial\">";
 				mail.Body += Server.HtmlEncode(txtMessage.Text).Replace(Environment.NewLine, "<br />") + "<br /><br />";
-				mail.Body += "_______________________________________________________________________________<br />";
+				mail.Body += "<hr /><br />";
 				mail.Body += "<h3>Author information</h3>";
 				mail.Body += "<div style=\"font-size:10px;line-height:16px\">";
 				mail.Body += "<strong>Name:</strong> " + Server.HtmlEncode(txtName.Text) + "<br />";
@@ -180,9 +180,9 @@ public partial class contact : BlogBasePage
 	/// </summary> 
 	private void InititializeCaptcha()
 	{
-		if (ViewState["captchavalue"] == null)
+		if (ViewState[DateTime.Today.Ticks.ToString()] == null)
 		{
-			ViewState["captchavalue"] = Guid.NewGuid().ToString();
+			ViewState[DateTime.Today.Ticks.ToString()] = Guid.NewGuid().ToString();
 		}
 
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
@@ -190,8 +190,8 @@ public partial class contact : BlogBasePage
 		sb.AppendLine("var form = document.getElementById('" + Page.Form.ClientID + "');");
 		sb.AppendLine("var el = document.createElement('input');");
 		sb.AppendLine("el.type = 'hidden';");
-		sb.AppendLine("el.name = 'captcha';");
-		sb.AppendLine("el.value = '" + ViewState["captchavalue"] + "';");
+		sb.AppendLine("el.name = '" + DateTime.Today.Ticks + "';");
+		sb.AppendLine("el.value = '" + ViewState[DateTime.Today.Ticks.ToString()] + "';");
 		sb.AppendLine("form.appendChild(el);}");
 
 		Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
@@ -205,9 +205,9 @@ public partial class contact : BlogBasePage
 	{
 		get
 		{
-			if (ViewState["captchavalue"] != null)
+			if (ViewState[DateTime.Today.Ticks.ToString()] != null)
 			{
-				return Request.Form["captcha"] == ViewState["captchavalue"].ToString();
+				return Request.Form[DateTime.Today.Ticks.ToString()] == ViewState[DateTime.Today.Ticks.ToString()].ToString();
 			}
 
 			return false;

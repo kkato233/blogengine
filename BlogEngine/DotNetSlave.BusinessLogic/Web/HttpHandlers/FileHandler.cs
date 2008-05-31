@@ -52,8 +52,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				{					
 					string folder = BlogSettings.Instance.StorageLocation + "/files/";
 					FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);
-					
-					if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
+
+					if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains(Path.DirectorySeparatorChar + "FILES"))
 					{
 						context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
 						SetContentType(context, fileName);
@@ -64,13 +64,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					else
 					{
 						OnBadRequest(fileName);
-						context.Response.Status = "404 Bad Request";
+						context.Response.Redirect(Utils.AbsoluteWebRoot + "error404.aspx");
 					}
 				}
 				catch (Exception)
 				{
 					OnBadRequest(fileName);
-					context.Response.Status = "404 Bad Request";
+					context.Response.Redirect(Utils.AbsoluteWebRoot + "error404.aspx");
 				}
       }
     }

@@ -3,7 +3,6 @@
   <widget id="fde4d0ae-788d-4873-a591-b92a16dfd1d5" title="About the author" showTitle="True">TextBox</widget>
   <widget id="08032675-72aa-4e69-9d41-76547dd9181c" title="Search2" showTitle="False">Search</widget>
   <widget id="93e2687e-eeba-45ba-98a2-ea24f3ec2ecc" title="Administration" showTitle="True">Administration</widget>
-  <widget id="00856dee-e045-463a-b1ef-71dc7daa646b" title="The Lounge" showTitle="True">TextBox</widget>
   <widget id="8edcc57d-a098-45b9-a802-e64eb9764246" title="Tag cloud" showTitle="True">Tag cloud</widget>
   <widget id="714f1ecb-fd6c-4d0c-9f9a-6ea6f224b57a" title="Recent posts" showTitle="True">RecentPosts</widget>
   <widget id="6a934e13-360a-49f4-97f3-5e6c15612f00" title="Categories" showTitle="True">Category list</widget>

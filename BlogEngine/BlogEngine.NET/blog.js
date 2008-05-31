@@ -3,67 +3,6 @@
   return document.getElementById(id);
 }
 
-// Live preview
-var _Regex = new RegExp("\\n","gi");
-var _RegexUrl = new RegExp("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?&#=\\-_\\./]{2,})", "gi");
-var _Preview;
-var _PreviewAuthor;
-var _PreviewContent;
-var _TxtName;
-
-// Shows live preview of the comment being entered.
-function ShowCommentPreview(target, sender)
-{
-  if (_Preview == null)
-    _Preview = $("livepreview");  
-    
-  if (_Preview == null)
-    return;
-  
-  if (_PreviewAuthor == null)
-    _PreviewAuthor = GetElementByClassName(_Preview, "p", "author");
-  
-  if (_PreviewContent == null)
-    _PreviewContent = GetElementByClassName(_Preview, "p", "content");
-  
-  if (_TxtName == null)
-    _TxtName = $("ctl00_cphBody_CommentView1_txtName");   
-    
-  if (!_PreviewAuthor)
-    return; 
-    
-  var body = sender.value;
-  body = body.replace(new RegExp("&","gi"), "&amp;");
-  body = body.replace(new RegExp(">","gi"), "&gt;");  
-  body = body.replace(new RegExp("<","gi"), "&lt;");
-  body = body.replace(_RegexUrl, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>");
-    
-  _PreviewAuthor.innerHTML = _TxtName.value;
-  _PreviewContent.innerHTML = body.replace(_Regex, "<br />");
-  
-  var _TxtWebsite = $("ctl00_cphBody_CommentView1_txtWebsite");
-  if( _TxtWebsite != null && _TxtWebsite.value.length > 0)
-  {
-    if (_TxtWebsite.value.indexOf("://") == -1)
-      _TxtWebsite.value = "http://" + _TxtWebsite.value;
-      
-    _PreviewAuthor.innerHTML = "<a href=\"" + _TxtWebsite.value + "\">" + _PreviewAuthor.innerHTML + "</a>";
-  }
-}
-
-function GetElementByClassName(parent, tag, className)
-{
-  if (parent == null)
-    return;
-    
-  var elements = parent.getElementsByTagName(tag);
-  for (i = 0; i < elements.length; i++)
-  {
-    if (elements[i].className == className)
-      return elements[i];
-  }
-}
-
 function SetFlag(iso)
 {  
   if (iso.length > 0)

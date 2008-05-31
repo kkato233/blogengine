@@ -102,13 +102,13 @@ namespace BlogEngine.Core.Providers
       switch (exType)
       {
         case ExtensionType.Extension:
-          storageDirectory += @"\extensions\";
+					storageDirectory += Path.DirectorySeparatorChar + "extensions" + Path.DirectorySeparatorChar;
           break;
         case ExtensionType.Widget:
-          storageDirectory += @"\widgets\";
+					storageDirectory += Path.DirectorySeparatorChar + "widgets" + Path.DirectorySeparatorChar;
           break;
         case ExtensionType.Theme:
-          storageDirectory += @"\themes\";
+					storageDirectory += Path.DirectorySeparatorChar + "themes" + Path.DirectorySeparatorChar;
           break;
       }
       return storageDirectory;

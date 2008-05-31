@@ -599,8 +599,9 @@ namespace BlogEngine.Core
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
             mail.Subject = "New comment on " + Title;
-            mail.Body = "Comment by " + comment.Author + Environment.NewLine + Environment.NewLine;
-            mail.Body += comment.Content + "\n\n" + AbsoluteLink.ToString();
+						mail.Body = "Comment by " + comment.Author + "<br /><br />";
+						mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
+						mail.Body += string.Format("<a href=\"{0}\">{1}</a>", PermaLink + "#id_" + comment.Id, Title);
 
             foreach (string email in NotificationEmails)
             {

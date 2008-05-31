@@ -17,9 +17,9 @@
     </div>
 
     <div id="menu">
-      <asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink> |
-      <asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink> |
-      <asp:HyperLink ID="hlContact" NavigateUrl="~/contact.aspx" runat="server">Contact</asp:HyperLink> |
+      <a href="<%=Utils.RelativeWebRoot%>default.aspx">Home</a> |
+      <a href="<%=Utils.RelativeWebRoot%>archive.aspx">Archive</a> |
+      <a href="<%=Utils.RelativeWebRoot%>contact.aspx">Contact</a> |
       <a href="<%=Utils.FeedUrl %>">Feed</a> 
     </div>
 	  

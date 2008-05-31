@@ -30,7 +30,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 			return;
 		}
 
-		List<Post> visiblePosts = Posts.FindAll(delegate(Post p) { return p.IsVisible; });
+		List<IPublishable> visiblePosts = Posts.FindAll(delegate(IPublishable p) { return p.IsVisible; });
 
 		int count = Math.Min(BlogSettings.Instance.PostsPerPage, visiblePosts.Count);
 		int page = GetPageIndex();
@@ -125,13 +125,14 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 
 	#region Properties
 
+	List<IPublishable> _Posts;
 	/// <summary>
 	/// The list of posts to display.
 	/// </summary>
-	public List<Post> Posts
+	public List<IPublishable> Posts
 	{
-		get { return (List<Post>)(ViewState["Posts"] ?? default(List<Post>)); }
-		set { ViewState["Posts"] = value; }
+		get { return _Posts; }// (List<Post>)(ViewState["Posts"] ?? default(List<Post>)); }
+		set { _Posts = value; }
 	}
 
 	#endregion

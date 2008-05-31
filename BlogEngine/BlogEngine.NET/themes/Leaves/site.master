@@ -13,15 +13,15 @@
     <div id="container">
     <form runat="server">
 	    <div id="header">
-            <h3><a href="~/" runat="server"><%=BlogSettings.Instance.Name %></a></h3>
+            <h3><a href="<%=Utils.RelativeWebRoot%>"><%=BlogSettings.Instance.Name %></a></h3>
             <p><%=BlogSettings.Instance.Description %></p>
             <blog:SearchBox runat="server" />
         </div>
         <div id="navigation"> 
 		    <ul id="navlist">
-			    <li><asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink></li>
-			    <li><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
-			    <li><asp:HyperLink ID="hlContact" NavigateUrl="~/contact.aspx" runat="server">Contact</asp:HyperLink></li>
+			    <li><a href="<%=Utils.RelativeWebRoot%>default.aspx">Home</a></li>
+			    <li><a href="<%=Utils.RelativeWebRoot%>archive.aspx">Archive</a></li>
+			    <li><a href="<%=Utils.RelativeWebRoot%>contact.aspx">Contact</a></li>
 			    <li><a href="<%=Utils.FeedUrl %>">Feed</a></li>
 			    <li><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></li>
                 <li><p><strong>Disclaimer</strong><br/>The opinions expressed herein are my own personal opinions and do not represent my employer's view in anyway.<br /><br />

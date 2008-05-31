@@ -15,16 +15,16 @@
         <div class="inner-container">
 	        <div class="header">
 	            <div class="title">
-	                <span class="sitename"><a href="~/" runat="server"><%=BlogSettings.Instance.Name %></a></span>
+	                <span class="sitename"><a href="<%=Utils.RelativeWebRoot%>"><%=BlogSettings.Instance.Name %></a></span>
 	                <div class="slogan"><%=BlogSettings.Instance.Description %></div>
                 </div>
             </div>
             
             <div class="path">
-			      <asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink>
+			      <a href="<%=Utils.RelativeWebRoot%>default.aspx">Home</asp:HyperLink>
 			      <ul>
-			        <li class="page_item"><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
-			        <li class="page_item"><asp:HyperLink ID="hlContact" NavigateUrl="~/contact.aspx" runat="server">Contact</asp:HyperLink></li>
+			        <li class="page_item"><a href="<%=Utils.RelativeWebRoot%>archive.aspx">Archive</a></li>
+			        <li class="page_item"><a href="<%=Utils.RelativeWebRoot%>contact.aspx">Contact</a></li>
               <li class="page_item"><a href="<%=Utils.FeedUrl %>">Feed</a></li>
               <li class="page_item"><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></li>
             </ul>
