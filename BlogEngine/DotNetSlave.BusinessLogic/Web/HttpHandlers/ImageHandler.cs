@@ -51,7 +51,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					string folder = BlogSettings.Instance.StorageLocation + "/files/";
 					FileInfo fi = new FileInfo(context.Server.MapPath(folder) + fileName);
 
-					if (fi.Exists && fi.Directory.FullName.ToUpperInvariant().Contains("\\FILES"))
+					if (fi.Exists && fi.Directory.FullName.ToUpperInvariant().Contains(Path.DirectorySeparatorChar + "FILES"))
 					{
 						int index = fileName.LastIndexOf(".") + 1;
 						string extension = fileName.Substring(index).ToUpperInvariant();
@@ -84,13 +84,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					else
 					{
 						OnBadRequest(fileName);
-						context.Response.Status = "404 Bad Request";
+						context.Response.Redirect(Utils.AbsoluteWebRoot + "error404.aspx");
 					}
 				}
 				catch (Exception ex)
 				{
 					OnBadRequest(ex.Message);
-					context.Response.Status = "404 Bad Request";
+					context.Response.Redirect(Utils.AbsoluteWebRoot + "error404.aspx");
 				}
 			}
 		}

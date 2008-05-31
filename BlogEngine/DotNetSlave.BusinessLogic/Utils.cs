@@ -320,10 +320,6 @@ namespace BlogEngine.Core
         /// <param name="message">The message to send.</param>
         public static void SendMailMessageAsync(MailMessage message)
         {
-            //ThreadStart threadStart = delegate { Utils.SendMailMessage(message); };
-            //Thread thread = new Thread(threadStart);
-            //thread.IsBackground = true;
-            //thread.Start();
             ThreadPool.QueueUserWorkItem(delegate { Utils.SendMailMessage(message); });
         }
 

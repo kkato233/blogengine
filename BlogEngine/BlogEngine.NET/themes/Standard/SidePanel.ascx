@@ -4,7 +4,7 @@
 
 <blog:WidgetZone runat="server" ID="rightzone" />
 
-<div class="box">
+<%--<div class="box">
   <h1>About the author</h1>
   <table summary="About the author">
     <tr>
@@ -89,4 +89,4 @@
     &copy; Copyright <%=DateTime.Now.Year %><br /><br />
     <asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" />
 </p>
-</div>
+</div>--%>

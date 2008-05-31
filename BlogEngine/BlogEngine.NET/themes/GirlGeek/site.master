@@ -33,7 +33,7 @@ Feel free to use and modify but please provide credits.
 				<div class="inner-container">
 					<div class="header">
 						<div class="title">
-							<div class="sitename"><a href="~/" runat="server"><%=BlogSettings.Instance.Name %></a></div>
+							<div class="sitename"><a href="<%=Utils.RelativeWebRoot%>"><%=BlogSettings.Instance.Name %></a></div>
 							<div class="sitenameshadow"><%=BlogSettings.Instance.Name %></div>
 							<div class="slogan"><%=BlogSettings.Instance.Description %></div>
 						</div>
@@ -41,9 +41,9 @@ Feel free to use and modify but please provide credits.
 					<div class="path">
 						<div class="left">							
 							<ul>
-							  <li><asp:HyperLink ID="HlHome" NavigateUrl="~/default.aspx" runat="server">Home</asp:HyperLink></li>
-								<li class="page_item"><asp:HyperLink ID="HlArchive" NavigateUrl="~/archive.aspx" runat="server">Archive</asp:HyperLink></li>
-								<li class="page_item"><asp:HyperLink ID="hlContact" NavigateUrl="~/contact.aspx" runat="server">Contact</asp:HyperLink></li>
+							  <li><a href="<%=Utils.RelativeWebRoot%>default.aspx">Home</a></li>
+								<li class="page_item"><a href="<%=Utils.RelativeWebRoot%>archive.aspx">Archive</a></li>
+								<li class="page_item"><a href="<%=Utils.RelativeWebRoot%>contact.aspx">Contact</a></li>
 							</ul>
 						</div>
 						<div class="right">

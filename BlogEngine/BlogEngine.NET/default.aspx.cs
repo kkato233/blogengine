@@ -14,11 +14,6 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (Page.IsCallback)
 			return;
 
-		//Page frontPage = BlogEngine.Core.Page.GetFrontPage();
-		//if (Request.QueryString.Count == 0 && frontPage != null)
-		//{
-		//  Server.Transfer(Utils.RelativeWebRoot + "page.aspx?id=" + frontPage.Id);
-		//}
 		if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
 		{
 			DisplayCategories();
@@ -40,15 +35,16 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
-			PostList1.Posts = Post.Posts;
+			PostList1.Posts = Post.Posts.ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
-                Page.Title += Server.HtmlEncode(" - " + BlogSettings.Instance.Description);
+				Page.Title += Server.HtmlEncode(" - " + BlogSettings.Instance.Description);
 		}
 
 		AddMetaKeywords();
 		base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
 		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));
 	}
+
 
 	/// <summary>
 	/// Permanently redirects to the correct URL format if the page is requested with
@@ -69,11 +65,11 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (!string.IsNullOrEmpty(date))
 		{
 			DateTime dateParsed = DateTime.Parse(date);
-			rewrite = Utils.RelativeWebRoot + dateParsed.Year + "/" + dateParsed.Month + "/" + dateParsed.Day + "/default.aspx";	
+			rewrite = Utils.RelativeWebRoot + dateParsed.Year + "/" + dateParsed.Month + "/" + dateParsed.Day + "/default.aspx";
 		}
 		else if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(month))
 		{
-			rewrite = Utils.RelativeWebRoot + year + "/default.aspx";	
+			rewrite = Utils.RelativeWebRoot + year + "/default.aspx";
 		}
 		else if (!string.IsNullOrEmpty(year))
 		{
@@ -113,7 +109,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (!String.IsNullOrEmpty(Request.QueryString["id"]))
 		{
 			Guid categoryId = new Guid(Request.QueryString["id"]);
-			PostList1.Posts = Post.GetPostsByCategory(categoryId);
+			PostList1.Posts = Post.GetPostsByCategory(categoryId).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			Page.Title = BlogSettings.Instance.Name + " - " + Category.GetCategory(categoryId);
 		}
 	}
@@ -122,7 +118,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		if (!string.IsNullOrEmpty(Request.QueryString["name"]))
 		{
-			PostList1.Posts = Post.GetPostsByAuthor(Request.QueryString["name"]); ;
+			PostList1.Posts = Post.GetPostsByAuthor(Request.QueryString["name"]).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			Title = BlogSettings.Instance.Name + " - All posts by " + Request.QueryString["name"];
 		}
 	}
@@ -131,7 +127,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
 		{
-			PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)); ;
+			PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
 			base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
 		}
@@ -147,20 +143,20 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			DateTime dateFrom = DateTime.Parse(year + "-" + month + "-01", CultureInfo.InvariantCulture);
 			DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
-			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo);
+			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("MMMM yyyy");
 		}
 		else if (!string.IsNullOrEmpty(year))
 		{
 			DateTime dateFrom = DateTime.Parse(year + "-01-01", CultureInfo.InvariantCulture);
 			DateTime dateTo = dateFrom.AddYears(1).AddMilliseconds(-1);
-			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo);
+			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; })); ;
 			Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("yyyy");
 		}
 		else if (!string.IsNullOrEmpty(specificDate) && specificDate.Length == 10)
 		{
 			DateTime date = DateTime.Parse(specificDate, CultureInfo.InvariantCulture);
-			PostList1.Posts = Post.GetPostsByDate(date, date);
+			PostList1.Posts = Post.GetPostsByDate(date, date).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; })); ;
 			Title = BlogSettings.Instance.Name + " - " + date.ToString("MMMM d. yyyy");
 		}
 		else if (!string.IsNullOrEmpty(Request.QueryString["calendar"]))

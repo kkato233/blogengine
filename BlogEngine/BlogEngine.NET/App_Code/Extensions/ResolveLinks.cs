@@ -23,7 +23,7 @@ public class ResolveLinks
 	/// <summary>
 	/// The regular expression used to parse links.
 	/// </summary>
-	private static readonly Regex regex = new Regex("((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&#=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+	private static readonly Regex regex = new Regex("((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&\\(\\)#,=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 	private const string link = "<a href=\"{0}{1}\" rel=\"nofollow\">{2}</a>";
 	private const int MAX_LENGTH = 50;
 
