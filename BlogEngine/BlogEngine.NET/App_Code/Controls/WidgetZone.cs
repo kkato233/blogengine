@@ -55,10 +55,13 @@ namespace Controls
           control.LoadWidget();
           this.Controls.Add(control);
         }
-        catch (Exception)
+        catch (Exception e)
         {
           Literal lit = new Literal();
           lit.Text = "<p style=\"color:red\">Widget " + widget.InnerText + " not found.<p>";
+          lit.Text += e.Message;
+          lit.Text += "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + widget.Attributes["id"].InnerText + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>";
+
           this.Controls.Add(lit);
         }
 			}
