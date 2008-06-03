@@ -98,20 +98,16 @@ namespace BlogEngine.Core.Providers
     /// <returns>Path to storage directory</returns>
     private string StorageLocation(ExtensionType exType)
     {
-      string storageDirectory = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "datastore");
       switch (exType)
       {
         case ExtensionType.Extension:
-					storageDirectory += Path.DirectorySeparatorChar + "extensions" + Path.DirectorySeparatorChar;
-          break;
+          return HostingEnvironment.MapPath(Path.Combine(BlogSettings.Instance.StorageLocation, @"datastore\extensions\"));
         case ExtensionType.Widget:
-					storageDirectory += Path.DirectorySeparatorChar + "widgets" + Path.DirectorySeparatorChar;
-          break;
+          return HostingEnvironment.MapPath(Path.Combine(BlogSettings.Instance.StorageLocation, @"datastore\widgets\"));
         case ExtensionType.Theme:
-					storageDirectory += Path.DirectorySeparatorChar + "themes" + Path.DirectorySeparatorChar;
-          break;
+          return HostingEnvironment.MapPath(Path.Combine(BlogSettings.Instance.StorageLocation, @"datastore\themes\"));
       }
-      return storageDirectory;
+      return string.Empty;
     }
   }
 }

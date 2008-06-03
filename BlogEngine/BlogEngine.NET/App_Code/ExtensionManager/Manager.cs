@@ -4,6 +4,7 @@ using System.Web.Hosting;
 using System.Web.Caching;
 using System.Reflection;
 using System.Configuration;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -155,41 +156,45 @@ public class ExtensionManager
   {
     if (HttpContext.Current.Cache["Extensions"] == null)
     {
-      string assemblyName = "__code";
-      if (Utils.IsMono) assemblyName = "App_Code";
-
-      Assembly a = Assembly.Load(assemblyName);
-      Type[] types = a.GetTypes();
-
-      foreach (Type type in types)
+      ArrayList codeAssemblies = Utils.CodeAssemblies();
+      foreach (Assembly a in codeAssemblies)
       {
-        object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
-        foreach (object attribute in attributes)
+        Type[] types = a.GetTypes();
+        foreach (Type type in types)
         {
-          ExtensionAttribute xa = (ExtensionAttribute)attribute;
-          // try to load from storage
-          ManagedExtension x = DataStoreExtension(type.Name);
-          // if nothing, crete new extension
-          if (x == null)
+          object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
+          foreach (object attribute in attributes)
           {
-            x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
-            _newExtensions.Add(type.Name);
+            ExtensionAttribute xa = (ExtensionAttribute)attribute;
+            // try to load from storage
+            ManagedExtension x = DataStoreExtension(type.Name);
+            // if nothing, crete new extension
+            if (x == null)
+            {
+              x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
+              _newExtensions.Add(type.Name);
+            }
+            else
+            {
+              // update attributes from assembly
+              x.Version = xa.Version;
+              x.Description = xa.Description;
+              x.Author = xa.Author;
+            }
+            _extensions.Add(x);
           }
-          else
-          {
-            // update attributes from assembly
-            x.Version = xa.Version;
-            x.Description = xa.Description;
-            x.Author = xa.Author;
-          }
-          _extensions.Add(x);
         }
       }
+
       SaveToStorage();
       SaveToCache();
     }
   }
-
+  /// <summary>
+  /// Returns extension object
+  /// </summary>
+  /// <param name="name">Extension name</param>
+  /// <returns>Extension</returns>
   static ManagedExtension DataStoreExtension(string name)
   {
     ManagedExtension ex = null;

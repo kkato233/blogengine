@@ -9,7 +9,10 @@ using System.Text.RegularExpressions;
 using System.Configuration;
 using System.Globalization;
 using System.Web;
+using System.Web.Configuration;
 using System.Threading;
+using System.Reflection;
+using System.Collections;
 
 #endregion
 
@@ -349,7 +352,41 @@ namespace BlogEngine.Core
 
         #endregion
 
-
+        #region Code Assemblies
+        /// <summary>
+        /// This method returns all code assemblies in app_code
+        /// If app_code has subdirectories for c#, vb.net etc
+        /// Each one will come back as a separate assembly
+        /// So we can support extensions in multiple languages
+        /// </summary>
+        /// <returns>List of code assemblies</returns>
+        public static ArrayList CodeAssemblies()
+        {
+          ArrayList codeAssemblies = new ArrayList();
+          try
+          {
+            string assemblyName = "__code";
+            CompilationSection s = (CompilationSection)WebConfigurationManager.GetSection("system.web/compilation");
+            if (s != null && s.CodeSubDirectories != null && s.CodeSubDirectories.Count > 0)
+            {
+              for (int i = 0; i < s.CodeSubDirectories.Count; i++)
+              {
+                assemblyName = "App_SubCode_" + s.CodeSubDirectories[i].DirectoryName;
+                codeAssemblies.Add(Assembly.Load(assemblyName));
+              }
+            }
+            else
+            {
+              Type t = Type.GetType("Mono.Runtime");
+              if (t != null) assemblyName = "App_Code";
+              codeAssemblies.Add(Assembly.Load(assemblyName));
+            }
+          }
+          catch (System.IO.FileNotFoundException) {/*ignore - code directory has no files*/}
+          catch (Exception) { throw; }
+          return codeAssemblies;
+        }
+        #endregion
 
         #region FileHelpers
 
@@ -435,7 +472,5 @@ namespace BlogEngine.Core
         }
 
         #endregion 
-    
-
     }
 }

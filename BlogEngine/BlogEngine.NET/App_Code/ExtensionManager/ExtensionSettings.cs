@@ -328,6 +328,35 @@ public class ExtensionSettings
   {
     AddObjectValue(parameterName, val);
   }
+  public void AddValue(string parameterName, string[] items, string selected)
+  {
+    if (items.Length > 0)
+    {
+      StringCollection col = new StringCollection();
+      for (int i = 0; i < items.Length; i++)
+      {
+        col.Add(items[i]);
+      }
+      AddValue(parameterName, col, selected);
+    }
+  }
+  public void AddValue(string parameterName, StringCollection items, string selected)
+  {
+    foreach (ExtensionParameter par in _params)
+    {
+      if (par.Name == parameterName)
+      {
+        par.Values = items;
+        par.SelectedValue = selected;
+        if (par.ParamType == ParameterType.String)
+        {
+          // if string was set as a generic default
+          // for lists reset default to dropdown
+          par.ParamType = ParameterType.DropDown;
+        }
+      }
+    }
+  }
   private void AddObjectValue(string parameterName, object val)
   {
     foreach (ExtensionParameter par in _params)
@@ -382,6 +411,17 @@ public class ExtensionSettings
       }
     }
   }
+  public void UpdateSelectedValue(string parameterName, string val)
+  {
+    foreach (ExtensionParameter par in _params)
+    {
+      if (par.Name == parameterName)
+      {
+        par.SelectedValue = val;
+        break;
+      }
+    }
+  }
   /// <summary>
   /// Add values to parameter value collection
   /// </summary>
@@ -422,7 +462,7 @@ public class ExtensionSettings
     System.Data.DataTable objDataTable = new System.Data.DataTable();
     foreach (ExtensionParameter p in _params)
     {
-      if(p.ParamType == ParameterType.Boolean)
+      if (p.ParamType == ParameterType.Boolean)
         objDataTable.Columns.Add(p.Name, true.GetType());
       else
         objDataTable.Columns.Add(p.Name, string.Empty.GetType());

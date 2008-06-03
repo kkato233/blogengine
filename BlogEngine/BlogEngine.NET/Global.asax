@@ -28,18 +28,10 @@
     /// </summary>
     void Application_Start(object sender, EventArgs e)
     {
-        try
+        ArrayList codeAssemblies = Utils.CodeAssemblies();
+        foreach (Assembly a in codeAssemblies)
         {
-            // Mono does not use "__code" as the name of the App_Data assembly.
-            // Rather, it uses "App_Code", which is case sensitive!
-            string assemblyName = "__code";
-            Type t = Type.GetType("Mono.Runtime");
-            if (t != null)
-                assemblyName = "App_Code";
-
-            Assembly a = Assembly.Load(assemblyName);
             Type[] types = a.GetTypes();
-
             foreach (Type type in types)
             {
                 object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
@@ -51,11 +43,6 @@
                     }
                 }
             }
-
-        }
-        catch (System.IO.FileNotFoundException)
-        {
-            // There are no extensions in the App_Code folder, this error can be safely ignored
         }
     }
 

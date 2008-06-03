@@ -7,6 +7,8 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
+using System.Reflection;
+using BlogEngine.Core;
 
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
@@ -55,9 +57,23 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
     /// <returns>File name</returns>
     string GetExtFileName()
     {
-        string fileName = HttpContext.Current.Request.PhysicalApplicationPath;
-        fileName += "App_Code\\Extensions\\" + _extensionName + ".cs";
-        return fileName;
+      string fileName = HttpContext.Current.Request.PhysicalApplicationPath;
+      ArrayList codeAssemblies = Utils.CodeAssemblies();
+      foreach (Assembly a in codeAssemblies)
+      {
+        Type[] types = a.GetTypes();
+        foreach (Type type in types)
+        {
+          if (type.Name == _extensionName)
+          {
+            string assemblyName = type.Assembly.FullName.Split(".".ToCharArray())[0];
+            assemblyName = assemblyName.Replace("App_SubCode_", "App_Code\\");
+            string fileExt = assemblyName.Contains("VB_Code") ? ".vb" : ".cs";
+            fileName += assemblyName + "\\Extensions\\" + _extensionName + fileExt;
+          }
+        }
+      }
+      return fileName;
     }
 
     /// <summary>
