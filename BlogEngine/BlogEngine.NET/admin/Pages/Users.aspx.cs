@@ -50,7 +50,7 @@ public partial class admin_newuser : System.Web.UI.Page
 	/// <param name="controlType">Type of the control.</param>
 	/// <param name="id">Name of the contains.</param>
 	/// <returns>The control if found, otherwise null</returns>
-	Control FindRowControl(GridViewRow row, Type controlType, string id)
+	static Control FindRowControl(GridViewRow row, Type controlType, string id)
 	{
 		foreach (TableCell cell in row.Cells)
 		{
@@ -69,17 +69,22 @@ public partial class admin_newuser : System.Web.UI.Page
 	{
 		if (e.Row.RowType == DataControlRowType.DataRow && !Page.IsPostBack)
 		{
-			LinkButton delete = e.Row.Cells[0].Controls[2] as LinkButton;
-			Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
-			string text = string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(), username.Text.Trim());
-			if (Page.User.Identity.Name.Equals(username.Text, StringComparison.OrdinalIgnoreCase))
-			{
-				delete.OnClientClick = "alert('You cannot delete your own account');return false";
-			}
-			else
-			{
-				delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
-			}
+			LinkButton delete = e.Row.Cells[0].Controls[0] as LinkButton;
+            if (delete != null)
+            {
+                Label username = (Label) FindRowControl(e.Row, typeof (Label), "labelUsername");
+                string text =
+                    string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(),
+                                  username.Text.Trim());
+                if (Page.User.Identity.Name.Equals(username.Text, StringComparison.OrdinalIgnoreCase))
+                {
+                    delete.OnClientClick = "alert('You cannot delete your own account');return false;";
+                }
+                else
+                {
+                    delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
+                }
+            }
 		}
 	}
 
@@ -98,45 +103,50 @@ public partial class admin_newuser : System.Web.UI.Page
 	/// </summary>
 	/// <param name="sender">The source of the event.</param>
 	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.</param>
-	void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
-	{
-		string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
-		Membership.DeleteUser(username);
-		string[] roles = Roles.GetRolesForUser(username);
-		
-		if (roles.Length > 0)
-			Roles.RemoveUserFromRoles(username, roles);
+    void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
+        string[] roles = Roles.GetRolesForUser(username);
+        Membership.DeleteUser(username);
 
-		Response.Redirect(Request.RawUrl);
-	}
+        if (roles.Length > 0)
+            Roles.RemoveUserFromRoles(username, roles);
 
-	/// <summary>
-	/// Handles the RowUpdating event of the grid control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
-	void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
-	{
-		string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
-		TextBox txtPassword = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtPassword");
-		TextBox txtEmail = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtEmail");
-		TextBox txtUsername = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtUsername");
+        if (HttpContext.Current.User.Identity.Name.Equals(username, StringComparison.OrdinalIgnoreCase))
+            FormsAuthentication.SignOut();
 
-		MembershipUser oldUser = Membership.GetUser(username);
-		string[] oldRoles = Roles.GetRolesForUser(username);
-		Membership.DeleteUser(username);
+        Response.Redirect(Request.RawUrl);
+    }
 
-		MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
-		if (oldRoles.Length > 0)
-			Roles.AddUserToRoles(username, oldRoles);
+    /// <summary>
+    /// Handles the RowUpdating event of the grid control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
+    void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
+        TextBox txtPassword = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtPassword");
+        TextBox txtEmail = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtEmail");
+        TextBox txtUsername = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtUsername");
 
-		if (username != txtUsername.Text)
-		{
-			UpdatePosts(username, txtUsername.Text);
-		}
+        MembershipUser oldUser = Membership.GetUser(username);
+        string[] oldRoles = Roles.GetRolesForUser(username);
+        Roles.RemoveUserFromRoles(username, oldRoles);
+        Membership.DeleteUser(username);
 
-		Response.Redirect(Request.RawUrl);
-	}
+        MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
+        if (oldRoles.Length > 0)
+            Roles.AddUserToRoles(user.UserName, oldRoles);
+
+        if (username != user.UserName)
+            UpdatePosts(username, txtUsername.Text);
+
+        if (HttpContext.Current.User.Identity.Name.Equals(oldUser.UserName, StringComparison.CurrentCultureIgnoreCase))
+            FormsAuthentication.SignOut();
+
+        Response.Redirect(Request.RawUrl);
+    }
 
 	private static void UpdatePosts(string oldUsername, string newUsername)
 	{
