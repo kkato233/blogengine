@@ -47,7 +47,7 @@ namespace Controls
 
 		private void BuildHtml()
 		{
-			string text = Context.Request.QueryString["q"] != null ? Context.Request.QueryString["q"] : BlogSettings.Instance.SearchDefaultText;
+			string text = Context.Request.QueryString["q"] != null ? HttpUtility.HtmlEncode(Context.Request.QueryString["q"]) : BlogSettings.Instance.SearchDefaultText;
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("<div id=\"searchbox\">");
 			sb.Append("<label for=\"searchfield\" style=\"display:none\">Search</label>");
