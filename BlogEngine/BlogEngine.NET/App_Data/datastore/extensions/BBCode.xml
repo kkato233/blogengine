@@ -20,6 +20,7 @@
       <Values>u</Values>
       <Values>quote</Values>
       <ParamType>String</ParamType>
+      <SelectedValue />
     </Parameters>
     <Parameters>
       <Name>OpenTag</Name>
@@ -32,6 +33,7 @@
       <Values>span style="text-decoration:underline"</Values>
       <Values>cite title="Quote"</Values>
       <ParamType>String</ParamType>
+      <SelectedValue />
     </Parameters>
     <Parameters>
       <Name>CloseTag</Name>
@@ -44,6 +46,7 @@
       <Values>span</Values>
       <Values>cite</Values>
       <ParamType>String</ParamType>
+      <SelectedValue />
     </Parameters>
     <KeyField>Code</KeyField>
     <IsScalar>false</IsScalar>
