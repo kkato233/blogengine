@@ -444,14 +444,17 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			WriteFoafDocument(xmlWriter, "user", GetSiocAuthorUrl(authorName));
 
 			MembershipUser user = Membership.GetUser(authorName);
+            AuthorProfile ap = (AuthorProfile) AuthorProfile.Create(authorName);
 			// FOAF:Person
 			xmlWriter.WriteStartElement("foaf", "Person", null);
 			xmlWriter.WriteAttributeString("rdf", "about", null, GetSiocAuthorUrl(authorName));
 
 			xmlWriter.WriteElementString("foaf", "Name", null, authorName);
-			//xmlWriter.WriteElementString("foaf", "firstName", authorName);
-			//xmlWriter.WriteElementString("surname", "firstName", authorName);
-			xmlWriter.WriteElementString("surname", "mbox_sha1sum", (user != null) ? CalculateSHA1(user.Email, Encoding.UTF8) : "");
+            if (ap != null && !ap.IsPrivate && ap.FirstName != String.Empty)
+                xmlWriter.WriteElementString("foaf", "firstName", null,ap.FirstName);
+            if (ap != null && !ap.IsPrivate && ap.LastName != String.Empty)
+                xmlWriter.WriteElementString("foaf", "surname", null, ap.LastName);
+            xmlWriter.WriteElementString("foaf", "mbox_sha1sum", null, (user != null) ? CalculateSHA1(user.Email, Encoding.UTF8) : "");
 			xmlWriter.WriteStartElement("foaf", "homepage", null);
 			xmlWriter.WriteAttributeString("rdf", "resource", null, Utils.AbsoluteWebRoot.ToString());
 			xmlWriter.WriteEndElement(); //foaf:homepage 
