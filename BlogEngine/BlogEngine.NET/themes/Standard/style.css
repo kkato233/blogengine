@@ -3,7 +3,8 @@
 	color: #444444;
 	font-family: Verdana;
 	font-size: 11px;
-	margin: 0 10px;
+	margin: 0 auto;
+	width: 980px;
 }
 
 h1 {
@@ -609,7 +610,7 @@ ul.recentComments li a.postTitle{
 }
 
 #searchbox #searchfield {
-	width: 200px;
+	width: 180px;
 }
 
 /*----------------------------

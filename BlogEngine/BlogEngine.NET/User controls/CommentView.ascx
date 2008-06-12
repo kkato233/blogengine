@@ -51,7 +51,7 @@
   </ul>
   <% } %> 
   <div id="commentCompose">
-    <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" onkeyup="ShowCommentPreview('livepreview', this)" ValidationGroup="AddComment" />
+    <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" ValidationGroup="AddComment" />
   </div>
   <div id="commentPreview">
     <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" alt="Loading" />  

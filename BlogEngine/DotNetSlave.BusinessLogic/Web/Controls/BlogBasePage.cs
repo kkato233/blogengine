@@ -32,9 +32,8 @@ namespace BlogEngine.Core.Web.Controls
 		/// </summary>
 		protected override void OnPreInit(EventArgs e)
 		{
-
-            //Set Page Title
-            Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
+			//Set Page Title
+			Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
 
 			if (Request.QueryString["theme"] != null)
 				_Theme = Request.QueryString["theme"];
@@ -65,9 +64,7 @@ namespace BlogEngine.Core.Web.Controls
 		{
 			base.OnLoad(e);
 			if (!Page.IsCallback && !Page.IsPostBack)
-			{	
-
-
+			{
 				// Links
 				AddGenericLink("contents", "Archive", Utils.RelativeWebRoot + "archive.aspx");
 				AddGenericLink("start", BlogSettings.Instance.Name, Utils.RelativeWebRoot);
@@ -81,7 +78,7 @@ namespace BlogEngine.Core.Web.Controls
 
 				if (BlogSettings.Instance.EnableOpenSearch)
 					AddGenericLink("application/opensearchdescription+xml", "search", BlogSettings.Instance.Name, Utils.AbsoluteWebRoot + "opensearch.axd");
-								
+
 				if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
 					AddCustomCodeToHead();
 
@@ -92,7 +89,10 @@ namespace BlogEngine.Core.Web.Controls
 			AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
 
 			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
+			{
 				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
+				AddStylesheetInclude(Utils.RelativeWebRoot + "admin/widget.css");				
+			}
 
 			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
 				CompressCss();
@@ -225,7 +225,7 @@ namespace BlogEngine.Core.Web.Controls
 			link.Attributes["type"] = type;
 			link.Attributes["rel"] = relation;
 			link.Attributes["title"] = title;
-			link.Attributes["href"] =  href;
+			link.Attributes["href"] = href;
 			Page.Header.Controls.Add(link);
 		}
 
@@ -238,6 +238,19 @@ namespace BlogEngine.Core.Web.Controls
 			script.Attributes["type"] = "text/javascript";
 			script.Attributes["src"] = ResolveScriptUrl(url);
 			Page.Header.Controls.Add(script);
+		}
+
+		/// <summary>
+		/// Adds a Stylesheet reference to the HTML head tag.
+		/// </summary>
+		/// <param name="url">The relative URL.</param>
+		public virtual void AddStylesheetInclude(string url)
+		{
+			HtmlLink link = new HtmlLink();
+			link.Attributes["type"] = "text/css";
+			link.Attributes["href"] = url;
+			link.Attributes["rel"] = "stylesheet";
+			Page.Header.Controls.Add(link);
 		}
 
 		/// <summary>
@@ -298,7 +311,7 @@ namespace BlogEngine.Core.Web.Controls
 			if (exception != null && exception.Message.Contains("callback"))
 			{
 				// This is a robot spam attack so we send it a 404 status to make it go away.
-				ctx.Response.StatusCode = 404;				
+				ctx.Response.StatusCode = 404;
 				ctx.Server.ClearError();
 				Comment.OnSpamAttack();
 			}
