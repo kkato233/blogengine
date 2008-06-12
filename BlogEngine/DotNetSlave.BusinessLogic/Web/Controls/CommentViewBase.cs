@@ -162,7 +162,7 @@ namespace BlogEngine.Core.Web.Controls
 			string hash = CreateMd5Hash();
 			string noavatar = Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg";
 			string monster = Utils.AbsoluteWebRoot + "monster.axd?seed=" + hash.Substring(0, 10) + "&size=" + size;
-			string gravatar = "http://www.gravatar.com/avatar.php?gravatar_id=" + hash + "&amp;size=" + size + "&amp;default=";
+			string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&amp;d=";
 
 			string link = string.Empty;
 			switch (BlogSettings.Instance.Avatar)

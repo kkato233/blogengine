@@ -36,6 +36,7 @@
                     <asp:ContentPlaceHolder ID="cphBody" runat="server" />
                 </div>
                 <div class="navigation">
+                <%--<blog:WidgetZone runat="Server" />--%>
                     <h2>Search</h2>
                     <ul>
                         <li>

@@ -2,10 +2,6 @@
 <profileData>
   <FirstName>Admin</FirstName>
   <IsPrivate>True</IsPrivate>
-  <RegionState>Anyregion</RegionState>
-  <Interests>I love BE.N</Interests>
   <LastName>Person</LastName>
-  <Country>Anycountry</Country>
   <AboutMe>I program in BE.N</AboutMe>
-  <CityTown>Anytown</CityTown>
 </profileData>
