@@ -83,7 +83,17 @@ public class ManagedExtension
   /// Settings for the extension
   /// </summary>
   [XmlElement(IsNullable = true)]
-  public List<ExtensionSettings> Settings { get { return _settings; } set { _settings = value; } }
+  public List<ExtensionSettings> Settings 
+  { 
+      get 
+      { 
+          if(_settings != null)
+            _settings.Sort(delegate(ExtensionSettings s1, ExtensionSettings s2)
+            {return string.Compare(s1.Index.ToString(), s2.Index.ToString());});
+          return _settings;
+      } 
+      set { _settings = value; } 
+  }
 
   #endregion
 
@@ -97,9 +107,6 @@ public class ManagedExtension
     if (string.IsNullOrEmpty(settings.Name))
       settings.Name = _name;
 
-    //if (_settings == null)
-    //    _settings = new List<ExtensionSettings>();
-
     foreach (ExtensionSettings setItem in _settings)
     {
       if (setItem.Name == settings.Name)
@@ -110,6 +117,12 @@ public class ManagedExtension
     }
     _settings.Add(settings);
   }
+  public void InitializeSettings(ExtensionSettings settings)
+  {
+    settings.Index = _settings.Count;
+    SaveSettings(settings);
+  }
+  
   /// <summary>
   /// Determine if settings has been initialized with default
   /// values (first time new extension loaded into the manager)

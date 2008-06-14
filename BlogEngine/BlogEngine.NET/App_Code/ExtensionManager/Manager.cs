@@ -308,14 +308,23 @@ public class ExtensionManager
       if (x.Name == extensionName)
       {
         if (!x.Initialized(settings.Name))
-        {
-          x.SaveSettings(settings);
-        }
+          x.InitializeSettings(settings);
         break;
       }
     }
     SaveToCache();
     return SaveToStorage();
+  }
+  /// <summary>
+  /// Initializes settings by importing default parameters
+  /// </summary>
+  /// <param name="extensionName">Extension Name</param>
+  /// <param name="settings">Settings object</param>
+  /// <returns>Settings object</returns>
+  public static ExtensionSettings InitSettings(string extensionName, ExtensionSettings settings)
+  {
+    ImportSettings(extensionName, settings);
+    return GetSettings(extensionName, settings.Name);
   }
   #endregion
 
