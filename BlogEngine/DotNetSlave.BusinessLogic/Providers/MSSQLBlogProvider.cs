@@ -843,62 +843,6 @@ namespace BlogEngine.Core.Providers
 
     #endregion
 
-    #region Extension Settings
-
-    //Extension Settings
-    /// <summary>
-    /// Loads the extension settings to the provider..
-    /// </summary>
-    /// <returns></returns>
-    public override Stream LoadExtensionSettings()
-    {
-        using (SqlConnection conn = new SqlConnection(ConnectionString))
-        {
-            string sqlQuery = "SELECT Settings FROM be_ExtensionSettings";
-            using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
-            {
-                conn.Open();
-
-                object o = cmd.ExecuteScalar();
-
-                if (o == null)
-                    return null;
-
-                return new MemoryStream((byte[])o);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Saves the extension settings to the provider.
-    /// </summary>
-    /// <param name="settings">The settings.</param>
-    public override void SaveExtensionSettings(Stream settings)
-    {
-        if (settings == null)
-            throw new ArgumentNullException("settings");
-
-        byte[] file = new byte[settings.Length];
-
-        settings.Seek(0, SeekOrigin.Begin);
-        settings.Read(file, 0, (int)settings.Length);
-
-        using (SqlConnection conn = new SqlConnection(ConnectionString))
-        {
-            string sqlQuery = "DELETE FROM be_ExtensionSettings; " +
-                "INSERT INTO be_ExtensionSettings (Settings) VALUES (@file)";
-
-            using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
-            {
-                conn.Open();
-                cmd.Parameters.Add(new SqlParameter("@file", file));
-                cmd.ExecuteNonQuery();
-            }
-        }
-    }
-
-    #endregion
-
     #region Data Store
 
     /// <summary>
@@ -995,9 +939,7 @@ namespace BlogEngine.Core.Providers
         if (String.IsNullOrEmpty(System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"]))
             return @"~/app_data/";
         return System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"];
-
     }
-
 
     #endregion
 

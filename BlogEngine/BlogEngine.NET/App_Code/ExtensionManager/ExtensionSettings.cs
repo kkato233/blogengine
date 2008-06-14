@@ -12,6 +12,7 @@ using System.Collections.Generic;
 public class ExtensionSettings
 {
   #region Private members
+  int _index = 0;
   string _name = string.Empty;
   string _settingsHelp = string.Empty;
   char[] _delimiter = null;
@@ -42,6 +43,11 @@ public class ExtensionSettings
   #endregion
 
   #region Public members
+  /// <summary>
+  /// Defines order for loading into admin settings page
+  /// </summary>
+  [XmlElement]
+  public int Index { get { return _index; } set { _index = value; } }
   /// <summary>
   /// Extension name, same as class name
   /// </summary>
@@ -495,7 +501,12 @@ public class ExtensionSettings
       if (par.Name.ToLower() == parameterName.ToLower())
       {
         if (par.Values != null && par.Values.Count > 0)
-          return par.Values[0];
+        {
+          if (!string.IsNullOrEmpty(par.SelectedValue))
+            return par.SelectedValue;
+          else
+            return par.Values[0];
+        }
       }
     }
     return string.Empty;

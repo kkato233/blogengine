@@ -122,7 +122,6 @@
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStore\CustomObjectBehavior.cs" />
     <Compile Include="DataStore\ExtensionSettings.cs" />
     <Compile Include="DataStore\ExtensionSettingsBehavior.cs" />
     <Compile Include="DataStore\Interfaces.cs" />
@@ -136,7 +135,6 @@
     <Compile Include="Providers\XmlMultiBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\DataStore.cs" />
-    <Compile Include="Providers\XmlProvider\ExtensionSettings.cs" />
     <Compile Include="Providers\XmlProvider\StopWords.cs" />
     <Compile Include="Providers\XmlProvider\Settings.cs" />
     <Compile Include="Providers\XmlProvider\Pages.cs" />

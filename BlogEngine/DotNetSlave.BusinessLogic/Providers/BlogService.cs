@@ -293,31 +293,6 @@ namespace BlogEngine.Core.Providers
 
         #endregion
 
-        #region Extension Settings
-
-        //Extension Settings
-        /// <summary>
-        /// Loads the extension settings to the provider.
-        /// </summary>
-        /// <returns></returns>
-        public static Stream LoadExtensionSettings()
-        {
-            LoadProviders();
-            return _provider.LoadExtensionSettings();
-        }
-
-        /// <summary>
-        /// Saves the extension settings to the provider.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        public static void SaveExtensionSettings(Stream settings)
-        {
-            LoadProviders();
-            _provider.SaveExtensionSettings(settings);
-        }
-
-        #endregion
-
         #region Data Store
         /// <summary>
         /// Loads settings from data storage

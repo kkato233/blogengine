@@ -112,19 +112,7 @@ namespace BlogEngine.Core.Providers
         /// Loads the stop words used in the search feature.
         /// </summary>
         public abstract StringCollection LoadStopWords();
-
-        //Extension Settings
-        /// <summary>
-        /// Loads the extension settings to the provider..
-        /// </summary>
-        /// <returns></returns>
-        public abstract Stream LoadExtensionSettings();
-        /// <summary>
-        /// Saves the extension settings to the provider.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        public abstract void SaveExtensionSettings(Stream settings);
-
+              
         // Data Store
         /// <summary>
         /// Loads settings from data store
