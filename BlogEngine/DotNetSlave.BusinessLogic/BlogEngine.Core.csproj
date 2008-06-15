@@ -132,6 +132,7 @@
     <Compile Include="DataStore\WidgetSettings.cs" />
     <Compile Include="DataStore\XMLDocumentBehavior.cs" />
     <Compile Include="IPublishable.cs" />
+    <Compile Include="Providers\DbBlogProvider.cs" />
     <Compile Include="Providers\XmlMultiBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\DataStore.cs" />
