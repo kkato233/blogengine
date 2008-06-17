@@ -12,8 +12,8 @@ using BlogEngine.Core;
 namespace Controls
 {
 
-  public class RelatedPosts : Control
-  {
+	public class RelatedPosts : Control
+	{
 
 		public RelatedPosts()
 		{
@@ -30,83 +30,83 @@ namespace Controls
 			}
 		}
 
-    #region Properties
+		#region Properties
 
-    private IPublishable _Item;
+		private IPublishable _Item;
 
-    public IPublishable Item
-    {
+		public IPublishable Item
+		{
 			get { return _Item; }
 			set { _Item = value; }
-    }
+		}
 
-    private int _MaxResults = 3;
+		private int _MaxResults = 3;
 
-    public int MaxResults
-    {
-      get { return _MaxResults; }
-      set { _MaxResults = value; }
-    }
+		public int MaxResults
+		{
+			get { return _MaxResults; }
+			set { _MaxResults = value; }
+		}
 
-    private bool _ShowDescription;
+		private bool _ShowDescription;
 
-    public bool ShowDescription
-    {
-      get { return _ShowDescription; }
-      set { _ShowDescription = value; }
-    }
+		public bool ShowDescription
+		{
+			get { return _ShowDescription; }
+			set { _ShowDescription = value; }
+		}
 
-    private int _DescriptionMaxLength = 100;
+		private int _DescriptionMaxLength = 100;
 
-    public int DescriptionMaxLength
-    {
-      get { return _DescriptionMaxLength; }
-      set { _DescriptionMaxLength = value; }
-    }
+		public int DescriptionMaxLength
+		{
+			get { return _DescriptionMaxLength; }
+			set { _DescriptionMaxLength = value; }
+		}
 
-    private string _Headline = Resources.labels.relatedPosts;
+		private string _Headline = Resources.labels.relatedPosts;
 
-    public string Headline
-    {
-      get { return _Headline; }
-      set { _Headline = value; }
-    }
+		public string Headline
+		{
+			get { return _Headline; }
+			set { _Headline = value; }
+		}
 
-    #endregion
+		#endregion
 
-    #region Private fiels
+		#region Private fiels
 
-    private static Dictionary<Guid, string> _Cache = new Dictionary<Guid,string>();
-    private static object _SyncRoot = new object();
+		private static Dictionary<Guid, string> _Cache = new Dictionary<Guid, string>();
+		private static object _SyncRoot = new object();
 
-    #endregion    
+		#endregion
 
 		/// <summary>
 		/// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and stores tracing information about the control if tracing is enabled.
 		/// </summary>
 		/// <param name="writer">The <see cref="T:System.Web.UI.HTmlTextWriter"></see> object that receives the control content.</param>
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-      if (!BlogSettings.Instance.EnableRelatedPosts || Item == null)
-        return;
-      
-      if (!_Cache.ContainsKey(Item.Id))
-      {
-        lock (_SyncRoot)
-        {
-          if (!_Cache.ContainsKey(Item.Id))
-          {            
-            List<IPublishable> relatedPosts = SearchForPosts();
-            if (relatedPosts.Count <= 1)
-              return;
+		public override void RenderControl(HtmlTextWriter writer)
+		{
+			if (!BlogSettings.Instance.EnableRelatedPosts || Item == null)
+				return;
+
+			if (!_Cache.ContainsKey(Item.Id))
+			{
+				lock (_SyncRoot)
+				{
+					if (!_Cache.ContainsKey(Item.Id))
+					{
+						List<IPublishable> relatedPosts = SearchForPosts();
+						if (relatedPosts.Count <= 1)
+							return;
 
 						CreateList(relatedPosts);
-          }
-        }
-      }
+					}
+				}
+			}
 
-      writer.Write(_Cache[Item.Id].Replace("+++", this.Headline));
-    }
+			writer.Write(_Cache[Item.Id].Replace("+++", this.Headline));
+		}
 
 		/// <summary>
 		/// Creates the list of related posts in HTML.
@@ -133,8 +133,11 @@ namespace Controls
 						if (description != null && description.Length > DescriptionMaxLength)
 							description = description.Substring(0, DescriptionMaxLength) + "...";
 
-                        if (String.IsNullOrEmpty(description))
-                            description = post.Content.Length > DescriptionMaxLength ? post.Content.Substring(0, DescriptionMaxLength) + "..." : post.Content;
+						if (String.IsNullOrEmpty(description))
+						{
+							string content = Utils.StripHtml(post.Content);
+							description = content.Length > DescriptionMaxLength ? content.Substring(0, DescriptionMaxLength) + "..." : content;
+						}
 
 						sb.Append(string.Format(desc, description));
 					}
@@ -149,9 +152,9 @@ namespace Controls
 			_Cache.Add(Item.Id, sb.ToString());
 		}
 
-    private List<IPublishable> SearchForPosts()
-    {
-      return Search.FindRelatedItems(this.Item);
-    }
-  }
+		private List<IPublishable> SearchForPosts()
+		{
+			return Search.FindRelatedItems(this.Item);
+		}
+	}
 }
