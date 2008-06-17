@@ -3,6 +3,7 @@
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Web;
 using BlogEngine.Core;
 
 #endregion
@@ -42,10 +43,14 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 
 		AddMetaKeywords();
 		base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
-		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));
+		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));		
 	}
 
-
+	private void InvalidateCache()
+	{
+		HttpResponse.RemoveOutputCacheItem(Utils.RelativeWebRoot + "default.aspx");
+	}
+	
 	/// <summary>
 	/// Permanently redirects to the correct URL format if the page is requested with
 	/// the old URL: /default.aspx?year=2007&month=12
