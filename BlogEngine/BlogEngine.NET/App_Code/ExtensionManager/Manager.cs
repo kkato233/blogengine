@@ -144,6 +144,23 @@ public class ExtensionManager
 
     return false;
   }
+  /// <summary>
+  /// Show of hide settings in the admin/extensions list
+  /// </summary>
+  /// <param name="extensionName">Extension name</param>
+  /// <param name="flag">True of false</param>
+  public static void ShowSettings(string extensionName, bool flag)
+  {
+    foreach (ManagedExtension extension in _extensions)
+    {
+      if (extension.Name == extensionName)
+      {
+        extension.ShowSettings = flag;
+        Save();
+        break;
+      }
+    }
+  }
   #endregion
 
   #region Private methods

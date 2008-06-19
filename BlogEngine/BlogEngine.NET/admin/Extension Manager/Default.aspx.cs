@@ -26,7 +26,7 @@ public partial class User_controls_xdashboard_Default : System.Web.UI.Page
               {
                 foreach (ExtensionSettings setting in x.Settings)
                 {
-                  if (!string.IsNullOrEmpty(setting.Name))
+                  if (!string.IsNullOrEmpty(setting.Name) && !setting.Hidden)
                   {
                     uc = (UserControl)Page.LoadControl("Settings.ascx");
                     uc.ID = setting.Name;

@@ -20,6 +20,10 @@ public class ExtensionSettings
   string _keyField = string.Empty;
   bool _isScalar = false;
   StringCollection _requiredFields = new StringCollection();
+  bool _hidden = false;
+  bool _showAdd = true;
+  bool _showEdit = true;
+  bool _showDelete = true;
   #endregion
 
   #region Constructors
@@ -43,6 +47,7 @@ public class ExtensionSettings
   #endregion
 
   #region Public members
+
   /// <summary>
   /// Defines order for loading into admin settings page
   /// </summary>
@@ -126,6 +131,27 @@ public class ExtensionSettings
   /// </summary>
   [XmlElement]
   public bool IsScalar { get { return _isScalar; } set { _isScalar = value; } }
+  /// <summary>
+  /// If true, settings section will not show in the settings page
+  /// </summary>
+  [XmlElement]
+  public bool Hidden { get { return _hidden; } set { _hidden = value; } }
+  /// <summary>
+  /// If false, "add" button will not show on the settings form
+  /// </summary>
+  [XmlElement]
+  public bool ShowAdd { get { return _showAdd; } set { _showAdd = value; } }
+  /// <summary>
+  /// If false, "edit" button will not show in the settings form
+  /// </summary>
+  [XmlElement]
+  public bool ShowEdit { get { return _showEdit; } set { _showEdit = value; } }
+  /// <summary>
+  /// If false, "delete" button will not show in the settings form
+  /// </summary>
+  [XmlElement]
+  public bool ShowDelete { get { return _showDelete; } set { _showDelete = value; } }
+  
   #endregion
 
   #region Parameter methods
@@ -168,6 +194,14 @@ public class ExtensionSettings
   {
     AddParameter(name, label, maxLength, required, false);
   }
+  /// <summary>
+  /// Add Parameter
+  /// </summary>
+  /// <param name="name">Parameter Name</param>
+  /// <param name="label">Parameter Label</param>
+  /// <param name="maxLength">Maximum Length</param>
+  /// <param name="required">Set if value in the parameter required when added/apdated</param>
+  /// <param name="keyfield">Mark field as primary key, unique and required</param>
   public void AddParameter(string name, string label, int maxLength, bool required, bool keyfield)
   {
     AddParameter(name, label, maxLength, required, keyfield, ParameterType.String);
@@ -180,6 +214,7 @@ public class ExtensionSettings
   /// <param name="maxLength">Maximum Length</param>
   /// <param name="required">Set if value in the parameter required when added/apdated</param>
   /// <param name="keyfield">Mark field as primary key, unique and required</param>
+  /// <param name="parType">Parameter type (integer, string, boolean etc.)</param>
   public void AddParameter(string name, string label, int maxLength, bool required, bool keyfield, ParameterType parType)
   {
     if (_params == null)
@@ -230,7 +265,6 @@ public class ExtensionSettings
     }
     return false;
   }
-
   /// <summary>
   /// Compare value in the parameters collection
   /// with one in the grid. Return true if value 
@@ -276,7 +310,11 @@ public class ExtensionSettings
     }
     return string.Empty;
   }
-
+  /// <summary>
+  /// Set parameter type (int, bool etc.)
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="t">Parameter type</param>
   public void SetParameterType(string parameterName, ParameterType t)
   {
     foreach (ExtensionParameter par in _params)
@@ -287,6 +325,11 @@ public class ExtensionSettings
       }
     }
   }
+  /// <summary>
+  /// Get parameter type. All valid types defined in the ParameterType enum
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <returns>Parameter type</returns>
   public ParameterType GetParameterType(string parameterName)
   {
     foreach (ExtensionParameter par in _params)
@@ -301,39 +344,76 @@ public class ExtensionSettings
   #endregion
 
   #region Values Methods
+
   /// <summary>
   /// Appends value to parameter value collection
   /// </summary>
-  /// <param name="parameterName">Parameter Name</param>
-  /// <param name="val">Value</param>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, string val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Appends value to parameter value collection
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, bool val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Appends value to parameter value collection
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, int val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Appends value to parameter value collection
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, long val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Appends value to parameter value collection
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, float val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Appends value to parameter value collection
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, double val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Appends value to parameter value collection
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void AddValue(string parameterName, decimal val)
   {
     AddObjectValue(parameterName, val);
   }
+  /// <summary>
+  /// Add value to the list data type
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="items">List of values</param>
+  /// <param name="selected">Selected value</param>
   public void AddValue(string parameterName, string[] items, string selected)
   {
     if (items.Length > 0)
@@ -346,6 +426,12 @@ public class ExtensionSettings
       AddValue(parameterName, col, selected);
     }
   }
+  /// <summary>
+  /// Add value to the list data type
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="items">List of values</param>
+  /// <param name="selected">Selected value</param>
   public void AddValue(string parameterName, StringCollection items, string selected)
   {
     foreach (ExtensionParameter par in _params)
@@ -363,6 +449,11 @@ public class ExtensionSettings
       }
     }
   }
+  /// <summary>
+  /// Add value to the parameter and assign data type
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   private void AddObjectValue(string parameterName, object val)
   {
     foreach (ExtensionParameter par in _params)
@@ -370,9 +461,9 @@ public class ExtensionSettings
       if (par.Name == parameterName)
       {
         par.AddValue(val);
-        // if set to string by default - check if strong type
+        // if set to string by default - check if strong data type
         // was used in "AddValue" method and assign appropriate
-        // data type. otherwise leave it alone
+        // data type. otherwise leave as it is
         if (par.ParamType == ParameterType.String)
         {
           switch (val.GetType().Name)
@@ -417,6 +508,11 @@ public class ExtensionSettings
       }
     }
   }
+  /// <summary>
+  /// Updates selected value in the Lists
+  /// </summary>
+  /// <param name="parameterName">Parameter name</param>
+  /// <param name="val">Parameter value</param>
   public void UpdateSelectedValue(string parameterName, string val)
   {
     foreach (ExtensionParameter par in _params)
@@ -511,7 +607,10 @@ public class ExtensionSettings
     }
     return string.Empty;
   }
-
+  /// <summary>
+  /// Dictionary collection of parameters
+  /// </summary>
+  /// <returns>Dictionary object</returns>
   public Dictionary<string, string> GetDictionary()
   {
     Dictionary<string, string> dic = new Dictionary<string, string>();

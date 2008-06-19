@@ -20,6 +20,7 @@ public class ManagedExtension
   string _author = string.Empty;
   string _adminPage = string.Empty;
   List<ExtensionSettings> _settings = null;
+  bool _showSettings = true;
   #endregion
 
   #region Constructor
@@ -43,6 +44,7 @@ public class ManagedExtension
     _author = author;
     _settings = new List<ExtensionSettings>();
     _enabled = true;
+    _showSettings = true;
   }
   #endregion
 
@@ -94,6 +96,11 @@ public class ManagedExtension
       } 
       set { _settings = value; } 
   }
+  /// <summary>
+  /// Show or hide settings in the admin/extensions list
+  /// </summary>
+  [XmlElement]
+  public bool ShowSettings { get { return _showSettings; } set { _showSettings = value; } }
 
   #endregion
 
