@@ -169,8 +169,6 @@ function AddBbCode(v) {
     var sel = document.selection.createRange();
     sel.text = "[" + v + "]" + str + "[/" + v + "]";
   }
-
-  ShowCommentPreview('livepreview', $("<%=txtContent.ClientID %>"));
   return;
 }
 //-->

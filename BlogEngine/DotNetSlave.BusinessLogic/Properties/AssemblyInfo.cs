@@ -22,4 +22,4 @@ using System;
 [assembly: ComVisible(false)]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.3.1.38")]
+[assembly: AssemblyVersion("1.3.1.39")]

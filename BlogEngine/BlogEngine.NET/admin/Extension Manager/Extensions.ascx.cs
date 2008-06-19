@@ -127,7 +127,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
           }
           else
           {
-            if (x.Settings.Count == 0 || (x.Settings.Count == 1 && x.Settings[0] == null))
+            if (x.Settings.Count == 0 || (x.Settings.Count == 1 && x.Settings[0] == null) || x.ShowSettings == false)
               sb.Append("<td>&nbsp;</td>");
             else
               sb.Append("<td align='center'><a href='?ctrl=params&ext=" + x.Name + "'>" + Resources.labels.edit + "</a></td>");
