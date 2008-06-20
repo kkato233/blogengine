@@ -114,6 +114,7 @@ public class BlogImporter : System.Web.Services.WebService {
         Post post = Post.Load(new Guid(postID));
         if (post != null) {
             Comment comment = new Comment();
+            comment.Id = Guid.NewGuid();
             comment.Author = author;
             comment.Email = email;
             Uri url;
