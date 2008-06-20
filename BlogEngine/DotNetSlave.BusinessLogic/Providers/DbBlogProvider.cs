@@ -1283,7 +1283,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpeType = provider.CreateParameter();
                     dpeType.ParameterName = parmPrefix + "etype";
-                    dpeType.Value = exType.ToString();
+                    dpeType.Value = exType.GetHashCode();
                     cmd.Parameters.Add(dpeType);
                     DbParameter dpeId = provider.CreateParameter();
                     dpeId.ParameterName = parmPrefix + "eid";
@@ -1333,11 +1333,10 @@ namespace BlogEngine.Core.Providers
                 conn.Open();
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "DELETE FROM " + tablePrefix + "DataStoreSettings " + 
-                        "WHERE ExtensionType = @type AND ExtensionId = @id; " +
-                        "INSERT INTO " + tablePrefix + "DataStoreSettings " + 
-                        "(ExtensionType, ExtensionId, Settings) " +
-                        "VALUES (@type, @id, @file)";
+                    string sqlQuery = "DELETE FROM " + tablePrefix + "DataStoreSettings " +
+                                      "WHERE ExtensionType = @type AND ExtensionId = @id; ";
+
+                    
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
@@ -1345,12 +1344,23 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpID = provider.CreateParameter();
                     dpID.ParameterName = parmPrefix + "type";
-                    dpID.Value = exType;
+                    dpID.Value = exType.GetHashCode();
                     cmd.Parameters.Add(dpID);
                     DbParameter dpType = provider.CreateParameter();
                     dpType.ParameterName = parmPrefix + "id";
                     dpType.Value = exId;
                     cmd.Parameters.Add(dpType);
+
+                    cmd.ExecuteNonQuery();
+
+                    sqlQuery = "INSERT INTO " + tablePrefix + "DataStoreSettings " +
+                        "(ExtensionType, ExtensionId, Settings) " +
+                        "VALUES (@type, @id, @file)";
+                    if (parmPrefix != "@")
+                        sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
                     DbParameter dpFile = provider.CreateParameter();
                     dpFile.ParameterName = parmPrefix + "file";
                     dpFile.Value = file;
@@ -1510,10 +1520,15 @@ namespace BlogEngine.Core.Providers
                     dpAuthor.ParameterName = parmPrefix + "author";
                     dpAuthor.Value = comment.Author;
                     cmd.Parameters.Add(dpAuthor);
+
                     DbParameter dpEmail = provider.CreateParameter();
                     dpEmail.ParameterName = parmPrefix + "email";
-                    dpEmail.Value = comment.Email;
+                    if (comment.Email == null)
+                        dpEmail.Value = "";
+                    else
+                        dpEmail.Value = comment.Email;
                     cmd.Parameters.Add(dpEmail);
+
                     DbParameter dpWebsite = provider.CreateParameter();
                     dpWebsite.ParameterName = parmPrefix + "website";
                     if (comment.Website == null)
