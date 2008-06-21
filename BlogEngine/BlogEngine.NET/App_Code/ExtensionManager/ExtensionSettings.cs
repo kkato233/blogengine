@@ -564,25 +564,59 @@ public class ExtensionSettings
     System.Data.DataTable objDataTable = new System.Data.DataTable();
     foreach (ExtensionParameter p in _params)
     {
-      if (p.ParamType == ParameterType.Boolean)
-        objDataTable.Columns.Add(p.Name, true.GetType());
-      else
-        objDataTable.Columns.Add(p.Name, string.Empty.GetType());
+      objDataTable.Columns.Add(p.Name, string.Empty.GetType());
     }
 
     if (_params[0].Values != null)
     {
-      for (int i = 0; i < _params[0].Values.Count; i++)
+      //Protect against the situation where _params[i].Values.Count have different values
+      //This would cause a index out of bounce exception
+      int MinCount = Int32.MaxValue;
+      int ChangeCount = 0;
+
+      for (int j = 0; j < _params.Count; j++)
+      {
+        if (_params[j].Values.Count < MinCount)
+        {
+          MinCount = _params[j].Values.Count;
+          ChangeCount++;
+        }
+      }
+
+      for (int i = 0; i < MinCount; i++)
       {
         string[] row = new string[_params.Count];
         for (int j = 0; j < _params.Count; j++)
         {
-          row[j] = _params[j].Values[i];
+          try
+          {
+            if (_params[j].Values[i] != null)
+            {
+              row[j] = _params[j].Values[i];
+            }
+            else
+            {
+              row[j] = "Value not found";
+            }
+          }
+          catch (Exception ex)
+          {
+            throw ex;
+          }
+        }
+        objDataTable.Rows.Add(row);
+      }
+
+      if (ChangeCount > 1) //the _params arrays have different number of elements -> bad
+      {
+        string[] row = new string[_params.Count];
+        for (int j = 0; j < _params.Count; j++)
+        {
+          row[j] = "Incorrect data sets";
         }
         objDataTable.Rows.Add(row);
       }
     }
-
     return objDataTable;
   }
   /// <summary>
