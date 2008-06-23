@@ -237,7 +237,7 @@ namespace BlogEngine.Core.Providers {
             XmlNodeList nodes = doc.GetElementsByTagName("User");
             foreach (XmlNode node in nodes) {
                 if (node["UserName"].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase)
-                  || node["Password"].InnerText.Equals(oldPassword, StringComparison.OrdinalIgnoreCase)) {
+                  && node["Password"].InnerText.Equals(oldPassword, StringComparison.OrdinalIgnoreCase)) {
                     node["Password"].InnerText = newPassword;
                     doc.Save(_XmlFileName);
 

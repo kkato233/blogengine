@@ -92,7 +92,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 			SetCookie(author, email, website, country);
 		}
 
-    string path = "~/themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
+        string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
 
     CommentViewBase control = (CommentViewBase)LoadControl(path);
     control.Comment = comment;
