@@ -4,5 +4,7 @@
 
 <div style="text-align:center">
   <asp:changepassword runat="server" id="changepassword1" visible="false" />
+  <br /><br />
+  <asp:loginstatus runat="server" id="lsLogout" visible="false" />
 </div>
 </asp:Content>

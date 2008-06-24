@@ -1,25 +1,31 @@
+#region Using
+
 using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 
+#endregion
+
 public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 {
+	/// <summary>
+	/// Handles the Load event of the Page control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		if (Page.User.Identity.IsAuthenticated)
 		{
 			changepassword1.Visible = true;
 			changepassword1.ContinueButtonClick += new EventHandler(changepassword1_ContinueButtonClick);
+			lsLogout.Visible = true;
 			Login1.Visible = false;
-            Page.Title += Resources.labels.changePassword;
+			Page.Title += Resources.labels.changePassword;
 		}
 		else
 		{

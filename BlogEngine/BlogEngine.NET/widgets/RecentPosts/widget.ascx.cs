@@ -33,14 +33,14 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 
 	public override void LoadWidget()
 	{
+		StringDictionary settings = GetSettings();
+		int numberOfPosts = DEFAULT_NUMBER_OF_POSTS;
+		if (settings.ContainsKey("numberofposts"))
+			numberOfPosts = int.Parse(settings["numberofposts"]);
+
 		if (HttpRuntime.Cache["widget_recentposts"] == null)
 		{
-			StringDictionary settings = GetSettings();
-			
-			int numberOfPosts = DEFAULT_NUMBER_OF_POSTS;
-			if (settings.ContainsKey("numberofposts"))
-				numberOfPosts = int.Parse(settings["numberofposts"]);
-
+		
 			List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p)
 			{
 				return p.IsVisible;
@@ -48,19 +48,21 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 
 			int max = Math.Min(visiblePosts.Count, numberOfPosts);
 			List<Post> list = visiblePosts.GetRange(0, max);
-			RenderPosts(list, settings);
+			HttpRuntime.Cache.Insert("widget_recentposts", list);
 		}
 
-		LiteralControl html = new LiteralControl((string)HttpRuntime.Cache["widget_recentposts"]);
+		string content = RenderPosts((List<Post>)HttpRuntime.Cache["widget_recentposts"], settings);
+
+		LiteralControl html = new LiteralControl(content); //new LiteralControl((string)HttpRuntime.Cache["widget_recentposts"]);
 		phPosts.Controls.Add(html);
 	}
 
-	private void RenderPosts(List<Post> posts, StringDictionary settings)
+	private string RenderPosts(List<Post> posts, StringDictionary settings)
 	{
 		if (posts.Count == 0)
 		{
-			HttpRuntime.Cache.Insert("widget_recentposts", "<p>" + Resources.labels.none + "</p>");
-			return;
+			//HttpRuntime.Cache.Insert("widget_recentposts", "<p>" + Resources.labels.none + "</p>");
+			return "<p>" + Resources.labels.none + "</p>";
 		}
 
 		StringBuilder sb = new StringBuilder();
@@ -98,7 +100,8 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 		}
 
 		sb.Append("</ul>");
-		HttpRuntime.Cache.Insert("widget_recentposts", sb.ToString());
+		//HttpRuntime.Cache.Insert("widget_recentposts", sb.ToString());
+		return sb.ToString();
 	}
 
 	public override string Name

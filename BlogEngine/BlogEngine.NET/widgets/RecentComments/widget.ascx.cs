@@ -30,13 +30,13 @@ public partial class widgets_RecentComments_widget : WidgetBase
 
 	public override void LoadWidget()
 	{
+		StringDictionary settings = GetSettings();
+		int numberOfComments = DEFAULT_NUMBER_OF_COMMENTS;
+		if (settings.ContainsKey("numberofcomments"))
+			numberOfComments = int.Parse(settings["numberofcomments"]);
+
 		if (HttpRuntime.Cache["widget_recentcomments"] == null)
 		{
-			StringDictionary settings = GetSettings();
-			int numberOfComments = DEFAULT_NUMBER_OF_COMMENTS;
-			if (settings.ContainsKey("numberofcomments"))
-				numberOfComments = int.Parse(settings["numberofcomments"]);
-
 			List<Comment> comments = new List<Comment>();
 
 			foreach (Post post in Post.Posts)
@@ -52,19 +52,21 @@ public partial class widgets_RecentComments_widget : WidgetBase
 
 			int max = Math.Min(comments.Count, numberOfComments);
 			List<Comment> list = comments.GetRange(0, max);
-			RenderComments(list, settings);
+			HttpRuntime.Cache.Insert("widget_recentcomments", list);
 		}
 
-		LiteralControl html = new LiteralControl((string)HttpRuntime.Cache["widget_recentcomments"]);
+		string content = RenderComments((List<Comment>)HttpRuntime.Cache["widget_recentcomments"], settings);
+
+		LiteralControl html = new LiteralControl(content); //new LiteralControl((string)HttpRuntime.Cache["widget_recentcomments"]);
 		phPosts.Controls.Add(html);
 	}
 
-	private void RenderComments(List<Comment> comments, StringDictionary settings)
+	private string RenderComments(List<Comment> comments, StringDictionary settings)
 	{
 		if (comments.Count == 0)
 		{
-			HttpRuntime.Cache.Insert("widget_recentcomments", "<p>" + Resources.labels.none + "</p>");
-			return;
+			//HttpRuntime.Cache.Insert("widget_recentcomments", "<p>" + Resources.labels.none + "</p>");
+			return "<p>" + Resources.labels.none + "</p>";
 		}
 
 		HtmlGenericControl ul = new HtmlGenericControl("ul");
@@ -138,7 +140,8 @@ public partial class widgets_RecentComments_widget : WidgetBase
 		string ahref = "<a href=\"{0}syndication.axd?comments=true\">Comment RSS <img src=\"{0}pics/rssButton.gif\" alt=\"\" /></a>";
 		string rss = string.Format(ahref, Utils.RelativeWebRoot);
 		sw.Write(rss);
-		HttpRuntime.Cache.Insert("widget_recentcomments", sw.ToString());
+		return sw.ToString();
+		//HttpRuntime.Cache.Insert("widget_recentcomments", sw.ToString());
 	}
 
 	public override string Name
