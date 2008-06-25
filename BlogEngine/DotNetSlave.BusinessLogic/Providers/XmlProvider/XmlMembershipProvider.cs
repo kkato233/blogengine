@@ -1,18 +1,15 @@
 #region Using
 
 using System;
-using System.Xml;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration.Provider;
-using System.Web.Security;
 using System.Globalization;
-using System.Web.Hosting;
-using System.Web.Management;
 using System.Security.Permissions;
 using System.Web;
-using System.Text;
-using System.Security.Cryptography;
+using System.Web.Hosting;
+using System.Web.Security;
+using System.Xml;
 
 #endregion
 
@@ -23,6 +20,7 @@ namespace BlogEngine.Core.Providers {
     public class XmlMembershipProvider : MembershipProvider {
         private Dictionary<string, MembershipUser> _Users;
         private string _XmlFileName;
+        private MembershipPasswordFormat passwordFormat;
 
         #region Properties
 
@@ -67,7 +65,7 @@ namespace BlogEngine.Core.Providers {
         /// 
         /// </summary>
         public override int MinRequiredPasswordLength {
-            get { return 8; }
+            get { return 5; }
         }
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace BlogEngine.Core.Providers {
         /// 
         /// </summary>
         public override MembershipPasswordFormat PasswordFormat {
-            get { return MembershipPasswordFormat.Clear; }
+            get { return passwordFormat; }
         }
 
         /// <summary>
@@ -158,6 +156,22 @@ namespace BlogEngine.Core.Providers {
             FileIOPermission permission = new FileIOPermission(FileIOPermissionAccess.Write, _XmlFileName);
             permission.Demand();
 
+            //Password Format
+            if (config["passwordFormat"] == null)
+            {
+                config["passwordFormat"] = "Hashed";
+                passwordFormat = MembershipPasswordFormat.Hashed;
+            }
+            else if (String.Compare(config["passwordFormat"], "clear", true) == 0)
+            {
+                passwordFormat = MembershipPasswordFormat.Clear;
+            }
+            else
+            {
+                passwordFormat = MembershipPasswordFormat.Hashed;
+            }
+            config.Remove("passwordFormat");
+
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0) {
                 string attr = config.GetKey(0);
@@ -169,28 +183,51 @@ namespace BlogEngine.Core.Providers {
         /// <summary>
         /// Returns true if the username and password match an exsisting user.
         /// </summary>
-        public override bool ValidateUser(string username, string password) {
+        public override bool ValidateUser(string username, string password) 
+        {
+            bool validated = false;
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
-                return false;
+                return validated;
 
-            try {
+            try 
+            {
                 ReadMembershipDataStore();
 
                 // Validate the user name and password
                 MembershipUser user;
-                if (_Users.TryGetValue(username, out user)) {
-                    if (user.Comment == password) // Case-sensitive
-              {
-                        //user.LastLoginDate = DateTime.Now;
-                        //UpdateUser(user);
-                        return true;
-                    }
+                if (_Users.TryGetValue(username, out user)) 
+                {
+                    validated = CheckPassword(user.Comment, password);
                 }
 
-                return false;
-            } catch (Exception) {
-                return false;
+                return validated;
+            } 
+            catch (Exception) 
+            {
+                return validated;
             }
+        }
+
+        private bool CheckPassword(string storedPassword, string inputPassword)
+        {
+            bool validated = false;
+            if (storedPassword == "")
+            {
+                // This is a special case used for resetting.
+                if (String.Compare(inputPassword, "admin", true) == 0)
+                    validated = true;
+            }
+            else
+            {
+                if (passwordFormat == MembershipPasswordFormat.Hashed)
+                {
+                    if (storedPassword == Utils.HashPassword(inputPassword))
+                        validated = true;
+                }
+                else if (inputPassword == storedPassword)
+                    validated = true;
+            }
+            return validated;
         }
 
         /// <summary>
@@ -231,19 +268,29 @@ namespace BlogEngine.Core.Providers {
         /// <summary>
         /// Changes a users password.
         /// </summary>
-        public override bool ChangePassword(string username, string oldPassword, string newPassword) {
+        public override bool ChangePassword(string username, string oldPassword, string newPassword) 
+        {
             XmlDocument doc = new XmlDocument();
             doc.Load(_XmlFileName);
             XmlNodeList nodes = doc.GetElementsByTagName("User");
-            foreach (XmlNode node in nodes) {
-                if (node["UserName"].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase)
-                  && node["Password"].InnerText.Equals(oldPassword, StringComparison.OrdinalIgnoreCase)) {
-                    node["Password"].InnerText = newPassword;
-                    doc.Save(_XmlFileName);
+            foreach (XmlNode node in nodes) 
+            {
+                if (node["UserName"].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase)) 
+                {
+                    if (CheckPassword(node["Password"].InnerText, oldPassword))
+                    {
+                        string passwordPrep;
+                        if (passwordFormat == MembershipPasswordFormat.Hashed)
+                            passwordPrep = Utils.HashPassword(newPassword);
+                        else
+                            passwordPrep = newPassword;
+                        node["Password"].InnerText = passwordPrep;
+                        doc.Save(_XmlFileName);
 
-										_Users = null;
-										ReadMembershipDataStore();
-                    return true;
+                        _Users = null;
+                        ReadMembershipDataStore();
+                        return true;
+                    }
                 }
             }
 
@@ -264,7 +311,14 @@ namespace BlogEngine.Core.Providers {
             XmlNode xmlLastLoginTime = doc.CreateElement("LastLoginTime");
 
             xmlUserName.InnerText = username;
-            xmlPassword.InnerText = password;
+
+            string passwordPrep;
+            if (passwordFormat == MembershipPasswordFormat.Hashed)
+                passwordPrep = Utils.HashPassword(password);
+            else
+                passwordPrep = password;
+            xmlPassword.InnerText = passwordPrep;
+
             xmlEmail.InnerText = email;
             xmlLastLoginTime.InnerText = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
@@ -353,8 +407,10 @@ namespace BlogEngine.Core.Providers {
             doc.Load(_XmlFileName);
 
             foreach (XmlNode node in doc.GetElementsByTagName("User")) {
-                if (node.ChildNodes[0].InnerText.Equals(user.UserName, StringComparison.OrdinalIgnoreCase)) {
-                    if (user.Comment.Length > 30) {
+                if (node.ChildNodes[0].InnerText.Equals(user.UserName, StringComparison.OrdinalIgnoreCase)) 
+                {
+                    if (user.Comment.Length > 30) 
+                    {
                         node.ChildNodes[1].InnerText = user.Comment;
                     }
                     node.ChildNodes[2].InnerText = user.Email;
@@ -402,19 +458,6 @@ namespace BlogEngine.Core.Providers {
                 }
             }
         }
-
-        ///// <summary>
-        ///// Encrypts a string using the SHA256 algorithm.
-        ///// </summary>
-        //private static string Encrypt(string plainMessage)
-        //{
-        //  byte[] data = Encoding.UTF8.GetBytes(plainMessage);
-        //  using (HashAlgorithm sha = new SHA256Managed())
-        //  {
-        //    byte[] encryptedBytes = sha.TransformFinalBlock(data, 0, data.Length);
-        //    return Convert.ToBase64String(sha.Hash);
-        //  }
-        //}
 
         #endregion
 
@@ -483,42 +526,28 @@ namespace BlogEngine.Core.Providers {
             throw new NotSupportedException();
         }
 
-				/// <summary>
-				/// Gets the password for the user with the given username.
-				/// </summary>
-				/// <param name="username">the given username</param>
-				/// <returns>the password if user is found, null otherwise.</returns>
-				public string GetPassword(string username)
-				{
-					return GetPassword(username, null);
-				}
+		/// <summary>
+		/// Gets the password for the user with the given username.
+		/// </summary>
+		/// <param name="username">the given username</param>
+		/// <returns>the password if user is found, null otherwise.</returns>
+		public string GetPassword(string username)
+		{
+            throw new NotSupportedException();
+		}
 
-				/// <summary>
-				/// Gets the password for the specified user name from the data source.
-				/// </summary>
-				/// <param name="username">The user to retrieve the password for.</param>
-				/// <param name="answer">The password answer for the user.</param>
-				/// <returns>
-				/// The password for the specified user name.
-				/// </returns>
-				public override string GetPassword(string username, string answer)
-				{
-					if (String.IsNullOrEmpty(username))
-						throw new ArgumentException("username");
-
-					XmlDocument doc = new XmlDocument();
-					doc.Load(this._XmlFileName);
-
-					foreach (XmlNode node in doc.SelectNodes("//User"))
-					{
-						if (node.ChildNodes[0].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
-						{
-							string pass = node.ChildNodes[1].InnerText;
-							return pass;
-						}
-					}
-					return null;
-				}
+		/// <summary>
+		/// Gets the password for the specified user name from the data source.
+		/// </summary>
+		/// <param name="username">The user to retrieve the password for.</param>
+		/// <param name="answer">The password answer for the user.</param>
+		/// <returns>
+		/// The password for the specified user name.
+		/// </returns>
+		public override string GetPassword(string username, string answer)
+		{
+            throw new NotSupportedException();
+		}
 
         #endregion
 
