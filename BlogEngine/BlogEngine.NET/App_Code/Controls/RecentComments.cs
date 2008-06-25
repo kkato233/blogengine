@@ -113,6 +113,7 @@ namespace Controls
 					if (comment.Website != null)
 					{
 						HtmlAnchor author = new HtmlAnchor();
+                        author.Attributes.Add("rel", "nofollow");
 						author.HRef = comment.Website.ToString();
 						author.InnerHtml = comment.Author;
 						li.Controls.Add(author);

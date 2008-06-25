@@ -132,7 +132,8 @@ public partial class admin_newuser : System.Web.UI.Page
 
         MembershipUser oldUser = Membership.GetUser(username);
         string[] oldRoles = Roles.GetRolesForUser(username);
-        Roles.RemoveUserFromRoles(username, oldRoles);
+        if (oldRoles.Length > 0)
+            Roles.RemoveUserFromRoles(username, oldRoles);
         Membership.DeleteUser(username);
 
         MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);

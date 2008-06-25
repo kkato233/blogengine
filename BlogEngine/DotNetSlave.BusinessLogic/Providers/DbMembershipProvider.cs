@@ -19,7 +19,6 @@ namespace BlogEngine.Core.Providers
         private string parmPrefix;
         private string applicationName;
         private MembershipPasswordFormat passwordFormat;
-        private bool enablePasswordRetrieval;
 
         /// <summary>
         /// Initializes the provider
@@ -38,10 +37,21 @@ namespace BlogEngine.Core.Providers
                 name = "DbMembershipProvider";
             }
 
-            if (String.IsNullOrEmpty(config["description"]))
+            if (Type.GetType("Mono.Runtime") != null)
             {
-                config.Remove("description");
-                config.Add("description", "Generic Database Membership Provider");
+                // Mono dies with a "Unrecognized attribute: description" if a description is part of the config.
+                if (!string.IsNullOrEmpty(config["description"]))
+                {
+                    config.Remove("description");
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(config["description"]))
+                {
+                    config.Remove("description");
+                    config.Add("description", "Generic Database Membership Provider");
+                }
             }
 
             base.Initialize(name, config);
@@ -81,34 +91,18 @@ namespace BlogEngine.Core.Providers
             //Password Format
             if (config["passwordFormat"] == null)
             {
-                config["passwordFormat"] = "Encrypted";
-                passwordFormat = MembershipPasswordFormat.Encrypted;
+                config["passwordFormat"] = "Hashed";
+                passwordFormat = MembershipPasswordFormat.Hashed;
             }
-            else if (config["passwordFormat"].ToLower() == "clear")
+            else if (String.Compare(config["passwordFormat"], "clear", true) == 0)
             {
                 passwordFormat = MembershipPasswordFormat.Clear;
             }
             else
             {
-                passwordFormat = MembershipPasswordFormat.Encrypted;
+                passwordFormat = MembershipPasswordFormat.Hashed;
             }
             config.Remove("passwordFormat");
-
-            // EnablePasswordRetrieval
-            if (config["enablePasswordRetrieval"] == null)
-            {
-                config["enablePasswordRetrieval"] = "True";
-                enablePasswordRetrieval = true;
-            }
-            else if (config["enablePasswordRetrieval"].ToLower() == "false")
-            {
-                enablePasswordRetrieval = false;
-            }
-            else
-            {
-                enablePasswordRetrieval = true;
-            }
-            config.Remove("enablePasswordRetrieval");
 
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0)
@@ -160,8 +154,8 @@ namespace BlogEngine.Core.Providers
                     cmd.Parameters.Add(dpName);
                     DbParameter dpPwd = provider.CreateParameter();
                     dpPwd.ParameterName = parmPrefix + "pwd";
-                    if (passwordFormat == MembershipPasswordFormat.Encrypted)
-                        dpPwd.Value = EncryptedPasswordToString(password);
+                    if (passwordFormat == MembershipPasswordFormat.Hashed)
+                        dpPwd.Value = Utils.HashPassword(password);
                     else
                         dpPwd.Value = password;
                     cmd.Parameters.Add(dpPwd);
@@ -197,54 +191,15 @@ namespace BlogEngine.Core.Providers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="answer"></param>
+        /// <returns></returns>
         public override string GetPassword(string username, string answer)
         {
-            string password = null;
-            if (enablePasswordRetrieval)
-            {
-                string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
-                string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
-                DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
-
-                using (DbConnection conn = provider.CreateConnection())
-                {
-                    conn.ConnectionString = connString;
-
-                    using (DbCommand cmd = conn.CreateCommand())
-                    {
-                        cmd.CommandText = "SELECT password FROM " + tablePrefix + "_Users " +
-                                        "WHERE UserName = " + parmPrefix + "name";
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        DbParameter dpName = provider.CreateParameter();
-                        dpName.ParameterName = parmPrefix + "name";
-                        dpName.Value = username;
-                        cmd.Parameters.Add(dpName);
-
-                        using (DbDataReader rdr = cmd.ExecuteReader())
-                        {
-                            if (rdr.HasRows)
-                            {
-                                rdr.Read();
-                                password = rdr.GetString(0);
-                                if (passwordFormat == MembershipPasswordFormat.Encrypted)
-                                {
-                                    byte[] encodedPassword = Convert.FromBase64String(password);
-                                    byte[] bytes = DecryptPassword(encodedPassword);
-                                    if (bytes == null)
-                                        return null;
-
-                                    password = Encoding.Unicode.GetString(bytes, 0x10, bytes.Length - 0x10);
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-            return password;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -286,15 +241,22 @@ namespace BlogEngine.Core.Providers
                         {
                             rdr.Read();
                             string actualPassword = rdr.GetString(0);
-                            if (actualPassword == oldPassword)
+                            if (actualPassword == "")
                             {
-                                oldPasswordCorrect = true;
-                                // This put here due to possible encryption issue on first login
-                            }
-                            else if (passwordFormat == MembershipPasswordFormat.Encrypted)
-                            {
-                                if (actualPassword == EncryptedPasswordToString(oldPassword))
+                                // This is a special case used for resetting.
+                                if (oldPassword.ToLower() == "admin")
                                     oldPasswordCorrect = true;
+                            }
+                            else
+                            {
+                                if (passwordFormat == MembershipPasswordFormat.Hashed)
+                                {
+                                    if (actualPassword == Utils.HashPassword(oldPassword))
+                                        oldPasswordCorrect = true;
+                                }
+                                else if (actualPassword == oldPassword)
+                                    oldPasswordCorrect = true;
+
                             }
                         }
                     }
@@ -306,8 +268,8 @@ namespace BlogEngine.Core.Providers
 
                         DbParameter dpPwd = provider.CreateParameter();
                         dpPwd.ParameterName = parmPrefix + "pwd";
-                        if (passwordFormat == MembershipPasswordFormat.Encrypted)
-                            dpPwd.Value = EncryptedPasswordToString(newPassword);
+                        if (passwordFormat == MembershipPasswordFormat.Hashed)
+                            dpPwd.Value = Utils.HashPassword(newPassword);
                         else 
                             dpPwd.Value = newPassword;
                         cmd.Parameters.Add(dpPwd);
@@ -403,16 +365,22 @@ namespace BlogEngine.Core.Providers
                             rdr.Read();
                             string storedPwd = rdr.GetString(0);
 
-                            if (storedPwd == password)
+                            if (storedPwd == "")
                             {
-                                validated = true;
-                                // This put here due to possible encryption 
-                                // issue on first login and to allow manual reset
-                            }
-                            else if (passwordFormat == MembershipPasswordFormat.Encrypted)
-                            {
-                                if (storedPwd == EncryptedPasswordToString(password))
+                                // This is a special case used for resetting.
+                                if (password.ToLower() == "admin")
                                     validated = true;
+                            }
+                            else
+                            {
+                                if (passwordFormat == MembershipPasswordFormat.Hashed)
+                                {
+                                    if (storedPwd == Utils.HashPassword(password))
+                                        validated = true;
+                                }
+                                else if (storedPwd == password)
+                                    validated = true;
+
                             }
                         }
                     }
@@ -477,7 +445,7 @@ namespace BlogEngine.Core.Providers
                         if (rdr.HasRows)
                         {
                             rdr.Read();
-                            user = GetMembershipUser(username, rdr.GetString(1), rdr.GetDateTime(0));
+                            user = GetMembershipUser(username, rdr.GetString(1), rdr.GetDateTime(2));
                         }
                     }
                 }
@@ -657,7 +625,7 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public override bool EnablePasswordRetrieval
         {
-            get { return enablePasswordRetrieval; }
+            get { return false; }
         }
 
         /// <summary>
@@ -711,7 +679,7 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
-        /// Password format (Clear or Encrypted)
+        /// Password format (Clear or Hashed)
         /// </summary>
         public override MembershipPasswordFormat PasswordFormat
         {
@@ -760,14 +728,6 @@ namespace BlogEngine.Core.Providers
                                     new DateTime(1980, 1, 1)    // lastLockoutDate
                                 );
             return user;
-        }
-
-        private string EncryptedPasswordToString(string password)
-        {
-            byte[] temp = Encoding.UTF8.GetBytes(password);
-            byte[] encrypted = EncryptPassword(temp);
-            return Convert.ToBase64String(encrypted);
-
         }
     }
 }

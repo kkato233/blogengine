@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Net.Mail;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Configuration;
@@ -472,5 +473,18 @@ namespace BlogEngine.Core
         }
 
         #endregion 
+
+        /// <summary>
+        /// Encrypts a string using the SHA256 algorithm.
+        /// </summary>
+        public static string HashPassword(string plainMessage)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(plainMessage);
+            using (HashAlgorithm sha = new SHA256Managed())
+            {
+                byte[] encryptedBytes = sha.TransformFinalBlock(data, 0, data.Length);
+                return Convert.ToBase64String(sha.Hash);
+            }
+        }
     }
 }
