@@ -438,7 +438,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       data.WriteStartElement("member");
       data.WriteElementString("name", "mt_allow_comments");
       data.WriteStartElement("value");
-      data.WriteElementString("string", _post.commentPolicy);
+      data.WriteElementString("int", _post.commentPolicy);
       data.WriteEndElement();
       data.WriteEndElement();
 

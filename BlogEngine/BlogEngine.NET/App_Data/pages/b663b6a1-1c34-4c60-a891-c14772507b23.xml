@@ -6,14 +6,15 @@
 This is an example page. 
 &lt;/p&gt;
 &lt;p&gt;
-&amp;nbsp;For more information about pages and how to use them,&amp;nbsp;visit the &lt;a href="http://www.dotnetblogengine.net/wiki/Pages.ashx"&gt;BlogEngine.NET wiki&lt;/a&gt;. 
+&amp;nbsp;For more information about pages and how to use them,&amp;nbsp;visit the &lt;a href="http://www.dotnetblogengine.net/wiki/"&gt;BlogEngine.NET wiki&lt;/a&gt;. 
 &lt;/p&gt;
 </content>
   <keywords>Is, added, to, meta, keywords</keywords>
+  <slug>Example-page</slug>
   <parent>00000000-0000-0000-0000-000000000000</parent>
   <isfrontpage>False</isfrontpage>
   <showinlist>True</showinlist>
   <ispublished>True</ispublished>
   <datecreated>2007-07-14 08:06:59</datecreated>
-  <datemodified>2007-09-12 22:54:28</datemodified>
+  <datemodified>2008-06-28 18:46:13</datemodified>
 </page>

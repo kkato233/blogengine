@@ -1498,10 +1498,11 @@ namespace BlogEngine.Core.Providers
 
                 foreach (Comment comment in post.Comments)
                 {
-                    cmd.CommandText = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved) " +
+                    sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved) " +
                                         "VALUES (@postcommentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                    cmd.CommandText = sqlQuery;
                     cmd.Parameters.Clear();
                     DbParameter dpCommentID = provider.CreateParameter();
                     dpCommentID.ParameterName = parmPrefix + "postcommentid";
