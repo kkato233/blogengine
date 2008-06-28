@@ -100,7 +100,7 @@ namespace Controls
     {
       if (!ShowPostTitles)
       {
-        if (Page.IsPostBack && !Page.IsCallback)
+        if ((Page.IsPostBack && !Page.IsCallback) || VisibleDate == DateTime.MinValue)
           VisibleDate = DateTime.Now;
 
         writer.Write("<div id=\"calendarContainer\">");

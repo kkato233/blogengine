@@ -252,7 +252,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 			sendPost.slug = post.Slug;
 			sendPost.excerpt = post.Description;
 			if (post.IsCommentsEnabled)
-				sendPost.commentPolicy = "";
+				sendPost.commentPolicy = "1";
 			else
 				sendPost.commentPolicy = "0";
 

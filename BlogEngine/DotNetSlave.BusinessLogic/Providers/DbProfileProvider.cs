@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Configuration.Provider;
+using System.Data;
+using System.Data.Common;
+using System.Text.RegularExpressions;
 using System.Web.Profile;
 
 namespace BlogEngine.Core.Providers
@@ -137,47 +140,90 @@ namespace BlogEngine.Core.Providers
         {
             SettingsPropertyValueCollection settings = new SettingsPropertyValueCollection();
 
-            // Make sure we have an entry for this username in the XML data
             string username = context["UserName"] as string;
             if (!string.IsNullOrEmpty(username))
             {
-                // Make sure username doesn't contain .. in the username (like '../SomeOtherUser/')
-                if (username.IndexOf("..") >= 0)
-                    throw new ProviderException(
-                        "Cannot access profile data for users with a username that contains '..'");
-
                 // Get the profile values for the user
-            //    Dictionary<string, object> usersProperties = GetUserProfile(username);
+                Dictionary<string, object> usersProperties = GetUserProfile(username);
 
-            //    foreach (SettingsProperty property in collection)
-            //    {
-            //        // Indicate that provider-specific serialized properties should be
-            //        // serialized as strings for primitive types and as XML for non-primitive types
-            //        if (property.SerializeAs == SettingsSerializeAs.ProviderSpecific)
-            //            if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(String))
-            //                property.SerializeAs = SettingsSerializeAs.String;
-            //            else
-            //                property.SerializeAs = SettingsSerializeAs.Xml;
+                foreach (SettingsProperty property in collection)
+                {
+                    // Indicate that provider-specific serialized properties should be
+                    // serialized as strings for primitive types and as XML for non-primitive types
+                    if (property.SerializeAs == SettingsSerializeAs.ProviderSpecific)
+                        if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(String))
+                            property.SerializeAs = SettingsSerializeAs.String;
+                        else
+                            property.SerializeAs = SettingsSerializeAs.Xml;
 
-            //        // Create a new SettingsPropertyValue based on the current SettingsProperty object
-            //        SettingsPropertyValue setting = new SettingsPropertyValue(property);
+                    // Create a new SettingsPropertyValue based on the current SettingsProperty object
+                    SettingsPropertyValue setting = new SettingsPropertyValue(property);
 
-            //        if (usersProperties != null)
-            //        {
-            //            setting.IsDirty = false;
+                    if (usersProperties != null)
+                    {
+                        setting.IsDirty = false;
 
-            //            if (usersProperties.ContainsKey(property.Name))
-            //            {
-            //                setting.SerializedValue = usersProperties[property.Name];
-            //                setting.Deserialized = false;
-            //            }
-            //        }
+                        if (usersProperties.ContainsKey(property.Name))
+                        {
+                            setting.SerializedValue = usersProperties[property.Name];
+                            setting.Deserialized = false;
+                        }
+                    }
 
-            //        settings.Add(setting); // Add the settings value to the collection
-            //    }
+                    settings.Add(setting); // Add the settings value to the collection
+                }
             }
 
             return settings; // Return the settings collection
+        }
+
+        /// <summary>
+        /// Searches the users profile file for a &lt;user&gt; section with a matching username
+        /// and returns this content as a string dictionary.
+        /// </summary>
+        /// <param name="username">The username to search for.</param>
+        /// <returns>A string dictionary object representing the user's settings. If the supplied username is not found,
+        /// <b>null</b> is returned.</returns>
+        protected virtual Dictionary<string, object> GetUserProfile(string username)
+        {
+            Dictionary<string, object> propertyValues = new Dictionary<string, object>();
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT SettingName, SettingValue " +
+                                      "FROM " + tablePrefix + "Profiles " +
+                                      "WHERE UserName = " + parmPrefix + "username";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpID = provider.CreateParameter();
+                    dpID.ParameterName = parmPrefix + "username";
+                    dpID.Value = username;
+                    cmd.Parameters.Add(dpID);
+
+                    conn.Open();
+
+                    using (DbDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while(rdr.Read())
+                        {
+                            if (rdr.GetString(1).StartsWith("<![CDATA"))
+                                propertyValues.Add(rdr.GetString(0), Convert.FromBase64String(rdr.GetString(1)));
+                            else
+                                propertyValues.Add(rdr.GetString(0), rdr.GetString(1));
+                        }
+                    }
+                }
+            }
+
+            return propertyValues;
         }
 
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
@@ -195,62 +241,88 @@ namespace BlogEngine.Core.Providers
 
             // Otherwise, save the entire set of data, regardless of IsDirty.
             // That is, rather than trying to piecemeal together the changes into an existing XML file,
-            // we're going to blow away the XML file (if it already exists) and just build it up based on the
+            // we're going to blow away the data and just build it up based on the
             // values passed in...
-            //using (StreamWriter sw = new StreamWriter(GetProfileFilePath(username), false))
-            //{
-            //    using (XmlTextWriter writer = new XmlTextWriter(sw))
-            //    {
-            //        writer.Formatting = Formatting.Indented;
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
 
-            //        writer.WriteStartDocument();
-            //        writer.WriteStartElement("profileData");
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "DELETE FROM " + tablePrefix + "Profiles " +
+                                      "WHERE UserName = " + parmPrefix + "username";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
 
-            //        foreach (SettingsPropertyValue setting in collection)
-            //        {
-            //            // If the user is not authenticated and the property does not allow anonymous access, skip serializing it
-            //            if (!userIsAuthenticated && !(bool)setting.Property.Attributes["AllowAnonymous"])
-            //                continue;
+                    DbParameter dpID = provider.CreateParameter();
+                    dpID.ParameterName = parmPrefix + "username";
+                    dpID.Value = username;
+                    cmd.Parameters.Add(dpID);
 
-            //            // Skip the current property if it's not dirty and is currently assigned its default value
-            //            if (!setting.IsDirty && setting.UsingDefaultValue)
-            //                continue;
+                    cmd.ExecuteNonQuery();
 
-            //            // Serialize data based on property's SerializeAs type
-            //            if (setting.Property.SerializeAs == SettingsSerializeAs.String)
-            //                writer.WriteElementString(setting.Name, Convert.ToString(setting.SerializedValue));
-            //            else if (setting.Property.SerializeAs == SettingsSerializeAs.Xml)
-            //            {
-            //                // strip out the <?xml ... ?> portion from the serialized string
-            //                string xmlData = setting.SerializedValue as string;
-            //                xmlData = Regex.Replace(xmlData, @"^<\?xml .*?\?>", string.Empty);
+                    foreach (SettingsPropertyValue setting in collection)
+                    {
+                        //If the user is not authenticated and the property does not allow anonymous access, skip serializing it
+                        if (!userIsAuthenticated && !(bool)setting.Property.Attributes["AllowAnonymous"])
+                            continue;
 
-            //                writer.WriteRaw(string.Format("<{0}>{1}</{0}>", setting.Name, xmlData));
-            //            }
-            //            else if (setting.Property.SerializeAs == SettingsSerializeAs.Binary)
-            //            {
-            //                // encode the binary data using base64 encoding
-            //                string encodedBinaryData = Convert.ToBase64String(setting.SerializedValue as byte[]);
-            //                writer.WriteStartElement(setting.Name);
-            //                writer.WriteCData(encodedBinaryData);
-            //                writer.WriteEndElement();
-            //            }
-            //            else
-            //                // unknown serialize type!
-            //                throw new ProviderException(
-            //                    string.Format(
-            //                        "Invalid value for SerializeAs; expected String, Xml, or Binary, received {0}",
-            //                        Enum.GetName(setting.Property.SerializeAs.GetType(), setting.Property.SerializeAs)));
-            //        }
+                        // Skip the current property if it's not dirty and is currently assigned its default value
+                        if (!setting.IsDirty && setting.UsingDefaultValue)
+                            continue;
 
-            //        writer.WriteEndElement();
-            //        writer.WriteEndDocument();
+                        // Serialize data based on property's SerializeAs type
+                        string serializedData;
+                        if (setting.Property.SerializeAs == SettingsSerializeAs.String)
+                        {
+                            serializedData = Convert.ToString(setting.SerializedValue);   
+                        }
+                        else if (setting.Property.SerializeAs == SettingsSerializeAs.Xml)
+                        {
+                            // strip out the <?xml ... ?> portion from the serialized string
+                            serializedData = setting.SerializedValue as string;
+                            serializedData = Regex.Replace(serializedData, @"^<\?xml .*?\?>", string.Empty);
+                        }
+                        else if (setting.Property.SerializeAs == SettingsSerializeAs.Binary)
+                        {
+                            // encode the binary data using base64 encoding
+                            serializedData = Convert.ToBase64String(setting.SerializedValue as byte[]);
+                        }
+                        else
+                            // unknown serialize type!
+                            throw new ProviderException(
+                                string.Format(
+                                    "Invalid value for SerializeAs; expected String, Xml, or Binary, received {0}",
+                                    Enum.GetName(setting.Property.SerializeAs.GetType(), setting.Property.SerializeAs)));
 
-            //        writer.Close();
-            //    }
+                        sqlQuery = "INSERT INTO " + tablePrefix + "Profiles (UserName, SettingName, SettingValue) " +
+                                   "VALUES (" + parmPrefix + "username, " + parmPrefix + "name, " + parmPrefix + "value)";
+                        cmd.CommandText = sqlQuery;
+                        cmd.Parameters.Clear();
 
-            //    sw.Close();
-            //}
+                        DbParameter dpUserName = provider.CreateParameter();
+                        dpUserName.ParameterName = parmPrefix + "username";
+                        dpUserName.Value = username;
+                        cmd.Parameters.Add(dpUserName);
+
+                        DbParameter dpName = provider.CreateParameter();
+                        dpName.ParameterName = parmPrefix + "name";
+                        dpName.Value = setting.Name;
+                        cmd.Parameters.Add(dpName);
+
+                        DbParameter dpValue = provider.CreateParameter();
+                        dpValue.ParameterName = parmPrefix + "value";
+                        dpValue.Value = serializedData;
+                        cmd.Parameters.Add(dpValue);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         /// <summary>
