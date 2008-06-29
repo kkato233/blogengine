@@ -86,34 +86,73 @@ namespace BlogEngine.Core.Providers
             }
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="profiles"></param>
+        /// <returns></returns>
         public override int DeleteProfiles(ProfileInfoCollection profiles)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="usernames"></param>
+        /// <returns></returns>
         public override int DeleteProfiles(string[] usernames)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="authenticationOption"></param>
+        /// <param name="userInactiveSinceDate"></param>
+        /// <returns></returns>
         public override int DeleteInactiveProfiles(ProfileAuthenticationOption authenticationOption,
                                                    DateTime userInactiveSinceDate)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="authenticationOption"></param>
+        /// <param name="userInactiveSinceDate"></param>
+        /// <returns></returns>
         public override int GetNumberOfInactiveProfiles(ProfileAuthenticationOption authenticationOption,
                                                         DateTime userInactiveSinceDate)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="authenticationOption"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public override ProfileInfoCollection GetAllProfiles(ProfileAuthenticationOption authenticationOption,
                                                              int pageIndex, int pageSize, out int totalRecords)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="authenticationOption"></param>
+        /// <param name="userInactiveSinceDate"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public override ProfileInfoCollection GetAllInactiveProfiles(ProfileAuthenticationOption authenticationOption,
                                                                      DateTime userInactiveSinceDate, int pageIndex,
                                                                      int pageSize, out int totalRecords)
@@ -121,6 +160,15 @@ namespace BlogEngine.Core.Providers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="authenticationOption"></param>
+        /// <param name="usernameToMatch"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public override ProfileInfoCollection FindProfilesByUserName(ProfileAuthenticationOption authenticationOption,
                                                                      string usernameToMatch, int pageIndex, int pageSize,
                                                                      out int totalRecords)
@@ -128,6 +176,16 @@ namespace BlogEngine.Core.Providers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="authenticationOption"></param>
+        /// <param name="usernameToMatch"></param>
+        /// <param name="userInactiveSinceDate"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public override ProfileInfoCollection FindInactiveProfilesByUserName(
             ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate,
             int pageIndex, int pageSize, out int totalRecords)
@@ -135,6 +193,12 @@ namespace BlogEngine.Core.Providers
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Load Profile
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="collection"></param>
+        /// <returns></returns>
         public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context,
                                                                           SettingsPropertyCollection collection)
         {
@@ -226,6 +290,11 @@ namespace BlogEngine.Core.Providers
             return propertyValues;
         }
 
+        /// <summary>
+        /// Save Profile
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="collection"></param>
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
         {
             string username = context["UserName"] as string;
