@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <profileData>
+  <RegionState />
   <FirstName>Admin</FirstName>
-  <IsPrivate>True</IsPrivate>
+  <IsPrivate>False</IsPrivate>
+  <MiddleName />
   <LastName>Person</LastName>
+  <Birthday />
+  <PhoneFax />
+  <EmailAddress />
+  <PhotoURL />
+  <Company />
+  <DisplayName />
+  <Country>dk</Country>
+  <PhoneMain />
+  <PhoneMobile />
   <AboutMe>I program in BE.N</AboutMe>
+  <CityTown />
 </profileData>

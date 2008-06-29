@@ -40,8 +40,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         /// </summary>
         /// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
         public void ProcessRequest(HttpContext context)
-        {        
-
+        { 
             // attempt to grab the username from the URL
             // where URL = www.mysite.com/foaf_admin.axd
             // username = 'admin'
@@ -119,7 +118,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                 // assume all other authors are friends
                 foreach (MembershipUser user in Membership.GetAllUsers())
                 {
-                    if (user.UserName.ToLower() != name.ToLower())
+                    if (!user.UserName.Equals(name, StringComparison.OrdinalIgnoreCase))
                     {
                         AuthorProfile friend = (AuthorProfile)AuthorProfile.Create(user.UserName);
                         me.Friends.Add(new FoafPerson("#" + user.UserName, friend));
@@ -196,13 +195,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
         /// <param name="writer"></param>
         /// <param name="person"></param>
         private void WriteFoafPerson(XmlWriter writer, FoafPerson person)
-        {
-            
+        {            
             writer.WriteStartElement("foaf", "Person", null);
-            if (person.ID != "")
-            {
-                writer.WriteAttributeString("rdf", "ID", null, person.ID);
-            }
+						//if (person.ID != "")
+						//{
+						//    writer.WriteAttributeString("rdf", "ID", null, person.ID);
+						//}
 
     
             writer.WriteElementString("foaf", "name", null, person.Name);

@@ -26,6 +26,8 @@
                 <asp:ContentPlaceHolder ID="cphBody" runat="server" />
             </div>
             <div class="sidenav">
+            <blog:WidgetZone runat="server" ID="rightzone" />
+            <%--
                 <h1>Search</h1>
                 <blog:SearchBox runat="server" />
                 
@@ -51,7 +53,7 @@
                 
                 <h1>Disclaimer</h1>
                 <p>The opinions expressed herein are my own personal opinions and do not represent my employer's view in anyway.</p>
-                <p>&copy; Copyright <%=DateTime.Now.Year %></p>
+                <p>&copy; Copyright <%=DateTime.Now.Year %></p>--%>
                 <p><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></p>
               
             </div>

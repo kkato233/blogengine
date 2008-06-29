@@ -59,9 +59,7 @@
     <asp:TextBox ID="tbRegionState" runat="server"></asp:TextBox><br />
     
     <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
-    <asp:DropDownList ID="ddlCountry" runat="server" onchange="SetFlag(this.value)" 
-            AutoPostBack="True" ></asp:DropDownList>
-    <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" />
+    <asp:DropDownList ID="ddlCountry" runat="server" AutoPostBack="false" />
     <br />          
     
     <label for="<%=tbCompany.ClientID %>"><%=Resources.labels.company %></label>
