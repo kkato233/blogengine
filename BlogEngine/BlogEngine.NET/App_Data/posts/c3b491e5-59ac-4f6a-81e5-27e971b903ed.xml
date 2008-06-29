@@ -17,11 +17,11 @@ When you&amp;#39;ve got write permissions to the App_Data folder, you need to ch
 &lt;h2&gt;New features in BlogEngine.NET 1.4&lt;/h2&gt;
 &lt;p&gt;
 &lt;strong&gt;New database provider&lt;br /&gt;
-&lt;/strong&gt;BlogEngine.NET now works with most commercial and open source databases such as MySQL, SQL Server, VistaDB, Microsoft Access, Oracle and many more. This allow you to use practically any database supported by your hosting provider. You can still use XML files if you don&amp;#39;t want to use a database. 
+&lt;/strong&gt;BlogEngine.NET now works with most commercial and open source databases such as MySQL, SQL Server, VistaDB and many others. This allow you to use practically any database supported by your hosting provider. You can still use XML files if you don&amp;#39;t want to use a database. 
 &lt;/p&gt;
 &lt;p&gt;
 &lt;strong&gt;Drag &amp;#39;n drop widgets&lt;/strong&gt;&lt;br /&gt;
-Widgets are the pieces of content most often located at the sidebar. It could be a list of recent posts, latest twits from Twitter or anything else. You can drag and drop the widgets around in your sidebar and modify the content of them directly on the front-page. The widget works independently of the theme you are using as long as it is implemented in the theme. In BlogEngine.NET it is implemented in the &lt;em&gt;Standard&lt;/em&gt; and &lt;em&gt;Leaves&lt;/em&gt; themes and many more themes with widgets will be available for download very soon at the &lt;a href="http://dotnetblogengine.net"&gt;BlogEngine.NET website&lt;/a&gt;. 
+Widgets are the pieces of content most often located at the sidebar. It could be a list of recent posts, latest tweets from Twitter or anything else. You can drag and drop the widgets around in your sidebar and modify the content of them directly on the front-page. The widget works independently of the theme you are using as long as it is implemented in the theme. In BlogEngine.NET it is implemented in the &lt;em&gt;Standard&lt;/em&gt; and &lt;em&gt;Indigo&lt;/em&gt; themes and many more themes with widgets will be available for download very soon at the &lt;a href="http://dotnetblogengine.net"&gt;BlogEngine.NET website&lt;/a&gt;. 
 &lt;/p&gt;
 &lt;p&gt;
 &lt;strong&gt;Extension settings&lt;/strong&gt;&lt;br /&gt;
@@ -64,7 +64,7 @@ The BlogEngine.NET team
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
   <pubDate>2008-06-30 00:00:00</pubDate>
-  <lastModified>2008-06-29 22:50:12</lastModified>
+  <lastModified>2008-06-29 17:10:31</lastModified>
   <raters>3</raters>
   <rating>4.4</rating>
   <slug>Welcome-to-BlogEngineNET-1-4</slug>
