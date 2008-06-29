@@ -181,7 +181,6 @@ div.widget{
 	border: 1px solid silver;
 	padding: 10px 15px;
 	margin-bottom: 10px;
-	1position: relative;
 	z-index: 1;
 	min-width: 1px;
 }
@@ -207,7 +206,6 @@ div.widget a.edit{
 	font-size: 10px;
 	font-weight: normal;
 	float: right;
-	1position: relative;
 	z-index: 1;
 }
 
@@ -216,7 +214,6 @@ div.widget a.delete{
 	color: #999999;
 	float: right;
 	margin-left: 5px;
-	1position: relative;
 	z-index: 1;
 	text-decoration: none;
 }

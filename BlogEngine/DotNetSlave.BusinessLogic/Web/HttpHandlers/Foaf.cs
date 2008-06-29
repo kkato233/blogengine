@@ -19,265 +19,272 @@ using BlogEngine.Core.DataStore;
 
 namespace BlogEngine.Core.Web.HttpHandlers
 {
-    /// <summary>
-    /// Based on John Dyer's (http://johndyer.name/) extension.
-    /// </summary>
-    public class Foaf : IHttpHandler
-    {
+	/// <summary>
+	/// Based on John Dyer's (http://johndyer.name/) extension.
+	/// </summary>
+	public class Foaf : IHttpHandler
+	{
 
-        /// <summary>
-        /// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.
-        /// </summary>
-        /// <value></value>
-        /// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
-        public bool IsReusable
-        {
-            get { return false; }
-        }
+		/// <summary>
+		/// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.
+		/// </summary>
+		/// <value></value>
+		/// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
+		public bool IsReusable
+		{
+			get { return false; }
+		}
 
-        /// <summary>
-        /// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"></see> interface.
-        /// </summary>
-        /// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
-        public void ProcessRequest(HttpContext context)
-        { 
-            // attempt to grab the username from the URL
-            // where URL = www.mysite.com/foaf_admin.axd
-            // username = 'admin'
-            string filename = context.Request.Url.ToString();
-            string name = filename.Substring(filename.LastIndexOf("/") + 1).Replace(".axd", "").Replace("foaf_", "").Replace("foaf", "");
+		/// <summary>
+		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"></see> interface.
+		/// </summary>
+		/// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
+		public void ProcessRequest(HttpContext context)
+		{
+			// attempt to grab the username from the URL
+			// where URL = www.mysite.com/foaf_admin.axd
+			// username = 'admin'
+			string filename = context.Request.Url.ToString();
+			string name = filename.Substring(filename.LastIndexOf("/") + 1).Replace(".axd", "").Replace("foaf_", "").Replace("foaf", "");
 
-            // if no name is specificied, then grab the first user from Membership
-            if (name == "")
-            {
-                foreach (MembershipUser user in Membership.GetAllUsers())
-                {
-                    name = user.UserName;
-                    break;
-                }
-            }
+			// if no name is specificied, then grab the first user from Membership
+			if (name == "")
+			{
+				foreach (MembershipUser user in Membership.GetAllUsers())
+				{
+					name = user.UserName;
+					break;
+				}
+			}
 
-            context.Response.ContentType = "application/rdf+xml";
-            WriteFoaf(context, name);
-        }
+			context.Response.ContentType = "application/rdf+xml";
+			WriteFoaf(context, name);
+		}
 
-        private static Dictionary<string, string> xmlNamespaces;
-        private static Dictionary<string, string> SupportedNamespaces
-        {
-            get
-            {
-                if (xmlNamespaces == null)
-                {
-                    xmlNamespaces = new Dictionary<string, string>();
+		private static Dictionary<string, string> xmlNamespaces;
+		private static Dictionary<string, string> SupportedNamespaces
+		{
+			get
+			{
+				if (xmlNamespaces == null)
+				{
+					xmlNamespaces = new Dictionary<string, string>();
 
-                    xmlNamespaces.Add("foaf", "http://xmlns.com/foaf/0.1/");
-                    xmlNamespaces.Add("admin", "http://webns.net/mvcb/");
-                    xmlNamespaces.Add("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-                }
+					xmlNamespaces.Add("foaf", "http://xmlns.com/foaf/0.1/");
+					xmlNamespaces.Add("admin", "http://webns.net/mvcb/");
+					xmlNamespaces.Add("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
+				}
 
-                return xmlNamespaces;
-            }
-        }
-
-
-        /// <summary>
-        /// Writes FOAF data to the output stream
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="name"></param>
-        private void WriteFoaf(HttpContext context, string name)
-        {
-            // begin FOAF
-            XmlWriter writer = GetWriter(context.Response.OutputStream);
-            
-            // write DOCUMENT
-            writer.WriteStartElement("foaf", "PersonalProfileDocument", null);
-            writer.WriteAttributeString("rdf", "about", null, "");
-            writer.WriteStartElement("foaf", "maker", null);
-            writer.WriteAttributeString("rdf", "resource", null, "#me");
-            writer.WriteEndElement(); // foaf:maker
-            writer.WriteStartElement("foaf", "primaryTopic", null);
-            writer.WriteAttributeString("rdf", "resource", null, "#me");
-            writer.WriteEndElement(); // foaf:primaryTopic
-            writer.WriteEndElement();  // foaf:PersonalProfileDocument
+				return xmlNamespaces;
+			}
+		}
 
 
-            // get main person's data
-            AuthorProfile ap = (AuthorProfile)AuthorProfile.Create(name);
+		/// <summary>
+		/// Writes FOAF data to the output stream
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="name"></param>
+		private void WriteFoaf(HttpContext context, string name)
+		{
+			// begin FOAF
+			XmlWriter writer = GetWriter(context.Response.OutputStream);
 
-            if (!ap.IsPrivate)
-            {
-
-                // main author object
-                FoafPerson me = new FoafPerson("#me", ap);
-                me.Friends = new List<FoafPerson>();
-
-
-                // TODO: this really should be it's own data store
-
-                // assume all other authors are friends
-                foreach (MembershipUser user in Membership.GetAllUsers())
-                {
-                    if (!user.UserName.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        AuthorProfile friend = (AuthorProfile)AuthorProfile.Create(user.UserName);
-                        me.Friends.Add(new FoafPerson("#" + user.UserName, friend));
-                    }
-                }                
-
-                // assume blog roll = friends
-                string blogrollPath = context.Server.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml";
-                if (File.Exists(blogrollPath))
-                {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(blogrollPath);
+			// write DOCUMENT
+			writer.WriteStartElement("foaf", "PersonalProfileDocument", null);
+			writer.WriteAttributeString("rdf", "about", null, "");
+			writer.WriteStartElement("foaf", "maker", null);
+			writer.WriteAttributeString("rdf", "resource", null, "#me");
+			writer.WriteEndElement(); // foaf:maker
+			writer.WriteStartElement("foaf", "primaryTopic", null);
+			writer.WriteAttributeString("rdf", "resource", null, "#me");
+			writer.WriteEndElement(); // foaf:primaryTopic
+			writer.WriteEndElement();  // foaf:PersonalProfileDocument
 
 
-                    XmlNodeList nodes = doc.GetElementsByTagName("outline");
-                    foreach (XmlNode node in nodes)
-                    {
-                        string title = node.Attributes["title"].Value;
-                        string url =  node.Attributes["htmlUrl"].Value;
+			// get main person's data
+			AuthorProfile ap = (AuthorProfile)AuthorProfile.Create(name);
 
-                        FoafPerson foaf = new FoafPerson(title);
-                        foaf.Name = title;
-                        foaf.Blog = url;
+			if (!ap.IsPrivate)
+			{
 
-                        me.Friends.Add(foaf);
-                    }
-
-                }
+				// main author object
+				FoafPerson me = new FoafPerson("#me", ap);
+				me.Friends = new List<FoafPerson>();
 
 
-                // begin writing FOAF Persons
-                WriteFoafPerson(writer, me);
-            }
-            CloseWriter(writer);
-        }
+				// TODO: this really should be it's own data store
 
-        /// <summary>
-        /// Creates the necessary startup information for the FOAF document
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        private XmlWriter GetWriter(Stream stream)
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Encoding = Encoding.UTF8;
-            settings.Indent = true;
-            XmlWriter xmlWriter = XmlWriter.Create(stream, settings);
+				// assume all other authors are friends
+				foreach (MembershipUser user in Membership.GetAllUsers())
+				{
+					if (!user.UserName.Equals(name, StringComparison.OrdinalIgnoreCase))
+					{
+						AuthorProfile friend = (AuthorProfile)AuthorProfile.Create(user.UserName);
+						me.Friends.Add(new FoafPerson("#" + user.UserName, friend));
+					}
+				}
 
-            xmlWriter.WriteStartDocument();
-            xmlWriter.WriteStartElement("rdf", "RDF", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-
-            foreach (string prefix in SupportedNamespaces.Keys)
-            {
-                xmlWriter.WriteAttributeString("xmlns", prefix, null, SupportedNamespaces[prefix]);
-            }
-
-            return xmlWriter;
-        }
-
-        /// <summary>
-        /// Closes up the FOAF document
-        /// </summary>
-        /// <param name="xmlWriter"></param>
-        private void CloseWriter(XmlWriter xmlWriter)
-        {
-            xmlWriter.WriteEndElement(); // rdf:RDF
-            xmlWriter.WriteEndDocument();
-            xmlWriter.Close();
-        }
-
-        /// <summary>
-        /// Write a FOAF:Person and any friends to the output stream
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="person"></param>
-        private void WriteFoafPerson(XmlWriter writer, FoafPerson person)
-        {            
-            writer.WriteStartElement("foaf", "Person", null);
-						//if (person.ID != "")
-						//{
-						//    writer.WriteAttributeString("rdf", "ID", null, person.ID);
-						//}
-
-    
-            writer.WriteElementString("foaf", "name", null, person.Name);
-            if (person.Title != "")
-            {
-                writer.WriteElementString("foaf", "title", null, person.Title);
-            }
-            if (person.Firstname != "")
-            {
-                writer.WriteElementString("foaf", "givenname", null, person.Firstname);
-            }
-            if (person.Lastname != "")
-            {
-                writer.WriteElementString("foaf", "family_name", null, person.Lastname);
-            }
-            if (person.Email != "")
-            {
-                writer.WriteElementString("foaf", "mbox_sha1sum", null, CalculateSHA1(person.Email, Encoding.UTF8));
-            }
-            if (person.Homepage != "")
-            {
-                writer.WriteStartElement("foaf", "homepage", null);
-                writer.WriteAttributeString("rdf", "resource", null, person.Homepage);
-                writer.WriteEndElement();
-            }
-            if (person.Blog != "")
-            {
-                writer.WriteStartElement("foaf", "weblog", null);
-                writer.WriteAttributeString("rdf", "resource", null, person.Blog);
-                writer.WriteEndElement();
-            }
-            if (person.Rdf != "")
-            {
-                writer.WriteStartElement("rdfs", "seeAlso", null);
-                writer.WriteAttributeString("rdf", "resource", null, person.Rdf);
-                writer.WriteEndElement();
-            }
-            if (person.Birthday != "")
-            {
-                writer.WriteElementString("foaf", "birthday", null, person.Birthday);
-            }
-
-            if (person.Phone != "")
-            {
-                writer.WriteElementString("foaf", "phone", null, person.Phone);
-            }
-
-            if (person.Friends != null && person.Friends.Count > 0)
-            {
-
-                foreach (FoafPerson friend in person.Friends)
-                {
-                    writer.WriteStartElement("foaf", "knows", null);
-
-                    WriteFoafPerson(writer, friend);
-
-                    writer.WriteEndElement();  // foaf:knows
-                }
+				// assume blog roll = friends
+				string blogrollPath = context.Server.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml";
+				if (File.Exists(blogrollPath))
+				{
+					XmlDocument doc = new XmlDocument();
+					doc.Load(blogrollPath);
 
 
-            }
-            writer.WriteEndElement(); // foaf:Person
-        }
+					XmlNodeList nodes = doc.GetElementsByTagName("outline");
+					foreach (XmlNode node in nodes)
+					{
+						string title = node.Attributes["title"].Value;
+						string url = node.Attributes["htmlUrl"].Value;
+
+						FoafPerson foaf = new FoafPerson(title);
+						foaf.Name = title;
+						foaf.Blog = url;
+
+						me.Friends.Add(foaf);
+					}
+
+				}
 
 
-        private static string CalculateSHA1(string text, Encoding enc)
-        {
-            byte[] buffer = enc.GetBytes(text);
-            SHA1CryptoServiceProvider cryptoTransformSHA1 =
-            new SHA1CryptoServiceProvider();
-            string hash = BitConverter.ToString(
-                cryptoTransformSHA1.ComputeHash(buffer)).Replace("-", "");
+				// begin writing FOAF Persons
+				WriteFoafPerson(writer, me);
+			}
+			CloseWriter(writer);
+		}
 
-            return hash.ToLower();
-        }
+		/// <summary>
+		/// Creates the necessary startup information for the FOAF document
+		/// </summary>
+		/// <param name="stream"></param>
+		/// <returns></returns>
+		private XmlWriter GetWriter(Stream stream)
+		{
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Encoding = Encoding.UTF8;
+			settings.Indent = true;
+			XmlWriter xmlWriter = XmlWriter.Create(stream, settings);
 
-    }
+			xmlWriter.WriteStartDocument();
+			xmlWriter.WriteStartElement("rdf", "RDF", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+
+			foreach (string prefix in SupportedNamespaces.Keys)
+			{
+				xmlWriter.WriteAttributeString("xmlns", prefix, null, SupportedNamespaces[prefix]);
+			}
+
+			return xmlWriter;
+		}
+
+		/// <summary>
+		/// Closes up the FOAF document
+		/// </summary>
+		/// <param name="xmlWriter"></param>
+		private void CloseWriter(XmlWriter xmlWriter)
+		{
+			xmlWriter.WriteEndElement(); // rdf:RDF
+			xmlWriter.WriteEndDocument();
+			xmlWriter.Close();
+		}
+
+		/// <summary>
+		/// Write a FOAF:Person and any friends to the output stream
+		/// </summary>
+		/// <param name="writer"></param>
+		/// <param name="person"></param>
+		private void WriteFoafPerson(XmlWriter writer, FoafPerson person)
+		{
+			writer.WriteStartElement("foaf", "Person", null);
+			//if (person.ID != "")
+			//{
+			//    writer.WriteAttributeString("rdf", "ID", null, person.ID);
+			//}
+
+
+			writer.WriteElementString("foaf", "name", null, person.Name);
+			if (person.Title != "")
+			{
+				writer.WriteElementString("foaf", "title", null, person.Title);
+			}
+			if (person.Firstname != "")
+			{
+				writer.WriteElementString("foaf", "givenname", null, person.Firstname);
+			}
+			if (person.Lastname != "")
+			{
+				writer.WriteElementString("foaf", "family_name", null, person.Lastname);
+			}
+			if (person.Email != "")
+			{
+				writer.WriteElementString("foaf", "mbox_sha1sum", null, CalculateSHA1(person.Email, Encoding.UTF8));
+			}
+			if (person.Homepage != "")
+			{
+				writer.WriteStartElement("foaf", "homepage", null);
+				writer.WriteAttributeString("rdf", "resource", null, person.Homepage);
+				writer.WriteEndElement();
+			}
+			if (person.Blog != "")
+			{
+				writer.WriteStartElement("foaf", "weblog", null);
+				writer.WriteAttributeString("rdf", "resource", null, person.Blog);
+				writer.WriteEndElement();
+			}
+			if (person.Rdf != "")
+			{
+				writer.WriteStartElement("rdfs", "seeAlso", null);
+				writer.WriteAttributeString("rdf", "resource", null, person.Rdf);
+				writer.WriteEndElement();
+			}
+			if (person.Birthday != "")
+			{
+				writer.WriteElementString("foaf", "birthday", null, person.Birthday);
+			}
+
+			if (!string.IsNullOrEmpty(person.PhotoUrl))
+			{
+				writer.WriteStartElement("foaf", "depiction", null);
+				writer.WriteAttributeString("rdf", "resource", null, person.PhotoUrl);
+				writer.WriteEndElement();
+			}
+
+			if (person.Phone != "")
+			{
+				writer.WriteElementString("foaf", "phone", null, person.Phone);
+			}
+
+			if (person.Friends != null && person.Friends.Count > 0)
+			{
+
+				foreach (FoafPerson friend in person.Friends)
+				{
+					writer.WriteStartElement("foaf", "knows", null);
+
+					WriteFoafPerson(writer, friend);
+
+					writer.WriteEndElement();  // foaf:knows
+				}
+
+
+			}
+			writer.WriteEndElement(); // foaf:Person
+		}
+
+
+		private static string CalculateSHA1(string text, Encoding enc)
+		{
+			byte[] buffer = enc.GetBytes(text);
+			SHA1CryptoServiceProvider cryptoTransformSHA1 =
+			new SHA1CryptoServiceProvider();
+			string hash = BitConverter.ToString(
+					cryptoTransformSHA1.ComputeHash(buffer)).Replace("-", "");
+
+			return hash.ToLower();
+		}
+
+	}
 
 }
 
@@ -287,55 +294,57 @@ namespace BlogEngine.Core.Web.HttpHandlers
 public class FoafPerson
 {
 
-    public FoafPerson(string id)
-    {
-        ID = id;
-    }
+	public FoafPerson(string id)
+	{
+		ID = id;
+	}
 
-    public FoafPerson(string id, BlogEngine.Core.Web.AuthorProfile ap)
-    {
-            ID = "#me";
-            Name = ap.FullName;
-            Title = ap.Title;
-            Email = ap.EmailAddress;
-            // no homepage
-            // this website = blog
-            Blog = Utils.AbsoluteWebRoot.ToString();
-            Rdf = Utils.AbsoluteWebRoot.ToString() + "foaf_" + ap.UserName + ".axd";
-            Firstname = ap.FirstName;
-            Lastname = ap.LastName;
-            Image = ap.PhotoURL;
-            Birthday =ap.Birthday;
-            Phone = ap.PhoneMain;
-    }
+	public FoafPerson(string id, BlogEngine.Core.Web.AuthorProfile ap)
+	{
+		ID = "#me";
+		Name = ap.FullName;
+		Title = ap.Title;
+		Email = ap.EmailAddress;
+		// no homepage
+		// this website = blog
+		Blog = Utils.AbsoluteWebRoot.ToString();
+		Rdf = Utils.AbsoluteWebRoot.ToString() + "foaf_" + ap.UserName + ".axd";
+		Firstname = ap.FirstName;
+		Lastname = ap.LastName;
+		Image = ap.PhotoURL;
+		Birthday = ap.Birthday;
+		Phone = ap.PhoneMain;
+		PhotoUrl = ap.PhotoURL;
+	}
 
-    public FoafPerson(string id, string name, string title, string email, string homepage, string blog, string rdf, string firstname, string lastname, string image, string birthday, string phone)
-    {
-        ID = id;
-        Name = name;
-        Title = title;
-        Email = email;
-        Homepage = homepage;
-        Blog = blog;
-        Rdf = rdf;
-        Firstname = firstname;
-        Lastname = lastname;
-        Image = image;
-        Birthday = birthday;
-        Phone = phone;
-    }
+	public FoafPerson(string id, string name, string title, string email, string homepage, string blog, string rdf, string firstname, string lastname, string image, string birthday, string phone)
+	{
+		ID = id;
+		Name = name;
+		Title = title;
+		Email = email;
+		Homepage = homepage;
+		Blog = blog;
+		Rdf = rdf;
+		Firstname = firstname;
+		Lastname = lastname;
+		Image = image;
+		Birthday = birthday;
+		Phone = phone;
+	}
 
-    public string ID = String.Empty;
-    public string Name = String.Empty;
-    public string Email = String.Empty;
-    public string Homepage = String.Empty;
-    public string Blog = String.Empty;
-    public string Rdf = String.Empty;
-    public string Firstname = String.Empty;
-    public string Lastname = String.Empty;
-    public string Image = String.Empty;
-    public string Title = String.Empty;
-    public string Birthday = String.Empty;
-    public string Phone = String.Empty;
-    public List<FoafPerson> Friends;
+	public string ID = String.Empty;
+	public string Name = String.Empty;
+	public string Email = String.Empty;
+	public string Homepage = String.Empty;
+	public string Blog = String.Empty;
+	public string Rdf = String.Empty;
+	public string Firstname = String.Empty;
+	public string Lastname = String.Empty;
+	public string Image = String.Empty;
+	public string Title = String.Empty;
+	public string Birthday = String.Empty;
+	public string Phone = String.Empty;
+	public string PhotoUrl = string.Empty;
+	public List<FoafPerson> Friends;
 }

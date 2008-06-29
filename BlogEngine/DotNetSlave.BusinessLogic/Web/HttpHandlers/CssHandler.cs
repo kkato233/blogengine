@@ -42,7 +42,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						throw new System.Security.SecurityException("Invalid CSS file extension");
 
 					// In cache?
-					if (context.Cache[fileName] == null)
+					if (context.Cache[context.Request.RawUrl] == null)
 					{
 						// Not found in cache, let's load it up
 						if (fileName.StartsWith("http", StringComparison.OrdinalIgnoreCase))
@@ -53,7 +53,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					else
 					{
 						// Found in cache
-						css = (string)context.Cache[fileName];
+						css = (string)context.Cache[context.Request.RawUrl];
 					}
 
 					// Make sure css isn't empty
@@ -146,7 +146,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					css = StripWhitespace(css);
 
 					// Insert into cache
-					HttpContext.Current.Cache.Insert(file, css, new CacheDependency(path));
+					HttpContext.Current.Cache.Insert(HttpContext.Current.Request.RawUrl, css, new CacheDependency(path));
 				}
 				return css;
 			}
@@ -173,7 +173,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					css = StripWhitespace(css);
 
 					// Insert into cache
-					HttpContext.Current.Cache.Insert(file, css, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+					HttpContext.Current.Cache.Insert(HttpContext.Current.Request.RawUrl, css, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
 				}
 				return css;
 			}
