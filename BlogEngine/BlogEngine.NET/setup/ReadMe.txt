@@ -1,11 +1,12 @@
-By default, nothing special is needed to setup BlogEngine.NET.  
+By default, nothing special is needed to setup BlogEngine.NET for the first time.  
 
-However, if you wish to use the SQL Server provider (instead of the default XML provider) for data storage
-you will need a little instruction.
+However, if you wish to use a database to store your blog data you will need little instruction.
 
 The instructions can be found on our wiki:
-http://www.dotnetblogengine.net/wiki/SQLServerBlogProvider.ashx
+http://www.dotnetblogengine.net/wiki/
 
-The latest version of the SQL installation script is located in this folder.  
+The latest version of the  Microsoft SQL Server installation script is located in this folder.  
 
-You should use that file to create your database tables.
+You should use that file to create your database tables for your SQL Server database.
+
+If you wish to use another database, please see the wiki for more details.  

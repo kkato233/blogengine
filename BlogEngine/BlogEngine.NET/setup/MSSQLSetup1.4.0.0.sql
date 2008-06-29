@@ -1,4 +1,5 @@
-/****** BlogEngine.NET 1.3 SQL Setup Script ******/
+/****** BlogEngine.NET 1.4 SQL Setup Script ******/
+
 /****** Object:  Table [dbo].[be_Categories]    Script Date: 12/22/2007 14:14:54 ******/
 SET ANSI_NULLS ON
 GO
@@ -14,6 +15,20 @@ CREATE TABLE [dbo].[be_Categories](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[be_DataStoreSettings]    Script Date: 06/28/2008 19:29:31 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[be_DataStoreSettings](
+	[ExtensionType] [nvarchar](50) NOT NULL,
+	[ExtensionId] [nvarchar](100) NOT NULL,
+	[Settings] [varbinary](max) NOT NULL
+) ON [PRIMARY]
+
+GO
 /****** Object:  Table [dbo].[be_Pages]    Script Date: 12/22/2007 14:15:17 ******/
 SET ANSI_NULLS ON
 GO
@@ -23,7 +38,7 @@ CREATE TABLE [dbo].[be_Pages](
 	[PageID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Pages_PageID]  DEFAULT (newid()),
 	[Title] [nvarchar](255) NULL,
 	[Description] [nvarchar](max) NULL,
-	[PageContent] [ntext] NULL,
+	[PageContent] [nvarchar](max) NULL,
 	[Keywords] [nvarchar](max) NULL,
 	[DateCreated] [datetime] NULL,
 	[DateModified] [datetime] NULL,
@@ -60,7 +75,7 @@ CREATE TABLE [dbo].[be_Posts](
 	[PostID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Posts_PostID]  DEFAULT (newid()),
 	[Title] [nvarchar](255) NULL,
 	[Description] [nvarchar](max) NULL,
-	[PostContent] [ntext] NULL,
+	[PostContent] [nvarchar](max) NULL,
 	[DateCreated] [datetime] NULL,
 	[DateModified] [datetime] NULL,
 	[Author] [nvarchar](50) NULL,
@@ -86,6 +101,35 @@ CREATE TABLE [dbo].[be_Settings](
  CONSTRAINT [PK_be_Settings] PRIMARY KEY CLUSTERED 
 (
 	[SettingName] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[be_Profiles]    Script Date: 06/28/2008 19:33:41 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[be_Profiles](
+	[ProfileID] [int] IDENTITY(1,1) NOT NULL,
+	[UserName] [nvarchar](100) NULL,
+	[SettingName] [nvarchar](200) NULL,
+	[SettingValue] [nvarchar](max) NULL,
+ CONSTRAINT [PK_be_Profiles] PRIMARY KEY CLUSTERED 
+(
+	[ProfileID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[be_StopWords]    Script Date: 06/28/2008 19:33:32 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[be_StopWords](
+	[StopWord] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_be_StopWords] PRIMARY KEY CLUSTERED 
+(
+	[StopWord] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
@@ -214,8 +258,22 @@ CREATE NONCLUSTERED INDEX [FK_PostID] ON [dbo].[be_PostTag]
 (
 	[PostID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-
+GO
+/****** Object:  Index [I_TypeID]    Script Date: 06/28/2008 19:34:43 ******/
+CREATE NONCLUSTERED INDEX [I_TypeID] ON [dbo].[be_DataStoreSettings] 
+(
+	[ExtensionType] ASC,
+	[ExtensionId] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+/****** Object:  Index [I_UserName]    Script Date: 06/28/2008 19:35:12 ******/
+CREATE NONCLUSTERED INDEX [I_UserName] ON [dbo].[be_Profiles] 
+(
+	[UserName] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
 /***  Load initial Data ***/
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('administratorrole', 'Administrators');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('alternatefeedurl', '');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('authorname', 'My name');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('avatar', 'combine');
@@ -232,7 +290,7 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('displayratingsonrec
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('email', 'user@example.com');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('emailsubjectprefix', 'Weblog');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecommentsearch', 'True');
-INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecommentsmoderation', 'True');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecommentsmoderation', 'False');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecontactattachments', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablecountryincomments', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('enablehttpcompression', 'True');
@@ -250,14 +308,15 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('fileextension', '.a
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('geocodinglatitude', '0');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('geocodinglongitude', '0');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('handlewwwsubdomain', '');
-INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('htmlheader', '');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('htmlheader', '&lt;meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" /&gt;&lt;meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)" /&gt;');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('iscocommentenabled', 'False');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('iscommentsenabled', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('language', 'en-GB');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('mobiletheme', 'Mobile');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('name', 'Name of the blog');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('numberofrecentcomments', '10');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('numberofrecentposts', '10');
-INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('postsperfeed', '15');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('postsperfeed', '10');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('postsperpage', '10');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('removewhitespaceinstylesheets', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('searchbuttontext', 'Search');
@@ -275,8 +334,118 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('storagelocation', '
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('syndicationformat', 'Rss');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('theme', 'Standard');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timestamppostlinks', 'True');
-INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timezone', '1');
+INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timezone', '-5');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('trackingscript', '');
+
+
+INSERT INTO be_StopWords (StopWord)	VALUES ('a');
+INSERT INTO be_StopWords (StopWord)	VALUES ('about');
+INSERT INTO be_StopWords (StopWord)	VALUES ('actually');
+INSERT INTO be_StopWords (StopWord)	VALUES ('add');
+INSERT INTO be_StopWords (StopWord)	VALUES ('after');
+INSERT INTO be_StopWords (StopWord)	VALUES ('all');
+INSERT INTO be_StopWords (StopWord)	VALUES ('almost');
+INSERT INTO be_StopWords (StopWord)	VALUES ('along');
+INSERT INTO be_StopWords (StopWord)	VALUES ('also');
+INSERT INTO be_StopWords (StopWord)	VALUES ('an');
+INSERT INTO be_StopWords (StopWord)	VALUES ('and');
+INSERT INTO be_StopWords (StopWord)	VALUES ('any');
+INSERT INTO be_StopWords (StopWord)	VALUES ('are');
+INSERT INTO be_StopWords (StopWord)	VALUES ('as');
+INSERT INTO be_StopWords (StopWord)	VALUES ('at');
+INSERT INTO be_StopWords (StopWord)	VALUES ('be');
+INSERT INTO be_StopWords (StopWord)	VALUES ('both');
+INSERT INTO be_StopWords (StopWord)	VALUES ('but');
+INSERT INTO be_StopWords (StopWord)	VALUES ('by');
+INSERT INTO be_StopWords (StopWord)	VALUES ('can');
+INSERT INTO be_StopWords (StopWord)	VALUES ('cannot');
+INSERT INTO be_StopWords (StopWord)	VALUES ('com');
+INSERT INTO be_StopWords (StopWord)	VALUES ('could');
+INSERT INTO be_StopWords (StopWord)	VALUES ('de');
+INSERT INTO be_StopWords (StopWord)	VALUES ('do');
+INSERT INTO be_StopWords (StopWord)	VALUES ('down');
+INSERT INTO be_StopWords (StopWord)	VALUES ('each');
+INSERT INTO be_StopWords (StopWord)	VALUES ('either');
+INSERT INTO be_StopWords (StopWord)	VALUES ('en');
+INSERT INTO be_StopWords (StopWord)	VALUES ('for');
+INSERT INTO be_StopWords (StopWord)	VALUES ('from');
+INSERT INTO be_StopWords (StopWord)	VALUES ('good');
+INSERT INTO be_StopWords (StopWord)	VALUES ('has');
+INSERT INTO be_StopWords (StopWord)	VALUES ('have');
+INSERT INTO be_StopWords (StopWord)	VALUES ('he');
+INSERT INTO be_StopWords (StopWord)	VALUES ('her');
+INSERT INTO be_StopWords (StopWord)	VALUES ('here');
+INSERT INTO be_StopWords (StopWord)	VALUES ('hers');
+INSERT INTO be_StopWords (StopWord)	VALUES ('his');
+INSERT INTO be_StopWords (StopWord)	VALUES ('how');
+INSERT INTO be_StopWords (StopWord)	VALUES ('i');
+INSERT INTO be_StopWords (StopWord)	VALUES ('if');
+INSERT INTO be_StopWords (StopWord)	VALUES ('in');
+INSERT INTO be_StopWords (StopWord)	VALUES ('into');
+INSERT INTO be_StopWords (StopWord)	VALUES ('is');
+INSERT INTO be_StopWords (StopWord)	VALUES ('it');
+INSERT INTO be_StopWords (StopWord)	VALUES ('its');
+INSERT INTO be_StopWords (StopWord)	VALUES ('just');
+INSERT INTO be_StopWords (StopWord)	VALUES ('la');
+INSERT INTO be_StopWords (StopWord)	VALUES ('like');
+INSERT INTO be_StopWords (StopWord)	VALUES ('long');
+INSERT INTO be_StopWords (StopWord)	VALUES ('make');
+INSERT INTO be_StopWords (StopWord)	VALUES ('me');
+INSERT INTO be_StopWords (StopWord)	VALUES ('more');
+INSERT INTO be_StopWords (StopWord)	VALUES ('much');
+INSERT INTO be_StopWords (StopWord)	VALUES ('my');
+INSERT INTO be_StopWords (StopWord)	VALUES ('need');
+INSERT INTO be_StopWords (StopWord)	VALUES ('new');
+INSERT INTO be_StopWords (StopWord)	VALUES ('now');
+INSERT INTO be_StopWords (StopWord)	VALUES ('of');
+INSERT INTO be_StopWords (StopWord)	VALUES ('off');
+INSERT INTO be_StopWords (StopWord)	VALUES ('on');
+INSERT INTO be_StopWords (StopWord)	VALUES ('once');
+INSERT INTO be_StopWords (StopWord)	VALUES ('one');
+INSERT INTO be_StopWords (StopWord)	VALUES ('ones');
+INSERT INTO be_StopWords (StopWord)	VALUES ('only');
+INSERT INTO be_StopWords (StopWord)	VALUES ('or');
+INSERT INTO be_StopWords (StopWord)	VALUES ('our');
+INSERT INTO be_StopWords (StopWord)	VALUES ('out');
+INSERT INTO be_StopWords (StopWord)	VALUES ('over');
+INSERT INTO be_StopWords (StopWord)	VALUES ('own');
+INSERT INTO be_StopWords (StopWord)	VALUES ('really');
+INSERT INTO be_StopWords (StopWord)	VALUES ('right');
+INSERT INTO be_StopWords (StopWord)	VALUES ('same');
+INSERT INTO be_StopWords (StopWord)	VALUES ('see');
+INSERT INTO be_StopWords (StopWord)	VALUES ('she');
+INSERT INTO be_StopWords (StopWord)	VALUES ('so');
+INSERT INTO be_StopWords (StopWord)	VALUES ('some');
+INSERT INTO be_StopWords (StopWord)	VALUES ('such');
+INSERT INTO be_StopWords (StopWord)	VALUES ('take');
+INSERT INTO be_StopWords (StopWord)	VALUES ('takes');
+INSERT INTO be_StopWords (StopWord)	VALUES ('that');
+INSERT INTO be_StopWords (StopWord)	VALUES ('the');
+INSERT INTO be_StopWords (StopWord)	VALUES ('their');
+INSERT INTO be_StopWords (StopWord)	VALUES ('these');
+INSERT INTO be_StopWords (StopWord)	VALUES ('thing');
+INSERT INTO be_StopWords (StopWord)	VALUES ('this');
+INSERT INTO be_StopWords (StopWord)	VALUES ('to');
+INSERT INTO be_StopWords (StopWord)	VALUES ('too');
+INSERT INTO be_StopWords (StopWord)	VALUES ('took');
+INSERT INTO be_StopWords (StopWord)	VALUES ('und');
+INSERT INTO be_StopWords (StopWord)	VALUES ('up');
+INSERT INTO be_StopWords (StopWord)	VALUES ('use');
+INSERT INTO be_StopWords (StopWord)	VALUES ('used');
+INSERT INTO be_StopWords (StopWord)	VALUES ('using');
+INSERT INTO be_StopWords (StopWord)	VALUES ('very');
+INSERT INTO be_StopWords (StopWord)	VALUES ('was');
+INSERT INTO be_StopWords (StopWord)	VALUES ('we');
+INSERT INTO be_StopWords (StopWord)	VALUES ('well');
+INSERT INTO be_StopWords (StopWord)	VALUES ('what');
+INSERT INTO be_StopWords (StopWord)	VALUES ('when');
+INSERT INTO be_StopWords (StopWord)	VALUES ('where');
+INSERT INTO be_StopWords (StopWord)	VALUES ('who');
+INSERT INTO be_StopWords (StopWord)	VALUES ('will');
+INSERT INTO be_StopWords (StopWord)	VALUES ('with');
+INSERT INTO be_StopWords (StopWord)	VALUES ('www');
+INSERT INTO be_StopWords (StopWord)	VALUES ('you');
+INSERT INTO be_StopWords (StopWord)	VALUES ('your');
 
 DECLARE @postID uniqueidentifier, @catID uniqueidentifier
 
@@ -288,9 +457,9 @@ INSERT INTO be_Categories (CategoryID, CategoryName)
 
 INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Author, IsPublished)
 	VALUES (@postID, 
-	'Welcome to BlogEngine.NET 1.3 with MSSQL provider', 
+	'Welcome to BlogEngine.NET 1.4 using Microsoft SQL Server', 
 	'The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory',
-	'<p>If you see this post it means that BlogEngine.NET 1.3 is running and the SQL Server provider is configured correctly.</p>
+	'<p>If you see this post it means that BlogEngine.NET 1.4 is running with SQL Server and the DbBlogProvider is configured correctly.</p>
 	<h2>Setup</h2>
 	<p>If you are using the ASP.NET Membership provider, you are set to use existing users.  If you are using the default BlogEngine.NET XML provider, it is time to setup some users.  Find the sign-in link located either at the bottom or top of the page depending on your current theme and click it. Now enter "admin" in both the username and password fields and click the button. You will now see an admin menu appear. It has a link to the "Users" admin page. From there you can change the username and password.</p>
 	<h2>Write permissions</h2>
@@ -299,41 +468,15 @@ INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Auth
 	<p>You can find BlogEngine.NET on the <a href="http://www.dotnetblogengine.net">official website</a>. Here you will find tutorials, documentation, tips and tricks and much more. The ongoing development of BlogEngine.NET can be followed at <a href="http://www.codeplex.com/blogengine">CodePlex</a> where the daily builds will be published for anyone to download.</p>
 	<p>Good luck and happy writing.</p>
 	<p>The BlogEngine.NET team</p>',
-	'09/30/07', 
+	GETDATE(), 
 	'admin',
 	1);
 
 INSERT INTO be_PostCategory (PostID, CategoryID)
 	VALUES (@postID, @catID);
-
 INSERT INTO be_PostTag (PostID, Tag)
 	VALUES (@postID, 'blog');
 INSERT INTO be_PostTag (PostID, Tag)
 	VALUES (@postID, 'welcome');
 	
-GO
-/****** Object:  Table [dbo].[be_ExtensionSettings]    Script Date: 12/27/2007 00:12:30 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[be_ExtensionSettings](
-	[Settings] [varbinary](max) NOT NULL
-) ON [PRIMARY]
-GO
-INSERT INTO [be_ExtensionSettings] ([Settings]) VALUES (CONVERT(varbinary(max),'<?xml version="1.0"?><ArrayOfManagedExtension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ArrayOfManagedExtension>'))
-GO
-
-/****** Object:  Table [dbo].[be_DataStoreSettings]    Script Date: 03/09/2008 12:32:51 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-CREATE TABLE [dbo].[be_DataStoreSettings](
-    [ExtensionType] [nvarchar](50) NOT NULL,
-    [ExtensionId] [nvarchar](100) NOT NULL,
-	[Settings] [varbinary](max) NOT NULL
-) ON [PRIMARY]
 GO
