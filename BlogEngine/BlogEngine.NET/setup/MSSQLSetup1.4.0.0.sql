@@ -337,7 +337,6 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timestamppostlinks'
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timezone', '-5');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('trackingscript', '');
 
-
 INSERT INTO be_StopWords (StopWord)	VALUES ('a');
 INSERT INTO be_StopWords (StopWord)	VALUES ('about');
 INSERT INTO be_StopWords (StopWord)	VALUES ('actually');
