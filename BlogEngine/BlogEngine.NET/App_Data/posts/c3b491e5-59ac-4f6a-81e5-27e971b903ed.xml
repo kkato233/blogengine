@@ -14,6 +14,42 @@ To be able to log in to the blog and writing posts, you need to enable write per
 &lt;p&gt;
 When you&amp;#39;ve got write permissions to the App_Data folder, you need to change the username and password. Find the sign-in link located either at the bottom or top of the page depending on your current theme and click it. Now enter &amp;quot;admin&amp;quot; in both the username and password fields and click the button. You will now see an admin menu appear. It has a link to the &amp;quot;Users&amp;quot; admin page. From there you can change the username and password. 
 &lt;/p&gt;
+&lt;h2&gt;New features in BlogEngine.NET 1.4&lt;/h2&gt;
+&lt;p&gt;
+&lt;strong&gt;New database provider&lt;br /&gt;
+&lt;/strong&gt;BlogEngine.NET now works with most commercial and open source databases such as MySQL, SQL Server, VistaDB, Microsoft Access, Oracle and many more. This allow you to use practically any database supported by your hosting provider. You can still use XML files if you don&amp;#39;t want to use a database. 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;strong&gt;Drag &amp;#39;n drop widgets&lt;/strong&gt;&lt;br /&gt;
+Widgets are the pieces of content most often located at the sidebar. It could be a list of recent posts, latest twits from Twitter or anything else. You can drag and drop the widgets around in your sidebar and modify the content of them directly on the front-page. The widget works independently of the theme you are using as long as it is implemented in the theme. In BlogEngine.NET it is implemented in the &lt;em&gt;Standard&lt;/em&gt; and &lt;em&gt;Leaves&lt;/em&gt; themes and many more themes with widgets will be available for download very soon at the &lt;a href="http://dotnetblogengine.net"&gt;BlogEngine.NET website&lt;/a&gt;. 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;strong&gt;Extension settings&lt;/strong&gt;&lt;br /&gt;
+The new settings model for extensions have been upgraded to give you a much better experience using third-party extensions. For extension developers, it has never been easier to store your settings and let the user change them from the admin section. The same settings model is used by the widgets as well. 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;strong&gt;Web 3.0 improvements&lt;/strong&gt;&lt;br /&gt;
+BlogEngine.NET 1.4 makes full use of many semantic formats and technologies such as FOAF, SIOC and APML. It means that the content stored in your BlogEngine.NET installation will be fully portable and auto-discoverable. It is possible to filter the RSS feeds based on the visitor&amp;#39;s interest defined in her APML file or do a site search with it as well. Read more&amp;nbsp;the &lt;a href="http://blog.madskristensen.dk/post/Filter-search-and-feeds-by-your-interests.aspx"&gt;APML filtering in BlogEngine.NET&lt;/a&gt;. 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;strong&gt;Author profiles&lt;/strong&gt;&lt;br /&gt;
+By utilizing the ASP.NET profile provider it is now possible to let all authors maintain their own profile. This is used in the FOAF document and widget/extension developers can take full advantage of the profiles to provide new exciting visualizations and functionality. 
+&lt;/p&gt;
+&lt;p&gt;
+&lt;strong&gt;Other new features&lt;/strong&gt;&lt;br /&gt;
+We&amp;#39;ve listened to what you -&amp;nbsp;the user -&amp;nbsp;wanted in BlogEngine.NET 1.4 and here is a list of some of those features that made it. 
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Tag selector when adding new posts&lt;/li&gt;
+	&lt;li&gt;Subcategories&lt;/li&gt;
+	&lt;li&gt;Password encryption&lt;/li&gt;
+	&lt;li&gt;Improved&amp;nbsp;live comment preview&lt;/li&gt;
+	&lt;li&gt;Hierarchical pages in the control panel&lt;/li&gt;
+	&lt;li&gt;Smarter&amp;nbsp;comment spam protection&lt;/li&gt;
+	&lt;li&gt;Link&amp;nbsp;collection widget&lt;/li&gt;
+	&lt;li&gt;Various performance improvements&lt;/li&gt;
+	&lt;li&gt;and much more...&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;On the web &lt;/h2&gt;
 &lt;p&gt;
 You can find BlogEngine.NET on the &lt;a href="http://www.dotnetblogengine.net"&gt;official website&lt;/a&gt;. Here you&amp;#39;ll find tutorials, documentation, tips and tricks and much more. The ongoing development of BlogEngine.NET can be followed at &lt;a href="http://www.codeplex.com/blogengine"&gt;CodePlex&lt;/a&gt; where the daily builds will be published for anyone to download. 
@@ -28,7 +64,7 @@ The BlogEngine.NET team
   <ispublished>True</ispublished>
   <iscommentsenabled>True</iscommentsenabled>
   <pubDate>2008-06-30 00:00:00</pubDate>
-  <lastModified>2008-06-29 20:20:44</lastModified>
+  <lastModified>2008-06-29 22:50:12</lastModified>
   <raters>3</raters>
   <rating>4.4</rating>
   <slug>Welcome-to-BlogEngineNET-1-4</slug>
