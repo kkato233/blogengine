@@ -32,7 +32,6 @@ namespace BlogEngine.Core.Web.Controls
 		/// </summary>
 		protected override void OnPreInit(EventArgs e)
 		{
-			//Set Page Title
 			Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
 
 			if (Request.QueryString["theme"] != null)
@@ -114,21 +113,6 @@ namespace BlogEngine.Core.Web.Controls
 			Page.Header.Controls.Add(script);
 		}
 
-		///// <summary>
-		///// Adds the syndication link to the header.
-		///// </summary>
-		//protected virtual void AddSyndicationLink()
-		//{
-		//  //HtmlLink link = new HtmlLink();
-		//  //link.Attributes["rel"] = "alternate";
-		//  //link.Attributes["type"] = "application/rss+xml";
-		//  //link.Attributes["title"] = BlogSettings.Instance.Name;
-		//  //link.Attributes["href"] = Utils.FeedUrl;
-
-		//  //Page.Header.Controls.Add(link);
-		//  AddGenericLink("application/rss+xml", "alternate", BlogSettings.Instance.Name, Utils.FeedUrl);
-		//}
-
 		/// <summary>
 		/// Finds all stylesheets in the header and changes the 
 		/// path so it points to css.axd which removes the whitespace.
@@ -151,20 +135,6 @@ namespace BlogEngine.Core.Web.Controls
 				}
 			}
 		}
-
-		///// <summary>
-		///// Adds the RSD link header.
-		///// </summary>
-		//protected virtual void AddRsdLinkHeader()
-		//{
-		//  //HtmlLink link = new HtmlLink();
-		//  //link.Attributes["rel"] = "edituri";
-		//  //link.Attributes["type"] = "application/rsd+xml";
-		//  //link.Attributes["title"] = "RSD";
-		//  //link.Attributes["href"] = Utils.AbsoluteWebRoot + "rsd.axd";
-		//  //Page.Header.Controls.Add(link);
-		//  AddGenericLink("application/rsd+xml", "edituri", "RSD", Utils.AbsoluteWebRoot + "rsd.axd");
-		//}
 
 		/// <summary>
 		/// Adds the content-type meta tag to the header.
@@ -190,20 +160,6 @@ namespace BlogEngine.Core.Web.Controls
 			meta.Content = value;
 			Page.Header.Controls.Add(meta);
 		}
-
-		///// <summary>
-		///// Adds the open search link in header.
-		///// </summary>
-		//protected virtual void AddOpenSearchLinkInHeader()
-		//{
-		//  //HtmlLink link = new HtmlLink();
-		//  //link.Attributes["rel"] = "search";
-		//  //link.Attributes["href"] = Utils.AbsoluteWebRoot + "opensearch.axd";
-		//  //link.Attributes["type"] = "application/opensearchdescription+xml";
-		//  //link.Attributes["title"] = BlogSettings.Instance.Name;
-		//  //Page.Header.Controls.Add(link);
-		//  AddGenericLink("application/opensearchdescription+xml", "search", BlogSettings.Instance.Name, Utils.AbsoluteWebRoot + "opensearch.axd");
-		//}
 
 		/// <summary>
 		/// Adds the generic link to the header.
