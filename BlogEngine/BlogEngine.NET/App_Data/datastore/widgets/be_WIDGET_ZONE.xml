@@ -10,4 +10,5 @@
   <widget id="749c43dc-78fe-45cc-b7d1-b623d15208c5" title="Recent comments" showTitle="True">RecentComments</widget>
   <widget id="7e214c7c-d7e3-4bb9-b23c-036485efe25e" title="Page List" showTitle="True">Page List</widget>
   <widget id="0ac769b9-db8b-41b2-9a0a-913e1fac2639" title="Disclaimer" showTitle="True">TextBox</widget>
+  <widget id="52400187-7bea-4eac-881f-38c8234863e9" title="Month List" showTitle="True">Month List</widget>
 </widgets>
