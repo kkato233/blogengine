@@ -135,7 +135,6 @@
     <Compile Include="Providers\DbMembershipProvider.cs" />
     <Compile Include="Providers\DbProfileProvider.cs" />
     <Compile Include="Providers\DbRoleProvider.cs" />
-    <Compile Include="Providers\XmlMultiBlogProvider.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\DataStore.cs" />
     <Compile Include="Providers\XmlProvider\StopWords.cs" />

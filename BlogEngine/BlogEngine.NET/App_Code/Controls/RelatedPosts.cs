@@ -118,9 +118,10 @@ namespace Controls
 
 			string link = "<a href=\"{0}\">{1}</a>";
 			string desc = "<span>{0}</span>";
-			sb.Append("<h1>+++</h1>");
 			sb.Append("<div id=\"relatedPosts\">");
-
+			sb.Append("<h1>+++</h1>");
+			sb.Append("<div>");
+			
 			int count = 0;
 			foreach (IPublishable post in relatedPosts)
 			{
@@ -148,6 +149,7 @@ namespace Controls
 					break;
 			}
 
+			sb.Append("</div>");
 			sb.Append("</div>");
 			_Cache.Add(Item.Id, sb.ToString());
 		}

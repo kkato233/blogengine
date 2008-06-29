@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Web;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Web.Caching;
@@ -28,60 +29,66 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
-
-			string file = string.Empty;
-			
-			if (context.Request.QueryString["name"].StartsWith("/"))
-				file = context.Server.MapPath(context.Request.QueryString["name"]);
-			else
-				file = context.Server.MapPath(Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/" + context.Request.QueryString["name"]);
-
-			ReduceCss(file, context);
-			SetHeaders(file, context);
-
-			if (BlogSettings.Instance.EnableHttpCompression)
-				Compress(context);
-		}
-
-		private class Pair<T1, T2>
-		{
-			public T1 First;
-			public T2 Second;
-			public Pair(T1 first, T2 second) { First = first; Second = second; }
-		}
-
-		/// <summary>
-		/// Removes all unwanted text from the CSS file,
-		/// including comments and whitespace.
-		/// </summary>
-		private static void ReduceCss(string file, HttpContext context)
-		{
-			if (!file.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+			if (!string.IsNullOrEmpty(context.Request.QueryString["name"]))
 			{
-				throw new System.Security.SecurityException("No access");
-			}
-			
-			Pair<string, DateTime> result = (Pair<string, DateTime>)context.Cache[file];
+				string fileName = context.Request.QueryString["name"];
+				string css = string.Empty;
 
-			if (result == null)
-			{
-				using (StreamReader reader = new StreamReader(file))
+				OnServing(fileName);
+				try
 				{
-					result = new Pair<string, DateTime>(StripWhitespace(reader), File.GetLastWriteTime(file));
-					context.Cache.Insert(file, result, new CacheDependency(file));
+					// Check if a .css file was requested
+					if (!fileName.EndsWith("css", StringComparison.OrdinalIgnoreCase))
+						throw new System.Security.SecurityException("Invalid CSS file extension");
+
+					// In cache?
+					if (context.Cache[fileName] == null)
+					{
+						// Not found in cache, let's load it up
+						if (fileName.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+						{ css = RetrieveRemoteCss(fileName); }
+						else
+						{ css = RetrieveLocalCss(fileName); }
+					}
+					else
+					{
+						// Found in cache
+						css = (string)context.Cache[fileName];
+					}
+
+					// Make sure css isn't empty
+					if (!string.IsNullOrEmpty(css))
+					{
+						// Optimize CSS content
+						//css = StripWhitespace(css);
+						context.Response.Write(css);
+
+						// Configure response headers
+						SetHeaders(css.GetHashCode(), context);
+
+						// Check if we should compress content
+						if (BlogSettings.Instance.EnableHttpCompression)
+							Compress(context);
+
+						OnServed(fileName);
+
+					}
+					else
+					{ throw new Exception("CSS not found"); }
+				}
+				catch (Exception ex)
+				{
+					OnBadRequest(ex.Message);
+					context.Response.Status = "404 Bad Request";
 				}
 			}
-
-			context.Response.Write(result.First);
 		}
 
 		/// <summary>
 		/// Strips the whitespace from any .css file.
 		/// </summary>
-		private static string StripWhitespace(StreamReader reader)
+		private static string StripWhitespace(string body)
 		{
-			string body = reader.ReadToEnd();
-
 			body = body.Replace("  ", String.Empty);
 			body = body.Replace(Environment.NewLine, String.Empty);
 			body = body.Replace("\t", string.Empty);
@@ -91,8 +98,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			body = body.Replace(", ", ",");
 			body = body.Replace("; ", ";");
 			body = body.Replace(";}", "}");
+
+			// sometimes found when retrieving CSS remotely
+			body = body.Replace(@"?", string.Empty);
+
 			//body = Regex.Replace(body, @"/\*[^\*]*\*+([^/\*]*\*+)*/", "$1");
 			body = Regex.Replace(body, @"(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,}(?=&nbsp;)|(?<=&ndsp;)\s{2,}(?=[<])", String.Empty);
+
+			//Remove comments from CSS
+			body = Regex.Replace(body, @"/\*[\d\D]*?\*/", string.Empty);
 
 			return body;
 		}
@@ -101,29 +115,70 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// This will make the browser and server keep the output
 		/// in its cache and thereby improve performance.
 		/// </summary>
-		private static void SetHeaders(string file, HttpContext context)
+		private static void SetHeaders(int hash, HttpContext context)
 		{
 			context.Response.ContentType = "text/css";
 			context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
-
-			DateTime date = DateTime.Now;
-			if (context.Cache[file] != null)
-				date = ((Pair<string, DateTime>)context.Cache[file]).Second;
-
-			string etag = "\"" + date.GetHashCode() + "\"";
-			string incomingEtag = context.Request.Headers["If-None-Match"];
 
 			context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
 			context.Response.Cache.SetCacheability(HttpCacheability.Public);
 			context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
 			context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
-			context.Response.Cache.SetETag(etag);
+			context.Response.Cache.SetETag("\"" + hash.ToString() + "\"");
 
-			if (String.Compare(incomingEtag, etag) == 0)
+		}
+
+		/// <summary>
+		/// Retrieves the local CSS from the disk
+		/// </summary>
+		private static string RetrieveLocalCss(string file)
+		{
+			string path = HttpContext.Current.Server.MapPath(file);
+			string css = string.Empty;
+			try
 			{
-				context.Response.StatusCode = (int)HttpStatusCode.NotModified;
-				context.Response.End();
+				using (StreamReader reader = new StreamReader(path))
+				{
+					// load CSS content
+					css = reader.ReadToEnd();
+
+					// Optimize CSS content
+					css = StripWhitespace(css);
+
+					// Insert into cache
+					HttpContext.Current.Cache.Insert(file, css, new CacheDependency(path));
+				}
+				return css;
 			}
+			catch
+			{ return string.Empty; }
+		}
+
+		/// <summary>
+		/// Retrieves the specified remote CSS using a WebClient.
+		/// </summary>
+		/// <param name="file">The remote URL</param>
+		private static string RetrieveRemoteCss(string file)
+		{
+			string css = string.Empty;
+			try
+			{
+				using (WebClient client = new WebClient())
+				{
+					// Load CSS content
+					client.Credentials = CredentialCache.DefaultNetworkCredentials;
+					css = client.DownloadString(file);
+
+					// Optimize CSS content
+					css = StripWhitespace(css);
+
+					// Insert into cache
+					HttpContext.Current.Cache.Insert(file, css, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+				}
+				return css;
+			}
+			catch (System.Net.Sockets.SocketException)
+			{ return string.Empty; }
 		}
 
 		#region Compression
@@ -178,5 +233,44 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			get { return false; }
 		}
 
+		#region Events
+
+		/// <summary>
+		/// Occurs when the requested file does not exist;
+		/// </summary>
+		public static event EventHandler<EventArgs> Serving;
+		private static void OnServing(string file)
+		{
+			if (Serving != null)
+			{
+				Serving(file, EventArgs.Empty);
+			}
+		}
+
+		/// <summary>
+		/// Occurs when a file is served;
+		/// </summary>
+		public static event EventHandler<EventArgs> Served;
+		private static void OnServed(string file)
+		{
+			if (Served != null)
+			{
+				Served(file, EventArgs.Empty);
+			}
+		}
+
+		/// <summary>
+		/// Occurs when the requested file does not exist;
+		/// </summary>
+		public static event EventHandler<EventArgs> BadRequest;
+		private static void OnBadRequest(string file)
+		{
+			if (BadRequest != null)
+			{
+				BadRequest(file, EventArgs.Empty);
+			}
+		}
+
+		#endregion
 	}
 }

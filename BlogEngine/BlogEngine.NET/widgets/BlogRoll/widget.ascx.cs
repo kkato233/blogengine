@@ -14,7 +14,7 @@ public partial class widgets_BlogRoll_widget : WidgetBase
 
 	public override bool IsEditable
 	{
-		get { return true; }
+		get { return false; }
 	}
 
 	public override void LoadWidget()

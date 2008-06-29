@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
+  <smtppassword>password</smtppassword>
   <avatar>combine</avatar>
   <storagelocation>~/App_Data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
@@ -18,7 +19,7 @@
   <authorname>My name</authorname>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>Standard</theme>
-  <enabletrackbacksend>True</enabletrackbacksend>
+  <iscommentsenabled>True</iscommentsenabled>
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
   <htmlheader>&lt;meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" /&gt;
@@ -33,6 +34,7 @@
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <timezone>-6</timezone>
+  <enableenclosures>False</enableenclosures>
   <enablepingbackreceive>True</enablepingbackreceive>
   <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
@@ -44,13 +46,12 @@
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
   <numberofrecentcomments>10</numberofrecentcomments>
-  <enablecontactattachments>True</enablecontactattachments>
   <searchbuttontext>Search</searchbuttontext>
   <name>Name of the blog</name>
   <emailsubjectprefix>Weblog</emailsubjectprefix>
   <handlewwwsubdomain />
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
-  <smtppassword>password</smtppassword>
+  <enabletrackbacksend>True</enabletrackbacksend>
   <smtpserverport>25</smtpserverport>
   <smtpserver>mail.example.com</smtpserver>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
@@ -58,7 +59,7 @@
   <geocodinglongitude />
   <language>en-GB</language>
   <enablereferrertracking>False</enablereferrertracking>
-  <iscommentsenabled>True</iscommentsenabled>
+  <enablecontactattachments>True</enablecontactattachments>
   <blogrollupdateminutes>60</blogrollupdateminutes>
   <culture>Auto</culture>
   <sendmailoncomment>True</sendmailoncomment>

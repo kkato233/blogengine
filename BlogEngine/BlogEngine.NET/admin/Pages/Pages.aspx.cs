@@ -171,21 +171,69 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 	{
 		foreach (Page page in BlogEngine.Core.Page.Pages)
 		{
-			HtmlGenericControl li = new HtmlGenericControl("li");
-			HtmlAnchor a = new HtmlAnchor();
-			a.HRef = "?id=" + page.Id.ToString();
-			a.InnerHtml = page.Title;
+			if (!page.HasParentPage)
+			{
+				HtmlGenericControl li = new HtmlGenericControl("li");
+				HtmlAnchor a = new HtmlAnchor();
+				a.HRef = "?id=" + page.Id.ToString();
+				a.InnerHtml = page.Title;
 
-			System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl(" (" + page.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+				System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl
+				(" (" + page.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
 
-			li.Controls.Add(a);
-			li.Controls.Add(text);
-			ulPages.Controls.Add(li);
+				li.Controls.Add(a);
+				li.Controls.Add(text);
+
+				if (page.HasChildPages)
+				{
+					li.Controls.Add(BuildChildPageList(page));					
+				}
+
+				li.Attributes.CssStyle.Remove("font-weight");
+				li.Attributes.CssStyle.Add("font-weight", "bold");
+
+				ulPages.Controls.Add(li);
+			}
 		}
 
 		divPages.Visible = true;
 		aPages.InnerHtml = BlogEngine.Core.Page.Pages.Count + " " + Resources.labels.pages;
 	}
+
+	private HtmlGenericControl BuildChildPageList(BlogEngine.Core.Page page)
+	{
+		HtmlGenericControl ul = new HtmlGenericControl("ul");
+		foreach (Page cPage in BlogEngine.Core.Page.Pages.FindAll(delegate(BlogEngine.Core.Page p)
+		{
+			//p => (p.Parent == page.Id)))
+			return p.Parent == page.Id;
+		}))
+		{
+			HtmlGenericControl cLi = new HtmlGenericControl("li");
+			cLi.Attributes.CssStyle.Add("font-weight", "normal");
+			HtmlAnchor cA = new HtmlAnchor();
+			cA.HRef = "?id=" + cPage.Id.ToString();
+			cA.InnerHtml = cPage.Title;
+
+			System.Web.UI.LiteralControl cText = new System.Web.UI.LiteralControl
+			(" (" + cPage.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+
+			cLi.Controls.Add(cA);
+			cLi.Controls.Add(cText);
+
+			if (cPage.HasChildPages)
+			{
+				cLi.Attributes.CssStyle.Remove("font-weight");
+				cLi.Attributes.CssStyle.Add("font-weight", "bold");
+				cLi.Controls.Add(BuildChildPageList(cPage));
+			}
+
+			ul.Controls.Add(cLi);
+
+		}
+		return ul;
+	}
+
 
 	#endregion
 
