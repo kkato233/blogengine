@@ -308,7 +308,6 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('fileextension', '.a
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('geocodinglatitude', '0');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('geocodinglongitude', '0');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('handlewwwsubdomain', '');
-INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('htmlheader', '&lt;meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" /&gt;&lt;meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)" /&gt;');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('iscocommentenabled', 'False');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('iscommentsenabled', 'True');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('language', 'en-GB');
