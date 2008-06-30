@@ -385,32 +385,43 @@ namespace BlogEngine.Core.Providers
                         dpUser.ParameterName = parmPrefix + "user";
                         dpUser.Value = user;
                         cmd.Parameters.Add(dpUser);
-
-                        int userID = (int)cmd.ExecuteScalar();
-
-                        foreach (string role in roleNames)
+                        int userID;
+                        try
                         {
-                            cmd.CommandText = "SELECT RoleID FROM " + tablePrefix + "Roles " +
-                                            "WHERE Role = " + parmPrefix + "role";
-                            DbParameter dpRole = provider.CreateParameter();
-                            dpRole.ParameterName = parmPrefix + "role";
-                            dpRole.Value = role;
-                            cmd.Parameters.Add(dpRole);
+                            userID = (int)cmd.ExecuteScalar();
+                        }
+                        catch
+                        {
+                            userID = 0;
+                        }
 
-                            int roleID = (int)cmd.ExecuteScalar();
+                        if (userID > 0)
+                        {
+                            foreach (string role in roleNames)
+                            {
+                                cmd.CommandText = "SELECT RoleID FROM " + tablePrefix + "Roles " +
+                                                  "WHERE Role = " + parmPrefix + "role";
+                                DbParameter dpRole = provider.CreateParameter();
+                                dpRole.ParameterName = parmPrefix + "role";
+                                dpRole.Value = role;
+                                cmd.Parameters.Add(dpRole);
 
-                            cmd.CommandText = "DELETE FROM " + tablePrefix + "UserRoles " +
-                                "WHERE UserID = " + parmPrefix + "uID AND RoleID = " + parmPrefix + "rID";
-                            DbParameter dpUserID = provider.CreateParameter();
-                            dpUserID.ParameterName = parmPrefix + "uID";
-                            dpUserID.Value = userID;
-                            cmd.Parameters.Add(dpUserID);
-                            DbParameter dpRoleID = provider.CreateParameter();
-                            dpRoleID.ParameterName = parmPrefix + "rID";
-                            dpRoleID.Value = roleID;
-                            cmd.Parameters.Add(dpRoleID);
+                                int roleID = (int) cmd.ExecuteScalar();
 
-                            cmd.ExecuteNonQuery();
+                                cmd.CommandText = "DELETE FROM " + tablePrefix + "UserRoles " +
+                                                  "WHERE UserID = " + parmPrefix + "uID AND RoleID = " + parmPrefix +
+                                                  "rID";
+                                DbParameter dpUserID = provider.CreateParameter();
+                                dpUserID.ParameterName = parmPrefix + "uID";
+                                dpUserID.Value = userID;
+                                cmd.Parameters.Add(dpUserID);
+                                DbParameter dpRoleID = provider.CreateParameter();
+                                dpRoleID.ParameterName = parmPrefix + "rID";
+                                dpRoleID.Value = roleID;
+                                cmd.Parameters.Add(dpRoleID);
+
+                                cmd.ExecuteNonQuery();
+                            }
                         }
                     }
                 }

@@ -473,7 +473,7 @@ namespace BlogEngine.Core.Providers
 
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT userName FROM " + tablePrefix + "_Users " +
+                    cmd.CommandText = "SELECT userName FROM " + tablePrefix + "Users " +
                                     "WHERE emailAddress = " + parmPrefix + "email";
                     cmd.CommandType = CommandType.Text;
 

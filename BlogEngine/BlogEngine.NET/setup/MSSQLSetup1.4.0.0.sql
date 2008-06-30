@@ -337,6 +337,15 @@ INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timestamppostlinks'
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('timezone', '-5');
 INSERT INTO be_Settings (SettingName, SettingValue)	VALUES ('trackingscript', '');
 
+INSERT INTO be_PingService (Link) VALUES ('http://rpc.technorati.com/rpc/ping');
+INSERT INTO be_PingService (Link) VALUES ('http://rpc.pingomatic.com/rpc2');
+INSERT INTO be_PingService (Link) VALUES ('http://ping.feedburner.com');
+INSERT INTO be_PingService (Link) VALUES ('http://www.bloglines.com/ping');
+INSERT INTO be_PingService (Link) VALUES ('http://services.newsgator.com/ngws/xmlrpcping.aspx');
+INSERT INTO be_PingService (Link) VALUES ('http://api.my.yahoo.com/rpc2 ');
+INSERT INTO be_PingService (Link) VALUES ('http://blogsearch.google.com/ping/RPC2');
+INSERT INTO be_PingService (Link) VALUES ('http://rpc.pingthesemanticweb.com/');
+
 INSERT INTO be_StopWords (StopWord)	VALUES ('a');
 INSERT INTO be_StopWords (StopWord)	VALUES ('about');
 INSERT INTO be_StopWords (StopWord)	VALUES ('actually');
