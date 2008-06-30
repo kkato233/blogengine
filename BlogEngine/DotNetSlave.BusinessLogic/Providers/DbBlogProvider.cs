@@ -477,10 +477,10 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "DELETE FROM " + tablePrefix + "PostTag WHERE PostID = @id;" +
-                                      "DELETE FROM " + tablePrefix + "be_PostCategory WHERE PostID = @id;" +
-                                      "DELETE FROM " + tablePrefix + "be_PostNotify WHERE PostID = @id;" +
-                                      "DELETE FROM " + tablePrefix + "be_PostComment WHERE PostID = @id;" +
-                                      "DELETE FROM " + tablePrefix + "be_Posts WHERE PostID = @id;";
+                                      "DELETE FROM " + tablePrefix + "PostCategory WHERE PostID = @id;" +
+                                      "DELETE FROM " + tablePrefix + "PostNotify WHERE PostID = @id;" +
+                                      "DELETE FROM " + tablePrefix + "PostComment WHERE PostID = @id;" +
+                                      "DELETE FROM " + tablePrefix + "Posts WHERE PostID = @id;";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;

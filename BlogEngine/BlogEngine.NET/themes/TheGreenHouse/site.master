@@ -57,9 +57,9 @@ Released for free under a Creative Commons Attribution 2.5 License
         </div>
         <div id="footer">
             <p id="legal">
-               Copyright &copy; 2007 Roman D. Clarkson. Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a><%=BlogSettings.Instance.Version() %></p>
+               Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a><%=BlogSettings.Instance.Version() %>, Theme Modfied by <a href="http://www.romanclarkson.us">Roman Clarkson</a></p>
             <p id="brand">
-                Roman D. Clarkson
+                BlogEngine.NET
             </p>
         </div>
     </form>
