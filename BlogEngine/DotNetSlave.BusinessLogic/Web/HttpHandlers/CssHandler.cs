@@ -163,11 +163,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			string css = string.Empty;
 			try
 			{
+				Uri url = new Uri(file, UriKind.Absolute);
 				using (WebClient client = new WebClient())
 				{
 					// Load CSS content
 					client.Credentials = CredentialCache.DefaultNetworkCredentials;
-					css = client.DownloadString(file);
+					css = client.DownloadString(url);
 
 					// Optimize CSS content
 					css = StripWhitespace(css);

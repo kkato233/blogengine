@@ -42,8 +42,9 @@ img {
 	width: 70%;
 }
 
-.hilite {
-	background-color: #ff0;
+#sidepanel {
+	float: right;
+	width: 28%;
 }
 
 .loginbox{
@@ -123,53 +124,12 @@ img {
 }
 
 /*----------------------------
-					Side Panel
-----------------------------*/
-
-#sidepanel {
-	float: right;
-	width: 28%;
-}
-
-#sidepanel .box {
-	background-color: white;
-	border: 1px solid silver;
-	padding: 3px 15px;
-	line-height: 16px;
-	margin-bottom: 10px;
-	color: #666666;
-}
-
-#sidepanel .box h1 {
-	margin: 5px 0 7px 0;
-	padding-bottom: 10px;
-	border-bottom: 1px solid silver;
-	color: #999999;
-}
-
-#sidepanel .box ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	text-transform: capitalize;
-}
-
-#sidepanel .box ul li {
-	margin-bottom: 3px;
-}
-
-#sidepanel img.rssButton {
-	margin-right: 3px;
-}
-
-/*----------------------------
 					 Widgets
 ----------------------------*/
 
 div#widgetzone{
 	padding: 0;
 	background: none;
-	width:100%;
 }
 
 div#widgetzone .clear{
@@ -239,6 +199,10 @@ div.widget a.delete:hover{
 	padding-left: 10px;
 }
 
+#widgetzone img.rssButton {
+	margin-right: 3px;
+}
+
 /*----------------------------
 					 Blogroll
 ----------------------------*/
@@ -272,9 +236,7 @@ div.post, .mceContentBody {
 }
 
 div.post h1, .mceContentBody h1 {
-	margin: 0 0 7px 0;
-	position: relative;
-	top: 5px;
+	margin: 5px 0 0 0;
 }
 
 div.post .author {
