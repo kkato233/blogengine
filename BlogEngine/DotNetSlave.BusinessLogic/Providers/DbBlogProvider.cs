@@ -851,7 +851,6 @@ namespace BlogEngine.Core.Providers
                 pages.Add(Page.Load(new Guid(id)));
             }
 
-            pages.Sort();
             return pages;
         }
 
