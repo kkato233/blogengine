@@ -301,6 +301,11 @@ namespace BlogEngine.Core.Providers {
         /// Creates a new user store he/she in the XML file
         /// </summary>
         public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status) {
+						ReadMembershipDataStore();
+
+					if (_Users.ContainsKey(username))
+						throw new NotSupportedException("The username is already in use. Please choose another username.");
+
             XmlDocument doc = new XmlDocument();
             doc.Load(_XmlFileName);
 

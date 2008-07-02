@@ -83,18 +83,28 @@
 	function getTopPos(inputObj)
 	{		
 	  var returnValue = inputObj.offsetTop;
-	  while((inputObj = inputObj.offsetParent) != null){
-	  	if(inputObj.tagName!='HTML')returnValue += inputObj.offsetTop;
+	  try
+	  {
+	    while((inputObj = inputObj.offsetParent) != null){
+	  	  if(inputObj.tagName!='HTML')returnValue += inputObj.offsetTop;
+	    }
 	  }
+	  catch (ex)
+	  {}
 	  return returnValue;
 	}
 	
 	function getLeftPos(inputObj)
 	{
-	  var returnValue = inputObj.offsetLeft;
-	  while((inputObj = inputObj.offsetParent) != null){
-	  	if(inputObj.tagName!='HTML')returnValue += inputObj.offsetLeft;
+    var returnValue = inputObj.offsetLeft;
+	  try
+	  {
+	    while((inputObj = inputObj.offsetParent) != null){
+	  	  if(inputObj.tagName!='HTML')returnValue += inputObj.offsetLeft;
+	    }
 	  }
+	  catch (ex)
+	  {}
 	  return returnValue;
 	}
 		
