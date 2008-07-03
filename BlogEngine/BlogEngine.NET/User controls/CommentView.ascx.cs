@@ -306,21 +306,28 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   private void GetCookie()
   {
     HttpCookie cookie = Request.Cookies["comment"];
-    if (cookie != null)
-    {
-      txtName.Text = Server.UrlDecode(cookie.Values["name"]);
-      txtEmail.Text = cookie.Values["email"];
-      txtWebsite.Text = cookie.Values["url"];
-      ddlCountry.SelectedValue = cookie.Values["country"];
-			this.SetFlagImageUrl();
-    }
-    else if (Page.User.Identity.IsAuthenticated)
-    {
-      MembershipUser user = Membership.GetUser();
-      txtName.Text = user.UserName;
-      txtEmail.Text = user.Email;
-      txtWebsite.Text = Request.Url.Host;
-    }
+		try
+		{
+			if (cookie != null)
+			{
+				txtName.Text = Server.UrlDecode(cookie.Values["name"]);
+				txtEmail.Text = cookie.Values["email"];
+				txtWebsite.Text = cookie.Values["url"];
+				ddlCountry.SelectedValue = cookie.Values["country"];
+				this.SetFlagImageUrl();
+			}
+			else if (Page.User.Identity.IsAuthenticated)
+			{
+				MembershipUser user = Membership.GetUser();
+				txtName.Text = user.UserName;
+				txtEmail.Text = user.Email;
+				txtWebsite.Text = Request.Url.Host;
+			}
+		}
+		catch (Exception ex)
+		{
+			// Couldn't retrieve info on the visitor/user
+		}
   }
 
   #endregion

@@ -667,6 +667,58 @@ namespace BlogEngine.Core
 		}
 		#endregion
 
+		#region RemoveWhitespaceInPages
+		private bool _RemoveWhitespaceInPages;
+		/// <summary>
+		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
+		/// </summary>
+		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+		public bool RemoveWhitespaceInPages
+		{
+			get
+			{
+				return _RemoveWhitespaceInPages;
+			}
+
+			set
+			{
+				_RemoveWhitespaceInPages = value;
+			}
+		}
+		#endregion
+
+		#region UseBlogNameInPageTitles
+		private bool _UseBlogNameInPageTitles;
+		/// <summary>
+		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
+		/// </summary>
+		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
+		public bool UseBlogNameInPageTitles
+		{
+			get
+			{
+				return _UseBlogNameInPageTitles;
+			}
+
+			set
+			{
+				_UseBlogNameInPageTitles = value;
+			}
+		}
+		#endregion
+
+		#region RequireSSLMetaWeblogAPI;
+		private bool requireSSLMetaWeblogAPI;
+		/// <summary>
+		/// Gets or sets a value indicating whether [require SSL for MetaWeblogAPI connections].
+		/// </summary>
+		public bool RequireSSLMetaWeblogAPI
+		{
+			get { return requireSSLMetaWeblogAPI; }
+			set { requireSSLMetaWeblogAPI = value; }
+		}
+		#endregion
+
 		#region EnableOpenSearch
 		/// <summary>
 		/// Gets or sets a value indicating if whitespace in stylesheets should be removed

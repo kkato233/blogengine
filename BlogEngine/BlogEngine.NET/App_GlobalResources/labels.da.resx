@@ -171,6 +171,9 @@
   <data name="buttonText" xml:space="preserve">
     <value>Knaptekst</value>
   </data>
+  <data name="calendar" xml:space="preserve">
+    <value>Kalender</value>
+  </data>
   <data name="categories" xml:space="preserve">
     <value>Kategorier</value>
   </data>
@@ -200,6 +203,9 @@
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
     <value>Kommentarerne er lukkede</value>
+  </data>
+  <data name="commentWaitingModeration" xml:space="preserve">
+    <value>Tak for din feedback. Kommentaren venter nu på godkendelse.</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
     <value>Kommentaren er gemt. Tak for din feedback</value>
@@ -480,6 +486,12 @@
   <data name="required" xml:space="preserve">
     <value>Obligatorisk</value>
   </data>
+  <data name="requireSslForMetaWeblogApi" xml:space="preserve">
+    <value>Brug SSL for MetaWeblog API</value>
+  </data>
+  <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
+    <value>Kommuniker med MetaWeblog API'et med SSL fra f.eks. Windows Live Writer</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>Gem</value>
   </data>
@@ -579,6 +591,12 @@
   <data name="title" xml:space="preserve">
     <value>Titel</value>
   </data>
+  <data name="trimPages" xml:space="preserve">
+    <value>Trim sider</value>
+  </data>
+  <data name="trimPagesDescription" xml:space="preserve">
+    <value>Fjerner overflødige mellemrum i HTML koden.</value>
+  </data>
   <data name="trimStylesheet" xml:space="preserve">
     <value>Trim stylesheets</value>
   </data>
@@ -593,6 +611,12 @@
   </data>
   <data name="uploadImage" xml:space="preserve">
     <value>Upload billede</value>
+  </data>
+  <data name="useBlogNameInPageTitles" xml:space="preserve">
+    <value>Benyt blog navn i sidetitler</value>
+  </data>
+  <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
+    <value>Tilføjer bloggens navn før titlen på de enkelte sider</value>
   </data>
   <data name="userName" xml:space="preserve">
     <value>Brugernavn</value>

@@ -152,24 +152,22 @@ namespace Controls
 
     private void AddRssChildItems(RssItem item, HtmlGenericControl li)
     {
-      if (item.Items.Count > 0 && BlogSettings.Instance.BlogrollVisiblePosts > 0)
+      if (item.ItemTitles.Count > 0 && BlogSettings.Instance.BlogrollVisiblePosts > 0)
       {
         HtmlGenericControl div = new HtmlGenericControl("ul");
-        int i = 0;
-        foreach (string key in item.Items.Keys)
-        {
-          if (i >= BlogSettings.Instance.BlogrollVisiblePosts) break;
+				for (int i = 0; i < item.ItemTitles.Count; i++)
+				{
+					if (i >= BlogSettings.Instance.BlogrollVisiblePosts) break;
 
-          HtmlGenericControl subLi = new HtmlGenericControl("li");
-          HtmlAnchor a = new HtmlAnchor();
-          a.HRef = item.Items[key];
-          a.Title = HttpUtility.HtmlEncode(key);
-          a.InnerHtml = EnsureLength(key);
+					HtmlGenericControl subLi = new HtmlGenericControl("li");
+					HtmlAnchor a = new HtmlAnchor();
+					a.HRef = item.ItemLinks[i];
+					a.Title = HttpUtility.HtmlEncode(item.ItemTitles[i]);
+					a.InnerHtml = EnsureLength(item.ItemTitles[i]);
 
-          subLi.Controls.Add(a);
-          div.Controls.Add(subLi);
-          i++;
-        }
+					subLi.Controls.Add(a);
+					div.Controls.Add(subLi);
+				}
 
         li.Controls.Add(div);
       }
@@ -228,7 +226,8 @@ namespace Controls
             if (node.SelectSingleNode("pubDate") != null)
               date = DateTime.Parse(node.SelectSingleNode("pubDate").InnerText);
 
-            item.Items.Add(title, link);
+						item.ItemTitles.Add(title);
+						item.ItemLinks.Add(link);
           }
         }
       }
@@ -251,7 +250,8 @@ namespace Controls
       public string Name;
       public string Description;
       public string Xfn;
-      public Dictionary<string, string> Items = new Dictionary<string, string>();
+			public List<string> ItemTitles = new List<string>();
+			public List<string> ItemLinks = new List<string>();
     }
 
     #endregion

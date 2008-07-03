@@ -38,7 +38,7 @@ public partial class contact : BlogBasePage
 			SetFocus();
 		}
 
-        Page.Title += Server.HtmlEncode(" - " + Resources.labels.contact);
+		Page.Title = Server.HtmlEncode(Resources.labels.contact);
 		base.AddMetaTag("description", _Regex.Replace(BlogSettings.Instance.ContactFormMessage, string.Empty));
 	}
 
@@ -72,14 +72,14 @@ public partial class contact : BlogBasePage
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	private void btnSend_Click(object sender, EventArgs e)
 	{
-        if (IsCaptchaValid && Page.IsValid)
-        {
-            bool success = SendEmail();
-            divForm.Visible = !success;
-            lblStatus.Visible = !success;
-            divThank.Visible = success;
-            SetCookie();
-        }
+		if (IsCaptchaValid && Page.IsValid)
+		{
+			bool success = SendEmail();
+			divForm.Visible = !success;
+			lblStatus.Visible = !success;
+			divThank.Visible = success;
+			SetCookie();
+		}
 	}
 
 	private bool SendEmail()

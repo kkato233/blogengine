@@ -135,7 +135,11 @@ function AppendComment(args, context)
     $("<%=txtContent.ClientID %>").value = "";
     $("ajaxLoader").style.display = "none";
     $("status").className = "success";
-    $("status").innerHTML = "<%=Resources.labels.commentWasSaved %>";
+    <%if (!BlogSettings.Instance.EnableCommentsModeration){ %>
+      $("status").innerHTML = "<%=Resources.labels.commentWasSaved %>";
+    <%}else{ %>
+      $("status").innerHTML = "<%=Resources.labels.commentWaitingModeration %>";
+    <%} %>
   }
   
   $("btnSaveAjax").disabled = false;

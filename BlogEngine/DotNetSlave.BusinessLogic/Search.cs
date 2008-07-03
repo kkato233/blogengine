@@ -217,6 +217,9 @@ namespace BlogEngine.Core
 
 					int postMatches = Regex.Matches(entry.Content, regex).Count;
 					result.Rank += postMatches;
+
+					int descriptionMatches = Regex.Matches(entry.Item.Description, regex).Count;
+					result.Rank += descriptionMatches * 2;
 				}
 				else if (includeComments)
 				{

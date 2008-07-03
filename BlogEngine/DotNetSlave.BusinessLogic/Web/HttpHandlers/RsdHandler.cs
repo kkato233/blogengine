@@ -52,7 +52,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
         rsd.WriteStartElement("api");
         rsd.WriteAttributeString("name", "MetaWeblog");
         rsd.WriteAttributeString("preferred", "true");
-        rsd.WriteAttributeString("apiLink", Utils.AbsoluteWebRoot.ToString() + "metaweblog.axd");
+				string prefix = BlogSettings.Instance.RequireSSLMetaWeblogAPI ? "https://" : "http://";
+				rsd.WriteAttributeString("apiLink", prefix + context.Request.Url.Authority + Utils.RelativeWebRoot + "metaweblog.axd");
         rsd.WriteAttributeString("blogID", Utils.AbsoluteWebRoot.ToString());
         rsd.WriteEndElement();
 

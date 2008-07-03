@@ -60,6 +60,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         BlogSettings.Instance.PostsPerPage = int.Parse(txtPostsPerPage.Text);
         BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
         BlogSettings.Instance.MobileTheme = ddlMobileTheme.SelectedValue;
+				BlogSettings.Instance.UseBlogNameInPageTitles = cbUseBlogNameInPageTitles.Checked;
         BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
         BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
         BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
@@ -98,7 +99,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         //-----------------------------------------------------------------------
         BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
         BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
+				BlogSettings.Instance.RemoveWhitespaceInPages = cbRemoveWhitespaceInPages.Checked;
         BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
+				BlogSettings.Instance.RequireSSLMetaWeblogAPI = cbRequireSslForMetaWeblogApi.Checked;
         BlogSettings.Instance.HandleWwwSubdomain = rblWwwSubdomain.SelectedItem.Value;
 				BlogSettings.Instance.EnableTrackBackSend = cbEnableTrackBackSend.Checked;
 				BlogSettings.Instance.EnableTrackBackReceive = cbEnableTrackBackReceive.Checked;
@@ -160,6 +163,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
         ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
         ddlMobileTheme.SelectedValue = BlogSettings.Instance.MobileTheme;
+				cbUseBlogNameInPageTitles.Checked = BlogSettings.Instance.UseBlogNameInPageTitles;
         cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
         cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
         cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
@@ -197,7 +201,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         //-----------------------------------------------------------------------
         cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
         cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
+				cbRemoveWhitespaceInPages.Checked = BlogSettings.Instance.RemoveWhitespaceInPages;
         cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
+				cbRequireSslForMetaWeblogApi.Checked = BlogSettings.Instance.RequireSSLMetaWeblogAPI;
         rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;
 				cbEnablePingBackSend.Checked = BlogSettings.Instance.EnablePingBackSend;
 				cbEnablePingBackReceive.Checked = BlogSettings.Instance.EnablePingBackReceive;

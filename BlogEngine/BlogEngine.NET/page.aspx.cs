@@ -73,7 +73,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		if (this.Page != null)
 		{
-            base.Title += Server.HtmlEncode(" - " + Page.Title);
+			base.Title = Server.HtmlEncode(Page.Title);
 			base.AddMetaTag("keywords", Server.HtmlEncode(this.Page.Keywords));
 			base.AddMetaTag("description", Server.HtmlEncode(this.Page.Description));
 		}
@@ -114,16 +114,16 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 			{
 				string all = myMatch.Groups[1].Value.Trim();
 				UserControl usercontrol = null;
-				
+
 				if (!all.EndsWith(".ascx", StringComparison.OrdinalIgnoreCase))
 				{
-					int index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) +5;
+					int index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) + 5;
 					usercontrol = (UserControl)LoadControl(all.Substring(0, index));
-				
+
 					string parameters = Server.HtmlDecode(all.Substring(index));
 					Type type = usercontrol.GetType();
 					string[] paramCollection = parameters.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-					
+
 					foreach (string param in paramCollection)
 					{
 						string name = param.Split('=')[0].Trim();
