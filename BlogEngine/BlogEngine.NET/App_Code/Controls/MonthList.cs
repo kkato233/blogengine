@@ -32,7 +32,7 @@ namespace Controls
 		#region Private fields
 
 		private static object _SyncRoot = new object();
-		private static Dictionary<DateTime, int> _Months = new Dictionary<DateTime, int>();
+		private static SortedDictionary<DateTime, int> _Months = new SortedDictionary<DateTime, int>();
 
 		#endregion
 

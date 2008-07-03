@@ -37,8 +37,11 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
 			PostList1.Posts = Post.Posts.ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
+			if (!BlogSettings.Instance.UseBlogNameInPageTitles)
+				Page.Title = BlogSettings.Instance.Name + " | ";
+
 			if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
-				Page.Title += Server.HtmlEncode(" - " + BlogSettings.Instance.Description);
+				Page.Title += Server.HtmlEncode(BlogSettings.Instance.Description);
 		}
 
 		AddMetaKeywords();
@@ -115,7 +118,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			Guid categoryId = new Guid(Request.QueryString["id"]);
 			PostList1.Posts = Post.GetPostsByCategory(categoryId).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-			Page.Title = BlogSettings.Instance.Name + " - " + Category.GetCategory(categoryId);
+			Page.Title = Category.GetCategory(categoryId).Title;
 		}
 	}
 
@@ -124,7 +127,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (!string.IsNullOrEmpty(Request.QueryString["name"]))
 		{
 			PostList1.Posts = Post.GetPostsByAuthor(Request.QueryString["name"]).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-			Title = BlogSettings.Instance.Name + " - All posts by " + Request.QueryString["name"];
+			Title = "All posts by " + Request.QueryString["name"];
 		}
 	}
 
@@ -133,7 +136,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (!string.IsNullOrEmpty(Request.QueryString["tag"]))
 		{
 			PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-			base.Title = BlogSettings.Instance.Name + " - All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
+			base.Title = " All posts tagged '" + Request.QueryString["tag"].Substring(1) + "'";
 			base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
 		}
 	}
@@ -149,26 +152,26 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			DateTime dateFrom = DateTime.Parse(year + "-" + month + "-01", CultureInfo.InvariantCulture);
 			DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
 			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-			Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("MMMM yyyy");
+			Title = dateFrom.ToString("MMMM yyyy");
 		}
 		else if (!string.IsNullOrEmpty(year))
 		{
 			DateTime dateFrom = DateTime.Parse(year + "-01-01", CultureInfo.InvariantCulture);
 			DateTime dateTo = dateFrom.AddYears(1).AddMilliseconds(-1);
 			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; })); ;
-			Title = BlogSettings.Instance.Name + " - " + dateFrom.ToString("yyyy");
+			Title = dateFrom.ToString("yyyy");
 		}
 		else if (!string.IsNullOrEmpty(specificDate) && specificDate.Length == 10)
 		{
 			DateTime date = DateTime.Parse(specificDate, CultureInfo.InvariantCulture);
 			PostList1.Posts = Post.GetPostsByDate(date, date).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; })); ;
-			Title = BlogSettings.Instance.Name + " - " + date.ToString("MMMM d. yyyy");
+			Title = date.ToString("MMMM d. yyyy");
 		}
 		else if (!string.IsNullOrEmpty(Request.QueryString["calendar"]))
 		{
 			calendar.Visible = true;
 			PostList1.Visible = false;
-			Title = Server.HtmlEncode(BlogSettings.Instance.Name);
+			Title = Server.HtmlEncode(Resources.labels.calendar);
 		}
 	}
 

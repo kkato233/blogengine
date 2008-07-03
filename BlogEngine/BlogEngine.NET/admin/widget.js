@@ -433,6 +433,7 @@
 
 function editWidget(name, id)
 {
+  window.scrollTo(0, 0);
   document.body.style.overflow = 'hidden';
   var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
 	var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
@@ -465,6 +466,7 @@ function editWidget(name, id)
 	
 	iframe.style.top = ((height + document.documentElement.scrollTop) / 2) - (size.height / 2) + 'px';
 	iframe.style.left = (width / 2) - (size.width / 2) + 'px';	
+	
   document.body.appendChild(iframe);  
 }
 	

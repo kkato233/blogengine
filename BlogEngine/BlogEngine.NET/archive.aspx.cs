@@ -26,7 +26,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
       AddTotals();
     }
 
-    Page.Title += " - " +Resources.labels.archive;
+    Page.Title = Server.HtmlEncode(Resources.labels.archive);
     base.AddMetaTag("description", Resources.labels.archive + " | " + BlogSettings.Instance.Name);
   }
 

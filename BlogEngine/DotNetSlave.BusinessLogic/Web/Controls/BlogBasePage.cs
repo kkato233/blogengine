@@ -31,9 +31,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// Assignes the selected theme to the pages.
 		/// </summary>
 		protected override void OnPreInit(EventArgs e)
-		{
-			Page.Title = Server.HtmlEncode(BlogSettings.Instance.Name);
-
+		{			
 			if (Request.QueryString["theme"] != null)
 				_Theme = Request.QueryString["theme"];
 
@@ -91,11 +89,25 @@ namespace BlogEngine.Core.Web.Controls
 			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
 				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
-				AddStylesheetInclude(Utils.RelativeWebRoot + "admin/widget.css");				
+				AddStylesheetInclude(Utils.RelativeWebRoot + "admin/widget.css");
 			}
 
 			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
 				CompressCss();
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:System.Web.UI.Page.PreRenderComplete"></see> event after 
+		/// the <see cref="M:System.Web.UI.Page.OnPreRenderComplete(System.EventArgs)"></see> event and before the page is rendered.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
+		protected override void OnPreRenderComplete(EventArgs e)
+		{
+			base.OnPreRenderComplete(e);
+			if (BlogSettings.Instance.UseBlogNameInPageTitles)
+			{
+				Page.Title = (BlogSettings.Instance.Name + " | " + Page.Title);
+			}
 		}
 
 		/// <summary>
@@ -276,16 +288,39 @@ namespace BlogEngine.Core.Web.Controls
 			base.OnError(e);
 		}
 
+		///// <summary>
+		///// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on 
+		///// the child controls of the <see cref="T:System.Web.UI.Page"></see> to render.
+		///// </summary>
+		///// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
+		//protected override void Render(HtmlTextWriter writer)
+		//{
+		//  // Overwrite the default HtmlTextWriter in order to rewrite the form tag's action attribute
+		//  // due to mono rewrite path issues.
+		//  base.Render(new RewriteFormHtmlTextWriter(writer));
+		//}
+
 		/// <summary>
-		/// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on 
-		/// the child controls of the <see cref="T:System.Web.UI.Page"></see> to render.
+		/// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child
+		/// controls of the <see cref="T:System.Web.UI.Page"></see> to render.
 		/// </summary>
 		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			// Overwrite the default HtmlTextWriter in order to rewrite the form tag's action attribute
-			// due to mono rewrite path issues.
-			base.Render(new RewriteFormHtmlTextWriter(writer));
+			if (BlogSettings.Instance.RemoveWhitespaceInPages)
+			{
+				using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
+				{
+					base.Render(new RewriteFormHtmlTextWriter(htmlwriter));
+					string html = htmlwriter.InnerWriter.ToString();
+					html = Utils.RemoveHtmlWhitespace(html);
+					writer.Write(html);
+				}
+			}
+			else
+			{
+				base.Render(new RewriteFormHtmlTextWriter(writer));
+			}
 		}
 
 	}

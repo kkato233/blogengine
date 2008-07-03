@@ -41,6 +41,9 @@
         <label for="<%=ddlMobileTheme.ClientID %>"><%=Resources.labels.mobileTheme %></label>
         <asp:DropDownList runat="server" ID="ddlMobileTheme" /><br />
         
+        <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
+        <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" /><%=Resources.labels.useBlogNameInPageTitlesDescription%><br />
+        
         <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
         <asp:CheckBox runat="server" ID="cbShowRelatedPosts" /><br />
         
@@ -77,8 +80,14 @@
         <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>"><%=Resources.labels.trimStylesheet %></label>
         <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /><%=Resources.labels.trimStylesheetDescription %><br />
         
+        <label for="<%=cbRemoveWhitespaceInPages.ClientID %>"><%=Resources.labels.trimPages %></label>
+        <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInPages" /><%=Resources.labels.trimPagesDescription %><br />
+        
         <label for="<%=cbEnableOpenSearch.ClientID %>"><%=Resources.labels.enableOpenSearch %></label>
         <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /><%=Resources.labels.enableOpenSearchDescription %><br />
+        
+        <label for="<%=cbRequireSslForMetaWeblogApi.ClientID %>"><%=Resources.labels.requireSslForMetaWeblogApi %></label>
+        <asp:CheckBox runat="server" ID="cbRequireSslForMetaWeblogApi" /><%=Resources.labels.requireSslForMetaWeblogApiDescription%><br />
         
         <label for=""><%=Resources.labels.enableTrackbacks %></label>
         <asp:CheckBox runat="server" ID="cbEnableTrackBackSend" /><%=Resources.labels.send %> &nbsp;&nbsp;

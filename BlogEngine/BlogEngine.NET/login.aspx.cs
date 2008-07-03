@@ -25,7 +25,7 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 			changepassword1.ContinueButtonClick += new EventHandler(changepassword1_ContinueButtonClick);
 			lsLogout.Visible = true;
 			Login1.Visible = false;
-			Page.Title += Resources.labels.changePassword;
+			Page.Title = Resources.labels.changePassword;
 		}
 		else
 		{
