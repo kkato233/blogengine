@@ -203,7 +203,7 @@ public class ExtensionManager
         }
       }
 
-      SaveToStorage();
+      //SaveToStorage();
       SaveToCache();
     }
   }
@@ -330,7 +330,8 @@ public class ExtensionManager
       }
     }
     SaveToCache();
-    return SaveToStorage();
+    //return SaveToStorage();
+		return true;
   }
   /// <summary>
   /// Initializes settings by importing default parameters
