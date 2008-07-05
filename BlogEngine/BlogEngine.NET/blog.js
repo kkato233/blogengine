@@ -80,7 +80,7 @@ function CreateCallback(url, callback)
 	    if (http.responseText.length > 0 && callback != null)
         callback(http.responseText);
 	  }
-  }
+  };
   
   http.send(null);
 }
