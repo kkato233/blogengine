@@ -382,10 +382,19 @@ namespace BlogEngine.Core
 		public static ArrayList CodeAssemblies()
 		{
 			ArrayList codeAssemblies = new ArrayList();
+			CompilationSection s = null;
 			try
 			{
 				string assemblyName = "__code";
-				CompilationSection s = (CompilationSection)WebConfigurationManager.GetSection("system.web/compilation");
+				try
+				{
+					s = (CompilationSection)WebConfigurationManager.GetSection("system.web/compilation");
+				}
+				catch (System.Security.SecurityException)
+				{
+					// No read permissions on web.config due to the trust level (must be High or Full)
+				}
+
 				if (s != null && s.CodeSubDirectories != null && s.CodeSubDirectories.Count > 0)
 				{
 					for (int i = 0; i < s.CodeSubDirectories.Count; i++)
@@ -402,7 +411,7 @@ namespace BlogEngine.Core
 				}
 			}
 			catch (System.IO.FileNotFoundException) {/*ignore - code directory has no files*/}
-			catch (Exception) { throw; }
+
 			return codeAssemblies;
 		}
 		#endregion
