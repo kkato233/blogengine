@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Text;
 using System.Web.Caching;
+using System.Collections.Generic;
 
 #endregion
 
@@ -122,27 +123,83 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		private static string StripWhitespace(string body)
 		{
 			string[] lines = body.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-			StringBuilder sb = new StringBuilder();
+			StringBuilder emptyLines = new StringBuilder();
 			foreach (string line in lines)
 			{
 				string s = line.Trim();
 				if (s.Length > 0 && !s.StartsWith("//"))
-					sb.AppendLine(s.Trim());
+					emptyLines.AppendLine(s.Trim());
 			}
 
-			body = sb.ToString();
-			body = Regex.Replace(body, @"^[\s]+|[ \f\r\t\v]+$", String.Empty);
-			body = Regex.Replace(body, @"([+-])\n\1", "$1 $1");
-			body = Regex.Replace(body, @"([^+-][+-])\n", "$1");
-			body = Regex.Replace(body, @"([^+]) ?(\+)", "$1$2");
-			body = Regex.Replace(body, @"(\+) ?([^+])", "$1$2");
-			body = Regex.Replace(body, @"([^-]) ?(\-)", "$1$2");
-			body = Regex.Replace(body, @"(\-) ?([^-])", "$1$2");
-			body = Regex.Replace(body, @"\n([{}()[\],<>/*%&|^!~?:=.;+-])", "$1");
-			body = Regex.Replace(body, @"(\W(if|while|for)\([^{]*?\))\n", "$1");
-			body = Regex.Replace(body, @"(\W(if|while|for)\([^{]*?\))((if|while|for)\([^{]*?\))\n", "$1$3");
-			body = Regex.Replace(body, @"([;}]else)\n", "$1 ");
-			body = Regex.Replace(body, @"(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,}(?=&nbsp;)|(?<=&ndsp;)\s{2,}(?=[<])", String.Empty);
+			body = emptyLines.ToString();
+
+			// mark strings and regular expressions
+			Regex re = new Regex("\"(([^\"\\r\\n])|(\\\"))*\"|'[^'\\r\\n]*'|/[^/\\*](?<![/\\S]/.)([^/\\\\\\r\\n]|\\\\.)*/(?=[ig]{0,2}[^\\S])", RegexOptions.Compiled | RegexOptions.Multiline);
+			List<string> strs = new List<string>();
+			MatchCollection m = re.Matches(body);
+			for (int i = 0; i < m.Count; i++)
+			{
+				strs.Add(m[i].Value);
+				// replace string and regular expression with marker
+				StringBuilder sb = new StringBuilder();
+				sb.Append("_____STRINGREGEX_");
+				sb.Append(i.ToString());
+				sb.Append("_STRINGREGEX_____");
+				body = re.Replace(body, sb.ToString(), 1);
+			}
+			// remove line comments
+			body = Regex.Replace(body, "//.*[\r\n]", String.Empty, RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove C styles comments
+			body = Regex.Replace(body, "/\\*.*?\\*/", String.Empty, RegexOptions.Compiled | RegexOptions.Singleline);
+			// trim left
+			body = Regex.Replace(body, "^\\s*", String.Empty, RegexOptions.Compiled | RegexOptions.Multiline);
+			// trim right
+			body = Regex.Replace(body, "\\s*[\\r\\n]", "\r\n", RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove whitespace beside of left curly braced
+			body = Regex.Replace(body, "\\s*{\\s*", "{", RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove whitespace beside of right curly braced
+			body = Regex.Replace(body, "\\s*}\\s*", "}", RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove whitespace beside of coma
+			body = Regex.Replace(body, "\\s*,\\s*", ",", RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove whitespace beside of semicolon
+			body = Regex.Replace(body, "\\s*;\\s*", ";", RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove newline after keywords
+			body = Regex.Replace(body, "\\r\\n(?<=\\b(abstract|boolean|break|byte|case|catch|char|class|const|continue|default|delete|do|double|else|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|while|with)\\r\\n)", " ", RegexOptions.Compiled | RegexOptions.ECMAScript);
+			// remove all newline
+			//body = Regex.Replace(body, "\\r\\n", "", RegexOptions.Compiled | RegexOptions.ECMAScript);
+
+			// restore marked strings and regular expressions
+			for (int i = 0; i < strs.Count; i++)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.Append("_____STRINGREGEX_");
+				sb.Append(i.ToString());
+				sb.Append("_STRINGREGEX_____");
+				body = Regex.Replace(body, sb.ToString(), strs[i]);
+			}
+
+			//string[] lines = body.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			//StringBuilder sb = new StringBuilder();
+			//foreach (string line in lines)
+			//{
+			//  string s = line.Trim();
+			//  if (s.Length > 0 && !s.StartsWith("//"))
+			//    sb.AppendLine(s.Trim());
+			//}
+
+			//body = sb.ToString();
+			//body = Regex.Replace(body, @"^[\s]+|[ \f\r\t\v]+$", String.Empty);
+			//body = Regex.Replace(body, @"([+-])\n\1", "$1 $1");
+			//body = Regex.Replace(body, @"([^+-][+-])\n", "$1");
+			//body = Regex.Replace(body, @"([^+]) ?(\+)", "$1$2");
+			//body = Regex.Replace(body, @"(\+) ?([^+])", "$1$2");
+			//body = Regex.Replace(body, @"([^-]) ?(\-)", "$1$2");
+			//body = Regex.Replace(body, @"(\-) ?([^-])", "$1$2");
+			//body = Regex.Replace(body, @"\n([{}()[\],<>/*%&|^!~?:=.;+-])", "$1");
+			//body = Regex.Replace(body, @"(\W(if|while|for)\([^{]*?\))\n", "$1");
+			//body = Regex.Replace(body, @"(\W(if|while|for)\([^{]*?\))((if|while|for)\([^{]*?\))\n", "$1$3");
+			//body = Regex.Replace(body, @"([;}]else)\n", "$1 ");
+			//body = Regex.Replace(body, @"(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,}(?=&nbsp;)|(?<=&ndsp;)\s{2,}(?=[<])", String.Empty);
 
 			return body;
 		}
