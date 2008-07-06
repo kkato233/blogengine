@@ -10,6 +10,7 @@ using System.Text;
 using System.Globalization;
 using BlogEngine.Core;
 using System.Collections.Specialized;
+using System.Web.Security;
 
 #endregion
 
@@ -143,22 +144,26 @@ public partial class widgets_Most_comments_widget : WidgetBase
 
 	private string Gravatar(int size, string email)
 	{
-		string hash = CreateMd5Hash(email);
-		return "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size;
-	}
+		string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant(); 
+		string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&d=";
 
-	private string CreateMd5Hash(string email)
-	{
-		System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-		byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(email));
-
-		System.Text.StringBuilder hash = new System.Text.StringBuilder();
-		for (int i = 0; i < result.Length; i++)
+		string link = string.Empty;
+		switch (BlogSettings.Instance.Avatar)
 		{
-			hash.Append(result[i].ToString("x2", CultureInfo.InvariantCulture));
+			case "identicon":
+				link = gravatar + "identicon";
+				break;
+
+			case "wavatar":
+				link = gravatar + "wavatar";
+				break;
+
+			default:
+				link = gravatar + "monsterid";
+				break;
 		}
 
-		return hash.ToString();
+		return link;
 	}
 
 	#endregion

@@ -116,8 +116,12 @@ namespace BlogEngine.Core.Web.Controls
 		protected virtual void AddLocalizationKeys()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.AppendFormat("KEYhasRated='{0}';", Translate("youAlreadyRated"));
+			sb.AppendFormat("KEYhasRated='{0}';", Translate("youAlreadyRated").Replace("'", "\\'"));
 			sb.AppendFormat("KEYwebRoot='{0}';", Utils.RelativeWebRoot);
+			sb.AppendFormat("KEYsavingTheComment='{0}';", Translate("savingTheComment").Replace("'", "\\'"));
+			sb.AppendFormat("KEYcomments='{0}';", Translate("comments").Replace("'", "\\'"));
+			sb.AppendFormat("KEYcommentWasSaved='{0}';", Translate("commentWasSaved").Replace("'", "\\'"));
+			sb.AppendFormat("KEYcommentWaitingModeration='{0}';", Translate("commentWaitingModeration").Replace("'", "\\'"));
 
 			HtmlGenericControl script = new HtmlGenericControl("script");
 			script.Attributes.Add("type", "text/javascript");
@@ -134,6 +138,8 @@ namespace BlogEngine.Core.Web.Controls
 			if (Request.QueryString["theme"] != null)
 				return;
 
+			string version = "&v=" + BlogSettings.Instance.Version();
+
 			foreach (Control control in Page.Header.Controls)
 			{
 				HtmlControl c = control as HtmlControl;
@@ -141,7 +147,7 @@ namespace BlogEngine.Core.Web.Controls
 				{
 					if (!c.Attributes["href"].StartsWith("http://"))
 					{
-						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"] + version;
 						c.EnableViewState = false;
 					}
 				}
@@ -229,7 +235,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <returns></returns>
 		public virtual string ResolveScriptUrl(string url)
 		{
-			return Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(url);
+			return Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(url) + "&v=" + BlogSettings.Instance.Version();
 		}
 
 		/// <summary>
@@ -287,18 +293,6 @@ namespace BlogEngine.Core.Web.Controls
 
 			base.OnError(e);
 		}
-
-		///// <summary>
-		///// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on 
-		///// the child controls of the <see cref="T:System.Web.UI.Page"></see> to render.
-		///// </summary>
-		///// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
-		//protected override void Render(HtmlTextWriter writer)
-		//{
-		//  // Overwrite the default HtmlTextWriter in order to rewrite the form tag's action attribute
-		//  // due to mono rewrite path issues.
-		//  base.Render(new RewriteFormHtmlTextWriter(writer));
-		//}
 
 		/// <summary>
 		/// Initializes the <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and calls on the child

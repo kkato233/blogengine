@@ -11,6 +11,111 @@ function SetFlag(iso)
     flagImage.src = KEYwebRoot + "pics/pixel.gif";
 }
 
+// Shows the preview of the comment
+function ToggleCommentMenu(element)
+{
+  element.className = 'selected';
+  if (element.id == 'preview')
+  {
+    $('compose').className = '';    
+    $('commentCompose').style.display = 'none';
+    $('commentPreview').style.display = 'block';
+    $('commentPreview').innerHTML = '<img src="' + KEYwebRoot + 'pics/ajax-loader.gif" alt="Loading" />';
+    var argument = $('commentPreview').innerHTML;
+    AddComment(true);
+  }
+  else
+  {
+    $('preview').className = '';    
+    $('commentPreview').style.display = 'none';
+    $('commentCompose').style.display = 'block';    
+  }
+}
+
+function EndShowPreview(arg, context)
+{
+  $('commentPreview').innerHTML = arg;
+}
+
+function AddComment(preview)
+{
+  var isPreview = preview == true;
+  if (!isPreview)
+  {
+    $("btnSaveAjax").disabled = true;
+    $("ajaxLoader").style.display = "inline";
+    $("status").className = "";
+    $("status").innerHTML = KEYsavingTheComment;
+  }
+  
+  var author = nameBox.value;
+  var email = emailBox.value;
+  var website = websiteBox.value;
+  var country = countryDropDown ? countryDropDown.value : "";  
+  var content = contentBox.value;
+  var notify = $("cbNotify").checked;
+  var captcha = captchaField.value;
+   
+  var callback = isPreview ? EndShowPreview : AppendComment;
+  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha;
+  
+  WebForm_DoCallback('ctl00$cphBody$CommentView1',argument, callback,'comment',null,false);
+  
+  if (!isPreview && typeof OnComment != "undefined")
+    OnComment(author, email, website, country, content);
+}
+
+function AppendComment(args, context)
+{
+  if (context == "comment")
+  {
+    if ($("commentlist").innerHTML.length < 10)
+      $("commentlist").innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
+      
+    $("commentlist").innerHTML += args;
+    contentBox.value = "";
+    $("ajaxLoader").style.display = "none";
+    $("status").className = "success";
+    
+    if (!moderation)
+      $("status").innerHTML = KEYcommentWasSaved;
+    else
+      $("status").innerHTML = KEYcommentWaitingModeration;    
+  }
+  
+  $("btnSaveAjax").disabled = false;
+}
+
+function CheckAuthorName(sender, args)
+{
+  args.IsValid = true;
+  
+  if (checkName)
+  {
+    var author = postAuthor;
+    var visitor = nameBox.value;  
+    args.IsValid = !Equal(author, visitor);
+  }
+}
+
+function AddBbCode(v) {
+  if (document.getSelection) // firefox
+  {      
+    var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
+    var therest = contentBox.value.substr(contentBox.selectionEnd);
+    var sel = contentBox.value.substring(contentBox.selectionStart, contentBox.selectionEnd);
+    contentBox.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
+  }
+  else // IE
+  {
+    var str = document.selection.createRange().text;
+    contentBox.focus();
+    var sel = document.selection.createRange();
+    sel.text = "[" + v + "]" + str + "[/" + v + "]";
+  }
+  return;
+}
+
 // Searches the blog based on the entered text and
 // searches comments as well if chosen.
 function Search(root)

@@ -169,9 +169,9 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       }
 			//InititializeCaptcha();
     }
-    
-   
-		//btnSave.Click += new EventHandler(btnSave_Click);
+
+
+		Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
   }
 
   private void ApproveComment()
@@ -324,7 +324,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 				txtWebsite.Text = Request.Url.Host;
 			}
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
 			// Couldn't retrieve info on the visitor/user
 		}

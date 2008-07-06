@@ -151,7 +151,6 @@
     <Compile Include="Web\HttpHandlers\Apml.cs" />
     <Compile Include="Web\HttpHandlers\Foaf.cs" />
     <Compile Include="Web\HttpHandlers\JavaScriptHandler.cs" />
-    <Compile Include="Web\HttpHandlers\MonsterHandler.cs" />
     <Compile Include="Web\HttpHandlers\Sioc.cs" />
   </ItemGroup>
   <ItemGroup>

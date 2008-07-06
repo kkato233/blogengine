@@ -92,7 +92,7 @@ namespace BlogEngine.Core
 			return STRIP_HTML.Replace(html, string.Empty);
 		}
 
-		private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+<", RegexOptions.Compiled);
+		private static readonly Regex REGEX_BETWEEN_TAGS = new Regex(@">\s+", RegexOptions.Compiled);
 		private static readonly Regex REGEX_LINE_BREAKS = new Regex(@"\n\s+", RegexOptions.Compiled);
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace BlogEngine.Core
 			if (string.IsNullOrEmpty(html))
 				return string.Empty;
 			
-			html = REGEX_BETWEEN_TAGS.Replace(html, "> <");
+			html = REGEX_BETWEEN_TAGS.Replace(html, "> ");
 			html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
 
 			return html.Trim();
