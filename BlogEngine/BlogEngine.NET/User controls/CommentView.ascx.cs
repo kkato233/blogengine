@@ -433,20 +433,27 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   /// </summary>
   protected string BBCodes()
   {
-    string retVal = string.Empty;
-    string title = string.Empty;
-    string code = string.Empty;
+		try
+		{
+			string retVal = string.Empty;
+			string title = string.Empty;
+			string code = string.Empty;
 
-    ExtensionSettings settings = ExtensionManager.GetSettings("BBCode");
-    DataTable table = settings.GetDataTable();
+			ExtensionSettings settings = ExtensionManager.GetSettings("BBCode");
+			DataTable table = settings.GetDataTable();
 
-    foreach (DataRow row in table.Rows)
-    {
-      code = (string)row["Code"];
-      title = "[" + code + "][/" + code + "]";
-      retVal += "<a title=\"" + title + "\" href=\"\" onclick=\"AddBbCode('" + code + "'); return false;\">" + code + "</a>";
-    }
-    return retVal;
+			foreach (DataRow row in table.Rows)
+			{
+				code = (string)row["Code"];
+				title = "[" + code + "][/" + code + "]";
+				retVal += "<a title=\"" + title + "\" href=\"\" onclick=\"AddBbCode('" + code + "'); return false;\">" + code + "</a>";
+			}
+			return retVal;
+		}
+		catch (Exception)
+		{
+			return string.Empty;
+		}
   }
 
   #endregion

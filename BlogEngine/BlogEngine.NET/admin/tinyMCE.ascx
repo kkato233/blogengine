@@ -2,16 +2,22 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="BlogEngine.Core.Web.Controls" %>
 
-<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce/js.axd?path=<%=Server.UrlEncode(Utils.RelativeWebRoot) %>editors%2ftiny_mce%2ftiny_mce.js"></script>
+<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce/tiny_mce.js"></script>
 <script language="javascript" type="text/javascript">
   tinyMCE.init({
 	  mode : "exact",
     elements : "<%=txtContent.ClientID %>",
 	  theme : "advanced",
 	  //plugins : "style,layer,table,save,advhr,advimage,advlink,emotions,iespell,media,searchreplace,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
-	  plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,media,table,iespell",
+	  
+	  <%if (Request.UserAgent != null && Request.UserAgent.Contains("MSIE")){ %>
+	    plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table,iespell",
+	  <%}else{ %>
+	    plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table",
+	  <%} %>
+	  
 	  theme_advanced_buttons1_add_before : "fullscreen,code,separator,cut,copy,paste,separator,undo,redo,separator",
-	  theme_advanced_buttons1_add : "separator,bullist,numlist,outdent,indent,separator,iespell,link,unlink,media,sub,sup,removeformat,cleanup,charmap,emotions,separator,formatselect,fontselect,fontsizeselect",
+	  theme_advanced_buttons1_add : "separator,bullist,numlist,outdent,indent,separator,iespell,link,unlink,sub,sup,removeformat,cleanup,charmap,emotions,separator,formatselect,fontselect,fontsizeselect",
 	  theme_advanced_buttons2_add : "",
 	  button_tile_map : true,
 	  //theme_advanced_buttons2_add_before: "",
@@ -26,10 +32,10 @@
       plugin_insertdate_dateFormat : "%Y-%m-%d",
       plugin_insertdate_timeFormat : "%H:%M:%S",
 	  extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style],script[charset|defer|language|src|type],code,iframe[src|width|height|frameborder|name|style]",
-	  external_link_list_url : "example_link_list.js",
-	  external_image_list_url : "example_image_list.js",
-	  flash_external_list_url : "example_flash_list.js",
-	  media_external_list_url : "example_media_list.js",
+	  //external_link_list_url : "example_link_list.js",
+	  //external_image_list_url : "example_image_list.js",
+	  //flash_external_list_url : "example_flash_list.js",
+	  //media_external_list_url : "example_media_list.js",
 	  //template_external_list_url : "example_template_list.js",
 	  file_browser_callback : "fileBrowserCallBack",
 	  theme_advanced_resize_horizontal : false,

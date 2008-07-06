@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="widgets_LinkList_edit" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
-<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce/js.axd?path=<%=Server.UrlEncode(Utils.RelativeWebRoot) %>editors%2ftiny_mce%2ftiny_mce.js"></script>
+<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce/tiny_mce.js"></script>
 <script language="javascript" type="text/javascript">
   tinyMCE.init({
 	  mode : "exact",

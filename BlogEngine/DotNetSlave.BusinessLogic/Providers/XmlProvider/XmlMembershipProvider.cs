@@ -336,7 +336,7 @@ namespace BlogEngine.Core.Providers {
             doc.Save(_XmlFileName);
 
             status = MembershipCreateStatus.Success;
-            MembershipUser user = new MembershipUser(Name, username, username, email, passwordQuestion, password, isApproved, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.MaxValue);
+						MembershipUser user = new MembershipUser(Name, username, username, email, passwordQuestion, passwordPrep, isApproved, false, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.MaxValue);
             _Users.Add(username, user);
             return user;
         }
