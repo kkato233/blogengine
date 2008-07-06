@@ -121,9 +121,9 @@
         
         <label for="<%=rblAvatar.ClientID %>"><%=Resources.labels.avatars %></label>
         <asp:RadioButtonList runat="Server" ID="rblAvatar" RepeatLayout="flow" RepeatDirection="horizontal">
-          <asp:ListItem Text="Gravatar" Value="gravatar" />
-          <asp:ListItem Text="<%$ Resources:labels, monster %>" Value="monster" />
-          <asp:ListItem Text="<%$ Resources:labels, combine %>" Value="combine" />
+          <asp:ListItem Text="MonsterID" Value="monster" />
+          <asp:ListItem Text="Wavatar" Value="wavatar" />
+          <asp:ListItem Text="Identicon" Value="identicon" />
           <asp:ListItem Text="<%$ Resources:labels, none %>" Value="none" />
         </asp:RadioButtonList><br />
         

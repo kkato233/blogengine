@@ -10,6 +10,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
+using System.Web.Security;
 
 #endregion
 
@@ -140,6 +141,8 @@ namespace BlogEngine.Core.Web.Controls
 			}
 		}
 
+		private const string GRAVATAR_IMAGE = "<img src=\"{0}\" alt=\"{1}\" />";
+
 		/// <summary>
 		/// Displays the Gravatar image that matches the specified email.
 		/// </summary>
@@ -158,44 +161,28 @@ namespace BlogEngine.Core.Web.Controls
 				return "<img src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + Comment.Author + "\" />";
 			}
 
-			string img = "<img src=\"{0}\" alt=\"{1}\" />";
-			string hash = CreateMd5Hash();
-			string noavatar = Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg";
-			string monster = Utils.AbsoluteWebRoot + "monster.axd?seed=" + hash.Substring(0, 10) + "&size=" + size;
+			string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(Comment.Email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant(); 
 			string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&amp;d=";
 
 			string link = string.Empty;
 			switch (BlogSettings.Instance.Avatar)
 			{
-				case "monster":
-					link = monster.Replace("&", "&amp;");
+				case "identicon":
+					link = gravatar + "identicon";
 					break;
 
-				case "gravatar":
-					link = gravatar + Server.UrlEncode(noavatar);
+				case "wavatar":
+					link = gravatar + "wavatar";
 					break;
-
-				case "combine":
-					link = gravatar + Server.UrlEncode(monster);
+					
+				default:
+					link = gravatar + "monsterid";
 					break;
 			}
 
-			return string.Format(CultureInfo.InvariantCulture, img, link, Comment.Author);
+			return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, link, Comment.Author);
 		}
 
-		private string CreateMd5Hash()
-		{
-			System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-			byte[] result = md5.ComputeHash(Encoding.ASCII.GetBytes(Comment.Email.ToLowerInvariant()));
-
-			System.Text.StringBuilder hash = new System.Text.StringBuilder();
-			for (int i = 0; i < result.Length; i++)
-			{
-				hash.Append(result[i].ToString("x2", CultureInfo.InvariantCulture));
-			}
-
-			return hash.ToString();
-		}
 		#endregion
 
 	}

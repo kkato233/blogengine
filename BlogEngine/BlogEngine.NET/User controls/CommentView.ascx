@@ -68,114 +68,19 @@
 
 <script type="text/javascript">
 <!--//
-function ToggleCommentMenu(element)
-{
-  element.className = 'selected';
-  if (element.id == 'preview')
-  {
-    $('compose').className = '';    
-    $('commentCompose').style.display = 'none';
-    $('commentPreview').style.display = 'block';
-    $('commentPreview').innerHTML = '<img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" alt="Loading" />';
-    var argument = $('commentPreview').innerHTML;
-    AddComment(true);
-  }
-  else
-  {
-    $('preview').className = '';    
-    $('commentPreview').style.display = 'none';
-    $('commentCompose').style.display = 'block';    
-  }
-}
-
-function EndShowPreview(arg, context)
-{
-  $('commentPreview').innerHTML = arg;
-}
-
-function AddComment(preview)
-{
-  var isPreview = preview == true;
-  if (!isPreview)
-  {
-    $("btnSaveAjax").disabled = true;
-    $("ajaxLoader").style.display = "inline";
-    $("status").className = "";
-    $("status").innerHTML = "<%=Resources.labels.savingTheComment %>";
-  }
-  
-  var author = $("<%=txtName.ClientID %>").value;
-  var email = $("<%=txtEmail.ClientID %>").value;
-  var website = $("<%=txtWebsite.ClientID %>").value;
-  var country = "";
-  if ($("<%=ddlCountry.ClientID %>"))
-    country = $("<%=ddlCountry.ClientID %>").value;
-  var content = $("<%=txtContent.ClientID %>").value;
-  var notify = $("cbNotify").checked;
-  var captcha = $('<%=hfCaptcha.ClientID %>').value;
-   
-  var callback = isPreview ? EndShowPreview : AppendComment;
-  var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha;
-  
-//  <%=Page.ClientScript.GetCallbackEventReference(this, "argument", "AppendComment", "'comment'") %>
-  WebForm_DoCallback('ctl00$cphBody$CommentView1',argument, callback,'comment',null,false);
-  
-  if (!isPreview && typeof OnComment != "undefined")
-    OnComment(author, email, website, country, content);
-}
-
-function AppendComment(args, context)
-{
-  if (context == "comment")
-  {
-    if ($("commentlist").innerHTML.length < 10)
-      $("commentlist").innerHTML = "<h1 id='comment'><%=Resources.labels.comments %></h1>"
-      
-    $("commentlist").innerHTML += args;
-    $("<%=txtContent.ClientID %>").value = "";
-    $("ajaxLoader").style.display = "none";
-    $("status").className = "success";
-    <%if (!BlogSettings.Instance.EnableCommentsModeration){ %>
-      $("status").innerHTML = "<%=Resources.labels.commentWasSaved %>";
-    <%}else{ %>
-      $("status").innerHTML = "<%=Resources.labels.commentWaitingModeration %>";
-    <%} %>
-  }
-  
-  $("btnSaveAjax").disabled = false;
-}
 
 var flagImage = $("<%= imgFlag.ClientID %>");
+var contentBox = $("<%=txtContent.ClientID %>");
+var moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
+var checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
+var postAuthor = "<%=Post.Author %>";
 
-function CheckAuthorName(sender, args)
-{
-  args.IsValid = true;
-  
-  <% if (!Page.User.Identity.IsAuthenticated){ %>
-  var author = "<%=Post.Author %>";
-  var visitor = $("<%=txtName.ClientID %>").value;  
-  args.IsValid = !Equal(author, visitor);
-  <%} %>
-}
-
-function AddBbCode(v) {
-  if (document.getSelection) // firefox
-  {      
-    tt = $("<%=txtContent.ClientID %>");
-    var pretxt = tt.value.substring(0, tt.selectionStart);
-    var therest = tt.value.substr(tt.selectionEnd);
-    var sel = tt.value.substring(tt.selectionStart, tt.selectionEnd);
-    tt.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
-  }
-  else // IE
-  {
-    var str = document.selection.createRange().text;
-    $("<%=txtContent.ClientID %>").focus();
-    var sel = document.selection.createRange();
-    sel.text = "[" + v + "]" + str + "[/" + v + "]";
-  }
-  return;
-}
+var nameBox = $("<%=txtName.ClientID %>");
+var emailBox = $("<%=txtEmail.ClientID %>");
+var websiteBox = $("<%=txtWebsite.ClientID %>");
+var countryDropDown =$("<%=ddlCountry.ClientID %>"); 
+var captchaField = $('<%=hfCaptcha.ClientID %>');
+var controlId = '<%=this.UniqueID %>';
 //-->
 </script>
 
