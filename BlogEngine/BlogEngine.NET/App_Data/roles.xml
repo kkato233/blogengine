@@ -4,6 +4,7 @@
     <name>Administrators</name>
     <users>
       <user>Admin</user>
+      <user>mads</user>
     </users>
   </role>
   <role>

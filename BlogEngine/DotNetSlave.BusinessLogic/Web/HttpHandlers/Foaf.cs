@@ -232,7 +232,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				writer.WriteAttributeString("rdf", "resource", null, person.Blog);
 				writer.WriteEndElement();
 			}
-			if (person.Rdf != "")
+			if (person.Rdf != "" && person.Rdf != HttpContext.Current.Request.Url.ToString())
 			{
 				writer.WriteStartElement("rdfs", "seeAlso", null);
 				writer.WriteAttributeString("rdf", "resource", null, person.Rdf);

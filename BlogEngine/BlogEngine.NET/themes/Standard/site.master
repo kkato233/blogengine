@@ -20,7 +20,7 @@
       <li><a href="<%=Utils.AbsoluteWebRoot %>archive.aspx"><%=Resources.labels.archive %></a></li>
       <li><a href="<%=Utils.AbsoluteWebRoot %>contact.aspx"><%=Resources.labels.contact %></a></li>
       <li><a href="<%=Utils.FeedUrl %>" class="feed"><img src="<%=Utils.AbsoluteWebRoot %>pics/rssButton.gif" alt="Feed" /><%=Resources.labels.subscribe %></a></li>
-      <li><a href="<%=Utils.AbsoluteWebRoot %>login.aspx">Log in</a></li>
+      <li><a runat="server" id="aLogin">Log in</a></li>
     </ul>
   </div>
   

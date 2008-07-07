@@ -69,7 +69,7 @@ public partial class admin_newuser : System.Web.UI.Page
 	{
 		if (e.Row.RowType == DataControlRowType.DataRow && !Page.IsPostBack)
 		{
-			LinkButton delete = e.Row.Cells[0].Controls[0] as LinkButton;
+			LinkButton delete = e.Row.Cells[0].Controls[1] as LinkButton;
             if (delete != null)
             {
                 Label username = (Label) FindRowControl(e.Row, typeof (Label), "labelUsername");
@@ -126,22 +126,25 @@ public partial class admin_newuser : System.Web.UI.Page
     void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
-        TextBox txtPassword = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtPassword");
+        //TextBox txtPassword = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtPassword");
         TextBox txtEmail = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtEmail");
-        TextBox txtUsername = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtUsername");
+        //TextBox txtUsername = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtUsername");
 
         MembershipUser oldUser = Membership.GetUser(username);
-        string[] oldRoles = Roles.GetRolesForUser(username);
-        if (oldRoles.Length > 0)
-            Roles.RemoveUserFromRoles(username, oldRoles);
-        Membership.DeleteUser(username);
+				//string[] oldRoles = Roles.GetRolesForUser(username);
+				//if (oldRoles.Length > 0)
+				//    Roles.RemoveUserFromRoles(username, oldRoles);
+				//Membership.DeleteUser(username);
 
-        MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
-        if (oldRoles.Length > 0)
-            Roles.AddUserToRoles(user.UserName, oldRoles);
+				//MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
+				//if (oldRoles.Length > 0)
+				//    Roles.AddUserToRoles(user.UserName, oldRoles);
 
-        if (username != user.UserName)
-            UpdatePosts(username, txtUsername.Text);
+				//if (username != user.UserName)
+				//    UpdatePosts(username, txtUsername.Text);
+
+				oldUser.Email = txtEmail.Text;
+				Membership.UpdateUser(oldUser);
 
         if (HttpContext.Current.User.Identity.Name.Equals(oldUser.UserName, StringComparison.CurrentCultureIgnoreCase))
             FormsAuthentication.SignOut();
