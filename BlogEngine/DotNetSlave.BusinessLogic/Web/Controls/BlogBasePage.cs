@@ -301,20 +301,20 @@ namespace BlogEngine.Core.Web.Controls
 		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			if (BlogSettings.Instance.RemoveWhitespaceInPages)
-			{
-				using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
-				{
-					base.Render(new RewriteFormHtmlTextWriter(htmlwriter));
-					string html = htmlwriter.InnerWriter.ToString();
-					html = Utils.RemoveHtmlWhitespace(html);
-					writer.Write(html);
-				}
-			}
-			else
-			{
+			//if (BlogSettings.Instance.RemoveWhitespaceInPages)
+			//{
+			//  using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
+			//  {
+			//    base.Render(new RewriteFormHtmlTextWriter(htmlwriter));
+			//    string html = htmlwriter.InnerWriter.ToString();
+			//    html = Utils.RemoveHtmlWhitespace(html);
+			//    writer.Write(html);
+			//  }
+			//}
+			//else
+			//{
 				base.Render(new RewriteFormHtmlTextWriter(writer));
-			}
+			//}
 		}
 
 	}

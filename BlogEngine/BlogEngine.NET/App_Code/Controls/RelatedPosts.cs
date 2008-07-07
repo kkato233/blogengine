@@ -15,12 +15,12 @@ namespace Controls
 	public class RelatedPosts : Control
 	{
 
-		public RelatedPosts()
+		static RelatedPosts()
 		{
 			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
 		}
 
-		void Post_Saved(object sender, SavedEventArgs e)
+		static void Post_Saved(object sender, SavedEventArgs e)
 		{
 			if (e.Action == SaveAction.Update)
 			{

@@ -19,6 +19,6 @@
     -->
   </asp:placeholder>
   
-  <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" />
+  <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" Visible="false" />
   <uc:CommentView ID="CommentView1" runat="server" />
 </asp:content>

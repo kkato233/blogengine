@@ -125,13 +125,13 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 
 	#region Properties
 
-	List<IPublishable> _Posts;
+	private List<IPublishable> _Posts;
 	/// <summary>
 	/// The list of posts to display.
 	/// </summary>
 	public List<IPublishable> Posts
 	{
-		get { return _Posts; }// (List<Post>)(ViewState["Posts"] ?? default(List<Post>)); }
+		get { return _Posts; }
 		set { _Posts = value; }
 	}
 
