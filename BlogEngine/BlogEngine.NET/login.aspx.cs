@@ -19,6 +19,19 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	protected void Page_Load(object sender, EventArgs e)
 	{
+		if (Request.QueryString.ToString() == "logoff")
+		{
+			FormsAuthentication.SignOut();
+			if (Request.UrlReferrer != null && Request.UrlReferrer != Request.Url)
+			{
+				Response.Redirect(Request.UrlReferrer.ToString(), true);
+			}
+			else
+			{
+				Response.Redirect("login.aspx");
+			}
+		}
+
 		if (Page.User.Identity.IsAuthenticated)
 		{
 			changepassword1.Visible = true;
