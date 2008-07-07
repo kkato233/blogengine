@@ -21,8 +21,7 @@
   <iscommentsenabled>True</iscommentsenabled>
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>
-  <htmlheader>&lt;meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" /&gt;
-&lt;meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)" /&gt;</htmlheader>
+  <htmlheader />
   <mobiletheme>Mobile</mobiletheme>
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>

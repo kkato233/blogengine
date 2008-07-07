@@ -45,12 +45,17 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				PostViewBase postView = (PostViewBase)LoadControl(path);
 				postView.Post = Post;
 				postView.Location = ServingLocation.SinglePost;
-
 				pwPost.Controls.Add(postView);
-				related.Item = this.Post;
+
+				if (BlogSettings.Instance.EnableRelatedPosts)
+				{
+					related.Visible = true;
+					related.Item = this.Post;
+				}
+				
 				CommentView1.Post = Post;
 
-                Page.Title = Server.HtmlEncode(Post.Title);
+        Page.Title = Server.HtmlEncode(Post.Title);
 				AddMetaKeywords();
 				AddMetaDescription();				
 				AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());
