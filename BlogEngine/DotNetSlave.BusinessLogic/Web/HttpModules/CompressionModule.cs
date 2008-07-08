@@ -182,7 +182,7 @@ namespace BlogEngine.Core.Web.HttpModules
 				{
 					string relative = match.Groups[1].Value;
 					string absolute = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
-					html = html.Replace(relative, "js.axd?path=" + HttpUtility.UrlEncode(absolute + relative));
+					html = html.Replace(relative, Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(absolute + relative));
 				}
 
 				byte[] outdata = System.Text.Encoding.Default.GetBytes(html);
