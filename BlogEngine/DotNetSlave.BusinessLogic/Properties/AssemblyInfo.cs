@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Security.Permissions;
 using System;
+using System.Security;
 
 #endregion
 
@@ -20,6 +21,7 @@ using System;
 
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
+[assembly: AllowPartiallyTrustedCallers]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.4.0.8")]
+[assembly: AssemblyVersion("1.4.0.9")]

@@ -5,9 +5,13 @@
 <h1 id="comment"><%=Resources.labels.comments %></h1>
 <%} %>
 
-<div id="commentlist">
+<div id="commentlist" style="display:none">
   <asp:PlaceHolder runat="server" ID="phComments" />
 </div>
+
+<% if (Post.Comments.Count > 0){ %>
+<script type="text/javascript">$('commentlist').style.display='block';</script>
+<%} %>
 
 <asp:PlaceHolder runat="Server" ID="phAddComment">
 

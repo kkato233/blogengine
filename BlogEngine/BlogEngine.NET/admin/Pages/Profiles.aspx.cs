@@ -23,12 +23,11 @@ public partial class admin_profiles : Page
 		}
 
 		Page.Title = Resources.labels.profile;
-
 	}
 
 	private void SetProfile(string name)
 	{
-		ProfileCommon pc = new ProfileCommon().GetProfile(name);
+		ProfileCommon pc = Profile;
 		cbIsPublic.Checked = pc.IsPrivate;
 		tbDisplayName.Text = pc.DisplayName;
 		tbFirstName.Text = pc.FirstName;
@@ -59,7 +58,7 @@ public partial class admin_profiles : Page
 
 	protected void lbSaveProfile_Click(object sender, EventArgs e)
 	{
-		string userProfileToSave = User.IsInRole("Administrator") ? User.Identity.Name : ddlUserList.SelectedValue;
+		string userProfileToSave = !User.IsInRole("Administrator") ? User.Identity.Name : ddlUserList.SelectedValue;
 		ProfileCommon pc = new ProfileCommon().GetProfile(userProfileToSave);
 
 		pc.IsPrivate = cbIsPublic.Checked;

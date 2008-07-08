@@ -69,10 +69,13 @@ function AppendComment(args, context)
 {
   if (context == "comment")
   {
-    if ($("commentlist").innerHTML.length < 10)
-      $("commentlist").innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
+    var commentList = $("commentlist");
+    
+    if (commentlist.innerHTML.length < 10)
+      commentlist.innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
       
-    $("commentlist").innerHTML += args;
+    commentlist.innerHTML += args;
+    commentlist.style.display = 'block';
     contentBox.value = "";
     $("ajaxLoader").style.display = "none";
     $("status").className = "success";
