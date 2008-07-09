@@ -12,4 +12,5 @@
   <widget id="0ac769b9-db8b-41b2-9a0a-913e1fac2639" title="Disclaimer" showTitle="True">TextBox</widget>
   <widget id="52400187-7bea-4eac-881f-38c8234863e9" title="Month List" showTitle="True">Month List</widget>
   <widget id="c3c07563-ea1a-4abd-b2d8-9298d6731475" title="Calendar" showTitle="True">Calendar</widget>
+  <widget id="e699db1e-c942-46d7-8623-8cd0f00659d5" title="Most comments" showTitle="True">Most comments</widget>
 </widgets>

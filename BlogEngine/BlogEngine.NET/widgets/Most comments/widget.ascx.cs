@@ -111,7 +111,7 @@ public partial class widgets_Most_comments_widget : WidgetBase
 
 			if (visitor.Website != null)
 			{
-				string link = "<a href=\"{0}\">{1}</a>";
+				string link = "<a rel=\"contact\" class=\"url fn\" href=\"{0}\">{1}</a>";
 				name.Text = string.Format(link, visitor.Website, Server.HtmlEncode(visitor.Name));
 			}
 			else
@@ -123,6 +123,7 @@ public partial class widgets_Most_comments_widget : WidgetBase
 			{
 				imgCountry.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + visitor.Country + ".png";
 				imgCountry.AlternateText = visitor.Country;
+
 				foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
 				{
 					RegionInfo ri = new RegionInfo(ci.Name);
