@@ -117,6 +117,8 @@ namespace BlogEngine.Core.Web.Controls
 			}
 		}
 
+		private const string FLAG_IMAGE = "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" title=\"{2}\" alt=\"{2}\" /></span>";
+
 		/// <summary>
 		/// Displays the flag of the country from which the comment was written.
 		/// <remarks>
@@ -130,15 +132,26 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				if (!string.IsNullOrEmpty(Comment.Country))
 				{
-					string path = Server.MapPath("~/pics/flags/" + Comment.Country + ".png");
-					if (File.Exists(path))
-					{
-						return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"country flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
-					}
+					//return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"country-name flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
+					return string.Format(FLAG_IMAGE, Utils.RelativeWebRoot, Comment.Country, FindCountry(Comment.Country));
 				}
 
 				return null;
 			}
+		}
+
+		string FindCountry(string isoCode)
+		{
+			foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+			{
+				RegionInfo ri = new RegionInfo(ci.Name);
+				if (ri.TwoLetterISORegionName.Equals(isoCode, StringComparison.OrdinalIgnoreCase))
+				{
+					return ri.DisplayName;
+				}
+			}
+
+			return isoCode;
 		}
 
 		private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
@@ -161,7 +174,7 @@ namespace BlogEngine.Core.Web.Controls
 				return "<img src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + Comment.Author + "\" />";
 			}
 
-			string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(Comment.Email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant(); 
+			string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(Comment.Email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
 			string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&amp;d=";
 
 			string link = string.Empty;
@@ -174,7 +187,7 @@ namespace BlogEngine.Core.Web.Controls
 				case "wavatar":
 					link = gravatar + "wavatar";
 					break;
-					
+
 				default:
 					link = gravatar + "monsterid";
 					break;
