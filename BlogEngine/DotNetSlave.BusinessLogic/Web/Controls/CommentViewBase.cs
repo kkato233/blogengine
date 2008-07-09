@@ -101,7 +101,7 @@ namespace BlogEngine.Core.Web.Controls
 				{
 					BlogBasePage page = (BlogBasePage)Page;
 					System.Text.StringBuilder sb = new System.Text.StringBuilder();
-					sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", Comment.Email);
+					sb.AppendFormat(" | <a class=\"email\" href=\"mailto:{0}\">{0}</a>", Comment.Email);
 					sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
 					string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
 					sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
@@ -133,7 +133,7 @@ namespace BlogEngine.Core.Web.Controls
 					string path = Server.MapPath("~/pics/flags/" + Comment.Country + ".png");
 					if (File.Exists(path))
 					{
-						return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"flag\" alt=\"" + Comment.Country + "\" />";
+						return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"country flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
 					}
 				}
 
@@ -141,7 +141,7 @@ namespace BlogEngine.Core.Web.Controls
 			}
 		}
 
-		private const string GRAVATAR_IMAGE = "<img src=\"{0}\" alt=\"{1}\" />";
+		private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
 		/// <summary>
 		/// Displays the Gravatar image that matches the specified email.

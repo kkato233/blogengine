@@ -123,7 +123,11 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
         ApproveAllComments();
 
-      string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
+			string theme = BlogSettings.Instance.Theme;
+			if (Request.QueryString["theme"] != null)
+				theme = Request.QueryString["theme"];
+
+      string path = Utils.RelativeWebRoot + "themes/" + theme + "/CommentView.ascx";
 
       //Add approved Comments
       foreach (Comment comment in Post.Comments)

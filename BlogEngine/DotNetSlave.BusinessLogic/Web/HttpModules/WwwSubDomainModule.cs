@@ -18,9 +18,9 @@ namespace BlogEngine.Core.Web.HttpModules
 
     #region IHttpModule Members
 
-    /// <summary>
-    /// 
-    /// </summary>
+		/// <summary>
+		/// Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"></see>.
+		/// </summary>
     public void Dispose()
     {
       // Nothing to dispose
@@ -87,6 +87,9 @@ namespace BlogEngine.Core.Web.HttpModules
     /// </summary>
     private static void PermanentRedirect(string url, HttpContext context)
     {
+			if (url.EndsWith("default.aspx", StringComparison.OrdinalIgnoreCase))
+				url = url.ToLowerInvariant().Replace("default.aspx", string.Empty);
+
       context.Response.Clear();
       context.Response.StatusCode = 301;
       context.Response.AppendHeader("location", url);
