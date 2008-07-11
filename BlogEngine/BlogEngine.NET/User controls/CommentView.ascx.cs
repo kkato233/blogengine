@@ -114,14 +114,17 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 		
     if (!Page.IsPostBack && !Page.IsCallback)
     {
-      if (Request.QueryString["deletecomment"] != null)
-        DeleteComment();
+			if (Page.User.Identity.IsAuthenticated)
+			{
+				if (Request.QueryString["deletecomment"] != null)
+					DeleteComment();
 
-      if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
-        ApproveComment();
+				if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
+					ApproveComment();
 
-      if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
-        ApproveAllComments();
+				if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
+					ApproveAllComments();
+			}
 
 			string theme = BlogSettings.Instance.Theme;
 			if (Request.QueryString["theme"] != null)
