@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 #endregion
 
-public partial class contact : BlogBasePage
+public partial class contact : BlogBasePage, ICallbackEventHandler
 {
 
 	private static readonly Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
@@ -25,6 +25,7 @@ public partial class contact : BlogBasePage
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	protected void Page_Load(object sender, EventArgs e)
 	{
+		ClientScript.GetCallbackEventReference(this, "arg", "callback", "context");
 		btnSend.Click += new EventHandler(btnSend_Click);
 		if (!Page.IsPostBack)
 		{
@@ -72,9 +73,9 @@ public partial class contact : BlogBasePage
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	private void btnSend_Click(object sender, EventArgs e)
 	{
-		if (IsCaptchaValid && Page.IsValid)
+		if (IsCaptchaValid && Page.IsValid && txtAttachment.HasFile)
 		{
-			bool success = SendEmail();
+			bool success = SendEmail(txtEmail.Text, txtName.Text, txtSubject.Text, txtMessage.Text);
 			divForm.Visible = !success;
 			lblStatus.Visible = !success;
 			divThank.Visible = success;
@@ -82,26 +83,26 @@ public partial class contact : BlogBasePage
 		}
 	}
 
-	private bool SendEmail()
+	private bool SendEmail(string email, string name, string subject, string message)
 	{
 		try
 		{
 			using (MailMessage mail = new MailMessage())
 			{
 				mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.AuthorName);
-				mail.ReplyTo = new MailAddress(txtEmail.Text, txtName.Text);
+				mail.ReplyTo = new MailAddress(email, name);
 				mail.Sender = mail.ReplyTo;
 
 				mail.To.Add(BlogSettings.Instance.Email);
-				mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " e-mail - " + txtSubject.Text;
+				mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " e-mail - " + subject;
 
 				mail.Body = "<div style=\"font: 11px verdana, arial\">";
-				mail.Body += Server.HtmlEncode(txtMessage.Text).Replace(Environment.NewLine, "<br />") + "<br /><br />";
+				mail.Body += Server.HtmlEncode(message).Replace(Environment.NewLine, "<br />") + "<br /><br />";
 				mail.Body += "<hr /><br />";
 				mail.Body += "<h3>Author information</h3>";
 				mail.Body += "<div style=\"font-size:10px;line-height:16px\">";
-				mail.Body += "<strong>Name:</strong> " + Server.HtmlEncode(txtName.Text) + "<br />";
-				mail.Body += "<strong>E-mail:</strong> " + Server.HtmlEncode(txtEmail.Text) + "<br />";
+				mail.Body += "<strong>Name:</strong> " + Server.HtmlEncode(name) + "<br />";
+				mail.Body += "<strong>E-mail:</strong> " + Server.HtmlEncode(email) + "<br />";
 
 				if (ViewState["url"] != null)
 					mail.Body += string.Format("<strong>Website:</strong> <a href=\"{0}\">{0}</a><br />", ViewState["url"]);
@@ -114,7 +115,6 @@ public partial class contact : BlogBasePage
 					mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
 					mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
 				}
-
 
 				if (txtAttachment.HasFile)
 				{
@@ -214,6 +214,43 @@ public partial class contact : BlogBasePage
 			}
 
 			return false;
+		}
+	}
+
+	#endregion
+
+
+	#region ICallbackEventHandler Members
+
+	private string _Callback;
+
+	public string GetCallbackResult()
+	{
+		return _Callback;
+	}
+
+	public void RaiseCallbackEvent(string eventArgument)
+	{
+		string[] arg = eventArgument.Split(new string[] { "-||-" }, StringSplitOptions.RemoveEmptyEntries);
+		if (arg.Length == 4)
+		{
+			string name = arg[0];
+			string email = arg[1];
+			string subject = arg[2];
+			string message = arg[3];
+			
+			if (SendEmail(email, name, subject, message))
+			{
+				_Callback = BlogSettings.Instance.ContactThankMessage;
+			}
+			else
+			{
+				_Callback = "This form does not work at the moment. Sorry for the inconvenience.";
+			}
+		}
+		else
+		{
+			_Callback = "This form does not work at the moment. Sorry for the inconvenience.";
 		}
 	}
 

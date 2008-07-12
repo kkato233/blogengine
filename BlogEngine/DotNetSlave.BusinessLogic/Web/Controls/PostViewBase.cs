@@ -294,8 +294,6 @@ namespace BlogEngine.Core.Web.Controls
 					sb.Append("<p>" + page.Translate("beTheFirstToRate") + "</p>");
 
 				string script = "void(Rate('{0}', {1}))";
-				//if (Request.Cookies["rating"] != null && Request.Cookies["rating"].Value.Contains(Post.Id.ToString()))
-				//  script = "alert('" + page.Translate("youAlreadyRated") + "');";
 
 				sb.Append("<ul class=\"star-rating small-star\">");
 				sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", Math.Round(rating, 0), Post.Rating);

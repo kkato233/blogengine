@@ -5,6 +5,7 @@
 	font-size: 11px;
 	margin: 0 auto;
 	width: 980px;
+	position: relative;
 }
 
 h1 {
@@ -23,14 +24,6 @@ a {
 
 a:hover {
 	text-decoration: underline;
-}
-
-a#subscribe {
-	position: absolute;
-	top: 151px;
-	right: 27px;
-	padding-right: 18px;
-	background: url(../../pics/rssButton.gif) no-repeat right;
 }
 
 img {
@@ -118,9 +111,8 @@ img {
 }
 
 #menu ul li a.feed img{
-	position: relative;
-	top : 2px;
 	margin-right: 3px;
+	margin-bottom: -2px;
 }
 
 /*----------------------------

@@ -71,11 +71,11 @@ function AppendComment(args, context)
   {
     var commentList = $("commentlist");
     
-    if (commentlist.innerHTML.length < 10)
-      commentlist.innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
+    if (commentList.innerHTML.length < 10)
+      commentList.innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
       
-    commentlist.innerHTML += args;
-    commentlist.style.display = 'block';
+    commentList.innerHTML += args;
+    commentList.style.display = 'block';
     contentBox.value = "";
     $("ajaxLoader").style.display = "none";
     $("status").className = "success";
@@ -102,20 +102,26 @@ function CheckAuthorName(sender, args)
 }
 
 function AddBbCode(v) {
-  if (document.getSelection) // firefox
-  {      
-    var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
-    var therest = contentBox.value.substr(contentBox.selectionEnd);
-    var sel = contentBox.value.substring(contentBox.selectionStart, contentBox.selectionEnd);
-    contentBox.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
-  }
-  else // IE
+  try
   {
-    var str = document.selection.createRange().text;
-    contentBox.focus();
-    var sel = document.selection.createRange();
-    sel.text = "[" + v + "]" + str + "[/" + v + "]";
+    if (document.getSelection) // firefox
+    {      
+      var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
+      var therest = contentBox.value.substr(contentBox.selectionEnd);
+      var sel = contentBox.value.substring(contentBox.selectionStart, contentBox.selectionEnd);
+      contentBox.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
+      contentBox.focus();
+    }
+    else // IE
+    {
+      var str = document.selection.createRange().text;
+      contentBox.focus();
+      var sel = document.selection.createRange();
+      sel.text = "[" + v + "]" + str + "[/" + v + "]";
+    }
   }
+  catch (ex) {}
+  
   return;
 }
 

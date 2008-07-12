@@ -77,7 +77,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 		else if (!string.IsNullOrEmpty(year) && !string.IsNullOrEmpty(month))
 		{
-			rewrite = Utils.RelativeWebRoot + year + "/default.aspx";
+			rewrite = Utils.RelativeWebRoot + year + "/" + month + "/default.aspx"; 
 		}
 		else if (!string.IsNullOrEmpty(year))
 		{

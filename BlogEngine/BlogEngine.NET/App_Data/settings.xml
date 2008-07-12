@@ -56,7 +56,7 @@
   <smtpserverport>25</smtpserverport>
   <smtpserver>mail.example.com</smtpserver>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
-  <timestamppostlinks>True</timestamppostlinks>
+  <timestamppostlinks>False</timestamppostlinks>
   <geocodinglongitude />
   <language>en-GB</language>
   <enablereferrertracking>False</enablereferrertracking>

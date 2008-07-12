@@ -1,7 +1,7 @@
 <%@ Control Language="C#" EnableViewState="False" Inherits="BlogEngine.Core.Web.Controls.CommentViewBase" %>
 
 <div id="id_<%=Comment.Id %>" class="vcard comment<%= Post.Author.Equals(Comment.Author, StringComparison.OrdinalIgnoreCase) ? " self" : "" %>">
-  <p class="date"><%= Comment.DateCreated %></p>
+  <p class="date"><%= Comment.DateCreated %> <a href="#id_<%=Comment.Id %>">#</a></p>
   <p class="gravatar"><%= Gravatar(80)%></p>
   <p class="content"><%= Text %></p>
   <p class="author">

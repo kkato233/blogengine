@@ -32,12 +32,47 @@
       
       <br /><br />
       
-      <asp:button runat="server" id="btnSend" Text="Send" />    
+      <asp:button runat="server" id="btnSend" Text="Send" OnClientClick="return beginSendMessage();" />    
       <asp:label runat="server" id="lblStatus" visible="false">This form does not work at the moment. Sorry for the inconvenience.</asp:label>
     </div>
     
-    <div id="divThank" runat="Server" visible="False">      
-      <%=BlogSettings.Instance.ContactThankMessage %>
+    <div id="thanks">
+      <div id="divThank" runat="Server" visible="False">      
+        <%=BlogSettings.Instance.ContactThankMessage %>
+      </div>
     </div>
   </div>
+  
+  <script type="text/javascript">
+    function beginSendMessage()
+    {
+      if ($('<%=txtAttachment.ClientID %>').value.length > 0)
+        return true;
+        
+      if(!Page_ClientValidate())
+        return false;
+        
+      var name = $('<%=txtName.ClientID %>').value;
+      var email = $('<%=txtEmail.ClientID %>').value;
+      var subject = $('<%=txtSubject.ClientID %>').value;
+      var message = $('<%=txtMessage.ClientID %>').value;
+      var sep = '-||-';
+      var arg = name + sep + email + sep + subject + sep + message;
+      WebForm_DoCallback('__Page', arg, endSendMessage, 'contact', null, false) 
+      
+      $('<%=btnSend.ClientID %>').disabled = true;
+      
+      return false;
+    }
+    
+    function endSendMessage(arg, context)
+    {
+      $('<%=btnSend.ClientID %>').disabled = false;
+      var form = $('<%=divForm.ClientID %>')
+      var thanks = $('thanks');
+      
+      form.style.display = 'none';
+      thanks.innerHTML = arg;
+    }
+  </script>
 </asp:Content>
