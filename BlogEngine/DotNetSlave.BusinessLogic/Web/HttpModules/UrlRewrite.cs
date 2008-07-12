@@ -181,7 +181,7 @@ namespace BlogEngine.Core.Web.HttpModules
 		/// </summary>
 		private static string ExtractTitle(HttpContext context, string url)
 		{
-			url = url.ToLowerInvariant();
+			url = url.ToLowerInvariant().Replace("---", "-");
 			if (url.Contains(BlogSettings.Instance.FileExtension) && url.EndsWith("/"))
 			{
 				url = url.Substring(0, url.Length - 1);

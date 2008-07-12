@@ -64,7 +64,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     comment.Content = Server.HtmlEncode(content);
     comment.IP = Request.UserHostAddress;
     comment.Country = country;
-		comment.DateCreated = DateTime.Now.AddHours(-BlogSettings.Instance.Timezone);
+		comment.DateCreated = DateTime.Now;
     comment.Parent = Post;
     comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
 
