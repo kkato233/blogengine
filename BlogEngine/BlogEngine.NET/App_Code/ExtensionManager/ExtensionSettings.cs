@@ -252,7 +252,7 @@ public class ExtensionSettings
   {
     foreach (ExtensionParameter par in _params)
     {
-      if (par.Name == KeyField)
+      if (par.Name == KeyField && par.Values != null)
       {
         foreach (string val in par.Values)
         {
