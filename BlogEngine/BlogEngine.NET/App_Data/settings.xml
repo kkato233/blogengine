@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <smtppassword>21577782</smtppassword>
+  <smtppassword>password</smtppassword>
   <avatar />
   <storagelocation>~/App_Data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
@@ -26,7 +26,7 @@
   <syndicationformat>Rss</syndicationformat>
   <blogrollmaxlength>23</blogrollmaxlength>
   <showpostnavigation>True</showpostnavigation>
-  <email>mkk@easywebdesign.dk</email>
+  <email>name@example.com</email>
   <enablepingbacksend>True</enablepingbacksend>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
@@ -35,7 +35,7 @@
   <timezone>-6</timezone>
   <enableenclosures>False</enableenclosures>
   <enablepingbackreceive>True</enablepingbackreceive>
-  <smtpusername>mkk@easywebdesign.dk</smtpusername>
+  <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term</searchdefaulttext>
   <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
   <iscocommentenabled>False</iscocommentenabled>
@@ -54,7 +54,7 @@
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <enabletrackbacksend>True</enabletrackbacksend>
   <smtpserverport>25</smtpserverport>
-  <smtpserver>smtp1.dansknet.dk</smtpserver>
+  <smtpserver>mail.example.com</smtpserver>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <timestamppostlinks>False</timestamppostlinks>
   <geocodinglongitude />
