@@ -94,6 +94,15 @@ img {
 	margin-bottom: 20px;
 }
 
+#menu a.apmlfilter
+{
+	position:absolute; 
+	right:0px; 
+	margin-right: 10px; 
+	background:url(../../pics/apml.png) no-repeat; 
+	padding-left:16px
+}
+
 #menu ul{
 	list-style: none;
 	margin: 0;

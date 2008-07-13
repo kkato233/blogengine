@@ -18,7 +18,7 @@ public class BreakPost
   /// <summary>
   /// Hooks up an event handler to the Post.Serving event.
   /// </summary>
-  public BreakPost()
+  static BreakPost()
   {
     Post.Serving += new EventHandler<ServingEventArgs>(Post_Serving);
   }
@@ -26,7 +26,7 @@ public class BreakPost
   /// <summary>
   /// Handles the Post.Serving event to take care of the [more] keyword.
   /// </summary>
-  private void Post_Serving(object sender, ServingEventArgs e)
+  private static void Post_Serving(object sender, ServingEventArgs e)
   {
     if (!e.Body.Contains("[more]"))
       return;

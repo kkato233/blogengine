@@ -20,7 +20,7 @@ public class SendPings
   /// <summary>
   /// Hooks up an event handler to the Post.Saved event.
   /// </summary>
-  public SendPings()
+  static SendPings()
   {
     Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
 		Page.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
@@ -33,7 +33,7 @@ public class SendPings
   /// because it takes some time to complete.
   /// </remarks>
   /// </summary>
-  private void Post_Saved(object sender, SavedEventArgs e)
+  private static void Post_Saved(object sender, SavedEventArgs e)
   {
 		if (e.Action == SaveAction.None || e.Action == SaveAction.Delete)
 			return;
@@ -50,7 +50,7 @@ public class SendPings
   /// <summary>
   /// Executes the pings from the new thread.
   /// </summary>
-  private void Ping(IPublishable item, Uri itemUrl)
+  private static void Ping(IPublishable item, Uri itemUrl)
   {
 		try
 		{

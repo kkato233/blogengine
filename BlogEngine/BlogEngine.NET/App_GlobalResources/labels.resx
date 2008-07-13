@@ -700,11 +700,11 @@
   <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
     <value>Enforce the use of SSL when communicating with the MetaWeblog API</value>
   </data>
-  <data name="trimPages" xml:space="preserve">
-    <value>Trim page whitespace</value>
+  <data name="compressWebResource" xml:space="preserve">
+    <value>Compress WebResource.axd</value>
   </data>
-  <data name="trimPagesDescription" xml:space="preserve">
-    <value>Removes whitespace from the page's HTML. It may distort the look of your theme</value>
+  <data name="compressWebResourceDescription" xml:space="preserve">
+    <value>This may break third-party functionality</value>
   </data>
   <data name="useBlogNameInPageTitles" xml:space="preserve">
     <value>Use blog name in page titles</value>

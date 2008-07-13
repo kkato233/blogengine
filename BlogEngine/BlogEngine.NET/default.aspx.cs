@@ -34,6 +34,16 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			else
 				DisplayDateRange();
 		}
+		else if (Request.QueryString["apml"] != null)
+		{
+			Uri url = null;
+			if (Uri.TryCreate(Request.QueryString["apml"], UriKind.Absolute, out url))
+			{
+				PostList1.Posts = Search.ApmlMatches(url, 10);
+				PostList1.Posts.Sort(delegate(IPublishable ip1, IPublishable ip2) { return ip2.DateCreated.CompareTo(ip1.DateCreated); });
+				Page.Title = "APML filtered list";
+			}
+		}
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
 			PostList1.Posts = Post.Posts.ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));

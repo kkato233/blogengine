@@ -667,24 +667,18 @@ namespace BlogEngine.Core
 		}
 		#endregion
 
-		#region RemoveWhitespaceInPages
-		private bool _RemoveWhitespaceInPages;
+		#region CompressWebResource
+		private bool _CompressWebResource;
 		/// <summary>
-		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
+		/// Gets or sets a value indicating whether to compress WebResource.axd
 		/// </summary>
-		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-		public bool RemoveWhitespaceInPages
+		/// <value><c>true</c> if [compress web resource]; otherwise, <c>false</c>.</value>
+		public bool CompressWebResource
 		{
-			get
-			{
-				return _RemoveWhitespaceInPages;
-			}
-
-			set
-			{
-				_RemoveWhitespaceInPages = value;
-			}
+			get { return _CompressWebResource; }
+			set { _CompressWebResource = value; }
 		}
+
 		#endregion
 
 		#region UseBlogNameInPageTitles

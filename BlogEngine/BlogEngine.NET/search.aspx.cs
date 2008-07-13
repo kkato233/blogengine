@@ -59,17 +59,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 		List<IPublishable> list = new List<IPublishable>();
 		try
 		{
-			using (System.Net.WebClient client = new System.Net.WebClient())
-			{
-				client.UseDefaultCredentials = true;
-				using (System.IO.Stream stream = client.OpenRead(url))
-				{
-					XmlDocument doc = new XmlDocument();
-					doc.Load(stream);
-					list = Search.ApmlMatches(doc, 10);
-				}
-			}
-
+			list = Search.ApmlMatches(url, 10);
 			Page.Title = "APML matches for '" + Request.QueryString["q"] + "'";
 			h1Headline.InnerText = Page.Title;
 		}

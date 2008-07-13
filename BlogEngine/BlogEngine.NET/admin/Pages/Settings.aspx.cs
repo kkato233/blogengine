@@ -99,7 +99,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         //-----------------------------------------------------------------------
         BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
         BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
-				BlogSettings.Instance.RemoveWhitespaceInPages = cbRemoveWhitespaceInPages.Checked;
+				BlogSettings.Instance.CompressWebResource = cbCompressWebResource.Checked;
         BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
 				BlogSettings.Instance.RequireSSLMetaWeblogAPI = cbRequireSslForMetaWeblogApi.Checked;
         BlogSettings.Instance.HandleWwwSubdomain = rblWwwSubdomain.SelectedItem.Value;
@@ -201,7 +201,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         //-----------------------------------------------------------------------
         cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
         cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
-				cbRemoveWhitespaceInPages.Checked = BlogSettings.Instance.RemoveWhitespaceInPages;
+				cbCompressWebResource.Checked = BlogSettings.Instance.CompressWebResource;
         cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
 				cbRequireSslForMetaWeblogApi.Checked = BlogSettings.Instance.RequireSSLMetaWeblogAPI;
         rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;

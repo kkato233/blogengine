@@ -434,7 +434,6 @@
 function editWidget(name, id)
 {
   window.scrollTo(0, 0);
-  document.body.style.overflow = 'hidden';
   var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
 	var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
 
@@ -444,7 +443,7 @@ function editWidget(name, id)
   layer.style.position = 'absolute';
   layer.style.top = '0px';
   layer.style.left = '0px';
-  layer.style.height = height + 'px';
+  layer.style.height = (window.innerHeight + window.scrollMaxY || document.body.scrollHeight) + 'px';
   layer.style.width = width + 'px';
   layer.style.backgroundColor = 'black';
   layer.style.opacity = '.6';
@@ -459,7 +458,7 @@ function editWidget(name, id)
 	iframe.src = KEYwebRoot + 'admin/widgeteditor.aspx?widget=' + name + '&id=' + id;
 	iframe.style.height = size.height + 'px';
 	iframe.style.width = size.width + 'px';
-	iframe.style.position = 'absolute';
+	iframe.style.position = 'fixed';
 	iframe.style.zIndex = 3;
 	iframe.style.backgroundColor = 'white';
 	iframe.style.border = '4px solid silver';

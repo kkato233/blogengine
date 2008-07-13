@@ -116,7 +116,7 @@ public partial class widgets_Most_comments_widget : WidgetBase
 			}
 			else
 			{
-				name.Text = visitor.Name;
+				name.Text = "<span class=\"fn\">" + visitor.Name + "</span>";
 			}
 
 			if (!string.IsNullOrEmpty(visitor.Country))
