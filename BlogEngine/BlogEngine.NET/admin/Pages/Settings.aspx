@@ -80,8 +80,8 @@
         <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>"><%=Resources.labels.trimStylesheet %></label>
         <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /><%=Resources.labels.trimStylesheetDescription %><br />
         
-        <label for="<%=cbRemoveWhitespaceInPages.ClientID %>"><%=Resources.labels.trimPages %></label>
-        <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInPages" /><%=Resources.labels.trimPagesDescription %><br />
+        <label for="<%=cbCompressWebResource.ClientID %>"><%=Resources.labels.compressWebResource %></label>
+        <asp:CheckBox runat="server" ID="cbCompressWebResource" /><%=Resources.labels.compressWebResourceDescription%><br />
         
         <label for="<%=cbEnableOpenSearch.ClientID %>"><%=Resources.labels.enableOpenSearch %></label>
         <asp:CheckBox runat="server" ID="cbEnableOpenSearch" /><%=Resources.labels.enableOpenSearchDescription %><br />

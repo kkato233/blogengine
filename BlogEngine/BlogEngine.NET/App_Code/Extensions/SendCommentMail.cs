@@ -19,12 +19,12 @@ public class SendCommentMail
 	/// <summary>
 	/// Hooks up an event handler to the Post.CommentAdded event.
 	/// </summary>
-	public SendCommentMail()
+	static SendCommentMail()
 	{
 		Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
 	}
 
-	private void Post_CommentAdded(object sender, EventArgs e)
+	private static void Post_CommentAdded(object sender, EventArgs e)
 	{
 		Post post = (Post)((Comment)sender).Parent;
 		if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)

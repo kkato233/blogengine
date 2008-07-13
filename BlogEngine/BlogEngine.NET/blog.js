@@ -308,4 +308,67 @@ function addLoadEvent(func)
 	}
 }
 
+function filterByAPML()
+{
+  var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
+  var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
+  document.body.style.position = 'static';
+
+  var layer = document.createElement('div');
+  layer.style.zIndex = 2;
+  layer.id = 'layer';
+  layer.style.position = 'absolute';
+  layer.style.top = '0px';
+  layer.style.left = '0px';
+  layer.style.height = (window.innerHeight + window.scrollMaxY || document.body.scrollHeight) + 'px';
+  layer.style.width = width + 'px';
+  layer.style.backgroundColor = 'black';
+  layer.style.opacity = '.6';
+  layer.style.filter += ("progid:DXImageTransform.Microsoft.Alpha(opacity=60)");
+  document.body.appendChild(layer);  
+  
+  var div = document.createElement('div');
+  div.style.zIndex = 3;
+  div.id = 'apmlfilter';
+  div.style.position = 'fixed';
+  div.style.top = '200px';
+  div.style.left = (width / 2) - (400 / 2) + 'px';	
+  div.style.height = '50px';
+  div.style.width = '400px';
+  div.style.backgroundColor = 'white';
+  div.style.border = '2px solid silver';
+  div.style.padding = '20px';
+  document.body.appendChild(div);  
+  
+  var p = document.createElement('p');
+  p.innerHTML = 'Enter the URL to your APML document';
+  p.style.margin = '0px';
+  div.appendChild(p);
+  
+  var textbox = document.createElement('input');
+  textbox.type = 'text';
+  textbox.value = 'http://',
+  textbox.style.width = '325px';
+  textbox.id = 'txtapml';
+  textbox.style.background = 'url('+KEYwebRoot+'pics/apml.png) no-repeat 2px center';
+  textbox.style.paddingLeft = '16px';
+  div.appendChild(textbox);
+  textbox.focus();
+  
+  var button = document.createElement('input');
+  button.type = 'button';
+  button.value = 'Filter';
+  button.onclick = function(){ location.href = KEYwebRoot + '?apml=' + encodeURIComponent($('txtapml').value)};  
+  div.appendChild(button);
+  
+  var br = document.createElement('br');
+  div.appendChild(br);
+  
+  var a = document.createElement('a');
+  a.innerHTML = 'Cancel';
+  a.href = 'javascript:void(0)';
+  a.onclick = function() {document.body.removeChild($('layer'));document.body.removeChild($('apmlfilter'));document.body.style.position = '';};
+  div.appendChild(a);
+}
+
 addLoadEvent(HightLightXfn);

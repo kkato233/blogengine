@@ -16,7 +16,7 @@ using BlogEngine.Core.Web.Controls;
 public class Smilies
 {
 
-  public Smilies()
+  static Smilies()
   {
     Comment.Serving += new EventHandler<ServingEventArgs>(Post_CommentServing);
   }
@@ -26,7 +26,7 @@ public class Smilies
   /// <summary>
   /// The event handler that is triggered every time a comment is served to a client.
   /// </summary>
-  private void Post_CommentServing(object sender, ServingEventArgs e)
+  private static void Post_CommentServing(object sender, ServingEventArgs e)
   {    
     if (!string.IsNullOrEmpty(e.Body))
     {

@@ -89,14 +89,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			writer.WriteStartElement("ImplicitData");
 			writer.WriteStartElement("Concepts");
 
-			Dictionary<string, Concept> tagList = CreateTagList();
-			foreach (string key in tagList.Keys)
+			List<Concept> tagList = CreateTagList();
+			foreach (Concept key in tagList)
 			{
 				writer.WriteStartElement("Concept");
-				writer.WriteAttributeString("key", key);
-				writer.WriteAttributeString("value", tagList[key].Score.ToString());
+				writer.WriteAttributeString("key", key.Title);
+				writer.WriteAttributeString("value", key.Score.ToString());
 				writer.WriteAttributeString("from", Utils.AbsoluteWebRoot.ToString());
-				writer.WriteAttributeString("updated", tagList[key].LastUpdated.ToString());
+				writer.WriteAttributeString("updated", key.LastUpdated.ToString());
 				writer.WriteEndElement();  // Concept
 			}
 
@@ -171,7 +171,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		#region Create tag-, categorie- and link lists
 
 		// modified version of what's happening in the tag cloud
-		private Dictionary<string, Concept> CreateTagList()
+		private List<Concept> CreateTagList()
 		{
 			// get all the tags and count the number of usages
 			Dictionary<string, Concept> dic = new Dictionary<string, Concept>();
@@ -191,7 +191,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						}
 						else
 						{
-							dic[tag] = new Concept(post.DateModified, 1);
+							dic[tag] = new Concept(post.DateModified, 1, tag);
 						}
 					}
 				}
@@ -200,7 +200,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			return FindMax(dic);
 		}
 
-		private static Dictionary<string, Concept> FindMax(Dictionary<string, Concept> dic)
+		private static List<Concept> FindMax(Dictionary<string, Concept> dic)
 		{
 			float max = 0;
 			foreach (Concept concept in dic.Values)
@@ -209,46 +209,48 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					max = concept.Score;
 			}
 
-			Dictionary<string, Concept> sorted = new Dictionary<string, Concept>();
+			List<Concept> list = new List<Concept>();
 
 			// reset values as a percentage of the max
 			foreach (string key in dic.Keys)
 			{
-				sorted.Add(key, new Concept(dic[key].LastUpdated, dic[key].Score / max));
+				list.Add(new Concept(dic[key].LastUpdated, dic[key].Score / max, key));
 			}
+
+			list.Sort(delegate(Concept c1, Concept c2) { return c2.Score.CompareTo(c1.Score); });
 			
-			return sorted;
+			return list;
 		}
 
-		// modified version of what's happening in the tag cloud
-		private Dictionary<string, Concept> CreateCategoryList()
-		{
-			// get all the tags and count the number of usages
-			Dictionary<string, Concept> dic = new Dictionary<string, Concept>();
-			foreach (Post post in Post.Posts)
-			{
-				if (post.IsVisible)
-				{
-					foreach (Category cat in post.Categories)
-					{
-						if (dic.ContainsKey(cat.Title))
-						{
-							Concept concept = dic[cat.Title];
-							concept.Score++;
-							if (post.DateModified > concept.LastUpdated)
-								concept.LastUpdated = post.DateModified;
-							dic[cat.Title] = concept;
-						}
-						else
-						{
-							dic[cat.Title] = new Concept(post.DateModified, 1);
-						}
-					}
-				}
-			}
+		//// modified version of what's happening in the tag cloud
+		//private Dictionary<string, Concept> CreateCategoryList()
+		//{
+		//  // get all the tags and count the number of usages
+		//  Dictionary<string, Concept> dic = new Dictionary<string, Concept>();
+		//  foreach (Post post in Post.Posts)
+		//  {
+		//    if (post.IsVisible)
+		//    {
+		//      foreach (Category cat in post.Categories)
+		//      {
+		//        if (dic.ContainsKey(cat.Title))
+		//        {
+		//          Concept concept = dic[cat.Title];
+		//          concept.Score++;
+		//          if (post.DateModified > concept.LastUpdated)
+		//            concept.LastUpdated = post.DateModified;
+		//          dic[cat.Title] = concept;
+		//        }
+		//        else
+		//        {
+		//          dic[cat.Title] = new Concept(post.DateModified, 1);
+		//        }
+		//      }
+		//    }
+		//  }
 
-			return FindMax(dic);
-		}
+		//  return FindMax(dic);
+		//}
 
 		private Dictionary<string, string> CreateLinkList()
 		{
@@ -276,13 +278,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 		private class Concept
 		{
-			public Concept(DateTime lastUpdated, float score)
+			public Concept(DateTime lastUpdated, float score, string title)
 			{
 				LastUpdated = lastUpdated;
 				Score = score;
+				Title = title;
 			}
 			public DateTime LastUpdated;
 			public float Score;
+			public string Title;
 		}
 
 	}

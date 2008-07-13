@@ -210,6 +210,12 @@
   <data name="commentWasSaved" xml:space="preserve">
     <value>Kommentaren er gemt. Tak for din feedback</value>
   </data>
+  <data name="compressWebResource" xml:space="preserve">
+    <value>Komprimér WebResource.axd</value>
+  </data>
+  <data name="compressWebResourceDescription" xml:space="preserve">
+    <value>Kan forårsage fejl i tredjepartsfunktionalitet</value>
+  </data>
   <data name="contact" xml:space="preserve">
     <value>Kontakt</value>
   </data>
@@ -590,12 +596,6 @@
   </data>
   <data name="title" xml:space="preserve">
     <value>Titel</value>
-  </data>
-  <data name="trimPages" xml:space="preserve">
-    <value>Trim sider</value>
-  </data>
-  <data name="trimPagesDescription" xml:space="preserve">
-    <value>Fjerner overflødige mellemrum i HTML koden.</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
     <value>Trim stylesheets</value>

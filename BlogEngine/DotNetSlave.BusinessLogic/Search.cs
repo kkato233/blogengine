@@ -99,6 +99,20 @@ namespace BlogEngine.Core
 			}
 		}
 
+		public static List<IPublishable> ApmlMatches(Uri url, int maxInterests)
+		{
+			using (System.Net.WebClient client = new System.Net.WebClient())
+			{
+				client.UseDefaultCredentials = true;
+				using (System.IO.Stream stream = client.OpenRead(url))
+				{
+					System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+					doc.Load(stream);
+					return Search.ApmlMatches(doc, 10);
+				}
+			}
+		}
+
 		public static List<IPublishable> ApmlMatches(XmlDocument apmlFile, int maxInterests)
 		{
 			Dictionary<string, float> concepts = new Dictionary<string, float>();
