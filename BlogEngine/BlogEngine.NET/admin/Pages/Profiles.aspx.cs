@@ -20,30 +20,38 @@ public partial class admin_profiles : Page
 			BindCountries();
 			SetDDLUser();
 			SetProfile(User.Identity.Name.ToLowerInvariant());
+			dropdown.Visible = Page.User.IsInRole(BlogSettings.Instance.AdministratorRole);
 		}
 
+		lbSaveProfile.Text = Resources.labels.saveProfile;
 		Page.Title = Resources.labels.profile;
 	}
 
 	private void SetProfile(string name)
 	{
-		ProfileCommon pc = Profile;
-		cbIsPublic.Checked = pc.IsPrivate;
-		tbDisplayName.Text = pc.DisplayName;
-		tbFirstName.Text = pc.FirstName;
-		tbMiddleName.Text = pc.MiddleName;
-		tbLastName.Text = pc.LastName;
-		tbBirthdate.Text = pc.Birthday;
-		tbPhotoUrl.Text = pc.PhotoURL;
-		tbPhoneMain.Text = pc.PhoneMain;
-		tbPhoneMobile.Text = pc.PhoneMobile;
-		tbPhoneFax.Text = pc.PhoneFax;
-		tbEmailAddress.Text = pc.EmailAddress;
-		tbCityTown.Text = pc.CityTown;
-		tbRegionState.Text = pc.RegionState;
-		ddlCountry.SelectedValue = pc.Country;
-		tbCompany.Text = pc.Company;
-		tbAboutMe.Text = pc.AboutMe;
+		AuthorProfile pc = AuthorProfile.GetProfile(name);
+		if (pc != null)
+		{
+			cbIsPublic.Checked = pc.IsPrivate;
+			tbDisplayName.Text = pc.DisplayName;
+			tbFirstName.Text = pc.FirstName;
+			tbMiddleName.Text = pc.MiddleName;
+			tbLastName.Text = pc.LastName;
+			
+			if (pc.Birthday != DateTime.MinValue)
+				tbBirthdate.Text = pc.Birthday.ToString("yyyy-MM-dd");
+
+			tbPhotoUrl.Text = pc.PhotoURL;
+			tbPhoneMain.Text = pc.PhoneMain;
+			tbPhoneMobile.Text = pc.PhoneMobile;
+			tbPhoneFax.Text = pc.PhoneFax;
+			tbEmailAddress.Text = pc.EmailAddress;
+			tbCityTown.Text = pc.CityTown;
+			tbRegionState.Text = pc.RegionState;
+			ddlCountry.SelectedValue = pc.Country;
+			tbCompany.Text = pc.Company;
+			tbAboutMe.Text = pc.AboutMe;
+		}
 	}
 
 	private void SetDDLUser()
@@ -59,14 +67,20 @@ public partial class admin_profiles : Page
 	protected void lbSaveProfile_Click(object sender, EventArgs e)
 	{
 		string userProfileToSave = !User.IsInRole("Administrator") ? User.Identity.Name : ddlUserList.SelectedValue;
-		ProfileCommon pc = new ProfileCommon().GetProfile(userProfileToSave);
+		AuthorProfile pc = AuthorProfile.GetProfile(userProfileToSave);
+		if (pc == null)
+			pc = new AuthorProfile(User.Identity.Name);
 
 		pc.IsPrivate = cbIsPublic.Checked;
 		pc.DisplayName = tbDisplayName.Text;
 		pc.FirstName = tbFirstName.Text;
 		pc.MiddleName = tbMiddleName.Text;
 		pc.LastName = tbLastName.Text;
-		pc.Birthday = tbBirthdate.Text;
+
+		DateTime date;
+		if (DateTime.TryParse(tbBirthdate.Text, out date))
+			pc.Birthday = date;
+
 		pc.PhotoURL = tbPhotoUrl.Text;
 		pc.PhoneMain = tbPhoneMain.Text;
 		pc.PhoneMobile = tbPhoneMobile.Text;

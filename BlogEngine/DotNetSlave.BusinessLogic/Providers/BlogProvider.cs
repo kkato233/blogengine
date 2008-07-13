@@ -64,6 +64,28 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public abstract List<Page> FillPages();
 
+				// Profile
+				/// <summary>
+				/// Retrieves a Page from the provider based on the specified id.
+				/// </summary>
+			public abstract AuthorProfile SelectProfile(string id);
+				/// <summary>
+				/// Inserts a new Page into the data store specified by the provider.
+				/// </summary>
+			public abstract void InsertProfile(AuthorProfile profile);
+				/// <summary>
+				/// Updates an existing Page in the data store specified by the provider.
+				/// </summary>
+			public abstract void UpdateProfile(AuthorProfile profile);
+				/// <summary>
+				/// Deletes a Page from the data store specified by the provider.
+				/// </summary>
+			public abstract void DeleteProfile(AuthorProfile profile);
+				/// <summary>
+				/// Retrieves all Pages from the provider and returns them in a List.
+				/// </summary>
+			public abstract List<AuthorProfile> FillProfiles();
+
         /// <summary>
         /// Retrieves a Category from the provider based on the specified id.
         /// </summary>

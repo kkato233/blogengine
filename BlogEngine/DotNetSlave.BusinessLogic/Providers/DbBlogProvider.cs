@@ -1598,6 +1598,31 @@ namespace BlogEngine.Core.Providers
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
+				}
+
+				public override AuthorProfile SelectProfile(string id)
+				{
+					throw new Exception("The method or operation is not implemented.");
+				}
+
+				public override void InsertProfile(AuthorProfile profile)
+				{
+					throw new Exception("The method or operation is not implemented.");
+				}
+
+				public override void UpdateProfile(AuthorProfile profile)
+				{
+					throw new Exception("The method or operation is not implemented.");
+				}
+
+				public override void DeleteProfile(AuthorProfile profile)
+				{
+					throw new Exception("The method or operation is not implemented.");
+				}
+
+				public override List<AuthorProfile> FillProfiles()
+				{
+					throw new Exception("The method or operation is not implemented.");
+				}
     }
 }
