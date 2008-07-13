@@ -223,7 +223,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 			}
 
 			if (sentPost.postDate != new DateTime())
-				post.DateCreated = sentPost.postDate;
+				post.DateCreated = sentPost.postDate.AddHours(-BlogSettings.Instance.Timezone);
 
 			post.Save();
 

@@ -11,7 +11,17 @@
     #bottom {background: #F1F1F1; border-top: 1px solid silver; padding: 10px; text-align: right}
   </style>
 </head>
-<body scroll="no">
+<body scroll="no" onkeypress="ESCclose(event)">
+
+  <script type="text/javascript">
+    function ESCclose(evt) 
+    {
+      if (!evt) evt = window.event;
+
+      if (evt && evt.keyCode == 27) 
+        window.parent.closeEditor();
+    }
+  </script>
   <form id="form1" runat="server">
     <div id="title">
       <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>&nbsp;&nbsp;&nbsp;

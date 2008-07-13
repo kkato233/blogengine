@@ -51,7 +51,7 @@ namespace Controls
 				{
 					WidgetBase control = (WidgetBase)Page.LoadControl(fileName);
 					control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
-					control.ID = control.WidgetID.ToString();
+					control.ID = control.WidgetID.ToString().Replace("-", string.Empty);
 					control.Title = widget.Attributes["title"].InnerText;
 					control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
 					control.LoadWidget();

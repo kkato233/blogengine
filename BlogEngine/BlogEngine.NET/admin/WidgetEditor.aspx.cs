@@ -15,7 +15,7 @@ using BlogEngine.Core.DataStore;
 
 public partial class User_controls_WidgetEditor : System.Web.UI.Page
 {
-  private static string _zoneId = "be_WIDGET_ZONE";
+	private static string _zoneId = "be_WIDGET_ZONE";
 
 	#region Event handlers
 
@@ -24,7 +24,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	/// </summary>
 	/// <param name="sender">The source of the event.</param>
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
+	protected void Page_Init(object sender, EventArgs e)
 	{
 		if (!User.IsInRole(BlogSettings.Instance.AdministratorRole))
 		{
@@ -97,20 +97,20 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	/// <param name="id">The id of the widget to remove.</param>
 	private void RemoveWidget(string id)
 	{
-    XmlDocument doc = GetXmlDocument();
-    XmlNode node = doc.SelectSingleNode("//widget[@id=\"" + id + "\"]");
-    if (node != null)
-    {
-      // remove widget reference in the widget zone
-      node.ParentNode.RemoveChild(node);
-      SaveXmlDocument(doc);
+		XmlDocument doc = GetXmlDocument();
+		XmlNode node = doc.SelectSingleNode("//widget[@id=\"" + id + "\"]");
+		if (node != null)
+		{
+			// remove widget reference in the widget zone
+			node.ParentNode.RemoveChild(node);
+			SaveXmlDocument(doc);
 
-      // remove widget itself
-      BlogEngine.Core.Providers.BlogService.RemoveFromDataStore(ExtensionType.Widget, id);
-      Cache.Remove("be_widget_" + id);
+			// remove widget itself
+			BlogEngine.Core.Providers.BlogService.RemoveFromDataStore(ExtensionType.Widget, id);
+			Cache.Remove("be_widget_" + id);
 
-      WidgetEditBase.OnSaved();
-    }
+			WidgetEditBase.OnSaved();
+		}
 	}
 
 	/// <summary>
@@ -121,20 +121,26 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	{
 		WidgetBase widget = (WidgetBase)LoadControl(Utils.RelativeWebRoot + "widgets/" + type + "/widget.ascx");
 		widget.WidgetID = Guid.NewGuid();
-		//widget.Name = type;
+		widget.ID = widget.WidgetID.ToString().Replace("-", string.Empty);
 		widget.Title = type;
 		widget.ShowTitle = true;
 		widget.LoadWidget();
 
-		SaveNewWidget(widget);
-
 		Response.Clear();
-		using (StringWriter sw = new StringWriter())
+		try
 		{
-			widget.RenderControl(new HtmlTextWriter(sw));
-			Response.Write(sw);
+			using (StringWriter sw = new StringWriter())
+			{
+				widget.RenderControl(new HtmlTextWriter(sw));
+				Response.Write(sw);
+			}
+		}
+		catch (System.Web.HttpException)
+		{
+			Response.Write("reload");
 		}
 
+		SaveNewWidget(widget);
 		WidgetEditBase.OnSaved();
 		Response.End();
 	}
@@ -190,7 +196,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 
 	#region Helper methods
 
-    private static readonly string FILE_NAME = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgetzone.xml");
+	private static readonly string FILE_NAME = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "widgetzone.xml");
 
 	/// <summary>
 	/// Gets the XML document.
@@ -198,20 +204,20 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	/// <returns></returns>
 	private XmlDocument GetXmlDocument()
 	{
-    XmlDocument doc;
-    if (Cache[_zoneId] == null)
-    {
-      WidgetSettings ws = new WidgetSettings(_zoneId);
-      ws.SettingsBehavior = new XMLDocumentBehavior();
-      doc = (XmlDocument)ws.GetSettings();
-      if (doc.SelectSingleNode("widgets") == null)
-      {
-        XmlNode widgets = doc.CreateElement("widgets");
-        doc.AppendChild(widgets);
-      }
-      Cache[_zoneId] = doc;
-    }
-    return (XmlDocument)Cache[_zoneId];
+		XmlDocument doc;
+		if (Cache[_zoneId] == null)
+		{
+			WidgetSettings ws = new WidgetSettings(_zoneId);
+			ws.SettingsBehavior = new XMLDocumentBehavior();
+			doc = (XmlDocument)ws.GetSettings();
+			if (doc.SelectSingleNode("widgets") == null)
+			{
+				XmlNode widgets = doc.CreateElement("widgets");
+				doc.AppendChild(widgets);
+			}
+			Cache[_zoneId] = doc;
+		}
+		return (XmlDocument)Cache[_zoneId];
 	}
 
 	/// <summary>
@@ -220,10 +226,10 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	/// <param name="doc">The doc.</param>
 	private void SaveXmlDocument(XmlDocument doc)
 	{
-    WidgetSettings ws = new WidgetSettings(_zoneId);
-    ws.SettingsBehavior = new XMLDocumentBehavior();
-    ws.SaveSettings(doc);
-    Cache[_zoneId] = doc;
+		WidgetSettings ws = new WidgetSettings(_zoneId);
+		ws.SettingsBehavior = new XMLDocumentBehavior();
+		ws.SaveSettings(doc);
+		Cache[_zoneId] = doc;
 	}
 
 	/// <summary>

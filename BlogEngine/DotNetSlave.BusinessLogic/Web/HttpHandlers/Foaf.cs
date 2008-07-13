@@ -103,7 +103,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 
 			// get main person's data
-			AuthorProfile ap = (AuthorProfile)AuthorProfile.Create(name);
+			AuthorProfile ap = AuthorProfile.GetProfile(name);
 
 			if (!ap.IsPrivate)
 			{
@@ -120,8 +120,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				{
 					if (!user.UserName.Equals(name, StringComparison.OrdinalIgnoreCase))
 					{
-						AuthorProfile friend = (AuthorProfile)AuthorProfile.Create(user.UserName);
-						me.Friends.Add(new FoafPerson("#" + user.UserName, friend));
+						AuthorProfile friend = AuthorProfile.GetProfile(user.UserName);
+						if (friend != null)
+						{
+								me.Friends.Add(new FoafPerson("#" + user.UserName, friend));
+						}
 					}
 				}
 
@@ -216,29 +219,31 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			{
 				writer.WriteElementString("foaf", "family_name", null, person.Lastname);
 			}
-			if (person.Email != "")
+			if (!string.IsNullOrEmpty(person.Email))
 			{
 				writer.WriteElementString("foaf", "mbox_sha1sum", null, CalculateSHA1(person.Email, Encoding.UTF8));
 			}
-			if (person.Homepage != "")
+			if (!string.IsNullOrEmpty(person.Homepage))
 			{
 				writer.WriteStartElement("foaf", "homepage", null);
 				writer.WriteAttributeString("rdf", "resource", null, person.Homepage);
 				writer.WriteEndElement();
 			}
-			if (person.Blog != "")
+			if (!string.IsNullOrEmpty(person.Blog))
 			{
 				writer.WriteStartElement("foaf", "weblog", null);
 				writer.WriteAttributeString("rdf", "resource", null, person.Blog);
 				writer.WriteEndElement();
 			}
+
 			if (person.Rdf != "" && person.Rdf != HttpContext.Current.Request.Url.ToString())
 			{
 				writer.WriteStartElement("rdfs", "seeAlso", null);
 				writer.WriteAttributeString("rdf", "resource", null, person.Rdf);
 				writer.WriteEndElement();
 			}
-			if (person.Birthday != "")
+			
+			if (!string.IsNullOrEmpty(person.Birthday))
 			{
 				writer.WriteElementString("foaf", "birthday", null, person.Birthday);
 			}
@@ -250,7 +255,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				writer.WriteEndElement();
 			}
 
-			if (person.Phone != "")
+			if (!string.IsNullOrEmpty(person.Phone))
 			{
 				writer.WriteElementString("foaf", "phone", null, person.Phone);
 			}
@@ -299,11 +304,10 @@ public class FoafPerson
 		ID = id;
 	}
 
-	public FoafPerson(string id, BlogEngine.Core.Web.AuthorProfile ap)
+	public FoafPerson(string id, BlogEngine.Core.AuthorProfile ap)
 	{
 		ID = "#me";
 		Name = ap.FullName;
-		Title = ap.Title;
 		Email = ap.EmailAddress;
 		// no homepage
 		// this website = blog
@@ -312,7 +316,7 @@ public class FoafPerson
 		Firstname = ap.FirstName;
 		Lastname = ap.LastName;
 		Image = ap.PhotoURL;
-		Birthday = ap.Birthday;
+		Birthday = ap.Birthday.ToString("yyyy-MM-dd");
 		Phone = ap.PhoneMain;
 		PhotoUrl = ap.PhotoURL;
 	}

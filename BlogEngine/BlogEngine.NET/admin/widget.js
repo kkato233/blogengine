@@ -449,6 +449,7 @@ function editWidget(name, id)
   layer.style.backgroundColor = 'black';
   layer.style.opacity = '.6';
   layer.style.filter += ("progid:DXImageTransform.Microsoft.Alpha(opacity=60)");
+  document.body.style.position = 'static';
   document.body.appendChild(layer);  
   
   var size = { 'height': 500, 'width': 750 };
@@ -477,8 +478,15 @@ function addWidget(type)
 
 function appendWidget(response)
 {
-  var zone = $('widgetzone');
-  zone.innerHTML += response;
+  if (response == "reload")
+  {
+    location.reload();
+  }
+  else
+  { 
+    var zone = $('widgetzone');
+    zone.innerHTML += response;
+  }
 }
 
 function removeWidget(id)
@@ -494,6 +502,7 @@ function closeEditor()
 {
   document.body.removeChild($('WidgetEditor'));
   document.body.removeChild($('layer'));
+  document.body.style.position = '';
 }
 	
 addLoadEvent(initdragableElements);

@@ -112,6 +112,9 @@ public partial class admin_newuser : System.Web.UI.Page
         if (roles.Length > 0)
             Roles.RemoveUserFromRoles(username, roles);
 
+				AuthorProfile profile =	AuthorProfile.GetProfile(username);
+				profile.Delete();
+
         if (HttpContext.Current.User.Identity.Name.Equals(username, StringComparison.OrdinalIgnoreCase))
             FormsAuthentication.SignOut();
 

@@ -444,7 +444,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			WriteFoafDocument(xmlWriter, "user", GetSiocAuthorUrl(authorName));
 
 			MembershipUser user = Membership.GetUser(authorName);
-            AuthorProfile ap = (AuthorProfile) AuthorProfile.Create(authorName);
+            AuthorProfile ap = AuthorProfile.GetProfile(authorName);
 			// FOAF:Person
 			xmlWriter.WriteStartElement("foaf", "Person", null);
 			xmlWriter.WriteAttributeString("rdf", "about", null, GetSiocAuthorUrl(authorName));

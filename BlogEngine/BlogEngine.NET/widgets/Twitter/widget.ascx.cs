@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Globalization;
 using BlogEngine.Core.DataStore;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -105,7 +106,7 @@ public partial class widgets_Twitter_widget : WidgetBase
 				title = title.Substring(start);
 			}
 			
-			twit.Title = title;
+			twit.Title = ResolveLinks(title);
 			twit.PubDate = DateTime.Parse(node.SelectSingleNode("pubDate").InnerText, CultureInfo.InvariantCulture);
 			twit.Url = new Uri(node.SelectSingleNode("link").InnerText, UriKind.Absolute);
 			twits.Add(twit);
@@ -116,6 +117,31 @@ public partial class widgets_Twitter_widget : WidgetBase
 		twits.Sort();
 		repItems.DataSource = twits;
 		repItems.DataBind();
+	}
+
+	private static readonly Regex regex = new Regex("((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&\\(\\)#,=\\-_\\./\\+]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+	private const string link = "<a href=\"{0}{1}\" rel=\"nofollow\">{1}</a>";
+
+	/// <summary>
+	/// The event handler that is triggered every time a comment is served to a client.
+	/// </summary>
+	private string ResolveLinks(string body)
+	{
+		CultureInfo info = CultureInfo.InvariantCulture;
+
+		foreach (Match match in regex.Matches(body))
+		{
+			if (!match.Value.Contains("://"))
+			{
+				body = body.Replace(match.Value, string.Format(info, link, "http://", match.Value));
+			}
+			else
+			{
+				body = body.Replace(match.Value, string.Format(info, link, string.Empty, match.Value));
+			}
+		}
+
+		return body;
 	}
 
 	private struct Twit : IComparable<Twit>

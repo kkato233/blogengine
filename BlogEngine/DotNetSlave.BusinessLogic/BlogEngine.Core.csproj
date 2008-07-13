@@ -136,15 +136,15 @@
     <Compile Include="Providers\DbRoleProvider.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\DataStore.cs" />
+    <Compile Include="Providers\XmlProvider\Profiles.cs" />
     <Compile Include="Providers\XmlProvider\StopWords.cs" />
     <Compile Include="Providers\XmlProvider\Settings.cs" />
     <Compile Include="Providers\XmlProvider\Pages.cs" />
     <Compile Include="Providers\XmlProvider\Posts.cs" />
-    <Compile Include="Providers\XmlProvider\XmlProfileProvider.cs" />
     <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SyndicationGenerator.cs" />
-    <Compile Include="Web\AuthorProfile.cs" />
+    <Compile Include="AuthorProfile.cs" />
     <Compile Include="Web\Controls\RewriteFormHtmlTextWriter.cs" />
     <Compile Include="Web\HttpHandlers\BlogMLExportHandler.cs" />
     <Compile Include="Web\HttpHandlers\Apml.cs" />
