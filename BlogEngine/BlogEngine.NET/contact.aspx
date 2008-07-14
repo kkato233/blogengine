@@ -10,20 +10,20 @@
       
       <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
       <asp:TextBox runat="server" id="txtName" cssclass="field" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtName" ErrorMessage="<%$Resources:labels, required %>" /><br />
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtName" ErrorMessage="<%$Resources:labels, required %>" validationgroup="contact" /><br />
       
       <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %></label>
       <asp:TextBox runat="server" id="txtEmail" cssclass="field" />
-      <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" display="dynamic" ErrorMessage="<%$Resources:labels, enterValidEmail %>" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" /><br />
+      <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" display="dynamic" ErrorMessage="<%$Resources:labels, enterValidEmail %>" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" validationgroup="contact" />
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" validationgroup="contact" /><br />
       
       <label for="<%=txtSubject.ClientID %>"><%=Resources.labels.subject %></label>
       <asp:TextBox runat="server" id="txtSubject" cssclass="field" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtSubject" ErrorMessage="<%$Resources:labels, required %>" /><br />
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtSubject" ErrorMessage="<%$Resources:labels, required %>" validationgroup="contact" /><br />
       
       <label for="<%=txtMessage.ClientID %>"><%=Resources.labels.message %></label>
       <asp:TextBox runat="server" id="txtMessage" textmode="multiline" rows="5" columns="30" />
-      <asp:requiredfieldvalidator runat="server" controltovalidate="txtMessage" ErrorMessage="<%$Resources:labels, required %>" display="dynamic" />    
+      <asp:requiredfieldvalidator runat="server" controltovalidate="txtMessage" ErrorMessage="<%$Resources:labels, required %>" display="dynamic" validationgroup="contact" />    
       
       <asp:placeholder runat="server" id="phAttachment">      
         <label for="<%=txtAttachment.ClientID %>"><%=Resources.labels.attachFile %></label>
@@ -32,7 +32,7 @@
       
       <br /><br />
       
-      <asp:button runat="server" id="btnSend" Text="Send" OnClientClick="return beginSendMessage();" />    
+      <asp:button runat="server" id="btnSend" Text="Send" OnClientClick="return beginSendMessage();" validationgroup="contact" />    
       <asp:label runat="server" id="lblStatus" visible="false">This form does not work at the moment. Sorry for the inconvenience.</asp:label>
     </div>
     
@@ -49,7 +49,7 @@
       if ($('<%=txtAttachment.ClientID %>').value.length > 0)
         return true;
         
-      if(!Page_ClientValidate())
+      if(!Page_ClientValidate('contact'))
         return false;
         
       var name = $('<%=txtName.ClientID %>').value;

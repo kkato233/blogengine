@@ -34,8 +34,8 @@ function ApplySlug(arg, context)
 }
 
 function AutoSave()
-{  
-  var content = tinyMCE.getContent('mce_editor_0');
+{
+  var content = document.getElementById('<%=txtRawContent.ClientID %>') != null ? document.getElementById('<%=txtRawContent.ClientID %>').value : tinyMCE.getContent('mce_editor_0');
   var title = document.getElementById('<%=txtTitle.ClientID %>').value;
   var desc = document.getElementById('<%=txtDescription.ClientID %>').value;
   var slug = document.getElementById('<%=txtSlug.ClientID %>').value;
@@ -84,7 +84,7 @@ function ToggleTagSelector()
   </div>
 
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
-  <asp:TextBox runat="server" ID="txtTitle" Width="500px" TabIndex="1" />&nbsp;&nbsp;&nbsp;
+  <asp:TextBox runat="server" ID="txtTitle" Width="450px" TabIndex="1" />&nbsp;&nbsp;&nbsp;
   
   <label for="<%=ddlAuthor.ClientID %>"><%=Resources.labels.author %></label>
   <asp:DropDownList runat="Server" ID="ddlAuthor" TabIndex="2" />&nbsp;&nbsp;&nbsp;
@@ -92,13 +92,16 @@ function ToggleTagSelector()
   <label for="<%=txtDate.ClientID %>"><%=Resources.labels.date %></label>
   <asp:TextBox runat="server" ID="txtDate" Width="110px" TabIndex="3" />
   
+  
+  <asp:CheckBox runat="server" ID="cbUseRaw" Text="Use HTML editor" AutoPostBack="true" />
+  
   <asp:RegularExpressionValidator runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]" ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" Display="Dynamic" />
   <br /><br />
   
   <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
-
+  <asp:TextBox runat="server" ID="txtRawContent" TabIndex="4" Width="100%" Height="300px" Visible="false" />
   <br />
   
   <table id="entrySettings">

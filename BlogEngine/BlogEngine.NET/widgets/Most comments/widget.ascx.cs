@@ -111,7 +111,7 @@ public partial class widgets_Most_comments_widget : WidgetBase
 
 			if (visitor.Website != null)
 			{
-				string link = "<a rel=\"contact\" class=\"url fn\" href=\"{0}\">{1}</a>";
+				string link = "<a rel=\"nofollow contact\" class=\"url fn\" href=\"{0}\">{1}</a>";
 				name.Text = string.Format(link, visitor.Website, visitor.Name);
 			}
 			else
