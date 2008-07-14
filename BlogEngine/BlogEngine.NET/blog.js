@@ -320,7 +320,7 @@ function filterByAPML()
   layer.style.position = 'absolute';
   layer.style.top = '0px';
   layer.style.left = '0px';
-  layer.style.height = (window.innerHeight + window.scrollMaxY || document.body.scrollHeight) + 'px';
+  layer.style.height = document.documentElement.scrollHeight + 'px';
   layer.style.width = width + 'px';
   layer.style.backgroundColor = 'black';
   layer.style.opacity = '.6';
@@ -330,7 +330,7 @@ function filterByAPML()
   var div = document.createElement('div');
   div.style.zIndex = 3;
   div.id = 'apmlfilter';
-  div.style.position = 'fixed';
+  div.style.position = (navigator.userAgent.indexOf('MSIE 6') > -1) ? 'absolute' : 'fixed';
   div.style.top = '200px';
   div.style.left = (width / 2) - (400 / 2) + 'px';	
   div.style.height = '50px';

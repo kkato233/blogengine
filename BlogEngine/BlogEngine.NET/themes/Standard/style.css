@@ -96,8 +96,7 @@ img {
 
 #menu a.apmlfilter
 {
-	position:absolute; 
-	right:0px; 
+	float:right;
 	margin-right: 10px; 
 	background:url(../../pics/apml.png) no-repeat; 
 	padding-left:16px

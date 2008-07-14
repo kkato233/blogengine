@@ -14,6 +14,8 @@ using BlogEngine.Core;
 
 public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
 {
+	private const string RAW_EDITOR_COOKIE = "useraweditor";
+
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		this.MaintainScrollPositionOnPostBack = true;
@@ -42,6 +44,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 				if (Session["content"] != null)
 				{
 					txtContent.Text = Session["content"].ToString();
+					txtRawContent.Text = txtContent.Text;
 					txtTitle.Text = Session["title"].ToString();
 					txtDescription.Text = Session["description"].ToString();
 					txtSlug.Text = Session["slug"].ToString();
@@ -55,6 +58,13 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
 			cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
 			if (!Utils.IsMono) Page.Form.DefaultButton = btnSave.UniqueID;
+
+			if (Request.Cookies[RAW_EDITOR_COOKIE] != null)
+			{
+				txtRawContent.Visible = true;
+				txtContent.Visible = false;
+				cbUseRaw.Checked = true;
+			}
 		}
 
 		btnSave.Text = Resources.labels.savePost; // mono does not interpret the inline code correctly
@@ -63,6 +73,33 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
 		btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
 		valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
+		cbUseRaw.CheckedChanged += new EventHandler(cbUseRaw_CheckedChanged);
+	}
+
+	void cbUseRaw_CheckedChanged(object sender, EventArgs e)
+	{
+		if (cbUseRaw.Checked)
+		{
+			txtRawContent.Text = txtContent.Text;
+			HttpCookie cookie = new HttpCookie(RAW_EDITOR_COOKIE, "1");
+			cookie.Expires = DateTime.Now.AddYears(3);
+			Response.Cookies.Add(cookie);
+		}
+		else
+		{
+			txtContent.Text = txtRawContent.Text;
+			if (Request.Cookies[RAW_EDITOR_COOKIE] != null)
+			{
+				HttpCookie cookie = new HttpCookie(RAW_EDITOR_COOKIE);
+				cookie.Expires = DateTime.Now.AddYears(-3);
+				Response.Cookies.Add(cookie);
+			}			
+		}
+
+		txtRawContent.Visible = cbUseRaw.Checked;
+		txtContent.Visible = !cbUseRaw.Checked;
+
+		//Response.Redirect(Request.RawUrl);
 	}
 
 	private void valExist_ServerValidate(object source, ServerValidateEventArgs args)

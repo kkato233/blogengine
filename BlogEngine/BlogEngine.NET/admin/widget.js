@@ -443,7 +443,7 @@ function editWidget(name, id)
   layer.style.position = 'absolute';
   layer.style.top = '0px';
   layer.style.left = '0px';
-  layer.style.height = (window.innerHeight + window.scrollMaxY || document.body.scrollHeight) + 'px';
+  layer.style.height = document.documentElement.scrollHeight + 'px';
   layer.style.width = width + 'px';
   layer.style.backgroundColor = 'black';
   layer.style.opacity = '.6';
