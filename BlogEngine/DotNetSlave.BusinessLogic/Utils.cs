@@ -14,6 +14,8 @@ using System.Web.Configuration;
 using System.Threading;
 using System.Reflection;
 using System.Collections;
+using System.Xml;
+using System.Net;
 
 #endregion
 
@@ -103,7 +105,7 @@ namespace BlogEngine.Core
 		{
 			if (string.IsNullOrEmpty(html))
 				return string.Empty;
-			
+
 			html = REGEX_BETWEEN_TAGS.Replace(html, "> ");
 			html = REGEX_LINE_BREAKS.Replace(html, string.Empty);
 
@@ -414,6 +416,137 @@ namespace BlogEngine.Core
 
 			return codeAssemblies;
 		}
+		#endregion
+
+		#region Semantic discovery
+
+		/// <summary>
+		/// Finds the semantic documents from a URL based on the type.
+		/// </summary>
+		/// <param name="url">The URL of the semantic document or a document containing semantic links.</param>
+		/// <param name="type">The type. Could be "foaf", "apml" or "sioc".</param>
+		/// <returns>A dictionary of the semantic documents. The dictionary is empty if no documents were found.</returns>
+		public static Dictionary<Uri, XmlDocument> FindSemanticDocuments(Uri url, string type)
+		{
+			Dictionary<Uri, XmlDocument> list = new Dictionary<Uri, XmlDocument>();
+
+			string content = DownloadWebPage(url);
+			if (!string.IsNullOrEmpty(content))
+			{
+				string upper = content.ToUpperInvariant();
+
+				if (upper.Contains("</HEAD") && upper.Contains("</HTML"))
+				{
+					List<Uri> urls = FindLinks(type, content);
+					foreach (Uri xmlUrl in urls)
+					{
+						XmlDocument doc = LoadDocument(url, xmlUrl);
+						if (doc != null)
+							list.Add(xmlUrl, doc);
+					}
+				}
+				else
+				{
+					XmlDocument doc = LoadDocument(url, url);
+					if (doc != null)
+						list.Add(url, doc);
+				}
+			}
+
+			return list;
+		}
+
+		/// <summary>
+		/// Downloads a web page from the Internet and returns a string. .
+		/// </summary>
+		/// <param name="url">The URL to download from.</param>
+		/// <returns>The HTML or null if the URL isn't valid.</returns>
+		public static string DownloadWebPage(Uri url)
+		{
+			try
+			{
+				using (WebClient client = new WebClient())
+				{
+					client.UseDefaultCredentials = true;
+					client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)");
+					using (StreamReader reader = new StreamReader(client.OpenRead(url)))
+					{
+						return reader.ReadToEnd();
+					}
+				}
+			}
+			catch (WebException)
+			{
+				return null;
+			}
+		}
+
+
+		private static XmlDocument LoadDocument(Uri url, Uri xmlUrl)
+		{
+			XmlDocument doc = new XmlDocument();
+
+			try
+			{
+				if (url.IsAbsoluteUri)
+				{
+					doc.Load(xmlUrl.ToString());
+				}
+				else
+				{
+					string absoluteUrl = null;
+					if (!url.ToString().StartsWith("/"))
+						absoluteUrl = (url + xmlUrl.ToString());
+					else
+						absoluteUrl = url.Scheme + "://" + url.Authority + xmlUrl;
+
+					doc.Load(absoluteUrl);
+				}
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+
+			return doc;
+		}
+
+		private const string PATTERN = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
+		private static readonly Regex HREF = new Regex("href=\"(.*)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+		/// <summary>
+		/// Finds semantic links in a given HTML document.
+		/// </summary>
+		/// <param name="type">The type of link. Could be foaf, apml or sioc.</param>
+		/// <param name="html">The HTML to look through.</param>
+		/// <returns></returns>
+		public static List<Uri> FindLinks(string type, string html)
+		{
+			MatchCollection matches = Regex.Matches(html, string.Format(PATTERN, type), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			List<Uri> urls = new List<Uri>();
+
+			foreach (Match match in matches)
+			{
+				if (match.Groups.Count == 2)
+				{
+					string link = match.Groups[1].Value;
+					Match hrefMatch = HREF.Match(link);
+
+					if (hrefMatch.Groups.Count == 2)
+					{
+						Uri url;
+						string value = hrefMatch.Groups[1].Value;
+						if (Uri.TryCreate(value, UriKind.Absolute, out url))
+						{
+							urls.Add(url);
+						}
+					}
+				}
+			}
+
+			return urls;
+		}
+
 		#endregion
 
 		/// <summary>

@@ -4,6 +4,8 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
+using System.Collections.Generic;
 using BlogEngine.Core;
 
 #endregion
@@ -61,21 +63,43 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			Page.Title = "APML filtered list";
 			try
 			{
-				PostList1.Posts = Search.ApmlMatches(url, 30).FindAll(delegate(IPublishable p) { return p is Post; });
-				PostList1.Posts.Sort(delegate(IPublishable ip1, IPublishable ip2) { return ip2.DateCreated.CompareTo(ip1.DateCreated); });
-				if (PostList1.Posts.Count == 0)
+				Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(url, "apml");
+				if (docs.Count > 0)
 				{
-					divError.InnerHtml = "<h1 style=\"text-align:center\">No matches found in your APML document</h1><br /><br />";
+					foreach (Uri key in docs.Keys)
+					{
+						PostList1.Posts = Search.ApmlMatches(docs[key], 30).FindAll(delegate(IPublishable p) { return p is Post; });
+						PostList1.Posts.Sort(delegate(IPublishable ip1, IPublishable ip2) { return ip2.DateCreated.CompareTo(ip1.DateCreated); });
+						Page.Title += " for " + Server.HtmlEncode(key.Host);
+						break;
+					}
+				}
+				else
+				{
+					divError.InnerHtml = "<h1 style=\"text-align:center\">APML document could not be found</h1><br /><br />";
+					Page.Title = "APML not found";
 				}
 			}
 			catch (NotSupportedException)
 			{
 				divError.InnerHtml = "<h1 style=\"text-align:center\">The website entered doesn't contain any information about APML</h1><br /><br />";
+				Page.Title = "APML not found";
 			}
 			catch (System.Net.WebException)
 			{
 				divError.InnerHtml = "<h1 style=\"text-align:center\">Sorry, I couldn't connect to your website</h1><br /><br />";
+				Page.Title = "APML address invalid";
 			}
+			catch (XmlException)
+			{
+				divError.InnerHtml = "<h1 style=\"text-align:center\">The APML document is not valid XML</h1><br /><br />";
+				Page.Title = "APML document error";
+			}
+		}
+		else if (PostList1.Posts == null || PostList1.Posts.Count == 0)
+		{
+			divError.InnerHtml = "<h1 style=\"text-align:center\">The URL could not be resolved</h1><br /><br />";
+			Page.Title = "APML not found";
 		}
 	}
 

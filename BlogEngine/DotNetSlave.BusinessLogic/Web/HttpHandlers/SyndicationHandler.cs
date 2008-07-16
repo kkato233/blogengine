@@ -122,7 +122,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						{
 							XmlDocument doc = new XmlDocument();
 							doc.Load(stream);
-							List<IPublishable> list = Search.ApmlMatches(doc, 100);
+							List<IPublishable> list = Search.ApmlMatches(doc, 30);
 							list.Sort(delegate(IPublishable i1, IPublishable i2) { return i2.DateCreated.CompareTo(i1.DateCreated); });
 							return list;
 						}

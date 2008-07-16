@@ -146,6 +146,27 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						foaf.Name = title;
 						foaf.Blog = url;
 
+						if (context.Cache["foaf:" + title] == null)
+						{
+							Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(new Uri(url), "foaf");
+							if (docs.Count > 0)
+							{
+								foreach (Uri key in docs.Keys)
+								{
+									context.Cache.Insert("foaf:" + title, key.ToString());
+									break;
+								}
+							}
+							else
+							{
+								context.Cache.Insert("foaf:" + title, "0");
+							}
+						}
+
+						string seeAlso = (string)context.Cache["foaf:" + title];
+						if (seeAlso != null && seeAlso.Contains("://"))
+							foaf.Rdf = seeAlso;
+
 						me.Friends.Add(foaf);
 					}
 
