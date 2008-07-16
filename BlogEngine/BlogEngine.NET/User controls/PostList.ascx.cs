@@ -112,7 +112,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		hlNext.HRef = string.Format(url, page);
 		//else
 		//hlNext.HRef = path.Replace("?", string.Empty);
-
+		
 		hlPrev.HRef = string.Format(url, page + 2);
 
 		if (page == 0)

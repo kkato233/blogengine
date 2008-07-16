@@ -9,7 +9,7 @@
   <asp:CheckBox runat="server" ID="cbNewWindow" Text="Open link in new window" />
   <br /><br />
   
-  <label for="<%=txtTitle.ClientID %>">Website URL</label>
+  <label for="<%=txtUrl.ClientID %>">Website URL</label>
   <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" ValidationGroup="add" /><br />
   <asp:TextBox runat="server" ID="txtUrl" Width="250px" Text="http://" />
   

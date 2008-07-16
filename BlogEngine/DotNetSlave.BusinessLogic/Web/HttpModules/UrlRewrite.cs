@@ -58,7 +58,7 @@ namespace BlogEngine.Core.Web.HttpModules
 						url = front.RelativeLink.ToUpperInvariant();
 				}
 
-				if (context.Request.Path.Contains("/blog.aspx"))
+				if (path.Contains("/BLOG.ASPX"))
 				{
 					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true" + GetQueryString(context));
 				}

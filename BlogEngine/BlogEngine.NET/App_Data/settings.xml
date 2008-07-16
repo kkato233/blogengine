@@ -41,7 +41,7 @@
   <iscocommentenabled>False</iscocommentenabled>
   <enabletrackbackreceive>True</enabletrackbackreceive>
   <trackingscript />
-  <compresswebresource>False</compresswebresource>
+  <compresswebresource>True</compresswebresource>
   <description>Short description of the blog</description>
   <alternatefeedurl />
   <enableopensearch>True</enableopensearch>

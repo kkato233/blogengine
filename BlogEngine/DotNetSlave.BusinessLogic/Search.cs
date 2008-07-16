@@ -99,80 +99,6 @@ namespace BlogEngine.Core
 			}
 		}
 
-		public static List<IPublishable> ApmlMatches(Uri url, int maxInterests)
-		{
-			using (System.Net.WebClient client = new System.Net.WebClient())
-			{
-				client.UseDefaultCredentials = true;
-				using (System.IO.Stream stream = client.OpenRead(url))
-				{
-					System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
-					doc.Load(stream);
-					return Search.ApmlMatches(doc, 10);
-				}
-			}
-		}
-
-		public static List<IPublishable> ApmlMatches(XmlDocument apmlFile, int maxInterests)
-		{
-			Dictionary<string, float> concepts = new Dictionary<string, float>();
-			XmlNodeList nodes = apmlFile.SelectNodes("//Concept");
-			foreach (XmlNode node in nodes)
-			{
-				string key = node.Attributes["key"].InnerText.ToLowerInvariant().Trim();
-				float value = float.Parse(node.Attributes["value"].InnerText, System.Globalization.CultureInfo.InvariantCulture);
-				if (!concepts.ContainsKey(key))
-				{
-					concepts.Add(key, value);
-				}
-				else if (concepts[key] < value)
-				{
-					concepts[key] = value;
-				}
-			}
-
-			concepts = SortDictionary(concepts);
-			int max = Math.Min(concepts.Count, maxInterests);
-			int counter = 0;
-			List<Result> resultSet = new List<Result>();
-			foreach (string key in concepts.Keys)
-			{
-				counter++;
-				List<Result> results = BuildResultSet(key, false);
-				//results = results.FindAll(delegate(Result r) { return r.Rank > 1; });
-				resultSet.AddRange(results);
-				if (counter == max)
-					break;
-			}
-
-			resultSet.Sort();
-			List<Result> aggregatedResults = new List<Result>();
-			foreach (Result r in resultSet)
-			{
-				if (!aggregatedResults.Contains(r))
-				{
-					aggregatedResults.Add(r);
-				}
-				else
-				{
-					Result existingResult = aggregatedResults.Find(delegate(Result res) { return res.GetHashCode() == r.GetHashCode(); });
-					existingResult.Rank += r.Rank;
-				}
-			}
-
-			aggregatedResults = aggregatedResults.FindAll(delegate(Result r) { return r.Rank > 1; });
-			List<IPublishable> items = aggregatedResults.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
-			List<IPublishable> uniqueItems = new List<IPublishable>();
-			
-			foreach (IPublishable item in items)
-			{
-				if (!uniqueItems.Contains(item))
-					uniqueItems.Add(item);
-			}
-
-			return uniqueItems;
-		}
-
 		private static Dictionary<string, float> SortDictionary(Dictionary<string, float> dic)
 		{
 			List<KeyValuePair<string, float>> list = new List<KeyValuePair<string, float>>();
@@ -258,6 +184,158 @@ namespace BlogEngine.Core
 		private static IPublishable ResultToPost(Result result)
 		{
 			return result.Item;
+		}
+
+		#endregion
+
+		#region APML
+
+		public static List<IPublishable> ApmlMatches(Uri url, int maxInterests)
+		{
+			using (System.Net.WebClient client = new System.Net.WebClient())
+			{
+				client.UseDefaultCredentials = true;
+				client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)");
+				using (StreamReader reader = new StreamReader(client.OpenRead(url)))
+				{
+					XmlDocument doc = new XmlDocument();
+					string content = reader.ReadToEnd();
+					string upper = content.ToUpperInvariant();
+
+					if (upper.Contains("<HTML") && upper.Contains("</HTML"))
+					{
+						Collection<Uri> urls = FindLinks("apml", content);
+						if (urls.Count > 0)
+						{
+							LoadDocument(url, doc, urls[0]);
+						}
+						else
+						{
+							throw new NotSupportedException("No APML link on page");
+						}
+					}
+					else
+					{
+						doc.LoadXml(content);
+					}
+
+					return Search.ApmlMatches(doc, 10);
+				}
+			}
+		}
+
+		private static void LoadDocument(Uri url, XmlDocument doc, Uri ApmlUrl)
+		{
+			if (url.IsAbsoluteUri)
+			{
+				doc.Load(ApmlUrl.ToString());
+			}
+			else
+			{
+				string absoluteUrl = null;
+				if (!url.ToString().StartsWith("/"))
+					absoluteUrl = (url + ApmlUrl.ToString());
+				else
+					absoluteUrl = url.Scheme + "://" + url.Authority + ApmlUrl;
+
+				doc.Load(absoluteUrl);
+			}
+		}
+
+		public static List<IPublishable> ApmlMatches(XmlDocument apmlFile, int maxInterests)
+		{
+			Dictionary<string, float> concepts = new Dictionary<string, float>();
+			XmlNodeList nodes = apmlFile.SelectNodes("//Concept");
+			foreach (XmlNode node in nodes)
+			{
+				string key = node.Attributes["key"].InnerText.ToLowerInvariant().Trim();
+				float value = float.Parse(node.Attributes["value"].InnerText, System.Globalization.CultureInfo.InvariantCulture);
+				if (!concepts.ContainsKey(key))
+				{
+					concepts.Add(key, value);
+				}
+				else if (concepts[key] < value)
+				{
+					concepts[key] = value;
+				}
+			}
+
+			concepts = SortDictionary(concepts);
+			int max = Math.Min(concepts.Count, maxInterests);
+			int counter = 0;
+			List<Result> resultSet = new List<Result>();
+			foreach (string key in concepts.Keys)
+			{
+				counter++;
+				List<Result> results = BuildResultSet(key, false);
+				//results = results.FindAll(delegate(Result r) { return r.Rank > 1; });
+				resultSet.AddRange(results);
+				if (counter == max)
+					break;
+			}
+
+			resultSet.Sort();
+			List<Result> aggregatedResults = new List<Result>();
+			foreach (Result r in resultSet)
+			{
+				if (!aggregatedResults.Contains(r))
+				{
+					aggregatedResults.Add(r);
+				}
+				else
+				{
+					Result existingResult = aggregatedResults.Find(delegate(Result res) { return res.GetHashCode() == r.GetHashCode(); });
+					existingResult.Rank += r.Rank;
+				}
+			}
+
+			aggregatedResults = aggregatedResults.FindAll(delegate(Result r) { return r.Rank > 1; });
+			List<IPublishable> items = aggregatedResults.ConvertAll(new Converter<Result, IPublishable>(ResultToPost));
+			List<IPublishable> uniqueItems = new List<IPublishable>();
+
+			foreach (IPublishable item in items)
+			{
+				if (!uniqueItems.Contains(item))
+					uniqueItems.Add(item);
+			}
+
+			return uniqueItems;
+		}
+
+		private const string PATTERN = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
+		private static readonly Regex HREF = new Regex("href=\"(.*)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+		/// <summary>
+		/// Finds semantic links in a given HTML document.
+		/// </summary>
+		/// <param name="type">The type of link. Could be foaf, apml or sioc.</param>
+		/// <param name="html">The HTML to look through.</param>
+		/// <returns></returns>
+		public static Collection<Uri> FindLinks(string type, string html)
+		{
+			MatchCollection matches = Regex.Matches(html, string.Format(PATTERN, type), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			Collection<Uri> urls = new Collection<Uri>();
+
+			foreach (Match match in matches)
+			{
+				if (match.Groups.Count == 2)
+				{
+					string link = match.Groups[1].Value;
+					Match hrefMatch = HREF.Match(link);
+
+					if (hrefMatch.Groups.Count == 2)
+					{
+						Uri url;
+						string value = hrefMatch.Groups[1].Value;
+						if (Uri.TryCreate(value, UriKind.Absolute, out url))
+						{
+							urls.Add(url);
+						}
+					}
+				}
+			}
+
+			return urls;
 		}
 
 		#endregion
