@@ -36,13 +36,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 		else if (Request.QueryString["apml"] != null)
 		{
-			Uri url = null;
-			if (Uri.TryCreate(Request.QueryString["apml"], UriKind.Absolute, out url))
-			{
-				PostList1.Posts = Search.ApmlMatches(url, 10);
-				PostList1.Posts.Sort(delegate(IPublishable ip1, IPublishable ip2) { return ip2.DateCreated.CompareTo(ip1.DateCreated); });
-				Page.Title = "APML filtered list";
-			}
+			DisplayApmlFiltering();
 		}
 		else if (Request.QueryString.Count == 0 || !string.IsNullOrEmpty(Request.QueryString["page"]) || !string.IsNullOrEmpty(Request.QueryString["theme"]) || !string.IsNullOrEmpty(Request.QueryString["blog"]))
 		{
@@ -57,6 +51,32 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		AddMetaKeywords();
 		base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
 		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));		
+	}
+
+	private void DisplayApmlFiltering()
+	{
+		Uri url = null;
+		if (Uri.TryCreate(Request.QueryString["apml"], UriKind.Absolute, out url))
+		{
+			Page.Title = "APML filtered list";
+			try
+			{
+				PostList1.Posts = Search.ApmlMatches(url, 30).FindAll(delegate(IPublishable p) { return p is Post; });
+				PostList1.Posts.Sort(delegate(IPublishable ip1, IPublishable ip2) { return ip2.DateCreated.CompareTo(ip1.DateCreated); });
+				if (PostList1.Posts.Count == 0)
+				{
+					divError.InnerHtml = "<h1 style=\"text-align:center\">No matches found in your APML document</h1><br /><br />";
+				}
+			}
+			catch (NotSupportedException)
+			{
+				divError.InnerHtml = "<h1 style=\"text-align:center\">The website entered doesn't contain any information about APML</h1><br /><br />";
+			}
+			catch (System.Net.WebException)
+			{
+				divError.InnerHtml = "<h1 style=\"text-align:center\">Sorry, I couldn't connect to your website</h1><br /><br />";
+			}
+		}
 	}
 
 	private void InvalidateCache()

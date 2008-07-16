@@ -261,7 +261,7 @@ var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
 						            , 'co-worker', 'colleague', 'co-resident'
 						            , 'neighbor', 'child', 'parent', 'sibling'
 						            , 'spouse', 'kin', 'muse', 'crush', 'date'
-						            , 'sweetheart', 'me']
+						            , 'sweetheart', 'me'];
 
 // Applies the XFN tags of a link to the title tag
 function HightLightXfn()
@@ -341,25 +341,31 @@ function filterByAPML()
   document.body.appendChild(div);  
   
   var p = document.createElement('p');
-  p.innerHTML = 'Enter the URL to your APML document';
+  p.innerHTML = 'Enter the URL to your website or to your APML document';
   p.style.margin = '0px';
   div.appendChild(p);
+  
+  var form = document.createElement('form');
+  form.method = 'get';
+  form.action = KEYwebRoot;
+  div.appendChild(form);
   
   var textbox = document.createElement('input');
   textbox.type = 'text';
   textbox.value = 'http://',
   textbox.style.width = '325px';
   textbox.id = 'txtapml';
+  textbox.name = 'apml';
   textbox.style.background = 'url('+KEYwebRoot+'pics/apml.png) no-repeat 2px center';
   textbox.style.paddingLeft = '16px';
-  div.appendChild(textbox);
+  form.appendChild(textbox);
   textbox.focus();
   
   var button = document.createElement('input');
-  button.type = 'button';
+  button.type = 'submit';
   button.value = 'Filter';
   button.onclick = function(){ location.href = KEYwebRoot + '?apml=' + encodeURIComponent($('txtapml').value)};  
-  div.appendChild(button);
+  form.appendChild(button);
   
   var br = document.createElement('br');
   div.appendChild(br);
