@@ -98,7 +98,7 @@ img {
 {
 	float:right;
 	margin-right: 10px; 
-	background:url(../../pics/apml.png) no-repeat; 
+	background:url(../../pics/apml.png) no-repeat left 1px; 
 	padding-left:16px
 }
 

@@ -59,8 +59,20 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 		List<IPublishable> list = new List<IPublishable>();
 		try
 		{
-			list = Search.ApmlMatches(url, 10);
-			Page.Title = "APML matches for '" + Request.QueryString["q"] + "'";
+			Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(url, "apml");
+			if (docs.Count > 0)
+			{
+				foreach (Uri key in docs.Keys)
+				{
+					list = Search.ApmlMatches(docs[key], 30);
+					Page.Title = "APML matches for '" + Server.HtmlEncode(key.ToString()) + "'";
+					break;
+				}
+			}
+			else
+			{
+				Page.Title = "APML matches for '" + Request.QueryString["q"] + "'";
+			}
 			h1Headline.InnerText = Page.Title;
 		}
 		catch

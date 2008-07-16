@@ -126,7 +126,6 @@
     <Compile Include="DataStore\SerializableStringDictionary.cs" />
     <Compile Include="DataStore\SettingsBase.cs" />
     <Compile Include="DataStore\StringDictionaryBehavior.cs" />
-    <Compile Include="DataStore\ThemeSettings.cs" />
     <Compile Include="DataStore\WidgetSettings.cs" />
     <Compile Include="DataStore\XMLDocumentBehavior.cs" />
     <Compile Include="IPublishable.cs" />

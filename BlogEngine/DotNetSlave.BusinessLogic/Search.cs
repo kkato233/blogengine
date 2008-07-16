@@ -190,57 +190,57 @@ namespace BlogEngine.Core
 
 		#region APML
 
-		public static List<IPublishable> ApmlMatches(Uri url, int maxInterests)
-		{
-			using (System.Net.WebClient client = new System.Net.WebClient())
-			{
-				client.UseDefaultCredentials = true;
-				client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)");
-				using (StreamReader reader = new StreamReader(client.OpenRead(url)))
-				{
-					XmlDocument doc = new XmlDocument();
-					string content = reader.ReadToEnd();
-					string upper = content.ToUpperInvariant();
+		//public static List<IPublishable> ApmlMatches(Uri url, int maxInterests)
+		//{
+		//  using (System.Net.WebClient client = new System.Net.WebClient())
+		//  {
+		//    client.UseDefaultCredentials = true;
+		//    client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)");
+		//    using (StreamReader reader = new StreamReader(client.OpenRead(url)))
+		//    {
+		//      XmlDocument doc = new XmlDocument();
+		//      string content = reader.ReadToEnd();
+		//      string upper = content.ToUpperInvariant();
 
-					if (upper.Contains("<HTML") && upper.Contains("</HTML"))
-					{
-						Collection<Uri> urls = FindLinks("apml", content);
-						if (urls.Count > 0)
-						{
-							LoadDocument(url, doc, urls[0]);
-						}
-						else
-						{
-							throw new NotSupportedException("No APML link on page");
-						}
-					}
-					else
-					{
-						doc.LoadXml(content);
-					}
+		//      if (upper.Contains("<HTML") && upper.Contains("</HTML"))
+		//      {
+		//        Collection<Uri> urls = FindLinks("apml", content);
+		//        if (urls.Count > 0)
+		//        {
+		//          LoadDocument(url, doc, urls[0]);
+		//        }
+		//        else
+		//        {
+		//          throw new NotSupportedException("No APML link on page");
+		//        }
+		//      }
+		//      else
+		//      {
+		//        doc.LoadXml(content);
+		//      }
 
-					return Search.ApmlMatches(doc, 10);
-				}
-			}
-		}
+		//      return Search.ApmlMatches(doc, 10);
+		//    }
+		//  }
+		//}
 
-		private static void LoadDocument(Uri url, XmlDocument doc, Uri ApmlUrl)
-		{
-			if (url.IsAbsoluteUri)
-			{
-				doc.Load(ApmlUrl.ToString());
-			}
-			else
-			{
-				string absoluteUrl = null;
-				if (!url.ToString().StartsWith("/"))
-					absoluteUrl = (url + ApmlUrl.ToString());
-				else
-					absoluteUrl = url.Scheme + "://" + url.Authority + ApmlUrl;
+		//private static void LoadDocument(Uri url, XmlDocument doc, Uri ApmlUrl)
+		//{
+		//  if (url.IsAbsoluteUri)
+		//  {
+		//    doc.Load(ApmlUrl.ToString());
+		//  }
+		//  else
+		//  {
+		//    string absoluteUrl = null;
+		//    if (!url.ToString().StartsWith("/"))
+		//      absoluteUrl = (url + ApmlUrl.ToString());
+		//    else
+		//      absoluteUrl = url.Scheme + "://" + url.Authority + ApmlUrl;
 
-				doc.Load(absoluteUrl);
-			}
-		}
+		//    doc.Load(absoluteUrl);
+		//  }
+		//}
 
 		public static List<IPublishable> ApmlMatches(XmlDocument apmlFile, int maxInterests)
 		{
@@ -302,41 +302,41 @@ namespace BlogEngine.Core
 			return uniqueItems;
 		}
 
-		private const string PATTERN = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
-		private static readonly Regex HREF = new Regex("href=\"(.*)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		//private const string PATTERN = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
+		//private static readonly Regex HREF = new Regex("href=\"(.*)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-		/// <summary>
-		/// Finds semantic links in a given HTML document.
-		/// </summary>
-		/// <param name="type">The type of link. Could be foaf, apml or sioc.</param>
-		/// <param name="html">The HTML to look through.</param>
-		/// <returns></returns>
-		public static Collection<Uri> FindLinks(string type, string html)
-		{
-			MatchCollection matches = Regex.Matches(html, string.Format(PATTERN, type), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-			Collection<Uri> urls = new Collection<Uri>();
+		///// <summary>
+		///// Finds semantic links in a given HTML document.
+		///// </summary>
+		///// <param name="type">The type of link. Could be foaf, apml or sioc.</param>
+		///// <param name="html">The HTML to look through.</param>
+		///// <returns></returns>
+		//public static Collection<Uri> FindLinks(string type, string html)
+		//{
+		//  MatchCollection matches = Regex.Matches(html, string.Format(PATTERN, type), RegexOptions.IgnoreCase | RegexOptions.Singleline);
+		//  Collection<Uri> urls = new Collection<Uri>();
 
-			foreach (Match match in matches)
-			{
-				if (match.Groups.Count == 2)
-				{
-					string link = match.Groups[1].Value;
-					Match hrefMatch = HREF.Match(link);
+		//  foreach (Match match in matches)
+		//  {
+		//    if (match.Groups.Count == 2)
+		//    {
+		//      string link = match.Groups[1].Value;
+		//      Match hrefMatch = HREF.Match(link);
 
-					if (hrefMatch.Groups.Count == 2)
-					{
-						Uri url;
-						string value = hrefMatch.Groups[1].Value;
-						if (Uri.TryCreate(value, UriKind.Absolute, out url))
-						{
-							urls.Add(url);
-						}
-					}
-				}
-			}
+		//      if (hrefMatch.Groups.Count == 2)
+		//      {
+		//        Uri url;
+		//        string value = hrefMatch.Groups[1].Value;
+		//        if (Uri.TryCreate(value, UriKind.Absolute, out url))
+		//        {
+		//          urls.Add(url);
+		//        }
+		//      }
+		//    }
+		//  }
 
-			return urls;
-		}
+		//  return urls;
+		//}
 
 		#endregion
 
