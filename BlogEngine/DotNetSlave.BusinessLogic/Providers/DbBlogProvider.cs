@@ -267,10 +267,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpDesc = provider.CreateParameter();
                     dpDesc.ParameterName = parmPrefix + "desc";
-                    if (post.Description == null)
-                        dpDesc.Value = "";
-                    else
-                        dpDesc.Value = post.Description;
+                    dpDesc.Value = post.Description ?? "";
                     cmd.Parameters.Add(dpDesc);
 
                     DbParameter dpContent = provider.CreateParameter();
@@ -293,10 +290,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpAuthor = provider.CreateParameter();
                     dpAuthor.ParameterName = parmPrefix + "author";
-                    if (post.Author == null)
-                        dpAuthor.Value = "";
-                    else
-                        dpAuthor.Value = post.Author;
+                    dpAuthor.Value = post.Author ?? "";
                     cmd.Parameters.Add(dpAuthor);
 
                     DbParameter dpPublished = provider.CreateParameter();
@@ -321,10 +315,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpSlug = provider.CreateParameter();
                     dpSlug.ParameterName = parmPrefix + "slug";
-                    if (post.Slug == null)
-                        dpSlug.Value = "";
-                    else
-                        dpSlug.Value = post.Slug;
+                    dpSlug.Value = post.Slug ?? "";
                     cmd.Parameters.Add(dpSlug);
 
                     cmd.ExecuteNonQuery();
@@ -383,10 +374,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpDesc = provider.CreateParameter();
                     dpDesc.ParameterName = parmPrefix + "desc";
-                    if (post.Description == null)
-                        dpDesc.Value = "";
-                    else
-                        dpDesc.Value = post.Description;
+                    dpDesc.Value = post.Description ?? "";
                     cmd.Parameters.Add(dpDesc);
 
                     DbParameter dpContent = provider.CreateParameter();
@@ -409,10 +397,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpAuthor = provider.CreateParameter();
                     dpAuthor.ParameterName = parmPrefix + "author";
-                    if (post.Author == null)
-                        dpAuthor.Value = "";
-                    else
-                        dpAuthor.Value = post.Author;
+                    dpAuthor.Value = post.Author ?? "";
                     cmd.Parameters.Add(dpAuthor);
 
                     DbParameter dpPublished = provider.CreateParameter();
@@ -437,10 +422,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpSlug = provider.CreateParameter();
                     dpSlug.ParameterName = parmPrefix + "slug";
-                    if (post.Slug == null)
-                        dpSlug.Value = "";
-                    else
-                        dpSlug.Value = post.Slug;
+                    dpSlug.Value = post.Slug ?? "";
                     cmd.Parameters.Add(dpSlug);
 
                     cmd.ExecuteNonQuery();
@@ -893,8 +875,8 @@ namespace BlogEngine.Core.Providers
                 conn.Open();
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT INTO " + tablePrefix + "Categories (CategoryID, CategoryName, description) " +
-                                        "VALUES (@catid, @catname, @description)";
+                    string sqlQuery = "INSERT INTO " + tablePrefix + "Categories (CategoryID, CategoryName, description, ParentID) " +
+                                        "VALUES (@catid, @catname, @description, @parentid)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
@@ -914,6 +896,14 @@ namespace BlogEngine.Core.Providers
                     dpDesc.ParameterName = parmPrefix + "description";
                     dpDesc.Value = category.Description;
                     cmd.Parameters.Add(dpDesc);
+
+                    DbParameter dpParent = provider.CreateParameter();
+                    dpParent.ParameterName = parmPrefix + "parentid";
+                    if (category.Parent == null)
+                        dpParent.Value = DBNull.Value;
+                    else 
+                        dpParent.Value = category.Parent;
+                    cmd.Parameters.Add(dpParent);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -942,7 +932,7 @@ namespace BlogEngine.Core.Providers
                 {
                     string sqlQuery = "UPDATE " + tablePrefix + "Categories " +
                                   "SET CategoryName = @catname, " +
-                                  "Description = @description " +
+                                  "Description = @description, ParentID = @parentid " +
                                   "WHERE CategoryID = @catid";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
@@ -964,6 +954,14 @@ namespace BlogEngine.Core.Providers
                     dpDesc.Value = category.Description;
                     cmd.Parameters.Add(dpDesc);
 
+                    DbParameter dpParent = provider.CreateParameter();
+                    dpParent.ParameterName = parmPrefix + "parentid";
+                    if (category.Parent == null)
+                        dpParent.Value = DBNull.Value;
+                    else
+                        dpParent.Value = category.Parent;
+                    cmd.Parameters.Add(dpParent); 
+                    
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -1022,7 +1020,7 @@ namespace BlogEngine.Core.Providers
 
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "SELECT CategoryID, CategoryName, description " +
+                    string sqlQuery = "SELECT CategoryID, CategoryName, description, ParentID " +
                         "FROM " + tablePrefix + "Categories ";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
@@ -1040,6 +1038,10 @@ namespace BlogEngine.Core.Providers
                                     cat.Description = "";
                                 else
                                     cat.Description = rdr.GetString(2);
+                                if (rdr.IsDBNull(3))
+                                    cat.Parent = null;
+                                else
+                                    cat.Parent = new Guid(rdr.GetGuid(3).ToString());
                                 cat.Id = new Guid(rdr.GetGuid(0).ToString());
                                 categories.Add(cat);
                                 cat.MarkOld();
@@ -1523,10 +1525,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpEmail = provider.CreateParameter();
                     dpEmail.ParameterName = parmPrefix + "email";
-                    if (comment.Email == null)
-                        dpEmail.Value = "";
-                    else
-                        dpEmail.Value = comment.Email;
+                    dpEmail.Value = comment.Email ?? "";
                     cmd.Parameters.Add(dpEmail);
 
                     DbParameter dpWebsite = provider.CreateParameter();
@@ -1544,18 +1543,12 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpCountry = provider.CreateParameter();
                     dpCountry.ParameterName = parmPrefix + "country";
-                    if (comment.Country == null)
-                        dpCountry.Value = string.Empty;
-                    else
-                        dpCountry.Value = comment.Country;
+                    dpCountry.Value = comment.Country ?? string.Empty;
                     cmd.Parameters.Add(dpCountry);
 
                     DbParameter dpIP = provider.CreateParameter();
                     dpIP.ParameterName = parmPrefix + "ip";
-                    if (comment.IP == null)
-                        dpIP.Value = string.Empty;
-                    else
-                        dpIP.Value = comment.IP;
+                    dpIP.Value = comment.IP ?? string.Empty;
                     cmd.Parameters.Add(dpIP);
 
                     DbParameter dpIsApproved = provider.CreateParameter();
@@ -1600,29 +1593,257 @@ namespace BlogEngine.Core.Providers
             }
 				}
 
-				public override AuthorProfile SelectProfile(string id)
-				{
-					throw new Exception("The method or operation is not implemented.");
-				}
+        /// <summary>
+        /// Loads AuthorProfile from database
+        /// </summary>
+        /// <param name="id">username</param>
+        /// <returns></returns>
+		public override AuthorProfile SelectProfile(string id)
+		{
+            StringDictionary dic = new StringDictionary();
+            AuthorProfile profile = new AuthorProfile(id);
 
-				public override void InsertProfile(AuthorProfile profile)
-				{
-					throw new Exception("The method or operation is not implemented.");
-				}
+            // Retrieve Profile data from Db
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
 
-				public override void UpdateProfile(AuthorProfile profile)
-				{
-					throw new Exception("The method or operation is not implemented.");
-				}
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
 
-				public override void DeleteProfile(AuthorProfile profile)
-				{
-					throw new Exception("The method or operation is not implemented.");
-				}
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT SettingName, SettingValue FROM " + tablePrefix + "Profiles " +
+                                        "WHERE UserName = " + parmPrefix + "name";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
 
-				public override List<AuthorProfile> FillProfiles()
-				{
-					throw new Exception("The method or operation is not implemented.");
-				}
+                    DbParameter dpName = provider.CreateParameter();
+                    dpName.ParameterName = parmPrefix + "name";
+                    dpName.Value = id;
+                    cmd.Parameters.Add(dpName);
+
+                    using (DbDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            dic.Add(rdr.GetString(0), rdr.GetString(1));
+                        }
+                    }
+                }
+            }
+
+            // Load profile with data from dictionary
+            if (dic.ContainsKey("DisplayName"))
+                profile.DisplayName = dic["DisplayName"];
+            if (dic.ContainsKey("FirstName"))
+                profile.FirstName = dic["FirstName"];
+            if (dic.ContainsKey("MiddleName"))
+                profile.MiddleName = dic["MiddleName"];
+            if (dic.ContainsKey("LastName"))
+                profile.LastName = dic["LastName"];
+            if (dic.ContainsKey("CityTown"))
+                profile.LastName = dic["CityTown"];
+            if (dic.ContainsKey("RegionState"))
+                profile.LastName = dic["RegionState"];
+            if (dic.ContainsKey("Country"))
+                profile.LastName = dic["Country"];
+            if (dic.ContainsKey("Birthday"))
+            {
+                DateTime date;
+                if (DateTime.TryParse(dic["Birthday"], out date))
+                    profile.Birthday = date;
+            }
+            if (dic.ContainsKey("AboutMe"))
+                profile.LastName = dic["AboutMe"];
+            if (dic.ContainsKey("PhotoURL"))
+                profile.LastName = dic["PhotoURL"];
+            if (dic.ContainsKey("Company"))
+                profile.LastName = dic["Company"];
+            if (dic.ContainsKey("EmailAddress"))
+                profile.LastName = dic["EmailAddress"];
+            if (dic.ContainsKey("PhoneMain"))
+                profile.LastName = dic["PhoneMain"];
+            if (dic.ContainsKey("PhoneMobile"))
+                profile.LastName = dic["PhoneMobile"];
+            if (dic.ContainsKey("PhoneFax"))
+                profile.LastName = dic["PhoneFax"];
+            if (dic.ContainsKey("IsPrivate"))
+                profile.IsPrivate = dic["IsPrivate"] == "true";
+
+		    return profile;
+		}
+
+        /// <summary>
+        /// Adds AuthorProfile to database
+        /// </summary>
+        /// <param name="profile"></param>
+		public override void InsertProfile(AuthorProfile profile)
+		{
+			UpdateProfile(profile);
+		}
+
+        /// <summary>
+        /// Updates AuthorProfile to database
+        /// </summary>
+        /// <param name="profile"></param>
+		public override void UpdateProfile(AuthorProfile profile)
+		{
+			// Remove Profile
+            DeleteProfile(profile);
+
+            // Create Profile Dictionary
+            StringDictionary dic = new StringDictionary();
+
+            if (!String.IsNullOrEmpty(profile.DisplayName))
+                dic.Add("DisplayName", profile.DisplayName);
+            if (!String.IsNullOrEmpty(profile.FirstName))
+                dic.Add("FirstName", profile.FirstName);
+            if (!String.IsNullOrEmpty(profile.MiddleName))
+                dic.Add("MiddleName", profile.MiddleName);
+            if (!String.IsNullOrEmpty(profile.LastName))
+                dic.Add("LastName", profile.LastName);
+            if (!String.IsNullOrEmpty(profile.CityTown))
+                dic.Add("CityTown", profile.CityTown);
+            if (!String.IsNullOrEmpty(profile.RegionState))
+                dic.Add("RegionState", profile.RegionState);
+            if (!String.IsNullOrEmpty(profile.Country))
+                dic.Add("Country", profile.Country);
+            if (!String.IsNullOrEmpty(profile.AboutMe))
+                dic.Add("AboutMe", profile.AboutMe);
+            if (!String.IsNullOrEmpty(profile.PhotoURL))
+                dic.Add("PhotoURL", profile.PhotoURL);
+            if (!String.IsNullOrEmpty(profile.Company))
+                dic.Add("Company", profile.Company);
+            if (!String.IsNullOrEmpty(profile.EmailAddress))
+                dic.Add("EmailAddress", profile.EmailAddress);
+            if (!String.IsNullOrEmpty(profile.PhoneMain))
+                dic.Add("PhoneMain", profile.PhoneMain);
+            if (!String.IsNullOrEmpty(profile.PhoneMobile))
+                dic.Add("PhoneMobile", profile.PhoneMobile);
+            if (!String.IsNullOrEmpty(profile.PhoneFax))
+                dic.Add("PhoneFax", profile.PhoneFax);
+            if (profile.Birthday != DateTime.MinValue)
+                dic.Add("Birthday", profile.Birthday.ToString("yyyy-MM-dd"));
+            
+            dic.Add("IsPrivate", profile.IsPrivate.ToString());
+            
+            // Save Profile Dictionary
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    foreach (string key in dic.Keys)
+                    {
+                        string sqlQuery = "INSERT INTO " + tablePrefix + "Profiles (UserName, SettingName, SettingValue) " +
+                                          "VALUES (@user, @name, @value)";
+                        if (parmPrefix != "@")
+                            sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                        cmd.CommandText = sqlQuery;
+                        cmd.Parameters.Clear();
+
+                        DbParameter dpUser = provider.CreateParameter();
+                        dpUser.ParameterName = parmPrefix + "user";
+                        dpUser.Value = profile.Id;
+                        cmd.Parameters.Add(dpUser);
+
+                        DbParameter dpName = provider.CreateParameter();
+                        dpName.ParameterName = parmPrefix + "name";
+                        dpName.Value = key;
+                        cmd.Parameters.Add(dpName);
+
+                        DbParameter dpValue = provider.CreateParameter();
+                        dpValue.ParameterName = parmPrefix + "value";
+                        dpValue.Value = dic[key];
+                        cmd.Parameters.Add(dpValue);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+		}
+
+        /// <summary>
+        /// Remove AuthorProfile from database
+        /// </summary>
+        /// <param name="profile"></param>
+		public override void DeleteProfile(AuthorProfile profile)
+		{
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "DELETE FROM " + tablePrefix + "Profiles " +
+                                      "WHERE UserName = " + parmPrefix + "name";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpName = provider.CreateParameter();
+                    dpName.ParameterName = parmPrefix + "name";
+                    dpName.Value = profile.Id;
+                    cmd.Parameters.Add(dpName);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+		}
+
+        /// <summary>
+        /// Return collection for AuthorProfiles from database
+        /// </summary>
+        /// <returns></returns>
+		public override List<AuthorProfile> FillProfiles()
+		{
+            List<AuthorProfile> profiles = new List<AuthorProfile>();
+            List<string> profileNames = new List<string>();
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT UserName FROM " + tablePrefix + "Profiles " +
+                                      "GROUP BY UserName";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            profileNames.Add(rdr.GetString(0));
+                        }
+                    }
+                }
+            }
+
+		    foreach (var name in profileNames)
+		    {
+		        profiles.Add(BusinessBase<AuthorProfile, string>.Load(name));
+		    }
+
+		    return profiles;
+		}
     }
 }
