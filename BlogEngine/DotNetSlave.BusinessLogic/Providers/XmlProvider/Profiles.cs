@@ -14,7 +14,7 @@ namespace BlogEngine.Core.Providers
 			XmlDocument doc = new XmlDocument();
 			doc.Load(fileName);
 
-			AuthorProfile profile = new AuthorProfile();
+			AuthorProfile profile = new AuthorProfile(id);
 
 			if (doc.SelectSingleNode("//DisplayName") != null)
 				profile.DisplayName = doc.SelectSingleNode("//DisplayName").InnerText;
@@ -67,6 +67,9 @@ namespace BlogEngine.Core.Providers
 			if (doc.SelectSingleNode("//PhoneFax") != null)
 				profile.PhoneFax = doc.SelectSingleNode("//PhoneFax").InnerText;
 
+            if (doc.SelectSingleNode("//IsPrivate") != null)
+                profile.IsPrivate = doc.SelectSingleNode("//IsPrivate").InnerText == "true";
+
 			//page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
 			//page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
 
@@ -105,6 +108,8 @@ namespace BlogEngine.Core.Providers
 				writer.WriteElementString("PhoneMain", profile.PhoneMain);
 				writer.WriteElementString("PhoneMobile", profile.PhoneMobile);
 				writer.WriteElementString("PhoneFax", profile.PhoneFax);
+
+                writer.WriteElementString("IsPrivate", profile.IsPrivate.ToString());
 
 				writer.WriteEndElement();
 			}
