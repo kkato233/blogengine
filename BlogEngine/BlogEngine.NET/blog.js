@@ -104,7 +104,7 @@ function CheckAuthorName(sender, args)
 function AddBbCode(v) {
   try
   {
-    if (document.getSelection) // firefox
+    if (contentBox.selectionStart) // firefox
     {      
       var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
       var therest = contentBox.value.substr(contentBox.selectionEnd);
@@ -112,7 +112,7 @@ function AddBbCode(v) {
       contentBox.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
       contentBox.focus();
     }
-    else // IE
+    else if (document.selection && document.selection.createRange) // IE
     {
       var str = document.selection.createRange().text;
       contentBox.focus();

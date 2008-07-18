@@ -70,21 +70,21 @@ public partial class admin_newuser : System.Web.UI.Page
 		if (e.Row.RowType == DataControlRowType.DataRow && !Page.IsPostBack)
 		{
 			LinkButton delete = e.Row.Cells[0].Controls[1] as LinkButton;
-            if (delete != null)
-            {
-                Label username = (Label) FindRowControl(e.Row, typeof (Label), "labelUsername");
-                string text =
-                    string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(),
-                                  username.Text.Trim());
-                if (Page.User.Identity.Name.Equals(username.Text, StringComparison.OrdinalIgnoreCase))
-                {
-                    delete.OnClientClick = "alert('You cannot delete your own account');return false;";
-                }
-                else
-                {
-                    delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
-                }
-            }
+			if (delete != null)
+			{
+				Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
+				string text =
+						string.Format(Resources.labels.areYouSure, Resources.labels.delete.ToLowerInvariant(),
+													username.Text.Trim());
+				if (Page.User.Identity.Name.Equals(username.Text, StringComparison.OrdinalIgnoreCase))
+				{
+					delete.OnClientClick = "alert('You cannot delete your own account');return false;";
+				}
+				else
+				{
+					delete.OnClientClick = "return confirm('" + text.Replace("'", "\\'") + "')";
+				}
+			}
 		}
 	}
 
@@ -103,57 +103,58 @@ public partial class admin_newuser : System.Web.UI.Page
 	/// </summary>
 	/// <param name="sender">The source of the event.</param>
 	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.</param>
-    void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
-    {
-        string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
-        string[] roles = Roles.GetRolesForUser(username);
-        Membership.DeleteUser(username);
+	void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+	{
+		string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
+		string[] roles = Roles.GetRolesForUser(username);
+		Membership.DeleteUser(username);
 
-        if (roles.Length > 0)
-            Roles.RemoveUserFromRoles(username, roles);
+		if (roles.Length > 0)
+			Roles.RemoveUserFromRoles(username, roles);
 
-				AuthorProfile profile =	AuthorProfile.GetProfile(username);
-				profile.Delete();
+		AuthorProfile profile = AuthorProfile.GetProfile(username);
+		if (profile != null)
+			profile.Delete();
 
-        if (HttpContext.Current.User.Identity.Name.Equals(username, StringComparison.OrdinalIgnoreCase))
-            FormsAuthentication.SignOut();
+		if (HttpContext.Current.User.Identity.Name.Equals(username, StringComparison.OrdinalIgnoreCase))
+			FormsAuthentication.SignOut();
 
-        Response.Redirect(Request.RawUrl);
-    }
+		Response.Redirect(Request.RawUrl);
+	}
 
-    /// <summary>
-    /// Handles the RowUpdating event of the grid control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
-    void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
-    {
-        string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
-        //TextBox txtPassword = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtPassword");
-        TextBox txtEmail = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtEmail");
-        //TextBox txtUsername = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtUsername");
+	/// <summary>
+	/// Handles the RowUpdating event of the grid control.
+	/// </summary>
+	/// <param name="sender">The source of the event.</param>
+	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
+	void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+	{
+		string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
+		//TextBox txtPassword = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtPassword");
+		TextBox txtEmail = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtEmail");
+		//TextBox txtUsername = (TextBox)gridUsers.Rows[e.RowIndex].FindControl("txtUsername");
 
-        MembershipUser oldUser = Membership.GetUser(username);
-				//string[] oldRoles = Roles.GetRolesForUser(username);
-				//if (oldRoles.Length > 0)
-				//    Roles.RemoveUserFromRoles(username, oldRoles);
-				//Membership.DeleteUser(username);
+		MembershipUser oldUser = Membership.GetUser(username);
+		//string[] oldRoles = Roles.GetRolesForUser(username);
+		//if (oldRoles.Length > 0)
+		//    Roles.RemoveUserFromRoles(username, oldRoles);
+		//Membership.DeleteUser(username);
 
-				//MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
-				//if (oldRoles.Length > 0)
-				//    Roles.AddUserToRoles(user.UserName, oldRoles);
+		//MembershipUser user = Membership.CreateUser(txtUsername.Text, txtPassword.Text, txtEmail.Text);
+		//if (oldRoles.Length > 0)
+		//    Roles.AddUserToRoles(user.UserName, oldRoles);
 
-				//if (username != user.UserName)
-				//    UpdatePosts(username, txtUsername.Text);
+		//if (username != user.UserName)
+		//    UpdatePosts(username, txtUsername.Text);
 
-				oldUser.Email = txtEmail.Text;
-				Membership.UpdateUser(oldUser);
+		oldUser.Email = txtEmail.Text;
+		Membership.UpdateUser(oldUser);
 
-        if (HttpContext.Current.User.Identity.Name.Equals(oldUser.UserName, StringComparison.CurrentCultureIgnoreCase))
-            FormsAuthentication.SignOut();
+		if (HttpContext.Current.User.Identity.Name.Equals(oldUser.UserName, StringComparison.CurrentCultureIgnoreCase))
+			FormsAuthentication.SignOut();
 
-        Response.Redirect(Request.RawUrl);
-    }
+		Response.Redirect(Request.RawUrl);
+	}
 
 	private static void UpdatePosts(string oldUsername, string newUsername)
 	{
