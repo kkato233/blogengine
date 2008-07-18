@@ -1838,7 +1838,7 @@ namespace BlogEngine.Core.Providers
                 }
             }
 
-		    foreach (var name in profileNames)
+		    foreach (string name in profileNames)
 		    {
 		        profiles.Add(BusinessBase<AuthorProfile, string>.Load(name));
 		    }
