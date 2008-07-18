@@ -53,6 +53,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 					if (fi.Exists && fi.Directory.FullName.ToUpperInvariant().Contains(Path.DirectorySeparatorChar + "FILES"))
 					{
+						context.Response.Cache.SetCacheability(HttpCacheability.Public);
+						context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
+						
+						if (Utils.SetConditionalGetHeaders(fi.CreationTimeUtc))
+							return;
+
 						int index = fileName.LastIndexOf(".") + 1;
 						string extension = fileName.Substring(index).ToUpperInvariant();
 
@@ -62,23 +68,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						else
 							context.Response.ContentType = "image/" + extension;
 
-						string etag = "\"" + fi.CreationTimeUtc.GetHashCode() + "\"";
-						string incomingEtag = context.Request.Headers["If-None-Match"];
-
-						context.Response.Cache.SetCacheability(HttpCacheability.Public);
-						context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
-						context.Response.Cache.SetLastModified(fi.CreationTimeUtc);
-						context.Response.Cache.SetETag(etag);
-
-						if (String.Compare(incomingEtag, etag) == 0)
-						{
-							context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
-						}
-						else
-						{
-							context.Response.TransmitFile(fi.FullName);
-						}
-
+						context.Response.TransmitFile(fi.FullName);
 						OnServed(fileName);
 					}
 					else

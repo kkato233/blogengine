@@ -238,9 +238,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				Post post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
 				if (post == null)
 				{
-					context.Response.StatusCode = 404;
-					context.Response.Clear();
-					context.Response.End();
+					StopServing(context);
 				}
 				subTitle = post.Title;
 			}
@@ -292,8 +290,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					break;
 			}
 
-			Utils.SetConditionalGetHeaders(lastModified);
-
+			if (Utils.SetConditionalGetHeaders(lastModified))
+				context.Response.End();
 		}
 
 		#endregion

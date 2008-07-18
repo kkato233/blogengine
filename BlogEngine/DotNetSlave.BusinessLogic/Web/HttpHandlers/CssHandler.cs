@@ -35,50 +35,47 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				string css = string.Empty;
 
 				OnServing(fileName);
-				try
+
+				// Check if a .css file was requested
+				if (!fileName.EndsWith("css", StringComparison.OrdinalIgnoreCase))
+					throw new System.Security.SecurityException("Invalid CSS file extension");
+
+				// In cache?
+				if (context.Cache[context.Request.RawUrl] == null)
 				{
-					// Check if a .css file was requested
-					if (!fileName.EndsWith("css", StringComparison.OrdinalIgnoreCase))
-						throw new System.Security.SecurityException("Invalid CSS file extension");
-
-					// In cache?
-					if (context.Cache[context.Request.RawUrl] == null)
+					// Not found in cache, let's load it up
+					if (fileName.StartsWith("http", StringComparison.OrdinalIgnoreCase))
 					{
-						// Not found in cache, let's load it up
-						if (fileName.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-						{ css = RetrieveRemoteCss(fileName); }
-						else
-						{ css = RetrieveLocalCss(fileName); }
+						css = RetrieveRemoteCss(fileName);
 					}
 					else
 					{
-						// Found in cache
-						css = (string)context.Cache[context.Request.RawUrl];
+						css = RetrieveLocalCss(fileName);
 					}
-
-					// Make sure css isn't empty
-					if (!string.IsNullOrEmpty(css))
-					{
-						// Optimize CSS content
-						//css = StripWhitespace(css);
-						context.Response.Write(css);
-
-						// Configure response headers
-						SetHeaders(css.GetHashCode(), context);
-
-						// Check if we should compress content
-						if (BlogSettings.Instance.EnableHttpCompression)
-							Compress(context);
-
-						OnServed(fileName);
-
-					}
-					else
-					{ throw new Exception("CSS not found"); }
 				}
-				catch (Exception ex)
+				else
 				{
-					OnBadRequest(ex.Message);
+					// Found in cache
+					css = (string)context.Cache[context.Request.RawUrl];
+				}
+
+				// Make sure css isn't empty
+				if (!string.IsNullOrEmpty(css))
+				{
+					// Configure response headers
+					SetHeaders(css.GetHashCode(), context);
+
+					context.Response.Write(css);
+
+					// Check if we should compress content
+					if (BlogSettings.Instance.EnableHttpCompression)
+						Compress(context);
+
+					OnServed(fileName);
+				}
+				else
+				{
+					OnBadRequest(fileName);
 					context.Response.Status = "404 Bad Request";
 				}
 			}
@@ -121,11 +118,20 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
 
 			context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
-			context.Response.Cache.SetCacheability(HttpCacheability.Public);
 			context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
 			context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
-			context.Response.Cache.SetETag("\"" + hash.ToString() + "\"");
 
+			string etag = "\"" + hash.ToString() + "\"";
+			string incomingEtag = context.Request.Headers["If-None-Match"];
+
+			context.Response.Cache.SetETag(etag);
+
+			if (String.Compare(incomingEtag, etag) == 0)
+			{
+				context.Response.Clear();
+				context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
+				context.Response.SuppressContent = true;
+			}
 		}
 
 		/// <summary>

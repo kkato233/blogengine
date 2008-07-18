@@ -21,7 +21,7 @@ using System.Security;
 
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
-//[assembly: AllowPartiallyTrustedCallers]
+[assembly: AllowPartiallyTrustedCallers]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.4.0.20")]
+[assembly: AssemblyVersion("1.4.0.21")]

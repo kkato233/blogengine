@@ -116,7 +116,7 @@ namespace BlogEngine.Core
 		/// Writes ETag and Last-Modified headers and sets the conditional get headers.
 		/// </summary>
 		/// <param name="date">The date.</param>
-		public static void SetConditionalGetHeaders(DateTime date)
+		public static bool SetConditionalGetHeaders(DateTime date)
 		{
 			HttpResponse response = HttpContext.Current.Response;
 			HttpRequest request = HttpContext.Current.Request;
@@ -124,14 +124,17 @@ namespace BlogEngine.Core
 			string etag = "\"" + date.Ticks + "\"";
 			string incomingEtag = request.Headers["If-None-Match"];
 
+			response.Cache.SetETag(etag);
+			response.Cache.SetLastModified(date);
+
 			if (String.Compare(incomingEtag, etag) == 0)
 			{
 				response.Clear();
 				response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
-				response.End();
+				return true;
 			}
 
-			response.AppendHeader("ETag", etag);
+			return false;
 		}
 
 		#region URL handling

@@ -712,4 +712,7 @@
   <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
     <value>Prefixes the page titles with the name of the blog</value>
   </data>
+  <data name="uncategorized" xml:space="preserve">
+    <value>Uncategorized</value>
+  </data>
 </root>

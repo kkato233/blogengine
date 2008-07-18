@@ -51,12 +51,15 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				try
 				{					
 					string folder = BlogSettings.Instance.StorageLocation + "/files/";
-					FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);
+					FileInfo info = new FileInfo(context.Server.MapPath(folder) + fileName);					
 
 					if (info.Exists && info.Directory.FullName.ToUpperInvariant().Contains(Path.DirectorySeparatorChar + "FILES"))
 					{
 						context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
 						SetContentType(context, fileName);
+
+						if (Utils.SetConditionalGetHeaders(info.CreationTimeUtc))
+							return;
 
 						context.Response.TransmitFile(info.FullName);
 						OnServed(fileName);

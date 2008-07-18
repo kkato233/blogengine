@@ -51,9 +51,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 			script = (string)context.Cache[path];
 			if (!string.IsNullOrEmpty(script))
-			{				
-				context.Response.Write(script);
+			{	
 				SetHeaders(script.GetHashCode(), context);
+				context.Response.Write(script);
 
 				if (BlogSettings.Instance.EnableHttpCompression)
 					Compress(context);
@@ -231,10 +231,20 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
 
 			context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
-			context.Response.Cache.SetCacheability(HttpCacheability.Public);
 			context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
 			context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
-			context.Response.Cache.SetETag("\"" + hash.ToString() + "\"");
+
+			string etag = "\"" + hash.ToString() + "\"";
+			string incomingEtag = context.Request.Headers["If-None-Match"];
+
+			context.Response.Cache.SetETag(etag);
+
+			if (String.Compare(incomingEtag, etag) == 0)
+			{
+				context.Response.Clear();
+				context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
+				context.Response.SuppressContent = true;
+			}
 		}
 
 		#region Compression
