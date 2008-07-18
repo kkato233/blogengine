@@ -16,7 +16,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		if (Page.IsCallback)
 			return;
-
+		
 		if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
 		{
 			DisplayCategories();
@@ -180,8 +180,9 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		if (!string.IsNullOrEmpty(Request.QueryString["name"]))
 		{
-			PostList1.Posts = Post.GetPostsByAuthor(Request.QueryString["name"]).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-			Title = "All posts by " + Request.QueryString["name"];
+			string author = Server.UrlDecode(Request.QueryString["name"]);
+			PostList1.Posts = Post.GetPostsByAuthor(author).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
+			Title = "All posts by " + Server.HtmlEncode(author);
 		}
 	}
 

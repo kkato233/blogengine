@@ -470,10 +470,11 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByAuthor(string author)
 		{
+			string legalAuthor = Utils.RemoveIllegalCharacters(author);
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
-				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);
-				return Utils.RemoveIllegalCharacters(author).Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
+				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);				
+				return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
 			});
 
 			list.TrimExcess();

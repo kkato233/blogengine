@@ -603,6 +603,9 @@
   <data name="trimStylesheetDescription" xml:space="preserve">
     <value>Gør alle stylesheets i alle temaer mindre ved at fjerne mellemrum.</value>
   </data>
+  <data name="uncategorized" xml:space="preserve">
+    <value>Ikke kategoriseret</value>
+  </data>
   <data name="updateFrequenzy" xml:space="preserve">
     <value>Opdateringsfrekvens (minutter)</value>
   </data>
