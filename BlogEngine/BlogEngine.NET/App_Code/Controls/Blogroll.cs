@@ -120,7 +120,7 @@ namespace Controls
     private HtmlGenericControl BindControls()
     {
       HtmlGenericControl ul = new HtmlGenericControl("ul");
-      ul.Attributes.Add("class", "oxox");
+      ul.Attributes.Add("class", "xoxo");
       foreach (RssItem item in _Items)
       {
         HtmlAnchor feedAnchor = new HtmlAnchor();
