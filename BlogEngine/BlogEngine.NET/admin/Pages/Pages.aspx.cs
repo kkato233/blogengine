@@ -45,25 +45,35 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 
 	private void btnUploadImage_Click(object sender, EventArgs e)
 	{
-		Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadImage);
-		string path = System.Web.VirtualPathUtility.ToAbsolute("~/");
-		string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(txtUploadImage.FileName));
-		txtContent.Text += string.Format(img, txtUploadImage.FileName);
+		string relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month.ToString() + Path.DirectorySeparatorChar;
+		string folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
+		string fileName = txtUploadImage.FileName;
+		Upload(folder + relativeFolder, txtUploadImage, fileName);
+
+		string path = Utils.RelativeWebRoot.ToString();
+		string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
+		txtContent.Text += img;
 	}
 
 	private void btnUploadFile_Click(object sender, EventArgs e)
 	{
-		Upload(BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar, txtUploadFile);
+		string relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month.ToString() + Path.DirectorySeparatorChar;
+		string folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
+		string fileName = txtUploadFile.FileName;
+		Upload(folder + relativeFolder, txtUploadFile, fileName);
 
 		string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
 		string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
-		txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(txtUploadFile.FileName), text);
+		txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
 	}
 
-	private void Upload(string virtualFolder, FileUpload control)
+	private void Upload(string virtualFolder, FileUpload control, string fileName)
 	{
 		string folder = Server.MapPath(virtualFolder);
-		control.PostedFile.SaveAs(folder + control.FileName);
+		if (!Directory.Exists(folder))
+			Directory.CreateDirectory(folder);
+
+		control.PostedFile.SaveAs(folder + fileName);
 	}
 
 	private string SizeFormat(float size, string formatString)
