@@ -29,10 +29,10 @@ namespace Controls
 
 		private static XmlDocument RetrieveXml()
 		{
-      WidgetSettings ws = new WidgetSettings("be_WIDGET_ZONE");
-      ws.SettingsBehavior = new XMLDocumentBehavior();
-      XmlDocument doc = (XmlDocument)ws.GetSettings();
-      return doc;
+			WidgetSettings ws = new WidgetSettings("be_WIDGET_ZONE");
+			ws.SettingsBehavior = new XMLDocumentBehavior();
+			XmlDocument doc = (XmlDocument)ws.GetSettings();
+			return doc;
 		}
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace Controls
 		protected override void Render(System.Web.UI.HtmlTextWriter writer)
 		{
 			writer.Write("<div id=\"widgetzone\">");
-			
+
 			base.Render(writer);
 
 			writer.Write("</div>");
@@ -91,7 +91,8 @@ namespace Controls
 				DirectoryInfo di = new DirectoryInfo(Page.Server.MapPath(Utils.RelativeWebRoot + "widgets"));
 				foreach (DirectoryInfo dir in di.GetDirectories())
 				{
-					writer.Write("<option value=\"" + dir.Name + "\">" + dir.Name + "</option>");
+					if (File.Exists(Path.Combine(dir.FullName, "widget.ascx")))
+						writer.Write("<option value=\"" + dir.Name + "\">" + dir.Name + "</option>");
 				}
 
 				writer.Write("</select>&nbsp;&nbsp;");

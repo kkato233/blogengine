@@ -1533,7 +1533,7 @@ namespace BlogEngine.Core.Providers
                     if (comment.Website == null)
                         dpWebsite.Value = string.Empty;
                     else
-                        dpWebsite.Value = comment.Email;
+                        dpWebsite.Value = comment.Website;
                     cmd.Parameters.Add(dpWebsite);
 
                     DbParameter dpContent = provider.CreateParameter();

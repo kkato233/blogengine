@@ -122,10 +122,13 @@ namespace BlogEngine.Core.Web.Controls
 			sb.AppendFormat("KEYcomments='{0}';", Translate("comments").Replace("'", "\\'"));
 			sb.AppendFormat("KEYcommentWasSaved='{0}';", Translate("commentWasSaved").Replace("'", "\\'"));
 			sb.AppendFormat("KEYcommentWaitingModeration='{0}';", Translate("commentWaitingModeration").Replace("'", "\\'"));
+			sb.AppendFormat("KEYcancel='{0}';", Translate("cancel").Replace("'", "\\'"));
+			sb.AppendFormat("KEYfilter='{0}';", Translate("filter").Replace("'", "\\'"));
+			sb.AppendFormat("KEYapmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
 
 			HtmlGenericControl script = new HtmlGenericControl("script");
 			script.Attributes.Add("type", "text/javascript");
-			script.InnerText = sb.ToString();
+			script.InnerHtml = sb.ToString();
 			Page.Header.Controls.Add(script);
 		}
 

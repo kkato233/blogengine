@@ -9,12 +9,13 @@ public partial class site : System.Web.UI.MasterPage
   {
 		if (Page.User.Identity.IsAuthenticated)
 		{
-			aLogin.InnerText = "Log off";
+			aLogin.InnerText = Resources.labels.logoff;
 			aLogin.HRef = BlogEngine.Core.Utils.RelativeWebRoot + "login.aspx?logoff";
 		}
 		else
 		{
 			aLogin.HRef = BlogEngine.Core.Utils.RelativeWebRoot + "login.aspx";
+			aLogin.InnerText = Resources.labels.login;
 		}
   }
 
