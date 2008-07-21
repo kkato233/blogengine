@@ -341,18 +341,19 @@ function filterByAPML()
   document.body.appendChild(div);  
   
   var p = document.createElement('p');
-  p.innerHTML = 'Enter the URL to your website or to your APML document';
+  p.innerHTML = KEYapmlDescription;
   p.style.margin = '0px';
   div.appendChild(p);
   
   var form = document.createElement('form');
   form.method = 'get';
+  form.style.display = 'inline';
   form.action = KEYwebRoot;
   div.appendChild(form);
   
   var textbox = document.createElement('input');
   textbox.type = 'text';
-  textbox.value = 'http://',
+  textbox.value = getCookieValue('url') || 'http://',
   textbox.style.width = '325px';
   textbox.id = 'txtapml';
   textbox.name = 'apml';
@@ -363,7 +364,7 @@ function filterByAPML()
   
   var button = document.createElement('input');
   button.type = 'submit';
-  button.value = 'Filter';
+  button.value = KEYfilter;
   button.onclick = function(){ location.href = KEYwebRoot + '?apml=' + encodeURIComponent($('txtapml').value)};  
   form.appendChild(button);
   
@@ -371,10 +372,25 @@ function filterByAPML()
   div.appendChild(br);
   
   var a = document.createElement('a');
-  a.innerHTML = 'Cancel';
+  a.innerHTML = KEYcancel;
   a.href = 'javascript:void(0)';
   a.onclick = function() {document.body.removeChild($('layer'));document.body.removeChild($('apmlfilter'));document.body.style.position = '';};
   div.appendChild(a);
+}
+
+function getCookieValue(name)
+{
+  var cookie = new String(document.cookie);
+
+  if (cookie != null && cookie.indexOf('comment=') > -1)
+  {
+    var start = cookie.indexOf(name + '=') + name.length + 1;
+    var end = cookie.indexOf('&', start);
+    if (end > start && start > -1)
+      return cookie.substring(start, end);
+  }
+  
+  return null;
 }
 
 addLoadEvent(HightLightXfn);

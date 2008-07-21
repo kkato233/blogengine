@@ -72,7 +72,6 @@
 
 <script type="text/javascript">
 <!--//
-
 var flagImage = $("<%= imgFlag.ClientID %>");
 var contentBox = $("<%=txtContent.ClientID %>");
 var moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;

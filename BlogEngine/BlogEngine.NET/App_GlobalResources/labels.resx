@@ -715,4 +715,22 @@
   <data name="uncategorized" xml:space="preserve">
     <value>Uncategorized</value>
   </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="filterByApml" xml:space="preserve">
+    <value>Filter by APML</value>
+  </data>
+  <data name="filterByApmlDescription" xml:space="preserve">
+    <value>Enter the URL to your website or to your APML document</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="logoff" xml:space="preserve">
+    <value>Log off</value>
+  </data>
 </root>
