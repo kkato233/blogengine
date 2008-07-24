@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SerializableStringDictionary>
-  <SerializableStringDictionary>
-    <DictionaryEntry Key="avatarsize" Value="50" />
-    <DictionaryEntry Key="showcomments" Value="False" />
-    <DictionaryEntry Key="days" Value="60" />
-    <DictionaryEntry Key="numberofvisitors" Value="3" />
-  </SerializableStringDictionary>
-</SerializableStringDictionary>

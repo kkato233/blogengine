@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widgets>
-  <widget id="fde4d0ae-788d-4873-a591-b92a16dfd1d5" title="About the author" showTitle="True">TextBox</widget>
-  <widget id="08032675-72aa-4e69-9d41-76547dd9181c" title="Search2" showTitle="False">Search</widget>
-  <widget id="93e2687e-eeba-45ba-98a2-ea24f3ec2ecc" title="Administration" showTitle="True">Administration</widget>
-  <widget id="8edcc57d-a098-45b9-a802-e64eb9764246" title="Tag cloud" showTitle="True">Tag cloud</widget>
-  <widget id="714f1ecb-fd6c-4d0c-9f9a-6ea6f224b57a" title="Recent posts" showTitle="True">RecentPosts</widget>
-  <widget id="6a934e13-360a-49f4-97f3-5e6c15612f00" title="Categories" showTitle="True">Category list</widget>
-  <widget id="64009d18-22b9-4409-96e2-449bce2ccb44" title="Blogroll" showTitle="True">BlogRoll</widget>
-  <widget id="749c43dc-78fe-45cc-b7d1-b623d15208c5" title="Recent comments" showTitle="True">RecentComments</widget>
-  <widget id="7e214c7c-d7e3-4bb9-b23c-036485efe25e" title="Page List" showTitle="True">Page List</widget>
-  <widget id="0ac769b9-db8b-41b2-9a0a-913e1fac2639" title="Disclaimer" showTitle="True">TextBox</widget>
-  <widget id="52400187-7bea-4eac-881f-38c8234863e9" title="Month List" showTitle="True">Month List</widget>
-  <widget id="c3c07563-ea1a-4abd-b2d8-9298d6731475" title="Calendar" showTitle="True">Calendar</widget>
-  <widget id="e699db1e-c942-46d7-8623-8cd0f00659d5" title="Most comments" showTitle="True">Most comments</widget>
-</widgets>
+﻿<?xml version="1.0" encoding="utf-8"?><WidgetData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Settings>&lt;widgets&gt;&lt;widget id="21e53765-113a-4e19-b775-84b04f450c62" title="About the author" showTitle="True"&gt;TextBox&lt;/widget&gt;&lt;widget id="0c0311d5-1387-47fe-a183-caa61fdafb0a" title="Search" showTitle="True"&gt;Search&lt;/widget&gt;&lt;widget id="6ad50e8b-88fe-4476-90b2-b226dad07569" title="Administration" showTitle="True"&gt;Administration&lt;/widget&gt;&lt;widget id="1ffff1f6-230c-45b6-b2d1-abb9624e7d29" title="Most comments" showTitle="True"&gt;Most comments&lt;/widget&gt;&lt;widget id="60347423-0c5a-4533-b16c-3800f86fd012" title="Tag cloud" showTitle="True"&gt;Tag cloud&lt;/widget&gt;&lt;widget id="96cd7905-e0f3-4535-9d64-2b34ce012b92" title="Calendar" showTitle="True"&gt;Calendar&lt;/widget&gt;&lt;widget id="f35caa32-be60-4b33-87c3-9962eb9e7c49" title="RecentPosts" showTitle="True"&gt;RecentPosts&lt;/widget&gt;&lt;widget id="5b4a3365-b40e-4fe7-9a55-4a1a558ecfb6" title="Category list" showTitle="True"&gt;Category list&lt;/widget&gt;&lt;widget id="d06b1c57-ab2a-4093-b1df-d1e51bad71d7" title="BlogRoll" showTitle="True"&gt;Blogroll&lt;/widget&gt;&lt;widget id="3581e68b-250f-4a04-bdd3-9a4b55942a27" title="Month List" showTitle="True"&gt;Month List&lt;/widget&gt;&lt;widget id="a5fd8ba1-54a8-44fb-adf4-67c8cc5ad404" title="RecentComments" showTitle="True"&gt;RecentComments&lt;/widget&gt;&lt;widget id="532c47bd-a9ac-4a5f-a516-1a04c29bf6aa" title="Page List" showTitle="True"&gt;Page List&lt;/widget&gt;&lt;widget id="a5a8e663-d64d-4484-894b-ff9b1c582ca5" title="Disclaimer" showTitle="True"&gt;TextBox&lt;/widget&gt;&lt;/widgets&gt;</Settings></WidgetData>

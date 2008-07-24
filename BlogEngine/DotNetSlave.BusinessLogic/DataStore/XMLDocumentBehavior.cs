@@ -1,9 +1,10 @@
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using BlogEngine.Core.Providers;
 using System.IO;
 using System.Configuration;
-using System.Xml.Serialization;
+using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BlogEngine.Core.DataStore
@@ -39,16 +40,21 @@ namespace BlogEngine.Core.DataStore
       {
         XmlDocument xml = (XmlDocument)settings;
 
-        if (_section.DefaultProvider == "XmlBlogProvider")
-        {
-          BlogService.SaveToDataStore(exType, exId, xml);
-        }
-        else
-        {
-          WidgetData wd = new WidgetData();
-          wd.Settings = xml.InnerXml;
-          BlogService.SaveToDataStore(exType, exId, wd);
-        }
+        //if (_section.DefaultProvider == "XmlBlogProvider")
+        //{
+        //  BlogService.SaveToDataStore(exType, exId, xml);
+        //}
+        //else
+        //{
+        //  WidgetData wd = new WidgetData();
+        //  wd.Settings = xml.InnerXml;
+        //  BlogService.SaveToDataStore(exType, exId, wd);
+        //}
+
+        WidgetData wd = new WidgetData();
+        wd.Settings = xml.InnerXml;
+        BlogService.SaveToDataStore(exType, exId, wd);
+        
         return true;
       }
       catch (Exception)
@@ -65,27 +71,20 @@ namespace BlogEngine.Core.DataStore
     /// <returns>Settings as Stream</returns>
     public object GetSettings(ExtensionType exType, string exId)
     {
-      Stream stm = BlogService.LoadFromDataStore(exType, exId);
+      object o = BlogService.LoadFromDataStore(exType, exId);
       WidgetData wd = new WidgetData();
       XmlDocument xml = new XmlDocument();
 
-      if (stm != null)
+      if (o != null)
       {
-        if (_section.DefaultProvider == "XmlBlogProvider")
+        XmlSerializer serializer = new XmlSerializer(typeof(WidgetData));
+        using (StringReader reader = new StringReader(o.ToString()))
         {
-          XmlSerializer x = new XmlSerializer(typeof(XmlDocument));
-          xml = (XmlDocument)x.Deserialize(stm);
-          stm.Close();
+          wd = (WidgetData)serializer.Deserialize(reader);
         }
-        else
-        {
-          BinaryFormatter bf = new BinaryFormatter();
-          stm.Position = 0;
-          wd = (WidgetData)bf.Deserialize(stm);
 
-          if (wd.Settings.Length > 0)
-            xml.InnerXml = wd.Settings;
-        }
+        if (wd.Settings.Length > 0)
+          xml.InnerXml = wd.Settings;
       }
       return xml;
     }

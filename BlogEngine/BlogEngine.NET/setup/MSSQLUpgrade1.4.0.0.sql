@@ -10,7 +10,7 @@ GO
 CREATE TABLE [dbo].[be_DataStoreSettings](
 	[ExtensionType] [nvarchar](50) NOT NULL,
 	[ExtensionId] [nvarchar](100) NOT NULL,
-	[Settings] [varbinary](max) NOT NULL
+	[Settings] [nvarchar](max) NOT NULL
 ) ON [PRIMARY]
 GO
 /****** Object:  Table [dbo].[be_Profiles]    Script Date: 06/28/2008 19:33:41 ******/

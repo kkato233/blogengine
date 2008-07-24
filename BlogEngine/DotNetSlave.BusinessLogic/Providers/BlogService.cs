@@ -350,7 +350,7 @@ namespace BlogEngine.Core.Providers
 		/// <param name="exType">Extension Type</param>
 		/// <param name="exId">Extension ID</param>
 		/// <returns>Settings as stream</returns>
-		public static Stream LoadFromDataStore(ExtensionType exType, string exId)
+		public static object LoadFromDataStore(ExtensionType exType, string exId)
 		{
 			LoadProviders();
 			return _provider.LoadFromDataStore(exType, exId);
