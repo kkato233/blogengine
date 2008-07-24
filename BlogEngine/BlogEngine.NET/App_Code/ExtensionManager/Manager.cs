@@ -190,6 +190,7 @@ public class ExtensionManager
             {
               x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
               _newExtensions.Add(type.Name);
+              SaveToStorage(x);
             }
             else
             {
@@ -216,21 +217,14 @@ public class ExtensionManager
   {
     ManagedExtension ex = null;
     BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(name);
-    Stream stm = (Stream)xs.GetSettings();
+    object o = xs.GetSettings();
 
-    if (stm != null)
+    if (!string.IsNullOrEmpty((string)o))
     {
-      if (stm.GetType().Name == "FileStream")
+      XmlSerializer serializer = new XmlSerializer(typeof(ManagedExtension));
+      using (StringReader reader = new StringReader(o.ToString()))
       {
-        XmlSerializer x = new XmlSerializer(typeof(ManagedExtension));
-        ex = (ManagedExtension)x.Deserialize(stm);
-        stm.Close();
-      }
-      else
-      {
-        BinaryFormatter bf = new BinaryFormatter();
-        stm.Position = 0;
-        ex = (ManagedExtension)bf.Deserialize(stm);
+        ex = (ManagedExtension)serializer.Deserialize(reader);
       }
     }
     return ex;
@@ -377,6 +371,17 @@ public class ExtensionManager
       BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(ext.Name);
       xs.SaveSettings(ext);
     }
+    return true;
+  }
+  /// <summary>
+  /// Save individual extension to storage
+  /// </summary>
+  /// <param name="ext">Extension</param>
+  /// <returns>True if saved</returns>
+  public static bool SaveToStorage(ManagedExtension ext)
+  {
+    BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(ext.Name);
+    xs.SaveSettings(ext);
     return true;
   }
 

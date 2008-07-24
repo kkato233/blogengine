@@ -35,7 +35,6 @@ namespace BlogEngine.Core.DataStore
         {
           ssd.Add(de.Key.ToString(), de.Value.ToString());
         }
-        //ssd = (SerializableStringDictionary)sd;
 
         BlogService.SaveToDataStore(exType, exId, ssd);
         return true;
@@ -55,25 +54,17 @@ namespace BlogEngine.Core.DataStore
     /// <returns>StringDictionary object as Stream</returns>
     public object GetSettings(ExtensionType exType, string exId)
     {
-      Stream stm = BlogService.LoadFromDataStore(exType, exId);
+      string s = (string)BlogService.LoadFromDataStore(exType, exId);
       SerializableStringDictionary ssd;
       StringDictionary sd = new StringDictionary();
 
-      if (stm != null)
+      if (!string.IsNullOrEmpty(s))
       {
-        if (_section.DefaultProvider == "XmlBlogProvider")
+        XmlSerializer serializer = new XmlSerializer(typeof(SerializableStringDictionary));
+        using (StringReader reader = new StringReader(s))
         {
-          XmlSerializer x = new XmlSerializer(typeof(SerializableStringDictionary));
-          ssd = (SerializableStringDictionary)x.Deserialize(stm);
-          stm.Close();
+          ssd = (SerializableStringDictionary)serializer.Deserialize(reader);
         }
-        else
-        {
-          BinaryFormatter bf = new BinaryFormatter();
-          stm.Position = 0;
-          ssd = (SerializableStringDictionary)bf.Deserialize(stm);
-        }
-
         sd = (StringDictionary)ssd;
       }
       return sd;

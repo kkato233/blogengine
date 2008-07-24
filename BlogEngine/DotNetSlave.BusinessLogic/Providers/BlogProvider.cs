@@ -142,7 +142,7 @@ namespace BlogEngine.Core.Providers
         /// <param name="exType">Extension Type</param>
         /// <param name="exId">Extensio Id</param>
         /// <returns>Settings as stream</returns>
-        public abstract Stream LoadFromDataStore(DataStore.ExtensionType exType, string exId);
+        public abstract object LoadFromDataStore(DataStore.ExtensionType exType, string exId);
         /// <summary>
         /// Saves settings to data store
         /// </summary>

@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Collections;
 using System.Xml;
 using System.Net;
+using System.Web.Caching;
 
 #endregion
 
@@ -564,5 +565,6 @@ namespace BlogEngine.Core
 				return Convert.ToBase64String(sha.Hash);
 			}
 		}
+
 	}
 }

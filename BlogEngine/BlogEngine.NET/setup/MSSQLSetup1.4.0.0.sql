@@ -25,7 +25,7 @@ GO
 CREATE TABLE [dbo].[be_DataStoreSettings](
 	[ExtensionType] [nvarchar](50) NOT NULL,
 	[ExtensionId] [nvarchar](100) NOT NULL,
-	[Settings] [varbinary](max) NOT NULL
+	[Settings] [nvarchar](max) NOT NULL
 ) ON [PRIMARY]
 
 GO

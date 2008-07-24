@@ -8,6 +8,9 @@ using System.Data.Common;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using BlogEngine.Core.DataStore;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace BlogEngine.Core.Providers
 {
@@ -1263,9 +1266,10 @@ namespace BlogEngine.Core.Providers
         /// <param name="exType">type of info</param>
         /// <param name="exId">id of info</param>
         /// <returns>stream of detail data</returns>
-        public override Stream LoadFromDataStore(ExtensionType exType, string exId)
+        public override object LoadFromDataStore(ExtensionType exType, string exId)
         {
-            MemoryStream stream;
+            //MemoryStream stream;
+            object o = null;
             string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
             string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
             DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
@@ -1291,15 +1295,10 @@ namespace BlogEngine.Core.Providers
                     dpeId.Value = exId;
                     cmd.Parameters.Add(dpeId);
 
-                    object o = cmd.ExecuteScalar();
-
-                    if (o == null)
-                        stream = null;
-                    else
-                        stream = new MemoryStream((byte[])o);
+                    o = cmd.ExecuteScalar();
                 }
             }
-            return stream;
+            return o;
         }
 
         /// <summary>
@@ -1313,21 +1312,19 @@ namespace BlogEngine.Core.Providers
             if (settings == null)
                 throw new ArgumentNullException("settings");
 
-            // Prep
-            MemoryStream stm = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(stm, settings);
-            
-            byte[] file = new byte[stm.Length];
-
-            stm.Seek(0, SeekOrigin.Begin);
-            stm.Read(file, 0, (int)stm.Length);
-
             // Save
             string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
             string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
             DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
 
+            XmlSerializer xs = new XmlSerializer(settings.GetType());
+            string objectXML = string.Empty;
+            using (StringWriter sw = new StringWriter())
+            {
+              xs.Serialize(sw, settings);
+              objectXML = sw.ToString();
+            }
+            
             using (DbConnection conn = provider.CreateConnection())
             {
                 conn.ConnectionString = connString;
@@ -1364,7 +1361,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpFile = provider.CreateParameter();
                     dpFile.ParameterName = parmPrefix + "file";
-                    dpFile.Value = file;
+                    dpFile.Value = objectXML; // settings.ToString(); // file;
                     cmd.Parameters.Add(dpFile);
 
                     cmd.ExecuteNonQuery();

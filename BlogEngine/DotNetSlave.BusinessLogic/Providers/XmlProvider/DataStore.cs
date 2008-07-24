@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Text;
 using BlogEngine.Core.DataStore;
+using System.Xml;
 using System.Xml.Serialization;
 using System.Web.Hosting;
 
@@ -21,11 +23,11 @@ namespace BlogEngine.Core.Providers
     /// <param name="exType">Extension Type</param>
     /// <param name="exId">Extension ID</param>
     /// <returns>Stream Settings</returns>
-    public override Stream LoadFromDataStore(ExtensionType exType, string exId)
+    public override object LoadFromDataStore(ExtensionType exType, string exId)
     {
       string _fileName = StorageLocation(exType) + exId + ".xml";
       StreamReader reader = null;
-      Stream str = null;
+      string s = string.Empty;
       try
       {
         if (!Directory.Exists(StorageLocation(exType)))
@@ -34,14 +36,15 @@ namespace BlogEngine.Core.Providers
         if (File.Exists(_fileName))
         {
           reader = new StreamReader(_fileName);
-          str = reader.BaseStream;
+          s = reader.ReadToEnd();
+          reader.Close();
         }
       }
       catch (Exception)
       {
         throw;
       }
-      return str;
+      return s;
     }
 
     /// <summary>
@@ -58,12 +61,11 @@ namespace BlogEngine.Core.Providers
         if (!Directory.Exists(StorageLocation(exType)))
           Directory.CreateDirectory(StorageLocation(exType));
 
-        using (TextWriter writer = new StreamWriter(_fileName))
-        {
-          XmlSerializer x = new XmlSerializer(settings.GetType());
-          x.Serialize(writer, settings);
-          writer.Close();
-        }
+        XmlSerializer serializer = new XmlSerializer(settings.GetType());
+
+        XmlTextWriter writer = new XmlTextWriter(_fileName, Encoding.UTF8);
+        serializer.Serialize(writer, settings);
+        writer.Close();
       }
       catch (Exception e)
       {
