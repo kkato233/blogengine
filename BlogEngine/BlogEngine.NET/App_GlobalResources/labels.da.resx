@@ -639,6 +639,9 @@
   <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
     <value>Tilføjer bloggens navn før titlen på de enkelte sider</value>
   </data>
+  <data name="useRawHtmlEditor" xml:space="preserve">
+    <value>Brug kun ren HTML</value>
+  </data>
   <data name="userName" xml:space="preserve">
     <value>Brugernavn</value>
   </data>

@@ -21,57 +21,57 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 	{
 		if (!Page.IsPostBack)
 		{
-		    BindGrid();
+			BindGrid();
 
-		    LoadParentDropDown(ddlNewParent);
+			LoadParentDropDown(ddlNewParent);
 		}
 
-	    grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
+		grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
 		grid.RowUpdating += new GridViewUpdateEventHandler(grid_RowUpdating);
 		grid.RowCancelingEdit += delegate { Response.Redirect(Request.RawUrl); };
 		grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
-        grid.RowDataBound += new GridViewRowEventHandler(grid_RowDataBound);
+		grid.RowDataBound += new GridViewRowEventHandler(grid_RowDataBound);
 		btnAdd.Click += new EventHandler(btnAdd_Click);
 		btnAdd.Text = Resources.labels.add + " " + Resources.labels.category.ToLowerInvariant();
 		valExist.ServerValidate += new ServerValidateEventHandler(valExist_ServerValidate);
 		Page.Title = Resources.labels.categories;
 	}
 
-    void grid_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowState == DataControlRowState.Edit ||
-            e.Row.RowState == (DataControlRowState.Alternate | DataControlRowState.Edit))
-        {
-            DropDownList ddlParent = (DropDownList) e.Row.FindControl("ddlParent");
-            LoadParentDropDown(ddlParent);
+	void grid_RowDataBound(object sender, GridViewRowEventArgs e)
+	{
+		if (e.Row.RowState == DataControlRowState.Edit ||
+				e.Row.RowState == (DataControlRowState.Alternate | DataControlRowState.Edit))
+		{
+			DropDownList ddlParent = (DropDownList)e.Row.FindControl("ddlParent");
+			LoadParentDropDown(ddlParent);
 
-            Category temp = (Category) e.Row.DataItem;
-            if (temp.Parent != null)
-            {
-                foreach (ListItem item in ddlParent.Items)
-                {
-                    if (item.Value == temp.Parent.ToString())
-                    {
-                        item.Selected = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
+			Category temp = (Category)e.Row.DataItem;
+			if (temp.Parent != null)
+			{
+				foreach (ListItem item in ddlParent.Items)
+				{
+					if (item.Value == temp.Parent.ToString())
+					{
+						item.Selected = true;
+						break;
+					}
+				}
+			}
+		}
+	}
 
-    private void LoadParentDropDown(DropDownList ddl)
-    {
-        // Load up the Parent DropDown
-        ddl.ClearSelection();
-        ddl.Items.Add(new ListItem("none", "0"));
-        foreach (Category cat in Category.Categories)
-        {
-            ddl.Items.Add(new ListItem(cat.CompleteTitle(), cat.Id.ToString()));
-        }
-    }
+	private void LoadParentDropDown(DropDownList ddl)
+	{
+		// Load up the Parent DropDown
+		ddl.ClearSelection();
+		ddl.Items.Add(new ListItem("none", "0"));
+		foreach (Category cat in Category.Categories)
+		{
+			ddl.Items.Add(new ListItem(cat.CompleteTitle(), cat.Id.ToString()));
+		}
+	}
 
-    /// <summary>
+	/// <summary>
 	/// Handles the ServerValidate event of the valExist control.
 	/// </summary>
 	/// <param name="source">The source of the event.</param>
@@ -96,9 +96,14 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 	{
 		if (Page.IsValid)
 		{
-			Category cat = new Category(txtNewCategory.Text, txtNewNewDescription.Text);
-            if (ddlNewParent.SelectedValue != "0")
-                cat.Parent = new Guid(ddlNewParent.SelectedValue);
+			string description = txtNewNewDescription.Text;
+			if (description.Length > 255)
+				description = description.Substring(0, 255);
+
+			Category cat = new Category(txtNewCategory.Text, description);
+			if (ddlNewParent.SelectedValue != "0")
+				cat.Parent = new Guid(ddlNewParent.SelectedValue);
+
 			cat.Save();
 			Response.Redirect(Request.RawUrl, true);
 		}
@@ -113,7 +118,7 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 	{
 		Guid id = (Guid)grid.DataKeys[e.RowIndex].Value;
 		Category cat = Category.GetCategory(id);
-		
+
 		// Removes all references to the category
 		foreach (Post post in Post.Posts)
 		{
@@ -138,14 +143,14 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 		Guid id = (Guid)grid.DataKeys[e.RowIndex].Value;
 		TextBox textboxTitle = (TextBox)grid.Rows[e.RowIndex].FindControl("txtTitle");
 		TextBox textboxDescription = (TextBox)grid.Rows[e.RowIndex].FindControl("txtDescription");
-	    DropDownList ddlParent = (DropDownList) grid.Rows[e.RowIndex].FindControl("ddlParent");
-        Category cat = Category.GetCategory(id);
+		DropDownList ddlParent = (DropDownList)grid.Rows[e.RowIndex].FindControl("ddlParent");
+		Category cat = Category.GetCategory(id);
 		cat.Title = textboxTitle.Text;
 		cat.Description = textboxDescription.Text;
-        if (ddlParent.SelectedValue == "0")
-            cat.Parent = null;
-        else 
-            cat.Parent = new Guid(ddlParent.SelectedValue);
+		if (ddlParent.SelectedValue == "0")
+			cat.Parent = null;
+		else
+			cat.Parent = new Guid(ddlParent.SelectedValue);
 		cat.Save();
 
 		Response.Redirect(Request.RawUrl);
@@ -172,12 +177,12 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 		grid.DataBind();
 	}
 
-    protected string GetParentTitle(object item)
-    {
-        Category temp = (Category) item;
-        if (temp.Parent == null)
-            return "";
-        else
-            return Category.GetCategory((Guid)temp.Parent).Title;
-    }
+	protected string GetParentTitle(object item)
+	{
+		Category temp = (Category)item;
+		if (temp.Parent == null)
+			return "";
+		else
+			return Category.GetCategory((Guid)temp.Parent).Title;
+	}
 }

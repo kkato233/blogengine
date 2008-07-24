@@ -29,7 +29,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 
 			Page.Title = Resources.labels.add_Entry;
 			Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
-
+			cbUseRaw.Text = Resources.labels.useRawHtmlEditor;
 			if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
 			{
 				Guid id = new Guid(Request.QueryString["id"]);
