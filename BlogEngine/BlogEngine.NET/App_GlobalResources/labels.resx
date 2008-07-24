@@ -733,4 +733,7 @@
   <data name="logoff" xml:space="preserve">
     <value>Log off</value>
   </data>
+  <data name="useRawHtmlEditor" xml:space="preserve">
+    <value>Use raw HTML editor</value>
+  </data>
 </root>

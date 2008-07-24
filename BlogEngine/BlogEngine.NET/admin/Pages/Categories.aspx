@@ -32,7 +32,7 @@
           <%# Server.HtmlEncode(Eval("description").ToString())%>
         </ItemTemplate>
         <EditItemTemplate>
-          <asp:TextBox runat="server" ID="txtDescription" Text='<%# Eval("description") %>'  />
+          <asp:TextBox runat="server" MaxLength="255" ID="txtDescription" Text='<%# Eval("description") %>'  />
         </EditItemTemplate>
       </asp:TemplateField>
       <asp:TemplateField HeaderText="Parent">
