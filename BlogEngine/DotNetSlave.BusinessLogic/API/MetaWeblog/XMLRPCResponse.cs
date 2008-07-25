@@ -26,6 +26,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       _categories = new List<MWACategory>();
       _posts = new List<MWAPost>();
       _pages = new List<MWAPage>();
+      _authors = new List<MWAAuthor>();
     }
     #endregion
 
@@ -44,11 +45,20 @@ namespace BlogEngine.Core.API.MetaWeblog
     private List<MWAPage> _pages;
     private MWAPage _page;
     private string _pageID;
+    private List<MWAAuthor> _authors;
 
     #endregion
 
     #region Public Properties
 
+    /// <summary>
+    /// List if author structs.  Used by wp.getAuthors.
+    /// </summary>
+    public List<MWAAuthor> Authors
+    {
+      get { return _authors; }
+      set { _authors = value; }
+    }
     /// <summary>
     /// List of blog structs.  Used by blogger.getUsersBlogs.
     /// </summary>
@@ -208,6 +218,9 @@ namespace BlogEngine.Core.API.MetaWeblog
             break;
           case "wp.getPages":
             WritePages(data);
+            break;
+          case "wp.getAuthors":
+            WriteAuthors(data);
             break;
           case "fault":
             WriteFault(data);
@@ -903,6 +916,65 @@ namespace BlogEngine.Core.API.MetaWeblog
       string temp = date.Year.ToString() + date.Month.ToString().PadLeft(2, '0') + date.Day.ToString().PadLeft(2, '0') +
           "T" + date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0') + ":" + date.Second.ToString().PadLeft(2, '0');
       return temp;
+    }
+
+    /// <summary>
+    /// Writes the Array of Category structs parameters of Response
+    /// </summary>
+    /// <param name="data">xml response</param>
+    private void WriteAuthors(XmlTextWriter data)
+    {
+        data.WriteStartElement("param");
+        data.WriteStartElement("value");
+        data.WriteStartElement("array");
+        data.WriteStartElement("data");
+
+        foreach (MWAAuthor author in _authors)
+        {
+            data.WriteStartElement("value");
+            data.WriteStartElement("struct");
+
+            // user id
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "user_id");
+            data.WriteElementString("value", author.user_id);
+            data.WriteEndElement();
+
+            // login
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "user_login");
+            data.WriteElementString("value", author.user_login);
+            data.WriteEndElement();
+
+            // display name 
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "display_name");
+            data.WriteElementString("value", author.display_name);
+            data.WriteEndElement();
+
+            // user email
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "user_email");
+            data.WriteElementString("value", author.user_email);
+            data.WriteEndElement();
+
+            // meta value
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "meta_value");
+            data.WriteElementString("value", author.meta_value);
+            data.WriteEndElement();
+
+            data.WriteEndElement();
+            data.WriteEndElement();
+
+        }
+
+        // Close tags
+        data.WriteEndElement();
+        data.WriteEndElement();
+        data.WriteEndElement();
+        data.WriteEndElement();
+
     }
 
     #endregion
