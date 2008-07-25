@@ -54,18 +54,31 @@ namespace BlogEngine.Core.DataStore
     /// <returns>StringDictionary object as Stream</returns>
     public object GetSettings(ExtensionType exType, string exId)
     {
-      string s = (string)BlogService.LoadFromDataStore(exType, exId);
-      SerializableStringDictionary ssd;
+      SerializableStringDictionary ssd = null;
       StringDictionary sd = new StringDictionary();
+      XmlSerializer serializer = new XmlSerializer(typeof(SerializableStringDictionary));
 
-      if (!string.IsNullOrEmpty(s))
+      if (_section.DefaultProvider == "XmlBlogProvider")
       {
-        XmlSerializer serializer = new XmlSerializer(typeof(SerializableStringDictionary));
-        using (StringReader reader = new StringReader(s))
+        Stream stm = (Stream)BlogService.LoadFromDataStore(exType, exId);
+        if (stm != null)
         {
-          ssd = (SerializableStringDictionary)serializer.Deserialize(reader);
+          ssd = (SerializableStringDictionary)serializer.Deserialize(stm);
+          stm.Close();
+          sd = (StringDictionary)ssd;
         }
-        sd = (StringDictionary)ssd;
+      }
+      else
+      {
+        object o = BlogService.LoadFromDataStore(exType, exId);
+        if (!string.IsNullOrEmpty((string)o))
+        {
+          using (StringReader reader = new StringReader((string)o))
+          {
+            ssd = (SerializableStringDictionary)serializer.Deserialize(reader);
+          }
+          sd = (StringDictionary)ssd;
+        }
       }
       return sd;
     }
