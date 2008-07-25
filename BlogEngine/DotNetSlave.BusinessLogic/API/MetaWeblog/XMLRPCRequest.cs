@@ -227,6 +227,7 @@ namespace BlogEngine.Core.API.MetaWeblog
             _media = GetMediaObject(_inputParams[3]);
             break;
           case "metaWeblog.getCategories":
+          case "wp.getAuthors":
           case "wp.getPageList":
           case "wp.getPages":
             _blogID = _inputParams[0].InnerText;
@@ -340,6 +341,11 @@ namespace BlogEngine.Core.API.MetaWeblog
           temp.slug = "";
         else
           temp.slug = node.SelectSingleNode("value/struct/member[name='wp_slug']").LastChild.InnerText;
+
+        if (node.SelectSingleNode("value/struct/member[name='wp_author_id']") == null)
+            temp.author = "";
+        else
+            temp.author = node.SelectSingleNode("value/struct/member[name='wp_author_id']").LastChild.InnerText;
 
         if (node.SelectSingleNode("value/struct/member[name='categories']") != null)
         {

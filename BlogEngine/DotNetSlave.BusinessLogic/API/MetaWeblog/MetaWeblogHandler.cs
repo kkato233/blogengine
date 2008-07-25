@@ -85,6 +85,9 @@ namespace BlogEngine.Core.API.MetaWeblog
 					case "wp.deletePage":
 						output.Completed = DeletePage(input.BlogID, input.PageID, input.UserName, input.Password);
 						break;
+                    case "wp.getAuthors":
+				        output.Authors = GetAuthors(input.BlogID, input.UserName, input.Password);
+				        break;
 				}
 
 				output.Response(context);
@@ -128,7 +131,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 
 			Post post = new Post();
 
-			post.Author = userName;
+            if (String.IsNullOrEmpty(sentPost.author))
+                post.Author = userName;
+            else
+                post.Author = sentPost.author;
 			post.Title = sentPost.title;
 			post.Content = sentPost.description;
 			post.IsPublished = publish;
@@ -187,7 +193,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 
 			Post post = Post.GetPost(new Guid(postID));
 
-			post.Author = userName;
+            if (String.IsNullOrEmpty(sentPost.author))
+                post.Author = userName;
+            else
+                post.Author = sentPost.author;
 			post.Title = sentPost.title;
 			post.Content = sentPost.description;
 			post.IsPublished = publish;
@@ -597,6 +606,30 @@ namespace BlogEngine.Core.API.MetaWeblog
 			return true;
 		}
 
+        internal List<MWAAuthor> GetAuthors(string blogID, string userName, string password)
+        {
+            ValidateRequest(userName, password);
+
+            List<MWAAuthor> authors = new List<MWAAuthor>();
+            int total = 0;
+            int count = 0;
+            MembershipUserCollection users = Membership.Provider.GetAllUsers(0, 999, out total);
+
+            foreach (MembershipUser user in users)
+            {
+                count++;
+                MWAAuthor temp = new MWAAuthor();
+                temp.user_id = user.UserName;
+                temp.user_login = user.UserName;
+                temp.display_name = user.UserName;
+                temp.user_email = user.Email;
+                temp.meta_value = "";
+                authors.Add(temp);
+            }
+            
+            return authors;
+        }
+
 		#endregion
 
 		#region Private Methods
@@ -817,6 +850,10 @@ namespace BlogEngine.Core.API.MetaWeblog
 		/// Excerpt
 		/// </summary>
 		public string excerpt;
+        /// <summary>
+        /// wp_author_id
+        /// </summary>
+	    public string author;
 
 	}
 
@@ -893,5 +930,32 @@ namespace BlogEngine.Core.API.MetaWeblog
 		/// </summary>
 		public string mt_keywords;
 	}
+
+    /// <summary>
+    /// wp Author struct
+    /// </summary>
+    internal struct MWAAuthor
+    {
+        /// <summary>
+        /// userID - Specs call for a int, but our ID is a string.
+        /// </summary>
+        public string user_id;
+        /// <summary>
+        /// user login name
+        /// </summary>
+        public string user_login;
+        /// <summary>
+        /// display name
+        /// </summary>
+        public string display_name;
+        /// <summary>
+        /// user email
+        /// </summary>
+        public string user_email;
+        /// <summary>
+        /// nothing to see here.
+        /// </summary>
+        public string meta_value;
+    }
 
 }

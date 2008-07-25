@@ -3,14 +3,16 @@
   <options>
     <clientType>Metaweblog</clientType>
     <supportsEmbeds>Yes</supportsEmbeds>
-	<supportsKeywords>Yes</supportsKeywords>
-	<supportsNewCategories>Yes</supportsNewCategories>
-	<supportsNewCategoriesInline>Yes</supportsNewCategoriesInline>
-	<supportsCommentPolicy>Yes</supportsCommentPolicy>
-	<supportsSlug>Yes</supportsSlug>
-	<supportsExcerpt>Yes</supportsExcerpt>
-	<supportsPages>Yes</supportsPages>
-	<supportsPageParent>Yes</supportsPageParent>
+	  <supportsKeywords>Yes</supportsKeywords>
+	  <supportsNewCategories>Yes</supportsNewCategories>
+	  <supportsNewCategoriesInline>Yes</supportsNewCategoriesInline>
+	  <supportsCommentPolicy>Yes</supportsCommentPolicy>
+	  <supportsSlug>Yes</supportsSlug>
+	  <supportsExcerpt>Yes</supportsExcerpt>
+	  <supportsPages>Yes</supportsPages>
+	  <supportsPageParent>Yes</supportsPageParent>
+    <supportsAuthor>Yes</supportsAuthor>
+    <requiresHtmlTitles>No</requiresHtmlTitles>
 </options>
   <weblog>
     <ServiceName>BlogEngine.NET</ServiceName>
