@@ -40,21 +40,16 @@ namespace BlogEngine.Core.DataStore
       {
         XmlDocument xml = (XmlDocument)settings;
 
-        //if (_section.DefaultProvider == "XmlBlogProvider")
-        //{
-        //  BlogService.SaveToDataStore(exType, exId, xml);
-        //}
-        //else
-        //{
-        //  WidgetData wd = new WidgetData();
-        //  wd.Settings = xml.InnerXml;
-        //  BlogService.SaveToDataStore(exType, exId, wd);
-        //}
-
-        WidgetData wd = new WidgetData();
-        wd.Settings = xml.InnerXml;
-        BlogService.SaveToDataStore(exType, exId, wd);
-        
+        if (_section.DefaultProvider == "XmlBlogProvider")
+        {
+          BlogService.SaveToDataStore(exType, exId, xml);
+        }
+        else
+        {
+          WidgetData wd = new WidgetData();
+          wd.Settings = xml.InnerXml;
+          BlogService.SaveToDataStore(exType, exId, wd);
+        }
         return true;
       }
       catch (Exception)
@@ -71,20 +66,33 @@ namespace BlogEngine.Core.DataStore
     /// <returns>Settings as Stream</returns>
     public object GetSettings(ExtensionType exType, string exId)
     {
-      object o = BlogService.LoadFromDataStore(exType, exId);
       WidgetData wd = new WidgetData();
       XmlDocument xml = new XmlDocument();
 
-      if (o != null)
+      if (_section.DefaultProvider == "XmlBlogProvider")
       {
-        XmlSerializer serializer = new XmlSerializer(typeof(WidgetData));
-        using (StringReader reader = new StringReader(o.ToString()))
+        Stream stm = (Stream)BlogService.LoadFromDataStore(exType, exId);
+        if (stm != null)
         {
-          wd = (WidgetData)serializer.Deserialize(reader);
+          XmlSerializer x = new XmlSerializer(typeof(XmlDocument));
+          xml = (XmlDocument)x.Deserialize(stm);
+          stm.Close();
         }
+      }
+      else
+      {
+        object o = BlogService.LoadFromDataStore(exType, exId);
+        if (o != null)
+        {
+          XmlSerializer serializer = new XmlSerializer(typeof(WidgetData));
+          using (StringReader reader = new StringReader(o.ToString()))
+          {
+            wd = (WidgetData)serializer.Deserialize(reader);
+          }
 
-        if (wd.Settings.Length > 0)
-          xml.InnerXml = wd.Settings;
+          if (wd.Settings.Length > 0)
+            xml.InnerXml = wd.Settings;
+        }
       }
       return xml;
     }

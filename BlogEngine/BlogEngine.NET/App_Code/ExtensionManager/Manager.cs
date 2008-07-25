@@ -217,14 +217,26 @@ public class ExtensionManager
   {
     ManagedExtension ex = null;
     BlogEngine.Core.DataStore.ExtensionSettings xs = new BlogEngine.Core.DataStore.ExtensionSettings(name);
+    XmlSerializer serializer = new XmlSerializer(typeof(ManagedExtension));
     object o = xs.GetSettings();
 
-    if (!string.IsNullOrEmpty((string)o))
+    if (o != null)
     {
-      XmlSerializer serializer = new XmlSerializer(typeof(ManagedExtension));
-      using (StringReader reader = new StringReader(o.ToString()))
+      if (o.GetType().Name == "FileStream")
       {
-        ex = (ManagedExtension)serializer.Deserialize(reader);
+        Stream stm = (Stream)xs.GetSettings();
+        ex = (ManagedExtension)serializer.Deserialize(stm);
+        stm.Close();
+      }
+      else
+      {
+        if (!string.IsNullOrEmpty((string)o))
+        {
+          using (StringReader reader = new StringReader(o.ToString()))
+          {
+            ex = (ManagedExtension)serializer.Deserialize(reader);
+          }
+        }
       }
     }
     return ex;

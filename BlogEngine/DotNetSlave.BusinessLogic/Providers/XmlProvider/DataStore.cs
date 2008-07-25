@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Providers
     {
       string _fileName = StorageLocation(exType) + exId + ".xml";
       StreamReader reader = null;
-      string s = string.Empty;
+      Stream str = null;
       try
       {
         if (!Directory.Exists(StorageLocation(exType)))
@@ -36,15 +36,14 @@ namespace BlogEngine.Core.Providers
         if (File.Exists(_fileName))
         {
           reader = new StreamReader(_fileName);
-          s = reader.ReadToEnd();
-          reader.Close();
+          str = reader.BaseStream;
         }
       }
       catch (Exception)
       {
         throw;
       }
-      return s;
+      return str;
     }
 
     /// <summary>
@@ -61,11 +60,12 @@ namespace BlogEngine.Core.Providers
         if (!Directory.Exists(StorageLocation(exType)))
           Directory.CreateDirectory(StorageLocation(exType));
 
-        XmlSerializer serializer = new XmlSerializer(settings.GetType());
-
-        XmlTextWriter writer = new XmlTextWriter(_fileName, Encoding.UTF8);
-        serializer.Serialize(writer, settings);
-        writer.Close();
+        using (TextWriter writer = new StreamWriter(_fileName))
+        {
+          XmlSerializer x = new XmlSerializer(settings.GetType());
+          x.Serialize(writer, settings);
+          writer.Close();
+        }
       }
       catch (Exception e)
       {
