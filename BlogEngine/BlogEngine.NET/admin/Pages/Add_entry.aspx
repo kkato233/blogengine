@@ -101,7 +101,7 @@ function ToggleTagSelector()
   <br /><br />
   
   <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
-  <asp:TextBox runat="server" ID="txtRawContent" TabIndex="4" Width="100%" Height="300px" Visible="false" />
+  <asp:TextBox runat="server" ID="txtRawContent" TabIndex="4" Width="100%" TextMode="multiLine" Height="300px" Visible="false" />
   <br />
   
   <table id="entrySettings">

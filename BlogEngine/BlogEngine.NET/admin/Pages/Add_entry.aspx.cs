@@ -57,14 +57,16 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 				ddlAuthor.Enabled = false;
 
 			cbEnableComments.Enabled = BlogSettings.Instance.IsCommentsEnabled;
-			if (!Utils.IsMono) Page.Form.DefaultButton = btnSave.UniqueID;
-
+			
 			if (Request.Cookies[RAW_EDITOR_COOKIE] != null)
 			{
 				txtRawContent.Visible = true;
 				txtContent.Visible = false;
 				cbUseRaw.Checked = true;
 			}
+
+			if (!Utils.IsMono && !cbUseRaw.Checked)
+				Page.Form.DefaultButton = btnSave.UniqueID;
 		}
 
 		btnSave.Text = Resources.labels.savePost; // mono does not interpret the inline code correctly
@@ -193,6 +195,9 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 			post = Post.GetPost(new Guid(Request.QueryString["id"]));
 		else
 			post = new Post();
+
+		if (cbUseRaw.Checked)
+			txtContent.Text = txtRawContent.Text;
 
 		if (string.IsNullOrEmpty(txtContent.Text))
 			txtContent.Text = "[No text]";
