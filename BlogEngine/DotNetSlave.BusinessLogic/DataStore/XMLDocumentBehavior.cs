@@ -82,10 +82,10 @@ namespace BlogEngine.Core.DataStore
       else
       {
         object o = BlogService.LoadFromDataStore(exType, exId);
-        if (o != null)
+        if (!string.IsNullOrEmpty((string)o))
         {
           XmlSerializer serializer = new XmlSerializer(typeof(WidgetData));
-          using (StringReader reader = new StringReader(o.ToString()))
+          using (StringReader reader = new StringReader((string)o))
           {
             wd = (WidgetData)serializer.Deserialize(reader);
           }

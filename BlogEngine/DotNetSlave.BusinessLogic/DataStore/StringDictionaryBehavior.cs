@@ -39,9 +39,8 @@ namespace BlogEngine.Core.DataStore
         BlogService.SaveToDataStore(exType, exId, ssd);
         return true;
       }
-      catch (Exception e)
+      catch (Exception)
       {
-        string s = e.Message;
         throw;
       }
     }
