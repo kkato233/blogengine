@@ -611,22 +611,37 @@ namespace BlogEngine.Core.API.MetaWeblog
             ValidateRequest(userName, password);
 
             List<MWAAuthor> authors = new List<MWAAuthor>();
-            int total = 0;
-            int count = 0;
-            MembershipUserCollection users = Membership.Provider.GetAllUsers(0, 999, out total);
 
-            foreach (MembershipUser user in users)
+            if (Roles.IsUserInRole(userName, BlogSettings.Instance.AdministratorRole))
             {
-                count++;
+                int total = 0;
+                int count = 0;
+                MembershipUserCollection users = Membership.Provider.GetAllUsers(0, 999, out total);
+
+                foreach (MembershipUser user in users)
+                {
+                    count++;
+                    MWAAuthor temp = new MWAAuthor();
+                    temp.user_id = user.UserName;
+                    temp.user_login = user.UserName;
+                    temp.display_name = user.UserName;
+                    temp.user_email = user.Email;
+                    temp.meta_value = "";
+                    authors.Add(temp);
+                }
+            }
+            else
+            {
+                // If not admin, just add that user to the options.
+                MembershipUser single = Membership.GetUser(userName);
                 MWAAuthor temp = new MWAAuthor();
-                temp.user_id = user.UserName;
-                temp.user_login = user.UserName;
-                temp.display_name = user.UserName;
-                temp.user_email = user.Email;
+                temp.user_id = single.UserName;
+                temp.user_login = single.UserName;
+                temp.display_name = single.UserName;
+                temp.user_email = single.Email;
                 temp.meta_value = "";
                 authors.Add(temp);
             }
-            
             return authors;
         }
 

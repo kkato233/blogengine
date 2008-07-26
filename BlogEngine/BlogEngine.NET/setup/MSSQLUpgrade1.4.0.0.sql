@@ -1,5 +1,11 @@
 /****** BlogEngine.NET 1.4 SQL Upgrade Script ******/
 
+/* be_Categories update */
+ALTER TABLE [dbo].[be_Categories]
+	ADD
+		[ParentID] [uniqueidentifier] NULL
+GO
+
 /****** Object:  Table [dbo].[be_DataStoreSettings]    Script Date: 06/28/2008 19:29:31 ******/
 SET ANSI_NULLS ON
 GO
