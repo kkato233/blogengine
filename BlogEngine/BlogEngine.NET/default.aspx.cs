@@ -7,6 +7,7 @@ using System.Web;
 using System.Xml;
 using System.Collections.Generic;
 using BlogEngine.Core;
+using System.Web.UI;
 
 #endregion
 
@@ -162,7 +163,23 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			{
 				categories[i] = Category.Categories[i].Title;
 			}
-			base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", categories)));
+
+			string metakeywords = Server.HtmlEncode(string.Join(",", categories));
+			System.Web.UI.HtmlControls.HtmlMeta tag = null;
+			foreach (Control c in Page.Header.Controls)
+			{
+				if (c is System.Web.UI.HtmlControls.HtmlMeta && (c as System.Web.UI.HtmlControls.HtmlMeta).Name.ToLower() == "keywords")
+				{
+					tag = c as System.Web.UI.HtmlControls.HtmlMeta;
+					tag.Content += ", " + metakeywords;
+					break;
+				}
+			}
+			if (tag == null)
+			{
+				base.AddMetaTag("keywords", metakeywords);
+			} 
+			//base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", categories)));
 		}
 	}
 
