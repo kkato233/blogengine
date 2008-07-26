@@ -13,7 +13,6 @@ using BlogEngine.Core;
 using BlogEngine.Core.Providers;
 using BlogEngine.Core.Web.Controls;
 using BlogEngine.Core.DataStore;
-using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// Extension Manager - top level object in the hierarchy
