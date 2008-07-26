@@ -6,7 +6,6 @@ using System.Configuration.Provider;
 using System.Data;
 using System.Data.Common;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using BlogEngine.Core.DataStore;
 using System.Text;
 using System.Xml;

@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Xml.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BlogEngine.Core.DataStore
 {

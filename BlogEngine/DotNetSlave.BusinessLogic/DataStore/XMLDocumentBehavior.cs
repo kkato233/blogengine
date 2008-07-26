@@ -5,7 +5,6 @@ using BlogEngine.Core.Providers;
 using System.IO;
 using System.Configuration;
 using System.Text;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace BlogEngine.Core.DataStore
 {

@@ -11,7 +11,6 @@ using System.Text;
 using BlogEngine.Core;
 using BlogEngine.Core.DataStore;
 using System.Xml.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Specialized;
 
 #endregion
