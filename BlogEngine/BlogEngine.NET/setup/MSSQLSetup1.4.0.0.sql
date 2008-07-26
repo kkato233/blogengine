@@ -1,4 +1,4 @@
-/****** BlogEngine.NET 1.4 SQL Setup Script ******/
+/****** BlogEngine.NET 1.4.0 SQL Setup Script ******/
 
 /****** Object:  Table [dbo].[be_Categories]    Script Date: 12/22/2007 14:14:54 ******/
 SET ANSI_NULLS ON
@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[be_Categories](
 	[CategoryID] [uniqueidentifier] ROWGUIDCOL  NOT NULL CONSTRAINT [DF_be_Categories_CategoryID]  DEFAULT (newid()),
 	[CategoryName] [nvarchar](50) NULL,
 	[Description] [nvarchar](200) NULL,
+	[ParentID] [uniqueidentifier] NULL,
  CONSTRAINT [PK_be_Categories] PRIMARY KEY CLUSTERED 
 (
 	[CategoryID] ASC
