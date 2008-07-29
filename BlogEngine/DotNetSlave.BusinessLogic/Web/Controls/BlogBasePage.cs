@@ -68,7 +68,17 @@ namespace BlogEngine.Core.Web.Controls
 				AddGenericLink("application/rdf+xml", "meta", "SIOC", Utils.AbsoluteWebRoot + "sioc.axd");
 				AddGenericLink("application/apml+xml", "meta", "APML", Utils.AbsoluteWebRoot + "apml.axd");
 				AddGenericLink("application/rdf+xml", "meta", "FOAF", Utils.AbsoluteWebRoot + "foaf.axd");
-				AddGenericLink("application/rss+xml", "alternate", BlogSettings.Instance.Name, Utils.FeedUrl);
+
+				if (string.IsNullOrEmpty(BlogSettings.Instance.AlternateFeedUrl))
+				{
+					AddGenericLink("application/rss+xml", "alternate", BlogSettings.Instance.Name + " (RSS)", Utils.FeedUrl + "?format=rss");
+					AddGenericLink("application/atom+xml", "alternate", BlogSettings.Instance.Name + " (ATOM)", Utils.FeedUrl + "?format=atom");
+				}
+				else
+				{
+					AddGenericLink("application/rss+xml", "alternate", BlogSettings.Instance.Name, Utils.FeedUrl);
+				}				
+				
 				AddGenericLink("application/rsd+xml", "edituri", "RSD", Utils.AbsoluteWebRoot + "rsd.axd");
 
 				AddMetaContentType();

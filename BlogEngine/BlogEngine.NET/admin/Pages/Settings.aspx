@@ -238,7 +238,7 @@
       <h1><%=Resources.labels.import %> & <%=Resources.labels.export %></h1>
       <p>
         <%=Resources.labels.blogMLDescription %>
-        (<a href="http://blogml.org/">blogml.org</a>)
+        (<a href="http://blogml.org/" target="_blank">blogml.org</a>)
       </p>
       <input type="button" value="<%=Resources.labels.import %>" onclick="location.href='http://dotnetblogengine.net/clickonce/blogimporter/blog.importer.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=Page.User.Identity.Name %>'" />&nbsp;&nbsp;
       <input type="button" value="<%=Resources.labels.export %>" onclick="location.href='blogml.axd'" />

@@ -33,7 +33,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			bool includeComments = Request.QueryString["comment"] == "true";
 			string term = Request.QueryString["q"];
-			Page.Title = Server.HtmlEncode(Resources.labels.searchResultsFor) + " '" + Request.QueryString["q"] + "'";
+			Page.Title = Server.HtmlEncode(Resources.labels.searchResultsFor) + " '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
 			h1Headline.InnerHtml = Resources.labels.searchResultsFor + " '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
 
 			Uri url;
@@ -195,7 +195,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 				comment = "&amp;comment=true";
 			}
 
-			a.HRef = "?q=" + Request.QueryString["q"] + comment + "&amp;page=" + (i + 1);
+			a.HRef = "?q=" + Server.HtmlEncode(Request.QueryString["q"]) + comment + "&amp;page=" + (i + 1);
 
 			li.Controls.Add(a);
 			ul.Controls.Add(li);

@@ -89,7 +89,7 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 		{
 			using (MailMessage mail = new MailMessage())
 			{
-				mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.AuthorName);
+				mail.From = new MailAddress(BlogSettings.Instance.Email, name);
 				mail.ReplyTo = new MailAddress(email, name);
 				mail.Sender = mail.ReplyTo;
 
@@ -97,7 +97,7 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 				mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + " e-mail - " + subject;
 
 				mail.Body = "<div style=\"font: 11px verdana, arial\">";
-				mail.Body += Server.HtmlEncode(message).Replace(Environment.NewLine, "<br />") + "<br /><br />";
+				mail.Body += Server.HtmlEncode(message).Replace("\n", "<br />") + "<br /><br />";
 				mail.Body += "<hr /><br />";
 				mail.Body += "<h3>Author information</h3>";
 				mail.Body += "<div style=\"font-size:10px;line-height:16px\">";

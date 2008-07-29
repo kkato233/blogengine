@@ -132,7 +132,7 @@ namespace BlogEngine.Core
 					xmlNamespaces.Add("wfw", "http://wellformedweb.org/CommentAPI/");
 					xmlNamespaces.Add("slash", "http://purl.org/rss/1.0/modules/slash/");
 					xmlNamespaces.Add("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
-					xmlNamespaces.Add("atom", "http://www.w3.org/2005/Atom");
+					//xmlNamespaces.Add("atom", "http://www.w3.org/2005/Atom");
 				}
 
 				return xmlNamespaces;
@@ -331,7 +331,7 @@ namespace BlogEngine.Core
 			using (XmlWriter writer = XmlWriter.Create(stream, writerSettings))
 			{
 				writer.WriteStartElement("feed", "http://www.w3.org/2005/Atom");
-				writer.WriteAttributeString("version", "1.0");
+				//writer.WriteAttributeString("version", "1.0");
 
 				//------------------------------------------------------------
 				//	Write XML namespaces used to support syndication extensions
@@ -649,13 +649,13 @@ namespace BlogEngine.Core
 
 			writer.WriteStartElement("link");
 			writer.WriteAttributeString("rel", "self");
-			writer.WriteAttributeString("href", Utils.AbsoluteWebRoot.ToString());
+			writer.WriteAttributeString("href", Utils.AbsoluteWebRoot + "syndication.axd?format=atom");
 			writer.WriteEndElement();
 
-			writer.WriteStartElement("link");
-			writer.WriteAttributeString("rel", "alternate");
-			writer.WriteAttributeString("href", Utils.FeedUrl.ToString());
-			writer.WriteEndElement();
+			//writer.WriteStartElement("link");
+			//writer.WriteAttributeString("rel", "alternate");
+			//writer.WriteAttributeString("href", Utils.FeedUrl.ToString());
+			//writer.WriteEndElement();
 
 			//------------------------------------------------------------
 			//	Write optional feed elements

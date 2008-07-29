@@ -53,7 +53,12 @@ namespace Controls
 					control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
 					control.ID = control.WidgetID.ToString().Replace("-", string.Empty);
 					control.Title = widget.Attributes["title"].InnerText;
-					control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
+					
+					if (control.IsEditable)
+						control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
+					else
+						control.ShowTitle = control.DisplayHeader;
+
 					control.LoadWidget();
 					this.Controls.Add(control);
 				}

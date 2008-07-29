@@ -69,26 +69,14 @@ public abstract class WidgetBase : UserControl
 		set { _WidgetID = value; }
 	}
 
-	///// <summary>
-	///// Gets the XML used for storing settings for the individual widgets.
-	///// </summary>
-	///// <value>The XML document.</value>
-	//public XmlDocument Xml
-	//{
-	//  get
-	//  {
-	//    string cacheId = "be_widget_" + WidgetID;
-	//    XmlDocument xml = new XmlDocument();
-	//    if (Cache[cacheId] == null)
-	//    {
-	//      WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-	//      xml = (XmlDocument)ws.GetSettings();
-
-	//      HttpContext.Current.Cache[cacheId] = xml;
-	//    }
-	//    return (XmlDocument)Cache[cacheId];
-	//  }
-	//}
+	/// <summary>
+	/// Gets a value indicating if the header is visible. This only takes effect if the widgets isn't editable.
+	/// </summary>
+	/// <value><c>true</c> if the header is visible; otherwise, <c>false</c>.</value>
+	public virtual bool DisplayHeader
+	{
+		get { return true; }
+	}
 
 	#endregion
 
