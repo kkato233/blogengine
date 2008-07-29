@@ -465,9 +465,9 @@ INSERT INTO be_Categories (CategoryID, CategoryName)
 
 INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Author, IsPublished)
 	VALUES (@postID, 
-	'Welcome to BlogEngine.NET 1.4 using Microsoft SQL Server', 
+	'Welcome to BlogEngine.NET 1.4.5 using Microsoft SQL Server', 
 	'The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory',
-	'<p>If you see this post it means that BlogEngine.NET 1.4 is running with SQL Server and the DbBlogProvider is configured correctly.</p>
+	'<p>If you see this post it means that BlogEngine.NET 1.4.5 is running with SQL Server and the DbBlogProvider is configured correctly.</p>
 	<h2>Setup</h2>
 	<p>If you are using the ASP.NET Membership provider, you are set to use existing users.  If you are using the default BlogEngine.NET XML provider, it is time to setup some users.  Find the sign-in link located either at the bottom or top of the page depending on your current theme and click it. Now enter "admin" in both the username and password fields and click the button. You will now see an admin menu appear. It has a link to the "Users" admin page. From there you can change the username and password.</p>
 	<h2>Write permissions</h2>
