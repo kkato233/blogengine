@@ -1,12 +1,8 @@
-By default, nothing special is needed to setup BlogEngine.NET for the first time.  
+BlogEngine.NET 1.4.5 supports a variety of data storage options out of the box.  By
+default, it will store all data in XML files in your App_Data folder.  If you wish to
+use a database to store your data, we have folders inside the setup folder to help you
+get started with SQL Server, MySQL, SQLite, or VistaDB.  Any database that has an 
+ADO.NET dll that supports DbProviderFactory can be used with some configuration.
 
-However, if you wish to use a database to store your blog data you will need little instruction.
-
-The instructions can be found on our wiki:
-http://www.dotnetblogengine.net/wiki/
-
-The latest version of the  Microsoft SQL Server installation script is located in this folder.  
-
-You should use that file to create your database tables for your SQL Server database.
-
-If you wish to use another database, please see the wiki for more details.  
+Additional information can be found on our site at 
+http://www.dotnetblogengine.net/

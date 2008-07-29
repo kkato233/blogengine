@@ -1,0 +1,3 @@
+ALTER TABLE [dbo].[be_Categories]
+ADD
+[ParentID] [uniqueidentifier] NULL
