@@ -123,7 +123,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 		widget.WidgetID = Guid.NewGuid();
 		widget.ID = widget.WidgetID.ToString().Replace("-", string.Empty);
 		widget.Title = type;
-		widget.ShowTitle = true;
+		widget.ShowTitle = widget.DisplayHeader;
 		widget.LoadWidget();
 
 		Response.Clear();
