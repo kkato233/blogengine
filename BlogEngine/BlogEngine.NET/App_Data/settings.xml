@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
   <smtppassword>password</smtppassword>
-  <avatar />
+  <avatar>wavatar</avatar>
   <storagelocation>~/App_Data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
@@ -10,7 +10,7 @@
   <postsperfeed>10</postsperfeed>
   <administratorrole>Administrators</administratorrole>
   <fileextension>.aspx</fileextension>
-  <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <removewhitespaceinstylesheets>False</removewhitespaceinstylesheets>
   <geocodinglatitude />
   <useblognameinpagetitles>True</useblognameinpagetitles>
   <showlivepreview>True</showlivepreview>
@@ -41,7 +41,7 @@
   <iscocommentenabled>False</iscocommentenabled>
   <enabletrackbackreceive>True</enabletrackbackreceive>
   <trackingscript />
-  <compresswebresource>True</compresswebresource>
+  <compresswebresource>False</compresswebresource>
   <description>Short description of the blog</description>
   <alternatefeedurl />
   <enableopensearch>True</enableopensearch>
@@ -59,7 +59,7 @@
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <timestamppostlinks>False</timestamppostlinks>
   <geocodinglongitude />
-  <language>en-GB</language>
+  <language>en-US</language>
   <enablereferrertracking>False</enablereferrertracking>
   <enablecontactattachments>True</enablecontactattachments>
   <blogrollupdateminutes>60</blogrollupdateminutes>
