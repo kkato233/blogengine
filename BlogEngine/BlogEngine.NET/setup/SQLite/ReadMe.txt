@@ -11,7 +11,7 @@ Instructions for new setup:
 1. Download the SQLite ADO Providers Binaries from the ADO.NET 2.0 Provider for 
 SQLite project. http://sourceforge.net/projects/sqlite-dotnet2
 2. Find the System.Data.SQLite.DLL from the download and copy it to your blog's bin folder.
-3. Copy BlogEngine.s3db from the VistaDB folder to your App_Data folder.
+3. Copy BlogEngine.s3db from the SQLite folder to your App_Data folder.
 4. Rename SQLiteWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
 you have a backup.)
@@ -20,7 +20,7 @@ you have a backup.)
 
 Upgrading from 1.4.0
 
-1. If you don't already have SQLite Admin tool installed, you'll need to get one.  SQLite
+1. If you don't already have SQLite Admin tool installed, you'll need to get one. SQLite
 Admin has worked great for me.  (http://sqliteadmin.orbmu2k.de/)
 2. Open your BlogEngine.s3db database and execute the upgrade script against it.  (You will 
 likely need to copy your BlogEngine.s3db file from your web server, perform the update, and 
