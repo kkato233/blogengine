@@ -1529,7 +1529,7 @@ namespace BlogEngine.Core.Providers
                     if (comment.Website == null)
                         dpWebsite.Value = string.Empty;
                     else
-                        dpWebsite.Value = comment.Website;
+                        dpWebsite.Value = comment.Website.ToString();
                     cmd.Parameters.Add(dpWebsite);
 
                     DbParameter dpContent = provider.CreateParameter();
