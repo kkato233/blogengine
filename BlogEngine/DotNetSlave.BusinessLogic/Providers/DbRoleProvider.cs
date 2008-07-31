@@ -201,7 +201,7 @@ namespace BlogEngine.Core.Providers
 
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT " + tablePrefix + "Roles (role) VALUES (" + parmPrefix + "role)";
+                    string sqlQuery = "INSERT INTO " + tablePrefix + "Roles (role) VALUES (" + parmPrefix + "role)";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
 
@@ -340,7 +340,7 @@ namespace BlogEngine.Core.Providers
 
                             int roleID = Int32.Parse(cmd.ExecuteScalar().ToString());
 
-                            cmd.CommandText = "INSERT " + tablePrefix + "UserRoles (UserID, RoleID) " +
+                            cmd.CommandText = "INSERT INTO " + tablePrefix + "UserRoles (UserID, RoleID) " +
                                                 "VALUES (" + parmPrefix + "uID, " + parmPrefix + "rID)";
                             DbParameter dpUserID = provider.CreateParameter();
                             dpUserID.ParameterName = parmPrefix + "uID";

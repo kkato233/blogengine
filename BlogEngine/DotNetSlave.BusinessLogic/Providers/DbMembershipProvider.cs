@@ -139,7 +139,7 @@ namespace BlogEngine.Core.Providers
 
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT " + tablePrefix + "Users (userName, password, emailAddress, lastLoginTime) VALUES (@name, @pwd, @email, @login)";
+                    string sqlQuery = "INSERT INTO " + tablePrefix + "Users (userName, password, emailAddress, lastLoginTime) VALUES (@name, @pwd, @email, @login)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
