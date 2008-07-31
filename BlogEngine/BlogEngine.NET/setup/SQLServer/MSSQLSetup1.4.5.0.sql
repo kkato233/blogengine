@@ -261,13 +261,13 @@ CREATE TABLE [dbo].[be_Roles](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[be_UserRoles]    Script Date: 07/30/2008 21:57:18 ******/
+/****** Object:  Table [dbo].[be_UserRoles]    Script Date: 07/31/2008 12:26:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[be_UserRoles](
-	[UserRoleID] [int] NOT NULL,
+	[UserRoleID] [int] IDENTITY(1,1) NOT NULL,
 	[UserID] [int] NOT NULL,
 	[RoleID] [int] NOT NULL,
  CONSTRAINT [PK_be_UserRoles] PRIMARY KEY CLUSTERED 
@@ -551,7 +551,7 @@ INSERT INTO be_Roles (Role)
 INSERT INTO be_Roles (Role) 
 	VALUES ('Editors');
 INSERT INTO be_UserRoles (UserID, RoleID)
-VALUES ( 1, 1);
+VALUES (1, 1);
 
 INSERT INTO be_DataStoreSettings (ExtensionType, ExtensionId, Settings)
 VALUES (1, 'be_WIDGET_ZONE', 
