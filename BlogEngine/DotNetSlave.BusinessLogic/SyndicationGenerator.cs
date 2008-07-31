@@ -441,7 +441,7 @@ namespace BlogEngine.Core
 
 			writer.WriteElementString("docs", "http://www.rssboard.org/rss-specification");
 			writer.WriteElementString("generator", "BlogEngine.NET " + BlogSettings.Instance.Version());
-			writer.WriteRaw("\n<atom:link href=\"" + url + "\" rel=\"self\" type=\"application/rss+xml\" />");
+			//writer.WriteRaw("\n<atom:link href=\"" + url + "\" rel=\"self\" type=\"application/rss+xml\" />");
 			if (!String.IsNullOrEmpty(this.Settings.Language))
 			{
 				writer.WriteElementString("language", this.Settings.Language);
