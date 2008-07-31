@@ -327,7 +327,7 @@ namespace BlogEngine.Core.Providers
                         dpUser.Value = user;
                         cmd.Parameters.Add(dpUser);
 
-                        int userID = (int)cmd.ExecuteScalar();
+                        int userID = Int32.Parse(cmd.ExecuteScalar().ToString());
 
                         foreach (string role in roleNames)
                         {
@@ -338,7 +338,7 @@ namespace BlogEngine.Core.Providers
                             dpRole.Value = role;
                             cmd.Parameters.Add(dpRole);
 
-                            int roleID = (int)cmd.ExecuteScalar();
+                            int roleID = Int32.Parse(cmd.ExecuteScalar().ToString());
 
                             cmd.CommandText = "INSERT " + tablePrefix + "UserRoles (UserID, RoleID) " +
                                                 "VALUES (" + parmPrefix + "uID, " + parmPrefix + "rID)";
@@ -388,7 +388,7 @@ namespace BlogEngine.Core.Providers
                         int userID;
                         try
                         {
-                            userID = (int)cmd.ExecuteScalar();
+                            userID = Int32.Parse(cmd.ExecuteScalar().ToString());
                         }
                         catch
                         {
@@ -406,7 +406,7 @@ namespace BlogEngine.Core.Providers
                                 dpRole.Value = role;
                                 cmd.Parameters.Add(dpRole);
 
-                                int roleID = (int) cmd.ExecuteScalar();
+                                int roleID = Int32.Parse(cmd.ExecuteScalar().ToString());
 
                                 cmd.CommandText = "DELETE FROM " + tablePrefix + "UserRoles " +
                                                   "WHERE UserID = " + parmPrefix + "uID AND RoleID = " + parmPrefix +

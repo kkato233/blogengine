@@ -1,9 +1,14 @@
-/****** BlogEngine.NET 1.4 SQL Upgrade Script ******/
+/****** BlogEngine.NET 1.4. SQL Upgrade Script ******/
 
 /* be_Categories update */
 ALTER TABLE [dbo].[be_Categories]
 	ADD
 		[ParentID] [uniqueidentifier] NULL
+
+/* be_DataStoreSettings update */
+ALTER TABLE [dbo].[be_DataStoreSettings]
+	ALTER COLUMN Settings varchar(max)
+
 GO
 /****** Object:  Table [dbo].[be_Users]    Script Date: 07/30/2008 21:55:28 ******/
 SET ANSI_NULLS ON
@@ -36,13 +41,13 @@ CREATE TABLE [dbo].[be_Roles](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[be_UserRoles]    Script Date: 07/30/2008 21:57:18 ******/
+/****** Object:  Table [dbo].[be_UserRoles]    Script Date: 07/31/2008 12:26:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[be_UserRoles](
-	[UserRoleID] [int] NOT NULL,
+	[UserRoleID] [int] IDENTITY(1,1) NOT NULL,
 	[UserID] [int] NOT NULL,
 	[RoleID] [int] NOT NULL,
  CONSTRAINT [PK_be_UserRoles] PRIMARY KEY CLUSTERED 
