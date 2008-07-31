@@ -29,6 +29,10 @@ copy it back out depending on your setup.
 with the sample web.config file as described above, but if you have other changes in it, 
 you'll need to merge them.
 
+Important Upgrade Note: Upgrading will cause you to lose setting in your extensions and 
+widget framework.  Please make note of these so you can put them back in place after 
+the upgrade.
+
 Additional information can be found at http://dotnetblogengine.net
 
 Notice:
