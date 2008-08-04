@@ -328,7 +328,9 @@ namespace BlogEngine.Core.API.MetaWeblog
 			bw.Close();
 
 			// Set Url
-			string rootUrl = Utils.AbsoluteWebRoot.ToString();// request.Request.Url.ToString().Substring(0, request.Request.Url.ToString().IndexOf("metaweblog.axd"));
+			string rootUrl = Utils.AbsoluteWebRoot.ToString();
+			if (BlogSettings.Instance.RequireSSLMetaWeblogAPI)
+				rootUrl = rootUrl.Replace("https://", "http://");
 
 			string mediaType = mediaObject.type;
 			if (mediaType.IndexOf('/') > -1)

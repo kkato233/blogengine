@@ -354,7 +354,7 @@ function filterByAPML()
   var textbox = document.createElement('input');
   textbox.type = 'text';
   textbox.value = getCookieValue('url') || 'http://',
-  textbox.style.width = '325px';
+  textbox.style.width = '320px';
   textbox.id = 'txtapml';
   textbox.name = 'apml';
   textbox.style.background = 'url('+KEYwebRoot+'pics/apml.png) no-repeat 2px center';

@@ -472,7 +472,6 @@ namespace BlogEngine.Core
 				using (WebClient client = new WebClient())
 				{
 					client.UseDefaultCredentials = true;
-					client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1;)");
 					using (StreamReader reader = new StreamReader(client.OpenRead(url)))
 					{
 						return reader.ReadToEnd();
