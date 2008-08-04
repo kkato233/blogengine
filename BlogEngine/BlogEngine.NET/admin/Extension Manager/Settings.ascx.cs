@@ -95,6 +95,11 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
           else
             _settings.AddValue(txt.ID, txt.Text);
         }
+        else if (ctl.GetType().Name == "CheckBox")
+        {
+          CheckBox cbx = (CheckBox)ctl;
+          _settings.UpdateScalarValue(cbx.ID, cbx.Checked.ToString());
+        }
         else if (ctl.GetType().Name == "DropDownList")
         {
           DropDownList dd = (DropDownList)ctl;
