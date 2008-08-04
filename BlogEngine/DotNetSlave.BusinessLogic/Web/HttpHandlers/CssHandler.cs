@@ -86,7 +86,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </summary>
 		private static string StripWhitespace(string body)
 		{
-			body = body.Replace("  ", String.Empty);
+			body = body.Replace("  ", " ");
 			body = body.Replace(Environment.NewLine, String.Empty);
 			body = body.Replace("\t", string.Empty);
 			body = body.Replace(" {", "{");

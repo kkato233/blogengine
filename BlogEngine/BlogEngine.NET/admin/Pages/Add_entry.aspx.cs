@@ -282,6 +282,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		Post post = Post.GetPost(postId);
 		txtTitle.Text = post.Title;
 		txtContent.Text = post.Content;
+		txtRawContent.Text = post.Content;
 		txtDescription.Text = post.Description;
 		txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH\\:mm");
 		cbEnableComments.Checked = post.IsCommentsEnabled;

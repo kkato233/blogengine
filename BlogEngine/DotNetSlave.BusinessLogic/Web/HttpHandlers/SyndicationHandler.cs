@@ -273,8 +273,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			DateTime lastModified = DateTime.MinValue;
 			foreach (IPublishable item in items)
 			{
-				if (item.DateModified > lastModified)
-					lastModified = item.DateModified;
+				if (item.DateModified.AddHours(-BlogSettings.Instance.Timezone) > lastModified)
+					lastModified = item.DateModified.AddHours(-BlogSettings.Instance.Timezone);
 			}
 
 			switch (format)
