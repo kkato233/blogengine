@@ -256,12 +256,35 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
       ddlCountry.Items.Add(new ListItem(key, dic[key]));
     }
 
-    if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
+    if (ddlCountry.SelectedIndex == 0)
     {
-      ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
+			ddlCountry.SelectedValue = ResolveRegion().TwoLetterISORegionName;
 			this.SetFlagImageUrl();
     }
   }
+
+	/// <summary>
+	/// Resolves the region based on the browser language.
+	/// </summary>
+	public static RegionInfo ResolveRegion()
+	{
+		string[] languages = HttpContext.Current.Request.UserLanguages;
+
+		if (languages == null || languages.Length == 0)
+			return new RegionInfo(CultureInfo.CurrentCulture.LCID);
+
+		try
+		{
+			string language = languages[0].ToLowerInvariant().Trim();
+			CultureInfo culture = CultureInfo.CreateSpecificCulture(language);
+			return new RegionInfo(culture.LCID);
+		}
+
+		catch (ArgumentException)
+		{
+			return new RegionInfo(CultureInfo.CurrentCulture.LCID);
+		}
+	}
 
   /// <summary>
   /// Validates that the name of the person writing posting a comment
@@ -299,9 +322,9 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
   {
     HttpCookie cookie = new HttpCookie("comment");
     cookie.Expires = DateTime.Now.AddMonths(24);
-    cookie.Values.Add("name", Server.UrlEncode(name));
-    cookie.Values.Add("email", email);
-    cookie.Values.Add("url", website);
+    cookie.Values.Add("name", Server.UrlEncode(name.Trim()));
+    cookie.Values.Add("email", email.Trim());
+    cookie.Values.Add("url", website.Trim());
     cookie.Values.Add("country", country);
     Response.Cookies.Add(cookie);
   }

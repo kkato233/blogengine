@@ -107,7 +107,14 @@ namespace BlogEngine.Core.Web.HttpModules
 
 			if (post != null)
 			{
-				context.RewritePath(Utils.RelativeWebRoot + "post.aspx?id=" + post.Id.ToString() + GetQueryString(context), false);
+				if (url.Contains("/FEED/"))
+				{
+					context.RewritePath(Utils.RelativeWebRoot + "syndication.axd?post=" + post.Id.ToString() + GetQueryString(context), false);
+				}
+				else
+				{
+					context.RewritePath(Utils.RelativeWebRoot + "post.aspx?id=" + post.Id.ToString() + GetQueryString(context), false);
+				}
 			}
 		}
 
@@ -119,8 +126,15 @@ namespace BlogEngine.Core.Web.HttpModules
 				string legalTitle = Utils.RemoveIllegalCharacters(cat.Title).ToLowerInvariant();
 				if (title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase))
 				{
-					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?id=" + cat.Id.ToString() + GetQueryString(context), false);
-					break;
+					if (url.Contains("/FEED/"))
+					{
+						context.RewritePath(Utils.RelativeWebRoot + "syndication.axd?category=" + cat.Id.ToString() + GetQueryString(context), false);
+					}
+					else
+					{
+						context.RewritePath(Utils.RelativeWebRoot + "default.aspx?id=" + cat.Id.ToString() + GetQueryString(context), false);
+						break;
+					}
 				}
 			}
 		}

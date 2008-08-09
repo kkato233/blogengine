@@ -32,7 +32,7 @@
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <blogrollvisibleposts>3</blogrollvisibleposts>
-  <timezone>-6</timezone>
+  <timezone>9</timezone>
   <enableenclosures>False</enableenclosures>
   <enablepingbackreceive>True</enablepingbackreceive>
   <smtpusername>username</smtpusername>

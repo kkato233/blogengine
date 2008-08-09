@@ -127,7 +127,7 @@ namespace Controls
 			{
 				if (post != this.Item)
 				{
-					sb.Append(string.Format(link, post.RelativeLink, post.Title));
+					sb.Append(string.Format(link, post.RelativeLink, HttpUtility.HtmlEncode(post.Title)));
 					if (ShowDescription)
 					{
 						string description = post.Description;

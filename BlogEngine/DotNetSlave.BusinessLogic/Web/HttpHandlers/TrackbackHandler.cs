@@ -106,7 +106,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			comment.Content = "Trackback from " + comment.Author + Environment.NewLine + Environment.NewLine + excerpt;
 			comment.Email = "trackback";
 			comment.Parent = post;
-			comment.DateCreated = DateTime.Now.AddHours(-BlogSettings.Instance.Timezone);
+			comment.DateCreated = DateTime.Now;
 			comment.IP = HttpContext.Current.Request.UserHostAddress;
 			comment.IsApproved = true; //NOTE: Trackback comments are approved by default 
 			post.AddComment(comment);

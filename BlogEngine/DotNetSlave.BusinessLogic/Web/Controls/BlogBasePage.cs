@@ -277,14 +277,11 @@ namespace BlogEngine.Core.Web.Controls
 		/// </summary>
 		public virtual string Translate(string text)
 		{
-			try
-			{
-				return this.GetGlobalResourceObject("labels", text).ToString();
-			}
-			catch (NullReferenceException)
-			{
-				return text;
-			}
+			object resource = GetGlobalResourceObject("labels", text);
+			if (resource != null)
+				return resource.ToString();
+
+			return string.Format("Missing Resource [{0}]", text);
 		}
 
 		/// <summary>

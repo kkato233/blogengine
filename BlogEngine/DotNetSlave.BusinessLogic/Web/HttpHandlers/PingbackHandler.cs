@@ -148,7 +148,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			comment.Author = GetDomain(sourceUrl);
 			comment.Website = new Uri(sourceUrl);
 			comment.Content = "Pingback from " + comment.Author + Environment.NewLine + Environment.NewLine + _Title;
-			comment.DateCreated = DateTime.Now.AddHours(-BlogSettings.Instance.Timezone);
+			comment.DateCreated = DateTime.Now;
 			comment.Email = "pingback";
 			comment.IP = HttpContext.Current.Request.UserHostAddress;
 			comment.Parent = post;

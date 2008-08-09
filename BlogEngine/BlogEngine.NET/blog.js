@@ -166,7 +166,7 @@ function RatingCallback(response)
     if (typeof OnRating != "undefined")
       OnRating(rating);
     
-    alert("You rating has been registered. Thank you!");
+    alert("Your rating has been registered. Thank you!");
   }  
   else if (status == "HASRATED")
   {

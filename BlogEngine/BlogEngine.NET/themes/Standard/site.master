@@ -10,8 +10,8 @@
 <body>
 
   <div id="header">
-    <h1><a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a></h1>
-    <h2><%=BlogSettings.Instance.Description %></h2>
+    <p><a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a></p>
+    <span><%=BlogSettings.Instance.Description %></span>
   </div>
   
   <div id="menu">

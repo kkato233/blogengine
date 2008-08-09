@@ -109,7 +109,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	private static HtmlGenericControl CreateRowHeader(Guid id, string name, int count)
 	{
 		HtmlAnchor feed = new HtmlAnchor();
-		feed.HRef = Utils.RelativeWebRoot + "category/syndication.axd?category=" + id.ToString();
+		feed.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(name) + ".aspx";
 
 		HtmlImage img = new HtmlImage();
 		img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";

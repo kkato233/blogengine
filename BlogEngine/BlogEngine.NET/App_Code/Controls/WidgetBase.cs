@@ -122,7 +122,7 @@ public abstract class WidgetBase : UserControl
 		if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
 		{
 			sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
-			if (IsEditable)
+			//if (IsEditable)
 				sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
 		}
 
