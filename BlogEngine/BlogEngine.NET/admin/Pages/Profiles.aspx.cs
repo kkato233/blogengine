@@ -66,7 +66,7 @@ public partial class admin_profiles : Page
 
 	protected void lbSaveProfile_Click(object sender, EventArgs e)
 	{
-		string userProfileToSave = !User.IsInRole("Administrator") ? User.Identity.Name : ddlUserList.SelectedValue;
+		string userProfileToSave = !User.IsInRole(BlogSettings.Instance.AdministratorRole) ? User.Identity.Name : ddlUserList.SelectedValue;
 		AuthorProfile pc = AuthorProfile.GetProfile(userProfileToSave);
 		if (pc == null)
 			pc = new AuthorProfile(User.Identity.Name);

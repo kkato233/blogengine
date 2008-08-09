@@ -125,6 +125,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		string path = Utils.RelativeWebRoot.ToString();
 		string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
 		txtContent.Text += img;
+		txtRawContent.Text += img;
 	}
 
 	private void btnUploadFile_Click(object sender, EventArgs e)
@@ -137,6 +138,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 		string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
 		string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
 		txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
+		txtRawContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
 	}
 
 	private void Upload(string virtualFolder, FileUpload control, string fileName)

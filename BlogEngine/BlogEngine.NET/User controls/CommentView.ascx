@@ -34,7 +34,7 @@
   <%} %>
   </span>
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" />
-  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, enterValidEmail   %>" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
+  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, enterValidEmail%>" Display="dynamic" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
 
   <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website %></label>
   <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="3" ValidationGroup="AddComment" />

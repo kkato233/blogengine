@@ -196,7 +196,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <value>The comment feed.</value>
 		public string CommentFeed
 		{
-			get { return Utils.RelativeWebRoot + "syndication.axd?post=" + Post.Id; }
+			get { return Post.RelativeLink.Replace("/post/", "/post/feed/");}
 		}
 
 		#region Protected methods
