@@ -212,7 +212,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     {
       if (comment.Id == new Guid(Request.QueryString["deletecomment"]))
       {
-        Response.Write(Request.Url);
         Post.RemoveComment(comment);
 
         int index = Request.RawUrl.IndexOf("?");

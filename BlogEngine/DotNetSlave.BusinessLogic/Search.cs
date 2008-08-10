@@ -126,14 +126,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<IPublishable> FindRelatedItems(IPublishable post)
 		{
-			string term = post.Title;
-
-			foreach (Category cat in post.Categories)
-			{
-				term += " " + cat.Title;
-			}
-
-			term = CleanContent(term, false);
+			string term = CleanContent(post.Title, false);
 			return Hits(term, false);
 		}
 

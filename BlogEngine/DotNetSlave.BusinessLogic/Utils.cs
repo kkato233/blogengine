@@ -460,30 +460,34 @@ namespace BlogEngine.Core
 			return list;
 		}
 
-		/// <summary>
-		/// Downloads a web page from the Internet and returns a string. .
-		/// </summary>
-		/// <param name="url">The URL to download from.</param>
-		/// <returns>The HTML or null if the URL isn't valid.</returns>
-		public static string DownloadWebPage(Uri url)
+/// <summary>
+/// Downloads a web page from the Internet and returns the HTML as a string. .
+/// </summary>
+/// <param name="url">The URL to download from.</param>
+/// <returns>The HTML or null if the URL isn't valid.</returns>
+public static string DownloadWebPage(Uri url)
+{
+	try
+	{
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+		request.Headers["Accept-Encoding"] = "gzip";
+		request.Headers["Accept-Language"] = "en-us";
+		request.Credentials = CredentialCache.DefaultNetworkCredentials;
+		request.AutomaticDecompression = DecompressionMethods.GZip;
+
+		using (WebResponse response = request.GetResponse())
 		{
-			try
+			using (StreamReader reader = new StreamReader(response.GetResponseStream()))
 			{
-				using (WebClient client = new WebClient())
-				{
-					client.UseDefaultCredentials = true;
-					using (StreamReader reader = new StreamReader(client.OpenRead(url)))
-					{
-						return reader.ReadToEnd();
-					}
-				}
-			}
-			catch (WebException)
-			{
-				return null;
+				return reader.ReadToEnd();
 			}
 		}
-
+	}
+	catch (Exception)
+	{
+		return null;
+	}
+}
 
 		private static XmlDocument LoadDocument(Uri url, Uri xmlUrl)
 		{
