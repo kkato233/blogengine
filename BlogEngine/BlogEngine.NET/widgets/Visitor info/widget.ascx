@@ -10,22 +10,18 @@
   </div>
   
   <script type="text/javascript">
-  function beginGetApml(website)
+  var apml_url = '<asp:literal runat="server" id="ltWebsite" />';
+  CreateCallback(KEYwebRoot + 'widgets/visitor info/apmlchecker.ashx?url=' + apml_url , endGetApml);
+  
+  function endGetApml(response)
   {
-    <%=Page.ClientScript.GetCallbackEventReference(this, "website", "endGetApml", "website") %>;
-  }
-
-  function endGetApml(arg, context)
-  {
-    if (arg.length > 10)
+    if (response.length > 10)
     {
-      var text = 'I can see you have an APML file at <a href=\"'+context+'">'+context+'</a>. ';
+      var text = 'I can see you have an APML file at <a href=\"'+apml_url+'">'+apml_url+'</a>. ';
       text += 'Do you wish to filter the content of this blog based on your APML file? ';
-      text += '<a href="javascript:void(location.href=\''+KEYwebRoot+'?apml='+encodeURIComponent(arg)+'\')">Apply filter</a>';
+      text += '<a href="javascript:void(location.href=\''+KEYwebRoot+'?apml='+encodeURIComponent(response)+'\')">Apply filter</a>';
       $('visitor_widget_apml').innerHTML = text;
     }
   }
-
-  setTimeout("beginGetApml('<asp:literal runat="server" id="ltWebsite" />')", 1000);
   </script>
 </asp:PlaceHolder>

@@ -1,3 +1,5 @@
+#region Using
+
 using System;
 using System.Collections;
 using System.Web;
@@ -7,9 +9,10 @@ using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using System.Collections.Generic;
 using System.Web.Security;
-using System.Xml;
 
-public partial class widgets_Visitor_info_widget : WidgetBase, ICallbackEventHandler
+#endregion
+
+public partial class widgets_Visitor_info_widget : WidgetBase
 {
 
 	public override string Name
@@ -124,33 +127,4 @@ public partial class widgets_Visitor_info_widget : WidgetBase, ICallbackEventHan
 
 		return list;
 	}
-
-	#region ICallbackEventHandler Members
-
-	string _Callback = string.Empty;
-
-	public string GetCallbackResult()
-	{
-		return _Callback;
-	}
-
-	public void RaiseCallbackEvent(string eventArgument)
-	{
-		Uri url;
-		if (Uri.TryCreate(eventArgument, UriKind.Absolute, out url))
-		{
-			Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(url, "apml");
-			if (docs.Count > 0)
-			{
-				foreach (Uri key in docs.Keys)
-				{
-					//List<IPublishable> list = Search.ApmlMatches(docs[key], 30);
-					_Callback = key.ToString();
-					break;
-				}
-			}
-		}
-	}
-
-	#endregion
 }
