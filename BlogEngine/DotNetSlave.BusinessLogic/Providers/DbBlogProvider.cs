@@ -1424,7 +1424,7 @@ namespace BlogEngine.Core.Providers
                 cmd.CommandType = CommandType.Text;
                 DbParameter dpID = provider.CreateParameter();
                 dpID.ParameterName = parmPrefix + "id";
-                dpID.Value = post.Id;
+                dpID.Value = post.Id.ToString();
                 cmd.Parameters.Add(dpID);
                 cmd.ExecuteNonQuery();
 
@@ -1435,7 +1435,7 @@ namespace BlogEngine.Core.Providers
                     cmd.Parameters.Clear();
                     DbParameter dpPostID = provider.CreateParameter();
                     dpPostID.ParameterName = parmPrefix + "id";
-                    dpPostID.Value = post.Id;
+                    dpPostID.Value = post.Id.ToString();
                     cmd.Parameters.Add(dpPostID);
                     DbParameter dpTag = provider.CreateParameter();
                     dpTag.ParameterName = parmPrefix + "tag";
@@ -1456,7 +1456,7 @@ namespace BlogEngine.Core.Providers
                 cmd.CommandType = CommandType.Text;
                 DbParameter dpID = provider.CreateParameter();
                 dpID.ParameterName = parmPrefix + "id";
-                dpID.Value = post.Id;
+                dpID.Value = post.Id.ToString();
                 cmd.Parameters.Add(dpID);
                 cmd.ExecuteNonQuery();
 
@@ -1467,11 +1467,11 @@ namespace BlogEngine.Core.Providers
                     cmd.Parameters.Clear();
                     DbParameter dpPostID = provider.CreateParameter();
                     dpPostID.ParameterName = parmPrefix + "id";
-                    dpPostID.Value = post.Id;
+                    dpPostID.Value = post.Id.ToString();
                     cmd.Parameters.Add(dpPostID);
                     DbParameter dpCat = provider.CreateParameter();
                     dpCat.ParameterName = parmPrefix + "cat";
-                    dpCat.Value = cat.Id;
+                    dpCat.Value = cat.Id.ToString();
                     cmd.Parameters.Add(dpCat);
 
                     cmd.ExecuteNonQuery();
@@ -1489,7 +1489,7 @@ namespace BlogEngine.Core.Providers
                 cmd.CommandType = CommandType.Text;
                 DbParameter dpID = provider.CreateParameter();
                 dpID.ParameterName = parmPrefix + "id";
-                dpID.Value = post.Id;
+                dpID.Value = post.Id.ToString();
                 cmd.Parameters.Add(dpID);
                 cmd.ExecuteNonQuery();
 
@@ -1503,11 +1503,11 @@ namespace BlogEngine.Core.Providers
                     cmd.Parameters.Clear();
                     DbParameter dpCommentID = provider.CreateParameter();
                     dpCommentID.ParameterName = parmPrefix + "postcommentid";
-                    dpCommentID.Value = comment.Id;
+                    dpCommentID.Value = comment.Id.ToString();
                     cmd.Parameters.Add(dpCommentID);
                     DbParameter dpPostID = provider.CreateParameter();
                     dpPostID.ParameterName = parmPrefix + "id";
-                    dpPostID.Value = post.Id;
+                    dpPostID.Value = post.Id.ToString();
                     cmd.Parameters.Add(dpPostID);
                     DbParameter dpCommentDate = provider.CreateParameter();
                     dpCommentDate.ParameterName = parmPrefix + "date";
@@ -1566,7 +1566,7 @@ namespace BlogEngine.Core.Providers
                 cmd.CommandType = CommandType.Text;
                 DbParameter dpID = provider.CreateParameter();
                 dpID.ParameterName = parmPrefix + "id";
-                dpID.Value = post.Id;
+                dpID.Value = post.Id.ToString();
                 cmd.Parameters.Add(dpID);
                 cmd.ExecuteNonQuery();
 
@@ -1577,7 +1577,7 @@ namespace BlogEngine.Core.Providers
                     cmd.Parameters.Clear();
                     DbParameter dpPostID = provider.CreateParameter();
                     dpPostID.ParameterName = parmPrefix + "id";
-                    dpPostID.Value = post.Id;
+                    dpPostID.Value = post.Id.ToString();
                     cmd.Parameters.Add(dpPostID);
                     DbParameter dpNotify = provider.CreateParameter();
                     dpNotify.ParameterName = parmPrefix + "notify";
