@@ -58,26 +58,35 @@ namespace BlogEngine.Core.Web.HttpModules
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void context_PostReleaseRequestState(object sender, EventArgs e)
 		{
-			HttpApplication app = (HttpApplication)sender;
-			if (app.Context.CurrentHandler is System.Web.UI.Page && app.Request["HTTP_X_MICROSOFTAJAX"] == null)
+			HttpContext context = ((HttpApplication)sender).Context;
+			if (context.CurrentHandler is System.Web.UI.Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null)
 			{
-				if (IsEncodingAccepted(DEFLATE))
-				{
-					app.Response.Filter = new DeflateStream(app.Response.Filter, CompressionMode.Compress);
-					SetEncoding(DEFLATE);
-				}
-				else if (IsEncodingAccepted(GZIP))
-				{
-					app.Response.Filter = new GZipStream(app.Response.Filter, CompressionMode.Compress);
-					SetEncoding(GZIP);
-				}
-
+				CompressResponse(context);
+			
 				if (BlogSettings.Instance.CompressWebResource)
-					app.Response.Filter = new WebResourceFilter(app.Response.Filter);
+					context.Response.Filter = new WebResourceFilter(context.Response.Filter);
 			}
-			else if (!BlogSettings.Instance.CompressWebResource && app.Context.Request.Path.Contains("WebResource.axd"))
+			else if (!BlogSettings.Instance.CompressWebResource && context.Request.Path.Contains("WebResource.axd"))
 			{
-				app.Context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+				context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+			}
+		}
+
+		/// <summary>
+		/// Compresses the response stream using either deflate or gzip depending on the client.
+		/// </summary>
+		/// <param name="context">The HTTP context to compress.</param>
+		public static void CompressResponse(HttpContext context)
+		{
+			if (IsEncodingAccepted(DEFLATE))
+			{
+				context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
+				SetEncoding(DEFLATE);
+			}
+			else if (IsEncodingAccepted(GZIP))
+			{
+				context.Response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
+				SetEncoding(GZIP);
 			}
 		}
 

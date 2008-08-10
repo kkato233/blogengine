@@ -66,7 +66,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 				if (post != null && IsFirstPingBack(post, url) && _SourceHasLink && !containsHtml)
 				{
-					AddComment(url, post, blog_name, title);
+					AddComment(url, post, blog_name, title, excerpt);
 					OnAccepted(url);
 					context.Response.Write("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><response><error>0</error></response>");
 					context.Response.End();
@@ -97,13 +97,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// <summary>
 		/// Insert the pingback as a comment on the post.
 		/// </summary>
-		private static void AddComment(string sourceUrl, Post post, string blogName, string excerpt)
+		private static void AddComment(string sourceUrl, Post post, string blogName, string title, string excerpt)
 		{
 			Comment comment = new Comment();
 			comment.Id = Guid.NewGuid();
 			comment.Author = blogName;
 			comment.Website = new Uri(sourceUrl);
-			comment.Content = "Trackback from " + comment.Author + Environment.NewLine + Environment.NewLine + excerpt;
+			comment.Content = title + Environment.NewLine + Environment.NewLine + excerpt;
 			comment.Email = "trackback";
 			comment.Parent = post;
 			comment.DateCreated = DateTime.Now;
