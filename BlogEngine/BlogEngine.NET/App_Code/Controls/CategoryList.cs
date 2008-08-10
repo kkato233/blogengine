@@ -87,7 +87,8 @@ namespace Controls
 
 		private HtmlGenericControl BindCategories()
 		{
-			SortedDictionary<string, Guid> dic = SortGategories();
+			SortedDictionary<string, Guid> dic = SortCategories();
+
 			if (dic.Keys.Count == 0)
 			{
 				HtmlGenericControl none = new HtmlGenericControl("p");
@@ -98,8 +99,13 @@ namespace Controls
 			HtmlGenericControl ul = new HtmlGenericControl("ul");
 			ul.ID = "categorylist";
 
-			foreach (string key in dic.Keys)
+			foreach (Guid id in dic.Values)
 			{
+
+                // Find full category
+			    Category cat = Category.GetCategory(id);
+			    string key = cat.CompleteTitle();
+
 				HtmlGenericControl li = new HtmlGenericControl("li");
 
 				if (ShowRssIcon)
@@ -110,7 +116,7 @@ namespace Controls
 					img.Attributes["class"] = "rssButton";
 
 					HtmlAnchor feedAnchor = new HtmlAnchor();
-					feedAnchor.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(key) + ".aspx";
+					feedAnchor.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(cat.Title) + ".aspx";
 					feedAnchor.Attributes["rel"] = "nofollow";
 					feedAnchor.Controls.Add(img);
 
@@ -127,7 +133,7 @@ namespace Controls
 					postCount = null;
 
 				HtmlAnchor anc = new HtmlAnchor();
-				anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(key) + BlogSettings.Instance.FileExtension;
+				anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(cat.Title) + BlogSettings.Instance.FileExtension;
 				anc.InnerHtml = HttpUtility.HtmlEncode(key) + postCount;
 				anc.Title = "Category: " + key;
 
@@ -138,7 +144,7 @@ namespace Controls
 			return ul;
 		}
 
-		private SortedDictionary<string, Guid> SortGategories()
+		private SortedDictionary<string, Guid> SortCategories()
 		{
 			SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
 			foreach (Category cat in Category.Categories)
