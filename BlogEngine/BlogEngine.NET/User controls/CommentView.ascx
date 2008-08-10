@@ -95,7 +95,7 @@ coco =
      tool          : "BlogEngine",
      siteurl       : "<%=Utils.AbsoluteWebRoot %>",
      sitetitle     : "<%=BlogSettings.Instance.Name %>",
-     pageurl       : "<%=Request.Url %>",
+     pageurl       : location.href,
      pagetitle     : "<%=this.Post.Title %>",
      author        : "<%=this.Post.Title %>",
      formID        : "<%=Page.Form.ClientID %>",

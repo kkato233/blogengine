@@ -551,7 +551,7 @@ namespace BlogEngine.Core
 			//------------------------------------------------------------
 			//	Write optional channel item elements
 			//------------------------------------------------------------
-			writer.WriteElementString("author", BlogSettings.Instance.Email.Replace("@", ".nospam@nospam.") + " (" + publishable.Author + ")");
+			writer.WriteElementString("author", publishable.Author);
 			if (post != null)
 			{
 				writer.WriteElementString("comments", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(), "#comment"));

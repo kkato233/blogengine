@@ -75,7 +75,8 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 	private int GetPageIndex()
 	{
 		int index = 0;
-		if (int.TryParse(Request.QueryString["page"], out index))
+		string page = Request.QueryString["page"];
+		if (page != null && int.TryParse(page, out index) && index > 0)
 			index--;
 
 		return index;

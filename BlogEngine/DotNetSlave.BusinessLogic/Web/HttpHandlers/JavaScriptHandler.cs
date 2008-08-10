@@ -31,11 +31,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// </param>
 		public void ProcessRequest(HttpContext context)
 		{
-			string path = context.Request.QueryString["path"];
-			string script = null;
+			string path = context.Request.QueryString["path"];			
 
 			if (!string.IsNullOrEmpty(path))
 			{
+				string script = null;
 				if (context.Cache[path] == null)
 				{
 					if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
@@ -47,16 +47,16 @@ namespace BlogEngine.Core.Web.HttpHandlers
 						script = RetrieveLocalScript(path);
 					}
 				}
-			}
 
-			script = (string)context.Cache[path];
-			if (!string.IsNullOrEmpty(script))
-			{	
-				SetHeaders(script.GetHashCode(), context);
-				context.Response.Write(script);
+				script = (string)context.Cache[path];
+				if (!string.IsNullOrEmpty(script))
+				{
+					SetHeaders(script.GetHashCode(), context);
+					context.Response.Write(script);
 
-				if (BlogSettings.Instance.EnableHttpCompression)
-					Compress(context);
+					if (BlogSettings.Instance.EnableHttpCompression)
+						Compress(context);
+				}
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				throw new System.Security.SecurityException("No access");
 			}
 
-			string path = HttpContext.Current.Server.MapPath(file);			
+			string path = HttpContext.Current.Server.MapPath(file);
 			string script = null;
 
 			if (File.Exists(path))
