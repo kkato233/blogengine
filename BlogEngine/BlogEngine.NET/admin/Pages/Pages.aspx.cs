@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
+using System.Collections.Generic;
 
 #endregion
 
@@ -23,6 +24,11 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 				Guid id = new Guid(Request.QueryString["id"]);
 				BindPage(id);
 				BindParents(id);
+			}
+			else if (!String.IsNullOrEmpty(Request.QueryString["delete"]) && Request.QueryString["delete"].Length == 36)
+			{
+				Guid id = new Guid(Request.QueryString["delete"]);
+				DeletePage(id);
 			}
 			else
 			{
@@ -41,6 +47,31 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 
 		if (!Utils.IsMono)
 			Page.Form.DefaultButton = btnSave.UniqueID;
+	}
+
+	private void DeletePage(Guid pageId)
+	{
+		Page page = BlogEngine.Core.Page.GetPage(pageId);
+		if (page != null)
+		{
+			ResetParentPage(page);
+			page.Delete();
+			page.Save();
+			Response.Redirect("pages.aspx");
+		}
+	}
+
+	private void ResetParentPage(Page page)
+	{
+		foreach (BlogEngine.Core.Page child in BlogEngine.Core.Page.Pages)
+		{
+			if (page.Id == child.Parent)
+			{
+				child.Parent = Guid.Empty;
+				child.Save();
+				ResetParentPage(child);
+			}
+		}
 	}
 
 	private void btnUploadImage_Click(object sender, EventArgs e)
@@ -189,10 +220,18 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 				a.InnerHtml = page.Title;
 
 				System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl
-				(" (" + page.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+				(" (" + page.DateCreated.ToString("yyyy-dd-MM HH:mm") + ") ");
+
+				string deleteText = "Are you sure you want to delete the page?";
+				HtmlAnchor delete = new HtmlAnchor();
+				delete.InnerText = Resources.labels.delete;
+				delete.Attributes["onclick"] = "if (confirm('" + deleteText + "')){location.href='?delete=" + page.Id + "'}";
+				delete.HRef = "javascript:void(0);";
+				delete.Style.Add(System.Web.UI.HtmlTextWriterStyle.FontWeight, "normal");
 
 				li.Controls.Add(a);
 				li.Controls.Add(text);
+				li.Controls.Add(delete);
 
 				if (page.HasChildPages)
 				{
@@ -226,10 +265,18 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 			cA.InnerHtml = cPage.Title;
 
 			System.Web.UI.LiteralControl cText = new System.Web.UI.LiteralControl
-			(" (" + cPage.DateCreated.ToString("yyyy-dd-MM HH:mm") + ")");
+			(" (" + cPage.DateCreated.ToString("yyyy-dd-MM HH:mm") + ") ");
+
+			string deleteText = "Are you sure you want to delete the page?";
+			HtmlAnchor delete = new HtmlAnchor();
+			delete.InnerText = Resources.labels.delete;
+			delete.Attributes["onclick"] = "if (confirm('" + deleteText + "')){location.href='?delete=" + cPage.Id + "'}";
+			delete.HRef = "javascript:void(0);";
+			delete.Style.Add(System.Web.UI.HtmlTextWriterStyle.FontWeight, "normal");
 
 			cLi.Controls.Add(cA);
 			cLi.Controls.Add(cText);
+			cLi.Controls.Add(delete);
 
 			if (cPage.HasChildPages)
 			{
