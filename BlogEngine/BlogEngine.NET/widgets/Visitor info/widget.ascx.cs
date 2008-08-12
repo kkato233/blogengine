@@ -120,7 +120,7 @@ public partial class widgets_Visitor_info_widget : WidgetBase
 			{
 				_NumberOfComments += comments.Count;
 				int index = post.Comments.IndexOf(comments[comments.Count - 1]);
-				if (index < post.Comments.Count && post.Comments[post.Comments.Count - 1].DateCreated > DateTime.Now.AddDays(-7))
+				if (index < post.Comments.Count - 1 && post.Comments[post.Comments.Count - 1].DateCreated > DateTime.Now.AddDays(-7))
 					list.Add(post);
 			}
 		}
