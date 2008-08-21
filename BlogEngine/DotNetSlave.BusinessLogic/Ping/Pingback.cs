@@ -34,24 +34,27 @@ namespace BlogEngine.Core.Ping
         HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(targetUrl);
         request.Credentials = CredentialCache.DefaultNetworkCredentials;
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-        string pingUrl = (string.IsNullOrEmpty(response.Headers["x-pingback"])) ? response.Headers["x-pingback"] : response.Headers["pingback"];
+        string pingUrl = (string.IsNullOrEmpty(response.Headers["x-pingback"])) ? response.Headers["pingback"] : response.Headers["x-pingback"];
         Uri url;
         if (!string.IsNullOrEmpty(pingUrl) && Uri.TryCreate(pingUrl, UriKind.Absolute, out url))
         {
           OnSending(url);
           request = (HttpWebRequest)HttpWebRequest.Create(url);
           request.Method = "POST";
-          request.Timeout = 10000;
+          //request.Timeout = 10000;
           request.ContentType = "text/xml";
           request.ProtocolVersion = HttpVersion.Version11;
-					request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)";
+					request.Headers["Accept-Language"] = "en-us";
           AddXmlToRequest(sourceUrl, targetUrl, request);
-          request.GetResponse();
+					HttpWebResponse response2 = (HttpWebResponse)request.GetResponse();
+					response2.Close();
           OnSent(url);
         }
       }
-      catch (Exception)
+      catch (Exception ex)
       {
+				ex = new Exception();
+				
         // Stops unhandled exceptions that can cause the app pool to recycle
       }
     }

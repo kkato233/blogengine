@@ -33,7 +33,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         // Posts
 				foreach (Post post in Post.Posts)
 				{
-					if (post.IsVisible)
+					if (post.IsPublished)
 					{
 						writer.WriteStartElement("url");
 						writer.WriteElementString("loc", post.AbsoluteLink.ToString());
@@ -46,7 +46,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         // Pages
 				foreach (Page page in Page.Pages)
 				{
-					if (page.IsVisible)
+					if (page.IsPublished)
 					{
 						writer.WriteStartElement("url");
 						writer.WriteElementString("loc", page.AbsoluteLink.ToString());
@@ -56,12 +56,13 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					}
 				}
 
-        // Archive
-        writer.WriteStartElement("url");
-        writer.WriteElementString("loc", Utils.AbsoluteWebRoot.ToString() + "archive.aspx");
-        writer.WriteElementString("lastmod", DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
-        writer.WriteElementString("changefreq", "daily");
-        writer.WriteEndElement();
+				// Removed for SEO reasons
+				//// Archive
+				//writer.WriteStartElement("url");
+				//writer.WriteElementString("loc", Utils.AbsoluteWebRoot.ToString() + "archive.aspx");
+				//writer.WriteElementString("lastmod", DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+				//writer.WriteElementString("changefreq", "daily");
+				//writer.WriteEndElement();
 
         // Contact
         writer.WriteStartElement("url");

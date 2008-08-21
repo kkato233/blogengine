@@ -17,29 +17,29 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// </summary>
 	/// <param name="sender">The source of the event.</param>
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-  protected void Page_Load(object sender, EventArgs e)
-  {
-    if (!IsPostBack && !IsCallback)
-    {
+	protected void Page_Load(object sender, EventArgs e)
+	{
+		if (!IsPostBack && !IsCallback)
+		{
 			CreateMenu();
-      CreateArchive();
-      AddTotals();
-    }
+			CreateArchive();
+			AddTotals();
+		}
 
-    Page.Title = Server.HtmlEncode(Resources.labels.archive);
-    base.AddMetaTag("description", Resources.labels.archive + " | " + BlogSettings.Instance.Name);
-  }
+		Page.Title = Server.HtmlEncode(Resources.labels.archive);
+		base.AddMetaTag("description", Resources.labels.archive + " | " + BlogSettings.Instance.Name);
+	}
 
 	/// <summary>
 	/// Creates the category top menu.
 	/// </summary>
-  private void CreateMenu()
-  {
-    foreach (Category cat in Category.Categories)
-    {
+	private void CreateMenu()
+	{
+		foreach (Category cat in Category.Categories)
+		{
 			AddCategoryToMenu(cat.Title);
-    }
-  }
+		}
+	}
 
 	private void AddCategoryToMenu(string title)
 	{
@@ -57,41 +57,47 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// Sorts the categories.
 	/// </summary>
 	/// <param name="categories">The categories.</param>
-  private SortedDictionary<string, Guid> SortCategories(Dictionary<Guid, string> categories)
-  {
-    SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
-    foreach (Category cat in Category.Categories)
-    {
-      dic.Add(cat.Title, cat.Id);
-    }
+	private SortedDictionary<string, Guid> SortCategories(Dictionary<Guid, string> categories)
+	{
+		SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
+		foreach (Category cat in Category.Categories)
+		{
+			bool postsExist = cat.Posts.FindAll(delegate(Post post)
+			{
+				return post.IsPublished;
+			}).Count > 0;
 
-    return dic;
-  }
+			if (postsExist)
+				dic.Add(cat.Title, cat.Id);
+		}
 
-  private void CreateArchive()
-  {
-    foreach (Category cat in Category.Categories)
-    {
-      string name = cat.Title;
-			List<Post> list = Post.GetPostsByCategory(cat.Id).FindAll(delegate(Post p) { return p.IsVisible; });
+		return dic;
+	}
+
+	private void CreateArchive()
+	{
+		foreach (Category cat in Category.Categories)
+		{
+			string name = cat.Title;
+			List<Post> list = cat.Posts.FindAll(delegate(Post p) { return p.IsPublished; });
 
 			HtmlGenericControl h2 = CreateRowHeader(cat.Id, name, list.Count);
-      phArchive.Controls.Add(h2);
+			phArchive.Controls.Add(h2);
 
-      HtmlTable table = CreateTable(name);
-      foreach (Post post in list)
-      {
+			HtmlTable table = CreateTable(name);
+			foreach (Post post in list)
+			{
 				CreateTableRow(table, post);
-      }
+			}
 
-      phArchive.Controls.Add(table);
-    }
+			phArchive.Controls.Add(table);
+		}
 
-		List<Post> noCatList = Post.Posts.FindAll(delegate(Post p) { return p.Categories.Count == 0; });
+		List<Post> noCatList = Post.Posts.FindAll(delegate(Post p) { return p.Categories.Count == 0 && p.IsPublished; });
 		if (noCatList.Count > 0)
 		{
 			string name = Resources.labels.uncategorized;
-			HtmlGenericControl h2 = CreateRowHeader(Guid.NewGuid(), name, noCatList.Count);
+			HtmlGenericControl h2 = CreateRowHeader(Guid.Empty, name, noCatList.Count);
 			phArchive.Controls.Add(h2);
 
 			HtmlTable table = CreateTable(name);
@@ -104,18 +110,20 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
 			AddCategoryToMenu(name);
 		}
-  }
+	}
 
 	private static HtmlGenericControl CreateRowHeader(Guid id, string name, int count)
 	{
 		HtmlAnchor feed = new HtmlAnchor();
 		feed.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(name) + ".aspx";
 
-		HtmlImage img = new HtmlImage();
-		img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
-		img.Alt = "RSS";
-
-		feed.Controls.Add(img);
+		if (id != Guid.Empty)
+		{
+			HtmlImage img = new HtmlImage();
+			img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
+			img.Alt = "RSS";
+			feed.Controls.Add(img);
+		}
 
 		HtmlGenericControl h2 = new HtmlGenericControl("h2");
 		h2.Attributes["id"] = Utils.RemoveIllegalCharacters(name);
@@ -159,57 +167,58 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		table.Rows.Add(row);
 	}
 
-  private HtmlTable CreateTable(string name)
-  {
-    HtmlTable table = new HtmlTable();
-    table.Attributes.Add("summary", name);
+	private HtmlTable CreateTable(string name)
+	{
+		HtmlTable table = new HtmlTable();
+		table.Attributes.Add("summary", name);
 
-    HtmlTableRow header = new HtmlTableRow();
+		HtmlTableRow header = new HtmlTableRow();
 
-    HtmlTableCell date = new HtmlTableCell("th");
-    date.InnerHtml = base.Translate("date");
-    header.Cells.Add(date);
+		HtmlTableCell date = new HtmlTableCell("th");
+		date.InnerHtml = base.Translate("date");
+		header.Cells.Add(date);
 
-    HtmlTableCell title = new HtmlTableCell("th");
-    title.InnerHtml = base.Translate("title");
-    header.Cells.Add(title);
+		HtmlTableCell title = new HtmlTableCell("th");
+		title.InnerHtml = base.Translate("title");
+		header.Cells.Add(title);
 
-    if (BlogSettings.Instance.IsCommentsEnabled)
-    {
-      HtmlTableCell comments = new HtmlTableCell("th");
-      comments.InnerHtml = base.Translate("comments");
-      comments.Attributes.Add("class", "comments");
-      header.Cells.Add(comments);
-    }
+		if (BlogSettings.Instance.IsCommentsEnabled)
+		{
+			HtmlTableCell comments = new HtmlTableCell("th");
+			comments.InnerHtml = base.Translate("comments");
+			comments.Attributes.Add("class", "comments");
+			header.Cells.Add(comments);
+		}
 
-    if (BlogSettings.Instance.EnableRating)
-    {
-      HtmlTableCell rating = new HtmlTableCell("th");
-      rating.InnerHtml = base.Translate("rating");
-      rating.Attributes.Add("class", "rating");
-      header.Cells.Add(rating);
-    }
+		if (BlogSettings.Instance.EnableRating)
+		{
+			HtmlTableCell rating = new HtmlTableCell("th");
+			rating.InnerHtml = base.Translate("rating");
+			rating.Attributes.Add("class", "rating");
+			header.Cells.Add(rating);
+		}
 
-    table.Rows.Add(header);
+		table.Rows.Add(header);
 
-    return table;
-  }
+		return table;
+	}
 
-  private void AddTotals()
-  {
-    int comments = 0;
-    int raters = 0;
-    foreach (Post post in Post.Posts)
-    {
-      comments += post.ApprovedComments.Count;
-      raters += post.Raters;
-    }
+	private void AddTotals()
+	{
+		int comments = 0;
+		int raters = 0;
+		List<Post> posts = Post.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
+		foreach (Post post in posts)
+		{
+			comments += post.ApprovedComments.Count;
+			raters += post.Raters;
+		}
 
-    ltPosts.Text = Post.Posts.Count + " " + Resources.labels.posts.ToLowerInvariant();
-    if (BlogSettings.Instance.IsCommentsEnabled)
-      ltComments.Text = comments + " " + Resources.labels.comments.ToLowerInvariant();
+		ltPosts.Text = posts.Count + " " + Resources.labels.posts.ToLowerInvariant();
+		if (BlogSettings.Instance.IsCommentsEnabled)
+			ltComments.Text = comments + " " + Resources.labels.comments.ToLowerInvariant();
 
-    if (BlogSettings.Instance.EnableRating)
-      ltRaters.Text = raters + " " + Resources.labels.raters.ToLowerInvariant();
-  }
+		if (BlogSettings.Instance.EnableRating)
+			ltRaters.Text = raters + " " + Resources.labels.raters.ToLowerInvariant();
+	}
 }
