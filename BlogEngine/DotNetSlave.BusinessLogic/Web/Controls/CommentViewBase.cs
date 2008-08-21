@@ -84,8 +84,15 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				ServingEventArgs arg = new ServingEventArgs(Comment.Content, ServingLocation.SinglePost);
 				Comment.OnServing(Comment, arg);
+				if (arg.Cancel)
+				{
+					this.Visible = false;
+				}
 
-				return arg.Body.Replace("\n", "<br />"); ;
+				string body = arg.Body.Replace("\n", "<br />");
+				body = body.Replace("\t", "&nbsp;&nbsp;");
+				body = body.Replace("  ", "&nbsp;&nbsp;");
+				return body;
 			}
 		}
 

@@ -112,7 +112,7 @@ namespace Controls
 				{
 					HtmlImage img = new HtmlImage();
 					img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
-					img.Alt = "RSS feed for " + key;
+					img.Alt = BlogSettings.Instance.SyndicationFormat.ToUpperInvariant() + " feed for " + key;
 					img.Attributes["class"] = "rssButton";
 
 					HtmlAnchor feedAnchor = new HtmlAnchor();

@@ -383,7 +383,8 @@ ul.recentComments li a.postTitle{
 }
 
 .self {
-	border: 1px solid black;
+	1border: 1px solid black;
+	background: #E0EAEF;
 }
 
 .comment .gravatar {
@@ -395,6 +396,7 @@ ul.recentComments li a.postTitle{
 .comment .gravatar img {
 	height: 80px;
 	width: 80px;
+	border: 1px solid silver;
 }
 
 .comment .content {

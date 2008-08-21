@@ -1641,11 +1641,11 @@ namespace BlogEngine.Core.Providers
             if (dic.ContainsKey("LastName"))
                 profile.LastName = dic["LastName"];
             if (dic.ContainsKey("CityTown"))
-                profile.LastName = dic["CityTown"];
+                profile.CityTown = dic["CityTown"];
             if (dic.ContainsKey("RegionState"))
-                profile.LastName = dic["RegionState"];
+                profile.RegionState = dic["RegionState"];
             if (dic.ContainsKey("Country"))
-                profile.LastName = dic["Country"];
+                profile.Country = dic["Country"];
             if (dic.ContainsKey("Birthday"))
             {
                 DateTime date;
@@ -1653,19 +1653,19 @@ namespace BlogEngine.Core.Providers
                     profile.Birthday = date;
             }
             if (dic.ContainsKey("AboutMe"))
-                profile.LastName = dic["AboutMe"];
+                profile.AboutMe = dic["AboutMe"];
             if (dic.ContainsKey("PhotoURL"))
-                profile.LastName = dic["PhotoURL"];
+                profile.PhotoURL = dic["PhotoURL"];
             if (dic.ContainsKey("Company"))
-                profile.LastName = dic["Company"];
+                profile.Company = dic["Company"];
             if (dic.ContainsKey("EmailAddress"))
-                profile.LastName = dic["EmailAddress"];
+                profile.EmailAddress = dic["EmailAddress"];
             if (dic.ContainsKey("PhoneMain"))
-                profile.LastName = dic["PhoneMain"];
+                profile.PhoneMain = dic["PhoneMain"];
             if (dic.ContainsKey("PhoneMobile"))
-                profile.LastName = dic["PhoneMobile"];
+                profile.PhoneMobile = dic["PhoneMobile"];
             if (dic.ContainsKey("PhoneFax"))
-                profile.LastName = dic["PhoneFax"];
+                profile.PhoneFax = dic["PhoneFax"];
             if (dic.ContainsKey("IsPrivate"))
                 profile.IsPrivate = dic["IsPrivate"] == "true";
 
