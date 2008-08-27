@@ -223,7 +223,7 @@ public class ExtensionManager
     {
       if (o.GetType().Name == "FileStream")
       {
-        Stream stm = (Stream)xs.GetSettings();
+        Stream stm = (FileStream)o;
         ex = (ManagedExtension)serializer.Deserialize(stm);
         stm.Close();
       }
