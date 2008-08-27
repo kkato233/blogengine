@@ -60,12 +60,10 @@ namespace BlogEngine.Core.Providers
         if (!Directory.Exists(StorageLocation(exType)))
           Directory.CreateDirectory(StorageLocation(exType));
 
-        using (TextWriter writer = new StreamWriter(_fileName))
-        {
-          XmlSerializer x = new XmlSerializer(settings.GetType());
-          x.Serialize(writer, settings);
-          writer.Close();
-        }
+        TextWriter writer = new StreamWriter(_fileName);
+        XmlSerializer x = new XmlSerializer(settings.GetType());
+        x.Serialize(writer, settings);
+        writer.Close();
       }
       catch (Exception e)
       {
