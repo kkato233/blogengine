@@ -230,6 +230,7 @@ namespace BlogEngine.Core.API.MetaWeblog
           case "wp.getAuthors":
           case "wp.getPageList":
           case "wp.getPages":
+          case "wp.getTags":
             _blogID = _inputParams[0].InnerText;
             _userName = _inputParams[1].InnerText;
             _password = _inputParams[2].InnerText;

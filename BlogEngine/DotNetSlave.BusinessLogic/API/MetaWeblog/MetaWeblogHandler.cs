@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Web;
 using System.Web.Security;
-using System.Xml;
 using BlogEngine.Core;
 
 namespace BlogEngine.Core.API.MetaWeblog
@@ -87,6 +85,9 @@ namespace BlogEngine.Core.API.MetaWeblog
 						break;
                     case "wp.getAuthors":
 				        output.Authors = GetAuthors(input.BlogID, input.UserName, input.Password);
+				        break;
+                    case "wp.getTags":
+                        output.Keywords = GetKeywords(input.BlogID, input.UserName, input.Password);
 				        break;
 				}
 
@@ -370,12 +371,41 @@ namespace BlogEngine.Core.API.MetaWeblog
 				temp.title = cat.Title;
 				temp.description = cat.Title; //cat.Description;
 				temp.htmlUrl = rootUrl + "category/" + cat.Title + ".aspx";
-				temp.rssUrl = rootUrl + "category/syndication.axd?category=" + cat.Id.ToString();
+				temp.rssUrl = rootUrl + "category/syndication.axd?category=" + cat.Id;
 				categories.Add(temp);
 			}
 
 			return categories;
 		}
+
+        /// <summary>
+        /// wp.getTags
+        /// </summary>
+        /// <param name="blogID"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns>list of tags</returns>
+        internal List<string> GetKeywords(string blogID, string userName, string password)
+        {
+            List<string> keywords = new List<string>();
+
+            ValidateRequest(userName, password);
+
+            foreach (Post post in Post.Posts)
+            {
+                if (post.IsVisible)
+                {
+                    foreach (string tag in post.Tags)
+                    {
+                        if (!keywords.Contains(tag))
+                            keywords.Add(tag);
+                    }
+                }
+            }
+            keywords.Sort();
+
+            return keywords;
+        }
 
 		/// <summary>
 		/// metaWeblog.getRecentPosts
