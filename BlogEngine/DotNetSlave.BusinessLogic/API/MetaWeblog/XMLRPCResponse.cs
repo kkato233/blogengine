@@ -372,7 +372,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 
             // keywordName
             data.WriteStartElement("member");
-            data.WriteElementString("name", "keywordName");
+            data.WriteElementString("name", "name");
             data.WriteElementString("value", keyword);
             data.WriteEndElement();
 
