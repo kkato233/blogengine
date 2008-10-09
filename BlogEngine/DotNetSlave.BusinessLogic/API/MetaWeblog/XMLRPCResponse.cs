@@ -24,6 +24,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       _methodName = methodName;
       _blogs = new List<MWABlogInfo>();
       _categories = new List<MWACategory>();
+      _keywords = new List<string>();
       _posts = new List<MWAPost>();
       _pages = new List<MWAPage>();
       _authors = new List<MWAAuthor>();
@@ -36,6 +37,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 
     private List<MWABlogInfo> _blogs;
     private List<MWACategory> _categories;
+    private List<string> _keywords;
     private bool _completed;
     private MWAFault _fault;
     private MWAMediaInfo _mediaInfo;
@@ -75,6 +77,15 @@ namespace BlogEngine.Core.API.MetaWeblog
     {
       get { return _categories; }
       set { _categories = value; }
+    }
+
+    /// <summary>
+    /// List of Tags.  Used by wp.getTags.
+    /// </summary>
+    public List<string> Keywords
+    {
+      get { return _keywords; }
+      set { _keywords = value; }
     }
 
     /// <summary>
@@ -222,6 +233,9 @@ namespace BlogEngine.Core.API.MetaWeblog
           case "wp.getAuthors":
             WriteAuthors(data);
             break;
+          case "wp.getTags":
+            WriteKeywords(data);
+            break;
           case "fault":
             WriteFault(data);
             break;
@@ -339,6 +353,43 @@ namespace BlogEngine.Core.API.MetaWeblog
       data.WriteEndElement();
 
     }
+
+    /// <summary>
+    /// Writes the Array of Keyword structs parameters of Response
+    /// </summary>
+    /// <param name="data">xml response</param>
+    private void WriteKeywords(XmlTextWriter data)
+    {
+        data.WriteStartElement("param");
+        data.WriteStartElement("value");
+        data.WriteStartElement("array");
+        data.WriteStartElement("data");
+
+        foreach (string keyword in _keywords)
+        {
+            data.WriteStartElement("value");
+            data.WriteStartElement("struct");
+
+            // keywordName
+            data.WriteStartElement("member");
+            data.WriteElementString("name", "keywordName");
+            data.WriteElementString("value", keyword);
+            data.WriteEndElement();
+
+            data.WriteEndElement();
+            data.WriteEndElement();
+
+        }
+
+        // Close tags
+        data.WriteEndElement();
+        data.WriteEndElement();
+        data.WriteEndElement();
+        data.WriteEndElement();
+
+    }
+
+
 
     /// <summary>
     /// Writes the MediaInfo Struct of Response

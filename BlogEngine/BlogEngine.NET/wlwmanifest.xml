@@ -12,6 +12,7 @@
 	  <supportsPages>Yes</supportsPages>
 	  <supportsPageParent>Yes</supportsPageParent>
     <supportsAuthor>Yes</supportsAuthor>
+    <supportsGetKeywords>Yes</supportsGetKeywords>
     <requiresHtmlTitles>No</requiresHtmlTitles>
 </options>
   <weblog>
