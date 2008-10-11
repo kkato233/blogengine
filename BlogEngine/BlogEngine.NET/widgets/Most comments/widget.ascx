@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Most_comments_widget" %>
 <asp:Repeater runat="server" ID="rep">
   <HeaderTemplate>
-    <table summary="Most active commenters" style="border-collapse:collapse">
+    <table style="border-collapse:collapse">
   </HeaderTemplate>
   
   <ItemTemplate>

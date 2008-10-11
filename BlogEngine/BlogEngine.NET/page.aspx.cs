@@ -113,12 +113,12 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 			try
 			{
 				string all = myMatch.Groups[1].Value.Trim();
-				UserControl usercontrol = null;
+				Control usercontrol = null;
 
 				if (!all.EndsWith(".ascx", StringComparison.OrdinalIgnoreCase))
 				{
 					int index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) + 5;
-					usercontrol = (UserControl)LoadControl(all.Substring(0, index));
+					usercontrol = LoadControl(all.Substring(0, index));
 
 					string parameters = Server.HtmlDecode(all.Substring(index));
 					Type type = usercontrol.GetType();
@@ -134,7 +134,7 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 				}
 				else
 				{
-					usercontrol = (UserControl)LoadControl(all);
+					usercontrol = LoadControl(all);
 				}
 
 				divText.Controls.Add(usercontrol);
