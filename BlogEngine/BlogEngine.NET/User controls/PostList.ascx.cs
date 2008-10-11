@@ -32,6 +32,13 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 
 		List<IPublishable> visiblePosts = Posts.FindAll(delegate(IPublishable p) { return p.IsVisible; });
 
+		if (Posts == null || visiblePosts.Count == 0)
+		{
+			hlPrev.Visible = false;
+			hlNext.Visible = false;
+			return;
+		}
+
 		int count = Math.Min(BlogSettings.Instance.PostsPerPage, visiblePosts.Count);
 		int page = GetPageIndex();
 		int index = page * count;
@@ -65,7 +72,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 			counter++;
 		}
 
-		if (index + stop == Posts.Count)
+		if (index + stop == visiblePosts.Count)
 			hlPrev.Visible = false;
 	}
 

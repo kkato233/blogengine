@@ -22,6 +22,12 @@ a {
 	color: #5C80B1;
 }
 
+a[href^="\/file.axd"] {
+	font-weight: bold;
+	background: url(download.png) no-repeat right center;
+	padding-right: 15px;
+}
+
 a:hover {
 	text-decoration: underline;
 }
@@ -930,7 +936,6 @@ ul#monthList ul.open{
 ----------------------------*/
 
 div.post .text a[rel] {
-	padding-right:11px;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
@@ -945,23 +950,27 @@ div.post .text a[rel~="contact"] ,
 div.post .text a[rel~="acquaintance"],
 div.post .text a[rel~="friend"] {
 	background-image:url('../../pics/xfn/contact.gif');
+	padding-right:11px;
 }
 /*-------- [ Normal contacts youve met ]--*/
 div.post .text a[rel~="contact"][rel~="met"] ,
 div.post .text a[rel~="acquaintance"][rel~="met"] ,
 div.post .text a[rel~="friend"][rel~="met"] {
 	background-image:url('../../pics/xfn/contactMet.gif');
+	padding-right:11px;
 }
 
 /*-------- [ Colleague and co worker icon more important than contact ]--*/
 div.post .text a[rel~="colleague"] ,
 div.post .text a[rel~="co-worker"] {
 	background-image:url('../../pics/xfn/colleague.gif');
+	padding-right:11px;
 }
 /*-------- [ Colleague and co worker icon when met ]--*/
 div.post .text a[rel~="colleague"][rel~="met"] ,
 div.post .text a[rel~="co-worker"][rel~="met"] {
 	background-image:url('../../pics/xfn/colleagueMet.gif');
+	padding-right:11px;
 }
 
 /*-------- [ Sweethearts are more important than work!!! ]--*/
@@ -970,6 +979,7 @@ div.post .text a[rel~="crush"] ,
 div.post .text a[rel~="date"] ,
 a[rel~="sweetheart"] {
 	background-image:url('../../pics/xfn/sweet.gif');
+	padding-right:11px;
 }
 /*-------- [ ...and if youve met them thats even better ]--*/
 div.post .text a[rel~="muse"][rel~="met"] ,
@@ -977,4 +987,5 @@ div.post .text a[rel~="crush"][rel~="met"] ,
 div.post .text a[rel~="date"][rel~="met"] ,
 div.post .text a[rel~="sweetheart"][rel~="met"] {
 	background-image:url('../../pics/xfn/sweetMet.gif');
+	padding-right:11px;
 }
