@@ -250,7 +250,7 @@ namespace BlogEngine.Core.Web.Controls
 		{
 			get
 			{
-				if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name.Equals(Post.Author))
+				if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name.Equals(Post.Author, StringComparison.OrdinalIgnoreCase))
 				{
 					BlogBasePage page = (BlogBasePage)Page;
 					string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));

@@ -438,7 +438,7 @@ function editWidget(name, id)
 	var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
 
   var layer = document.createElement('div');
-  layer.style.zIndex = 2;
+  layer.style.zIndex = 1002;
   layer.id = 'layer';
   layer.style.position = 'absolute';
   layer.style.top = '0px';
@@ -459,7 +459,7 @@ function editWidget(name, id)
 	iframe.style.height = size.height + 'px';
 	iframe.style.width = size.width + 'px';
 	iframe.style.position = 'fixed';
-	iframe.style.zIndex = 3;
+	iframe.style.zIndex = 1003;
 	iframe.style.backgroundColor = 'white';
 	iframe.style.border = '4px solid silver';
 	iframe.frameborder = '0';	
