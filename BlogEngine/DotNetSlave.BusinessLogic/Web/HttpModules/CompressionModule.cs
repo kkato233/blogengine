@@ -59,7 +59,7 @@ namespace BlogEngine.Core.Web.HttpModules
 		void context_PostReleaseRequestState(object sender, EventArgs e)
 		{
 			HttpContext context = ((HttpApplication)sender).Context;
-			if (context.CurrentHandler is System.Web.UI.Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null)
+            if (context.CurrentHandler is System.Web.UI.Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null && context.Request.HttpMethod == "GET")
 			{
 				CompressResponse(context);
 			
