@@ -46,7 +46,7 @@
   <script type="text/javascript">
     function beginSendMessage()
     {
-      if ($('<%=txtAttachment.ClientID %>').value.length > 0)
+      if ($('<%=txtAttachment.ClientID %>') && $('<%=txtAttachment.ClientID %>').value.length > 0)
         return true;
         
       if(!Page_ClientValidate('contact'))
