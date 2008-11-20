@@ -12,6 +12,23 @@
         var path = '../../?theme=' + theme;
         window.open(path);
       }
+      
+			function geodeAsk()
+			{
+				if (navigator.geolocation)
+					navigator.geolocation.getCurrentPosition(geoFound, geoNotFound);
+			}
+
+			function geoFound(pos)
+			{
+				document.getElementById('<%=txtGeocodingLatitude.ClientID %>').value = pos.latitude;
+				document.getElementById('<%=txtGeocodingLongitude.ClientID %>').value = pos.longitude;
+			}
+
+			function geoNotFound()
+			{
+				alert('You must be on a wifi network for us to determine your location');
+			}       
     </script>
 
     <br />
@@ -204,7 +221,13 @@
         <asp:TextBox runat="server" ID="txtGeocodingLatitude" Width="300" /><br />
         
         <label for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label>
-        <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" /><br /><br />
+        <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" />&nbsp;
+        <input type="button" id="findPosition" onclick="geodeAsk()" value="Find position" style="display:none" />
+        <script type="text/javascript">
+        if (navigator.geolocation)
+					document.getElementById('findPosition').style.display = 'inline';
+        </script>
+        <br /><br />
         
         <label for="<%=cbEnableEnclosures.ClientID %>">Enable Enclosures</label>
         <asp:CheckBox runat="server" ID="cbEnableEnclosures" /><br />

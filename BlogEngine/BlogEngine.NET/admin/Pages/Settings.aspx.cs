@@ -117,13 +117,14 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         BlogSettings.Instance.Language = txtDublinCoreLanguage.Text;
 
         float latitude;
-        if (Single.TryParse(txtGeocodingLatitude.Text, out latitude)) {
+        if (Single.TryParse( txtGeocodingLatitude.Text.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out latitude)) {
             BlogSettings.Instance.GeocodingLatitude = latitude;
         } else {
             BlogSettings.Instance.GeocodingLatitude = Single.MinValue;
         }
         float longitude;
-        if (Single.TryParse(txtGeocodingLongitude.Text, out longitude)) {
+				if (Single.TryParse(txtGeocodingLongitude.Text.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out longitude))
+				{
             BlogSettings.Instance.GeocodingLongitude = longitude;
         } else {
             BlogSettings.Instance.GeocodingLongitude = Single.MinValue;
@@ -218,8 +219,8 @@ public partial class admin_Pages_configuration : System.Web.UI.Page {
         txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
         txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
 
-        txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue ? BlogSettings.Instance.GeocodingLatitude.ToString() : String.Empty;
-        txtGeocodingLongitude.Text = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString() : String.Empty;
+        txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue ? BlogSettings.Instance.GeocodingLatitude.ToString(CultureInfo.InvariantCulture) : String.Empty;
+        txtGeocodingLongitude.Text = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString(CultureInfo.InvariantCulture) : String.Empty;
 
         txtBlogChannelBLink.Text = BlogSettings.Instance.Endorsement;
         txtAlternateFeedUrl.Text = BlogSettings.Instance.AlternateFeedUrl;
