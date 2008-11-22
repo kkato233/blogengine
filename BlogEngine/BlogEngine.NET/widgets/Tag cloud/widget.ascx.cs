@@ -19,7 +19,7 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 		foreach (string key in WeightedList.Keys)
 		{
 			HtmlGenericControl li = new HtmlGenericControl("li");
-			li.InnerHtml = string.Format(LINK, Utils.RelativeWebRoot + "?tag=/" + HttpUtility.UrlEncode(key), WeightedList[key], "Tag: " + key, key);
+			li.InnerHtml = string.Format(LINK, Utils.RelativeWebRoot + "?tag=/" + Utils.RemoveIllegalCharacters(key), WeightedList[key], "Tag: " + key, key);
 			ulTags.Controls.Add(li);
 		}
 	}

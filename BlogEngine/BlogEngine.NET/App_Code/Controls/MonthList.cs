@@ -2,9 +2,9 @@
 
 using System;
 using System.Web;
+using System.Web.Caching;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
-using System.IO;
 using System.Collections.Generic;
 using BlogEngine.Core;
 
@@ -17,63 +17,63 @@ namespace Controls
 	/// </summary>
 	public class MonthList : Control
 	{
+		private const double CacheTimeoutInHours = 1;
 
 		static MonthList()
 		{
-			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+			Post.Saved += Post_Saved;
 		}
 
 		static void Post_Saved(object sender, SavedEventArgs e)
 		{
-			if (e.Action != SaveAction.Update)
-				BindMonths();
+			// invalidate cache whenever a post is modified
+			lock (_SyncRoot)
+			{
+				HttpRuntime.Cache.Remove(CacheKey);
+			}
+
 		}
 
 		#region Private fields
 
-		private static object _SyncRoot = new object();
-		private static SortedDictionary<DateTime, int> _Months = new SortedDictionary<DateTime, int>();
-
+		private readonly static object _SyncRoot = new object();
+		private const string CacheKey = "BE_MonthListCacheKey";
 		#endregion
 
-		private static void BindMonths()
+		private static SortedDictionary<DateTime, int> GetPostsPerMonth()
 		{
 			lock (_SyncRoot)
 			{
-				_Months.Clear();
-				if (Post.Posts.Count == 0) return;
-
-				DateTime first;
-				if (Post.Posts.Count <= 0 || !DateTime.TryParse(Post.Posts[Post.Posts.Count - 1].DateCreated.Date.ToString("yyyy-MM-") + "01", out first))
+				SortedDictionary<DateTime, int> months = HttpRuntime.Cache[CacheKey] as SortedDictionary<DateTime, int>;
+				if (months == null)
 				{
-					first = DateTime.Now;
-				}
-				int year = first.Year;
-				int month = first.Month;
+					months = new SortedDictionary<DateTime, int>();
+					// let dictionary expire after 1 hour
+					HttpRuntime.Cache.Insert(CacheKey, months, null, DateTime.Now.AddHours(CacheTimeoutInHours), Cache.NoSlidingExpiration);
 
-				while (first <= DateTime.Now)
-				{
-					List<Post> list = Post.GetPostsByDate(first, DateTime.Parse(first.Year + "-" + first.Month + "-01").AddMonths(1).AddMilliseconds(-1));
-					list = list.FindAll(delegate(Post p)
+					foreach (Post post in Post.Posts)
 					{
-						return p.IsVisible;
-					});
-
-					if (list.Count > 0)
-					{
-						DateTime date = DateTime.Parse(first.Year + "-" + first.Month + "-01");
-						int posts = list.Count;
-						_Months.Add(date, posts);
+						// don't take authenticated users into account,
+						// count only publicly visible posts
+						if (post.IsPublished && post.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+						{
+							DateTime month = new DateTime(post.DateCreated.Year, post.DateCreated.Month, 1);
+							int count;
+							// if the date is not in the dictionary, count will be set to 0
+							months.TryGetValue(month, out count);
+							++count;
+							months[month] = count;
+						}
 					}
-
-					first = first.AddMonths(1);
 				}
+				return months;
 			}
 		}
 
 		private string RenderMonths()
 		{
-			if (_Months.Keys.Count == 0)
+			SortedDictionary<DateTime, int> months = GetPostsPerMonth();
+			if (months.Keys.Count == 0)
 				return "<p>" + Resources.labels.none + "</p>";
 
 			HtmlGenericControl ul = new HtmlGenericControl("ul");
@@ -82,7 +82,7 @@ namespace Controls
 			HtmlGenericControl list = null;
 			int current = 0;
 
-			foreach (DateTime date in _Months.Keys)
+			foreach (DateTime date in months.Keys)
 			{
 				if (current == 0)
 					current = date.Year;
@@ -108,7 +108,7 @@ namespace Controls
 
 				HtmlAnchor anc = new HtmlAnchor();
 				anc.HRef = Utils.RelativeWebRoot + date.Year + "/" + date.ToString("MM") + "/default" + BlogSettings.Instance.FileExtension;
-				anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " (" + _Months[date] + ")";
+				anc.InnerHtml = DateTime.Parse(date.Year + "-" + date.Month + "-01").ToString("MMMM") + " (" + months[date] + ")";
 
 				li.Controls.Add(anc);
 				list.Controls.AddAt(0, li);
@@ -138,9 +138,6 @@ namespace Controls
 		{
 			if (Post.Posts.Count > 0)
 			{
-				if (_Months.Count == 0)
-					BindMonths();
-
 				string html = RenderMonths();
 				writer.Write(html);
 				writer.Write(Environment.NewLine);
