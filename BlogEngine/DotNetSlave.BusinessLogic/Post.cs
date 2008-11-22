@@ -488,7 +488,13 @@ namespace BlogEngine.Core
 		{
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
-				return p.Tags.Contains(tag);
+				foreach (string t in p.Tags)
+				{
+					if (Utils.RemoveIllegalCharacters(t) == tag)
+						return true;
+				}
+
+				return false;
 			});
 
 			list.TrimExcess();

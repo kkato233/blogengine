@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
+using System.Collections.Generic;
 
 #endregion
 
@@ -43,7 +44,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				string theme = BlogSettings.Instance.Theme;
 				if (Request.QueryString["theme"] != null)
 					theme = Request.QueryString["theme"];
-				
+
 				string path = Utils.RelativeWebRoot + "themes/" + theme + "/PostView.ascx";
 
 				PostViewBase postView = (PostViewBase)LoadControl(path);
@@ -57,15 +58,20 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 					related.Visible = true;
 					related.Item = this.Post;
 				}
-				
+
 				CommentView1.Post = Post;
 
-        Page.Title = Server.HtmlEncode(Post.Title);
+				Page.Title = Server.HtmlEncode(Post.Title);
 				AddMetaKeywords();
-				AddMetaDescription();				
-				AddGenericLink("last", Post.Posts[0].Title, Post.Posts[0].RelativeLink.ToString());
-				AddGenericLink("first", Post.Posts[Post.Posts.Count - 1].Title, Post.Posts[Post.Posts.Count - 1].RelativeLink.ToString());
+				AddMetaDescription();
 				base.AddMetaTag("author", Server.HtmlEncode(Post.AuthorProfile == null ? Post.Author : Post.AuthorProfile.FullName));
+
+				List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
+				if (visiblePosts.Count > 0)
+				{
+					AddGenericLink("last", visiblePosts[0].Title, visiblePosts[0].RelativeLink.ToString());
+					AddGenericLink("first", visiblePosts[visiblePosts.Count - 1].Title, visiblePosts[visiblePosts.Count - 1].RelativeLink.ToString());
+				}
 
 				InitNavigationLinks();
 

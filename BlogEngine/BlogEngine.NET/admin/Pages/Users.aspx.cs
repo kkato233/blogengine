@@ -69,7 +69,7 @@ public partial class admin_newuser : System.Web.UI.Page
 	{
 		if (e.Row.RowType == DataControlRowType.DataRow && !Page.IsPostBack)
 		{
-			LinkButton delete = e.Row.Cells[0].Controls[1] as LinkButton;
+			LinkButton delete = e.Row.Cells[0].Controls[2] as LinkButton;
 			if (delete != null)
 			{
 				Label username = (Label)FindRowControl(e.Row, typeof(Label), "labelUsername");
