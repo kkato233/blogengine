@@ -503,7 +503,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 			{
 				Post post = Post.GetPost(new Guid(postID));
 				post.Delete();
-				post.Save();
+				post.Save(userName, password);
 			}
 			catch (Exception ex)
 			{
@@ -628,7 +628,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 			{
 				Page page = Page.GetPage(new Guid(pageID));
 				page.Delete();
-				page.Save();
+				page.Save(userName, password);
 			}
 			catch (Exception ex)
 			{

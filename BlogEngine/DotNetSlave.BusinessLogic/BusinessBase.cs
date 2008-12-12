@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading;
+using System.Web.Security;
 
 #endregion
 
@@ -279,12 +280,26 @@ namespace BlogEngine.Core
 			return null;
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Saves the object to the data store (inserts, updates or deletes).
+        /// </summary>
+        virtual public SaveAction Save()
+        {
+            return Save(string.Empty, string.Empty);
+        }
+
+	    /// <summary>
 		/// Saves the object to the data store (inserts, updates or deletes).
 		/// </summary>
-		virtual public SaveAction Save()
+		virtual public SaveAction Save(string userName, string password)
 		{
-			if (IsDeleted && !IsAuthenticated)
+	        bool isValidated;
+            if (userName == string.Empty)
+                isValidated = false;
+            else
+                isValidated = Membership.ValidateUser(userName, password);
+
+			if (IsDeleted && !(IsAuthenticated || isValidated))
 				throw new System.Security.SecurityException("You are not authorized to delete the object");
 
 			if (!IsValid && !IsDeleted)
