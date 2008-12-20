@@ -51,7 +51,16 @@ public class SendCommentMail
 			mail.Body += body.Replace(Environment.NewLine, "<br />") + "<br /><br />";
 			mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br /><br />", Resources.labels.post, post.PermaLink + "#id_" + comment.Id, post.Title);
 
-			mail.Body += "_______________________________________________________________________________<br />";
+			string deleteLink = post.AbsoluteLink + "?deletecomment=" + comment.Id;
+			mail.Body += string.Format("<a href=\"{0}\">{1}</a>", deleteLink, Resources.labels.delete);
+
+			if (BlogSettings.Instance.EnableCommentsModeration)
+			{
+				string approveLink = post.AbsoluteLink + "?approvecomment=" + comment.Id;
+				mail.Body += string.Format(" | <a href=\"{0}\">{1}</a>", approveLink, Resources.labels.approve);
+			}
+
+			mail.Body += "<br />_______________________________________________________________________________<br />";
 			mail.Body += "<h3>Author information</h3>";
 			mail.Body += "<div style=\"font-size:10px;line-height:16px\">";
 			mail.Body += "<strong>Name:</strong> " + comment.Author + "<br />";
@@ -64,7 +73,6 @@ public class SendCommentMail
 			if (HttpContext.Current != null)
 			{
 				mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
-				mail.Body += string.Format("<strong>Referrer:</strong> <a href=\"{0}\">{0}</a><br />", HttpContext.Current.Request.UrlReferrer);
 				mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
 			}
 

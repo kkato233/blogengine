@@ -126,7 +126,7 @@ namespace BlogEngine.Core
 			string etag = "\"" + date.Ticks + "\"";
 			string incomingEtag = request.Headers["If-None-Match"];
 
-			response.Cache.SetETag(etag);
+			response.AppendHeader("ETag", etag);
 			response.Cache.SetLastModified(date);
 
 			if (String.Compare(incomingEtag, etag) == 0)

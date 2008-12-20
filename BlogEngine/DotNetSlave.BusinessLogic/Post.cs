@@ -237,7 +237,11 @@ namespace BlogEngine.Core
 
 				return _Slug;
 			}
-			set { _Slug = value; }
+			set
+			{
+				if (_Slug != value) MarkChanged("Slugs");
+				_Slug = value; 
+			}
 		}
 
 		private StringCollection _NotificationEmails;
