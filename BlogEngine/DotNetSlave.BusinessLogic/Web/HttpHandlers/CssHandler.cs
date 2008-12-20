@@ -124,7 +124,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			string etag = "\"" + hash.ToString() + "\"";
 			string incomingEtag = context.Request.Headers["If-None-Match"];
 
-			context.Response.Cache.SetETag(etag);
+			context.Response.AppendHeader("ETag", etag);
 
 			if (String.Compare(incomingEtag, etag) == 0)
 			{
