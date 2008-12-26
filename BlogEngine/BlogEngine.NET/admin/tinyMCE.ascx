@@ -18,8 +18,7 @@
 		theme_advanced_statusbar_location: "bottom",
 		theme_advanced_resizing: true,
 		
-		tab_focus : ":prev,:next",
-
+		tab_focus : ":prev,:next"
 	});
 </script>
 
