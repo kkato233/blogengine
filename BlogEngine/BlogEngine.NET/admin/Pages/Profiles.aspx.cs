@@ -17,9 +17,10 @@ public partial class admin_profiles : Page
 	{
 		if (!Page.IsPostBack)
 		{
+			ClearFormControls();
 			BindCountries();
 			SetDDLUser();
-			SetProfile(User.Identity.Name.ToLowerInvariant());
+			SetProfile(User.Identity.Name);
 			dropdown.Visible = Page.User.IsInRole(BlogSettings.Instance.AdministratorRole);
 		}
 
@@ -37,7 +38,7 @@ public partial class admin_profiles : Page
 			tbFirstName.Text = pc.FirstName;
 			tbMiddleName.Text = pc.MiddleName;
 			tbLastName.Text = pc.LastName;
-			
+
 			if (pc.Birthday != DateTime.MinValue)
 				tbBirthdate.Text = pc.Birthday.ToString("yyyy-MM-dd");
 
@@ -52,6 +53,59 @@ public partial class admin_profiles : Page
 			tbCompany.Text = pc.Company;
 			tbAboutMe.Text = pc.AboutMe;
 		}
+		else
+		{
+			// Clear any data in the form controls remaining from the last profile selected.
+			ClearFormControls();
+		}
+
+		// Sync the dropdownlist user with the selected profile user.  This is
+		// particularily needed on the initial page load (!IsPostBack).
+		ListItem SelectedUser = FindItemInListControlByValue(ddlUserList, name);
+		if (SelectedUser != null)
+			SelectedUser.Selected = true;
+
+		// Store the selected profile name so changes are saved to this
+		// profile and not another profile the user may later select and
+		// forget to click the lbChangeUserProfile button for.
+		ViewState["selectedProfile"] = name;
+	}
+
+	/// <summary>
+	/// Returns the ListItem that has a value matching the Value passed in
+	/// via a OrdinalIgnoreCase search.
+	/// </summary>
+	private ListItem FindItemInListControlByValue(ListControl control, string Value)
+	{
+		foreach (ListItem li in control.Items)
+		{
+			if (string.Equals(Value, li.Value, StringComparison.OrdinalIgnoreCase))
+				return li;
+		}
+		return null;
+	}
+
+	private void ClearFormControls()
+	{
+		cbIsPublic.Checked = false;
+		tbDisplayName.Text = string.Empty;
+		tbFirstName.Text = string.Empty;
+		tbMiddleName.Text = string.Empty;
+		tbLastName.Text = string.Empty;
+		tbBirthdate.Text = string.Empty;
+		tbPhotoUrl.Text = string.Empty;
+		tbPhoneMain.Text = string.Empty;
+		tbPhoneMobile.Text = string.Empty;
+		tbPhoneFax.Text = string.Empty;
+		tbEmailAddress.Text = string.Empty;
+		tbCityTown.Text = string.Empty;
+		tbRegionState.Text = string.Empty;
+		tbCompany.Text = string.Empty;
+		tbAboutMe.Text = string.Empty;
+
+		if (ddlCountry.Items.Count > 0)
+			ddlCountry.SelectedIndex = 0;
+		SetDefaultCountry();
 	}
 
 	private void SetDDLUser()
@@ -63,13 +117,12 @@ public partial class admin_profiles : Page
 		}
 	}
 
-
 	protected void lbSaveProfile_Click(object sender, EventArgs e)
 	{
-		string userProfileToSave = !User.IsInRole(BlogSettings.Instance.AdministratorRole) ? User.Identity.Name : ddlUserList.SelectedValue;
+		string userProfileToSave = ViewState["selectedProfile"] as string;
 		AuthorProfile pc = AuthorProfile.GetProfile(userProfileToSave);
 		if (pc == null)
-			pc = new AuthorProfile(User.Identity.Name);
+			pc = new AuthorProfile(userProfileToSave);
 
 		pc.IsPrivate = cbIsPublic.Checked;
 		pc.DisplayName = tbDisplayName.Text;
@@ -135,13 +188,17 @@ public partial class admin_profiles : Page
 			ddlCountry.Items.Add(new ListItem(key, dic[key]));
 		}
 
+		SetDefaultCountry();
+	}
+
+	private void SetDefaultCountry()
+	{
 		if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
 		{
 			ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
 			SetFlagImageUrl();
 		}
 	}
-
 	private void SetFlagImageUrl()
 	{
 		//if (!string.IsNullOrEmpty(ddlCountry.SelectedValue))
@@ -152,10 +209,5 @@ public partial class admin_profiles : Page
 		//{
 		//  imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/pixel.png";
 		//}
-	}
-
-	protected void ddlUserList_SelectedIndexChanged(object sender, EventArgs e)
-	{
-		SetProfile(ddlUserList.SelectedValue.ToLowerInvariant());
 	}
 }

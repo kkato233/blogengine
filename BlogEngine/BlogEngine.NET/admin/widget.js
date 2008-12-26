@@ -455,7 +455,7 @@ function editWidget(name, id)
   var iframe = document.createElement('iframe');
   iframe.name = 'Widget Editor';
   iframe.id = 'WidgetEditor';
-	iframe.src = KEYwebRoot + 'admin/widgeteditor.aspx?widget=' + name + '&id=' + id;
+	iframe.src = KEYwebRoot + 'admin/WidgetEditor.aspx?widget=' + name + '&id=' + id;
 	iframe.style.height = size.height + 'px';
 	iframe.style.width = size.width + 'px';
 	iframe.style.position = 'fixed';

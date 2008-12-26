@@ -8,9 +8,7 @@
             <%=Resources.labels.userProfiles %>
         </h1>
         <asp:Panel ID="pnlAdmin" runat="server" Visible='<%# User.IsInRole("Administrator") %>'>
-            <asp:DropDownList ID="ddlUserList" runat="server" 
-                onselectedindexchanged="ddlUserList_SelectedIndexChanged">
-            </asp:DropDownList>
+            <asp:DropDownList ID="ddlUserList" runat="server"></asp:DropDownList>
             <asp:LinkButton ID="lbChangeUserProfile" runat="server" 
                 OnClick="lbChangeUserProfile_Click"><%= Resources.labels.switchUserProfile %></asp:LinkButton>
         </asp:Panel>
@@ -69,7 +67,7 @@
       
       <label for="<%=tbBirthdate.ClientID %>"><%=Resources.labels.birthday %></label>
       <asp:TextBox ID="tbBirthdate" runat="server"></asp:TextBox>
-      <asp:CompareValidator runat="server" ControlToValidate="tbBirthdate" Type="date" Operator="datatypecheck" ErrorMessage="Please enter a valid date (yyyy-mm-dd)" />
+      <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="tbBirthdate" Type="date" Operator="datatypecheck" ErrorMessage="Please enter a valid date (yyyy-mm-dd)" />
       <br /><br />
       
       <label for="<%=tbAboutMe.ClientID %>"><%=Resources.labels.aboutMe %></label><br />

@@ -35,7 +35,7 @@ function ApplySlug(arg, context)
 
 function AutoSave()
 {
-  var content = document.getElementById('<%=txtRawContent.ClientID %>') != null ? document.getElementById('<%=txtRawContent.ClientID %>').value : tinyMCE.getContent('mce_editor_0');
+	var content = document.getElementById('<%=txtRawContent.ClientID %>') != null ? document.getElementById('<%=txtRawContent.ClientID %>').value : tinyMCE.activeEditor.getContent();
   var title = document.getElementById('<%=txtTitle.ClientID %>').value;
   var desc = document.getElementById('<%=txtDescription.ClientID %>').value;
   var slug = document.getElementById('<%=txtSlug.ClientID %>').value;
@@ -84,13 +84,13 @@ function ToggleTagSelector()
   </div>
 
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
-  <asp:TextBox runat="server" ID="txtTitle" Width="450px" TabIndex="1" />&nbsp;&nbsp;&nbsp;
+  <asp:TextBox runat="server" ID="txtTitle" Width="450px" />&nbsp;&nbsp;&nbsp;
   
   <label for="<%=ddlAuthor.ClientID %>"><%=Resources.labels.author %></label>
-  <asp:DropDownList runat="Server" ID="ddlAuthor" TabIndex="2" />&nbsp;&nbsp;&nbsp;
+  <asp:DropDownList runat="Server" ID="ddlAuthor" />&nbsp;&nbsp;&nbsp;
   
   <label for="<%=txtDate.ClientID %>"><%=Resources.labels.date %></label>
-  <asp:TextBox runat="server" ID="txtDate" Width="110px" TabIndex="3" />
+  <asp:TextBox runat="server" ID="txtDate" Width="110px" />
   
   
   <asp:CheckBox runat="server" ID="cbUseRaw" Text="Use HTML editor" AutoPostBack="true" />
@@ -100,54 +100,54 @@ function ToggleTagSelector()
   <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" Display="Dynamic" />
   <br /><br />
   
-  <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
-  <asp:TextBox runat="server" ID="txtRawContent" TabIndex="4" Width="100%" TextMode="multiLine" Height="300px" Visible="false" />
+  <Blog:TextEditor runat="server" id="txtContent" />
+  <asp:TextBox runat="server" ID="txtRawContent" Width="100%" TextMode="multiLine" Height="300px" Visible="false" />
   <br />
   
   <table id="entrySettings">
     <tr>
       <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
-        <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" TabIndex="5" ValidationGroup="imageupload" />
-        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" ValidationGroup="imageupload" TabIndex="6" />
+        <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" ValidationGroup="imageupload" />
+        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" ValidationGroup="imageupload" />
         <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="imageupload" />
       </td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
-        <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" TabIndex="7" />
-        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" ValidationGroup="fileUpload" TabIndex="8" />
+        <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" />
+        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" ValidationGroup="fileUpload" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="fileUpload" />
       </td>
     </tr>    
     <tr>
       <td class="label">Slug (optional)</td>
       <td>
-        <asp:TextBox runat="server" ID="txtSlug" TabIndex="9" Width="400" />
+        <asp:TextBox runat="server" ID="txtSlug" Width="400" />
         <a href="javascript:void(GetSlug());">Extract from title</a>
       </td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.description %></td>
-      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Width="400" Height="32px" TabIndex="9" /></td>
+      <td><asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50" Rows="3" Width="400" Height="32px" /></td>
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.categories %></td>
       <td>
-        <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" TabIndex="10" />
-        <asp:Button runat="server" ID="btnCategory" Text="<%$ Resources:labels, add %>" ValidationGroup="category" TabIndex="11" />
+        <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" />
+        <asp:Button runat="server" ID="btnCategory" Text="<%$ Resources:labels, add %>" ValidationGroup="category" />
         <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="The category already exist" Display="dynamic" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="Required" ValidationGroup="category" /><br />
         <div style="width:400px">
-        <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" TabIndex="12" />
+        <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" />
         </div>
       </td>
     </tr>
     <tr>
       <td class="label">Tags</td>
       <td>
-        <asp:TextBox runat="server" ID="txtTags" Width="400" TabIndex="13" />
+        <asp:TextBox runat="server" ID="txtTags" Width="400" />
         <a href="javascript:void(ToggleTagSelector())">Show selector</a>
         <span><%=Resources.labels.separateTagsWitComma %></span>
       </td>
@@ -155,14 +155,14 @@ function ToggleTagSelector()
     <tr>
       <td class="label"><%=Resources.labels.settings %></td>
       <td>
-        <asp:CheckBox runat="server" ID="cbEnableComments" Text="<%$ Resources:labels, enableComments %>" Checked="true" TabIndex="14" />
-        <asp:CheckBox runat="server" ID="cbPublish" Text="<%$ Resources:labels, publish %>" Checked="true" TabIndex="15" />
+        <asp:CheckBox runat="server" ID="cbEnableComments" Text="<%$ Resources:labels, enableComments %>" Checked="true" />
+        <asp:CheckBox runat="server" ID="cbPublish" Text="<%$ Resources:labels, publish %>" Checked="true" />
       </td>
     </tr>
   </table>  
   
   <div style="text-align:right">  
-    <asp:Button runat="server" ID="btnSave" TabIndex="16" />
+    <asp:Button runat="server" ID="btnSave" />
   </div>
   <br />
 <% if (Request.QueryString["id"] == null){ %>  
