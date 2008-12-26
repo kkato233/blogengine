@@ -19,6 +19,7 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 	protected void Page_Load(object sender, EventArgs e)
 	{
 		this.MaintainScrollPositionOnPostBack = true;
+		txtTitle.Focus();
 		BindTags();
 
 		if (!Page.IsPostBack && !Page.IsCallback)
