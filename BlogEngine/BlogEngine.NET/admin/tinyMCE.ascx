@@ -8,7 +8,7 @@
 		mode: "exact",
 		elements : "<%=txtContent.ClientID %>",
 		theme: "advanced",
-		plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table,iespell",
+		plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table,iespell,advlink",
 	  
 	  // Theme options
 		theme_advanced_buttons1: "fullscreen,code,|,cut,copy,paste,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull|,bullist,numlist,outdent,indent,|,iespell,link,unlink,sub,sup,removeformat,cleanup,charmap,emotions,|,formatselect,fontselect,fontsizeselect",

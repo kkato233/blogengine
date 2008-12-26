@@ -63,9 +63,10 @@ function init() {
 		// Setup form data
 		setFormValue('href', href);
 		setFormValue('title', inst.dom.getAttrib(elm, 'title'));
+		setFormValue('rel', inst.dom.getAttrib(elm, 'rel'));
 		setFormValue('id', inst.dom.getAttrib(elm, 'id'));
 		setFormValue('style', inst.dom.getAttrib(elm, "style"));
-		setFormValue('rel', inst.dom.getAttrib(elm, 'rel'));
+		//setFormValue('rel', inst.dom.getAttrib(elm, 'rel'));
 		setFormValue('rev', inst.dom.getAttrib(elm, 'rev'));
 		setFormValue('charset', inst.dom.getAttrib(elm, 'charset'));
 		setFormValue('hreflang', inst.dom.getAttrib(elm, 'hreflang'));
@@ -97,7 +98,7 @@ function init() {
 
 		// Select by the values
 		selectByValue(formObj, 'dir', inst.dom.getAttrib(elm, 'dir'));
-		selectByValue(formObj, 'rel', inst.dom.getAttrib(elm, 'rel'));
+		//selectByValue(formObj, 'rel', inst.dom.getAttrib(elm, 'rel'));
 		selectByValue(formObj, 'rev', inst.dom.getAttrib(elm, 'rev'));
 		selectByValue(formObj, 'linklisthref', href);
 
@@ -426,14 +427,15 @@ function setAllAttribs(elm) {
 	var formObj = document.forms[0];
 	var href = formObj.href.value;
 	var target = getSelectValue(formObj, 'targetlist');
-
+	
 	setAttrib(elm, 'href', href);
 	setAttrib(elm, 'title');
+	setAttrib(elm, 'rel'); //XFN
 	setAttrib(elm, 'target', target == '_self' ? '' : target);
 	setAttrib(elm, 'id');
 	setAttrib(elm, 'style');
 	setAttrib(elm, 'class', getSelectValue(formObj, 'classlist'));
-	setAttrib(elm, 'rel');
+	//setAttrib(elm, 'rel');
 	setAttrib(elm, 'rev');
 	setAttrib(elm, 'charset');
 	setAttrib(elm, 'hreflang');
