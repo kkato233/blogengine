@@ -56,6 +56,7 @@
   </ul>
   <% } %> 
   <div id="commentCompose">
+		<label for="<%=txtContent.ClientID %>" style="display:none"><%=Resources.labels.comment%></label>
     <asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="5" ValidationGroup="AddComment" />
   </div>
   <div id="commentPreview">
