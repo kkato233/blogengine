@@ -82,6 +82,7 @@ namespace BlogEngine.Core.Web.Controls
 				AddGenericLink("application/rsd+xml", "edituri", "RSD", Utils.AbsoluteWebRoot + "rsd.axd");
 
 				AddMetaContentType();
+				AddDefaultLanguages();
 				AddLocalizationKeys();
 
 				if (BlogSettings.Instance.EnableOpenSearch)
@@ -176,6 +177,15 @@ namespace BlogEngine.Core.Web.Controls
 			meta.HttpEquiv = "content-type";
 			meta.Content = Response.ContentType + "; charset=" + Response.ContentEncoding.HeaderName;
 			Page.Header.Controls.Add(meta);
+		}
+
+		/// <summary>
+		/// Adds the default stylesheet language
+		/// </summary>
+		protected virtual void AddDefaultLanguages()
+		{
+			Response.AppendHeader("Content-Style-Type", "text/css");
+			Response.AppendHeader("Content-Script-Type", "text/javascript");
 		}
 
 		/// <summary>
