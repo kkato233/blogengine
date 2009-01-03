@@ -14,7 +14,7 @@ namespace BlogEngine.Core.Providers
     /// <summary>
     /// A base class for all custom providers to inherit from.
     /// </summary>
-    public abstract class BlogProvider : ProviderBase
+    public abstract partial class BlogProvider : ProviderBase
     {
         // Post
         /// <summary>

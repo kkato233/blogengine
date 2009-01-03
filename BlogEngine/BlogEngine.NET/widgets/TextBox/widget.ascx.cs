@@ -10,7 +10,7 @@ using BlogEngine.Core;
 
 #endregion
 
-public partial class widgets_LinkList_widget : WidgetBase
+public partial class widgets_TextBox_widget : WidgetBase
 {
 
 	/// <summary>

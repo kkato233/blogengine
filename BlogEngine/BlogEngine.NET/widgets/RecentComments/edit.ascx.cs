@@ -10,7 +10,7 @@ using BlogEngine.Core;
 
 #endregion
 
-public partial class widgets_RecentPosts_edit : WidgetEditBase
+public partial class widgets_RecentComments_edit : WidgetEditBase
 {
 	protected void Page_PreRender(object sender, EventArgs e)
 	{

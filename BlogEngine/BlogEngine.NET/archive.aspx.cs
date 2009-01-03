@@ -114,20 +114,20 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
 	private static HtmlGenericControl CreateRowHeader(Guid id, string name, int count)
 	{
-		HtmlAnchor feed = new HtmlAnchor();
-		feed.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(name) + ".aspx";
-
+		HtmlGenericControl h2 = new HtmlGenericControl("h2");
+		h2.Attributes["id"] = Utils.RemoveIllegalCharacters(name);
+		
 		if (id != Guid.Empty)
 		{
+			HtmlAnchor feed = new HtmlAnchor();
+			feed.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(name) + ".aspx";
+
 			HtmlImage img = new HtmlImage();
 			img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
 			img.Alt = "RSS";
 			feed.Controls.Add(img);
+			h2.Controls.Add(feed);
 		}
-
-		HtmlGenericControl h2 = new HtmlGenericControl("h2");
-		h2.Attributes["id"] = Utils.RemoveIllegalCharacters(name);
-		h2.Controls.Add(feed);
 
 		Control header = new LiteralControl(name + " (" + count + ")");
 		h2.Controls.Add(header);

@@ -58,11 +58,7 @@ namespace BlogEngine.Core.Web.HttpModules
 						url = front.RelativeLink.ToUpperInvariant();
 				}
 
-				if (path.Contains("/BLOG.ASPX"))
-				{
-					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true" + GetQueryString(context));
-				}
-				else if (url.Contains("/POST/"))
+				if (url.Contains("/POST/"))
 				{
 					RewritePost(context, url);
 				}
@@ -86,6 +82,10 @@ namespace BlogEngine.Core.Web.HttpModules
 				{
 					string author = ExtractTitle(context, url);
 					context.RewritePath(Utils.RelativeWebRoot + "default" + BlogSettings.Instance.FileExtension + "?name=" + author + GetQueryString(context), false);
+				}
+				else if (path.Contains("/BLOG.ASPX"))
+				{
+					context.RewritePath(Utils.RelativeWebRoot + "default.aspx?blog=true" + GetQueryString(context));
 				}
 			}
 		}

@@ -668,7 +668,7 @@
     <value>Save Profile</value>
   </data>
   <data name="switchUserProfile" xml:space="preserve">
-    <value>Swith to user profile</value>
+    <value>Switch to user profile</value>
   </data>
   <data name="company" xml:space="preserve">
     <value>Company</value>

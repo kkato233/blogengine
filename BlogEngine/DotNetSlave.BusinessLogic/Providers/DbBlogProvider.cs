@@ -16,7 +16,7 @@ namespace BlogEngine.Core.Providers
     /// <summary>
     /// Generic Database BlogProvider
     /// </summary>
-    public class DbBlogProvider: BlogProvider
+    public partial class DbBlogProvider: BlogProvider
     {
         private string connStringName;
         private string tablePrefix;

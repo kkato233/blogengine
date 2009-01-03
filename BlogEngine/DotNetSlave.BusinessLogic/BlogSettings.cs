@@ -512,6 +512,25 @@ namespace BlogEngine.Core
 		}
 		#endregion
 
+		#region DescriptionCharacters
+		private int descriptionCharacters = 300;
+		/// <summary>
+		/// Gets or sets a value indicating how many characters should be shown of the description
+		/// </summary>
+		public int DescriptionCharacters
+		{
+			get
+			{
+				return descriptionCharacters;
+			}
+
+			set
+			{
+				descriptionCharacters = value;
+			}
+		}
+		#endregion
+
 		#region StorageLocation
 		/// <summary>
 		/// Gets or sets the default storage location for blog data.
