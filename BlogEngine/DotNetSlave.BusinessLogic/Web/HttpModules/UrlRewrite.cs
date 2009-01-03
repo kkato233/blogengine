@@ -142,10 +142,7 @@ namespace BlogEngine.Core.Web.HttpModules
 		private static void RewritePage(HttpContext context, string url)
 		{
 			string slug = ExtractTitle(context, url);
-			Page page = Page.Pages.Find(delegate(Page p)
-			{
-				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
-			});
+			Page page = Page.Pages.Find(p => slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase));
 
 			if (page != null)
 			{
