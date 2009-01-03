@@ -40,7 +40,7 @@ public class SendPings
 
     IPublishable item = (IPublishable)sender;
 
-		if (HttpContext.Current != null && !HttpContext.Current.Request.IsLocal && item.IsVisible)
+		if (HttpContext.Current != null && !HttpContext.Current.Request.IsLocal && item.IsPublished)
 		{
 			Uri url = item.AbsoluteLink;
 			ThreadPool.QueueUserWorkItem(delegate { Ping(item, url); });

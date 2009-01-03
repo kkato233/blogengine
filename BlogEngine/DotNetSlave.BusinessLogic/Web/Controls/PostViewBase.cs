@@ -147,6 +147,16 @@ namespace BlogEngine.Core.Web.Controls
 			set { _ShowExcerpt = value; }
 		}
 
+		private int _Index;
+		/// <summary>
+		/// The index of the post in a list of posts displayed
+		/// </summary>
+		public int Index
+		{
+			get { return _Index; }
+			set { _Index = value; }
+		}
+
 		/// <summary>
 		/// Gets the body of the post. Important: use this instead of Post.Content.
 		/// </summary>
@@ -166,8 +176,8 @@ namespace BlogEngine.Core.Web.Controls
 					else
 					{
 						body = Utils.StripHtml(Post.Content);
-						if (body.Length > 300)
-							body = body.Substring(0, 300) + "..." + link;
+						if (body.Length > BlogSettings.Instance.DescriptionCharacters)
+							body = body.Substring(0, BlogSettings.Instance.DescriptionCharacters) + "..." + link;
 					}
 				}
 

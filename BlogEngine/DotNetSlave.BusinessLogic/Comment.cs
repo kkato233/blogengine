@@ -117,12 +117,20 @@ namespace BlogEngine.Core
 		}
 
 		/// <summary>
+		/// Gets whether or not this comment has been published
+		/// </summary>
+		public bool IsPublished
+		{
+			get { return IsApproved; }
+		}
+
+		/// <summary>
 		/// Gets whether or not this comment should be shown
 		/// </summary>
 		/// <value></value>
 		public bool IsVisible
 		{
-			get { return IsApproved || IsApproved; }
+			get { return IsApproved; }
 		}
 
 		private DateTime _DateCreated = DateTime.MinValue;

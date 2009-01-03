@@ -81,6 +81,7 @@ namespace BlogEngine.Core
     /// <value>The categories.</value>
     StateList<Category> Categories { get;}
 
+		bool IsPublished { get; }
     /// <summary>
     /// Gets whether or not this item should be shown
     /// </summary>

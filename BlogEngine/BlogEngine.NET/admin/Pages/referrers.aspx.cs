@@ -87,21 +87,24 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
       DataTable spamTable = table.Clone();
 
-      foreach (DataRow row in ds.Tables[0].Rows)
-      {
-        DataRow newRow = table.NewRow();
-        if (row.Table.Columns.Contains("isSpam") && row["isSpam"].ToString().ToLowerInvariant() == "true")
-          newRow = spamTable.NewRow();
+			if (ds.Tables.Count > 0)
+			{
+				foreach (DataRow row in ds.Tables[0].Rows)
+				{
+					DataRow newRow = table.NewRow();
+					if (row.Table.Columns.Contains("isSpam") && row["isSpam"].ToString().ToLowerInvariant() == "true")
+						newRow = spamTable.NewRow();
 
-        newRow["url"] = Server.HtmlEncode(row["address"].ToString());
-        newRow["shortUrl"] = MakeShortUrl(row["address"].ToString());
-        newRow["hits"] = int.Parse(row["url_text"].ToString());
+					newRow["url"] = Server.HtmlEncode(row["address"].ToString());
+					newRow["shortUrl"] = MakeShortUrl(row["address"].ToString());
+					newRow["hits"] = int.Parse(row["url_text"].ToString());
 
-        if (row.Table.Columns.Contains("isSpam") && row["isSpam"].ToString().ToLowerInvariant() == "true")
-          spamTable.Rows.Add(newRow);
-        else
-          table.Rows.Add(newRow);
-      }
+					if (row.Table.Columns.Contains("isSpam") && row["isSpam"].ToString().ToLowerInvariant() == "true")
+						spamTable.Rows.Add(newRow);
+					else
+						table.Rows.Add(newRow);
+				}
+			}
 
       BindTable(table, grid);
       BindTable(spamTable, spamGrid);

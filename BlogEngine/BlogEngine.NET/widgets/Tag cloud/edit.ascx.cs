@@ -14,12 +14,15 @@ public partial class widgets_Tag_cloud_edit : WidgetEditBase
 
 	protected override void OnLoad(EventArgs e)
 	{
-		StringDictionary settings = GetSettings();
-		string minimumPosts = "1";
-		if (settings.ContainsKey("minimumposts"))
-			minimumPosts = settings["minimumposts"];
+		if (!Page.IsPostBack)
+		{
+			StringDictionary settings = GetSettings();
+			string minimumPosts = "1";
+			if (settings.ContainsKey("minimumposts"))
+				minimumPosts = settings["minimumposts"];
 
-		ddlNumber.SelectedValue = minimumPosts;
+			ddlNumber.SelectedValue = minimumPosts;
+		}
 	}
 
 	public override void Save()

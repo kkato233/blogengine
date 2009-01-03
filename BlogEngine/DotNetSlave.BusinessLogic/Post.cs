@@ -183,11 +183,12 @@ namespace BlogEngine.Core
 
 		private bool _IsPublished;
 		/// <summary>
-		/// Gets or sets the IsPublished or the object.
+		/// Gets or sets whether or not the post is published.
+		/// The getter also takes into account the publish date
 		/// </summary>
 		public bool IsPublished
 		{
-			get { return _IsPublished; }
+			get { return _IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone); }
 			set
 			{
 				if (_IsPublished != value) MarkChanged("IsPublished");
@@ -267,7 +268,7 @@ namespace BlogEngine.Core
 		{
 			get
 			{
-				if (IsAuthenticated || IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+				if (IsAuthenticated || IsPublished)
 					return true;
 
 				return false;
@@ -490,6 +491,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByTag(string tag)
 		{
+			tag = Utils.RemoveIllegalCharacters(tag);
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
 				foreach (string t in p.Tags)

@@ -68,7 +68,11 @@
         <asp:CheckBox runat="server" ID="cbEnableRating" /><br />
         
         <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
-        <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" /><br />
+        <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
+        <label for="<%=txtDescriptionCharacters.ClientID %>" style="float:none; position:relative; top:-2px;">Number of characters</label>
+        <asp:TextBox runat="server" ID="txtDescriptionCharacters" Width="40" />
+        <asp:CompareValidator runat="server" ControlToValidate="txtDescriptionCharacters" Type="Integer" Operator="DataTypeCheck" ID="valDescChar" SetFocusOnError="true" />
+        <br />
         
         <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
         <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" /><br />
