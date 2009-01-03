@@ -121,7 +121,7 @@ namespace BlogEngine.Core.Providers
                             post.Id = rdr.GetGuid(0);
                             post.Title = rdr.GetString(1);
                             post.Content = rdr.GetString(3);
-                            post.Description = rdr.GetString(2) ?? string.Empty;
+														post.Description = rdr.IsDBNull(2) ? String.Empty : rdr.GetString(2);
                             if (!rdr.IsDBNull(4))
                                 post.DateCreated = rdr.GetDateTime(4);
                             if (!rdr.IsDBNull(5))
@@ -562,9 +562,9 @@ namespace BlogEngine.Core.Providers
                             rdr.Read();
 
                             page.Id = rdr.GetGuid(0);
-                            page.Title = rdr.GetString(1);
-                            page.Content = rdr.GetString(3);
-                            page.Description = rdr.GetString(2) ?? string.Empty;
+                            page.Title = rdr.IsDBNull(1) ? String.Empty : rdr.GetString(1);
+														page.Content = rdr.IsDBNull(3) ? String.Empty : rdr.GetString(3);
+														page.Description = rdr.IsDBNull(2) ? String.Empty : rdr.GetString(2);
                             if (!rdr.IsDBNull(4))
                                 page.DateCreated = rdr.GetDateTime(4);
                             if (!rdr.IsDBNull(5))

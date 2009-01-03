@@ -21,186 +21,12 @@ namespace BlogEngine.Core
 		//	PUBLIC/PRIVATE/PROTECTED MEMBERS
 		//============================================================
 		#region PRIVATE/PROTECTED/PUBLIC MEMBERS
-		/// <summary>
-		/// Public event used to indicate in settings have been changed.
-		/// </summary>
-		public static event EventHandler<EventArgs> Changed;
-		/// <summary>
-		/// Private member to hold singleton instance.
-		/// </summary>
-		private static BlogSettings blogSettingsSingleton;
-		/// <summary>
-		/// Private member to hold the title of the blog.
-		/// </summary>
-		private string blogName = String.Empty;
-		/// <summary>
-		/// Private member to hold a brief synopsis of the blog.
-		/// </summary>
-		private string blogDescription = String.Empty;
-		/// <summary>
-		/// Private member to hold the default number of posts per day to display.
-		/// </summary>
-		private int postsPerPage = Int32.MinValue;
-		/// <summary>
-		/// Private member to hold blog storage location.
-		/// </summary>
-		private string storageLocation = String.Empty;
-		/// <summary>
-		/// Private member to hold maximum number of characters that are displayed from a blog-roll retrieved post.
-		/// </summary>
-		private int blogrollMaxLength = Int32.MinValue;
-		/// <summary>
-		/// Private member to hold the number of minutes blog-roll entries are updated.
-		/// </summary>
-		private int blogrollUpdateMinutes = Int32.MinValue;
-		/// <summary>
-		/// Private member to hold the maximum number of blog-roll posts per blog-roll to display.
-		/// </summary>
-		private int blogrollVisiblePosts = Int32.MinValue;
-		/// <summary>
-		/// Private member to hold the name of the configured theme.
-		/// </summary>
-		private string configuredTheme = String.Empty;
-		/// <summary>
-		/// Private member to hold a value indicating if related posts is enabled.
-		/// </summary>
-		private bool enableRelatedPosts;
-		/// <summary>
-		/// Private member to hold the email address notifications are sent to.
-		/// </summary>
-		private string emailAddress = String.Empty;
-		/// <summary>
-		/// Private member to hold the SMTP server to contact when sending email.
-		/// </summary>
-		private string smtpServer = String.Empty;
-		/// <summary>
-		/// Private member to hold the SMTP port number.
-		/// </summary>
-		private int smtpServerPort = Int32.MinValue;
-		/// <summary>
-		/// Private member to hold the username used when contacting the SMTP server.
-		/// </summary>  
-		private string smtpUsername = String.Empty;
-		/// <summary>
-		/// Private member to hold the password used when contacting the SMTP server.
-		/// </summary>
-		private string smtpPassword = String.Empty;
-		/// <summary>
-		/// Private member to hold a value indicating if mail is sent when a new comment is posted.
-		/// </summary>
-		private bool sendMailOnComment;
-		/// <summary>
-		/// Private member to hold a value indicating if post comments are enabled.
-		/// </summary>
-		private bool areCommentsEnabled;
-		/// <summary>
-		/// Private member to hold a value indicating if display of country of commenter is enabled.
-		/// </summary>
-		private bool enableCountryInComments;
-		/// <summary>
-		/// Private member to hold a value indicating live preview of posts is enabled.
-		/// </summary>
-		private bool showLivePreview;
-		/// <summary>
-		/// Private member to hold a value indicating if CoComment is enabled.
-		/// </summary>
-		private bool isCoCommentEnabled;
-		/// <summary>
-		/// Private member to hold number of days before post comments are closed.
-		/// </summary>
-		private int daysCommentsAreEnabled = Int32.MinValue;
-		/// <summary>
-		/// Private member to hold info on whether comments are moderated or not.
-		/// </summary>
-		private bool areCommentsModerated = false;
-		/// <summary>
-		/// Private member to hold default number of recent posts to display.
-		/// </summary>
-		private int numberOfRecentPosts = 10;
-		/// <summary>
-		/// Private member to hold the search button text.
-		/// </summary>
-		private string searchButtonText = String.Empty;
-		/// <summary>
-		/// Private member to hold the default search text.
-		/// </summary>
-		private string searchDefaultText = String.Empty;
-		/// <summary>
-		/// Private member to hold a value indicating 
-		/// </summary>
-		private bool enableCommentSearch;
-		/// <summary>
-		/// Private member to hold the search comment label text.
-		/// </summary>
-		private string searchCommentLabelText = String.Empty;
-		/// <summary>
-		/// Private member to hold a value indicating if referral tracking is enabled.
-		/// </summary>
-		private bool enableReferrerTracking;
-		/// <summary>
-		/// Private member to hold a value indicating if HTTP compression is enabled.
-		/// </summary>
-		private bool enableHttpCompression;
-		/// <summary>
-		/// Private member to hold the URI of a web log that the author of this web log is promoting.
-		/// </summary>
-		private string blogChannelBLink = String.Empty;
-		/// <summary>
-		/// Private member to hold the name of the author of the blog.
-		/// </summary>
-		private string dublinCoreCreator = String.Empty;
-		/// <summary>
-		/// Private member to hold the language the blog is written in.
-		/// </summary>
-		private string dublinCoreLanguage = String.Empty;
-		/// <summary>
-		/// Private member to hold the latitude component of the geocoding position for this blog.
-		/// </summary>
-		private float geocodingLatitude = Single.MinValue;
-		/// <summary>
-		/// Private member to hold the longitude component of the geocoding position for this blog.
-		/// </summary>
-		private float geocodingLongitude = Single.MinValue;
-		/// <summary>
-		/// Private member to hold the default syndication format for this blog.
-		/// </summary>
-		private string defaultSyndicationFormat = String.Empty;
-		/// <summary>
-		/// Private member to hold a value indicating if the css files should be compressed.
-		/// </summary>
-		private bool removeWhitespaceInStyleSheets;
-		/// <summary>
-		/// Private member to hold a value indicating if the open search link header should be added.
-		/// </summary>
-		private bool enableOpenSearch;
-		/// <summary>
-		/// Private member to hold a tracking script from e.g. Google Analytics.
-		/// </summary>
-		private string trackingScript;
-		/// <summary>
-		/// Connection String for MSSQL Provider
-		/// </summary>
-		private string mssqlConnectionString;
-		/// <summary>
-		/// Feedburner user name.
-		/// </summary>
-		private string alternateFeedUrl;
 
-		private string contactFormMessage;
-		private string contactThankMessage;
-		private string htmlHeader;
-		private string culture;
-		private double timezone;
-		private int postsPerFeed;
-		private bool displayCommentsOnRecentPosts;
-		private bool displayRatingsOnRecentPosts;
-		private bool enableContactAttachments;
-		private bool enableSsl;
-		private bool enableRating;
-		private string handleWwwSubdomain;
-		private bool showDescriptionInPostList;
-		private string avatar;
-		private int numberOfRecentComments = 10;
+		public static event EventHandler<EventArgs> Changed;
+		private static BlogSettings blogSettingsSingleton;
+		private string configuredTheme = String.Empty;
+		private int numberOfRecentPosts = 10;
+
 		#endregion
 
 		//============================================================
@@ -263,25 +89,8 @@ namespace BlogEngine.Core
 		/// </summary>
 		/// <value>A brief synopsis of the blog content.</value>
 		/// <remarks>This value is also used for the description meta tag.</remarks>
-		public string Description
-		{
-			get
-			{
-				return blogDescription;
-			}
+		public string Description { get; set; }
 
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					blogDescription = String.Empty;
-				}
-				else
-				{
-					blogDescription = value;
-				}
-			}
-		}
 		#endregion
 
 		#region EnableHttpCompression
@@ -289,25 +98,8 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if HTTP compression is enabled.
 		/// </summary>
 		/// <value><b>true</b> if compression is enabled, otherwise returns <b>false</b>.</value>
-		public bool EnableHttpCompression
-		{
-			get
-			{
-				if (Utils.IsMono)
-				{
-					// Mono has an issue with GZIP compression. See http://www.xobni.com/opensource/MonoGZipStream/README.htm
-					// It can be fixed by compiling the the necessary libraries on Linux, so disabling it completely
-					// like we're doing here is probably not the right solution.
-					return false;
-				}
-				else
-					return enableHttpCompression;
-			}
-			set
-			{
-				enableHttpCompression = value;
-			}
-		}
+		public bool EnableHttpCompression { get; set; }
+
 		#endregion
 
 		#region EnableReferrerTracking
@@ -315,18 +107,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if referral tracking is enabled.
 		/// </summary>
 		/// <value><b>true</b> if referral tracking is enabled, otherwise returns <b>false</b>.</value>
-		public bool EnableReferrerTracking
-		{
-			get
-			{
-				return enableReferrerTracking;
-			}
-
-			set
-			{
-				enableReferrerTracking = value;
-			}
-		}
+		public bool EnableReferrerTracking { get; set; }
 		#endregion
 
 		#region EnableRelatedPosts
@@ -334,43 +115,17 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if related posts are displayed.
 		/// </summary>
 		/// <value><b>true</b> if related posts are displayed, otherwise returns <b>false</b>.</value>
-		public bool EnableRelatedPosts
-		{
-			get
-			{
-				return enableRelatedPosts;
-			}
-
-			set
-			{
-				enableRelatedPosts = value;
-			}
-		}
+		public bool EnableRelatedPosts { get; set; }
 		#endregion
 
 		#region AlternateFeedUrl
-		/// <summary>
-		/// Gets or sets the FeedBurner user name.
-		/// </summary>
-		public string AlternateFeedUrl
-		{
-			get { return alternateFeedUrl; }
-			set { alternateFeedUrl = value; }
-		}
+		/// <summary>Gets or sets the FeedBurner user name.</summary>
+		public string AlternateFeedUrl { get; set; }
 		#endregion
 
 		#region TimeStampPostLinks
-
-		private bool _TimeStampPostLinks;
-		/// <summary>
-		/// Gets or sets whether or not to time stamp post links.
-		/// </summary>
-		public bool TimeStampPostLinks
-		{
-			get { return _TimeStampPostLinks; }
-			set { _TimeStampPostLinks = value; }
-		}
-
+		/// <summary>Gets or sets whether or not to time stamp post links.</summary>
+		public bool TimeStampPostLinks { get; set; }
 		#endregion
 
 		#region Name
@@ -378,25 +133,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the name of the blog.
 		/// </summary>
 		/// <value>The title of the blog.</value>
-		public string Name
-		{
-			get
-			{
-				return blogName;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					blogName = String.Empty;
-				}
-				else
-				{
-					blogName = value;
-				}
-			}
-		}
+		public string Name { get; set; }
 		#endregion
 
 		#region NumberOfRecentPosts
@@ -406,15 +143,8 @@ namespace BlogEngine.Core
 		/// <value>The number of recent posts to display.</value>
 		public int NumberOfRecentPosts
 		{
-			get
-			{
-				return numberOfRecentPosts;
-			}
-
-			set
-			{
-				numberOfRecentPosts = value;
-			}
+			get { return numberOfRecentPosts; }
+			set { numberOfRecentPosts = value; }
 		}
 		#endregion
 
@@ -423,18 +153,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the default number of recent posts to display.
 		/// </summary>
 		/// <value>The number of recent posts to display.</value>
-		public int NumberOfRecentComments
-		{
-			get
-			{
-				return numberOfRecentComments;
-			}
-
-			set
-			{
-				numberOfRecentComments = value;
-			}
-		}
+		public int NumberOfRecentComments { get; set; }
 		#endregion
 
 		#region PostsPerPage
@@ -442,18 +161,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the number of posts to show an each page.
 		/// </summary>
 		/// <value>The number of posts to show an each page.</value>
-		public int PostsPerPage
-		{
-			get
-			{
-				return postsPerPage;
-			}
-
-			set
-			{
-				postsPerPage = value;
-			}
-		}
+		public int PostsPerPage { get; set; }
 		#endregion
 
 		#region ShowLivePreview
@@ -461,18 +169,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if live preview of post is displayed.
 		/// </summary>
 		/// <value><b>true</b> if live previews are displayed, otherwise returns <b>false</b>.</value>
-		public bool ShowLivePreview
-		{
-			get
-			{
-				return showLivePreview;
-			}
-
-			set
-			{
-				showLivePreview = value;
-			}
-		}
+		public bool ShowLivePreview { get; set; }
 		#endregion
 
 		#region EnableRating
@@ -480,55 +177,21 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if live preview of post is displayed.
 		/// </summary>
 		/// <value><b>true</b> if live previews are displayed, otherwise returns <b>false</b>.</value>
-		public bool EnableRating
-		{
-			get
-			{
-				return enableRating;
-			}
-
-			set
-			{
-				enableRating = value;
-			}
-		}
+		public bool EnableRating { get; set; }
 		#endregion
 
 		#region ShowDescriptionInPostList
 		/// <summary>
 		/// Gets or sets a value indicating if the full post is displayed in lists or only the description/exerpt.
 		/// </summary>
-		public bool ShowDescriptionInPostList
-		{
-			get
-			{
-				return showDescriptionInPostList;
-			}
-
-			set
-			{
-				showDescriptionInPostList = value;
-			}
-		}
+		public bool ShowDescriptionInPostList { get; set; }
 		#endregion
 
 		#region DescriptionCharacters
-		private int descriptionCharacters = 300;
 		/// <summary>
 		/// Gets or sets a value indicating how many characters should be shown of the description
 		/// </summary>
-		public int DescriptionCharacters
-		{
-			get
-			{
-				return descriptionCharacters;
-			}
-
-			set
-			{
-				descriptionCharacters = value;
-			}
-		}
+		public int DescriptionCharacters { get; set; }
 		#endregion
 
 		#region StorageLocation
@@ -536,43 +199,14 @@ namespace BlogEngine.Core
 		/// Gets or sets the default storage location for blog data.
 		/// </summary>
 		/// <value>The default storage location for blog data.</value>
-		public string StorageLocation
-		{
-			get
-			{
-				return storageLocation;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					storageLocation = String.Empty;
-				}
-				else
-				{
-					storageLocation = value;
-				}
-			}
-		}
+		public string StorageLocation { get; set; }
 		#endregion
 
 		#region Enclosure support
-		private bool enableEnclosures = false;
 		/// <summary>
 		/// Enable enclosures for RSS feeds
 		/// </summary>
-		public bool EnableEnclosures
-		{
-			get
-			{
-				return enableEnclosures;
-			}
-			set
-			{
-				enableEnclosures = value;
-			}
-		}
+		public bool EnableEnclosures { get; set; }
 		#endregion
 
 		#region FileExtension
@@ -602,25 +236,7 @@ namespace BlogEngine.Core
 		/// <value>The default syndication format used by the blog.</value>
 		/// <remarks>If no value is specified, blog defaults to using RSS 2.0 format.</remarks>
 		/// <seealso cref="BlogEngine.Core.SyndicationFormat"/>
-		public string SyndicationFormat
-		{
-			get
-			{
-				return defaultSyndicationFormat;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					defaultSyndicationFormat = String.Empty;
-				}
-				else
-				{
-					defaultSyndicationFormat = value;
-				}
-			}
-		}
+		public string SyndicationFormat { get; set; }
 		#endregion
 
 		#region Theme
@@ -653,18 +269,11 @@ namespace BlogEngine.Core
 		#endregion
 
 		#region MobileTheme
-
-		private string _MobileTheme;
 		/// <summary>
 		/// Gets or sets the mobile theme.
 		/// </summary>
 		/// <value>The mobile theme.</value>
-		public string MobileTheme
-		{
-			get { return _MobileTheme; }
-			set { _MobileTheme = value; }
-		}
-
+		public string MobileTheme { get; set; }
 		#endregion
 
 		#region RemoveWhitespaceInStyleSheets
@@ -672,64 +281,30 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
 		/// </summary>
 		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-		public bool RemoveWhitespaceInStyleSheets
-		{
-			get
-			{
-				return removeWhitespaceInStyleSheets;
-			}
-
-			set
-			{
-				removeWhitespaceInStyleSheets = value;
-			}
-		}
+		public bool RemoveWhitespaceInStyleSheets { get; set; }
 		#endregion
 
 		#region CompressWebResource
-		private bool _CompressWebResource;
 		/// <summary>
 		/// Gets or sets a value indicating whether to compress WebResource.axd
 		/// </summary>
 		/// <value><c>true</c> if [compress web resource]; otherwise, <c>false</c>.</value>
-		public bool CompressWebResource
-		{
-			get { return _CompressWebResource; }
-			set { _CompressWebResource = value; }
-		}
-
+		public bool CompressWebResource { get; set; }
 		#endregion
 
 		#region UseBlogNameInPageTitles
-		private bool _UseBlogNameInPageTitles;
 		/// <summary>
 		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
 		/// </summary>
 		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-		public bool UseBlogNameInPageTitles
-		{
-			get
-			{
-				return _UseBlogNameInPageTitles;
-			}
-
-			set
-			{
-				_UseBlogNameInPageTitles = value;
-			}
-		}
+		public bool UseBlogNameInPageTitles { get; set; }
 		#endregion
 
 		#region RequireSSLMetaWeblogAPI;
-		private bool requireSSLMetaWeblogAPI;
 		/// <summary>
 		/// Gets or sets a value indicating whether [require SSL for MetaWeblogAPI connections].
 		/// </summary>
-		public bool RequireSSLMetaWeblogAPI
-		{
-			get { return requireSSLMetaWeblogAPI; }
-			set { requireSSLMetaWeblogAPI = value; }
-		}
+		public bool RequireSSLMetaWeblogAPI { get; set; }
 		#endregion
 
 		#region EnableOpenSearch
@@ -737,36 +312,14 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
 		/// </summary>
 		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-		public bool EnableOpenSearch
-		{
-			get
-			{
-				return enableOpenSearch;
-			}
-
-			set
-			{
-				enableOpenSearch = value;
-			}
-		}
+		public bool EnableOpenSearch { get; set; }
 		#endregion
 
 		#region TrackingScript
 		/// <summary>
 		/// Gets or sets the tracking script used to collect visitor data.
 		/// </summary>
-		public string TrackingScript
-		{
-			get
-			{
-				return trackingScript;
-			}
-
-			set
-			{
-				trackingScript = value;
-			}
-		}
+		public string TrackingScript { get; set; }
 		#endregion
 
 		#region DisplayCommentsOnRecentPosts
@@ -774,18 +327,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
 		/// </summary>
 		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-		public bool DisplayCommentsOnRecentPosts
-		{
-			get
-			{
-				return displayCommentsOnRecentPosts;
-			}
-
-			set
-			{
-				displayCommentsOnRecentPosts = value;
-			}
-		}
+		public bool DisplayCommentsOnRecentPosts { get; set; }
 		#endregion
 
 		#region DisplayRatingsOnRecentPosts
@@ -793,117 +335,60 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if whitespace in stylesheets should be removed
 		/// </summary>
 		/// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-		public bool DisplayRatingsOnRecentPosts
-		{
-			get
-			{
-				return displayRatingsOnRecentPosts;
-			}
-
-			set
-			{
-				displayRatingsOnRecentPosts = value;
-			}
-		}
+		public bool DisplayRatingsOnRecentPosts { get; set; }
 		#endregion
 
 		#region ShowPostNavigation
-
-		private bool showPostNavigation;
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the post navigation.
 		/// </summary>
 		/// <value><c>true</c> if [show post navigation]; otherwise, <c>false</c>.</value>
-		public bool ShowPostNavigation
-		{
-			get { return showPostNavigation; }
-			set { showPostNavigation = value; }
-		}
-
+		public bool ShowPostNavigation { get; set; }
 		#endregion
 
 		#region HandleWwwSubdomain
 		/// <summary>
 		/// Gets or sets how to handle the www subdomain of the url (for SEO purposes).
 		/// </summary>
-		public string HandleWwwSubdomain
-		{
-			get
-			{
-				return handleWwwSubdomain;
-			}
-
-			set
-			{
-				handleWwwSubdomain = value;
-			}
-		}
+		public string HandleWwwSubdomain { get; set; }
 		#endregion
 
 		#region EnablePingBackSend
-
-		private bool _EnablePingBackSend;
 		/// <summary>
 		/// Gets or sets a value indicating whether [enable ping back send].
 		/// </summary>
 		/// <value><c>true</c> if [enable ping back send]; otherwise, <c>false</c>.</value>
-		public bool EnablePingBackSend
-		{
-			get { return _EnablePingBackSend; }
-			set { _EnablePingBackSend = value; }
-		}
-
+		public bool EnablePingBackSend { get; set; }
 		#endregion
 
 		#region EnablePingBackReceive;
-
-		private bool _EnablePingBackReceive;
 		/// <summary>
 		/// Gets or sets a value indicating whether [enable ping back receive].
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if [enable ping back receive]; otherwise, <c>false</c>.
 		/// </value>
-		public bool EnablePingBackReceive
-		{
-			get { return _EnablePingBackReceive; }
-			set { _EnablePingBackReceive = value; }
-		}
-
+		public bool EnablePingBackReceive {get; set;}
 		#endregion
 
 		#region EnableTrackBackSend;
-
-		private bool _EnableTrackBackSend;
 		/// <summary>
 		/// Gets or sets a value indicating whether [enable track back send].
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if [enable track back send]; otherwise, <c>false</c>.
 		/// </value>
-		public bool EnableTrackBackSend
-		{
-			get { return _EnableTrackBackSend; }
-			set { _EnableTrackBackSend = value; }
-		}
-
+		public bool EnableTrackBackSend { get; set; }
 		#endregion
 
 		#region EnableTrackBackReceive;
-
-		private bool _EnableTrackBackReceive;
 		/// <summary>
 		/// Gets or sets a value indicating whether [enable track back receive].
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if [enable track back receive]; otherwise, <c>false</c>.
 		/// </value>
-		public bool EnableTrackBackReceive
-		{
-			get { return _EnableTrackBackReceive; }
-			set { _EnableTrackBackReceive = value; }
-		}
-
+		public bool EnableTrackBackReceive { get; set; }
 		#endregion
 
 		//============================================================
@@ -913,11 +398,7 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Gets or sets the connection string used to connect to the SQL database.
 		/// </summary>
-		public string MSSQLConnectionString
-		{
-			get { return mssqlConnectionString; }
-			set { mssqlConnectionString = value; }
-		}
+		public string MSSQLConnectionString { get; set; }
 		#endregion
 
 		//============================================================
@@ -928,25 +409,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the e-mail address notifications are sent to.
 		/// </summary>
 		/// <value>The e-mail address notifications are sent to.</value>
-		public string Email
-		{
-			get
-			{
-				return emailAddress;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					emailAddress = String.Empty;
-				}
-				else
-				{
-					emailAddress = value;
-				}
-			}
-		}
+		public string Email { get; set; }
 		#endregion
 
 		#region SendMailOnComment
@@ -954,18 +417,8 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if an enail is sent when a comment is added to a post.
 		/// </summary>
 		/// <value><b>true</b> if email notification of new comments is enabled, otherwise returns <b>false</b>.</value>
-		public bool SendMailOnComment
-		{
-			get
-			{
-				return sendMailOnComment;
-			}
+		public bool SendMailOnComment { get; set; }
 
-			set
-			{
-				sendMailOnComment = value;
-			}
-		}
 		#endregion
 
 		#region SmtpPassword
@@ -973,25 +426,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the password used to connect to the SMTP server.
 		/// </summary>
 		/// <value>The password used to connect to the SMTP server.</value>
-		public string SmtpPassword
-		{
-			get
-			{
-				return smtpPassword;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					smtpPassword = String.Empty;
-				}
-				else
-				{
-					smtpPassword = value;
-				}
-			}
-		}
+		public string SmtpPassword { get; set; }
 		#endregion
 
 		#region SmtpServer
@@ -999,25 +434,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the DNS name or IP address of the SMTP server used to send notification emails.
 		/// </summary>
 		/// <value>The DNS name or IP address of the SMTP server used to send notification emails.</value>
-		public string SmtpServer
-		{
-			get
-			{
-				return smtpServer;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					smtpServer = String.Empty;
-				}
-				else
-				{
-					smtpServer = value;
-				}
-			}
-		}
+		public string SmtpServer { get; set; }
 		#endregion
 
 		#region SmtpServerPort
@@ -1025,18 +442,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the DNS name or IP address of the SMTP server used to send notification emails.
 		/// </summary>
 		/// <value>The DNS name or IP address of the SMTP server used to send notification emails.</value>
-		public int SmtpServerPort
-		{
-			get
-			{
-				return smtpServerPort;
-			}
-
-			set
-			{
-				smtpServerPort = value;
-			}
-		}
+		public int SmtpServerPort { get; set; }
 		#endregion
 
 		#region SmtpUsername
@@ -1044,56 +450,22 @@ namespace BlogEngine.Core
 		/// Gets or sets the user name used to connect to the SMTP server.
 		/// </summary>
 		/// <value>The user name used to connect to the SMTP server.</value>
-		public string SmtpUserName
-		{
-			get
-			{
-				return smtpUsername;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					smtpUsername = String.Empty;
-				}
-				else
-				{
-					smtpUsername = value;
-				}
-			}
-		}
+		public string SmtpUserName { get; set; }
 		#endregion
 
 		#region EnableSsl
 		/// <summary>
 		/// Gets or sets a value indicating if SSL is enabled for sending e-mails
 		/// </summary>
-		public bool EnableSsl
-		{
-			get
-			{
-				return enableSsl;
-			}
-
-			set
-			{
-				enableSsl = value;
-			}
-		}
+		public bool EnableSsl { get; set; }
 		#endregion
 
 		#region EmailSubjectPrefix
-		private string _EmailSubjectPrefix;
 		/// <summary>
 		/// Gets or sets the email subject prefix.
 		/// </summary>
 		/// <value>The email subject prefix.</value>
-		public string EmailSubjectPrefix
-		{
-			get { return _EmailSubjectPrefix; }
-			set { _EmailSubjectPrefix = value; }
-		}
+		public string EmailSubjectPrefix { get; set; }
 		#endregion
 
 		//============================================================
@@ -1105,21 +477,11 @@ namespace BlogEngine.Core
 		/// </summary>
 		/// <value>The number of days that a post accepts comments.</value>
 		/// <remarks>After this time period has expired, comments on a post are disabled.</remarks>
-		public int DaysCommentsAreEnabled
-		{
-			get
-			{
-				return daysCommentsAreEnabled;
-			}
-
-			set
-			{
-				daysCommentsAreEnabled = value;
-			}
-		}
+		public int DaysCommentsAreEnabled { get; set; }
 		#endregion
 
 		#region EnableCountryInComments
+		private bool enableCountryInComments;
 		/// <summary>
 		/// Gets or sets a value indicating if dispay of the country of commenter is enabled.
 		/// </summary>
@@ -1147,18 +509,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if CoComment support is enabled.
 		/// </summary>
 		/// <value><b>true</b> if CoComment support is enabled, otherwise returns <b>false</b>.</value>
-		public bool IsCoCommentEnabled
-		{
-			get
-			{
-				return isCoCommentEnabled;
-			}
-
-			set
-			{
-				isCoCommentEnabled = value;
-			}
-		}
+		public bool IsCoCommentEnabled { get; set; }
 		#endregion
 
 		#region IsCommentsEnabled
@@ -1166,18 +517,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if comments are enabled for posts.
 		/// </summary>
 		/// <value><b>true</b> if comments can be made against a post, otherwise returns <b>false</b>.</value>
-		public bool IsCommentsEnabled
-		{
-			get
-			{
-				return areCommentsEnabled;
-			}
-
-			set
-			{
-				areCommentsEnabled = value;
-			}
-		}
+		public bool IsCommentsEnabled { get; set; }
 		#endregion
 
 		#region EnableCommentsModeration
@@ -1185,18 +525,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if comments moderation is used for posts.
 		/// </summary>
 		/// <value><b>true</b> if comments are moderated for posts, otherwise returns <b>false</b>.</value>
-		public bool EnableCommentsModeration
-		{
-			get
-			{
-				return areCommentsModerated;
-			}
-
-			set
-			{
-				areCommentsModerated = value;
-			}
-		}
+		public bool EnableCommentsModeration { get; set; }
 		#endregion
 
 		#region Avatar
@@ -1204,18 +533,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if Gravatars are enabled or not.
 		/// </summary>
 		/// <value><b>true</b> if Gravatars are enabled, otherwise returns <b>false</b>.</value>
-		public string Avatar
-		{
-			get
-			{
-				return avatar;
-			}
-
-			set
-			{
-				avatar = value;
-			}
-		}
+		public string Avatar { get; set; }
 		#endregion
 
 		//============================================================
@@ -1226,18 +544,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the maximum number of characters that are displayed from a blog-roll retrieved post.
 		/// </summary>
 		/// <value>The maximum number of characters to display.</value>
-		public int BlogrollMaxLength
-		{
-			get
-			{
-				return blogrollMaxLength;
-			}
-
-			set
-			{
-				blogrollMaxLength = value;
-			}
-		}
+		public int BlogrollMaxLength { get; set; }
 		#endregion
 
 		#region BlogrollUpdateMinutes
@@ -1245,18 +552,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the number of minutes to wait before polling blog-roll sources for changes.
 		/// </summary>
 		/// <value>The number of minutes to wait before polling blog-roll sources for changes.</value>
-		public int BlogrollUpdateMinutes
-		{
-			get
-			{
-				return blogrollUpdateMinutes;
-			}
-
-			set
-			{
-				blogrollUpdateMinutes = value;
-			}
-		}
+		public int BlogrollUpdateMinutes { get; set; }
 		#endregion
 
 		#region BlogrollVisiblePosts
@@ -1264,18 +560,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the number of posts to display from a blog-roll source.
 		/// </summary>
 		/// <value>The number of posts to display from a blog-roll source.</value>
-		public int BlogrollVisiblePosts
-		{
-			get
-			{
-				return blogrollVisiblePosts;
-			}
-
-			set
-			{
-				blogrollVisiblePosts = value;
-			}
-		}
+		public int BlogrollVisiblePosts { get; set; }
 		#endregion
 
 		//============================================================
@@ -1286,18 +571,7 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if search of post comments is enabled.
 		/// </summary>
 		/// <value><b>true</b> if post comments can be searched, otherwise returns <b>false</b>.</value>
-		public bool EnableCommentSearch
-		{
-			get
-			{
-				return enableCommentSearch;
-			}
-
-			set
-			{
-				enableCommentSearch = value;
-			}
-		}
+		public bool EnableCommentSearch { get; set; }
 		#endregion
 
 		#region SearchButtonText
@@ -1305,25 +579,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the search button text to be displayed.
 		/// </summary>
 		/// <value>The search button text to be displayed.</value>
-		public string SearchButtonText
-		{
-			get
-			{
-				return searchButtonText;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					searchButtonText = String.Empty;
-				}
-				else
-				{
-					searchButtonText = value;
-				}
-			}
-		}
+		public string SearchButtonText { get; set; }
 		#endregion
 
 		#region SearchCommentLabelText
@@ -1331,25 +587,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the search comment label text to display.
 		/// </summary>
 		/// <value>The search comment label text to display.</value>
-		public string SearchCommentLabelText
-		{
-			get
-			{
-				return searchCommentLabelText;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					searchCommentLabelText = String.Empty;
-				}
-				else
-				{
-					searchCommentLabelText = value;
-				}
-			}
-		}
+		public string SearchCommentLabelText { get; set; }
 		#endregion
 
 		#region SearchDefaultText
@@ -1357,25 +595,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the default search text to display.
 		/// </summary>
 		/// <value>The default search text to display.</value>
-		public string SearchDefaultText
-		{
-			get
-			{
-				return searchDefaultText;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					searchDefaultText = String.Empty;
-				}
-				else
-				{
-					searchDefaultText = value;
-				}
-			}
-		}
+		public string SearchDefaultText { get; set; }
 		#endregion
 
 		//============================================================
@@ -1386,25 +606,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the URI of a web log that the author of this web log is promoting.
 		/// </summary>
 		/// <value>The <see cref="Uri"/> of a web log that the author of this web log is promoting.</value>
-		public string Endorsement
-		{
-			get
-			{
-				return blogChannelBLink;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					blogChannelBLink = String.Empty;
-				}
-				else
-				{
-					blogChannelBLink = value;
-				}
-			}
-		}
+		public string Endorsement { get; set; }
 		#endregion
 
 		#region PostsPerFeed
@@ -1412,17 +614,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the maximum number of characters that are displayed from a blog-roll retrieved post.
 		/// </summary>
 		/// <value>The maximum number of characters to display.</value>
-		public int PostsPerFeed
-		{
-			get
-			{
-				return postsPerFeed;
-			}
-			set
-			{
-				postsPerFeed = value;
-			}
-		}
+		public int PostsPerFeed { get; set; }
 		#endregion
 
 		//============================================================
@@ -1433,25 +625,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the name of the author of this blog.
 		/// </summary>
 		/// <value>The name of the author of this blog.</value>
-		public string AuthorName
-		{
-			get
-			{
-				return dublinCoreCreator;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					dublinCoreCreator = String.Empty;
-				}
-				else
-				{
-					dublinCoreCreator = value;
-				}
-			}
-		}
+		public string AuthorName { get; set; }
 		#endregion
 
 		#region Language
@@ -1464,25 +638,7 @@ namespace BlogEngine.Core
 		///     followed optionally, by a two-letter Country Code (taken from the ISO 3166 standard [ISO3166]).
 		/// </remarks>
 		/// <example>en-US</example>
-		public string Language
-		{
-			get
-			{
-				return dublinCoreLanguage;
-			}
-
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					dublinCoreLanguage = String.Empty;
-				}
-				else
-				{
-					dublinCoreLanguage = value.Trim();
-				}
-			}
-		}
+		public string Language { get; set; }
 		#endregion
 
 		//============================================================
@@ -1493,18 +649,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the latitude component of the geocoding position for this blog.
 		/// </summary>
 		/// <value>The latitude value.</value>
-		public float GeocodingLatitude
-		{
-			get
-			{
-				return geocodingLatitude;
-			}
-
-			set
-			{
-				geocodingLatitude = value;
-			}
-		}
+		public float GeocodingLatitude { get; set; }
 		#endregion
 
 		#region GeocodingLongitude
@@ -1512,18 +657,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the longitude component of the geocoding position for this blog.
 		/// </summary>
 		/// <value>The longitude value.</value>
-		public float GeocodingLongitude
-		{
-			get
-			{
-				return geocodingLongitude;
-			}
-
-			set
-			{
-				geocodingLongitude = value;
-			}
-		}
+		public float GeocodingLongitude { get; set; }
 		#endregion
 
 		//============================================================
@@ -1534,21 +668,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the name of the author of this blog.
 		/// </summary>
 		/// <value>The name of the author of this blog.</value>
-		public string ContactFormMessage
-		{
-			get { return contactFormMessage; }
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					contactFormMessage = String.Empty;
-				}
-				else
-				{
-					contactFormMessage = value;
-				}
-			}
-		}
+		public string ContactFormMessage { get; set; }
 		#endregion
 
 		#region ContactThankMessage
@@ -1556,21 +676,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the name of the author of this blog.
 		/// </summary>
 		/// <value>The name of the author of this blog.</value>
-		public string ContactThankMessage
-		{
-			get { return contactThankMessage; }
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					contactThankMessage = String.Empty;
-				}
-				else
-				{
-					contactThankMessage = value;
-				}
-			}
-		}
+		public string ContactThankMessage { get; set; }
 		#endregion
 
 		#region HtmlHeader
@@ -1578,21 +684,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the name of the author of this blog.
 		/// </summary>
 		/// <value>The name of the author of this blog.</value>
-		public string HtmlHeader
-		{
-			get { return htmlHeader; }
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					htmlHeader = String.Empty;
-				}
-				else
-				{
-					htmlHeader = value;
-				}
-			}
-		}
+		public string HtmlHeader { get; set; }
 		#endregion
 
 		#region Culture
@@ -1600,21 +692,7 @@ namespace BlogEngine.Core
 		/// Gets or sets the name of the author of this blog.
 		/// </summary>
 		/// <value>The name of the author of this blog.</value>
-		public string Culture
-		{
-			get { return culture; }
-			set
-			{
-				if (String.IsNullOrEmpty(value))
-				{
-					culture = String.Empty;
-				}
-				else
-				{
-					culture = value;
-				}
-			}
-		}
+		public string Culture { get; set; }
 		#endregion
 
 		#region Timezone
@@ -1622,24 +700,14 @@ namespace BlogEngine.Core
 		/// Gets or sets the maximum number of characters that are displayed from a blog-roll retrieved post.
 		/// </summary>
 		/// <value>The maximum number of characters to display.</value>
-		public double Timezone
-		{
-			get { return timezone; }
-			set { timezone = value; }
-		}
+		public double Timezone { get; set; }
 		#endregion
 
 		#region EnableContactAttachments
-
 		/// <summary>
 		/// Gets or sets whether or not to allow visitors to send attachments via the contact form.
 		/// </summary>
-		public bool EnableContactAttachments
-		{
-			get { return enableContactAttachments; }
-			set { enableContactAttachments = value; }
-		}
-
+		public bool EnableContactAttachments { get; set; }
 		#endregion
 
 		//============================================================
@@ -1657,7 +725,7 @@ namespace BlogEngine.Core
 			//	Enumerate through individual settings nodes
 			//------------------------------------------------------------
 			System.Collections.Specialized.StringDictionary dic = Providers.BlogService.LoadSettings();
-		
+
 			foreach (string key in dic.Keys)
 			{
 				//------------------------------------------------------------
@@ -1691,7 +759,7 @@ namespace BlogEngine.Core
 					}
 				}
 			}
-            storageLocation = Providers.BlogService.GetStorageLocation();
+			StorageLocation = Providers.BlogService.GetStorageLocation();
 		}
 		#endregion
 

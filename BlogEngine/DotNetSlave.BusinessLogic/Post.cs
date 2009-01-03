@@ -117,13 +117,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public List<Comment> ApprovedComments
 		{
-			get
-			{
-				return _Comments.FindAll(delegate(Comment obj)
-				{
-					return obj.IsApproved;
-				});
-			}
+			get { return _Comments.FindAll(c => c.IsApproved); }
 		}
 
 		/// <summary>
@@ -131,13 +125,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public List<Comment> NotApprovedComments
 		{
-			get
-			{
-				return _Comments.FindAll(delegate(Comment obj)
-				{
-					return !obj.IsApproved;
-				});
-			}
+			get { return _Comments.FindAll(c => !c.IsApproved); }
 		}
 
 		/// <summary>
@@ -241,7 +229,7 @@ namespace BlogEngine.Core
 			set
 			{
 				if (_Slug != value) MarkChanged("Slugs");
-				_Slug = value; 
+				_Slug = value;
 			}
 		}
 
@@ -414,11 +402,8 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByCategory(Guid categoryId)
 		{
-			List<Post> col = Posts.FindAll(delegate(Post p)
-			{
-				return p.Categories.Contains(Category.GetCategory(categoryId));
-			});
-
+			Category cat = Category.GetCategory(categoryId);
+			List<Post> col = Posts.FindAll(p => p.Categories.Contains(cat));
 			col.Sort();
 			col.TrimExcess();
 			return col;
@@ -429,10 +414,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static Post GetPost(Guid id)
 		{
-			return Posts.Find(delegate(Post p)
-			{
-				return p.Id == id;
-			});
+			return Posts.Find(p => p.Id == id);
 		}
 
 		/// <summary>
@@ -444,9 +426,10 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static bool IsTitleUnique(string title)
 		{
+			string legal = Utils.RemoveIllegalCharacters(title);
 			foreach (Post post in Posts)
 			{
-				if (Utils.RemoveIllegalCharacters(post.Title).Equals(Utils.RemoveIllegalCharacters(title), StringComparison.OrdinalIgnoreCase))
+				if (Utils.RemoveIllegalCharacters(post.Title).Equals(legal, StringComparison.OrdinalIgnoreCase))
 					return false;
 			}
 
@@ -478,7 +461,7 @@ namespace BlogEngine.Core
 			string legalAuthor = Utils.RemoveIllegalCharacters(author);
 			List<Post> list = Posts.FindAll(delegate(Post p)
 			{
-				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);				
+				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);
 				return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
 			});
 
@@ -512,11 +495,7 @@ namespace BlogEngine.Core
 		/// </summary>
 		public static List<Post> GetPostsByDate(DateTime dateFrom, DateTime dateTo)
 		{
-			List<Post> list = Posts.FindAll(delegate(Post p)
-			{
-				return (p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
-			});
-
+			List<Post> list = Posts.FindAll(p => p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
 			list.TrimExcess();
 			return list;
 		}
