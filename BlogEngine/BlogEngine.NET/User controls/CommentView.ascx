@@ -2,7 +2,7 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (Post.Comments.Count > 0){ %>
-<h1 id="comment"><%=Resources.labels.comments %></h1>
+<p id="comment"><%=Resources.labels.comments %></p>
 <%} %>
 
 <div id="commentlist" style="display:none">
@@ -19,7 +19,7 @@
 <span id="status"></span>
 
 <div class="commentForm">
-  <h1 id="addcomment"><%=Resources.labels.addComment %></h1>
+  <p id="addcomment"><%=Resources.labels.addComment %></p>
 
   <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
   <asp:TextBox runat="Server" ID="txtName" TabIndex="1" ValidationGroup="AddComment" />

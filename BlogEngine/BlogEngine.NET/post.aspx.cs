@@ -77,6 +77,9 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
 				phRDF.Visible = BlogSettings.Instance.EnableTrackBackReceive;
 
+				base.AddGenericLink("application/rss+xml", "alternate", Server.HtmlEncode(Post.Title) + " (RSS)", postView.CommentFeed + "?format=ATOM");
+				base.AddGenericLink("application/rss+xml", "alternate", Server.HtmlEncode(Post.Title) + " (ATOM)", postView.CommentFeed + "?format=ATOM");
+
 				if (BlogSettings.Instance.EnablePingBackReceive)
 					Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
 			}
