@@ -257,7 +257,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     if (ddlCountry.SelectedIndex == 0)
     {
-			ddlCountry.SelectedValue = ResolveRegion().TwoLetterISORegionName;
+			ddlCountry.SelectedValue = ResolveRegion().TwoLetterISORegionName.ToLowerInvariant();
 			this.SetFlagImageUrl();
     }
   }

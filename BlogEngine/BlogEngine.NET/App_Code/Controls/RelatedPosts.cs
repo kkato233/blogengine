@@ -119,7 +119,7 @@ namespace Controls
 			string link = "<a href=\"{0}\">{1}</a>";
 			string desc = "<span>{0}</span>";
 			sb.Append("<div id=\"relatedPosts\">");
-			sb.Append("<h1>+++</h1>");
+			sb.Append("<p>+++</p>");
 			sb.Append("<div>");
 			
 			int count = 0;

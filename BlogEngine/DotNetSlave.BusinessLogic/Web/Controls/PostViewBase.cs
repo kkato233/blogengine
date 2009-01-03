@@ -206,7 +206,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <value>The comment feed.</value>
 		public string CommentFeed
 		{
-			get { return Post.RelativeLink.Replace("/post/", "/post/feed/");}
+			get { return Post.RelativeLink.Replace("/post/", "/post/feed/"); }
 		}
 
 		#region Protected methods
@@ -292,29 +292,8 @@ namespace BlogEngine.Core.Web.Controls
 				if (!BlogSettings.Instance.EnableRating)
 					return string.Empty;
 
-				float rating = Post.Rating / 5 * 100;
-				StringBuilder sb = new StringBuilder();
-				sb.Append("<div class=\"rating\">");
-
-				BlogBasePage page = (BlogBasePage)Page;
-
-				if (Post.Raters > 0)
-					sb.AppendFormat("<p>" + page.Translate("currentlyRated") + "</p>", Post.Rating.ToString("#.0", CultureInfo.InvariantCulture), Post.Raters);
-				else
-					sb.Append("<p>" + page.Translate("beTheFirstToRate") + "</p>");
-
-				string script = "void(Rate('{0}', {1}))";
-
-				sb.Append("<ul class=\"star-rating small-star\">");
-				sb.AppendFormat("<li class=\"current-rating\" style=\"width:{0}%\">Currently {1}/5 Stars.</li>", Math.Round(rating, 0), Post.Rating);
-				sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-against\" title=\"Rate this 1 star out of 5\" class=\"one-star\">1</a></li>", Post.Id.ToString(), 1);
-				sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-against\" title=\"Rate this 2 stars out of 5\" class=\"two-stars\">2</a></li>", Post.Id.ToString(), 2);
-				sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-abstain\" title=\"Rate this 3 stars out of 5\" class=\"three-stars\">3</a></li>", Post.Id.ToString(), 3);
-				sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-for\" title=\"Rate this 4 stars out of 5\" class=\"four-stars\">4</a></li>", Post.Id.ToString(), 4);
-				sb.AppendFormat("<li><a href=\"javascript:" + script + "\" rev=\"vote-for\" title=\"Rate this 5 stars out of 5\" class=\"five-stars\">5</a></li>", Post.Id.ToString(), 5);
-				sb.Append("</ul>");
-				sb.Append("</div>");
-				return sb.ToString();
+				string script = "<div id=\"rating_{0}\"></div><script type=\"text/javascript\">showRating('{0}',{1},{2});</script>";
+				return string.Format(script, Post.Id, Post.Raters, Post.Rating.ToString("#.0", CultureInfo.InvariantCulture));
 			}
 		}
 

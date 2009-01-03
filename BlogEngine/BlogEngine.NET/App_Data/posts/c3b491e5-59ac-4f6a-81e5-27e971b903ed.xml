@@ -40,14 +40,23 @@ The BlogEngine.NET team
   <iscommentsenabled>True</iscommentsenabled>
   <pubDate>2008-06-29 00:00:00</pubDate>
   <lastModified>2008-07-29 19:20:01</lastModified>
-  <raters>3</raters>
-  <rating>4.4</rating>
+  <raters>5</raters>
+  <rating>4.24</rating>
   <slug>Welcome-to-BlogEngineNET-1-4</slug>
   <tags>
     <tag>blog</tag>
     <tag>welcome</tag>
   </tags>
-  <comments />
+  <comments>
+    <comment id="82c3783e-5ea4-4a6e-b5b2-55d53da0a6c6" approved="True">
+      <date>2009-01-03 17:58:00</date>
+      <author>Admin</author>
+      <email>post@example.com</email>
+      <country>be</country>
+      <ip>127.0.0.1</ip>
+      <content>test</content>
+    </comment>
+  </comments>
   <categories>
     <category>19770e74-9ec9-4cde-b2ab-e5051aaaf348</category>
   </categories>

@@ -312,6 +312,13 @@ div.post .text a[href^="http:"] {
 	margin: 0 0 10px 0;
 }
 
+#relatedPosts p
+{
+	font-size: 15px;
+	letter-spacing:1px;
+	font-weight: bold;
+}
+
 #relatedPosts a {
 	display: block;
 	margin-top: 5px;
@@ -388,8 +395,14 @@ ul.recentComments li a.postTitle{
 	border-top: 1px dashed silver;
 }
 
+#addcomment, #comment
+{
+	font-size: 15px;
+	letter-spacing:1px;
+	font-weight: bold;
+}
+
 .self {
-	1border: 1px solid black;
 	background: #E0EAEF;
 }
 

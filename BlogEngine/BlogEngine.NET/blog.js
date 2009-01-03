@@ -1,8 +1,10 @@
-﻿function $(id) {
+﻿function $(id)
+{
 	return document.getElementById(id);
 }
 
-function SetFlag(iso) {
+function SetFlag(iso)
+{
 	if (iso.length > 0)
 		flagImage.src = KEYwebRoot + "pics/flags/" + iso + ".png";
 	else
@@ -10,9 +12,11 @@ function SetFlag(iso) {
 }
 
 // Shows the preview of the comment
-function ToggleCommentMenu(element) {
+function ToggleCommentMenu(element)
+{
 	element.className = 'selected';
-	if (element.id == 'preview') {
+	if (element.id == 'preview')
+	{
 		$('compose').className = '';
 		$('commentCompose').style.display = 'none';
 		$('commentPreview').style.display = 'block';
@@ -20,20 +24,24 @@ function ToggleCommentMenu(element) {
 		var argument = $('commentPreview').innerHTML;
 		AddComment(true);
 	}
-	else {
+	else
+	{
 		$('preview').className = '';
 		$('commentPreview').style.display = 'none';
 		$('commentCompose').style.display = 'block';
 	}
 }
 
-function EndShowPreview(arg, context) {
+function EndShowPreview(arg, context)
+{
 	$('commentPreview').innerHTML = arg;
 }
 
-function AddComment(preview) {
+function AddComment(preview)
+{
 	var isPreview = preview == true;
-	if (!isPreview) {
+	if (!isPreview)
+	{
 		$("btnSaveAjax").disabled = true;
 		$("ajaxLoader").style.display = "inline";
 		$("status").className = "";
@@ -57,8 +65,10 @@ function AddComment(preview) {
 		OnComment(author, email, website, country, content);
 }
 
-function AppendComment(args, context) {
-	if (context == "comment") {
+function AppendComment(args, context)
+{
+	if (context == "comment")
+	{
 		var commentList = $("commentlist");
 
 		if (commentList.innerHTML.length < 10)
@@ -76,7 +86,8 @@ function AppendComment(args, context) {
 			$("status").innerHTML = KEYcommentWaitingModeration;
 
 		var composeTab = $("compose");
-		if (composeTab) {
+		if (composeTab)
+		{
 			ToggleCommentMenu(composeTab);
 		}
 	}
@@ -84,18 +95,22 @@ function AppendComment(args, context) {
 	$("btnSaveAjax").disabled = false;
 }
 
-function CheckAuthorName(sender, args) {
+function CheckAuthorName(sender, args)
+{
 	args.IsValid = true;
 
-	if (checkName) {
+	if (checkName)
+	{
 		var author = postAuthor;
 		var visitor = nameBox.value;
 		args.IsValid = !Equal(author, visitor);
 	}
 }
 
-function AddBbCode(v) {
-	try {
+function AddBbCode(v)
+{
+	try
+	{
 		if (contentBox.selectionStart) // firefox
 		{
 			var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
@@ -119,7 +134,8 @@ function AddBbCode(v) {
 
 // Searches the blog based on the entered text and
 // searches comments as well if chosen.
-function Search(root) {
+function Search(root)
+{
 	var input = $("searchfield");
 	var check = $("searchcomments");
 
@@ -133,7 +149,8 @@ function Search(root) {
 }
 
 // Clears the search fields on focus.
-function SearchClear(defaultText) {
+function SearchClear(defaultText)
+{
 	var input = $("searchfield");
 	if (input.value == defaultText)
 		input.value = "";
@@ -141,24 +158,29 @@ function SearchClear(defaultText) {
 		input.value = defaultText;
 }
 
-function Rate(id, rating) {
+function Rate(id, rating)
+{
 	CreateCallback("rating.axd?id=" + id + "&rating=" + rating, RatingCallback);
 }
 
-function RatingCallback(response) {
+function RatingCallback(response)
+{
 	var rating = response.substring(0, 1);
 	var status = response.substring(1);
 
-	if (status == "OK") {
+	if (status == "OK")
+	{
 		if (typeof OnRating != "undefined")
 			OnRating(rating);
 
 		alert("Your rating has been registered. Thank you!");
 	}
-	else if (status == "HASRATED") {
+	else if (status == "HASRATED")
+	{
 		alert(KEYhasRated);
 	}
-	else {
+	else
+	{
 		alert("An error occured while registering your rating. Please try again");
 	}
 }
@@ -167,12 +189,15 @@ function RatingCallback(response) {
 /// Creates a client callback back to the requesting page
 /// and calls the callback method with the response as parameter.
 /// </summary>
-function CreateCallback(url, callback) {
+function CreateCallback(url, callback)
+{
 	var http = GetHttpObject();
 	http.open("GET", url, true);
 
-	http.onreadystatechange = function() {
-		if (http.readyState == 4) {
+	http.onreadystatechange = function()
+	{
+		if (http.readyState == 4)
+		{
 			if (http.responseText.length > 0 && callback != null)
 				callback(http.responseText);
 		}
@@ -184,15 +209,19 @@ function CreateCallback(url, callback) {
 /// <summary>
 /// Creates a XmlHttpRequest object.
 /// </summary>
-function GetHttpObject() {
+function GetHttpObject()
+{
 	if (typeof XMLHttpRequest != 'undefined')
 		return new XMLHttpRequest();
 
-	try {
+	try
+	{
 		return new ActiveXObject("Msxml2.XMLHTTP");
 	}
-	catch (e) {
-		try {
+	catch (e)
+	{
+		try
+		{
 			return new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		catch (e) { }
@@ -202,17 +231,21 @@ function GetHttpObject() {
 }
 
 // Updates the calendar from client-callback
-function UpdateCalendar(args, context) {
+function UpdateCalendar(args, context)
+{
 	var cal = $('calendarContainer');
 	cal.innerHTML = args;
 	months[context] = args;
 }
 
-function ToggleMonth(year) {
+function ToggleMonth(year)
+{
 	var monthList = $("monthList");
 	var years = monthList.getElementsByTagName("ul");
-	for (i = 0; i < years.length; i++) {
-		if (years[i].id == year) {
+	for (i = 0; i < years.length; i++)
+	{
+		if (years[i].id == year)
+		{
 			var state = years[i].className == "open" ? "" : "open";
 			years[i].className = state;
 			break;
@@ -221,7 +254,8 @@ function ToggleMonth(year) {
 }
 
 // Adds a trim method to all strings.
-function Equal(first, second) {
+function Equal(first, second)
+{
 	var f = first.toLowerCase().replace(new RegExp(' ', 'gi'), '');
 	var s = second.toLowerCase().replace(new RegExp(' ', 'gi'), '');
 	return f == s;
@@ -237,18 +271,23 @@ var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
 						            , 'sweetheart', 'me'];
 
 // Applies the XFN tags of a link to the title tag
-function HightLightXfn() {
+function HightLightXfn()
+{
 	var content = $('content');
 	if (content == null)
 		return;
 
 	var links = content.getElementsByTagName('a')
-	for (i = 0; i < links.length; i++) {
+	for (i = 0; i < links.length; i++)
+	{
 		var link = links[i];
 		var rel = link.getAttribute('rel');
-		if (rel && rel != "nofollow") {
-			for (j = 0; j < xfnRelationships.length; j++) {
-				if (rel.indexOf(xfnRelationships[j]) > -1) {
+		if (rel && rel != "nofollow")
+		{
+			for (j = 0; j < xfnRelationships.length; j++)
+			{
+				if (rel.indexOf(xfnRelationships[j]) > -1)
+				{
 					link.title = 'XFN relationship: ' + rel;
 					break;
 				}
@@ -257,22 +296,90 @@ function HightLightXfn() {
 	}
 }
 
+function showRating(id, raters, rating)
+{
+	var div = document.createElement('div');
+	div.className = 'rating';
+
+	var p = document.createElement('p');
+	div.appendChild(p);
+	if (raters == 0)
+	{
+		p.innerHTML = 'Be the first to rate this post';
+	}
+	else
+	{
+		p.innerHTML = 'Currently rated ' + Math.round(rating) + ' by ' + raters + ' people';
+	}
+
+	var ul = document.createElement('ul');
+	ul.className = 'star-rating small-star';
+	div.appendChild(ul);
+	
+	var li = document.createElement('li');
+	li.className = 'current-rating';
+	li.style.width = Math.round(rating * 20) + '%';
+	li.innerHTML = 'Currently ' + raters + '/5 Stars.';
+	ul.appendChild(li);
+
+	for (var i = 1; i <= 5; i++)
+	{
+		var l = document.createElement('li');
+		var a = document.createElement('a');
+		a.innerHTML = i;
+		a.href = 'rate/' + i;
+		a.className = englishNumber(i);
+		a.onclick = function()
+		{
+			Rate(id, this.innerHTML);
+			return false;
+		};
+
+		l.appendChild(a);
+		ul.appendChild(l);
+	}
+
+	$('rating_' + id).appendChild(div);
+}
+
+function englishNumber(number)
+{
+	if (number == 1)
+		return 'one-star';
+
+	if (number == 2)
+		return 'two-stars';
+
+	if (number == 3)
+		return 'three-stars';
+
+	if (number == 4)
+		return 'four-stars';
+
+	return 'five-stars';
+}
+
 // Adds event to window.onload without overwriting currently assigned onload functions.
 // Function found at Simon Willison's weblog - http://simon.incutio.com/
-function addLoadEvent(func) {
+function addLoadEvent(func)
+{
 	var oldonload = window.onload;
-	if (typeof window.onload != 'function') {
+	if (typeof window.onload != 'function')
+	{
 		window.onload = func;
 	}
-	else {
-		window.onload = function() {
+	else
+	{
+		window.onload = function()
+		{
 			oldonload();
 			func();
 		}
 	}
 }
 
-function filterByAPML() {
+function filterByAPML()
+{
 	var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
 	var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
 	document.body.style.position = 'static';
@@ -341,10 +448,12 @@ function filterByAPML() {
 	div.appendChild(a);
 }
 
-function getCookieValue(name) {
+function getCookieValue(name)
+{
 	var cookie = new String(document.cookie);
 
-	if (cookie != null && cookie.indexOf('comment=') > -1) {
+	if (cookie != null && cookie.indexOf('comment=') > -1)
+	{
 		var start = cookie.indexOf(name + '=') + name.length + 1;
 		var end = cookie.indexOf('&', start);
 		if (end > start && start > -1)
