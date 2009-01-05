@@ -26,5 +26,7 @@
         BorderWidth="1"
         Width="100%"
         AllowPaging="True" 
-        AllowSorting="True" OnRowDataBound="grid_RowDataBound" >
+        AllowSorting="True"
+        onpageindexchanging="grid_PageIndexChanging" 
+        OnRowDataBound="grid_RowDataBound" >
  </asp:GridView>
