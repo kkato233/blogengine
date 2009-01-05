@@ -136,9 +136,11 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
   /// <param name="e">Arguments</param>
   void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
   {
+    int paramIndex = ParameterValueIndex(sender, e.RowIndex);
+
     foreach (ExtensionParameter par in _settings.Parameters)
     {
-      par.DeleteValue(e.RowIndex);
+      par.DeleteValue(paramIndex);
     }
     ExtensionManager.SaveSettings(_extensionName, _settings);
     Response.Redirect(Request.RawUrl);
@@ -165,6 +167,8 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
       }
     }
 
+    int paramIndex = ParameterValueIndex(sender, e.RowIndex);
+
     for (int i = 0; i < _settings.Parameters.Count; i++)
     {
       string parName = _settings.Parameters[i].Name;
@@ -179,7 +183,7 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
       else if (parName == _settings.KeyField && _settings.IsKeyValueExists(updateValues[i]))
       {
         // check if key value was changed; if not, it's ok to update
-        if (!_settings.IsOldValue(parName, updateValues[i], e.RowIndex))
+        if (!_settings.IsOldValue(parName, updateValues[i], paramIndex))
         {
           // trying to update key field with value that already exists
           ErrorMsg.InnerHtml = "\"" + updateValues[i] + "\" is already exists";
@@ -190,11 +194,29 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
 
       }
       else
-        _settings.Parameters[i].Values[e.RowIndex] = updateValues[i];
+        _settings.Parameters[i].Values[paramIndex] = updateValues[i];
     }
 
     ExtensionManager.SaveSettings(_extensionName, _settings);
     Response.Redirect(Request.RawUrl);
+  }
+
+  /// <summary>
+  /// Returns index of the parameter calculated 
+  /// based on the page number and size
+  /// </summary>
+  /// <param name="sender">GridView object</param>
+  /// <param name="rowindex">Index of the row in the grid</param>
+  /// <returns>Index of the parameter</returns>
+  private static int ParameterValueIndex(object sender, int rowindex)
+  {
+      int paramIndex = rowindex;
+      GridView gv = (GridView)sender;
+      if (gv.PageIndex > 0)
+      {
+          paramIndex = gv.PageIndex * gv.PageSize + rowindex;
+      }
+      return paramIndex;
   }
 
   /// <summary>
@@ -206,6 +228,18 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
   {
     grid.EditIndex = e.NewEditIndex;
     BindGrid();
+  }
+
+  /// <summary>
+  /// Handles page changing event in the data grid
+  /// </summary>
+  /// <param name="sender"></param>
+  /// <param name="e"></param>
+  protected void grid_PageIndexChanging(object sender, GridViewPageEventArgs e)
+  {
+      grid.PageIndex = e.NewPageIndex;
+      grid.DataSource = _settings.GetDataTable();
+      grid.DataBind();
   }
 
   /// <summary>
