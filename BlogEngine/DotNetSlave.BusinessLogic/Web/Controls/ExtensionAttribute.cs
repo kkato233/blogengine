@@ -24,6 +24,17 @@ namespace BlogEngine.Core.Web.Controls
       _Author = author;
     }
 
+    /// <summary>
+    /// Creates an instance of the attribute and assigns a description.
+    /// </summary>
+    public ExtensionAttribute(string description, string version, string author, int priority)
+    {
+        _Description = description;
+        _Version = version;
+        _Author = author;
+        _priority = priority;
+    }
+
     private string _Description;
     /// <summary>
     /// Gets the description of the extension.
@@ -53,6 +64,35 @@ namespace BlogEngine.Core.Web.Controls
       get { return _Author; }
     }
 
+    private int _priority = 999;
+
+    /// <summary>
+    /// Gets the priority of the extension
+    /// This determins in what order extensions instantiated
+    /// and in what order they will respond to events
+    /// </summary>
+    public int Priority
+    {
+        get { return _priority; }
+    }
+
   }
+
+  /// <summary>
+  /// Helper class for sorting extensions by priority
+  /// </summary>
+  public class SortedExtension
+  {
+      public int Priority;
+      public string Name;
+      public string Type;
+
+      public SortedExtension(int p, string n, string t)
+      {
+          Priority = p;
+          Name = n;
+          Type = t;
+      }
+  }    
 
 }

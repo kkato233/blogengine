@@ -416,11 +416,44 @@ namespace BlogEngine.Core
 					if (t != null) assemblyName = "App_Code";
 					codeAssemblies.Add(Assembly.Load(assemblyName));
 				}
+
+                GetCompiledExtensions(codeAssemblies);
 			}
 			catch (System.IO.FileNotFoundException) {/*ignore - code directory has no files*/}
 
 			return codeAssemblies;
 		}
+
+        /// <summary>
+        /// To support compiled extensions
+        /// This methed looks for DLLs in the "/bin" folder
+        /// and if assembly compiled with configuration
+        /// attributed set to "BlogEngineExtension" it will
+        /// be added to the list of code assemlies
+        /// </summary>
+        /// <param name="assemblies">List of code assemblies</param>
+        public static void GetCompiledExtensions(ArrayList assemblies)
+        {
+            string s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "bin");
+            string[] fileEntries = Directory.GetFiles(s);
+            foreach (string fileName in fileEntries)
+            {
+                if (fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                {
+                    Assembly asm = Assembly.LoadFrom(fileName);
+                    object[] attr = asm.GetCustomAttributes(typeof(AssemblyConfigurationAttribute), false);
+                    if (attr != null && attr.Length > 0)
+                    {
+                        AssemblyConfigurationAttribute aca = (AssemblyConfigurationAttribute)attr[0];
+                        if (aca != null && aca.Configuration == "BlogEngineExtension")
+                        {
+                            assemblies.Add(asm);
+                        }
+                    }
+                }
+            }
+        }
+
 		#endregion
 
 		#region Semantic discovery
