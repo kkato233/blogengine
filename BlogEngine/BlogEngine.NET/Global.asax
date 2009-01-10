@@ -3,6 +3,7 @@
 <%@ Application Language="C#" %>
 <%@ Import Namespace="System.Threading" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Reflection" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="BlogEngine.Core.Web.Controls" %>
@@ -29,6 +30,8 @@
   void Application_Start(object sender, EventArgs e)
   {
     ArrayList codeAssemblies = Utils.CodeAssemblies();
+    List<SortedExtension> sortedExtensions = new List<SortedExtension>();
+
     foreach (Assembly a in codeAssemblies)
     {
       Type[] types = a.GetTypes();
@@ -37,10 +40,21 @@
         object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
         foreach (object attribute in attributes)
         {
-          if (ExtensionManager.ExtensionEnabled(type.Name))
+          if (attribute.GetType().Name == "ExtensionAttribute")
           {
-            a.CreateInstance(type.FullName);
+            ExtensionAttribute ext = (ExtensionAttribute)attribute;
+            sortedExtensions.Add(new SortedExtension(ext.Priority, type.Name, type.FullName));
           }
+        }
+      }
+
+      sortedExtensions.Sort(delegate(SortedExtension e1, SortedExtension e2)
+          { return e1.Priority.CompareTo(e2.Priority); });
+      foreach (SortedExtension x in sortedExtensions)
+      {
+        if (ExtensionManager.ExtensionEnabled(x.Name))
+        {
+          a.CreateInstance(x.Type);
         }
       }
     }
@@ -63,4 +77,3 @@
   }
  
 </script>
-
