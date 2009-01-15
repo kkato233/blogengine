@@ -736,4 +736,25 @@
   <data name="useRawHtmlEditor" xml:space="preserve">
     <value>Use raw HTML editor</value>
   </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>Enable nested comments</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>This only works if the theme supports it.</value>
+  </data>
+  <data name="replyTo" xml:space="preserve">
+    <value>In reply to</value>
+  </data>
+  <data name="replyToBase" xml:space="preserve">
+    <value>the original post</value>
+  </data>
+  <data name="replyToThis" xml:space="preserve">
+    <value>Reply to this comment</value>
+  </data>
+  <data name="deleteKeepReplies" xml:space="preserve">
+    <value>Delete this, but keep replies</value>
+  </data>
+  <data name="deletePlusReplies" xml:space="preserve">
+    <value>Delete this and replies</value>
+  </data>
 </root>

@@ -55,9 +55,10 @@ function AddComment(preview)
 	var content = contentBox.value;
 	var notify = $("cbNotify").checked;
 	var captcha = captchaField.value;
+	var replyToId = replyToDropDown ? replyToDropDown.value : "";
 
 	var callback = isPreview ? EndShowPreview : AppendComment;
-	var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha;
+	var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
 
 	WebForm_DoCallback('ctl00$cphBody$CommentView1', argument, callback, 'comment', null, false);
 
@@ -65,17 +66,89 @@ function AddComment(preview)
 		OnComment(author, email, website, country, content);
 }
 
+function ReplyToComment(id) {
+	var found = false;
+	for (var i=0; i<replyToDropDown.options.length; i++) {
+		if (replyToDropDown.options[i].value == id) {
+			replyToDropDown.selectedIndex = i;
+			found = true;
+			break;
+		}			
+	}
+	// if this is a reply to a reply in the same session, we have to insert the new ID into the list
+	if (!found) {
+		var newcomment = new Option("New Comment", id);
+		try {
+			replyToDropDown.add(newcomment, null);
+		} catch (e) {
+			replyToDropDown.add(newcomment); // IE version
+		}
+		replyToDropDown.selectedIndex = replyToDropDown.options.length-1;
+	}
+	
+	// move comment form into position
+	var commentForm = $('comment-form');	
+	if (!id || id == '' || id == null || id == '00000000-0000-0000-0000-000000000000') {
+		// move to after comment list
+		var base = $("commentlist");	
+		base.appendChild(commentForm);
+	} else {
+		// move to nested position
+		var pComment = $('id_' + id);
+		// check for "sub-comments" classed div
+		var sub = null;
+		for (var i=0; i<pComment.childNodes.length;i++) {
+			if (pComment.childNodes[i].className == 'sub-comments') {
+				sub = pComment.childNodes[i];
+				break;
+			}
+		}
+		if (sub == null) {
+			sub = document.createElement('div');
+			sub.className = 'sub-comments';
+			pComment.appendChild(sub);
+		}
+			
+		sub.appendChild(commentForm);		
+	}
+	
+	nameBox.focus();	 
+}
+
 function AppendComment(args, context)
 {
 	if (context == "comment")
 	{
 		var commentList = $("commentlist");
-
 		if (commentList.innerHTML.length < 10)
 			commentList.innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
+	
+		// add comment html to the right place
+		var id = '';
+		if (replyToDropDown)
+			if (replyToDropDown.selectedIndex > 0)
+				id = replyToDropDown.options[replyToDropDown.selectedIndex].value;
+				
+		if (id != '') {
+			// grab the comment
+			var c = $('id_' + replyToDropDown.options[replyToDropDown.selectedIndex].value);
+			// find the sub area
+			var sub = null;
+			for (var i=0; i<c.childNodes.length;i++) {
+				if (c.childNodes[i].className == 'sub-comments') {
+					sub = c.childNodes[i];
+					break;
+				}
+			}				
+			sub.innerHTML += args;
+		 
+		} else {
+			commentList.innerHTML += args;
+			commentList.style.display = 'block';	
+		}		
 
-		commentList.innerHTML += args;
-		commentList.style.display = 'block';
+		
+		// reset form values
 		contentBox.value = "";
 		$("ajaxLoader").style.display = "none";
 		$("status").className = "success";
@@ -90,6 +163,13 @@ function AppendComment(args, context)
 		{
 			ToggleCommentMenu(composeTab);
 		}
+		
+		// move form back to bottom
+		var commentForm = $('comment-form');
+		commentList.appendChild(commentForm);
+		// reset list
+		if (replyToDropDown)
+			replyToDropDown.selectedIndex = 0;		
 	}
 
 	$("btnSaveAjax").disabled = false;

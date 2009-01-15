@@ -7,6 +7,7 @@ using System.Xml;
 using System.Text;
 using System.Net.Mail;
 using System.Globalization;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -135,6 +136,76 @@ namespace BlogEngine.Core
 		{
 			get { return _Comments; }
 
+		}
+
+		private List<Comment> _NestedComments;
+
+		/// <summary>
+		/// A collection of the comments that are nested as replies
+		/// </summary>
+		public List<Comment> NestedComments
+		{
+			get
+			{
+				if (_NestedComments == null)
+					CreateNestedComments();
+				return _NestedComments;
+			}
+		}
+
+		/// <summary>
+		/// Clears all nesting of comments
+		/// </summary>
+		private void ResetNestedComments()
+		{
+			// void the List<>
+			_NestedComments = null;
+			// go through all comments and remove sub comments
+			foreach (Comment c in Comments)
+				c.Comments.Clear();
+		}
+
+		/// <summary>
+		/// Nests comments based on Id and ParentId
+		/// </summary>
+		private void CreateNestedComments()
+		{
+			// instantiate object
+			_NestedComments = new List<Comment>();
+			
+			// temporary ID/Comment table
+			Hashtable commentTable = new Hashtable();
+		
+			foreach (Comment comment in _Comments)
+			{
+				// add to hashtable for lookup
+				commentTable.Add(comment.Id, comment);
+
+				// check if this is a child comment
+				if (comment.ParentId == Guid.Empty)
+				{
+					// root comment, so add it to the list
+					_NestedComments.Add(comment);
+				}
+				else
+				{
+					// child comment, so find parent
+					Comment parentComment = commentTable[comment.ParentId] as Comment;
+					if (parentComment != null)
+					{
+						// double check that this sub comment has not already been added
+						if (parentComment.Comments.IndexOf(comment) == -1)
+							parentComment.Comments.Add(comment);	
+					}
+					else
+					{
+						// just add to the base to prevent an error
+						_NestedComments.Add(comment);
+					}
+				}
+			}
+			// kill this data
+			commentTable = null;
 		}
 
 		private StateList<Category> _Categories;
@@ -582,6 +653,7 @@ namespace BlogEngine.Core
 		{
 			Comments.Add(comment);
 			DataUpdate();
+
 		}
 
 		/// <summary>
@@ -701,6 +773,7 @@ namespace BlogEngine.Core
 			BlogService.UpdatePost(this);
 			Posts.Sort();
 			AddRelations();
+			ResetNestedComments();
 		}
 
 		/// <summary>

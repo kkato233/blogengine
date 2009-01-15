@@ -97,6 +97,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		// Set Comments settings
 		//-----------------------------------------------------------------------
 		BlogSettings.Instance.IsCommentsEnabled = cbEnableComments.Checked;
+		BlogSettings.Instance.IsCommentNestingEnabled = cbEnableCommentNesting.Checked;
 		BlogSettings.Instance.EnableCountryInComments = cbEnableCountryInComments.Checked;
 		BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
 		BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
@@ -192,6 +193,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		// Bind Comments settings
 		//-----------------------------------------------------------------------
 		cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
+		cbEnableCommentNesting.Checked = BlogSettings.Instance.IsCommentNestingEnabled;
 		cbEnableCountryInComments.Checked = BlogSettings.Instance.EnableCountryInComments;
 		cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
 		cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;

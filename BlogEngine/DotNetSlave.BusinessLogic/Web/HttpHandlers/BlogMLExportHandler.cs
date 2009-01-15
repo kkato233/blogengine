@@ -294,6 +294,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 				writer.WriteStartElement("comment");
 				writer.WriteAttributeString("id", comment.Id.ToString());
+				writer.WriteAttributeString("parentid", comment.ParentId.ToString());
 				writer.WriteAttributeString("date-created", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteAttributeString("date-modified", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteAttributeString("approved", comment.IsApproved.ToString().ToLowerInvariant());

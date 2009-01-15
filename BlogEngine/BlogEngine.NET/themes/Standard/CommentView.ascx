@@ -7,6 +7,15 @@
   <p class="author">
     <%= Comment.Website != null ? "<a href=\"" + Comment.Website + "\" class=\"url fn\">" + Comment.Author + "</a>" : "<span class=\"fn\">" +Comment.Author + "</span>" %>
     <%= Flag %>
+    <%= ((BlogEngine.Core.BlogSettings.Instance.IsCommentNestingEnabled) ? " | " : "") %>
+    <%= ReplyToLink %>    
     <%= AdminLinks %>
   </p>
+  
+  <% if (Comment.Comments.Count > 0) { %>
+  <div class="sub-comments">
+	<asp:PlaceHolder ID="phSubComments" runat="server" />
+  </div>
+  <% } %>
+  
 </div>
