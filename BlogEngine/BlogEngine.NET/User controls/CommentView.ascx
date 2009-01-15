@@ -23,15 +23,15 @@
 	<div class="commentForm">
 	  <p id="addcomment"><%=Resources.labels.addComment %></p>
 
-	  <% if (BlogSettings.Instance.IsCommentNestingEnabled){ %>
+	  <% if (NestingSupported){ %>
 	  <label for="<%=ddlReplyTo.ClientID %>"><%=Resources.labels.replyTo%></label>
 	  <asp:DropDownList runat="Server" ID="ddlReplyTo" onchange="javascript:ReplyToComment(this.options[this.selectedIndex].value);" TabIndex="1" /><br />
 	  <%} %>
 
 	  <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
 	  <asp:TextBox runat="Server" ID="txtName" TabIndex="2" ValidationGroup="AddComment" />
-	  <asp:CustomValidator runat="server" ControlToValidate="txtName" ErrorMessage=" <%$Resources:labels, chooseOtherName %>" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
-	  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtName" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
+	  <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtName" ErrorMessage=" <%$Resources:labels, chooseOtherName %>" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
+	  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
 
 	  <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
 	  <asp:TextBox runat="Server" ID="txtEmail" TabIndex="3" ValidationGroup="AddComment" />
@@ -40,12 +40,12 @@
 	  (<%=string.Format(Resources.labels.willShowGravatar, "<a href=\"http://www.gravatar.com\" target=\"_blank\">Gravatar</a>")%>)
 	  <%} %>
 	  </span>
-	  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" />
-	  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, enterValidEmail%>" Display="dynamic" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
+	  <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" />
+	  <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, enterValidEmail%>" Display="dynamic" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
 
 	  <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website %></label>
 	  <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="4" ValidationGroup="AddComment" />
-	  <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="<%$Resources:labels, enterValidUrl %>" Display="Dynamic" ValidationGroup="AddComment" /><br />
+	  <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="<%$Resources:labels, enterValidUrl %>" Display="Dynamic" ValidationGroup="AddComment" /><br />
 	  
 	  <% if(BlogSettings.Instance.EnableCountryInComments){ %>
 	  <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
@@ -54,7 +54,7 @@
 	  <%} %>
 
 	  <span class="bbcode" title="BBCode tags"><%=BBCodes() %></span>
-	  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
+	  <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
 
 	  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
 	  <ul id="commentMenu">
