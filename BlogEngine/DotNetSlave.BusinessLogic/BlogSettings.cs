@@ -536,6 +536,15 @@ namespace BlogEngine.Core
 		public string Avatar { get; set; }
 		#endregion
 
+		#region IsCommentNestingEnabled
+		/// <summary>
+		/// Gets or sets a value indicated if comments should be displayed as nested.	
+		/// </summary>
+		/// <value><b>true</b> if comments should be displayed as nested, <b>false</b> for flat comments.</value>
+		public bool IsCommentNestingEnabled { get; set; }
+		#endregion
+
+
 		//============================================================
 		//	BLOG ROLL SETTINGS
 		//============================================================

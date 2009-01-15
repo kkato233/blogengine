@@ -28,6 +28,29 @@ namespace BlogEngine.Core
 			set { _Id = value; }
 		}
 
+		private Guid _ParentId;
+		/// <summary>
+		/// The Id of the parent comment.
+		/// </summary>
+		public Guid ParentId
+		{
+			get { return _ParentId; }
+			set { _ParentId = value; }
+		}
+
+		private List<Comment> _Comments = null;
+		/// <summary>
+		/// The Id of the comment.
+		/// </summary>
+		public List<Comment> Comments
+		{
+			get {
+				if (_Comments == null)
+					_Comments = new List<Comment>();
+				return _Comments;
+			}		
+		}
+
 		private string _Author;
 		/// <summary>
 		/// Gets or sets the author.

@@ -77,11 +77,12 @@ namespace BlogEngine.Core.Providers
 					post.Tags.Add(node.InnerText);
 			}
 
-			// comments
+			// comments			
 			foreach (XmlNode node in doc.SelectNodes("post/comments/comment"))
 			{
 				Comment comment = new Comment();
 				comment.Id = new Guid(node.Attributes["id"].InnerText);
+				comment.ParentId = (node.Attributes["parentid"] != null) ? new Guid(node.Attributes["parentid"].InnerText) : Guid.Empty;
 				comment.Author = node.SelectSingleNode("author").InnerText;
 				comment.Email = node.SelectSingleNode("email").InnerText;
 				comment.Parent = post;
@@ -108,6 +109,7 @@ namespace BlogEngine.Core.Providers
 				comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
 				post.Comments.Add(comment);
 			}
+			
 
 			post.Comments.Sort();
 
@@ -128,6 +130,7 @@ namespace BlogEngine.Core.Providers
 
 			return post;
 		}
+
 
 		///// <summary>
 		///// Retrieves the content of the post in order to lazy load.
@@ -193,6 +196,7 @@ namespace BlogEngine.Core.Providers
 				{
 					writer.WriteStartElement("comment");
 					writer.WriteAttributeString("id", comment.Id.ToString());
+					writer.WriteAttributeString("parentid", comment.ParentId.ToString());
 					writer.WriteAttributeString("approved", comment.IsApproved.ToString());
 					writer.WriteElementString("date", comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 					writer.WriteElementString("author", comment.Author);
@@ -202,6 +206,7 @@ namespace BlogEngine.Core.Providers
 					if (comment.Website != null)
 						writer.WriteElementString("website", comment.Website.ToString());
 					writer.WriteElementString("content", comment.Content);
+
 					writer.WriteEndElement();
 				}
 				writer.WriteEndElement();
@@ -234,6 +239,7 @@ namespace BlogEngine.Core.Providers
 				ms.Dispose();
 			}
 		}
+
 
 		/// <summary>
 		/// Updates a Post.

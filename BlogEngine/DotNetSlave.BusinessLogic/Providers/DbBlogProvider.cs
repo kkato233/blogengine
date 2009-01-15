@@ -174,7 +174,7 @@ namespace BlogEngine.Core.Providers
                     }
 
                     // Comments
-                    sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved " +
+					sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID " +
                                 "FROM " + tablePrefix + "PostComment " +
                                 "WHERE PostID = " + parmPrefix + "id";
                     cmd.CommandText = sqlQuery;
@@ -205,6 +205,8 @@ namespace BlogEngine.Core.Providers
                                 comment.IsApproved = rdr.GetBoolean(8);
                             else
                                 comment.IsApproved = true;
+
+							comment.ParentId = rdr.GetGuid(9);
 
                             post.Comments.Add(comment);
                         }
@@ -1493,8 +1495,8 @@ namespace BlogEngine.Core.Providers
 
                 foreach (Comment comment in post.Comments)
                 {
-                    sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved) " +
-                                        "VALUES (@postcommentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved)";
+					sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved) " +
+                                        "VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
@@ -1503,10 +1505,17 @@ namespace BlogEngine.Core.Providers
                     dpCommentID.ParameterName = parmPrefix + "postcommentid";
                     dpCommentID.Value = comment.Id.ToString();
                     cmd.Parameters.Add(dpCommentID);
-                    DbParameter dpPostID = provider.CreateParameter();
+					
+					DbParameter dpParentID = provider.CreateParameter();
+					dpParentID.ParameterName = parmPrefix + "parentid";
+					dpParentID.Value = comment.ParentId.ToString();
+					cmd.Parameters.Add(dpParentID);
+
+					DbParameter dpPostID = provider.CreateParameter();
                     dpPostID.ParameterName = parmPrefix + "id";
                     dpPostID.Value = post.Id.ToString();
                     cmd.Parameters.Add(dpPostID);
+
                     DbParameter dpCommentDate = provider.CreateParameter();
                     dpCommentDate.ParameterName = parmPrefix + "date";
                     dpCommentDate.Value = comment.DateCreated;

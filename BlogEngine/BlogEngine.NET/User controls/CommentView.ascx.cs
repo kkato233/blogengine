@@ -1,6 +1,7 @@
 #region Using
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -40,145 +41,207 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 	/// <param name="eventArgument">A string that represents an event argument to pass to the event handler.</param>
   public void RaiseCallbackEvent(string eventArgument)
   {
-		if (!BlogSettings.Instance.IsCommentsEnabled)
-			return;
+	  if (!BlogSettings.Instance.IsCommentsEnabled)
+		  return;
 
-    string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
-    string author = args[0];
-    string email = args[1];
-    string website = args[2];
-    string country = args[3];
-    string content = args[4];
-    bool notify = bool.Parse(args[5]);
-		bool isPreview = bool.Parse(args[6]);
-		string sentCaptcha = args[7];
-		string storedCaptcha = hfCaptcha.Value;
+	  string[] args = eventArgument.Split(new string[] { "-|-" }, StringSplitOptions.None);
+	  string author = args[0];
+	  string email = args[1];
+	  string website = args[2];
+	  string country = args[3];
+	  string content = args[4];
+	  bool notify = bool.Parse(args[5]);
+	  bool isPreview = bool.Parse(args[6]);
+	  string sentCaptcha = args[7];
+	
+	  Guid replyToCommentID = Guid.Empty;
+	  try
+	  {
+		  replyToCommentID = new Guid(args[8]);
+	  }
+	  catch { }
+	  string storedCaptcha = hfCaptcha.Value;
 
-		if (sentCaptcha != storedCaptcha)
-			return;
+	  if (sentCaptcha != storedCaptcha)
+		  return;
 
-    Comment comment = new Comment();
-    comment.Id = Guid.NewGuid();
-    comment.Author = Server.HtmlEncode(author);
-    comment.Email = email;
-    comment.Content = Server.HtmlEncode(content);
-    comment.IP = Request.UserHostAddress;
-    comment.Country = country;
-		comment.DateCreated = DateTime.Now;
-    comment.Parent = Post;
-    comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
+	  Comment comment = new Comment();
+	  comment.Id = Guid.NewGuid();
+	  comment.ParentId = replyToCommentID;
+	  comment.Author = Server.HtmlEncode(author);
+	  comment.Email = email;
+	  comment.Content = Server.HtmlEncode(content);
+	  comment.IP = Request.UserHostAddress;
+	  comment.Country = country;
+	  comment.DateCreated = DateTime.Now;
+	  comment.Parent = Post;
+	  comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
 
-    if (Page.User.Identity.IsAuthenticated)
-      comment.IsApproved = true;
+	  if (Page.User.Identity.IsAuthenticated)
+		  comment.IsApproved = true;
 
-    if (website.Trim().Length > 0)
-    {
-      if (!website.ToLowerInvariant().Contains("://"))
-        website = "http://" + website;
+	  if (website.Trim().Length > 0)
+	  {
+		  if (!website.ToLowerInvariant().Contains("://"))
+			  website = "http://" + website;
 
-      Uri url;
-      if (Uri.TryCreate(website, UriKind.Absolute, out url))
-        comment.Website = url;
-    }
+		  Uri url;
+		  if (Uri.TryCreate(website, UriKind.Absolute, out url))
+			  comment.Website = url;
+	  }
 
-    if (notify && !Post.NotificationEmails.Contains(email))
-      Post.NotificationEmails.Add(email);
-		else if (!notify && Post.NotificationEmails.Contains(email))
+	  if (notify && !Post.NotificationEmails.Contains(email))
+		  Post.NotificationEmails.Add(email);
+	  else if (!notify && Post.NotificationEmails.Contains(email))
 		  Post.NotificationEmails.Remove(email);
 
-		if (!isPreview)
-		{
-			Post.AddComment(comment);
-			SetCookie(author, email, website, country);
-		}
+	  if (!isPreview)
+	  {
+		  Post.AddComment(comment);
+		  SetCookie(author, email, website, country);
+	  }
 
-        string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
+	  string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
 
-    CommentViewBase control = (CommentViewBase)LoadControl(path);
-    control.Comment = comment;
-    control.Post = Post;
+	  CommentViewBase control = (CommentViewBase)LoadControl(path);
+	  control.Comment = comment;
+	  control.Post = Post;
 
-    using (StringWriter sw = new StringWriter())
-    {
-      control.RenderControl(new HtmlTextWriter(sw));
-      _Callback = sw.ToString();
-    }
+	  using (StringWriter sw = new StringWriter())
+	  {
+		  control.RenderControl(new HtmlTextWriter(sw));
+		  _Callback = sw.ToString();
+	  }
   }
 
   #endregion
 
   protected void Page_Load(object sender, EventArgs e)
   {
-    if (Post == null)
-      Response.Redirect(Utils.RelativeWebRoot);
-		
-    if (!Page.IsPostBack && !Page.IsCallback)
-    {
-			if (Page.User.Identity.IsAuthenticated)
-			{
-				if (Request.QueryString["deletecomment"] != null)
-					DeleteComment();
+	  if (Post == null)
+		  Response.Redirect(Utils.RelativeWebRoot);
 
-				if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
-					ApproveComment();
+	  if (!Page.IsPostBack && !Page.IsCallback)
+	  {
+		  if (Page.User.Identity.IsAuthenticated)
+		  {
+			  if (Request.QueryString["deletecomment"] != null)
+				  DeleteComment();
 
-				if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
-					ApproveAllComments();
-			}
+			  if (Request.QueryString["deletecommentandchildren"] != null)
+				  DeleteCommentAndChildren();
 
-			string theme = BlogSettings.Instance.Theme;
-			if (Request.QueryString["theme"] != null)
-				theme = Request.QueryString["theme"];
+			  if (!string.IsNullOrEmpty(Request.QueryString["approvecomment"]))
+				  ApproveComment();
 
-      string path = Utils.RelativeWebRoot + "themes/" + theme + "/CommentView.ascx";
+			  if (!string.IsNullOrEmpty(Request.QueryString["approveallcomments"]))
+				  ApproveAllComments();
+		  }
 
-      //Add approved Comments
-      foreach (Comment comment in Post.Comments)
-      {
-        CommentViewBase control = (CommentViewBase)LoadControl(path);
-        if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration)
-        {
-          control.Comment = comment;
-          control.Post = Post;
-          phComments.Controls.Add(control);
-        }
-      }
+		  string theme = BlogSettings.Instance.Theme;
+		  if (Request.QueryString["theme"] != null)
+			  theme = Request.QueryString["theme"];
 
-      //Add unapproved comments
-      foreach (Comment comment in Post.Comments)
-      {
-        CommentViewBase control = (CommentViewBase)LoadControl(path);
-
-        if (!comment.IsApproved && Page.User.Identity.IsAuthenticated)
-        {
-          control.Comment = comment;
-          control.Post = Post;
-          phComments.Controls.Add(control);
-        }
-      }
-
-      if (BlogSettings.Instance.IsCommentsEnabled)
-      {
-        if (!Post.IsCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
-           Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
-        {
-          phAddComment.Visible = false;
-          lbCommentsDisabled.Visible = true;
-        }
-
-        BindCountries();
-        GetCookie();
-				hfCaptcha.Value = Guid.NewGuid().ToString();
-      }
-      else
-      {
-        phAddComment.Visible = false;
-      }
-			//InititializeCaptcha();
-    }
+		  string path = Utils.RelativeWebRoot + "themes/" + theme + "/CommentView.ascx";
 
 
-		Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
+		  // test comment control for nesting placeholder (for backwards compatibility with older themes)
+		  bool nestingEnabled = false;
+		  CommentViewBase commentTester = (CommentViewBase)LoadControl(path);
+		  PlaceHolder phSubComments = commentTester.FindControl("phSubComments") as PlaceHolder;
+		  nestingEnabled = (phSubComments != null);
+
+		  if (BlogSettings.Instance.IsCommentNestingEnabled && nestingEnabled)
+		  {
+			  // newer, nested comments
+			  AddNestedComments(path, Post.NestedComments, phComments);
+		  }
+		  else
+		  {
+			  // old, non nested code
+
+			  //Add approved Comments
+			  foreach (Comment comment in Post.Comments)
+			  {
+				  CommentViewBase control = (CommentViewBase)LoadControl(path);
+				  if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration)
+				  {
+					  control.Comment = comment;
+					  control.Post = Post;
+					  phComments.Controls.Add(control);
+				  }
+			  }
+
+			  //Add unapproved comments
+			  foreach (Comment comment in Post.Comments)
+			  {
+				  CommentViewBase control = (CommentViewBase)LoadControl(path);
+
+				  if (!comment.IsApproved && Page.User.Identity.IsAuthenticated)
+				  {
+					  control.Comment = comment;
+					  control.Post = Post;
+					  phComments.Controls.Add(control);
+				  }
+			  }
+
+		  }
+
+
+		  if (BlogSettings.Instance.IsCommentsEnabled)
+		  {
+			  // bind all comments to the "reply to" area
+			  foreach (Comment comment in Post.Comments)
+			  {
+				  ddlReplyTo.Items.Add(new ListItem(Resources.labels.comment + " #" + (Post.Comments.IndexOf(comment) + 1).ToString() + ": " + comment.Author + " (" + comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString() + ")", comment.Id.ToString()));
+			  }
+			  ddlReplyTo.Items.Insert(0, new ListItem(Resources.labels.replyToBase, Guid.Empty.ToString()));
+
+			  if (!Post.IsCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
+				 Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
+			  {
+				  phAddComment.Visible = false;
+				  lbCommentsDisabled.Visible = true;
+			  }
+
+			  BindCountries();
+			  GetCookie();
+			  hfCaptcha.Value = Guid.NewGuid().ToString();
+		  }
+		  else
+		  {
+			  phAddComment.Visible = false;
+		  }
+		  //InititializeCaptcha();
+	  }
+
+
+	  Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
+  }
+
+  private void AddNestedComments(string path, List<Comment> nestedComments, PlaceHolder phComments)
+  {
+	  foreach (Comment comment in nestedComments)
+	  {
+		  CommentViewBase control = (CommentViewBase)LoadControl(path);
+		  if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration || (!comment.IsApproved && Page.User.Identity.IsAuthenticated))
+		  {
+			  control.Comment = comment;
+			  control.Post = Post;
+
+			  if (comment.Comments.Count > 0)
+			  {
+				// find the next placeholder and add the subcomments to it
+				  PlaceHolder phSubComments = control.FindControl("phSubComments") as PlaceHolder;
+				  if (phSubComments != null)
+				  {
+					  AddNestedComments(path, comment.Comments, phSubComments);
+				  }
+			  }
+
+			  phComments.Controls.Add(control);
+		  }
+	  }
   }
 
   private void ApproveComment()
@@ -219,6 +282,36 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         Response.Redirect(url, true);
       }
     }
+  }
+
+  private void DeleteCommentAndChildren()
+  {
+	  foreach (Comment comment in Post.Comments)
+	  {
+		  if (comment.Id == new Guid(Request.QueryString["deletecommentandchildren"]))
+		  {
+			  // collect comments to delete first so the Nesting isn't lost
+			  List<Comment> commentsToDelete = new List<Comment>();
+
+			  CollectCommentToDelete(comment, commentsToDelete);
+
+			  foreach (Comment commentToDelete in commentsToDelete)
+				  Post.RemoveComment(commentToDelete);
+
+			  int index = Request.RawUrl.IndexOf("?");
+			  string url = Request.RawUrl.Substring(0, index) + "#comment";
+			  Response.Redirect(url, true);
+		  }
+	  }
+  }
+
+
+  private void CollectCommentToDelete(Comment comment, List<Comment> commentsToDelete)
+  {
+	  commentsToDelete.Add(comment);
+	  // recursive collection
+	  foreach (Comment subComment in comment.Comments)
+		  CollectCommentToDelete(subComment, commentsToDelete);
   }
 
   /// <summary>

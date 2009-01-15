@@ -97,6 +97,29 @@ namespace BlogEngine.Core.Web.Controls
 		}
 
 		/// <summary>
+		/// Displays a link that lets a user reply to a specific comment
+		/// </summary>
+		protected string ReplyToLink
+		{
+			get
+			{
+				if (!BlogSettings.Instance.IsCommentsEnabled ||
+					!BlogSettings.Instance.IsCommentNestingEnabled ||
+					!Post.IsCommentsEnabled ||
+					(BlogSettings.Instance.DaysCommentsAreEnabled > 0 && Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
+				{
+					return "";
+				}
+				else
+				{
+					BlogBasePage page = (BlogBasePage)Page;
+					return "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"ReplyToComment('" + Comment.Id.ToString() + "');\">" + page.Translate("replyToThis") + "</a>";
+				}
+			}
+		}
+
+
+		/// <summary>
 		/// Displays a delete link to visitors that are authenticated
 		/// using the default membership provider.
 		/// </summary>
@@ -110,8 +133,20 @@ namespace BlogEngine.Core.Web.Controls
 					System.Text.StringBuilder sb = new System.Text.StringBuilder();
 					sb.AppendFormat(" | <a class=\"email\" href=\"mailto:{0}\">{0}</a>", Comment.Email);
 					sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
-					string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
-					sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
+
+					if (Comment.Comments.Count > 0)
+					{
+						string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
+						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("deleteKeepReplies"));
+
+						string confirmRepliesDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
+						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecommentandchildren={0}'\">{2}</a>", Comment.Id, confirmRepliesDelete, page.Translate("deletePlusReplies"));
+					}
+					else
+					{
+						string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
+						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
+					}
 
 					if (!Comment.IsApproved)
 					{
