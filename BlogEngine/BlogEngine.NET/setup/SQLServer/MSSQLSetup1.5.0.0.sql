@@ -1,4 +1,4 @@
-/****** BlogEngine.NET 1.4.5 SQL Setup Script ******/
+/****** BlogEngine.NET 1.5 SQL Setup Script ******/
 
 /****** Object:  Table [dbo].[be_Categories]    Script Date: 12/22/2007 14:14:54 ******/
 SET ANSI_NULLS ON
