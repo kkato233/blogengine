@@ -46,19 +46,19 @@ RegexOptions.Compiled
     /// new regex <p>\r\n<div class=\"code\">\n[code:c#]\r\n</p>\r\n
     /// <summary>
     /// old regex <p><div.*?>\[code:.*?\]</p>
-  private Regex codeBeginTagRegex = new Regex(@"(<p>\r\n<div class=""code"">\n\[code:.*?\](\s|)\r\n</p>\r\n|<p>\r\n<div class=""code"">\n\[code:.*?\](\s|)<br /><br /><br />)",
-    RegexOptions.Compiled
-    | RegexOptions.CultureInvariant
-    | RegexOptions.IgnoreCase
-    | RegexOptions.Singleline);
+    private Regex codeBeginTagRegex = new Regex(@"(<p>(?:\r\n)?<div class=""code"">\n\[code:.*?\](\s|)(?:\r\n)?</p>(?:\r\n)?|<p>(?:\r\n)?<div class=""code"">\n\[code:.*?\](\s|)<br /><br /><br />)",
+  RegexOptions.Compiled
+  | RegexOptions.CultureInvariant
+  | RegexOptions.IgnoreCase
+  | RegexOptions.Singleline);
     
     
     /// Old regex\[/code\]
-  private Regex codeEndTagRegex = new Regex(@"(<p>\r\n\[/code\]</div>(\s|)\r\n</p>\r\n|<br /><br /><br />\[/code\]</div>(\s|)\r\n</p>\r\n)",
-    RegexOptions.Compiled
-    | RegexOptions.CultureInvariant
-    | RegexOptions.IgnoreCase
-    | RegexOptions.Singleline); 
+    private Regex codeEndTagRegex = new Regex(@"(<p>(?:\r\n)?\[/code\]</div>(\s|)(?:\r\n)?</p>(?:\r\n)?|<br /><br /><br />\[/code\]</div>(\s|)(?:\r\n)?</p>(?:\r\n)?)",
+  RegexOptions.Compiled
+  | RegexOptions.CultureInvariant
+  | RegexOptions.IgnoreCase
+  | RegexOptions.Singleline);
 
     #endregion
     

@@ -21,7 +21,7 @@ public class Smilies
     Comment.Serving += new EventHandler<ServingEventArgs>(Post_CommentServing);
   }
 
-  private const string LINK = "<img src=\"{0}editors/tiny_mce/plugins/emotions/images/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
+  private const string LINK = "<img src=\"{0}editors/tiny_mce3/plugins/emotions/img/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
 
   /// <summary>
   /// The event handler that is triggered every time a comment is served to a client.
