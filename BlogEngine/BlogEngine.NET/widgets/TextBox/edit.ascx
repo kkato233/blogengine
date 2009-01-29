@@ -17,6 +17,7 @@
 		theme_advanced_toolbar_align: "left",
 		theme_advanced_statusbar_location: "bottom",
 		theme_advanced_resizing: true,
+		theme_advanced_source_editor_height: 425,
 		
 		tab_focus : ":prev,:next"
 	});
