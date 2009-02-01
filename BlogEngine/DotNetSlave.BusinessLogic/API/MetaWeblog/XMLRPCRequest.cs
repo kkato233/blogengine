@@ -358,12 +358,25 @@ namespace BlogEngine.Core.API.MetaWeblog
         }
         temp.categories = cats;
 
-        if (node.SelectSingleNode("value/struct/member[name='pubDate']") != null)
+        // postDate has a few different names to worry about
+        if (node.SelectSingleNode("value/struct/member[name='dateCreated']") != null)
+        {
+            try
+            {
+                string tempDate = node.SelectSingleNode("value/struct/member[name='dateCreated']").LastChild.InnerText;
+                temp.postDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+            }
+            catch
+            {
+                // Ignore PubDate Error
+            }
+        }
+        else if (node.SelectSingleNode("value/struct/member[name='pubDate']") != null)
         {
           try
           {
-            string tempDate = node.SelectSingleNode("value/struct/member[name='pubDate']").LastChild.InnerText;
-            temp.postDate = DateTime.ParseExact(tempDate, "yyyyMMdd'T'HH':'mm':'ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+            string tempPubDate = node.SelectSingleNode("value/struct/member[name='pubDate']").LastChild.InnerText;
+            temp.postDate = DateTime.ParseExact(tempPubDate, "yyyyMMdd'T'HH':'mm':'ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
           }
           catch
           {
