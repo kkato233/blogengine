@@ -94,22 +94,18 @@ function ReplyToComment(id) {
 		base.appendChild(commentForm);
 	} else {
 		// move to nested position
-		var pComment = $('id_' + id);
-		// check for "sub-comments" classed div
-		var sub = null;
-		for (var i=0; i<pComment.childNodes.length;i++) {
-			if (pComment.childNodes[i].className == 'sub-comments') {
-				sub = pComment.childNodes[i];
-				break;
-			}
+		var parentComment = $('id_' + id);
+		var replies = $('replies_' + id);
+		
+		// add if necessary
+		if (replies == null) {
+			replies = document.createElement('div');
+			replies.className = 'comment-replies';
+			replies.setAttribute('id') = 'replies_' + id;
+			parentComment.appendChild(replies);
 		}
-		if (sub == null) {
-			sub = document.createElement('div');
-			sub.className = 'sub-comments';
-			pComment.appendChild(sub);
-		}
-			
-		sub.appendChild(commentForm);		
+		replies.style.display = '';	
+		replies.appendChild(commentForm);		
 	}
 	
 	nameBox.focus();	 
@@ -129,19 +125,9 @@ function AppendComment(args, context)
 			if (replyToDropDown.selectedIndex > 0)
 				id = replyToDropDown.options[replyToDropDown.selectedIndex].value;
 				
-		if (id != '') {
-			// grab the comment
-			var c = $('id_' + replyToDropDown.options[replyToDropDown.selectedIndex].value);
-			// find the sub area
-			var sub = null;
-			for (var i=0; i<c.childNodes.length;i++) {
-				if (c.childNodes[i].className == 'sub-comments') {
-					sub = c.childNodes[i];
-					break;
-				}
-			}				
-			sub.innerHTML += args;
-		 
+		if (id != '') {			
+			var replies = $('replies_' + id);
+			replies.innerHTML += args;		 
 		} else {
 			commentList.innerHTML += args;
 			commentList.style.display = 'block';	
@@ -150,6 +136,7 @@ function AppendComment(args, context)
 		
 		// reset form values
 		contentBox.value = "";
+		contentBox = $(contentBox.id); // hack?
 		$("ajaxLoader").style.display = "none";
 		$("status").className = "success";
 

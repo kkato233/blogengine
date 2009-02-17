@@ -183,10 +183,15 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
 			if (BlogSettings.Instance.IsCommentsEnabled)
 			{
+				int commentIndex = 0;
 				// bind all comments to the "reply to" list
 				foreach (Comment comment in Post.Comments)
 				{
-					ddlReplyTo.Items.Add(new ListItem(Resources.labels.comment + " #" + (Post.Comments.IndexOf(comment) + 1).ToString() + ": " + comment.Author + " (" + comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString() + ")", comment.Id.ToString()));
+					if (comment.IsApproved)
+					{
+						commentIndex++;
+						ddlReplyTo.Items.Add(new ListItem(Resources.labels.comment + " #" + commentIndex.ToString() + ": " + comment.Author + " (" + comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString() + ")", comment.Id.ToString()));
+					}
 				}
 				ddlReplyTo.Items.Insert(0, new ListItem(Resources.labels.replyToBase, Guid.Empty.ToString()));
 
