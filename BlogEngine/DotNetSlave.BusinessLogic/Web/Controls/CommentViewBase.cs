@@ -106,6 +106,7 @@ namespace BlogEngine.Core.Web.Controls
 				if (!BlogSettings.Instance.IsCommentsEnabled ||
 					!BlogSettings.Instance.IsCommentNestingEnabled ||
 					!Post.IsCommentsEnabled ||
+					!Comment.IsApproved ||
 					(BlogSettings.Instance.DaysCommentsAreEnabled > 0 && Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
 				{
 					return "";
