@@ -1,533 +1,565 @@
-﻿function $(id)
-{
-	return document.getElementById(id);
-}
-
-function SetFlag(iso)
-{
-	if (iso.length > 0)
-		flagImage.src = KEYwebRoot + "pics/flags/" + iso + ".png";
-	else
-		flagImage.src = KEYwebRoot + "pics/pixel.gif";
-}
-
-// Shows the preview of the comment
-function ToggleCommentMenu(element)
-{
-	element.className = 'selected';
-	if (element.id == 'preview')
+﻿// global object
+BlogEngine = {		
+	$: function(id)
 	{
-		$('compose').className = '';
-		$('commentCompose').style.display = 'none';
-		$('commentPreview').style.display = 'block';
-		$('commentPreview').innerHTML = '<img src="' + KEYwebRoot + 'pics/ajax-loader.gif" alt="Loading" />';
-		var argument = $('commentPreview').innerHTML;
-		AddComment(true);
+		return document.getElementById(id);
+	}	
+	,
+	webRoot: '',
+	// internationalization (injected into the <head> by BlogBasePage)
+	i18n : {
+		hasRated:'',	
+		savingTheComment:'',
+		comments:'',
+		commentWasSaved:'',
+		commentWaitingModeration:'',
+		cancel:'',
+		filter:'',
+		apmlDescription:''
 	}
-	else
+	,
+	setFlag: function(iso)
 	{
-		$('preview').className = '';
-		$('commentPreview').style.display = 'none';
-		$('commentCompose').style.display = 'block';
-	}
-}
-
-function EndShowPreview(arg, context)
-{
-	$('commentPreview').innerHTML = arg;
-}
-
-function AddComment(preview)
-{
-	var isPreview = preview == true;
-	if (!isPreview)
-	{
-		$("btnSaveAjax").disabled = true;
-		$("ajaxLoader").style.display = "inline";
-		$("status").className = "";
-		$("status").innerHTML = KEYsavingTheComment;
-	}
-
-	var author = nameBox.value;
-	var email = emailBox.value;
-	var website = websiteBox.value;
-	var country = countryDropDown ? countryDropDown.value : "";
-	var content = contentBox.value;
-	var notify = $("cbNotify").checked;
-	var captcha = captchaField.value;
-	var replyToId = replyToDropDown ? replyToDropDown.value : "";
-
-	var callback = isPreview ? EndShowPreview : AppendComment;
-	var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
-
-	WebForm_DoCallback('ctl00$cphBody$CommentView1', argument, callback, 'comment', null, false);
-
-	if (!isPreview && typeof OnComment != "undefined")
-		OnComment(author, email, website, country, content);
-}
-
-function ReplyToComment(id) {
-	var found = false;
-	for (var i=0; i<replyToDropDown.options.length; i++) {
-		if (replyToDropDown.options[i].value == id) {
-			replyToDropDown.selectedIndex = i;
-			found = true;
-			break;
-		}			
-	}
-	// if this is a reply to a reply in the same session, we have to insert the new ID into the list
-	if (!found) {
-		var newcomment = new Option("New Comment", id);
-		try {
-			replyToDropDown.add(newcomment, null);
-		} catch (e) {
-			replyToDropDown.add(newcomment); // IE version
-		}
-		replyToDropDown.selectedIndex = replyToDropDown.options.length-1;
-	}
-	
-	// move comment form into position
-	var commentForm = $('comment-form');	
-	if (!id || id == '' || id == null || id == '00000000-0000-0000-0000-000000000000') {
-		// move to after comment list
-		var base = $("commentlist");	
-		base.appendChild(commentForm);
-	} else {
-		// move to nested position
-		var parentComment = $('id_' + id);
-		var replies = $('replies_' + id);
-		
-		// add if necessary
-		if (replies == null) {
-			replies = document.createElement('div');
-			replies.className = 'comment-replies';
-			replies.setAttribute('id') = 'replies_' + id;
-			parentComment.appendChild(replies);
-		}
-		replies.style.display = '';	
-		replies.appendChild(commentForm);		
-	}
-	
-	nameBox.focus();	 
-}
-
-function AppendComment(args, context)
-{
-	if (context == "comment")
-	{
-		var commentList = $("commentlist");
-		if (commentList.innerHTML.length < 10)
-			commentList.innerHTML = "<h1 id='comment'>" + KEYcomments + "</h1>"
-	
-		// add comment html to the right place
-		var id = '';
-		if (replyToDropDown)
-			if (replyToDropDown.selectedIndex > 0)
-				id = replyToDropDown.options[replyToDropDown.selectedIndex].value;
-				
-		if (id != '') {			
-			var replies = $('replies_' + id);
-			replies.innerHTML += args;		 
-		} else {
-			commentList.innerHTML += args;
-			commentList.style.display = 'block';	
-		}		
-
-		
-		// reset form values
-		contentBox.value = "";
-		contentBox = $(contentBox.id); // hack?
-		$("ajaxLoader").style.display = "none";
-		$("status").className = "success";
-
-		if (!moderation)
-			$("status").innerHTML = KEYcommentWasSaved;
+		if (iso.length > 0)
+			BlogEngine.comments.flagImage.src = BlogEngine.webRoot + "pics/flags/" + iso + ".png";
 		else
-			$("status").innerHTML = KEYcommentWaitingModeration;
+			BlogEngine.comments.flagImage.src = BlogEngine.webRoot + "pics/pixel.gif";
+	}
+	,	
 
-		var composeTab = $("compose");
-		if (composeTab)
+	// Shows the preview of the comment
+	showCommentPreview: function()
+	{		
+		this.$('preview').className = 'selected';
+		this.$('compose').className = '';
+		this.$('commentCompose').style.display = 'none';
+		this.$('commentPreview').style.display = 'block';
+		this.$('commentPreview').innerHTML = '<img src="' + BlogEngine.webRoot + 'pics/ajax-loader.gif" alt="Loading" />';
+		var argument = this.$('commentPreview').innerHTML;
+		this.addComment(true);
+	}
+	,
+	composeComment: function() {	
+		this.$('preview').className = '';
+		this.$('compose').className = 'selected';
+		this.$('commentPreview').style.display = 'none';
+		this.$('commentCompose').style.display = 'block';	
+	}
+	,
+	endShowPreview: function(arg, context)
+	{
+		BlogEngine.$('commentPreview').innerHTML = arg;
+	}
+	,
+	addComment: function(preview)
+	{
+		var isPreview = preview == true;
+		if (!isPreview)
 		{
-			ToggleCommentMenu(composeTab);
+			this.$("btnSaveAjax").disabled = true;
+			this.$("ajaxLoader").style.display = "inline";
+			this.$("status").className = "";
+			this.$("status").innerHTML = BlogEngine.i18n.savingTheComment;
+		}
+
+		var author = BlogEngine.comments.nameBox.value;
+		var email = BlogEngine.comments.emailBox.value;
+		var website = BlogEngine.comments.websiteBox.value;
+		var country = BlogEngine.comments.countryDropDown ? BlogEngine.comments.countryDropDown.value : "";
+		var content = BlogEngine.comments.contentBox.value;
+		var notify = BlogEngine.$("cbNotify").checked;
+		var captcha = BlogEngine.comments.captchaField.value;
+		var replyToId = BlogEngine.comments.replyToDropDown ? BlogEngine.comments.replyToDropDown.value : "";
+
+		var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
+		var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
+
+		WebForm_DoCallback('ctl00$cphBody$CommentView1', argument, callback, 'comment', null, false);
+
+		if (!isPreview && typeof(OnComment) != "undefined")
+			OnComment(author, email, website, country, content);
+	}
+	,
+	replyToComment: function(id) {
+		var found = false;
+		for (var i=0; i<BlogEngine.comments.replyToDropDown.options.length; i++) {
+			if (BlogEngine.comments.replyToDropDown.options[i].value == id) {
+				BlogEngine.comments.replyToDropDown.selectedIndex = i;
+				found = true;
+				break;
+			}			
+		}
+		// if this is a reply to a reply in the same session, we have to insert the new ID into the list
+		if (!found) {
+			var newcomment = new Option("New Comment", id);
+			try {
+				BlogEngine.comments.replyToDropDown.add(newcomment, null);
+			} catch (e) {
+				BlogEngine.comments.replyToDropDown.add(newcomment); // IE version
+			}
+			BlogEngine.comments.replyToDropDown.selectedIndex = BlogEngine.comments.replyToDropDown.options.length-1;
 		}
 		
-		// move form back to bottom
-		var commentForm = $('comment-form');
-		commentList.appendChild(commentForm);
-		// reset list
-		if (replyToDropDown)
-			replyToDropDown.selectedIndex = 0;		
-	}
-
-	$("btnSaveAjax").disabled = false;
-}
-
-function CheckAuthorName(sender, args)
-{
-	args.IsValid = true;
-
-	if (checkName)
-	{
-		var author = postAuthor;
-		var visitor = nameBox.value;
-		args.IsValid = !Equal(author, visitor);
-	}
-}
-
-function AddBbCode(v)
-{
-	try
-	{
-		if (contentBox.selectionStart) // firefox
-		{
-			var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
-			var therest = contentBox.value.substr(contentBox.selectionEnd);
-			var sel = contentBox.value.substring(contentBox.selectionStart, contentBox.selectionEnd);
-			contentBox.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
-			contentBox.focus();
+		// move comment form into position
+		var commentForm = BlogEngine.$('comment-form');	
+		if (!id || id == '' || id == null || id == '00000000-0000-0000-0000-000000000000') {
+			// move to after comment list
+			var base = BlogEngine.$("commentlist");	
+			base.appendChild(commentForm);
+		} else {
+			// move to nested position
+			var parentComment = BlogEngine.$('id_' + id);
+			var replies = BlogEngine.$('replies_' + id);
+			
+			// add if necessary
+			if (replies == null) {
+				replies = document.createElement('div');
+				replies.className = 'comment-replies';
+				replies.setAttribute('id') = 'replies_' + id;
+				parentComment.appendChild(replies);
+			}
+			replies.style.display = '';	
+			replies.appendChild(commentForm);		
 		}
-		else if (document.selection && document.selection.createRange) // IE
+		
+		BlogEngine.comments.nameBox.focus();	 
+	}
+	,
+	appendComment: function (args, context)
+	{
+		if (context == "comment")
 		{
-			var str = document.selection.createRange().text;
-			contentBox.focus();
-			var sel = document.selection.createRange();
-			sel.text = "[" + v + "]" + str + "[/" + v + "]";
+			var commentList = BlogEngine.$("commentlist");
+			if (commentList.innerHTML.length < 10)
+				commentList.innerHTML = "<h1 id='comment'>" + BlogEngine.i18n.comments + "</h1>"
+		
+			// add comment html to the right place
+			var id = '';
+			if (BlogEngine.comments.replyToDropDown)
+				if (BlogEngine.comments.replyToDropDown.selectedIndex > 0)
+					id = BlogEngine.comments.replyToDropDown.options[BlogEngine.comments.replyToDropDown.selectedIndex].value;
+					
+			if (id != '') {			
+				var replies = BlogEngine.$('replies_' + id);
+				replies.innerHTML += args;		 
+			} else {
+				commentList.innerHTML += args;
+				commentList.style.display = 'block';	
+			}		
+
+			
+			// reset form values
+			BlogEngine.comments.contentBox.value = "";
+			BlogEngine.comments.contentBox = BlogEngine.$(BlogEngine.comments.contentBox.id);
+			BlogEngine.$("ajaxLoader").style.display = "none";
+			BlogEngine.$("status").className = "success";
+
+			if (!BlogEngine.comments.moderation)
+				BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWasSaved;
+			else
+				BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWaitingModeration;
+
+			BlogEngine.composeComment();	
+			
+			// move form back to bottom
+			var commentForm = BlogEngine.$('comment-form');
+			commentList.appendChild(commentForm);
+			// reset list
+			if (BlogEngine.comments.replyToDropDown)
+				BlogEngine.comments.replyToDropDown.selectedIndex = 0;		
+		}
+
+		BlogEngine.$("btnSaveAjax").disabled = false;
+	}
+	,
+	checkAuthorName: function (sender, args)
+	{
+		args.IsValid = true;
+
+		if (BlogEngine.comments.checkName)
+		{
+			var author = BlogEngine.comments.postAuthor;
+			var visitor = BlogEngine.comments.nameBox.value;
+			args.IsValid = !this.equal(author, visitor);
 		}
 	}
-	catch (ex) { }
-
-	return;
-}
-
-// Searches the blog based on the entered text and
-// searches comments as well if chosen.
-function Search(root)
-{
-	var input = $("searchfield");
-	var check = $("searchcomments");
-
-	var search = "search.aspx?q=" + encodeURIComponent(input.value);
-	if (check != null && check.checked)
-		search += "&comment=true";
-
-	top.location.href = root + search;
-
-	return false;
-}
-
-// Clears the search fields on focus.
-function SearchClear(defaultText)
-{
-	var input = $("searchfield");
-	if (input.value == defaultText)
-		input.value = "";
-	else if (input.value == "")
-		input.value = defaultText;
-}
-
-function Rate(id, rating)
-{
-	CreateCallback("rating.axd?id=" + id + "&rating=" + rating, RatingCallback);
-}
-
-function RatingCallback(response)
-{
-	var rating = response.substring(0, 1);
-	var status = response.substring(1);
-
-	if (status == "OK")
-	{
-		if (typeof OnRating != "undefined")
-			OnRating(rating);
-
-		alert("Your rating has been registered. Thank you!");
-	}
-	else if (status == "HASRATED")
-	{
-		alert(KEYhasRated);
-	}
-	else
-	{
-		alert("An error occured while registering your rating. Please try again");
-	}
-}
-
-/// <summary>
-/// Creates a client callback back to the requesting page
-/// and calls the callback method with the response as parameter.
-/// </summary>
-function CreateCallback(url, callback)
-{
-	var http = GetHttpObject();
-	http.open("GET", url, true);
-
-	http.onreadystatechange = function()
-	{
-		if (http.readyState == 4)
-		{
-			if (http.responseText.length > 0 && callback != null)
-				callback(http.responseText);
-		}
-	};
-
-	http.send(null);
-}
-
-/// <summary>
-/// Creates a XmlHttpRequest object.
-/// </summary>
-function GetHttpObject()
-{
-	if (typeof XMLHttpRequest != 'undefined')
-		return new XMLHttpRequest();
-
-	try
-	{
-		return new ActiveXObject("Msxml2.XMLHTTP");
-	}
-	catch (e)
+	,
+	addBbCode: function(v)
 	{
 		try
 		{
-			return new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		catch (e) { }
-	}
-
-	return false;
-}
-
-// Updates the calendar from client-callback
-function UpdateCalendar(args, context)
-{
-	var cal = $('calendarContainer');
-	cal.innerHTML = args;
-	months[context] = args;
-}
-
-function ToggleMonth(year)
-{
-	var monthList = $("monthList");
-	var years = monthList.getElementsByTagName("ul");
-	for (i = 0; i < years.length; i++)
-	{
-		if (years[i].id == year)
-		{
-			var state = years[i].className == "open" ? "" : "open";
-			years[i].className = state;
-			break;
-		}
-	}
-}
-
-// Adds a trim method to all strings.
-function Equal(first, second)
-{
-	var f = first.toLowerCase().replace(new RegExp(' ', 'gi'), '');
-	var s = second.toLowerCase().replace(new RegExp(' ', 'gi'), '');
-	return f == s;
-}
-
-/*-----------------------------------------------------------------------------
-XFN HIGHLIGHTER
------------------------------------------------------------------------------*/
-var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
-						            , 'co-worker', 'colleague', 'co-resident'
-						            , 'neighbor', 'child', 'parent', 'sibling'
-						            , 'spouse', 'kin', 'muse', 'crush', 'date'
-						            , 'sweetheart', 'me'];
-
-// Applies the XFN tags of a link to the title tag
-function HightLightXfn()
-{
-	var content = $('content');
-	if (content == null)
-		return;
-
-	var links = content.getElementsByTagName('a')
-	for (i = 0; i < links.length; i++)
-	{
-		var link = links[i];
-		var rel = link.getAttribute('rel');
-		if (rel && rel != "nofollow")
-		{
-			for (j = 0; j < xfnRelationships.length; j++)
+			var contentBox = BlogEngine.comments.contentBox;
+			if (contentBox.selectionStart) // firefox
 			{
-				if (rel.indexOf(xfnRelationships[j]) > -1)
+				var pretxt = contentBox.value.substring(0, contentBox.selectionStart);
+				var therest = contentBox.value.substr(contentBox.selectionEnd);
+				var sel = contentBox.value.substring(contentBox.selectionStart, contentBox.selectionEnd);
+				contentBox.value = pretxt + "[" + v + "]" + sel + "[/" + v + "]" + therest;
+				contentBox.focus();
+			}
+			else if (document.selection && document.selection.createRange) // IE
+			{
+				var str = document.selection.createRange().text;
+				contentBox.focus();
+				var sel = document.selection.createRange();
+				sel.text = "[" + v + "]" + str + "[/" + v + "]";
+			}
+		}
+		catch (ex) { }
+
+		return;
+	}
+	,
+	// Searches the blog based on the entered text and
+	// searches comments as well if chosen.
+	search: function(root)
+	{
+		var input = this.$("searchfield");
+		var check = this.$("searchcomments");
+
+		var search = "search.aspx?q=" + encodeURIComponent(input.value);
+		if (check != null && check.checked)
+			search += "&comment=true";
+
+		top.location.href = root + search;
+
+		return false;
+	}
+	,
+	// Clears the search fields on focus.
+	searchClear: function(defaultText)
+	{
+		var input = this.$("searchfield");
+		if (input.value == defaultText)
+			input.value = "";
+		else if (input.value == "")
+			input.value = defaultText;
+	}
+	,
+	rate: function(id, rating)
+	{
+		this.createCallback("rating.axd?id=" + id + "&rating=" + rating, BlogEngine.ratingCallback);
+	}
+	,
+	ratingCallback: function(response)
+	{
+		var rating = response.substring(0, 1);
+		var status = response.substring(1);
+
+		if (status == "OK")
+		{
+			if (typeof OnRating != "undefined")
+				OnRating(rating);
+
+			alert("Your rating has been registered. Thank you!");
+		}
+		else if (status == "HASRATED")
+		{
+			alert(BlogEngine.i18n.hasRated);
+		}
+		else
+		{
+			alert("An error occured while registering your rating. Please try again");
+		}
+	}
+	,
+	/// <summary>
+	/// Creates a client callback back to the requesting page
+	/// and calls the callback method with the response as parameter.
+	/// </summary>
+	createCallback: function (url, callback)
+	{
+		var http = BlogEngine.getHttpObject();
+		http.open("GET", url, true);
+
+		http.onreadystatechange = function()
+		{
+			if (http.readyState == 4)
+			{
+				if (http.responseText.length > 0 && callback != null)
+					callback(http.responseText);
+			}
+		};
+
+		http.send(null);
+	}
+	,
+	/// <summary>
+	/// Creates a XmlHttpRequest object.
+	/// </summary>
+	getHttpObject: function()
+	{
+		if (typeof XMLHttpRequest != 'undefined')
+			return new XMLHttpRequest();
+
+		try
+		{
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e)
+		{
+			try
+			{
+				return new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			catch (e) { }
+		}
+
+		return false;
+	}
+	,
+	// Updates the calendar from client-callback
+	updateCalendar: function(args, context)
+	{
+		var cal = BlogEngine.$('calendarContainer');
+		cal.innerHTML = args;
+		months[context] = args;
+	}
+	,
+	toggleMonth: function(year)
+	{
+		var monthList = BlogEngine.$("monthList");
+		var years = monthList.getElementsByTagName("ul");
+		for (i = 0; i < years.length; i++)
+		{
+			if (years[i].id == year)
+			{
+				var state = years[i].className == "open" ? "" : "open";
+				years[i].className = state;
+				break;
+			}
+		}
+	}
+	,
+	// Adds a trim method to all strings.
+	equal: function (first, second)
+	{
+		var f = first.toLowerCase().replace(new RegExp(' ', 'gi'), '');
+		var s = second.toLowerCase().replace(new RegExp(' ', 'gi'), '');
+		return f == s;
+	}
+	,
+	/*-----------------------------------------------------------------------------
+	XFN HIGHLIGHTER
+	-----------------------------------------------------------------------------*/
+	xfnRelationships: ['friend', 'acquaintance', 'contact', 'met'
+										, 'co-worker', 'colleague', 'co-resident'
+										, 'neighbor', 'child', 'parent', 'sibling'
+										, 'spouse', 'kin', 'muse', 'crush', 'date'
+										, 'sweetheart', 'me']
+	,
+	// Applies the XFN tags of a link to the title tag
+	hightLightXfn: function()
+	{
+		var content = BlogEngine.$('content');
+		if (content == null)
+			return;
+
+		var links = content.getElementsByTagName('a');
+		for (i = 0; i < links.length; i++)
+		{
+			var link = links[i];
+			var rel = link.getAttribute('rel');
+			if (rel && rel != "nofollow")
+			{
+				for (j = 0; j < BlogEngine.xfnRelationships.length; j++)
 				{
-					link.title = 'XFN relationship: ' + rel;
-					break;
+					if (rel.indexOf(BlogEngine.xfnRelationships[j]) > -1)
+					{
+						link.title = 'XFN relationship: ' + rel;
+						break;
+					}
 				}
 			}
 		}
 	}
-}
-
-function showRating(id, raters, rating)
-{
-	var div = document.createElement('div');
-	div.className = 'rating';
-
-	var p = document.createElement('p');
-	div.appendChild(p);
-	if (raters == 0)
+	,
+	showRating: function(id, raters, rating)
 	{
-		p.innerHTML = 'Be the first to rate this post';
-	}
-	else
-	{
-		p.innerHTML = 'Currently rated ' + Math.round(rating) + ' by ' + raters + ' people';
-	}
+		var div = document.createElement('div');
+		div.className = 'rating';
 
-	var ul = document.createElement('ul');
-	ul.className = 'star-rating small-star';
-	div.appendChild(ul);
-	
-	var li = document.createElement('li');
-	li.className = 'current-rating';
-	li.style.width = Math.round(rating * 20) + '%';
-	li.innerHTML = 'Currently ' + raters + '/5 Stars.';
-	ul.appendChild(li);
-
-	for (var i = 1; i <= 5; i++)
-	{
-		var l = document.createElement('li');
-		var a = document.createElement('a');
-		a.innerHTML = i;
-		a.href = 'rate/' + i;
-		a.className = englishNumber(i);
-		a.onclick = function()
+		var p = document.createElement('p');
+		div.appendChild(p);
+		if (raters == 0)
 		{
-			Rate(id, this.innerHTML);
-			return false;
-		};
-
-		l.appendChild(a);
-		ul.appendChild(l);
-	}
-
-	$('rating_' + id).appendChild(div);
-}
-
-function englishNumber(number)
-{
-	if (number == 1)
-		return 'one-star';
-
-	if (number == 2)
-		return 'two-stars';
-
-	if (number == 3)
-		return 'three-stars';
-
-	if (number == 4)
-		return 'four-stars';
-
-	return 'five-stars';
-}
-
-// Adds event to window.onload without overwriting currently assigned onload functions.
-// Function found at Simon Willison's weblog - http://simon.incutio.com/
-function addLoadEvent(func)
-{
-	var oldonload = window.onload;
-	if (typeof window.onload != 'function')
-	{
-		window.onload = func;
-	}
-	else
-	{
-		window.onload = function()
+			p.innerHTML = 'Be the first to rate this post';
+		}
+		else
 		{
-			oldonload();
-			func();
+			p.innerHTML = 'Currently rated ' + Math.round(rating) + ' by ' + raters + ' people';
+		}
+
+		var ul = document.createElement('ul');
+		ul.className = 'star-rating small-star';
+		div.appendChild(ul);
+		
+		var li = document.createElement('li');
+		li.className = 'current-rating';
+		li.style.width = Math.round(rating * 20) + '%';
+		li.innerHTML = 'Currently ' + raters + '/5 Stars.';
+		ul.appendChild(li);
+
+		for (var i = 1; i <= 5; i++)
+		{
+			var l = document.createElement('li');
+			var a = document.createElement('a');
+			a.innerHTML = i;
+			a.href = 'rate/' + i;
+			a.className = this.englishNumber(i);
+			a.onclick = function()
+			{
+				Rate(id, this.innerHTML);
+				return false;
+			};
+
+			l.appendChild(a);
+			ul.appendChild(l);
+		}
+
+		this.$('rating_' + id).appendChild(div);
+	}
+	,
+	englishNumber: function(number)
+	{
+		if (number == 1)
+			return 'one-star';
+
+		if (number == 2)
+			return 'two-stars';
+
+		if (number == 3)
+			return 'three-stars';
+
+		if (number == 4)
+			return 'four-stars';
+
+		return 'five-stars';
+	}
+	,
+	// Adds event to window.onload without overwriting currently assigned onload functions.
+	// Function found at Simon Willison's weblog - http://simon.incutio.com/
+	addLoadEvent: function (func)
+	{
+		var oldonload = window.onload;
+		if (typeof window.onload != 'function')
+		{
+			window.onload = func;
+		}
+		else
+		{
+			window.onload = function()
+			{
+				oldonload();
+				func();
+			}
 		}
 	}
-}
-
-function filterByAPML()
-{
-	var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
-	var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
-	document.body.style.position = 'static';
-
-	var layer = document.createElement('div');
-	layer.style.zIndex = 2;
-	layer.id = 'layer';
-	layer.style.position = 'absolute';
-	layer.style.top = '0px';
-	layer.style.left = '0px';
-	layer.style.height = document.documentElement.scrollHeight + 'px';
-	layer.style.width = width + 'px';
-	layer.style.backgroundColor = 'black';
-	layer.style.opacity = '.6';
-	layer.style.filter += ("progid:DXImageTransform.Microsoft.Alpha(opacity=60)");
-	document.body.appendChild(layer);
-
-	var div = document.createElement('div');
-	div.style.zIndex = 3;
-	div.id = 'apmlfilter';
-	div.style.position = (navigator.userAgent.indexOf('MSIE 6') > -1) ? 'absolute' : 'fixed';
-	div.style.top = '200px';
-	div.style.left = (width / 2) - (400 / 2) + 'px';
-	div.style.height = '50px';
-	div.style.width = '400px';
-	div.style.backgroundColor = 'white';
-	div.style.border = '2px solid silver';
-	div.style.padding = '20px';
-	document.body.appendChild(div);
-
-	var p = document.createElement('p');
-	p.innerHTML = KEYapmlDescription;
-	p.style.margin = '0px';
-	div.appendChild(p);
-
-	var form = document.createElement('form');
-	form.method = 'get';
-	form.style.display = 'inline';
-	form.action = KEYwebRoot;
-	div.appendChild(form);
-
-	var textbox = document.createElement('input');
-	textbox.type = 'text';
-	textbox.value = getCookieValue('url') || 'http://',
-  textbox.style.width = '320px';
-	textbox.id = 'txtapml';
-	textbox.name = 'apml';
-	textbox.style.background = 'url(' + KEYwebRoot + 'pics/apml.png) no-repeat 2px center';
-	textbox.style.paddingLeft = '16px';
-	form.appendChild(textbox);
-	textbox.focus();
-
-	var button = document.createElement('input');
-	button.type = 'submit';
-	button.value = KEYfilter;
-	button.onclick = function() { location.href = KEYwebRoot + '?apml=' + encodeURIComponent($('txtapml').value) };
-	form.appendChild(button);
-
-	var br = document.createElement('br');
-	div.appendChild(br);
-
-	var a = document.createElement('a');
-	a.innerHTML = KEYcancel;
-	a.href = 'javascript:void(0)';
-	a.onclick = function() { document.body.removeChild($('layer')); document.body.removeChild($('apmlfilter')); document.body.style.position = ''; };
-	div.appendChild(a);
-}
-
-function getCookieValue(name)
-{
-	var cookie = new String(document.cookie);
-
-	if (cookie != null && cookie.indexOf('comment=') > -1)
+	,
+	filterByAPML: function ()
 	{
-		var start = cookie.indexOf(name + '=') + name.length + 1;
-		var end = cookie.indexOf('&', start);
-		if (end > start && start > -1)
-			return cookie.substring(start, end);
+		var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
+		var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
+		document.body.style.position = 'static';
+
+		var layer = document.createElement('div');
+		layer.style.zIndex = 2;
+		layer.id = 'layer';
+		layer.style.position = 'absolute';
+		layer.style.top = '0px';
+		layer.style.left = '0px';
+		layer.style.height = document.documentElement.scrollHeight + 'px';
+		layer.style.width = width + 'px';
+		layer.style.backgroundColor = 'black';
+		layer.style.opacity = '.6';
+		layer.style.filter += ("progid:DXImageTransform.Microsoft.Alpha(opacity=60)");
+		document.body.appendChild(layer);
+
+		var div = document.createElement('div');
+		div.style.zIndex = 3;
+		div.id = 'apmlfilter';
+		div.style.position = (navigator.userAgent.indexOf('MSIE 6') > -1) ? 'absolute' : 'fixed';
+		div.style.top = '200px';
+		div.style.left = (width / 2) - (400 / 2) + 'px';
+		div.style.height = '50px';
+		div.style.width = '400px';
+		div.style.backgroundColor = 'white';
+		div.style.border = '2px solid silver';
+		div.style.padding = '20px';
+		document.body.appendChild(div);
+
+		var p = document.createElement('p');
+		p.innerHTML = BlogEngine.i18n.apmlDescription;
+		p.style.margin = '0px';
+		div.appendChild(p);
+
+		var form = document.createElement('form');
+		form.method = 'get';
+		form.style.display = 'inline';
+		form.action = BlogEngine.webRoot;
+		div.appendChild(form);
+
+		var textbox = document.createElement('input');
+		textbox.type = 'text';
+		textbox.value = BlogEngine.getCookieValue('url') || 'http://';
+		textbox.style.width = '320px';
+		textbox.id = 'txtapml';
+		textbox.name = 'apml';
+		textbox.style.background = 'url(' + BlogEngine.webRoot + 'pics/apml.png) no-repeat 2px center';
+		textbox.style.paddingLeft = '16px';
+		form.appendChild(textbox);
+		textbox.focus();
+
+		var button = document.createElement('input');
+		button.type = 'submit';
+		button.value = BlogEngine.i18n.filter;
+		button.onclick = function() { location.href = BlogEngine.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value) };
+		form.appendChild(button);
+
+		var br = document.createElement('br');
+		div.appendChild(br);
+
+		var a = document.createElement('a');
+		a.innerHTML = BlogEngine.i18n.cancel;
+		a.href = 'javascript:void(0)';
+		a.onclick = function() { document.body.removeChild(this.$('layer')); document.body.removeChild(this.$('apmlfilter')); document.body.style.position = ''; };
+		div.appendChild(a);
 	}
+	,
+	getCookieValue: function(name)
+	{
+		var cookie = new String(document.cookie);
 
-	return null;
-}
+		if (cookie != null && cookie.indexOf('comment=') > -1)
+		{
+			var start = cookie.indexOf(name + '=') + name.length + 1;
+			var end = cookie.indexOf('&', start);
+			if (end > start && start > -1)
+				return cookie.substring(start, end);
+		}
 
-addLoadEvent(HightLightXfn);
+		return null;
+	}
+	,
+	comments: {
+		flagImage:null,
+		contentBox:null,
+		moderation:null,
+		checkName:null,
+		postAuthor:null,
+		nameBox:null,
+		emailBox:null,
+		websiteBox:null,
+		countryDropDown:null,
+		captchaField:null,
+		controlId:null,
+		replyToDropDown:null
+	}
+};
+
+BlogEngine.addLoadEvent(BlogEngine.hightLightXfn);
+
+// add this to global if it doesn't exist yet
+if (typeof($) == 'undefined')
+	window.$ = BlogEngine.$;
+	

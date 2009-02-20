@@ -10,18 +10,19 @@
   </div>
   
   <script type="text/javascript">
-  var apml_url = '<asp:literal runat="server" id="ltWebsite" />';
-  CreateCallback(KEYwebRoot + 'widgets/visitor info/apmlchecker.ashx?url=' + apml_url , endGetApml);
+var apml_url = '<asp:literal runat="server" id="ltWebsite" />';
+BlogEngine.createCallback(BlogEngine.webRoot + 'widgets/visitor info/apmlchecker.ashx?url=' + apml_url, 
+function(response) 
+{
+	if (response.length > 10)
+	{
+		var text = 'I can see you have an APML file at <a href=\"'+apml_url+'">'+apml_url+'</a>. ';
+		text += 'Do you wish to filter the content of this blog based on your APML file? ';
+		text += '<a href="javascript:void(location.href=\''+BlogEngine.webRoot+'?apml='+encodeURIComponent(response)+'\')">Apply filter</a>';
+		BlogEngine.$('visitor_widget_apml').innerHTML = text;
+	}
+});
   
-  function endGetApml(response)
-  {
-    if (response.length > 10)
-    {
-      var text = 'I can see you have an APML file at <a href=\"'+apml_url+'">'+apml_url+'</a>. ';
-      text += 'Do you wish to filter the content of this blog based on your APML file? ';
-      text += '<a href="javascript:void(location.href=\''+KEYwebRoot+'?apml='+encodeURIComponent(response)+'\')">Apply filter</a>';
-      $('visitor_widget_apml').innerHTML = text;
-    }
-  }
+  
   </script>
 </asp:PlaceHolder>

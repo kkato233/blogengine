@@ -101,7 +101,7 @@ namespace Controls
 				}
 
 				writer.Write("</select>&nbsp;&nbsp;");
-				writer.Write("<input type=\"button\" value=\"Add\" onclick=\"addWidget($('widgetselector').value)\" />");
+				writer.Write("<input type=\"button\" value=\"Add\" onclick=\"addWidget(BlogEngine.$('widgetselector').value)\" />");
 				writer.Write("<div class=\"clear\" id=\"clear\">&nbsp;</div>");
 			}
 		}
