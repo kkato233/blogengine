@@ -83,6 +83,8 @@ namespace BlogEngine.Core.Web.Controls
 
 				AddMetaContentType();
 				AddDefaultLanguages();
+				
+				AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
 				AddLocalizationKeys();
 
 				if (BlogSettings.Instance.EnableOpenSearch)
@@ -95,7 +97,7 @@ namespace BlogEngine.Core.Web.Controls
 					AddTrackingScript();
 			}
 
-			AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
+			
 
 			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
@@ -127,6 +129,7 @@ namespace BlogEngine.Core.Web.Controls
 		protected virtual void AddLocalizationKeys()
 		{
 			StringBuilder sb = new StringBuilder();
+			/*
 			sb.AppendFormat("KEYhasRated='{0}';", Translate("youAlreadyRated").Replace("'", "\\'"));
 			sb.AppendFormat("KEYwebRoot='{0}';", Utils.RelativeWebRoot);
 			sb.AppendFormat("KEYsavingTheComment='{0}';", Translate("savingTheComment").Replace("'", "\\'"));
@@ -134,8 +137,19 @@ namespace BlogEngine.Core.Web.Controls
 			sb.AppendFormat("KEYcommentWasSaved='{0}';", Translate("commentWasSaved").Replace("'", "\\'"));
 			sb.AppendFormat("KEYcommentWaitingModeration='{0}';", Translate("commentWaitingModeration").Replace("'", "\\'"));
 			sb.AppendFormat("KEYcancel='{0}';", Translate("cancel").Replace("'", "\\'"));
-			sb.AppendFormat("KEYfilter='{0}';", Translate("filter").Replace("'", "\\'"));
+			sb.AppendFormat("KEYfilter='{0}';", Translate("filter").Replace("'", "\\'"));				
 			sb.AppendFormat("KEYapmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
+			*/
+
+			sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
+			sb.AppendFormat("BlogEngine.i18n.hasRated='{0}';", Translate("youAlreadyRated").Replace("'", "\\'"));			
+			sb.AppendFormat("BlogEngine.i18n.savingTheComment='{0}';", Translate("savingTheComment").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.comments='{0}';", Translate("comments").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.commentWasSaved='{0}';", Translate("commentWasSaved").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.commentWaitingModeration='{0}';", Translate("commentWaitingModeration").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.cancel='{0}';", Translate("cancel").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.filter='{0}';", Translate("filter").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.apmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
 
 			HtmlGenericControl script = new HtmlGenericControl("script");
 			script.Attributes.Add("type", "text/javascript");

@@ -94,7 +94,7 @@ namespace Controls
 
 					year = new HtmlGenericControl("li");
 					year.Attributes.Add("class", "year");
-					year.Attributes.Add("onclick", "ToggleMonth('year" + date.Year + "')");
+					year.Attributes.Add("onclick", "BlogEngine.toggleMonth('year" + date.Year + "')");
 					year.InnerHtml = date.Year.ToString();
 					year.Controls.Add(list);
 

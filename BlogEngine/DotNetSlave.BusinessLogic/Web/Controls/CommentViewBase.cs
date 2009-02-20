@@ -114,7 +114,7 @@ namespace BlogEngine.Core.Web.Controls
 				else
 				{
 					BlogBasePage page = (BlogBasePage)Page;
-					return "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"ReplyToComment('" + Comment.Id.ToString() + "');\">" + page.Translate("replyToThis") + "</a>";
+					return "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"BlogEngine.replyToComment('" + Comment.Id.ToString() + "');\">" + page.Translate("replyToThis") + "</a>";
 				}
 			}
 		}

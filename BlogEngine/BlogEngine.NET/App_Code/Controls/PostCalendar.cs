@@ -110,14 +110,14 @@ namespace Controls
 				DateTime oldest = GetOldestPostDate();
 
 				if (VisibleDate.Year != oldest.Year || VisibleDate.Month != oldest.Month)
-					writer.Write("<a href=\"javascript:CalNav('" + this.VisibleDate.AddMonths(-1).ToString("yyyy-MM-dd") + "')\">" + HttpUtility.HtmlEncode(PrevMonthText) + "</a>&nbsp;&nbsp;");
+					writer.Write("<a href=\"javascript:BlogEngine.Calendar.nav('" + this.VisibleDate.AddMonths(-1).ToString("yyyy-MM-dd") + "')\">" + HttpUtility.HtmlEncode(PrevMonthText) + "</a>&nbsp;&nbsp;");
 				else
 					writer.Write(HttpUtility.HtmlEncode(PrevMonthText) + "&nbsp;&nbsp;");
 
 				writer.Write("</td><td style=\"text-align:center;width:100px\">" + VisibleDate.ToString("MMMM yyyy") + "</td><td align=\"right\">");
 
 				if (VisibleDate.Year != DateTime.Now.Year || VisibleDate.Month != DateTime.Now.Month)
-					writer.Write("&nbsp;&nbsp;<a href=\"javascript:CalNav('" + this.VisibleDate.AddMonths(1).ToString("yyyy-MM-dd") + "')\">" + HttpUtility.HtmlEncode(NextMonthText) + "</a>");
+					writer.Write("&nbsp;&nbsp;<a href=\"javascript:BlogEngine.Calendar.nav('" + this.VisibleDate.AddMonths(1).ToString("yyyy-MM-dd") + "')\">" + HttpUtility.HtmlEncode(NextMonthText) + "</a>");
 				else
 					writer.Write("&nbsp;&nbsp;" + HttpUtility.HtmlEncode(NextMonthText));
 
@@ -158,14 +158,30 @@ namespace Controls
 		private string Script()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append("<script type=\"text/javascript\">");
+			sb.Append(@"<script type=""text/javascript"">
+BlogEngine.Calendar = {
+	months: {},
+	nav: function(date) {
+		var m = BlogEngine.Calendar.months;
+		if (m[date] == null || m[date] == 'undefined')  {
+			" + Page.ClientScript.GetCallbackEventReference(this, "date", "BlogEngine.updateCalendar", "date") + @"
+		} else {
+			BlogEngine.updateCalendar(months[date], date);
+		}
+	}
+};
+</script>");
+			
+			/*
+			");
 			sb.Append("var months = new Object();");
 			sb.Append("function CalNav(date){");
 			sb.Append("if (months[date] == null || months[date] == 'undefined')");
-			sb.Append("{" + Page.ClientScript.GetCallbackEventReference(this, "date", "UpdateCalendar", "date") + "}");
-			sb.Append("else {UpdateCalendar(months[date], date)}");
+			sb.Append("{" + Page.ClientScript.GetCallbackEventReference(this, "date", "BlogEngine.updateCalendar", "date") + "}");
+			sb.Append("else {BlogEngine.updateCalendar(months[date], date)}");
 			sb.Append("}");
 			sb.Append("</script>");
+			*/
 			return sb.ToString();
 		}
 

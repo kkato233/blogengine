@@ -39,7 +39,7 @@
 		}	
 		
 		//alert(saveString);	// For demo only
-		CreateCallback(KEYwebRoot + "admin/WidgetEditor.aspx?move=" + saveString + "&rnd=" + Math.random(), null);
+		BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?move=" + saveString + "&rnd=" + Math.random(), null);
 		
 		/* 	Put this item into a hidden form field and then submit the form 
 		
@@ -455,7 +455,7 @@ function editWidget(name, id)
   var iframe = document.createElement('iframe');
   iframe.name = 'Widget Editor';
   iframe.id = 'WidgetEditor';
-	iframe.src = KEYwebRoot + 'admin/WidgetEditor.aspx?widget=' + name + '&id=' + id;
+	iframe.src = BlogEngine.webRoot + 'admin/WidgetEditor.aspx?widget=' + name + '&id=' + id;
 	iframe.style.height = size.height + 'px';
 	iframe.style.width = size.width + 'px';
 	iframe.style.position = 'fixed';
@@ -472,7 +472,7 @@ function editWidget(name, id)
 	
 function addWidget(type)
 {
-  CreateCallback(KEYwebRoot + "admin/WidgetEditor.aspx?add=" + type + "&rnd=" + Math.random(), appendWidget);
+  BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?add=" + type + "&rnd=" + Math.random(), appendWidget);
 }
 
 function appendWidget(response)
@@ -483,7 +483,7 @@ function appendWidget(response)
   }
   else
   { 
-    var zone = $('widgetzone');
+    var zone = BlogEngine.$('widgetzone');
     zone.innerHTML += response;
   }
 }
@@ -492,16 +492,16 @@ function removeWidget(id)
 {
   if (confirm('Are you sure you want to remove the widget?'))
   {
-    CreateCallback(KEYwebRoot + "admin/WidgetEditor.aspx?remove=" + id + "&rnd=" + Math.random(), null);
-    $('widget' + id).style.display = 'none';
+    BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?remove=" + id + "&rnd=" + Math.random(), null);
+    BlogEngine.$('widget' + id).style.display = 'none';
   }
 }
 
 function closeEditor()
 {
-  document.body.removeChild($('WidgetEditor'));
-  document.body.removeChild($('layer'));
+  document.body.removeChild(BlogEngine.$('WidgetEditor'));
+  document.body.removeChild(BlogEngine.$('layer'));
   document.body.style.position = '';
 }
 	
-addLoadEvent(initdragableElements);
+BlogEngine.addLoadEvent(initdragableElements);

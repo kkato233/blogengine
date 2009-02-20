@@ -10,7 +10,7 @@
 </div>
 
 <% if (Post.Comments.Count > 0){ %>
-<script type="text/javascript">$('commentlist').style.display='block';</script>
+<script type="text/javascript">BlogEngine.$('commentlist').style.display='block';</script>
 <%} %>
 
 <asp:PlaceHolder runat="Server" ID="phAddComment">
@@ -25,12 +25,12 @@
 
 	  <% if (NestingSupported){ %>
 	  <label for="<%=ddlReplyTo.ClientID %>"><%=Resources.labels.replyTo%></label>
-	  <asp:DropDownList runat="Server" ID="ddlReplyTo" onchange="javascript:ReplyToComment(this.options[this.selectedIndex].value);" TabIndex="1" /><br />
+	  <asp:DropDownList runat="Server" ID="ddlReplyTo" onchange="javascript:BlogEngine.replyToComment(this.options[this.selectedIndex].value);" TabIndex="1" /><br />
 	  <%} %>
 
 	  <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
 	  <asp:TextBox runat="Server" ID="txtName" TabIndex="2" ValidationGroup="AddComment" />
-	  <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtName" ErrorMessage=" <%$Resources:labels, chooseOtherName %>" Display="dynamic" ClientValidationFunction="CheckAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
+	  <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtName" ErrorMessage=" <%$Resources:labels, chooseOtherName %>" Display="dynamic" ClientValidationFunction="BlogEngine.checkAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
 	  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
 
 	  <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
@@ -49,7 +49,7 @@
 	  
 	  <% if(BlogSettings.Instance.EnableCountryInComments){ %>
 	  <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
-	  <asp:DropDownList runat="server" ID="ddlCountry" onchange="SetFlag(this.value)" TabIndex="5" EnableViewState="false" ValidationGroup="AddComment" />&nbsp;
+	  <asp:DropDownList runat="server" ID="ddlCountry" onchange="BlogEngine.setFlag(this.value)" TabIndex="5" EnableViewState="false" ValidationGroup="AddComment" />&nbsp;
 	  <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
 	  <%} %>
 
@@ -58,8 +58,8 @@
 
 	  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
 	  <ul id="commentMenu">
-		<li id="compose" class="selected" onclick="ToggleCommentMenu(this)"><%=Resources.labels.comment%></li>
-		<li id="preview" onclick="ToggleCommentMenu(this)"><%=Resources.labels.livePreview%></li>
+		<li id="compose" class="selected" onclick="BlogEngine.composeComment()"><%=Resources.labels.comment%></li>
+		<li id="preview" onclick="BlogEngine.showCommentPreview()"><%=Resources.labels.livePreview%></li>
 	  </ul>
 	  <% } %> 
 	  <div id="commentCompose">
@@ -74,7 +74,7 @@
 	  <input type="checkbox" id="cbNotify" style="width: auto" tabindex="7" />
 	  <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
 	 
-	  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){AddComment()}" tabindex="7" />    
+	  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){BlogEngine.addComment()}" tabindex="7" />    
 	  <asp:HiddenField runat="server" ID="hfCaptcha" />
 	</div>
 
@@ -82,19 +82,18 @@
 
 <script type="text/javascript">
 <!--//
-var flagImage = $("<%= imgFlag.ClientID %>");
-var contentBox = $("<%=txtContent.ClientID %>");
-var moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
-var checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
-var postAuthor = "<%=Post.Author %>";
-
-var nameBox = $("<%=txtName.ClientID %>");
-var emailBox = $("<%=txtEmail.ClientID %>");
-var websiteBox = $("<%=txtWebsite.ClientID %>");
-var countryDropDown =$("<%=ddlCountry.ClientID %>"); 
-var captchaField = $('<%=hfCaptcha.ClientID %>');
-var controlId = '<%=this.UniqueID %>';
-var replyToDropDown =$("<%=ddlReplyTo.ClientID %>"); 
+BlogEngine.comments.flagImage = BlogEngine.$("<%= imgFlag.ClientID %>");
+BlogEngine.comments.contentBox = BlogEngine.$("<%=txtContent.ClientID %>");
+BlogEngine.comments.moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
+BlogEngine.comments.checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
+BlogEngine.comments.postAuthor = "<%=Post.Author %>";
+BlogEngine.comments.nameBox = BlogEngine.$("<%=txtName.ClientID %>");
+BlogEngine.comments.emailBox = BlogEngine.$("<%=txtEmail.ClientID %>");
+BlogEngine.comments.websiteBox = BlogEngine.$("<%=txtWebsite.ClientID %>");
+BlogEngine.comments.countryDropDown = BlogEngine.$("<%=ddlCountry.ClientID %>"); 
+BlogEngine.comments.captchaField = BlogEngine.$('<%=hfCaptcha.ClientID %>');
+BlogEngine.comments.controlId = '<%=this.UniqueID %>';
+BlogEngine.comments.replyToDropDown = BlogEngine.$("<%=ddlReplyTo.ClientID %>"); 
 //-->
 </script>
 

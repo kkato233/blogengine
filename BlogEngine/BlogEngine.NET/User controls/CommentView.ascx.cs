@@ -566,7 +566,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 			{
 				code = (string)row["Code"];
 				title = "[" + code + "][/" + code + "]";
-				retVal += "<a title=\"" + title + "\" href=\"javascript:void(AddBbCode('" + code + "'))\">" + code + "</a>";
+				retVal += "<a title=\"" + title + "\" href=\"javascript:void(BlogEngine.addBbCode('" + code + "'))\">" + code + "</a>";
 			}
 			return retVal;
 		}
