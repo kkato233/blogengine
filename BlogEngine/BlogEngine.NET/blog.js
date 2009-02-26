@@ -387,7 +387,7 @@ BlogEngine = {
 		}
 		else
 		{
-			p.innerHTML = 'Currently rated ' + Math.round(rating) + ' by ' + raters + ' people';
+			p.innerHTML = 'Currently rated ' + rating.toFixed(1) + ' by ' + raters + ' people';
 		}
 
 		var ul = document.createElement('ul');
@@ -407,9 +407,10 @@ BlogEngine = {
 			a.innerHTML = i;
 			a.href = 'rate/' + i;
 			a.className = this.englishNumber(i);
+			a.title = "Rate this " + i.toString() + " star" + (i == 1 ? "" : "s") + " out of 5";
 			a.onclick = function()
 			{
-				Rate(id, this.innerHTML);
+				BlogEngine.rate(id, this.innerHTML);
 				return false;
 			};
 
