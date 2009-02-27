@@ -8,10 +8,11 @@
 		mode: "exact",
 		elements : "<%=txtText.ClientID %>",
 		theme: "advanced",
-		plugins : "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table,iespell",
+		plugins: "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table,iespell",
+		convert_urls: false,
 	  
 	  // Theme options
-		theme_advanced_buttons1: "fullscreen,code,|,cut,copy,paste,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull|,bullist,numlist,outdent,indent,|,iespell,link,unlink,sub,sup,removeformat,cleanup,charmap,emotions",
+		theme_advanced_buttons1: "fullscreen,code,|,cut,copy,paste,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,|,iespell,link,unlink,sub,sup,removeformat,cleanup,charmap,emotions",
 		theme_advanced_buttons2: "",
 		theme_advanced_toolbar_location: "top",
 		theme_advanced_toolbar_align: "left",

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Breaks a post where [more] is found in the body and adds a link to full post.
 /// </summary>
-[Extension("Breaks a post where [more] is found in the body and adds a link to full post", "1.4", "BlogEngine.NET")]
+[Extension("Breaks a post where [more] is found in the body and adds a link to full post", "1.4", "BlogEngine.NET", 1010)]
 public class BreakPost
 {
 
