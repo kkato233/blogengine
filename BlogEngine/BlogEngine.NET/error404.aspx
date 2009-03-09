@@ -33,7 +33,7 @@
     
     <div id="divInternalReferrer" runat="server" visible="False">
       <p>
-        This one’s down to me! Please accept my apologies for this — I’ll see to it
+        This one's down to me! Please accept my apologies for this - I'll see to it
         that the developer responsible for this broken link is given 20 lashes 
         (but only after he or she has fixed this problem).
       </p>
