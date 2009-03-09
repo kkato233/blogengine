@@ -95,8 +95,10 @@
     <div class="settings">
         <h1><%=Resources.labels.advancedSettings %></h1>
         
-        <label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label>
-        <asp:CheckBox runat="server" ID="cbEnableCompression" /><%=Resources.labels.enableHttpCompressionDescription %><br />
+        <div style='display: <%= (Utils.IsMono) ? "none" : "block" %>'>
+            <label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label>
+            <asp:CheckBox runat="server" ID="cbEnableCompression" /><%=Resources.labels.enableHttpCompressionDescription %><br />
+        </div>
         
         <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>"><%=Resources.labels.trimStylesheet %></label>
         <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" /><%=Resources.labels.trimStylesheetDescription %><br />
