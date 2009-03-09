@@ -26,6 +26,7 @@ namespace BlogEngine.Core
 		private static BlogSettings blogSettingsSingleton;
 		private string configuredTheme = String.Empty;
 		private int numberOfRecentPosts = 10;
+        bool enableHttpCompression;
 
 		#endregion
 
@@ -98,7 +99,14 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if HTTP compression is enabled.
 		/// </summary>
 		/// <value><b>true</b> if compression is enabled, otherwise returns <b>false</b>.</value>
-		public bool EnableHttpCompression { get; set; }
+		public bool EnableHttpCompression {
+            get {
+                return enableHttpCompression && !Utils.IsMono;
+            }
+            set {
+                enableHttpCompression = value;
+            }
+        }
 
 		#endregion
 
