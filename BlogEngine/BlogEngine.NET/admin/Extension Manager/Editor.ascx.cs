@@ -41,7 +41,7 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
 
         if (WriteFile(GetExtFileName(), txtEditor.Text))
         {
-            Response.Redirect("Default.aspx");
+            Response.Redirect("default.aspx");
         }
         else
         {

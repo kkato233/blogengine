@@ -95,7 +95,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 	/// </summary>
 	private void InitPaging()
 	{
-		string path = Request.RawUrl.Replace("Default.aspx", string.Empty);
+        string path = Request.RawUrl.Replace("default.aspx", string.Empty).Replace("Default.aspx", string.Empty);
 
 		if (path.Contains("?"))
 		{
