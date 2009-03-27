@@ -322,6 +322,20 @@ namespace BlogEngine.Core.API.MetaWeblog
 				Directory.CreateDirectory(saveFolder);
 			saveFolder += Path.DirectorySeparatorChar;
 
+            if (File.Exists(saveFolder + fileName))
+            {
+                // Find unique fileName
+                for (int count = 1; count < 30000; count++)
+                {
+                    string tempFileName = fileName.Insert(fileName.LastIndexOf('.'), "_" + count);
+                    if (!File.Exists(saveFolder + tempFileName))
+                    {
+                        fileName = tempFileName;
+                        break;
+                    }
+                }
+            }
+
 			// Save File
 			FileStream fs = new FileStream(saveFolder + fileName, FileMode.Create);
 			BinaryWriter bw = new BinaryWriter(fs);
@@ -347,7 +361,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 					break;
 			}
 
-			mediaInfo.url = rootUrl + mediaObject.name;
+			mediaInfo.url = rootUrl + fileName;
 			return mediaInfo;
 		}
 
