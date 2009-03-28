@@ -120,6 +120,11 @@ namespace BlogEngine.Core
 		/// <param name="date">The date.</param>
 		public static bool SetConditionalGetHeaders(DateTime date)
 		{
+
+            // SetLastModified() below will throw an error if the 'date' is a future date.
+            if (date > DateTime.Now)
+                date = DateTime.Now;
+
 			HttpResponse response = HttpContext.Current.Response;
 			HttpRequest request = HttpContext.Current.Request;
 
