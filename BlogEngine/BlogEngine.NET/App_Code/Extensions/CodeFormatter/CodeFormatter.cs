@@ -37,28 +37,11 @@ public class CodeFormatterExtension
 
     #region RegEx
 
-    private Regex codeRegex = new Regex(@"\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\](?<code>.*?)\[/code\]",
-RegexOptions.Compiled
-| RegexOptions.CultureInvariant
-| RegexOptions.IgnoreCase
-| RegexOptions.Singleline);
-
-    /// new regex <p>\r\n<div class=\"code\">\n[code:c#]\r\n</p>\r\n
-    /// <summary>
-    /// old regex <p><div.*?>\[code:.*?\]</p>
-    private Regex codeBeginTagRegex = new Regex(@"(<p>(?:\r\n)?<div class=""code"">\n\[code:.*?\](\s|)(?:\r\n)?</p>(?:\r\n)?|<p>(?:\r\n)?<div class=""code"">\n\[code:.*?\](\s|)<br /><br /><br />)",
-  RegexOptions.Compiled
-  | RegexOptions.CultureInvariant
-  | RegexOptions.IgnoreCase
-  | RegexOptions.Singleline);
-    
-    
-    /// Old regex\[/code\]
-    private Regex codeEndTagRegex = new Regex(@"(<p>(?:\r\n)?\[/code\]</div>(\s|)(?:\r\n)?</p>(?:\r\n)?|<br /><br /><br />\[/code\]</div>(\s|)(?:\r\n)?</p>(?:\r\n)?)",
-  RegexOptions.Compiled
-  | RegexOptions.CultureInvariant
-  | RegexOptions.IgnoreCase
-  | RegexOptions.Singleline);
+    private Regex codeRegex = new Regex(@"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])",
+        RegexOptions.Compiled
+        | RegexOptions.CultureInvariant
+        | RegexOptions.IgnoreCase
+        | RegexOptions.Singleline);
 
     #endregion
     
@@ -70,10 +53,8 @@ RegexOptions.Compiled
     void ServingContent(object sender, ServingEventArgs e)
     {
       if (e.Body.Contains("[/code]"))
-      {        
+      {
         e.Body = codeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
-        e.Body = codeBeginTagRegex.Replace(e.Body, @"<div class=""code"">");
-        e.Body = codeEndTagRegex.Replace(e.Body, @"</div>");
       }
     }
 
@@ -95,7 +76,11 @@ RegexOptions.Compiled
         options.Title = match.Groups["title"].Value;
         options.AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on" ? true : false;
 
-        return Highlight(options, match.Value);
+        string result = Highlight(options, match.Value);
+        result = result.Replace(match.Groups["begin"].Value, "");
+        result = result.Replace(match.Groups["end"].Value, "");
+        return result;
+
     }
 
     /// <summary>
@@ -133,7 +118,7 @@ RegexOptions.Compiled
                 htmlf.Alternate = options.AlternateLineNumbers;
                 text = StripHtml(text).Trim();
                 string code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
-                return code.Replace(Environment.NewLine, "<br />");
+                return code.Replace("\r\n", "<br />");
 
             case "xml":
                 HtmlFormat xmlf = new HtmlFormat();
@@ -141,7 +126,7 @@ RegexOptions.Compiled
                 xmlf.Alternate = options.AlternateLineNumbers;
                 text = StripHtml(text).Trim();
                 string xml = xmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
-                return xml.Replace(Environment.NewLine, "<br />");
+                return xml.Replace("\r\n", "<br />");
 
             case "tsql":
                 TsqlFormat tsqlf = new TsqlFormat();
