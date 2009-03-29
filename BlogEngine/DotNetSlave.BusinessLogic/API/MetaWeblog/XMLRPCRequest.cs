@@ -22,8 +22,10 @@ namespace BlogEngine.Core.API.MetaWeblog
       public XMLRPCRequest(HttpContext input)
       {
           string inputXML = ParseRequest(input);
+          //LogMetaWeblogCall(inputXML);
           LoadXMLRequest(inputXML); // Loads Method Call and Associated Variables
       }
+
       #endregion
 
       #region Local Vars
@@ -463,6 +465,31 @@ namespace BlogEngine.Core.API.MetaWeblog
         temp.bits = System.Convert.FromBase64String(node.SelectSingleNode("value/struct/member[name='bits']").LastChild.InnerText);
 
         return temp;
+      }
+
+      private void LogMetaWeblogCall(string message)
+      {
+          string saveFolder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+          string saveFile = saveFolder + "\\lastmetaweblogcall.txt";
+
+          try
+          {
+              // Save message to file
+              using (FileStream fileWrtr = new FileStream(saveFile, FileMode.OpenOrCreate, FileAccess.Write))
+              {
+                  using (StreamWriter streamWrtr = new StreamWriter(fileWrtr))
+                  {
+                      streamWrtr.WriteLine(message);
+                      streamWrtr.Close();
+                  }
+                  fileWrtr.Close();
+              }
+          }
+          catch
+          {
+              // Ignore all errors
+          }
+          
       }
 
       #endregion

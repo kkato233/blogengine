@@ -400,16 +400,6 @@ namespace BlogEngine.Core
 		#endregion
 
 		//============================================================
-		//	DATABASE SETTINGS
-		//============================================================
-		#region MSSQLConnectionString
-		/// <summary>
-		/// Gets or sets the connection string used to connect to the SQL database.
-		/// </summary>
-		public string MSSQLConnectionString { get; set; }
-		#endregion
-
-		//============================================================
 		//	EMAIL SETTINGS
 		//============================================================
 		#region Email
