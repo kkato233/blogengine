@@ -595,7 +595,8 @@ public static string DownloadWebPage(Uri url)
 
 		#endregion
 
-		/// <summary>
+        #region Password Util
+        /// <summary>
 		/// Encrypts a string using the SHA256 algorithm.
 		/// </summary>
 		public static string HashPassword(string plainMessage)
@@ -607,6 +608,7 @@ public static string DownloadWebPage(Uri url)
 				return Convert.ToBase64String(sha.Hash);
 			}
 		}
+        #endregion
 
-	}
+    }
 }
