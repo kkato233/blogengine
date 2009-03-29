@@ -269,7 +269,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <returns></returns>
 		public virtual string ResolveScriptUrl(string url)
 		{
-			return Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(url) + "&v=" + BlogSettings.Instance.Version();
+			return Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(url) + "&amp;v=" + BlogSettings.Instance.Version();
 		}
 
 		/// <summary>
