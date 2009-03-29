@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web;
 using System.Web.Hosting;
-using System.Web.Caching;
 using System.Reflection;
 using System.Configuration;
 using System.Collections;
@@ -12,7 +11,6 @@ using System.Xml.Serialization;
 using BlogEngine.Core;
 using BlogEngine.Core.Providers;
 using BlogEngine.Core.Web.Controls;
-using BlogEngine.Core.DataStore;
 
 /// <summary>
 /// Extension Manager - top level object in the hierarchy
@@ -104,7 +102,7 @@ public class ExtensionManager
         SaveToCache();
 
         string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "web.config";
-        System.IO.File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
+        File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
         break;
       }
     }
@@ -197,6 +195,7 @@ public class ExtensionManager
               x.Version = xa.Version;
               x.Description = xa.Description;
               x.Author = xa.Author;
+              x.Priority = xa.Priority;
             }
             _extensions.Add(x);
           }
@@ -296,7 +295,6 @@ public class ExtensionManager
   /// Will save settings (add to extension object, then
   /// cache and serialize all object hierarhy to XML)
   /// </summary>
-  /// <param name="extensionName">Extension Name</param>
   /// <param name="settings">Settings object</param>
   public static void SaveSettings(ExtensionSettings settings)
   {

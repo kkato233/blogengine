@@ -15,6 +15,7 @@ public class ManagedExtension
   #region Private members
   string _name = string.Empty;
   string _version = string.Empty;
+  int _priority = 999;
   string _description = string.Empty;
   bool _enabled = true;
   string _author = string.Empty;
@@ -35,7 +36,6 @@ public class ManagedExtension
   /// <param name="version">Extension Version</param>
   /// <param name="desc">Description</param>
   /// <param name="author">Extension Author</param>
-  /// <param name="adminpage">Custom admin page for extension</param>
   public ManagedExtension(string name, string version, string desc, string author)
   {
     _name = name;
@@ -59,6 +59,11 @@ public class ManagedExtension
   /// </summary>
   [XmlElement]
   public string Version { get { return _version; } set { _version = value; } }
+  /// <summary>
+  /// Extension Priority
+  /// </summary>
+  [XmlElement]
+  public int Priority { get { return _priority; } set { _priority = value; } }
   /// <summary>
   /// Extension Description
   /// </summary>
