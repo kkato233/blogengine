@@ -31,7 +31,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		{
 			if (!string.IsNullOrEmpty(context.Request.QueryString["name"]))
 			{
-				string fileName = context.Request.QueryString["name"];
+				string fileName = context.Request.QueryString["name"].Replace(BlogSettings.Instance.Version(), string.Empty) ;
 				string css = string.Empty;
 
 				OnServing(fileName);
