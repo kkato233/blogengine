@@ -1,11 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Text;
-using System.Threading;
 
 public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserControl
 {
@@ -30,7 +25,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
       ChangeStatus(act.ToString(), ext.ToString());
     }
 
-    btnRestart.Click += new EventHandler(btnRestart_Click);
+    btnRestart.Click += btnRestart_Click;
   }
 
   /// <summary>
@@ -59,7 +54,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
   /// and format data as html table
   /// </summary>
   /// <returns>Html-formated table</returns>
-  private string GetExtensions()
+  private static string GetExtensions()
   {
     //TODO: localize strings
     string confirm = "The website will be unavailable for a few seconds. Are you sure you wish to continue?";
@@ -74,6 +69,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
     sb.Append("<tr style='background:#fff'>");
     sb.Append("<th>Name</th>");
     sb.Append("<th>Version</th>");
+    sb.Append("<th>Priority</th>");
     sb.Append("<th>Description</th>");
     sb.Append("<th>Author</th>");
     sb.Append("<th>Status</th>");
@@ -84,6 +80,10 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
     if (extList != null)
     {
       int alt = 0;
+
+      extList.Sort(delegate(ManagedExtension e1, ManagedExtension e2)
+      { return e1.Priority.CompareTo(e2.Priority); });
+
       foreach (ManagedExtension x in extList)
       {
         if (alt % 2 == 0)
@@ -93,6 +93,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
 
         sb.Append("<td style='padding:2px'>" + x.Name + "</td>");
         sb.Append("<td style='padding:2px'>" + x.Version + "</td>");
+        sb.Append("<td style='padding:2px'>" + x.Priority + "</td>");
         sb.Append("<td style='padding:2px'>" + x.Description + "</td>");
         sb.Append("<td style='padding:2px'>" + x.Author + "</td>");
 
