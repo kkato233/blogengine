@@ -151,8 +151,6 @@ namespace BlogEngine.Core.Web.Controls
 			if (Request.QueryString["theme"] != null)
 				return;
 
-			string version = "&v=" + BlogSettings.Instance.Version();
-
 			foreach (Control control in Page.Header.Controls)
 			{
 				HtmlControl c = control as HtmlControl;
@@ -160,7 +158,8 @@ namespace BlogEngine.Core.Web.Controls
 				{
 					if (!c.Attributes["href"].StartsWith("http://"))
 					{
-						c.Attributes["href"] = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"] + version;
+						string url = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+						c.Attributes["href"] = url.Replace(".css", BlogSettings.Instance.Version() + ".css");
 						c.EnableViewState = false;
 					}
 				}
