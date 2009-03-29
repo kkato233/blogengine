@@ -84,7 +84,7 @@ namespace BlogEngine.Core.Web.Controls
 				AddMetaContentType();
 				AddDefaultLanguages();
 				
-				AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js");
+				AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js", true, true);
 				AddLocalizationKeys();
 
 				if (BlogSettings.Instance.EnableOpenSearch)
@@ -97,11 +97,9 @@ namespace BlogEngine.Core.Web.Controls
 					AddTrackingScript();
 			}
 
-			
-
 			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
-				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js");
+				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js", true, true);
 				AddStylesheetInclude(Utils.RelativeWebRoot + "admin/widget.css");
 			}
 
@@ -129,18 +127,7 @@ namespace BlogEngine.Core.Web.Controls
 		protected virtual void AddLocalizationKeys()
 		{
 			StringBuilder sb = new StringBuilder();
-			/*
-			sb.AppendFormat("KEYhasRated='{0}';", Translate("youAlreadyRated").Replace("'", "\\'"));
-			sb.AppendFormat("KEYwebRoot='{0}';", Utils.RelativeWebRoot);
-			sb.AppendFormat("KEYsavingTheComment='{0}';", Translate("savingTheComment").Replace("'", "\\'"));
-			sb.AppendFormat("KEYcomments='{0}';", Translate("comments").Replace("'", "\\'"));
-			sb.AppendFormat("KEYcommentWasSaved='{0}';", Translate("commentWasSaved").Replace("'", "\\'"));
-			sb.AppendFormat("KEYcommentWaitingModeration='{0}';", Translate("commentWaitingModeration").Replace("'", "\\'"));
-			sb.AppendFormat("KEYcancel='{0}';", Translate("cancel").Replace("'", "\\'"));
-			sb.AppendFormat("KEYfilter='{0}';", Translate("filter").Replace("'", "\\'"));				
-			sb.AppendFormat("KEYapmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
-			*/
-
+			sb.Append("function registerVariables(){");
 			sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
 			sb.AppendFormat("BlogEngine.i18n.hasRated='{0}';", Translate("youAlreadyRated").Replace("'", "\\'"));			
 			sb.AppendFormat("BlogEngine.i18n.savingTheComment='{0}';", Translate("savingTheComment").Replace("'", "\\'"));
@@ -150,11 +137,9 @@ namespace BlogEngine.Core.Web.Controls
 			sb.AppendFormat("BlogEngine.i18n.cancel='{0}';", Translate("cancel").Replace("'", "\\'"));
 			sb.AppendFormat("BlogEngine.i18n.filter='{0}';", Translate("filter").Replace("'", "\\'"));
 			sb.AppendFormat("BlogEngine.i18n.apmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
+			sb.Append("};");
 
-			HtmlGenericControl script = new HtmlGenericControl("script");
-			script.Attributes.Add("type", "text/javascript");
-			script.InnerHtml = sb.ToString();
-			Page.Header.Controls.Add(script);
+			ClientScript.RegisterStartupScript(this.GetType(), "tracking", sb.ToString(), true);
 		}
 
 		/// <summary>
@@ -244,12 +229,25 @@ namespace BlogEngine.Core.Web.Controls
 		/// <summary>
 		/// Adds a JavaScript reference to the HTML head tag.
 		/// </summary>
-		public virtual void AddJavaScriptInclude(string url)
+		public virtual void AddJavaScriptInclude(string url, bool placeInBottom, bool addDeferAttribute)
 		{
-			HtmlGenericControl script = new HtmlGenericControl("script");
-			script.Attributes["type"] = "text/javascript";
-			script.Attributes["src"] = ResolveScriptUrl(url);
-			Page.Header.Controls.Add(script);
+			if (placeInBottom)
+			{
+				string script = "<script type=\"text/javascript\" defer=\"defer\" src=\"" + ResolveScriptUrl(url) + "\"></script>";
+				ClientScript.RegisterStartupScript(GetType(), url.GetHashCode().ToString(), script);
+			}
+			else
+			{
+				HtmlGenericControl script = new HtmlGenericControl("script");
+				script.Attributes["type"] = "text/javascript";
+				script.Attributes["src"] = ResolveScriptUrl(url);
+				if (addDeferAttribute)
+				{
+					script.Attributes["defer"] = "defer";
+				}
+
+				Page.Header.Controls.Add(script);
+			}
 		}
 
 		/// <summary>
