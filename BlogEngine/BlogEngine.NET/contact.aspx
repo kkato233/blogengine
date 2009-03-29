@@ -46,30 +46,30 @@
   <script type="text/javascript">
     function beginSendMessage()
     {
-      if ($('<%=txtAttachment.ClientID %>') && $('<%=txtAttachment.ClientID %>').value.length > 0)
+    	if (BlogEngine.$('<%=txtAttachment.ClientID %>') && BlogEngine.$('<%=txtAttachment.ClientID %>').value.length > 0)
         return true;
         
       if(!Page_ClientValidate('contact'))
         return false;
         
-      var name = $('<%=txtName.ClientID %>').value;
-      var email = $('<%=txtEmail.ClientID %>').value;
-      var subject = $('<%=txtSubject.ClientID %>').value;
-      var message = $('<%=txtMessage.ClientID %>').value;
+      var name = BlogEngine.$('<%=txtName.ClientID %>').value;
+      var email = BlogEngine.$('<%=txtEmail.ClientID %>').value;
+      var subject = BlogEngine.$('<%=txtSubject.ClientID %>').value;
+      var message = BlogEngine.$('<%=txtMessage.ClientID %>').value;
       var sep = '-||-';
       var arg = name + sep + email + sep + subject + sep + message;
       WebForm_DoCallback('__Page', arg, endSendMessage, 'contact', null, false) 
       
-      $('<%=btnSend.ClientID %>').disabled = true;
+      BlogEngine.$('<%=btnSend.ClientID %>').disabled = true;
       
       return false;
     }
     
     function endSendMessage(arg, context)
     {
-      $('<%=btnSend.ClientID %>').disabled = false;
-      var form = $('<%=divForm.ClientID %>')
-      var thanks = $('thanks');
+      BlogEngine.$('<%=btnSend.ClientID %>').disabled = false;
+      var form = BlogEngine.$('<%=divForm.ClientID %>')
+      var thanks = BlogEngine.$('thanks');
       
       form.style.display = 'none';
       thanks.innerHTML = arg;

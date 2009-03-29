@@ -10,7 +10,7 @@
 </div>
 
 <% if (Post.Comments.Count > 0){ %>
-<script type="text/javascript">BlogEngine.$('commentlist').style.display='block';</script>
+<script type="text/javascript">document.getElementById('commentlist').style.display='block';</script>
 <%} %>
 
 <asp:PlaceHolder runat="Server" ID="phAddComment">
@@ -82,18 +82,20 @@
 
 <script type="text/javascript">
 <!--//
-BlogEngine.comments.flagImage = BlogEngine.$("<%= imgFlag.ClientID %>");
-BlogEngine.comments.contentBox = BlogEngine.$("<%=txtContent.ClientID %>");
-BlogEngine.comments.moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
-BlogEngine.comments.checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
-BlogEngine.comments.postAuthor = "<%=Post.Author %>";
-BlogEngine.comments.nameBox = BlogEngine.$("<%=txtName.ClientID %>");
-BlogEngine.comments.emailBox = BlogEngine.$("<%=txtEmail.ClientID %>");
-BlogEngine.comments.websiteBox = BlogEngine.$("<%=txtWebsite.ClientID %>");
-BlogEngine.comments.countryDropDown = BlogEngine.$("<%=ddlCountry.ClientID %>"); 
-BlogEngine.comments.captchaField = BlogEngine.$('<%=hfCaptcha.ClientID %>');
-BlogEngine.comments.controlId = '<%=this.UniqueID %>';
-BlogEngine.comments.replyToDropDown = BlogEngine.$("<%=ddlReplyTo.ClientID %>"); 
+function registerCommentBox(){
+	BlogEngine.comments.flagImage = BlogEngine.$("<%= imgFlag.ClientID %>");
+	BlogEngine.comments.contentBox = BlogEngine.$("<%=txtContent.ClientID %>");
+	BlogEngine.comments.moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
+	BlogEngine.comments.checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
+	BlogEngine.comments.postAuthor = "<%=Post.Author %>";
+	BlogEngine.comments.nameBox = BlogEngine.$("<%=txtName.ClientID %>");
+	BlogEngine.comments.emailBox = BlogEngine.$("<%=txtEmail.ClientID %>");
+	BlogEngine.comments.websiteBox = BlogEngine.$("<%=txtWebsite.ClientID %>");
+	BlogEngine.comments.countryDropDown = BlogEngine.$("<%=ddlCountry.ClientID %>"); 
+	BlogEngine.comments.captchaField = BlogEngine.$('<%=hfCaptcha.ClientID %>');
+	BlogEngine.comments.controlId = '<%=this.UniqueID %>';
+	BlogEngine.comments.replyToDropDown = BlogEngine.$("<%=ddlReplyTo.ClientID %>"); 
+}
 //-->
 </script>
 

@@ -292,7 +292,8 @@ namespace BlogEngine.Core.Web.Controls
 				if (!BlogSettings.Instance.EnableRating)
 					return string.Empty;
 
-				string script = "<div id=\"rating_{0}\"></div><script type=\"text/javascript\">BlogEngine.showRating('{0}',{1},{2});</script>";
+				//string script = "<div id=\"rating_{0}\"></div><script type=\"text/javascript\">BlogEngine.showRating('{0}',{1},{2});</script>";
+				string script = "<div class=\"ratingcontainer\" style=\"visibility:hidden\">{0}|{1}|{2}</div>";
 				return string.Format(script, Post.Id, Post.Raters, Post.Rating.ToString("#.0", CultureInfo.InvariantCulture));
 			}
 		}
