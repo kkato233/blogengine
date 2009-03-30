@@ -83,9 +83,9 @@ namespace BlogEngine.Core.Web.Controls
 
 				AddMetaContentType();
 				AddDefaultLanguages();
-				
-				AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js", true, true);
-				AddLocalizationKeys();
+
+                AddLocalizationKeys();
+				AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js", true, true);				
 
 				if (BlogSettings.Instance.EnableOpenSearch)
 					AddGenericLink("application/opensearchdescription+xml", "search", BlogSettings.Instance.Name, Utils.AbsoluteWebRoot + "opensearch.axd");
@@ -232,7 +232,7 @@ namespace BlogEngine.Core.Web.Controls
 		{
 			if (placeInBottom)
 			{
-				string script = "<script type=\"text/javascript\" defer=\"defer\" src=\"" + ResolveScriptUrl(url) + "\"></script>";
+                string script = "<script type=\"text/javascript\"" + (addDeferAttribute ? " defer=\"defer\"" : string.Empty) + " src=\"" + ResolveScriptUrl(url) + "\"></script>";
 				ClientScript.RegisterStartupScript(GetType(), url.GetHashCode().ToString(), script);
 			}
 			else
