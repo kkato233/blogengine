@@ -749,7 +749,7 @@
     <value>the original post</value>
   </data>
   <data name="replyToThis" xml:space="preserve">
-    <value>Reply to this comment</value>
+    <value>Reply</value>
   </data>
   <data name="deleteKeepReplies" xml:space="preserve">
     <value>Delete this, but keep replies</value>
@@ -759,5 +759,8 @@
   </data>
   <data name="cancelReply" xml:space="preserve">
     <value>Cancel reply to comment</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>Number of characters</value>
   </data>
 </root>
