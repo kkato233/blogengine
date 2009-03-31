@@ -5,13 +5,9 @@
 <p id="comment"><%=Resources.labels.comments %></p>
 <%} %>
 
-<div id="commentlist" style="display:none">
+<div id="commentlist" <%= (Post.Comments.Count == 0) ? " style=\"display:none;\"" : ""%>>
   <asp:PlaceHolder runat="server" ID="phComments" />  
 </div>
-
-<% if (Post.Comments.Count > 0){ %>
-<script type="text/javascript">document.getElementById('commentlist').style.display='block';</script>
-<%} %>
 
 <asp:PlaceHolder runat="Server" ID="phAddComment">
 
@@ -24,8 +20,8 @@
 	  <p id="addcomment"><%=Resources.labels.addComment %></p>
 
 	  <% if (NestingSupported){ %>
-	  <label for="<%=ddlReplyTo.ClientID %>"><%=Resources.labels.replyTo%></label>
-	  <asp:DropDownList runat="Server" ID="ddlReplyTo" onchange="javascript:BlogEngine.replyToComment(this.options[this.selectedIndex].value);" TabIndex="1" /><br />
+		<asp:HiddenField runat="Server" ID="hiddenReplyTo"  />
+		<p id="cancelReply" style="display:none;"><a href="javascript:void(0);" onclick="BlogEngine.cancelReply();"><%=Resources.labels.cancelReply %></a></p>
 	  <%} %>
 
 	  <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
@@ -94,7 +90,7 @@ function registerCommentBox(){
 	BlogEngine.comments.countryDropDown = BlogEngine.$("<%=ddlCountry.ClientID %>"); 
 	BlogEngine.comments.captchaField = BlogEngine.$('<%=hfCaptcha.ClientID %>');
 	BlogEngine.comments.controlId = '<%=this.UniqueID %>';
-	BlogEngine.comments.replyToDropDown = BlogEngine.$("<%=ddlReplyTo.ClientID %>"); 
+	BlogEngine.comments.replyToId = BlogEngine.$("<%=hiddenReplyTo.ClientID %>"); 
 }
 //-->
 </script>
