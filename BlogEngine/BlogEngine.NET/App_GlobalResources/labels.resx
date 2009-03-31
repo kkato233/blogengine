@@ -757,4 +757,7 @@
   <data name="deletePlusReplies" xml:space="preserve">
     <value>Delete this and replies</value>
   </data>
+  <data name="cancelReply" xml:space="preserve">
+    <value>Cancel reply to comment</value>
+  </data>
 </root>

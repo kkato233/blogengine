@@ -185,6 +185,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				writer.WriteAttributeString("type", "normal");
 				writer.WriteAttributeString("hasexcerpt", (!string.IsNullOrEmpty(post.Description)).ToString().ToLowerInvariant());
 				writer.WriteAttributeString("views", "0");
+				writer.WriteAttributeString("is-published", post.IsPublished.ToString());
 
 				AddPostTitle(writer, post);
 				AddPostContent(writer, post);
@@ -299,6 +300,8 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				writer.WriteAttributeString("date-modified", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteAttributeString("approved", comment.IsApproved.ToString().ToLowerInvariant());
 				writer.WriteAttributeString("user-name", comment.Author);
+				writer.WriteAttributeString("user-email", comment.Email);
+				writer.WriteAttributeString("user-ip", comment.IP);
 
 				if (comment.Website != null)
 				{
