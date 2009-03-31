@@ -76,9 +76,10 @@ public class CodeFormatterExtension
         options.Title = match.Groups["title"].Value;
         options.AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on" ? true : false;
 
-        string result = Highlight(options, match.Value);
-        result = result.Replace(match.Groups["begin"].Value, "");
+
+        string result = match.Value.Replace(match.Groups["begin"].Value, "");
         result = result.Replace(match.Groups["end"].Value, "");
+        result = Highlight(options, result);
         return result;
 
     }
@@ -118,15 +119,16 @@ public class CodeFormatterExtension
                 htmlf.Alternate = options.AlternateLineNumbers;
                 text = StripHtml(text).Trim();
                 string code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
-                return code.Replace("\r\n", "<br />");
+                return code.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
             case "xml":
                 HtmlFormat xmlf = new HtmlFormat();
                 xmlf.LineNumbers = options.DisplayLineNumbers;
                 xmlf.Alternate = options.AlternateLineNumbers;
+                text = text.Replace("<br />", "\r\n");
                 text = StripHtml(text).Trim();
                 string xml = xmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
-                return xml.Replace("\r\n", "<br />");
+                return xml.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
             case "tsql":
                 TsqlFormat tsqlf = new TsqlFormat();
@@ -139,6 +141,7 @@ public class CodeFormatterExtension
                 mshf.LineNumbers = options.DisplayLineNumbers;
                 mshf.Alternate = options.AlternateLineNumbers;
                 return HttpContext.Current.Server.HtmlDecode(mshf.FormatCode(text));
+            
         }
 
         return string.Empty;
