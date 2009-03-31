@@ -660,4 +660,16 @@
   <data name="youAlreadyRated" xml:space="preserve">
     <value>Du har allerede givet point til denne post</value>
   </data>
+  <data name="cancelReply" xml:space="preserve">
+    <value>Fortryd svar til kommentaren</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>Virker kun hvis det valgte tema understøtter det</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>Antal bogstaver</value>
+  </data>
+  <data name="replyToThis" xml:space="preserve">
+    <value>Besvar</value>
+  </data>
 </root>

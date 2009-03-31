@@ -69,7 +69,7 @@
         
         <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
-        <label for="<%=txtDescriptionCharacters.ClientID %>" style="float:none; position:relative; top:-2px;">Number of characters</label>
+        <label for="<%=txtDescriptionCharacters.ClientID %>" style="float:none; position:relative; top:-2px;"><%=Resources.labels.numberOfCharacters %></label>
         <asp:TextBox runat="server" ID="txtDescriptionCharacters" Width="40" />
         <asp:CompareValidator runat="server" ControlToValidate="txtDescriptionCharacters" Type="Integer" Operator="DataTypeCheck" ID="valDescChar" SetFocusOnError="true" />
         <br />
