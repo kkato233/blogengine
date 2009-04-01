@@ -63,7 +63,7 @@ BlogEngine = {
         var content = BlogEngine.comments.contentBox.value;
         var notify = BlogEngine.$("cbNotify").checked;
         var captcha = BlogEngine.comments.captchaField.value;
-        var replyToId = BlogEngine.comments.replyToId.value;
+        var replyToId = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : "";
 
         var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
         var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
@@ -120,7 +120,7 @@ BlogEngine = {
                 commentList.innerHTML = "<h1 id='comment'>" + BlogEngine.i18n.comments + "</h1>"
 
             // add comment html to the right place
-            var id = BlogEngine.comments.replyToId.value;
+            var id = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : '';
 
             if (id != '') {
                 var replies = BlogEngine.$('replies_' + id);
