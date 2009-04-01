@@ -488,12 +488,7 @@ namespace BlogEngine.Core
 		{
 			get
 			{
-				// Mono currently does not return any country names, as such we're unable to use the countries
-				// on the comments.
-				if (!Utils.IsMono)
-					return enableCountryInComments;
-				else
-					return false;
+				return enableCountryInComments;
 			}
 			set
 			{
