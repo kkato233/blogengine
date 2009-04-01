@@ -44,7 +44,11 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 			mail.Subject = "Test mail from " + txtName.Text;
 			mail.Body = "Success";
 			SmtpClient smtp = new SmtpClient(txtSmtpServer.Text);
-			smtp.Credentials = new System.Net.NetworkCredential(txtSmtpUsername.Text, txtSmtpPassword.Text);
+            // don't send credentials if a server doesn't require it,
+            // linux smtp servers don't like that 
+            if (!string.IsNullOrEmpty(txtSmtpUsername.Text)) {
+                smtp.Credentials = new System.Net.NetworkCredential(txtSmtpUsername.Text, txtSmtpPassword.Text);
+            }
 			smtp.EnableSsl = cbEnableSsl.Checked;
 			smtp.Port = int.Parse(txtSmtpServerPort.Text, CultureInfo.InvariantCulture);
 			smtp.Send(mail);

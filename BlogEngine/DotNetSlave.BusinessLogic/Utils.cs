@@ -330,7 +330,11 @@ namespace BlogEngine.Core
 				message.IsBodyHtml = true;
 				message.BodyEncoding = Encoding.UTF8;
 				SmtpClient smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
-				smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUserName, BlogSettings.Instance.SmtpPassword);
+                // don't send credentials if a server doesn't require it,
+                // linux smtp servers don't like that 
+                if (!string.IsNullOrEmpty(BlogSettings.Instance.SmtpUserName)) {
+				    smtp.Credentials = new System.Net.NetworkCredential(BlogSettings.Instance.SmtpUserName, BlogSettings.Instance.SmtpPassword);
+                }
 				smtp.Port = BlogSettings.Instance.SmtpServerPort;
 				smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
 				smtp.Send(message);
