@@ -6,4 +6,5 @@
   <widget id="76dfb6eb-1931-47b6-bece-167a7d0a0b79" title="Tag cloud" showTitle="True">Tag cloud</widget>
   <widget id="ab2b8c27-02c4-46ab-a78f-28939c2a1a09" title="Month List" showTitle="True">Month List</widget>
   <widget id="dc246169-0320-459f-a181-0f7f423dfbb5" title="Page List" showTitle="True">Page List</widget>
+  <widget id="f3f65f28-8110-4eff-89ea-5428bc86c823" title="Blogroll" showTitle="True">Blogroll</widget>
 </widgets>
