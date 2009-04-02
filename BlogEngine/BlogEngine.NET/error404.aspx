@@ -5,7 +5,7 @@
     <h1>Ooops! I can't find the page you're looking for</h1>
     <div id="divSearchEngine" runat="server" visible="False" class="search">
       <p>
-        You did a search on <strong><a href="<%=Request.UrlReferrer %>"><%=Request.UrlReferrer.Host %></a></strong>
+        You did a search on <strong><a href="<%=Server.HtmlEncode(Request.UrlReferrer.ToString()) %>"><%=Server.HtmlEncode(Request.UrlReferrer.Host)%></a></strong>
         for <strong><%=SearchTerm %></strong>. However, their index seems to be out of date.
       </p>
       <h2>All is not lost!</h2>
@@ -16,7 +16,7 @@
     <div id="divExternalReferrer" runat="server" visible="False">
       <p>
         You were incorrectly referred to this page by: 
-        <a href="javascript:history.go(-1)"><%=Request.UrlReferrer.Host %></a> 
+        <a href="javascript:history.go(-1)"><%=Server.HtmlEncode(Request.UrlReferrer.Host)%></a> 
       </p>
       
       <p>I suggest you try one of the links below:</p>
