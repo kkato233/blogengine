@@ -305,11 +305,14 @@ namespace BlogEngine.Core.API.MetaWeblog
 			string serverPath = request.Server.MapPath(rootPath);
 			string saveFolder = serverPath;
 			string fileName = mediaObject.name;
+            string mediaFolder = "";
 
 			// Check/Create Folders & Fix fileName
 			if (mediaObject.name.LastIndexOf('/') > -1)
 			{
-				saveFolder += mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
+                mediaFolder = mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
+				saveFolder += mediaFolder;
+                mediaFolder += "/";
 				saveFolder = saveFolder.Replace('/', Path.DirectorySeparatorChar);
 				fileName = mediaObject.name.Substring(mediaObject.name.LastIndexOf('/') + 1);
 			}
@@ -361,7 +364,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 					break;
 			}
 
-			mediaInfo.url = rootUrl + fileName;
+			mediaInfo.url = rootUrl + mediaFolder + fileName;
 			return mediaInfo;
 		}
 
