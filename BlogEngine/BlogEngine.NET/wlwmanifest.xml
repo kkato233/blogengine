@@ -14,6 +14,7 @@
     <supportsAuthor>Yes</supportsAuthor>
     <supportsGetTags>Yes</supportsGetTags>
     <requiresHtmlTitles>No</requiresHtmlTitles>
+    <fileUploadNameFormat>{FileName}</fileUploadNameFormat>
 </options>
   <weblog>
     <ServiceName>BlogEngine.NET</ServiceName>
