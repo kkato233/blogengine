@@ -158,18 +158,20 @@ namespace Controls
 		private string Script()
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.Append(@"<script type=""text/javascript"">
-BlogEngine.Calendar = {
-	months: {},
-	nav: function(date) {
-		var m = BlogEngine.Calendar.months;
-		if (m[date] == null || m[date] == 'undefined')  {
-			" + Page.ClientScript.GetCallbackEventReference(this, "date", "BlogEngine.updateCalendar", "date") + @"
-		} else {
-			BlogEngine.updateCalendar(months[date], date);
-		}
-	}
-};
+            sb.Append(@"<script type=""text/javascript"">
+function setupBlogEngineCalendar() {
+  BlogEngine.Calendar = {
+  	  months: {},
+	  nav: function(date) {
+		  var m = BlogEngine.Calendar.months;
+		  if (m[date] == null || m[date] == 'undefined')  {
+		  	  " + Page.ClientScript.GetCallbackEventReference(this, "date", "BlogEngine.updateCalendar", "date") + @"
+		  } else {
+			  BlogEngine.updateCalendar(months[date], date);
+		  }
+	  }
+  };
+}
 </script>");
 			
 			/*
