@@ -167,7 +167,7 @@ function setupBlogEngineCalendar() {
 		  if (m[date] == null || m[date] == 'undefined')  {
 		  	  " + Page.ClientScript.GetCallbackEventReference(this, "date", "BlogEngine.updateCalendar", "date") + @"
 		  } else {
-			  BlogEngine.updateCalendar(months[date], date);
+			  BlogEngine.updateCalendar(m[date], date);
 		  }
 	  }
   };
