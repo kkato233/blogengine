@@ -276,7 +276,7 @@ BlogEngine = {
     updateCalendar: function(args, context) {
         var cal = BlogEngine.$('calendarContainer');
         cal.innerHTML = args;
-        months[context] = args;
+        BlogEngine.Calendar.months[context] = args;
     }
 	,
     toggleMonth: function(year) {
