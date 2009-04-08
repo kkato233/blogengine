@@ -30,7 +30,7 @@ public partial class admin_menu : System.Web.UI.UserControl
 					a.HRef = adminNode.Url;
 
 					a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-					if (Request.RawUrl.EndsWith(adminNode.Url, StringComparison.OrdinalIgnoreCase))
+                    if (Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
 						a.Attributes["class"] = "current";
 					HtmlGenericControl li = new HtmlGenericControl("li");
 					li.Controls.Add(a);

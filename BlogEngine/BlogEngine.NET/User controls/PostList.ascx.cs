@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
 
@@ -90,12 +91,17 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		return index;
 	}
 
-	/// <summary>
-	/// Initializes the Next and Previous links
-	/// </summary>
-	private void InitPaging()
-	{
-        string path = Request.RawUrl.Replace("default.aspx", string.Empty).Replace("Default.aspx", string.Empty);
+    private static readonly Regex REMOVE_DEFAULT_ASPX = new Regex("default.aspx", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    /// <summary>
+    /// Initializes the Next and Previous links
+    /// </summary>
+    private void InitPaging()
+    {
+        string path = Request.RawUrl;
+
+        // Leave "default.aspx" when posts for a specific year/month or specific date are displayed.
+        if (!(Request.QueryString["year"] != null || Request.QueryString["date"] != null))
+            path = REMOVE_DEFAULT_ASPX.Replace(path, string.Empty);
 
 		if (path.Contains("?"))
 		{

@@ -139,7 +139,7 @@ namespace BlogEngine.Core.Web.Controls
 			sb.AppendFormat("BlogEngine.i18n.apmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
 			sb.Append("};");
 
-			ClientScript.RegisterStartupScript(this.GetType(), "tracking", sb.ToString(), true);
+            ClientScript.RegisterStartupScript(this.GetType(), "registerVariables", sb.ToString(), true);
 		}
 
 		/// <summary>
