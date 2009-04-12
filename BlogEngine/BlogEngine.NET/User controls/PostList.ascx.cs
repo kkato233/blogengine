@@ -91,7 +91,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		return index;
 	}
 
-    private static readonly Regex REMOVE_DEFAULT_ASPX = new Regex("default.aspx", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex REMOVE_DEFAULT_ASPX = new Regex("default\\.aspx", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     /// <summary>
     /// Initializes the Next and Previous links
     /// </summary>

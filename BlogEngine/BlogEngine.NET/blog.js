@@ -147,8 +147,8 @@ BlogEngine = {
             var commentForm = BlogEngine.$('comment-form');
             commentList.appendChild(commentForm);
             // reset reply to
-            BlogEngine.comments.replyToId.value = '';
-            BlogEngine.$('cancelReply').style.display = 'none';
+            if (BlogEngine.comments.replyToId) BlogEngine.comments.replyToId.value = '';
+            if (BlogEngine.$('cancelReply')) BlogEngine.$('cancelReply').style.display = 'none';            
         }
 
         BlogEngine.$("btnSaveAjax").disabled = false;
