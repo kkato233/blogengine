@@ -26,7 +26,7 @@ namespace BlogEngine.Core
 		private static BlogSettings blogSettingsSingleton;
 		private string configuredTheme = String.Empty;
 		private int numberOfRecentPosts = 10;
-        bool enableHttpCompression;
+		bool enableHttpCompression;
 
 		#endregion
 
@@ -99,14 +99,17 @@ namespace BlogEngine.Core
 		/// Gets or sets a value indicating if HTTP compression is enabled.
 		/// </summary>
 		/// <value><b>true</b> if compression is enabled, otherwise returns <b>false</b>.</value>
-		public bool EnableHttpCompression {
-            get {
-                return enableHttpCompression && !Utils.IsMono;
-            }
-            set {
-                enableHttpCompression = value;
-            }
-        }
+		public bool EnableHttpCompression
+		{
+			get
+			{
+				return enableHttpCompression && !Utils.IsMono;
+			}
+			set
+			{
+				enableHttpCompression = value;
+			}
+		}
 
 		#endregion
 
@@ -376,7 +379,7 @@ namespace BlogEngine.Core
 		/// <value>
 		/// 	<c>true</c> if [enable ping back receive]; otherwise, <c>false</c>.
 		/// </value>
-		public bool EnablePingBackReceive {get; set;}
+		public bool EnablePingBackReceive { get; set; }
 		#endregion
 
 		#region EnableTrackBackSend;
@@ -751,7 +754,10 @@ namespace BlogEngine.Core
 						//------------------------------------------------------------
 						try
 						{
-							propertyInformation.SetValue(this, Convert.ChangeType(value, propertyInformation.PropertyType, CultureInfo.CurrentCulture), null);
+							if (propertyInformation.CanWrite)
+							{
+								propertyInformation.SetValue(this, Convert.ChangeType(value, propertyInformation.PropertyType, CultureInfo.CurrentCulture), null);
+							}
 						}
 						catch
 						{

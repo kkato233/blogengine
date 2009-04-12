@@ -53,13 +53,9 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 		bool notify = bool.Parse(args[5]);
 		bool isPreview = bool.Parse(args[6]);
 		string sentCaptcha = args[7];
+		//If there is no "reply to" comment, args[8] is empty
+		Guid replyToCommentID = String.IsNullOrEmpty(args[8]) ? Guid.Empty : new Guid(args[8]);
 
-		Guid replyToCommentID = Guid.Empty;
-		try
-		{
-			replyToCommentID = new Guid(args[8]);
-		}
-		catch { }
 		string storedCaptcha = hfCaptcha.Value;
 
 		if (sentCaptcha != storedCaptcha)

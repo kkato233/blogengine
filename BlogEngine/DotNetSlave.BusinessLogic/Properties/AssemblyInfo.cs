@@ -15,7 +15,7 @@ using System.Security;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BlogEngine.NET")]
-[assembly: AssemblyCopyright("Copyright @ 2007-2008")]
+[assembly: AssemblyCopyright("Copyright @ 2007-2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -24,4 +24,4 @@ using System.Security;
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.5.0.4")]
+[assembly: AssemblyVersion("1.5.0.5")]

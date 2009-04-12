@@ -30,7 +30,7 @@ public partial class admin_menu : System.Web.UI.UserControl
 					a.HRef = adminNode.Url;
 
 					a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-                    if (Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
+					if (Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
 						a.Attributes["class"] = "current";
 					HtmlGenericControl li = new HtmlGenericControl("li");
 					li.Controls.Add(a);
@@ -58,7 +58,13 @@ public partial class admin_menu : System.Web.UI.UserControl
 	{
 		try
 		{
-			return this.GetGlobalResourceObject("labels", text).ToString();
+			object resObject = GetGlobalResourceObject("labels", text);
+			if (resObject != null)
+			{
+				return resObject.ToString();
+			}
+
+			return text;
 		}
 		catch (NullReferenceException)
 		{
