@@ -131,9 +131,14 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		hlPrev.HRef = string.Format(url, page + 2);
 
 		if (page == 0)
+		{
 			hlNext.Visible = false;
+		}
 		else
+		{
 			(Page as BlogBasePage).AddGenericLink("next", "Next page", hlNext.HRef);
+			Page.Title += " - Page " + (page + 1);
+		}
 
 		if (hlPrev.Visible)
 			(Page as BlogBasePage).AddGenericLink("prev", "Previous page", string.Format(url, page + 2));
