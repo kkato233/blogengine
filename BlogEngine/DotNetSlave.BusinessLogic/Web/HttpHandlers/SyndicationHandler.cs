@@ -222,7 +222,12 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					StopServing(context);
 
 				Guid categoryId = new Guid(context.Request.QueryString["category"]);
-				subTitle = Category.GetCategory(categoryId).Title;
+				Category currentCategory = Category.GetCategory(categoryId);
+				if (currentCategory == null)
+				{
+					StopServing(context);
+				}
+				subTitle = currentCategory.Title;
 			}
 
 			if (!string.IsNullOrEmpty(context.Request.QueryString["author"]))

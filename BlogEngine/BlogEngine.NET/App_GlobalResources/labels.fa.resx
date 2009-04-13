@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+  <!--
+    Translation done by Touradg Morassaei - 2009/4/13 - BE.NET 1.5.0.6
+    
     Microsoft ResX Schema 
     
     Version 2.0
@@ -117,6 +119,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="aboutMe" xml:space="preserve">
+    <value>درباره من</value>
+  </data>
   <data name="add" xml:space="preserve">
     <value>اضافه کردن</value>
   </data>
@@ -168,14 +173,20 @@
   <data name="beTheFirstToRate" xml:space="preserve">
     <value>اولین کسی باشید که به این موضوع رای می دهد</value>
   </data>
+  <data name="birthday" xml:space="preserve">
+    <value>تاریخ تولد</value>
+  </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET از فرمت BlogML برای تولید خروجی استفاده می کند.برای ورود اطلاعات فرمت BlogML و RSS پشتیبانی می شود.</value>
+    <value>BlogEngine.NET از فرمت BlogML برای تولید خروجی استفاده می کند.برای ورود اطلاعات فرمت BlogML و RSS پشتیبانی می شود</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>اخبار از سایتهای دیگر</value>
   </data>
   <data name="buttonText" xml:space="preserve">
     <value>متن دکمه</value>
+  </data>
+  <data name="calendar" xml:space="preserve">
+    <value>تقویم</value>
   </data>
   <data name="categories" xml:space="preserve">
     <value>بخشها</value>
@@ -189,11 +200,11 @@
   <data name="chooseOtherName" xml:space="preserve">
     <value>لطفاً نام دیگری را انتخاب کنید</value>
   </data>
+  <data name="cityTown" xml:space="preserve">
+    <value>شهر/کشور</value>
+  </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>بستن امکان ارسال نظر بعد از</value>
-  </data>
-  <data name="combine" xml:space="preserve">
-    <value>ترکیب</value>
   </data>
   <data name="comment" xml:space="preserve">
     <value>نظر</value>
@@ -207,8 +218,14 @@
   <data name="commentsAreClosed" xml:space="preserve">
     <value>امکان ارسال نظر برای این موضوع وجود ندارد</value>
   </data>
+  <data name="commentWaitingModeration" xml:space="preserve">
+    <value>با تشکر! نظر شما پس از بررسی توسط مدیر ثبت خواهد شد</value>
+  </data>
   <data name="commentWasSaved" xml:space="preserve">
     <value>نظر شما ثبت شد.متشکریم!</value>
+  </data>
+  <data name="company" xml:space="preserve">
+    <value>شرکت</value>
   </data>
   <data name="contact" xml:space="preserve">
     <value>تماس</value>
@@ -246,6 +263,9 @@
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
     <value>نمایش نظرات</value>
   </data>
+  <data name="displayName" xml:space="preserve">
+    <value>نمایش نام</value>
+  </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
     <value>نمایش امتیاز دهی</value>
   </data>
@@ -271,7 +291,7 @@
     <value>فعال سازی ارسال نظرات</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>اگر نظرات فعال نباشند هیچ کس نمی تواند نظری ارسال کند.</value>
+    <value>اگر نظرات فعال نباشند هیچ کس نمی تواند نظری ارسال کند</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
     <value>فعال سازی جستجو در نظرات</value>
@@ -330,8 +350,17 @@
   <data name="export" xml:space="preserve">
     <value>ایجاد خروجی</value>
   </data>
+  <data name="firstName" xml:space="preserve">
+    <value>نام</value>
+  </data>
   <data name="formMessage" xml:space="preserve">
     <value>پیغام فرم</value>
+  </data>
+  <data name="fullName" xml:space="preserve">
+    <value>نام کامل</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>جنسیت</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
     <value>رفتن به صفحه اول سایت</value>
@@ -352,8 +381,17 @@
   <data name="import" xml:space="preserve">
     <value>وارد کردن</value>
   </data>
+  <data name="industry" xml:space="preserve">
+    <value>صنعت</value>
+  </data>
+  <data name="interests" xml:space="preserve">
+    <value>علایق</value>
+  </data>
   <data name="isFrontPage" xml:space="preserve">
     <value>صفحه اول باشد</value>
+  </data>
+  <data name="isPrivate" xml:space="preserve">
+    <value>شخصی باشد</value>
   </data>
   <data name="keywords" xml:space="preserve">
     <value>کلمات کلیدی</value>
@@ -363,6 +401,9 @@
   </data>
   <data name="languageCode" xml:space="preserve">
     <value>کد زبان</value>
+  </data>
+  <data name="lastName" xml:space="preserve">
+    <value>نام فامیل</value>
   </data>
   <data name="latitude" xml:space="preserve">
     <value>عرض جغرافیایی</value>
@@ -379,11 +420,11 @@
   <data name="message" xml:space="preserve">
     <value>پیغام</value>
   </data>
+  <data name="middleName" xml:space="preserve">
+    <value>نام میانی</value>
+  </data>
   <data name="mobileTheme" xml:space="preserve">
     <value>پوسته گرافیکی برای موبایل</value>
-  </data>
-  <data name="monster" xml:space="preserve">
-    <value>Monster</value>
   </data>
   <data name="more" xml:space="preserve">
     <value>بیشتر</value>
@@ -418,6 +459,9 @@
   <data name="numberOfPosts" xml:space="preserve">
     <value>تعداد ارسالها</value>
   </data>
+  <data name="occupation" xml:space="preserve">
+    <value>شغل</value>
+  </data>
   <data name="page" xml:space="preserve">
     <value>صفحه</value>
   </data>
@@ -427,6 +471,18 @@
   <data name="password" xml:space="preserve">
     <value>رمز عبور</value>
   </data>
+  <data name="phoneFax" xml:space="preserve">
+    <value>شماره فکس</value>
+  </data>
+  <data name="phoneMain" xml:space="preserve">
+    <value>شماره تلفن اصلی</value>
+  </data>
+  <data name="phoneMobile" xml:space="preserve">
+    <value>شماره تلفن همراه</value>
+  </data>
+  <data name="photoURL" xml:space="preserve">
+    <value>آدرس اینترنتی عکس</value>
+  </data>
   <data name="portNumber" xml:space="preserve">
     <value>شماره پورت</value>
   </data>
@@ -434,7 +490,7 @@
     <value>پورت 25 پورت استاندارد است</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>امکان ارسال هرزنامه</value>
+    <value>احتمال ارسال هرزنامه</value>
   </data>
   <data name="post" xml:space="preserve">
     <value>ارسال</value>
@@ -453,6 +509,9 @@
   </data>
   <data name="previousPosts" xml:space="preserve">
     <value>ارسالهای قبلی</value>
+  </data>
+  <data name="profile" xml:space="preserve">
+    <value>پروفایل</value>
   </data>
   <data name="publish" xml:space="preserve">
     <value>ارسال</value>
@@ -478,6 +537,9 @@
   <data name="referrers" xml:space="preserve">
     <value>ارجاع دهندگان</value>
   </data>
+  <data name="regionState" xml:space="preserve">
+    <value>استان/شهر</value>
+  </data>
   <data name="relatedPosts" xml:space="preserve">
     <value>ارسالهای مرتبط</value>
   </data>
@@ -486,6 +548,12 @@
   </data>
   <data name="required" xml:space="preserve">
     <value>الزامی است</value>
+  </data>
+  <data name="requireSslForMetaWeblogApi" xml:space="preserve">
+    <value>نیاز به پروتکل SSL برای MetaWeblog API</value>
+  </data>
+  <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
+    <value>اعمال استفاده از پروتکل SSL در زمان ارتباط با MetaWeblog API</value>
   </data>
   <data name="save" xml:space="preserve">
     <value>ذخیره</value>
@@ -498,6 +566,9 @@
   </data>
   <data name="savePost" xml:space="preserve">
     <value>ذخیره ارسال</value>
+  </data>
+  <data name="saveProfile" xml:space="preserve">
+    <value>ذخیره پروفایل</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
     <value>ذخیره تنظیمات</value>
@@ -562,6 +633,9 @@
   <data name="subscribe" xml:space="preserve">
     <value>اشتراک</value>
   </data>
+  <data name="switchUserProfile" xml:space="preserve">
+    <value>رفتن به پروفایل کاربر</value>
+  </data>
   <data name="thankYouMessage" xml:space="preserve">
     <value>پیغام تشکر</value>
   </data>
@@ -575,7 +649,7 @@
     <value>ارسال</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>تعداد {0} ارسال فرستاده نشده وجود دارد.</value>
+    <value>تعداد {0} ارسال فرستاده نشده وجود دارد</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
     <value>اضافه کردن تاریخ به لینک ارسالها</value>
@@ -604,11 +678,23 @@
   <data name="uploadImage" xml:space="preserve">
     <value>ارسال عکس</value>
   </data>
+  <data name="useBlogNameInPageTitles" xml:space="preserve">
+    <value>استفاده از نام بلاگ در عنوان صفحات</value>
+  </data>
+  <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
+    <value>نام بلاگ را بصورت پیشوند به عنوان صفحات اضافه می کند</value>
+  </data>
   <data name="userName" xml:space="preserve">
     <value>نام کاربری</value>
   </data>
+  <data name="userProfiles" xml:space="preserve">
+    <value>پروفایل کاربران</value>
+  </data>
   <data name="users" xml:space="preserve">
     <value>کاربران</value>
+  </data>
+  <data name="view" xml:space="preserve">
+    <value>مشاهده</value>
   </data>
   <data name="website" xml:space="preserve">
     <value>وب سایت</value>
@@ -621,5 +707,62 @@
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
     <value>شما قبلاً به این مقاله امتیاز داده اید</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>لغو</value>
+  </data>
+  <data name="compressWebResource" xml:space="preserve">
+    <value>فشرده سازی WebResource.axd</value>
+  </data>
+  <data name="compressWebResourceDescription" xml:space="preserve">
+    <value>این گزینه ممکن است باعث اشکال در کارکرد برنامه های اضافه شده گردد.</value>
+  </data>
+  <data name="deleteKeepReplies" xml:space="preserve">
+    <value>این را به استثنای پاسخها حذف کن</value>
+  </data>
+  <data name="deletePlusReplies" xml:space="preserve">
+    <value>این را به همراه پاسخها حذف کن</value>
+  </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>فعال سازی نظرات تو در تو</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>این گزینه فقط زمانی که پوسته ظاهری آن را پشتیبانی کند ,عمل منماید</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>فیلتر</value>
+  </data>
+  <data name="filterByApml" xml:space="preserve">
+    <value>فیلتر بوسیله APML</value>
+  </data>
+  <data name="filterByApmlDescription" xml:space="preserve">
+    <value>آدرس سایت خود و یا سند APML را وارد کنید</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>ورود</value>
+  </data>
+  <data name="logoff" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="replyTo" xml:space="preserve">
+    <value> در پاسخ به</value>
+  </data>
+  <data name="replyToBase" xml:space="preserve">
+    <value>ارسال اصلی</value>
+  </data>
+  <data name="replyToThis" xml:space="preserve">
+    <value>پاسخ به این نظر</value>
+  </data>
+  <data name="uncategorized" xml:space="preserve">
+    <value>تقسیم بندی نشده</value>
+  </data>
+  <data name="useRawHtmlEditor" xml:space="preserve">
+    <value>از ویرایشگر ساده HTML استفاده کن</value>
+  </data>
+  <data name="cancelReply" xml:space="preserve">
+    <value>لغو ارسال پاسخ به نظر</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>تعداد کاراکترها</value>
   </data>
 </root>
