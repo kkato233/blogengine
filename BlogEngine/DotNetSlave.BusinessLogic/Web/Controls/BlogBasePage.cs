@@ -137,6 +137,9 @@ namespace BlogEngine.Core.Web.Controls
 			sb.AppendFormat("BlogEngine.i18n.cancel='{0}';", Translate("cancel").Replace("'", "\\'"));
 			sb.AppendFormat("BlogEngine.i18n.filter='{0}';", Translate("filter").Replace("'", "\\'"));
 			sb.AppendFormat("BlogEngine.i18n.apmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.beTheFirstToRate='{0}';", Translate("beTheFirstToRate").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.currentlyRated='{0}';", Translate("currentlyRated").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.ratingHasBeenRegistered='{0}';", Translate("ratingHasBeenRegistered").Replace("'", "\\'"));            
 			sb.Append("};");
 
             ClientScript.RegisterStartupScript(this.GetType(), "registerVariables", sb.ToString(), true);

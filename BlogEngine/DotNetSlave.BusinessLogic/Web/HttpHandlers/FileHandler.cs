@@ -55,7 +55,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 					if (info.Exists && info.Directory.FullName.StartsWith(folder, StringComparison.OrdinalIgnoreCase))
 					{
-						context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
+						context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + info.Name + "\"");
 						SetContentType(context, fileName);
 
 						if (Utils.SetConditionalGetHeaders(info.CreationTimeUtc))

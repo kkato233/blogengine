@@ -763,4 +763,7 @@
   <data name="numberOfCharacters" xml:space="preserve">
     <value>Number of characters</value>
   </data>
+  <data name="ratingHasBeenRegistered" xml:space="preserve">
+    <value>Your rating has been registered. Thank you!</value>
+  </data>
 </root>

@@ -641,6 +641,9 @@ namespace BlogEngine.Core
 				Comments.Add(comment);
 				DataUpdate();
 				OnCommentAdded(comment);
+
+                if (comment.IsApproved)
+                    SendNotifications(comment);
 			}
 		}
 
@@ -662,22 +665,20 @@ namespace BlogEngine.Core
 		/// </summary>
 		private void SendNotifications(Comment comment)
 		{
-
 			if (NotificationEmails.Count == 0 || comment.IsApproved == false)
 				return;
-
-			MailMessage mail = new MailMessage();
-			mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
-			mail.Subject = "New comment on " + Title;
-			mail.Body = "Comment by " + comment.Author + "<br /><br />";
-			mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
-			mail.Body += string.Format("<a href=\"{0}\">{1}</a>", PermaLink + "#id_" + comment.Id, Title);
 
 			foreach (string email in NotificationEmails)
 			{
 				if (email != comment.Email)
 				{
-					mail.To.Clear();
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
+                    mail.Subject = "New comment on " + Title;
+                    mail.Body = "Comment by " + comment.Author + "<br /><br />";
+                    mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
+                    mail.Body += string.Format("<a href=\"{0}\">{1}</a>", PermaLink + "#id_" + comment.Id, Title);
+
 					mail.To.Add(email);
 					Utils.SendMailMessageAsync(mail);
 				}
