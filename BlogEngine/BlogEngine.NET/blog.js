@@ -14,7 +14,10 @@ BlogEngine = {
         commentWaitingModeration: '',
         cancel: '',
         filter: '',
-        apmlDescription: ''
+        apmlDescription: '',
+        beTheFirstToRate: '',
+        currentlyRated: '',
+        ratingHasBeenRegistered: ''
     }
 	,
     setFlag: function(iso) {
@@ -148,7 +151,7 @@ BlogEngine = {
             commentList.appendChild(commentForm);
             // reset reply to
             if (BlogEngine.comments.replyToId) BlogEngine.comments.replyToId.value = '';
-            if (BlogEngine.$('cancelReply')) BlogEngine.$('cancelReply').style.display = 'none';            
+            if (BlogEngine.$('cancelReply')) BlogEngine.$('cancelReply').style.display = 'none';
         }
 
         BlogEngine.$("btnSaveAjax").disabled = false;
@@ -224,7 +227,7 @@ BlogEngine = {
             if (typeof OnRating != "undefined")
                 OnRating(rating);
 
-            alert("Your rating has been registered. Thank you!");
+            alert(BlogEngine.i18n.ratingHasBeenRegistered);
         }
         else if (status == "HASRATED") {
             alert(BlogEngine.i18n.hasRated);
@@ -336,10 +339,10 @@ BlogEngine = {
         var p = document.createElement('p');
         div.appendChild(p);
         if (raters == 0) {
-            p.innerHTML = 'Be the first to rate this post';
+            p.innerHTML = BlogEngine.i18n.beTheFirstToRate;
         }
         else {
-            p.innerHTML = 'Currently rated ' + new Number(rating).toFixed(1) + ' by ' + raters + ' people';
+            p.innerHTML = BlogEngine.i18n.currentlyRated.replace('{0}', new Number(rating).toFixed(1)).replace('{1}', raters);
         }
 
         var ul = document.createElement('ul');
@@ -480,7 +483,7 @@ BlogEngine = {
         var a = document.createElement('a');
         a.innerHTML = BlogEngine.i18n.cancel;
         a.href = 'javascript:void(0)';
-        a.onclick = function() { document.body.removeChild(this.$('layer')); document.body.removeChild(this.$('apmlfilter')); document.body.style.position = ''; };
+        a.onclick = function() { document.body.removeChild(BlogEngine.$('layer')); document.body.removeChild(BlogEngine.$('apmlfilter')); document.body.style.position = ''; };
         div.appendChild(a);
     }
 	,
@@ -514,7 +517,6 @@ BlogEngine = {
 };
 
 BlogEngine.addLoadEvent(BlogEngine.hightLightXfn);
-BlogEngine.addLoadEvent(BlogEngine.applyRatings);
 
 // add this to global if it doesn't exist yet
 if (typeof ($) == 'undefined')
@@ -526,3 +528,6 @@ if (typeof (registerVariables) != 'undefined')
     BlogEngine.addLoadEvent(registerVariables);
 if (typeof (setupBlogEngineCalendar) != 'undefined')
     BlogEngine.addLoadEvent(setupBlogEngineCalendar);
+
+// apply ratings after registerVariables.
+BlogEngine.addLoadEvent(BlogEngine.applyRatings);

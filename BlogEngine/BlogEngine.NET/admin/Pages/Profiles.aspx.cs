@@ -195,8 +195,12 @@ public partial class admin_profiles : Page
 	{
 		if (ddlCountry.SelectedIndex == 0 && Request.UserLanguages != null && Request.UserLanguages[0].Length == 5)
 		{
-			ddlCountry.SelectedValue = Request.UserLanguages[0].Substring(3);
-			SetFlagImageUrl();
+            // Do a case-insensitive search for the country name.  Some browsers (like Chrome) report
+            // their UserLanguages in uppercase.
+            ListItem countryToSelect = FindItemInListControlByValue(ddlCountry, Request.UserLanguages[0].Substring(3));
+            if (countryToSelect != null)
+                ddlCountry.SelectedValue = countryToSelect.Value;
+            SetFlagImageUrl();
 		}
 	}
 	private void SetFlagImageUrl()
