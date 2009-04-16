@@ -766,4 +766,7 @@
   <data name="ratingHasBeenRegistered" xml:space="preserve">
     <value>Your rating has been registered. Thank you!</value>
   </data>
+  <data name="rateThisXStars" xml:space="preserve">
+    <value>Rate this {0} star{1} out of 5</value>
+  </data>
 </root>

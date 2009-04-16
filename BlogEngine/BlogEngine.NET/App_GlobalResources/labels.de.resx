@@ -571,4 +571,205 @@
   <data name="youAlreadyRated" xml:space="preserve">
     <value>Du hast diesen Beitrag schon bewertet</value>
   </data>
+  <data name="aboutMe" xml:space="preserve">
+    <value>Über mich</value>
+  </data>
+  <data name="birthday" xml:space="preserve">
+    <value>Geburtstag</value>
+  </data>
+  <data name="calendar" xml:space="preserve">
+    <value>Kalender</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="cancelReply" xml:space="preserve">
+    <value>Antowrt auf Kommentar abbrechen</value>
+  </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>Bitte verwenden Sie einen anderen Namen</value>
+  </data>
+  <data name="cityTown" xml:space="preserve">
+    <value>Stadt</value>
+  </data>
+  <data name="commentWaitingModeration" xml:space="preserve">
+    <value>Vielen Dank für Ihren Beitrag. Das Kommentar wartet auf Bestätigung vom Moderator</value>
+  </data>
+  <data name="company" xml:space="preserve">
+    <value>Firma</value>
+  </data>
+  <data name="compressWebResource" xml:space="preserve">
+    <value>WebResource.axd komprimieren</value>
+  </data>
+  <data name="compressWebResourceDescription" xml:space="preserve">
+    <value>Dies kann Funktionen von Drittanbietern beeinträchtigen</value>
+  </data>
+  <data name="deleteKeepReplies" xml:space="preserve">
+    <value>Diesen Eintrag löschen, Antworten behalten</value>
+  </data>
+  <data name="deletePlusReplies" xml:space="preserve">
+    <value>Diesen Eintrag und alle Antworten löschen</value>
+  </data>
+  <data name="displayName" xml:space="preserve">
+    <value>Anzeigename</value>
+  </data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Prefix im Betreff</value>
+  </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>Verschachtelte Kommentare aktivieren</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>Funktioniert nur, wenn das Thema dies unterstützt</value>
+  </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Pingbacks aktivieren</value>
+  </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Trackbacks aktivieren</value>
+  </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>Bitte geben Sie eine gültige eMail-Adresse an</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>Bitte geben Sie eine gültige URL an</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="filterByApml" xml:space="preserve">
+    <value>APML-Filter</value>
+  </data>
+  <data name="filterByApmlDescription" xml:space="preserve">
+    <value>Geben Sie die URL zu Ihrer Website oder zu Ihrem APML-Dokument an</value>
+  </data>
+  <data name="firstName" xml:space="preserve">
+    <value>Vorname</value>
+  </data>
+  <data name="fullName" xml:space="preserve">
+    <value>Voller Name</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Geschlecht</value>
+  </data>
+  <data name="industry" xml:space="preserve">
+    <value>Branche</value>
+  </data>
+  <data name="interests" xml:space="preserve">
+    <value>Interessen</value>
+  </data>
+  <data name="isPrivate" xml:space="preserve">
+    <value>Privates Profil</value>
+  </data>
+  <data name="lastName" xml:space="preserve">
+    <value>Nachname</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="logoff" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="middleName" xml:space="preserve">
+    <value>Zweitname</value>
+  </data>
+  <data name="mobileTheme" xml:space="preserve">
+    <value>Thema für Mobilgeräte</value>
+  </data>
+  <data name="nextPost" xml:space="preserve">
+    <value>Nächster Artikel</value>
+  </data>
+  <data name="nextPosts" xml:space="preserve">
+    <value>Nächste Artikel</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>Anzahl der Buchstaben</value>
+  </data>
+  <data name="occupation" xml:space="preserve">
+    <value>Beruf</value>
+  </data>
+  <data name="phoneFax" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="phoneMain" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="phoneMobile" xml:space="preserve">
+    <value>Mobil</value>
+  </data>
+  <data name="photoURL" xml:space="preserve">
+    <value>Photo URL</value>
+  </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Vorheriger Artikel</value>
+  </data>
+  <data name="previousPosts" xml:space="preserve">
+    <value>Vorherige Artikel</value>
+  </data>
+  <data name="profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="ratingHasBeenRegistered" xml:space="preserve">
+    <value>Ihre Bewertung wurde gespeichert. Vielen Dank.</value>
+  </data>
+  <data name="receive" xml:space="preserve">
+    <value>Empfangen</value>
+  </data>
+  <data name="regionState" xml:space="preserve">
+    <value>Staat / Region</value>
+  </data>
+  <data name="replyTo" xml:space="preserve">
+    <value>In Beantwortung von</value>
+  </data>
+  <data name="replyToBase" xml:space="preserve">
+    <value>dem Originalartikel</value>
+  </data>
+  <data name="replyToThis" xml:space="preserve">
+    <value>Antowrt</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>Erforderlich</value>
+  </data>
+  <data name="requireSslForMetaWeblogApi" xml:space="preserve">
+    <value>Für die MetaWeblog API wird SSL benötigt</value>
+  </data>
+  <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
+    <value>SSL für Kommunikation mit MetaWeblog API erzwingen</value>
+  </data>
+  <data name="saveProfile" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="savingTheComment" xml:space="preserve">
+    <value>Kommentar speichern...</value>
+  </data>
+  <data name="send" xml:space="preserve">
+    <value>Senden</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Links zur Artikel-Navigation anzeigen</value>
+  </data>
+  <data name="switchUserProfile" xml:space="preserve">
+    <value>zu Benutzerprofil wechseln</value>
+  </data>
+  <data name="uncategorized" xml:space="preserve">
+    <value>Unkategorisiert</value>
+  </data>
+  <data name="useBlogNameInPageTitles" xml:space="preserve">
+    <value>Blogname in Seitentitel anzeigen</value>
+  </data>
+  <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
+    <value>Zeigt den Blognamen im Seitentitel als Prefix zum Artikelnamen an</value>
+  </data>
+  <data name="useRawHtmlEditor" xml:space="preserve">
+    <value>Puren HTML-Editor verwenden</value>
+  </data>
+  <data name="userProfiles" xml:space="preserve">
+    <value>Benutzerprofil(e)</value>
+  </data>
+  <data name="view" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
 </root>

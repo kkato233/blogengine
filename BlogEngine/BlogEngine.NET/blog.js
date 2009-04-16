@@ -17,7 +17,8 @@ BlogEngine = {
         apmlDescription: '',
         beTheFirstToRate: '',
         currentlyRated: '',
-        ratingHasBeenRegistered: ''
+        ratingHasBeenRegistered: '',
+        rateThisXStars: ''
     }
 	,
     setFlag: function(iso) {
@@ -361,7 +362,7 @@ BlogEngine = {
             a.innerHTML = i;
             a.href = 'rate/' + i;
             a.className = this.englishNumber(i);
-            a.title = "Rate this " + i.toString() + " star" + (i == 1 ? "" : "s") + " out of 5";
+            a.title = BlogEngine.i18n.rateThisXStars.replace('{0}', i.toString()).replace('{1}', i == 1 ? '' : 's');
             a.onclick = function() {
                 BlogEngine.rate(id, this.innerHTML);
                 return false;
