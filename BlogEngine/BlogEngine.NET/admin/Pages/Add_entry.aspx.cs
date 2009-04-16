@@ -230,7 +230,10 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 			string[] tags = txtTags.Text.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (string tag in tags)
 			{
-				post.Tags.Add(tag.Trim().ToLowerInvariant());
+                if (string.IsNullOrEmpty(post.Tags.Find(delegate (string t) { return t.Equals(tag.Trim(), StringComparison.OrdinalIgnoreCase); })))
+                {
+                    post.Tags.Add(tag.Trim());
+                }				
 			}
 		}
 
