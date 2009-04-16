@@ -807,54 +807,45 @@ namespace BlogEngine.Core
 		/// <summary>
 		/// Saves the settings to disk.
 		/// </summary>
-		public void Save()
-		{
-			System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
-			Type settingsType = this.GetType();
+        public void Save()
+        {
+            System.Collections.Specialized.StringDictionary dic = new System.Collections.Specialized.StringDictionary();
+            Type settingsType = this.GetType();
 
-			//------------------------------------------------------------
-			//	Enumerate through settings properties
-			//------------------------------------------------------------
-			foreach (PropertyInfo propertyInformation in settingsType.GetProperties())
-			{
-				try
-				{
-					if (propertyInformation.Name != "Instance")
-					{
-						//------------------------------------------------------------
-						//	Extract property value and its string representation
-						//------------------------------------------------------------
-						object propertyValue = propertyInformation.GetValue(this, null);
-						string valueAsString = propertyValue.ToString();
+            //------------------------------------------------------------
+            //	Enumerate through settings properties
+            //------------------------------------------------------------
+            foreach (PropertyInfo propertyInformation in settingsType.GetProperties())
+            {
+                if (propertyInformation.Name != "Instance")
+                {
+                    //------------------------------------------------------------
+                    //	Extract property value and its string representation
+                    //------------------------------------------------------------
+                    object propertyValue = propertyInformation.GetValue(this, null);
 
-						//------------------------------------------------------------
-						//	Format null/default property values as empty strings
-						//------------------------------------------------------------
-						if (propertyValue.Equals(null))
-						{
-							valueAsString = String.Empty;
-						}
-						if (propertyValue.Equals(Int32.MinValue))
-						{
-							valueAsString = String.Empty;
-						}
-						if (propertyValue.Equals(Single.MinValue))
-						{
-							valueAsString = String.Empty;
-						}
+                    string valueAsString;
+                    //------------------------------------------------------------
+                    //	Format null/default property values as empty strings
+                    //------------------------------------------------------------
+                    if (propertyValue == null || propertyValue.Equals(Int32.MinValue) || propertyValue.Equals(Single.MinValue))
+                    {
+                        valueAsString = String.Empty;
+                    }
+                    else
+                    {
+                        valueAsString = propertyValue.ToString();
+                    }
+                    //------------------------------------------------------------
+                    //	Write property name/value pair
+                    //------------------------------------------------------------
+                    dic.Add(propertyInformation.Name, valueAsString);
+                }
+            }
 
-						//------------------------------------------------------------
-						//	Write property name/value pair
-						//------------------------------------------------------------
-						dic.Add(propertyInformation.Name, valueAsString);
-					}
-				}
-				catch { }
-			}
-
-			Providers.BlogService.SaveSettings(dic);
-			OnChanged();
-		}
+            Providers.BlogService.SaveSettings(dic);
+            OnChanged();
+        }
 		#endregion
 
 		#region Version()
