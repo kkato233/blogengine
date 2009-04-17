@@ -89,8 +89,17 @@ public class BlogImporter : System.Web.Services.WebService {
         //TODO: Save Previous Url?
 
         AddCategories(import.Categories, post);
-        //TODO: Add Tag Support
         
+        //Tag Support:
+        if (import.Tags.Count == 0)
+        {
+            //No tags. Use categories. 
+            post.Tags.AddRange(import.Categories);
+        }
+        else
+        {
+            post.Tags.AddRange(import.Tags);
+        }
         
         post.Import();
 
