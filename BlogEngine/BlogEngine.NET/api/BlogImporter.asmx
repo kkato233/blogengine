@@ -82,6 +82,7 @@ public class BlogImporter : System.Web.Services.WebService {
         post.Title = import.Title;
         post.Author = import.Author;
         post.DateCreated = import.PostDate;
+        post.DateModified = import.PostDate; 
         post.Content = import.Content;
         post.Description = import.Description;
         post.IsPublished = import.Publish;
@@ -89,6 +90,8 @@ public class BlogImporter : System.Web.Services.WebService {
 
         AddCategories(import.Categories, post);
         //TODO: Add Tag Support
+        
+        
         post.Import();
 
         return post.Id.ToString();
