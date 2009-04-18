@@ -17,19 +17,35 @@ namespace Controls
 	public class WidgetZone : PlaceHolder
 	{
 
-		static WidgetZone()
+		public WidgetZone()
 		{
-			if (XML_DOCUMENT == null)
-				XML_DOCUMENT = RetrieveXml();
-
 			WidgetEditBase.Saved += delegate { XML_DOCUMENT = RetrieveXml(); };
 		}
+        
+		private XmlDocument XML_DOCUMENT;
 
-		private static XmlDocument XML_DOCUMENT = RetrieveXml();
+        // For backwards compatibility or if a ZoneName is omitted, provide a default ZoneName.
+        private string _ZoneName = "be_WIDGET_ZONE";
+        /// <summary>
+        /// Gets or sets the name of the data-container used by this instance
+        /// </summary>
+        public string ZoneName
+        {
+            get { return _ZoneName; }
+            set { _ZoneName = Utils.RemoveIllegalCharacters(value); }
+        }
 
-		private static XmlDocument RetrieveXml()
+        protected override void OnInit(EventArgs e)
+        {
+            if (XML_DOCUMENT == null)
+                XML_DOCUMENT = RetrieveXml();
+
+            base.OnInit(e);
+        }
+
+		private XmlDocument RetrieveXml()
 		{
-			WidgetSettings ws = new WidgetSettings("be_WIDGET_ZONE");
+			WidgetSettings ws = new WidgetSettings(_ZoneName);
 			ws.SettingsBehavior = new XMLDocumentBehavior();
 			XmlDocument doc = (XmlDocument)ws.GetSettings();
 			return doc;
@@ -53,6 +69,7 @@ namespace Controls
 					control.WidgetID = new Guid(widget.Attributes["id"].InnerText);
 					control.ID = control.WidgetID.ToString().Replace("-", string.Empty);
 					control.Title = widget.Attributes["title"].InnerText;
+                    control.Zone = _ZoneName;
 					
 					if (control.IsEditable)
 						control.ShowTitle = bool.Parse(widget.Attributes["showTitle"].InnerText);
@@ -67,7 +84,7 @@ namespace Controls
 					Literal lit = new Literal();
 					lit.Text = "<p style=\"color:red\">Widget " + widget.InnerText + " not found.<p>";
 					lit.Text += ex.Message;
-					lit.Text += "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + widget.Attributes["id"].InnerText + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>";
+					lit.Text += "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + widget.Attributes["id"].InnerText + "', '" + _ZoneName + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>";
 
 					this.Controls.Add(lit);
 				}
@@ -84,7 +101,7 @@ namespace Controls
 		/// </param>
 		protected override void Render(System.Web.UI.HtmlTextWriter writer)
 		{
-			writer.Write("<div id=\"widgetzone\">");
+			writer.Write("<div id=\"widgetzone_" + _ZoneName + "\" class=\"widgetzone\">");
 
 			base.Render(writer);
 
@@ -92,7 +109,8 @@ namespace Controls
 
 			if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
-				writer.Write("<select id=\"widgetselector\">");
+                string selectorId = "widgetselector_" + _ZoneName;
+				writer.Write("<select id=\"" + selectorId + "\" class=\"widgetselector\">");
 				DirectoryInfo di = new DirectoryInfo(Page.Server.MapPath(Utils.RelativeWebRoot + "widgets"));
 				foreach (DirectoryInfo dir in di.GetDirectories())
 				{
@@ -101,7 +119,7 @@ namespace Controls
 				}
 
 				writer.Write("</select>&nbsp;&nbsp;");
-				writer.Write("<input type=\"button\" value=\"Add\" onclick=\"addWidget(BlogEngine.$('widgetselector').value)\" />");
+				writer.Write("<input type=\"button\" value=\"Add\" onclick=\"BlogEngine.widgetAdmin.addWidget(BlogEngine.$('" + selectorId + "').value, '" + _ZoneName + "')\" />");
 				writer.Write("<div class=\"clear\" id=\"clear\">&nbsp;</div>");
 			}
 		}

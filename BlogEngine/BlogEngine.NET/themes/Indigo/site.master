@@ -26,7 +26,7 @@
                 <asp:ContentPlaceHolder ID="cphBody" runat="server" />
             </div>
             <div class="sidenav">
-            <blog:WidgetZone runat="server" ID="rightzone" />
+            <blog:WidgetZone runat="server" ZoneName="be_WIDGET_ZONE" />
             <%--
                 <h1>Search</h1>
                 <blog:SearchBox runat="server" />

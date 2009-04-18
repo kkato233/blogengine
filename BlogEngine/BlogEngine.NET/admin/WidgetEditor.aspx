@@ -18,8 +18,19 @@
     {
       if (!evt) evt = window.event;
 
-      if (evt && evt.keyCode == 27) 
-        window.parent.closeEditor();
+      if (evt && evt.keyCode == 27)
+        window.parent.BlogEngine.widgetAdmin.closeEditor();
+    }
+    function PostEdit()
+    {
+        if (parent && typeof parent.BlogEngine != 'undefined' &&
+            typeof parent.BlogEngine.widgetAdmin != 'undefined' &&
+            typeof parent.BlogEngine.widgetAdmin.clearWidgetList != 'undefined') {
+            
+            parent.BlogEngine.widgetAdmin.clearWidgetList();
+        }
+            
+        top.location.reload(false);
     }
   </script>
   <form id="form1" runat="server">
@@ -34,7 +45,7 @@
     
     <div id="bottom">
       <asp:Button runat="server" ID="btnSave" Text="Save" />
-      <input type="button" value="Cancel" onclick="parent.closeEditor()" />      
+      <input type="button" value="Cancel" onclick="parent.BlogEngine.widgetAdmin.closeEditor()" />      
     </div>
   </form>
 </body>

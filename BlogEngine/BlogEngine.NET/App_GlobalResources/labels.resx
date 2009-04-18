@@ -769,4 +769,10 @@
   <data name="rateThisXStars" xml:space="preserve">
     <value>Rate this {0} star{1} out of 5</value>
   </data>
+  <data name="move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="moveWidgetTo" xml:space="preserve">
+    <value>Move Widget To</value>
+  </data>
 </root>

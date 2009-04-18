@@ -49,6 +49,16 @@ public abstract class WidgetBase : UserControl
 	/// Gets the name. It must be exactly the same as the folder that contains the widget.
 	/// </summary>
 	public abstract string Name { get; }
+    
+    private string _Zone;
+    /// <summary>
+    /// Gets the name of the containing WidgetZone
+    /// </summary>
+    public string Zone
+    {
+        get { return _Zone; }
+        set { _Zone = value; }
+    }
 
 	/// <summary>
 	/// Gets wether or not the widget can be edited.
@@ -114,16 +124,18 @@ public abstract class WidgetBase : UserControl
 	{
 		if (string.IsNullOrEmpty(Name))
 			throw new NullReferenceException("Name must be set on a widget");
-
+        
 		StringBuilder sb = new StringBuilder();
-
+        
 		sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
 
 		if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
 		{
-			sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
+            
+			sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
 			//if (IsEditable)
-				sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
+				sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
+                sb.Append("<a class=\"move\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.initiateMoveWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.move + " widget\">" + Resources.labels.move + "</a>");
 		}
 
 		if (ShowTitle)

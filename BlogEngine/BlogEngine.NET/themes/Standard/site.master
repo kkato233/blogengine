@@ -36,9 +36,9 @@
         Theme by <a href="http://blog.madskristensen.dk">Mads Kristensen</a>
       </p>
     </div>
-    
+
     <div id="sidepanel">
-      <blog:WidgetZone runat="server" ID="rightzone" />
+      <blog:WidgetZone runat="server" ZoneName="be_WIDGET_ZONE" />
     </div>
     
   </form>
