@@ -8,7 +8,7 @@
 		mode: "exact",
 		elements : "<%=txtText.ClientID %>",
 		theme: "advanced",
-		plugins: "inlinepopups,fullscreen,contextmenu,cleanup,emotions,table,iespell",
+		plugins: "inlinepopups,fullscreen,contextmenu,emotions,table,iespell",
 		convert_urls: false,
 	  
 	  // Theme options
