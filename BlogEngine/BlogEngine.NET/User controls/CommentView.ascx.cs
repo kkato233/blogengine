@@ -354,11 +354,18 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 			CultureInfo culture = CultureInfo.CreateSpecificCulture(language);
 			return new RegionInfo(culture.LCID);
 		}
-
-		catch (ArgumentException)
-		{
-			return new RegionInfo(CultureInfo.CurrentCulture.LCID);
-		}
+		catch (ArgumentException) {
+		    try 
+            {
+		        return new RegionInfo(CultureInfo.CurrentCulture.LCID);
+		    }
+		    catch (ArgumentException) 
+            {
+                // the googlebot sometimes gives a culture LCID of 127 which is invalid
+                // so assume US english if invalid LCID
+                return new RegionInfo(1033);
+		    }
+	    }
 	}
 
 	/// <summary>
