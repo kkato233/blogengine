@@ -42,6 +42,7 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 		else
 		{
+            Login1.LoggingIn += new LoginCancelEventHandler(Login1_LoggingIn);
 			Login1.LoggedIn += new EventHandler(Login1_LoggedIn);
 			Login1.FindControl("username").Focus();
 		}
@@ -67,4 +68,29 @@ public partial class login : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (!Roles.IsUserInRole(Login1.UserName, BlogEngine.Core.BlogSettings.Instance.AdministratorRole))
 			Response.Redirect(BlogEngine.Core.Utils.RelativeWebRoot, true);
 	}
+    /// <summary>
+    /// Handles the LoggingIn event of the Login1 control.  Adjusts the casing (upper/lower) of
+    /// the username logged in with to the same case the user is registered as.  This prevents
+    /// case sensitivity issues through the application.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    void Login1_LoggingIn(object sender, LoginCancelEventArgs e)
+    {
+        string username = Login1.UserName.Trim();
+        if (!string.IsNullOrEmpty(username))
+        { 
+            MembershipUser user = Membership.GetUser(username);
+            if (user != null)
+            {
+                // Only adjust the UserName if the password is correct.  This is more secure
+                // so a hacker can't find valid usernames if we adjust the case of mis-cased
+                // usernames with incorrect passwords.
+                if (Membership.ValidateUser(user.UserName, Login1.Password))
+                { 
+                    Login1.UserName = user.UserName;
+                }
+            }
+        }
+    }
 }

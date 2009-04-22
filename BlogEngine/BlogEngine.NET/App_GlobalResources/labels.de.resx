@@ -584,7 +584,7 @@
     <value>Abbrechen</value>
   </data>
   <data name="cancelReply" xml:space="preserve">
-    <value>Antowrt auf Kommentar abbrechen</value>
+    <value>Antwort auf Kommentar abbrechen</value>
   </data>
   <data name="changePassword" xml:space="preserve">
     <value>Passwort ändern</value>
@@ -596,7 +596,7 @@
     <value>Stadt</value>
   </data>
   <data name="commentWaitingModeration" xml:space="preserve">
-    <value>Vielen Dank für Ihren Beitrag. Das Kommentar wartet auf Bestätigung vom Moderator</value>
+    <value>Vielen Dank für Ihren Beitrag. Der Kommentar wartet auf Bestätigung vom Moderator</value>
   </data>
   <data name="company" xml:space="preserve">
     <value>Firma</value>
@@ -728,7 +728,7 @@
     <value>dem Originalartikel</value>
   </data>
   <data name="replyToThis" xml:space="preserve">
-    <value>Antowrt</value>
+    <value>Antwort</value>
   </data>
   <data name="required" xml:space="preserve">
     <value>Erforderlich</value>
