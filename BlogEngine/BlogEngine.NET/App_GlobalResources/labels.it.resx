@@ -226,7 +226,7 @@
     <value>Crea nuovo utente</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Correntemente valutato {0} da {1} utenti</value>
+    <value>Voto &lt;b&gt;{0}&lt;/b&gt; &amp;middot; Votanti &lt;b&gt;{1}&lt;/b&gt; &amp;middot; Assegna il tuo voto:</value>
   </data>
   <data name="date" xml:space="preserve">
     <value>Data</value>
@@ -392,10 +392,10 @@
     <value>Nome</value>
   </data>
   <data name="nextPost" xml:space="preserve">
-    <value>Post successivo</value>
+    <value>Articolo successivo</value>
   </data>
   <data name="nextPosts" xml:space="preserve">
-    <value>Post successivi</value>
+    <value>Articoli successivi</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>Non mostrare</value>
@@ -437,13 +437,13 @@
     <value>Possibile spam</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>Post</value>
+    <value>Articolo</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Post per pagina</value>
+    <value>Articoli per pagina</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Post</value>
+    <value>Articoli</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
     <value>Elementi mostrati nel feed</value>
@@ -467,10 +467,10 @@
     <value>Ricevi</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>Commenti recenti</value>
+    <value>Ultimi commenti</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>Post recenti</value>
+    <value>Ultimi articoli</value>
   </data>
   <data name="referrer" xml:space="preserve">
     <value>Referente (referrer)</value>
@@ -728,7 +728,7 @@
     <value>Filtra</value>
   </data>
   <data name="filterByApml" xml:space="preserve">
-    <value>Filtra con APML</value>
+    <value>Filtro APML</value>
   </data>
   <data name="filterByApmlDescription" xml:space="preserve">
     <value>Inserisci URL del tuo sito web o della risorsa APML</value>
@@ -741,5 +741,35 @@
   </data>
   <data name="useRawHtmlEditor" xml:space="preserve">
     <value>Utilizza l'editor HTML</value>
+  </data>
+  <data name="cancelReply" xml:space="preserve">
+    <value>Annulla la risposta al commento</value>
+  </data>
+  <data name="deleteKeepReplies" xml:space="preserve">
+    <value>Elimina questo commento, ma conserva le risposte</value>
+  </data>
+  <data name="deletePlusReplies" xml:space="preserve">
+    <value>Elimina il comento e tute le risposte</value>
+  </data>
+  <data name="replyTo" xml:space="preserve">
+    <value>In risposta a</value>
+  </data>
+  <data name="replyToBase" xml:space="preserve">
+    <value>il post originale</value>
+  </data>
+  <data name="replyToThis" xml:space="preserve">
+    <value>Rispondi</value>
+  </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>Abilita commenti nidificati</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>L'opzione funziona esclusivamente se il tema è stato opportunamente modificato</value>
+  </data>
+  <data name="extensions" xml:space="preserve">
+    <value>Estensioni</value>
+  </data>
+  <data name="profiles" xml:space="preserve">
+    <value>Profili utente</value>
   </data>
 </root>
