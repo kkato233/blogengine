@@ -197,8 +197,19 @@ namespace BlogEngine.Core
 		/// </summary>
 		protected override void DataDelete()
 		{
-			if (IsDeleted)
+            if (IsDeleted)
+            {
+                foreach (Category c in Categories.ToArray())
+                {
+                    if (!c.Id.Equals(this.Id) && c.Parent.HasValue &&
+                        c.Parent.Value.Equals(this.Id))
+                    {
+                        c.Parent = null;
+                        c.Save();
+                    }
+                }
 				BlogService.DeleteCategory(this);
+            }
 			if (Categories.Contains(this))
 				Categories.Remove(this);
 

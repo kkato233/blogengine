@@ -47,17 +47,11 @@ namespace Controls
                     }
                     _Items.Remove(affected);
                 }
-
-                // Check order of _Items, re-position if necessary.  Need to cast _Items to
-                // an array to prevent errors with modifying a collection while enumerating it.
-                foreach (blogRequest item in _Items.ToArray())
+                
+                if (_Items.Count > 0)
                 {
-                    BlogRollItem br = BlogRollItem.GetBlogRollItem(item.RollItem.Id);
-                    if (br != null)
-                    {
-                        _Items.Remove(item);
-                        _Items.Insert(br.SortIndex > _Items.Count ? _Items.Count : br.SortIndex, item);
-                    }
+                    // Re-sort _Items collection in case sorting of blogroll items was changed.
+                    _Items.Sort(delegate(blogRequest br1, blogRequest br2) { return br1.RollItem.CompareTo(br2.RollItem); });
                 }
             }
         }

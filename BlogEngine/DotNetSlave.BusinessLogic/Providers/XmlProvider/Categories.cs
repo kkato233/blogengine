@@ -52,29 +52,8 @@ namespace BlogEngine.Core.Providers
     {
       List<Category> categories = Category.Categories;
       categories.Add(category);
-      string fileName = _Folder + "categories.xml";
 
-      using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
-      {
-        writer.Formatting = Formatting.Indented;
-        writer.Indentation = 4;
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("categories");
-
-        foreach (Category cat in categories)
-        {
-          writer.WriteStartElement("category");
-          writer.WriteAttributeString("id", cat.Id.ToString());
-          writer.WriteAttributeString("description", cat.Description);
-            writer.WriteAttributeString("parent", cat.Parent.ToString());
-          writer.WriteValue(cat.Title);
-          writer.WriteEndElement();
-          cat.MarkOld();
-        }
-
-        writer.WriteEndElement();
-      }
-
+      WriteToFile();
     }
 
     /// <summary>
@@ -86,28 +65,8 @@ namespace BlogEngine.Core.Providers
       List<Category> categories = Category.Categories;
       categories.Remove(category);
       categories.Add(category);
-      string fileName = _Folder + "categories.xml";
 
-      using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
-      {
-        writer.Formatting = Formatting.Indented;
-        writer.Indentation = 4;
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("categories");
-
-        foreach (Category cat in categories)
-        {
-          writer.WriteStartElement("category");
-          writer.WriteAttributeString("id", cat.Id.ToString());
-          writer.WriteAttributeString("description", cat.Description);
-            writer.WriteAttributeString("parent", cat.Parent.ToString());
-          writer.WriteValue(cat.Title);
-          writer.WriteEndElement();
-          cat.MarkOld();
-        }
-
-        writer.WriteEndElement();
-      }
+      WriteToFile();
     }
 
     /// <summary>
@@ -119,34 +78,40 @@ namespace BlogEngine.Core.Providers
       List<Category> categories = Category.Categories;
       categories.Remove(category);
 
-      string fileName = _Folder + "categories.xml";
-
-      if (File.Exists(fileName))
-        File.Delete(fileName);
-
       if (Category.Categories.Contains(category))
         Category.Categories.Remove(category);
 
-      using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
-      {
-        writer.Formatting = Formatting.Indented;
-        writer.Indentation = 4;
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("categories");
+      WriteToFile();
+    }
 
-        foreach (Category cat in categories)
+      /// <summary>
+      /// Saves the Categories to disk.
+      /// </summary>
+    private void WriteToFile()
+    {
+        List<Category> categories = Category.Categories;
+        string fileName = _Folder + "categories.xml";
+
+        using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
         {
-          writer.WriteStartElement("category");
-          writer.WriteAttributeString("id", cat.Id.ToString());
-          writer.WriteAttributeString("description", cat.Description);
-          writer.WriteValue(cat.Title);
-          writer.WriteEndElement();
-          cat.MarkOld();
+            writer.Formatting = Formatting.Indented;
+            writer.Indentation = 4;
+            writer.WriteStartDocument(true);
+            writer.WriteStartElement("categories");
+
+            foreach (Category cat in categories)
+            {
+                writer.WriteStartElement("category");
+                writer.WriteAttributeString("id", cat.Id.ToString());
+                writer.WriteAttributeString("description", cat.Description);
+                writer.WriteAttributeString("parent", cat.Parent.ToString());
+                writer.WriteValue(cat.Title);
+                writer.WriteEndElement();
+                cat.MarkOld();
+            }
+
+            writer.WriteEndElement();
         }
-
-        writer.WriteEndElement();
-      }
-
     }
 
     /// <summary>
