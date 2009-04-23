@@ -9,10 +9,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BlogEngine.Core</RootNamespace>
     <AssemblyName>BlogEngine.Core</AssemblyName>
-    <SccProjectName>%24/blogengine/BlogEngine/DotNetSlave.BusinessLogic</SccProjectName>
-    <SccLocalPath>.</SccLocalPath>
-    <SccAuxPath>https://tfs02.codeplex.com</SccAuxPath>
-    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
@@ -127,6 +131,7 @@
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlogRollItem.cs" />
     <Compile Include="DataStore\ExtensionSettings.cs" />
     <Compile Include="DataStore\ExtensionSettingsBehavior.cs" />
     <Compile Include="DataStore\Interfaces.cs" />
@@ -139,6 +144,7 @@
     <Compile Include="Providers\DbBlogProvider.cs" />
     <Compile Include="Providers\DbMembershipProvider.cs" />
     <Compile Include="Providers\DbRoleProvider.cs" />
+    <Compile Include="Providers\XmlProvider\BlogRoll.cs" />
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\DataStore.cs" />
     <Compile Include="Providers\XmlProvider\Profiles.cs" />

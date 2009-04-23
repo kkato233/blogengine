@@ -158,6 +158,27 @@ namespace BlogEngine.Core.Providers
         public abstract void RemoveFromDataStore(DataStore.ExtensionType exType, string exId);
 
         /// <summary>
+        /// Retrieves a BlogRoll from the provider based on the specified id.
+        /// </summary>
+        public abstract BlogRollItem SelectBlogRollItem(Guid Id);
+        /// <summary>
+        /// Inserts a new BlogRoll into the data store specified by the provider.
+        /// </summary>
+        public abstract void InsertBlogRollItem(BlogRollItem blogRollItem);
+        /// <summary>
+        /// Updates an existing BlogRoll in teh data store specified by the provider.
+        /// </summary>
+        public abstract void UpdateBlogRollItem(BlogRollItem blogRollItem);
+        /// <summary>
+        /// Deletes a BlogRoll from the data store specified by the provider.
+        /// </summary>
+        public abstract void DeleteBlogRollItem(BlogRollItem blogRollItem);
+        /// <summary>
+        /// Retrieves all BlogRolls from the provider and returns them in a list.
+        /// </summary>
+        public abstract List<BlogRollItem> FillBlogRoll();
+
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>

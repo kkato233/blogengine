@@ -2,6 +2,7 @@
 
 using System;
 using System.Web;
+using System.Xml;
 using BlogEngine.Core;
 
 #endregion
@@ -25,10 +26,46 @@ namespace BlogEngine.Core.Web.HttpHandlers
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/xml";
-            //context.Response.AppendHeader("Content-Disposition", "attachment; filename=opml.xml");
-            //context.Response.TransmitFile(context.Request.PhysicalApplicationPath +  "App_Data/blogroll.xml");
-            context.Response.TransmitFile(context.Server.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml");
 
+            XmlWriterSettings writerSettings = new XmlWriterSettings();
+            writerSettings.Encoding = System.Text.Encoding.UTF8;
+            writerSettings.Indent = true;
+
+            using (XmlWriter writer = XmlWriter.Create(context.Response.OutputStream, writerSettings))
+            {
+                // open OPML
+                writer.WriteStartElement("opml");
+
+                writer.WriteAttributeString("xmlns", "xsd", null, "http://www.w3.org/2001/XMLSchema");
+                writer.WriteAttributeString("xmlns", "xsi", null, "http://www.w3.org/2001/XMLSchema-instance");
+                writer.WriteAttributeString("version", "1.0");
+
+                // open BODY
+                writer.WriteStartElement("body");
+
+                foreach (BlogRollItem br in BlogRollItem.BlogRolls)
+                {
+                    // open OUTLINE
+                    writer.WriteStartElement("outline");
+
+                    if (!string.IsNullOrEmpty(br.Xfn))
+                        writer.WriteAttributeString("xfn", br.Xfn);
+
+                    writer.WriteAttributeString("title", br.Title);
+                    writer.WriteAttributeString("description", br.Description);
+                    writer.WriteAttributeString("xmlUrl", br.FeedUrl.ToString());
+                    writer.WriteAttributeString("htmlUrl", br.BlogUrl.ToString());
+
+                    // close OUTLINE
+                    writer.WriteEndElement();
+                }
+
+                // close BODY
+                writer.WriteEndElement();
+
+                // close OPML
+                writer.WriteEndElement();
+            }
         }
 
         /// <summary>

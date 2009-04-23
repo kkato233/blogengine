@@ -129,47 +129,37 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				}
 
 				// assume blog roll = friends
-				string blogrollPath = context.Server.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml";
-				if (File.Exists(blogrollPath))
+				foreach (BlogRollItem br in BlogRollItem.BlogRolls)
 				{
-					XmlDocument doc = new XmlDocument();
-					doc.Load(blogrollPath);
+					string title = br.Title;
+					string url = br.BlogUrl.ToString();
 
+					FoafPerson foaf = new FoafPerson(title);
+					foaf.Name = title;
+					foaf.Blog = url;
 
-					XmlNodeList nodes = doc.GetElementsByTagName("outline");
-					foreach (XmlNode node in nodes)
+					if (context.Cache["foaf:" + title] == null)
 					{
-						string title = node.Attributes["title"].Value;
-						string url = node.Attributes["htmlUrl"].Value;
-
-						FoafPerson foaf = new FoafPerson(title);
-						foaf.Name = title;
-						foaf.Blog = url;
-
-						if (context.Cache["foaf:" + title] == null)
+						Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(new Uri(url), "foaf");
+						if (docs.Count > 0)
 						{
-							Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(new Uri(url), "foaf");
-							if (docs.Count > 0)
+							foreach (Uri key in docs.Keys)
 							{
-								foreach (Uri key in docs.Keys)
-								{
-									context.Cache.Insert("foaf:" + title, key.ToString());
-									break;
-								}
-							}
-							else
-							{
-								context.Cache.Insert("foaf:" + title, "0");
+								context.Cache.Insert("foaf:" + title, key.ToString());
+								break;
 							}
 						}
-
-						string seeAlso = (string)context.Cache["foaf:" + title];
-						if (seeAlso != null && seeAlso.Contains("://"))
-							foaf.Rdf = seeAlso;
-
-						me.Friends.Add(foaf);
+						else
+						{
+							context.Cache.Insert("foaf:" + title, "0");
+						}
 					}
 
+					string seeAlso = (string)context.Cache["foaf:" + title];
+					if (seeAlso != null && seeAlso.Contains("://"))
+						foaf.Rdf = seeAlso;
+
+					me.Friends.Add(foaf);
 				}
 
 

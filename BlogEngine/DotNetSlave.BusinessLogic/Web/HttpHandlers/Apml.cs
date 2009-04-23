@@ -254,24 +254,16 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
 		private Dictionary<string, string> CreateLinkList()
 		{
-			string fileName = System.Web.Hosting.HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml";
-			if (File.Exists(fileName))
-			{
-				Dictionary<string, string> dic = new Dictionary<string, string>();
-				XmlDocument doc = new XmlDocument();
-				doc.Load(fileName);
+			Dictionary<string, string> dic = new Dictionary<string, string>();
 
-				foreach (XmlNode node in doc.SelectNodes("opml/body/outline"))
-				{
-					string title = node.Attributes["title"].InnerText;
-					string website = node.Attributes["htmlUrl"].InnerText;
-					dic.Add(title, website);
-				}
-
-				return dic;
+            foreach (BlogRollItem br in BlogRollItem.BlogRolls)
+            {
+                string title = br.Title;
+				string website = br.BlogUrl.ToString();
+				dic.Add(title, website);
 			}
 
-			return null;
+			return dic;
 		}
 
 		#endregion
