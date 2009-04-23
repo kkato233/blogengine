@@ -5,10 +5,9 @@ using System.IO;
 using System.Xml;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
+using BlogEngine.Core;
 
 #endregion
-
-using BlogEngine.Core;
 
 public partial class admin_Pages_blogroll : System.Web.UI.Page
 {
@@ -18,12 +17,6 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
     {
       BindSettings();
       BindBlogroll();
-
-      if (!String.IsNullOrEmpty(Request.QueryString["delete"]))
-      {
-        DeleteBlog();
-        Response.Redirect(Request.FilePath, true);
-      }
     }
 
     btnSaveSettings.Text = Resources.labels.save + " " + Resources.labels.settings.ToLowerInvariant();
@@ -47,8 +40,12 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
 
   private void btnSave_Click(object sender, EventArgs e)
   {
-    AddBlog();
-    Response.Redirect(Request.FilePath, true);
+      Page.Validate();  // manually invoke validation to be sure it fires.
+      if (!Page.IsValid)
+          return;
+
+      AddBlog();
+      Response.Redirect(Request.FilePath, true);
   }
 
   #endregion
@@ -57,68 +54,67 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
 
   private void BindBlogroll()
   {
-    string fileName = Server.MapPath(BlogSettings.Instance.StorageLocation)  + "blogroll.xml";
-    if (File.Exists(fileName))
-    {
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
+      grid.DataKeyNames = new string[] { "Id" };
+      grid.DataSource = BlogRollItem.BlogRolls;
+      grid.DataBind();
+  }
 
-      rep.DataSource = doc.SelectNodes("opml/body/outline");
-      rep.DataBind();
+  protected void validateWebUrl(object sender, ServerValidateEventArgs args)
+  {
+    args.IsValid = validateUrl(txtWebUrl.Text.Trim());
+  }
+
+  protected void validateFeedUrl(object sender, ServerValidateEventArgs args)
+  {
+    args.IsValid = validateUrl(txtFeedUrl.Text.Trim());
+  }
+
+  private bool validateUrl(string url)
+  {      
+    if (!string.IsNullOrEmpty(url))
+    {
+        Uri uri;
+        return Uri.TryCreate(getUrl(url), UriKind.Absolute, out uri);
     }
+    return true;
+  }
+
+  private string getUrl(string url)
+  {
+      if (!string.IsNullOrEmpty(url) && !url.Contains("://"))
+          url = "http://" + url;
+      return url;
   }
 
   private void AddBlog()
   {
-    string fileName = Server.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml";
-    if (File.Exists(fileName))
-    {
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
+      BlogRollItem br = new BlogRollItem();
+      br.Title = txtTitle.Text.Replace(@"\", "'");
+      br.Description = txtDescription.Text;
+      br.BlogUrl = new Uri(getUrl(txtWebUrl.Text));
+      br.FeedUrl = new Uri(getUrl(txtFeedUrl.Text));
+      br.Xfn = string.Empty;
 
-      XmlElement element = doc.CreateElement("outline");
-
-      XmlAttribute title = doc.CreateAttribute("title");
-      title.InnerText = txtTitle.Text.Replace("\"", "'");
-      element.Attributes.Append(title);
-
-      XmlAttribute desc = doc.CreateAttribute("description");
-      desc.InnerText = txtDescription.Text;
-      element.Attributes.Append(desc);
-
-      XmlAttribute xfn = doc.CreateAttribute("xfn");
       foreach (ListItem item in cblXfn.Items)
       {
-        if (item.Selected)
-          xfn.InnerText += item.Text + " ";
+          if (item.Selected)
+              br.Xfn += item.Text + " ";
       }
-
-      if (xfn.InnerText.Length > 0)
+      if (br.Xfn.Length > 0)
       {
-        xfn.InnerText = xfn.InnerText.Substring(0, xfn.InnerText.Length - 1);        
+          br.Xfn = br.Xfn.Substring(0, br.Xfn.Length - 1);
       }
 
-      element.Attributes.Append(xfn);
+      int largestSortIndex = -1;
+      foreach (BlogRollItem brExisting in BlogRollItem.BlogRolls)
+      {
+          if (brExisting.SortIndex > largestSortIndex)
+              largestSortIndex = brExisting.SortIndex;
+      }
 
-			if (!txtFeedUrl.Text.Contains("://"))
-				txtFeedUrl.Text = "http://" + txtFeedUrl.Text;
+      br.SortIndex = largestSortIndex + 1;
+      br.Save();
 
-      XmlAttribute feed = doc.CreateAttribute("xmlUrl");
-      feed.InnerText = txtFeedUrl.Text;
-      element.Attributes.Append(feed);
-
-			if (!txtWebUrl.Text.Contains("://"))
-				txtWebUrl.Text = "http://" + txtWebUrl.Text;
-
-      XmlAttribute web = doc.CreateAttribute("htmlUrl");
-      web.InnerText = txtWebUrl.Text;
-      element.Attributes.Append(web);
-
-      XmlNode body = doc.SelectSingleNode("opml/body");
-      body.AppendChild(element);
-      doc.Save(fileName);
-      Updater.UpdateBlogroll();
-    }
   }
 
   private void BindSettings()
@@ -128,23 +124,88 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
     txtUpdateFrequency.Text = BlogSettings.Instance.BlogrollUpdateMinutes.ToString();
   }
 
-  private void DeleteBlog()
-  {
-    string title = Request.QueryString["delete"];
-    string fileName = Server.MapPath(BlogSettings.Instance.StorageLocation) + "blogroll.xml";
-    if (File.Exists(fileName))
-    {
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
-
-      XmlNode parent = doc.SelectSingleNode("opml/body");
-      XmlNode child = doc.SelectSingleNode("opml/body/outline[@title=\"" + title + "\"]");
-      parent.RemoveChild(child);
-      doc.Save(fileName);
-      Updater.UpdateBlogroll();
-    }    
-  }
-
   #endregion
 
+  protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)
+  {
+      // Don't want to handle Edit and Delete commands.
+      if (!(e.CommandName.Equals("moveUp", StringComparison.OrdinalIgnoreCase) ||
+            e.CommandName.Equals("moveDown", StringComparison.OrdinalIgnoreCase)))
+
+          return;
+
+      // If only one item in grid, there's nothing to adjust.
+      if (grid.Rows.Count < 2)
+          return;
+
+      bool moveUp = e.CommandName.Equals("moveUp", StringComparison.OrdinalIgnoreCase);
+
+      int rowIndex = Convert.ToInt32(e.CommandArgument);
+
+      // If already at the top, can't move any higher.
+      if (moveUp && rowIndex == 0)
+          return;
+
+      // If already at the bottom, can't move any lower.
+      if (!moveUp && rowIndex == (grid.Rows.Count - 1))
+          return;
+
+      Guid id = (Guid)grid.DataKeys[rowIndex].Value;
+      BlogRollItem brToMove = BlogRollItem.GetBlogRollItem(id);
+
+      if (brToMove != null)
+      {
+          int newSortIndex = brToMove.SortIndex + (moveUp ? -1 : 1);
+
+          if (newSortIndex < 0)
+              newSortIndex = 0;
+
+          // Cast BlogRollItem.BlogRolls to an array to prevent errors with modifying
+          // a collection while enumerating it.
+          foreach (BlogRollItem br in BlogRollItem.BlogRolls.ToArray())
+          {
+              if (br.Id.Equals(brToMove.Id))
+              {
+                  br.SortIndex = newSortIndex;
+                  br.Save();
+              }
+              else
+              {
+                  if (br.SortIndex == newSortIndex)
+                  {
+                      // Swap the sortIndex between this node and the node we're swapping positions with.
+                      if (moveUp)
+                          br.SortIndex++;
+                      else
+                          br.SortIndex--;
+
+                      br.Save();
+                  }
+              }
+          }
+
+          BlogRollItem.BlogRolls.Sort();
+          Response.Redirect(Request.RawUrl);
+      }
+  }
+
+  protected void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+  {
+      Guid id = (Guid)grid.DataKeys[e.RowIndex].Value;
+      BlogRollItem br = BlogRollItem.GetBlogRollItem(id);
+      br.Delete();
+      br.Save();
+
+      int sortIndex = -1;
+      // Re-sort remaining items starting from zero to eliminate any possible gaps.
+      // Need to cast BlogRollItem.BlogRolls to an array to
+      // prevent errors with modifying a collection while enumerating it.
+      foreach (BlogRollItem brItem in BlogRollItem.BlogRolls.ToArray())
+      {
+          brItem.SortIndex = ++sortIndex;
+          brItem.Save();
+      }
+
+      Response.Redirect(Request.RawUrl);
+  }
 }

@@ -1057,6 +1057,216 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
+        /// Gets a BlogRoll based on a Guid.
+        /// </summary>
+        /// <param name="id">The BlogRoll's Guid.</param>
+        /// <returns>A matching BlogRoll</returns>
+        public override BlogRollItem SelectBlogRollItem(Guid id)
+        {
+            BlogRollItem blogRoll = BlogRollItem.BlogRolls.Find(br => br.Id == id);
+            if (blogRoll == null)
+            {
+                blogRoll = new BlogRollItem();
+            }
+            blogRoll.MarkOld();
+            return blogRoll;
+        }
+
+        /// <summary>
+        /// Adds a new BlogRoll to the database.
+        /// </summary>
+        /// <param name="blogRoll">BlogRoll to add.</param>
+        public override void InsertBlogRollItem(BlogRollItem blogRollItem)
+        {
+            List<BlogRollItem> blogRolls = BlogRollItem.BlogRolls;
+            blogRolls.Add(blogRollItem);
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO " + tablePrefix + "BlogRollItems (BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex) " +
+                                        "VALUES (@BlogRollId, @Title, @Description, @BlogUrl, @FeedUrl, @Xfn, @SortIndex)";
+                    if (parmPrefix != "@")
+                        sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    addBlogRollParametersToCommand(blogRollItem, provider, cmd);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void addBlogRollParametersToCommand(BlogRollItem blogRollItem, DbProviderFactory provider, DbCommand cmd)
+        {
+            DbParameter dpID = provider.CreateParameter();
+            dpID.ParameterName = parmPrefix + "BlogRollId";
+            dpID.Value = blogRollItem.Id;
+            cmd.Parameters.Add(dpID);
+
+            DbParameter dpTitle = provider.CreateParameter();
+            dpTitle.ParameterName = parmPrefix + "Title";
+            dpTitle.Value = blogRollItem.Title;
+            cmd.Parameters.Add(dpTitle);
+
+            DbParameter dpDesc = provider.CreateParameter();
+            dpDesc.ParameterName = parmPrefix + "Description";
+            dpDesc.Value = blogRollItem.Description;
+            cmd.Parameters.Add(dpDesc);
+
+            DbParameter dpBlogUrl = provider.CreateParameter();
+            dpBlogUrl.ParameterName = "BlogUrl";
+            dpBlogUrl.Value = blogRollItem.BlogUrl != null ? (object)blogRollItem.BlogUrl.ToString() : DBNull.Value;
+            cmd.Parameters.Add(dpBlogUrl);
+
+            DbParameter dpFeedUrl = provider.CreateParameter();
+            dpFeedUrl.ParameterName = "FeedUrl";
+            dpFeedUrl.Value = blogRollItem.FeedUrl != null ? (object)blogRollItem.FeedUrl.ToString() : DBNull.Value;
+            cmd.Parameters.Add(dpFeedUrl);
+
+            DbParameter dpXfn = provider.CreateParameter();
+            dpXfn.ParameterName = "Xfn";
+            dpXfn.Value = blogRollItem.Xfn;
+            cmd.Parameters.Add(dpXfn);
+
+            DbParameter dpSortIndex = provider.CreateParameter();
+            dpSortIndex.ParameterName = "SortIndex";
+            dpSortIndex.Value = blogRollItem.SortIndex;
+            cmd.Parameters.Add(dpSortIndex);
+        }
+
+        /// <summary>
+        /// Saves an existing BlogRoll to the database
+        /// </summary>
+        /// <param name="blogRollItem">BlogRoll to be saved</param>
+        public override void UpdateBlogRollItem(BlogRollItem blogRollItem)
+        {
+            List<BlogRollItem> blogRolls = BlogRollItem.BlogRolls;
+            blogRolls.Remove(blogRollItem);
+            blogRolls.Add(blogRollItem);
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "UPDATE " + tablePrefix + "BlogRollItems " +
+                                      "SET Title = @Title, " +
+                                      "Description = @Description, BlogUrl = @BlogUrl, " +
+                                      "FeedUrl = @FeedUrl, Xfn = @Xfn, SortIndex = @SortIndex " +
+                                      "WHERE BlogRollId = @BlogRollId";
+                    if (parmPrefix != "@")
+                        sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    addBlogRollParametersToCommand(blogRollItem, provider, cmd);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes a BlogRoll from the database
+        /// </summary>
+        /// <param name="blogRoll">BlogRoll to be removed</param>
+        public override void DeleteBlogRollItem(BlogRollItem blogRollItem)
+        {
+            List<BlogRollItem> blogRolls = BlogRollItem.BlogRolls;
+            blogRolls.Remove(blogRollItem);
+            blogRolls.Add(blogRollItem);
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "DELETE FROM " + tablePrefix + "BlogRollItems " +
+                                      "WHERE BlogRollId = " + parmPrefix + "BlogRollId";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpID = provider.CreateParameter();
+                    dpID.ParameterName = parmPrefix + "BlogRollId";
+                    dpID.Value = blogRollItem.Id;
+                    cmd.Parameters.Add(dpID);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all BlogRolls in database
+        /// </summary>
+        /// <returns>List of BlogRolls</returns>
+        public override List<BlogRollItem> FillBlogRoll()
+        {
+            List<BlogRollItem> blogRoll = new List<BlogRollItem>();
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex " +
+                        "FROM " + tablePrefix + "BlogRollItems ";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                BlogRollItem br = new BlogRollItem()
+                                {
+                                    Id = rdr.GetGuid(0),
+                                    Title = rdr.GetString(1),
+                                    Description = rdr.IsDBNull(2) ? string.Empty : rdr.GetString(2),
+                                    BlogUrl = rdr.IsDBNull(3) ? null : new Uri(rdr.GetString(3)),
+                                    FeedUrl = rdr.IsDBNull(4) ? null : new Uri(rdr.GetString(4)),
+                                    Xfn = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5),
+                                    SortIndex = rdr.GetInt32(6)
+                                };
+
+                                blogRoll.Add(br);
+                                br.MarkOld();
+                            }
+                        }
+                    }
+                }
+            }
+
+            return blogRoll;
+        }
+
+        /// <summary>
         /// Gets the settings from the database
         /// </summary>
         /// <returns>dictionary of settings</returns>

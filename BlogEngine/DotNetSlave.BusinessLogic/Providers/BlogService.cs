@@ -389,6 +389,55 @@ namespace BlogEngine.Core.Providers
 		}
 		#endregion
 
+        #region BlogRolls
+
+        /// <summary>
+        /// Returns a BlogRoll based on the specified id.
+        /// </summary>
+        public static BlogRollItem SelectBlogRoll(Guid id)
+        {
+            LoadProviders();
+            return _provider.SelectBlogRollItem(id);
+        }
+
+        /// <summary>
+        /// Persists a new BlogRoll in the current provider.
+        /// </summary>
+        public static void InsertBlogRoll(BlogRollItem blogRoll)
+        {
+            LoadProviders();
+            _provider.InsertBlogRollItem(blogRoll);
+        }
+
+        /// <summary>
+        /// Updates an exsiting BlogRoll.
+        /// </summary>
+        public static void UpdateBlogRoll(BlogRollItem blogRoll)
+        {
+            LoadProviders();
+            _provider.UpdateBlogRollItem(blogRoll);
+        }
+
+        /// <summary>
+        /// Deletes the specified BlogRoll from the current provider.
+        /// </summary>
+        public static void DeleteBlogRoll(BlogRollItem blogRoll)
+        {
+            LoadProviders();
+            _provider.DeleteBlogRollItem(blogRoll);
+        }
+
+        /// <summary>
+        /// Returns a list of all BlogRolls in the current provider.
+        /// </summary>
+        /// <returns></returns>
+        public static List<BlogRollItem> FillBlogRolls()
+        {
+            LoadProviders();
+            return _provider.FillBlogRoll();
+        }
+
+        #endregion
 
 	}
 }

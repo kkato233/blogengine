@@ -41,19 +41,21 @@
 
   <label for="<%=txtTitle.ClientID %>" class="wide"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="600px" />
-  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtTitle" ErrorMessage="required" /><br />
+  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtTitle" ErrorMessage="required" ValidationGroup="addNew" /><br />
   
   <label for="<%=txtDescription.ClientID %>" class="wide"><%=Resources.labels.description %></label>
   <asp:TextBox runat="server" ID="txtDescription" Width="600px" />
-  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtDescription" ErrorMessage="required" /><br />
+  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtDescription" ErrorMessage="required" ValidationGroup="addNew" /><br />
   
   <label for="<%=txtWebUrl.ClientID %>" class="wide"><%=Resources.labels.website %></label>
   <asp:TextBox runat="server" ID="txtWebUrl" Width="600px" />
-  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtWebUrl" ErrorMessage="required" /><br />
+  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtWebUrl" ErrorMessage="required" Display="Dynamic" ValidationGroup="addNew" />
+  <asp:CustomValidator runat="server" ControlToValidate="txtWebUrl" ErrorMessage="Invalid" EnableClientScript="false" OnServerValidate="validateWebUrl" ValidationGroup="addnew"></asp:CustomValidator><br />
   
   <label for="<%=txtFeedUrl.ClientID %>" class="wide">RSS url</label>
   <asp:TextBox runat="server" ID="txtFeedUrl" Width="600px" />
-  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtFeedUrl" ErrorMessage="required" /><br />
+  <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtFeedUrl" ErrorMessage="required" Display="Dynamic" ValidationGroup="addNew" />
+  <asp:CustomValidator runat="server" ControlToValidate="txtFeedUrl" ErrorMessage="Invalid" EnableClientScript="false" OnServerValidate="validateFeedUrl" ValidationGroup="addnew"></asp:CustomValidator><br /><br />
   
   <label for="<%=cblXfn.ClientID %>" class="wide">XFN tag</label>
   <asp:CheckBoxList runat="server" ID="cblXfn" CssClass="nowidth" RepeatColumns="8">
@@ -78,46 +80,42 @@
   </asp:CheckBoxList>
   
   <div style="text-align:right">
-    <asp:Button runat="server" ID="btnSave" />
+    <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" />
   </div>
   
 </div>
-  
-  <asp:Repeater runat="Server" ID="rep">
-    <HeaderTemplate>
-      <table style="width:100%;background-color:White" cellspacing="0" cellpadding="3" summary="Blogroll">
-    </HeaderTemplate>
-    <ItemTemplate>
-      <tr>
-        <td>
-          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xmlUrl"].Value %>"><img src="../../pics/rssButton.gif" alt="RSS feed" /></a>
-          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["htmlUrl"].Value %>"><%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %></a>
-          &nbsp;<%#((System.Xml.XmlNode)Container.DataItem).Attributes["description"].Value %>
-          &nbsp;(<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xfn"].Value.Replace(";", " ")%>)
-        </td>
-        <td style="width:50px">
-          <a href="?delete=<%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %>" onclick="return confirm('Are you sure?')"><%=Resources.labels.delete %></a>
-        </td>
-      </tr>
-    </ItemTemplate>
-    <AlternatingItemTemplate>
-      <tr class="alt">
-        <td>
-          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xmlUrl"].Value %>"><img src="../../pics/rssButton.gif" alt="RSS feed" /></a>
-          <a href="<%#((System.Xml.XmlNode)Container.DataItem).Attributes["htmlUrl"].Value %>"><%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %></a>
-          &nbsp;<%#((System.Xml.XmlNode)Container.DataItem).Attributes["description"].Value %>
-          &nbsp;(<%#((System.Xml.XmlNode)Container.DataItem).Attributes["xfn"].Value.Replace(";", " ") %>)
-        </td>
-        <td style="width:50px">
-          <a href="?delete=<%#((System.Xml.XmlNode)Container.DataItem).Attributes["title"].Value %>" onclick="return confirm('Are you sure?')"><%=Resources.labels.delete %></a>
-        </td>
-      </tr>
-    </AlternatingItemTemplate>
-    <FooterTemplate>
-      </Table>
-    </FooterTemplate>
-  </asp:Repeater>
-  
-
-  
+    <asp:GridView runat="server" ID="grid" CssClass="category" 
+    GridLines="None"
+    AutoGenerateColumns="False" 
+    AlternatingRowStyle-CssClass="alt" onrowdeleting="grid_RowDeleting"
+    onrowcommand="grid_RowCommand">
+        <Columns>
+            <asp:TemplateField>
+            <ItemTemplate>
+                <asp:HyperLink ID="feedLink" runat="server" ImageUrl="~/pics/rssButton.gif" 
+        NavigateUrl='<%# Eval("FeedUrl").ToString() %>' Text="<%# string.Empty %>"></asp:HyperLink>
+            </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField ControlStyle-BackColor="Transparent">
+               <ItemTemplate>
+                   <asp:ImageButton ID="ibMoveUp" ImageUrl="~/pics/up_arrow_small.gif" runat="server" CommandArgument="<%# ((GridViewRow)Container).RowIndex %>" CommandName="moveUp" Width="16" Height="8" />
+                   <asp:ImageButton ID="ibMoveDown" ImageUrl="~/pics/down_arrow_small.gif" runat="server" CommandArgument="<%# ((GridViewRow)Container).RowIndex %>" CommandName="moveDown" Width="16" Height="8" />
+               </ItemTemplate>
+            </asp:TemplateField>
+            
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:HyperLink ID="HyperLink1" runat="server" 
+                        NavigateUrl='<%# Eval("BlogUrl").ToString() %>' Text='<%# Eval("Title") %>'></asp:HyperLink>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:Literal ID="Literal1" runat="server" Text='<%# Eval("Description") %>'></asp:Literal>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:CommandField ShowDeleteButton="True" />
+        </Columns>
+<AlternatingRowStyle CssClass="alt"></AlternatingRowStyle>
+    </asp:GridView>
 </asp:Content>
