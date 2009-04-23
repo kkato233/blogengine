@@ -153,36 +153,17 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
       Guid id = (Guid)grid.DataKeys[rowIndex].Value;
       BlogRollItem brToMove = BlogRollItem.GetBlogRollItem(id);
 
-      if (brToMove != null)
+      Guid swapPositionWithId = (Guid)grid.DataKeys[rowIndex + (moveUp ? -1 : 1)].Value;
+      BlogRollItem brToSwapPositionWith = BlogRollItem.GetBlogRollItem(swapPositionWithId);
+
+      if (brToMove != null && brToSwapPositionWith != null)
       {
-          int newSortIndex = brToMove.SortIndex + (moveUp ? -1 : 1);
+          int newSortIndex = brToSwapPositionWith.SortIndex;
+          brToSwapPositionWith.SortIndex = brToMove.SortIndex;
+          brToMove.SortIndex = newSortIndex;
 
-          if (newSortIndex < 0)
-              newSortIndex = 0;
-
-          // Cast BlogRollItem.BlogRolls to an array to prevent errors with modifying
-          // a collection while enumerating it.
-          foreach (BlogRollItem br in BlogRollItem.BlogRolls.ToArray())
-          {
-              if (br.Id.Equals(brToMove.Id))
-              {
-                  br.SortIndex = newSortIndex;
-                  br.Save();
-              }
-              else
-              {
-                  if (br.SortIndex == newSortIndex)
-                  {
-                      // Swap the sortIndex between this node and the node we're swapping positions with.
-                      if (moveUp)
-                          br.SortIndex++;
-                      else
-                          br.SortIndex--;
-
-                      br.Save();
-                  }
-              }
-          }
+          brToSwapPositionWith.Save();
+          brToMove.Save();
 
           BlogRollItem.BlogRolls.Sort();
           Response.Redirect(Request.RawUrl);

@@ -23,7 +23,7 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 		{
 			BindGrid();
 
-			LoadParentDropDown(ddlNewParent);
+			LoadParentDropDown(ddlNewParent, null);
 		}
 
 		grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
@@ -42,8 +42,9 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 		if (e.Row.RowState == DataControlRowState.Edit ||
 				e.Row.RowState == (DataControlRowState.Alternate | DataControlRowState.Edit))
 		{
+            Category self = (Category)e.Row.DataItem;
 			DropDownList ddlParent = (DropDownList)e.Row.FindControl("ddlParent");
-			LoadParentDropDown(ddlParent);
+			LoadParentDropDown(ddlParent, self);
 
 			Category temp = (Category)e.Row.DataItem;
 			if (temp.Parent != null)
@@ -60,14 +61,15 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 		}
 	}
 
-	private void LoadParentDropDown(DropDownList ddl)
+	private void LoadParentDropDown(DropDownList ddl, Category self)
 	{
 		// Load up the Parent DropDown
 		ddl.ClearSelection();
 		ddl.Items.Add(new ListItem("none", "0"));
 		foreach (Category cat in Category.Categories)
 		{
-			ddl.Items.Add(new ListItem(cat.CompleteTitle(), cat.Id.ToString()));
+            if (self == null || !cat.Id.Equals(self.Id))
+			    ddl.Items.Add(new ListItem(cat.CompleteTitle(), cat.Id.ToString()));
 		}
 	}
 
