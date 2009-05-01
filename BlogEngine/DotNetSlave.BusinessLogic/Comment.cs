@@ -156,6 +156,15 @@ namespace BlogEngine.Core
 			get { return IsApproved; }
 		}
 
+        /// <summary>
+        /// Gets whether or not this comment is visible to visitors not logged into the blog.
+        /// </summary>
+        /// <value></value>
+        public bool IsVisibleToPublic
+        {
+            get { return IsApproved; }
+        }
+
 		private DateTime _DateCreated = DateTime.MinValue;
 		/// <summary>
 		/// Gets or sets when the comment was created.

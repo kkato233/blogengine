@@ -53,9 +53,7 @@ namespace Controls
 
 					foreach (Post post in Post.Posts)
 					{
-						// don't take authenticated users into account,
-						// count only publicly visible posts
-						if (post.IsPublished && post.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+						if (post.IsVisibleToPublic)
 						{
 							DateTime month = new DateTime(post.DateCreated.Year, post.DateCreated.Month, 1);
 							int count;

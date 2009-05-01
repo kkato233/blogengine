@@ -243,11 +243,10 @@ namespace BlogEngine.Core
 		private bool _IsPublished;
 		/// <summary>
 		/// Gets or sets whether or not the post is published.
-		/// The getter also takes into account the publish date
 		/// </summary>
 		public bool IsPublished
 		{
-			get { return _IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone); }
+			get { return _IsPublished; }
 			set
 			{
 				if (_IsPublished != value) MarkChanged("IsPublished");
@@ -327,12 +326,23 @@ namespace BlogEngine.Core
 		{
 			get
 			{
-				if (IsAuthenticated || IsPublished)
+				if (IsAuthenticated || (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone)))
 					return true;
 
 				return false;
 			}
 		}
+
+        /// <summary>
+        /// Gets whether a post is available to visitors not logged into the blog.
+        /// </summary>
+        public bool IsVisibleToPublic
+        {
+            get
+            {
+                return IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
+            }
+        }
 
 		private Post _Prev;
 		/// <summary>

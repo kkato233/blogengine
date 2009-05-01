@@ -173,6 +173,15 @@ namespace BlogEngine.Core
 			get { return IsAuthenticated || IsPublished; }
 		}
 
+        /// <summary>
+        /// Gets whether or not this page is visible to visitors not logged into the blog.
+        /// </summary>
+        /// <value></value>
+        public bool IsVisibleToPublic
+        {
+            get { return IsPublished; }
+        }
+
 		private bool _IsFrontPage;
 		/// <summary>
 		/// Gets or sets whether or not this page should be displayed on the front page.
