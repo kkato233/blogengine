@@ -48,7 +48,7 @@ namespace Controls
         _Posts.Clear();
         foreach (Post post in Post.Posts)
         {
-          if (counter <= number && post.IsPublished)
+          if (counter <= number && post.IsVisibleToPublic)
           {
             _Posts.Add(post);
             counter++;
@@ -70,7 +70,7 @@ namespace Controls
 
       foreach (Post post in _Posts)
       {
-        if (!post.IsVisible)
+        if (!post.IsVisibleToPublic)
           continue;
 
         string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);

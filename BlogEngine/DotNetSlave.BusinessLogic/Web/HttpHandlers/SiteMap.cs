@@ -33,7 +33,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         // Posts
 				foreach (Post post in Post.Posts)
 				{
-					if (post.IsPublished)
+                    if (post.IsVisibleToPublic)
 					{
 						writer.WriteStartElement("url");
 						writer.WriteElementString("loc", post.AbsoluteLink.ToString());
@@ -46,7 +46,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         // Pages
 				foreach (Page page in Page.Pages)
 				{
-					if (page.IsPublished)
+					if (page.IsVisibleToPublic)
 					{
 						writer.WriteStartElement("url");
 						writer.WriteElementString("loc", page.AbsoluteLink.ToString());

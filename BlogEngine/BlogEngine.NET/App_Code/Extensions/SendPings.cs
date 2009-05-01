@@ -22,7 +22,7 @@ public class SendPings
   /// </summary>
   static SendPings()
   {
-    Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
+        Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
 		Page.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
   }
 
@@ -38,9 +38,9 @@ public class SendPings
 		if (e.Action == SaveAction.None || e.Action == SaveAction.Delete)
 			return;
 
-    IPublishable item = (IPublishable)sender;
+        IPublishable item = (IPublishable)sender;
 
-		if (HttpContext.Current != null && !HttpContext.Current.Request.IsLocal && item.IsPublished)
+		if (HttpContext.Current != null && !HttpContext.Current.Request.IsLocal && item.IsVisibleToPublic)
 		{
 			Uri url = item.AbsoluteLink;
 			ThreadPool.QueueUserWorkItem(delegate { Ping(item, url); });

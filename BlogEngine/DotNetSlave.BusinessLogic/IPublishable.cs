@@ -51,11 +51,11 @@ namespace BlogEngine.Core
     /// <value>The relative link.</value>
     String RelativeLink { get;}
 
-		/// <summary>
-		/// Gets the absolute link.
-		/// </summary>
-		/// <value>The absolute link.</value>
-		Uri AbsoluteLink { get;}
+	/// <summary>
+	/// Gets the absolute link.
+	/// </summary>
+	/// <value>The absolute link.</value>
+	Uri AbsoluteLink { get;}
 
     /// <summary>
     /// Gets the description.
@@ -81,10 +81,19 @@ namespace BlogEngine.Core
     /// <value>The categories.</value>
     StateList<Category> Categories { get;}
 
-		bool IsPublished { get; }
     /// <summary>
-    /// Gets whether or not this item should be shown
+    /// Gets whether or not this item is published.
+    /// </summary>
+    bool IsPublished { get; }
+
+    /// <summary>
+    /// Gets whether or not this item should be shown.
     /// </summary>
     bool IsVisible { get;}
+
+    /// <summary>
+    /// Gets whether or not this item is visible to the public.
+    /// </summary>
+    bool IsVisibleToPublic { get; }
   }
 }

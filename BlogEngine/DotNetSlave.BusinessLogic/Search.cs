@@ -355,7 +355,7 @@ namespace BlogEngine.Core
 				_Catalog.Clear();
 				foreach (Post post in Post.Posts)
 				{
-					if (!post.IsPublished)
+					if (!post.IsVisibleToPublic)
 						continue;
 
 					AddItem(post);
@@ -371,7 +371,7 @@ namespace BlogEngine.Core
 
 				foreach (Page page in Page.Pages)
 				{
-					if (page.IsPublished)
+                    if (page.IsVisibleToPublic)
 						AddItem(page);
 				}
 			}

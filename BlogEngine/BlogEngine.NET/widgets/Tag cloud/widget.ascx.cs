@@ -90,7 +90,7 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 		SortedDictionary<string, int> dic = new SortedDictionary<string, int>();
 		foreach (Post post in Post.Posts)
 		{
-			if (post.IsVisible)
+			if (post.IsVisibleToPublic)
 			{
 				foreach (string tag in post.Tags)
 				{
