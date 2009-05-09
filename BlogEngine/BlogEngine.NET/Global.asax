@@ -49,7 +49,12 @@
       }
 
       sortedExtensions.Sort(delegate(SortedExtension e1, SortedExtension e2)
-          { return e1.Priority.CompareTo(e2.Priority); });
+      {
+        if (e1.Priority == e2.Priority) 
+          return string.CompareOrdinal(e1.Name, e2.Name); 
+        return e1.Priority.CompareTo(e2.Priority);
+      }); 
+        
       foreach (SortedExtension x in sortedExtensions)
       {
         if (ExtensionManager.ExtensionEnabled(x.Name))
