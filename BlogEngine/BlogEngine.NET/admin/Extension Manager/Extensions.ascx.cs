@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserControl
+public partial class UserControlsXmanagerExtensionsList : System.Web.UI.UserControl
 {
   /// <summary>
   /// handles page load event
@@ -25,7 +25,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
       ChangeStatus(act.ToString(), ext.ToString());
     }
 
-    btnRestart.Click += btnRestart_Click;
+    btnRestart.Click += BtnRestartClick;
   }
 
   /// <summary>
@@ -33,7 +33,7 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
   /// </summary>
   /// <param name="sender"></param>
   /// <param name="e"></param>
-  void btnRestart_Click(object sender, EventArgs e)
+  void BtnRestartClick(object sender, EventArgs e)
   {
     // This short cercuits the IIS process. Need to find a better way to restart the app.
     //ThreadPool.QueueUserWorkItem(delegate { ForceRestart(); });
@@ -82,7 +82,11 @@ public partial class User_controls_xmanager_ExtensionsList : System.Web.UI.UserC
       int alt = 0;
 
       extList.Sort(delegate(ManagedExtension e1, ManagedExtension e2)
-      { return e1.Priority.CompareTo(e2.Priority); });
+      {
+          if (e1.Priority == e2.Priority)
+              return string.CompareOrdinal(e1.Name, e2.Name);
+          return e1.Priority.CompareTo(e2.Priority);
+      }); 
 
       foreach (ManagedExtension x in extList)
       {
