@@ -775,4 +775,10 @@
   <data name="moveWidgetTo" xml:space="preserve">
     <value>Move Widget To</value>
   </data>
+  <data name="link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="numberOfDaysToKeep" xml:space="preserve">
+    <value>Number of days to keep</value>
+  </data>
 </root>

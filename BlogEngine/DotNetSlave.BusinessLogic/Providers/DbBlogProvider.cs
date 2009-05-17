@@ -1266,6 +1266,211 @@ namespace BlogEngine.Core.Providers
             return blogRoll;
         }
 
+
+        /// <summary>
+        /// Gets a Referrer based on an Id.
+        /// </summary>
+        /// <param name="id">The Referrers's Guid.</param>
+        /// <returns>A matching Referrer</returns>
+        public override Referrer SelectReferrer(Guid Id)
+        {
+            Referrer refer = Referrer.Referrers.Find(r => r.Id.Equals(Id));
+            if (refer == null)
+            {
+                refer = new Referrer();
+            }
+            refer.MarkOld();
+            return refer;
+        }
+
+        /// <summary>
+        /// Adds a new Referrer to the database.
+        /// </summary>
+        /// <param name="referrer">Referrer to add.</param>
+        public override void InsertReferrer(Referrer referrer)
+        {
+            List<Referrer> referrers = Referrer.Referrers;
+            referrers.Add(referrer);
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "INSERT INTO " + tablePrefix + "Referrers (ReferrerId, [Day], ReferrerUrl, [Count], Url, IsSpam) " +
+                        "VALUES (@ReferrerId, @Day, @ReferrerUrl, @Count, @Url, @IsSpam)";
+                    if (parmPrefix != "@")
+                        sqlQuery = sqlQuery.Replace("@", parmPrefix);
+
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    addReferrersParametersToCommand(referrer, provider, cmd);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+
+        private void addReferrersParametersToCommand(Referrer referrer, DbProviderFactory provider, DbCommand cmd)
+        {
+            DbParameter dpId = provider.CreateParameter();
+            dpId.ParameterName = "ReferrerId";
+            dpId.Value = referrer.Id;
+            cmd.Parameters.Add(dpId);
+
+            DbParameter dpDay = provider.CreateParameter();
+            dpDay.ParameterName = parmPrefix + "Day";
+            dpDay.Value = referrer.Day;
+            cmd.Parameters.Add(dpDay);
+
+            DbParameter dpReferrer = provider.CreateParameter();
+            dpReferrer.ParameterName = parmPrefix + "ReferrerUrl";
+            dpReferrer.Value = referrer.ReferrerUrl != null ? (object)referrer.ReferrerUrl.ToString() : DBNull.Value;
+            cmd.Parameters.Add(dpReferrer);
+
+            DbParameter dpCount = provider.CreateParameter();
+            dpCount.ParameterName = parmPrefix + "Count";
+            dpCount.Value = referrer.Count;
+            cmd.Parameters.Add(dpCount);
+
+            DbParameter dpUrl = provider.CreateParameter();
+            dpUrl.ParameterName = "Url";
+            dpUrl.Value = referrer.Url != null ? (object)referrer.Url.ToString() : DBNull.Value;
+            cmd.Parameters.Add(dpUrl);
+
+            DbParameter dpIsSpam = provider.CreateParameter();
+            dpIsSpam.ParameterName = "IsSpam";
+            dpIsSpam.Value = referrer.PossibleSpam;
+            cmd.Parameters.Add(dpIsSpam);
+        }
+
+        /// <summary>
+        /// Saves an existing Referrer to the database.
+        /// </summary>
+        /// <param name="referrer">Referrer to be saved.</param>
+        public override void UpdateReferrer(Referrer referrer)
+        {
+            List<Referrer> referrers = Referrer.Referrers;
+            referrers.Remove(referrer);
+            referrers.Add(referrer);
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "UPDATE " + tablePrefix + "Referrers " +
+                                      "SET [Day] = @Day, " +
+                                      "ReferrerUrl = @ReferrerUrl, " +
+                                      "[Count] = @Count, " +
+                                      "Url = @Url, " +
+                                      "IsSpam = @IsSpam " +
+                                      "WHERE ReferrerId = @ReferrerId";
+                    if (parmPrefix != "@")
+                        sqlQuery = sqlQuery.Replace("@", parmPrefix);
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    addReferrersParametersToCommand(referrer, provider, cmd);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all Referrers from the database.
+        /// </summary>
+        /// <returns>List of Referrers.</returns>
+        public override List<Referrer> FillReferrers()
+        {
+            deleteOldReferrers();
+
+            List<Referrer> referrers = new List<Referrer>();
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "SELECT ReferrerId, [Day], ReferrerUrl, [Count], Url, IsSpam " +
+                        "FROM " + tablePrefix + "Referrers ";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (DbDataReader rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.HasRows)
+                        {
+                            while (rdr.Read())
+                            {
+                                Referrer refer = new Referrer()
+                                {
+                                    Id = rdr.GetGuid(0),
+                                    Day = rdr.GetDateTime(1),
+                                    ReferrerUrl = new Uri(rdr.GetString(2)),
+                                    Count = rdr.GetInt32(3),
+                                    Url = rdr.IsDBNull(4) ? null : new Uri(rdr.GetString(4)),
+                                    PossibleSpam = rdr.IsDBNull(5) ? false : rdr.GetBoolean(5)
+                                };
+
+                                referrers.Add(refer);
+                                refer.MarkOld();
+                            }
+                        }
+                    }
+                }
+            }
+
+            return referrers;
+        }
+
+        private void deleteOldReferrers()
+        {
+            DateTime cutoff = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+                conn.Open();
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    string sqlQuery = "DELETE FROM " + tablePrefix + "Referrers " +
+                                      "WHERE [Day] < " + parmPrefix + "Day";
+                    cmd.CommandText = sqlQuery;
+                    cmd.CommandType = CommandType.Text;
+
+                    DbParameter dpDay = provider.CreateParameter();
+                    dpDay.ParameterName = parmPrefix + "Day";
+                    dpDay.Value = cutoff;
+                    cmd.Parameters.Add(dpDay);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets the settings from the database
         /// </summary>

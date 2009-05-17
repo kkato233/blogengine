@@ -439,5 +439,46 @@ namespace BlogEngine.Core.Providers
 
         #endregion
 
-	}
+        #region Referrers
+
+        /// <summary>
+        /// Returns a Referrer based on the specified id.
+        /// </summary>
+        public static Referrer SelectReferrer(Guid Id)
+        {
+            LoadProviders();
+            return _provider.SelectReferrer(Id);
+        }
+
+        /// <summary>
+        /// Persists a new Referrer in the current provider.
+        /// </summary>
+        public static void InsertReferrer(Referrer referrer)
+        {
+            LoadProviders();
+            _provider.InsertReferrer(referrer);
+        }
+
+        /// <summary>
+        /// Updates an existing Referrer.
+        /// </summary>
+        public static void UpdateReferrer(Referrer referrer)
+        {
+            LoadProviders();
+            _provider.UpdateReferrer(referrer);
+        }
+
+        /// <summary>
+        /// Returns a list of all Referrers in the current provider.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Referrer> FillReferrers()
+        {
+            LoadProviders();
+            return _provider.FillReferrers();
+        }
+
+        #endregion
+
+    }
 }

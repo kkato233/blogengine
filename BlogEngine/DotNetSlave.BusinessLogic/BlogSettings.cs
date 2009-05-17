@@ -121,8 +121,15 @@ namespace BlogEngine.Core
 		public bool EnableReferrerTracking { get; set; }
 		#endregion
 
-		#region EnableRelatedPosts
-		/// <summary>
+        #region NumberOfReferrerDays
+        /// <summary>
+        /// Gets or sets a value indicating the number of days that referrer information should be stored.
+        /// </summary>
+        public int NumberOfReferrerDays { get; set; }
+        #endregion
+
+        #region EnableRelatedPosts
+        /// <summary>
 		/// Gets or sets a value indicating if related posts are displayed.
 		/// </summary>
 		/// <value><b>true</b> if related posts are displayed, otherwise returns <b>false</b>.</value>

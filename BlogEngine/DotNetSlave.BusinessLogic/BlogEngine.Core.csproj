@@ -148,11 +148,13 @@
     <Compile Include="Providers\XmlProvider\Categories.cs" />
     <Compile Include="Providers\XmlProvider\DataStore.cs" />
     <Compile Include="Providers\XmlProvider\Profiles.cs" />
+    <Compile Include="Providers\XmlProvider\Referrers.cs" />
     <Compile Include="Providers\XmlProvider\StopWords.cs" />
     <Compile Include="Providers\XmlProvider\Settings.cs" />
     <Compile Include="Providers\XmlProvider\Pages.cs" />
     <Compile Include="Providers\XmlProvider\Posts.cs" />
     <Compile Include="Providers\XmlProvider\XmlRoleProvider.cs" />
+    <Compile Include="Referrer.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SyndicationGenerator.cs" />
     <Compile Include="AuthorProfile.cs" />
