@@ -100,7 +100,6 @@ namespace BlogEngine.Core.Web.Controls
 			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
 			{
 				AddJavaScriptInclude(Utils.RelativeWebRoot + "admin/widget.js", true, true);
-				AddStylesheetInclude(Utils.RelativeWebRoot + "admin/widget.css");
 			}
 
 			if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)

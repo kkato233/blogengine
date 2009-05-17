@@ -505,6 +505,10 @@ ul.recentComments li a.postTitle{
     padding: 3px;
 }
 
+.commentForm .bbcodeNoLivePreview {
+	top: 0;
+}
+
 .bbcode a {
     margin: 1px;
     padding: 1px 3px 1px 3px;

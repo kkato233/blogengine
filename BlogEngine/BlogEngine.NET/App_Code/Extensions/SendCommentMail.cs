@@ -31,7 +31,7 @@ public class SendCommentMail
 		{
 			Comment comment = post.Comments[post.Comments.Count - 1];
 			// Trackback and pingback comments don't have a '@' symbol in the e-mail field.
-			string from = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
+			string replyTo = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
 			string subject = " comment on ";
 
 			if (comment.Email == "trackback")
@@ -44,8 +44,9 @@ public class SendCommentMail
 			string body = args.Body;
 
 			MailMessage mail = new MailMessage();
-			mail.From = new MailAddress(from, HttpUtility.HtmlDecode(comment.Author));
+			mail.From = new MailAddress(BlogSettings.Instance.Email);
 			mail.To.Add(BlogSettings.Instance.Email);
+            mail.ReplyTo = new MailAddress(replyTo, HttpUtility.HtmlDecode(comment.Author));
 			mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + subject + post.Title;
 			mail.Body = "<div style=\"font: 11px verdana, arial\">";
 			mail.Body += body.Replace(Environment.NewLine, "<br />") + "<br /><br />";
