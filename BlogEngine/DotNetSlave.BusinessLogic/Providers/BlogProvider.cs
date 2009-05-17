@@ -166,7 +166,7 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public abstract void InsertBlogRollItem(BlogRollItem blogRollItem);
         /// <summary>
-        /// Updates an existing BlogRoll in teh data store specified by the provider.
+        /// Updates an existing BlogRoll in the data store specified by the provider.
         /// </summary>
         public abstract void UpdateBlogRollItem(BlogRollItem blogRollItem);
         /// <summary>
@@ -177,6 +177,23 @@ namespace BlogEngine.Core.Providers
         /// Retrieves all BlogRolls from the provider and returns them in a list.
         /// </summary>
         public abstract List<BlogRollItem> FillBlogRoll();
+
+        /// <summary>
+        /// Retrieves a Referrer from the provider based on the specified id.
+        /// </summary>
+        public abstract Referrer SelectReferrer(Guid Id);
+        /// <summary>
+        /// Inserts a new Referrer into the data store specified by the provider.
+        /// </summary>
+        public abstract void InsertReferrer(Referrer referrer);
+        /// <summary>
+        /// Updates an existing Referrer in the data store specified by the provider.
+        /// </summary>
+        public abstract void UpdateReferrer(Referrer referrer);
+        /// <summary>
+        /// Deletes a Referrer from the data store specified by the provider.
+        /// </summary>
+        public abstract List<Referrer> FillReferrers();
 
         /// <summary>
         /// 

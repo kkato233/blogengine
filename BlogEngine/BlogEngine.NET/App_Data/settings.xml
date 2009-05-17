@@ -20,6 +20,7 @@
   <authorname>My name</authorname>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <theme>Standard</theme>
+  <numberofreferrerdays>1</numberofreferrerdays>
   <iscommentsenabled>True</iscommentsenabled>
   <enablessl>False</enablessl>
   <postsperpage>10</postsperpage>

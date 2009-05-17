@@ -55,14 +55,14 @@ namespace BlogEngine.Core.Web.HttpModules
     {
       HttpContext context = ((HttpApplication)sender).Context;
       if (!context.Request.Path.ToUpperInvariant().Contains(".ASPX"))
-        return;
+          return;
 
       if (context.Request.UrlReferrer != null)
       {
         Uri referrer = context.Request.UrlReferrer;
         if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) && !IsSearchEngine(referrer.ToString()))
         {
-					ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer, context.Request.Url));
+            ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer, context.Request.Url));
         }
       }
     }
@@ -164,88 +164,25 @@ namespace BlogEngine.Core.Web.HttpModules
 
     private static void RegisterClick(Uri url, Uri referrer)
     {
-      string fileName = _Folder + DateTime.Now.Date.ToString("dddd", CultureInfo.InvariantCulture) + ".xml";
-
-      lock (_SyncRoot)
-      {
-        XmlDocument doc = CreateDocument(fileName);
-
-        string address = HttpUtility.HtmlEncode(referrer.ToString());
-        XmlNode node = doc.SelectSingleNode("urls/url[@address='" + address + "']");
-
-				if (node == null && address.Contains("www."))
-					node = doc.SelectSingleNode("urls/url[@address='" + address.Replace("www.", string.Empty) + "']");
-
-				if (node == null && !address.Contains("www."))
-					node = doc.SelectSingleNode("urls/url[@address='" + address.Replace("://", "://www.") + "']");
-
-				if (node == null)
-					node = doc.SelectSingleNode("urls/url[@address='" + HttpUtility.HtmlEncode("http://" + referrer.Host) + "']");
-				
-        if (node == null)
+        Referrer refer = null;
+        if (Referrer.Referrers != null && Referrer.Referrers.Count > 0)
         {
-					bool isSpam = IsSpam(referrer, url);
-					if (isSpam)
-					{
-						address = HttpUtility.HtmlEncode("http://" + referrer.Host);
-					}
-
-          AddNewUrl(doc, address, isSpam);
-        }
-        else
-        {
-          int count = int.Parse(node.InnerText, CultureInfo.InvariantCulture);
-          node.InnerText = (count + 1).ToString(CultureInfo.InvariantCulture);
+            refer = Referrer.Referrers.Find(r => r.ReferrerUrl.Equals(referrer) && r.Url.Equals(url) && r.Day == DateTime.Today);
         }
 
-        doc.Save(fileName);
-      }
-    }
-
-    /// <summary>
-    /// Adds a new Url to the XmlDocument.
-    /// </summary>
-    private static void AddNewUrl(XmlDocument doc, string address, bool isSpam)
-    {
-      XmlNode newNode = doc.CreateElement("url");
-
-      XmlAttribute attrAddress = doc.CreateAttribute("address");
-      attrAddress.Value = address;
-      newNode.Attributes.Append(attrAddress);
-
-      XmlAttribute attrSpam = doc.CreateAttribute("isSpam");
-      attrSpam.Value = isSpam.ToString();
-      newNode.Attributes.Append(attrSpam);
-
-      newNode.InnerText = "1";
-      doc.ChildNodes[1].AppendChild(newNode);
-    }
-
-    private static DateTime _Date = DateTime.Now;
-
-    /// <summary>
-    /// Creates the XML file for first time use.
-    /// </summary>
-    private static XmlDocument CreateDocument(string fileName)
-    {
-      XmlDocument doc = new XmlDocument();
-
-      if (!Directory.Exists(_Folder))
-        Directory.CreateDirectory(_Folder);
-
-      if (DateTime.Now.Day != _Date.Day || !File.Exists(fileName))
-      {
-        using (XmlWriter writer = XmlWriter.Create(fileName))
+        if (refer == null)
         {
-          writer.WriteStartDocument(true);
-          writer.WriteStartElement("urls");
-          writer.WriteEndElement();
+            refer = new Referrer()
+            {
+                Day = DateTime.Today,
+                ReferrerUrl = referrer,
+                Url = url,
+                PossibleSpam = IsSpam(referrer, url)
+            };
         }
-      }
+        refer.Count += 1;
 
-      _Date = DateTime.Now;
-      doc.Load(fileName);
-      return doc;
+        refer.Save();
     }
 
     #region Events
