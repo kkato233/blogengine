@@ -49,7 +49,8 @@ namespace BlogEngine.Core.Ping
 		/// Regex used to find all hyperlinks.
 		/// </summary>
 		//private static readonly Regex urlsRegex = new Regex(@"\<a\s+href=""(http://.*?)"".*\>.+\<\/a\>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private static readonly Regex urlsRegex = new Regex(@"<a[^(href)]?href=""([^""]+)""[^>]?>([^<]+)</a>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		//private static readonly Regex urlsRegex = new Regex(@"<a[^(href)]?href=""([^""]+)""[^>]?>([^<]+)</a>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex urlsRegex = new System.Text.RegularExpressions.Regex(@"<a.*?href=[""'](?<url>.*?)[""'].*?>(?<name>.*?)</a>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 		/// <summary>
 		/// Regex used to find the trackback link on a remote web page.
@@ -64,7 +65,7 @@ namespace BlogEngine.Core.Ping
 			List<Uri> urlsList = new List<Uri>();
 			foreach (Match myMatch in urlsRegex.Matches(content))
 			{
-				string url = myMatch.Groups[1].ToString().Trim();
+                string url = myMatch.Groups["url"].ToString().Trim();
 				Uri uri;
 				if (Uri.TryCreate(url, UriKind.Absolute, out uri))
 					urlsList.Add(uri);

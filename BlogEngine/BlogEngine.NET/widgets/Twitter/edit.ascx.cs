@@ -13,13 +13,16 @@ public partial class widgets_Twitter_edit : WidgetEditBase
 {
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		StringDictionary settings = GetSettings();
-		if (settings.ContainsKey("feedurl"))
-		{
-			txtUrl.Text = settings["feedurl"];
-			txtAccountUrl.Text = settings["accounturl"];
-			txtTwits.Text = settings["maxitems"];
-		}
+        if (!IsPostBack)
+        { 
+		    StringDictionary settings = GetSettings();
+		    if (settings.ContainsKey("feedurl"))
+		    {
+			    txtUrl.Text = settings["feedurl"];
+			    txtAccountUrl.Text = settings["accounturl"];
+			    txtTwits.Text = settings["maxitems"];
+		    }
+        }
 	}
 
 	public override void Save()

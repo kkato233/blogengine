@@ -49,7 +49,7 @@
 	  <asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /><br /><br />
 	  <%} %>
 
-	  <span class="bbcode" title="BBCode tags"><%=BBCodes() %></span>
+	  <span class="bbcode<%= !BlogSettings.Instance.ShowLivePreview ? " bbcodeNoLivePreview" : "" %>" title="BBCode tags"><%=BBCodes() %></span>
 	  <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
 
 	  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
@@ -57,7 +57,7 @@
 		<li id="compose" class="selected" onclick="BlogEngine.composeComment()"><%=Resources.labels.comment%></li>
 		<li id="preview" onclick="BlogEngine.showCommentPreview()"><%=Resources.labels.livePreview%></li>
 	  </ul>
-	  <% } %> 
+	  <% } %>
 	  <div id="commentCompose">
 			<label for="<%=txtContent.ClientID %>" style="display:none"><%=Resources.labels.comment%></label>
 		<asp:TextBox runat="server" ID="txtContent" TextMode="multiLine" Columns="50" Rows="10" TabIndex="6" ValidationGroup="AddComment" />

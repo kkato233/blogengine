@@ -31,8 +31,11 @@ BlogEngine = {
 
     // Shows the preview of the comment
     showCommentPreview: function() {
-        this.$('preview').className = 'selected';
-        this.$('compose').className = '';
+        var oPreview = this.$('preview');
+        var oCompose = this.$('compose');
+
+        if (oPreview) oPreview.className = 'selected';
+        if (oCompose) oCompose.className = '';
         this.$('commentCompose').style.display = 'none';
         this.$('commentPreview').style.display = 'block';
         this.$('commentPreview').innerHTML = '<img src="' + BlogEngine.webRoot + 'pics/ajax-loader.gif" alt="Loading" />';
@@ -41,8 +44,11 @@ BlogEngine = {
     }
 	,
     composeComment: function() {
-        this.$('preview').className = '';
-        this.$('compose').className = 'selected';
+        var oPreview = this.$('preview');
+        var oCompose = this.$('compose');
+
+        if (oPreview) oPreview.className = '';
+        if (oCompose) oCompose.className = 'selected';
         this.$('commentPreview').style.display = 'none';
         this.$('commentCompose').style.display = 'block';
     }

@@ -199,14 +199,7 @@ namespace BlogEngine.Core.Ping
 		/// </returns>
     public override string ToString()
     {
-      if (string.IsNullOrEmpty(UrlToNotifyTrackback.Query))
-      {
-        return String.Format(CultureInfo.InvariantCulture, "?title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostUrl, Excerpt, BlogName);
-      }
-      else
-      {
-        return String.Format(CultureInfo.InvariantCulture, "&title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostUrl, Excerpt, BlogName);
-      }
+        return string.Format(CultureInfo.InvariantCulture, "title={0}&url={1}&excerpt={2}&blog_name={3}", Title, PostUrl, Excerpt, BlogName);
     }
 
   }
