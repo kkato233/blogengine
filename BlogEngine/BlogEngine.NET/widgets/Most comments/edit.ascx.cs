@@ -30,7 +30,7 @@ public partial class widgets_Most_comments_edit : WidgetEditBase
 				txtNumber.Text = settings["numberofvisitors"];
 
 			if (settings.ContainsKey("days"))
-				txtNumber.Text = settings["days"];
+				txtDays.Text = settings["days"];
 
 			if (settings.ContainsKey("showcomments"))
 				cbShowComments.Checked = settings["showcomments"].Equals("true", StringComparison.OrdinalIgnoreCase);
