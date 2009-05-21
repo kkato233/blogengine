@@ -31,7 +31,7 @@
       <blog:SearchOnSearch runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
       <asp:ContentPlaceHolder ID="cphBody" runat="server" />
       
-      <p style="font-size:9px;text-align:center">
+      <p id="footer">
         Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %><br />
         Theme by <a href="http://blog.madskristensen.dk">Mads Kristensen</a>
       </p>
