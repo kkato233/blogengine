@@ -1,20 +1,23 @@
-﻿body {
+﻿body, textarea, table, tr, td{
+		font-family: calibri, aria;
+		font-size: 11pt;
+}
+
+body {
 	background-color: #F1F1F1;
 	color: #444444;
-	font-family: Verdana;
-	font-size: 11px;
 	margin: 0 auto;
 	width: 980px;
 	position: relative;
 }
 
 h1 {
-	font-size: 15px;
+	font-size: 130%;
 	letter-spacing: 1px;
 }
 
 h2 {
-	font-size: 13px;
+	font-size: 110%;
 }
 
 a {
@@ -57,6 +60,11 @@ img {
 	background: white;
 	border: 1px solid silver;
 	padding: 3px;
+}
+
+#footer{
+	font-size: 80%;
+	text-align:center
 }
 
 /*----------------------------
@@ -120,7 +128,6 @@ img {
 
 #menu ul li a{
 	padding: 10px;
-	font-size: 11px;
 	font-weight: bold;
 }
 
@@ -157,7 +164,7 @@ div.widget .content{
 }
 
 div.widget h4{
-	font-size: 15px;
+	font-size: 120%;
 	border-bottom: 1px solid silver;
 	padding-bottom: 5px;
 	margin: 0;
@@ -168,7 +175,7 @@ div.widget h4{
 }
 
 div.widget a.edit, div.widget a.move{
-	font-size: 10px;
+	font-size: 85%;
 	font-weight: normal;
 	float: right;
 	z-index: 1;
@@ -180,6 +187,8 @@ div.widget a.delete{
 	color: #999999;
 	float: right;
 	margin-left: 5px;
+	position: relative;
+	top: -3px;
 	z-index: 1;
 	text-decoration: none;
 }
@@ -227,6 +236,7 @@ div.widget a.delete:hover{
 #blogroll ul li ul li a {
 	margin-left: 25px;
 	color: #666666;
+	font-size: 90%;
 }
 
 #blogroll ul li a img {
@@ -243,7 +253,7 @@ div.post, .mceContentBody {
 	padding: 3px 10px;
 	margin-bottom: 20px;
 	background-color: white;
-	line-height: 17px;
+	line-height: 125%;
 }
 
 div.post h1, .mceContentBody h1 {
@@ -252,14 +262,14 @@ div.post h1, .mceContentBody h1 {
 
 div.post .author {
 	color: #666666;
-	font-size: 10px;
+	font-size: 95%;
 	float: left;
 	text-transform: capitalize;
 }
 
 div.post .pubDate {
 	color: #666666;
-	font-size: 10px;
+	font-size: 95%;
 	float: right;
 }
 
@@ -320,7 +330,7 @@ div.post .text a[href^="http:"] {
 
 #relatedPosts p
 {
-	font-size: 15px;
+	font-size: 120%;
 	letter-spacing:1px;
 	font-weight: bold;
 }
@@ -333,7 +343,7 @@ div.post .text a[href^="http:"] {
 #relatedPosts span {
 	color: #666666;
 	text-indent: 10px;
-	font-size: 10px;
+	display: inline-block;
 }
 
 /*----------------------------
@@ -387,7 +397,7 @@ ul.recentComments li a.postTitle{
 }
 
 .comment .date {
-	font-size: 10px;
+	font-size: 90%;
 	color: #666666;
 	text-align: right;
 	margin: 0;
@@ -399,11 +409,12 @@ ul.recentComments li a.postTitle{
 	margin: 0;
 	padding: 3px 0px;
 	border-top: 1px dashed silver;
+	font-size:90%;
 }
 
 #addcomment, #comment
 {
-	font-size: 15px;
+	font-size: 120%;
 	letter-spacing:1px;
 	font-weight: bold;
 }
@@ -535,7 +546,6 @@ ul.recentComments li a.postTitle{
 #archive h2 {
 	border-bottom: 1px solid silver;
 	padding-bottom: 4px;
-	font-size: 12px;
 	margin-bottom: 10px;
 }
 
@@ -566,6 +576,7 @@ ul.recentComments li a.postTitle{
 	text-align:left;
 	border-bottom: 1px solid #D8D8D8;
 	padding: 2px 0;
+	font-size: 95%;
 }
 
 #archive .date{
@@ -588,11 +599,11 @@ ul.recentComments li a.postTitle{
 
 #searchbox {
 	margin-top: 5px;
-	font-size: 10px;
+	font-size: 85%;
 }
 
 #searchbox input {
-	font-size: 10px;
+	font-size: 85%;
 }
 
 #searchbox #searchbutton {
