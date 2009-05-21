@@ -509,7 +509,7 @@ ul.recentComments li a.postTitle{
 }
 
 .commentForm .bbcode {
-    font-size:10px;
+    font-size:90%;
     float:right;
     position:relative;
     top:20px;
@@ -678,23 +678,23 @@ ul#monthList ul.open{
 }
 
 .tagcloud a.biggest {
-	font-size: 19px;
+	font-size: 130%;
 }
 
 .tagcloud a.big {
-	font-size: 17px;
+	font-size: 124%;
 }
 
 .tagcloud a.medium {
-	font-size: 14px;
+	font-size: 115%;
 }
 
 .tagcloud a.small {
-	font-size: 12px;
+	font-size: 100%;
 }
 
 .tagcloud a.smallest {
-	font-size: 10px;
+	font-size: 90%;
 }
 
 /*----------------------------
