@@ -192,21 +192,10 @@ namespace BlogEngine.Core.Providers
             if (String.IsNullOrEmpty(name))
                 name = "XmlMembershipProvider";
 
-            if (Type.GetType("Mono.Runtime") != null)
+            if (string.IsNullOrEmpty(config["description"]))
             {
-                // Mono dies with a "Unrecognized attribute: description" if a description is part of the config.
-                if (!string.IsNullOrEmpty(config["description"]))
-                {
-                    config.Remove("description");
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(config["description"]))
-                {
-                    config.Remove("description");
-                    config.Add("description", "XML role provider");
-                }
+                config.Remove("description");
+                config.Add("description", "XML role provider");
             }
 
             base.Initialize(name, config);
