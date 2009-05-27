@@ -855,7 +855,9 @@ namespace BlogEngine.Core
 			base.MarkOld();
 		}
 
-		/// <summary>
+		/*
+        
+        /// <summary>
 		/// Loads an instance of the object based on the Id.
 		/// </summary>
 		/// <param name="id">The unique identifier of the object</param>
@@ -877,6 +879,8 @@ namespace BlogEngine.Core
 
 		}
 
+         */ 
+         
 		#endregion
 
 		#region IComparable<Post> Members
