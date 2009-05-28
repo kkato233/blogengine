@@ -855,32 +855,7 @@ namespace BlogEngine.Core
 			base.MarkOld();
 		}
 
-		/*
-        
-        /// <summary>
-		/// Loads an instance of the object based on the Id.
-		/// </summary>
-		/// <param name="id">The unique identifier of the object</param>
-		public new static Post Load(Guid id)
-		{
-
-			// Mono throws an invalid IL exception if this method is not overriden 
-			// and handled in a non-generic fashion.
-
-			Post instance = new Post();
-			instance = instance.DataSelect(id);
-			instance.Id = id;
-			if (instance != null)
-			{
-				instance.MarkOld();
-				return instance;
-			}
-			return null;
-
-		}
-
-         */ 
-         
+   
 		#endregion
 
 		#region IComparable<Post> Members
