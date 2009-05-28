@@ -123,7 +123,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 			feed.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(name) + ".aspx";
 
 			HtmlImage img = new HtmlImage();
-			img.Src = Utils.RelativeWebRoot + "pics/rssbutton.gif";
+			img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
 			img.Alt = "RSS";
 			feed.Controls.Add(img);
 			h2.Controls.Add(feed);
