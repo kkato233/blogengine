@@ -781,4 +781,7 @@
   <data name="numberOfDaysToKeep" xml:space="preserve">
     <value>Number of days to keep</value>
   </data>
+  <data name="profiles" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
 </root>
