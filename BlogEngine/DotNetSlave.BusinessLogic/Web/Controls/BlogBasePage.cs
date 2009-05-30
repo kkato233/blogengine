@@ -60,7 +60,7 @@ namespace BlogEngine.Core.Web.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-			if (!Page.IsCallback && !Page.IsPostBack)
+			if (!Page.IsCallback)
 			{
 				// Links
 				AddGenericLink("contents", "Archive", Utils.RelativeWebRoot + "archive.aspx");

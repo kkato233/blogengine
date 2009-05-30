@@ -84,7 +84,7 @@ namespace Controls
 					Literal lit = new Literal();
 					lit.Text = "<p style=\"color:red\">Widget " + widget.InnerText + " not found.<p>";
 					lit.Text += ex.Message;
-					lit.Text += "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"removeWidget('" + widget.Attributes["id"].InnerText + "', '" + _ZoneName + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>";
+                    lit.Text += "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('" + widget.Attributes["id"].InnerText + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>";
 
 					this.Controls.Add(lit);
 				}
