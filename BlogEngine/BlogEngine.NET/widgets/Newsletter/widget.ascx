@@ -39,7 +39,7 @@
     if(!Page_ClientValidate())
       return false;
       
-    var arg = $('<%=txtEmail.ClientID %>').value;
+    var arg = BlogEngine.$('<%=txtEmail.ClientID %>').value;
     var context = 'newsletter';
     <%=Page.ClientScript.GetCallbackEventReference(this, "arg", "endAddEmail", "context") %>;
     
@@ -48,11 +48,11 @@
   
   function endAddEmail(arg, context)
   {
-    $('newsletterform').style.display = 'none';
-    $('newsletterthanks').style.display = 'block';
+    BlogEngine.$('newsletterform').style.display = 'none';
+    BlogEngine.$('newsletterthanks').style.display = 'block';
     if (arg == "false")
     {
-      $('newsletteraction').innerHTML = "You are now unsubscribed";
+      BlogEngine.$('newsletteraction').innerHTML = "You are now unsubscribed";
     }
   }
 </script>
