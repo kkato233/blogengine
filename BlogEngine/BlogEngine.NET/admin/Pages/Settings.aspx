@@ -125,7 +125,10 @@
             <asp:ListItem Text="<%$ Resources:labels, remove %>" Value="remove" />
             <asp:ListItem Text="<%$ Resources:labels, enforce %>" Value="add" />
             <asp:ListItem Text="<%$ Resources:labels, ignore %>" Value="" Selected="true" />
-        </asp:RadioButtonList>
+        </asp:RadioButtonList><br />
+        
+        <label for="<%=cbEnableErrorLogging.ClientID %>"><%=Resources.labels.enableErrorLogging %></label>
+        <asp:CheckBox runat="server" ID="cbEnableErrorLogging" /><%=Resources.labels.enableErrorLoggingDescription%><br />
     </div>
     <div class="settings">
         <h1><%=Resources.labels.comments %></h1>

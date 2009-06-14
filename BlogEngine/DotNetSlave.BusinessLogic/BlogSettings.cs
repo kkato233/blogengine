@@ -409,6 +409,16 @@ namespace BlogEngine.Core
 		public bool EnableTrackBackReceive { get; set; }
 		#endregion
 
+        #region EnableErrorLogging;
+        /// <summary>
+        /// Gets or sets a value indicating whether unhandled errors are logged.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if unhandled errors are to be logged otherwise, <c>false</c>.
+        /// </value>
+        public bool EnableErrorLogging { get; set; }
+        #endregion
+
 		//============================================================
 		//	EMAIL SETTINGS
 		//============================================================
