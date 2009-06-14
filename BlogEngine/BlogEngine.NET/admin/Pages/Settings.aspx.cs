@@ -122,6 +122,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         BlogSettings.Instance.EnableTrackBackReceive = cbEnableTrackBackReceive.Checked;
         BlogSettings.Instance.EnablePingBackSend = cbEnablePingBackSend.Checked;
         BlogSettings.Instance.EnablePingBackReceive = cbEnablePingBackReceive.Checked;
+        BlogSettings.Instance.EnableErrorLogging = cbEnableErrorLogging.Checked;
 
         //-----------------------------------------------------------------------
         // Set Syndication settings
@@ -229,6 +230,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		cbEnablePingBackReceive.Checked = BlogSettings.Instance.EnablePingBackReceive;
 		cbEnableTrackBackSend.Checked = BlogSettings.Instance.EnableTrackBackSend;
 		cbEnableTrackBackReceive.Checked = BlogSettings.Instance.EnableTrackBackReceive;
+        cbEnableErrorLogging.Checked = BlogSettings.Instance.EnableErrorLogging;
 
 		//-----------------------------------------------------------------------
 		// Bind Syndication settings

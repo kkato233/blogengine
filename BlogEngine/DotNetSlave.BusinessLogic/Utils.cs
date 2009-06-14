@@ -144,6 +144,22 @@ namespace BlogEngine.Core
 			return false;
 		}
 
+        /// <summary>
+        /// Occurs when a message will be logged. The sender is a string containing the log message.
+        /// </summary>
+        public static event EventHandler<EventArgs> OnLog;
+        /// <summary>
+        /// Sends a message to any subscribed log listeners.
+        /// </summary>
+        /// <param name="message">The message to be logged.</param>
+        public static void Log(object message)
+        {
+            if (OnLog != null)
+            {
+                OnLog(message, new EventArgs());
+            }
+        }
+
 		#region URL handling
 
 		/// <summary>

@@ -27,6 +27,52 @@
   /// </code>
   /// </example>
   /// </summary>
+  /// 
+    void Application_Error(object sender, EventArgs e)
+    {
+        HttpContext context = ((HttpApplication)sender).Context;
+        Exception ex = context.Server.GetLastError();
+        if (ex == null || !(ex is HttpException) || (ex as HttpException).GetHttpCode() == 404)
+            return;
+
+        StringBuilder sb = new StringBuilder();
+
+        try
+        {
+            sb.Append("Url : " + context.Request.Url.ToString());
+            sb.Append(Environment.NewLine);
+            sb.Append("Raw Url : " + context.Request.RawUrl);
+            sb.Append(Environment.NewLine);
+
+            while (ex != null)
+            {
+                sb.Append("Message : " + ex.Message);
+                sb.Append(Environment.NewLine);
+                sb.Append("Source : " + ex.Source);
+                sb.Append(Environment.NewLine);
+                sb.Append("StackTrace : " + ex.StackTrace);
+                sb.Append(Environment.NewLine);
+                sb.Append("TargetSite : " + ex.TargetSite);
+                sb.Append(Environment.NewLine);
+                sb.Append("Environment.StackTrace : " + Environment.StackTrace);
+                sb.Append(Environment.NewLine);
+                ex = ex.InnerException;
+            }
+        }
+        catch (Exception ex2)
+        {
+            sb.Append("Error logging error : " + ex2.Message);
+        }
+
+        if (BlogSettings.Instance.EnableErrorLogging)
+            Utils.Log(sb.ToString());
+
+        context.Items["LastErrorDetails"] = sb.ToString();
+        context.Response.StatusCode = 500;
+        Server.ClearError();
+        context.Server.Transfer("~/error.aspx");
+    }
+    
   void Application_Start(object sender, EventArgs e)
   {
     ArrayList codeAssemblies = Utils.CodeAssemblies();
