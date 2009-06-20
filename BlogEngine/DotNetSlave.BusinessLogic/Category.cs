@@ -96,6 +96,44 @@ namespace BlogEngine.Core
 			}
 		}
 
+        /// <summary>
+        /// Gets the relative link to the page displaying all posts for this category.
+        /// </summary>
+        public string RelativeLink
+        {
+            get
+            {
+                return Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(this.Title) + BlogSettings.Instance.FileExtension;
+            }
+        }
+
+        /// <summary>
+        /// Gets the absolute link to the page displaying all posts for this category.
+        /// </summary>
+        public Uri AbsoluteLink
+        {
+            get { return Utils.ConvertToAbsolute(RelativeLink); }
+        }
+
+        /// <summary>
+        /// Gets the relative link to the feed for this category's posts.
+        /// </summary>
+        public string FeedRelativeLink
+        {
+            get
+            {
+                return Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(this.Title) + BlogSettings.Instance.FileExtension;
+            }
+        }
+
+        /// <summary>
+        /// Gets the absolute link to the feed for this category's posts.
+        /// </summary>
+        public Uri FeedAbsoluteLink
+        {
+            get { return Utils.ConvertToAbsolute(FeedRelativeLink); }
+        }
+
 		/// <summary>
 		/// Gets the full title with Parent names included
 		/// </summary>

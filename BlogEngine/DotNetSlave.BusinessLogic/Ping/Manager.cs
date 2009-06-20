@@ -26,17 +26,21 @@ namespace BlogEngine.Core.Ping
 		{
 			foreach (Uri url in GetUrlsFromContent(item.Content))
 			{
-				string pageContent = Utils.DownloadWebPage(url);// ReadFromWeb(url);
-				Uri trackbackUrl = GetTrackBackUrlFromPage(pageContent);
-				bool isTrackbackSent = false;
+                bool isTrackbackSent = false;
 
-				if (trackbackUrl != null)
-				{
-					TrackbackMessage message = new TrackbackMessage(item, trackbackUrl, itemUrl);
-					isTrackbackSent = Trackback.Send(message);
-				}
+                if (BlogSettings.Instance.EnableTrackBackSend)
+                { 
+				    string pageContent = Utils.DownloadWebPage(url);// ReadFromWeb(url);
+				    Uri trackbackUrl = GetTrackBackUrlFromPage(pageContent);
 
-				if (!isTrackbackSent)
+				    if (trackbackUrl != null)
+				    {
+					    TrackbackMessage message = new TrackbackMessage(item, trackbackUrl, itemUrl);
+					    isTrackbackSent = Trackback.Send(message);
+				    }
+                }
+
+                if (!isTrackbackSent && BlogSettings.Instance.EnablePingBackSend)
 				{
 					Pingback.Send(itemUrl, url);
 				}

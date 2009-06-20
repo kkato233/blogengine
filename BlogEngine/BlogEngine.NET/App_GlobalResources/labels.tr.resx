@@ -151,7 +151,7 @@
     <value>Arşiv</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>{0} {1}, yapmak istediğinizden emin misiniz?</value>
+    <value> {1} {0}, istediğinizden emin misiniz?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
     <value>Dosya Ekle</value>
@@ -182,12 +182,15 @@
   </data>
   <data name="category" xml:space="preserve">
     <value>Kategori</value>
+ </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Şifre Değiştir</value>
+  </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>Başka bir isim seçiniz</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>İzleyen yorumları kapat</value>
-  </data>
-  <data name="combine" xml:space="preserve">
-    <value>Kombinasyon</value>
   </data>
   <data name="comment" xml:space="preserve">
     <value>Yorum</value>
@@ -251,6 +254,9 @@
   </data>
   <data name="emailAddress" xml:space="preserve">
     <value>E-mail Adresi</value>
+</data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Konu Öneki</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
     <value>Dosya eklemeyi etkinleştir</value>
@@ -284,9 +290,12 @@
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Tüm yeni internet tarayıcılara arama özelliği ekler (tavsiye edilir).</value>
+ </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Pingbacks etkin</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Yazıyı değerlendirmeyi etkinleştir</value>
+    <value>Yazı değerlendirmeyi etkinleştir</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
     <value>Tavsiye edenleri izleme (referrer tracking) özelliğini etkinleştir</value>
@@ -299,12 +308,21 @@
   </data>
   <data name="enableSsl" xml:space="preserve">
     <value>SSL etkinleştir</value>
+ </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Trackbacks etkin</value>
   </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endorsment (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Mecbur kıl</value>
+    <value>Zorla</value>
+ </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>Lütfen geçerli bir e-mail giriniz</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>Lütfen geçerli bir web adresi giriniz</value>
   </data>
   <data name="export" xml:space="preserve">
     <value>Dışarı aktar</value>
@@ -366,6 +384,12 @@
   </data>
   <data name="name" xml:space="preserve">
     <value>İsim</value>
+ </data>
+  <data name="nextPost" xml:space="preserve">
+    <value>Sonraki Yazı</value>
+  </data>
+  <data name="nextPosts" xml:space="preserve">
+    <value>Sonraki Yazılar</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>Gösterme</value>
@@ -418,6 +442,12 @@
   <data name="postsPerFeed" xml:space="preserve">
     <value>"Feed"da görünecek öğeler</value>
   </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Önceki Yazı</value>
+  </data>
+  <data name="previousPosts" xml:space="preserve">
+    <value>Önceki Yazılar</value>
+  </data>
   <data name="publish" xml:space="preserve">
     <value>Yayınla</value>
   </data>
@@ -426,6 +456,9 @@
   </data>
   <data name="rating" xml:space="preserve">
     <value>Değerlendirme</value>
+ </data>
+  <data name="receive" xml:space="preserve">
+    <value>Alınan</value>
   </data>
   <data name="recentComments" xml:space="preserve">
     <value>Son yorumlar</value>
@@ -445,6 +478,9 @@
   <data name="remove" xml:space="preserve">
     <value>Kaldır</value>
   </data>
+  <data name="required" xml:space="preserve">
+    <value>Gerekli</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>Kaydet</value>
   </data>
@@ -459,6 +495,9 @@
   </data>
   <data name="saveSettings" xml:space="preserve">
     <value>Ayarları kaydet</value>
+  </data>
+  <data name="savingTheComment" xml:space="preserve">
+    <value>Yorum Kaydediliyor...</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>Arama</value>
@@ -478,11 +517,14 @@
   <data name="selectParent" xml:space="preserve">
     <value>Kategori seçiniz</value>
   </data>
+  <data name="send" xml:space="preserve">
+    <value>Gönder</value>
+  </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Yorumları e-mail olarak gönder</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Her "tag"i virgül ile ayırınız</value>
+    <value>Her "tag" ı virgül ile ayırınız</value>
   </data>
   <data name="settings" xml:space="preserve">
     <value>Ayarlar</value>
@@ -501,6 +543,9 @@
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Canlı önizlemeyi göster</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Önceki ve sonraki yazı linklerini göster</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
     <value>Alakalı yazıları göster</value>
@@ -570,5 +615,179 @@
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
     <value>Bu yazıyı daha önce değerlendirdiniz</value>
+  </data>
+  <data name="userProfiles" xml:space="preserve">
+    <value>Kullanıcı Profil(ler)i</value>
+  </data>
+  <data name="view" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="firstName" xml:space="preserve">
+    <value>Adı</value>
+  </data>
+  <data name="aboutMe" xml:space="preserve">
+    <value>Hakkımda</value>
+  </data>
+  <data name="birthday" xml:space="preserve">
+    <value>Doğum Tarihi</value>
+  </data>
+  <data name="cityTown" xml:space="preserve">
+    <value>Şehir / Kasaba</value>
+  </data>
+  <data name="displayName" xml:space="preserve">
+    <value>Görünen İsim</value>
+  </data>
+  <data name="fullName" xml:space="preserve">
+    <value>Tam İsim</value>
+  </data>
+  <data name="gender" xml:space="preserve">
+    <value>Cinsiyet</value>
+  </data>
+  <data name="industry" xml:space="preserve">
+    <value>Endüstri</value>
+  </data>
+  <data name="interests" xml:space="preserve">
+    <value>İlgi Alanları</value>
+  </data>
+  <data name="isPrivate" xml:space="preserve">
+    <value>Gizli</value>
+  </data>
+  <data name="lastName" xml:space="preserve">
+    <value>Soyadı</value>
+  </data>
+  <data name="occupation" xml:space="preserve">
+    <value>Meslek</value>
+  </data>
+  <data name="photoURL" xml:space="preserve">
+    <value>Resim Yolu</value>
+  </data>
+  <data name="regionState" xml:space="preserve">
+    <value>Yerleşim/Bölge</value>
+  </data>
+  <data name="saveProfile" xml:space="preserve">
+    <value>Profili Kaydet</value>
+  </data>
+  <data name="switchUserProfile" xml:space="preserve">
+    <value>Kullanıcı profilini değiştir</value>
+  </data>
+  <data name="company" xml:space="preserve">
+    <value>Firma</value>
+  </data>
+  <data name="middleName" xml:space="preserve">
+    <value>İkinci Ad</value>
+  </data>
+  <data name="phoneFax" xml:space="preserve">
+    <value>Faks</value>
+  </data>
+  <data name="phoneMain" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="phoneMobile" xml:space="preserve">
+    <value>Cep Telefonu</value>
+  </data>
+  <data name="profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="calendar" xml:space="preserve">
+    <value>Takvim</value>
+  </data>
+  <data name="commentWaitingModeration" xml:space="preserve">
+    <value>Yorumunuz için teşekkürler. Yorumunuz onaylandığında yayınlanacaktır.</value>
+  </data>
+  <data name="requireSslForMetaWeblogApi" xml:space="preserve">
+    <value>MetaWeblog API için SSL gerekli</value>
+  </data>
+  <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
+    <value>MetaWeblog API ile iletişim kurulduğunda SSL kullanmayı zorunlu kıl</value>
+  </data>
+  <data name="compressWebResource" xml:space="preserve">
+    <value>WebResource.axd dosyasını sıkıştır</value>
+  </data>
+  <data name="compressWebResourceDescription" xml:space="preserve">
+    <value>3.Parti yazılımların işlevselliğini etkileyebilir.</value>
+  </data>
+  <data name="useBlogNameInPageTitles" xml:space="preserve">
+    <value>Sayfa başlıklarında blog ismini kullan</value>
+  </data>
+  <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
+    <value>Sayfa başlıklarının önüne blog ismi eklenir</value>
+  </data>
+  <data name="uncategorized" xml:space="preserve">
+    <value>Kategorize edilmemiş</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtre</value>
+  </data>
+  <data name="filterByApml" xml:space="preserve">
+    <value>APML ile filtrele</value>
+  </data>
+  <data name="filterByApmlDescription" xml:space="preserve">
+    <value>Web sitenizin APML dosyasının yolunu giriniz.</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Oturum Aç</value>
+  </data>
+  <data name="logoff" xml:space="preserve">
+    <value>Oturumu Kapat</value>
+  </data>
+  <data name="useRawHtmlEditor" xml:space="preserve">
+    <value>Raw HTML editörünü kullan</value>
+  </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>İç içe yorumları etkinleştir</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>Yalnızca desteklenen temalarda çalışır</value>
+  </data>
+  <data name="replyTo" xml:space="preserve">
+    <value>Cevaben</value>
+  </data>
+  <data name="replyToBase" xml:space="preserve">
+    <value>Orjinal yazı</value>
+  </data>
+  <data name="replyToThis" xml:space="preserve">
+    <value>Yanıtla</value>
+  </data>
+  <data name="deleteKeepReplies" xml:space="preserve">
+    <value>Bunu sil ancak yanıtları bırak</value>
+  </data>
+  <data name="deletePlusReplies" xml:space="preserve">
+    <value>Bunu ve yanıtlarını sil</value>
+  </data>
+  <data name="cancelReply" xml:space="preserve">
+    <value>Yorumu yanıtlamayı iptal et</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>Karakter sayısı</value>
+  </data>
+  <data name="ratingHasBeenRegistered" xml:space="preserve">
+    <value>Değerlendirmeniz kaydedildi. Teşekkürler!</value>
+  </data>
+  <data name="rateThisXStars" xml:space="preserve">
+    <value>Bunu değerlendir {0} yıldız {1} / 5</value>
+  </data>
+  <data name="move" xml:space="preserve">
+    <value>Taşı</value>
+  </data>
+  <data name="moveWidgetTo" xml:space="preserve">
+    <value>Widget ı şuraya taşı</value>
+  </data>
+  <data name="link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="numberOfDaysToKeep" xml:space="preserve">
+    <value>Saklanacak gün sayısı</value>
+  </data>
+  <data name="profiles" xml:space="preserve">
+    <value>Profiller</value>
+  </data>
+  <data name="enableErrorLogging" xml:space="preserve">
+    <value>Hata loglarını etkinleştir</value>
+  </data>
+  <data name="enableErrorLoggingDescription" xml:space="preserve">
+    <value>Yakalanmayan hatalar loglanacaktır.</value>
   </data>
 </root>

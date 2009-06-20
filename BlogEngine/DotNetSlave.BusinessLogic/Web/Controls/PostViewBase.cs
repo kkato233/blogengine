@@ -217,14 +217,13 @@ namespace BlogEngine.Core.Web.Controls
 		protected virtual string CategoryLinks(string separator)
 		{
 			string[] keywords = new string[Post.Categories.Count];
-			string link = "<a href=\"{0}{1}.aspx\">{2}</a>";
-			string path = VirtualPathUtility.ToAbsolute("~/category/");
+			string link = "<a href=\"{0}\">{1}</a>";
 			for (int i = 0; i < Post.Categories.Count; i++)
 			{
-				if (Category.Categories.Contains((Category)Post.Categories[i]))
+                Category c = Category.GetCategory(Post.Categories[i].Id);
+                if (c != null)
 				{
-					string category = Category.GetCategory(Post.Categories[i].Id).Title;
-					keywords[i] = string.Format(CultureInfo.InvariantCulture, link, path, Utils.RemoveIllegalCharacters(category), category);
+					keywords[i] = string.Format(CultureInfo.InvariantCulture, link, c.RelativeLink, c.Title);
 				}
 			}
 

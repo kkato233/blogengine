@@ -387,8 +387,8 @@ namespace BlogEngine.Core.API.MetaWeblog
 				MWACategory temp = new MWACategory();
 				temp.title = cat.Title;
 				temp.description = cat.Title; //cat.Description;
-				temp.htmlUrl = rootUrl + "category/" + cat.Title + ".aspx";
-				temp.rssUrl = rootUrl + "category/syndication.axd?category=" + cat.Id;
+                temp.htmlUrl = cat.AbsoluteLink.ToString();
+                temp.rssUrl = cat.FeedAbsoluteLink.ToString();
 				categories.Add(temp);
 			}
 

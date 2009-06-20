@@ -81,7 +81,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 			string name = cat.Title;
 			List<Post> list = cat.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
 
-			HtmlGenericControl h2 = CreateRowHeader(cat.Id, name, list.Count);
+			HtmlGenericControl h2 = CreateRowHeader(cat, name, list.Count);
 			phArchive.Controls.Add(h2);
 
 			HtmlTable table = CreateTable(name);
@@ -97,7 +97,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (noCatList.Count > 0)
 		{
 			string name = Resources.labels.uncategorized;
-			HtmlGenericControl h2 = CreateRowHeader(Guid.Empty, name, noCatList.Count);
+			HtmlGenericControl h2 = CreateRowHeader(null, name, noCatList.Count);
 			phArchive.Controls.Add(h2);
 
 			HtmlTable table = CreateTable(name);
@@ -112,15 +112,15 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 	}
 
-	private static HtmlGenericControl CreateRowHeader(Guid id, string name, int count)
+	private static HtmlGenericControl CreateRowHeader(Category cat, string name, int count)
 	{
 		HtmlGenericControl h2 = new HtmlGenericControl("h2");
 		h2.Attributes["id"] = Utils.RemoveIllegalCharacters(name);
-		
-		if (id != Guid.Empty)
+
+        if (cat != null)
 		{
 			HtmlAnchor feed = new HtmlAnchor();
-			feed.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(name) + ".aspx";
+            feed.HRef = cat.FeedRelativeLink;
 
 			HtmlImage img = new HtmlImage();
 			img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
