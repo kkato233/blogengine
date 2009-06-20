@@ -116,7 +116,7 @@ namespace Controls
 					img.Attributes["class"] = "rssButton";
 
 					HtmlAnchor feedAnchor = new HtmlAnchor();
-					feedAnchor.HRef = Utils.RelativeWebRoot + "category/feed/" + Utils.RemoveIllegalCharacters(cat.Title) + ".aspx";
+                    feedAnchor.HRef = cat.FeedRelativeLink;
 					feedAnchor.Attributes["rel"] = "nofollow";
 					feedAnchor.Controls.Add(img);
 
@@ -133,7 +133,7 @@ namespace Controls
 					postCount = null;
 
 				HtmlAnchor anc = new HtmlAnchor();
-				anc.HRef = Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(cat.Title) + BlogSettings.Instance.FileExtension;
+                anc.HRef = cat.RelativeLink;
 				anc.InnerHtml = HttpUtility.HtmlEncode(key) + postCount;
 				anc.Title = "Category: " + key;
 

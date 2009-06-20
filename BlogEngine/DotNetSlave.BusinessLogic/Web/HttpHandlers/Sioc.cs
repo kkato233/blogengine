@@ -381,7 +381,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				{
 					xmlWriter.WriteStartElement("sioc", "topic", null);
 					xmlWriter.WriteAttributeString("rdfs", "label", null, category.Title);
-					xmlWriter.WriteAttributeString("rdf", "resource", null, Utils.AbsoluteWebRoot.ToString() + "category/" + category.Title + ".aspx");
+					xmlWriter.WriteAttributeString("rdf", "resource", null, category.AbsoluteLink.ToString());
 					xmlWriter.WriteEndElement(); //sioc:topic
 				}
 

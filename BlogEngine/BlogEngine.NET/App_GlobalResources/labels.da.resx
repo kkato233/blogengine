@@ -136,7 +136,7 @@
     <value>Avancerede</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Avancerede instillinger</value>
+    <value>Avancerede indstillinger</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
     <value>Alternativ feed adresse</value>
@@ -529,7 +529,7 @@
     <value>Gem indlæg</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Gem instillingerne</value>
+    <value>Gem indstillingerne</value>
   </data>
   <data name="savingTheComment" xml:space="preserve">
     <value>Gemmer kommentaren...</value>
