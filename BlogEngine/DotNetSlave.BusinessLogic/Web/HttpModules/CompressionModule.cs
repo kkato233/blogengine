@@ -188,17 +188,21 @@ namespace BlogEngine.Core.Web.HttpModules
 				string html = System.Text.Encoding.Default.GetString(buffer);
 
 				Regex regex = new Regex("<script\\s*src=\"((?=[^\"]*webresource.axd)[^\"]*)\"\\s*type=\"text/javascript\"[^>]*>[^<]*(?:</script>)?", RegexOptions.IgnoreCase);
-				foreach (Match match in regex.Matches(html))
-				{
-					string relative = match.Groups[1].Value;
-					string absolute = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
-					html = html.Replace(relative, Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(absolute + relative));
-				}
+                html = regex.Replace(html, new MatchEvaluator(Evaluator));
 
 				byte[] outdata = System.Text.Encoding.Default.GetBytes(html);
 				_sink.Write(outdata, 0, outdata.GetLength(0));
 			}
 
+            /// <summary>
+            /// Evaluates the replacement for each link match.
+            /// </summary>
+            public string Evaluator(Match match)
+            {
+                string relative = match.Groups[1].Value;
+                string absolute = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+                return match.Value.Replace(relative, Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(absolute + relative));
+            }
 			#endregion
 
 		}

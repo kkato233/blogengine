@@ -11,7 +11,7 @@ using BlogEngine.Core.Web.Controls;
 /// <summary>
 /// Auto resolves URLs in the comments and turn them into valid hyperlinks.
 /// </summary>
-[Extension("Auto resolves URLs in the comments and turn them into valid hyperlinks.", "1.3", "BlogEngine.NET")]
+[Extension("Auto resolves URLs in the comments and turn them into valid hyperlinks.", "1.4", "BlogEngine.NET")]
 public class ResolveLinks
 {
 
@@ -35,20 +35,24 @@ public class ResolveLinks
 		if (string.IsNullOrEmpty(e.Body))
 			return;
 
-		CultureInfo info = CultureInfo.InvariantCulture;
-
-		foreach (Match match in regex.Matches(e.Body))
-		{
-			if (!match.Value.Contains("://"))
-			{
-				e.Body = e.Body.Replace(match.Value, string.Format(info, link, "http://", match.Value, ShortenUrl(match.Value, MAX_LENGTH)));
-			}
-			else
-			{
-				e.Body = e.Body.Replace(match.Value, string.Format(info, link, string.Empty, match.Value, ShortenUrl(match.Value, MAX_LENGTH)));
-			}
-		}
+        e.Body = regex.Replace(e.Body, new MatchEvaluator(ResolveLinks.Evaluator));
 	}
+
+    /// <summary>
+    /// Evaluates the replacement for each link match.
+    /// </summary>
+    public static string Evaluator(Match match)
+    {
+        CultureInfo info = CultureInfo.InvariantCulture;
+        if (!match.Value.Contains("://"))
+        {
+            return string.Format(info, link, "http://", match.Value, ShortenUrl(match.Value, MAX_LENGTH));
+        }
+        else
+        {
+            return string.Format(info, link, string.Empty, match.Value, ShortenUrl(match.Value, MAX_LENGTH));
+        }
+    }
 
 	/// <summary>
 	/// Shortens any absolute URL to a specified maximum length
