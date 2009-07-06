@@ -127,22 +127,24 @@ public partial class widgets_Twitter_widget : WidgetBase
 	/// </summary>
 	private string ResolveLinks(string body)
 	{
-		CultureInfo info = CultureInfo.InvariantCulture;
-
-		foreach (Match match in regex.Matches(body))
-		{
-			if (!match.Value.Contains("://"))
-			{
-				body = body.Replace(match.Value, string.Format(info, link, "http://", match.Value));
-			}
-			else
-			{
-				body = body.Replace(match.Value, string.Format(info, link, string.Empty, match.Value));
-			}
-		}
-
-		return body;
+        return regex.Replace(body, new MatchEvaluator(Evaluator));
 	}
+
+    /// <summary>
+    /// Evaluates the replacement for each link match.
+    /// </summary>
+    public string Evaluator(Match match)
+    {
+        CultureInfo info = CultureInfo.InvariantCulture;
+        if (!match.Value.Contains("://"))
+        {
+            return string.Format(info, link, "http://", match.Value);
+        }
+        else
+        {
+            return string.Format(info, link, string.Empty, match.Value);
+        }
+    }
 
 	private struct Twit : IComparable<Twit>
 	{

@@ -465,27 +465,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 	}
 
 	/// <summary>
-	/// Examins the comment body for any links and turns them
-	/// automatically into one that can be clicked.
-	/// <remarks>
-	/// All links added to comments will have the rel attribute set
-	/// to nofollow to prevent negative pagerank.
-	/// </remarks>
-	/// </summary>
-	protected string ResolveLinks(string body)
-	{
-		foreach (Match match in regex.Matches(body))
-		{
-			if (!match.Value.Contains("://"))
-				body = body.Replace(match.Value, regex.Replace(body, "<a href=\"http://$1\" rel=\"nofollow\">$1</a>"));
-			else
-				body = body.Replace(match.Value, regex.Replace(body, "<a href=\"$1\" rel=\"nofollow\">$1</a>"));
-		}
-
-		return body.Replace(Environment.NewLine, "<br />");
-	}
-
-	/// <summary>
 	/// Displays a delete link to visitors that is authenticated
 	/// using the default membership provider.
 	/// </summary>
