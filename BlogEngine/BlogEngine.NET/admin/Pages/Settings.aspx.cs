@@ -64,6 +64,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 
 	private void btnSave_Click(object sender, EventArgs e)
 	{
+        bool enabledHttpCompressionSettingChanged = BlogSettings.Instance.EnableHttpCompression != cbEnableCompression.Checked;
 
         //-----------------------------------------------------------------------
         // Set Basic settings
@@ -166,6 +167,13 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         //  Persist settings
         //-----------------------------------------------------------------------
         BlogSettings.Instance.Save();
+
+        if (enabledHttpCompressionSettingChanged)
+        { 
+            // To avoid errors in IIS7 when toggling between compression and no-compression, re-start the app.
+            string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "web.config";
+            File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
+        }
 
         Response.Redirect(Request.RawUrl, true);
         
