@@ -283,7 +283,7 @@
     <value>Enable HTTP compression</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>Makes the pages load faster (recommended).</value>
+    <value>Makes the pages load faster (recommended). Changing this will re-start the website.</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
     <value>Enable OpenSearch</value>
@@ -313,7 +313,7 @@
     <value>Enable trackbacks</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>Endorsment (bLink)</value>
+    <value>Endorsement (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
     <value>Enforce</value>
