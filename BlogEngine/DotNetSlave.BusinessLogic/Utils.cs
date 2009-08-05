@@ -118,31 +118,35 @@ namespace BlogEngine.Core
 		/// Writes ETag and Last-Modified headers and sets the conditional get headers.
 		/// </summary>
 		/// <param name="date">The date.</param>
-		public static bool SetConditionalGetHeaders(DateTime date)
-		{
+        public static bool SetConditionalGetHeaders(DateTime date)
+        {
 
             // SetLastModified() below will throw an error if the 'date' is a future date.
             if (date > DateTime.Now)
                 date = DateTime.Now;
 
-			HttpResponse response = HttpContext.Current.Response;
-			HttpRequest request = HttpContext.Current.Request;
+            HttpResponse response = HttpContext.Current.Response;
+            HttpRequest request = HttpContext.Current.Request;
 
-			string etag = "\"" + date.Ticks + "\"";
-			string incomingEtag = request.Headers["If-None-Match"];
+            string etag = "\"" + date.Ticks + "\"";
+            string incomingEtag = request.Headers["If-None-Match"];
 
-			response.AppendHeader("ETag", etag);
-			response.Cache.SetLastModified(date);
+            DateTime incomingLastModifiedDate = DateTime.MinValue;
+            DateTime.TryParse(request.Headers["If-Modified-Since"], out incomingLastModifiedDate);
 
-			if (String.Compare(incomingEtag, etag) == 0)
-			{
-				response.Clear();
-				response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
-				return true;
-			}
+            response.Cache.SetLastModified(date);
+            response.Cache.SetCacheability(HttpCacheability.Public);
+            response.Cache.SetETag(etag);
 
-			return false;
-		}
+            if (String.Compare(incomingEtag, etag) == 0 || incomingLastModifiedDate == date)
+            {
+                response.Clear();
+                response.StatusCode = (int)HttpStatusCode.NotModified;
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Occurs when a message will be logged. The sender is a string containing the log message.
