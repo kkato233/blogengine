@@ -943,7 +943,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpID = provider.CreateParameter();
                     dpID.ParameterName = parmPrefix + "catid";
-                    dpID.Value = category.Id;
+                    dpID.Value = category.Id.ToString();
                     cmd.Parameters.Add(dpID);
 
                     DbParameter dpTitle = provider.CreateParameter();
@@ -997,7 +997,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpID = provider.CreateParameter();
                     dpID.ParameterName = parmPrefix + "catid";
-                    dpID.Value = category.Id;
+                    dpID.Value = category.Id.ToString();
                     cmd.Parameters.Add(dpID);
 
                     cmd.ExecuteNonQuery();
