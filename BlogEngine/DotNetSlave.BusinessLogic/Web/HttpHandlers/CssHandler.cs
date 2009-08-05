@@ -112,27 +112,28 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// This will make the browser and server keep the output
 		/// in its cache and thereby improve performance.
 		/// </summary>
-		private static void SetHeaders(int hash, HttpContext context)
-		{
-			context.Response.ContentType = "text/css";
-			context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
+        private static void SetHeaders(int hash, HttpContext context)
+        {
+            context.Response.ContentType = "text/css";
+            context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
 
-			context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
-			context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
-			context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+            context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
+            context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+            context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
 
-			string etag = "\"" + hash.ToString() + "\"";
-			string incomingEtag = context.Request.Headers["If-None-Match"];
+            string etag = "\"" + hash.ToString() + "\"";
+            string incomingEtag = context.Request.Headers["If-None-Match"];
 
-			context.Response.AppendHeader("ETag", etag);
+            context.Response.Cache.SetETag(etag);
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
 
-			if (String.Compare(incomingEtag, etag) == 0)
-			{
-				context.Response.Clear();
-				context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
-				context.Response.SuppressContent = true;
-			}
-		}
+            if (String.Compare(incomingEtag, etag) == 0)
+            {
+                context.Response.Clear();
+                context.Response.StatusCode = (int)System.Net.HttpStatusCode.NotModified;
+                context.Response.SuppressContent = true;
+            }
+        }
 
 		/// <summary>
 		/// Retrieves the local CSS from the disk

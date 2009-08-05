@@ -43,29 +43,33 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references 
 		/// to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.
 		/// </param>
-		public void ProcessRequest(HttpContext context)
-		{
-			string title = RetrieveTitle(context);
-			SyndicationFormat format = RetrieveFormat(context);
-			List<IPublishable> list = GenerateItemList(context);
-			list = CleanList(list);
+        public void ProcessRequest(HttpContext context)
+        {
+            string title = RetrieveTitle(context);
+            SyndicationFormat format = RetrieveFormat(context);
+            List<IPublishable> list = GenerateItemList(context);
+            list = CleanList(list);
 
-			if (string.IsNullOrEmpty(context.Request.QueryString["post"]))
-			{
-				// Shorten the list to the number of posts stated in the settings, except for the comment feed.
-				int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
-				list = list.FindAll(delegate(IPublishable item)
-				{
-					return item.IsVisible == true;
-				});
+            if (string.IsNullOrEmpty(context.Request.QueryString["post"]))
+            {
+                // Shorten the list to the number of posts stated in the settings, except for the comment feed.
+                int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
+                list = list.FindAll(delegate(IPublishable item)
+                {
+                    return item.IsVisible == true;
+                });
 
-				list = list.GetRange(0, max);
-			}
+                list = list.GetRange(0, max);
+            }
 
-			SetHeaderInformation(context, list, format);
-			SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
-			generator.WriteFeed(format, context.Response.OutputStream, list, title);
-		}
+            SetHeaderInformation(context, list, format);
+
+            if (BlogSettings.Instance.EnableHttpCompression)
+                HttpModules.CompressionModule.CompressResponse(context);
+
+            SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
+            generator.WriteFeed(format, context.Response.OutputStream, list, title);
+        }
 
 		#endregion
 

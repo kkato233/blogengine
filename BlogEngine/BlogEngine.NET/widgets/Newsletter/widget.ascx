@@ -36,7 +36,7 @@
 <script type="text/javascript">
   function beginAddEmail()
   {
-    if(!Page_ClientValidate())
+    if(!Page_ClientValidate('newsletter'))
       return false;
       
     var arg = BlogEngine.$('<%=txtEmail.ClientID %>').value;
