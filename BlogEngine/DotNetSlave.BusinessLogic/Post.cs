@@ -37,6 +37,7 @@ namespace BlogEngine.Core
 			_Comments = new List<Comment>();
 			_Categories = new StateList<Category>();
 			_Tags = new StateList<string>();
+            _NotificationEmails = new StateList<string>();
 			DateCreated = DateTime.Now;
 			_IsPublished = true;
 			_IsCommentsEnabled = true;
@@ -303,21 +304,15 @@ namespace BlogEngine.Core
 			}
 		}
 
-		private StringCollection _NotificationEmails;
-		/// <summary>
-		/// Gets a collection of email addresses that is signed up for 
-		/// comment notification on the specific post.
-		/// </summary>
-		public StringCollection NotificationEmails
-		{
-			get
-			{
-				if (_NotificationEmails == null)
-					_NotificationEmails = new StringCollection();
-
-				return _NotificationEmails;
-			}
-		}
+        private StateList<string> _NotificationEmails;
+        /// <summary>
+        /// Gets a collection of email addresses that is signed up for 
+        /// comment notification on the specific post.
+        /// </summary>
+        public StateList<string> NotificationEmails
+        {
+            get { return _NotificationEmails; }
+        }
 
 		/// <summary>
 		/// Gets whether or not the post is visible or not.
@@ -682,12 +677,20 @@ namespace BlogEngine.Core
 			{
 				if (email != comment.Email)
 				{
+                    // Intentionally using AbsoluteLink instead of PermaLink so the "unsubscribe-email" QS parameter
+                    // isn't dropped when post.aspx.cs does a 301 redirect to the RelativeLink, before the unsubscription
+                    // process takes place.
+                    string unsubscribeLink = AbsoluteLink.ToString();  
+                    unsubscribeLink += (unsubscribeLink.Contains("?") ? "&" : "?") + "unsubscribe-email=" + HttpUtility.UrlEncode(email);
+
                     MailMessage mail = new MailMessage();
                     mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
                     mail.Subject = "New comment on " + Title;
                     mail.Body = "Comment by " + comment.Author + "<br /><br />";
                     mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
                     mail.Body += string.Format("<a href=\"{0}\">{1}</a>", PermaLink + "#id_" + comment.Id, Title);
+                    mail.Body += "<br /><br /><hr />";
+                    mail.Body += string.Format("<a href=\"{0}\">{1}</a>", unsubscribeLink, Utils.Translate("commentNotificationUnsubscribe"));
 
 					mail.To.Add(email);
 					Utils.SendMailMessageAsync(mail);
@@ -826,7 +829,7 @@ namespace BlogEngine.Core
 				if (base.IsChanged)
 					return true;
 
-				if (Categories.IsChanged || Tags.IsChanged)
+                if (Categories.IsChanged || Tags.IsChanged || NotificationEmails.IsChanged)
 					return true;
 
 				return false;
@@ -852,6 +855,7 @@ namespace BlogEngine.Core
 		{
 			this.Categories.MarkOld();
 			this.Tags.MarkOld();
+            this.NotificationEmails.MarkOld();
 			base.MarkOld();
 		}
 

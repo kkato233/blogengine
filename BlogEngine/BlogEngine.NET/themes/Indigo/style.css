@@ -869,3 +869,17 @@ div.post .postcontent a[rel~="date"][rel~="met"] ,
 div.post .postcontent a[rel~="sweetheart"][rel~="met"] {
 	background-image:url('../../pics/xfn/sweetMet.gif');
 }
+
+/*  Comment notification unsubscription  */
+#commentNotificationUnsubscription {
+	margin-bottom: 10px;
+	color: Gray;
+	background: #ffc;
+	border: 1px solid silver;
+	padding: 10px;
+}
+
+#commentNotificationUnsubscription h1 {
+	margin: 0 auto 12px auto;
+	padding: 0;
+}

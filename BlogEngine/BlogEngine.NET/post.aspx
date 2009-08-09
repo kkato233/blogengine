@@ -2,6 +2,13 @@
 <%@ Register Src="User controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   
+  <asp:PlaceHolder ID="phCommentNotificationUnsubscription" runat="server" visible="false">
+    <div id="commentNotificationUnsubscription">
+        <h1><%= Resources.labels.commentNotificationUnsubscriptionHeader %></h1>
+        <div><%= Resources.labels.commentNotificationUnsubscriptionText %></div>
+    </div>
+  </asp:PlaceHolder>
+
   <asp:placeholder runat="server" id="phPostNavigation" visible="false">
     <div id="postnavigation">
       <asp:hyperlink runat="server" id="hlPrev" /> | 

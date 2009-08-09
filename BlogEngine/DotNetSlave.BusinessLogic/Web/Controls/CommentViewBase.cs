@@ -113,8 +113,7 @@ namespace BlogEngine.Core.Web.Controls
 				}
 				else
 				{
-					BlogBasePage page = (BlogBasePage)Page;
-					return "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"BlogEngine.replyToComment('" + Comment.Id.ToString() + "');\">" + page.Translate("replyToThis") + "</a>";
+					return "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"BlogEngine.replyToComment('" + Comment.Id.ToString() + "');\">" + Utils.Translate("replyToThis") + "</a>";
 				}
 			}
 		}
@@ -130,28 +129,27 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name.Equals(Post.Author))
 				{
-					BlogBasePage page = (BlogBasePage)Page;
 					System.Text.StringBuilder sb = new System.Text.StringBuilder();
 					sb.AppendFormat(" | <a class=\"email\" href=\"mailto:{0}\">{0}</a>", Comment.Email);
 					sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
 
 					if (Comment.Comments.Count > 0)
 					{
-						string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
-						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("deleteKeepReplies"));
+						string confirmDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("theComment"));
+						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, Utils.Translate("deleteKeepReplies"));
 
-						string confirmRepliesDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
-						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecommentandchildren={0}'\">{2}</a>", Comment.Id, confirmRepliesDelete, page.Translate("deletePlusReplies"));
+                        string confirmRepliesDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("theComment"));
+						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecommentandchildren={0}'\">{2}</a>", Comment.Id, confirmRepliesDelete, Utils.Translate("deletePlusReplies"));
 					}
 					else
 					{
-						string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("theComment"));
-						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, page.Translate("delete"));
+                        string confirmDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("theComment"));
+						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, Utils.Translate("delete"));
 					}
 
 					if (!Comment.IsApproved)
 					{
-						sb.AppendFormat(" | <a href=\"?approvecomment={0}\">{1}</a>", Comment.Id, page.Translate("approve"));
+                        sb.AppendFormat(" | <a href=\"?approvecomment={0}\">{1}</a>", Comment.Id, Utils.Translate("approve"));
 
 					}
 					return sb.ToString();

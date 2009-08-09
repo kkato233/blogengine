@@ -266,6 +266,27 @@ namespace BlogEngine.Core
 			return null;
 		}
 
+        /// <summary>
+        /// Translates the specified string using the resource files.
+        /// </summary>
+        public static string Translate(string text)
+        {
+            return Translate(text, string.Format("Missing Resource [{0}]", text));
+        }
+
+        /// <summary>
+        /// Translates the specified string using the resource files.  If a translation
+        /// is not found, defaultValue will be returned.
+        /// </summary>
+        public static string Translate(string text, string defaultValue)
+        {
+            object resource = HttpContext.GetGlobalResourceObject("labels", text);
+            if (resource != null)
+                return resource.ToString();
+
+            return defaultValue;
+        }
+
 		#endregion
 
 		#region Is mobile device

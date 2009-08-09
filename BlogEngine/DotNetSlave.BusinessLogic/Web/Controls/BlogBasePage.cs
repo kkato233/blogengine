@@ -128,18 +128,18 @@ namespace BlogEngine.Core.Web.Controls
 			StringBuilder sb = new StringBuilder();
 			sb.Append("function registerVariables(){");
 			sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
-			sb.AppendFormat("BlogEngine.i18n.hasRated='{0}';", Translate("youAlreadyRated").Replace("'", "\\'"));			
-			sb.AppendFormat("BlogEngine.i18n.savingTheComment='{0}';", Translate("savingTheComment").Replace("'", "\\'"));
-			sb.AppendFormat("BlogEngine.i18n.comments='{0}';", Translate("comments").Replace("'", "\\'"));
-			sb.AppendFormat("BlogEngine.i18n.commentWasSaved='{0}';", Translate("commentWasSaved").Replace("'", "\\'"));
-			sb.AppendFormat("BlogEngine.i18n.commentWaitingModeration='{0}';", Translate("commentWaitingModeration").Replace("'", "\\'"));
-			sb.AppendFormat("BlogEngine.i18n.cancel='{0}';", Translate("cancel").Replace("'", "\\'"));
-			sb.AppendFormat("BlogEngine.i18n.filter='{0}';", Translate("filter").Replace("'", "\\'"));
-			sb.AppendFormat("BlogEngine.i18n.apmlDescription='{0}';", Translate("filterByApmlDescription").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.beTheFirstToRate='{0}';", Translate("beTheFirstToRate").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.currentlyRated='{0}';", Translate("currentlyRated").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.ratingHasBeenRegistered='{0}';", Translate("ratingHasBeenRegistered").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.rateThisXStars='{0}';", Translate("rateThisXStars").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.hasRated='{0}';", Utils.Translate("youAlreadyRated").Replace("'", "\\'"));			
+			sb.AppendFormat("BlogEngine.i18n.savingTheComment='{0}';", Utils.Translate("savingTheComment").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.comments='{0}';", Utils.Translate("comments").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.commentWasSaved='{0}';", Utils.Translate("commentWasSaved").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.commentWaitingModeration='{0}';", Utils.Translate("commentWaitingModeration").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.cancel='{0}';", Utils.Translate("cancel").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.filter='{0}';", Utils.Translate("filter").Replace("'", "\\'"));
+			sb.AppendFormat("BlogEngine.i18n.apmlDescription='{0}';", Utils.Translate("filterByApmlDescription").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.beTheFirstToRate='{0}';", Utils.Translate("beTheFirstToRate").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.currentlyRated='{0}';", Utils.Translate("currentlyRated").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.ratingHasBeenRegistered='{0}';", Utils.Translate("ratingHasBeenRegistered").Replace("'", "\\'"));
+            sb.AppendFormat("BlogEngine.i18n.rateThisXStars='{0}';", Utils.Translate("rateThisXStars").Replace("'", "\\'"));
             
 			sb.Append("};");
 
@@ -295,18 +295,6 @@ namespace BlogEngine.Core.Web.Controls
 			string code = string.Format(CultureInfo.InvariantCulture, "{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}", Environment.NewLine, BlogSettings.Instance.HtmlHeader);
 			LiteralControl control = new LiteralControl(code);
 			Page.Header.Controls.Add(control);
-		}
-
-		/// <summary>
-		/// Translates the specified string using the resource files
-		/// </summary>
-		public virtual string Translate(string text)
-		{
-			object resource = GetGlobalResourceObject("labels", text);
-			if (resource != null)
-				return resource.ToString();
-
-			return string.Format("Missing Resource [{0}]", text);
 		}
 
 		/// <summary>

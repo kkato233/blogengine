@@ -167,7 +167,7 @@ namespace BlogEngine.Core.Web.Controls
 				string body = Post.Content;
 				if (ShowExcerpt)
 				{
-					string link = " <a href=\"" + Post.RelativeLink.ToString() + "\">[" + (Page as BlogBasePage).Translate("more") + "]</a>";
+					string link = " <a href=\"" + Post.RelativeLink.ToString() + "\">[" + Utils.Translate("more") + "]</a>";
 
 					if (!string.IsNullOrEmpty(Post.Description))
 					{
@@ -261,19 +261,18 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name.Equals(Post.Author, StringComparison.OrdinalIgnoreCase))
 				{
-					BlogBasePage page = (BlogBasePage)Page;
-					string confirmDelete = string.Format(CultureInfo.InvariantCulture, page.Translate("areYouSure"), page.Translate("delete").ToLowerInvariant(), page.Translate("thePost"));
+					string confirmDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("thePost"));
 					StringBuilder sb = new StringBuilder();
 
 					if (Post.NotApprovedComments.Count > 0)
 					{
-						sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1} ({2})</a> | ", Post.RelativeLink, page.Translate("unapprovedcomments"), Post.NotApprovedComments.Count);
-						sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a> | ", Post.RelativeLink + "?approveallcomments=true", page.Translate("approveallcomments"));
+						sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1} ({2})</a> | ", Post.RelativeLink, Utils.Translate("unapprovedcomments"), Post.NotApprovedComments.Count);
+						sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a> | ", Post.RelativeLink + "?approveallcomments=true", Utils.Translate("approveallcomments"));
 
 					}
 
-					sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a> | ", Utils.AbsoluteWebRoot + "admin/Pages/Add_entry.aspx?id=" + Post.Id.ToString(), page.Translate("edit"));
-					sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"javascript:void(0);\" onclick=\"if (confirm('{2}')) location.href='{0}?deletepost={1}'\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, page.Translate("delete"));
+					sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a> | ", Utils.AbsoluteWebRoot + "admin/Pages/Add_entry.aspx?id=" + Post.Id.ToString(), Utils.Translate("edit"));
+					sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"javascript:void(0);\" onclick=\"if (confirm('{2}')) location.href='{0}?deletepost={1}'\">{3}</a> | ", Post.RelativeLink, Post.Id.ToString(), confirmDelete, Utils.Translate("delete"));
 					return sb.ToString();
 				}
 

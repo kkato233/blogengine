@@ -175,17 +175,17 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		HtmlTableRow header = new HtmlTableRow();
 
 		HtmlTableCell date = new HtmlTableCell("th");
-		date.InnerHtml = base.Translate("date");
+        date.InnerHtml = Utils.Translate("date");
 		header.Cells.Add(date);
 
 		HtmlTableCell title = new HtmlTableCell("th");
-		title.InnerHtml = base.Translate("title");
+        title.InnerHtml = Utils.Translate("title");
 		header.Cells.Add(title);
 
 		if (BlogSettings.Instance.IsCommentsEnabled)
 		{
 			HtmlTableCell comments = new HtmlTableCell("th");
-			comments.InnerHtml = base.Translate("comments");
+			comments.InnerHtml = Utils.Translate("comments");
 			comments.Attributes.Add("class", "comments");
 			header.Cells.Add(comments);
 		}
@@ -193,7 +193,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (BlogSettings.Instance.EnableRating)
 		{
 			HtmlTableCell rating = new HtmlTableCell("th");
-			rating.InnerHtml = base.Translate("rating");
+            rating.InnerHtml = Utils.Translate("rating");
 			rating.Attributes.Add("class", "rating");
 			header.Cells.Add(rating);
 		}

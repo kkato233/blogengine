@@ -1038,3 +1038,17 @@ div.post .text a[rel~="sweetheart"][rel~="met"] {
 	padding: 10px;
 	margin: 10px 0;
 }
+
+/*  Comment notification unsubscription  */
+#commentNotificationUnsubscription {
+	margin-bottom: 10px;
+	color: Gray;
+	background: #ffc;
+	border: 1px solid silver;
+	padding: 10px;
+}
+
+#commentNotificationUnsubscription h1 {
+	margin: 0 auto 12px auto;
+	padding: 0;
+}
