@@ -29,7 +29,7 @@ public partial class admin_menu : System.Web.UI.UserControl
 					HtmlAnchor a = new HtmlAnchor();
 					a.HRef = adminNode.Url;
 
-					a.InnerHtml = "<span>" + Translate(adminNode.Title) + "</span>";//"<span>" + Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
+                    a.InnerHtml = "<span>" + Utils.Translate(adminNode.Title, adminNode.Title) + "</span>";//"<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
 					if (Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
 						a.Attributes["class"] = "current";
 					HtmlGenericControl li = new HtmlGenericControl("li");
@@ -53,23 +53,4 @@ public partial class admin_menu : System.Web.UI.UserControl
 		li.Controls.Add(a);
 		ulMenu.Controls.Add(li);
 	}
-
-	public string Translate(string text)
-	{
-		try
-		{
-			object resObject = GetGlobalResourceObject("labels", text);
-			if (resObject != null)
-			{
-				return resObject.ToString();
-			}
-
-			return text;
-		}
-		catch (NullReferenceException)
-		{
-			return text;
-		}
-	}
-
 }

@@ -790,4 +790,13 @@
   <data name="enableErrorLoggingDescription" xml:space="preserve">
     <value>Unhandled errors will be logged to any extension/component subscribed to log notifications.</value>
   </data>
+  <data name="commentNotificationUnsubscriptionHeader" xml:space="preserve">
+    <value>Comment Notification Subscription</value>
+  </data>
+  <data name="commentNotificationUnsubscriptionText" xml:space="preserve">
+    <value>You have been unsubscribed from email notifications for any future comments to this post.</value>
+  </data>
+  <data name="commentNotificationUnsubscribe" xml:space="preserve">
+    <value>Unsubscribe from future comment notification emails to this post.</value>
+  </data>
 </root>

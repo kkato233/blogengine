@@ -82,6 +82,17 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
 				if (BlogSettings.Instance.EnablePingBackReceive)
 					Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
+
+                string commentNotificationUnsubscribeEmailAddress = Request.QueryString["unsubscribe-email"];
+                if (!string.IsNullOrEmpty(commentNotificationUnsubscribeEmailAddress))
+                {
+                    if (Post.NotificationEmails.Contains(commentNotificationUnsubscribeEmailAddress))
+                    {
+                        Post.NotificationEmails.Remove(commentNotificationUnsubscribeEmailAddress);
+                        Post.Save();
+                        phCommentNotificationUnsubscription.Visible = true;
+                    }
+                }
 			}
 		}
 		else
