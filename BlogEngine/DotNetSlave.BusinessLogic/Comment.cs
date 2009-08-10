@@ -96,6 +96,20 @@ namespace BlogEngine.Core
 			set { _Content = value; }
 		}
 
+	    /// <summary>
+	    /// Abbriviated content
+	    /// </summary>
+	    public string Teaser
+	    {
+	        get
+	        {
+	            string ret = Utils.StripHtml(_Content).Trim();
+                if (ret.Length > 120)
+                    return ret.Substring(0, 116) + " ...";
+	            return ret;
+	        }
+	    }
+
 		private string _Country;
 		/// <summary>
 		/// Gets or sets the country.

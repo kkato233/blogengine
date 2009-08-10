@@ -99,18 +99,6 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         BlogSettings.Instance.EnableEnclosures = cbEnableEnclosures.Checked;
 
         //-----------------------------------------------------------------------
-        // Set Comments settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.IsCommentsEnabled = cbEnableComments.Checked;
-        BlogSettings.Instance.IsCommentNestingEnabled = cbEnableCommentNesting.Checked;
-        BlogSettings.Instance.EnableCountryInComments = cbEnableCountryInComments.Checked;
-        BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
-        BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
-        BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
-        BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
-        BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;
-
-        //-----------------------------------------------------------------------
         // Set Advanced settings
         //-----------------------------------------------------------------------
         BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
@@ -197,19 +185,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
 		ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
 		txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
-
-		//-----------------------------------------------------------------------
-		// Bind Comments settings
-		//-----------------------------------------------------------------------
-		cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
-		cbEnableCommentNesting.Checked = BlogSettings.Instance.IsCommentNestingEnabled;
-		cbEnableCountryInComments.Checked = BlogSettings.Instance.EnableCountryInComments;
-		cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
-		cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
 		cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
-		ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
-		cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
-		rblAvatar.SelectedValue = BlogSettings.Instance.Avatar;
 
 		//-----------------------------------------------------------------------
 		// Bind Email settings
