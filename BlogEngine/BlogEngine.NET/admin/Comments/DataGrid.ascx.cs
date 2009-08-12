@@ -58,40 +58,6 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         {
             e.Row.Cells[6].Text = string.Format("Total : {0} comments", Comments.Count);
         }
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            CheckBox chk = new CheckBox();
-            chk.ID = "chkSelect";
-            chk.BorderWidth = 0;
-            chk.BorderStyle = BorderStyle.None;
-            Comment c = (Comment)e.Row.DataItem;
-
-            if (c.ParentId != Guid.Empty)
-                chk.Enabled = false;
-
-            if (e.Row.FindControl("chkSelect") == null)
-                e.Row.Cells[1].Controls.Add(chk);
-
-            //string paramValue = ((BlogEngine.Core.Comment)(e.Row.DataItem)).Id.ToString();
-            ImageButton btn = (ImageButton)e.Row.FindControl("btnDelete");
-            if (btn != null)
-                btn.Attributes.Add("onClick", "return confirm('Are you sure you want to delte this comment?');");
-
-            // remove "approve" button from grid if comment already approved
-            ImageButton aprBtn = (ImageButton)e.Row.FindControl("btnApprove");
-            if (aprBtn != null)
-            {
-                if (((Comment)(e.Row.DataItem)).IsApproved)
-                {
-                    aprBtn.ImageUrl = "~/User controls/Commentor/images/chk.png";  //aprBtn.Visible = false;
-                    aprBtn.Attributes.Add("onClick", "return false;"); // already approved - cancel click
-                }
-                else
-                {
-                    aprBtn.ImageUrl = "~/User controls/Commentor/images/apr.png";
-                }
-            }
-        }
     }
 
     #region Binding
@@ -257,25 +223,6 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         BindComments();
     }
 
-    protected void BtnDeleteClick(object sender, EventArgs e)
-    {
-        ImageButton btn = (ImageButton)sender;
-        GridViewRow grdRow = (GridViewRow)btn.Parent.Parent;
-        Comment comment = Comments[grdRow.DataItemIndex];
-        RemoveComment(comment);
-        BindComments();
-    }
-
-    protected void BtnApproveClick(object sender, EventArgs e)
-    {
-        ImageButton btn = (ImageButton)sender;
-        GridViewRow grdRow = (GridViewRow)btn.Parent.Parent;
-        Comment comment = Comments[grdRow.DataItemIndex];
-
-        ApproveComment(comment);
-        BindComments();
-    }
-
     #endregion
 
     #region Popup buttons
@@ -363,14 +310,11 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             ProcessSelected("unapprove");
         else
             ProcessSelected("approve");
-
-        BindComments();
     }
 
     protected void btnDeleteAll_Click(object sender, EventArgs e)
     {
         ProcessSelected("delete");
-        BindComments();
     }
 
     protected void ProcessSelected(string action)
@@ -378,7 +322,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         foreach (GridViewRow row in gridComments.Rows)
         {
             CheckBox cbx = (CheckBox)row.FindControl("chkSelect");
-            if (cbx.Checked)
+            if (cbx != null && cbx.Checked)
             {
                 int index = row.RowIndex;
                 if (gridComments.PageIndex > 0)
@@ -405,6 +349,24 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                 }
             }
         }
+
+        BindComments();
+    }
+
+    public static bool HasNoChildren(Guid comId)
+    {
+        foreach (Post p in Post.Posts)
+        {
+            // Cast ToArray so the original collection isn't modified. 
+            foreach (Comment c in p.Comments)
+            {
+                if (c.ParentId == comId)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     #endregion

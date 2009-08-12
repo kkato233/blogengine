@@ -31,8 +31,9 @@
     
 <asp:GridView ID="gridComments" 
     BorderColor="Silver" 
-    BorderStyle="solid" 
     BorderWidth="1px"
+    RowStyle-BorderWidth="0px"
+    RowStyle-BorderStyle="None"
     runat="server"  
     width="100%"
     AlternatingRowStyle-BackColor="#f8f8f8" 
@@ -47,7 +48,11 @@
   <Columns>
     <asp:BoundField DataField = "Id" Visible="false" />       
     <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20">
-        <ItemTemplate></ItemTemplate>
+        <ItemTemplate>
+             <asp:CheckBox ID="chkSelect" 
+             Enabled='<%#HasNoChildren((Guid)DataBinder.Eval(Container.DataItem, "Id"))%>' 
+             runat="server"/>
+        </ItemTemplate>
     </asp:TemplateField>  
     <asp:BoundField HeaderText="Author" HeaderStyle-HorizontalAlign="Left" DataField="Author" />
 	<asp:BoundField HeaderText="Email" HeaderStyle-HorizontalAlign="Left" DataField="Email" HtmlEncode="False" DataFormatString="<a href='mailto:{0}'>{0}</a>" />		
@@ -63,10 +68,8 @@
 <div style="text-align:center;padding-top:10px">
     <asp:Button ID="btnSelectAll" runat="server" Text="Select All" OnClick="btnSelectAll_Click"/>
     <asp:Button ID="btnClearAll" runat="server" Text="Clear All" OnClick="btnClearAll_Click"/>
-
     <asp:Button ID="btnApproveAll" runat="server" Text="Approve" OnClick="btnApproveAll_Click" OnClientClick="return confirm('Are you sure you want to approve selected comments?');" />
-    <asp:Button ID="btnDeleteAll" runat="server" Text="Delete" OnClick="btnDeleteAll_Click" OnClientClick="return confirm('Are you sure you want to delete selected comments?');" />
-    
+    <asp:Button ID="btnDeleteAll" runat="server" Text="Delete" OnClick="btnDeleteAll_Click" OnClientClick="return confirm('Are you sure you want to delete selected comments?');" />   
 </div>
 
 <div id="ErrorMsg" runat="server" style="color: Red; display: block;"></div>
