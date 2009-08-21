@@ -11,7 +11,7 @@ using System.Collections.Specialized;
 
 public partial class widgets_Twitter_edit : WidgetEditBase
 {
-    private const string CACHE_KEY = "twits";  // same key used in widget.ascx.cs.
+    private const string TWITTER_SETTINGS_CACHE_KEY = "twitter-settings";  // same key used in widget.ascx.cs.
 
 	protected void Page_Load(object sender, EventArgs e)
 	{
@@ -39,6 +39,9 @@ public partial class widgets_Twitter_edit : WidgetEditBase
         settings["followmetext"] = txtFollowMe.Text;
 		SaveSettings(settings);
 
-        HttpRuntime.Cache.Remove(CACHE_KEY);
+        // Don't need to clear Feed out of cache because when the Settings are cleared,
+        // the last modified date (i.e. TwitterSettings.LastModified) will reset to
+        // DateTime.MinValue and Twitter will be re-queried.
+        HttpRuntime.Cache.Remove(TWITTER_SETTINGS_CACHE_KEY);
 	}
 }

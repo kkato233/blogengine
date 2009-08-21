@@ -78,7 +78,7 @@ BlogEngine = {
         var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
         var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
 
-        WebForm_DoCallback('ctl00$cphBody$CommentView1', argument, callback, 'comment', null, false);
+        WebForm_DoCallback(BlogEngine.comments.controlId, argument, callback, 'comment', null, false);
 
         if (!isPreview && typeof (OnComment) != "undefined")
             OnComment(author, email, website, country, content);
