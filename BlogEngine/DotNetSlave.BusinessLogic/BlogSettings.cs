@@ -557,8 +557,28 @@ namespace BlogEngine.Core
 		public bool IsCommentNestingEnabled { get; set; }
 		#endregion
 
+        #region Trust authenticated users
+        ///<summary>
+        /// If true comments from authenticated users always approved
+        ///</summary>
+        public bool TrustAuthenticatedUsers { get; set; }
+        #endregion
 
-		//============================================================
+        #region White list count
+        ///<summary>
+        /// Number of comments approved to add user to white list
+        ///</summary>
+        public int CommentWhiteListCount { get; set; }
+        #endregion
+
+        #region Black list count
+        ///<summary>
+        /// Number of comments approved to add user to white list
+        ///</summary>
+        public int CommentBlackListCount { get; set; }
+        #endregion
+
+        //============================================================
 		//	BLOG ROLL SETTINGS
 		//============================================================
 		#region BlogrollMaxLength

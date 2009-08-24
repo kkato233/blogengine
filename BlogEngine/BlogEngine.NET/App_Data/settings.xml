@@ -12,7 +12,7 @@
   <administratorrole>Administrators</administratorrole>
   <fileextension>.aspx</fileextension>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
-  <geocodinglatitude />
+  <geocodinglatitude>0</geocodinglatitude>
   <useblognameinpagetitles>True</useblognameinpagetitles>
   <showlivepreview>True</showlivepreview>
   <enablecommentsearch>True</enablecommentsearch>
@@ -27,19 +27,22 @@
   <htmlheader />
   <mobiletheme>Mobile</mobiletheme>
   <syndicationformat>Rss</syndicationformat>
-  <blogrollmaxlength>23</blogrollmaxlength>
+  <commentblacklistcount>2</commentblacklistcount>
   <showpostnavigation>True</showpostnavigation>
   <email>name@example.com</email>
   <enablepingbacksend>True</enablepingbacksend>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
+  <language>en-US</language>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
+  <commentwhitelistcount>1</commentwhitelistcount>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <searchbuttontext>Search</searchbuttontext>
   <enableenclosures>False</enableenclosures>
   <enablepingbackreceive>True</enablepingbackreceive>
   <smtpusername>username</smtpusername>
   <searchdefaulttext>Enter search term or APML url</searchdefaulttext>
+  <enableerrorlogging>False</enableerrorlogging>
   <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
   <iscocommentenabled>False</iscocommentenabled>
   <enabletrackbackreceive>True</enabletrackbackreceive>
@@ -50,6 +53,7 @@
   <enableopensearch>True</enableopensearch>
   <numberofrecentposts>10</numberofrecentposts>
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
+  <blogrollmaxlength>23</blogrollmaxlength>
   <numberofrecentcomments>10</numberofrecentcomments>
   <iscommentnestingenabled>True</iscommentnestingenabled>
   <name>Name of the blog</name>
@@ -61,8 +65,8 @@
   <smtpserver>mail.example.com</smtpserver>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <timestamppostlinks>False</timestamppostlinks>
-  <geocodinglongitude />
-  <language>en-US</language>
+  <geocodinglongitude>0</geocodinglongitude>
+  <trustauthenticatedusers>True</trustauthenticatedusers>
   <enablereferrertracking>False</enablereferrertracking>
   <enablecontactattachments>True</enablecontactattachments>
   <blogrollupdateminutes>60</blogrollupdateminutes>

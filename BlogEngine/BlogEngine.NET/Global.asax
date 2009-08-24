@@ -78,6 +78,9 @@
     ArrayList codeAssemblies = Utils.CodeAssemblies();
     List<SortedExtension> sortedExtensions = new List<SortedExtension>();
 
+    // initialize comment rules and filters
+    CommentHandlers.Listen();
+
     foreach (Assembly a in codeAssemblies)
     {
       Type[] types = a.GetTypes();

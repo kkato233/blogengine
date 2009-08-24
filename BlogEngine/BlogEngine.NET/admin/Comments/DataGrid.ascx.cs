@@ -115,26 +115,20 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void ApproveComment(Comment comment)
     {
-        bool found = false;
-        foreach (Post p in Post.Posts)
-        {
-            foreach (Comment c in p.Comments)
-            {
-                if (c.Id == comment.Id)
-                {
-                    c.IsApproved = true;
-                    found = true;
-                    p.ApproveComment(c);
-                    break;
-                }
-            }
-            if (found) break;
-        }
+        comment.IsApproved = true;
+        comment.ModeratedBy = Comment.Moderator.Admin;
+        UpdateComment(comment);
+    }
+
+    protected void RejectComment(Comment comment)
+    {
+        comment.IsApproved = false;
+        comment.ModeratedBy = Comment.Moderator.Admin;
+        UpdateComment(comment);
     }
 
     protected void RemoveComment(Comment comment)
     {
-        // foreach does not work here;
         bool found = false;
         for (int i = 0; i < Post.Posts.Count; i++)
         {
@@ -153,6 +147,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void UpdateComment(Comment comment)
     {
+        bool found = false;
         // Cast ToArray so the original collection isn't modified. 
         foreach (Post p in Post.Posts.ToArray())
         {
@@ -162,6 +157,8 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                 if (c.Id == comment.Id)
                 {
                     c.Content = comment.Content;
+                    c.IsApproved = comment.IsApproved;
+                    c.ModeratedBy = comment.ModeratedBy;
 
                     // Need to mark post as "changed" for it to get saved into the data store. 
                     string desc = p.Description;
@@ -169,9 +166,11 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                     p.Description = desc;
 
                     p.Save();
+                    found = true;
                     break;
                 }
             }
+            if(found) break;
         }
         BindComments();
     }
@@ -341,7 +340,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                 else if (action == "unapprove")
                 {
                     comment.IsApproved = false;
-                    UpdateComment(comment);
+                    RejectComment(comment);
                 }
                 if (action == "delete")
                 {

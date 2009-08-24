@@ -60,6 +60,13 @@
     <asp:BoundField DataField="IsApproved" Visible="false" />                                    
     <asp:ButtonField ButtonType="Link" HeaderText="Comment" CommandName="btnInspect" DataTextField="Teaser" HeaderStyle-HorizontalAlign="Left" />           
     <asp:BoundField HeaderText="Date" DataField="DateCreated" DataFormatString="{0:dd-MMM-yyyy HH:mm}" HeaderStyle-HorizontalAlign="Left" />
+    <asp:TemplateField HeaderText="Moderator" HeaderStyle-HorizontalAlign="Left">
+        <ItemTemplate>
+             <asp:literal ID="ltModerator" 
+             Text='<%#DataBinder.Eval(Container.DataItem, "ModeratedBy").ToString()%>' 
+             runat="server"/>
+        </ItemTemplate>
+    </asp:TemplateField> 
   </Columns>
   <pagersettings Mode="NumericFirstLast" position="Bottom" pagebuttoncount="20" />
   <PagerStyle HorizontalAlign="Center"/>
