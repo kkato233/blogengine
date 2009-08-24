@@ -38,7 +38,7 @@ namespace BlogEngine.Core
 			set { _ParentId = value; }
 		}
 
-		private List<Comment> _Comments = null;
+		private List<Comment> _Comments;
 		/// <summary>
 		/// The Id of the comment.
 		/// </summary>
@@ -241,6 +241,44 @@ namespace BlogEngine.Core
 		{
 			get { return null; }
 		}
+
+        ///<summary>
+        /// Enables to audit comment moderation
+        ///</summary>
+        public enum Moderator
+        {
+            ///<summary>
+            /// unmoderated
+            ///</summary>
+            None,
+            /// <summary>
+            /// moderated directly by admin
+            /// </summary>
+            Admin,
+            ///<summary>
+            /// by rule engine
+            ///</summary>
+            Rule,
+            /// <summary>
+            /// by filter
+            /// </summary>
+            Filter,
+            /// <summary>
+            /// by anti-spam service
+            /// </summary>
+            Service
+        }
+
+	    private Moderator _moderatedBy;
+
+	    ///<summary>
+	    /// List of moderators
+	    ///</summary>
+	    public Moderator ModeratedBy
+	    {
+            get { return _moderatedBy; }
+            set { _moderatedBy = value; } 
+	    }
 
 		#endregion
 

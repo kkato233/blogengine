@@ -652,6 +652,34 @@ namespace BlogEngine.Core
 			}
 		}
 
+        /// <summary>
+        /// Updates a comment in the collection and saves the post.
+        /// </summary>
+        /// <param name="comment">The comment to update in the post.</param>
+        public void UpdateComment(Comment comment)
+        {
+            CancelEventArgs e = new CancelEventArgs();
+            OnUpdatingComment(comment, e);
+            if (!e.Cancel)
+            {
+                int inx = Comments.IndexOf(comment);
+
+                Comments[inx].IsApproved = comment.IsApproved;
+                Comments[inx].Content = comment.Content;
+                Comments[inx].Author = comment.Author;
+                Comments[inx].Country = comment.Country;
+                Comments[inx].Email = comment.Email;
+                Comments[inx].IP = comment.IP;
+                Comments[inx].Website = comment.Website;
+                
+                DateModified = DateTime.Now;
+                DataUpdate();
+
+                DataUpdate();
+                OnCommentUpdated(comment);
+            }
+        }
+
 		/// <summary>
 		/// Imports a comment to comment collection and saves.  Does not
 		/// notify user or run extension events.
@@ -734,7 +762,7 @@ namespace BlogEngine.Core
 			}
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Approves all the comments in a post.  Included to save time on the approval process.
 		/// </summary>
 		public void ApproveAllComments()
@@ -883,35 +911,65 @@ namespace BlogEngine.Core
 
 		#region Events
 
-		/// <summary>
-		/// Occurs before a new comment is added.
-		/// </summary>
-		public static event EventHandler<CancelEventArgs> AddingComment;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		protected virtual void OnAddingComment(Comment comment, CancelEventArgs e)
-		{
-			if (AddingComment != null)
-			{
-				AddingComment(comment, e);
-			}
-		}
+        /// <summary>
+        /// Occurs before a new comment is added.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> AddingComment;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnAddingComment(Comment comment, CancelEventArgs e)
+        {
+            if (AddingComment != null)
+            {
+                AddingComment(comment, e);
+            }
+        }
 
-		/// <summary>
-		/// Occurs when a comment is added.
-		/// </summary>
-		public static event EventHandler<EventArgs> CommentAdded;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		protected virtual void OnCommentAdded(Comment comment)
-		{
-			if (CommentAdded != null)
-			{
-				CommentAdded(comment, new EventArgs());
-			}
-		}
+        /// <summary>
+        /// Occurs when a comment is added.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentAdded;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnCommentAdded(Comment comment)
+        {
+            if (CommentAdded != null)
+            {
+                CommentAdded(comment, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Occurs before a new comment is updated.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> UpdatingComment;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnUpdatingComment(Comment comment, CancelEventArgs e)
+        {
+            if (UpdatingComment != null)
+            {
+                UpdatingComment(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when a comment is updated.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentUpdated;
+        /// <summary>
+        /// Raises the event in a safe way
+        /// </summary>
+        protected virtual void OnCommentUpdated(Comment comment)
+        {
+            if (CommentUpdated != null)
+            {
+                CommentUpdated(comment, new EventArgs());
+            }
+        }
 
 		/// <summary>
 		/// Occurs before comment is removed.

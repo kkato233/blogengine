@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogRollItem.cs" />
+    <Compile Include="CommentHandlers.cs" />
     <Compile Include="DataStore\ExtensionSettings.cs" />
     <Compile Include="DataStore\ExtensionSettingsBehavior.cs" />
     <Compile Include="DataStore\Interfaces.cs" />
