@@ -117,6 +117,8 @@ public class CommentFilters
         settings.AddParameter("Filter");
 
         ExtensionManager.ImportSettings("CommentFilters", settings);
+        ExtensionManager.ShowSettings("CommentFilters", false);
+
         _filters = ExtensionManager.GetSettings("CommentFilters", "Filters");
     }
 }

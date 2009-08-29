@@ -168,7 +168,8 @@ public class ExtensionManager
   /// </summary>
   static void LoadExtensions()
   {
-    if (HttpContext.Current.Cache["Extensions"] == null)
+    if (HttpContext.Current.Cache["Extensions"] == null
+        || (((List<ManagedExtension>)(HttpContext.Current.Cache["Extensions"]))).Count == 0)
     {
       ArrayList codeAssemblies = Utils.CodeAssemblies();
       foreach (Assembly a in codeAssemblies)

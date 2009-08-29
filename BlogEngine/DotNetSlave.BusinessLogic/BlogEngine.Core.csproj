@@ -160,6 +160,10 @@
     <Compile Include="SyndicationGenerator.cs" />
     <Compile Include="AuthorProfile.cs" />
     <Compile Include="Web\Controls\RewriteFormHtmlTextWriter.cs" />
+    <Compile Include="Web\Extensions\ExtensionManager.cs" />
+    <Compile Include="Web\Extensions\ExtensionParameter.cs" />
+    <Compile Include="Web\Extensions\ExtensionSettings.cs" />
+    <Compile Include="Web\Extensions\ManagedExtension.cs" />
     <Compile Include="Web\HttpHandlers\BlogMLExportHandler.cs" />
     <Compile Include="Web\HttpHandlers\Apml.cs" />
     <Compile Include="Web\HttpHandlers\Foaf.cs" />
