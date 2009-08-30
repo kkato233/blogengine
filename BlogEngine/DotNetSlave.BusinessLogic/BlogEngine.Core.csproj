@@ -141,6 +141,7 @@
     <Compile Include="DataStore\StringDictionaryBehavior.cs" />
     <Compile Include="DataStore\WidgetSettings.cs" />
     <Compile Include="DataStore\XMLDocumentBehavior.cs" />
+    <Compile Include="ICustomFilter.cs" />
     <Compile Include="IPublishable.cs" />
     <Compile Include="Providers\DbBlogProvider.cs" />
     <Compile Include="Providers\DbMembershipProvider.cs" />

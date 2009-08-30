@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Xml;
 using System.Xml.Serialization;
-using System.Web;
-using BlogEngine.Core;
 
 /// <summary>
 /// Serializable object that holds extension,
@@ -15,12 +12,12 @@ public class ManagedExtension
   #region Private members
   string _name = string.Empty;
   string _version = string.Empty;
-  int _priority = 999;
+  int _priority;
   string _description = string.Empty;
   bool _enabled = true;
   string _author = string.Empty;
   string _adminPage = string.Empty;
-  List<ExtensionSettings> _settings = null;
+  List<ExtensionSettings> _settings;
   bool _showSettings = true;
   #endregion
 

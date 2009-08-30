@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Collections;
 using System.Xml;
 using System.Net;
-using System.Web.Caching;
+using BlogEngine.Core.Web.Controls;
 
 #endregion
 
@@ -475,6 +475,51 @@ namespace BlogEngine.Core
 		}
 
         /// <summary>
+        /// Run through all code assemblies and creates object
+        /// instance for types marked with extension attribute
+        /// </summary>
+        public static void LoadExtensions()
+        {
+            ArrayList codeAssemblies = CodeAssemblies();
+            List<SortedExtension> sortedExtensions = new List<SortedExtension>();
+
+            foreach (Assembly a in codeAssemblies)
+            {
+                Type[] types = a.GetTypes();
+                foreach (Type type in types)
+                {
+                    object[] attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false);
+                    foreach (object attribute in attributes)
+                    {
+                        if (attribute.GetType().Name == "ExtensionAttribute")
+                        {
+                            ExtensionAttribute ext = (ExtensionAttribute)attribute;
+                            sortedExtensions.Add(new SortedExtension(ext.Priority, type.Name, type.FullName));
+                        }
+                    }
+                }
+
+                sortedExtensions.Sort(delegate(SortedExtension e1, SortedExtension e2)
+                {
+                    if (e1.Priority == e2.Priority)
+                        return string.CompareOrdinal(e1.Name, e2.Name);
+                    return e1.Priority.CompareTo(e2.Priority);
+                });
+
+                foreach (SortedExtension x in sortedExtensions)
+                {
+                    if (ExtensionManager.ExtensionEnabled(x.Name))
+                    {
+                        a.CreateInstance(x.Type);
+                    }
+                }
+            }
+
+            // initialize comment rules and filters
+            CommentHandlers.Listen();
+        }
+
+        /// <summary>
         /// To support compiled extensions
         /// This methed looks for DLLs in the "/bin" folder
         /// and if assembly compiled with configuration
@@ -482,7 +527,7 @@ namespace BlogEngine.Core
         /// be added to the list of code assemlies
         /// </summary>
         /// <param name="assemblies">List of code assemblies</param>
-        public static void GetCompiledExtensions(ArrayList assemblies)
+        private static void GetCompiledExtensions(ArrayList assemblies)
         {
             string s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "bin");
             string[] fileEntries = Directory.GetFiles(s);

@@ -162,48 +162,37 @@
     </div>
     
     <div class="settings">
-        <h1>Anti-spam Service</h1>
-        <div class="info" style="float: right; width: 350px;">
-            You need to sign up for <a href="http://www.waegis.com" target="_new">Waegis</a>  or <a href="http://www.akismet.com" target="_new">Akismet</a> account to use spam filtering service
-            and they will provide you with application key.
-        </div>
-        
-        <div id="SpamFilter" style="border:1px solid #ccc; width:350px; padding:5px; margin-bottom:5px;">
-            <span>What spam filter are you going to use?</span><br />
-            <asp:RadioButton ID="RadioNone" runat="Server" AutoPostBack="true" 
-                GroupName="SfGroup" Width="100px" Text=" None" 
-                oncheckedchanged="RadioNone_CheckedChanged" />
-            <asp:RadioButton ID="RadioWaegis" runat="Server" AutoPostBack="true" 
-                GroupName="SfGroup" Width="100px" Text=" Waegis" 
-                oncheckedchanged="RadioWaegis_CheckedChanged" />
-            <asp:RadioButton ID="RadioAkismet" runat="Server" AutoPostBack="true" 
-                GroupName="SfGroup" Width="100px" Text=" Akismet" 
-                oncheckedchanged="RadioAkismet_CheckedChanged" />
-        </div>
-        
-        <div id="SpamExtension" runat="server" style="border:1px solid #ccc; width:350px; padding:5px; margin-bottom:5px;">
-            <table style="padding:0;margin:0">
-                <tr>
-                    <td>Site</td>
-                    <td><asp:TextBox ID="txtSite" runat="server" MaxLength="50"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><span>Application Key</span> &nbsp;&nbsp;</td>
-                    <td><asp:TextBox ID="txtKey" runat="server" MaxLength="20"></asp:TextBox></td>
-                </tr>
-            </table>        
-        </div>
-        
-        <div id="ReportMistakes" runat="server" style="border:1px solid #ccc; width:350px; padding: 0 5px 0 5px; margin-bottom:5px;">
-            <table>
-                <tr>
-                    <td style="padding:0 5px 0 0">Report mistakes back to service</td>
-                    <td><asp:CheckBox ID="chkReport" runat="server" BorderStyle="none" /></td>
-                </tr>
-            </table>
-        </div>
+        <h1>Custom Filters</h1>       
+        <asp:GridView ID="gridCustomFilters" 
+                BorderColor="Silver" 
+                BorderStyle="solid" 
+                BorderWidth="1px"
+                cellpadding="2"
+                runat="server"  
+                width="100%" 
+                AutoGenerateColumns="False">
+              <Columns>
+                <asp:BoundField DataField = "FullName" Visible="false" />
+                <asp:TemplateField HeaderText="Enabled" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20">
+                    <ItemTemplate>
+                        <asp:CheckBox ID="chkEnabled" Checked="true" runat="server"/>
+                    </ItemTemplate>
+                </asp:TemplateField>  
+                <asp:BoundField DataField = "Name" HeaderText="Filter Name" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "SiteUrl" HeaderText="Site URL" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "ApiKey" HeaderText="API Key" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Checked" HeaderText="Checked" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Cought" HeaderText="Cought" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Reported" HeaderText="Reported" HeaderStyle-HorizontalAlign="Left" />
+                <asp:TemplateField HeaderText="Accuracy" HeaderStyle-HorizontalAlign="Left">
+                    <ItemTemplate>
+                        100% 
+                    </ItemTemplate>
+                </asp:TemplateField>
+              </Columns>
+        </asp:GridView>
     </div>
-    
+
     <div style="text-align: center; margin-bottom: 10px">
         <asp:Button runat="server" ID="btnSave" />
     </div>
