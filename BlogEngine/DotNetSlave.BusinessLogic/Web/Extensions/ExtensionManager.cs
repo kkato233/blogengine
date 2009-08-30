@@ -172,6 +172,20 @@ public class ExtensionManager
         || (((List<ManagedExtension>)(HttpContext.Current.Cache["Extensions"]))).Count == 0)
     {
       ArrayList codeAssemblies = Utils.CodeAssemblies();
+
+        ManagedExtension meta = DataStoreExtension("MetaExtension");
+        if(meta == null)
+        {
+            _extensions.Add(new ManagedExtension("MetaExtension", "1.0", "Meta extension", "BlogEngine.net"));
+        }
+        else
+        {
+            if(!_extensions.Contains(meta))
+            {
+                _extensions.Add(meta);
+            }
+        }
+
       foreach (Assembly a in codeAssemblies)
       {
         Type[] types = a.GetTypes();

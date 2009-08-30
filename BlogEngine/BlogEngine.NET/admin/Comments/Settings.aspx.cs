@@ -1,21 +1,22 @@
 ﻿using System;
-using System.IO;
-using System.Web;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
 
 public partial class admin_Comments_Settings : System.Web.UI.Page
 {
     static protected ExtensionSettings _filters;
+    static protected ExtensionSettings _customFilters;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        _filters = ExtensionManager.GetSettings("CommentFilters", "Filters");
+        _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
+        _customFilters = ExtensionManager.GetSettings("MetaExtension", "BeCustomFilters");
 
         if (!IsPostBack)
         {
             BindSettings();
             BindFilters();
+            BindCustomFilters();
         }
 
         Page.MaintainScrollPositionOnPostBack = true;
@@ -41,7 +42,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
         cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
         rblAvatar.SelectedValue = BlogSettings.Instance.Avatar;
-
+        ddlCommentsPerPage.SelectedValue = BlogSettings.Instance.CommentsPerPage.ToString();
         // rules
         cbTrustAuthenticated.Checked = BlogSettings.Instance.TrustAuthenticatedUsers;
         ddWhiteListCount.SelectedValue = BlogSettings.Instance.CommentWhiteListCount.ToString();
@@ -53,6 +54,13 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         gridFilters.DataKeyNames = new string[] { _filters.KeyField };
         gridFilters.DataSource = _filters.GetDataTable();
         gridFilters.DataBind();
+    }
+
+    protected void BindCustomFilters()
+    {
+        gridCustomFilters.DataKeyNames = new string[] { _customFilters.KeyField };
+        gridCustomFilters.DataSource = _customFilters.GetDataTable();
+        gridCustomFilters.DataBind();
     }
 
     private void btnSave_Click(object sender, EventArgs e)
@@ -68,7 +76,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
         BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
         BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;
-
+        BlogSettings.Instance.CommentsPerPage = int.Parse(ddlCommentsPerPage.SelectedValue);
         // rules
         BlogSettings.Instance.TrustAuthenticatedUsers = cbTrustAuthenticated.Checked;
         BlogSettings.Instance.CommentWhiteListCount = int.Parse(ddWhiteListCount.SelectedValue);
@@ -80,7 +88,6 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.Save();
 
         Response.Redirect(Request.RawUrl, true);
-
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)
@@ -92,7 +99,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         {
             par.DeleteValue(grdRow.RowIndex);
         }
-        ExtensionManager.SaveSettings("CommentFilters", _filters);
+        ExtensionManager.SaveSettings("MetaExtension", _filters);
         Response.Redirect(Request.RawUrl);
     }
 
@@ -114,7 +121,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
                     txtFilter.Text };
 
             _filters.AddValues(f);
-            ExtensionManager.SaveSettings("CommentFilters", _filters);
+            ExtensionManager.SaveSettings("MetaExtension", _filters);
             Response.Redirect(Request.RawUrl);
         }
     }
@@ -130,30 +137,4 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         return true;
     }
 
-    protected void RadioNone_CheckedChanged(object sender, EventArgs e)
-    {
-        ShowHide();
-    }
-    protected void RadioWaegis_CheckedChanged(object sender, EventArgs e)
-    {
-        ShowHide();
-    }
-    protected void RadioAkismet_CheckedChanged(object sender, EventArgs e)
-    {
-        ShowHide();
-    }
-
-    protected void ShowHide()
-    {
-        if (RadioNone.Checked)
-        {
-            SpamExtension.Visible = false;
-            ReportMistakes.Visible = false;
-        }
-        else
-        {
-            SpamExtension.Visible = true;
-            ReportMistakes.Visible = true;
-        }
-    }
 }

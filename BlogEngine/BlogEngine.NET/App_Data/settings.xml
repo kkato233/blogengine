@@ -4,6 +4,7 @@
   <descriptioncharacters>300</descriptioncharacters>
   <storagelocation>~/App_Data/</storagelocation>
   <enablecountryincomments>True</enablecountryincomments>
+  <commentsperpage>5</commentsperpage>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <enablerating>True</enablerating>
   <enablerelatedposts>True</enablerelatedposts>

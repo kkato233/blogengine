@@ -1,19 +1,12 @@
 using System;
-using System.Data;
-using System.Configuration;
 using System.Collections;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.IO;
 using System.Reflection;
 using BlogEngine.Core;
 
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-
-public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserControl
+public partial class User_controls_xmanager_SourceEditor : UserControl
 {
     static protected string _errorMsg = string.Empty;
     static protected string _extensionName = string.Empty;
@@ -26,7 +19,7 @@ public partial class User_controls_xmanager_SourceEditor : System.Web.UI.UserCon
     protected void Page_Load(object sender, EventArgs e)
     {
         btnSave.Enabled = true;
-        _extensionName = Request.QueryString["ext"];
+        _extensionName = Path.GetFileName(Request.QueryString["ext"]);
         txtEditor.Text = ReadFile(GetExtFileName());
     }
     

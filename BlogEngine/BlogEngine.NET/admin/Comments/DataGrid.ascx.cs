@@ -13,26 +13,37 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     #endregion
 
+    #region Form events
+
     protected void Page_Load(object sender, EventArgs e)
     {
         gridComments.RowCommand += GridCommentsRowCommand;
         gridComments.RowDataBound += gridComments_RowDataBound;
 
-        gridComments.PageSize = 15;
+        gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
+
         _autoModerated = false;
+
+        string confirm = "return confirm('Are you sure you want to {0} selected comments?');";
 
         if (!BlogSettings.Instance.EnableCommentsModeration)
             btnApproveAll.Visible = false;
-        if(_autoModerated)
+        if (_autoModerated)
             btnApproveAll.Text = "Spam";
         else
             btnApproveAll.Text = "Approve";
 
         if (Request.Path.ToLower().Contains("approved.aspx"))
+        {
             btnApproveAll.Text = "Reject";
+            btnApproveAll.OnClientClick = string.Format(confirm, "reject");
+        }
 
         if (Request.Path.ToLower().Contains("spam.aspx"))
+        {
             btnApproveAll.Text = "Restore";
+            btnApproveAll.OnClientClick = string.Format(confirm, "restore");
+        }
 
         if (!Page.IsPostBack)
         {
@@ -59,6 +70,8 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             e.Row.Cells[6].Text = string.Format("Total : {0} comments", Comments.Count);
         }
     }
+
+    #endregion
 
     #region Binding
 
@@ -88,11 +101,11 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                 }
                 else
                 {
-                    if(Request.Path.ToLower().Contains("approved.aspx"))
+                    if (Request.Path.ToLower().Contains("approved.aspx"))
                     {
                         if (c.IsApproved) comments.Add(c);
                     }
-                    else if(Request.Path.ToLower().Contains("spam.aspx"))
+                    else if (Request.Path.ToLower().Contains("spam.aspx"))
                     {
                         if (!c.IsApproved) comments.Add(c);
                     }
@@ -170,7 +183,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                     break;
                 }
             }
-            if(found) break;
+            if (found) break;
         }
         BindComments();
     }

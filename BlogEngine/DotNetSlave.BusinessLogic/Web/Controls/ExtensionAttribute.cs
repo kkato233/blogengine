@@ -12,7 +12,7 @@ namespace BlogEngine.Core.Web.Controls
   /// </remarks>
   /// </summary>
   [AttributeUsage(AttributeTargets.Class)]
-  public sealed class ExtensionAttribute : System.Attribute
+  public sealed class ExtensionAttribute : Attribute
   {
     /// <summary>
     /// Creates an instance of the attribute and assigns a description.
@@ -64,7 +64,7 @@ namespace BlogEngine.Core.Web.Controls
       get { return _Author; }
     }
 
-    private int _priority = 999;
+    private int _priority;
 
     /// <summary>
     /// Gets the priority of the extension
@@ -83,10 +83,24 @@ namespace BlogEngine.Core.Web.Controls
   /// </summary>
   public class SortedExtension
   {
+      /// <summary>
+      /// Order in which extensions are sorted and respond to events
+      /// </summary>
       public int Priority;
+      /// <summary>
+      /// Name of the extension
+      /// </summary>
       public string Name;
+      /// <summary>
+      /// Type of the extension
+      /// </summary>
       public string Type;
-
+      /// <summary>
+      /// Constructor
+      /// </summary>
+      /// <param name="p">Priority</param>
+      /// <param name="n">Name</param>
+      /// <param name="t">Type</param>
       public SortedExtension(int p, string n, string t)
       {
           Priority = p;
@@ -94,5 +108,4 @@ namespace BlogEngine.Core.Web.Controls
           Type = t;
       }
   }    
-
 }

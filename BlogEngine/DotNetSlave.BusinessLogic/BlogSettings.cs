@@ -578,6 +578,13 @@ namespace BlogEngine.Core
         public int CommentBlackListCount { get; set; }
         #endregion
 
+        #region Comments per page
+        /// <summary>
+        /// Number of comments per page displayed in the comments asmin section
+        /// </summary>
+        public int CommentsPerPage { get; set; }
+        #endregion
+
         //============================================================
 		//	BLOG ROLL SETTINGS
 		//============================================================
