@@ -16,9 +16,9 @@ GO
 
 CREATE TABLE [dbo].[be_Referrers](
 	[ReferrerId] [uniqueidentifier] NOT NULL,
-	[Day] [datetime] NOT NULL CONSTRAINT [DF_be_Referrers_Day]  DEFAULT (getdate()),
+	[ReferralDay] [datetime] NOT NULL CONSTRAINT [DF_be_Referrers_Day]  DEFAULT (getdate()),
 	[ReferrerUrl] [varchar](255) NOT NULL,
-	[Count] [int] NOT NULL,
+	[ReferralCount] [int] NOT NULL,
 	[Url] [varchar](255) NULL,
 	[IsSpam] [bit] NULL,
  CONSTRAINT [PK_be_Referrers] PRIMARY KEY CLUSTERED 

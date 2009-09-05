@@ -1302,8 +1302,8 @@ namespace BlogEngine.Core.Providers
                 conn.Open();
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "INSERT INTO " + tablePrefix + "Referrers (ReferrerId, [Day], ReferrerUrl, [Count], Url, IsSpam) " +
-                        "VALUES (@ReferrerId, @Day, @ReferrerUrl, @Count, @Url, @IsSpam)";
+                    string sqlQuery = "INSERT INTO " + tablePrefix + "Referrers (ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam) " +
+                        "VALUES (@ReferrerId, @ReferralDay, @ReferrerUrl, @ReferralCount, @Url, @IsSpam)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
 
@@ -1326,7 +1326,7 @@ namespace BlogEngine.Core.Providers
             cmd.Parameters.Add(dpId);
 
             DbParameter dpDay = provider.CreateParameter();
-            dpDay.ParameterName = parmPrefix + "Day";
+            dpDay.ParameterName = parmPrefix + "ReferralDay";
             dpDay.Value = referrer.Day;
             cmd.Parameters.Add(dpDay);
 
@@ -1336,7 +1336,7 @@ namespace BlogEngine.Core.Providers
             cmd.Parameters.Add(dpReferrer);
 
             DbParameter dpCount = provider.CreateParameter();
-            dpCount.ParameterName = parmPrefix + "Count";
+            dpCount.ParameterName = parmPrefix + "ReferralCount";
             dpCount.Value = referrer.Count;
             cmd.Parameters.Add(dpCount);
 
@@ -1372,9 +1372,9 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "UPDATE " + tablePrefix + "Referrers " +
-                                      "SET [Day] = @Day, " +
+                                      "SET ReferralDay = @ReferralDay, " +
                                       "ReferrerUrl = @ReferrerUrl, " +
-                                      "[Count] = @Count, " +
+                                      "ReferralCount = @ReferralCount, " +
                                       "Url = @Url, " +
                                       "IsSpam = @IsSpam " +
                                       "WHERE ReferrerId = @ReferrerId";
@@ -1410,7 +1410,7 @@ namespace BlogEngine.Core.Providers
                 conn.Open();
                 using (DbCommand cmd = conn.CreateCommand())
                 {
-                    string sqlQuery = "SELECT ReferrerId, [Day], ReferrerUrl, [Count], Url, IsSpam " +
+                    string sqlQuery = "SELECT ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam " +
                         "FROM " + tablePrefix + "Referrers ";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
@@ -1457,12 +1457,12 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "DELETE FROM " + tablePrefix + "Referrers " +
-                                      "WHERE [Day] < " + parmPrefix + "Day";
+                                      "WHERE ReferralDay < " + parmPrefix + "ReferralDay";
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
 
                     DbParameter dpDay = provider.CreateParameter();
-                    dpDay.ParameterName = parmPrefix + "Day";
+                    dpDay.ParameterName = parmPrefix + "ReferralDay";
                     dpDay.Value = cutoff;
                     cmd.Parameters.Add(dpDay);
 
