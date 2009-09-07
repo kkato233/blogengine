@@ -663,7 +663,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpParent = provider.CreateParameter();
                     dpParent.ParameterName = parmPrefix + "parent";
-                    dpParent.Value = page.Parent;
+                    dpParent.Value = page.Parent.ToString();
                     cmd.Parameters.Add(dpParent);
 
                     DbParameter dpShowInList = provider.CreateParameter();
@@ -752,7 +752,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpParent = provider.CreateParameter();
                     dpParent.ParameterName = parmPrefix + "parent";
-                    dpParent.Value = page.Parent;
+                    dpParent.Value = page.Parent.ToString();
                     cmd.Parameters.Add(dpParent);
 
                     DbParameter dpShowInList = provider.CreateParameter();
@@ -904,7 +904,7 @@ namespace BlogEngine.Core.Providers
                     if (category.Parent == null)
                         dpParent.Value = DBNull.Value;
                     else 
-                        dpParent.Value = category.Parent;
+                        dpParent.Value = category.Parent.ToString();
                     cmd.Parameters.Add(dpParent);
 
                     cmd.ExecuteNonQuery();
@@ -961,7 +961,7 @@ namespace BlogEngine.Core.Providers
                     if (category.Parent == null)
                         dpParent.Value = DBNull.Value;
                     else
-                        dpParent.Value = category.Parent;
+                        dpParent.Value = category.Parent.ToString();
                     cmd.Parameters.Add(dpParent); 
                     
                     cmd.ExecuteNonQuery();
