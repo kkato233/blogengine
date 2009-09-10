@@ -1,34 +1,59 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DataGrid.ascx.cs" Inherits="admin_Comments_DataGrid" %>
-<div id="pop1" runat="server" visible="false" style="position:absolute;left:50%;top:50%; margin-top:-135px; width:600px;height:275px;margin-left:-300px;background-color:#FFF;border:1px solid #ccc;border-bottom:3px solid #ccc;border-top:3px solid #ccc">
-     <div style="padding:10px">
-        <div>
-            <span id="popAuthor" runat="server" style="padding:5px"></span>
-            <span id="popEmail" runat="server" style="padding:5px"></span>
-            <span id="popIp" runat="server" style="padding:5px"></span>
-            <span id="popCountry" runat="server" style="padding:5px"></span>
-        </div>
-        <div>
-             <span id="popPost" runat="server" style="padding:5px"></span>
-        </div>
-        <div>
-            <span id="popWebsite" runat="server" style="padding:5px"></span>
-        </div>
-        <div id="txtComment" style="padding:5px">
-            <textarea id="txtArea" runat="server" cols="69" rows="10"></textarea>
-        </div>
-        <span style="text-align:center; padding-left:220px">
-            <asp:Button ID="btnSaveTxt" runat="server" Text="Update" OnClick="btnSaveTxt_Click" />
-            <asp:Button ID="btnApprovePop" runat="server" Text="Approve" 
-             onclick="btnApprovePop_Click" />
-            <asp:Button ID="btnDeletePop" runat="server" Text="Delete" 
-             OnClientClick="javascript:return confirm('Are you sure you want to delte this comment?')" 
-             onclick="btnDeletePop_Click"  />
-            <asp:Button ID="btnCancelPop" runat="server" Text="Cancel" OnClick="btnCancelPop_Click" />
-        </span>
-        <span id="commId" runat="server" style="visibility:hidden; margin:0; padding:0"></span>
-     </div>
-</div>
+<script language="javascript">
+    function editComment(id) {
+        //alert(id);
+        window.scrollTo(0, 0);
+        var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
+        var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
+        var layer = document.createElement('div');
+
+        layer.style.zIndex = 2;
+        layer.id = 'layer';
+        layer.style.position = 'absolute';
+        layer.style.top = '0px';
+        layer.style.left = '0px';
+        layer.style.height = document.documentElement.scrollHeight + 'px';
+        layer.style.width = width + 'px';
+        layer.style.backgroundColor = 'black';
+        layer.style.opacity = '.6';
+        layer.style.filter += ("progid:DXImageTransform.Microsoft.Alpha(opacity=60)");
+        document.body.style.position = 'static';
+        document.body.appendChild(layer);
+
+        var size = { 'height': 450, 'width': 750 };
+        var iframe = document.createElement('iframe');
+
+        iframe.name = 'Comment Editor';
+        iframe.id = 'CommentEditor';
+        iframe.src = 'Editor.aspx?id=' + id;
+        iframe.style.height = size.height + 'px';
+        iframe.style.width = size.width + 'px';
+        iframe.style.position = 'fixed';
+        iframe.style.zIndex = 3;
+        iframe.style.backgroundColor = 'white';
+        iframe.style.border = '4px solid silver';
+        iframe.frameborder = '0';
+
+        iframe.style.top = ((height + document.documentElement.scrollTop) / 2) - (size.height / 2) + 'px';
+        iframe.style.left = (width / 2) - (size.width / 2) + 'px';
+
+        document.body.appendChild(iframe);
+    }
     
+    function closeEditor(reload)
+    {
+      var v = document.getElementById('CommentEditor');
+      var l = document.getElementById('layer');
+      document.body.removeChild(document.getElementById('CommentEditor'));
+      document.body.removeChild(document.getElementById('layer'));
+      document.body.style.position = '';
+
+      if (reload) {
+          location.reload();
+      }
+    }
+  </script>
+   
 <asp:GridView ID="gridComments" 
     BorderColor="Silver" 
     BorderWidth="1px"
@@ -58,15 +83,21 @@
 	<asp:BoundField HeaderText="Email" HeaderStyle-HorizontalAlign="Left" DataField="Email" HtmlEncode="False" DataFormatString="<a href='mailto:{0}'>{0}</a>" />		
     <asp:BoundField HeaderText="IP" HeaderStyle-HorizontalAlign="Left" DataField="IP" HtmlEncode="false" DataFormatString="<a href='http://www.domaintools.com/go/?service=whois&q={0}' target='_new'>{0}</a>" />          
     <asp:BoundField DataField="IsApproved" Visible="false" />                                    
-    <asp:ButtonField ButtonType="Link" HeaderText="Comment" CommandName="btnInspect" DataTextField="Teaser" HeaderStyle-HorizontalAlign="Left" />           
+    <asp:TemplateField HeaderText="Comment" HeaderStyle-HorizontalAlign="Left">
+        <ItemTemplate>
+           <asp:LinkButton ID="lnkEditComment" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Teaser").ToString()%>' OnClientClick='<%#GetEditHtml(DataBinder.Eval(Container.DataItem, "Id").ToString())%>' />
+        </ItemTemplate>
+    </asp:TemplateField>
+    <%-- <asp:ButtonField ButtonType="Link" HeaderText="Comment" CommandName="btnInspect" DataTextField="Teaser" HeaderStyle-HorizontalAlign="Left" />--%>    
     <asp:BoundField HeaderText="Date" DataField="DateCreated" DataFormatString="{0:dd-MMM-yyyy HH:mm}" HeaderStyle-HorizontalAlign="Left" />
+    
     <asp:TemplateField HeaderText="Moderator" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
              <asp:literal ID="ltModerator" 
              Text='<%#DataBinder.Eval(Container.DataItem, "ModeratedBy").ToString()%>' 
              runat="server"/>
         </ItemTemplate>
-    </asp:TemplateField> 
+    </asp:TemplateField>  
   </Columns>
   <pagersettings Mode="NumericFirstLast" position="Bottom" pagebuttoncount="20" />
   <PagerStyle HorizontalAlign="Center"/>

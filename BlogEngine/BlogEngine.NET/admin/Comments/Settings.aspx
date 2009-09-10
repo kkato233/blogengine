@@ -3,18 +3,71 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
-    <div class="settings">   
+    <script type="text/javascript">
+
+        function ToggleEnableComments() {
+            var bx = document.getElementById('<%= cbEnableComments.ClientID %>'); 
+            if (bx.checked) {
+                SettingsFields.style.display = "";
+                Moderation.style.display = "";
+                ToggleModeration();
+            }
+            else{
+                SettingsFields.style.display = "none";
+                Moderation.style.display = "none";
+                Rules.style.display = "none";
+                Filters.style.display = "none";
+                CustomFilters.style.display = "none";
+            }
+        }
+
+        function ToggleModeration() {
+            var bx = document.getElementById('<%= cbEnableCommentsModeration.ClientID %>');
+            if (bx.checked) {
+                tblModeration.style.display = "";
+                ToggleModType();
+            }
+            else {
+                tblModeration.style.display = "none";
+                Rules.style.display = "none";
+                Filters.style.display = "none";
+                CustomFilters.style.display = "none";
+            }
+        }
+
+        function ToggleModType() {
+            var gbx = document.getElementsByName('RadioGroup1');
+            var rdo = 0;
+
+            for (var x = 0; x < gbx.length; x++) {
+                if (gbx[x].checked) {
+                    rdo = gbx[x].value;
+                }
+            }
+            
+            if (rdo == 1) { 
+                Rules.style.display = "";
+                Filters.style.display = "";
+                CustomFilters.style.display = "";
+            }
+            else {
+                Rules.style.display = "none";
+                Filters.style.display = "none";
+                CustomFilters.style.display = "none";
+            }
+        }
+    </script>
+  
+    <div class="settings" id="GeneralSettings">   
         <menu:TabMenu ID="TabMenu" runat="server" />
         
         <div id="ErrorMsg" runat="server" style="color: Red; display: block;"></div>
         <div id="InfoMsg" runat="server" style="color: Green; display: block;"></div>
             
         <label for="<%=cbEnableComments.ClientID %>"><%=Resources.labels.enableComments %></label>
-        <asp:CheckBox runat="server" ID="cbEnableComments" /><%=Resources.labels.enableCommentsDescription %><br />
-
-        <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=Resources.labels.enableCommentsModeration%></label>
-        <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" /><br />
+        <asp:CheckBox runat="server" ID="cbEnableComments" onclick="ToggleEnableComments();" /><%=Resources.labels.enableCommentsDescription %><br />
         
+        <div id="SettingsFields">
         <label for="<%=cbEnableCommentNesting.ClientID %>"><%=Resources.labels.enableCommentNesting %></label>
         <asp:CheckBox runat="server" ID="cbEnableCommentNesting" /><%=Resources.labels.enableCommentNestingDescription%><br />
         
@@ -65,9 +118,26 @@
             <asp:ListItem Text="20" />
             <asp:ListItem Text="50" />
         </asp:DropDownList>
+        </div>
     </div>
     
-    <div class="settings">
+    <div class="settings" id="Moderation">
+        <h1>Moderation</h1>
+        <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=Resources.labels.enableCommentsModeration%></label>
+        <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" onclick="ToggleModeration();" /> If not moderated, all comments approved by default.<br />
+        <table width="550px" border="0" id="tblModeration">
+            <tr>
+                <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="0" style="border:0" <%=RadioChecked(0)%> /></td> 
+                <td>Manual - only after comment approved by admin will it show up in the blog</td>
+            </tr>
+            <tr>
+                <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="1" style="border:0" <%=RadioChecked(1)%> /></td> 
+                <td>Automatic - rules and filters will decide if comment is spam.</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="settings" id="Rules">
         <h1>Rules</h1>
         
         <label for="<%=cbTrustAuthenticated.ClientID %>">Trust authenticated authors</label>
@@ -97,7 +167,7 @@
 
     </div>
     
-    <div class="settings">
+    <div class="settings" id="Filters">
         <h1>Filters</h1>
         
         <table>
@@ -161,7 +231,7 @@
           </asp:GridView>
     </div>
     
-    <div class="settings">
+    <div class="settings" id="CustomFilters">
         <h1>Custom Filters</h1>       
         <asp:GridView ID="gridCustomFilters" 
                 BorderColor="Silver" 
@@ -182,8 +252,8 @@
                 <asp:BoundField DataField = "SiteUrl" HeaderText="Site URL" HeaderStyle-HorizontalAlign="Left" />
                 <asp:BoundField DataField = "ApiKey" HeaderText="API Key" HeaderStyle-HorizontalAlign="Left" />
                 <asp:BoundField DataField = "Checked" HeaderText="Checked" HeaderStyle-HorizontalAlign="Left" />
-                <asp:BoundField DataField = "Cought" HeaderText="Cought" HeaderStyle-HorizontalAlign="Left" />
-                <asp:BoundField DataField = "Reported" HeaderText="Reported" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Cought" HeaderText="Spam" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Reported" HeaderText="Mistakes" HeaderStyle-HorizontalAlign="Left" />
                 <asp:TemplateField HeaderText="Accuracy" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
                         100% 
@@ -196,5 +266,5 @@
     <div style="text-align: center; margin-bottom: 10px">
         <asp:Button runat="server" ID="btnSave" />
     </div>
-   
+      
 </asp:Content>

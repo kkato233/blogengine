@@ -7,6 +7,13 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
     static protected ExtensionSettings _filters;
     static protected ExtensionSettings _customFilters;
 
+    public string RadioChecked(int mtype)
+    {
+        if (BlogSettings.Instance.ModerationType == mtype)
+            return "checked";
+        return string.Empty;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
@@ -16,17 +23,20 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         {
             BindSettings();
             BindFilters();
-            BindCustomFilters();
+            BindCustomFilters();           
+
+            string js = "<script type='text/javascript'>ToggleEnableComments();</script>";
+            ClientScript.RegisterStartupScript(GetType(), "ClientScript1", js);
         }
 
         Page.MaintainScrollPositionOnPostBack = true;
         Page.Title = Resources.labels.comments;
 
         btnSave.Click += btnSave_Click;
-        //btnSaveTop.Click += new EventHandler(btnSave_Click);
-
-        //btnSaveTop.Text = Resources.labels.saveSettings;
         btnSave.Text = Resources.labels.saveSettings;
+        
+        //btnSaveTop.Click += new EventHandler(btnSave_Click);
+        //btnSaveTop.Text = Resources.labels.saveSettings;
     }
 
     private void BindSettings()
@@ -63,7 +73,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         gridCustomFilters.DataBind();
     }
 
-    private void btnSave_Click(object sender, EventArgs e)
+    protected void btnSave_Click(object sender, EventArgs e)
     {
         //-----------------------------------------------------------------------
         // Set Comments settings
@@ -77,6 +87,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
         BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;
         BlogSettings.Instance.CommentsPerPage = int.Parse(ddlCommentsPerPage.SelectedValue);
+        BlogSettings.Instance.ModerationType = int.Parse(Request.Form["RadioGroup1"]);
         // rules
         BlogSettings.Instance.TrustAuthenticatedUsers = cbTrustAuthenticated.Checked;
         BlogSettings.Instance.CommentWhiteListCount = int.Parse(ddWhiteListCount.SelectedValue);
@@ -136,5 +147,4 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
 
         return true;
     }
-
 }

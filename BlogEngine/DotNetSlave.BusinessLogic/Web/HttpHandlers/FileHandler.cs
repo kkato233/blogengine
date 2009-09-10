@@ -45,7 +45,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		{
 			if (!string.IsNullOrEmpty(context.Request.QueryString["file"]))
 			{
-				string fileName = Path.GetFileName(context.Request.QueryString["file"]);
+                string fileName = context.Request.QueryString["file"];
 				OnServing(fileName);
 
 				try
