@@ -22,12 +22,13 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
         gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
 
-        _autoModerated = false;
+        _autoModerated = BlogSettings.Instance.ModerationType == 1 ? true : false;
 
         string confirm = "return confirm('Are you sure you want to {0} selected comments?');";
 
         if (!BlogSettings.Instance.EnableCommentsModeration)
             btnApproveAll.Visible = false;
+
         if (_autoModerated)
             btnApproveAll.Text = "Spam";
         else
@@ -89,13 +90,12 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     protected void LoadData()
     {
         List<Comment> comments = new List<Comment>();
-        string comType = "All"; // ddCommentType.SelectedValue;
 
         foreach (Post p in Post.Posts)
         {
             foreach (Comment c in p.Comments)
             {
-                if (!BlogSettings.Instance.EnableCommentsModeration)
+                if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
                 {
                     comments.Add(c);
                 }
@@ -111,7 +111,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                     }
                     else
                     {
-                        // if auto-moderated, inbox has approved comments
+                        // if auto-moderated, inbox has unapproved comments
                         if (_autoModerated && c.IsApproved) comments.Add(c);
 
                         // if manual moderation inbox has unapproved comments
@@ -194,96 +194,45 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     void GridCommentsRowCommand(object sender, GridViewCommandEventArgs e)
     {
-        System.Web.UI.Page pg = (System.Web.UI.Page)HttpContext.Current.CurrentHandler;
-        bool x = pg.IsPostBack;
+        //System.Web.UI.Page pg = (System.Web.UI.Page)HttpContext.Current.CurrentHandler;
+        //bool x = pg.IsPostBack;
 
-        GridView grid = (GridView)sender;
-        int index = Convert.ToInt32(e.CommandArgument);
+        //GridView grid = (GridView)sender;
+        //int index = Convert.ToInt32(e.CommandArgument);
 
-        if (grid.PageIndex > 0)
-        {
-            index = grid.PageIndex * grid.PageSize + index;
-        }
+        //if (grid.PageIndex > 0)
+        //{
+        //    index = grid.PageIndex * grid.PageSize + index;
+        //}
 
-        Comment comment;
+        //Comment comment;
 
-        if (e.CommandName == "btnInspect")
-        {
-            comment = Comments[index];
+        //if (e.CommandName == "btnInspect")
+        //{
+        //    comment = Comments[index];
 
-            commId.InnerHtml = comment.Id.ToString();
-            popAuthor.InnerHtml = "Author: " + comment.Author;
+        //    commId.InnerHtml = comment.Id.ToString();
+        //    popAuthor.InnerHtml = "Author: " + comment.Author;
 
-            string postTmpl = "<a rel=\"bookmark\" title=\"Post permalink\" href=\"{0}\" target=\"_new\">{1}</a>";
-            popPost.InnerHtml = "Post: " + string.Format(postTmpl, comment.Parent.RelativeLink, comment.Parent.Title);
-            popIp.InnerHtml = "<a href=\"http://www.domaintools.com/go/?service=whois&q=" + comment.IP + "\" target=\"_new\">" + comment.IP + "</a>";
-            popEmail.InnerHtml = "<a href=\"mailto:" + comment.Email + "\">" + comment.Email + "</a>";
-            txtArea.Value = comment.Content;
+        //    string postTmpl = "<a rel=\"bookmark\" title=\"Post permalink\" href=\"{0}\" target=\"_new\">{1}</a>";
+        //    popPost.InnerHtml = "Post: " + string.Format(postTmpl, comment.Parent.RelativeLink, comment.Parent.Title);
+        //    popIp.InnerHtml = "<a href=\"http://www.domaintools.com/go/?service=whois&q=" + comment.IP + "\" target=\"_new\">" + comment.IP + "</a>";
+        //    popEmail.InnerHtml = "<a href=\"mailto:" + comment.Email + "\">" + comment.Email + "</a>";
+        //    txtArea.Value = comment.Content;
 
-            popWebsite.InnerHtml = "";
-            if (comment.Website != null && comment.Website.ToString().Length > 0)
-            {
-                popWebsite.InnerHtml = string.Format("Website: <a href=\"{0}\" target=\"_new\">{1}</a>", comment.Website, comment.Website);
-            }
-            if (!string.IsNullOrEmpty(comment.Country))
-            {
-                popCountry.InnerHtml = "Country: " + comment.Country.ToUpper();
-            }
-            pop1.Visible = true;
-        }
+        //    popWebsite.InnerHtml = "";
+        //    if (comment.Website != null && comment.Website.ToString().Length > 0)
+        //    {
+        //        popWebsite.InnerHtml = string.Format("Website: <a href=\"{0}\" target=\"_new\">{1}</a>", comment.Website, comment.Website);
+        //    }
+        //    if (!string.IsNullOrEmpty(comment.Country))
+        //    {
+        //        popCountry.InnerHtml = "Country: " + comment.Country.ToUpper();
+        //    }
+        //    pop1.Visible = true;
+        //}
 
-        BindComments();
-    }
-
-    #endregion
-
-    #region Popup buttons
-
-    protected void btnSaveTxt_Click(object sender, EventArgs e)
-    {
-        foreach (Comment com in Comments)
-        {
-            if (com.Id.ToString() == commId.InnerHtml)
-            {
-                com.Content = txtArea.Value;
-                UpdateComment(com);
-            }
-        }
-        BindComments();
-        pop1.Visible = false;
-    }
-
-    protected void btnCancelPop_Click(object sender, EventArgs e)
-    {
-        BindComments();
-        pop1.Visible = false;
-    }
-
-    protected void btnApprovePop_Click(object sender, EventArgs e)
-    {
-        foreach (Comment com in Comments)
-        {
-            if (com.Id.ToString() == commId.InnerHtml)
-            {
-                ApproveComment(com);
-            }
-        }
-        BindComments();
-        pop1.Visible = false;
-    }
-
-    protected void btnDeletePop_Click(object sender, EventArgs e)
-    {
-        foreach (Comment com in Comments)
-        {
-            if (com.Id.ToString() == commId.InnerHtml)
-            {
-                RemoveComment(com);
-                BindComments();
-            }
-        }
-        BindComments();
-        pop1.Visible = false;
+        //BindComments();
     }
 
     #endregion
@@ -379,6 +328,11 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             }
         }
         return true;
+    }
+
+    public static string GetEditHtml(string id)
+    {
+        return string.Format("editComment('{0}');return false;", id);
     }
 
     #endregion

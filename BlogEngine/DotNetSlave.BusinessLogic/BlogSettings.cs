@@ -585,6 +585,14 @@ namespace BlogEngine.Core
         public int CommentsPerPage { get; set; }
         #endregion
 
+        #region Moderation type
+        /// <summary>
+        /// Gets or sets a value indicating type of moderation
+        /// </summary>
+        /// <value><0 - none, 1 - manual, 2 - auto</value>
+        public int ModerationType { get; set; }
+        #endregion
+
         //============================================================
 		//	BLOG ROLL SETTINGS
 		//============================================================
