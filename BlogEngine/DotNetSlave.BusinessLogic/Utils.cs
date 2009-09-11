@@ -271,7 +271,7 @@ namespace BlogEngine.Core
         /// </summary>
         public static string Translate(string text)
         {
-            return Translate(text, string.Format("Missing Resource [{0}]", text));
+            return Translate(text, null, null);
         }
 
         /// <summary>
@@ -280,11 +280,43 @@ namespace BlogEngine.Core
         /// </summary>
         public static string Translate(string text, string defaultValue)
         {
-            object resource = HttpContext.GetGlobalResourceObject("labels", text);
+            return Translate(text, defaultValue, null);
+        }
+
+        /// <summary>
+        /// Translates the specified string using the resource files and specified culture.
+        /// If a translation is not found, defaultValue will be returned.
+        /// </summary>
+        public static string Translate(string text, string defaultValue, CultureInfo culture)
+        {
+            object resource;
+
+            if (culture == null)
+                resource = HttpContext.GetGlobalResourceObject("labels", text);
+            else
+                resource = HttpContext.GetGlobalResourceObject("labels", text, culture);
+
             if (resource != null)
                 return resource.ToString();
 
-            return defaultValue;
+            if (string.IsNullOrEmpty(defaultValue))
+                return string.Format("Missing Resource [{0}]", text);
+            else
+                return defaultValue;
+        }
+
+        /// <summary>
+        /// Returns the default culture.  This is either the culture specified in the blog settings,
+        /// or the default culture installed with the operating system.
+        /// </summary>
+        public static CultureInfo GetDefaultCulture()
+        {
+            if (string.IsNullOrEmpty(BlogSettings.Instance.Culture) ||
+                BlogSettings.Instance.Culture.Equals("Auto", StringComparison.OrdinalIgnoreCase))
+            {
+                return CultureInfo.InstalledUICulture;
+            }
+            return CultureInfo.CreateSpecificCulture(BlogSettings.Instance.Culture);
         }
 
 		#endregion

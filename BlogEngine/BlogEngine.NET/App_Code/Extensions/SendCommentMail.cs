@@ -39,6 +39,8 @@ public class SendCommentMail
 			else if (comment.Email == "pingback")
 				subject = " pingback on ";
 
+            System.Globalization.CultureInfo defaultCulture = Utils.GetDefaultCulture();
+
 			ServingEventArgs args = new ServingEventArgs(comment.Content, ServingLocation.Email);
 			Comment.OnServing(comment, args);
 			string body = args.Body;
@@ -50,15 +52,15 @@ public class SendCommentMail
 			mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + subject + post.Title;
 			mail.Body = "<div style=\"font: 11px verdana, arial\">";
 			mail.Body += body.Replace(Environment.NewLine, "<br />") + "<br /><br />";
-			mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br /><br />", Resources.labels.post, post.PermaLink + "#id_" + comment.Id, post.Title);
+            mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br /><br />", Utils.Translate("post", null, defaultCulture), post.PermaLink + "#id_" + comment.Id, post.Title);
 
 			string deleteLink = post.AbsoluteLink + "?deletecomment=" + comment.Id;
-			mail.Body += string.Format("<a href=\"{0}\">{1}</a>", deleteLink, Resources.labels.delete);
+            mail.Body += string.Format("<a href=\"{0}\">{1}</a>", deleteLink, Utils.Translate("delete", null, defaultCulture));
 
 			if (BlogSettings.Instance.EnableCommentsModeration)
 			{
 				string approveLink = post.AbsoluteLink + "?approvecomment=" + comment.Id;
-				mail.Body += string.Format(" | <a href=\"{0}\">{1}</a>", approveLink, Resources.labels.approve);
+                mail.Body += string.Format(" | <a href=\"{0}\">{1}</a>", approveLink, Utils.Translate("approve", null, defaultCulture));
 			}
 
 			mail.Body += "<br />_______________________________________________________________________________<br />";
