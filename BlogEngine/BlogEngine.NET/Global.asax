@@ -58,6 +58,12 @@
         context.Items["LastErrorDetails"] = sb.ToString();
         context.Response.StatusCode = 500;
         Server.ClearError();
+
+        // Server.Transfer is prohibited during a page callback.
+        System.Web.UI.Page currentPage = context.CurrentHandler as System.Web.UI.Page;
+        if (currentPage != null && currentPage.IsCallback)
+            return;
+        
         context.Server.Transfer("~/error.aspx");
     }
 
@@ -78,25 +84,25 @@
     /// </code>
     /// </example>
     /// </summary>
-  void Application_Start(object sender, EventArgs e)
-  {
-    Utils.LoadExtensions();
-  }
-
-  /// <summary>
-  /// Sets the culture based on the language selection in the settings.
-  /// </summary>
-  void Application_PreRequestHandlerExecute(object sender, EventArgs e)
-  {
-    if (!string.IsNullOrEmpty(BlogSettings.Instance.Culture))
+    void Application_Start(object sender, EventArgs e)
     {
-      if (!BlogSettings.Instance.Culture.Equals("Auto"))
-      {
-        CultureInfo culture = CultureInfo.CreateSpecificCulture(BlogSettings.Instance.Culture);
-        Thread.CurrentThread.CurrentUICulture = culture;
-        Thread.CurrentThread.CurrentCulture = culture;
-      }
+        Utils.LoadExtensions();
     }
-  }
+
+    /// <summary>
+    /// Sets the culture based on the language selection in the settings.
+    /// </summary>
+    void Application_PreRequestHandlerExecute(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrEmpty(BlogSettings.Instance.Culture))
+        {
+            if (!BlogSettings.Instance.Culture.Equals("Auto"))
+            {
+                CultureInfo defaultCulture = Utils.GetDefaultCulture();
+                Thread.CurrentThread.CurrentUICulture = defaultCulture;
+                Thread.CurrentThread.CurrentCulture = defaultCulture;
+            }
+        }
+    }
  
 </script>
