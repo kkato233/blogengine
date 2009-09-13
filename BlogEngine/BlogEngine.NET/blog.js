@@ -57,12 +57,35 @@ BlogEngine = {
         BlogEngine.$('commentPreview').innerHTML = arg;
     }
 	,
+    toggleCommentSavingIndicators: function(bSaving) {
+        BlogEngine.$("btnSaveAjax").disabled = bSaving;
+        BlogEngine.$("ajaxLoader").style.display = bSaving ? "inline" : "none";
+        BlogEngine.$("status").className = "";
+        BlogEngine.$("status").innerHTML = "";
+        if (!bSaving) {
+            BlogEngine.$('commentPreview').innerHTML = "";
+            BlogEngine.composeComment();
+        }
+    }
+    ,
+    onCommentError: function(error, context) {
+        BlogEngine.toggleCommentSavingIndicators(false);
+        error = error || "Unknown error occurred.";
+        var iDelimiterPos = error.indexOf("|");
+        if (iDelimiterPos > 0) {
+            error = error.substr(0, iDelimiterPos);
+            // Remove numbers from end of error message.
+            while (error.length > 0 && error.substr(error.length - 1, 1).match(/\d/)) {
+                error = error.substr(0, error.length - 1);
+            }
+        }
+        alert("Sorry, the following error occurred while processing your comment:\n\n" + error);
+    }
+	,
     addComment: function(preview) {
         var isPreview = preview == true;
         if (!isPreview) {
-            this.$("btnSaveAjax").disabled = true;
-            this.$("ajaxLoader").style.display = "inline";
-            this.$("status").className = "";
+            BlogEngine.toggleCommentSavingIndicators(true);
             this.$("status").innerHTML = BlogEngine.i18n.savingTheComment;
         }
 
@@ -78,7 +101,7 @@ BlogEngine = {
         var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
         var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
 
-        WebForm_DoCallback(BlogEngine.comments.controlId, argument, callback, 'comment', null, false);
+        WebForm_DoCallback(BlogEngine.comments.controlId, argument, callback, 'comment', BlogEngine.onCommentError, false);
 
         if (!isPreview && typeof (OnComment) != "undefined")
             OnComment(author, email, website, country, content);
@@ -143,15 +166,13 @@ BlogEngine = {
             // reset form values
             BlogEngine.comments.contentBox.value = "";
             BlogEngine.comments.contentBox = BlogEngine.$(BlogEngine.comments.contentBox.id);
-            BlogEngine.$("ajaxLoader").style.display = "none";
+            BlogEngine.toggleCommentSavingIndicators(false);
             BlogEngine.$("status").className = "success";
 
             if (!BlogEngine.comments.moderation)
                 BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWasSaved;
             else
                 BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWaitingModeration;
-
-            BlogEngine.composeComment();
 
             // move form back to bottom
             var commentForm = BlogEngine.$('comment-form');
