@@ -94,7 +94,7 @@
     <asp:TemplateField HeaderText="Moderator" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
              <asp:literal ID="ltModerator" 
-             Text='<%#DataBinder.Eval(Container.DataItem, "ModeratedBy").ToString()%>' 
+             Text='<%#DataBinder.Eval(Container.DataItem, "ModeratedBy") + "" %>' 
              runat="server"/>
         </ItemTemplate>
     </asp:TemplateField>  

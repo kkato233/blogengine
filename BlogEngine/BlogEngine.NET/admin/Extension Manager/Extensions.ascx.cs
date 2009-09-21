@@ -90,6 +90,8 @@ public partial class UserControlsXmanagerExtensionsList : System.Web.UI.UserCont
 
       foreach (ManagedExtension x in extList)
       {
+        if(x.Name == "MetaExtension") continue;
+
         if (alt % 2 == 0)
           sb.Append("<tr style='background:#f9f9f9'>");
         else

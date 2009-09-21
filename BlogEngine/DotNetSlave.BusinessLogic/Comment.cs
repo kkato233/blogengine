@@ -1,9 +1,9 @@
 #region Using
 
 using System;
-using System.Globalization;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 #endregion
 
@@ -132,6 +132,17 @@ namespace BlogEngine.Core
 			set { _IP = value; }
 		}
 
+        private string _moderatedBy;
+        ///<summary>
+        /// Process that approved or rejected comment
+        ///</summary>
+        [XmlElement]
+        public string ModeratedBy
+        {
+            get { return _moderatedBy; }
+            set { _moderatedBy = value; }
+        }
+
 		private IPublishable _Post;
 
 		/// <summary>
@@ -241,44 +252,6 @@ namespace BlogEngine.Core
 		{
 			get { return null; }
 		}
-
-        ///<summary>
-        /// Enables to audit comment moderation
-        ///</summary>
-        public enum Moderator
-        {
-            ///<summary>
-            /// unmoderated
-            ///</summary>
-            None,
-            /// <summary>
-            /// moderated directly by admin
-            /// </summary>
-            Admin,
-            ///<summary>
-            /// by rule engine
-            ///</summary>
-            Rule,
-            /// <summary>
-            /// by filter
-            /// </summary>
-            Filter,
-            /// <summary>
-            /// by anti-spam service
-            /// </summary>
-            Service
-        }
-
-	    private Moderator _moderatedBy;
-
-	    ///<summary>
-	    /// List of moderators
-	    ///</summary>
-	    public Moderator ModeratedBy
-	    {
-            get { return _moderatedBy; }
-            set { _moderatedBy = value; } 
-	    }
 
 		#endregion
 

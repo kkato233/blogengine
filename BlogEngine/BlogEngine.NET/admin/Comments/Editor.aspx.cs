@@ -24,7 +24,15 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             _comment = GetComment(_id);
 
             if (_urlReferrer.Contains("/Comments/Default.aspx"))
-                BtnAction.Text = "Approve";
+            {
+                if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled)
+                {
+                    if (BlogSettings.Instance.ModerationType == 1)
+                        BtnAction.Text = "Spam"; // "Comments: Auto-Moderated";
+                    else
+                        BtnAction.Text = "Approve"; // "Comments: Manual Moderation";
+                }
+            }
 
             if (_urlReferrer.Contains("/Comments/Approved.aspx"))
                 BtnAction.Text = "Reject";
@@ -32,7 +40,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             if (_urlReferrer.Contains("/Comments/Spam.aspx"))
                 BtnAction.Text = "Restore";
 
-            BtnAction.Visible = BlogSettings.Instance.EnableCommentsModeration;
+            BtnAction.Visible = BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled;
 
             if(_comment.Website != null)
                 txtWebsite.Text = _comment.Website.ToString();
@@ -74,15 +82,45 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
 
     protected void BtnActionClick(object sender, EventArgs e)
     {
-        //foreach (Comment com in Comments)
-        //{
-        //    if (com.Id.ToString() == commId.InnerHtml)
-        //    {
-        //        ApproveComment(com);
-        //    }
-        //}
-        //BindComments();
-        //pop1.Visible = false;
+        if (BlogSettings.Instance.EnableCommentsModeration 
+            && BlogSettings.Instance.IsCommentsEnabled)
+        {
+            bool found = false;
+            foreach (Post p in Post.Posts.ToArray())
+            {
+                foreach (Comment c in p.Comments.ToArray())
+                {
+                    if (c.Id.ToString() == _id)
+                    {
+                        string desc = p.Description;
+                        p.Description = (desc ?? string.Empty) + " ";
+                        p.Description = desc;
+                        c.ModeratedBy = "Admin";
+
+                        if (_urlReferrer.Contains("/Comments/Default.aspx"))
+                        {
+                            if (BlogSettings.Instance.ModerationType == 1)
+                                c.IsApproved = false;
+                            else
+                                c.IsApproved = true;
+                        }
+
+                        if (_urlReferrer.Contains("/Comments/Approved.aspx"))
+                            c.IsApproved = false;
+
+                        if (_urlReferrer.Contains("/Comments/Spam.aspx"))
+                            c.IsApproved = true;
+
+                        p.Save();
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+        }
+
+        Reload();
     }
 
     protected void BtnDeleteClick(object sender, EventArgs e)

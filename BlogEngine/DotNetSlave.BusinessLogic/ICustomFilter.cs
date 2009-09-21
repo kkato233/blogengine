@@ -10,7 +10,7 @@
         /// Initializes anti-spam service
         /// </summary>
         /// <returns>True if service online and credentials validated</returns>
-        bool Initialize(string site, string key);
+        bool Initialize();
         /// <summary>
         /// Check if comment is spam
         /// </summary>

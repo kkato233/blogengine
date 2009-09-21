@@ -26,7 +26,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
         string confirm = "return confirm('Are you sure you want to {0} selected comments?');";
 
-        if (!BlogSettings.Instance.EnableCommentsModeration)
+        if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
             btnApproveAll.Visible = false;
 
         if (_autoModerated)
@@ -129,14 +129,14 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     protected void ApproveComment(Comment comment)
     {
         comment.IsApproved = true;
-        comment.ModeratedBy = Comment.Moderator.Admin;
+        comment.ModeratedBy = "Admin";
         UpdateComment(comment);
     }
 
     protected void RejectComment(Comment comment)
     {
         comment.IsApproved = false;
-        comment.ModeratedBy = Comment.Moderator.Admin;
+        comment.ModeratedBy = "Admin";
         UpdateComment(comment);
     }
 
