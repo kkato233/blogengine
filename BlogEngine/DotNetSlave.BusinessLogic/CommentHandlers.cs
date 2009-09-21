@@ -13,6 +13,7 @@ namespace BlogEngine.Core
     public static class CommentHandlers
     {
         static ExtensionSettings _filters;
+        static ExtensionSettings _customFilters;
 
         ///<summary>
         /// Initiate adding comment event listener
@@ -30,8 +31,12 @@ namespace BlogEngine.Core
         {
             if(!BlogSettings.Instance.IsCommentsEnabled) return;
             if(!BlogSettings.Instance.EnableCommentsModeration) return;
+            // auto-moderation == 1
+            if(BlogSettings.Instance.ModerationType < 1) return;
 
             Comment comment = (Comment)sender;
+            comment.IsApproved = true;
+            comment.ModeratedBy = "Auto";
 
             if(!ModeratedByRule(comment))
             {
@@ -50,7 +55,7 @@ namespace BlogEngine.Core
             if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
             {
                 comment.IsApproved = true;
-                comment.ModeratedBy = Comment.Moderator.Rule;
+                comment.ModeratedBy = "Rule";
                 return true;
             }
 
@@ -75,7 +80,7 @@ namespace BlogEngine.Core
             if (whiteCnt >= BlogSettings.Instance.CommentWhiteListCount)
             {
                 comment.IsApproved = true;
-                comment.ModeratedBy = Comment.Moderator.Rule;
+                comment.ModeratedBy = "Rule:white list";
                 return true;
             }
 
@@ -83,7 +88,7 @@ namespace BlogEngine.Core
             if (blackCnt >= BlogSettings.Instance.CommentBlackListCount)
             {
                 comment.IsApproved = false;
-                comment.ModeratedBy = Comment.Moderator.Rule;
+                comment.ModeratedBy = "Rule:black list";
                 return true;
             }
             return false;
@@ -104,7 +109,11 @@ namespace BlogEngine.Core
 
                     string comm = comment.Content.ToLower(CultureInfo.InvariantCulture);
                     string auth = comment.Author.ToLower(CultureInfo.InvariantCulture);
-                    string wsite = comment.Website.ToString().ToLower(CultureInfo.InvariantCulture);
+
+                    string wsite = string.Empty;
+                    if(comment.Website != null)
+                        wsite = comment.Website.ToString().ToLower(CultureInfo.InvariantCulture);
+                    
                     string email = comment.Email.ToLower(CultureInfo.InvariantCulture);
 
                     bool match = false;
@@ -169,7 +178,7 @@ namespace BlogEngine.Core
                     if (match)
                     {
                         comment.IsApproved = action != "Block";
-                        comment.ModeratedBy = Comment.Moderator.Filter;
+                        comment.ModeratedBy = "Filter";
                         return true;
                     }
                 }
@@ -179,23 +188,26 @@ namespace BlogEngine.Core
 
         static void RunCustomModerators(Comment comment)
         {
-            DataTable dt = _filters.GetDataTable();
+            DataTable dt = _customFilters.GetDataTable();
 
             foreach (DataRow row in dt.Rows)
             {
                 string fileterName = row[0].ToString();
 
-                ICustomFilter customFilter = GetCustomFilter(fileterName);
+                ICustomFilter customFilter = GetCustomFilter(fileterName);             
 
-                if (customFilter.Initialize("a","b"))
+                if (customFilter != null && customFilter.Initialize())
                 {
                     comment.IsApproved = !customFilter.Check(comment);
-                    comment.ModeratedBy = Comment.Moderator.Service;
+                    comment.ModeratedBy = fileterName;
+
+                    UpdateCustomFilter(fileterName, comment.IsApproved);
                 }
             }
         }
 
         #region Settings
+
         static void InitFilters()
         {
             ExtensionSettings settings = new ExtensionSettings("BeCommentFilters");
@@ -206,9 +218,7 @@ namespace BlogEngine.Core
             settings.AddParameter("Operator");
             settings.AddParameter("Filter");
 
-            ExtensionManager.ImportSettings("MetaExtension", settings);
-
-            _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
+            _filters = ExtensionManager.InitSettings("MetaExtension", settings);
         }
 
         static void InitCustomFilters()
@@ -217,19 +227,15 @@ namespace BlogEngine.Core
 
             settings.AddParameter("FullName", "Name", 100, true, true);
             settings.AddParameter("Name");
-            settings.AddParameter("SiteUrl");
-            settings.AddParameter("ApiKey");
             settings.AddParameter("Checked");
             settings.AddParameter("Cought");
             settings.AddParameter("Reported");
 
-            ExtensionManager.ImportSettings("MetaExtension", settings);
+            _customFilters = ExtensionManager.InitSettings("MetaExtension", settings);
 
-            _filters = ExtensionManager.GetSettings("MetaExtension", "BeCustomFilters");
-
-            if(_filters != null)
+            if(_customFilters != null)
             {
-                DataTable dt = _filters.GetDataTable();
+                DataTable dt = _customFilters.GetDataTable();
                 ArrayList codeAssemblies = Utils.CodeAssemblies();
 
                 foreach (Assembly a in codeAssemblies)
@@ -250,31 +256,63 @@ namespace BlogEngine.Core
                             }
                             if(!found)
                             {
-                                _filters.AddValues(new string[] { type.FullName, type.Name, "YourSite.com", "123456789", "0", "0", "0" });
+                                _customFilters.AddValues(new string[] { type.FullName, type.Name, "0", "0", "0" });
                             }
                         }
                     }
                 }
 
-                ExtensionManager.SaveSettings(_filters);
+                ExtensionManager.SaveSettings(_customFilters);
             }
         }
+
+        static void UpdateCustomFilter(string filter, bool approved)
+        {
+            DataTable dt = _customFilters.GetDataTable();
+            int i = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string fileterName = row[0].ToString();
+
+                if (fileterName == filter)
+                {
+                    int total = int.Parse(_customFilters.Parameters[2].Values[i]);
+                    int spam = int.Parse(_customFilters.Parameters[3].Values[i]);
+
+                    _customFilters.Parameters[2].Values[i] = (total + 1).ToString();
+                    if (!approved) _customFilters.Parameters[3].Values[i] = (spam + 1).ToString();
+
+                    break;
+                }
+                i++;
+            }
+        }
+
         #endregion
 
+        /// <summary>
+        /// Instantiates custom filter object
+        /// </summary>
+        /// <param name="className">Name of the class to instantiate</param>
+        /// <returns>Object as ICustomFilter</returns>
         public static ICustomFilter GetCustomFilter(string className)
         {
             try
             {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                Type t = assembly.GetType(className);
-                return (ICustomFilter)Activator.CreateInstance(t);
+                ArrayList codeAssemblies = Utils.CodeAssemblies();
+                foreach (Assembly a in codeAssemblies)
+                {
+                    Type t = a.GetType(className);
+                    if(t != null) return (ICustomFilter)Activator.CreateInstance(t);
+                }
+                return null;
             }
             catch (Exception)
             {
                 return null;
             }
         }
-
 
     }
 }

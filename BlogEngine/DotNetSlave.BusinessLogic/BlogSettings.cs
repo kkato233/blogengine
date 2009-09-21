@@ -589,7 +589,7 @@ namespace BlogEngine.Core
         /// <summary>
         /// Gets or sets a value indicating type of moderation
         /// </summary>
-        /// <value><0 - none, 1 - manual, 2 - auto</value>
+        /// <value><0 - manual, 1 - auto</value>
         public int ModerationType { get; set; }
         #endregion
 

@@ -243,20 +243,23 @@
                 AutoGenerateColumns="False">
               <Columns>
                 <asp:BoundField DataField = "FullName" Visible="false" />
-                <asp:TemplateField HeaderText="Enabled" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20">
+                <asp:TemplateField HeaderText="Enabled" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="60">
                     <ItemTemplate>
-                        <asp:CheckBox ID="chkEnabled" Checked="true" runat="server"/>
+                        <asp:CheckBox ID="chkEnabled" Checked='<%# CustomFilterEnabled(DataBinder.Eval(Container.DataItem, "FullName").ToString()) %>' Enabled="false" runat="server"/>
                     </ItemTemplate>
                 </asp:TemplateField>  
                 <asp:BoundField DataField = "Name" HeaderText="Filter Name" HeaderStyle-HorizontalAlign="Left" />
-                <asp:BoundField DataField = "SiteUrl" HeaderText="Site URL" HeaderStyle-HorizontalAlign="Left" />
-                <asp:BoundField DataField = "ApiKey" HeaderText="API Key" HeaderStyle-HorizontalAlign="Left" />
                 <asp:BoundField DataField = "Checked" HeaderText="Checked" HeaderStyle-HorizontalAlign="Left" />
+                <asp:TemplateField HeaderText="Approved" HeaderStyle-HorizontalAlign="Left">
+                    <ItemTemplate>
+                        <%# ApprovedCnt(DataBinder.Eval(Container.DataItem, "Checked"), DataBinder.Eval(Container.DataItem, "Cought")) %> 
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:BoundField DataField = "Cought" HeaderText="Spam" HeaderStyle-HorizontalAlign="Left" />
                 <asp:BoundField DataField = "Reported" HeaderText="Mistakes" HeaderStyle-HorizontalAlign="Left" />
                 <asp:TemplateField HeaderText="Accuracy" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
-                        100% 
+                        <%# Accuracy(DataBinder.Eval(Container.DataItem, "Checked"), DataBinder.Eval(Container.DataItem, "Reported"))%> % 
                     </ItemTemplate>
                 </asp:TemplateField>
               </Columns>

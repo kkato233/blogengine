@@ -14,6 +14,11 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         return string.Empty;
     }
 
+    public bool CustomFilterEnabled(string filter)
+    {
+        return ExtensionManager.ExtensionEnabled(filter);
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
@@ -146,5 +151,42 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         }
 
         return true;
+    }
+
+    public static string ApprovedCnt(object total, object cought)
+    {
+        try
+        {
+            int t = int.Parse(total.ToString());
+            int c = int.Parse(cought.ToString());
+
+            int a = t - c;
+
+            return a.ToString();
+        }
+        catch (Exception)
+        {
+            return "";
+        }
+        
+    }
+
+    public static string Accuracy(object total, object mistakes)
+    {
+        try
+        {
+            int t = int.Parse(total.ToString());
+            int m = int.Parse(mistakes.ToString());
+
+            if (m == 0) return "100";
+
+            int a = m / t * 100;
+
+            return a.ToString();
+        }
+        catch (Exception)
+        {
+            return "";
+        }
     }
 }
