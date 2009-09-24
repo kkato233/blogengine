@@ -8,30 +8,30 @@
         function ToggleEnableComments() {
             var bx = document.getElementById('<%= cbEnableComments.ClientID %>'); 
             if (bx.checked) {
-                SettingsFields.style.display = "";
-                Moderation.style.display = "";
+                document.getElementById('SettingsFields').style.display = "";
+                document.getElementById('Moderation').style.display = "";
                 ToggleModeration();
             }
             else{
-                SettingsFields.style.display = "none";
-                Moderation.style.display = "none";
-                Rules.style.display = "none";
-                Filters.style.display = "none";
-                CustomFilters.style.display = "none";
+                document.getElementById('SettingsFields').style.display = "none";
+                document.getElementById('Moderation').style.display = "none";
+                document.getElementById('Rules').style.display = "none";
+                document.getElementById('Filters').style.display = "none";
+                document.getElementById('CustomFilters').style.display = "none";
             }
         }
 
         function ToggleModeration() {
             var bx = document.getElementById('<%= cbEnableCommentsModeration.ClientID %>');
             if (bx.checked) {
-                tblModeration.style.display = "";
+                document.getElementById('tblModeration').style.display = "";
                 ToggleModType();
             }
             else {
-                tblModeration.style.display = "none";
-                Rules.style.display = "none";
-                Filters.style.display = "none";
-                CustomFilters.style.display = "none";
+                document.getElementById('tblModeration').style.display = "none";
+                document.getElementById('Rules').style.display = "none";
+                document.getElementById('Filters').style.display = "none";
+                document.getElementById('CustomFilters').style.display = "none";
             }
         }
 
@@ -44,16 +44,15 @@
                     rdo = gbx[x].value;
                 }
             }
-            
             if (rdo == 1) { 
-                Rules.style.display = "";
-                Filters.style.display = "";
-                CustomFilters.style.display = "";
+                document.getElementById('Rules').style.display = "";
+                document.getElementById('Filters').style.display = "";
+                document.getElementById('CustomFilters').style.display = "";
             }
             else {
-                Rules.style.display = "none";
-                Filters.style.display = "none";
-                CustomFilters.style.display = "none";
+                document.getElementById('Rules').style.display = 'none';
+                document.getElementById('Filters').style.display = "none";
+                document.getElementById('CustomFilters').style.display = "none";
             }
         }
     </script>

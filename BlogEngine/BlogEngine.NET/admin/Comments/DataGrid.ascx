@@ -78,10 +78,21 @@
              Enabled='<%#HasNoChildren((Guid)DataBinder.Eval(Container.DataItem, "Id"))%>' 
              runat="server"/>
         </ItemTemplate>
-    </asp:TemplateField>  
+    </asp:TemplateField> 
+    <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="24">
+        <ItemTemplate>
+             <%#Gravatar(DataBinder.Eval(Container.DataItem, "Email").ToString(), DataBinder.Eval(Container.DataItem, "Author").ToString())%>
+        </ItemTemplate>
+    </asp:TemplateField>   
     <asp:BoundField HeaderText="Author" HeaderStyle-HorizontalAlign="Left" DataField="Author" />
-	<asp:BoundField HeaderText="Email" HeaderStyle-HorizontalAlign="Left" DataField="Email" HtmlEncode="False" DataFormatString="<a href='mailto:{0}'>{0}</a>" />		
     <asp:BoundField HeaderText="IP" HeaderStyle-HorizontalAlign="Left" DataField="IP" HtmlEncode="false" DataFormatString="<a href='http://www.domaintools.com/go/?service=whois&q={0}' target='_new'>{0}</a>" />          
+	<asp:BoundField HeaderText="Email" HeaderStyle-HorizontalAlign="Left" DataField="Email" HtmlEncode="False" DataFormatString="<a href='mailto:{0}'>{0}</a>" />		
+    <asp:TemplateField HeaderText="Website" HeaderStyle-HorizontalAlign="Left">
+        <ItemTemplate>
+           <span><%# GetWebsite(DataBinder.Eval(Container.DataItem, "Website"))%></span>
+        </ItemTemplate>
+    </asp:TemplateField>
+    
     <asp:BoundField DataField="IsApproved" Visible="false" />                                    
     <asp:TemplateField HeaderText="Comment" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>

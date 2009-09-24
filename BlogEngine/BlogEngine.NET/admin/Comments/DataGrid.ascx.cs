@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web;
+using System.Web.Security;
 using BlogEngine.Core;
 using System.Web.UI.WebControls;
 
@@ -9,6 +11,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     #region Private members
 
     static protected List<Comment> Comments;
+    private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
     private bool _autoModerated;
 
     #endregion
@@ -68,7 +71,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     {
         if (e.Row.RowType == DataControlRowType.Footer)
         {
-            e.Row.Cells[6].Text = string.Format("Total : {0} comments", Comments.Count);
+            e.Row.Cells[8].Text = string.Format("Total : {0} comments", Comments.Count);
         }
     }
 
@@ -336,4 +339,50 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     }
 
     #endregion
+
+    protected string Gravatar(string email, string author)
+    {
+        if (BlogSettings.Instance.Avatar == "none")
+            return null;
+
+        if (String.IsNullOrEmpty(email) || !email.Contains("@"))
+        {
+            return "<img src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + author + "\" width=\"28\" height=\"28\" />";
+        }
+
+        string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
+        string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=28&amp;d=";
+
+        string link = string.Empty;
+        switch (BlogSettings.Instance.Avatar)
+        {
+            case "identicon":
+                link = gravatar + "identicon";
+                break;
+
+            case "wavatar":
+                link = gravatar + "wavatar";
+                break;
+
+            default:
+                link = gravatar + "monsterid";
+                break;
+        }
+
+        return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, author);
+    }
+
+    public static string GetWebsite(object website)
+    {
+        if (website == null) return "";
+
+        const string templ = "<a href='{0}' target='_new' rel='{0}'>{1}</a>";
+
+        string site = website.ToString();
+        site = site.Replace("http://www.", "");
+        site = site.Replace("http://", "");
+        site = site.Length < 20 ? site : site.Substring(0, 17) + "...";
+
+        return string.Format(templ, website, site);
+    }
 }

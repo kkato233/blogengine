@@ -64,6 +64,8 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                 if (c.Id.ToString() == _id)
                 {
                     c.Content = txtArea.Value;
+                    c.Website = new Uri(txtWebsite.Text);
+                    c.Email = txtEmail.Text;
 
                     // Need to mark post as "changed" for it to get saved. 
                     string desc = p.Description;
