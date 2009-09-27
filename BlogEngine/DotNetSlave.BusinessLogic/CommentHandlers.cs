@@ -55,7 +55,7 @@ namespace BlogEngine.Core
             if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
             {
                 comment.IsApproved = true;
-                comment.ModeratedBy = "Rule";
+                comment.ModeratedBy = "Rule:authenticated";
                 return true;
             }
 
