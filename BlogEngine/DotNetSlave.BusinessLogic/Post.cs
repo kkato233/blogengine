@@ -671,6 +671,7 @@ namespace BlogEngine.Core
                 Comments[inx].Email = comment.Email;
                 Comments[inx].IP = comment.IP;
                 Comments[inx].Website = comment.Website;
+                Comments[inx].ModeratedBy = comment.ModeratedBy;
                 
                 DateModified = DateTime.Now;
                 DataUpdate();

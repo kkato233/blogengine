@@ -100,6 +100,9 @@ namespace BlogEngine.Core.Providers
 						comment.Website = website;
 				}
 
+                if (node.SelectSingleNode("moderatedby") != null)
+                    comment.ModeratedBy = node.SelectSingleNode("moderatedby").InnerText;
+
 				if (node.Attributes["approved"] != null)
 					comment.IsApproved = bool.Parse(node.Attributes["approved"].InnerText);
 				else
@@ -203,9 +206,14 @@ namespace BlogEngine.Core.Providers
 					writer.WriteElementString("email", comment.Email);
 					writer.WriteElementString("country", comment.Country);
 					writer.WriteElementString("ip", comment.IP);
-					if (comment.Website != null)
+                    
+                    if (comment.Website != null)
 						writer.WriteElementString("website", comment.Website.ToString());
-					writer.WriteElementString("content", comment.Content);
+                    
+                    if(!string.IsNullOrEmpty(comment.ModeratedBy))
+                        writer.WriteElementString("moderatedby", comment.ModeratedBy);
+					
+                    writer.WriteElementString("content", comment.Content);
 
 					writer.WriteEndElement();
 				}
