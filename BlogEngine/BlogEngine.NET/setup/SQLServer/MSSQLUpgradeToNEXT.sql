@@ -28,3 +28,10 @@ CREATE TABLE [dbo].[be_Referrers](
 ) ON [PRIMARY]
 GO
 
+ALTER TABLE dbo.be_Pages ADD Slug nvarchar(255) NULL
+GO
+
+ALTER TABLE dbo.be_PostComment ADD ModeratedBy nvarchar(100) NULL
+GO
+
+

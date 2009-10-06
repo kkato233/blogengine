@@ -108,7 +108,7 @@ namespace BlogEngine.Core.Web.HttpModules
         using (WebClient client = new WebClient())
         {
           string html = client.DownloadString(referrer).ToUpperInvariant();
-          string subdomain = GetSubDomain(url);
+          string subdomain = Utils.GetSubDomain(url);
           string host = url.Host.ToUpperInvariant();
           
           if (subdomain != null)
@@ -121,27 +121,6 @@ namespace BlogEngine.Core.Web.HttpModules
       {
         return true;
       }
-    }
-
-    /// <summary>
-    /// Retrieves the subdomain from the specified URL.
-    /// </summary>
-    /// <param name="url">The URL from which to retrieve the subdomain.</param>
-    /// <returns>The subdomain if it exist, otherwise null.</returns>
-    private static string GetSubDomain(Uri url)
-    {
-      if (url.HostNameType == UriHostNameType.Dns)
-      {
-        string host = url.Host;
-        if (host.Split('.').Length > 2)
-        {
-					int lastIndex = host.LastIndexOf(".");
-					int index = host.LastIndexOf(".", lastIndex - 1);
-          return host.Substring(0, index);
-        }
-      }
-
-      return null;
     }
 
     private static void BeginRegisterClick(object stateInfo)

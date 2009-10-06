@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Translation done by Touradg Morassaei - 2009/4/13 - BE.NET 1.5.0.6
-    
+    Translation done by Touradg Morassaei - 2009/6/30 - BE.NET 1.5.1.12 
+
     Microsoft ResX Schema 
     
     Version 2.0
@@ -144,7 +144,7 @@
     <value>تنظیمات پیشرفته</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>آدرس فید(Feed) ثانویه</value>
+    <value>آدرس فید (Feed) ثانویه</value>
   </data>
   <data name="approve" xml:space="preserve">
     <value>نظر پذیرفته شود</value>
@@ -764,5 +764,32 @@
   </data>
   <data name="numberOfCharacters" xml:space="preserve">
     <value>تعداد کاراکترها</value>
+  </data>
+  <data name="enableErrorLogging" xml:space="preserve">
+    <value>فعال کردن قابلیت ثبت خطاها</value>
+  </data>
+  <data name="enableErrorLoggingDescription" xml:space="preserve">
+    <value>خطاهای غیر منتظره در هر قسمتی که فعال شده باشد به ثبت خواهد رسید</value>
+  </data>
+  <data name="link" xml:space="preserve">
+    <value>پیوند</value>
+  </data>
+  <data name="move" xml:space="preserve">
+    <value>انتقال</value>
+  </data>
+  <data name="moveWidgetTo" xml:space="preserve">
+    <value>انتقال Widget به</value>
+  </data>
+  <data name="numberOfDaysToKeep" xml:space="preserve">
+    <value>تعداد روزهای نگهداری</value>
+  </data>
+  <data name="profiles" xml:space="preserve">
+    <value>پروفایلها</value>
+  </data>
+  <data name="rateThisXStars" xml:space="preserve">
+    <value>Rate this {0} star{1} out of 5</value>
+  </data>
+  <data name="ratingHasBeenRegistered" xml:space="preserve">
+    <value>نظر شما ثبت شد.متشکریم</value>
   </data>
 </root>

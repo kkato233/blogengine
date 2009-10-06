@@ -63,8 +63,12 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             {
                 if (c.Id.ToString() == _id)
                 {
+                    Uri website = null;
+                    if (!string.IsNullOrEmpty(txtWebsite.Text))
+                        Uri.TryCreate(txtWebsite.Text.Trim(), UriKind.Absolute, out website);
+
                     c.Content = txtArea.Value;
-                    c.Website = new Uri(txtWebsite.Text);
+                    c.Website = website;
                     c.Email = txtEmail.Text;
 
                     // Need to mark post as "changed" for it to get saved. 

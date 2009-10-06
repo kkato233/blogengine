@@ -161,8 +161,8 @@ public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICall
 		page.ShowInList = cbShowInList.Checked;
 		page.IsPublished = cbIsPublished.Checked;
 
-		if (!string.IsNullOrEmpty(txtSlug.Text))
-			page.Slug = Server.UrlDecode(txtSlug.Text.Trim());
+        if (!string.IsNullOrEmpty(txtSlug.Text))
+            page.Slug = Utils.RemoveIllegalCharacters(txtSlug.Text.Trim());
 
 		if (ddlParent.SelectedIndex != 0)
 			page.Parent = new Guid(ddlParent.SelectedValue);

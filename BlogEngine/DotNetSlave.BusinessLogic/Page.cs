@@ -147,7 +147,11 @@ namespace BlogEngine.Core
 
 				return _Slug;
 			}
-			set { _Slug = value; }
+			set
+            {
+                if (_Slug != value) MarkChanged("Slug");
+                _Slug = value;                
+            }
 		}
 
 		private bool _IsPublished;

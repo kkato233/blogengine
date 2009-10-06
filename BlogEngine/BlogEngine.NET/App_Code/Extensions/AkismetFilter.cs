@@ -9,7 +9,7 @@ using Joel.Net;
 /// <summary>
 /// Summary description for AkismetFilter
 /// </summary>
-[Extension("Aismet anti-spam comment filter", "1.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
+[Extension("Akismet anti-spam comment filter", "1.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
 public class AkismetFilter : ICustomFilter
 {
     #region Private members
