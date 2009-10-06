@@ -174,7 +174,7 @@ namespace BlogEngine.Core.Providers
                     }
 
                     // Comments
-					sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID " +
+					sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy " +
                                 "FROM " + tablePrefix + "PostComment " +
                                 "WHERE PostID = " + parmPrefix + "id";
                     cmd.CommandText = sqlQuery;
@@ -207,6 +207,9 @@ namespace BlogEngine.Core.Providers
                                 comment.IsApproved = true;
 
 							comment.ParentId = rdr.GetGuid(9);
+
+                            if (!rdr.IsDBNull(10))
+                                comment.ModeratedBy = rdr.GetString(10);
 
                             post.Comments.Add(comment);
                         }
@@ -544,7 +547,7 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
-                                        "   DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList " +
+                                        "   DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug " +
                                         "FROM " + tablePrefix + "Pages " +
                                         "WHERE PageID = " + parmPrefix + "id";
 
@@ -581,6 +584,8 @@ namespace BlogEngine.Core.Providers
                                 page.Parent = rdr.GetGuid(9);
                             if (!rdr.IsDBNull(10))
                                 page.ShowInList = rdr.GetBoolean(10);
+                            if (!rdr.IsDBNull(11))
+                                page.Slug = rdr.GetString(11);
                         }
                     }
                 }
@@ -606,8 +611,8 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "INSERT INTO " + tablePrefix + "Pages (PageID, Title, Description, PageContent, " +
-                                     "DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList) " +
-                                     "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist)";
+                                     "DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug) " +
+                                     "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist, @slug)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
@@ -671,6 +676,11 @@ namespace BlogEngine.Core.Providers
                     dpShowInList.Value = page.ShowInList;
                     cmd.Parameters.Add(dpShowInList);
 
+                    DbParameter dpSlug = provider.CreateParameter();
+                    dpSlug.ParameterName = parmPrefix + "slug";
+                    dpSlug.Value = page.Slug;
+                    cmd.Parameters.Add(dpSlug);
+
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -695,7 +705,7 @@ namespace BlogEngine.Core.Providers
                     string sqlQuery = "UPDATE " + tablePrefix + "Pages " +
                                         "SET Title = @title, Description = @desc, PageContent = @content, " +
                                         "DateCreated = @created, DateModified = @modified, Keywords = @keywords, " +
-                                        "IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist " +
+                                        "IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug " +
                                         "WHERE PageID = @id";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
@@ -759,6 +769,11 @@ namespace BlogEngine.Core.Providers
                     dpShowInList.ParameterName = parmPrefix + "showinlist";
                     dpShowInList.Value = page.ShowInList;
                     cmd.Parameters.Add(dpShowInList);
+
+                    DbParameter dpSlug = provider.CreateParameter();
+                    dpSlug.ParameterName = parmPrefix + "slug";
+                    dpSlug.Value = page.Slug;
+                    cmd.Parameters.Add(dpSlug);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -1910,8 +1925,8 @@ namespace BlogEngine.Core.Providers
 
                 foreach (Comment comment in post.Comments)
                 {
-					sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved) " +
-                                        "VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved)";
+					sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy) " +
+                                        "VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved, @moderatedby)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
@@ -1973,6 +1988,11 @@ namespace BlogEngine.Core.Providers
                     dpIsApproved.ParameterName = parmPrefix + "isapproved";
                     dpIsApproved.Value = comment.IsApproved;
                     cmd.Parameters.Add(dpIsApproved);
+
+                    DbParameter dpModeratedBy = provider.CreateParameter();
+                    dpModeratedBy.ParameterName = parmPrefix + "moderatedby";
+                    dpModeratedBy.Value = comment.ModeratedBy ?? string.Empty;
+                    cmd.Parameters.Add(dpModeratedBy);
 
                     cmd.ExecuteNonQuery();
                 }

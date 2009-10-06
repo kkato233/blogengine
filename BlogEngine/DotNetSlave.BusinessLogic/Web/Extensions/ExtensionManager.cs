@@ -101,7 +101,7 @@ public class ExtensionManager
         xs.SaveSettings(x);
         SaveToCache();
 
-        string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "web.config";
+        string ConfigPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "web.config";
         File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
         break;
       }
@@ -168,8 +168,8 @@ public class ExtensionManager
   /// </summary>
   static void LoadExtensions()
   {
-    if (HttpContext.Current.Cache["Extensions"] == null
-        || (((List<ManagedExtension>)(HttpContext.Current.Cache["Extensions"]))).Count == 0)
+    if (HttpRuntime.Cache["Extensions"] == null
+        || (((List<ManagedExtension>)(HttpRuntime.Cache["Extensions"]))).Count == 0)
     {
       ArrayList codeAssemblies = Utils.CodeAssemblies();
 
@@ -380,8 +380,8 @@ public class ExtensionManager
   /// </summary>
   static void SaveToCache()
   {
-    HttpContext.Current.Cache.Remove("Extensions");
-    HttpContext.Current.Cache["Extensions"] = _extensions;
+    HttpRuntime.Cache.Remove("Extensions");
+    HttpRuntime.Cache["Extensions"] = _extensions;
   }
   /// <summary>
   /// Saves ext. manager object to XML file

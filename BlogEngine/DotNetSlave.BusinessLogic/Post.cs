@@ -299,7 +299,7 @@ namespace BlogEngine.Core
 			}
 			set
 			{
-				if (_Slug != value) MarkChanged("Slugs");
+				if (_Slug != value) MarkChanged("Slug");
 				_Slug = value;
 			}
 		}
