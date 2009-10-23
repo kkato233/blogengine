@@ -23,10 +23,18 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				Post post = Post.GetPost(id);
 				if (post != null)
 				{
-					Response.Clear();
-					Response.StatusCode = 301;
-					Response.AppendHeader("location", post.RelativeLink.ToString());
-					Response.End();
+                    // If there's more than one post that has the same RelativeLink
+                    // this post has then don't do a 301 redirect.
+
+                    if (Post.Posts.FindAll(delegate(Post p)
+                    { return p.RelativeLink.Equals(post.RelativeLink); }
+                    ).Count < 2)
+                    {
+                        Response.Clear();
+                        Response.StatusCode = 301;
+                        Response.AppendHeader("location", post.RelativeLink.ToString());
+                        Response.End();
+                    }
 				}
 			}
 		}
