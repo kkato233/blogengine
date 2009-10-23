@@ -99,12 +99,11 @@ namespace BlogEngine.Core.Web.HttpModules
 			string slug = ExtractTitle(context, url);
 			Post post = Post.Posts.Find(delegate(Post p)
 			{
-				if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
-				{
-					if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
-						return false;
-				}
-
+                if (date != DateTime.MinValue &&
+                    (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month || p.DateCreated.Day != date.Day))
+                {
+                    return false;
+                }
 				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
 			});
 
