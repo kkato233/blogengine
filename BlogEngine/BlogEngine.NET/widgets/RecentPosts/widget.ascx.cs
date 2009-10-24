@@ -68,6 +68,18 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 		StringBuilder sb = new StringBuilder();
 		sb.Append("<ul class=\"recentPosts\" id=\"recentPosts\">");
 
+		bool showComments = DEFAULT_SHOW_COMMENTS;
+		bool showRating = DEFAULT_SHOW_RATING;
+        if (settings.ContainsKey("showcomments"))
+        {
+            bool.TryParse(settings["showcomments"], out showComments);
+        }
+
+        if (settings.ContainsKey("showrating"))
+        {
+            bool.TryParse(settings["showrating"], out showRating);
+        }
+
 		foreach (Post post in posts)
 		{
 			if (!post.IsVisibleToPublic)
@@ -78,14 +90,6 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 			string link = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";
 			string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comments, post.ApprovedComments.Count);
 			string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
-
-			bool showComments = DEFAULT_SHOW_COMMENTS;
-			bool showRating = DEFAULT_SHOW_RATING;
-			if (settings.ContainsKey("showcomments") && settings["showcomments"].Equals("false", StringComparison.OrdinalIgnoreCase))
-				showComments = false;
-
-			if (settings.ContainsKey("showrating") && settings["showrating"].Equals("false", StringComparison.OrdinalIgnoreCase))
-				showRating = false;
 
 			if (!showComments || !BlogSettings.Instance.IsCommentsEnabled)
 				comments = null;

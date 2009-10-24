@@ -22,11 +22,15 @@ public partial class widgets_RecentPosts_edit : WidgetEditBase
 			else
 				txtNumberOfPosts.Text = "10";
 
-			if (settings.ContainsKey("showcomments"))
-				cbShowComments.Checked = settings["showcomments"].Equals("true", StringComparison.OrdinalIgnoreCase);
+            if (settings.ContainsKey("showcomments"))
+                cbShowComments.Checked = settings["showcomments"].Equals("true", StringComparison.OrdinalIgnoreCase);
+            else
+                cbShowComments.Checked = true;
 
-			if (settings.ContainsKey("showrating"))
-				cbShowRating.Checked = settings["showrating"].Equals("true", StringComparison.OrdinalIgnoreCase);
+            if (settings.ContainsKey("showrating"))
+                cbShowRating.Checked = settings["showrating"].Equals("true", StringComparison.OrdinalIgnoreCase);
+            else
+                cbShowRating.Checked = true;
 		}
 	}
 
