@@ -32,21 +32,32 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
             btnApproveAll.Visible = false;
 
-        if (_autoModerated)
-            btnApproveAll.Text = "Spam";
-        else
-            btnApproveAll.Text = "Approve";
-
         if (Request.Path.ToLower().Contains("approved.aspx"))
         {
             btnApproveAll.Text = "Reject";
             btnApproveAll.OnClientClick = string.Format(confirm, "reject");
+            btnApproveAll.CommandArgument = "unapprove";
         }
-
-        if (Request.Path.ToLower().Contains("spam.aspx"))
+        else if (Request.Path.ToLower().Contains("spam.aspx"))
         {
             btnApproveAll.Text = "Restore";
             btnApproveAll.OnClientClick = string.Format(confirm, "restore");
+            btnApproveAll.CommandArgument = "approve";
+        }
+        else if (Request.Path.ToLower().Contains("default.aspx"))
+        {
+            if (_autoModerated)
+            {
+                btnApproveAll.Text = "Spam";
+                btnApproveAll.OnClientClick = "return confirm('Are you sure you want to mark selected comments as spam?');";
+                btnApproveAll.CommandArgument = "unapprove";
+            }
+            else
+            {
+                btnApproveAll.Text = "Approve";
+                btnApproveAll.OnClientClick = string.Format(confirm, "approve");
+                btnApproveAll.CommandArgument = "approve";
+            }
         }
 
         if (!Page.IsPostBack)
@@ -270,10 +281,8 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void btnApproveAll_Click(object sender, EventArgs e)
     {
-        if (Request.Path.ToLower().Contains("approved.aspx"))
-            ProcessSelected("unapprove");
-        else
-            ProcessSelected("approve");
+        Button btn = (Button)sender;
+        ProcessSelected(btn.CommandArgument);
     }
 
     protected void btnDeleteAll_Click(object sender, EventArgs e)
