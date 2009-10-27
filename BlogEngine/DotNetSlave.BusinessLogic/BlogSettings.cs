@@ -591,6 +591,11 @@ namespace BlogEngine.Core
         /// </summary>
         /// <value><0 - manual, 1 - auto</value>
         public int ModerationType { get; set; }
+
+        /// <summary>
+        /// Enables to report mistakes back to service
+        /// </summary>
+        public bool CommentReportMistakes { get; set; }
         #endregion
 
         //============================================================

@@ -32,6 +32,12 @@ public partial class admin_menu : System.Web.UI.UserControl
                     a.InnerHtml = "<span>" + Utils.Translate(adminNode.Title, adminNode.Title) + "</span>";//"<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
 					if (Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
 						a.Attributes["class"] = "current";
+
+                    // if "page" has its own subfolder (comments, extensions) should 
+                    // select parent tab when navigating through child tabs
+                    if (adminNode.Url.IndexOf("/admin/pages/", StringComparison.OrdinalIgnoreCase) < 1 && SubUrl(Request.RawUrl) == SubUrl(adminNode.Url))
+                        a.Attributes["class"] = "current";
+
 					HtmlGenericControl li = new HtmlGenericControl("li");
 					li.Controls.Add(a);
 					ulMenu.Controls.Add(li);
@@ -53,4 +59,11 @@ public partial class admin_menu : System.Web.UI.UserControl
 		li.Controls.Add(a);
 		ulMenu.Controls.Add(li);
 	}
+
+    private string SubUrl(string url)
+    {
+        int i = url.LastIndexOf("/");
+
+        return (i > 0) ? url.Substring(0, i) : "";
+    }
 }

@@ -576,5 +576,19 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         }
     }
 
+    /// <summary>
+    /// If true, on comment save will show "awaiting moderation" message
+    /// otherwise "comment saved, thank you.." will be displayd.
+    /// </summary>
+    public string ManualModeration
+    {
+        get
+        {
+            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == 0)
+                return "true";
+            return "false";
+        }
+    }
+
     #endregion
 }

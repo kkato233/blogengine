@@ -139,31 +139,40 @@
     <div class="settings" id="Rules">
         <h1>Rules</h1>
         
-        <label for="<%=cbTrustAuthenticated.ClientID %>">Trust authenticated authors</label>
-        <asp:CheckBox runat="server" ID="cbTrustAuthenticated" />If user authenticated, always trust<br />
- 
-        <label for="<%=ddWhiteListCount.ClientID %>">Add to white list if at least</label>
+        <div class="cbox">
+            <label for="<%=cbTrustAuthenticated.ClientID %>">Trust authenticated authors</label>
+            <asp:CheckBox runat="server" ID="cbTrustAuthenticated" />If user authenticated, always trust
+        </div>
+        
+        <div class="ddown">
+            <label>Add to white list if at least</label>
             <asp:DropDownList runat="server" ID="ddWhiteListCount">
                 <asp:ListItem Text="0" />
                 <asp:ListItem Text="1" />
                 <asp:ListItem Text="2" />
                 <asp:ListItem Text="3" />
                 <asp:ListItem Text="5" />
-            </asp:DropDownList> comments of this author have been approved   
-        <br />
-
-        <label for="<%=ddBlackListCount.ClientID %>">Add to black list if at least</label>
-        <asp:DropDownList runat="server" ID="ddBlackListCount">
+            </asp:DropDownList> 
+            <span>comments of this author have been approved</span>  
+        </div>
+        
+        <div class="ddown">
+            <label for="<%=ddBlackListCount.ClientID %>">Add to black list if at least</label>
+            <asp:DropDownList runat="server" ID="ddBlackListCount">
                 <asp:ListItem Text="0" />
                 <asp:ListItem Text="1" />
                 <asp:ListItem Text="2" />
                 <asp:ListItem Text="3" />
                 <asp:ListItem Text="5" />
-            </asp:DropDownList> comments of this author have been rejected<br />
-
-       <label for="<%=cbBlockOnDelete.ClientID %>">Block on delete</label>
-        <asp:CheckBox runat="server" ID="cbBlockOnDelete" />If comment was deleted, always block author<br />
-
+            </asp:DropDownList> 
+            <span>comments of this author have been rejected</span>
+        </div>
+        
+        <div class="cbox">
+            <label for="<%=cbBlockOnDelete.ClientID %>">Block on delete</label>
+            <asp:CheckBox runat="server" ID="cbBlockOnDelete" />
+            <span>If comment was deleted, always block author</span>
+        </div>
     </div>
     
     <div class="settings" id="Filters">
@@ -175,6 +184,7 @@
                     <asp:DropDownList ID="ddAction" runat="server">
                         <asp:ListItem Text="Block" Value="Block" Selected=true></asp:ListItem>
                         <asp:ListItem Text="Allow" Value="Allow" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="Delete" Value="Delete" Selected=false></asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td>
@@ -200,23 +210,50 @@
             </tr>
         </table>
         
+        <div style="border:1px solid #f3f3f3">
         <asp:GridView ID="gridFilters" 
                 PageSize="20" 
-                BorderColor="Silver" 
+                BorderColor="#f8f8f8" 
                 BorderStyle="solid" 
                 BorderWidth="1px"
                 cellpadding="2"
                 runat="server"  
                 width="100%"
+                AlternatingRowStyle-BackColor="#f8f8f8" 
+                HeaderStyle-BackColor="#f3f3f3"
                 AutoGenerateColumns="False"
                 AllowPaging="True"
                 OnPageIndexChanging="gridView_PageIndexChanging"
                 AllowSorting="True">
               <Columns>
                 <asp:BoundField DataField = "ID" Visible="false" />
-                <asp:TemplateField HeaderText="Filter">
+                <asp:TemplateField HeaderText="Action" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
-                        <%# Eval("Action") %> comments where <%# Eval("Subject") %> <%# Eval("Operator") %> <%# Eval("Filter") %> 
+                        <%# Eval("Action") %> 
+                    </ItemTemplate>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="">
+                    <ItemTemplate>
+                        comments where
+                    </ItemTemplate>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="">
+                    <ItemTemplate>
+                        <%# Eval("Subject") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="">
+                    <ItemTemplate>
+                        <%# Eval("Operator") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                
+                <asp:TemplateField HeaderText="Filter" HeaderStyle-HorizontalAlign="Left">
+                    <ItemTemplate>
+                         <%# Eval("Filter") %> 
                     </ItemTemplate>
                 </asp:TemplateField>
                         
@@ -228,14 +265,18 @@
               </Columns>
               <pagersettings mode="Numeric" position="Bottom" pagebuttoncount="10"/>
           </asp:GridView>
+          </div>
     </div>
     
     <div class="settings" id="CustomFilters">
-        <h1>Custom Filters</h1>       
+        <h1>Custom Filters</h1>
+        <div style="border:1px solid #f3f3f3">       
         <asp:GridView ID="gridCustomFilters" 
-                BorderColor="Silver" 
+                BorderColor="#f8f8f8" 
                 BorderStyle="solid" 
                 BorderWidth="1px"
+                AlternatingRowStyle-BackColor="#f8f8f8" 
+                HeaderStyle-BackColor="#f3f3f3"
                 cellpadding="2"
                 runat="server"  
                 width="100%" 
@@ -263,6 +304,12 @@
                 </asp:TemplateField>
               </Columns>
         </asp:GridView>
+        </div>
+        
+        <div style="padding-top:8px">
+            <asp:CheckBox runat="server" ID="cbReportMistakes" />
+            <span>Report mistakes back to service</span>
+        </div>
     </div>
 
     <div style="text-align: center; margin-bottom: 10px">

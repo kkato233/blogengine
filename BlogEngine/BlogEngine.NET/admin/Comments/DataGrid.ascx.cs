@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Web;
 using System.Web.Security;
 using BlogEngine.Core;
 using System.Web.UI.WebControls;
@@ -13,6 +13,10 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     static protected List<Comment> Comments;
     private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
     private bool _autoModerated;
+    protected enum ActionType
+    {
+        Approve,Reject,Delete
+    }
 
     #endregion
 
@@ -20,43 +24,36 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        gridComments.RowCommand += GridCommentsRowCommand;
         gridComments.RowDataBound += gridComments_RowDataBound;
-
         gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
-
         _autoModerated = BlogSettings.Instance.ModerationType == 1 ? true : false;
 
-        string confirm = "return confirm('Are you sure you want to {0} selected comments?');";
+        string confirm = "return confirm('Are you sure you want {0} selected comments?');";
 
         if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
-            btnApproveAll.Visible = false;
+            btnAction.Visible = false;
 
         if (Request.Path.ToLower().Contains("approved.aspx"))
         {
-            btnApproveAll.Text = "Reject";
-            btnApproveAll.OnClientClick = string.Format(confirm, "reject");
-            btnApproveAll.CommandArgument = "unapprove";
+            btnAction.Text = "Reject";
+            btnAction.OnClientClick = string.Format(confirm, "reject");
         }
         else if (Request.Path.ToLower().Contains("spam.aspx"))
         {
-            btnApproveAll.Text = "Restore";
-            btnApproveAll.OnClientClick = string.Format(confirm, "restore");
-            btnApproveAll.CommandArgument = "approve";
+            btnAction.Text = "Restore";
+            btnAction.OnClientClick = string.Format(confirm, "restore");
         }
-        else if (Request.Path.ToLower().Contains("default.aspx"))
+        else
         {
             if (_autoModerated)
             {
-                btnApproveAll.Text = "Spam";
-                btnApproveAll.OnClientClick = "return confirm('Are you sure you want to mark selected comments as spam?');";
-                btnApproveAll.CommandArgument = "unapprove";
+                btnAction.Text = "Spam";
+                btnAction.OnClientClick = string.Format(confirm, "reject");
             }
             else
             {
-                btnApproveAll.Text = "Approve";
-                btnApproveAll.OnClientClick = string.Format(confirm, "approve");
-                btnApproveAll.CommandArgument = "approve";
+                btnAction.Text = "Approve";
+                btnAction.OnClientClick = string.Format(confirm, "approve");
             }
         }
 
@@ -143,15 +140,13 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     protected void ApproveComment(Comment comment)
     {
         comment.IsApproved = true;
-        comment.ModeratedBy = "Admin";
-        UpdateComment(comment);
+        ReportAndUpdate(comment);
     }
 
     protected void RejectComment(Comment comment)
     {
         comment.IsApproved = false;
-        comment.ModeratedBy = "Admin";
-        UpdateComment(comment);
+        ReportAndUpdate(comment);
     }
 
     protected void RemoveComment(Comment comment)
@@ -204,56 +199,9 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     #endregion
 
-    #region Grid buttons
-
-    void GridCommentsRowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        //System.Web.UI.Page pg = (System.Web.UI.Page)HttpContext.Current.CurrentHandler;
-        //bool x = pg.IsPostBack;
-
-        //GridView grid = (GridView)sender;
-        //int index = Convert.ToInt32(e.CommandArgument);
-
-        //if (grid.PageIndex > 0)
-        //{
-        //    index = grid.PageIndex * grid.PageSize + index;
-        //}
-
-        //Comment comment;
-
-        //if (e.CommandName == "btnInspect")
-        //{
-        //    comment = Comments[index];
-
-        //    commId.InnerHtml = comment.Id.ToString();
-        //    popAuthor.InnerHtml = "Author: " + comment.Author;
-
-        //    string postTmpl = "<a rel=\"bookmark\" title=\"Post permalink\" href=\"{0}\" target=\"_new\">{1}</a>";
-        //    popPost.InnerHtml = "Post: " + string.Format(postTmpl, comment.Parent.RelativeLink, comment.Parent.Title);
-        //    popIp.InnerHtml = "<a href=\"http://www.domaintools.com/go/?service=whois&q=" + comment.IP + "\" target=\"_new\">" + comment.IP + "</a>";
-        //    popEmail.InnerHtml = "<a href=\"mailto:" + comment.Email + "\">" + comment.Email + "</a>";
-        //    txtArea.Value = comment.Content;
-
-        //    popWebsite.InnerHtml = "";
-        //    if (comment.Website != null && comment.Website.ToString().Length > 0)
-        //    {
-        //        popWebsite.InnerHtml = string.Format("Website: <a href=\"{0}\" target=\"_new\">{1}</a>", comment.Website, comment.Website);
-        //    }
-        //    if (!string.IsNullOrEmpty(comment.Country))
-        //    {
-        //        popCountry.InnerHtml = "Country: " + comment.Country.ToUpper();
-        //    }
-        //    pop1.Visible = true;
-        //}
-
-        //BindComments();
-    }
-
-    #endregion
-
     #region Footer buttons
 
-    protected void btnSelectAll_Click(object sender, EventArgs e)
+    protected void btnSelect_Click(object sender, EventArgs e)
     {
         BindComments();
         foreach (GridViewRow row in gridComments.Rows)
@@ -266,7 +214,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         }
     }
 
-    protected void btnClearAll_Click(object sender, EventArgs e)
+    protected void btnClear_Click(object sender, EventArgs e)
     {
         BindComments();
         foreach (GridViewRow row in gridComments.Rows)
@@ -279,18 +227,35 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         }
     }
 
-    protected void btnApproveAll_Click(object sender, EventArgs e)
+    protected void btnAction_Click(object sender, EventArgs e)
     {
-        Button btn = (Button)sender;
-        ProcessSelected(btn.CommandArgument);
+        if (Request.Path.ToLower().Contains("approved.aspx"))
+        {
+            ProcessSelected(ActionType.Reject);
+        }
+        else if (Request.Path.ToLower().Contains("spam.aspx"))
+        {
+            ProcessSelected(ActionType.Approve);
+        }
+        else // default.aspx
+        {  
+            if (_autoModerated)
+                ProcessSelected(ActionType.Reject);
+            else
+                ProcessSelected(ActionType.Approve);
+        }           
     }
 
-    protected void btnDeleteAll_Click(object sender, EventArgs e)
+    protected void btnDelete_Click(object sender, EventArgs e)
     {
-        ProcessSelected("delete");
+        ProcessSelected(ActionType.Delete);
     }
 
-    protected void ProcessSelected(string action)
+    #endregion
+
+    #region Private Methods
+
+    protected void ProcessSelected(ActionType action)
     {
         foreach (GridViewRow row in gridComments.Rows)
         {
@@ -304,19 +269,17 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
                 }
                 Comment comment = Comments[index];
 
-                if (action == "approve")
+                if (action == ActionType.Approve)
                 {
                     if (!comment.IsApproved)
-                    {
                         ApproveComment(comment);
-                    }
                 }
-                else if (action == "unapprove")
+                else if (action == ActionType.Reject)
                 {
-                    comment.IsApproved = false;
-                    RejectComment(comment);
+                    if(comment.IsApproved)
+                        RejectComment(comment);
                 }
-                if (action == "delete")
+                if (action == ActionType.Delete)
                 {
                     RemoveComment(comment);
                 }
@@ -324,6 +287,17 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         }
 
         BindComments();
+    }
+
+    protected void ReportAndUpdate(Comment comment)
+    {
+        // moderator should match anti-spam service
+        if (BlogSettings.Instance.ModerationType == 1)
+            CommentHandlers.ReportMistake(comment);
+
+        // now moderator can be set to logged in user
+        comment.ModeratedBy = HttpContext.Current.User.Identity.Name;
+        UpdateComment(comment);
     }
 
     public static bool HasNoChildren(Guid comId)
@@ -346,8 +320,6 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     {
         return string.Format("editComment('{0}');return false;", id);
     }
-
-    #endregion
 
     protected string Gravatar(string email, string author)
     {
@@ -394,4 +366,6 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
         return string.Format(templ, website, site);
     }
+    
+    #endregion
 }

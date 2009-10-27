@@ -131,6 +131,26 @@ label.wide {
 	width: 200px;
 }
 
+.settings .cbox {
+	padding: 2px 0 2px 0;
+}
+
+.settings .ddown {
+	margin:0;
+	padding:0;
+}
+
+.settings .ddown label {
+	width: 200px;
+	margin-top: 8px;
+	margin-right: 3px;
+}
+
+.settings .cbox label {
+	margin-top: 2px;
+	font-size:1em;
+}
+
 .nowidth label {
 	float: none;
 	width: 0px;
