@@ -60,7 +60,7 @@
         <asp:Button ID="BtnDelete" runat="server" Text="Delete" 
             OnClientClick="javascript:return confirm('Are you sure you want to delte this comment?')" 
             onclick="BtnDeleteClick"  />
-        <input type="button" value="Cancel" onclick="parent.closeEditor()" />   
+        <input type="button" value="Cancel" onclick="parent.closeEditor()" />  
     </div>
   
   </form>

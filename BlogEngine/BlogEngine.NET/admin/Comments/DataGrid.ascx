@@ -54,14 +54,17 @@
     }
   </script>
    
+<div style="border:1px solid #f3f3f3">
 <asp:GridView ID="gridComments" 
-    BorderColor="Silver" 
-    BorderWidth="1px"
-    RowStyle-BorderWidth="0px"
+    BorderColor="#f8f8f8" 
+    BorderStyle="solid" 
+    BorderWidth="1px" 
+    RowStyle-BorderWidth="0"
     RowStyle-BorderStyle="None"
     runat="server"  
     width="100%"
-    AlternatingRowStyle-BackColor="#f8f8f8" 
+    AlternatingRowStyle-BackColor="#f8f8f8"
+    AlternatingRowStyle-BorderColor="#f8f8f8" 
     HeaderStyle-BackColor="#f3f3f3"
     cellpadding="2"
     AutoGenerateColumns="False"
@@ -113,12 +116,13 @@
   <pagersettings Mode="NumericFirstLast" position="Bottom" pagebuttoncount="20" />
   <PagerStyle HorizontalAlign="Center"/>
 </asp:GridView>
+</div>
 
 <div style="text-align:center;padding-top:10px">
-    <asp:Button ID="btnSelectAll" runat="server" Text="Select All" OnClick="btnSelectAll_Click"/>
-    <asp:Button ID="btnClearAll" runat="server" Text="Clear All" OnClick="btnClearAll_Click"/>
-    <asp:Button ID="btnApproveAll" runat="server" Text="Approve" OnClick="btnApproveAll_Click" OnClientClick="return confirm('Are you sure you want to approve selected comments?');" />
-    <asp:Button ID="btnDeleteAll" runat="server" Text="Delete" OnClick="btnDeleteAll_Click" OnClientClick="return confirm('Are you sure you want to delete selected comments?');" />   
+    <asp:Button ID="btnSelect" runat="server" Text="Select All" OnClick="btnSelect_Click"/>
+    <asp:Button ID="btnClear" runat="server" Text="Clear All" OnClick="btnClear_Click"/>
+    <asp:Button ID="btnAction" runat="server" Text="Approve" OnClick="btnAction_Click" OnClientClick="return confirm('Are you sure you want to approve selected comments?');" />
+    <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete selected comments?');" />   
 </div>
 
 <div id="ErrorMsg" runat="server" style="color: Red; display: block;"></div>

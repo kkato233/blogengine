@@ -62,6 +62,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         cbTrustAuthenticated.Checked = BlogSettings.Instance.TrustAuthenticatedUsers;
         ddWhiteListCount.SelectedValue = BlogSettings.Instance.CommentWhiteListCount.ToString();
         ddBlackListCount.SelectedValue = BlogSettings.Instance.CommentBlackListCount.ToString();
+        cbReportMistakes.Checked = BlogSettings.Instance.CommentReportMistakes;
     }
 
     protected void BindFilters()
@@ -98,6 +99,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.CommentWhiteListCount = int.Parse(ddWhiteListCount.SelectedValue);
         BlogSettings.Instance.CommentBlackListCount = int.Parse(ddBlackListCount.SelectedValue);
 
+        BlogSettings.Instance.CommentReportMistakes = cbReportMistakes.Checked;
         //-----------------------------------------------------------------------
         //  Persist settings
         //-----------------------------------------------------------------------
@@ -175,12 +177,12 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
     {
         try
         {
-            int t = int.Parse(total.ToString());
-            int m = int.Parse(mistakes.ToString());
+            double t = double.Parse(total.ToString());
+            double m = double.Parse(mistakes.ToString());
 
-            if (m == 0) return "100";
+            if (m == 0 || t == 0) return "100";
 
-            int a = m / t * 100;
+            double a = 100 - (m / t * 100);
 
             return a.ToString();
         }

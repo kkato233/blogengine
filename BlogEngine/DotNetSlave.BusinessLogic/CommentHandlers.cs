@@ -9,6 +9,8 @@ using System.ComponentModel;
 namespace BlogEngine.Core
 {
     ///<summary>
+    /// Rules, Filters and anti-spam services use this class
+    /// to handle adding new comment to the blog
     ///</summary>
     public static class CommentHandlers
     {
@@ -21,8 +23,42 @@ namespace BlogEngine.Core
         public static void Listen()
         {
             Post.AddingComment += PostAddingComment;
+            
             InitFilters();
             InitCustomFilters();
+        }
+
+        /// <summary>
+        /// Report to service if comment is really spam
+        /// </summary>
+        /// <param name="comment">Comment object</param>
+        public static void ReportMistake(Comment comment)
+        {
+            string m = comment.ModeratedBy;
+
+            DataTable dt = _customFilters.GetDataTable();
+            int i = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string fileterName = row[0].ToString();
+
+                if(fileterName == m)
+                {
+                    ICustomFilter customFilter = GetCustomFilter(fileterName);
+
+                    if (customFilter != null)
+                    {
+                        int mistakes = int.Parse(_customFilters.Parameters[4].Values[i]);
+                        _customFilters.Parameters[4].Values[i] = (mistakes + 1).ToString();
+                        ExtensionManager.SaveSettings(_customFilters);
+
+                        customFilter.Report(comment, comment.IsApproved);
+                    }
+                    break;
+                }
+                i++;
+            }
         }
 
         #region Event handlers
@@ -40,7 +76,12 @@ namespace BlogEngine.Core
 
             if(!ModeratedByRule(comment))
             {
-                if(!ModeratedByFilter(comment))
+                if(ModeratedByFilter(comment))
+                {
+                    if (!comment.IsApproved && comment.ModeratedBy == "Delete")
+                        e.Cancel = true;
+                }
+                else
                 {
                     RunCustomModerators(comment);
                 }
@@ -103,6 +144,14 @@ namespace BlogEngine.Core
                 foreach (DataRow row in dt.Rows)
                 {
                     string action = row["Action"].ToString();
+
+                    if(action == "Delete")
+                    {
+                        comment.IsApproved = false;
+                        comment.ModeratedBy = "Delete";
+                        return true;
+                    }
+
                     string subject = row["Subject"].ToString();
                     string oper = row["Operator"].ToString();
                     string filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);

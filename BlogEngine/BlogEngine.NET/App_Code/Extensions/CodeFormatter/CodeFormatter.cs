@@ -105,7 +105,7 @@ public class CodeFormatterExtension
                 VisualBasicFormat vbf = new VisualBasicFormat();
                 vbf.LineNumbers = options.DisplayLineNumbers;
                 vbf.Alternate = options.AlternateLineNumbers;
-                return vbf.FormatCode(text);
+                return HttpContext.Current.Server.HtmlDecode(vbf.FormatCode(text));
 
             case "js":
                 JavaScriptFormat jsf = new JavaScriptFormat();

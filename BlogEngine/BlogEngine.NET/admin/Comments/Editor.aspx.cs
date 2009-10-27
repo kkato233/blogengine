@@ -101,21 +101,24 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                         string desc = p.Description;
                         p.Description = (desc ?? string.Empty) + " ";
                         p.Description = desc;
-                        c.ModeratedBy = "Admin";
-
+                        
                         if (_urlReferrer.Contains("/Comments/Default.aspx"))
                         {
-                            if (BlogSettings.Instance.ModerationType == 1)
-                                c.IsApproved = false;
-                            else
-                                c.IsApproved = true;
+                            c.IsApproved = BlogSettings.Instance.ModerationType != 1;
                         }
 
                         if (_urlReferrer.Contains("/Comments/Approved.aspx"))
                             c.IsApproved = false;
-
+                        
                         if (_urlReferrer.Contains("/Comments/Spam.aspx"))
                             c.IsApproved = true;
+
+                        // moderator should match anti-spam service
+                        if (BlogSettings.Instance.ModerationType == 1)
+                            CommentHandlers.ReportMistake(c);
+
+                        // now moderator can be set to admin role
+                        c.ModeratedBy = BlogSettings.Instance.AdministratorRole;
 
                         p.Save();
                         found = true;
@@ -211,4 +214,5 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
     }
 
     #endregion
+
 }
