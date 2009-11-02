@@ -12,11 +12,15 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     static protected List<Comment> Comments;
     private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+    private const string REMOVE_AUTHOR_FILTER = "<a href='?author=' alt='Remove Filter'>Remove Filter</a>";
+    private const string REMOVE_IP_FILTER = "<a href='?ip=' alt='Remove Filter'>Remove Filter</a>";
     private bool _autoModerated;
     protected enum ActionType
     {
         Approve,Reject,Delete
     }
+    static protected string _authorFilter = "";
+    static protected string _ipFilter = "";
 
     #endregion
 
@@ -57,6 +61,8 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             }
         }
 
+        SetFilters();
+
         if (!Page.IsPostBack)
         {
             BindComments();
@@ -80,6 +86,12 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         if (e.Row.RowType == DataControlRowType.Footer)
         {
             e.Row.Cells[8].Text = string.Format("Total : {0} comments", Comments.Count);
+
+            if(!string.IsNullOrEmpty(_authorFilter))
+                e.Row.Cells[3].Text = REMOVE_AUTHOR_FILTER;
+
+            if(!string.IsNullOrEmpty(_ipFilter))
+                e.Row.Cells[4].Text = REMOVE_IP_FILTER;
         }
     }
 
@@ -108,25 +120,25 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             {
                 if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
                 {
-                    comments.Add(c);
+                    if(Filtered(c)) comments.Add(c);
                 }
                 else
                 {
                     if (Request.Path.ToLower().Contains("approved.aspx"))
                     {
-                        if (c.IsApproved) comments.Add(c);
+                        if (c.IsApproved && Filtered(c)) comments.Add(c);
                     }
                     else if (Request.Path.ToLower().Contains("spam.aspx"))
                     {
-                        if (!c.IsApproved) comments.Add(c);
+                        if (!c.IsApproved && Filtered(c)) comments.Add(c);
                     }
                     else
                     {
                         // if auto-moderated, inbox has unapproved comments
-                        if (_autoModerated && c.IsApproved) comments.Add(c);
+                        if (_autoModerated && c.IsApproved && Filtered(c)) comments.Add(c);
 
                         // if manual moderation inbox has unapproved comments
-                        if (!_autoModerated && !c.IsApproved) comments.Add(c);
+                        if (!_autoModerated && !c.IsApproved && Filtered(c)) comments.Add(c);
                     }
                 }
             }
@@ -254,6 +266,33 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     #endregion
 
     #region Private Methods
+
+    protected void SetFilters()
+    {
+        string auth = Request.QueryString["author"];
+        string ip = Request.QueryString["ip"];
+
+        if (auth != null) _authorFilter = auth;
+        if (ip != null) _ipFilter = ip;
+    }
+
+    protected bool Filtered(Comment c)
+    {
+
+        if (!string.IsNullOrEmpty(_authorFilter))
+        {
+            if (c.Author.ToLowerInvariant() != _authorFilter.ToLowerInvariant())
+                return false;
+        }
+
+        if (!string.IsNullOrEmpty(_ipFilter))
+        {
+            if (c.IP.ToLowerInvariant() != _ipFilter.ToLowerInvariant())
+                return false;
+        }
+
+        return true;
+    }
 
     protected void ProcessSelected(ActionType action)
     {
