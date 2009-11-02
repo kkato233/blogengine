@@ -7,10 +7,13 @@ using BlogEngine.Core;
 public partial class admin_Comments_Editor : System.Web.UI.Page
 {
     #region Private members
+
     private static string _id;
     private static Comment _comment;
     private static string _urlReferrer;
     private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+    private const string FLAG_IMAGE = "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" title=\"{2}\" alt=\"{2}\" /></span>";
+
     #endregion
 
     public Comment CurrentComment { get { return _comment; } }
@@ -151,6 +154,16 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
         Reload();
     }
 
+    protected void btnBlockIP_Click(object sender, EventArgs e)
+    {
+        BlockOrAllow("Block");
+    }
+    
+    protected void btnAllowIP_Click(object sender, EventArgs e)
+    {
+        BlockOrAllow("Allow");
+    }
+
     #endregion
 
     #region Private methods
@@ -168,6 +181,26 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             }
         }
         return null;
+    }
+
+    protected void BlockOrAllow(string action)
+    {
+        ExtensionSettings _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
+
+        if (_filters != null)
+        {
+            string id = Guid.NewGuid().ToString();
+            string[] f = new string[] { id, 
+                    action, 
+                    "IP", 
+                    "Equals",
+                    CurrentComment.IP };
+
+            _filters.AddValues(f);
+            ExtensionManager.SaveSettings("MetaExtension", _filters);
+        }
+
+        Reload();
     }
 
     protected string Gravatar(int size)
@@ -207,6 +240,33 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
         return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, link, _comment.Author);
     }
 
+    protected string Flag
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(CurrentComment.Country))
+            {
+                return string.Format(FLAG_IMAGE, Utils.RelativeWebRoot, CurrentComment.Country, FindCountry(CurrentComment.Country));
+            }
+
+            return null;
+        }
+    }
+
+    string FindCountry(string isoCode)
+    {
+        foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+        {
+            RegionInfo ri = new RegionInfo(ci.Name);
+            if (ri.TwoLetterISORegionName.Equals(isoCode, StringComparison.OrdinalIgnoreCase))
+            {
+                return ri.DisplayName;
+            }
+        }
+
+        return isoCode;
+    }
+
     protected void Reload()
     {
         ClientScript.RegisterClientScriptBlock(GetType(), "ClientScript",
@@ -214,5 +274,4 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
     }
 
     #endregion
-
 }

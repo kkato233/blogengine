@@ -9,7 +9,7 @@
     #title {background: #F1F1F1; border-bottom: 1px solid silver; padding: 10px; font-weight:bold;}
     label {font-weight: bold; margin: 2px;}
     .field {padding:2px;}
-    #phEdit {padding:10px; height: 340px; overflow: auto; overflow-x: hidden}
+    #phEdit {padding:10px; height: 325px; overflow: auto; overflow-x: hidden}
     #bottom {background: #F1F1F1; border-top: 1px solid silver; padding: 10px; text-align: center}
   </style>
 </head>
@@ -29,11 +29,16 @@
   <form id="form1" runat="server">
   
     <div id="title">
-      <div><a href="<%=CurrentComment.AbsoluteLink%>" target="_new" ><%=CurrentComment.Title%></a></div>
+      <div style="font-size:14px"><a href="<%=CurrentComment.AbsoluteLink%>" target="_new" ><%=CurrentComment.Title%></a></div>
       <div style="padding-top: 5px; font-weight:normal;">
-        Author: <%=CurrentComment.Author %> 
-        IP: <%=CurrentComment.IP%> 
-        Country: <%=CurrentComment.Country%>
+        Author: <%=CurrentComment.Author %>        
+        IP: <a href='http://www.domaintools.com/go/?service=whois&q=<%=CurrentComment.IP%>' target='_new'><%=CurrentComment.IP%></a>
+        &nbsp;&nbsp;
+        <asp:LinkButton ID="btnBlockIP" runat="server" Text="Block" 
+              onclick="btnBlockIP_Click"></asp:LinkButton>
+        &nbsp;&nbsp;
+        <asp:LinkButton ID="btnAllowIP" runat="server" Text="Allow" 
+              onclick="btnAllowIP_Click"></asp:LinkButton>
     </div>
     </div>
     
@@ -42,6 +47,7 @@
         <div class="field">
             <label for="<%=txtWebsite.ClientID%>">Website</label><br />
             <asp:TextBox ID="txtWebsite" runat="server" MaxLength="250" Width="300px"></asp:TextBox>
+            <% if (!string.IsNullOrEmpty(CurrentComment.Country)){%><%=Flag%><%} %>
         </div>
         <div class="field">
             <label for="<%=txtEmail.ClientID%>">Email</label><br />
@@ -49,7 +55,7 @@
         </div>
         <div id="txtComment" class="field">
             <label for="<%=txtArea.ClientID%>">Comment</label><br />
-            <textarea id="txtArea" runat="server" cols="86" rows="14"></textarea>
+            <textarea id="txtArea" runat="server" cols="86" rows="12"></textarea>
         </div>       
         <span id="commId" runat="server" style="visibility:hidden; margin:0; padding:0"></span>
     </div>
