@@ -219,6 +219,7 @@
                 cellpadding="2"
                 runat="server"  
                 width="100%"
+                gridlines="None"
                 AlternatingRowStyle-BackColor="#f8f8f8" 
                 HeaderStyle-BackColor="#f3f3f3"
                 AutoGenerateColumns="False"
@@ -275,11 +276,13 @@
                 BorderColor="#f8f8f8" 
                 BorderStyle="solid" 
                 BorderWidth="1px"
+                gridlines="None"
                 AlternatingRowStyle-BackColor="#f8f8f8" 
                 HeaderStyle-BackColor="#f3f3f3"
                 cellpadding="2"
                 runat="server"  
                 width="100%" 
+                datakeynames="FullName"
                 AutoGenerateColumns="False">
               <Columns>
                 <asp:BoundField DataField = "FullName" Visible="false" />
@@ -300,6 +303,17 @@
                 <asp:TemplateField HeaderText="Accuracy" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
                         <%# Accuracy(DataBinder.Eval(Container.DataItem, "Checked"), DataBinder.Eval(Container.DataItem, "Reported"))%> % 
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:BoundField DataField = "Priority" HeaderText="Priority" HeaderStyle-HorizontalAlign="Left" />
+                <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
+                    <ItemTemplate>
+                        <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="btnPriorityUp_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="Up" />
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
+                    <ItemTemplate>
+                        <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="btnPriorityDwn_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/down_arrow_small.gif" CommandName="btnPriorityDwn" AlternateText="" />
                     </ItemTemplate>
                 </asp:TemplateField>
               </Columns>

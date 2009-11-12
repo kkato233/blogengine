@@ -1,8 +1,10 @@
 using System;
+using System.Data;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using BlogEngine.Core;
 
 /// <summary>
 /// Serializable object that holds collection of
@@ -559,9 +561,9 @@ public class ExtensionSettings
   /// In the UI bound to the data grid view
   /// </summary>
   /// <returns>Data table</returns>
-  public System.Data.DataTable GetDataTable()
+  public DataTable GetDataTable()
   {
-    System.Data.DataTable objDataTable = new System.Data.DataTable();
+    DataTable objDataTable = new System.Data.DataTable();
     foreach (ExtensionParameter p in _params)
     {
       objDataTable.Columns.Add(p.Name, string.Empty.GetType());

@@ -56,6 +56,8 @@ public class AkismetFilter : ICustomFilter
             _api.SubmitHam(akismetComment);
     }
 
+    public bool FallThrough { get { return true; } }
+
     #endregion
 
     #region Private methods

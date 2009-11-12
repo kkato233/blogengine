@@ -342,7 +342,7 @@ public class ExtensionManager
     {
       if (x.Name == extensionName)
       {
-        if (!x.Initialized(settings.Name))
+        if (!x.Initialized(settings))
           x.InitializeSettings(settings);
         break;
       }

@@ -137,20 +137,8 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
 
     protected void BtnDeleteClick(object sender, EventArgs e)
     {
-        bool found = false;
-        for (int i = 0; i < Post.Posts.Count; i++)
-        {
-            for (int j = 0; j < Post.Posts[i].Comments.Count; j++)
-            {
-                if (Post.Posts[i].Comments[j].Id == _comment.Id)
-                {
-                    Post.Posts[i].RemoveComment(Post.Posts[i].Comments[j]);
-                    found = true;
-                    break;
-                }
-            }
-            if (found) { break; }
-        }
+        DeleteCurrentComment();
+
         Reload();
     }
 
@@ -199,8 +187,27 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             _filters.AddValues(f);
             ExtensionManager.SaveSettings("MetaExtension", _filters);
         }
+        DeleteCurrentComment();
 
         Reload();
+    }
+
+    protected void DeleteCurrentComment()
+    {
+        bool found = false;
+        for (int i = 0; i < Post.Posts.Count; i++)
+        {
+            for (int j = 0; j < Post.Posts[i].Comments.Count; j++)
+            {
+                if (Post.Posts[i].Comments[j].Id == _comment.Id)
+                {
+                    Post.Posts[i].RemoveComment(Post.Posts[i].Comments[j]);
+                    found = true;
+                    break;
+                }
+            }
+            if (found) { break; }
+        }
     }
 
     protected string Gravatar(int size)
