@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
 
@@ -39,9 +40,6 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
 
         btnSave.Click += btnSave_Click;
         btnSave.Text = Resources.labels.saveSettings;
-        
-        //btnSaveTop.Click += new EventHandler(btnSave_Click);
-        //btnSaveTop.Text = Resources.labels.saveSettings;
     }
 
     private void BindSettings()
@@ -75,7 +73,41 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
     protected void BindCustomFilters()
     {
         gridCustomFilters.DataKeyNames = new string[] { _customFilters.KeyField };
-        gridCustomFilters.DataSource = _customFilters.GetDataTable();
+
+        DataTable dt = _customFilters.GetDataTable();
+        DataTable unsorted = dt.Clone();
+        DataTable sorted = dt.Clone();
+
+        foreach (DataRow row in dt.Rows)
+        {       
+            int i = int.TryParse(row["Priority"].ToString(), out i) ? i : 0;
+
+            if (i > 0)
+                sorted.ImportRow(row);
+            else
+                unsorted.ImportRow(row);
+        }
+
+        foreach (DataRow row in unsorted.Rows)
+        {
+            row["Priority"] = sorted.Rows.Count + 1;
+            sorted.ImportRow(row);
+
+            int rowIndex = 0;
+
+            for (int i = 0; i < _customFilters.Parameters[0].Values.Count; i++)
+            {
+                if (_customFilters.Parameters[0].Values[i] == row["FullName"].ToString())
+                {
+                    _customFilters.Parameters[5].Values[i] = row["Priority"].ToString();
+                }
+            }
+        }
+
+        ExtensionManager.SaveSettings("MetaExtension", _customFilters);
+
+        sorted.DefaultView.Sort = "Priority";
+        gridCustomFilters.DataSource = sorted;
         gridCustomFilters.DataBind();
     }
 
@@ -118,6 +150,45 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
             par.DeleteValue(grdRow.RowIndex);
         }
         ExtensionManager.SaveSettings("MetaExtension", _filters);
+        Response.Redirect(Request.RawUrl);
+    }
+
+    protected void btnPriorityUp_click(object sender, EventArgs e)
+    {
+        ImageButton btn = (ImageButton)sender;
+        GridViewRow grdRow = (GridViewRow)btn.Parent.Parent;
+
+        string s = gridCustomFilters.DataKeys[grdRow.RowIndex].Value.ToString();
+        ChangePriority(s, true);
+    }
+
+    protected void btnPriorityDwn_click(object sender, EventArgs e)
+    {
+        ImageButton btn = (ImageButton)sender;
+        GridViewRow grdRow = (GridViewRow)btn.Parent.Parent;
+
+        string s = gridCustomFilters.DataKeys[grdRow.RowIndex].Value.ToString();
+        ChangePriority(s, false);
+    }
+
+    protected void ChangePriority(string filterName, bool up)
+    {
+        for (int i = 0; i < _customFilters.Parameters[0].Values.Count; i++)
+        {
+            if (_customFilters.Parameters[0].Values[i] == filterName)
+            {
+                int curPriority = int.Parse(_customFilters.Parameters[5].Values[i].ToString());
+
+                if (up && curPriority > 1) 
+                    curPriority--;
+                else
+                    curPriority++;
+
+                _customFilters.Parameters[5].Values[i] = curPriority.ToString();
+            }
+        }
+
+        ExtensionManager.SaveSettings("MetaExtension", _customFilters);
         Response.Redirect(Request.RawUrl);
     }
 
@@ -184,7 +255,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
 
             double a = 100 - (m / t * 100);
 
-            return a.ToString();
+            return String.Format("{0:0.00}", a); 
         }
         catch (Exception)
         {

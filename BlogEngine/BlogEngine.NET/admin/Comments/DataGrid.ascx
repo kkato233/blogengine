@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DataGrid.ascx.cs" Inherits="admin_Comments_DataGrid" %>
 <script language="javascript">
     function editComment(id) {
-        //alert(id);
         window.scrollTo(0, 0);
         var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
         var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
@@ -61,12 +60,14 @@
     BorderWidth="1px" 
     RowStyle-BorderWidth="0"
     RowStyle-BorderStyle="None"
+    gridlines="None"
+    datakeynames="Id"
     runat="server"  
     width="100%"
     AlternatingRowStyle-BackColor="#f8f8f8"
     AlternatingRowStyle-BorderColor="#f8f8f8" 
-    HeaderStyle-BackColor="#f3f3f3"
-    cellpadding="2"
+    HeaderStyle-BackColor="#F1F1F1"
+    cellpadding="3"
     AutoGenerateColumns="False"
     AllowPaging="True"
     OnPageIndexChanging="gridView_PageIndexChanging"
@@ -74,7 +75,7 @@
     AllowSorting="True"       
     onrowdatabound="gridComments_RowDataBound">
   <Columns>
-    <asp:BoundField DataField = "Id" Visible="false" />       
+    <asp:BoundField DataField = "Id" Visible="false" />     
     <asp:TemplateField HeaderText="" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20">
         <ItemTemplate>
              <asp:CheckBox ID="chkSelect" 

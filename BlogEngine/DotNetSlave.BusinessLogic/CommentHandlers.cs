@@ -103,11 +103,14 @@ namespace BlogEngine.Core
             int blackCnt = 0;
             int whiteCnt = 0;
 
+            // check if this user already has approved or
+            // rejected comments and belongs to white/black list
             foreach (Post p in Post.Posts)
             {
                 foreach (Comment c in p.Comments)
                 {
-                    if (c.Author == comment.Author)
+                    if (c.Email.ToLowerInvariant() == comment.Email.ToLowerInvariant()
+                        || c.IP == comment.IP)
                     {
                         if (c.IsApproved)
                             whiteCnt++;
@@ -251,6 +254,10 @@ namespace BlogEngine.Core
                     comment.ModeratedBy = fileterName;
 
                     UpdateCustomFilter(fileterName, comment.IsApproved);
+
+                    // the custom filter tells no further
+                    // validation needed. don't call others
+                    if (!customFilter.FallThrough) break;
                 }
             }
         }
@@ -279,6 +286,7 @@ namespace BlogEngine.Core
             settings.AddParameter("Checked");
             settings.AddParameter("Cought");
             settings.AddParameter("Reported");
+            settings.AddParameter("Priority");
 
             _customFilters = ExtensionManager.InitSettings("MetaExtension", settings);
 
@@ -305,13 +313,12 @@ namespace BlogEngine.Core
                             }
                             if(!found)
                             {
-                                _customFilters.AddValues(new string[] { type.FullName, type.Name, "0", "0", "0" });
+                                _customFilters.AddValues(new string[] { type.FullName, type.Name, "0", "0", "0", "0" });
                             }
                         }
                     }
                 }
-
-                ExtensionManager.SaveSettings(_customFilters);
+                ExtensionManager.SaveSettings("MetaExtension", _customFilters);
             }
         }
 

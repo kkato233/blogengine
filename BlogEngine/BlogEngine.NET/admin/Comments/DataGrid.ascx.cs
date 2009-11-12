@@ -296,32 +296,46 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void ProcessSelected(ActionType action)
     {
+        List<Comment> tmp = new List<Comment>();
+
         foreach (GridViewRow row in gridComments.Rows)
         {
-            CheckBox cbx = (CheckBox)row.FindControl("chkSelect");
-            if (cbx != null && cbx.Checked)
+            try
             {
-                int index = row.RowIndex;
-                if (gridComments.PageIndex > 0)
+                CheckBox cbx = (CheckBox)row.FindControl("chkSelect");
+                if (cbx != null && cbx.Checked)
                 {
-                    index = gridComments.PageIndex * gridComments.PageSize + index;
-                }
-                Comment comment = Comments[index];
+                    Comment comment = Comments.Find(
+                    delegate(Comment c)
+                    {
+                        return c.Id == (Guid)gridComments.DataKeys[row.RowIndex].Value;
+                    });
 
-                if (action == ActionType.Approve)
-                {
-                    if (!comment.IsApproved)
-                        ApproveComment(comment);
+                    if (comment != null) tmp.Add(comment);
                 }
-                else if (action == ActionType.Reject)
-                {
-                    if(comment.IsApproved)
-                        RejectComment(comment);
-                }
-                if (action == ActionType.Delete)
-                {
-                    RemoveComment(comment);
-                }
+            }
+            catch (Exception e)
+            {
+                Utils.Log(string.Format("Error processing selected row in comments data grid: {0}", e.Message));
+            }
+            
+        }
+
+        foreach (Comment cm in tmp)
+        {
+            if (action == ActionType.Approve)
+            {
+                if (!cm.IsApproved)
+                    ApproveComment(cm);
+            }
+            else if (action == ActionType.Reject)
+            {
+                if (cm.IsApproved)
+                    RejectComment(cm);
+            }
+            if (action == ActionType.Delete)
+            {
+                RemoveComment(cm);
             }
         }
 

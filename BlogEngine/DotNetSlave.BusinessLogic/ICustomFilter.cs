@@ -23,5 +23,11 @@
         /// <param name="comment">BlogEngine comment</param>
         /// <param name="isSpam">True if spam wasn't blocked</param>
         void Report(Comment comment, bool isSpam);
+        /// <summary>
+        /// Determins if comment should be passed to
+        /// the next custom filter
+        /// </summary>
+        /// <returns>True if next filter should run</returns>
+        bool FallThrough { get; }
     }
 }

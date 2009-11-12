@@ -138,15 +138,18 @@ public class ManagedExtension
   /// </summary>
   /// <param name="settingName">Settings name</param>
   /// <returns>True if initialized</returns>
-  public bool Initialized(string settingName)
+  public bool Initialized(ExtensionSettings xs)
   {
-    if (_settings != null)
+    if (xs != null)
     {
       foreach (ExtensionSettings setItem in _settings)
       {
-        if (setItem.Name == settingName)
+        if (setItem.Name == xs.Name)
         {
-          return true;
+            if (setItem.Parameters.Count == xs.Parameters.Count)
+            {
+                return true;
+            }
         }
       }
     }
