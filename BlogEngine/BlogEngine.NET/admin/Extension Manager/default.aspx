@@ -2,12 +2,12 @@
 <%@ Reference Control = "Extensions.ascx" %>
 <%@ Reference Control = "Editor.ascx" %>
 <%@ Reference Control = "Settings.ascx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
-<br />
-<div class="settings">
-    <asp:HiddenField ID="args" runat="server" />
-    <div>
-        <asp:PlaceHolder ID="ucPlaceHolder" runat="server"></asp:PlaceHolder>
+    <div class="settings">
+        <div>
+            <asp:PlaceHolder ID="ucPlaceHolder" runat="server"></asp:PlaceHolder>
+        </div>
+        <asp:HiddenField ID="args" runat="server" />
     </div>
-</div>
 </asp:Content>

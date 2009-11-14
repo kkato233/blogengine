@@ -121,7 +121,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                             CommentHandlers.ReportMistake(c);
 
                         // now moderator can be set to admin role
-                        c.ModeratedBy = BlogSettings.Instance.AdministratorRole;
+                        c.ModeratedBy = HttpContext.Current.User.Identity.Name;
 
                         p.Save();
                         found = true;
@@ -187,7 +187,12 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             _filters.AddValues(f);
             ExtensionManager.SaveSettings("MetaExtension", _filters);
         }
-        DeleteCurrentComment();
+
+        if(action == "Block")
+        {
+            CurrentComment.IsApproved = false;
+            CurrentComment.ModeratedBy = HttpContext.Current.User.Identity.Name; 
+        }
 
         Reload();
     }

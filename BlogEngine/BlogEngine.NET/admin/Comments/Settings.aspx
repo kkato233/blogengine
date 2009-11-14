@@ -224,6 +224,7 @@
                 HeaderStyle-BackColor="#f3f3f3"
                 AutoGenerateColumns="False"
                 AllowPaging="True"
+                datakeynames="ID"
                 OnPageIndexChanging="gridView_PageIndexChanging"
                 AllowSorting="True">
               <Columns>
