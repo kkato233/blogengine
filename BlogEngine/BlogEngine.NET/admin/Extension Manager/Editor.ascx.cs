@@ -24,14 +24,12 @@ public partial class User_controls_xmanager_SourceEditor : UserControl
     }
     
     /// <summary>
-    /// Buttons save hanler
+    /// Buttons save handler
     /// </summary>
     /// <param name="sender">Button</param>
     /// <param name="e">Event args</param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        string ext = Request.QueryString["ext"];
-
         if (WriteFile(GetExtFileName(), txtEditor.Text))
         {
             Response.Redirect("default.aspx");
@@ -48,7 +46,7 @@ public partial class User_controls_xmanager_SourceEditor : UserControl
     /// Returns extension file name
     /// </summary>
     /// <returns>File name</returns>
-    string GetExtFileName()
+    static protected string GetExtFileName()
     {
       string fileName = HttpContext.Current.Request.PhysicalApplicationPath;
       ArrayList codeAssemblies = Utils.CodeAssemblies();

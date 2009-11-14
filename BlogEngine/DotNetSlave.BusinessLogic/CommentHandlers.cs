@@ -74,9 +74,9 @@ namespace BlogEngine.Core
             comment.IsApproved = true;
             comment.ModeratedBy = "Auto";
 
-            if(!ModeratedByRule(comment))
+            if (!ModeratedByRule(comment))
             {
-                if(ModeratedByFilter(comment))
+                if (ModeratedByFilter(comment))
                 {
                     if (!comment.IsApproved && comment.ModeratedBy == "Delete")
                         e.Cancel = true;
@@ -241,8 +241,9 @@ namespace BlogEngine.Core
         static void RunCustomModerators(Comment comment)
         {
             DataTable dt = _customFilters.GetDataTable();
+            dt.DefaultView.Sort = "Priority";
 
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRowView row in dt.DefaultView)
             {
                 string fileterName = row[0].ToString();
 

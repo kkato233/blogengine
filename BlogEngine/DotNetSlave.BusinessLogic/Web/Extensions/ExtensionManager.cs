@@ -28,9 +28,7 @@ public class ExtensionManager
   #endregion
 
   #region Private members
-  private static string _fileName = HostingEnvironment.MapPath(BlogSettings.Instance.StorageLocation + "extensions.xml");
   private static List<ManagedExtension> _extensions = new List<ManagedExtension>();
-  private static BlogProviderSection _section = (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
   private static StringCollection _newExtensions = new StringCollection();
   #endregion
 
@@ -40,7 +38,7 @@ public class ExtensionManager
   /// file access permission. Not serializable, used by UI to show error message.
   /// </summary>
   [XmlIgnore]
-  public static Exception FileAccessException = null;
+  public static Exception FileAccessException;
   /// <summary>
   /// Collection of extensions
   /// </summary>
@@ -158,6 +156,19 @@ public class ExtensionManager
       }
     }
   }
+  /// <summary>
+  /// Returns extension to the client based on name
+  /// </summary>
+  /// <param name="extensionName">Extension name</param>
+  /// <returns>Extension object or null</returns>
+  public static ManagedExtension GetExtension(string extensionName)
+  {
+      foreach (ManagedExtension x in _extensions)
+      {
+          if(x.Name == extensionName) return x;
+      }
+      return null;
+  }
   #endregion
 
   #region Private methods
@@ -210,7 +221,9 @@ public class ExtensionManager
               x.Version = xa.Version;
               x.Description = xa.Description;
               x.Author = xa.Author;
-              x.Priority = xa.Priority;
+
+              if(x.Priority == 0)
+                x.Priority = xa.Priority;
             }
             _extensions.Add(x);
           }
