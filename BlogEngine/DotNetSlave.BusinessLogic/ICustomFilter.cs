@@ -21,8 +21,7 @@
         /// Report mistakes back to service
         /// </summary>
         /// <param name="comment">BlogEngine comment</param>
-        /// <param name="isSpam">True if spam wasn't blocked</param>
-        void Report(Comment comment, bool isSpam);
+        void Report(Comment comment);
         /// <summary>
         /// Determins if comment should be passed to
         /// the next custom filter

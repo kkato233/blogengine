@@ -53,7 +53,7 @@ namespace BlogEngine.Core
                         _customFilters.Parameters[4].Values[i] = (mistakes + 1).ToString();
                         ExtensionManager.SaveSettings(_customFilters);
 
-                        customFilter.Report(comment, comment.IsApproved);
+                        customFilter.Report(comment);
                     }
                     break;
                 }

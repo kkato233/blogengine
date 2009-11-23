@@ -59,8 +59,7 @@ public class StopForumSpam : ICustomFilter
     /// Report mistakes to service
     /// </summary>
     /// <param name="comment">Comment</param>
-    /// <param name="isSpam">True if comment is spam but was approved</param>
-    public void Report(Comment comment, bool isSpam)
+    public void Report(Comment comment)
     {
         // if we needed report mistakes back to
         // service, we would put code here

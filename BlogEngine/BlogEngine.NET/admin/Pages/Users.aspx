@@ -1,13 +1,9 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true"
-    CodeFile="Users.aspx.cs" Inherits="admin_newuser" Title="Create new user" %>
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Users.aspx.cs" Inherits="admin_newuser" Title="Create new user" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
-    <br />
+
     <div class="settings">
-        <h1>
-            <%=Resources.labels.createNewUser %>
-        </h1>
-        <br />
+        <h1><%=Resources.labels.createNewUser %></h1>
         <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" LoginCreatedUser="false">
             <WizardSteps>
                 <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server" />
@@ -15,7 +11,7 @@
         </asp:CreateUserWizard>
         <asp:Label runat="server" ID="lblError" Text="Username is already taken" style="color:Red" visible="false" />
     </div>
-    <br />
+
     <div class="settings">
         <asp:GridView runat="server" ID="gridUsers" AutoGenerateColumns="false" UseAccessibleHeader="true" CellPadding="4"
              HeaderStyle-HorizontalAlign="left" DataKeyNames="username" OnLoad="gridUsers_Load" AlternatingRowStyle-CssClass="alt" 

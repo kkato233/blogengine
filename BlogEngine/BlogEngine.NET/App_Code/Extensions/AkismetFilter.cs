@@ -42,24 +42,34 @@ public class AkismetFilter : ICustomFilter
 
     public bool Check(Comment comment)
     {
+        if (_api == null) Initialize();
+
         AkismetComment akismetComment = GetAkismetComment(comment);
         return _api.CommentCheck(akismetComment);
     }
 
-    public void Report(Comment comment, bool isSpam)
+    public void Report(Comment comment)
     {
+        if (_api == null) Initialize();
+
         AkismetComment akismetComment = GetAkismetComment(comment);
 
-        if (isSpam)
-            _api.SubmitSpam(akismetComment);
-        else
+        if (comment.IsApproved)
+        {
+            Utils.Log(string.Format("Akismet: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
             _api.SubmitHam(akismetComment);
+        }
+        else
+        {
+            Utils.Log(string.Format("Akismet: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
+            _api.SubmitSpam(akismetComment);
+        }
     }
 
     public bool FallThrough { get { return true; } }
 
     #endregion
-
+    
     #region Private methods
 
     private AkismetComment GetAkismetComment(Comment comment)
