@@ -318,7 +318,6 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             {
                 Utils.Log(string.Format("Error processing selected row in comments data grid: {0}", e.Message));
             }
-            
         }
 
         foreach (Comment cm in tmp)

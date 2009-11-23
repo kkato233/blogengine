@@ -1,8 +1,6 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="false"
-    AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration"
-    Title="Settings" %>
-
+<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="false" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Pages_configuration" Title="Settings" %>
 <%@ Import Namespace="BlogEngine.Core" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
     <script type="text/javascript">
@@ -31,11 +29,10 @@
 			}       
     </script>
 
-    <br />
     <div style="text-align: right">
         <asp:Button runat="server" ID="btnSaveTop" />
     </div>
-    <br />
+    
     <div class="settings">
         <h1><%=Resources.labels.basic %> <%=Resources.labels.settings.ToLowerInvariant() %></h1>
         <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
@@ -162,6 +159,7 @@
         <asp:Button runat="server" CausesValidation="False" ID="btnTestSmtp" Text="Test mail settings" />
         <asp:Label runat="Server" ID="lbSmtpStatus" />
     </div>
+    
     <div class="settings">
         <h1>Feed <%=Resources.labels.settings.ToLowerInvariant() %>
         </h1>
@@ -205,6 +203,7 @@
         <asp:TextBox runat="server" ID="txtAlternateFeedUrl"  Width="300" /> <em>(http://feeds.feedburner.com/username)</em>
         <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtAlternateFeedUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" />
     </div>
+    
     <div class="settings">
         <h1>
             <%=Resources.labels.htmlHeadSection %>
@@ -215,6 +214,7 @@
         <asp:TextBox runat="server" ID="txtHtmlHeader" TextMode="multiLine" Rows="9" Columns="30"
             Width="500" />
     </div>
+    
     <div class="settings">
         <h1>Tracking script</h1>
         <label for="<%=txtTrackingScript.ClientID %>">
@@ -234,6 +234,7 @@
     </div>
     
     <div align="right">
-        <asp:Button runat="server" ID="btnSave" /></div>
-    <br />
+        <asp:Button runat="server" ID="btnSave" />
+    </div>
+    
 </asp:Content>

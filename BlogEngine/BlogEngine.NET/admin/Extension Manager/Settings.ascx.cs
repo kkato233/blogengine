@@ -1,24 +1,13 @@
 using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Xml;
-using System.Reflection;
-using BlogEngine.Core;
 
-public partial class User_controls_xmanager_Parameters : System.Web.UI.UserControl
+public partial class User_controls_xmanager_Parameters : UserControl
 {
   #region Private members
   private string _extensionName = string.Empty;
-  protected ExtensionSettings _settings = null;
+  protected ExtensionSettings _settings;
   #endregion
 
   public string SettingName { get { return _extensionName; } set { _extensionName = value; } }
@@ -33,7 +22,7 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
   /// <param name="e"></param>
   protected void Page_Load(object sender, EventArgs e)
   {
-    _extensionName = this.ID;
+    _extensionName = ID;
     _settings = ExtensionManager.GetSettings(_extensionName);
 
     GenerateDeleteButton = _settings.ShowDelete;
@@ -63,16 +52,16 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
     {
       if (_settings.ShowAdd)
       {
-        grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
-        grid.RowUpdating += new GridViewUpdateEventHandler(grid_RowUpdating);
+        grid.RowEditing += grid_RowEditing;
+        grid.RowUpdating += grid_RowUpdating;
         grid.RowCancelingEdit += delegate { Response.Redirect(Request.RawUrl); };
-        grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
+        grid.RowDeleting += grid_RowDeleting;
         btnAdd.Text = Resources.labels.add;
       }
       else
         btnAdd.Visible = false;
     }
-    btnAdd.Click += new EventHandler(btnAdd_Click);
+    btnAdd.Click += btnAdd_Click;
   }
 
   /// <summary>
@@ -400,7 +389,7 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
   private void AddLabel(string txt, string cls)
   {
     Label lbl = new Label();
-    lbl.Width = new Unit("100");
+    lbl.Width = new Unit("250");
     lbl.Text = txt;
     if (!string.IsNullOrEmpty(cls)) lbl.CssClass = cls;
     phAddForm.Controls.Add(lbl);
@@ -434,7 +423,7 @@ public partial class User_controls_xmanager_Parameters : System.Web.UI.UserContr
         // check data type
         if (!string.IsNullOrEmpty(txt.Text) && !ValidateType(txt.ID, txt.Text))
         {
-          ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" must be a " + _settings.GetParameterType(txt.ID).ToString();
+          ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" must be a " + _settings.GetParameterType(txt.ID);
           ErrorMsg.Visible = true;
           rval = false;
           break;
