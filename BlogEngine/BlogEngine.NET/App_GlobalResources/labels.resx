@@ -538,6 +538,9 @@
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Only show description of posts</value>
   </data>
+  <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
+    <value>Only show description of posts when listed by Tag or Category</value>
+  </data>
   <data name="showInList" xml:space="preserve">
     <value>Show in list</value>
   </data>

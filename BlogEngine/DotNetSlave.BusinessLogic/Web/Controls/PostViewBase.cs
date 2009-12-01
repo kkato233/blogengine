@@ -127,15 +127,25 @@ namespace BlogEngine.Core.Web.Controls
 			set { ViewState["Post"] = value; }
 		}
 
-		private ServingLocation _Location = ServingLocation.None;
+        private ServingContentBy _ContentBy = ServingContentBy.Unspecified;
 		/// <summary>
-		/// The location where the serving takes place.
+        /// The criteria by which the content is being served (by tag, category, author, etc).
 		/// </summary>
-		public ServingLocation Location
+        public ServingContentBy ContentBy
 		{
-			get { return _Location; }
-			set { _Location = value; }
+            get { return _ContentBy; }
+            set { _ContentBy = value; }
 		}
+
+        private ServingLocation _Location = ServingLocation.None;
+        /// <summary>
+        /// The location where the serving takes place.
+        /// </summary>
+        public ServingLocation Location
+        {
+            get { return _Location; }
+            set { _Location = value; }
+        }
 
 		private bool _ShowExcerpt;
 		/// <summary>
@@ -146,6 +156,16 @@ namespace BlogEngine.Core.Web.Controls
 			get { return _ShowExcerpt; }
 			set { _ShowExcerpt = value; }
 		}
+
+        private int _DescriptionCharacters;
+        /// <summary>
+        /// Gets or sets a value indicating how many characters should be shown of the description.
+        /// </summary>
+        public int DescriptionCharacters
+        {
+            get { return _DescriptionCharacters; }
+            set { _DescriptionCharacters = value; }
+        }
 
 		private int _Index;
 		/// <summary>
@@ -165,6 +185,7 @@ namespace BlogEngine.Core.Web.Controls
 			get
 			{
 				string body = Post.Content;
+
 				if (ShowExcerpt)
 				{
 					string link = " <a href=\"" + Post.RelativeLink.ToString() + "\">[" + Utils.Translate("more") + "]</a>";
@@ -176,12 +197,12 @@ namespace BlogEngine.Core.Web.Controls
 					else
 					{
 						body = Utils.StripHtml(Post.Content);
-						if (body.Length > BlogSettings.Instance.DescriptionCharacters)
-							body = body.Substring(0, BlogSettings.Instance.DescriptionCharacters) + "..." + link;
+						if (body.Length > this.DescriptionCharacters)
+                            body = body.Substring(0, this.DescriptionCharacters) + "..." + link;
 					}
 				}
 
-				ServingEventArgs arg = new ServingEventArgs(body, this.Location);
+				ServingEventArgs arg = new ServingEventArgs(body, this.Location, this.ContentBy);
 				Post.OnServing(Post, arg);
 
 				if (arg.Cancel)

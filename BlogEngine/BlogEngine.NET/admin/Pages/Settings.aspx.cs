@@ -79,6 +79,8 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
         BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
         BlogSettings.Instance.DescriptionCharacters = int.Parse(txtDescriptionCharacters.Text);
+        BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory = cbShowDescriptionInPostListForPostsByTagOrCategory.Checked;
+        BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory = int.Parse(txtDescriptionCharactersForPostsByTagOrCategory.Text);
         BlogSettings.Instance.TimeStampPostLinks = cbTimeStampPostLinks.Checked;
         BlogSettings.Instance.ShowPostNavigation = cbShowPostNavigation.Checked;
         BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
@@ -182,7 +184,9 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
 		cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
 		txtDescriptionCharacters.Text = BlogSettings.Instance.DescriptionCharacters.ToString();
-		cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
+        cbShowDescriptionInPostListForPostsByTagOrCategory.Checked = BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory;
+        txtDescriptionCharactersForPostsByTagOrCategory.Text = BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory.ToString();
+        cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
 		ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
 		txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
 		cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;

@@ -42,8 +42,6 @@
                 sb.Append(Environment.NewLine);
                 sb.Append("TargetSite : " + ex.TargetSite);
                 sb.Append(Environment.NewLine);
-                sb.Append("Environment.StackTrace : " + Environment.StackTrace);
-                sb.Append(Environment.NewLine);
                 ex = ex.InnerException;
             }
         }

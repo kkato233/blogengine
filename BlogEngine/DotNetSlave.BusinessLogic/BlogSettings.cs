@@ -200,7 +200,7 @@ namespace BlogEngine.Core
 
 		#region ShowDescriptionInPostList
 		/// <summary>
-		/// Gets or sets a value indicating if the full post is displayed in lists or only the description/exerpt.
+		/// Gets or sets a value indicating if the full post is displayed in lists or only the description/excerpt.
 		/// </summary>
 		public bool ShowDescriptionInPostList { get; set; }
 		#endregion
@@ -211,6 +211,20 @@ namespace BlogEngine.Core
 		/// </summary>
 		public int DescriptionCharacters { get; set; }
 		#endregion
+
+        #region ShowDescriptionInPostListForPostsByTagOrCategory
+        /// <summary>
+        /// Gets or sets a value indicating if the full post is displayed in lists by tag/category or only the description/excerpt.
+        /// </summary>
+        public bool ShowDescriptionInPostListForPostsByTagOrCategory { get; set; }
+        #endregion
+
+        #region DescriptionCharactersForPostsByTagOrCategory
+        /// <summary>
+        /// Gets or sets a value indicating how many characters should be shown of the description when posts are shown by tag or category.
+        /// </summary>
+        public int DescriptionCharactersForPostsByTagOrCategory { get; set; }
+        #endregion
 
 		#region StorageLocation
 		/// <summary>
