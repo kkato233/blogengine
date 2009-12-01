@@ -59,17 +59,33 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		string path = Utils.RelativeWebRoot + "themes/" + theme + "/PostView.ascx";
 		int counter = 0;
 
+        bool showExcerpt;
+        int descriptionCharacters;
+
+        if (this.ContentBy == ServingContentBy.Tag || this.ContentBy == ServingContentBy.Category)
+        {
+            showExcerpt = BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory;
+            descriptionCharacters = BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory;
+        }
+        else
+        {
+            showExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
+            descriptionCharacters = BlogSettings.Instance.DescriptionCharacters;
+        }
+
 		foreach (Post post in visiblePosts.GetRange(index, stop))
 		{
 			if (counter == stop)
 				break;
 
 			PostViewBase postView = (PostViewBase)LoadControl(path);
-			postView.ShowExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
+            postView.ShowExcerpt = showExcerpt;
+            postView.DescriptionCharacters = descriptionCharacters;
 			postView.Post = post;
 			postView.Index = counter;
 			postView.ID = post.Id.ToString().Replace("-", string.Empty);
 			postView.Location = ServingLocation.PostList;
+            postView.ContentBy = this.ContentBy;
 			posts.Controls.Add(postView);
 			counter++;
 		}
@@ -155,6 +171,16 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		get { return _Posts; }
 		set { _Posts = value; }
 	}
+
+    private ServingContentBy _ContentBy = ServingContentBy.AllContent;
+    /// <summary>
+    /// The criteria by which the content is being served (by tag, category, author, etc).
+    /// </summary>
+    public ServingContentBy ContentBy
+    {
+        get { return _ContentBy; }
+        set { _ContentBy = value; }
+    }
 
 	#endregion
 

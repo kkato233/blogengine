@@ -11,12 +11,20 @@ namespace BlogEngine.Core
   {
 
     /// <summary>
-    /// Creates a new instance of the class and applies the specified body.
+    /// Creates a new instance of the class and applies the specified body and serving location.
     /// </summary>
-    public ServingEventArgs(string body, ServingLocation location)
+    public ServingEventArgs(string body, ServingLocation location) : this(body, location, ServingContentBy.Unspecified)
     {
-      _Body = body;
-      _Location = location;
+    }
+
+    /// <summary>
+    /// Creates a new instance of the class and applies the specified body, serving location and serving content by.
+    /// </summary>
+    public ServingEventArgs(string body, ServingLocation location, ServingContentBy contentBy)
+    {
+        _Body = body;
+        _Location = location;
+        _ContentBy = contentBy;
     }
 
     private string _Body;
@@ -30,14 +38,24 @@ namespace BlogEngine.Core
       set { _Body = value; }
     }
 
+    private ServingContentBy _ContentBy;
+    /// <summary>
+    /// The criteria by which the content is being served (by tag, category, author, etc).
+    /// </summary>
+    public ServingContentBy ContentBy
+    {
+        get { return _ContentBy; }
+        set { _ContentBy = value; }
+    }
+
     private ServingLocation _Location;
     /// <summary>
     /// The location where the serving takes place.
     /// </summary>
     public ServingLocation Location
     {
-      get { return _Location; }
-      set { _Location = value; }
+        get { return _Location; }
+        set { _Location = value; }
     }
 
     private bool _Cancel;
@@ -78,5 +96,26 @@ namespace BlogEngine.Core
 
     /// <summary>Is used when content is served on a custom location.</summary>
     Other
+  }
+
+  /// <summary>
+  /// The criteria by which the content is being served (by tag, category, author, etc)
+  /// </summary>
+  public enum ServingContentBy
+  {
+      /// <summary>The criteria by which content is being served is unspecified.</summary>
+      Unspecified,
+      /// <summary>All content is being served.</summary>
+      AllContent,
+      /// <summary>Content is being served by tag.</summary>
+      Tag,
+      /// <summary>Content is being served by category.</summary>
+      Category,
+      /// <summary>Content is being served by author.</summary>
+      Author,
+      /// <summary>Content is being served by date range.</summary>
+      DateRange,
+      /// <summary>Content is being served by APML filtering.</summary>
+      Apml
   }
 }

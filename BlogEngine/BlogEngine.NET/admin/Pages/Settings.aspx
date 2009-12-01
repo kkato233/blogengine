@@ -70,6 +70,13 @@
         <asp:TextBox runat="server" ID="txtDescriptionCharacters" Width="40" />
         <asp:CompareValidator runat="server" ControlToValidate="txtDescriptionCharacters" Type="Integer" Operator="DataTypeCheck" ID="valDescChar" SetFocusOnError="true" />
         <br />
+
+        <label for="<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>"><%=Resources.labels.showDescriptionInPostListForPostsByTagOrCategory %></label>
+        <asp:CheckBox runat="server" ID="cbShowDescriptionInPostListForPostsByTagOrCategory" />
+        <label for="<%=txtDescriptionCharactersForPostsByTagOrCategory.ClientID %>" style="float:none; position:relative; top:-2px;"><%=Resources.labels.numberOfCharacters %></label>
+        <asp:TextBox runat="server" ID="txtDescriptionCharactersForPostsByTagOrCategory" Width="40" />
+        <asp:CompareValidator runat="server" ControlToValidate="txtDescriptionCharactersForPostsByTagOrCategory" Type="Integer" Operator="DataTypeCheck" SetFocusOnError="true" />
+        <br /><br />
         
         <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
         <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" /><br />
