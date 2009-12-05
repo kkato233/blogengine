@@ -1124,7 +1124,7 @@ namespace BlogEngine.Core.Providers
         {
             DbParameter dpID = provider.CreateParameter();
             dpID.ParameterName = parmPrefix + "BlogRollId";
-            dpID.Value = blogRollItem.Id;
+            dpID.Value = blogRollItem.Id.ToString();
             cmd.Parameters.Add(dpID);
 
             DbParameter dpTitle = provider.CreateParameter();
@@ -1222,7 +1222,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpID = provider.CreateParameter();
                     dpID.ParameterName = parmPrefix + "BlogRollId";
-                    dpID.Value = blogRollItem.Id;
+                    dpID.Value = blogRollItem.Id.ToString();
                     cmd.Parameters.Add(dpID);
 
                     cmd.ExecuteNonQuery();
@@ -1337,7 +1337,7 @@ namespace BlogEngine.Core.Providers
         {
             DbParameter dpId = provider.CreateParameter();
             dpId.ParameterName = "ReferrerId";
-            dpId.Value = referrer.Id;
+            dpId.Value = referrer.Id.ToString();
             cmd.Parameters.Add(dpId);
 
             DbParameter dpDay = provider.CreateParameter();
