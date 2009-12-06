@@ -68,34 +68,36 @@ namespace BlogEngine.Core.Providers
             DateTime oldFileDate = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
 
             DirectoryInfo dirInfo = new DirectoryInfo(folder);
-            List<FileInfo> logFiles = new List<FileInfo>(dirInfo.GetFiles());
-            foreach (FileInfo file in logFiles)
+            if (dirInfo.Exists)
             {
-                string fileName = file.Name.Replace(".xml", string.Empty);
-                string[] dateStrings = fileName.Split(new char[] { '.' });
-                if (dateStrings.Length != 3)
+                List<FileInfo> logFiles = new List<FileInfo>(dirInfo.GetFiles());
+                foreach (FileInfo file in logFiles)
                 {
-                    file.Delete();
-                    continue;
-                }
+                    string fileName = file.Name.Replace(".xml", string.Empty);
+                    string[] dateStrings = fileName.Split(new char[] { '.' });
+                    if (dateStrings.Length != 3)
+                    {
+                        file.Delete();
+                        continue;
+                    }
 
-                DateTime day = new DateTime(int.Parse(dateStrings[0]), int.Parse(dateStrings[1]), int.Parse(dateStrings[2]));
-                if (day < oldFileDate)
-                {
-                    file.Delete();
-                    continue;
-                }
+                    DateTime day = new DateTime(int.Parse(dateStrings[0]), int.Parse(dateStrings[1]), int.Parse(dateStrings[2]));
+                    if (day < oldFileDate)
+                    {
+                        file.Delete();
+                        continue;
+                    }
 
-                referrers.AddRange(getReferrersFromFile(file, day));
+                    referrers.AddRange(getReferrersFromFile(file, day));
+                }
             }
-
             return referrers;
         }
 
         private List<Referrer> getReferrersFromFile(FileInfo file, DateTime day)
         {
             List<Referrer> referrers = new List<Referrer>();
-                
+
             XmlDocument doc = new XmlDocument();
             doc.Load(file.FullName);
 
@@ -122,8 +124,12 @@ namespace BlogEngine.Core.Providers
         private void writeReferrerFile(List<Referrer> referrers, DateTime day)
         {
             string folder = Path.Combine(_Folder, "log");
-            string fileName = Path.Combine(folder,  day.ToString("yyyy.MM.dd") + ".xml");
-
+            string fileName = Path.Combine(folder, day.ToString("yyyy.MM.dd") + ".xml");
+            DirectoryInfo dirInfo = new DirectoryInfo(folder);
+            if (!dirInfo.Exists)
+            {
+                dirInfo.Create();
+            }
             using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
             {
                 writer.Formatting = Formatting.Indented;
