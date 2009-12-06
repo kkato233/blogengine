@@ -114,10 +114,14 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        // rusvdw - not sure why the following code is here, but it causes an internal exception
+        // inside Mono's ASP.NET implementation, so I've removed it here.
+        /*
         string generatedFieldName = "txtName" + DateTime.Now.Ticks.ToString();
         txtName.ID = generatedFieldName;
         CustomValidator1.ControlToValidate = generatedFieldName;
         RequiredFieldValidator1.ControlToValidate = generatedFieldName;
+        */
 
         if (Post == null)
             Response.Redirect(Utils.RelativeWebRoot);
