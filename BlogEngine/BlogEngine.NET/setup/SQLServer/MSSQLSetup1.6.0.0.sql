@@ -1,4 +1,4 @@
-/****** BlogEngine.NET 1.5 SQL Setup Script ******/
+/****** BlogEngine.NET 1.6 SQL Setup Script ******/
 
 /****** Object:  Table [dbo].[be_Categories]    Script Date: 12/22/2007 14:14:54 ******/
 SET ANSI_NULLS ON
@@ -543,6 +543,19 @@ INSERT INTO be_StopWords (StopWord)	VALUES ('www');
 INSERT INTO be_StopWords (StopWord)	VALUES ('you');
 INSERT INTO be_StopWords (StopWord)	VALUES ('your');
 
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, [Description], BlogUrl, FeedUrl, Xfn, SortIndex )
+VALUES ( '25e4d8da-3278-4e58-b0bf-932496dabc96', 'Mads Kristensen', 'Full featured simplicity in ASP.NET and C#', 'http://www.madskristensen.dk/', 'http://feeds.feedburner.com/netslave', 'contact', 0 );
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, [Description], BlogUrl, FeedUrl, Xfn, SortIndex )
+VALUES ( 'ccc817ef-e760-482b-b82f-a6854663110f', 'Al Nyveldt', 'Adventures in Code and Other Stories', 'http://www.nyveldt.com/blog/', 'http://feeds.feedburner.com/razorant', 'contact', 1 );
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, [Description], BlogUrl, FeedUrl, Xfn, SortIndex )
+VALUES ( 'dcdaa78b-0b77-4691-99f0-1bb6418945a1', 'Ruslan Tur', '.NET and Open Source: better together', 'http://rtur.net/blog/', 'http://feeds.feedburner.com/rtur', 'contact', 2 );
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, [Description], BlogUrl, FeedUrl, Xfn, SortIndex )
+VALUES ( '8a846489-b69e-4fde-b2b2-53bc6104a6fa', 'John Dyer', 'Technology and web development in ASP.NET, Flash, and JavaScript', 'http://johndyer.name/', 'http://johndyer.name/syndication.axd', 'contact', 3 );
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, [Description], BlogUrl, FeedUrl, Xfn, SortIndex )
+VALUES ( '7f906880-4316-47f1-a934-1a912fc02f8b', 'Russell van der Walt', 'an adventure in web technologies', 'http://blog.ruski.co.za/', 'http://feeds.feedburner.com/rusvdw', 'contact', 4 );
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, [Description], BlogUrl, FeedUrl, Xfn, SortIndex )
+VALUES ( '890f00e5-3a86-4cba-b85b-104063964a87', 'Ben Amada', 'adventures in application development', 'http://allben.net/', 'http://feeds.feedburner.com/allben', 'contact', 5 );
+
 DECLARE @postID uniqueidentifier, @catID uniqueidentifier;
 
 SET @postID = NEWID();
@@ -553,9 +566,9 @@ INSERT INTO be_Categories (CategoryID, CategoryName)
 
 INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Author, IsPublished)
 	VALUES (@postID, 
-	'Welcome to BlogEngine.NET 1.5 using Microsoft SQL Server', 
+	'Welcome to BlogEngine.NET 1.6 using Microsoft SQL Server', 
 	'The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory',
-	'<p>If you see this post it means that BlogEngine.NET 1.5 is running with SQL Server and the DbBlogProvider is configured correctly.</p>
+	'<p>If you see this post it means that BlogEngine.NET 1.6 is running with SQL Server and the DbBlogProvider is configured correctly.</p>
 	<h2>Setup</h2>
 	<p>If you are using the ASP.NET Membership provider, you are set to use existing users.  If you are using the default BlogEngine.NET XML provider, it is time to setup some users.  Find the sign-in link located either at the bottom or top of the page depending on your current theme and click it. Now enter "admin" in both the username and password fields and click the button. You will now see an admin menu appear. It has a link to the "Users" admin page. From there you can change the username and password.</p>
 	<h2>Write permissions</h2>
