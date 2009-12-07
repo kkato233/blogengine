@@ -33,6 +33,8 @@ public class AkismetFilter : ICustomFilter
         if (!ExtensionManager.ExtensionEnabled("AkismetFilter"))
             return false;
 
+        if (_settings == null) InitSettings();
+
         _site = _settings.GetSingleValue("SiteURL");
         _key = _settings.GetSingleValue("ApiKey");
         _api = new Akismet(_key, _site, "BlogEngine.net 1.5");
@@ -44,6 +46,8 @@ public class AkismetFilter : ICustomFilter
     {
         if (_api == null) Initialize();
 
+        if (_settings == null) InitSettings();
+
         AkismetComment akismetComment = GetAkismetComment(comment);
         return _api.CommentCheck(akismetComment);
     }
@@ -51,6 +55,8 @@ public class AkismetFilter : ICustomFilter
     public void Report(Comment comment)
     {
         if (_api == null) Initialize();
+
+        if (_settings == null) InitSettings();
 
         AkismetComment akismetComment = GetAkismetComment(comment);
 

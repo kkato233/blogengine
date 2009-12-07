@@ -53,6 +53,10 @@ img {
 	margin: 0 auto;
 }
 
+.loginbox td {
+    padding: 3px;
+}
+
 #postnavigation{
 	margin-bottom: 10px;
 	text-align: center;
