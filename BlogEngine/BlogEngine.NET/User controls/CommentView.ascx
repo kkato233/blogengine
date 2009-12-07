@@ -24,10 +24,10 @@
 		<p id="cancelReply" style="display:none;"><a href="javascript:void(0);" onclick="BlogEngine.cancelReply();"><%=Resources.labels.cancelReply %></a></p>
 	  <%} %>
 
-	  <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %>*</label>
-	  <asp:TextBox runat="Server" ID="txtName" TabIndex="2" ValidationGroup="AddComment" />
-	  <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtName" ErrorMessage=" <%$Resources:labels, chooseOtherName %>" Display="dynamic" ClientValidationFunction="BlogEngine.checkAuthorName" EnableClientScript="true" ValidationGroup="AddComment" />
-	  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
+	  <label for="<%=NameInputId %>"><%=Resources.labels.name %>*</label>
+	  <input type="text" name="<%= NameInputId %>" id="<%= NameInputId %>" tabindex="2" value="<%= DefaultName %>" />
+	  <span id="spnNameRequired" style="color:Red;display:none;"> <asp:Literal runat="server" Text="<%$Resources:labels, required %>"></asp:Literal></span>
+	  <span id="spnChooseOtherName" style="color:Red;display:none;"> <asp:Literal runat="server" Text="<%$Resources:labels, chooseOtherName %>"></asp:Literal></span><br />
 
 	  <label for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %>*</label>
 	  <asp:TextBox runat="Server" ID="txtEmail" TabIndex="3" ValidationGroup="AddComment" />
@@ -70,7 +70,7 @@
 	  <input type="checkbox" id="cbNotify" style="width: auto" tabindex="7" />
 	  <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
 	 
-	  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="if(Page_ClientValidate('AddComment')){BlogEngine.addComment()}" tabindex="7" />    
+	  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="return BlogEngine.validateAndSubmitCommentForm()" tabindex="7" />    
 	  <asp:HiddenField runat="server" ID="hfCaptcha" />
 	</div>
 
@@ -84,7 +84,7 @@ function registerCommentBox(){
 	BlogEngine.comments.moderation = <%=ManualModeration %>;
 	BlogEngine.comments.checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
 	BlogEngine.comments.postAuthor = "<%=Post.Author %>";
-	BlogEngine.comments.nameBox = BlogEngine.$("<%=txtName.ClientID %>");
+	BlogEngine.comments.nameBox = BlogEngine.$("<%= NameInputId %>");
 	BlogEngine.comments.emailBox = BlogEngine.$("<%=txtEmail.ClientID %>");
 	BlogEngine.comments.websiteBox = BlogEngine.$("<%=txtWebsite.ClientID %>");
 	BlogEngine.comments.countryDropDown = BlogEngine.$("<%=ddlCountry.ClientID %>"); 
