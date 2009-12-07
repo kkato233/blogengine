@@ -185,14 +185,22 @@ BlogEngine = {
         BlogEngine.$("btnSaveAjax").disabled = false;
     }
 	,
-    checkAuthorName: function(sender, args) {
-        args.IsValid = true;
-
+    validateAndSubmitCommentForm: function() {
+        var bBuiltInValidationPasses = Page_ClientValidate('AddComment');
+        var bNameIsValid = BlogEngine.comments.nameBox.value.length > 0;
+        document.getElementById('spnNameRequired').style.display = bNameIsValid ? 'none' : '';
+        var bAuthorNameIsValid = true;
         if (BlogEngine.comments.checkName) {
             var author = BlogEngine.comments.postAuthor;
             var visitor = BlogEngine.comments.nameBox.value;
-            args.IsValid = !this.equal(author, visitor);
+            bAuthorNameIsValid = !this.equal(author, visitor);
         }
+        document.getElementById('spnChooseOtherName').style.display = bAuthorNameIsValid ? 'none' : '';
+        if (bBuiltInValidationPasses && bNameIsValid && bAuthorNameIsValid) {
+            BlogEngine.addComment();
+            return true;
+        }
+        return false;
     }
 	,
     addBbCode: function(v) {

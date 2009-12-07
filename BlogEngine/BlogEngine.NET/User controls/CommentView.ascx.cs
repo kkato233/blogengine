@@ -112,16 +112,12 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     #endregion
 
+    protected string NameInputId = string.Empty;
+    protected string DefaultName = string.Empty;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        // rusvdw - not sure why the following code is here, but it causes an internal exception
-        // inside Mono's ASP.NET implementation, so I've removed it here.
-        /*
-        string generatedFieldName = "txtName" + DateTime.Now.Ticks.ToString();
-        txtName.ID = generatedFieldName;
-        CustomValidator1.ControlToValidate = generatedFieldName;
-        RequiredFieldValidator1.ControlToValidate = generatedFieldName;
-        */
+        NameInputId = "txtName" + DateTime.Now.Ticks.ToString();
 
         if (Post == null)
             Response.Redirect(Utils.RelativeWebRoot);
@@ -379,20 +375,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         }
     }
 
-    /// <summary>
-    /// Validates that the name of the person writing posting a comment
-    /// cannot be the same as the author of the post.
-    /// </summary>
-    protected void CheckAuthorName(object sender, ServerValidateEventArgs e)
-    {
-        e.IsValid = true;
-        if (!Page.User.Identity.IsAuthenticated)
-        {
-            if (txtName.Text.ToLowerInvariant() == Post.Author.ToLowerInvariant())
-                e.IsValid = false;
-        }
-    }
-
     private void SetFlagImageUrl()
     {
         if (!string.IsNullOrEmpty(ddlCountry.SelectedValue))
@@ -433,7 +415,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         {
             if (cookie != null)
             {
-                txtName.Text = Server.UrlDecode(cookie.Values["name"]);
+                DefaultName = Server.UrlDecode(cookie.Values["name"]);
                 txtEmail.Text = cookie.Values["email"];
                 txtWebsite.Text = cookie.Values["url"];
                 ddlCountry.SelectedValue = cookie.Values["country"];
@@ -442,7 +424,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             else if (Page.User.Identity.IsAuthenticated)
             {
                 MembershipUser user = Membership.GetUser();
-                txtName.Text = user.UserName;
+                DefaultName = user.UserName;
                 txtEmail.Text = user.Email;
                 txtWebsite.Text = Request.Url.Host;
             }
