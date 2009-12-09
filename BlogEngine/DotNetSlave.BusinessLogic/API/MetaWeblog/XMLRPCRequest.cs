@@ -392,7 +392,10 @@ namespace BlogEngine.Core.API.MetaWeblog
           string tagsList = node.SelectSingleNode("value/struct/member[name='mt_keywords']").LastChild.InnerText;
           foreach (string item in tagsList.Split(','))
           {
-            tags.Add(item.Trim().ToLowerInvariant());
+              if (string.IsNullOrEmpty(tags.Find(delegate(string t) { return t.Equals(item.Trim(), StringComparison.OrdinalIgnoreCase); })))
+              {
+                  tags.Add(item.Trim());
+              }
           }
         }
         temp.tags = tags;

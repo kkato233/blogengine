@@ -87,17 +87,17 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 	/// </summary>
 	private static SortedDictionary<string, int> CreateRawList()
 	{
-		SortedDictionary<string, int> dic = new SortedDictionary<string, int>();
+        SortedDictionary<string, int> dic = new SortedDictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
 		foreach (Post post in Post.Posts)
 		{
 			if (post.IsVisibleToPublic)
 			{
 				foreach (string tag in post.Tags)
 				{
-					if (dic.ContainsKey(tag))
-						dic[tag]++;
-					else
-						dic[tag] = 1;
+                    if (dic.ContainsKey(tag))
+                        dic[tag]++;
+                    else
+                        dic[tag] = 1;
 				}
 			}
 		}
