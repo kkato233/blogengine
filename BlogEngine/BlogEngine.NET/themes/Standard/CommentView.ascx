@@ -5,7 +5,7 @@
   <p class="gravatar"><%= Gravatar(80)%></p>
   <p class="content"><%= Text %></p>
   <p class="author">
-    <%= Comment.Website != null ? "<a href=\"" + Comment.Website + "\" class=\"url fn\">" + Comment.Author + "</a>" : "<span class=\"fn\">" +Comment.Author + "</span>" %>
+    <%= Comment.Website != null ? "<a href=\"" + Comment.Website + "\" rel=\"nofollow\" class=\"url fn\">" + Comment.Author + "</a>" : "<span class=\"fn\">" +Comment.Author + "</span>" %>
     <%= Flag %>
     <%= ((BlogEngine.Core.BlogSettings.Instance.IsCommentNestingEnabled && Comment.IsApproved) ? " | " : "") %>
     <%= ReplyToLink %>    
