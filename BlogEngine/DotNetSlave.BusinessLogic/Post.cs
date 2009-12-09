@@ -555,7 +555,7 @@ namespace BlogEngine.Core
 			{
 				foreach (string t in p.Tags)
 				{
-					if (Utils.RemoveIllegalCharacters(t) == tag)
+                    if (Utils.RemoveIllegalCharacters(t).Equals(tag, StringComparison.OrdinalIgnoreCase))
 						return true;
 				}
 
