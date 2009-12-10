@@ -120,9 +120,9 @@ namespace BlogEngine.Core
 		/// <param name="date">The date.</param>
         public static bool SetConditionalGetHeaders(DateTime date)
         {
-
             // SetLastModified() below will throw an error if the 'date' is a future date.
-            if (date > DateTime.Now)
+            // If the date is 1/1/0001, Mono will throw a 404 error
+            if (date > DateTime.Now || date.Year < 1900)
                 date = DateTime.Now;
 
             HttpResponse response = HttpContext.Current.Response;
