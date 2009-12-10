@@ -279,7 +279,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 		/// <exception cref="ArgumentNullException">The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="posts"/> is a null reference (Nothing in Visual Basic).</exception>
 		private static void SetHeaderInformation(HttpContext context, List<IPublishable> items, SyndicationFormat format)
 		{
-			DateTime lastModified = DateTime.MinValue;
+            DateTime lastModified = new DateTime(1900, 1, 3); // don't use DateTime.MinValue here, as Mono doesn't like it
 			foreach (IPublishable item in items)
 			{
 				if (item.DateModified.AddHours(-BlogSettings.Instance.Timezone) > lastModified)
@@ -299,8 +299,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 					break;
 			}
 
-			if (Utils.SetConditionalGetHeaders(lastModified))
-				context.Response.End();
+            if (Utils.SetConditionalGetHeaders(lastModified)) 
+                context.Response.End();
+            
 		}
 
 		#endregion
