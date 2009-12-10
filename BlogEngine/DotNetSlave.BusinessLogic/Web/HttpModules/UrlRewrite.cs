@@ -111,7 +111,7 @@ namespace BlogEngine.Core.Web.HttpModules
 			{
 				if (url.Contains("/FEED/"))
 				{
-					context.RewritePath(Utils.RelativeWebRoot + "syndication.axd?post=" + post.Id.ToString() + GetQueryString(context), false);
+					context.RewritePath("syndication.axd?post=" + post.Id.ToString() + GetQueryString(context), false);
 				}
 				else
 				{
@@ -130,7 +130,7 @@ namespace BlogEngine.Core.Web.HttpModules
 				{
 					if (url.Contains("/FEED/"))
 					{
-						context.RewritePath(Utils.RelativeWebRoot + "syndication.axd?category=" + cat.Id.ToString() + GetQueryString(context), false);
+						context.RewritePath("syndication.axd?category=" + cat.Id.ToString() + GetQueryString(context), false);
 					}
 					else
 					{
