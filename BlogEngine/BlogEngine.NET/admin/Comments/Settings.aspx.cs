@@ -262,4 +262,26 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
             return "";
         }
     }
+
+    protected void gridCustomFilters_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        string filterName = e.CommandArgument.ToString();
+
+        if(!string.IsNullOrEmpty(filterName))
+        {
+            // reset statistics for this filter
+            for (int i = 0; i < _customFilters.Parameters[0].Values.Count; i++)
+            {
+                if (_customFilters.Parameters[0].Values[i] == filterName)
+                {
+                    _customFilters.Parameters[2].Values[i] = "0";
+                    _customFilters.Parameters[3].Values[i] = "0";
+                    _customFilters.Parameters[4].Values[i] = "0";
+                }
+            }
+
+            ExtensionManager.SaveSettings("MetaExtension", _customFilters);
+            Response.Redirect(Request.RawUrl);
+        }
+    }
 }

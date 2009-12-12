@@ -5,15 +5,21 @@ using System.Globalization;
 using System.Web.Security;
 using BlogEngine.Core;
 using System.Web.UI.WebControls;
+using Resources;
 
 public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 {
+    public string AreYouSureDelete()
+    {
+        return string.Format(labels.areYouSure, labels.delete.ToLower(), labels.selectedComments);
+    }
+
     #region Private members
 
     static protected List<Comment> Comments;
     private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
-    private const string REMOVE_AUTHOR_FILTER = "<a href='?author=' alt='Remove Filter'>Remove Filter</a>";
-    private const string REMOVE_IP_FILTER = "<a href='?ip=' alt='Remove Filter'>Remove Filter</a>";
+    private const string REMOVE_AUTHOR_FILTER = "<a href='?author=' alt='{0} {1}'>{0} {1}</a>";
+    private const string REMOVE_IP_FILTER = "<a href='?ip=' alt='{0} {1}'>{0} {1}</a>";
     private bool _autoModerated;
     protected enum ActionType
     {
@@ -32,32 +38,37 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
         _autoModerated = BlogSettings.Instance.ModerationType == 1 ? true : false;
 
-        string confirm = "return confirm('Are you sure you want {0} selected comments?');";
+        string confirm = "return confirm('{0}');";
+        string msg = "";
 
         if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
             btnAction.Visible = false;
 
         if (Request.Path.ToLower().Contains("approved.aspx"))
         {
-            btnAction.Text = "Reject";
-            btnAction.OnClientClick = string.Format(confirm, "reject");
+            btnAction.Text = labels.reject;
+            msg = string.Format(labels.areYouSure, labels.reject.ToLower(), labels.selectedComments);
+            btnAction.OnClientClick = string.Format(confirm, msg);
         }
         else if (Request.Path.ToLower().Contains("spam.aspx"))
         {
-            btnAction.Text = "Restore";
-            btnAction.OnClientClick = string.Format(confirm, "restore");
+            btnAction.Text = labels.restore;
+            msg = string.Format(labels.areYouSure, labels.restore.ToLower(), labels.selectedComments);
+            btnAction.OnClientClick = string.Format(confirm, msg);
         }
         else
         {
             if (_autoModerated)
             {
-                btnAction.Text = "Spam";
-                btnAction.OnClientClick = string.Format(confirm, "reject");
+                btnAction.Text = labels.spam;
+                msg = string.Format(labels.areYouSure, labels.spam.ToLower(), labels.selectedComments);
+                btnAction.OnClientClick = string.Format(confirm, msg);
             }
             else
             {
-                btnAction.Text = "Approve";
-                btnAction.OnClientClick = string.Format(confirm, "approve");
+                btnAction.Text = labels.approve;
+                msg = string.Format(labels.areYouSure, labels.approve.ToLower(), labels.selectedComments);
+                btnAction.OnClientClick = string.Format(confirm, msg);
             }
         }
 
@@ -85,13 +96,13 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     {
         if (e.Row.RowType == DataControlRowType.Footer)
         {
-            e.Row.Cells[8].Text = string.Format("Total : {0} comments", Comments.Count);
+            e.Row.Cells[8].Text = string.Format("{0} : {1} {2}", labels.total, Comments.Count, labels.comments);
 
             if(!string.IsNullOrEmpty(_authorFilter))
-                e.Row.Cells[3].Text = REMOVE_AUTHOR_FILTER;
+                e.Row.Cells[3].Text = string.Format(REMOVE_AUTHOR_FILTER, labels.remove, labels.filter);
 
             if(!string.IsNullOrEmpty(_ipFilter))
-                e.Row.Cells[4].Text = REMOVE_IP_FILTER;
+                e.Row.Cells[4].Text = string.Format(REMOVE_IP_FILTER, labels.remove, labels.filter);
         }
     }
 
@@ -118,6 +129,9 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         {
             foreach (Comment c in p.Comments)
             {
+                // do not include trackbacks and pingbacks to comment list
+                if(c.Email == "trackback" || c.Email == "pingback") continue;
+
                 if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
                 {
                     if(Filtered(c)) comments.Add(c);
