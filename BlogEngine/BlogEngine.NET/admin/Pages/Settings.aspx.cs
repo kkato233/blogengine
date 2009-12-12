@@ -161,7 +161,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         if (enabledHttpCompressionSettingChanged)
         { 
             // To avoid errors in IIS7 when toggling between compression and no-compression, re-start the app.
-            string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "web.config";
+            string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "Web.Config";
             File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
         }
 

@@ -99,7 +99,7 @@ public class ExtensionManager
         xs.SaveSettings(x);
         SaveToCache();
 
-        string ConfigPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "web.config";
+        string ConfigPath = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "Web.Config";
         File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
         break;
       }
