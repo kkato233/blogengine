@@ -60,7 +60,7 @@ public partial class User_controls_xmanager_SourceEditor : UserControl
             string assemblyName = type.Assembly.FullName.Split(".".ToCharArray())[0];
             assemblyName = assemblyName.Replace("App_SubCode_", "App_Code\\");
             string fileExt = assemblyName.Contains("VB_Code") ? ".vb" : ".cs";
-            fileName += assemblyName + "\\Extensions\\" + _extensionName + fileExt;
+            fileName += Path.Combine(Path.Combine(assemblyName, "Extensions"), _extensionName + fileExt);
           }
         }
       }
