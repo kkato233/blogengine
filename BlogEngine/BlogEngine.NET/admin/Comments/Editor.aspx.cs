@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Web;
 using System.Web.Security;
 using BlogEngine.Core;
+using Resources;
 
 public partial class admin_Comments_Editor : System.Web.UI.Page
 {
@@ -31,17 +32,17 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                 if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled)
                 {
                     if (BlogSettings.Instance.ModerationType == 1)
-                        BtnAction.Text = "Spam"; // "Comments: Auto-Moderated";
+                        BtnAction.Text = labels.spam; // "Comments: Auto-Moderated";
                     else
-                        BtnAction.Text = "Approve"; // "Comments: Manual Moderation";
+                        BtnAction.Text = labels.approve; // "Comments: Manual Moderation";
                 }
             }
 
             if (_urlReferrer.Contains("/Comments/Approved.aspx"))
-                BtnAction.Text = "Reject";
+                BtnAction.Text = labels.reject;
 
             if (_urlReferrer.Contains("/Comments/Spam.aspx"))
-                BtnAction.Text = "Restore";
+                BtnAction.Text = labels.restore;
 
             BtnAction.Visible = BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled;
 

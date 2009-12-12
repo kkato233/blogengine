@@ -802,4 +802,166 @@
   <data name="commentNotificationUnsubscribe" xml:space="preserve">
     <value>Unsubscribe from future comment notification emails to this post.</value>
   </data>
+  <data name="accuracy" xml:space="preserve">
+    <value>Accuracy</value>
+  </data>
+  <data name="addFilter" xml:space="preserve">
+    <value>Add Filter</value>
+  </data>
+  <data name="addToWhiteList" xml:space="preserve">
+    <value>Add to white list if at least</value>
+  </data>
+  <data name="allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="alwaysTrust" xml:space="preserve">
+    <value>If user authenticated, always trust</value>
+  </data>
+  <data name="approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="authorApproved" xml:space="preserve">
+    <value>comments of this author have been approved</value>
+  </data>
+  <data name="authorBlocked" xml:space="preserve">
+    <value>If comment was deleted, always block author</value>
+  </data>
+  <data name="authorRejected" xml:space="preserve">
+    <value>comments of this author have been rejected</value>
+  </data>
+  <data name="block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="cheked" xml:space="preserve">
+    <value>Checked</value>
+  </data>
+  <data name="commentsApprovedByAdmin" xml:space="preserve">
+    <value>Manual - only after comment approved by admin will it show up in the blog</value>
+  </data>
+  <data name="commentsAuto" xml:space="preserve">
+    <value>Automatic - rules and filters will decide if comment is spam</value>
+  </data>
+  <data name="commentsBlacklist" xml:space="preserve">
+    <value>Add to black list if at least</value>
+  </data>
+  <data name="commentsBlockOnDelete" xml:space="preserve">
+    <value>Block on delete</value>
+  </data>
+  <data name="commentsPerPage" xml:space="preserve">
+    <value>Comments per page</value>
+  </data>
+  <data name="commentsUnmodApproved" xml:space="preserve">
+    <value>If not moderated, all comments approved by default</value>
+  </data>
+  <data name="confirmResetCounters" xml:space="preserve">
+    <value>Are you sure you want to reset all counters to `0`?</value>
+  </data>
+  <data name="contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="down" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="eqls" xml:space="preserve">
+    <value>Equals</value>
+  </data>
+  <data name="filterName" xml:space="preserve">
+    <value>Filter Name</value>
+  </data>
+  <data name="filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="ip" xml:space="preserve">
+    <value>IP</value>
+  </data>
+  <data name="mistakes" xml:space="preserve">
+    <value>Mistakes</value>
+  </data>
+  <data name="moderation" xml:space="preserve">
+    <value>Moderation</value>
+  </data>
+  <data name="priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="reportMistakesToService" xml:space="preserve">
+    <value>Report mistakes back to service</value>
+  </data>
+  <data name="resetCounters" xml:space="preserve">
+    <value>Reset Counters</value>
+  </data>
+  <data name="rules" xml:space="preserve">
+    <value>Rules</value>
+  </data>
+  <data name="spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="trustAuthenticated" xml:space="preserve">
+    <value>Trust authenticated authors</value>
+  </data>
+  <data name="up" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="moderator" xml:space="preserve">
+    <value>Moderator</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="selectedComments" xml:space="preserve">
+    <value>selected comments</value>
+  </data>
+  <data name="editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="widget" xml:space="preserve">
+    <value>Widget</value>
+  </data>
+  <data name="configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="inbox" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="unmoderated" xml:space="preserve">
+    <value>Unmoderated</value>
+  </data>
+  <data name="action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="automoderation" xml:space="preserve">
+    <value>Automatic Moderation</value>
+  </data>
+  <data name="custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="extensions" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
 </root>

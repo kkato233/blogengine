@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="DataGrid.ascx.cs" Inherits="admin_Comments_DataGrid" %>
+<%@ Import Namespace="Resources"%>
 <script language="javascript">
     function editComment(id) {
         window.scrollTo(0, 0);
@@ -51,6 +52,10 @@
           location.reload();
       }
     }
+
+    function ConfirmDelete() {
+      return confirm('<%=AreYouSureDelete()%>');
+    }
   </script>
    
 <div style="border:1px solid #f3f3f3">
@@ -88,25 +93,23 @@
              <%#Gravatar(DataBinder.Eval(Container.DataItem, "Email").ToString(), DataBinder.Eval(Container.DataItem, "Author").ToString())%>
         </ItemTemplate>
     </asp:TemplateField>   
-    <asp:BoundField HeaderText="Author" HeaderStyle-HorizontalAlign="Left" DataField="Author" HtmlEncode="false" DataFormatString="<a href='?author={0}'>{0}</a>" />
-    <asp:BoundField HeaderText="IP" HeaderStyle-HorizontalAlign="Left" DataField="IP" HtmlEncode="false" DataFormatString="<a href='?ip={0}'>{0}</a>" />          
-	<asp:BoundField HeaderText="Email" HeaderStyle-HorizontalAlign="Left" DataField="Email" HtmlEncode="False" DataFormatString="<a href='mailto:{0}'>{0}</a>" />		
-    <asp:TemplateField HeaderText="Website" HeaderStyle-HorizontalAlign="Left">
+    <asp:BoundField HeaderText="<%$ Resources:labels, author %>" HeaderStyle-HorizontalAlign="Left" DataField="Author" HtmlEncode="false" DataFormatString="<a href='?author={0}'>{0}</a>" />
+    <asp:BoundField HeaderText="<%$ Resources:labels, ip %>" HeaderStyle-HorizontalAlign="Left" DataField="IP" HtmlEncode="false" DataFormatString="<a href='?ip={0}'>{0}</a>" />          
+	<asp:BoundField HeaderText="<%$ Resources:labels, email %>" HeaderStyle-HorizontalAlign="Left" DataField="Email" HtmlEncode="False" DataFormatString="<a href='mailto:{0}'>{0}</a>" />		
+    <asp:TemplateField HeaderText="<%$ Resources:labels, website %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <span><%# GetWebsite(DataBinder.Eval(Container.DataItem, "Website"))%></span>
         </ItemTemplate>
     </asp:TemplateField>
     
     <asp:BoundField DataField="IsApproved" Visible="false" />                                    
-    <asp:TemplateField HeaderText="Comment" HeaderStyle-HorizontalAlign="Left">
+    <asp:TemplateField HeaderText="<%$ Resources:labels, comment %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <asp:LinkButton ID="lnkEditComment" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Teaser").ToString()%>' OnClientClick='<%#GetEditHtml(DataBinder.Eval(Container.DataItem, "Id").ToString())%>' />
         </ItemTemplate>
     </asp:TemplateField>
-    <%-- <asp:ButtonField ButtonType="Link" HeaderText="Comment" CommandName="btnInspect" DataTextField="Teaser" HeaderStyle-HorizontalAlign="Left" />--%>    
-    <asp:BoundField HeaderText="Date" DataField="DateCreated" DataFormatString="{0:dd-MMM-yyyy HH:mm}" HeaderStyle-HorizontalAlign="Left" />
-    
-    <asp:TemplateField HeaderText="Moderator" HeaderStyle-HorizontalAlign="Left">
+    <asp:BoundField HeaderText="<%$ Resources:labels, date %>" DataField="DateCreated" DataFormatString="{0:dd-MMM-yyyy HH:mm}" HeaderStyle-HorizontalAlign="Left" />   
+    <asp:TemplateField HeaderText="<%$ Resources:labels, moderator %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
              <asp:literal ID="ltModerator" 
              Text='<%#DataBinder.Eval(Container.DataItem, "ModeratedBy") + "" %>' 
@@ -120,10 +123,10 @@
 </div>
 
 <div style="text-align:center;padding-top:10px">
-    <asp:Button ID="btnSelect" runat="server" Text="Select All" OnClick="btnSelect_Click"/>
-    <asp:Button ID="btnClear" runat="server" Text="Clear All" OnClick="btnClear_Click"/>
-    <asp:Button ID="btnAction" runat="server" Text="Approve" OnClick="btnAction_Click" OnClientClick="return confirm('Are you sure you want to approve selected comments?');" />
-    <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" OnClientClick="return confirm('Are you sure you want to delete selected comments?');" />   
+    <asp:Button ID="btnSelect" runat="server" Text="<%$ Resources:labels, select %>" OnClick="btnSelect_Click"/>
+    <asp:Button ID="btnClear" runat="server" Text="<%$ Resources:labels, clear %>" OnClick="btnClear_Click"/>
+    <asp:Button ID="btnAction" runat="server" Text="<%$ Resources:labels, approve %>" OnClick="btnAction_Click" />
+    <asp:Button ID="btnDelete" runat="server" Text="<%$ Resources:labels, delete %>" OnClick="btnDelete_Click" OnClientClick="return ConfirmDelete();" />   
 </div>
 
 <div id="ErrorMsg" runat="server" style="color: Red; display: block;"></div>

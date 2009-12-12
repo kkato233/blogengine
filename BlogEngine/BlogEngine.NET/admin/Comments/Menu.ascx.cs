@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
+using Resources;
 
 public partial class admin_Comments_Menu : System.Web.UI.UserControl
 {
@@ -16,19 +17,19 @@ public partial class admin_Comments_Menu : System.Web.UI.UserControl
 
         HtmlGenericControl inbx = new HtmlGenericControl("li");
         cssClass = Request.Path.ToLower().Contains("default.aspx") ? "current" : "";
-        inbx.InnerHtml = string.Format(tmpl, "Default", cssClass, "Inbox");
+        inbx.InnerHtml = string.Format(tmpl, "Default", cssClass, labels.inbox);
 
         HtmlGenericControl appr = new HtmlGenericControl("li");
         cssClass = Request.Path.ToLower().Contains("approved.aspx") ? "current" : "";
-        appr.InnerHtml = string.Format(tmpl, "Approved", cssClass, "Approved");
+        appr.InnerHtml = string.Format(tmpl, "Approved", cssClass, labels.approved);
 
         HtmlGenericControl spm = new HtmlGenericControl("li");
         cssClass = Request.Path.ToLower().Contains("spam.aspx") ? "current" : "";
-        spm.InnerHtml = string.Format(tmpl, "Spam", cssClass, "Spam");
+        spm.InnerHtml = string.Format(tmpl, "Spam", cssClass, labels.spam);
 
         HtmlGenericControl stn = new HtmlGenericControl("li");
         cssClass = Request.Path.ToLower().Contains("settings.aspx") ? "current" : "";
-        stn.InnerHtml = string.Format(tmpl, "Settings", cssClass, "Configuration");
+        stn.InnerHtml = string.Format(tmpl, "Settings", cssClass, labels.configuration);
 
         UlMenu.Controls.Add(inbx);
 
@@ -36,25 +37,25 @@ public partial class admin_Comments_Menu : System.Web.UI.UserControl
         {
             if(BlogSettings.Instance.ModerationType == 1)
             {                  
-                hdr.InnerHtml = "Comments: Auto-Moderated";
+                hdr.InnerHtml = labels.comments + ": " + labels.automoderation;
                 UlMenu.Controls.Add(spm);
             }
             else
             {
-                hdr.InnerHtml = "Comments: Manual Moderation";
+                hdr.InnerHtml = string.Format("{0}: {1} {2}", labels.comments, labels.manual, labels.moderation);
                 UlMenu.Controls.Add(appr);
             }
         }
         else
         {
-            hdr.InnerHtml = "Comments: Unmoderated";
+            hdr.InnerHtml = labels.comments + ": " + labels.unmoderated;
         }
 
         UlMenu.Controls.Add(stn);
 
         if(Request.Path.ToLower().Contains("settings.aspx"))
         {
-            hdr.InnerHtml = "Comments: Configuration";
+            hdr.InnerHtml = labels.comments + ": " + labels.settings;
         }
     }
 }

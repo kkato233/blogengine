@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin_Comments_Settings" %>
+<%@ Import Namespace="Resources"%>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
@@ -55,6 +56,10 @@
                 document.getElementById('CustomFilters').style.display = "none";
             }
         }
+
+        function ConfirmReset() {
+            return confirm('<%=labels.confirmResetCounters%>');  
+        } 
     </script>
   
     <div class="settings" id="GeneralSettings">   
@@ -63,23 +68,23 @@
         <div id="ErrorMsg" runat="server" style="color: Red; display: block;"></div>
         <div id="InfoMsg" runat="server" style="color: Green; display: block;"></div>
             
-        <label for="<%=cbEnableComments.ClientID %>"><%=Resources.labels.enableComments %></label>
-        <asp:CheckBox runat="server" ID="cbEnableComments" onclick="ToggleEnableComments();" /><%=Resources.labels.enableCommentsDescription %><br />
+        <label for="<%=cbEnableComments.ClientID %>"><%=labels.enableComments %></label>
+        <asp:CheckBox runat="server" ID="cbEnableComments" onclick="ToggleEnableComments();" /><%=labels.enableCommentsDescription %><br />
         
         <div id="SettingsFields">
-        <label for="<%=cbEnableCommentNesting.ClientID %>"><%=Resources.labels.enableCommentNesting %></label>
-        <asp:CheckBox runat="server" ID="cbEnableCommentNesting" /><%=Resources.labels.enableCommentNestingDescription%><br />
+        <label for="<%=cbEnableCommentNesting.ClientID %>"><%=labels.enableCommentNesting %></label>
+        <asp:CheckBox runat="server" ID="cbEnableCommentNesting" /><%=labels.enableCommentNestingDescription%><br />
         
-        <label for="<%=cbEnableCoComment.ClientID %>"><%=Resources.labels.enableCoComments %></label>
+        <label for="<%=cbEnableCoComment.ClientID %>"><%=labels.enableCoComments %></label>
         <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />
         
-        <label for="<%=cbEnableCountryInComments.ClientID %>"><%=Resources.labels.showCountryChooser %></label>
-        <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /><%=Resources.labels.showCountryChooserDescription %><br />
+        <label for="<%=cbEnableCountryInComments.ClientID %>"><%=labels.showCountryChooser %></label>
+        <asp:CheckBox runat="server" ID="cbEnableCountryInComments" /><%=labels.showCountryChooserDescription %><br />
         
-        <label for="<%=cbShowLivePreview.ClientID %>"><%=Resources.labels.showLivePreview %></label>
+        <label for="<%=cbShowLivePreview.ClientID %>"><%=labels.showLivePreview %></label>
         <asp:CheckBox runat="server" ID="cbShowLivePreview" /><br />
         
-        <label for="<%=rblAvatar.ClientID %>"><%=Resources.labels.avatars %></label>
+        <label for="<%=rblAvatar.ClientID %>"><%=labels.avatars %></label>
         <asp:RadioButtonList runat="Server" ID="rblAvatar" RepeatLayout="flow" RepeatDirection="horizontal">
           <asp:ListItem Text="MonsterID" Value="monster" />
           <asp:ListItem Text="Wavatar" Value="wavatar" />
@@ -88,7 +93,7 @@
         </asp:RadioButtonList><br />
 
         <label for="<%=ddlCloseComments.ClientID %>" style="position: relative; top: 4px">
-            <%=Resources.labels.closeCommetsAfter %>
+            <%=labels.closeCommetsAfter %>
         </label>
         <asp:DropDownList runat="server" ID="ddlCloseComments">
             <asp:ListItem Text="Never" Value="0" />
@@ -105,10 +110,10 @@
             <asp:ListItem Text="180" />
             <asp:ListItem Text="365" />
         </asp:DropDownList>
-        days.<br />
+        <%=labels.days%>.<br />
         
         <label for="<%=ddlCommentsPerPage.ClientID %>" style="position: relative; top: 4px">
-            Comments per page
+            <%=labels.commentsPerPage%>
         </label>
         <asp:DropDownList runat="server" ID="ddlCommentsPerPage">
             <asp:ListItem Text="5" />
@@ -121,31 +126,31 @@
     </div>
     
     <div class="settings" id="Moderation">
-        <h1>Moderation</h1>
-        <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=Resources.labels.enableCommentsModeration%></label>
-        <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" onclick="ToggleModeration();" /> If not moderated, all comments approved by default.<br />
+        <h1><%=labels.moderation%></h1>
+        <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=labels.enableCommentsModeration%></label>
+        <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" onclick="ToggleModeration();" /> <%=labels.commentsUnmodApproved%>.<br />
         <table width="550px" border="0" id="tblModeration">
             <tr>
                 <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="0" style="border:0" <%=RadioChecked(0)%> /></td> 
-                <td>Manual - only after comment approved by admin will it show up in the blog</td>
+                <td><%=labels.commentsApprovedByAdmin%></td>
             </tr>
             <tr>
                 <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="1" style="border:0" <%=RadioChecked(1)%> /></td> 
-                <td>Automatic - rules and filters will decide if comment is spam.</td>
+                <td><%=labels.commentsAuto%>.</td>
             </tr>
         </table>
     </div>
     
     <div class="settings" id="Rules">
-        <h1>Rules</h1>
+        <h1><%=labels.rules%></h1>
         
         <div class="cbox">
-            <label for="<%=cbTrustAuthenticated.ClientID %>">Trust authenticated authors</label>
-            <asp:CheckBox runat="server" ID="cbTrustAuthenticated" />If user authenticated, always trust
-        </div>
+            <label for="<%=cbTrustAuthenticated.ClientID %>"><%=labels.trustAuthenticated%></label>
+            <asp:CheckBox runat="server" ID="cbTrustAuthenticated" /><%=labels.alwaysTrust%>
+        </div><br />
         
         <div class="ddown">
-            <label>Add to white list if at least</label>
+            <label><%=labels.addToWhiteList%></label>
             <asp:DropDownList runat="server" ID="ddWhiteListCount">
                 <asp:ListItem Text="0" />
                 <asp:ListItem Text="1" />
@@ -153,11 +158,11 @@
                 <asp:ListItem Text="3" />
                 <asp:ListItem Text="5" />
             </asp:DropDownList> 
-            <span>comments of this author have been approved</span>  
+            <span><%=labels.authorApproved%></span>  
         </div>
         
         <div class="ddown">
-            <label for="<%=ddBlackListCount.ClientID %>">Add to black list if at least</label>
+            <label for="<%=ddBlackListCount.ClientID %>"><%=labels.commentsBlacklist%></label>
             <asp:DropDownList runat="server" ID="ddBlackListCount">
                 <asp:ListItem Text="0" />
                 <asp:ListItem Text="1" />
@@ -165,46 +170,46 @@
                 <asp:ListItem Text="3" />
                 <asp:ListItem Text="5" />
             </asp:DropDownList> 
-            <span>comments of this author have been rejected</span>
-        </div>
+            <span><%=labels.authorRejected%></span>
+        </div><br />
         
         <div class="cbox">
-            <label for="<%=cbBlockOnDelete.ClientID %>">Block on delete</label>
+            <label for="<%=cbBlockOnDelete.ClientID %>"><%=labels.commentsBlockOnDelete%></label>
             <asp:CheckBox runat="server" ID="cbBlockOnDelete" />
-            <span>If comment was deleted, always block author</span>
+            <span><%=labels.authorBlocked%></span>
         </div>
     </div>
     
     <div class="settings" id="Filters">
-        <h1>Filters</h1>
+        <h1><%=labels.filters%></h1>
         
         <table>
             <tr>
                 <td>
                     <asp:DropDownList ID="ddAction" runat="server">
-                        <asp:ListItem Text="Block" Value="Block" Selected=true></asp:ListItem>
-                        <asp:ListItem Text="Allow" Value="Allow" Selected=false></asp:ListItem>
-                        <asp:ListItem Text="Delete" Value="Delete" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, block %>" Value="Block" Selected=true></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, allow %>" Value="Allow" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, delete %>" Value="Delete" Selected=false></asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td>
                     <asp:DropDownList ID="ddSubject" runat="server">
-                        <asp:ListItem Text="IP" Value="IP" Selected=true></asp:ListItem>
-                        <asp:ListItem Text="Author" Value="Author" Selected=false></asp:ListItem>
-                        <asp:ListItem Text="Website" Value="Website" Selected=false></asp:ListItem>
-                        <asp:ListItem Text="Email" Value="Email" Selected=false></asp:ListItem>
-                        <asp:ListItem Text="Comment" Value="Comment" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, ip %>" Value="IP" Selected=true></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, author %>" Value="Author" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, website %>" Value="Website" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, email %>" Value="Email" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, comment %>" Value="Comment" Selected=false></asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td>
                     <asp:DropDownList ID="ddOperator" runat="server">
-                        <asp:ListItem Text="Equals" Value="Equals" Selected=true></asp:ListItem>
-                        <asp:ListItem Text="Contains" Value="Contains" Selected=false></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, eqls %>" Value="Equals" Selected=true></asp:ListItem>
+                        <asp:ListItem Text="<%$ Resources:labels, contains %>" Value="Contains" Selected=false></asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td><asp:TextBox ID="txtFilter" runat="server" MaxLength="250" Width="300px"></asp:TextBox></td>
                 <td>
-                    <asp:Button ID="btnAddFilter" runat="server" Text="Add Filter" OnClick="btnAddFilter_Click"/>
+                    <asp:Button ID="btnAddFilter" runat="server" Text="<%$ Resources:labels, addFilter %>" OnClick="btnAddFilter_Click"/>
                 </td>
                 <td><span runat="Server" ID="FilterValidation" style="color:Red"></span></td>
             </tr>
@@ -229,7 +234,7 @@
                 AllowSorting="True">
               <Columns>
                 <asp:BoundField DataField = "ID" Visible="false" />
-                <asp:TemplateField HeaderText="Action" HeaderStyle-HorizontalAlign="Left">
+                <asp:TemplateField HeaderText="<%$ Resources:labels, action %>" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
                         <%# Eval("Action") %> 
                     </ItemTemplate>
@@ -253,7 +258,7 @@
                     </ItemTemplate>
                 </asp:TemplateField>
                 
-                <asp:TemplateField HeaderText="Filter" HeaderStyle-HorizontalAlign="Left">
+                <asp:TemplateField HeaderText="<%$ Resources:labels, filter %>" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
                          <%# Eval("Filter") %> 
                     </ItemTemplate>
@@ -261,7 +266,7 @@
                         
                 <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
                     <ItemTemplate>
-                        <asp:ImageButton ID="btnDelete" runat="server" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/del.png" OnClick="btnDelete_Click" CommandName="btnDelete" AlternateText="Delete" />
+                        <asp:ImageButton ID="btnDelete" runat="server" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/del.png" OnClick="btnDelete_Click" CommandName="btnDelete" AlternateText="<%=labels.delete%>" />
                     </ItemTemplate>
                 </asp:TemplateField>
               </Columns>
@@ -271,7 +276,7 @@
     </div>
     
     <div class="settings" id="CustomFilters">
-        <h1>Custom Filters</h1>
+        <h1><%=labels.custom %> <%=labels.filters %></h1>
         <div style="border:1px solid #f3f3f3">       
         <asp:GridView ID="gridCustomFilters" 
                 BorderColor="#f8f8f8" 
@@ -284,37 +289,43 @@
                 runat="server"  
                 width="100%" 
                 datakeynames="FullName"
-                AutoGenerateColumns="False">
+                AutoGenerateColumns="False" 
+                onrowcommand="gridCustomFilters_RowCommand">
               <Columns>
                 <asp:BoundField DataField = "FullName" Visible="false" />
-                <asp:TemplateField HeaderText="Enabled" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="60">
+                <asp:TemplateField HeaderText="<%$ Resources:labels, enabled%>" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="60">
                     <ItemTemplate>
                         <asp:CheckBox ID="chkEnabled" Checked='<%# CustomFilterEnabled(DataBinder.Eval(Container.DataItem, "FullName").ToString()) %>' Enabled="false" runat="server"/>
                     </ItemTemplate>
                 </asp:TemplateField>  
-                <asp:BoundField DataField = "Name" HeaderText="Filter Name" HeaderStyle-HorizontalAlign="Left" />
-                <asp:BoundField DataField = "Checked" HeaderText="Checked" HeaderStyle-HorizontalAlign="Left" />
-                <asp:TemplateField HeaderText="Approved" HeaderStyle-HorizontalAlign="Left">
+                <asp:BoundField DataField = "FullName" HeaderText="<%$ Resources:labels, filterName %>" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Checked" HeaderText="<%$ Resources:labels, cheked %>" HeaderStyle-HorizontalAlign="Left" />
+                <asp:TemplateField HeaderText="<%$ Resources:labels, approved %>" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
                         <%# ApprovedCnt(DataBinder.Eval(Container.DataItem, "Checked"), DataBinder.Eval(Container.DataItem, "Cought")) %> 
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField = "Cought" HeaderText="Spam" HeaderStyle-HorizontalAlign="Left" />
-                <asp:BoundField DataField = "Reported" HeaderText="Mistakes" HeaderStyle-HorizontalAlign="Left" />
-                <asp:TemplateField HeaderText="Accuracy" HeaderStyle-HorizontalAlign="Left">
+                <asp:BoundField DataField = "Cought" HeaderText="<%$ Resources:labels, spam %>" HeaderStyle-HorizontalAlign="Left" />
+                <asp:BoundField DataField = "Reported" HeaderText="<%$ Resources:labels, mistakes %>" HeaderStyle-HorizontalAlign="Left" />
+                <asp:TemplateField HeaderText="<%$ Resources:labels, accuracy %>" HeaderStyle-HorizontalAlign="Left">
                     <ItemTemplate>
                         <%# Accuracy(DataBinder.Eval(Container.DataItem, "Checked"), DataBinder.Eval(Container.DataItem, "Reported"))%> % 
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField = "Priority" HeaderText="Priority" HeaderStyle-HorizontalAlign="Left" />
+                <asp:TemplateField HeaderText="<%$ Resources:labels, resetCounters %>" HeaderStyle-HorizontalAlign="Left">
+                    <ItemTemplate>
+                        <asp:LinkButton runat="server" ID="btnResetCnt" CommandName="btnResetCnt"  CommandArgument='<%# Eval("FullName") %>' OnClientClick="return ConfirmReset();" Text="Reset"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:BoundField DataField = "Priority" HeaderText="<%$ Resources:labels, priority %>" HeaderStyle-HorizontalAlign="Left" />
                 <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
                     <ItemTemplate>
-                        <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="btnPriorityUp_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="Up" />
+                        <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="btnPriorityUp_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="<%=labels.up%>" />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
                     <ItemTemplate>
-                        <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="btnPriorityDwn_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/down_arrow_small.gif" CommandName="btnPriorityDwn" AlternateText="" />
+                        <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="btnPriorityDwn_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/down_arrow_small.gif" CommandName="btnPriorityDwn" AlternateText="<%=labels.down %>" />
                     </ItemTemplate>
                 </asp:TemplateField>
               </Columns>
@@ -323,7 +334,7 @@
         
         <div style="padding-top:8px">
             <asp:CheckBox runat="server" ID="cbReportMistakes" />
-            <span>Report mistakes back to service</span>
+            <span><%=labels.reportMistakesToService %></span>
         </div>
     </div>
 
