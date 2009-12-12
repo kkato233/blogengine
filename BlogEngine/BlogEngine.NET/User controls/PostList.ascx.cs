@@ -59,18 +59,22 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 		string path = Utils.RelativeWebRoot + "themes/" + theme + "/PostView.ascx";
 		int counter = 0;
 
-        bool showExcerpt;
-        int descriptionCharacters;
+        bool showExcerpt = false;
+        int descriptionCharacters = 0;
 
-        if (this.ContentBy == ServingContentBy.Tag || this.ContentBy == ServingContentBy.Category)
+        // To allow WLW to download the theme when setting up account, avoid excerpt.
+        if (string.IsNullOrEmpty(Request.UserAgent) || Request.UserAgent.IndexOf("Windows Live Writer", StringComparison.OrdinalIgnoreCase) == -1)
         {
-            showExcerpt = BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory;
-            descriptionCharacters = BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory;
-        }
-        else
-        {
-            showExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
-            descriptionCharacters = BlogSettings.Instance.DescriptionCharacters;
+            if (this.ContentBy == ServingContentBy.Tag || this.ContentBy == ServingContentBy.Category)
+            {
+                showExcerpt = BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory;
+                descriptionCharacters = BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory;
+            }
+            else
+            {
+                showExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
+                descriptionCharacters = BlogSettings.Instance.DescriptionCharacters;
+            }
         }
 
 		foreach (Post post in visiblePosts.GetRange(index, stop))
