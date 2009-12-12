@@ -473,7 +473,7 @@ namespace BlogEngine.Core.API.MetaWeblog
       private void LogMetaWeblogCall(string message)
       {
           string saveFolder = System.Web.HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
-          string saveFile = saveFolder + "\\lastmetaweblogcall.txt";
+          string saveFile = Path.Combine(saveFolder, "lastmetaweblogcall.txt");
 
           try
           {
