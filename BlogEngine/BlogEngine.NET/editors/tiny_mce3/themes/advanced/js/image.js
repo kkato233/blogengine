@@ -1,4 +1,4 @@
-var ImageDialog = {
+﻿var ImageDialog = {
 	preInit : function() {
 		var url;
 

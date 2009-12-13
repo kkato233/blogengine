@@ -1,4 +1,4 @@
-/**
+﻿/**
  * This script contains embed functions for common plugins. This scripts are complety free to use for any purpose.
  */
 

@@ -1,4 +1,4 @@
-#region Using
+ï»¿#region Using
 
 using System;
 using System.Text;
@@ -572,7 +572,7 @@ namespace BlogEngine.Core
 		#region IChangeTracking Members
 
 		/// <summary>
-		/// Resets the object’s state to unchanged by accepting the modifications.
+		/// Resets the objectï¿½s state to unchanged by accepting the modifications.
 		/// </summary>
 		void IChangeTracking.AcceptChanges()
 		{

@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+﻿tinyMCEPopup.requireLangPack();
 
 var action, orgTableWidth, orgTableHeight, dom = tinyMCEPopup.editor.dom;
 

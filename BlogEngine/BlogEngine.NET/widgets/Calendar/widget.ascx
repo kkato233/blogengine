@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Calendar_widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Calendar_widget" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <div style="text-align:center">

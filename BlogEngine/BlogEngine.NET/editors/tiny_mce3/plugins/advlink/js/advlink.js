@@ -1,4 +1,4 @@
-/* Functions for the advlink plugin popup */
+﻿/* Functions for the advlink plugin popup */
 
 tinyMCEPopup.requireLangPack();
 

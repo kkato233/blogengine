@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using BlogEngine.Core.Providers;
 using System.IO;
 

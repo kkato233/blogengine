@@ -1,10 +1,10 @@
-/**
+ï»¿/**
  * $Id: validate.js 758 2008-03-30 13:53:29Z spocke $
  *
  * Various form validation methods.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 /**

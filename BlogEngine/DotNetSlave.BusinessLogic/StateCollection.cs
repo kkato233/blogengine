@@ -1,4 +1,4 @@
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
   /// <summary>
   /// A generic collection with the ability to 

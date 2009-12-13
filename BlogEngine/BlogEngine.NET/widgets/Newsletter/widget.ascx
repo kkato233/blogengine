@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Newsletter_widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Newsletter_widget" %>
 
 <div id="newsletterform">
   <p>Get notified when a new post is published.</p>

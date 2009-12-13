@@ -1,4 +1,4 @@
-#region Using
+ï»¿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -120,7 +120,7 @@ public partial class widgets_RecentComments_widget : WidgetBase
 						commentBody = commentBody.Substring(0, commentBody.Length - 1);
 					}
 				}
-				commentBody += comment.Content.Length <= 50 ? " " : "… ";
+				commentBody += comment.Content.Length <= 50 ? " " : "ï¿½ ";
 				LiteralControl body = new LiteralControl(commentBody);
 				li.Controls.Add(body);
 

@@ -1,4 +1,4 @@
-// Some global instances
+﻿// Some global instances
 var tinymce = null, tinyMCEPopup, tinyMCE;
 
 tinyMCEPopup = {
