@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+﻿tinyMCEPopup.requireLangPack();
 
 function saveContent() {
 	if (document.forms[0].htmlSource.value == '') {

@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+﻿tinyMCEPopup.requireLangPack();
 
 var AnchorDialog = {
 	init : function(ed) {

@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="search.aspx.cs" Inherits="search" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="search.aspx.cs" Inherits="search" ValidateRequest="false" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
   <div class="searchpage post">

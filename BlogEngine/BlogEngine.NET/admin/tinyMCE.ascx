@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="tinyMCE.ascx.cs" Inherits="admin_tinyMCE" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="tinyMCE.ascx.cs" Inherits="admin_tinyMCE" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce3/tiny_mce.js"></script>

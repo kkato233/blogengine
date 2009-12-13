@@ -1,4 +1,4 @@
-var AdvHRDialog = {
+﻿var AdvHRDialog = {
 	init : function(ed) {
 		var dom = ed.dom, f = document.forms[0], n = ed.selection.getNode(), w;
 

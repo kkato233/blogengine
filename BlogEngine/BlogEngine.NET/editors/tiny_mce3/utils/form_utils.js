@@ -1,10 +1,10 @@
-/**
+ï»¿/**
  * $Id: form_utils.js 673 2008-03-06 13:26:20Z spocke $
  *
  * Various form utilitiy functions.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 var themeBaseURL = tinyMCEPopup.editor.baseURI.toAbsolute('themes/' + tinyMCEPopup.getParam("theme"));

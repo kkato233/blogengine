@@ -1,10 +1,10 @@
-/**
+ï»¿/**
  * $Id: editable_selects.js 867 2008-06-09 20:33:40Z spocke $
  *
  * Makes select boxes editable.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright ï¿½ 2004-2008, Moxiecode Systems AB, All rights reserved.
  */
 
 var TinyMCE_EditableSelects = {

@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" ValidateRequest="False" CodeFile="Profiles.aspx.cs" Inherits="admin_profiles" Title="Modify Profiles" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" ValidateRequest="False" CodeFile="Profiles.aspx.cs" Inherits="admin_profiles" Title="Modify Profiles" %>
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 

@@ -1,4 +1,4 @@
-// Written by: Roman D. Clarkson
+﻿// Written by: Roman D. Clarkson
 // http://www.romanclarkson.com  mailto:inspirit@romanclarkson.com
 
 using System;

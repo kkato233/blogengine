@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+﻿tinyMCEPopup.requireLangPack();
 
 function init() {
 	var ed, tcont;

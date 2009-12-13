@@ -1,4 +1,4 @@
-tinyMCEPopup.requireLangPack();
+﻿tinyMCEPopup.requireLangPack();
 
 function init() {
 	var f = document.forms[0], v;

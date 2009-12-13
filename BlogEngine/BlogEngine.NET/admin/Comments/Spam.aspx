@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Spam.aspx.cs" Inherits="admin_Comments_Spam" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Spam.aspx.cs" Inherits="admin_Comments_Spam" %>
 <%@ Register src="DataGrid.ascx" tagname="DataGrid" tagprefix="uc1" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 

@@ -1,4 +1,4 @@
-#region Using
+ï»¿#region Using
 
 using System;
 using System.Web;
@@ -139,7 +139,7 @@ namespace Controls
               commentBody = commentBody.Substring(0, commentBody.Length - 1);
             }
           }
-					commentBody += comment.Content.Length <= 50 ? " " : "… ";
+					commentBody += comment.Content.Length <= 50 ? " " : "ï¿½ ";
 					LiteralControl body = new LiteralControl(commentBody);
 					li.Controls.Add(body);
 

@@ -1,4 +1,4 @@
-
+﻿
 /* file:jscripts/tiny_mce/classes/tinymce.js */
 
 var tinymce = {

@@ -1,4 +1,4 @@
-tinyMCE.addI18n('en.searchreplace_dlg',{
+﻿tinyMCE.addI18n('en.searchreplace_dlg',{
 searchnext_desc:"Find again",
 notfound:"The search has been completed. The search string could not be found.",
 search_title:"Find",

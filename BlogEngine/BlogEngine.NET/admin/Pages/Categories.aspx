@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" ValidateRequest="False" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" ValidateRequest="False" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" %>
 <%@ Import Namespace="Resources"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
   <div class="settings">
