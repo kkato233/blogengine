@@ -205,6 +205,11 @@ namespace BlogEngine.Core.Web.Controls
 			if (BlogSettings.Instance.Avatar == "none")
 				return null;
 
+            if (!string.IsNullOrEmpty(Comment.Avatar))
+            {
+                return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, Comment.Avatar, Comment.Author);
+            }
+
 			if (String.IsNullOrEmpty(Comment.Email) || !Comment.Email.Contains("@"))
 			{
 				if (Comment.Website != null && Comment.Website.ToString().Length > 0 && Comment.Website.ToString().Contains("http://"))

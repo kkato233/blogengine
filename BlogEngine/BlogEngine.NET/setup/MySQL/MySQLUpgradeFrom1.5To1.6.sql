@@ -21,3 +21,4 @@ CREATE TABLE IF NOT EXISTS `be_referrers` (
 
 ALTER TABLE `be_pages` ADD `Slug` VARCHAR(255) DEFAULT NULL;
 ALTER TABLE `be_postcomment` ADD `ModeratedBy` VARCHAR(100) DEFAULT NULL;
+ALTER TABLE `be_postcomment` ADD `Avatar` VARCHAR(255) DEFAULT NULL;

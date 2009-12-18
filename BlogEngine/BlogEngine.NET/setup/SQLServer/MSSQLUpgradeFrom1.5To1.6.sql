@@ -34,4 +34,6 @@ GO
 ALTER TABLE dbo.be_PostComment ADD ModeratedBy nvarchar(100) NULL
 GO
 
+ALTER TABLE dbo.be_PostComment ADD Avatar nvarchar(255) NULL
+GO
 

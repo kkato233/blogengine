@@ -174,7 +174,7 @@ namespace BlogEngine.Core.Providers
                     }
 
                     // Comments
-					sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy " +
+					sqlQuery = "SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar " +
                                 "FROM " + tablePrefix + "PostComment " +
                                 "WHERE PostID = " + parmPrefix + "id";
                     cmd.CommandText = sqlQuery;
@@ -210,6 +210,9 @@ namespace BlogEngine.Core.Providers
 
                             if (!rdr.IsDBNull(10))
                                 comment.ModeratedBy = rdr.GetString(10);
+
+                            if (!rdr.IsDBNull(11))
+                                comment.Avatar = rdr.GetString(11);
 
                             post.Comments.Add(comment);
                         }
@@ -1925,8 +1928,8 @@ namespace BlogEngine.Core.Providers
 
                 foreach (Comment comment in post.Comments)
                 {
-					sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy) " +
-                                        "VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved, @moderatedby)";
+					sqlQuery = "INSERT INTO " + tablePrefix + "PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar) " +
+                                        "VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved, @moderatedby, @avatar)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
                     cmd.CommandText = sqlQuery;
@@ -1993,6 +1996,11 @@ namespace BlogEngine.Core.Providers
                     dpModeratedBy.ParameterName = parmPrefix + "moderatedby";
                     dpModeratedBy.Value = comment.ModeratedBy ?? string.Empty;
                     cmd.Parameters.Add(dpModeratedBy);
+
+                    DbParameter dpAvatar = provider.CreateParameter();
+                    dpAvatar.ParameterName = parmPrefix + "avatar";
+                    dpAvatar.Value = comment.Avatar ?? string.Empty;
+                    cmd.Parameters.Add(dpAvatar);
 
                     cmd.ExecuteNonQuery();
                 }

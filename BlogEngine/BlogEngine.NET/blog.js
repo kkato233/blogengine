@@ -98,8 +98,11 @@ BlogEngine = {
         var captcha = BlogEngine.comments.captchaField.value;
         var replyToId = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : "";
 
+        var avatarInput = BlogEngine.$("avatarImgSrc");
+        var avatar = (avatarInput && avatarInput.value) ? avatarInput.value : "";
+
         var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
-        var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId;
+        var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId + "-|-" + avatar;
 
         WebForm_DoCallback(BlogEngine.comments.controlId, argument, callback, 'comment', BlogEngine.onCommentError, false);
 
