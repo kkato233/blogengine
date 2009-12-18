@@ -111,6 +111,7 @@ CREATE TABLE `be_postcomment` (
   `Ip` varchar(50) NOT NULL DEFAULT '',
   `IsApproved` tinyint(1) NOT NULL DEFAULT '0',
   `ModeratedBy` varchar(100) DEFAULT NULL,
+  `Avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`PostCommentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

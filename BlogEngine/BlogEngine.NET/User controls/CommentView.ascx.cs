@@ -55,6 +55,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         string sentCaptcha = args[7];
         //If there is no "reply to" comment, args[8] is empty
         Guid replyToCommentID = String.IsNullOrEmpty(args[8]) ? Guid.Empty : new Guid(args[8]);
+        string avatar = args[9];
 
         string storedCaptcha = hfCaptcha.Value;
 
@@ -72,6 +73,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         comment.DateCreated = DateTime.Now;
         comment.Parent = Post;
         comment.IsApproved = !BlogSettings.Instance.EnableCommentsModeration;
+        comment.Avatar = avatar.Trim();
 
         if (Page.User.Identity.IsAuthenticated)
             comment.IsApproved = true;

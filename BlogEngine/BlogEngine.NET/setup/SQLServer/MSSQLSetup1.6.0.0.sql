@@ -179,6 +179,7 @@ CREATE TABLE [dbo].[be_PostComment](
 	[Ip] [nvarchar](50) NULL,
 	[IsApproved] [bit] NULL,
 	[ModeratedBy] [nvarchar](100) NULL,
+	[Avatar] [nvarchar](255) NULL,
  CONSTRAINT [PK_be_PostComment] PRIMARY KEY CLUSTERED 
 (
 	[PostCommentID] ASC

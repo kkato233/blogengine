@@ -108,6 +108,11 @@ namespace BlogEngine.Core.Providers
 				else
 					comment.IsApproved = true;
 
+                if (node.SelectSingleNode("avatar") != null)
+                {
+                    comment.Avatar = node.SelectSingleNode("avatar").InnerText;
+                }
+
 				comment.Content = node.SelectSingleNode("content").InnerText;
 				comment.DateCreated = DateTime.Parse(node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
 				post.Comments.Add(comment);
@@ -212,7 +217,10 @@ namespace BlogEngine.Core.Providers
                     
                     if(!string.IsNullOrEmpty(comment.ModeratedBy))
                         writer.WriteElementString("moderatedby", comment.ModeratedBy);
-					
+
+                    if (comment.Avatar != null)
+                        writer.WriteElementString("avatar", comment.Avatar);
+
                     writer.WriteElementString("content", comment.Content);
 
 					writer.WriteEndElement();

@@ -97,7 +97,7 @@ namespace BlogEngine.Core
 		}
 
 	    /// <summary>
-	    /// Abbriviated content
+	    /// Abbreviated content
 	    /// </summary>
 	    public string Teaser
 	    {
@@ -141,6 +141,16 @@ namespace BlogEngine.Core
         {
             get { return _moderatedBy; }
             set { _moderatedBy = value; }
+        }
+
+        private string _Avatar;
+        /// <summary>
+        /// The Avatar of the comment.
+        /// </summary>
+        public string Avatar
+        {
+            get { return _Avatar; }
+            set { _Avatar = value; }
         }
 
 		private IPublishable _Post;
