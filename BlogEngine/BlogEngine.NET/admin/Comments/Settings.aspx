@@ -217,7 +217,7 @@
         
         <div style="border:1px solid #f3f3f3">
         <asp:GridView ID="gridFilters" 
-                PageSize="20" 
+                PageSize="10" 
                 BorderColor="#f8f8f8" 
                 BorderStyle="solid" 
                 BorderWidth="1px"
@@ -270,7 +270,8 @@
                     </ItemTemplate>
                 </asp:TemplateField>
               </Columns>
-              <pagersettings mode="Numeric" position="Bottom" pagebuttoncount="10"/>
+              <pagersettings Mode="NumericFirstLast" position="Bottom" pagebuttoncount="20" />
+              <PagerStyle HorizontalAlign="Center"/>
           </asp:GridView>
           </div>
     </div>
