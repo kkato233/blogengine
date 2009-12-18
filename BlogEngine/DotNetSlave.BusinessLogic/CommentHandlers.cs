@@ -51,7 +51,6 @@ namespace BlogEngine.Core
                     {
                         int mistakes = int.Parse(_customFilters.Parameters[4].Values[i]);
                         _customFilters.Parameters[4].Values[i] = (mistakes + 1).ToString();
-                        ExtensionManager.SaveSettings(_customFilters);
 
                         customFilter.Report(comment);
                     }
@@ -59,6 +58,8 @@ namespace BlogEngine.Core
                 }
                 i++;
             }
+
+            ExtensionManager.SaveSettings("MetaExtension", _customFilters);
         }
 
         #region Event handlers
@@ -254,6 +255,9 @@ namespace BlogEngine.Core
                     comment.IsApproved = !customFilter.Check(comment);
                     comment.ModeratedBy = fileterName;
 
+                    Utils.Log(string.Format("Custom filter [{0}] - setting approved to {1}", 
+                        fileterName, comment.IsApproved));
+
                     UpdateCustomFilter(fileterName, comment.IsApproved);
 
                     // the custom filter tells no further
@@ -344,6 +348,8 @@ namespace BlogEngine.Core
                 }
                 i++;
             }
+
+            ExtensionManager.SaveSettings("MetaExtension", _customFilters);
         }
 
         #endregion

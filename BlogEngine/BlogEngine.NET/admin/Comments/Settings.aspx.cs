@@ -145,10 +145,18 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         ImageButton btn = (ImageButton)sender;
         GridViewRow grdRow = (GridViewRow)btn.Parent.Parent;
 
+        int pageIdx = gridFilters.PageIndex;
+        int pageSize = gridFilters.PageSize;
+        int rowIndex = grdRow.RowIndex;
+
+        if (pageIdx > 0) rowIndex = pageIdx*pageSize + rowIndex;
+
+
         foreach (ExtensionParameter par in _filters.Parameters)
         {
-            par.DeleteValue(grdRow.RowIndex);
+            par.DeleteValue(rowIndex);
         }
+
         ExtensionManager.SaveSettings("MetaExtension", _filters);
         Response.Redirect(Request.RawUrl);
     }
@@ -195,7 +203,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
     protected void gridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         gridFilters.PageIndex = e.NewPageIndex;
-        gridFilters.DataBind();
+        BindFilters();
     }
 
     protected void btnAddFilter_Click(object sender, EventArgs e)
