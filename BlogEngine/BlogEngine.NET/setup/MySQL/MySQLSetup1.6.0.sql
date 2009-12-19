@@ -1,4 +1,4 @@
-﻿CREATE TABLE `be_categories` (
+﻿CREATE TABLE `be_Categories` (
   `CategoryID` varchar(36) NOT NULL DEFAULT '',
   `CategoryName` varchar(50) DEFAULT NULL,
   `Description` varchar(200) DEFAULT NULL,
@@ -6,13 +6,13 @@
   PRIMARY KEY  (`CategoryID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_datastoresettings` (
+CREATE TABLE `be_DataStoreSettings` (
   `ExtensionType` varchar(50) NOT NULL,
   `ExtensionId` varchar(100) NOT NULL,
   `Settings` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_pages` (
+CREATE TABLE `be_Pages` (
   `PageID` varchar(36) NOT NULL DEFAULT '',
   `Title` varchar(255) NOT NULL DEFAULT '',
   `Description` text,
@@ -28,13 +28,13 @@ CREATE TABLE `be_pages` (
   PRIMARY KEY  (`PageID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_pingservice` (
+CREATE TABLE `be_PingService` (
   `PingServiceID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Link` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`PingServiceID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_posts` (
+CREATE TABLE `be_Posts` (
   `PostID` varchar(36) NOT NULL DEFAULT '',
   `Title` varchar(255) NOT NULL DEFAULT '',
   `Description` text NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `be_posts` (
   PRIMARY KEY  (`PostID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_profiles` (
+CREATE TABLE `be_Profiles` (
   `ProfileID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `UserName` varchar(100) NOT NULL,
   `SettingName` varchar(200) NOT NULL,
@@ -58,24 +58,24 @@ CREATE TABLE `be_profiles` (
   PRIMARY KEY  (`ProfileID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_roles` (
+CREATE TABLE `be_Roles` (
   `RoleID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Role` varchar(100) NOT NULL,
   PRIMARY KEY  (`RoleID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_settings` (
+CREATE TABLE `be_Settings` (
   `SettingName` varchar(50) NOT NULL,
   `SettingValue` text,
   PRIMARY KEY  (`SettingName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_stopwords` (
+CREATE TABLE `be_StopWords` (
   `StopWord` varchar(50) NOT NULL,
   PRIMARY KEY  (`StopWord`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_users` (
+CREATE TABLE `be_Users` (
   `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `UserName` varchar(100) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
@@ -84,21 +84,21 @@ CREATE TABLE `be_users` (
   PRIMARY KEY  (`UserID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_userroles` (
+CREATE TABLE `be_UserRoles` (
   `UserRoleID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `UserID` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `RoleID` int(10) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY  (`UserRoleID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_postcategory` (
+CREATE TABLE `be_PostCategory` (
   `PostCategoryID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `PostID` varchar(36) NOT NULL DEFAULT '',
   `CategoryID` varchar(36) NOT NULL DEFAULT '',
   PRIMARY KEY  (`PostCategoryID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_postcomment` (
+CREATE TABLE `be_PostComment` (
   `PostCommentID` varchar(36) NOT NULL DEFAULT '',
   `PostID` varchar(36) NOT NULL DEFAULT '',
   `ParentCommentID` varchar(36) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
@@ -115,21 +115,21 @@ CREATE TABLE `be_postcomment` (
   PRIMARY KEY  (`PostCommentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_postnotify` (
+CREATE TABLE `be_PostNotify` (
   `PostNotifyID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `PostID` varchar(36) NOT NULL DEFAULT '',
   `NotifyAddress` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`PostNotifyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `be_posttag` (
+CREATE TABLE `be_PostTag` (
   `PostTagID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `PostID` varchar(36) NOT NULL DEFAULT '',
   `Tag` varchar(50) DEFAULT NULL,
   PRIMARY KEY  (`PostTagID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `be_blogrollitems` (
+CREATE TABLE IF NOT EXISTS `be_BlogRollItems` (
   `BlogRollID` varchar(36) NOT NULL,
   `Title` varchar(255) NOT NULL,
   `Description` longtext DEFAULT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `be_blogrollitems` (
   PRIMARY KEY  (`BlogRollID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `be_referrers` (
+CREATE TABLE IF NOT EXISTS `be_Referrers` (
   `ReferrerId` varchar(36) NOT NULL,
   `ReferralDay` datetime NOT NULL,
   `ReferrerUrl` varchar(255) NOT NULL,
@@ -332,17 +332,17 @@ INSERT INTO be_StopWords (StopWord)	VALUES ('www');
 INSERT INTO be_StopWords (StopWord)	VALUES ('you');
 INSERT INTO be_StopWords (StopWord)	VALUES ('your');
 
-INSERT INTO be_blogrollitems ( BlogRollID, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
 VALUES ( '25e4d8da-3278-4e58-b0bf-932496dabc96', 'Mads Kristensen', 'Full featured simplicity in ASP.NET and C#', 'http://www.madskristensen.dk/', 'http://feeds.feedburner.com/netslave', 'contact', 0 );
-INSERT INTO be_blogrollitems ( BlogRollID, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
 VALUES ( 'ccc817ef-e760-482b-b82f-a6854663110f', 'Al Nyveldt', 'Adventures in Code and Other Stories', 'http://www.nyveldt.com/blog/', 'http://feeds.feedburner.com/razorant', 'contact', 1 );
-INSERT INTO be_blogrollitems ( BlogRollID, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
 VALUES ( 'dcdaa78b-0b77-4691-99f0-1bb6418945a1', 'Ruslan Tur', '.NET and Open Source: better together', 'http://rtur.net/blog/', 'http://feeds.feedburner.com/rtur', 'contact', 2 );
-INSERT INTO be_blogrollitems ( BlogRollID, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
 VALUES ( '8a846489-b69e-4fde-b2b2-53bc6104a6fa', 'John Dyer', 'Technology and web development in ASP.NET, Flash, and JavaScript', 'http://johndyer.name/', 'http://johndyer.name/syndication.axd', 'contact', 3 );
-INSERT INTO be_blogrollitems ( BlogRollID, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
 VALUES ( '7f906880-4316-47f1-a934-1a912fc02f8b', 'Russell van der Walt', 'an adventure in web technologies', 'http://blog.ruski.co.za/', 'http://feeds.feedburner.com/rusvdw', 'contact', 4 );
-INSERT INTO be_blogrollitems ( BlogRollID, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
+INSERT INTO be_BlogRollItems ( BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex )
 VALUES ( '890f00e5-3a86-4cba-b85b-104063964a87', 'Ben Amada', 'adventures in application development', 'http://allben.net/', 'http://feeds.feedburner.com/allben', 'contact', 5 );
 
 INSERT INTO be_Categories (CategoryID, CategoryName)
@@ -379,10 +379,10 @@ INSERT INTO be_Roles (Role)
 	VALUES ('Administrators');
 INSERT INTO be_Roles (Role) 
 	VALUES ('Editors');
-INSERT INTO be_userroles (UserID, RoleID)
+INSERT INTO be_UserRoles (UserID, RoleID)
 VALUES
-( (SELECT UserID FROM be_users WHERE UserName = 'Admin'), 
-(SELECT RoleID FROM be_roles WHERE Role = 'Administrators'));
+( (SELECT UserID FROM be_Users WHERE UserName = 'Admin'), 
+(SELECT RoleID FROM be_Roles WHERE Role = 'Administrators'));
 
 INSERT INTO be_DataStoreSettings (ExtensionType, ExtensionId, Settings)
 VALUES (1, 'be_WIDGET_ZONE', '<?xml version="1.0" encoding="utf-16"?><WidgetData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><Settings>&lt;widgets&gt;&lt;widget id="d9ada63d-3462-4c72-908e-9d35f0acce40" title="TextBox" showTitle="True"&gt;TextBox&lt;/widget&gt;&lt;widget id="19baa5f6-49d4-4828-8f7f-018535c35f94" title="Administration" showTitle="True"&gt;Administration&lt;/widget&gt;&lt;widget id="d81c5ae3-e57e-4374-a539-5cdee45e639f" title="Search" showTitle="True"&gt;Search&lt;/widget&gt;&lt;widget id="77142800-6dff-4016-99ca-69b5c5ebac93" title="Tag cloud" showTitle="True"&gt;Tag cloud&lt;/widget&gt;&lt;widget id="4ce68ae7-c0c8-4bf8-b50f-a67b582b0d2e" title="RecentPosts" showTitle="True"&gt;RecentPosts&lt;/widget&gt;&lt;/widgets&gt;</Settings></WidgetData>');
