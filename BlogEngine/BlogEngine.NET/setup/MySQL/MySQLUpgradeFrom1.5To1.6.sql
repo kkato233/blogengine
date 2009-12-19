@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `be_blogrollitems` (
+CREATE TABLE IF NOT EXISTS `be_BlogRollItems` (
   `BlogRollID` varchar(36) NOT NULL,
   `Title` varchar(255) NOT NULL,
   `Description` longtext DEFAULT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `be_blogrollitems` (
   PRIMARY KEY  (`BlogRollID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `be_referrers` (
+CREATE TABLE IF NOT EXISTS `be_Referrers` (
   `ReferrerId` varchar(36) NOT NULL,
   `ReferralDay` datetime NOT NULL,
   `ReferrerUrl` varchar(255) NOT NULL,
@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS `be_referrers` (
   PRIMARY KEY  (`ReferrerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-ALTER TABLE `be_pages` ADD `Slug` VARCHAR(255) DEFAULT NULL;
-ALTER TABLE `be_postcomment` ADD `ModeratedBy` VARCHAR(100) DEFAULT NULL;
-ALTER TABLE `be_postcomment` ADD `Avatar` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `be_Pages` ADD `Slug` VARCHAR(255) DEFAULT NULL;
+ALTER TABLE `be_PostComment` ADD `ModeratedBy` VARCHAR(100) DEFAULT NULL;
+ALTER TABLE `be_PostComment` ADD `Avatar` VARCHAR(255) DEFAULT NULL;
