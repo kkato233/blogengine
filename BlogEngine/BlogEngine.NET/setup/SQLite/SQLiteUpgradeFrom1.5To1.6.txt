@@ -22,3 +22,6 @@ ADD Slug VARCHAR(255) NULL;
 
 ALTER TABLE be_PostComment 
 ADD ModeratedBy VARCHAR(100) NULL;
+
+ALTER TABLE be_PostComment
+ADD Avatar VARCHAR(255) NULL;
