@@ -37,7 +37,7 @@ public class AkismetFilter : ICustomFilter
 
         _site = _settings.GetSingleValue("SiteURL");
         _key = _settings.GetSingleValue("ApiKey");
-        _api = new Akismet(_key, _site, "BlogEngine.net 1.5");
+        _api = new Akismet(_key, _site, "BlogEngine.net 1.6");
 
         return _api.VerifyKey();
     }
