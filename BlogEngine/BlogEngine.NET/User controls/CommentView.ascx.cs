@@ -141,11 +141,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                     ApproveAllComments();
             }
 
-            string theme = BlogSettings.Instance.Theme;
-            if (Request.QueryString["theme"] != null)
-                theme = Request.QueryString["theme"];
-
-            string path = Utils.RelativeWebRoot + "themes/" + theme + "/CommentView.ascx";
+            string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
 
             if (NestingSupported)
             {
@@ -547,11 +543,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                     _nestingSupported = false;
                 else
                 {
-                    string theme = BlogSettings.Instance.Theme;
-                    if (Request.QueryString["theme"] != null)
-                        theme = Request.QueryString["theme"];
-
-                    string path = Utils.RelativeWebRoot + "themes/" + theme + "/CommentView.ascx";
+                    string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
 
                     // test comment control for nesting placeholder (for backwards compatibility with older themes)
                     CommentViewBase commentTester = (CommentViewBase)LoadControl(path);

@@ -274,14 +274,31 @@ namespace BlogEngine.Core
 		#region Theme
 		/// <summary>
 		/// Gets or sets the current theme applied to the blog.
+		/// Default theme can be overridden in the query string
+		/// or cookie to let users select different theme
 		/// </summary>
 		/// <value>The configured theme for the blog.</value>
 		public string Theme
 		{
 			get
 			{
-				if (Utils.IsMobile && !string.IsNullOrEmpty(MobileTheme))
-					return MobileTheme;
+                HttpContext context = HttpContext.Current;
+                if (context != null)
+                {
+                    HttpRequest request = context.Request;
+
+                    if(request != null)
+                    {
+                        if (request.QueryString["theme"] != null)
+                            return request.QueryString["theme"];
+
+                        if (request.Cookies != null && request.Cookies["theme"] != null)
+                            return request.Cookies["theme"].Value;
+                    }
+                }
+
+                if (Utils.IsMobile && !string.IsNullOrEmpty(MobileTheme))
+                    return MobileTheme;
 
 				return configuredTheme;
 			}

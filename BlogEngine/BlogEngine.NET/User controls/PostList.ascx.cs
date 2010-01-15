@@ -54,9 +54,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 			return;
 		}
 
-		string query = Request.QueryString["theme"];
-		string theme = !string.IsNullOrEmpty(query) ? query : BlogSettings.Instance.Theme;
-		string path = Utils.RelativeWebRoot + "themes/" + theme + "/PostView.ascx";
+        string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";
 		int counter = 0;
 
         bool showExcerpt = false;

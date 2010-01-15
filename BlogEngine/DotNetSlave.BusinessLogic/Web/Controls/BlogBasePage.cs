@@ -4,11 +4,8 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.Threading;
 
 #endregion
 
@@ -31,10 +28,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// Assignes the selected theme to the pages.
 		/// </summary>
 		protected override void OnPreInit(EventArgs e)
-		{			
-			if (Request.QueryString["theme"] != null)
-				_Theme = Request.QueryString["theme"];
-
+		{
 			MasterPageFile = Utils.RelativeWebRoot + "themes/" + _Theme + "/site.master";
 
 			base.OnPreInit(e);
@@ -43,7 +37,7 @@ namespace BlogEngine.Core.Web.Controls
 			{
 				if (Page.User.Identity.IsAuthenticated)
 				{
-					Post post = BlogEngine.Core.Post.GetPost(new Guid(Request.QueryString["deletepost"]));
+					Post post = Post.GetPost(new Guid(Request.QueryString["deletepost"]));
 					if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Author)
 					{
 						post.Delete();
