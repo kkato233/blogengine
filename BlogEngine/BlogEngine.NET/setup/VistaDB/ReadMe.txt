@@ -1,23 +1,32 @@
-Running BlogEngine.NET 1.5 using VistaDB Express:
+Running BlogEngine.NET 1.6 using VistaDB:
 
-If you wish to use VistaDB or VistaDB Express to store all your blog data, this is 
-where you want to be.  Included in this folder is a default VistaDB database, that 
+If you wish to use VistaDB (or VistaDB Express) to store all your blog data, this is 
+where you want to be.  Included in this folder are all the scripts that 
 you can use to get you started with your blog.  In addition, you will find a sample
 web.config file with the needed changes to use VistaDB and an upgrade script for 
-current VistaDB users who wish to upgrade from 1.4.5 to 1.5
+current VistaDB users who wish to upgrade from 1.4.5 or 1.5.
+
+Since the last version of BlogEngine.NET, VistaDB Express is no longer freely available.
+If you own a version of VistaDB or have VistaDB Express available, you are fine and will
+have an easy setup. If you are already using VistaDB, but no longer have it installed 
+and no longer have the installer, you can buy a VistaDB license or convert your data to 
+a different free option using the Provider Migration tool. 
+(http://www.nyveldt.com/blog/page/BlogEngineNET-Provider-Migration.aspx)
 
 Instructions for new setup:
 
-1. If you don't already have VistaDB 3.4 or VistaDB Express 3.4 installed locally, download 
-VistaDB Express from vistadb.net and install it locally.  (If you have a version other than
-3.4.2.77, you will need to change the web.config to match the version you have.)
+1. If you don't already have VistaDB or VistaDB Express installed locally, download 
+VistaDB from vistadb.net and install it locally.  
 2. Find VistaDB.NET20.dll on your PC and copy it to your blog's Bin folder. 
-3. Copy BlogEngine.vdb3 from the VistaDB folder to your App_Data folder.
-4. Rename VistaDBWeb.Config to Web.config and copy it to your blog folder.  (This will
+3. Create a database called BlogEngine, run the install script, and save.
+4. Copy the newly created BlogEngine database file to your blog's App_Data folder.
+5. Rename VistaDBWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
 you have a backup.)
-5. Surf out to your Blog and see the welcome post.
-6. Login with the username admin and password admin.  Change the password.
+6. Edit your web.config.  Update the connection string and assemblies as needed to 
+match your file and version information.
+7. Surf out to your Blog and see the welcome post.
+8. Login with the username admin and password admin.  Change the password.
 
 Upgrading from 1.4.5
 
