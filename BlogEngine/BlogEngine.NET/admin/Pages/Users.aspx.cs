@@ -107,10 +107,11 @@ public partial class admin_newuser : System.Web.UI.Page
 	{
 		string username = (string)gridUsers.DataKeys[e.RowIndex].Value;
 		string[] roles = Roles.GetRolesForUser(username);
-		Membership.DeleteUser(username);
 
-		if (roles.Length > 0)
-			Roles.RemoveUserFromRoles(username, roles);
+        if (roles.Length > 0)
+            Roles.RemoveUserFromRoles(username, roles);
+
+        Membership.DeleteUser(username);
 
 		AuthorProfile profile = AuthorProfile.GetProfile(username);
         if (profile != null)

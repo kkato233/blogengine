@@ -575,7 +575,7 @@ INSERT INTO be_Posts (PostID, Title, Description, PostContent, DateCreated, Auth
 	<h2>Write permissions</h2>
 	<p>Since you are using SQL to store your posts, most information is stored there.  However, if you want to store attachments or images in the blog, you will want write permissions setup on the App_Data folder.</p>
 	<h2>On the web </h2>
-	<p>You can find BlogEngine.NET on the <a href="http://www.dotnetblogengine.net">official website</a>. Here you will find tutorials, documentation, tips and tricks and much more. The ongoing development of BlogEngine.NET can be followed at <a href="http://www.codeplex.com/blogengine">CodePlex</a> where the daily builds will be published for anyone to download.</p>
+	<p>You can find BlogEngine.NET on the <a href="http://www.dotnetblogengine.net">official website</a>. Here you will find tutorials, documentation, tips and tricks and much more. The ongoing development of BlogEngine.NET can be followed at <a href="http://blogengine.codeplex.com/">CodePlex</a> where the daily builds will be published for anyone to download.</p>
 	<p>Good luck and happy writing.</p>
 	<p>The BlogEngine.NET team</p>',
 	GETDATE(), 
