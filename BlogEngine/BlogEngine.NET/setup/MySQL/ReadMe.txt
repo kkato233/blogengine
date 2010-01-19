@@ -16,7 +16,7 @@ want to add the BlogEngine data to.  This can be a new or existing database.
 overwrite your existing web.config file.  If this is not a new installation, make sure 
 you have a backup.)'
 3. Update the BlogEngine connection string in the web.config.
-4. Add the MySQL .NET Connector (5.2.5) to the bin folder. If a different version is used,
+4. Add the MySQL .NET Connector (6.2.2) to the bin folder. If a different version is used,
 please update the web.config to the correct version.
 5. Surf out to your Blog and see the welcome post.
 6. Login with the username admin and password admin.  Change the password.
@@ -28,6 +28,6 @@ you have your BlogEngine data.
 2. The web.config file has changed from 1.5 to 1.6.  It will likely be easiest to start
 with the sample web.config file as described above, but if you have other changes in it, 
 you'll need to merge them.  Don't forget to move your connectionString over and update the
-MySQL .NET Connector version if different than 5.2.5.
+MySQL .NET Connector version if different than 6.2.2.
 
 Additional information can be found at http://dotnetblogengine.net
