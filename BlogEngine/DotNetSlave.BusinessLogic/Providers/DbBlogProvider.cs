@@ -1951,7 +1951,7 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpCommentDate = provider.CreateParameter();
                     dpCommentDate.ParameterName = parmPrefix + "date";
-                    dpCommentDate.Value = comment.DateCreated;
+                    dpCommentDate.Value = comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone);
                     cmd.Parameters.Add(dpCommentDate);
 
                     DbParameter dpAuthor = provider.CreateParameter();
