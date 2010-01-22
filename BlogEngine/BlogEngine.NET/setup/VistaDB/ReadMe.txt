@@ -28,7 +28,7 @@ match your file and version information.
 7. Surf out to your Blog and see the welcome post.
 8. Login with the username admin and password admin.  Change the password.
 
-Upgrading from 1.4.5
+Upgrading from 1.5
 
 1. If you don't already have VistaDB 3.4 or VistaDB Express 3.4 installed locally, download 
 VistaDB Express from vistadb.net and install it locally.  (If you have a version other than
