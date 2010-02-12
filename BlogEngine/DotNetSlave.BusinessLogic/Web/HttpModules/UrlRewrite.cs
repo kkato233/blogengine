@@ -95,15 +95,19 @@ namespace BlogEngine.Core.Web.HttpModules
 
 		private static void RewritePost(HttpContext context, string url)
 		{
-			DateTime date = ExtractDate(context);
+            int year, month, day;
+            
+            bool haveDate = ExtractDate(context, out year, out month, out day);
 			string slug = ExtractTitle(context, url);
 			Post post = Post.Posts.Find(delegate(Post p)
 			{
-                if (date != DateTime.MinValue &&
-                    (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month || p.DateCreated.Day != date.Day))
-                {
-                    return false;
-                }
+                // Allow for Year/Month only dates in URL (in this case, day == 0), as well as Year/Month/Day dates.
+
+                if (haveDate && (p.DateCreated.Year != year || p.DateCreated.Month != month))
+                    return false;  // first make sure the Year and Month match.
+                else if (haveDate && (day != 0 && p.DateCreated.Day != day))
+                    return false;  // if a day is also available, make sure the Day matches.
+
 				return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
 			});
 
@@ -209,29 +213,31 @@ namespace BlogEngine.Core.Web.HttpModules
 		/// <summary>
 		/// Extracts the year and month from the requested URL and returns that as a DateTime.
 		/// </summary>
-		private static DateTime ExtractDate(HttpContext context)
+		private static bool ExtractDate(HttpContext context, out int year, out int month, out int day)
 		{
+            year = 0; month = 0; day = 0;
+
 			if (!BlogSettings.Instance.TimeStampPostLinks)
-				return DateTime.MinValue;
+				return false;
 
 			Match match = YEAR_MONTH_DAY.Match(context.Request.RawUrl);
 			if (match.Success)
 			{
-				int year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
-				int month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
-				int day = int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture);
-				return new DateTime(year, month, day);
+				year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+				month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
+				day = int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture);
+                return true;
 			}
 
 			match = YEAR_MONTH.Match(context.Request.RawUrl);
 			if (match.Success)
 			{
-				int year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
-				int month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
-				return new DateTime(year, month, 1);
+				year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+				month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
+                return true;
 			}
 
-			return DateTime.MinValue;
+			return false;
 		}
 
 		/// <summary>
