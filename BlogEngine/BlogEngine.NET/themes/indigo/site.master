@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="site" %>
 <%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
@@ -26,6 +26,8 @@
                 <asp:ContentPlaceHolder ID="cphBody" runat="server" />
             </div>
             <div class="sidenav">
+            <blog:WidgetZone runat="server" ZoneName="be_WIDGET_ZONE" />
+            <%--
                 <h1>Search</h1>
                 <blog:SearchBox runat="server" />
                 
@@ -33,6 +35,12 @@
                 <h1>Administration</h1>
                 <uc1:menu ID="Menu1" runat="server" />
                 <%} %>
+                                
+                <h1>Calendar</h1>
+                <blog:PostCalendar ID="PostCalendar1" runat="Server" NextMonthText=">>" DayNameFormat="FirstTwoLetters" FirstDayOfWeek="sunday" PrevMonthText="<<" CssClass="calendar" BorderWidth="0" WeekendDayStyle-CssClass="weekend" OtherMonthDayStyle-CssClass="other" UseAccessibleHeader="true" EnableViewState="false" />              
+                
+                <h1>Archive</h1>
+                <blog:MonthList ID="MonthList1" runat="server" />
                                 
                 <h1>Tags</h1>
                 <blog:TagCloud ID="TagCloud1" runat="server" />
