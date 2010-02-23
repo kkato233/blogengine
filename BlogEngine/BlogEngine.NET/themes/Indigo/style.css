@@ -20,9 +20,6 @@ a {
 a:hover {
 	color: #C60;
 }
-img {
-	border: none;
-}
 body {
 	background: #0094D6 url(img/bg.gif) repeat-x;
 	color: #466;
@@ -424,7 +421,6 @@ div.widget a.delete:hover{
 
 .comment .gravatar img {
 	height: 80px;
-	width: 80px;
 }
 
 .comment .content {
@@ -569,8 +565,6 @@ div.widget a.delete:hover{
 
 .calendar .weekend {
 	background-color: #F1F1F1;
-	border-bottom: 1px solid #D8D8D8;
-	padding: 2px 0;
 }
 
 .calendar .other {
