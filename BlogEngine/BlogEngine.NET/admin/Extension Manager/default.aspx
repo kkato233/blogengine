@@ -4,7 +4,9 @@
 <%@ Reference Control = "Settings.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+<br />
     <div class="settings">
+    <asp:HiddenField ID="args" runat="server" />
         <div>
             <asp:PlaceHolder ID="ucPlaceHolder" runat="server"></asp:PlaceHolder>
         </div>

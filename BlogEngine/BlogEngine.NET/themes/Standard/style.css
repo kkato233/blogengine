@@ -35,6 +35,14 @@ a:hover {
 	text-decoration: underline;
 }
 
+a#subscribe {
+	position: absolute;
+	top: 151px;
+	right: 27px;
+	padding-right: 18px;
+	background: url(../../pics/rssbutton.gif) no-repeat right;
+}
+
 img {
 	border: none;
 }
@@ -79,6 +87,7 @@ img {
 	text-align: right;
 	margin-bottom: 30px;
 	width: 100%;
+	float: right;
 }
 
 #header p {
@@ -164,11 +173,13 @@ div.widget{
 
 div.widget .content{
 	line-height: 16px;
+	margin-bottom: 10px;
 	color: #666666;
 }
 
 div.widget h4{
 	font-size: 120%;
+	padding-bottom: 10px;
 	border-bottom: 1px solid silver;
 	padding-bottom: 5px;
 	margin: 0;
@@ -262,6 +273,8 @@ div.post, .mceContentBody {
 
 div.post h1, .mceContentBody h1 {
 	margin: 5px 0 0 0;
+	position: relative;
+	top: 5px;
 }
 
 div.post .author {
@@ -316,6 +329,13 @@ div.post .text a[href^="http:"] {
 	background: url(../../pics/remote.gif) right top no-repeat;
 	padding-right: 10px;
   white-space: nowrap;
+}
+
+div.post .code, div.post pre {
+	line-height: 12px;
+	background: #F1F1F1;
+	padding: 5px;
+	margin: 0px;
 }
 
 /*----------------------------
@@ -549,6 +569,7 @@ ul.recentComments li a.postTitle{
 #archive h2 {
 	border-bottom: 1px solid silver;
 	padding-bottom: 4px;
+	font-size: 12px;
 	margin-bottom: 10px;
 }
 
