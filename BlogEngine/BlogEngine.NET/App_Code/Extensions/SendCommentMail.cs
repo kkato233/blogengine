@@ -30,6 +30,10 @@ public class SendCommentMail
 		if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)
 		{
 			Comment comment = post.Comments[post.Comments.Count - 1];
+
+            // Do not send email if comment auto-moderated and is spam
+            if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto && !comment.IsApproved) return;
+
 			// Trackback and pingback comments don't have a '@' symbol in the e-mail field.
 			string replyTo = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
 			string subject = " comment on ";

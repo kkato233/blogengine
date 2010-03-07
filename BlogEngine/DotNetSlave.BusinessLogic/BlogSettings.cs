@@ -616,12 +616,26 @@ namespace BlogEngine.Core
         public int CommentsPerPage { get; set; }
         #endregion
 
+        /// <summary>
+        /// Type of comment moderation
+        /// </summary>
+        public enum Moderation
+        {
+            /// <summary>
+            /// Comments moderated manually
+            /// </summary>
+            Manual = 0, 
+            /// <summary>
+            /// Comments moderated by filters
+            /// </summary>
+            Auto = 1
+        }
+        
         #region Moderation type
         /// <summary>
         /// Gets or sets a value indicating type of moderation
         /// </summary>
-        /// <value><0 - manual, 1 - auto</value>
-        public int ModerationType { get; set; }
+        public Moderation ModerationType { get; set; }
 
         /// <summary>
         /// Enables to report mistakes back to service
@@ -844,12 +858,19 @@ namespace BlogEngine.Core
 						{
 							if (propertyInformation.CanWrite)
 							{
-								propertyInformation.SetValue(this, Convert.ChangeType(value, propertyInformation.PropertyType, CultureInfo.CurrentCulture), null);
+                                if (propertyInformation.PropertyType.IsEnum)
+                                {
+                                    propertyInformation.SetValue(this, Enum.Parse(propertyInformation.PropertyType, value), null);
+                                }
+                                else
+                                {
+                                    propertyInformation.SetValue(this, Convert.ChangeType(value, propertyInformation.PropertyType, CultureInfo.CurrentCulture), null);
+                                }								
 							}
 						}
-						catch
+						catch(Exception e)
 						{
-							// TODO: Log exception to a common logging framework?
+							Utils.Log(string.Format("Error loading blog settings: {0}", e.Message));
 						}
 						break;
 					}

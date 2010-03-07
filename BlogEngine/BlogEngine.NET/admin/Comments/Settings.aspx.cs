@@ -10,8 +10,9 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
 
     public string RadioChecked(int mtype)
     {
-        if (BlogSettings.Instance.ModerationType == mtype)
+        if (BlogSettings.Instance.ModerationType == (BlogSettings.Moderation)mtype)
             return "checked";
+
         return string.Empty;
     }
 
@@ -93,8 +94,6 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
             row["Priority"] = sorted.Rows.Count + 1;
             sorted.ImportRow(row);
 
-            int rowIndex = 0;
-
             for (int i = 0; i < _customFilters.Parameters[0].Values.Count; i++)
             {
                 if (_customFilters.Parameters[0].Values[i] == row["FullName"].ToString())
@@ -125,7 +124,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
         BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;
         BlogSettings.Instance.CommentsPerPage = int.Parse(ddlCommentsPerPage.SelectedValue);
-        BlogSettings.Instance.ModerationType = int.Parse(Request.Form["RadioGroup1"]);
+        BlogSettings.Instance.ModerationType = int.Parse(Request.Form["RadioGroup1"]) == 1 ? BlogSettings.Moderation.Auto : BlogSettings.Moderation.Manual;
         // rules
         BlogSettings.Instance.TrustAuthenticatedUsers = cbTrustAuthenticated.Checked;
         BlogSettings.Instance.CommentWhiteListCount = int.Parse(ddWhiteListCount.SelectedValue);
