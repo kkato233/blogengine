@@ -38,7 +38,6 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public override StringDictionary LoadSettings()
         {
-            //string filename = System.Web.HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot + "App_Data/settings.xml");
             string filename = System.Web.HttpContext.Current.Server.MapPath(StorageLocation() + "settings.xml");
             StringDictionary dic = new StringDictionary();
 

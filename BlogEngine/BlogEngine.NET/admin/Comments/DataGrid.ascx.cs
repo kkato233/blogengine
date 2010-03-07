@@ -36,7 +36,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     {
         gridComments.RowDataBound += gridComments_RowDataBound;
         gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
-        _autoModerated = BlogSettings.Instance.ModerationType == 1 ? true : false;
+        _autoModerated = BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto ? true : false;
 
         string confirm = "return confirm('{0}');";
         string msg = "";
@@ -358,7 +358,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     protected void ReportAndUpdate(Comment comment)
     {
         // moderator should match anti-spam service
-        if (BlogSettings.Instance.ModerationType == 1)
+        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto)
             CommentHandlers.ReportMistake(comment);
 
         // now moderator can be set to logged in user

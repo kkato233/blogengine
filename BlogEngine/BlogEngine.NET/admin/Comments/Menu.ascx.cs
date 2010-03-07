@@ -35,7 +35,7 @@ public partial class admin_Comments_Menu : System.Web.UI.UserControl
 
         if(BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled)
         {
-            if(BlogSettings.Instance.ModerationType == 1)
+            if(BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto)
             {                  
                 hdr.InnerHtml = labels.comments + ": " + labels.automoderation;
                 UlMenu.Controls.Add(spm);

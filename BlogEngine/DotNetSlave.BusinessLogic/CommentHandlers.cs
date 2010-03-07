@@ -68,8 +68,9 @@ namespace BlogEngine.Core
         {
             if(!BlogSettings.Instance.IsCommentsEnabled) return;
             if(!BlogSettings.Instance.EnableCommentsModeration) return;
-            // auto-moderation == 1
-            if(BlogSettings.Instance.ModerationType < 1) return;
+            
+            // Only handle auto-moderated comments
+            if(BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto) return;
 
             Comment comment = (Comment)sender;
             comment.IsApproved = true;

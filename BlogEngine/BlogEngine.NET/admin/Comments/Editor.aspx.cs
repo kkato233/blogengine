@@ -31,7 +31,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             {
                 if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled)
                 {
-                    if (BlogSettings.Instance.ModerationType == 1)
+                    if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto)
                         BtnAction.Text = labels.spam; // "Comments: Auto-Moderated";
                     else
                         BtnAction.Text = labels.approve; // "Comments: Manual Moderation";
@@ -108,7 +108,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                         
                         if (_urlReferrer.Contains("/Comments/Default.aspx"))
                         {
-                            c.IsApproved = BlogSettings.Instance.ModerationType != 1;
+                            c.IsApproved = BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto;
                         }
 
                         if (_urlReferrer.Contains("/Comments/Approved.aspx"))
@@ -118,7 +118,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                             c.IsApproved = true;
 
                         // moderator should match anti-spam service
-                        if (BlogSettings.Instance.ModerationType == 1)
+                        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto)
                             CommentHandlers.ReportMistake(c);
 
                         // now moderator can be set to admin role

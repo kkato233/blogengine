@@ -564,7 +564,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     {
         get
         {
-            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == 0)
+            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Manual)
                 return "true";
             return "false";
         }
