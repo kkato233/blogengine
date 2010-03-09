@@ -23,9 +23,72 @@ namespace BlogEngine.Core
         public static void Listen()
         {
             Post.AddingComment += PostAddingComment;
+            Post.CommentAdded += PostCommentAdded;
+            Post.CommentUpdated += PostCommentUpdated;
             
             InitFilters();
             InitCustomFilters();
+        }
+
+        /// <summary>
+        /// Add comment IP to white or black list
+        /// </summary>
+        /// <param name="ip">Comment IP</param>
+        /// <param name="isSpam">True if comment is spam</param>
+        /// <param name="force">True if old filter (if exists) should be removed</param>
+        public static void AddIpToFilter(string ip, bool isSpam, bool force)
+        {
+            // Only handle auto-moderated comments
+            if (!BlogSettings.Instance.IsCommentsEnabled) return;
+            if (!BlogSettings.Instance.EnableCommentsModeration) return;
+            if (BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto) return;
+
+            int indx = 0;
+            bool match = false;
+
+            DataTable dt = _filters.GetDataTable();
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    string subject = row["Subject"].ToString();
+                    string filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
+
+                    if (subject == "IP" && filter == ip)
+                    {
+                        match = true;
+                        break;
+                    }
+                    indx++;
+                }
+            }
+
+            if (force && match)
+            {
+                string log = "Removed old filter ";
+                // remove old filter
+                foreach (ExtensionParameter par in _filters.Parameters)
+                {
+                    log += ":" + par.Values[indx];
+                    par.DeleteValue(indx);
+                }
+                ExtensionManager.SaveSettings("MetaExtension", _filters);
+                Utils.Log(log);
+            }
+
+            if (!match || force)
+            {
+                // add ip to filters
+                string id = Guid.NewGuid().ToString();
+                string action = isSpam ? "Block" : "Allow";
+                string bwList = isSpam ? "Black" : "White";
+                string[] f = new string[] { id, action, "IP", "Equals", ip };
+
+                _filters.AddValues(f);
+                ExtensionManager.SaveSettings("MetaExtension", _filters);
+
+                Utils.Log(string.Format("IP added to {0} list: {1}", bwList, ip));
+            }
         }
 
         /// <summary>
@@ -88,6 +151,23 @@ namespace BlogEngine.Core
                     RunCustomModerators(comment);
                 }
             }
+
+            if (!comment.IsApproved)
+            {
+                CommentHandlers.AddIpToFilter(comment.IP, true, false);
+            }
+        }
+
+        static void PostCommentAdded(object sender, EventArgs e)
+        {
+            Comment comment = (Comment)sender;
+            AddIpToFilter(comment.IP, !comment.IsApproved, false);
+        }
+
+        static void PostCommentUpdated(object sender, EventArgs e)
+        {
+            Comment comment = (Comment)sender;
+            AddIpToFilter(comment.IP, !comment.IsApproved, false);
         }
 
         #endregion

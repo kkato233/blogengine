@@ -31,8 +31,7 @@
   
     <div id="title">
       <div style="font-size:14px"><a href="<%=CurrentComment.AbsoluteLink%>" target="_new" ><%=CurrentComment.Title%></a></div>
-      <div style="padding-top: 5px; font-weight:normal;">
-        <%=labels.author %>: <%=CurrentComment.Author %>        
+      <div style="padding-top: 5px; font-weight:normal;">       
         <%=labels.ip %>: <a href='http://www.domaintools.com/go/?service=whois&q=<%=CurrentComment.IP%>' target='_new'><%=CurrentComment.IP%></a>
         &nbsp;&nbsp;
         <asp:LinkButton ID="btnBlockIP" runat="server" Text="<%$ Resources:labels, block %>" 
@@ -46,9 +45,13 @@
     <div runat="server" ID="phEdit">
         <p class="gravatar" style="float:right;margin: 0 14px 0 0;border:1px solid #ccc;"><%=Gravatar(80)%></p>
         <div class="field">
+            <label for="<%=txtAuthor.ClientID%>"><%= labels.author %></label><br />
+            <asp:TextBox ID="txtAuthor" runat="server" MaxLength="100" Width="300px"></asp:TextBox>
+            <% if (!string.IsNullOrEmpty(CurrentComment.Country)){%><%=Flag%><%} %>
+        </div>
+        <div class="field">
             <label for="<%=txtWebsite.ClientID%>"><%= labels.website %></label><br />
             <asp:TextBox ID="txtWebsite" runat="server" MaxLength="250" Width="300px"></asp:TextBox>
-            <% if (!string.IsNullOrEmpty(CurrentComment.Country)){%><%=Flag%><%} %>
         </div>
         <div class="field">
             <label for="<%=txtEmail.ClientID%>"><%=labels.email %></label><br />
@@ -56,7 +59,7 @@
         </div>
         <div id="txtComment" class="field">
             <label for="<%=txtArea.ClientID%>"><%=labels.comment %></label><br />
-            <textarea id="txtArea" runat="server" cols="86" rows="12"></textarea>
+            <textarea id="txtArea" runat="server" cols="86" rows="10"></textarea>
         </div>       
         <span id="commId" runat="server" style="visibility:hidden; margin:0; padding:0"></span>
     </div>

@@ -56,6 +56,9 @@
     function ConfirmDelete() {
       return confirm('<%=AreYouSureDelete()%>');
     }
+    function ConfirmDeleteAll() {
+      return confirm('Delete All Spam Comments?');
+    }
   </script>
    
 <div style="border:1px solid #f3f3f3">
@@ -122,11 +125,13 @@
 </asp:GridView>
 </div>
 
-<div style="text-align:center;padding-top:10px">
+<div id="buttonsPanel" runat="server" style="text-align:center;padding-top:10px">
     <asp:Button ID="btnSelect" runat="server" Text="<%$ Resources:labels, select %>" OnClick="btnSelect_Click"/>
     <asp:Button ID="btnClear" runat="server" Text="<%$ Resources:labels, clear %>" OnClick="btnClear_Click"/>
     <asp:Button ID="btnAction" runat="server" Text="<%$ Resources:labels, approve %>" OnClick="btnAction_Click" />
-    <asp:Button ID="btnDelete" runat="server" Text="<%$ Resources:labels, delete %>" OnClick="btnDelete_Click" OnClientClick="return ConfirmDelete();" />   
+    <asp:Button ID="btnDelete" runat="server" Text="<%$ Resources:labels, delete %>" OnClick="btnDelete_Click" OnClientClick="return ConfirmDelete();" /> 
+    &nbsp;&nbsp;
+    <asp:Button ID="btnDeleteAll" runat="server" Text="Delete All" onclick="btnDeleteAll_Click" OnClientClick="return ConfirmDeleteAll();"/>  
 </div>
 
 <div id="ErrorMsg" runat="server" style="color: Red; display: block;"></div>

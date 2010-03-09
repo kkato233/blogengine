@@ -84,6 +84,9 @@
         <label for="<%=cbShowLivePreview.ClientID %>"><%=labels.showLivePreview %></label>
         <asp:CheckBox runat="server" ID="cbShowLivePreview" /><br />
         
+        <label for="<%=cbShowPingBacks.ClientID %>"><%=labels.showPingBacks %></label>
+        <asp:CheckBox runat="server" ID="cbShowPingBacks" /><br />
+        
         <label for="<%=rblAvatar.ClientID %>"><%=labels.avatars %></label>
         <asp:RadioButtonList runat="Server" ID="rblAvatar" RepeatLayout="flow" RepeatDirection="horizontal">
           <asp:ListItem Text="MonsterID" Value="monster" />
