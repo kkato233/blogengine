@@ -964,4 +964,7 @@
   <data name="extensions" xml:space="preserve">
     <value>Extensions</value>
   </data>
+  <data name="showPingBacks" xml:space="preserve">
+    <value>Show pingbacks and trackbacks</value>
+  </data>
 </root>

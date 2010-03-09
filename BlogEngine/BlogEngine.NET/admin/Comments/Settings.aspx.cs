@@ -53,6 +53,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         cbEnableCountryInComments.Checked = BlogSettings.Instance.EnableCountryInComments;
         cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
         cbShowLivePreview.Checked = BlogSettings.Instance.ShowLivePreview;
+        cbShowPingBacks.Checked = BlogSettings.Instance.ShowPingBacks;
         ddlCloseComments.SelectedValue = BlogSettings.Instance.DaysCommentsAreEnabled.ToString();
         cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
         rblAvatar.SelectedValue = BlogSettings.Instance.Avatar;
@@ -120,6 +121,8 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.EnableCountryInComments = cbEnableCountryInComments.Checked;
         BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;
         BlogSettings.Instance.ShowLivePreview = cbShowLivePreview.Checked;
+        BlogSettings.Instance.ShowPingBacks = cbShowPingBacks.Checked;
+
         BlogSettings.Instance.DaysCommentsAreEnabled = int.Parse(ddlCloseComments.SelectedValue);
         BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
         BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;

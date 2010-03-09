@@ -190,8 +190,15 @@ namespace BlogEngine.Core
 		public bool ShowLivePreview { get; set; }
 		#endregion
 
-		#region EnableRating
-		/// <summary>
+        #region ShowPingBacks
+        /// <summary>
+        /// Determins if pingbacks and trackbacks shown in the comment list in admin panel
+        /// </summary>
+        public bool ShowPingBacks { get; set; }
+        #endregion
+
+        #region EnableRating
+        /// <summary>
 		/// Gets or sets a value indicating if live preview of post is displayed.
 		/// </summary>
 		/// <value><b>true</b> if live previews are displayed, otherwise returns <b>false</b>.</value>

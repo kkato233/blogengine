@@ -6,6 +6,7 @@ using System.Web.Security;
 using BlogEngine.Core;
 using System.Web.UI.WebControls;
 using Resources;
+using System.Data;
 
 public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 {
@@ -41,9 +42,11 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         string confirm = "return confirm('{0}');";
         string msg = "";
 
+        btnDeleteAll.Visible = false;
+
         if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
             btnAction.Visible = false;
-
+            
         if (Request.Path.ToLower().Contains("approved.aspx"))
         {
             btnAction.Text = labels.reject;
@@ -55,6 +58,8 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             btnAction.Text = labels.restore;
             msg = string.Format(labels.areYouSure, labels.restore.ToLower(), labels.selectedComments);
             btnAction.OnClientClick = string.Format(confirm, msg);
+            
+            btnDeleteAll.Visible = true;
         }
         else
         {
@@ -129,8 +134,11 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         {
             foreach (Comment c in p.Comments)
             {
-                // do not include trackbacks and pingbacks to comment list
-                if(c.Email == "trackback" || c.Email == "pingback") continue;
+                if (!BlogSettings.Instance.ShowPingBacks)
+                {
+                    // do not include trackbacks and pingbacks to comment list
+                    if (c.Email == "trackback" || c.Email == "pingback") continue;
+                }
 
                 if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
                 {
@@ -166,12 +174,14 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     protected void ApproveComment(Comment comment)
     {
         comment.IsApproved = true;
+        CommentHandlers.AddIpToFilter(comment.IP, false, true);
         ReportAndUpdate(comment);
     }
 
     protected void RejectComment(Comment comment)
     {
         comment.IsApproved = false;
+        CommentHandlers.AddIpToFilter(comment.IP, true, true);
         ReportAndUpdate(comment);
     }
 
@@ -277,6 +287,33 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         ProcessSelected(ActionType.Delete);
     }
 
+    protected void btnDeleteAll_Click(object sender, EventArgs e)
+    {
+        if(Post.Posts.Count > 0)
+        {
+            // loop backwards to avoid "collection was modified" error
+            for (int i = Post.Posts.Count - 1; i >= 0; i--)
+            {
+                if (Post.Posts[i].Comments.Count > 0)
+                {
+                    for (int j = Post.Posts[i].Comments.Count -1; j >= 0; j--)
+                    {
+                        Comment comment = Post.Posts[i].Comments[j];
+                        // spam comments should never have children but
+                        // be on a safe side insure we won't create
+                        // orphan comment with deleted parent
+                        if (!comment.IsApproved && comment.Comments.Count == 0)
+                        {
+                            Post.Posts[i].RemoveComment(comment);
+                        }
+                    }
+                }
+            }
+        }
+        
+        BindComments();
+    }
+
     #endregion
 
     #region Private Methods
@@ -288,6 +325,16 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
         if (auth != null) _authorFilter = auth;
         if (ip != null) _ipFilter = ip;
+
+        // with filters applied, it is read only
+        if (_authorFilter.Length > 0 || _ipFilter.Length > 0)
+        {
+            buttonsPanel.Visible = false;
+        }
+        else
+        {
+            buttonsPanel.Visible = true;
+        }
     }
 
     protected bool Filtered(Comment c)
@@ -434,4 +481,5 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
     }
     
     #endregion
+    
 }

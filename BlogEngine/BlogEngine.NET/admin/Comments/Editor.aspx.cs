@@ -49,6 +49,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             if(_comment.Website != null)
                 txtWebsite.Text = _comment.Website.ToString();
 
+            txtAuthor.Text = _comment.Author;
             txtEmail.Text = _comment.Email;
             txtArea.Value = _comment.Content;
         }
@@ -72,6 +73,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
                         Uri.TryCreate(txtWebsite.Text.Trim(), UriKind.Absolute, out website);
 
                     c.Content = txtArea.Value;
+                    c.Author = txtAuthor.Text;
                     c.Website = website;
                     c.Email = txtEmail.Text;
 
@@ -145,12 +147,12 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
 
     protected void btnBlockIP_Click(object sender, EventArgs e)
     {
-        BlockOrAllow("Block");
+        CommentHandlers.AddIpToFilter(CurrentComment.IP, true, true);
     }
     
     protected void btnAllowIP_Click(object sender, EventArgs e)
     {
-        BlockOrAllow("Allow");
+        CommentHandlers.AddIpToFilter(CurrentComment.IP, false, true);
     }
 
     #endregion
@@ -170,32 +172,6 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
             }
         }
         return null;
-    }
-
-    protected void BlockOrAllow(string action)
-    {
-        ExtensionSettings _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
-
-        if (_filters != null)
-        {
-            string id = Guid.NewGuid().ToString();
-            string[] f = new string[] { id, 
-                    action, 
-                    "IP", 
-                    "Equals",
-                    CurrentComment.IP };
-
-            _filters.AddValues(f);
-            ExtensionManager.SaveSettings("MetaExtension", _filters);
-        }
-
-        if(action == "Block")
-        {
-            CurrentComment.IsApproved = false;
-            CurrentComment.ModeratedBy = HttpContext.Current.User.Identity.Name; 
-        }
-
-        Reload();
     }
 
     protected void DeleteCurrentComment()
