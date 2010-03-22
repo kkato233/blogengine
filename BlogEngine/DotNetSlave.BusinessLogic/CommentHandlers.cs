@@ -35,8 +35,8 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="ip">Comment IP</param>
         /// <param name="isSpam">True if comment is spam</param>
-        /// <param name="force">True if old filter (if exists) should be removed</param>
-        public static void AddIpToFilter(string ip, bool isSpam, bool force)
+        /// <param name="replaceIfExists">True if old filter (if exists) should be removed</param>
+        public static void AddIpToFilter(string ip, bool isSpam, bool replaceIfExists)
         {
             // Only handle auto-moderated comments
             if (!BlogSettings.Instance.IsCommentsEnabled) return;
@@ -63,7 +63,7 @@ namespace BlogEngine.Core
                 }
             }
 
-            if (force && match)
+            if (replaceIfExists && match)
             {
                 string log = "Removed old filter ";
                 // remove old filter
@@ -76,7 +76,7 @@ namespace BlogEngine.Core
                 Utils.Log(log);
             }
 
-            if (!match || force)
+            if (!match || replaceIfExists)
             {
                 // add ip to filters
                 string id = Guid.NewGuid().ToString();
@@ -203,7 +203,7 @@ namespace BlogEngine.Core
             }
 
             // user is in the white list - approve comment
-            if (whiteCnt >= BlogSettings.Instance.CommentWhiteListCount)
+            if (BlogSettings.Instance.CommentWhiteListCount > 0 && whiteCnt >= BlogSettings.Instance.CommentWhiteListCount)
             {
                 comment.IsApproved = true;
                 comment.ModeratedBy = "Rule:white list";
@@ -211,7 +211,7 @@ namespace BlogEngine.Core
             }
 
             // user is in the black list - reject comment
-            if (blackCnt >= BlogSettings.Instance.CommentBlackListCount)
+            if (BlogSettings.Instance.CommentBlackListCount > 0 && blackCnt >= BlogSettings.Instance.CommentBlackListCount)
             {
                 comment.IsApproved = false;
                 comment.ModeratedBy = "Rule:black list";

@@ -123,6 +123,7 @@
   <pagersettings Mode="NumericFirstLast" position="Bottom" pagebuttoncount="20" />
   <PagerStyle HorizontalAlign="Center"/>
 </asp:GridView>
+<div id="NoComments" runat="server" style="text-align:center; padding:5px"><%= labels.none %></div>
 </div>
 
 <div id="buttonsPanel" runat="server" style="text-align:center;padding-top:10px">

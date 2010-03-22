@@ -6,7 +6,6 @@ using System.Web.Security;
 using BlogEngine.Core;
 using System.Web.UI.WebControls;
 using Resources;
-using System.Data;
 
 public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 {
@@ -41,6 +40,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
         string confirm = "return confirm('{0}');";
         string msg = "";
+        NoComments.Visible = false;
 
         btnDeleteAll.Visible = false;
 
@@ -169,12 +169,17 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         comments.Sort(delegate(Comment c1, Comment c2)
         { return DateTime.Compare(c2.DateCreated, c1.DateCreated); });
         Comments = comments;
+
+        if(comments.Count == 0)
+        {
+            NoComments.Visible = true;
+        }
     }
 
     protected void ApproveComment(Comment comment)
     {
         comment.IsApproved = true;
-        CommentHandlers.AddIpToFilter(comment.IP, false, true);
+        CommentHandlers.AddIpToFilter(comment.IP, false, false);
         ReportAndUpdate(comment);
     }
 
@@ -447,7 +452,7 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
         string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=28&amp;d=";
 
-        string link = string.Empty;
+        string link;
         switch (BlogSettings.Instance.Avatar)
         {
             case "identicon":
