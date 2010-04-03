@@ -79,6 +79,12 @@ BlogEngine = {
                 error = error.substr(0, error.length - 1);
             }
         }
+        
+        if( document.getElementById('recaptcha_response_field') )
+        {
+           Recaptcha.reload();
+        }
+
         alert("Sorry, the following error occurred while processing your comment:\n\n" + error);
     }
 	,
@@ -97,12 +103,18 @@ BlogEngine = {
         var notify = BlogEngine.$("cbNotify").checked;
         var captcha = BlogEngine.comments.captchaField.value;
         var replyToId = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : "";
+        
+        var recaptchaResponseField = document.getElementById('recaptcha_response_field');        
+        var recaptchaResponse = recaptchaResponseField ? recaptchaResponseField.value : "";
+        
+        var recaptchaChallengeField = document.getElementById('recaptcha_challenge_field');
+        var recaptchaChallenge = recaptchaChallengeField ? recaptchaChallengeField.value : "";
 
         var avatarInput = BlogEngine.$("avatarImgSrc");
         var avatar = (avatarInput && avatarInput.value) ? avatarInput.value : "";
 
         var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
-        var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId + "-|-" + avatar;
+        var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId + "-|-" + avatar + "-|-" + recaptchaResponse + "-|-" + recaptchaChallenge;
 
         WebForm_DoCallback(BlogEngine.comments.controlId, argument, callback, 'comment', BlogEngine.onCommentError, false);
 
@@ -151,38 +163,56 @@ BlogEngine = {
 	,
     appendComment: function(args, context) {
         if (context == "comment") {
-            var commentList = BlogEngine.$("commentlist");
-            if (commentList.innerHTML.length < 10)
-                commentList.innerHTML = "<h1 id='comment'>" + BlogEngine.i18n.comments + "</h1>"
-
-            // add comment html to the right place
-            var id = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : '';
-
-            if (id != '') {
-                var replies = BlogEngine.$('replies_' + id);
-                replies.innerHTML += args;
-            } else {
-                commentList.innerHTML += args;
-                commentList.style.display = 'block';
+        
+            if( document.getElementById('recaptcha_response_field') )
+            {
+               Recaptcha.reload();
             }
-
-            // reset form values
-            BlogEngine.comments.contentBox.value = "";
-            BlogEngine.comments.contentBox = BlogEngine.$(BlogEngine.comments.contentBox.id);
-            BlogEngine.toggleCommentSavingIndicators(false);
-            BlogEngine.$("status").className = "success";
-
-            if (!BlogEngine.comments.moderation)
-                BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWasSaved;
+        
+            if( args == "RecaptchaIncorrect" )
+            {
+               if( document.getElementById("spnCaptchaIncorrect") ) document.getElementById("spnCaptchaIncorrect").style.display = "";
+               BlogEngine.toggleCommentSavingIndicators(false);
+            }
             else
-                BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWaitingModeration;
+            {
+            
+                if( document.getElementById("spnCaptchaIncorrect") ) document.getElementById("spnCaptchaIncorrect").style.display = "none";
 
-            // move form back to bottom
-            var commentForm = BlogEngine.$('comment-form');
-            commentList.appendChild(commentForm);
-            // reset reply to
-            if (BlogEngine.comments.replyToId) BlogEngine.comments.replyToId.value = '';
-            if (BlogEngine.$('cancelReply')) BlogEngine.$('cancelReply').style.display = 'none';
+                var commentList = BlogEngine.$("commentlist");
+                if (commentList.innerHTML.length < 10)
+                    commentList.innerHTML = "<h1 id='comment'>" + BlogEngine.i18n.comments + "</h1>"
+
+                // add comment html to the right place
+                var id = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : '';
+
+                if (id != '') {
+                    var replies = BlogEngine.$('replies_' + id);
+                    replies.innerHTML += args;
+                } else {
+                    commentList.innerHTML += args;
+                    commentList.style.display = 'block';
+                }
+
+                // reset form values
+                BlogEngine.comments.contentBox.value = "";
+                BlogEngine.comments.contentBox = BlogEngine.$(BlogEngine.comments.contentBox.id);
+                BlogEngine.toggleCommentSavingIndicators(false);
+                BlogEngine.$("status").className = "success";
+
+                if (!BlogEngine.comments.moderation)
+                    BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWasSaved;
+                else
+                    BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWaitingModeration;
+
+                // move form back to bottom
+                var commentForm = BlogEngine.$('comment-form');
+                commentList.appendChild(commentForm);
+                // reset reply to
+                if (BlogEngine.comments.replyToId) BlogEngine.comments.replyToId.value = '';
+                if (BlogEngine.$('cancelReply')) BlogEngine.$('cancelReply').style.display = 'none';
+            
+            }
         }
 
         BlogEngine.$("btnSaveAjax").disabled = false;
@@ -205,7 +235,9 @@ BlogEngine = {
         }
         return false;
     }
-	,
+    	 
+	 ,
+	
     addBbCode: function(v) {
         try {
             var contentBox = BlogEngine.comments.contentBox;

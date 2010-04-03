@@ -87,8 +87,7 @@ namespace BlogEngine.Core.Web.Controls
 				if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
 					AddCustomCodeToHead();
 
-				if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
-					AddTrackingScript();
+				AddTrackingScript();
 			}
 
 			if (User.IsInRole(BlogSettings.Instance.AdministratorRole))
@@ -278,7 +277,36 @@ namespace BlogEngine.Core.Web.Controls
 		/// </remarks>
 		protected virtual void AddTrackingScript()
 		{
-			ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + BlogSettings.Instance.TrackingScript, false);
+		    string s = "";
+
+            if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+            {
+                s += "<script type=\"text/javascript\"> \n";
+                s += "//<![CDATA[ \n";
+                s += "(function() { ";
+                s += "var links = document.getElementsByTagName('a'); ";
+                s += "var query = '?'; ";
+                s += "for(var i = 0; i < links.length; i++) { ";
+                s += "if(links[i].href.indexOf('#disqus_thread') >= 0) { ";
+                s += "query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&'; ";
+                s += "}}";
+                s += "document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/";
+                s += BlogSettings.Instance.DisqusWebsiteName;
+                s += "/get_num_replies.js' + query + '\"></' + 'script>'); ";
+                s += "})(); \n";
+                s += "//]]> \n";
+                s += "</script> \n";
+            }
+
+            if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
+            {
+                s += BlogSettings.Instance.TrackingScript;
+            }
+
+            if(!string.IsNullOrEmpty(s))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "tracking", "\n" + s, false);
+            }
 		}
 
 		/// <summary>

@@ -15,6 +15,9 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 {
 	protected void Page_Init(object sender, EventArgs e)
 	{
+	    CommentView1.Visible = ShowCommentsForm;
+	    disqus_box.Visible = ShowDisqusForm;
+
 		if (!Page.IsPostBack && !Page.IsCallback)
 		{
 			if (Request.RawUrl.Contains("?id=") && Request.QueryString["id"].Length == 36)
@@ -188,4 +191,20 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 	}
 
 	public Post Post;
+
+    public static bool ShowCommentsForm 
+    {
+        get
+        {
+            return BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Disqus;
+        }
+    }
+
+    public static bool ShowDisqusForm
+    {
+        get
+        {
+            return BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus;
+        }
+    }
 }

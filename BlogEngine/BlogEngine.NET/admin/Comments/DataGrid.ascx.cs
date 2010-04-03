@@ -34,6 +34,10 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+        {
+            Response.Redirect("Settings.aspx");
+        }
         gridComments.RowDataBound += gridComments_RowDataBound;
         gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
         _autoModerated = BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto ? true : false;

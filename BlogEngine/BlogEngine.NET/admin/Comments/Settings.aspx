@@ -49,11 +49,19 @@
                 document.getElementById('Rules').style.display = "";
                 document.getElementById('Filters').style.display = "";
                 document.getElementById('CustomFilters').style.display = "";
+                document.getElementById('Disqus').style.display = "none";
             }
-            else {
-                document.getElementById('Rules').style.display = 'none';
+            else if (rdo == 2) {
+                document.getElementById('Rules').style.display = "none";
                 document.getElementById('Filters').style.display = "none";
                 document.getElementById('CustomFilters').style.display = "none";
+                document.getElementById('Disqus').style.display = "";
+            }
+            else {
+                document.getElementById('Rules').style.display = "none";
+                document.getElementById('Filters').style.display = "none";
+                document.getElementById('CustomFilters').style.display = "none";
+                document.getElementById('Disqus').style.display = "none";
             }
         }
 
@@ -74,7 +82,7 @@
         <div id="SettingsFields">
         <label for="<%=cbEnableCommentNesting.ClientID %>"><%=labels.enableCommentNesting %></label>
         <asp:CheckBox runat="server" ID="cbEnableCommentNesting" /><%=labels.enableCommentNestingDescription%><br />
-        
+               
         <label for="<%=cbEnableCoComment.ClientID %>"><%=labels.enableCoComments %></label>
         <asp:CheckBox runat="server" ID="cbEnableCoComment" /><br />
         
@@ -141,7 +149,35 @@
                 <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="1" style="border:0" <%=RadioChecked(1)%> /></td> 
                 <td><%=labels.commentsAuto%>.</td>
             </tr>
+            <tr>
+                <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="2" style="border:0" <%=RadioChecked(2)%> /></td> 
+                <td>Moderated by Disqus.</td>
+            </tr>
         </table>
+    </div>
+    
+    <div class="settings" id="Disqus">
+        <h1>Disqus Settings</h1>
+        <div style="margin-bottom:3px; float:left">
+            <div>
+                <label for="<%=txtDisqusName.ClientID %>">Disqus Website Short Name</label>
+                <asp:TextBox runat="server" ID="txtDisqusName" Width="200" MaxLength="250" />
+            </div>
+            <div class="cbox">
+                <label for="<%=cbDisqusDevMode.ClientID %>">Development mode</label>
+                <asp:CheckBox runat="server" ID="cbDisqusDevMode" />Check this when you test disqus locally
+            </div> 
+            <div class="cbox">
+                <label for="<%=cbDisqusAddToPages.ClientID %>">Add Comments to Pages</label>
+                <asp:CheckBox runat="server" ID="cbDisqusAddToPages" />Add to pages (in addition to posts)
+            </div> 
+        </div>
+        
+        <div class="info" style="float:right; width: 350px; top: 0;">
+            To use Disqus as your comment manager you need first set up account at <a href="http://disqus.com" target="_new">disqus.com</a><br />
+            Short name used to uniquely identify your website on Disqus (Website shortname in Basic Settings).
+        </div> 
+        <div style="clear:both">&nbsp;</div>     
     </div>
     
     <div class="settings" id="Rules">

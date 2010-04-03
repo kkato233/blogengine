@@ -178,4 +178,9 @@ public partial class page : BlogEngine.Core.Web.Controls.BlogBasePage
 			return string.Empty;
 		}
 	}
+
+    public string PermaLink
+    {
+        get { return Utils.AbsoluteWebRoot + "page.aspx?id=" + Page.Id; }
+    }
 }

@@ -69,8 +69,11 @@
 	  <br />
 	  <input type="checkbox" id="cbNotify" style="width: auto" tabindex="7" />
 	  <label for="cbNotify" style="width:auto;float:none;display:inline"><%=Resources.labels.notifyOnNewComments %></label><br /><br />
-	 
-	  <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="return BlogEngine.validateAndSubmitCommentForm()" tabindex="7" />    
+ 
+	 <blog:RecaptchaControl ID="recaptcha" runat="server" TabIndex="8" />
+
+	  <input type="button" id="btnSaveAjax" style="margin-top:10px" value="<%=Resources.labels.saveComment %>" onclick="return BlogEngine.validateAndSubmitCommentForm()" tabindex="7" />
+	  <!--<input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" onclick="return validateWithRecaptcha()" tabindex="9" />-->
 	  <asp:HiddenField runat="server" ID="hfCaptcha" />
 	</div>
 
