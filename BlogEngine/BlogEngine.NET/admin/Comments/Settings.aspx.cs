@@ -58,11 +58,21 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         cbEnableCommentsModeration.Checked = BlogSettings.Instance.EnableCommentsModeration;
         rblAvatar.SelectedValue = BlogSettings.Instance.Avatar;
         ddlCommentsPerPage.SelectedValue = BlogSettings.Instance.CommentsPerPage.ToString();
+        
         // rules
         cbTrustAuthenticated.Checked = BlogSettings.Instance.TrustAuthenticatedUsers;
         ddWhiteListCount.SelectedValue = BlogSettings.Instance.CommentWhiteListCount.ToString();
         ddBlackListCount.SelectedValue = BlogSettings.Instance.CommentBlackListCount.ToString();
         cbReportMistakes.Checked = BlogSettings.Instance.CommentReportMistakes;
+        
+        // disqus
+        string discusName = "YourDisqusWebsite";
+        if (BlogSettings.Instance.DisqusWebsiteName != null) 
+            discusName = BlogSettings.Instance.DisqusWebsiteName;
+
+        txtDisqusName.Text = discusName;
+        cbDisqusDevMode.Checked = BlogSettings.Instance.DisqusDevMode;
+        cbDisqusAddToPages.Checked = BlogSettings.Instance.DisqusAddCommentsToPages;
     }
 
     protected void BindFilters()
@@ -127,11 +137,29 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         BlogSettings.Instance.EnableCommentsModeration = cbEnableCommentsModeration.Checked;
         BlogSettings.Instance.Avatar = rblAvatar.SelectedValue;
         BlogSettings.Instance.CommentsPerPage = int.Parse(ddlCommentsPerPage.SelectedValue);
-        BlogSettings.Instance.ModerationType = int.Parse(Request.Form["RadioGroup1"]) == 1 ? BlogSettings.Moderation.Auto : BlogSettings.Moderation.Manual;
+
+        switch(Request.Form["RadioGroup1"])
+        {
+            case "1":
+                BlogSettings.Instance.ModerationType = BlogSettings.Moderation.Auto;
+                break;
+            case "2":
+                BlogSettings.Instance.ModerationType = BlogSettings.Moderation.Disqus;
+                break;
+            default:
+                BlogSettings.Instance.ModerationType = BlogSettings.Moderation.Manual;
+                break;
+        }
+
         // rules
         BlogSettings.Instance.TrustAuthenticatedUsers = cbTrustAuthenticated.Checked;
         BlogSettings.Instance.CommentWhiteListCount = int.Parse(ddWhiteListCount.SelectedValue);
         BlogSettings.Instance.CommentBlackListCount = int.Parse(ddBlackListCount.SelectedValue);
+
+        // disqus (restrict to 250 chars max)
+        BlogSettings.Instance.DisqusWebsiteName = txtDisqusName.Text.Length > 250 ? txtDisqusName.Text.Substring(0,250) : txtDisqusName.Text;
+        BlogSettings.Instance.DisqusDevMode = cbDisqusDevMode.Checked;
+        BlogSettings.Instance.DisqusAddCommentsToPages = cbDisqusAddToPages.Checked;
 
         BlogSettings.Instance.CommentReportMistakes = cbReportMistakes.Checked;
         //-----------------------------------------------------------------------

@@ -31,6 +31,13 @@ public partial class admin_Comments_Menu : System.Web.UI.UserControl
         cssClass = Request.Path.ToLower().Contains("settings.aspx") ? "current" : "";
         stn.InnerHtml = string.Format(tmpl, "Settings", cssClass, labels.configuration);
 
+        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+        {
+            hdr.InnerHtml = "Moderated by Disqus";
+            UlMenu.Controls.Add(stn);
+            return;
+        }
+
         UlMenu.Controls.Add(inbx);
 
         if(BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled)
@@ -53,7 +60,7 @@ public partial class admin_Comments_Menu : System.Web.UI.UserControl
 
         UlMenu.Controls.Add(stn);
 
-        if(Request.Path.ToLower().Contains("settings.aspx"))
+        if (Request.Path.ToLower().Contains("settings.aspx"))
         {
             hdr.InnerHtml = labels.comments + ": " + labels.settings;
         }

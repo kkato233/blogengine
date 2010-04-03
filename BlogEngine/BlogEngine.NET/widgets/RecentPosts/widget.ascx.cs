@@ -88,8 +88,13 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 			string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
 			string link = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";
-			string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comments, post.ApprovedComments.Count);
-			string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
+
+            string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comments, post.ApprovedComments.Count);
+
+            if(BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+                comments = string.Format("<span><a href=\"{0}#disqus_thread\">{1}</a></span>", post.PermaLink, Resources.labels.comments);
+
+            string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
 
 			if (!showComments || !BlogSettings.Instance.IsCommentsEnabled)
 				comments = null;

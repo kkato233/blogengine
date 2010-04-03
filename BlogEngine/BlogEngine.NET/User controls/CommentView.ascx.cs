@@ -57,6 +57,19 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         Guid replyToCommentID = String.IsNullOrEmpty(args[8]) ? Guid.Empty : new Guid(args[8]);
         string avatar = args[9];
 
+        string recaptchaResponse = args[10];
+        string recaptchaChallenge = args[11];
+
+        recaptcha.UserUniqueIdentifier = hfCaptcha.Value;
+        if (!isPreview && recaptcha.RecaptchaEnabled && recaptcha.RecaptchaNecessary)
+        {
+            if (!recaptcha.ValidateAsync(recaptchaResponse, recaptchaChallenge))
+            {
+                _Callback = "RecaptchaIncorrect";
+                return;
+            }
+        }
+
         string storedCaptcha = hfCaptcha.Value;
 
         if (sentCaptcha != storedCaptcha)
@@ -97,6 +110,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
             Post.AddComment(comment);
             SetCookie(author, email, website, country);
+            recaptcha.UpdateLog(comment);
         }
 
         string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
@@ -120,6 +134,8 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     protected void Page_Load(object sender, EventArgs e)
     {
         NameInputId = "txtName" + DateTime.Now.Ticks.ToString();
+
+        recaptcha.Visible = ExtensionManager.ExtensionEnabled("Recaptcha");
 
         if (Post == null)
             Response.Redirect(Utils.RelativeWebRoot);
@@ -193,7 +209,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
                 BindCountries();
                 GetCookie();
-                hfCaptcha.Value = Guid.NewGuid().ToString();
+                recaptcha.UserUniqueIdentifier = hfCaptcha.Value = Guid.NewGuid().ToString();
             }
             else
             {
@@ -564,7 +580,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
     {
         get
         {
-            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Manual)
+            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == 0)
                 return "true";
             return "false";
         }

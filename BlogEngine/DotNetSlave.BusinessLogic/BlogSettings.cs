@@ -1,10 +1,8 @@
 ﻿#region Using
 
 using System;
-using System.ComponentModel;
 using System.Configuration;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Web;
 
@@ -602,6 +600,21 @@ namespace BlogEngine.Core
         public bool TrustAuthenticatedUsers { get; set; }
         #endregion
 
+        #region DISQUS
+        /// <summary>
+        /// Short website name that used to identify Disqus account
+        /// </summary>
+        public string DisqusWebsiteName { get; set; }
+        /// <summary>
+        /// Development mode to test disqus on local host
+        /// </summary>
+        public bool DisqusDevMode { get; set; }
+        /// <summary>
+        /// Allow also to add comments to the pages
+        /// </summary>
+        public bool DisqusAddCommentsToPages { get; set; }
+        #endregion
+
         #region White list count
         ///<summary>
         /// Number of comments approved to add user to white list
@@ -635,7 +648,11 @@ namespace BlogEngine.Core
             /// <summary>
             /// Comments moderated by filters
             /// </summary>
-            Auto = 1
+            Auto = 1,
+            /// <summary>
+            /// Moderated by Disqus
+            /// </summary>
+            Disqus = 2
         }
         
         #region Moderation type

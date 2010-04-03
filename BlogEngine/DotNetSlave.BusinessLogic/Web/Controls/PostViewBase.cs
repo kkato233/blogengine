@@ -285,7 +285,7 @@ namespace BlogEngine.Core.Web.Controls
 					string confirmDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("thePost"));
 					StringBuilder sb = new StringBuilder();
 
-					if (Post.NotApprovedComments.Count > 0)
+					if (Post.NotApprovedComments.Count > 0 && BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Disqus)
 					{
 						sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1} ({2})</a> | ", Post.RelativeLink, Utils.Translate("unapprovedcomments"), Post.NotApprovedComments.Count);
 						sb.AppendFormat(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a> | ", Post.RelativeLink + "?approveallcomments=true", Utils.Translate("approveallcomments"));

@@ -27,5 +27,22 @@
   </asp:placeholder>
   
   <blog:RelatedPosts runat="server" ID="related" MaxResults="3" ShowDescription="true" DescriptionMaxLength="100" Visible="false" />
+  
   <uc:CommentView ID="CommentView1" runat="server" />
+
+  <div id="disqus_box" runat="server">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_url = '<%= Post.PermaLink %>';
+        var disqus_developer = '<%= BlogEngine.Core.BlogSettings.Instance.DisqusDevMode ? 1 : 0 %>';
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://<%=BlogEngine.Core.BlogSettings.Instance.DisqusWebsiteName %>.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=<%=BlogEngine.Core.BlogSettings.Instance.DisqusWebsiteName %>">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+  
 </asp:content>

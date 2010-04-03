@@ -151,7 +151,12 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (BlogSettings.Instance.IsCommentsEnabled)
 		{
 			HtmlTableCell comments = new HtmlTableCell();
-			comments.InnerHtml = post.ApprovedComments.Count.ToString();
+
+            if(BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+                comments.InnerHtml = string.Format("<span><a href=\"{0}#disqus_thread\">{1}</a></span>", post.PermaLink, Resources.labels.comments);
+            else
+			    comments.InnerHtml = post.ApprovedComments.Count.ToString();
+
 			comments.Attributes.Add("class", "comments");
 			row.Cells.Add(comments);
 		}
@@ -215,8 +220,8 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 
 		ltPosts.Text = posts.Count + " " + Resources.labels.posts.ToLowerInvariant();
-		if (BlogSettings.Instance.IsCommentsEnabled)
-			ltComments.Text = comments + " " + Resources.labels.comments.ToLowerInvariant();
+		if (BlogSettings.Instance.IsCommentsEnabled && BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Disqus)
+			ltComments.Text = "<span>" + comments + " " + Resources.labels.comments.ToLowerInvariant() + "</span><br />";
 
 		if (BlogSettings.Instance.EnableRating)
 			ltRaters.Text = raters + " " + Resources.labels.raters.ToLowerInvariant();
