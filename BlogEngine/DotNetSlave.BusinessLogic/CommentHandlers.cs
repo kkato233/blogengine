@@ -161,13 +161,15 @@ namespace BlogEngine.Core
         static void PostCommentAdded(object sender, EventArgs e)
         {
             Comment comment = (Comment)sender;
-            AddIpToFilter(comment.IP, !comment.IsApproved, false);
+            if (comment != null && !comment.IsApproved)
+                AddIpToFilter(comment.IP, true, true);
         }
 
         static void PostCommentUpdated(object sender, EventArgs e)
         {
             Comment comment = (Comment)sender;
-            AddIpToFilter(comment.IP, !comment.IsApproved, false);
+            if (comment != null && !comment.IsApproved)
+                AddIpToFilter(comment.IP, true, true);
         }
 
         #endregion
