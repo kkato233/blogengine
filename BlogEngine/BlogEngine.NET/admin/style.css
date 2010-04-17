@@ -376,3 +376,12 @@ input[type="checkbox"] {
 	margin-right: 10px;
 	padding: 2px 4px;
 }
+
+#contentTable {
+    width: 100%;
+}
+
+.photo {
+    width: 28px;
+    border: 1px solid #ccc;
+}

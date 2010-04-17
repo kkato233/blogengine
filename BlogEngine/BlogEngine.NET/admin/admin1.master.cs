@@ -1,19 +1,59 @@
 ﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
-using System.Web;
+using System.Globalization;
 using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+using BlogEngine.Core;
 
 public partial class admin_admin : System.Web.UI.MasterPage
 {
-  protected void Page_Load(object sender, EventArgs e)
-  {
-    if (!System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
-      Response.Redirect(BlogEngine.Core.Utils.RelativeWebRoot);
-  }
+    private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            Response.Redirect(Utils.RelativeWebRoot);
+    }
+
+    protected AuthorProfile AdminProfile()
+    {
+        return AuthorProfile.GetProfile(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+    }
+
+    protected string AdminPhoto()
+    {
+        string src = Utils.AbsoluteWebRoot + "admin/images/no_avatar.png";
+
+        if (AdminProfile() != null)
+        {
+            if (!string.IsNullOrEmpty(AdminProfile().PhotoURL))
+            {
+                src = AdminProfile().PhotoURL;
+            }else
+            {
+                if(!string.IsNullOrEmpty(AdminProfile().EmailAddress) &&
+                    BlogSettings.Instance.Avatar != "none")
+                        src = Avatar(AdminProfile().EmailAddress);
+            }
+        }
+        return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, src, AdminProfile().DisplayName);
+    }
+
+    protected string Avatar(string email)
+    {
+        string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
+        string src = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=28&amp;d=";
+
+        switch (BlogSettings.Instance.Avatar)
+        {
+            case "identicon":
+                src += "identicon";
+                break;
+            case "wavatar":
+                src += "wavatar";
+                break;
+            default:
+                src += "monsterid";
+                break;
+        }
+        return src;
+    }
 }
