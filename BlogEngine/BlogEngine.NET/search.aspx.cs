@@ -71,7 +71,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 			}
 			else
 			{
-				Page.Title = "APML matches for '" + Request.QueryString["q"] + "'";
+				Page.Title = "APML matches for '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
 			}
 			h1Headline.InnerText = Page.Title;
 		}
