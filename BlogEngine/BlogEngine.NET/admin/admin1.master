@@ -30,7 +30,7 @@
                                     </td>                                   
                                     <td valign="top" align="left" style="width:50px; padding-left:0">
                                         <div style="padding-bottom:5px">
-                                            <a href="<%=Utils.RelativeWebRoot %>admin/Pages/Profiles.aspx"><%=AdminProfile().DisplayName %></a>
+                                            <a href="<%=Utils.RelativeWebRoot %>admin/Pages/Profiles.aspx"><%= AdminProfile() == null ? "" : AdminProfile().DisplayName %></a>
                                         </div>
                                         <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
                                     </td>

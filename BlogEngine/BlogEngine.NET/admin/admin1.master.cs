@@ -15,15 +15,25 @@ public partial class admin_admin : System.Web.UI.MasterPage
 
     protected AuthorProfile AdminProfile()
     {
-        return AuthorProfile.GetProfile(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+        try
+        {
+            return AuthorProfile.GetProfile(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+        }
+        catch (Exception e)
+        {
+            Utils.Log(e.Message);
+            return null;
+        }
     }
 
     protected string AdminPhoto()
     {
         string src = Utils.AbsoluteWebRoot + "admin/images/no_avatar.png";
+        string adminName = "";
 
         if (AdminProfile() != null)
         {
+            adminName = AdminProfile().DisplayName;
             if (!string.IsNullOrEmpty(AdminProfile().PhotoURL))
             {
                 src = AdminProfile().PhotoURL;
@@ -34,7 +44,7 @@ public partial class admin_admin : System.Web.UI.MasterPage
                         src = Avatar(AdminProfile().EmailAddress);
             }
         }
-        return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, src, AdminProfile().DisplayName);
+        return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, src, adminName);
     }
 
     protected string Avatar(string email)
