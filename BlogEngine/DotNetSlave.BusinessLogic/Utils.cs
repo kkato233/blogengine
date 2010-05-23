@@ -652,24 +652,26 @@ public static string DownloadWebPage(Uri url)
 
 		private static XmlDocument LoadDocument(Uri url, Uri xmlUrl)
 		{
+            string absoluteUrl = null;
+
+            if (url.IsAbsoluteUri)
+                absoluteUrl = url.ToString();
+            else if (!url.ToString().StartsWith("/"))
+                absoluteUrl = (url + xmlUrl.ToString());
+            else
+                absoluteUrl = url.Scheme + "://" + url.Authority + xmlUrl;
+
+            XmlReaderSettings readerSettings = new XmlReaderSettings();
+            readerSettings.ProhibitDtd = false;
+            readerSettings.MaxCharactersFromEntities = 1024;
+            readerSettings.XmlResolver = new XmlSafeResolver();
+
+            XmlReader reader = XmlReader.Create(absoluteUrl, readerSettings);
 			XmlDocument doc = new XmlDocument();
 
 			try
 			{
-				if (url.IsAbsoluteUri)
-				{
-					doc.Load(xmlUrl.ToString());
-				}
-				else
-				{
-					string absoluteUrl = null;
-					if (!url.ToString().StartsWith("/"))
-						absoluteUrl = (url + xmlUrl.ToString());
-					else
-						absoluteUrl = url.Scheme + "://" + url.Authority + xmlUrl;
-
-					doc.Load(absoluteUrl);
-				}
+                doc.Load(reader);
 			}
 			catch (Exception)
 			{
@@ -733,4 +735,52 @@ public static string DownloadWebPage(Uri url)
         #endregion
 
     }
+
+    #region Utility Classes
+    /// <summary>
+    /// Derived XmlUrlResolver class designed to prevent security problems with
+    /// dangerous XML input, by limiting the amount of data that can be retrieved.
+    /// </summary>
+    public class XmlSafeResolver : XmlUrlResolver
+    {
+        private const int TIMEOUT = 10000; // 10 seconds
+        private const int BUFFER_SIZE = 1024; // 1 KB
+        private const int MAX_RESPONSE_SIZE = 1024 * 1024; // 1 MB
+
+        public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
+        {
+            if (absoluteUri.IsLoopback)
+                return null;
+
+            System.Net.WebRequest request = WebRequest.Create(absoluteUri);
+            request.Timeout = TIMEOUT;
+
+            System.Net.WebResponse response = request.GetResponse();
+            if (response == null)
+                throw new XmlException("Could not resolve external entity");
+
+            Stream responseStream = response.GetResponseStream();
+            if (responseStream == null)
+                throw new XmlException("Could not resolve external entity");
+            responseStream.ReadTimeout = TIMEOUT;
+
+            MemoryStream copyStream = new MemoryStream();
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bytesRead = 0;
+            int totalBytesRead = 0;
+            do
+            {
+                bytesRead = responseStream.Read(buffer, 0, buffer.Length);
+                totalBytesRead += bytesRead;
+                if (totalBytesRead > MAX_RESPONSE_SIZE)
+                    throw new XmlException("Could not resolve external entity");
+                copyStream.Write(buffer, 0, bytesRead);
+            } while (bytesRead > 0);
+
+            copyStream.Seek(0, SeekOrigin.Begin);
+            return copyStream;
+        }
+    }
+    #endregion
+
 }
