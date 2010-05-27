@@ -39,10 +39,11 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div id="blogTitle">
+                            <div id="blogTitle"></div>
+                            <div id="StatusBox">
+                                <div id="AdminStatus" runat="server" style="display:none"></div>
                             </div>
-                            <div id="AdminStatus" runat="server" visible="false"></div>
-                            <div style="padding: 4px 18px;">
+                            <div style="padding: 0px 18px;">
                                 <table id="contentTable" cellspacing="0">
                                     <tr>
                                         <td valign="top" style="width:100%">

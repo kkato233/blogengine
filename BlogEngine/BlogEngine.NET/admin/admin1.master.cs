@@ -76,21 +76,12 @@ public partial class admin_admin : System.Web.UI.MasterPage
 
     public void SetStatus(string status, string msg)
     {
-        string span = "<a href=\"javascript:ToggleAdminStatus('up')\" style=\"width:50px;float:right\">Close</a>";
         AdminStatus.Attributes.Clear();
         AdminStatus.Attributes.Add("class", status);
-
-        AdminStatus.InnerHtml = Server.HtmlEncode(msg) + span;
-        AdminStatus.Visible = true;
-
-        Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", "ToggleAdminStatusDown();", true);
-    }
-
-    public void ResetStatus()
-    {
-        AdminStatus.Attributes.Clear();
-        AdminStatus.InnerHtml = "";
-        AdminStatus.Visible = false;
+        AdminStatus.InnerHtml = Server.HtmlEncode(msg) + "<a href=\"javascript:HideStatus()\" style=\"width:20px;float:right\">X</a>";
+        
+        //Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", 
+        //    "ShowStatus('" + status + "','" + msg + "');", true);
     }
 
     protected virtual void AddJquery()

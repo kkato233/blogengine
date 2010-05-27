@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Roles.aspx.cs" Inherits="admin_Account_Roles" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
     <div class="settings" id="newrole" runat="server"> 
@@ -10,7 +9,7 @@
         </div>
         <div>
             <label>&nbsp;</label>
-            <asp:button id="btnCreateRole" runat="server" text="Create Role" onclick="btnCreateRole_Click" />
+            <asp:button id="btnCreateRole" runat="server" text="Create Role" onclick="btnCreateRole_Click" OnClientClick="return ValidateEmptyField('txtCreateRole', 'Role Name is required');" />
         </div>
     </div>
 
@@ -22,13 +21,8 @@
         </div>
         <div>
             <label>&nbsp;</label>
-            <asp:button id="btnDeleteRole" runat="server" text="Delete Selected Role" onclick="btnDeleteRole_Click" />
+            <asp:button id="btnDeleteRole" runat="server" text="Delete Selected Role" onclick="btnDeleteRole_Click" OnClientClick="return ValidateNotSelectedField('lbxAvailableRoles', 'Could not delete the role: nothing selected');" />
         </div>
     </div>
-
-    <div><a href="javascript:ToggleAdminStatus('down');">toggledown</a></div>
-
-    <asp:label id="lblResults" runat="server" Visible=false ForeColor=Red>Results:</asp:label>
-
 </asp:Content>
 
