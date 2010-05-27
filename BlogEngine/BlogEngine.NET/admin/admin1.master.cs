@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.Security;
+using System.IO;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 
 public partial class admin_admin : System.Web.UI.MasterPage
@@ -11,6 +14,10 @@ public partial class admin_admin : System.Web.UI.MasterPage
     {
         if (!System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
             Response.Redirect(Utils.RelativeWebRoot);
+
+        AddJquery();
+        AddJavaScript(Utils.RelativeWebRoot + "admin/admin.js");
+        AddJavaScript(Utils.RelativeWebRoot + "admin/widget.js");
     }
 
     protected AuthorProfile AdminProfile()
@@ -65,5 +72,62 @@ public partial class admin_admin : System.Web.UI.MasterPage
                 break;
         }
         return src;
+    }
+
+    public void SetStatus(string status, string msg)
+    {
+        string span = "<a href=\"javascript:ToggleAdminStatus('up')\" style=\"width:50px;float:right\">Close</a>";
+        AdminStatus.Attributes.Clear();
+        AdminStatus.Attributes.Add("class", status);
+
+        AdminStatus.InnerHtml = Server.HtmlEncode(msg) + span;
+        AdminStatus.Visible = true;
+
+        Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", "ToggleAdminStatusDown();", true);
+    }
+
+    public void ResetStatus()
+    {
+        AdminStatus.Attributes.Clear();
+        AdminStatus.InnerHtml = "";
+        AdminStatus.Visible = false;
+    }
+
+    protected virtual void AddJquery()
+    {
+        string s = Path.Combine(Server.MapPath("~/"), "Scripts");
+        string[] fileEntries = Directory.GetFiles(s);
+        foreach (string fileName in fileEntries)
+        {
+            if ((fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) && fileName.Contains("jquery-")) &&
+                !fileName.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase))
+            {
+                AddJavaScript(Utils.RelativeWebRoot + "Scripts/" + Utils.ExtractFileNameFromPath(fileName));
+            }
+        }
+    }
+
+    void AddJavaScript(string src)
+    {
+        foreach (Control ctl in Page.Header.Controls)
+        {
+            if (ctl.GetType() == typeof(HtmlGenericControl))
+            {
+                HtmlGenericControl gc = (HtmlGenericControl)ctl;
+                if (gc.Attributes["src"] != null)
+                {
+                    if (gc.Attributes["src"].Contains(src))
+                        return;
+                }
+            }
+        }
+
+        HtmlGenericControl js = new HtmlGenericControl("script");
+
+        js.Attributes["type"] = "text/javascript";
+        js.Attributes["src"] = Utils.RelativeWebRoot + "js.axd?path=" + Server.UrlEncode(src);
+        js.Attributes["defer"] = "defer";
+
+        Page.Header.Controls.Add(js);
     }
 }

@@ -22,7 +22,7 @@
     <watermarkImageUrl>pics/wrench84watermark.png</watermarkImageUrl>
     <homepageLinkText>View your blog</homepageLinkText>
     <adminLinkText>Manage your blog</adminLinkText>  
-    <adminUrl><![CDATA[{blog-homepage-url}login.aspx]]></adminUrl>
+    <adminUrl><![CDATA[{blog-homepage-url}Account/Login.aspx]]></adminUrl>
   </weblog>
   <buttons>
     <button>

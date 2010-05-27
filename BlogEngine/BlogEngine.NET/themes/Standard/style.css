@@ -114,10 +114,21 @@ img {
 
 #menu a.apmlfilter
 {
+    padding-left: 15px;
+	background:url(../../pics/apml.png) no-repeat left 14px; 
+}
+
+#menu .login
+{
 	float:right;
 	margin-right: 10px; 
-	background:url(../../pics/apml.png) no-repeat left 1px; 
 	padding-left:16px
+}
+
+#menu .login span
+{
+	color: #666;
+	padding-right: 5px;
 }
 
 #menu ul{

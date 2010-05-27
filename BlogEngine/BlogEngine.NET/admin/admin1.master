@@ -30,7 +30,7 @@
                                     </td>                                   
                                     <td valign="top" align="left" style="width:50px; padding-left:0">
                                         <div style="padding-bottom:5px">
-                                            <a href="<%=Utils.RelativeWebRoot %>admin/Pages/Profiles.aspx"><%= AdminProfile() == null ? "" : AdminProfile().DisplayName %></a>
+                                            <a href="<%=Utils.RelativeWebRoot %>admin/Pages/Profiles.aspx"><%= AdminProfile() == null ? Page.User.Identity.Name : AdminProfile().DisplayName %></a>
                                         </div>
                                         <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
                                     </td>
@@ -41,12 +41,13 @@
                             </table>
                             <div id="blogTitle">
                             </div>
+                            <div id="AdminStatus" runat="server" visible="false"></div>
                             <div style="padding: 4px 18px;">
                                 <table id="contentTable" cellspacing="0">
                                     <tr>
                                         <td valign="top" style="width:100%">
                                         
-                                            <div style="padding-right: 18px; margin-bottom: 1em;">
+                                            <div style="margin-bottom: 1em;">
                                             
                                                <div class="tabs" style="width:100%">
                                                   <uc1:menu ID="Menu1" runat="server" />
@@ -58,11 +59,7 @@
                                                 
                                             </div>
                                         </td>
-                                        <td valign="top">
-                                            <!--<div class="rightSidebar">
-                                              <asp:ContentPlaceHolder ID="rightAdmin" runat="server" />                                                  
-                                            </div>-->
-                                        </td>
+                                        
                                     </tr>
                                 </table>
                             </div>                            
