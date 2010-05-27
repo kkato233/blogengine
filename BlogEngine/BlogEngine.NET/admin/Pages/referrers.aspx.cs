@@ -74,7 +74,15 @@ public partial class admin_Pages_referrers : System.Web.UI.Page
 
     private void BindDays()
     {
-        ddlDays.DataSource = Referrer.ReferrersByDay.Keys;
+        List<DateTime> sortedDates = new List<DateTime>(Referrer.ReferrersByDay.Keys);
+
+        sortedDates.Sort(
+                delegate(DateTime firstPair, DateTime nextPair)
+                {
+                    return firstPair.CompareTo(nextPair) * -1;
+                });
+
+        ddlDays.DataSource = sortedDates;
         ddlDays.DataBind();
         foreach (ListItem item in ddlDays.Items)
         {
