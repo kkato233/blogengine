@@ -387,9 +387,9 @@ input[type="checkbox"] {
 }
 
 .success, .warning, .validation {
-    border: 1px solid;
-    margin: 10px 0px;
-    padding:15px 10px 15px 50px;
+    border: 1px solid #ccc;
+    margin: 5px 20px;
+    padding:10px 5px 10px 50px;
     background-repeat: no-repeat;
     background-position: 10px center;
 }

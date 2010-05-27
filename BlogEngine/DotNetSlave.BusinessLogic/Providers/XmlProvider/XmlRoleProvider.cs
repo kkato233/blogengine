@@ -357,9 +357,15 @@ namespace BlogEngine.Core.Providers
         {
             if (!roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
             {
-                _Roles.Remove(new Role(roleName));
-                Save();
-                return true;
+                for (int i = 0; i < _Roles.Count; i++)
+                {
+                    if (_Roles[i].Name == roleName)
+                    {
+                        _Roles.RemoveAt(i);
+                        Save();
+                        return true;
+                    }
+                }
             }
             return false;
         }

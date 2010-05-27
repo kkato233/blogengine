@@ -198,7 +198,18 @@ namespace BlogEngine.Core
 			}
 		}
 
-		//private static Uri _AbsoluteWebRoot;
+        /// <summary>
+        /// Extract file name from given phisical server path
+        /// </summary>
+        /// <param name="path">Server path</param>
+        /// <returns>File Name</returns>
+        public static string ExtractFileNameFromPath(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+                throw new ArgumentNullException("path");
+
+            return path.Substring(path.LastIndexOf("\\")).Replace("\\", "");
+        }
 
 		/// <summary>
 		/// Gets the absolute root of the website.

@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Text;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 
@@ -76,10 +77,12 @@ namespace BlogEngine.Core.Web.Controls
 				AddGenericLink("application/rsd+xml", "edituri", "RSD", Utils.AbsoluteWebRoot + "rsd.axd");
 
 				AddMetaContentType();
+
 				AddDefaultLanguages();
 
                 AddLocalizationKeys();
-				AddJavaScriptInclude(Utils.RelativeWebRoot + "blog.js", true, true);				
+
+                AddJavaScripts();
 
 				if (BlogSettings.Instance.EnableOpenSearch)
 					AddGenericLink("application/opensearchdescription+xml", "search", BlogSettings.Instance.Name, Utils.AbsoluteWebRoot + "opensearch.axd");
@@ -112,6 +115,36 @@ namespace BlogEngine.Core.Web.Controls
 				Page.Title = (BlogSettings.Instance.Name + " | " + Page.Title);
 			}
 		}
+
+        /// <summary>
+        /// Add java scripts from /Scripts and custom theme to any post or page
+        /// Ignore jQuery document file as exception, it is used for VS only
+        /// </summary>
+        protected virtual void AddJavaScripts()
+        {
+            // add scripts in the ~/Scripts folder to the page header
+            string s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "Scripts");
+            string[] fileEntries = Directory.GetFiles(s);
+            foreach (string fileName in fileEntries)
+            {
+                if (fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) &&
+                    !fileName.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddJavaScriptInclude(Utils.RelativeWebRoot + "Scripts/" + Utils.ExtractFileNameFromPath(fileName), true, true);
+                }
+            }
+
+            // add scripts in the custom theme folder
+            s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "themes/" + _Theme);
+            fileEntries = Directory.GetFiles(s);
+            foreach (string fileName in fileEntries)
+            {
+                if (fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddJavaScriptInclude(Utils.RelativeWebRoot + "themes/" + _Theme + "/" + Utils.ExtractFileNameFromPath(fileName), true, true);
+                }
+            }
+        }
 
 		/// <summary>
 		/// Adds the localization keys to JavaScript for use globally.
@@ -155,7 +188,7 @@ namespace BlogEngine.Core.Web.Controls
 				{
 					if (!c.Attributes["href"].StartsWith("http://"))
 					{
-						string url = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/css.axd?name=" + c.Attributes["href"];
+						string url = Utils.RelativeWebRoot + "themes/" + _Theme + "/css.axd?name=" + c.Attributes["href"];
 						c.Attributes["href"] = url.Replace(".css", BlogSettings.Instance.Version() + ".css");
 						c.EnableViewState = false;
 					}
@@ -266,7 +299,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <returns></returns>
 		public virtual string ResolveScriptUrl(string url)
 		{
-			return Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(url) + "&amp;v=" + BlogSettings.Instance.Version();
+			return Utils.RelativeWebRoot + "js.axd?path=" + HttpUtility.UrlEncode(url);
 		}
 
 		/// <summary>
@@ -346,20 +379,7 @@ namespace BlogEngine.Core.Web.Controls
 		/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			//if (BlogSettings.Instance.RemoveWhitespaceInPages)
-			//{
-			//  using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
-			//  {
-			//    base.Render(new RewriteFormHtmlTextWriter(htmlwriter));
-			//    string html = htmlwriter.InnerWriter.ToString();
-			//    html = Utils.RemoveHtmlWhitespace(html);
-			//    writer.Write(html);
-			//  }
-			//}
-			//else
-			//{
-				base.Render(new RewriteFormHtmlTextWriter(writer));
-			//}
+			base.Render(new RewriteFormHtmlTextWriter(writer));
 		}
 
 	}

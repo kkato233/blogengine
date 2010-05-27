@@ -46,7 +46,7 @@ public partial class admin_menu : System.Web.UI.UserControl
 		}
 
 		if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
-			AddItem(Resources.labels.changePassword, Utils.RelativeWebRoot + "login.aspx");
+			AddItem(Resources.labels.changePassword, Utils.RelativeWebRoot + "Account/ChangePassword.aspx");
 	}
 
 	public void AddItem(string text, string url)
