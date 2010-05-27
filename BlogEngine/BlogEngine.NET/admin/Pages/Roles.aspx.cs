@@ -11,8 +11,6 @@ public partial class admin_Account_Roles : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        ((admin_admin)this.Master).ResetStatus();
-
         if (!Page.IsPostBack)
         {
             if (!Roles.RoleExists("Administrators"))
@@ -43,6 +41,8 @@ public partial class admin_Account_Roles : System.Web.UI.Page
             {
                 ((admin_admin)this.Master).SetStatus("warning", "Could not create the role: " + Server.HtmlEncode(ex.Message));
             }
+
+            ((admin_admin)this.Master).SetStatus("success", "Role \"" + roleName + "\" has been created");
         }
 
         RefreshAvailableRolesListBox();
@@ -60,6 +60,12 @@ public partial class admin_Account_Roles : System.Web.UI.Page
             {
                 ((admin_admin)this.Master).SetStatus("warning", "Could not delete the role: " + Server.HtmlEncode(ex.Message));
             }
+
+            ((admin_admin)this.Master).SetStatus("success", "Role \"" + lbxAvailableRoles.SelectedValue + "\" has been deleted");
+        }
+        else
+        {
+            ((admin_admin)this.Master).SetStatus("warning", "Could not delete the role: nothing selected");
         }
 
         RefreshAvailableRolesListBox();
