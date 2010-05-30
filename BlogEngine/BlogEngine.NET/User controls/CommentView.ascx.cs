@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using System.Data;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
@@ -215,11 +216,39 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             {
                 phAddComment.Visible = false;
             }
+
+            // remove comment form if login required and user not authenticated
+            if (BlogSettings.Instance.RequireLoginToPostComment && !Page.User.Identity.IsAuthenticated)
+            {
+                phAddComment.Visible = false;
+                ShowLoginRequired();
+            }
             //InititializeCaptcha();
         }
 
 
         Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
+    }
+
+    private void ShowLoginRequired()
+    {
+        HtmlGenericControl div = new HtmlGenericControl("div");
+        string link = "<a href=\"" + Utils.RelativeWebRoot + "Account/{0}.aspx\">{1}</a>";
+
+        string loginLink = string.Format(link, "Login", "login");
+        string registerLink = string.Format(link, "Register", "register");
+
+        div.InnerHtml = "Only logged in users can post a comment. Please " + loginLink;
+        div.Attributes.Add("class", "LoginRequired");
+        if (BlogEngine.Core.BlogSettings.Instance.EnableSelfRegistration)
+        {
+            div.InnerHtml += " or " + registerLink;
+        }
+        div.InnerHtml += ".";
+
+        phLoginRequired.Controls.Clear();
+        phLoginRequired.Controls.Add(div);
+        phLoginRequired.Visible = true;
     }
 
     private void AddNestedComments(string path, List<Comment> nestedComments, PlaceHolder phComments)

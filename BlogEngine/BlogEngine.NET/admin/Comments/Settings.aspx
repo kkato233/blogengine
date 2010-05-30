@@ -78,8 +78,11 @@
             
         <label for="<%=cbEnableComments.ClientID %>"><%=labels.enableComments %></label>
         <asp:CheckBox runat="server" ID="cbEnableComments" onclick="ToggleEnableComments();" /><%=labels.enableCommentsDescription %><br />
-        
+         
         <div id="SettingsFields">
+        <label for="<%=cbRequireLogin.ClientID %>">Require Login To Post Comment</label>
+        <asp:CheckBox runat="server" ID="cbRequireLogin" /><br />
+
         <label for="<%=cbEnableCommentNesting.ClientID %>"><%=labels.enableCommentNesting %></label>
         <asp:CheckBox runat="server" ID="cbEnableCommentNesting" /><%=labels.enableCommentNestingDescription%><br />
                

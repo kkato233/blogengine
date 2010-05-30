@@ -166,7 +166,7 @@
     <value>Base</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>Vota questo post per primo</value>
+    <value>Vota questo post</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
     <value>BlogEngine.NET usa BlogML come formato di esportazione. L'importazione supporta sia BlogML che RSS.</value>
@@ -771,5 +771,206 @@
   </data>
   <data name="profiles" xml:space="preserve">
     <value>Profili utente</value>
+  </data>
+  <data name="accuracy" xml:space="preserve">
+    <value>Accuratezza</value>
+  </data>
+  <data name="action" xml:space="preserve">
+    <value>Azione</value>
+  </data>
+  <data name="addFilter" xml:space="preserve">
+    <value>Aggiungi Filtro</value>
+  </data>
+  <data name="addToWhiteList" xml:space="preserve">
+    <value>Aggiungi alla lista bianca se almeno</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Tutti</value>
+  </data>
+  <data name="allow" xml:space="preserve">
+    <value>Permetti</value>
+  </data>
+  <data name="alwaysTrust" xml:space="preserve">
+    <value>Se l'utente autenticato, sempre fiducia</value>
+  </data>
+  <data name="approved" xml:space="preserve">
+    <value>Approvato</value>
+  </data>
+  <data name="authorApproved" xml:space="preserve">
+    <value>I commenti di questo autore sono stati approvati</value>
+  </data>
+  <data name="authorBlocked" xml:space="preserve">
+    <value>Se il commento viene cancellato, blocca sempre l'autore</value>
+  </data>
+  <data name="authorRejected" xml:space="preserve">
+    <value>I commenti di questo autore sono stati rifiutati</value>
+  </data>
+  <data name="automoderation" xml:space="preserve">
+    <value>Moderazione automatica</value>
+  </data>
+  <data name="block" xml:space="preserve">
+    <value>Blocco</value>
+  </data>
+  <data name="cheked" xml:space="preserve">
+    <value>Verificato</value>
+  </data>
+  <data name="clear" xml:space="preserve">
+    <value>Pulisci</value>
+  </data>
+  <data name="commentNotificationUnsubscribe" xml:space="preserve">
+    <value>Cancella la sottoscrizione dalle notifiche email di futuri commenti a questo post.</value>
+  </data>
+  <data name="commentNotificationUnsubscriptionHeader" xml:space="preserve">
+    <value>Sottoscrizione notifiche commenti</value>
+  </data>
+  <data name="commentNotificationUnsubscriptionText" xml:space="preserve">
+    <value>Hai cancellato la sottoscrizione alle notifiche via email di futuri commenti a questo post.</value>
+  </data>
+  <data name="commentsApprovedByAdmin" xml:space="preserve">
+    <value>Manuale - Solo dopo l'approvazione dell'amministratore il commento sarà visibile sul blog</value>
+  </data>
+  <data name="commentsAuto" xml:space="preserve">
+    <value>Automatico - Regole e filtri decideranno se il commento è spam.</value>
+  </data>
+  <data name="commentsBlacklist" xml:space="preserve">
+    <value>Aggiungi alla lista nera se almeno</value>
+  </data>
+  <data name="commentsBlockOnDelete" xml:space="preserve">
+    <value>Cancella sulle categorie</value>
+  </data>
+  <data name="commentsPerPage" xml:space="preserve">
+    <value>Commenti per pagina</value>
+  </data>
+  <data name="commentsUnmodApproved" xml:space="preserve">
+    <value>Se non moderati, tutti i commenti sono aprrovati di default</value>
+  </data>
+  <data name="configuration" xml:space="preserve">
+    <value>Configurazione</value>
+  </data>
+  <data name="confirmResetCounters" xml:space="preserve">
+    <value>Sicuro di voler resettare tutti i contatori a  `0`?</value>
+  </data>
+  <data name="contains" xml:space="preserve">
+    <value>Contiene</value>
+  </data>
+  <data name="custom" xml:space="preserve">
+    <value>Personalizza</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>Giorni</value>
+  </data>
+  <data name="down" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="editor" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Abilita</value>
+  </data>
+  <data name="enableErrorLogging" xml:space="preserve">
+    <value>Abilita log errori</value>
+  </data>
+  <data name="enableErrorLoggingDescription" xml:space="preserve">
+    <value>Errore non gestito verrà registrato ad ogni estensione / componente iscritto al registro di notifiche.</value>
+  </data>
+  <data name="eqls" xml:space="preserve">
+    <value>Equals</value>
+  </data>
+  <data name="filterName" xml:space="preserve">
+    <value>Nome filtro</value>
+  </data>
+  <data name="filters" xml:space="preserve">
+    <value>Filtri</value>
+  </data>
+  <data name="inbox" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="ip" xml:space="preserve">
+    <value>IP</value>
+  </data>
+  <data name="link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="mistakes" xml:space="preserve">
+    <value>Errori</value>
+  </data>
+  <data name="moderation" xml:space="preserve">
+    <value>Moderazione</value>
+  </data>
+  <data name="moderator" xml:space="preserve">
+    <value>Moderatore</value>
+  </data>
+  <data name="move" xml:space="preserve">
+    <value>Muovi</value>
+  </data>
+  <data name="moveWidgetTo" xml:space="preserve">
+    <value>Muovi Widget in</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>Numero di caratteri</value>
+  </data>
+  <data name="numberOfDaysToKeep" xml:space="preserve">
+    <value>Numero di giorni da mantenere</value>
+  </data>
+  <data name="priority" xml:space="preserve">
+    <value>Priorità</value>
+  </data>
+  <data name="rateThisXStars" xml:space="preserve">
+    <value>Rate this {0} star{1} out of 5</value>
+  </data>
+  <data name="ratingHasBeenRegistered" xml:space="preserve">
+    <value>Il tuo voto è stato registrato. Grazie!</value>
+  </data>
+  <data name="reject" xml:space="preserve">
+    <value>Rifiuta</value>
+  </data>
+  <data name="reportMistakesToService" xml:space="preserve">
+    <value>Segnala errori</value>
+  </data>
+  <data name="resetCounters" xml:space="preserve">
+    <value>Resetta contatori</value>
+  </data>
+  <data name="restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="rules" xml:space="preserve">
+    <value>Regole</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="selectedComments" xml:space="preserve">
+    <value>Commenti selezionati</value>
+  </data>
+  <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
+    <value>Mostra solo la descrizione dei posti eventualmente elencati per tag o categoria</value>
+  </data>
+  <data name="showPingBacks" xml:space="preserve">
+    <value>Mostra pingbacks and trackbacks</value>
+  </data>
+  <data name="spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="trustAuthenticated" xml:space="preserve">
+    <value>Autorizza autori autenticati</value>
+  </data>
+  <data name="unmoderated" xml:space="preserve">
+    <value>Unmoderated</value>
+  </data>
+  <data name="up" xml:space="preserve">
+    <value>Su</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Aggiorna</value>
+  </data>
+  <data name="widget" xml:space="preserve">
+    <value>Widget</value>
   </data>
 </root>

@@ -9,6 +9,8 @@
   <asp:PlaceHolder runat="server" ID="phComments" />  
 </div>
 
+<asp:PlaceHolder runat="server" ID="phLoginRequired" Visible="false" />
+
 <asp:PlaceHolder runat="Server" ID="phAddComment">
 
 <div id="comment-form">

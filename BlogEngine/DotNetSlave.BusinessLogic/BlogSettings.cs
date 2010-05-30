@@ -400,6 +400,22 @@ namespace BlogEngine.Core
 		public bool ShowPostNavigation { get; set; }
 		#endregion
 
+        #region EnableSelfRegistration
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable self registration.
+        /// </summary>
+        /// <value><c>true</c> if [enable self registration]; otherwise, <c>false</c>.</value>
+        public bool EnableSelfRegistration { get; set; }
+        #endregion
+
+        #region RequireLoginToPostComment
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to require user been logged in to post comment.
+        /// </summary>
+        /// <value><c>true</c> if [require login]; otherwise, <c>false</c>.</value>
+        public bool RequireLoginToPostComment { get; set; }
+        #endregion
+
 		#region HandleWwwSubdomain
 		/// <summary>
 		/// Gets or sets how to handle the www subdomain of the url (for SEO purposes).

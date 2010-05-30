@@ -107,6 +107,10 @@
         <asp:TextBox runat="Server" ID="txtTimeZone" Width="30" /> Server time: <%=DateTime.Now.ToShortTimeString() %>
         <asp:CompareValidator runat="server" ControlToValidate="txtTimeZone" Operator="dataTypeCheck" Type="double" Display="dynamic" ErrorMessage="Please specify a valid number (positive or negative)" />
         </div>
+        <div style="margin-bottom:3px">
+        <label for="<%=cbEnableSelfRegistration.ClientID %>">Enable Self Registration</label>
+        <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
+        </div>
     </div>
     
     <div class="settings">
