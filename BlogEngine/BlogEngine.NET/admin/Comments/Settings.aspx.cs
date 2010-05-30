@@ -49,6 +49,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         // Bind Comments settings
         //-----------------------------------------------------------------------
         cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
+        cbRequireLogin.Checked = BlogSettings.Instance.RequireLoginToPostComment;
         cbEnableCommentNesting.Checked = BlogSettings.Instance.IsCommentNestingEnabled;
         cbEnableCountryInComments.Checked = BlogSettings.Instance.EnableCountryInComments;
         cbEnableCoComment.Checked = BlogSettings.Instance.IsCoCommentEnabled;
@@ -127,6 +128,7 @@ public partial class admin_Comments_Settings : System.Web.UI.Page
         // Set Comments settings
         //-----------------------------------------------------------------------
         BlogSettings.Instance.IsCommentsEnabled = cbEnableComments.Checked;
+        BlogSettings.Instance.RequireLoginToPostComment = cbRequireLogin.Checked;
         BlogSettings.Instance.IsCommentNestingEnabled = cbEnableCommentNesting.Checked;
         BlogSettings.Instance.EnableCountryInComments = cbEnableCountryInComments.Checked;
         BlogSettings.Instance.IsCoCommentEnabled = cbEnableCoComment.Checked;

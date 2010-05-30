@@ -1,16 +1,14 @@
-﻿<%@ Page Title="Log In" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
-    CodeFile="Login.aspx.cs" Inherits="Account_Login" %>
+﻿<%@ Page Title="Log In" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Account_Login" %>
 
-<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
-</asp:Content>
+<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <h2>
-        Log In
-    </h2>
+    <h2>Log In</h2>
+    <% if (BlogEngine.Core.BlogSettings.Instance.EnableSelfRegistration){ %>
     <p>
         Please enter your username and password.
         <asp:HyperLink ID="RegisterHyperLink" runat="server" EnableViewState="false">Register</asp:HyperLink> if you don't have an account.
     </p>
+    <% } %>
     <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false">
         <LayoutTemplate>
             <span class="failureNotification">

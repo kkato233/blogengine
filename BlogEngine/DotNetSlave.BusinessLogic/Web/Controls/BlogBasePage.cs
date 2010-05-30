@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Web;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 
@@ -82,6 +83,8 @@ namespace BlogEngine.Core.Web.Controls
 
                 AddLocalizationKeys();
 
+                AddGlobalStyles();
+
                 AddJavaScripts();
 
 				if (BlogSettings.Instance.EnableOpenSearch)
@@ -143,6 +146,52 @@ namespace BlogEngine.Core.Web.Controls
                 {
                     AddJavaScriptInclude(Utils.RelativeWebRoot + "themes/" + _Theme + "/" + Utils.ExtractFileNameFromPath(fileName), true, true);
                 }
+            }
+        }
+
+        protected virtual void AddGlobalStyles()
+        {
+            // copy header styles
+            List<HtmlLink> links = new List<HtmlLink>();
+            List<int> indexes = new List<int>();
+            int cnt = 0;
+
+            foreach (Control item in Page.Header.Controls)
+            {
+                try
+                {
+                    HtmlLink lnk = (HtmlLink)item;
+                    if (lnk.Attributes["type"] == "text/css")
+                    {
+                        links.Add(lnk);
+                        indexes.Add(cnt);
+                    }
+                    cnt++;
+                }
+                catch (Exception) { cnt++; }
+            }
+
+            // remove all css links from header
+            foreach (int i in indexes)
+            {
+                Page.Header.Controls.RemoveAt(i);
+            }
+            
+            // add styles in the ~/Styles folder to the page header
+            string s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "Styles");
+            string[] fileEntries = Directory.GetFiles(s);
+            foreach (string fileName in fileEntries)
+            {
+                if (fileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddStylesheetInclude(Utils.RelativeWebRoot + "Styles/" + Utils.ExtractFileNameFromPath(fileName));
+                }
+            }
+
+            // add styles saved in the step 1
+            foreach (HtmlLink hlink in links)
+            {
+                Page.Header.Controls.Add(hlink);
             }
         }
 
