@@ -21,6 +21,8 @@
 // Adapted for dotnetblogengine by Filip Stanek ( http://www.bloodforge.com )
 
 using System;
+using System.Data;
+using System.Collections.Generic;
 
 namespace Recaptcha
 {
@@ -38,5 +40,76 @@ namespace Recaptcha
         public UInt16 NumberOfAttempts = 0;
         public bool Enabled = true;
         public bool Necessary = true;
+    }
+
+    /// <summary>
+    /// Methods to save and retrieve reCaptcha logs
+    /// </summary>
+    public static class RecaptchaLogger
+    {
+        /// <summary>
+        /// Saves log data to datastore as extension settings
+        /// </summary>
+        /// <param name="items">List of log items</param>
+        public static void SaveLogItems(List<RecaptchaLogItem> items)
+        {
+            if (items.Count > 0)
+            {
+                ExtensionSettings settings = ExtensionManager.GetSettings("Recaptcha", "RecaptchaLog");
+                DataTable table = settings.GetDataTable();
+
+                if (table.Rows.Count > 0)
+                {
+                    for (int i = table.Rows.Count -1; i > -1; i--)
+                    {
+                        foreach (ExtensionParameter par in settings.Parameters)
+                            par.DeleteValue(i);
+                    }
+                }
+                
+                foreach (RecaptchaLogItem item in items)
+                {
+                    settings.AddValues(new string[] { 
+                        item.Response, 
+                        item.Challenge, 
+                        item.CommentID.ToString(),
+                        item.TimeToComment.ToString(),
+                        item.TimeToSolveCapcha.ToString(),
+                        item.NumberOfAttempts.ToString(),
+                        item.Enabled.ToString(),
+                        item.Necessary.ToString() });
+                }
+                ExtensionManager.SaveSettings("Recaptcha", settings);
+            }
+        }
+
+        /// <summary>
+        /// Read log data from data store
+        /// </summary>
+        /// <returns>List of log items</returns>
+        public static List<RecaptchaLogItem> ReadLogItems()
+        {
+            ExtensionSettings settings = ExtensionManager.GetSettings("Recaptcha", "RecaptchaLog");
+            DataTable table = settings.GetDataTable();
+            List<RecaptchaLogItem> log = new List<RecaptchaLogItem>();
+
+            if (table.Rows.Count > 0)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    RecaptchaLogItem Item = new RecaptchaLogItem();
+                    Item.Response = (string)row["Response"];
+                    Item.Challenge = (string)row["Challenge"];
+                    Item.CommentID = new Guid((string)row["CommentID"]);
+                    Item.Enabled = bool.Parse(row["Enabled"].ToString());
+                    Item.Necessary = bool.Parse(row["Necessary"].ToString());
+                    Item.NumberOfAttempts = ushort.Parse(row["NumberOfAttempts"].ToString());
+                    Item.TimeToComment = double.Parse(row["TimeToComment"].ToString());
+                    Item.TimeToSolveCapcha = double.Parse(row["TimeToSolveCapcha"].ToString());
+                    log.Add(Item);
+                }
+            }
+            return log;
+        }
     }
 }

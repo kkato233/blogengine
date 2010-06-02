@@ -39,14 +39,7 @@ public partial class admin_Pages_RecaptchaLogViewer : System.Web.UI.Page
 
     private void BindGrid()
     {
-        Stream s = (Stream)BlogService.LoadFromDataStore(BlogEngine.Core.DataStore.ExtensionType.Extension, "RecaptchaLog");
-        List<RecaptchaLogItem> log = new List<RecaptchaLogItem>();
-        if (s != null)
-        {
-            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List<RecaptchaLogItem>));
-            log = (List<RecaptchaLogItem>)serializer.Deserialize(s);
-            s.Close();
-        }
+        List<RecaptchaLogItem> log = RecaptchaLogger.ReadLogItems();
 
         Dictionary<Guid, Comment> comments = new Dictionary<Guid, Comment>();
         foreach (Post post in Post.Posts)
@@ -88,7 +81,7 @@ public partial class admin_Pages_RecaptchaLogViewer : System.Web.UI.Page
             {
                 log.Remove(orphan);
             }
-            BlogService.SaveToDataStore(BlogEngine.Core.DataStore.ExtensionType.Extension, "RecaptchaLog", log);
+            RecaptchaLogger.SaveLogItems(log);
         }
 
         DataView view = new DataView(dtLogView);

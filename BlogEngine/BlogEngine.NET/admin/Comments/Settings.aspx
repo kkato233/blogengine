@@ -19,6 +19,7 @@
                 document.getElementById('Rules').style.display = "none";
                 document.getElementById('Filters').style.display = "none";
                 document.getElementById('CustomFilters').style.display = "none";
+                document.getElementById('Disqus').style.display = "none";
             }
         }
 
@@ -33,6 +34,7 @@
                 document.getElementById('Rules').style.display = "none";
                 document.getElementById('Filters').style.display = "none";
                 document.getElementById('CustomFilters').style.display = "none";
+                document.getElementById('Disqus').style.display = "none";
             }
         }
 

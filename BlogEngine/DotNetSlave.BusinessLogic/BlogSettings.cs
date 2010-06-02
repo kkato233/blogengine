@@ -416,6 +416,14 @@ namespace BlogEngine.Core
         public bool RequireLoginToPostComment { get; set; }
         #endregion
 
+        #region RequireLoginToViewPosts
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to require user been logged in to view posts.
+        /// </summary>
+        /// <value><c>true</c> if [require login]; otherwise, <c>false</c>.</value>
+        public bool RequireLoginToViewPosts { get; set; }
+        #endregion
+
 		#region HandleWwwSubdomain
 		/// <summary>
 		/// Gets or sets how to handle the www subdomain of the url (for SEO purposes).
