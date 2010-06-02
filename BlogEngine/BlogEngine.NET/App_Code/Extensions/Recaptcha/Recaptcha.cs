@@ -1,4 +1,7 @@
-﻿using BlogEngine.Core.Web.Controls;
+﻿using System;
+using System.Data;
+using System.Collections.Generic;
+using BlogEngine.Core.Web.Controls;
 
 namespace Recaptcha
 {
@@ -13,6 +16,7 @@ namespace Recaptcha
         public Recaptcha()
         {
             InitSettings();
+            InitLogSettings();
         }
 
         public string JScript
@@ -89,8 +93,23 @@ namespace Recaptcha
             ExtensionManager.SetStatus("Recaptcha", false);
         }
 
+        public void InitLogSettings()
+        {
+            ExtensionSettings settings = new ExtensionSettings("RecaptchaLog");
+        
+            settings.AddParameter("Response");
+            settings.AddParameter("Challenge");
+            settings.AddParameter("CommentID");
+            settings.AddParameter("TimeToComment");
+            settings.AddParameter("TimeToSolveCapcha");
+            settings.AddParameter("NumberOfAttempts");
+            settings.AddParameter("Enabled");
+            settings.AddParameter("Necessary");
+            settings.Hidden = true;
+
+            ExtensionManager.InitSettings("Recaptcha", settings);
+        }
+
         #endregion
     }
-
-
 }

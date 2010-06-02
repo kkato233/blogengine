@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Data;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -254,6 +255,8 @@ namespace Controls
         {
             if (RecaptchaLoggingEnabled && !skipRecaptcha)
             {
+                List<RecaptchaLogItem> log = RecaptchaLogger.ReadLogItems();
+
                 RecaptchaLogItem logItem = new RecaptchaLogItem();
                 logItem.Response = RecaptchaResponseValue;
                 logItem.Challenge = RecaptchaChallengeValue;
@@ -263,29 +266,18 @@ namespace Controls
                 logItem.NumberOfAttempts = RecaptchaAttempts;
                 logItem.TimeToComment = DateTime.Now.Subtract(PageLoadTime).TotalSeconds;
                 logItem.TimeToSolveCapcha = DateTime.Now.Subtract(RecaptchaRenderTime).TotalSeconds;
-
-                Stream s = (Stream)BlogService.LoadFromDataStore(BlogEngine.Core.DataStore.ExtensionType.Extension, "RecaptchaLog");
-                List<RecaptchaLogItem> log = new List<RecaptchaLogItem>();
-                if (s != null)
-                {
-                    System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List<RecaptchaLogItem>));
-                    log = (List<RecaptchaLogItem>)serializer.Deserialize(s);
-                    s.Close();
-                }
                 log.Add(logItem);
 
                 if (log.Count > MaxLogEntries)
                 {
                     log.RemoveRange(0, log.Count - MaxLogEntries);
                 }
-
-                BlogService.SaveToDataStore(BlogEngine.Core.DataStore.ExtensionType.Extension, "RecaptchaLog", log);
+                RecaptchaLogger.SaveLogItems(log);
 
                 RecaptchaAttempts = 0;
                 PageLoadTime = DateTime.Now;
                 HttpContext.Current.Cache.Remove(UserUniqueIdentifier + "RecaptchaChallengeValue");
                 HttpContext.Current.Cache.Remove(UserUniqueIdentifier + "RecaptchaResponseValue");
-
             }
         }
 

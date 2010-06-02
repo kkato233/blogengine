@@ -86,6 +86,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
         BlogSettings.Instance.Timezone = double.Parse(txtTimeZone.Text, CultureInfo.InvariantCulture);
         BlogSettings.Instance.EnableSelfRegistration = cbEnableSelfRegistration.Checked;
+        BlogSettings.Instance.RequireLoginToViewPosts = cbRequireLoginToViewPosts.Checked;
 
         //-----------------------------------------------------------------------
         // Set Email settings
@@ -192,6 +193,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 		txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
 		cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
         cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
+        cbRequireLoginToViewPosts.Checked = BlogSettings.Instance.RequireLoginToViewPosts;
 
 		//-----------------------------------------------------------------------
 		// Bind Email settings

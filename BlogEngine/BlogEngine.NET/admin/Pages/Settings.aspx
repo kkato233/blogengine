@@ -111,6 +111,10 @@
         <label for="<%=cbEnableSelfRegistration.ClientID %>">Enable Self Registration</label>
         <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
         </div>
+        <div style="margin-bottom:3px">
+        <label for="<%=cbRequireLoginToViewPosts.ClientID %>">Only logged in users can view posts (private blog)</label>
+        <asp:CheckBox runat="server" ID="cbRequireLoginToViewPosts" />
+        </div>
     </div>
     
     <div class="settings">

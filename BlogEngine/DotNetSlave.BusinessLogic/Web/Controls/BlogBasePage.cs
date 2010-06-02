@@ -31,6 +31,12 @@ namespace BlogEngine.Core.Web.Controls
 		/// </summary>
 		protected override void OnPreInit(EventArgs e)
 		{
+            // blog set as private - redirect to login if not authenticated
+            if (!Page.User.Identity.IsAuthenticated && BlogSettings.Instance.RequireLoginToViewPosts)
+            {
+                Response.Redirect(Utils.RelativeWebRoot + "Account/login.aspx");
+            }
+
 			MasterPageFile = Utils.RelativeWebRoot + "themes/" + _Theme + "/site.master";
 
 			base.OnPreInit(e);
@@ -149,6 +155,9 @@ namespace BlogEngine.Core.Web.Controls
             }
         }
 
+        /// <summary>
+        /// Add global style sheets before any custom css 
+        /// </summary>
         protected virtual void AddGlobalStyles()
         {
             // copy header styles
