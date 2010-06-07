@@ -48,6 +48,8 @@ public class SendCommentMail
 			ServingEventArgs args = new ServingEventArgs(comment.Content, ServingLocation.Email);
 			Comment.OnServing(comment, args);
 			string body = args.Body;
+            body = body.Replace(Environment.NewLine, "<br />");
+            body = body.Replace("<img src=\"" + Utils.RelativeWebRoot, "<img src=\"" + Utils.AbsoluteWebRoot);
 
 			MailMessage mail = new MailMessage();
 			mail.From = new MailAddress(BlogSettings.Instance.Email);
@@ -55,7 +57,7 @@ public class SendCommentMail
             mail.ReplyTo = new MailAddress(replyTo, HttpUtility.HtmlDecode(comment.Author));
 			mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + subject + post.Title;
 			mail.Body = "<div style=\"font: 11px verdana, arial\">";
-			mail.Body += body.Replace(Environment.NewLine, "<br />") + "<br /><br />";
+            mail.Body += body + "<br /><br />";
             mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br /><br />", Utils.Translate("post", null, defaultCulture), post.PermaLink + "#id_" + comment.Id, post.Title);
 
 			string deleteLink = post.AbsoluteLink + "?deletecomment=" + comment.Id;
