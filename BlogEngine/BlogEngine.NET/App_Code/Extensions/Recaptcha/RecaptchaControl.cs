@@ -22,14 +22,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Data;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
-using BlogEngine.Core.Providers;
 using Recaptcha;
 
 namespace Controls
@@ -260,7 +257,7 @@ namespace Controls
                 RecaptchaLogItem logItem = new RecaptchaLogItem();
                 logItem.Response = RecaptchaResponseValue;
                 logItem.Challenge = RecaptchaChallengeValue;
-                logItem.CommentID = comment.Id;
+                logItem.CommentId = comment.Id;
                 logItem.Enabled = RecaptchaEnabled;
                 logItem.Necessary = RecaptchaNecessary;
                 logItem.NumberOfAttempts = RecaptchaAttempts;

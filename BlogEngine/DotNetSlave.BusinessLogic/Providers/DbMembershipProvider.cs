@@ -290,7 +290,60 @@ namespace BlogEngine.Core.Providers
         /// <returns></returns>
         public override string ResetPassword(string username, string answer)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(username)) return string.Empty;
+
+            string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;
+            string providerName = ConfigurationManager.ConnectionStrings[connStringName].ProviderName;
+            DbProviderFactory provider = DbProviderFactories.GetFactory(providerName);
+
+            string oldPassword = "";
+            string randomPassword = Utils.RandomPassword();
+
+            using (DbConnection conn = provider.CreateConnection())
+            {
+                conn.ConnectionString = connString;
+
+                using (DbCommand cmd = conn.CreateCommand())
+                {
+                    // Check Old Password
+                    cmd.CommandText = "SELECT password FROM " + tablePrefix + "Users WHERE userName = " + parmPrefix + "name";
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+
+                    DbParameter dpName = provider.CreateParameter();
+                    dpName.ParameterName = parmPrefix + "name";
+                    dpName.Value = username;
+                    cmd.Parameters.Add(dpName);
+
+                    using (DbDataReader rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.HasRows)
+                        {
+                            rdr.Read();
+                            oldPassword = rdr.GetString(0);
+                        }
+                    }
+
+                    // Update Password
+                    if (!string.IsNullOrEmpty(oldPassword))
+                    {
+                        cmd.CommandText = "UPDATE " + tablePrefix + "Users SET password = " + parmPrefix + "pwd WHERE userName = " + parmPrefix + "name";
+
+                        DbParameter dpPwd = provider.CreateParameter();
+                        dpPwd.ParameterName = parmPrefix + "pwd";
+                        if (passwordFormat == MembershipPasswordFormat.Hashed)
+                            dpPwd.Value = Utils.HashPassword(randomPassword);
+                        else
+                            dpPwd.Value = randomPassword;
+                        cmd.Parameters.Add(dpPwd);
+
+                        cmd.ExecuteNonQuery();
+                        return randomPassword;
+                    }
+                }
+            }
+            return string.Empty;
         }
 
         /// <summary>

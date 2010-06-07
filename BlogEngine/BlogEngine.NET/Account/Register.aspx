@@ -8,14 +8,11 @@
         <WizardSteps>
             <asp:CreateUserWizardStep ID="RegisterUserWizardStep" runat="server">
                 <ContentTemplate>
-                    <h2>
-                        Create a New Account
-                    </h2>
                     <p>
-                        Use the form below to create a new account.
-                    </p>
-                    <p>
-                        Passwords are required to be a minimum of <%= Membership.MinRequiredPasswordLength %> characters in length.
+                        <span id="CreateHdr">Create Account</span>
+                        <span>
+                            Alerady have account? <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Login now!</a>
+                        </span>
                     </p>
                     <span class="failureNotification">
                         <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
@@ -23,32 +20,39 @@
                     <asp:ValidationSummary ID="RegisterUserValidationSummary" runat="server" CssClass="failureNotification" 
                          ValidationGroup="RegisterUserValidationGroup"/>
                     <div class="accountInfo">
-                        <fieldset class="register">
-                            <legend>Account Information</legend>
+                        <div class="login">
                             <p>
                                 <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
-                                <asp:TextBox ID="UserName" runat="server" CssClass="textEntry"></asp:TextBox>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="UserName" runat="server" CssClass="textEntry"></asp:TextBox>
+                                </div>
                                 <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
                                      CssClass="failureNotification" ErrorMessage="User Name is required." ToolTip="User Name is required." 
                                      ValidationGroup="RegisterUserValidationGroup">*</asp:RequiredFieldValidator>
                             </p>
                             <p>
                                 <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="Email">E-mail:</asp:Label>
-                                <asp:TextBox ID="Email" runat="server" CssClass="textEntry"></asp:TextBox>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="Email" runat="server" CssClass="textEntry"></asp:TextBox>
+                                </div>
                                 <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" 
                                      CssClass="failureNotification" ErrorMessage="E-mail is required." ToolTip="E-mail is required." 
                                      ValidationGroup="RegisterUserValidationGroup">*</asp:RequiredFieldValidator>
                             </p>
                             <p>
-                                <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password:</asp:Label>
-                                <asp:TextBox ID="Password" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password (min <%= Membership.MinRequiredPasswordLength %> characters)</asp:Label>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="Password" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                </div>
                                 <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" 
                                      CssClass="failureNotification" ErrorMessage="Password is required." ToolTip="Password is required." 
                                      ValidationGroup="RegisterUserValidationGroup">*</asp:RequiredFieldValidator>
                             </p>
                             <p>
                                 <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword">Confirm Password:</asp:Label>
-                                <asp:TextBox ID="ConfirmPassword" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="ConfirmPassword" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                </div>
                                 <asp:RequiredFieldValidator ControlToValidate="ConfirmPassword" CssClass="failureNotification" Display="Dynamic" 
                                      ErrorMessage="Confirm Password is required." ID="ConfirmPasswordRequired" runat="server" 
                                      ToolTip="Confirm Password is required." ValidationGroup="RegisterUserValidationGroup">*</asp:RequiredFieldValidator>
@@ -56,7 +60,7 @@
                                      CssClass="failureNotification" Display="Dynamic" ErrorMessage="The Password and Confirmation Password must match."
                                      ValidationGroup="RegisterUserValidationGroup">*</asp:CompareValidator>
                             </p>
-                        </fieldset>
+                        </div>
                         <p class="submitButton">
                             <asp:Button ID="CreateUserButton" runat="server" CommandName="MoveNext" Text="Create User" 
                                  ValidationGroup="RegisterUserValidationGroup"/>

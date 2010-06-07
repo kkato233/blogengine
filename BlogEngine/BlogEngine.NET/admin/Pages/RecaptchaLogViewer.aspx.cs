@@ -64,9 +64,9 @@ public partial class admin_Pages_RecaptchaLogViewer : System.Web.UI.Page
 
         foreach (RecaptchaLogItem item in log)
         {
-            if (comments.ContainsKey(item.CommentID))
+            if (comments.ContainsKey(item.CommentId))
             {
-                Comment comment = comments[item.CommentID];
+                Comment comment = comments[item.CommentId];
                 dtLogView.Rows.Add(comment.Email, comment.DateCreated, comment.Author, comment.Website, comment.IP, item.NumberOfAttempts, item.TimeToComment, item.TimeToSolveCapcha);
             }
             else

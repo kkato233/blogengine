@@ -23,6 +23,7 @@
 using System;
 using System.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Recaptcha
 {
@@ -34,10 +35,10 @@ namespace Recaptcha
     {
         public string Response = String.Empty;
         public string Challenge = String.Empty;
-        public Guid CommentID = Guid.Empty;
-        public double TimeToComment = 0; // in seconds - this is the time from the initial page load until a captcha was successfully solved
-        public double TimeToSolveCapcha = 0; // in seconds - this is the time from the last time the captcha was refreshed until it was successfully solved.
-        public UInt16 NumberOfAttempts = 0;
+        public Guid CommentId = Guid.Empty;
+        public double TimeToComment; // in seconds - this is the time from the initial page load until a captcha was successfully solved
+        public double TimeToSolveCapcha; // in seconds - this is the time from the last time the captcha was refreshed until it was successfully solved.
+        public UInt16 NumberOfAttempts;
         public bool Enabled = true;
         public bool Necessary = true;
     }
@@ -69,10 +70,10 @@ namespace Recaptcha
                 
                 foreach (RecaptchaLogItem item in items)
                 {
-                    settings.AddValues(new string[] { 
+                    settings.AddValues(new[] { 
                         item.Response, 
                         item.Challenge, 
-                        item.CommentID.ToString(),
+                        item.CommentId.ToString(),
                         item.TimeToComment.ToString(),
                         item.TimeToSolveCapcha.ToString(),
                         item.NumberOfAttempts.ToString(),
@@ -91,23 +92,21 @@ namespace Recaptcha
         {
             ExtensionSettings settings = ExtensionManager.GetSettings("Recaptcha", "RecaptchaLog");
             DataTable table = settings.GetDataTable();
-            List<RecaptchaLogItem> log = new List<RecaptchaLogItem>();
+            var log = new List<RecaptchaLogItem>();
 
             if (table.Rows.Count > 0)
             {
-                foreach (DataRow row in table.Rows)
-                {
-                    RecaptchaLogItem Item = new RecaptchaLogItem();
-                    Item.Response = (string)row["Response"];
-                    Item.Challenge = (string)row["Challenge"];
-                    Item.CommentID = new Guid((string)row["CommentID"]);
-                    Item.Enabled = bool.Parse(row["Enabled"].ToString());
-                    Item.Necessary = bool.Parse(row["Necessary"].ToString());
-                    Item.NumberOfAttempts = ushort.Parse(row["NumberOfAttempts"].ToString());
-                    Item.TimeToComment = double.Parse(row["TimeToComment"].ToString());
-                    Item.TimeToSolveCapcha = double.Parse(row["TimeToSolveCapcha"].ToString());
-                    log.Add(Item);
-                }
+                log.AddRange(from DataRow row in table.Rows select new RecaptchaLogItem
+                    {
+                        Response = (string) row["Response"],
+                        Challenge = (string) row["Challenge"], 
+                        CommentId = new Guid((string) row["CommentID"]), 
+                        Enabled = bool.Parse(row["Enabled"].ToString()), 
+                        Necessary = bool.Parse(row["Necessary"].ToString()), 
+                        NumberOfAttempts = ushort.Parse(row["NumberOfAttempts"].ToString()), 
+                        TimeToComment = double.Parse(row["TimeToComment"].ToString()), 
+                        TimeToSolveCapcha = double.Parse(row["TimeToSolveCapcha"].ToString())
+                    });
             }
             return log;
         }

@@ -469,7 +469,32 @@ namespace BlogEngine.Core.Providers {
         /// <param name="answer"></param>
         /// <returns></returns>
         public override string ResetPassword(string username, string answer) {
-            throw new NotSupportedException();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(_XmlFileName);
+            XmlNodeList nodes = doc.GetElementsByTagName("User");
+            string newPassword = Utils.RandomPassword();
+
+            foreach (XmlNode node in nodes)
+            {
+                if (node["UserName"].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!string.IsNullOrEmpty(node["Password"].InnerText))
+                    {
+                        string passwordPrep;
+                        if (passwordFormat == MembershipPasswordFormat.Hashed)
+                            passwordPrep = Utils.HashPassword(newPassword);
+                        else
+                            passwordPrep = newPassword;
+                        node["Password"].InnerText = passwordPrep;
+                        doc.Save(_XmlFileName);
+
+                        _Users = null;
+                        ReadMembershipDataStore();
+                        return newPassword;
+                    }
+                }
+            }
+            return string.Empty;
         }
 
         /// <summary>

@@ -3,7 +3,7 @@
 
 body   
 {
-    background: #b6b7bc;
+    background: #DEDEDE url(../pics/bg-slice.jpg) repeat-x left top; /* #b6b7bc;*/
     font-size: .80em;
     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;
@@ -13,18 +13,18 @@ body
 
 a:link, a:visited
 {
-    color: #034af3;
+    color: #C65D30;
 }
 
 a:hover
 {
-    color: #1d60ff;
+    color: #C65D30;
     text-decoration: none;
 }
 
 a:active
 {
-    color: #034af3;
+    color: #C65D30;
 }
 
 p
@@ -88,10 +88,8 @@ first child of the left and right table columns */
 
 .page
 {
-    width: 960px;
-    background-color: #fff;
+    width: 455px;
     margin: 20px auto 0px auto;
-    border: 1px solid #496077;
 }
 
 .header
@@ -99,8 +97,8 @@ first child of the left and right table columns */
     position: relative;
     margin: 0px;
     padding: 0 0 10px 0;
-    background: #ccc;
-    width: 100%;
+    height: 50px;
+    display: block;
 }
 
 .header h1
@@ -116,9 +114,15 @@ first child of the left and right table columns */
 
 .main
 {
-    padding: 0px 12px;
+    padding: 25px;
     margin: 12px 8px 8px 8px;
-    min-height: 420px;
+    min-height: 350px;
+    background: #FFFFFF url(../pics/bx-slice.jpg) repeat-x left top;
+    -moz-border-radius: 10px;
+    -khtml-border-radius: 10px
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #CCC;
 }
 
 .leftCol
@@ -139,97 +143,42 @@ first child of the left and right table columns */
 }
 
 
-/* TAB MENU   
-----------------------------------------------------------*/
 
-div.hideSkiplink
-{
-    background-color:#3a4f63;
-    width:100%;
-}
-
-div.menu
-{
-    padding: 4px 0px 4px 8px;
-}
-
-div.menu ul
-{
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-    width: auto;
-}
-
-div.menu ul li a, div.menu ul li a:visited
-{
-    background-color: #465c71;
-    border: 1px #4e667d solid;
-    color: #dde4ec;
-    display: block;
-    line-height: 1.35em;
-    padding: 4px 20px;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-div.menu ul li a:hover
-{
-    background-color: #bfcbd6;
-    color: #465c71;
-    text-decoration: none;
-}
-
-div.menu ul li a:active
-{
-    background-color: #465c71;
-    color: #cfdbe6;
-    text-decoration: none;
-}
 
 /* FORM ELEMENTS   
 ----------------------------------------------------------*/
 
-fieldset
+.login
 {
     margin: 1em 0px;
-    padding: 1em;
-    border: 1px solid #ccc;
+    padding: 1em 0px;
 }
 
-fieldset p 
+.login p 
 {
-    margin: 2px 12px 10px 10px;
+    margin: 2px 12px 0 0;
+    padding: 0;
 }
 
-fieldset.login label, fieldset.register label, fieldset.changePassword label
+
+
+input.textEntry, input.passwordEntry
 {
-    display: block;
+    background-color: #fff;
+    width: 350px;
+    border: 0px solid #fff;
+    background: #fff;
 }
 
-fieldset label.inline 
+input.textEntry:focus, input.passwordEntry:focus
 {
-    display: inline;
+    background-color: #fff;
+    border: 0px solid #fff;
+    background: #fff;
+    outline: none;
 }
 
-legend 
-{
-    font-size: 1.1em;
-    font-weight: 600;
-    padding: 2px 4px 8px 4px;
-}
 
-input.textEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-input.passwordEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
 
 div.accountInfo
 {
@@ -251,30 +200,35 @@ div.accountInfo
     float: left;
     text-align: left;
     width: auto;
+    padding-left: 10px;
 }
 
 .loginDisplay
 {
     font-size: 1.1em;
-    display: block;
+    width: 200px;
+    height: 20px;
+    float:right;
     text-align: right;
-    padding: 10px;
-    color: White;
+    margin: 30px 10px 0 0;
+    color: #666;
+    text-decoration: none;
 }
 
 .loginDisplay a:link
 {
-    color: white;
+    color: #333;
+    text-decoration: none;
 }
 
 .loginDisplay a:visited
 {
-    color: white;
+    color: #333;
 }
 
 .loginDisplay a:hover
 {
-    color: white;
+    color: #333;
 }
 
 .failureNotification
@@ -290,6 +244,81 @@ div.accountInfo
 
 .submitButton
 {
-    text-align: right;
-    padding-right: 10px;
+    padding: 20px 0 0 0;
+}
+
+.submitButton input
+{
+    border: 1px solid #ccc;
+    padding: 5px 20px;
+    color: #898989;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 10px;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+}
+
+.submitButton span 
+{
+    padding-left: 10px;
+}
+
+#LoginRegister
+{
+    border-top: 1px solid #ccc;
+    margin-top: 15px;
+    padding: 10px 0;
+}
+
+.boxRound {
+    background-color: #fff;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 360px;
+}
+
+#CreateHdr
+{
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+#StatusBox {
+    display: block;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+}
+
+.success, .warning, .validation {
+    margin: 0; /* 5px 20px;*/
+    padding:10px 5px 10px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+}
+
+.success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    background-image: url('../pics/success.png');
+}
+
+.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    background-image: url('../pics/warning.png');
 }
