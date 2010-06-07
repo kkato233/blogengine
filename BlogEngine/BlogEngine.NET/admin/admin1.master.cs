@@ -17,7 +17,6 @@ public partial class admin_admin : System.Web.UI.MasterPage
 
         AddJquery();
         AddJavaScript(Utils.RelativeWebRoot + "admin/admin.js");
-        AddJavaScript(Utils.RelativeWebRoot + "admin/widget.js");
     }
 
     protected AuthorProfile AdminProfile()
