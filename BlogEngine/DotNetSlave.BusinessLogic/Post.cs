@@ -712,14 +712,16 @@ namespace BlogEngine.Core
                     string unsubscribeLink = AbsoluteLink.ToString();  
                     unsubscribeLink += (unsubscribeLink.Contains("?") ? "&" : "?") + "unsubscribe-email=" + HttpUtility.UrlEncode(email);
 
+                    System.Globalization.CultureInfo defaultCulture = Utils.GetDefaultCulture();
+
                     MailMessage mail = new MailMessage();
                     mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
                     mail.Subject = "New comment on " + Title;
-                    mail.Body = "Comment by " + comment.Author + "<br /><br />";
+                    mail.Body = "<div style=\"font: 11px verdana, arial\">New Comment added by " + comment.Author + "<br /><br />";
                     mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
-                    mail.Body += string.Format("<a href=\"{0}\">{1}</a>", PermaLink + "#id_" + comment.Id, Title);
-                    mail.Body += "<br /><br /><hr />";
-                    mail.Body += string.Format("<a href=\"{0}\">{1}</a>", unsubscribeLink, Utils.Translate("commentNotificationUnsubscribe"));
+                    mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br/>", Utils.Translate("post", null, defaultCulture), PermaLink + "#id_" + comment.Id, Title);
+                    mail.Body += "<br />_______________________________________________________________________________<br />";
+                    mail.Body += string.Format("<a href=\"{0}\">{1}</a></div>", unsubscribeLink, Utils.Translate("commentNotificationUnsubscribe"));
 
 					mail.To.Add(email);
 					Utils.SendMailMessageAsync(mail);

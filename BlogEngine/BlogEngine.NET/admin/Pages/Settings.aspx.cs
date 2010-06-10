@@ -42,7 +42,16 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
 			mail.From = new MailAddress(txtEmail.Text, txtName.Text);
 			mail.To.Add(mail.From);
 			mail.Subject = "Test mail from " + txtName.Text;
-			mail.Body = "Success";
+            mail.IsBodyHtml = true;
+            mail.Body = "<div style=\"font: 11px verdana, arial\">";
+            mail.Body += "Success";
+            if (HttpContext.Current != null)
+            {
+                mail.Body += "<br /><br />_______________________________________________________________________________<br /><br />";
+                mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
+                mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
+            }
+            mail.Body += "</div>";
 			SmtpClient smtp = new SmtpClient(txtSmtpServer.Text);
             // don't send credentials if a server doesn't require it,
             // linux smtp servers don't like that 

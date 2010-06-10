@@ -113,11 +113,12 @@ public partial class widgets_Newsletter_widget : WidgetBase, ICallbackEventHandl
     {
         MailMessage mail = new MailMessage();
         mail.Subject = post.Title;
-        mail.Body = "There'a new post available.<br /> <a href=\"" + post.AbsoluteLink + "\">" + post.Title + "</a><br />";
+        mail.Body = "<div style=\"font: 11px verdana, arial\">";
+        mail.Body += "There'a new post available.<br /><br /> <a href=\"" + post.AbsoluteLink + "\">" + post.Title + "</a><br />";
         mail.Body += post.Description;
-        mail.Body += "<hr />";
-        mail.Body += "You receive this e-mail because you have signed up for e-mail notifications at ";
-        mail.Body += "<a href=\"" + Utils.AbsoluteWebRoot + "\">" + Utils.AbsoluteWebRoot + "</a>";
+        mail.Body += "<br /><br />_______________________________________________________________________________<br />";
+        mail.Body += "You receive this e-mail because you have signed up for<br />e-mail notifications at: ";
+        mail.Body += "<a href=\"" + Utils.AbsoluteWebRoot + "\">" + Utils.AbsoluteWebRoot + "</a></div>";
         mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
         return mail;
     }
