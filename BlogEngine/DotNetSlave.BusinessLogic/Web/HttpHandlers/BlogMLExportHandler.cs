@@ -335,7 +335,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
 			writer.WriteStartElement("trackbacks");
 			foreach (Comment comment in post.Comments)
 			{
-				if (comment.Email != "trackback" || comment.Email != "pingback")
+				if (comment.Email != "trackback" && comment.Email != "pingback")
 					continue;
 
 				writer.WriteStartElement("trackback");
@@ -343,7 +343,9 @@ namespace BlogEngine.Core.Web.HttpHandlers
 				writer.WriteAttributeString("date-created", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteAttributeString("date-modified", comment.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteAttributeString("approved", comment.IsApproved.ToString().ToLowerInvariant());
-				writer.WriteAttributeString("url", comment.Website.ToString());
+
+                if (comment.Website != null)
+				    writer.WriteAttributeString("url", comment.Website.ToString());
 
 				writer.WriteStartElement("title");
 				writer.WriteAttributeString("type", "text");
