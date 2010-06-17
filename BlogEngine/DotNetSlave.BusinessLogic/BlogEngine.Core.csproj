@@ -66,6 +66,9 @@
     <DocumentationFile>bin\Release\BlogEngine.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BlogML">
+      <HintPath>..\..\lib\blogml\BlogML.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -80,6 +83,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\BlogML\BaseReader.cs" />
+    <Compile Include="API\BlogML\BlogImporter.cs" />
+    <Compile Include="API\BlogML\BlogReader.cs" />
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
