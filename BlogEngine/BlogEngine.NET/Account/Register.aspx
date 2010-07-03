@@ -1,0 +1,51 @@
+﻿<%@ Page Title="Register" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true" CodeFile="Register.aspx.cs" Inherits="Account_Register" %>
+<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
+<asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+    <asp:CreateUserWizard ID="RegisterUser" runat="server" EnableViewState="false" OnCreatedUser="RegisterUser_CreatedUser">
+        <WizardSteps>
+            <asp:CreateUserWizardStep ID="RegisterUserWizardStep" runat="server">
+                <ContentTemplate>
+                    <p>
+                        <span id="CreateHdr">Create Account</span>
+                        <span>
+                            Alerady have account? <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Login now!</a>
+                        </span>
+                    </p>
+                    <div class="accountInfo">
+                        <div class="login">
+                            <p>
+                                <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="UserName" runat="server" CssClass="textEntry"></asp:TextBox>
+                                </div>
+                            </p>
+                            <p>
+                                <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="Email">E-mail:</asp:Label>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="Email" runat="server" CssClass="textEntry"></asp:TextBox>
+                                </div>
+                            </p>
+                            <p>
+                                <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password (min <%= Membership.MinRequiredPasswordLength %> characters)</asp:Label>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="Password" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                </div>
+                            </p>
+                            <p>
+                                <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword">Confirm Password:</asp:Label>
+                                <div class="boxRound">
+                                    <asp:TextBox ID="ConfirmPassword" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
+                                </div>
+                            </p>
+                        </div>
+                        <p class="submitButton">
+                            <asp:Button ID="CreateUserButton" runat="server" CommandName="MoveNext" Text="Create User" OnClientClick="return ValidateNewUser()" />
+                        </p>
+                    </div>
+                </ContentTemplate>
+                <CustomNavigationTemplate></CustomNavigationTemplate>
+            </asp:CreateUserWizardStep>
+        </WizardSteps>
+    </asp:CreateUserWizard>
+    <asp:HiddenField ID="hdnPassLength" runat="server" />
+</asp:Content>
