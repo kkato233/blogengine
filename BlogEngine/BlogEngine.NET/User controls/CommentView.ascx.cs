@@ -61,13 +61,27 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         string recaptchaResponse = args[10];
         string recaptchaChallenge = args[11];
 
+        string simpleCaptchaChallenge = args[12];
+
         recaptcha.UserUniqueIdentifier = hfCaptcha.Value;
-        if (!isPreview && recaptcha.RecaptchaEnabled && recaptcha.RecaptchaNecessary)
+        if (!isPreview && anyCaptchaEnabled && anyCaptchaNecessary)
         {
-            if (!recaptcha.ValidateAsync(recaptchaResponse, recaptchaChallenge))
+            if (reCaptchaEnabled)
             {
-                _Callback = "RecaptchaIncorrect";
-                return;
+                if (!recaptcha.ValidateAsync(recaptchaResponse, recaptchaChallenge))
+                {
+                    _Callback = "RecaptchaIncorrect";
+                    return;
+                }
+            }
+            else
+            {
+                simplecaptcha.Validate(simpleCaptchaChallenge);
+                if(!simplecaptcha.IsValid)
+                {
+                    _Callback = "SimpleCaptchaIncorrect";
+                    return;
+                }
             }
         }
 
@@ -111,7 +125,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
             Post.AddComment(comment);
             SetCookie(author, email, website, country);
-            recaptcha.UpdateLog(comment);
+            if(reCaptchaEnabled) recaptcha.UpdateLog(comment);
         }
 
         string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
@@ -129,14 +143,19 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     #endregion
 
+    protected bool anyCaptchaEnabled;
+    protected bool anyCaptchaNecessary;
+    protected bool reCaptchaEnabled;
+    protected bool simpleCaptchaEnabled;
+
     protected string NameInputId = string.Empty;
     protected string DefaultName = string.Empty;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         NameInputId = "txtName" + DateTime.Now.Ticks.ToString();
-
-        recaptcha.Visible = ExtensionManager.ExtensionEnabled("Recaptcha");
+        
+        EnableCaptchas();
 
         if (Post == null)
             Response.Redirect(Utils.RelativeWebRoot);
@@ -228,6 +247,51 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
 
         Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
+    }
+
+    private void EnableCaptchas()
+    {
+        reCaptchaEnabled = ExtensionManager.ExtensionEnabled("Recaptcha");
+        simpleCaptchaEnabled = ExtensionManager.ExtensionEnabled("SimpleCaptcha");
+        if (reCaptchaEnabled && simpleCaptchaEnabled)
+        {
+            ManagedExtension simpleCaptchaExtension = ExtensionManager.GetExtension("SimpleCaptcha");
+            ManagedExtension reCaptchaExtension = ExtensionManager.GetExtension("Recaptcha");
+            if (simpleCaptchaExtension.Priority < reCaptchaExtension.Priority)
+            {
+                EnableRecaptcha();
+            }
+            else
+            {
+                EnableSimpleCaptcha();
+            }
+        }
+        else if(reCaptchaEnabled)
+        {
+            EnableRecaptcha();
+        }
+        else if(simpleCaptchaEnabled)
+        {
+            EnableSimpleCaptcha();
+        }
+    }
+
+    private void EnableSimpleCaptcha()
+    {
+        anyCaptchaEnabled = true;
+        anyCaptchaNecessary = simplecaptcha.SimpleCaptchaNecessary;
+        simplecaptcha.Visible = true;
+        recaptcha.Visible = false;
+        reCaptchaEnabled = false;
+    }
+
+    private void EnableRecaptcha()
+    {
+        anyCaptchaEnabled = true;
+        anyCaptchaNecessary = recaptcha.RecaptchaNecessary;
+        recaptcha.Visible = true;
+        simplecaptcha.Visible = false;
+        simpleCaptchaEnabled = false;
     }
 
     private void ShowLoginRequired()

@@ -1,6 +1,6 @@
 ﻿// global object
 BlogEngine = {
-    $: function(id) {
+    $: function (id) {
         return document.getElementById(id);
     }
 	,
@@ -21,7 +21,7 @@ BlogEngine = {
         rateThisXStars: ''
     }
 	,
-    setFlag: function(iso) {
+    setFlag: function (iso) {
         if (iso.length > 0)
             BlogEngine.comments.flagImage.src = BlogEngine.webRoot + "pics/flags/" + iso + ".png";
         else
@@ -30,7 +30,7 @@ BlogEngine = {
 	,
 
     // Shows the preview of the comment
-    showCommentPreview: function() {
+    showCommentPreview: function () {
         var oPreview = this.$('preview');
         var oCompose = this.$('compose');
 
@@ -43,7 +43,7 @@ BlogEngine = {
         this.addComment(true);
     }
 	,
-    composeComment: function() {
+    composeComment: function () {
         var oPreview = this.$('preview');
         var oCompose = this.$('compose');
 
@@ -53,11 +53,11 @@ BlogEngine = {
         this.$('commentCompose').style.display = 'block';
     }
 	,
-    endShowPreview: function(arg, context) {
+    endShowPreview: function (arg, context) {
         BlogEngine.$('commentPreview').innerHTML = arg;
     }
 	,
-    toggleCommentSavingIndicators: function(bSaving) {
+    toggleCommentSavingIndicators: function (bSaving) {
         BlogEngine.$("btnSaveAjax").disabled = bSaving;
         BlogEngine.$("ajaxLoader").style.display = bSaving ? "inline" : "none";
         BlogEngine.$("status").className = "";
@@ -68,7 +68,7 @@ BlogEngine = {
         }
     }
     ,
-    onCommentError: function(error, context) {
+    onCommentError: function (error, context) {
         BlogEngine.toggleCommentSavingIndicators(false);
         error = error || "Unknown error occurred.";
         var iDelimiterPos = error.indexOf("|");
@@ -79,16 +79,16 @@ BlogEngine = {
                 error = error.substr(0, error.length - 1);
             }
         }
-        
-        if( document.getElementById('recaptcha_response_field') )
-        {
-           Recaptcha.reload();
+
+        if (document.getElementById('recaptcha_response_field')) {
+            Recaptcha.reload();
         }
+        if (document.getElementById("spnSimpleCaptchaIncorrect")) document.getElementById("spnSimpleCaptchaIncorrect").style.display = "none";
 
         alert("Sorry, the following error occurred while processing your comment:\n\n" + error);
     }
 	,
-    addComment: function(preview) {
+    addComment: function (preview) {
         var isPreview = preview == true;
         if (!isPreview) {
             BlogEngine.toggleCommentSavingIndicators(true);
@@ -103,18 +103,21 @@ BlogEngine = {
         var notify = BlogEngine.$("cbNotify").checked;
         var captcha = BlogEngine.comments.captchaField.value;
         var replyToId = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : "";
-        
-        var recaptchaResponseField = document.getElementById('recaptcha_response_field');        
+
+        var recaptchaResponseField = document.getElementById('recaptcha_response_field');
         var recaptchaResponse = recaptchaResponseField ? recaptchaResponseField.value : "";
-        
+
         var recaptchaChallengeField = document.getElementById('recaptcha_challenge_field');
         var recaptchaChallenge = recaptchaChallengeField ? recaptchaChallengeField.value : "";
+
+        var simpleCaptchaChallengeField = document.getElementById('simpleCaptchaValue');
+        var simpleCaptchaChallenge = simpleCaptchaChallengeField ? simpleCaptchaChallengeField.value : "";
 
         var avatarInput = BlogEngine.$("avatarImgSrc");
         var avatar = (avatarInput && avatarInput.value) ? avatarInput.value : "";
 
         var callback = isPreview ? BlogEngine.endShowPreview : BlogEngine.appendComment;
-        var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId + "-|-" + avatar + "-|-" + recaptchaResponse + "-|-" + recaptchaChallenge;
+        var argument = author + "-|-" + email + "-|-" + website + "-|-" + country + "-|-" + content + "-|-" + notify + "-|-" + isPreview + "-|-" + captcha + "-|-" + replyToId + "-|-" + avatar + "-|-" + recaptchaResponse + "-|-" + recaptchaChallenge + "-|-" + simpleCaptchaChallenge;
 
         WebForm_DoCallback(BlogEngine.comments.controlId, argument, callback, 'comment', BlogEngine.onCommentError, false);
 
@@ -122,11 +125,11 @@ BlogEngine = {
             OnComment(author, email, website, country, content);
     }
     ,
-    cancelReply: function() {
+    cancelReply: function () {
         this.replyToComment('');
     }
 	,
-    replyToComment: function(id) {
+    replyToComment: function (id) {
 
         // set hidden value
         BlogEngine.comments.replyToId.value = id;
@@ -161,23 +164,24 @@ BlogEngine = {
         BlogEngine.comments.nameBox.focus();
     }
 	,
-    appendComment: function(args, context) {
+    appendComment: function (args, context) {
         if (context == "comment") {
-        
-            if( document.getElementById('recaptcha_response_field') )
-            {
-               Recaptcha.reload();
+
+            if (document.getElementById('recaptcha_response_field')) {
+                Recaptcha.reload();
             }
-        
-            if( args == "RecaptchaIncorrect" )
-            {
-               if( document.getElementById("spnCaptchaIncorrect") ) document.getElementById("spnCaptchaIncorrect").style.display = "";
-               BlogEngine.toggleCommentSavingIndicators(false);
+            if (document.getElementById("spnSimpleCaptchaIncorrect")) document.getElementById("spnSimpleCaptchaIncorrect").style.display = "none";
+
+            if (args == "RecaptchaIncorrect" || args == "SimpleCaptchaIncorrect") {
+                if (document.getElementById("spnCaptchaIncorrect")) document.getElementById("spnCaptchaIncorrect").style.display = "";
+                if (document.getElementById("spnSimpleCaptchaIncorrect")) document.getElementById("spnSimpleCaptchaIncorrect").style.display = "";
+                BlogEngine.toggleCommentSavingIndicators(false);
             }
-            else
-            {
-            
-                if( document.getElementById("spnCaptchaIncorrect") ) document.getElementById("spnCaptchaIncorrect").style.display = "none";
+            else {
+
+
+                if (document.getElementById("spnCaptchaIncorrect")) document.getElementById("spnCaptchaIncorrect").style.display = "none";
+                if (document.getElementById("spnSimpleCaptchaIncorrect")) document.getElementById("spnSimpleCaptchaIncorrect").style.display = "none";
 
                 var commentList = BlogEngine.$("commentlist");
                 if (commentList.innerHTML.length < 10)
@@ -211,14 +215,14 @@ BlogEngine = {
                 // reset reply to
                 if (BlogEngine.comments.replyToId) BlogEngine.comments.replyToId.value = '';
                 if (BlogEngine.$('cancelReply')) BlogEngine.$('cancelReply').style.display = 'none';
-            
+
             }
         }
 
         BlogEngine.$("btnSaveAjax").disabled = false;
     }
 	,
-    validateAndSubmitCommentForm: function() {
+    validateAndSubmitCommentForm: function () {
         var bBuiltInValidationPasses = Page_ClientValidate('AddComment');
         var bNameIsValid = BlogEngine.comments.nameBox.value.length > 0;
         document.getElementById('spnNameRequired').style.display = bNameIsValid ? 'none' : '';
@@ -235,10 +239,10 @@ BlogEngine = {
         }
         return false;
     }
-    	 
+
 	 ,
-	
-    addBbCode: function(v) {
+
+    addBbCode: function (v) {
         try {
             var contentBox = BlogEngine.comments.contentBox;
             if (contentBox.selectionStart) // firefox
@@ -264,7 +268,7 @@ BlogEngine = {
 	,
     // Searches the blog based on the entered text and
     // searches comments as well if chosen.
-    search: function(root) {
+    search: function (root) {
         var input = this.$("searchfield");
         var check = this.$("searchcomments");
 
@@ -278,7 +282,7 @@ BlogEngine = {
     }
 	,
     // Clears the search fields on focus.
-    searchClear: function(defaultText) {
+    searchClear: function (defaultText) {
         var input = this.$("searchfield");
         if (input.value == defaultText)
             input.value = "";
@@ -286,11 +290,11 @@ BlogEngine = {
             input.value = defaultText;
     }
 	,
-    rate: function(id, rating) {
+    rate: function (id, rating) {
         this.createCallback("rating.axd?id=" + id + "&rating=" + rating, BlogEngine.ratingCallback);
     }
 	,
-    ratingCallback: function(response) {
+    ratingCallback: function (response) {
         var rating = response.substring(0, 1);
         var status = response.substring(1);
 
@@ -312,11 +316,11 @@ BlogEngine = {
     /// Creates a client callback back to the requesting page
     /// and calls the callback method with the response as parameter.
     /// </summary>
-    createCallback: function(url, callback) {
+    createCallback: function (url, callback) {
         var http = BlogEngine.getHttpObject();
         http.open("GET", url, true);
 
-        http.onreadystatechange = function() {
+        http.onreadystatechange = function () {
             if (http.readyState == 4) {
                 if (http.responseText.length > 0 && callback != null)
                     callback(http.responseText);
@@ -329,7 +333,7 @@ BlogEngine = {
     /// <summary>
     /// Creates a XmlHttpRequest object.
     /// </summary>
-    getHttpObject: function() {
+    getHttpObject: function () {
         if (typeof XMLHttpRequest != 'undefined')
             return new XMLHttpRequest();
 
@@ -347,13 +351,13 @@ BlogEngine = {
     }
 	,
     // Updates the calendar from client-callback
-    updateCalendar: function(args, context) {
+    updateCalendar: function (args, context) {
         var cal = BlogEngine.$('calendarContainer');
         cal.innerHTML = args;
         BlogEngine.Calendar.months[context] = args;
     }
 	,
-    toggleMonth: function(year) {
+    toggleMonth: function (year) {
         var monthList = BlogEngine.$("monthList");
         var years = monthList.getElementsByTagName("ul");
         for (i = 0; i < years.length; i++) {
@@ -366,7 +370,7 @@ BlogEngine = {
     }
 	,
     // Adds a trim method to all strings.
-    equal: function(first, second) {
+    equal: function (first, second) {
         var f = first.toLowerCase().replace(new RegExp(' ', 'gi'), '');
         var s = second.toLowerCase().replace(new RegExp(' ', 'gi'), '');
         return f == s;
@@ -382,7 +386,7 @@ BlogEngine = {
 										, 'sweetheart', 'me']
 	,
     // Applies the XFN tags of a link to the title tag
-    hightLightXfn: function() {
+    hightLightXfn: function () {
         var content = BlogEngine.$('content');
         if (content == null)
             return;
@@ -403,7 +407,7 @@ BlogEngine = {
     }
 	,
 
-    showRating: function(container, id, raters, rating) {
+    showRating: function (container, id, raters, rating) {
         var div = document.createElement('div');
         div.className = 'rating';
 
@@ -433,7 +437,7 @@ BlogEngine = {
             a.href = 'rate/' + i;
             a.className = this.englishNumber(i);
             a.title = BlogEngine.i18n.rateThisXStars.replace('{0}', i.toString()).replace('{1}', i == 1 ? '' : 's');
-            a.onclick = function() {
+            a.onclick = function () {
                 BlogEngine.rate(id, this.innerHTML);
                 return false;
             };
@@ -448,7 +452,7 @@ BlogEngine = {
     }
 	,
 
-    applyRatings: function() {
+    applyRatings: function () {
         var divs = document.getElementsByTagName('div');
         for (var i = 0; i < divs.length; i++) {
             if (divs[i].className == 'ratingcontainer') {
@@ -458,7 +462,7 @@ BlogEngine = {
         }
     },
 
-    englishNumber: function(number) {
+    englishNumber: function (number) {
         if (number == 1)
             return 'one-star';
 
@@ -476,20 +480,20 @@ BlogEngine = {
 	,
     // Adds event to window.onload without overwriting currently assigned onload functions.
     // Function found at Simon Willison's weblog - http://simon.incutio.com/
-    addLoadEvent: function(func) {
+    addLoadEvent: function (func) {
         var oldonload = window.onload;
         if (typeof window.onload != 'function') {
             window.onload = func;
         }
         else {
-            window.onload = function() {
+            window.onload = function () {
                 oldonload();
                 func();
             }
         }
     }
 	,
-    filterByAPML: function() {
+    filterByAPML: function () {
         var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
         var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
         document.body.style.position = 'static';
@@ -545,7 +549,7 @@ BlogEngine = {
         var button = document.createElement('input');
         button.type = 'submit';
         button.value = BlogEngine.i18n.filter;
-        button.onclick = function() { location.href = BlogEngine.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value) };
+        button.onclick = function () { location.href = BlogEngine.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value) };
         form.appendChild(button);
 
         var br = document.createElement('br');
@@ -554,11 +558,11 @@ BlogEngine = {
         var a = document.createElement('a');
         a.innerHTML = BlogEngine.i18n.cancel;
         a.href = 'javascript:void(0)';
-        a.onclick = function() { document.body.removeChild(BlogEngine.$('layer')); document.body.removeChild(BlogEngine.$('apmlfilter')); document.body.style.position = ''; };
+        a.onclick = function () { document.body.removeChild(BlogEngine.$('layer')); document.body.removeChild(BlogEngine.$('apmlfilter')); document.body.style.position = ''; };
         div.appendChild(a);
     }
 	,
-    getCookieValue: function(name) {
+    getCookieValue: function (name) {
         var cookie = new String(document.cookie);
 
         if (cookie != null && cookie.indexOf('comment=') > -1) {
@@ -571,7 +575,7 @@ BlogEngine = {
         return null;
     }
     ,
-    test: function() {
+    test: function () {
         alert('test');
     }
 	,
