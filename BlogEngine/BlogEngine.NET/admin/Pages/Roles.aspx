@@ -1,28 +1,31 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Roles.aspx.cs" Inherits="admin_Account_Roles" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
-
-    <div class="settings" id="newrole" runat="server"> 
-        <h1>Create Role</h1>
-        <div style="margin-bottom:3px">
-            <label for="<%=txtCreateRole.ClientID %>">New Role</label>
-            <asp:textbox id="txtCreateRole" runat="server" Width="300"></asp:textbox>
-        </div>
+<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
+    <div class="settings" id="newrole" runat="server">
+        <h1>Roles</h1>
         <div>
-            <label>&nbsp;</label>
-            <asp:button id="btnCreateRole" runat="server" text="Create Role" onclick="btnCreateRole_Click" OnClientClick="return ValidateEmptyField('txtCreateRole', 'Role Name is required');" />
+            <table id="RolesList" class="BETable" width="500">
+                <tr> 
+                    <th scope="col" abbr="Roles" style="width:420px">Name</th> 
+                    <th scope="col" abbr="" style="width: 80px;">&nbsp;</th> 
+                </tr> 
+                <% foreach (string role in Roles.GetAllRoles()) { %>
+                    <tr id="<%= role %>">
+                        <td class="editable"><%= role %></td>
+                        <td><a href="#" class="deleteButton">delete</a></td>
+                    </tr>
+                <% } %>
+            </table>
         </div>
-    </div>
-
-    <div class="settings" id="roles" runat="server"> 
-        <h1>Delete Role</h1>
-        <div style="margin-bottom:3px">
-            <label for="<%=lbxAvailableRoles.ClientID %>">Roles</label>
-            <asp:listbox id="lbxAvailableRoles" runat="server" Width="300"></asp:listbox>
+        <div id="AddRoleForm" style="margin: 10px 0; display: none">
+            <asp:TextBox ID="txtCreateRole" runat="server" Width="200"></asp:TextBox>
+            <asp:Button ID="btnCreateRole" runat="server" Text="Create Role" />
+            or
+            <asp:LinkButton ID="lnkCancelNewRole" OnClientClick="return Hide('AddRoleForm')" runat="server" Text="Cancel" />
         </div>
-        <div>
-            <label>&nbsp;</label>
-            <asp:button id="btnDeleteRole" runat="server" text="Delete Selected Role" onclick="btnDeleteRole_Click" OnClientClick="return ValidateNotSelectedField('lbxAvailableRoles', 'Could not delete the role: nothing selected');" />
+        <div style="clear:both; margin-top: 10px; width:480px">
+            <a href="#" onclick="Show('AddRoleForm');" style="float:right">Add new role</a>
         </div>
+         <div style="clear:both;">&nbsp;</div>
+          
     </div>
 </asp:Content>
-

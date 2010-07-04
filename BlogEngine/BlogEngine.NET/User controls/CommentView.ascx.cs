@@ -1,19 +1,16 @@
 ﻿#region Using
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
 using System.Data;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
@@ -131,6 +128,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
 
     protected string NameInputId = string.Empty;
     protected string DefaultName = string.Empty;
+    protected int CommentCounter;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -172,6 +170,10 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                 //Add approved Comments
                 foreach (Comment comment in Post.Comments)
                 {
+                    if (comment.Email == "pingback" || comment.Email == "trackback") continue;
+
+                    if (comment.IsApproved) CommentCounter++;
+
                     if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration)
                     {
                         CommentViewBase control = (CommentViewBase)LoadControl(path);
@@ -186,6 +188,8 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                 {
                     foreach (Comment comment in Post.Comments)
                     {
+                        if (comment.Email == "pingback" || comment.Email == "trackback") continue;
+
                         if (!comment.IsApproved)
                         {
                             CommentViewBase control = (CommentViewBase)LoadControl(path);
@@ -197,6 +201,45 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                 }
             }
 
+            #region Trackbacks
+
+            List<CommentViewBase> pingbacks = new List<CommentViewBase>();
+
+            foreach (Comment comment in Post.Comments)
+            {
+                CommentViewBase control = (CommentViewBase)LoadControl(path);
+
+                if (comment.Email == "pingback" || comment.Email == "trackback")
+                {
+                    control.Comment = comment;
+                    control.Post = Post;
+                    pingbacks.Add(control);
+                }
+            }
+
+            if (pingbacks.Count > 0)
+            {
+                Literal litTrackback = new Literal();
+                litTrackback.Text = "<h3 id=\"trackbackheader\">Pingbacks and trackbacks (" + pingbacks.Count + ")";
+                litTrackback.Text += "<a id=\"trackbacktoggle\" style=\"float:right;width:20px;height:20px;border:1px solid #ccc;text-decoration:none;text-align:center\" href=\"javascript:toggle_visibility('trackbacks','trackbacktoggle');\">+</a>";
+                litTrackback.Text += "</h3><div id=\"trackbacks\" style=\"display:none\">";
+                phTrckbacks.Controls.Add(litTrackback);
+
+                foreach (CommentViewBase c in pingbacks)
+                {
+                    phTrckbacks.Controls.Add(c);
+                }
+
+                Literal closingDiv = new Literal();
+                closingDiv.Text = "</div>";
+                phTrckbacks.Controls.Add(closingDiv);
+            }
+            else
+            {
+                phTrckbacks.Visible = false;
+            }
+
+            #endregion
 
             if (BlogSettings.Instance.IsCommentsEnabled)
             {
@@ -216,13 +259,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             {
                 phAddComment.Visible = false;
             }
-
-            // remove comment form if login required and user not authenticated
-            if (BlogSettings.Instance.RequireLoginToPostComment && !Page.User.Identity.IsAuthenticated)
-            {
-                phAddComment.Visible = false;
-                ShowLoginRequired();
-            }
             //InititializeCaptcha();
         }
 
@@ -230,31 +266,14 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
     }
 
-    private void ShowLoginRequired()
-    {
-        HtmlGenericControl div = new HtmlGenericControl("div");
-        string link = "<a href=\"" + Utils.RelativeWebRoot + "Account/{0}.aspx\">{1}</a>";
-
-        string loginLink = string.Format(link, "Login", "login");
-        string registerLink = string.Format(link, "Register", "register");
-
-        div.InnerHtml = "Only logged in users can post a comment. Please " + loginLink;
-        div.Attributes.Add("class", "LoginRequired");
-        if (BlogEngine.Core.BlogSettings.Instance.EnableSelfRegistration)
-        {
-            div.InnerHtml += " or " + registerLink;
-        }
-        div.InnerHtml += ".";
-
-        phLoginRequired.Controls.Clear();
-        phLoginRequired.Controls.Add(div);
-        phLoginRequired.Visible = true;
-    }
-
     private void AddNestedComments(string path, List<Comment> nestedComments, PlaceHolder phComments)
     {
         foreach (Comment comment in nestedComments)
         {
+            if (comment.Email == "pingback" || comment.Email == "trackback") continue;
+
+            if (comment.IsApproved) CommentCounter++;
+
             CommentViewBase control = (CommentViewBase)LoadControl(path);
             if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration || (!comment.IsApproved && Page.User.Identity.IsAuthenticated))
             {
@@ -594,7 +613,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
                     CommentViewBase commentTester = (CommentViewBase)LoadControl(path);
                     PlaceHolder phSubComments = commentTester.FindControl("phSubComments") as PlaceHolder;
                     _nestingSupported = phSubComments != null;
-                }                
+                }
             }
 
             return _nestingSupported.Value;
