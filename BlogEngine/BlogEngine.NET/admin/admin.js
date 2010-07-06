@@ -8,6 +8,11 @@ $(document).ready(function () {
 
     setEditable();
 
+});
+
+function setEditable() {
+    $('.deleteButton').live("click", function () { DeleteVal(this); });
+
     $("[id$='btnCreateRole']").click(function (evt) {
         evt.preventDefault();
         var dto = { roleName: $("[id$='_txtCreateRole']").val() };
@@ -15,16 +20,12 @@ $(document).ready(function () {
             url: "../../api/RoleService.asmx/AddRole",
             data: JSON.stringify(dto),
             success: function (msg) {
-                $('#RolesList').append('<tr id="' + dto.roleName + '"><td class="editable">' + dto.roleName + '</td><td><a href="#">delete</a></td></tr>');
+                $('#RolesList').append('<tr id="' + dto.roleName + '"><td class="editable">' + dto.roleName + '</td><td><a href="#" class="deleteButton">delete</a></td></tr>');
                 ShowStatus("success", msg.d);
             }
         });
-        setEditable();
     });
-});
 
-function setEditable() {
-    $('.deleteButton').live("click", function () { DeleteVal(this); });
     $('.editable').live("click", function () {
         var txt = '<td><input type=\"text\" class=\"editBox\" value=\"' + $(this).html() + '"/>';
         var button = '<div><input type="button" value="Save" class="saveButton" /> or <a href="#" class="cancelButton">Cancel</a></div></td>';
@@ -38,7 +39,6 @@ function setEditable() {
 
 function CancelChanges(obj, str) {
     $(obj).parent().parent().after('<td class="editable">' + str + '</td>').remove();
-    setEditable();
 }
 
 function DeleteVal(obj) {
@@ -55,7 +55,6 @@ function DeleteVal(obj) {
             });
         }
     });
-    setEditable();
 }
 
 function SaveChanges(obj, oldVal) {
@@ -96,15 +95,15 @@ function ShowStatus(status, msg) {
     $("[id$='_AdminStatus']").html(msg + '<a href="javascript:HideStatus()" style="width:20px;float:right">X</a>');
 
     if (status == "success") {
-        $("[id$='_AdminStatus']").fadeIn(1000, function () { }).delay(5000).fadeOut(1000, function () { });
+        $("[id$='_AdminStatus']").slideDown(1000, function () { }).delay(5000).slideUp(1000, function () { });
     }
     else {
-        $("[id$='_AdminStatus']").fadeIn(1000, function () { });
+        $("[id$='_AdminStatus']").slideDown(1000, function () { });
     }
 }
 
 function HideStatus() {
-    $("[id$='_AdminStatus']").fadeOut('slow', function () { });
+    $("[id$='_AdminStatus']").slideUp('slow', function () { });
 }
 
 function Show(element) {
