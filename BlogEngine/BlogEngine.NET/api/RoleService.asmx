@@ -13,15 +13,45 @@ using BlogEngine.Core;
 [System.Web.Script.Services.ScriptService]
 public class RoleService : WebService
 {
+    /// <summary>
+    /// JSON object that will be return back to client
+    /// </summary>
+    JsonResponse _response;
+    
+    public RoleService()
+    {
+        _response = new JsonResponse();
+    }
+    
     [WebMethod]
-    public String AddRole(string roleName)
+    public JsonResponse AddRole(string roleName)
     {
         if (!IsAdmin())
-            return "warning: Not authorized";
-        
+        {
+            _response.Success = false;
+            _response.Message = "Not authorized";
+            return _response;
+        }
+
         if (string.IsNullOrEmpty(roleName))
         {
-            return "warning: Role name is required field";
+            _response.Success = false;
+            _response.Message = "Role name is required field";
+            return _response;
+        }
+
+        string[] roles = Roles.GetAllRoles();
+        if (roles.GetUpperBound(0) > 0)
+        {
+            for (int i = 0; i <= roles.GetUpperBound(0); i++)
+            {
+                if (roles[i].ToLowerInvariant() == roleName.ToLowerInvariant())
+                {
+                    _response.Success = false;
+                    _response.Message = string.Format("Role \"{0}\" already exists", roleName);
+                    return _response;
+                }
+            }
         }
 
         try
@@ -31,21 +61,31 @@ public class RoleService : WebService
         catch (Exception ex)
         {
             Utils.Log("Roles.AddRole: " + ex.Message);
-            return "warning: Could not create the role: " + roleName;
+            _response.Success = false;
+            _response.Message = "Could not create the role: " + roleName;
+            return _response;
         }
 
-        return "success: Role \"" + roleName + "\" has been created";
+        _response.Success = true;
+        _response.Message = "Role \"" + roleName + "\" has been created";
+        return _response;
     }
 
     [WebMethod]
-    public String DeleteRole(string roleName)
+    public JsonResponse DeleteRole(string roleName)
     {
         if (!IsAdmin())
-            return "warning: Not authorized";
+        {
+            _response.Success = false;
+            _response.Message = "Not authorized";
+            return _response;
+        }
 
         if (string.IsNullOrEmpty(roleName))
         {
-            return "warning: Role name is required field";
+            _response.Success = false;
+            _response.Message = "Role name is required field";
+            return _response;
         }
 
         try
@@ -55,21 +95,31 @@ public class RoleService : WebService
         catch (Exception ex)
         {
             Utils.Log("Roles.AddRole: " + ex.Message);
-            return "warning: Could not delete the role: " + roleName;
+            _response.Success = false;
+            _response.Message = "Could not delete the role: " + roleName;
+            return _response;
         }
 
-        return "success: Role \"" + roleName + "\" has been deleted";
+        _response.Success = true;
+        _response.Message = "Role \"" + roleName + "\" has been deleted";
+        return _response;
     }
 
     [WebMethod]
-    public String UpdateRole(string oldRole, string  newRole)
+    public JsonResponse UpdateRole(string oldRole, string newRole)
     {
         if (!IsAdmin())
-            return "warning: Not authorized";
+        {
+            _response.Success = false;
+            _response.Message = "Not authorized";
+            return _response;
+        }
 
         if (string.IsNullOrEmpty(newRole))
         {
-            return "warning: Role name is required field";
+            _response.Success = false;
+            _response.Message = "Role name is required field";
+            return _response;
         }
 
         try
@@ -80,15 +130,18 @@ public class RoleService : WebService
         catch (Exception ex)
         {
             Utils.Log("Roles.UpdateRole: " + ex.Message);
-            return "warning: Could not update the role: " + newRole;
+            _response.Success = false;
+            _response.Message = "Could not update the role: " + newRole;
+            return _response;
         }
 
-        return "success: Role \"" + newRole + "\" has been updated";
+        _response.Success = true;
+        _response.Message = string.Format("Role updated from \"{0}\" to \"{1}\"", oldRole, newRole);
+        return _response;
     }
 
     private bool IsAdmin()
     {
         return User.IsInRole(BlogSettings.Instance.AdministratorRole);
     }
-
 }

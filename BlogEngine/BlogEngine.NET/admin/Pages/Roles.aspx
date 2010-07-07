@@ -20,8 +20,8 @@
                         </table>
                     </div>
                     <div id="AddRoleForm" style="margin: 10px 0; display: none">
-                        <asp:TextBox ID="txtCreateRole" runat="server" Width="200"></asp:TextBox>
-                        <asp:Button ID="btnCreateRole" runat="server" Text="Create Role" />
+                        <input type="text" class="txtAddNew" id="txtCreateRole" style="width:200px;" /> 
+                        <input type="submit" class="btnAddNew" value="Create Role" id="btnAddNewRole" />
                         or
                         <asp:LinkButton ID="lnkCancelNewRole" OnClientClick="return Hide('AddRoleForm')" runat="server" Text="Cancel" />
                     </div>
