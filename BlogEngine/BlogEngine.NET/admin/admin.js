@@ -5,26 +5,13 @@
 });
 
 $(document).ready(function () {
-
     setEditable();
-
 });
 
+// ================= Ajax CRUD =========================
 function setEditable() {
-    $('.deleteButton').live("click", function () { DeleteVal(this); });
-
-    $("[id$='btnCreateRole']").click(function (evt) {
-        evt.preventDefault();
-        var dto = { roleName: $("[id$='_txtCreateRole']").val() };
-        $.ajax({
-            url: "../../api/RoleService.asmx/AddRole",
-            data: JSON.stringify(dto),
-            success: function (msg) {
-                $('#RolesList').append('<tr id="' + dto.roleName + '"><td class="editable">' + dto.roleName + '</td><td><a href="#" class="deleteButton">delete</a></td></tr>');
-                ShowStatus("success", msg.d);
-            }
-        });
-    });
+    $('.deleteButton').live("click", function () { return DeleteVal(this); });
+    $('.btnAddNew').live("click", function () { return AddVal(this); });
 
     $('.editable').live("click", function () {
         var txt = '<td><input type=\"text\" class=\"editBox\" value=\"' + $(this).html() + '"/>';
@@ -41,6 +28,25 @@ function CancelChanges(obj, str) {
     $(obj).parent().parent().after('<td class="editable">' + str + '</td>').remove();
 }
 
+function AddVal(obj) {
+    var dto = { roleName: $('.txtAddNew').val() };
+    $.ajax({
+        url: "../../api/RoleService.asmx/AddRole",
+        data: JSON.stringify(dto),
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $('#RolesList').append('<tr id="' + dto.roleName + '"><td class="editable">' + dto.roleName + '</td><td><a href="#" class="deleteButton">delete</a></td></tr>');
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    return false;
+}
+
 function DeleteVal(obj) {
     var id = $(obj).closest("tr").attr("id");
     var that = $(obj).closest("tr");
@@ -48,13 +54,20 @@ function DeleteVal(obj) {
     $.ajax({
         url: "../../api/RoleService.asmx/DeleteRole",
         data: JSON.stringify(dto),
-        success: function (msg) {
-            ShowStatus("success", msg.d);
-            $(that).fadeOut('slow', function () {
-                $(that).remove();
-            });
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                ShowStatus("success", rt.Message);
+                $(that).fadeOut('slow', function () {
+                    $(that).remove();
+                });
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
         }
     });
+    return false;
 }
 
 function SaveChanges(obj, oldVal) {
@@ -63,14 +76,22 @@ function SaveChanges(obj, oldVal) {
     $.ajax({
         url: "../../api/RoleService.asmx/UpdateRole",
         data: JSON.stringify(dto),
-        success: function (msg) {
-            ShowStatus("success", msg.d);
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                ShowStatus("success", rt.Message);
+                $(obj).parent().parent().after('<td class="editable">' + t + '</td>').remove();
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+                $(obj).parent().parent().after('<td class="editable">' + oldVal + '</td>').remove();
+            }
         }
     });
-    $(obj).parent().parent().after('<td class="editable">' + t + '</td>').remove();
     setEditable();
 }
 
+// ================= Validation ==================================
 function ValidateEmptyField(fld, msg) {
     if ($("[id$='" + fld + "']").val().length == 0) {
         ShowStatus('warning', msg);
@@ -87,6 +108,7 @@ function ValidateNotSelectedField(fld, msg) {
     return true;
 }
 
+// ================= Message and status ============================
 function ShowStatus(status, msg) {
     $("[id$='_AdminStatus']").removeClass("warning");
     $("[id$='_AdminStatus']").removeClass("success");

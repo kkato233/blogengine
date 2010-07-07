@@ -90,6 +90,7 @@
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="JsonResponse.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="ServingEventArgs.cs" />
