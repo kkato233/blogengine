@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
     <div>
         <h1>Tags</h1>
-        <blog:TagCloud ID="TagCloud1" MinimumPosts="1" runat="server" />
+        <blog:TagCloud ID="TagCloud1" MinimumPosts="1" TagCloudSize="-1" runat="server" />
     </div>
     </form>
 </body>

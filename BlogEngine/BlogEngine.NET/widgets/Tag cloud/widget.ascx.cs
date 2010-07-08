@@ -46,6 +46,7 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 	#endregion
 
 	private int _MinimumPosts = 1;
+    private int _TagCloudSize = -1;
 
 	private int MinimumPosts
 	{
@@ -60,6 +61,20 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 			return _MinimumPosts; 		
 		}
 	}
+
+    private int TagCloudSize
+    {
+        get
+        {
+            StringDictionary settings = GetSettings();
+            if (settings.ContainsKey("tagcloudsize"))
+            {
+                int.TryParse(settings["tagcloudsize"], out _TagCloudSize);
+            }
+
+            return _TagCloudSize;
+        }
+    }
 
 	private Dictionary<string, string> WeightedList
 	{
@@ -117,10 +132,17 @@ public partial class widgets_Tag_cloud_widget : WidgetBase
 				max = value;
 		}
 
+        int CurrentTagCount = 0;
+
 		foreach (string key in dic.Keys)
 		{
 			if (dic[key] < MinimumPosts)
 				continue;
+
+            if (TagCloudSize > 0 && CurrentTagCount >= TagCloudSize)
+                continue;
+
+            CurrentTagCount++;
 
 			double weight = ((double)dic[key] / max) * 100;
 			if (weight >= 99)

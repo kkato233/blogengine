@@ -27,6 +27,7 @@ namespace Controls
 
     #endregion
 
+        private int _TagCloudSize = -1;
 		private int _MinimumPosts = 1;
 
 		public int MinimumPosts
@@ -34,6 +35,12 @@ namespace Controls
 			get { return _MinimumPosts; }
 			set { _MinimumPosts = value; }
 		}
+
+        public int TagCloudSize
+        {
+            get { return _TagCloudSize; }
+            set { _TagCloudSize = value; }
+        }
 
     private Dictionary<string, string> WeightedList
     {
@@ -85,16 +92,24 @@ namespace Controls
     {
       SortedDictionary<string, int> dic = CreateRawList();
       int max = 0;
+
       foreach (int value in dic.Values)
       {
         if (value > max)
           max = value;
       }
 
+      int CurrentTagCount = 0;
+
       foreach (string key in dic.Keys)
       {
-				if (dic[key] < MinimumPosts)
-					continue;
+		if (dic[key] < MinimumPosts)
+			continue;
+
+        if (TagCloudSize > 0 && CurrentTagCount > TagCloudSize)
+            continue;
+
+        CurrentTagCount++;
 
         double weight = ((double)dic[key] / max) * 100;
         if (weight >= 99)
@@ -121,6 +136,7 @@ namespace Controls
 			}
 
       writer.Write("<ul id=\"tagcloud\" class=\"tagcloud\">");
+
       foreach (string key in WeightedList.Keys)
       {
         writer.Write("<li>");

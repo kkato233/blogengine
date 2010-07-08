@@ -1,11 +1,11 @@
 ﻿body {
 	height: 100%;
-	background-color: #FFFFFF;
-	font-style: normal;
-	font-size: small;
-	margin: 0;
-	font-family: Verdana;
-	font-size: 11px;
+	background: #DEDEDE url(../pics/bg-slice.jpg) repeat-x left top; /* #b6b7bc;*/
+    font-size: .80em;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color: #696969;
 }
 
 
@@ -40,51 +40,84 @@ label.wide {
 						Layout
 ----------------------------*/
 
-#leftColumn {
-	background-image: url( 'images/bkgd_left_column.gif' );
-	background-repeat: repeat-y;
-	width: 28px;
-}
-
-#rightColumn {
-	background-image: url( 'images/bkgd_right_column.gif' );
-	background-repeat: repeat-y;
-	width: 28px;
-}
-
 #footer {
 	font-size: .9em;
-	background-color: #959595;
-	color: white;
-	width: 100%;
-	height: 25px;
-	line-height:25px;
-	clear: right;
-	text-align:right;
-	font-weight: bold;
+	width: 90%;
+	padding: 5px 0 15px 30px;
+    margin: 5px 0 10px 0;
 }
 
 #footer a {
-	color: White;
-	margin-right: 10px
+	color: #444;
 }
 
-.rightSidebar {
-	width: 210px;
-	background-color: #F1F1F1;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #B8C1CA;
-	padding: 10px 10px 10px 10px;
-	background-color: #F1F1F1;
-	margin-right: 15px;
-	margin-top: 30px;
+#RightList {
+    padding:0;
+    margin: 50px 0 0 0;
+    list-style: none;
 }
+
+#RightList li
+{
+    padding: 5px 0 5px 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+#RightList li a
+{
+    color: #444;
+    font-size: 1.2em;
+}
+
+#RightList li a.selected
+{
+    color: #444;
+    font-weight:bolder;
+}
+    
 
 .banner {
 	width: 100%;
-	background-color: #F1F1F1;
-	border-bottom: solid 4px #959595;
+	height: 70px;
+	margin-bottom: 10px;
+}
+
+.banner-links 
+{
+    width: 450px;
+    float:right;
+    overflow:hidden;
+    text-align: right;
+    padding-right: 40px;
+    padding-top: 5px;
+}
+
+.be-logo {
+    background: url( '../pics/be-logo.jpg' ) 40px 14px no-repeat;
+    height: 70px;
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    float: left;
+}
+
+.be-logo span {
+    position: relative;
+    top: 47px;
+    left: 205px;
+    font: bold 1.1em Verdana, Arial, Helvetica, sans-serif;
+}
+
+.content-box {
+    clear:both;
+    padding: 10px 25px;
+    margin: 0;
+    min-height: 350px;
+    background: #FFFFFF url(../pics/bx-slice.jpg) repeat-x left top;
+    -moz-border-radius: 10px;
+    -khtml-border-radius: 10px
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
 .banner h1 {
@@ -114,9 +147,7 @@ label.wide {
 }
 
 .settings {
-	padding: 10px 10px 10px 10px;
-	background: white;
-	border: 1px solid silver;
+	padding: 0;
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
@@ -215,23 +246,20 @@ table.referrer caption {
 .tabs .current {
 	font-weight: bolder;
 	color: Blue;
-	border-bottom: solid 1px #F1F1F1;
 }
 
 .tabs {
 	float: left;
 	width: 100%;
-	background: #FFFFFF;
 	font-size: 93%;
 	line-height: normal;
 	margin: 0;
 	padding: 0; 
-	border-bottom:solid 1px #B8C1CA;
 }
 
 .tabs ul {
 	margin: 0;
-	padding: 0 0 1px 50px;
+	padding: 0 0 1px 30px;
 	list-style: none;
 	position: relative;
 	top: 1px;
@@ -249,7 +277,7 @@ table.referrer caption {
 	margin: 0;
 	padding: 0 0 0 4px;
 	text-decoration: none;
-  text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .tabs a span {
@@ -387,28 +415,71 @@ input[type="checkbox"] {
 }
 
 #StatusBox {
-    display: block;
-    height: 35px;
     padding: 0;
     margin: 0;
+    position:absolute;
+    display:block;
+    width: 100%;
+    z-index: 999;
 }
 
 .success, .warning, .validation {
     border: 1px solid #ccc;
-    margin: 0; /* 5px 20px;*/
-    padding:10px 5px 10px 50px;
+    margin: 0;
+    padding:5px 5px 5px 60px;
     background-repeat: no-repeat;
-    background-position: 10px center;
+    background-position: 25px 1px;
 }
 
 .success {
     color: #4F8A10;
     background-color: #DFF2BF;
-    background-image:url('images/success.png');
+    background-image: url('../pics/success.png');
+    
 }
 
 .warning {
     color: #9F6000;
     background-color: #FEEFB3;
-    background-image: url('images/warning.png');
+    background-image: url('../pics/warning.png');
+}
+
+/*---------------------------------------- */
+
+.editable
+{
+
+}
+.editable:hover
+{
+    cursor: pointer;
+    font-weight: bolder; 
+}
+/*-------------------------------------*/
+.BETable {
+	padding: 0;
+	margin: 0;
+	border: 1px solid #C1DAD7;
+}
+
+.BETable th {
+	color: #4f6b72;
+	
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #f1f1f1;
+}
+
+.BETable th.nobg {
+	border-top: 0;
+	border-left: 0;
+	/*border-right: 1px solid #FFF;*/
+	background: #fff;
+}
+
+.BETable td {
+	border: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
 }
