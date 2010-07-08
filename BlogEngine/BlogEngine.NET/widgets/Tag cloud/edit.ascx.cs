@@ -21,14 +21,20 @@ public partial class widgets_Tag_cloud_edit : WidgetEditBase
 			if (settings.ContainsKey("minimumposts"))
 				minimumPosts = settings["minimumposts"];
 
-			ddlNumber.SelectedValue = minimumPosts;
+            string tagcloudsize = "-1";
+            if (settings.ContainsKey("tagcloudsize"))
+                tagcloudsize = settings["tagcloudsize"];
+
+            ddlMinimumPosts.SelectedValue = minimumPosts;
+            ddlCloudSize.SelectedValue = tagcloudsize;
 		}
 	}
 
 	public override void Save()
 	{
 		StringDictionary settings = GetSettings();
-		settings["minimumposts"] = ddlNumber.SelectedValue;
+        settings["minimumposts"] = ddlMinimumPosts.SelectedValue;
+        settings["tagcloudsize"] = ddlCloudSize.SelectedValue;
 		SaveSettings(settings);
 		widgets_Tag_cloud_widget.Reload();
 	}
