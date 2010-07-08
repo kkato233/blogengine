@@ -272,6 +272,8 @@
       </p>
       <input type="button" value="<%=Resources.labels.import %>" onclick="location.href='http://dotnetblogengine.net/clickonce/blogimporter/blog.importer.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=Page.User.Identity.Name %>'" />&nbsp;&nbsp;
       <input type="button" value="<%=Resources.labels.export %>" onclick="location.href='blogml.axd'" />
+
+      <asp:FileUpload runat="server" ID="txtUploadFile" Width="200" size="50" />              <asp:Button ID="btnBlogMLImport" runat="server" Text="Import from BlogML" onclick="btnBlogMLImport_Click" />
     </div>
     
     <div align="right">
