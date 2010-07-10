@@ -19,6 +19,7 @@ public partial class User_controls_xmanager_SourceEditor : UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         btnSave.Enabled = true;
+        btnSave.OnClientClick = "return confirm('" + Resources.labels.siteUnavailableConfirm + "');";
         _extensionName = Path.GetFileName(Request.QueryString["ext"]);
         txtEditor.Text = ReadFile(GetExtFileName());
     }

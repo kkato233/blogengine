@@ -3,21 +3,21 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">  
-    <h2>Password Retrieval</h2>
+    <h2><%=Resources.labels.passwordRetrieval %></h2>
     <p>
-        Type your email address in the field above and your password will be emailed to you shortly.
+        <%=Resources.labels.passwordRetrievalInstructionMessage %>
     </p>
     <div class="accountInfo">
         <div class="login">
             <div>
-                <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="txtEmail">Email:</asp:Label>
+                <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="txtEmail"><%=Resources.labels.email %>:</asp:Label>
                 <div class="boxRound">
                     <asp:TextBox ID="txtEmail" runat="server" AutoCompleteType="None" CssClass="textEntry"></asp:TextBox>
                 </div>
             </div>
             <p class="submitButton">
-                <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Send" OnClick="LoginButton_Click" OnClientClick="return ValidatePasswordRetrieval()" />
-                <span>or <a runat="server" href="~/Account/Login.aspx">Cancel</a></span>
+                <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="<%$Resources:labels,send %>" OnClick="LoginButton_Click" OnClientClick="return ValidatePasswordRetrieval()" />
+                <span><%=Resources.labels.or %> <a runat="server" href="~/Account/Login.aspx"><%=Resources.labels.cancel %></a></span>
             </p>
         </div>
     </div>

@@ -112,7 +112,7 @@
             <%=labels.closeCommetsAfter %>
         </label>
         <asp:DropDownList runat="server" ID="ddlCloseComments">
-            <asp:ListItem Text="Never" Value="0" />
+            <asp:ListItem Text="<%$ Resources:labels, never %>" Value="0" />
             <asp:ListItem Text="1" />
             <asp:ListItem Text="2" />
             <asp:ListItem Text="3" />
@@ -156,31 +156,30 @@
             </tr>
             <tr>
                 <td><input type="radio" name="RadioGroup1" onclick="ToggleModType();" value="2" style="border:0" <%=RadioChecked(2)%> /></td> 
-                <td>Moderated by Disqus.</td>
+                <td><%=Resources.labels.moderatedByDisqus %></td>
             </tr>
         </table>
     </div>
     
     <div class="settings" id="Disqus">
-        <h1>Disqus Settings</h1>
+        <h1><%=Resources.labels.disqusSettings %></h1>
         <div style="margin-bottom:3px; float:left">
             <div>
-                <label for="<%=txtDisqusName.ClientID %>">Disqus Website Short Name</label>
+                <label for="<%=txtDisqusName.ClientID %>"><%=Resources.labels.disqusShortName %></label>
                 <asp:TextBox runat="server" ID="txtDisqusName" Width="200" MaxLength="250" />
             </div>
             <div class="cbox">
-                <label for="<%=cbDisqusDevMode.ClientID %>">Development mode</label>
-                <asp:CheckBox runat="server" ID="cbDisqusDevMode" />Check this when you test disqus locally
+                <label for="<%=cbDisqusDevMode.ClientID %>"><%=Resources.labels.developmentMode %></label>
+                <asp:CheckBox runat="server" ID="cbDisqusDevMode" /><%=Resources.labels.developmentModeCheckboxMessage %>
             </div> 
             <div class="cbox">
-                <label for="<%=cbDisqusAddToPages.ClientID %>">Add Comments to Pages</label>
-                <asp:CheckBox runat="server" ID="cbDisqusAddToPages" />Add to pages (in addition to posts)
+                <label for="<%=cbDisqusAddToPages.ClientID %>"><%=Resources.labels.addCommentsToPages %></label>
+                <asp:CheckBox runat="server" ID="cbDisqusAddToPages" /><%=Resources.labels.addToPages %>
             </div> 
         </div>
         
         <div class="info" style="float:right; width: 350px; top: 0;">
-            To use Disqus as your comment manager you need first set up account at <a href="http://disqus.com" target="_new">disqus.com</a><br />
-            Short name used to uniquely identify your website on Disqus (Website shortname in Basic Settings).
+            <%=Resources.labels.disqusSignupMessage %>
         </div> 
         <div style="clear:both">&nbsp;</div>     
     </div>
@@ -286,7 +285,7 @@
                 
                 <asp:TemplateField HeaderText="">
                     <ItemTemplate>
-                        comments where
+                        <%=Resources.labels.commentsWhere %>
                     </ItemTemplate>
                 </asp:TemplateField>
                 

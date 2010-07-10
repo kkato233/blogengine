@@ -39,7 +39,7 @@
         <div style="margin-bottom:3px">
         <label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
         <asp:TextBox runat="server" ID="txtName" Width="300" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="Required" />
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName" ErrorMessage="<%$Resources:labels,required %>" />
         </div>
         <div style="margin-bottom:3px">
         <label for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label>
@@ -48,14 +48,14 @@
         <div>
         <label for="<%=txtPostsPerPage.ClientID %>"><%=Resources.labels.postPerPage %></label>
         <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtPostsPerPage" ErrorMessage="Required" />
-        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" />
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtPostsPerPage" ErrorMessage="<%$Resources:labels,required %>" />
+        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" />
         </div>
         <div style="margin-bottom:0">
         <label for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
         <asp:DropDownList runat="server" ID="ddlTheme" />
-        <a href="javascript:void(PreviewTheme());">Preview</a> | 
-        <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank">Download</a>
+        <a href="javascript:void(PreviewTheme());"><%=Resources.labels.preview %></a> | 
+        <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank"><%=Resources.labels.download %></a>
         </div>
         <div style="margin-bottom:3px">
         <label for="<%=ddlMobileTheme.ClientID %>"><%=Resources.labels.mobileTheme %></label>
@@ -105,14 +105,14 @@
         <div style="margin-bottom:3px">
         <label for="<%=txtTimeZone.ClientID %>"><%=Resources.labels.timezone %></label>
         <asp:TextBox runat="Server" ID="txtTimeZone" Width="30" /> Server time: <%=DateTime.Now.ToShortTimeString() %>
-        <asp:CompareValidator runat="server" ControlToValidate="txtTimeZone" Operator="dataTypeCheck" Type="double" Display="dynamic" ErrorMessage="Please specify a valid number (positive or negative)" />
+        <asp:CompareValidator runat="server" ControlToValidate="txtTimeZone" Operator="dataTypeCheck" Type="double" Display="dynamic" ErrorMessage="<%$Resources:labels,enterValidNumberPositiveNegative %>" />
         </div>
         <div style="margin-bottom:3px">
-        <label for="<%=cbEnableSelfRegistration.ClientID %>">Enable Self Registration</label>
+        <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
         <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
         </div>
         <div style="margin-bottom:3px">
-        <label for="<%=cbRequireLoginToViewPosts.ClientID %>">Only logged in users can view posts (private blog)</label>
+        <label for="<%=cbRequireLoginToViewPosts.ClientID %>"><%=Resources.labels.onlyLoggedInCanView %></label>
         <asp:CheckBox runat="server" ID="cbRequireLoginToViewPosts" />
         </div>
     </div>
@@ -170,7 +170,7 @@
         <div style="margin-bottom:3px">
         <label for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.portNumber %></label>
         <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" /> <%=Resources.labels.portNumberDescription %>
-        <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="Not a valid number" /><br />
+        <asp:CompareValidator ID="CompareValidator2" runat="Server" ControlToValidate="txtSmtpServerPort" Operator="datatypecheck" Type="integer" ErrorMessage="<%$ Resources:labels, noValidNumber %>" /><br />
         </div>
         <div style="margin-bottom:3px">
         <label for="<%=txtSmtpUsername.ClientID %>"><%=Resources.labels.userName %></label>
@@ -188,7 +188,7 @@
         <label for="<%=txtEmailSubjectPrefix.ClientID %>"><%=Resources.labels.emailSubjectPrefix %></label>
         <asp:TextBox runat="server" ID="txtEmailSubjectPrefix" Width="300" /><br /><br />
         
-        <asp:Button runat="server" CausesValidation="False" ID="btnTestSmtp" Text="Test mail settings" />
+        <asp:Button runat="server" CausesValidation="False" ID="btnTestSmtp" Text="<%$ Resources:labels, testEmailSettings %>" />
         <asp:Label runat="Server" ID="lbSmtpStatus" />
     </div>
     
@@ -206,7 +206,7 @@
         <label for="<%=txtPostsPerFeed.ClientID %>"><%=Resources.labels.postsPerFeed %></label>
         <asp:TextBox runat="server" ID="txtPostsPerFeed" Width="50" MaxLength="4" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPostsPerFeed" ErrorMessage="Required" />
-        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+        <asp:CompareValidator runat="server" ControlToValidate="txtPostsPerPage" Operator="DataTypeCheck" Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
         </div>
         <div style="margin-bottom:3px">
         <label for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label>
@@ -224,14 +224,14 @@
         <div style="margin-bottom:3px">
         <label for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label>
         <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" />&nbsp;
-        <input type="button" id="findPosition" onclick="geodeAsk()" value="Find position" style="display:none" />
+        <input type="button" id="findPosition" onclick="geodeAsk()" value="<%=Resources.labels.findPosition %>" style="display:none" />
         <script type="text/javascript">
         if (navigator.geolocation)
 					document.getElementById('findPosition').style.display = 'inline';
         </script>
         </div>
         <div style="margin-bottom:3px">
-        <label for="<%=cbEnableEnclosures.ClientID %>">Enable Enclosures</label>
+        <label for="<%=cbEnableEnclosures.ClientID %>"><%=Resources.labels.enableEnclosures %></label>
         <asp:CheckBox runat="server" ID="cbEnableEnclosures" />
         </div>
         <div style="margin-bottom:3px">
@@ -241,7 +241,7 @@
         <div style="margin-bottom:3px">
         <label for="<%=txtAlternateFeedUrl.ClientID %>"><%=Resources.labels.alternateFeedUrl %></label>
         <asp:TextBox runat="server" ID="txtAlternateFeedUrl"  Width="300" /> <em>(http://feeds.feedburner.com/username)</em>
-        <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtAlternateFeedUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="Please enter a valid URL" Display="Dynamic" />
+        <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtAlternateFeedUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="<%$Resources:labels,enterValidUrl %>" Display="Dynamic" />
         </div>
     </div>
     
@@ -257,10 +257,9 @@
     </div>
     
     <div class="settings">
-        <h1>Tracking script</h1>
+        <h1><%=Resources.labels.trackingScript %></h1>
         <label for="<%=txtTrackingScript.ClientID %>">
-          Visitor tracking script<br /><br />The JavaScript code from i.e. Google Analytics.<br /><br />
-          Will be added in the bottom of each page regardless of the theme.<br /><br />(remember to add the &lt;script&gt; tags)</label>
+          <%=Resources.labels.trackingScriptDescription %></label>
         <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
     </div>
     
@@ -273,7 +272,8 @@
       <input type="button" value="<%=Resources.labels.import %>" onclick="location.href='http://dotnetblogengine.net/clickonce/blogimporter/blog.importer.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=Page.User.Identity.Name %>'" />&nbsp;&nbsp;
       <input type="button" value="<%=Resources.labels.export %>" onclick="location.href='blogml.axd'" />
 
-      <asp:FileUpload runat="server" ID="txtUploadFile" Width="200" size="50" />              <asp:Button ID="btnBlogMLImport" runat="server" Text="Import from BlogML" onclick="btnBlogMLImport_Click" />
+      <asp:FileUpload runat="server" ID="txtUploadFile" Width="200" size="50" />        
+      <asp:Button ID="btnBlogMLImport" runat="server" Text="<%$Resources:labels,importFromBlogML %>" onclick="btnBlogMLImport_Click" />
     </div>
     
     <div align="right">

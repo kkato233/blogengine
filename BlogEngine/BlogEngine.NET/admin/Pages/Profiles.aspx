@@ -77,7 +77,7 @@
                   <div style="margin-bottom:3px">
                   <label for="<%=tbBirthdate.ClientID %>"><%=Resources.labels.birthday %></label>
                   <asp:TextBox ID="tbBirthdate" runat="server"></asp:TextBox>
-                  <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="tbBirthdate" Type="date" Operator="datatypecheck" ErrorMessage="Please enter a valid date (yyyy-mm-dd)" />
+                  <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="tbBirthdate" Type="date" Operator="datatypecheck" ErrorMessage="<%$Resources:labels,enterValidDate %>" />
                   </div>
                   <div style="margin-bottom:3px">
                   <label for="<%=tbAboutMe.ClientID %>"><%=Resources.labels.aboutMe %></label><br />
@@ -91,9 +91,9 @@
             </td>
             <td style="width:180px; vertical-align: top">
                 <ul id="RightList">
-                    <li><a href="Users.aspx">Users</a></li>
-                    <li><a href="Roles.aspx" >Roles</a></li>
-                    <li><a href="Profiles.aspx" class="selected">Profiles</a></li>
+                    <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+                    <li><a href="Roles.aspx" ><%=Resources.labels.roles %></a></li>
+                    <li><a href="Profiles.aspx" class="selected"><%=Resources.labels.profiles %></a></li>
                 </ul>
             </td>
         </tr>

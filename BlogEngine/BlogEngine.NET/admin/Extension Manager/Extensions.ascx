@@ -20,30 +20,30 @@
     AutoGenerateColumns="False"
     ShowFooter="true" >
   <Columns>
-    <asp:BoundField HeaderText="Name" HeaderStyle-HorizontalAlign="Left" DataField = "Name" />  
-    <asp:BoundField HeaderText="Version" DataField = "Version" />
-    <asp:BoundField HeaderText="Description" HeaderStyle-HorizontalAlign="Left" DataField = "Description" /> 
-    <asp:TemplateField HeaderText="Author" HeaderStyle-HorizontalAlign="Left">
+    <asp:BoundField HeaderText="<%$Resources:labels,name %>" HeaderStyle-HorizontalAlign="Left" DataField = "Name" />  
+    <asp:BoundField HeaderText="<%$Resources:labels,version %>" DataField = "Version" />
+    <asp:BoundField HeaderText="<%$Resources:labels,description %>" HeaderStyle-HorizontalAlign="Left" DataField = "Description" /> 
+    <asp:TemplateField HeaderText="<%$Resources:labels,author %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <span><%# HttpContext.Current.Server.HtmlDecode(DataBinder.Eval(Container.DataItem, "Author").ToString())%></span>
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:TemplateField HeaderText="Status" HeaderStyle-HorizontalAlign="Left">
+    <asp:TemplateField HeaderText="<%$Resources:labels,status %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <%# StatusLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%>
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:TemplateField HeaderText="Source" HeaderStyle-HorizontalAlign="Left">
+    <asp:TemplateField HeaderText="<%$Resources:labels,source %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
-           <span><%# string.Format("<a href='?ctrl=editor&ext={0}'>View</a>", DataBinder.Eval(Container.DataItem, "Name"))%></span>
+           <span><%# string.Format("<a href='?ctrl=editor&ext={0}'>{1}</a>", DataBinder.Eval(Container.DataItem, "Name"), Resources.labels.view)%></span>
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:TemplateField HeaderText="Settings" HeaderStyle-HorizontalAlign="Left">
+    <asp:TemplateField HeaderText="<%$Resources:labels,settings %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <span><%# SettingsLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%></span>
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:BoundField HeaderText="Priority" DataField = "Priority" />
+    <asp:BoundField HeaderText="<%$Resources:labels,priority %>" DataField = "Priority" />
     <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
         <ItemTemplate>
             <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="btnPriorityUp_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="Up" />
@@ -63,7 +63,5 @@
 <br />
 <div style="text-align:right">
   <asp:Button runat="Server" ID="btnRestart" 
-    Text="Apply changes" 
-    OnClientClick="return confirm('The website will be unavailable for a few seconds.\nAre you sure you wish to continue?')" 
-  />
+    Text="<%$Resources:labels,applyChanges %>"   />
 </div>

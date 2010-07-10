@@ -2,11 +2,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
   <div class="settings">
-  <h1>Ping Services</h1>
+  <h1><%=Resources.labels.pingService %></h1>
 
   <asp:TextBox runat="Server" ID="txtNewCategory" Width="300" MaxLength="255" />  
   <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" />
-  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="Please specify a ping service" /><br /><hr />
+  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="<%$Resources:labels,specifyPingService %>" /><br /><hr />
 
   <asp:GridView runat="server" ID="grid" 
     BorderColor="#f8f8f8" 

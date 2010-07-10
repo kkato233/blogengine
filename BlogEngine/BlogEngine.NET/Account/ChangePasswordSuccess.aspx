@@ -2,11 +2,11 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <h2>
-        Change Password
+        <%=Resources.labels.changePassword %>
     </h2>
     <div style="padding: 25px 0">
         <div id="ChangePwd" class="success">
-            Your password has been changed successfully. <a href="javascript:Hide('ChangePwd')" style="width:20px;float:right">X</a>
+            <%=Resources.labels.passwordChangeSuccess %> <a href="javascript:Hide('ChangePwd')" style="width:20px;float:right">X</a>
         </div>
     </div>
 </asp:Content>
