@@ -281,12 +281,37 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             //InititializeCaptcha();
         }
 
-
         Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
     }
 
-    private void EnableCaptchas()
     private void AddNestedComments(string path, List<Comment> nestedComments, PlaceHolder phComments)
+    {
+        foreach (Comment comment in nestedComments)
+        {
+            CommentViewBase control = (CommentViewBase)LoadControl(path);
+            if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration || (!comment.IsApproved && Page.User.Identity.IsAuthenticated))
+            {
+                control.Comment = comment;
+                control.Post = Post;
+
+                if (comment.IsApproved) CommentCounter++;
+
+                if (comment.Comments.Count > 0)
+                {
+                    // find the next placeholder and add the subcomments to it
+                    PlaceHolder phSubComments = control.FindControl("phSubComments") as PlaceHolder;
+                    if (phSubComments != null)
+                    {
+                        AddNestedComments(path, comment.Comments, phSubComments);
+                    }
+                }
+
+                phComments.Controls.Add(control);
+            }
+        }
+    }
+
+    private void EnableCaptchas()
     {
         reCaptchaEnabled = ExtensionManager.ExtensionEnabled("Recaptcha");
         simpleCaptchaEnabled = ExtensionManager.ExtensionEnabled("SimpleCaptcha");
@@ -329,25 +354,6 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
         recaptcha.Visible = true;
         simplecaptcha.Visible = false;
         simpleCaptchaEnabled = false;
-            CommentViewBase control = (CommentViewBase)LoadControl(path);
-            if (comment.IsApproved || !BlogSettings.Instance.EnableCommentsModeration || (!comment.IsApproved && Page.User.Identity.IsAuthenticated))
-            {
-                control.Comment = comment;
-                control.Post = Post;
-
-                if (comment.Comments.Count > 0)
-                {
-                    // find the next placeholder and add the subcomments to it
-                    PlaceHolder phSubComments = control.FindControl("phSubComments") as PlaceHolder;
-                    if (phSubComments != null)
-                    {
-                        AddNestedComments(path, comment.Comments, phSubComments);
-                    }
-                }
-
-                phComments.Controls.Add(control);
-            }
-        }
     }
 
     private void ApproveComment()
