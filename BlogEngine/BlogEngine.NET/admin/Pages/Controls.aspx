@@ -7,7 +7,7 @@
         <label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfPosts %></label>
         <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Required" />
-        <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Operator="dataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+        <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Operator="dataTypeCheck" Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
     </div>
     <div style="margin-bottom:3px">
         <label for="<%=cbDisplayComments.ClientID %>"><%=Resources.labels.displayCommentsOnRecentPosts %></label>
@@ -21,8 +21,8 @@
   <h1><%=Resources.labels.recentComments %></h1>
   <label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfComments %></label>
   <asp:TextBox runat="server" ID="txtNumberOfComments" Width="30" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfComments" ErrorMessage="Required" />
-  <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfComments" Operator="dataTypeCheck" Type="integer" ErrorMessage="Please enter a valid number" /><br />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfComments" ErrorMessage="<%$Resources:labels,required %>" />
+  <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfComments" Operator="dataTypeCheck" Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
 </div>
 
 <div class="settings">
@@ -31,12 +31,12 @@
   <div style="margin-bottom:3px">
   <label for="<%=txtSearchButtonText.ClientID %>"><%=Resources.labels.buttonText %></label>
   <asp:TextBox runat="server" ID="txtSearchButtonText" Width="320" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSearchButtonText" ErrorMessage="Required" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSearchButtonText" ErrorMessage="<%$Resources:labels,required %>" />
   </div>
   <div style="margin-bottom:3px">
   <label for="<%=txtDefaultSearchText.ClientID %>"><%=Resources.labels.searchFieldText %></label>
   <asp:TextBox runat="server" ID="txtDefaultSearchText" Width="320" /> <%=Resources.labels.defaultTextShownInSearchField %>
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDefaultSearchText" ErrorMessage="Required" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDefaultSearchText" ErrorMessage="<%$Resources:labels,required %>" />
   </div>
   <div style="margin-bottom:3px">
   <label for="<%=cbEnableCommentSearch.ClientID %>"><%=Resources.labels.enableCommentSearch %></label>
@@ -45,7 +45,7 @@
   <div style="margin-bottom:3px">
   <label for="<%=txtCommentLabelText.ClientID %>"><%=Resources.labels.commentLabelText %></label>
   <asp:TextBox runat="server" ID="txtCommentLabelText" Width="320" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCommentLabelText" ErrorMessage="Required" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCommentLabelText" ErrorMessage="<%$Resources:labels,required %>" />
   </div>
 </div>
 
@@ -59,7 +59,7 @@
   <div style="margin-bottom:3px">
   <label for="<%=txtThankMessage.ClientID %>"><%=Resources.labels.thankYouMessage %></label>
   <asp:TextBox runat="server" ID="txtThankMessage" TextMode="multiLine" Rows="5" Columns="40" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="Required" /><br />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="<%$Resources:labels,required %>" /><br />
   </div>
   <div style="margin-bottom:3px">
   <label for="<%=cbEnableAttachments.ClientID %>"><%=Resources.labels.enableAttachments %></label>

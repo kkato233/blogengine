@@ -14,7 +14,7 @@
                         <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server" />
                     </WizardSteps>
                 </asp:CreateUserWizard>
-                <asp:Label runat="server" ID="lblError" Text="Username is already taken" style="color:Red" visible="false" />
+                <asp:Label runat="server" ID="lblError" Text="<%$Resources:labels,usernameAlreadyTaken %>" style="color:Red" visible="false" />
             </div>
 
             <div class="settings">
@@ -59,7 +59,7 @@
                           </EditItemTemplate>
                         </asp:TemplateField>
                 
-                        <asp:TemplateField HeaderText="Roles" ItemStyle-Wrap="false" ItemStyle-Width="100%" />
+                        <asp:TemplateField HeaderText="<%$ Resources:labels, roles %>" ItemStyle-Wrap="false" ItemStyle-Width="100%" />
                     </Columns>
                     <HeaderStyle HorizontalAlign="Left" />
                 </asp:GridView>
@@ -67,9 +67,9 @@
             </td>
             <td style="width:180px; vertical-align: top">
                 <ul id="RightList">
-                    <li><a href="Users.aspx" class="selected">Users</a></li>
-                    <li><a href="Roles.aspx" >Roles</a></li>
-                    <li><a href="Profiles.aspx">Profiles</a></li>
+                    <li><a href="Users.aspx" class="selected"><%=Resources.labels.users %></a></li>
+                    <li><a href="Roles.aspx" ><%=Resources.labels.roles %></a></li>
+                    <li><a href="Profiles.aspx"><%=Resources.labels.profiles %></a></li>
                 </ul>
             </td>
         </tr>
