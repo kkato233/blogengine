@@ -108,7 +108,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
       ExtensionManager.SaveSettings(_extensionName, _settings);
       if (_settings.IsScalar)
       {
-        InfoMsg.InnerHtml = "The values has been saved";
+        InfoMsg.InnerHtml = Resources.labels.theValuesSaved;
         InfoMsg.Visible = true;
       }
       else
@@ -164,7 +164,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
       if (_settings.IsRequiredParameter(parName) && string.IsNullOrEmpty(updateValues[i]))
       {
         // throw error if required field is empty
-        ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(parName) + "\" is a required field";
+        ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(parName) + "\" "+ Resources.labels.isRequiredField;
         ErrorMsg.Visible = true;
         e.Cancel = true;
         return;
@@ -175,7 +175,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
         if (!_settings.IsOldValue(parName, updateValues[i], paramIndex))
         {
           // trying to update key field with value that already exists
-          ErrorMsg.InnerHtml = "\"" + updateValues[i] + "\" is already exists";
+          ErrorMsg.InnerHtml = "\"" + updateValues[i] + "\" " + Resources.labels.isAlreadyExists;
           ErrorMsg.Visible = true;
           e.Cancel = true;
           return;
@@ -415,7 +415,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
         // check if required
         if (_settings.IsRequiredParameter(txt.ID) && string.IsNullOrEmpty(txt.Text.Trim()))
         {
-          ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" is a required field";
+          ErrorMsg.InnerHtml = "\"" + _settings.GetLabel(txt.ID) + "\" " + Resources.labels.isRequiredField;
           ErrorMsg.Visible = true;
           rval = false;
           break;
@@ -432,7 +432,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
         {
           if (_settings.KeyField == (txt.ID) && _settings.IsKeyValueExists(txt.Text.Trim()))
           {
-            ErrorMsg.InnerHtml = "\"" + txt.Text + "\" is already exists";
+            ErrorMsg.InnerHtml = "\"" + txt.Text + "\" " + Resources.labels.isAlreadyExists;
             ErrorMsg.Visible = true;
             rval = false;
             break;
@@ -506,9 +506,9 @@ public partial class User_controls_xmanager_Parameters : UserControl
         foreach (Control ctrl in dcf.Controls)
         {
           LinkButton deleteButton = ctrl as LinkButton;
-          if (deleteButton != null && deleteButton.Text == "Delete")
+          if (deleteButton != null && deleteButton.Text == Resources.labels.delete)
           {
-            deleteButton.Attributes.Add("onClick", "return confirm('Are you sure you want to delete this row?');");
+            deleteButton.Attributes.Add("onClick", "return confirm('"+Resources.labels.areYouSureDeleteRow+"');");
             break;
           }
         }

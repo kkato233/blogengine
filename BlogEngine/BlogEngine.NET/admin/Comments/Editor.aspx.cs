@@ -21,6 +21,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        BtnDelete.OnClientClick = "return confirm('" + Resources.labels.deleteConfirm + "');";
         if(!Page.IsPostBack)
         {
             _id = HttpContext.Current.Request.QueryString["id"];

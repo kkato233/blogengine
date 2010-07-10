@@ -32,7 +32,7 @@
   
   <label for="<%=txtTitle.ClientID %>"><%=Resources.labels.title %></label>
   <asp:TextBox runat="server" ID="txtTitle" Width="400px" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" Display="Dynamic" ErrorMessage="Please enter a title" />&nbsp;&nbsp;&nbsp;
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" Display="Dynamic" ErrorMessage="<%$Resources:labels,enterTitle %>" />&nbsp;&nbsp;&nbsp;
   
   <label for="<%=ddlParent.ClientID %>"><%=Resources.labels.selectParent %></label>
   <asp:DropDownList runat="server" id="ddlParent" />&nbsp;&nbsp;&nbsp;
@@ -49,7 +49,7 @@
       <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" />
-        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" ValidationGroup="imageupload" />
+        <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>" ValidationGroup="imageupload" />
         <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="imageupload" />
       </td>
     </tr>
@@ -57,15 +57,15 @@
       <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" />        
-        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" ValidationGroup="fileUpload" />
+        <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>" ValidationGroup="fileUpload" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="fileUpload" />
       </td>
     </tr>
     <tr>
-      <td class="label">Slug (optional)</td>
+      <td class="label"><%=Resources.labels.slug %></td>
       <td>
         <asp:TextBox runat="server" ID="txtSlug" TabIndex="9" Width="400" />
-        <a href="javascript:void(GetSlug());">Extract from title</a>
+        <a href="javascript:void(GetSlug());"><%=Resources.labels.extractFromTitle %></a>
       </td>
     </tr>    
     <tr>

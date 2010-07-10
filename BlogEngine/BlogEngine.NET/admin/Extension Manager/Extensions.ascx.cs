@@ -8,12 +8,12 @@ public partial class UserControlsXmanagerExtensionsList : System.Web.UI.UserCont
 {
   #region Private members
     
-  const string confirm = "The website will be unavailable for a few seconds. Are you sure you wish to continue?";
-  const string jsOnClick = "onclick=\"if (confirm('" + confirm + "')) { window.location.href = this.href } return false;\"";
-  const string clickToEnable = "Click to enable ";
-  const string clickToDisable = "Click to disable ";
-  const string enabled = "Enabled";
-  const string disabled = "Disabled";
+  //const string confirm = "The website will be unavailable for a few seconds. Are you sure you wish to continue?";
+  //const string jsOnClick = "onclick=\"if (confirm('" + confirm + "')) { window.location.href = this.href } return false;\"";
+  //const string clickToEnable = "Click to enable ";
+  //const string clickToDisable = "Click to disable ";
+  //const string enabled = "Enabled";
+  //const string disabled = "Disabled";
     
   #endregion
 
@@ -27,6 +27,7 @@ public partial class UserControlsXmanagerExtensionsList : System.Web.UI.UserCont
     lblErrorMsg.InnerHtml = string.Empty;
     lblErrorMsg.Visible = false;
     btnRestart.Visible = false;
+    btnRestart.OnClientClick = "return confirm('" + Resources.labels.siteUnavailableConfirm + "');";
 
     object act = Request.QueryString["act"];
     object ext = Request.QueryString["ext"];
@@ -85,12 +86,13 @@ public partial class UserControlsXmanagerExtensionsList : System.Web.UI.UserCont
 
   public static string StatusLink(string extensionName)
   {
+      string jsOnClick = "onclick=\"if (confirm('" + Resources.labels.siteUnavailableConfirm + "')) { window.location.href = this.href } return false;\"";
       ManagedExtension x = ExtensionManager.GetExtension(extensionName);
       StringBuilder sb = new StringBuilder();
       if (x.Enabled)
-          sb.Append("<span style='background:#ccffcc'><a href='?act=dis&ext=" + x.Name + "' title='" + clickToDisable + x.Name + "' " + jsOnClick + ">" + enabled + "</a></span>");
+          sb.Append("<span style='background:#ccffcc'><a href='?act=dis&ext=" + x.Name + "' title='" + Resources.labels.clickToDisable + x.Name + "' " + jsOnClick + ">" + Resources.labels.enabled + "</a></span>");
       else
-          sb.Append("<span style='background:#ffcc66'><a href='?act=enb&ext=" + x.Name + "' title='" + clickToEnable + x.Name + "' " + jsOnClick + ">" + disabled + "</a></span>");
+          sb.Append("<span style='background:#ffcc66'><a href='?act=enb&ext=" + x.Name + "' title='" + Resources.labels.clickToEnable + x.Name + "' " + jsOnClick + ">" + Resources.labels.disabled + "</a></span>");
 
       return sb.ToString();
   }

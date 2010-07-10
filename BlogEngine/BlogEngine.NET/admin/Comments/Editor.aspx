@@ -12,6 +12,8 @@
     .field {padding:2px;}
     #phEdit {padding:10px; height: 325px; overflow: auto; overflow-x: hidden}
     #bottom {background: #F1F1F1; border-top: 1px solid silver; padding: 10px; text-align: center}
+    input[type="submit"], input[type="button"] {color: #666;background: #F1F1F1;border: 1px solid #B8C1CA;}
+    input[type="submit"]:hover, input[type="button"]:hover {color: #FFFFFF;background: #B8C1CA;cursor: pointer;}
   </style>
 </head>
 
@@ -68,7 +70,6 @@
         <asp:Button ID="BtnSave" runat="server" Text="<%$ Resources:labels, update %>" OnClick="BtnSaveClick" />
         <asp:Button ID="BtnAction" runat="server" Text="<%$ Resources:labels, approve %>" onclick="BtnActionClick" />
         <asp:Button ID="BtnDelete" runat="server" Text="<%$ Resources:labels, delete %>" 
-            OnClientClick="javascript:return confirm('Are you sure you want to delte this comment?')" 
             onclick="BtnDeleteClick"  />
         <input type="button" value="<%=labels.cancel %>" onclick="parent.closeEditor()" />  
     </div>
