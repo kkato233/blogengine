@@ -2,16 +2,16 @@
 <%@ Import Namespace="Resources"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
   <div class="settings">
-  <h1>Categories</h1>
-  <asp:Label ID="lblNewCategory" runat ="server" AssociatedControlID="txtNewCategory" Text="Title" /><br />
+  <h1><%=Resources.labels.categories %></h1>
+  <asp:Label ID="lblNewCategory" runat ="server" AssociatedControlID="txtNewCategory" Text="<%$Resources:labels,title %>" /><br />
   <asp:TextBox runat="Server" ID="txtNewCategory" Width="200" /><br />
-  <asp:Label ID="lblNewNewDescription" runat ="server" AssociatedControlID="txtNewNewDescription" Text="Description" /><br />
+  <asp:Label ID="lblNewNewDescription" runat ="server" AssociatedControlID="txtNewNewDescription" Text="<%$Resources:labels,description %>" /><br />
   <asp:TextBox runat="Server" ID="txtNewNewDescription" Width="400" TextMode="MultiLine" Rows="4" /><br />
-  <asp:Label ID="lblNewParent" runat ="server" AssociatedControlID="ddlNewParent" Text="Parent" /><br />
+  <asp:Label ID="lblNewParent" runat ="server" AssociatedControlID="ddlNewParent" Text="<%$Resources:labels,parent %>" /><br />
   <asp:DropDownList ID="ddlNewParent" width="200" runat="server" /><br /><br />
   <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" />
-  <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="The category already exist" Display="dynamic" />
-  <asp:RequiredFieldValidator runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="Please enter a valid name" /><br /><hr />
+  <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="<%$Resources:labels,categoryAlreadyExists %>" Display="dynamic" />
+  <asp:RequiredFieldValidator runat="Server" ValidationGroup="new" ControlToValidate="txtNewCategory" ErrorMessage="<%$Resources:labels,enterValidName %>" /><br /><hr />
 
   <asp:GridView runat="server" ID="grid"
     BorderColor="#f8f8f8" 

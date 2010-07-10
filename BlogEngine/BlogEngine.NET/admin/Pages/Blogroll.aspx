@@ -22,12 +22,12 @@
   <div style="padding-bottom:5px">
       <label for="<%=txtMaxLength.ClientID %>" class="wide"><%=Resources.labels.maxLengthOfItems %></label>
       <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
-      <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
+      <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
   </div>
   <div>
       <label for="<%=txtUpdateFrequency.ClientID %>" class="wide"><%=Resources.labels.updateFrequenzy %></label>
       <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
-      <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="Not a valid number" />
+      <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency" Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
   </div>  
   <div style="text-align:right">
     <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" Width="120" />
@@ -41,24 +41,24 @@
   <div style="margin-bottom:3px">
       <label for="<%=txtTitle.ClientID %>" class="wide"><%=Resources.labels.title %></label>
       <asp:TextBox runat="server" ID="txtTitle" Width="600px" />
-      <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ControlToValidate="txtTitle" ErrorMessage="required" ValidationGroup="addNew" />
+      <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ControlToValidate="txtTitle" ErrorMessage="<%$Resources:labels,required %>" ValidationGroup="addNew" />
   </div>
   <div style="margin-bottom:3px">
       <label for="<%=txtDescription.ClientID %>" class="wide"><%=Resources.labels.description %></label>
       <asp:TextBox runat="server" ID="txtDescription" Width="600px" />
-      <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtDescription" ErrorMessage="required" ValidationGroup="addNew" />
+      <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtDescription" ErrorMessage="<%$Resources:labels,required %>" ValidationGroup="addNew" />
   </div>
   <div style="margin-bottom:3px">
      <label for="<%=txtWebUrl.ClientID %>" class="wide"><%=Resources.labels.website %></label>
      <asp:TextBox runat="server" ID="txtWebUrl" Width="600px" />
-     <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtWebUrl" ErrorMessage="required" Display="Dynamic" ValidationGroup="addNew" />
-     <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtWebUrl" ErrorMessage="Invalid" EnableClientScript="false" OnServerValidate="validateWebUrl" ValidationGroup="addnew"></asp:CustomValidator>
+     <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtWebUrl" ErrorMessage="<%$Resources:labels,required %>" Display="Dynamic" ValidationGroup="addNew" />
+     <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtWebUrl" ErrorMessage="<%$Resources:labels,invalid %>" EnableClientScript="false" OnServerValidate="validateWebUrl" ValidationGroup="addnew"></asp:CustomValidator>
   </div>
   <div style="margin-bottom:3px">
       <label for="<%=txtFeedUrl.ClientID %>" class="wide">RSS url</label>
       <asp:TextBox runat="server" ID="txtFeedUrl" Width="600px" />
-      <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="Server" ControlToValidate="txtFeedUrl" ErrorMessage="required" Display="Dynamic" ValidationGroup="addNew" />
-      <asp:CustomValidator ID="CustomValidator2" runat="server" ControlToValidate="txtFeedUrl" ErrorMessage="Invalid" EnableClientScript="false" OnServerValidate="validateFeedUrl" ValidationGroup="addnew"></asp:CustomValidator>
+      <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="Server" ControlToValidate="txtFeedUrl" ErrorMessage="<%$Resources:labels,required %>" Display="Dynamic" ValidationGroup="addNew" />
+      <asp:CustomValidator ID="CustomValidator2" runat="server" ControlToValidate="txtFeedUrl" ErrorMessage="<%$Resources:labels,invalid %>" EnableClientScript="false" OnServerValidate="validateFeedUrl" ValidationGroup="addnew"></asp:CustomValidator>
   </div>
   
   <label for="<%=cblXfn.ClientID %>" class="wide">XFN tag</label>

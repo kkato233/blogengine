@@ -1,169 +1,19 @@
-Errors
-Title "Basic Configuration" in "Control Panel - Settings" is reported in the labels resource file as two independent words.
-When the words get translated to Spanish they appear in inverse order as "Básica configuración".
-The right orden in Spanish is "Configuración Básica"
-They should be reported as a phrase in one resource entry, as it is done with the title "Advanced settings".
-
-The same happens with the title "Feed configuration", .
+All text is replaced with respective resource strings.
 
 
-Missing strings in labels.resx
-
-Administrator
-Logout
-Menu Labels
-	PingServices
-	Profiles
-	Extensions
-Add Entry Page labels
-	Use raw HTML editor
-	All tooltips and texts in the html editor window
-	Browse
-	Upload
-	Slug (optional)
-	Extract from title
-	Tags
-	Show selector.
-	All XFN tags
-Controls
-	All variable values: Search, Enter search term..., Include co...
-
-Categories
-	Categories
-	Title
-	Description
-	Parent
-	Edit
-	Delete
 Pages
-	Path:
-	Browse
-	Upload
-	Slug (optional)
-	Extract from title
-Ping Services
-	Ping Services
-	Edit
-	Delete
-Referers
-	Number of days to keep
-Settings
-	Preview
-	Download
-	Mobile Theme
-	Use blog name in page titles
-	Prefixes the page titles with the name of the blog
-	Number of characters
-	Only show description of posts when listed by Tag or Category
-	Show post navigation links
-	Server time
-	Compress WebResource.axd
-	This may break third-party functionality
-	Require SSL for MetaWeblog API
-	Enforce the use of SSL when communicating with the MetaWeblog API
-	Enable trackbacks
-	Send
-	Receive
-	Enable pingbacks
-	Enable error logging
-	Unhandled errors will be logged to any extension/component subscribed to log notifications.
-	SMTP server
-	Subject prefix
-	test mail setings
-	Enable Enclosures
-	Tracking script
-	Visitor tracking script
-	The JavaScript code from i.e. Google Analytics
-	Will be added in the bottom of each page regardless of the theme.
-	(remember to add the <script> tags)
-Profiles
-	User Profile(s)
-	Switch to user profile
-	Is Private  
-	Display Name  
-	First Name  
-	Middle Name  
-	Last Name  
-	Phone Main  
-	Phone Mobile  
-	Phone Fax
-	City/Town
-	State/Region
-	Company 
-	PhotoURL
-	Birthday
-	Please enter a valid date (yyyy-mm-dd) 
-	About Me
-	Save Profile
-Users
-	Sign Up for Your New Account 
-	User Name:
-	Password:
-	Confirm Password:
-	E-mail:
-	The Password and Confirmation Password must match. 
-	Create User
-	Edit
-	Delete
-	Administrators
-	Editors
-Comments
-	Automatic Moderation
-	Inbox
-		Moderator
-	Spam
-		Select
-		Clear
-		Restore
-		Delete All
-	Configuration
-		Enable nested comments
-		This only works if the theme supports it.
-		Show pingbacks and trackbacks
-		Comments per page
-		Moderation
-		If not moderated, all comments approved by default.
-		Manual - only after comment approved by admin will it show up in the blog 
-		Automatic - rules and filters will decide if comment is spam. 
-		Moderated by Disqus. 
-		Rules
-		Trust authenticated authors If user authenticated, always trust 
-		Add to white list if at least
-		comments of this author have been approved 
-		Add to black list if at least
-		comments of this author have been rejected 
-		Block on delete
-		If comment was deleted, always block author 
-		Filters
-		Block
-		Allow
-		Equals
-		Contains
-		Add Filter
-		Custom Filters
-		Enabled
-		Filter Name
-		Checked
-		Approved
-		Mistakes
-		Accuracy
-		Reset Counters
-		Priority
-Extensions
-	Extensions
-	Name
-	Version
-	Description
-	Author
-	Status
-	Source
-	Settings
-	Priority
+	Browse -> Browse button is part of file upload and its text managed by browser.
 
-Make a donation
+TODO: resources
+
+Blogroll
+	XFN tags
+TinyMCE
+	create CULTURE.js translated as per en.js file located at /editors/tiny_mce3/langs
+
+Verify all javascripts across the application and change english hardcoded message with resource strings
 
 
-Notes made by Sergio Torres C.
-sergiotorres@stcsys.com
-sergiortc@hotmail.com
-2010-06-02
+Notes updated by: Pravesh Soni
+pjsoni@gmail.com
+2010-07-10

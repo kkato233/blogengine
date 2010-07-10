@@ -18,7 +18,7 @@
                 <img alt="BlogEngine.net" src="../pics/be-logo.jpg" />
             </div>
             <div class="loginDisplay">
-                <a href="~/default.aspx" ID="HeadLoingHome" runat="server">Return to blog</a>
+                <a href="~/default.aspx" ID="HeadLoingHome" runat="server"><%=Resources.labels.returnToBlog %></a>
             </div>
         </div>
         <div class="clear"></div>

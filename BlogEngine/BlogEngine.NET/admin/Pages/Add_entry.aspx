@@ -5,7 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
 <div id="tagselector" style="display: none">
-    <a href="javascript:void(ToggleTagSelector())" style="color:Black;float:right">Close</a>
+    <a href="javascript:void(ToggleTagSelector())" style="color:Black;float:right"><%=Resources.labels.close %></a>
     <div style="clear:both"></div>
     <asp:PlaceHolder runat="server" ID="phTags" />
     <div style="clear:both"></div>
@@ -93,11 +93,11 @@ function ToggleTagSelector()
   <asp:TextBox runat="server" ID="txtDate" Width="110px" />
   
   
-  <asp:CheckBox runat="server" ID="cbUseRaw" Text="Use HTML editor" AutoPostBack="true" />
+  <asp:CheckBox runat="server" ID="cbUseRaw" Text="<%$Resources:labels,useRawHtmlEditor %>" AutoPostBack="true" />
   
-  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]" ErrorMessage="Please enter a valid date (yyyy-mm-dd hh:mm)" Display="dynamic" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="Please enter a date (yyyy-mm-dd hh:mm)" Display="Dynamic" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title" Display="Dynamic" />
+  <asp:RegularExpressionValidator runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]" ErrorMessage="<%$Resources:labels,enterValidDate %>" Display="dynamic" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDate" ErrorMessage="<%$Resources:labels,enterDate %>" Display="Dynamic" />
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" ErrorMessage="<%$Resources:labels,enterTitle %>" Display="Dynamic" />
   <br /><br />
   
   <Blog:TextEditor runat="server" id="txtContent" />
@@ -109,7 +109,7 @@ function ToggleTagSelector()
       <td class="label"><%=Resources.labels.uploadImage %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" ValidationGroup="imageupload" />
-        <asp:Button runat="server" ID="btnUploadImage" Text="Upload" ValidationGroup="imageupload" />
+        <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>" ValidationGroup="imageupload" />
         <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="imageupload" />
       </td>
     </tr>
@@ -117,15 +117,15 @@ function ToggleTagSelector()
       <td class="label"><%=Resources.labels.uploadFile %></td>
       <td>
         <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" />
-        <asp:Button runat="server" ID="btnUploadFile" Text="Upload" ValidationGroup="fileUpload" />
+        <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>" ValidationGroup="fileUpload" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="fileUpload" />
       </td>
     </tr>    
     <tr>
-      <td class="label">Slug (optional)</td>
+      <td class="label"><%=Resources.labels.slug %></td>
       <td>
         <asp:TextBox runat="server" ID="txtSlug" Width="400" />
-        <a href="javascript:void(GetSlug());">Extract from title</a>
+        <a href="javascript:void(GetSlug());"><%=Resources.labels.extractFromTitle %></a>
       </td>
     </tr>
     <tr>
@@ -137,18 +137,18 @@ function ToggleTagSelector()
       <td>
         <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" />
         <asp:Button runat="server" ID="btnCategory" Text="<%$ Resources:labels, add %>" ValidationGroup="category" />
-        <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="The category already exist" Display="dynamic" />
-        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="Required" ValidationGroup="category" /><br />
+        <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="<%$ Resources:labels, categoryAlreadyExists %>" Display="dynamic" />
+        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="category" /><br />
         <div style="width:400px">
         <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" />
         </div>
       </td>
     </tr>
     <tr>
-      <td class="label">Tags</td>
+      <td class="label"><%=Resources.labels.tags %></td>
       <td>
         <asp:TextBox runat="server" ID="txtTags" Width="400" />
-        <a href="javascript:void(ToggleTagSelector())">Show selector</a>
+        <a href="javascript:void(ToggleTagSelector())"><%=Resources.labels.showSelector %></a>
         <span><%=Resources.labels.separateTagsWitComma %></span>
       </td>
     </tr>
