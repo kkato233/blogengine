@@ -61,6 +61,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 			postView.Post = post;
 			postView.ID = post.Id.ToString().Replace("-", string.Empty);
 			postView.Location = ServingLocation.PostList;
+            postView.Index = counter;
 			posts.Controls.Add(postView);
 			counter++;
 		}
