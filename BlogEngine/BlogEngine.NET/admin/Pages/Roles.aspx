@@ -1,0 +1,43 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Roles.aspx.cs" Inherits="admin_Account_Roles" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
+    <table width="100%" border="0">
+        <tr>
+            <td style="width:auto">
+                <div class="settings" id="newrole" runat="server">
+                    <h1><%=Resources.labels.roles %></h1>
+                    <div>
+                        <table id="RolesList" class="BETable" width="500">
+                            <tr> 
+                                <th scope="col" abbr="Roles" style="width:420px"><%=Resources.labels.name %></th> 
+                                <th scope="col" abbr="" style="width: 80px;">&nbsp;</th> 
+                            </tr> 
+                            <% foreach (string role in Roles.GetAllRoles()) { %>
+                                <tr id="<%= role %>">
+                                    <td class="editable"><%= role %></td>
+                                    <td><a href="#" class="deleteButton"><%=Resources.labels.delete.ToLowerInvariant() %></a></td>
+                                </tr>
+                            <% } %>
+                        </table>
+                    </div>
+                    <div id="AddRoleForm" style="margin: 10px 0; display: none">
+                        <input type="text" class="txtAddNew" id="txtCreateRole" style="width:200px;" /> 
+                        <input type="submit" class="btnAddNew" value="<%=Resources.labels.createRole %>" id="btnAddNewRole" />
+                        <%=Resources.labels.or %>
+                        <asp:LinkButton ID="lnkCancelNewRole" OnClientClick="return Hide('AddRoleForm')" runat="server" Text="<%$Resources:labels,cancel %>" />
+                    </div>
+                    <div style="clear:both; margin-top: 10px; width:480px">
+                        <a href="#" onclick="Show('AddRoleForm');" style="float:right"><%=Resources.labels.addNewRole %></a>
+                    </div>
+                     <div style="clear:both;">&nbsp;</div>
+                </div>
+            </td>
+            <td style="width:180px; vertical-align: top">
+                <ul id="RightList">
+                    <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+                    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+                    <li><a href="Profiles.aspx"><%=Resources.labels.profiles %></a></li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</asp:Content>
