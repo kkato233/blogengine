@@ -286,6 +286,15 @@ public partial class admin_entry : System.Web.UI.Page, System.Web.UI.ICallbackEv
 	private void BindPost(Guid postId)
 	{
 		Post post = Post.GetPost(postId);
+
+        //verifies if the current user is the author of the post and not and admin
+        //it will redirect the user to the root of the blog.
+        if (post.Author != System.Threading.Thread.CurrentPrincipal.Identity.Name &&
+             !Page.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+        {
+            Response.Redirect(Utils.RelativeWebRoot);
+        }
+
 		txtTitle.Text = post.Title;
 		txtContent.Text = post.Content;
 		txtRawContent.Text = post.Content;
