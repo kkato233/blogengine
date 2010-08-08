@@ -1,7 +1,9 @@
 ﻿<%@ Page Title="Register" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true" CodeFile="Register.aspx.cs" Inherits="Account_Register" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <asp:CreateUserWizard ID="RegisterUser" runat="server" EnableViewState="false" OnCreatedUser="RegisterUser_CreatedUser">
+    <asp:CreateUserWizard ID="RegisterUser" runat="server" EnableViewState="false" 
+        OnCreatedUser="RegisterUser_CreatedUser" 
+        oncreatinguser="RegisterUser_CreatingUser">
         <WizardSteps>
             <asp:CreateUserWizardStep ID="RegisterUserWizardStep" runat="server">
                 <ContentTemplate>
@@ -17,6 +19,7 @@
                                 <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName"><%=Resources.labels.userName %>:</asp:Label>
                                 <div class="boxRound">
                                     <asp:TextBox ID="UserName" runat="server" CssClass="textEntry"></asp:TextBox>
+                                    
                                 </div>
                             </p>
                             <p>
@@ -48,4 +51,5 @@
         </WizardSteps>
     </asp:CreateUserWizard>
     <asp:HiddenField ID="hdnPassLength" runat="server" />
+    
 </asp:Content>
