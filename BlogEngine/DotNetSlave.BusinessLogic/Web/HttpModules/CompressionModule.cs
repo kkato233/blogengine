@@ -183,12 +183,12 @@ namespace BlogEngine.Core.Web.HttpModules
 
 			public override void Write(byte[] buffer, int offset, int count)
 			{
-				string html = System.Text.Encoding.Default.GetString(buffer);
+				string html = System.Text.Encoding.UTF8.GetString(buffer);
 
 				Regex regex = new Regex("<script\\s*src=\"((?=[^\"]*webresource.axd)[^\"]*)\"\\s*type=\"text/javascript\"[^>]*>[^<]*(?:</script>)?", RegexOptions.IgnoreCase);
                 html = regex.Replace(html, new MatchEvaluator(Evaluator));
 
-				byte[] outdata = System.Text.Encoding.Default.GetBytes(html);
+                byte[] outdata = System.Text.Encoding.UTF8.GetBytes(html);
 				_sink.Write(outdata, 0, outdata.GetLength(0));
 			}
 
