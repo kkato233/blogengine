@@ -1,7 +1,9 @@
 ﻿<%@ WebService Language="C#" Class="RoleService" %>
 
 using System;
+using System.Collections.Generic;
 using System.Web.Services;
+using System.Web.Script.Services;
 using System.Web.Security;
 using BlogEngine.Core;
 
@@ -22,9 +24,9 @@ public class RoleService : WebService
     {
         _response = new JsonResponse();
     }
-    
+
     [WebMethod]
-    public JsonResponse AddRole(string roleName)
+    public JsonResponse Add(string roleName)
     {
         if (!IsAdmin())
         {
@@ -68,11 +70,12 @@ public class RoleService : WebService
 
         _response.Success = true;
         _response.Message = "Role \"" + roleName + "\" has been created";
+        //_response.Data = string.Format(row, roleName);
         return _response;
     }
-
+    
     [WebMethod]
-    public JsonResponse DeleteRole(string roleName)
+    public JsonResponse Delete(string roleName)
     {
         if (!IsAdmin())
         {
@@ -106,7 +109,7 @@ public class RoleService : WebService
     }
 
     [WebMethod]
-    public JsonResponse UpdateRole(string oldRole, string newRole)
+    public JsonResponse Edit(string oldRole, string newRole)
     {
         if (!IsAdmin())
         {
