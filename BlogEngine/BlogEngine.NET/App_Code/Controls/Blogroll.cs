@@ -78,6 +78,42 @@ namespace Controls
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Determines whether the RSS icon is displayed (default true)
+        /// </summary>
+        public bool ShowRssIcon
+        {
+            get
+            {
+                return _showRssIcon;
+            }
+            set
+            {
+                _showRssIcon = value;
+            }
+        }
+        private bool _showRssIcon = true;
+
+        /// <summary>
+        /// Display the description of the blog as a tool tip (default false)
+        /// </summary>
+        public bool DescriptionToolTip
+        {
+            get
+            {
+                return _descriptionToolTip;
+            }
+            set
+            {
+                _descriptionToolTip = value;
+            }
+        }
+        private bool _descriptionToolTip = false;
+
+        #endregion
+
         #region Methods
 
 
@@ -121,24 +157,35 @@ namespace Controls
             ul.Attributes.Add("class", "xoxo");
             foreach (blogRequest item in _Items)
             {
-                HtmlAnchor feedAnchor = new HtmlAnchor();
-                feedAnchor.HRef = item.RollItem.FeedUrl.AbsoluteUri;
+                HtmlAnchor feedAnchor = null;
 
-                HtmlImage image = new HtmlImage();
-                image.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
-                image.Alt = "RSS feed for " + item.RollItem.Title;
+                if (ShowRssIcon)
+                {
+                    feedAnchor = new HtmlAnchor();
+                    feedAnchor.HRef = item.RollItem.FeedUrl.AbsoluteUri;
 
-                feedAnchor.Controls.Add(image);
+                    HtmlImage image = new HtmlImage();
+                    image.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
+                    image.Alt = "RSS feed for " + item.RollItem.Title;
+
+                    feedAnchor.Controls.Add(image);
+                }
 
                 HtmlAnchor webAnchor = new HtmlAnchor();
                 webAnchor.HRef = item.RollItem.BlogUrl.AbsoluteUri;
                 webAnchor.InnerHtml = EnsureLength(item.RollItem.Title);
 
+                if (DescriptionToolTip)
+                    webAnchor.Attributes["title"] = item.RollItem.Description;
+
                 if (!String.IsNullOrEmpty(item.RollItem.Xfn))
                     webAnchor.Attributes["rel"] = item.RollItem.Xfn;
 
                 HtmlGenericControl li = new HtmlGenericControl("li");
-                li.Controls.Add(feedAnchor);
+
+                if (null != feedAnchor)
+                    li.Controls.Add(feedAnchor);
+
                 li.Controls.Add(webAnchor);
 
                 AddRssChildItems(item, li);
