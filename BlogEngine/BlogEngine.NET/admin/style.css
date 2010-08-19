@@ -444,42 +444,109 @@ input[type="checkbox"] {
     background-image: url('../pics/warning.png');
 }
 
-/*---------------------------------------- */
-
-.editable
-{
-
-}
-.editable:hover
-{
-    cursor: pointer;
-    font-weight: bolder; 
-}
 /*-------------------------------------*/
-.BETable {
-	padding: 0;
-	margin: 0;
-	border: 1px solid #C1DAD7;
+.beTable {
+	border: 1px solid #ccc;
+	margin: 10px 0;
+	width: 100%;
+	/*font-family: Georgia, serif;*/
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #444;
 }
 
-.BETable th {
-	color: #4f6b72;
-	
+.beTable th {
+	padding: 2px 5px;
 	text-align: left;
-	padding: 6px 6px 6px 12px;
-	background: #f1f1f1;
 }
 
-.BETable th.nobg {
-	border-top: 0;
-	border-left: 0;
-	/*border-right: 1px solid #FFF;*/
-	background: #fff;
+.beTable td {
+	padding: 5px;
+	margin: 0;
 }
 
-.BETable td {
-	border: 1px solid #C1DAD7;
-	background: #fff;
-	padding: 6px 6px 6px 12px;
-	color: #4f6b72;
+.beTable a{
+	color: #444;
+}
+
+.beTableHdr {
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.rounded {
+	-moz-border-radius: 5px;
+    -khtml-border-radius: 5px
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+}
+
+.SectionHeader {
+	font-size: 20px;
+}
+
+.addNew {
+	color: #444;
+	margin-left: 20px;
+}
+
+#frmAddNew {
+	display:block;
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+.txt200 {
+	border: 1px solid #CCC;
+    padding: 5px;
+    margin: 2px 0;
+	width: 200px;
+}
+
+.lbl150 {
+	display:block;
+	float:left;
+	vertical-align:bottom;
+	width: 150px;
+	padding: 3px 0;
+	margin-top: 3px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.lbl200 {
+	display:block;
+	float:left;
+	vertical-align:bottom;
+	width: 200px;
+	padding: 3px 0;
+	margin-top: 3px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.btn {
+	color: #000000;
+	background: #F8F8F8;
+	border: 1px solid #B8C1CA;
+	padding: 5px 10px;
+	margin: 5px 0;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+
+.btn:hover {
+	color: #FFFFFF;
+	background: #B8C1CA;
+	cursor: pointer;
+}
+
+.req {
+	color: red;
+}
+
+.hidden {
+	display:none;
 }

@@ -69,7 +69,6 @@
                 <ul id="RightList">
                     <li><a href="Users.aspx" class="selected"><%=Resources.labels.users %></a></li>
                     <li><a href="Roles.aspx" ><%=Resources.labels.roles %></a></li>
-                    <li><a href="Profiles.aspx"><%=Resources.labels.profiles %></a></li>
                 </ul>
             </td>
         </tr>
