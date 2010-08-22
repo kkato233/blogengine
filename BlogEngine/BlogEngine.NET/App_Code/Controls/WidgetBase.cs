@@ -120,35 +120,68 @@ public abstract class WidgetBase : UserControl
 	/// object, which writes the content to be rendered on the client.
 	/// </summary>
 	/// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> object that receives the server control content.</param>
-	protected override void Render(HtmlTextWriter writer)
-	{
-		if (string.IsNullOrEmpty(Name))
-			throw new NullReferenceException("Name must be set on a widget");
-        
-		StringBuilder sb = new StringBuilder();
-        
-		sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
+  protected override void Render(HtmlTextWriter writer)
+  {
+      if (string.IsNullOrEmpty(Name))
+          throw new NullReferenceException("Name must be set on a widget");
 
-		if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
-		{
-            
-			sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
-			//if (IsEditable)
-				sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
-                sb.Append("<a class=\"move\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.initiateMoveWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.move + " widget\">" + Resources.labels.move + "</a>");
-		}
+      StringBuilder sb = new StringBuilder();
 
-		if (ShowTitle)
-			sb.Append("<h4>" + Title + "</h4>");
-		else
-			sb.Append("<br />");
+      sb.Append("<div class=\"widget " + this.Name.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + WidgetID + "\">");
 
-		sb.Append("<div class=\"content\">");
+      sb.Append("<div class=\"widgetContainer\">");
+          sb.Append("<div class=\"Header\">");
+              sb.Append("<div class=\"HeaderLeft\">");
+                  sb.Append("<div class=\"HeaderRight\">");
+                      sb.Append("<div class=\"HeaderContent\">");
 
-		writer.Write(sb.ToString());
-		base.Render(writer);
-		writer.Write("</div>");
-		writer.Write("</div>");
-	}
+                          if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+                          {
+
+                              sb.Append("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.delete + " widget\">X</a>");
+                              //if (IsEditable)
+                              sb.Append("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.editWidget('" + Name + "', '" + WidgetID + "');return false\" title=\"" + Resources.labels.edit + " widget\">" + Resources.labels.edit + "</a>");
+                              sb.Append("<a class=\"move\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.initiateMoveWidget('" + WidgetID + "');return false\" title=\"" + Resources.labels.move + " widget\">" + Resources.labels.move + "</a>");
+                          }
+
+                          if (ShowTitle)
+                              sb.Append("<h4>" + Title + "</h4>");
+                          else
+                              sb.Append("<br />");
+
+                      sb.Append("</div>");
+                  sb.Append("</div>");
+              sb.Append("</div>");
+          sb.Append("</div>");
+
+          sb.Append("<div class=\"Body\">");
+              sb.Append("<div class=\"BodyLeft\">");
+                  sb.Append("<div class=\"BodyRight\">");
+                      sb.Append("<div class=\"BodyContent\">");
+
+                          sb.Append("<div class=\"content\">");
+                              writer.Write(sb.ToString());
+
+                              base.Render(writer);
+
+                          writer.Write("</div>");
+
+                      writer.Write("</div>");
+                  writer.Write("</div>");
+              writer.Write("</div>");
+          writer.Write("</div>");
+
+          writer.Write("<div class=\"Footer\">");
+              writer.Write("<div class=\"FooterLeft\">");
+                  writer.Write("<div class=\"FooterRight\">");
+                      writer.Write("<div class=\"FooterContent\">");
+                          writer.Write("</div>");
+                      writer.Write("</div>");
+                  writer.Write("</div>");
+              writer.Write("</div>");
+          writer.Write("</div>");
+
+      writer.Write("</div>");
+  }
 
 }
