@@ -1,47 +1,4 @@
 ﻿/*----------------------------
-					Post Pager
-----------------------------*/
-#PostPager {
-    display: block; 
-    text-align: center; 
-}
-#PostPager li {
-    display:inline; 
-    border: 1px solid #ccc; 
-    margin: 1px; 
-    padding: 2px; 
-}
-#PostPager li a {
-    padding: 2px; 
-    text-decoration:none; 
-    font-weight: bold; 
-}
-#PostPager .PagerLinkCurrent {
-    background-color: #5C80B1; 
-    color: #fff; 
-    padding: 2px 5px; 
-    border: 1px solid #ccc; 
-}
-#PostPager .PagerLinkCurrent li {
-    padding: 2px 
-}
-#PostPager .PagerLinkDisabled {
-    color: #ccc; 
-    padding: 2px; 
-}
-#PostPager .PagerEllipses {
-    border:0; 
-    padding: 2px; 
-}
-#commentPreview {
-	display:none;
-	clear:both;
-	min-height: 150px;
-}
-.LoginRequired {
-    margin: 10px 0 10px 0;
-}
-/*----------------------------
 					Star rater
 ----------------------------*/
 .rating{
@@ -115,216 +72,6 @@
 	height: 10px;
 }
 
-/*----------------------------
-					Comments
-----------------------------*/
-
-.comment {
-	border: 1px solid silver;
-	background-color: white;
-	padding: 3px 10px;
-	margin-bottom: 10px;
-}
-
-.comment .date {
-	font-size: 90%;
-	color: #666666;
-	text-align: right;
-	margin: 0;
-	padding: 3px 0px;
-	border-bottom: 1px dashed silver;
-}
-
-.comment .author {
-	margin: 0;
-	padding: 3px 0px;
-	border-top: 1px dashed silver;
-	font-size:90%;
-}
-
-#addcomment, #comment
-{
-	font-size: 120%;
-	letter-spacing:1px;
-	font-weight: bold;
-}
-
-.self {
-	background: #E0EAEF;
-}
-
-.comment .gravatar {
-	float: left;
-	clear: both;
-	margin: 5px 10px 5px 0;
-}
-
-.comment .gravatar img {
-	height: 80px;
-	border: 1px solid silver;
-}
-
-.comment .content {
-	min-height: 85px;
-	margin: 5px;
-	margin-left: 90px;
-}
-
-.comment cite{
-	font-family: Monospace;
-	font-style: normal;
-}
-
-.comment img.flag {
-	position: relative;
-	top: 2px;
-}
-
-.commentForm {
-	padding: 5px;
-}
-
-.commentForm label {
-	float: left;
-	display: block;
-	width: 80px;
-	margin-top: 10px;
-}
-
-input, select {
-	padding: 5px; 
-	LINE-HEIGHT: 1.3em !important; 
-	FONT-FAMILY: "Lucida Grande", sans-serif; 
-	COLOR: #444; 
-	FONT-SIZE: 1em; 
-	margin: 2px 0;
-	
-	background-color: #fff;
-    -moz-border-radius: 5px;
-    -khtml-border-radius: 5px
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    border: 1px solid #CCC;
-    padding: 5px;
-    margin-top: 5px;
-}
-
-TEXTAREA {
-	border: #ccc 1px solid; 
-	BACKGROUND-COLOR: #fff;
-}
-INPUT[type='button'], INPUT[type='submit'] {
-    /*padding: 5px 15px;
-    color: #898989;
-    font-size: 1em;
-    font-weight: bold;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    background-color: #F8F4FF;*/
-    display: inline-block;
-	outline: none;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	font: 1em Arial, Helvetica, sans-serif;
-	padding: 5px 15px;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
-	-webkit-border-radius: .5em;
-	-moz-border-radius: .5em;
-	border-radius: .5em;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
-	
-	color: #444;
-	border: solid 1px #ccc;
-	background: #f78d1d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#F8F4FF), to(#ccc));
-	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
-
-}
-
-INPUT[type='button']:hover, INPUT[type='submit']:hover {
-	background-color: #ccc;
-	color: #fff;
-}
-
-INPUT.checkbox {
-	MARGIN: 2px 5px 0px 0px; 
-	VERTICAL-ALIGN: top;
-}
-
-
-.commentForm input {
-	width: 300px;
-}
-
-.commentForm INPUT[type='text'] {
-	border: #ccc 1px solid;  
-	BACKGROUND-COLOR: #fff; 
-}
-
-.commentForm SELECT 
-{
-    border: #ccc 1px solid;  
-    width: 311px;
-}
-
-.commentForm textarea {
-	width: 100%;
-	height: 150px;
-	border:1px solid silver;
-}
-
-#commentMenu{
-	padding: 0;
-	margin:0;
-	clear:both;
-}
-
-#commentMenu li{
-	float:left;
-	border:1px solid silver;
-	border-bottom: transparent;
-	margin:0;
-	list-style:none;
-	margin-right:5px;
-	padding: 3px 8px;	
-	cursor:pointer;
-	position:relative;
-	top: 2px;
-	background:#d8d8d8;
-}
-
-#commentMenu li.selected{
-	background:white;
-	border-bottom:1px solid white;
-}
-
-.success {
-	color: green;
-	font-weight: bold;
-}
-
-.commentForm .bbcode {
-    font-size:90%;
-    float:right;
-    position:relative;
-    top:20px;
-    padding: 3px;
-}
-
-.commentForm .bbcodeNoLivePreview {
-	top: 0;
-}
-
-.bbcode a {
-    margin: 1px;
-    padding: 1px 3px 1px 3px;
-    background: #fff;
-    border: 1px solid #ccc;
-}
 /*----------------------------
 			Syntax highlighter
 ----------------------------*/
@@ -406,31 +153,46 @@ div.post .text a[rel~="sweetheart"][rel~="met"] {
 	padding-right:11px;
 }
 
-/* nested comments */
-
-.comment-replies {
-	background: transparent url(../../pics/reply-arrow.gif) no-repeat 2px 2px;
-	padding: 0 0 0 15px;
-	margin: 5px 0 0 0;
+/*----------------------------
+					Post Pager
+----------------------------*/
+#PostPager {
+    display: block; 
+    text-align: center; 
 }
-
-#commentlist #comment-form {
-	border: solid 1px #ccc;
-	background: #fff;
-	padding: 10px;
-	margin: 10px 0;
+#PostPager li {
+    display:inline; 
+    border: 1px solid #ccc; 
+    margin: 1px; 
+    padding: 2px; 
 }
-
-/*  Comment notification unsubscription  */
-#commentNotificationUnsubscription {
-	margin-bottom: 10px;
-	color: Gray;
-	background: #ffc;
-	border: 1px solid silver;
-	padding: 10px;
+#PostPager li a {
+    padding: 2px; 
+    text-decoration:none; 
+    font-weight: bold; 
 }
-
-#commentNotificationUnsubscription h1 {
-	margin: 0 auto 12px auto;
-	padding: 0;
+#PostPager .PagerLinkCurrent {
+    background-color: #5C80B1; 
+    color: #fff; 
+    padding: 2px 5px; 
+    border: 1px solid #ccc; 
+}
+#PostPager .PagerLinkCurrent li {
+    padding: 2px 
+}
+#PostPager .PagerLinkDisabled {
+    color: #ccc; 
+    padding: 2px; 
+}
+#PostPager .PagerEllipses {
+    border:0; 
+    padding: 2px; 
+}
+#commentPreview {
+	display:none;
+	clear:both;
+	min-height: 150px;
+}
+.LoginRequired {
+    margin: 10px 0 10px 0;
 }
