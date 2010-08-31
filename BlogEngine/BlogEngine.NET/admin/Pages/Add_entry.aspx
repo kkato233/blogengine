@@ -140,7 +140,7 @@ function ToggleTagSelector()
         <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory" ErrorMessage="<%$ Resources:labels, categoryAlreadyExists %>" Display="dynamic" />
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCategory" ErrorMessage="<%$ Resources:labels, required %>" ValidationGroup="category" /><br />
         <div style="width:400px">
-        <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="flow" RepeatDirection="Horizontal" />
+        <asp:CheckBoxList runat="server" Width="400" ID="cblCategories" CssClass="cblCategories" RepeatLayout="table" RepeatColumns="4" RepeatDirection="Horizontal" />
         </div>
       </td>
     </tr>
