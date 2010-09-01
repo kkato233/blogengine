@@ -444,6 +444,11 @@ input[type="checkbox"] {
     background-image: url('../pics/warning.png');
 }
 
+#ctl00_cphAdmin_cblCategories td {
+    display: inline;
+    white-space: nowrap;
+}
+
 /*-------------------------------------*/
 .beTable {
 	border: 1px solid #ccc;
