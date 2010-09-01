@@ -25,6 +25,10 @@ public partial class admin_Account_Roles : System.Web.UI.Page
             r.RoleName = sRoles[i];
             roles.Add(r);
         }
+
+        roles.Sort(delegate(Role r1, Role r2)
+        { return string.Compare(r1.RoleName, r2.RoleName); });
+
         return roles;
     }
 

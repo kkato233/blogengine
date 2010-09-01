@@ -9,21 +9,24 @@ if (location.href.indexOf("Pages/Roles.aspx") != -1) {
     LoadRoles();
 }
 
+if (location.href.indexOf("Pages/Users.aspx") != -1) {
+    LoadUsers();
+}
+
 $(document).ready(function () {
     $('.editButton').live("click", function () { return EditRow(this); });
     $('.deleteButton').live("click", function () { return DeleteRow(this); });
-
-
 });
 
 //-------------		EDITING
 
 function AddRole() {
     var txtUser = $('#txtUserName').val();
-    var rowCnt = $('#Roles tr').length;
+    var rowCnt = $('#RoleService tr').length;
     var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
     var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
-    row += '<td class="editable">' + txtUser + '</td><td align="center"><a href="#" class="editButton">edit</a></td>';
+    row += '<td class="editable">' + txtUser + '</td>';
+    row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
     row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
 
     if (txtUser.length == 0) {
@@ -41,7 +44,7 @@ function AddRole() {
             success: function (result) {
                 var rt = result.d;
                 if (rt.Success) {
-                    $('#Roles').append(row);
+                    $('#RoleService').append(row);
                     ShowStatus("success", rt.Message);
                 }
                 else {
@@ -53,59 +56,133 @@ function AddRole() {
     return false;
 }
 
+function AddUser(obj) {
+    var txtUser = $('#txtUserName').val();
+    var txtPwd = $('#txtPassword').val();
+    var txtPwd2 = $('#txtPassword2').val();
+    var txtEmail = $('#txtEmail').val();
+
+    var rowCnt = $('#UserService tr').length;
+    var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
+    var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
+    row += '<td>' + txtUser + '</td><td class="editable">' + txtEmail + '</td>';
+    row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
+    row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
+
+    $('#txtUserNameReq').addClass('hidden');
+    $('#txtPasswordReq').addClass('hidden');
+    $('#txtPasswordMatch').addClass('hidden');
+    $('#txtEmailReq').addClass('hidden');
+    
+    if (txtUser.length == 0) {
+        $('#txtUserNameReq').removeClass('hidden');
+        $('#txtUserName').focus().select();
+        return false;
+    }
+    else if (txtPwd.length == 0 || txtPwd2.length == 0) {
+        $('#txtPasswordReq').removeClass('hidden');
+        $('#txtPassword').focus().select();
+        return false;
+    }
+    else if (txtPwd != txtPwd2) {
+        $('#txtPasswordMatch').removeClass('hidden');
+        $('#txtPassword').focus().select();
+        return false;
+    }
+    else if (txtEmail.length == 0) {
+        $('#txtEmailReq').removeClass('hidden');
+        $('#txtEmail').focus().select();
+        return false;
+    }
+    else {
+        var dto = { "user": txtUser, "pwd": txtPwd, "email": txtEmail };
+        $.ajax({
+            url: "../../api/UserService.asmx/Add",
+            data: JSON.stringify(dto),
+            success: function (result) {
+                var rt = result.d;
+                if (rt.Success) {
+                    $('#UserService').append(row);
+                    ShowStatus("success", rt.Message);
+                }
+                else {
+                    ShowStatus("warning", rt.Message);
+                }
+            }
+        });
+    }
+
+    return false;
+}
+
 function EditRow(obj) {
-    var id = $(obj).closest("tr").attr("id");
     var row = $(obj).closest("tr");
-    var dto = { roleName: id };
+    var revert = $(row).html();
+    var button = '<div><input type="button" value="Save" class="saveButton btn rounded" /> <br/> <a href="#" class="cancelButton">Cancel</a></div>';
 
     $('.editable', row).each(function () {
-        var txt = '<td><input type=\"text\" class=\"txt200\" value=\"' + $(this).html() + '"/>';
-        var button = '<div><input type="button" value="Save" class="saveButton btn rounded" /> or <a href="#" class="cancelButton">Cancel</a></div></td>';
-        var revert = $(this).html();
-        $(this).after(txt + button).remove();
-
-        $('.saveButton').click(function () { SaveChanges(this, revert); });
-        $('.cancelButton').click(function () { CancelChanges(this, revert); });
+        var txt = '<td><input id="' + $(this).html() + '" type=\"text\" class=\"txt200\" value=\"' + $(this).html() + '"/></td>';  
+        $(this).after(txt).remove();
     });
+
+    $(obj).replaceWith(button);
+
+    $('.cancelButton').unbind('click');
+    $('.saveButton').unbind('click');
+
+    $('.cancelButton').bind("click", function () { CancelChanges(this, revert); });
+    $('.saveButton').bind("click", function () { SaveChanges(this, revert); });
+
     return false;
 }
 
 function SaveChanges(obj, str) {
     var row = $(obj).closest("tr");
-    var oldRole = $(obj).closest("tr").attr("id");
-    var newRole = $(row).find(".txt200").val();
-    var dto = { "oldRole": oldRole, "newRole": newRole };
+    var id = $(obj).closest("tr").attr("id");
+    var srv = $(obj).closest("table").attr("id");
+    var editVals = new Array();
+    var bg = (($(obj).closest('tr').prevAll().length + 1) % 2 == 0) ? 'F8F8F8' : 'F0F0F0';
+    var cnt = 0;
 
+    $(':text', row).each(function () {
+        editVals[cnt] = $(this).val();
+        cnt = cnt + 1;
+    });
+
+    var dto = { "id": id, "bg" : bg, "vals": editVals };
     $.ajax({
-        url: "../../api/RoleService.asmx/Edit",
+        url: "../../api/" + srv + ".asmx/Edit",
         data: JSON.stringify(dto),
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
-                $(obj).parent().parent().after('<td class="editable">' + newRole + '</td>').remove();
-                var newRow = $("#" + oldRole);
-                newRow.attr("id", newRole);
+                $(obj).parent().parent().parent().after(rt.Data).remove();
                 ShowStatus("success", rt.Message);
             }
             else {
                 ShowStatus("warning", rt.Message);
-                $(obj).parent().parent().after('<td class="editable">' + str + '</td>').remove();
             }
         }
     });
 }
 
 function CancelChanges(obj, str) {
-    $(obj).parent().parent().after('<td class="editable">' + str + '</td>').remove();
+    var row = $(obj).closest("tr");
+    var id = $(obj).closest("tr").attr("id");
+    var bg = (($(obj).closest('tr').prevAll().length + 1) % 2 == 0) ? 'F8F8F8' : 'F0F0F0';
+
+    $(obj).parent().parent().parent().after('<tr id="' + id + '" bgcolor="#' + bg + '">' + str + '</tr>').remove();
+    return false;
 }
 
 function DeleteRow(obj) {
     var id = $(obj).closest("tr").attr("id");
+    var srv = $(obj).closest("table").attr("id");
     var that = $("[id$='" + id + "']");
-    var dto = { "roleName": id };
+    var dto = { "id": id };
 
     $.ajax({
-        url: "../../api/RoleService.asmx/Delete",
+        url: "../../api/" + srv + ".asmx/Delete",
         data: JSON.stringify(dto),
         success: function (result) {
             var rt = result.d;
@@ -130,6 +207,19 @@ function LoadRoles() {
         data: "{ }",
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+
+            //$('#RSSTable').tablesorter();
+        }
+    });
+}
+
+function LoadUsers() {
+    $.ajax({
+        url: "Users.aspx/GetUsers",
+        data: "{ }",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
 
             //$('#RSSTable').tablesorter();
