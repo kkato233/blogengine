@@ -5,6 +5,7 @@
       <th width="220">Name</th>
 	  <th width="auto">Email</th>
 	  <th width="80">&nbsp;</th>
+      <th width="80">&nbsp;</th>
 	  <th width="80">&nbsp;</th>
     </tr>
   </thead>
@@ -14,7 +15,8 @@
 	  <td><input type="checkbox" name="chk"{$T.post.UserName} class="chk"/></td>
       <td>{$T.post.UserName}</td>
       <td class="editable">{$T.post.Email}</td>
-	  <td align="center" style="vertical-align:middle"><a href="#" class="editButton">edit</a></td>
+	  <td align="center" style="vertical-align:middle"><a href="Profile.aspx?id={$T.post.UserName}">profile</a></td>
+      <td align="center" style="vertical-align:middle"><a href="#" class="editButton">edit</a></td>
 	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton">delete</a></td>
     </tr>
     {#/for}
