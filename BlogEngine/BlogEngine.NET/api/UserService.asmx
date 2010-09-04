@@ -67,6 +67,7 @@ public class UserService  : System.Web.Services.WebService {
     {
         string ptrn = "<tr id=\"{0}\" bgcolor=\"#{1}\"><td><input type=\"checkbox\" class\"chk\"/></td>";
         ptrn += "<td>{0}</td><td class='editable'>{2}</td>";
+        ptrn += "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"Profile.aspx?id={0}\">profile</a></td>";
         ptrn += "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"editButton\">edit</a></td>";
         ptrn += "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"deleteButton\">delete</a></td></tr>";
 

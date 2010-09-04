@@ -5,13 +5,7 @@ $.ajaxSetup({
     dataType: "json"
 });
 
-if (location.href.indexOf("Pages/Roles.aspx") != -1) {
-    LoadRoles();
-}
-
-if (location.href.indexOf("Pages/Users.aspx") != -1) {
-    LoadUsers();
-}
+LoadView();
 
 $(document).ready(function () {
     $('.editButton').live("click", function () { return EditRow(this); });
@@ -19,101 +13,6 @@ $(document).ready(function () {
 });
 
 //-------------		EDITING
-
-function AddRole() {
-    var txtUser = $('#txtUserName').val();
-    var rowCnt = $('#RoleService tr').length;
-    var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
-    var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
-    row += '<td class="editable">' + txtUser + '</td>';
-    row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
-    row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
-
-    if (txtUser.length == 0) {
-        $('#txtUserNameReq').removeClass('hidden');
-        $('#txtUserName').focus().select();
-        return false;
-    }
-    else {
-        $('#txtUserNameReq').addClass('hidden');
-        var dto = { "roleName": txtUser };
-
-        $.ajax({
-            url: "../../api/RoleService.asmx/Add",
-            data: JSON.stringify(dto),
-            success: function (result) {
-                var rt = result.d;
-                if (rt.Success) {
-                    $('#RoleService').append(row);
-                    ShowStatus("success", rt.Message);
-                }
-                else {
-                    ShowStatus("warning", rt.Message);
-                }
-            }
-        });
-    }
-    return false;
-}
-
-function AddUser(obj) {
-    var txtUser = $('#txtUserName').val();
-    var txtPwd = $('#txtPassword').val();
-    var txtPwd2 = $('#txtPassword2').val();
-    var txtEmail = $('#txtEmail').val();
-
-    var rowCnt = $('#UserService tr').length;
-    var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
-    var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
-    row += '<td>' + txtUser + '</td><td class="editable">' + txtEmail + '</td>';
-    row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
-    row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
-
-    $('#txtUserNameReq').addClass('hidden');
-    $('#txtPasswordReq').addClass('hidden');
-    $('#txtPasswordMatch').addClass('hidden');
-    $('#txtEmailReq').addClass('hidden');
-    
-    if (txtUser.length == 0) {
-        $('#txtUserNameReq').removeClass('hidden');
-        $('#txtUserName').focus().select();
-        return false;
-    }
-    else if (txtPwd.length == 0 || txtPwd2.length == 0) {
-        $('#txtPasswordReq').removeClass('hidden');
-        $('#txtPassword').focus().select();
-        return false;
-    }
-    else if (txtPwd != txtPwd2) {
-        $('#txtPasswordMatch').removeClass('hidden');
-        $('#txtPassword').focus().select();
-        return false;
-    }
-    else if (txtEmail.length == 0) {
-        $('#txtEmailReq').removeClass('hidden');
-        $('#txtEmail').focus().select();
-        return false;
-    }
-    else {
-        var dto = { "user": txtUser, "pwd": txtPwd, "email": txtEmail };
-        $.ajax({
-            url: "../../api/UserService.asmx/Add",
-            data: JSON.stringify(dto),
-            success: function (result) {
-                var rt = result.d;
-                if (rt.Success) {
-                    $('#UserService').append(row);
-                    ShowStatus("success", rt.Message);
-                }
-                else {
-                    ShowStatus("warning", rt.Message);
-                }
-            }
-        });
-    }
-
-    return false;
-}
 
 function EditRow(obj) {
     var row = $(obj).closest("tr");
@@ -201,6 +100,21 @@ function DeleteRow(obj) {
 }
 
 //--------------	LOAD DATA VIEWS
+
+function LoadView() {
+    if (location.href.indexOf("Users/Roles.aspx") != -1) {
+        LoadRoles();
+    }
+
+    if (location.href.indexOf("Users/Users.aspx") != -1) {
+        LoadUsers();
+    }
+
+    if (location.href.indexOf("Users/Profile.aspx") != -1) {
+        LoadProfile();
+    }
+}
+
 function LoadRoles() {
     $.ajax({
         url: "Roles.aspx/GetRoles",
@@ -227,6 +141,21 @@ function LoadUsers() {
     });
 }
 
+function LoadProfile() {
+    var dto = { "id": Querystring('id') };
+    $.ajax({
+        url: "Profile.aspx/GetProfile",
+        data: JSON.stringify(dto),
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/profile.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+
+            $('#Container2').setTemplateURL('../../Templates/profile2.htm', null, { filter_data: false });
+            $('#Container2').processTemplate(msg);
+        }
+    });
+}
+
 //-------------- 	HELPERS AND MISC
 
 function toggleAllChecks(o) {
@@ -236,8 +165,31 @@ function toggleAllChecks(o) {
     else {
         $('.chk').attr('checked', '');
     }
-
     return false;
+}
+
+function formatJSONDate(jsonDate) {
+    var date = new Date(parseInt(jsonDate.substr(6)));
+    var parsedDate = Date.parse(date);
+    var d = new Date(parsedDate);
+    var m = d.getMonth() + 1;
+    var s = m + "/" + d.getDate() + "/" + d.getFullYear();
+
+    if (s == "1/1/1001") {
+        return "";
+    } else {
+        return s;
+    }
+}
+
+function Querystring(key) {
+    key = key.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regex = new RegExp("[\\?&]" + key + "=([^&#]*)");
+    var qs = regex.exec(window.location.href);
+    if (qs == null)
+        return "";
+    else
+        return qs[1];
 }
 
 //--------------	STATUS AND MESSAGES
