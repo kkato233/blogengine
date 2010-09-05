@@ -1,186 +1,342 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BlogEngine.Core.Providers;
-
-#endregion
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
+    using System;
+    using System.Collections.Generic;
+
+    using BlogEngine.Core.Providers;
+
     /// <summary>
     /// Referrers are web sites that users followed to get to your blog.
     /// </summary>
     [Serializable]
     public class Referrer : BusinessBase<Referrer, Guid>, IComparable<Referrer>
     {
-
-                #region Constructor
+        #region Constants and Fields
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Referrer"/> class.
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
+
+        /// <summary>
+        /// The referrers.
+        /// </summary>
+        private static List<Referrer> referrers;
+
+        /// <summary>
+        /// The referrers by day.
+        /// </summary>
+        private static Dictionary<DateTime, List<Referrer>> referrersByDay;
+
+        /// <summary>
+        /// The count.
+        /// </summary>
+        private int count;
+
+        /// <summary>
+        /// The day of the DateTime.
+        /// </summary>
+        private DateTime day;
+
+        /// <summary>
+        /// The possible spam.
+        /// </summary>
+        private bool possibleSpam;
+
+        /// <summary>
+        /// The referrer.
+        /// </summary>
+        private Uri referrer;
+
+        /// <summary>
+        /// The url Uri.
+        /// </summary>
+        private Uri url;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "Referrer" /> class.
         /// </summary>
         public Referrer()
         {
-            Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Referrer"/> class.
         /// </summary>
-        /// <param name="Referrer">The ReferrerUrl for the Referrer.</param>
-        public Referrer(Uri Referrer)
+        /// <param name="referrer">
+        /// The ReferrerUrl for the Referrer.
+        /// </param>
+        public Referrer(Uri referrer)
             : this()
         {
-            this.ReferrerUrl = Referrer;
+            this.ReferrerUrl = referrer;
         }
 
         #endregion
 
         #region Properties
 
-        private Uri _Referrer;
         /// <summary>
-        /// Gets or sets the referrer address of the object.
-        /// </summary>
-        public Uri ReferrerUrl
-        {
-            get
-            {
-                return _Referrer;
-            }
-            set
-            {
-                if (_Referrer == null || !_Referrer.Equals(value))
-                {
-                    MarkChanged("Referrer");
-                }
-                _Referrer = value;
-            }
-        }
-
-        private Uri _Url;
-        /// <summary>
-        /// Gets or sets the referrer Url of the object.
-        /// </summary>
-        public Uri Url
-        {
-            get
-            {
-                return _Url;
-            }
-            set
-            {
-                if (_Url == null || !_Url.Equals(value))
-                {
-                    MarkChanged("Url");
-                }
-                _Url = value;
-            }
-        }
-
-        private int _Count;
-        /// <summary>
-        /// Gets or sets the Count of the object.
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return _Count;
-            }
-            set
-            {
-                if (_Count != value)
-                {
-                    MarkChanged("Count");
-                }
-                _Count = value;
-            }
-        }
-
-        private DateTime _Day;
-        /// <summary>
-        /// Gets or sets the Day of the object.
-        /// </summary>
-        public DateTime Day
-        {
-            get
-            {
-                return _Day;
-            }
-            set
-            {
-                if (!_Day.Equals(value))
-                {
-                    MarkChanged("Day");
-                }
-                _Day = value;
-            }
-        }
-
-        private bool _PossibleSpam;
-        /// <summary>
-        /// Gets or sets the PossibleSpam of the object.
-        /// </summary>
-        public bool PossibleSpam
-        {
-            get
-            {
-                return _PossibleSpam;
-            }
-            set
-            {
-                if (_PossibleSpam != value)
-                {
-                    MarkChanged("PossibleSpam");
-                }
-                _PossibleSpam = value;
-            }
-        }
-
-        private static object _SyncRoot = new object();
-        private static List<Referrer> _Referrers;
-        /// <summary>
-        /// Gets all of the Referrers from the data store.
+        ///     Gets all of the Referrers from the data store.
         /// </summary>
         public static List<Referrer> Referrers
         {
             get
             {
-                if (_Referrers == null || _Referrers.Count == 0)
+                if (referrers == null || referrers.Count == 0)
                 {
-                    lock (_SyncRoot)
+                    lock (SyncRoot)
                     {
-                        if (_Referrers == null || _Referrers.Count == 0)
+                        if (referrers == null || referrers.Count == 0)
                         {
-                            _Referrers = BlogService.FillReferrers();
-                            parseReferrers();
+                            referrers = BlogService.FillReferrers();
+                            ParseReferrers();
                         }
                     }
                 }
 
-                return _Referrers;
+                return referrers;
             }
         }
 
-        private static void parseReferrers()
+        /// <summary>
+        ///     Gets an automatically maintained Dictionary of Referrers separated by Day.
+        /// </summary>
+        public static Dictionary<DateTime, List<Referrer>> ReferrersByDay
         {
-            _referrersByDay = new Dictionary<DateTime, List<Referrer>>();
-            foreach (Referrer refer in _Referrers)
+            get
             {
-                if (_referrersByDay.ContainsKey(refer.Day))
+                if (Referrers == null)
                 {
-                    _referrersByDay[refer.Day].Add(refer);
+                    ParseReferrers();
                 }
-                else
-                {
-                    _referrersByDay.Add(refer.Day, new List<Referrer>() { refer });
-                }
+
+                return referrersByDay;
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the Count of the object.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return this.count;
+            }
+
+            set
+            {
+                if (this.count != value)
+                {
+                    this.MarkChanged("Count");
+                }
+
+                this.count = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Day of the object.
+        /// </summary>
+        public DateTime Day
+        {
+            get
+            {
+                return this.day;
+            }
+
+            set
+            {
+                if (!this.day.Equals(value))
+                {
+                    this.MarkChanged("Day");
+                }
+
+                this.day = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether the referrer is possibly spam.
+        /// </summary>
+        public bool PossibleSpam
+        {
+            get
+            {
+                return this.possibleSpam;
+            }
+
+            set
+            {
+                if (this.possibleSpam != value)
+                {
+                    this.MarkChanged("PossibleSpam");
+                }
+
+                this.possibleSpam = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the referrer address of the object.
+        /// </summary>
+        public Uri ReferrerUrl
+        {
+            get
+            {
+                return this.referrer;
+            }
+
+            set
+            {
+                if (this.referrer == null || !this.referrer.Equals(value))
+                {
+                    this.MarkChanged("Referrer");
+                }
+
+                this.referrer = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the referrer Url of the object.
+        /// </summary>
+        public Uri Url
+        {
+            get
+            {
+                return this.url;
+            }
+
+            set
+            {
+                if (this.url == null || !this.url.Equals(value))
+                {
+                    this.MarkChanged("Url");
+                }
+
+                this.url = value;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.ReferrerUrl.ToString();
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComparable<Referrer>
+
+        /// <summary>
+        /// Compares the current object with another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. 
+        ///     The return value has the following meanings: Value Meaning Less than zero This object is 
+        ///     less than the other parameter.Zero This object is equal to other. Greater than zero This object is greater than other.
+        /// </returns>
+        public int CompareTo(Referrer other)
+        {
+            var compareThis = string.Format("{0} {1}", this.ReferrerUrl, this.Url);
+            var compareOther = string.Format("{0} {1}", other.ReferrerUrl, other.Url);
+            return compareThis.CompareTo(compareOther);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Deletes the object from the data store.
+        /// </summary>
+        protected override void DataDelete()
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Inserts a new object to the data store.
+        /// </summary>
+        protected override void DataInsert()
+        {
+            OnSaving(this, SaveAction.Insert);
+            if (this.IsNew)
+            {
+                BlogService.InsertReferrer(this);
+                AddReferrer(this);
+            }
+
+            OnSaved(this, SaveAction.Insert);
+        }
+
+        /// <summary>
+        /// Retrieves the object from the data store and populates it.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier of the object.
+        /// </param>
+        /// <returns>
+        /// The object that was selected from the data store.
+        /// </returns>
+        protected override Referrer DataSelect(Guid id)
+        {
+            return BlogService.SelectReferrer(id);
+        }
+
+        /// <summary>
+        /// Updates the object in its data store.
+        /// </summary>
+        protected override void DataUpdate()
+        {
+            OnSaving(this, SaveAction.Update);
+            if (this.IsChanged)
+            {
+                BlogService.UpdateReferrer(this);
+            }
+
+            OnSaved(this, SaveAction.Update);
+        }
+
+        /// <summary>
+        /// Reinforces the business rules by adding additional rules to the
+        ///     broken rules collection.
+        /// </summary>
+        protected override void ValidationRules()
+        {
+            this.AddRule("Referrer", "Referrer must be set", this.ReferrerUrl == null);
+            this.AddRule("Day", "Day must be set", this.Day == DateTime.MinValue);
+        }
+
+        /// <summary>
+        /// The add referrer.
+        /// </summary>
+        /// <param name="referrer">
+        /// The referrer.
+        /// </param>
         private static void AddReferrer(Referrer referrer)
         {
             List<Referrer> day;
@@ -200,111 +356,23 @@ namespace BlogEngine.Core
             }
         }
 
-        private static Dictionary<DateTime, List<Referrer>> _referrersByDay;
         /// <summary>
-        /// An automatically maintained Dictionary of Referrers separated by Day.
+        /// The parse referrers.
         /// </summary>
-        public static Dictionary<DateTime, List<Referrer>> ReferrersByDay
+        private static void ParseReferrers()
         {
-            get
+            referrersByDay = new Dictionary<DateTime, List<Referrer>>();
+            foreach (var refer in referrers)
             {
-                if ( Referrers == null)
+                if (referrersByDay.ContainsKey(refer.Day))
                 {
-                    parseReferrers();
+                    referrersByDay[refer.Day].Add(refer);
                 }
-                return _referrersByDay;
+                else
+                {
+                    referrersByDay.Add(refer.Day, new List<Referrer> { refer });
+                }
             }
-        }
-
-        #endregion
-
-        #region Base overrides
-
-        /// <summary>
-        /// Reinforces the business rules by adding additional rules to the
-        /// broken rules collection.
-        /// </summary>
-        protected override void ValidationRules()
-        {
-            AddRule("Referrer", "Referrer must be set", ReferrerUrl == null);
-            AddRule("Day", "Day must be set", Day == DateTime.MinValue);
-        }
-
-        /// <summary>
-        /// Retrieves the object from the data store and populates it.
-        /// </summary>
-        /// <param name="id">The unique identifier of the object.</param>
-        /// <returns>
-        /// The object that was selected from the data store.
-        /// </returns>
-        protected override Referrer DataSelect(Guid id)
-        {
-            return BlogService.SelectReferrer(id);
-        }
-
-        /// <summary>
-        /// Updates the object in its data store.
-        /// </summary>
-        protected override void DataUpdate()
-        {
-            OnSaving(this, SaveAction.Update);
-            if (IsChanged)
-                BlogService.UpdateReferrer(this);
-            OnSaved(this, SaveAction.Update);
-        }
-
-        /// <summary>
-        /// Inserts a new object to the data store.
-        /// </summary>
-        protected override void DataInsert()
-        {
-            OnSaving(this, SaveAction.Insert);
-            if (IsNew)
-            {
-                BlogService.InsertReferrer(this);
-                AddReferrer(this);
-            }
-            OnSaved(this, SaveAction.Insert);
-
-        }
-
-        /// <summary>
-        /// Deletes the object from the data store.
-        /// </summary>
-        protected override void DataDelete()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </returns>
-        public override string ToString()
-        {
-            return this.ReferrerUrl.ToString();
-        }
-
-        #endregion
-
-        #region IComparable<Referrer> Members
-
-        /// <summary>
-        /// Compares the current object with another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// A 32-bit signed integer that indicates the relative order of the objects being compared. 
-        /// The return value has the following meanings: Value Meaning Less than zero This object is 
-        /// less than the other parameter.Zero This object is equal to other. Greater than zero This object is greater than other.
-        /// </returns>
-        public int CompareTo(Referrer other)
-        {
-            string compareThis = string.Format("{0} {1}", this.ReferrerUrl.ToString(), this.Url.ToString());
-            string compareOther = string.Format("{0} {1}", other.ReferrerUrl.ToString(), other.Url.ToString());
-            return compareThis.CompareTo(compareOther);
         }
 
         #endregion
