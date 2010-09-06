@@ -64,7 +64,7 @@ namespace Controls
 					cell.Controls.Add(new LiteralControl(day.DayNumberText));
 					foreach (Post post in list)
 					{
-						if (post.IsVisible)
+						if (post.Visible)
 						{
 							HtmlAnchor a = new HtmlAnchor();
 							a.InnerHtml = "<br /><br />" + post.Title;
@@ -75,7 +75,7 @@ namespace Controls
 				}
 				else
 				{
-					if (list[0].IsVisible)
+					if (list[0].Visible)
 					{
 						HtmlAnchor a = new HtmlAnchor();
 						a.InnerHtml = day.DayNumberText;

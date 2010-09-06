@@ -8,6 +8,8 @@ using BlogEngine.Core.Web.Controls;
 
 namespace SimpleCaptcha
 {
+    using BlogEngine.Core.Web.Extensions;
+
     /// <summary>
     /// Builds the SimpleCaptcha control
     /// </summary>
@@ -30,7 +32,7 @@ namespace SimpleCaptcha
         private void InitSettings()
         {
             ExtensionSettings settings = new ExtensionSettings(this);
-            settings.IsScalar = true;
+            settings.Scalar = true;
 
             settings.AddParameter("CaptchaLabel", "Your captcha's label", 30, true, true, ParameterType.String);
             settings.AddValue("CaptchaLabel", "5+5 = ");

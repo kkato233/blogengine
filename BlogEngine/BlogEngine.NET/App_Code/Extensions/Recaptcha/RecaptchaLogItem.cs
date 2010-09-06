@@ -27,6 +27,8 @@ using System.Linq;
 
 namespace Recaptcha
 {
+    using BlogEngine.Core.Web.Extensions;
+
     /// <summary>
     /// Summary description for RecaptchaLogItem
     /// </summary>

@@ -51,7 +51,7 @@ namespace Controls
 
 				foreach (Post post in Post.Posts)
 				{
-					if (post.IsVisible)
+					if (post.Visible)
 					{
 						foreach (Comment comment in post.Comments)
 						{

@@ -85,7 +85,7 @@ public class BlogImporter : System.Web.Services.WebService {
         post.DateModified = import.PostDate; 
         post.Content = import.Content;
         post.Description = import.Description;
-        post.IsPublished = import.Publish;
+        post.Published = import.Publish;
         //TODO: Save Previous Url?
 
         AddCategories(import.Categories, post);

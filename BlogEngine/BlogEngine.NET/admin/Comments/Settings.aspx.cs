@@ -2,6 +2,7 @@
 using System.Data;
 using System.Web.UI.WebControls;
 using BlogEngine.Core;
+using BlogEngine.Core.Web.Extensions;
 
 public partial class admin_Comments_Settings : System.Web.UI.Page
 {

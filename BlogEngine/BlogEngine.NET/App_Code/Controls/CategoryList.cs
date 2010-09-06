@@ -125,7 +125,7 @@ namespace Controls
 
 				int posts = Post.GetPostsByCategory(dic[key]).FindAll(delegate(Post p)
 				{
-					return p.IsVisible;
+					return p.Visible;
 				}).Count;
 
 				string postCount = " (" + posts + ")";
@@ -160,7 +160,7 @@ namespace Controls
 		{
 			foreach (Post post in Post.Posts)
 			{
-				if (post.IsVisible)
+				if (post.Visible)
 				{
 					foreach (Category category in post.Categories)
 					{

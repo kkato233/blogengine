@@ -71,7 +71,7 @@ namespace Controls
 
       foreach (BlogEngine.Core.Page page in BlogEngine.Core.Page.Pages)
       {
-        if (page.ShowInList && page.IsVisibleToPublic)
+        if (page.ShowInList && page.VisibleToPublic)
         {
           HtmlGenericControl li = new HtmlGenericControl("li");
 

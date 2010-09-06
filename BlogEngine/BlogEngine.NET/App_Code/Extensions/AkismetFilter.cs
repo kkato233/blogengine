@@ -4,6 +4,8 @@ using System.Net;
 using System.Web;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
+using BlogEngine.Core.Web.Extensions;
+
 using Joel.Net;
 
 /// <summary>
@@ -103,7 +105,7 @@ public class AkismetFilter : ICustomFilter
     private void InitSettings()
     {
         ExtensionSettings settings = new ExtensionSettings(this);
-        settings.IsScalar = true;
+        settings.Scalar = true;
 
         settings.AddParameter("SiteURL", "Site URL");
         settings.AddParameter("ApiKey", "API Key");

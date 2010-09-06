@@ -5,6 +5,8 @@ using BlogEngine.Core.Web.Controls;
 
 namespace Recaptcha
 {
+    using BlogEngine.Core.Web.Extensions;
+
     /// <summary>
     /// Builds the recaptcha control ( http://www.Recaptcha.net )
     /// </summary>
@@ -70,7 +72,7 @@ namespace Recaptcha
         public void InitSettings()
         {
             ExtensionSettings settings = new ExtensionSettings(this);
-            settings.IsScalar = true;
+            settings.Scalar = true;
 
             settings.AddParameter("PublicKey", "Public Key", 50, true, true, ParameterType.String);
             settings.AddValue("PublicKey", "YOURPUBLICKEY");

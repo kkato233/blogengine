@@ -31,6 +31,8 @@ using Recaptcha;
 
 namespace Controls
 {
+    using BlogEngine.Core.Web.Extensions;
+
     public class RecaptchaControl : WebControl, IValidator
     {
 

@@ -40,7 +40,7 @@ public class SendPings
 
         IPublishable item = (IPublishable)sender;
 
-		if (item.IsVisibleToPublic)
+		if (item.VisibleToPublic)
 		{
 			Uri url = item.AbsoluteLink;
 			ThreadPool.QueueUserWorkItem(delegate { Ping(item, url); });
