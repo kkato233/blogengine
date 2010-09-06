@@ -1,332 +1,623 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using BlogEngine.Core.Providers;
-
-#endregion
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
-	public class AuthorProfile : BusinessBase<AuthorProfile, string>
-	{
+    using System;
+    using System.Collections.Generic;
 
-		#region Constructors
+    using BlogEngine.Core.Providers;
 
-		public AuthorProfile()
-		{
+    /// <summary>
+    /// The author profile.
+    /// </summary>
+    public class AuthorProfile : BusinessBase<AuthorProfile, string>
+    {
+        #region Constants and Fields
 
-		}
+        /// <summary>
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
 
-		public AuthorProfile(string username)
-		{
-			base.Id = username;
-		}
+        /// <summary>
+        /// The profiles.
+        /// </summary>
+        private static List<AuthorProfile> profiles;
 
-		#endregion
+        /// <summary>
+        /// The about me.
+        /// </summary>
+        private string aboutMe;
 
-		#region Properties
+        /// <summary>
+        /// The birthday.
+        /// </summary>
+        private DateTime birthday;
 
-		private static object _SyncRoot = new object();
-		private static List<AuthorProfile> _Profiles;
-		/// <summary>
-		/// Gets an unsorted list of all pages.
-		/// </summary>
-		public static List<AuthorProfile> Profiles
-		{
-			get
-			{
-				if (_Profiles == null)
-				{
-					lock (_SyncRoot)
-					{
-						if (_Profiles == null)
-						{
-							_Profiles = BlogService.FillProfiles();
-						}
-					}
-				}
+        /// <summary>
+        /// The city town.
+        /// </summary>
+        private string cityTown;
 
-				return _Profiles;
-			}
-		}
+        /// <summary>
+        /// The company.
+        /// </summary>
+        private string company;
 
-		public string UserName
-		{
-			get { return Id; }
-		}
+        /// <summary>
+        /// The country.
+        /// </summary>
+        private string country;
 
+        /// <summary>
+        /// The display name.
+        /// </summary>
+        private string displayName;
 
-		public string FullName
-		{
-			get { return (FirstName + " " + MiddleName + " " + LastName).Replace("  ", " "); }
-		}
+        /// <summary>
+        /// The email address.
+        /// </summary>
+        private string emailAddress;
 
-		private bool _IsPrivate;
+        /// <summary>
+        /// The first name.
+        /// </summary>
+        private string firstName;
 
-		public bool IsPrivate
-		{
-			get { return _IsPrivate; }
-			set
-			{
-				if (value != _IsPrivate) MarkChanged("IsPrivate");
-				_IsPrivate = value;
-			}
-		}
+        /// <summary>
+        /// The is private.
+        /// </summary>
+        private bool isprivate;
 
-		private string _FirstName;
+        /// <summary>
+        /// The last name.
+        /// </summary>
+        private string lastName;
 
-		public string FirstName
-		{
-			get { return _FirstName; }
-			set
-			{
-				if (value != _FirstName) MarkChanged("FirstName");
-				_FirstName = value;
-			}
-		}
+        /// <summary>
+        /// The middle name.
+        /// </summary>
+        private string middleName;
 
-		private string _MiddleName;
+        /// <summary>
+        /// The phone fax.
+        /// </summary>
+        private string phoneFax;
 
-		public string MiddleName
-		{
-			get { return _MiddleName; }
-			set
-			{
-				if (value != _MiddleName) MarkChanged("MiddleName");
-				_MiddleName = value;
-			}
-		}
+        /// <summary>
+        /// The phone main.
+        /// </summary>
+        private string phoneMain;
 
-		private string _LastName;
+        /// <summary>
+        /// The phone mobile.
+        /// </summary>
+        private string phoneMobile;
 
-		public string LastName
-		{
-			get { return _LastName; }
-			set
-			{
-				if (value != _LastName) MarkChanged("LastName");
-				_LastName = value;
-			}
-		}
+        /// <summary>
+        /// The photo url.
+        /// </summary>
+        private string photoUrl;
 
-		private string _DisplayName;
+        /// <summary>
+        /// The region state.
+        /// </summary>
+        private string regionState;
 
-		public string DisplayName
-		{
-			get { return _DisplayName; }
-			set
-			{
-				if (value != _DisplayName) MarkChanged("DisplayName");
-				_DisplayName = value;
-			}
-		}
+        #endregion
 
-		private string _PhotoUrl;
-		public string PhotoURL
-		{
-			get { return _PhotoUrl; }
-			set
-			{
-				if (value != _PhotoUrl) MarkChanged("PhotoURL");
-				_PhotoUrl = value;
-			}
-		}
+        #region Constructors and Destructors
 
-		private DateTime _Birthday;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorProfile"/> class.
+        /// </summary>
+        public AuthorProfile()
+        {
+        }
 
-		public DateTime Birthday
-		{
-			get { return _Birthday; }
-			set
-			{
-				if (value != _Birthday) MarkChanged("Birthday");
-				_Birthday = value;
-			}
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorProfile"/> class.
+        /// </summary>
+        /// <param name="username">
+        /// The username.
+        /// </param>
+        public AuthorProfile(string username)
+        {
+            this.Id = username;
+        }
 
-		//private string _Address1;
-		//public string Address1
-		//{
-		//  get { return _Address1; }
-		//  set { _Address1 = value; }
-		//}
+        #endregion
 
-		//private string _Address2;
+        #region Properties
 
-		//public string Address2
-		//{
-		//  get { return _Address2; }
-		//  set { _Address2 = value; }
-		//}
+        /// <summary>
+        ///     Gets an unsorted list of all pages.
+        /// </summary>
+        public static List<AuthorProfile> Profiles
+        {
+            get
+            {
+                if (profiles == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (profiles == null)
+                        {
+                            profiles = BlogService.FillProfiles();
+                        }
+                    }
+                }
 
-		private string _CityTown;
+                return profiles;
+            }
+        }
 
-		public string CityTown
-		{
-			get { return _CityTown; }
-			set
-			{
-				if (value != _CityTown) MarkChanged("CityTown");
-				_CityTown = value;
-			}
-		}
+        /// <summary>
+        /// Gets or sets AboutMe.
+        /// </summary>
+        public string AboutMe
+        {
+            get
+            {
+                return this.aboutMe;
+            }
 
-		private string _RegionState;
+            set
+            {
+                if (value != this.aboutMe)
+                {
+                    this.MarkChanged("AboutMe");
+                }
 
-		public string RegionState
-		{
-			get { return _RegionState; }
-			set
-			{
-				if (value != _RegionState) MarkChanged("RegionState");
-				_RegionState = value;
-			}
-		}
+                this.aboutMe = value;
+            }
+        }
 
-		private string _Country;
+        /// <summary>
+        /// Gets or sets Birthday.
+        /// </summary>
+        public DateTime Birthday
+        {
+            get
+            {
+                return this.birthday;
+            }
 
-		public string Country
-		{
-			get { return _Country; }
-			set
-			{
-				if (value != _Country) MarkChanged("Country");
-				_Country = value;
-			}
-		}
+            set
+            {
+                if (value != this.birthday)
+                {
+                    this.MarkChanged("Birthday");
+                }
 
-		private string _PhoneMain;
+                this.birthday = value;
+            }
+        }
 
-		public string PhoneMain
-		{
-			get { return _PhoneMain; }
-			set
-			{
-				if (value != _PhoneMain) MarkChanged("PhoneMain");
-				_PhoneMain = value;
-			}
-		}
+        // private string _Address1;
+        // public string Address1
+        // {
+        // get { return _Address1; }
+        // set { _Address1 = value; }
+        // }
 
-		private string _PhoneFax;
+        // private string _Address2;
 
-		public string PhoneFax
-		{
-			get { return _PhoneFax; }
-			set
-			{
-				if (value != _PhoneFax) MarkChanged("PhoneFax");
-				_PhoneFax = value;
-			}
-		}
+        // public string Address2
+        // {
+        // get { return _Address2; }
+        // set { _Address2 = value; }
+        // }
 
-		private string _PhoneMobile;
+        /// <summary>
+        /// Gets or sets CityTown.
+        /// </summary>
+        public string CityTown
+        {
+            get
+            {
+                return this.cityTown;
+            }
 
-		public string PhoneMobile
-		{
-			get { return _PhoneMobile; }
-			set
-			{
-				if (value != _PhoneMobile) MarkChanged("PhoneMobile");
-				_PhoneMobile = value;
-			}
-		}
+            set
+            {
+                if (value != this.cityTown)
+                {
+                    this.MarkChanged("CityTown");
+                }
 
-		private string _EmailAddress;
+                this.cityTown = value;
+            }
+        }
 
-		public string EmailAddress
-		{
-			get { return _EmailAddress; }
-			set
-			{
-				if (value != _EmailAddress) MarkChanged("EmailAddress");
-				_EmailAddress = value;
-			}
-		}
+        /// <summary>
+        /// Gets or sets Company.
+        /// </summary>
+        public string Company
+        {
+            get
+            {
+                return this.company;
+            }
 
-		private string _Company;
+            set
+            {
+                if (value != this.company)
+                {
+                    this.MarkChanged("Company");
+                }
 
-		public string Company
-		{
-			get { return _Company; }
-			set
-			{
-				if (value != _Company) MarkChanged("Company");
-				_Company = value;
-			}
-		}
+                this.company = value;
+            }
+        }
 
+        /// <summary>
+        /// Gets or sets Country.
+        /// </summary>
+        public string Country
+        {
+            get
+            {
+                return this.country;
+            }
 
-		private string _AboutMe;
+            set
+            {
+                if (value != this.country)
+                {
+                    this.MarkChanged("Country");
+                }
 
-		public string AboutMe
-		{
-			get { return _AboutMe; }
-			set
-			{
-				if (value != _AboutMe) MarkChanged("AboutMe");
-				_AboutMe = value;
-			}
-		}
+                this.country = value;
+            }
+        }
 
-		public string RelativeLink
-		{
-			get { return Utils.RelativeWebRoot + "author/" + Id + ".aspx"; ; }
-		}
+        /// <summary>
+        /// Gets or sets DisplayName.
+        /// </summary>
+        public string DisplayName
+        {
+            get
+            {
+                return this.displayName;
+            }
 
+            set
+            {
+                if (value != this.displayName)
+                {
+                    this.MarkChanged("DisplayName");
+                }
 
-		#endregion
+                this.displayName = value;
+            }
+        }
 
-		#region Methods
+        /// <summary>
+        /// Gets or sets EmailAddress.
+        /// </summary>
+        public string EmailAddress
+        {
+            get
+            {
+                return this.emailAddress;
+            }
 
-		public static AuthorProfile GetProfile(string username)
-		{
-			return Profiles.Find(delegate(AuthorProfile p)
-			{
-				return p.UserName.Equals(username, StringComparison.OrdinalIgnoreCase);
-			});
-		}
+            set
+            {
+                if (value != this.emailAddress)
+                {
+                    this.MarkChanged("EmailAddress");
+                }
 
-		public override string ToString()
-		{
-			return FullName;
-		}
+                this.emailAddress = value;
+            }
+        }
 
-		#endregion
+        /// <summary>
+        /// Gets or sets FirstName.
+        /// </summary>
+        public string FirstName
+        {
+            get
+            {
+                return this.firstName;
+            }
 
-		#region BusinessBaes overrides
+            set
+            {
+                if (value != this.firstName)
+                {
+                    this.MarkChanged("FirstName");
+                }
 
-		protected override void ValidationRules()
-		{
-			base.AddRule("Id", "Id must be set to the username of the user who the profile belongs to", string.IsNullOrEmpty(Id));
-		}
+                this.firstName = value;
+            }
+        }
 
-		protected override AuthorProfile DataSelect(string id)
-		{
-			return BlogService.SelectProfile(id);
-		}
+        /// <summary>
+        /// Gets FullName.
+        /// </summary>
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1} {2}", this.FirstName, this.MiddleName, this.LastName).Replace("  ", " ");
+            }
+        }
 
-		protected override void DataUpdate()
-		{
-			BlogService.UpdateProfile(this);
-		}
+        /// <summary>
+        /// Gets or sets a value indicating whether Private.
+        /// </summary>
+        public bool Private
+        {
+            get
+            {
+                return this.isprivate;
+            }
 
-		protected override void DataInsert()
-		{
-			BlogService.InsertProfile(this);
+            set
+            {
+                if (value != this.isprivate)
+                {
+                    this.MarkChanged("Private");
+                }
 
-			if (IsNew)
-				Profiles.Add(this);
-		}
+                this.isprivate = value;
+            }
+        }
 
-		protected override void DataDelete()
-		{
-			BlogService.DeleteProfile(this);
-			if (Profiles.Contains(this))
-				Profiles.Remove(this);
-		}
+        /// <summary>
+        /// Gets or sets LastName.
+        /// </summary>
+        public string LastName
+        {
+            get
+            {
+                return this.lastName;
+            }
 
-		#endregion
+            set
+            {
+                if (value != this.lastName)
+                {
+                    this.MarkChanged("LastName");
+                }
 
-	}
+                this.lastName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets MiddleName.
+        /// </summary>
+        public string MiddleName
+        {
+            get
+            {
+                return this.middleName;
+            }
+
+            set
+            {
+                if (value != this.middleName)
+                {
+                    this.MarkChanged("MiddleName");
+                }
+
+                this.middleName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets PhoneFax.
+        /// </summary>
+        public string PhoneFax
+        {
+            get
+            {
+                return this.phoneFax;
+            }
+
+            set
+            {
+                if (value != this.phoneFax)
+                {
+                    this.MarkChanged("PhoneFax");
+                }
+
+                this.phoneFax = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets PhoneMain.
+        /// </summary>
+        public string PhoneMain
+        {
+            get
+            {
+                return this.phoneMain;
+            }
+
+            set
+            {
+                if (value != this.phoneMain)
+                {
+                    this.MarkChanged("PhoneMain");
+                }
+
+                this.phoneMain = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets PhoneMobile.
+        /// </summary>
+        public string PhoneMobile
+        {
+            get
+            {
+                return this.phoneMobile;
+            }
+
+            set
+            {
+                if (value != this.phoneMobile)
+                {
+                    this.MarkChanged("PhoneMobile");
+                }
+
+                this.phoneMobile = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets PhotoURL.
+        /// </summary>
+        public string PhotoUrl
+        {
+            get
+            {
+                return this.photoUrl;
+            }
+
+            set
+            {
+                if (value != this.photoUrl)
+                {
+                    this.MarkChanged("PhotoURL");
+                }
+
+                this.photoUrl = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets RegionState.
+        /// </summary>
+        public string RegionState
+        {
+            get
+            {
+                return this.regionState;
+            }
+
+            set
+            {
+                if (value != this.regionState)
+                {
+                    this.MarkChanged("RegionState");
+                }
+
+                this.regionState = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets RelativeLink.
+        /// </summary>
+        public string RelativeLink
+        {
+            get
+            {
+                return string.Format("{0}author/{1}.aspx", Utils.RelativeWebRoot, this.Id);
+            }
+        }
+
+        /// <summary>
+        /// Gets UserName.
+        /// </summary>
+        public string UserName
+        {
+            get
+            {
+                return this.Id;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the profile.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns>The AuthorProfile.</returns>
+        public static AuthorProfile GetProfile(string username)
+        {
+            return
+                Profiles.Find(p => p.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.FullName;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Datas the delete.
+        /// </summary>
+        protected override void DataDelete()
+        {
+            BlogService.DeleteProfile(this);
+            if (Profiles.Contains(this))
+            {
+                Profiles.Remove(this);
+            }
+        }
+
+        /// <summary>
+        /// Datas the insert.
+        /// </summary>
+        protected override void DataInsert()
+        {
+            BlogService.InsertProfile(this);
+
+            if (this.New)
+            {
+                Profiles.Add(this);
+            }
+        }
+
+        /// <summary>
+        /// Datas the select.
+        /// </summary>
+        /// <param name="id">The AuthorProfile id.</param>
+        /// <returns>The AuthorProfile.</returns>
+        protected override AuthorProfile DataSelect(string id)
+        {
+            return BlogService.SelectProfile(id);
+        }
+
+        /// <summary>
+        /// Updates the data.
+        /// </summary>
+        protected override void DataUpdate()
+        {
+            BlogService.UpdateProfile(this);
+        }
+
+        /// <summary>
+        /// Validates based on rules.
+        /// </summary>
+        protected override void ValidationRules()
+        {
+            this.AddRule(
+                "Id", 
+                "Id must be set to the username of the user who the profile belongs to", 
+                string.IsNullOrEmpty(this.Id));
+        }
+
+        #endregion
+    }
 }

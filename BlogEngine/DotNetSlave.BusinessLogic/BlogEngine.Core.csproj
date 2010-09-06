@@ -138,6 +138,7 @@
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
     <Compile Include="Web\HttpModules\WwwSubDomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
+    <Compile Include="XmlSafeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogRollItem.cs" />

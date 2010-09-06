@@ -284,7 +284,7 @@
         protected override void DataInsert()
         {
             OnSaving(this, SaveAction.Insert);
-            if (this.IsNew)
+            if (this.New)
             {
                 BlogService.InsertReferrer(this);
                 AddReferrer(this);
