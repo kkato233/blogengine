@@ -1,47 +1,45 @@
-﻿#region Using
-
-using System;
-using System.Xml;
-using System.IO;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using BlogEngine.Core;
-
-#endregion
-
-namespace BlogEngine.Core.Providers
+﻿namespace BlogEngine.Core.Providers
 {
-	/// <summary>
-	/// A storage provider for BlogEngine that uses XML files.
-	/// <remarks>
-	/// To build another provider, you can just copy and modify
-	/// this one. Then add it to the web.config's BlogEngine section.
-	/// </remarks>
-	/// </summary>
-	public partial class XmlBlogProvider : BlogProvider
-	{
+    using System;
+    using System.Collections.Specialized;
+    using System.IO;
 
-		/// <summary>
-		/// Loads the stop words used in the search feature.
-		/// </summary>
-		/// <returns></returns>
-		public override StringCollection LoadStopWords()
-		{
-			string fileName = _Folder + "stopwords.txt";
-			if (!File.Exists(fileName))
-				return new StringCollection();
+    /// <summary>
+    /// A storage provider for BlogEngine that uses XML files.
+    ///     <remarks>
+    /// To build another provider, you can just copy and modify
+    ///         this one. Then add it to the web.config's BlogEngine section.
+    ///     </remarks>
+    /// </summary>
+    public partial class XmlBlogProvider : BlogProvider
+    {
+        #region Public Methods
 
-			using (StreamReader reader = new StreamReader(fileName))
-			{
-				string file = reader.ReadToEnd();
-				string[] words = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        /// <summary>
+        /// Loads the stop words used in the search feature.
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        public override StringCollection LoadStopWords()
+        {
+            var fileName = string.Format("{0}stopwords.txt", this.Folder);
+            if (!File.Exists(fileName))
+            {
+                return new StringCollection();
+            }
 
-				StringCollection col = new StringCollection();
-				col.AddRange(words);
+            using (var reader = new StreamReader(fileName))
+            {
+                var file = reader.ReadToEnd();
+                var words = file.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-				return col;
-			}
+                var col = new StringCollection();
+                col.AddRange(words);
 
-		}
-	}
+                return col;
+            }
+        }
+
+        #endregion
+    }
 }

@@ -138,16 +138,16 @@ namespace BlogEngine.Core.API.MetaWeblog
                 post.Author = sentPost.author;
 			post.Title = sentPost.title;
 			post.Content = sentPost.description;
-			post.IsPublished = publish;
+			post.Published = publish;
 			post.Slug = sentPost.slug;
 			post.Description = sentPost.excerpt;
 
 			if (sentPost.commentPolicy != "")
 			{
 				if (sentPost.commentPolicy == "1")
-					post.IsCommentsEnabled = true;
+					post.HasCommentsEnabled = true;
 				else
-					post.IsCommentsEnabled = false;
+					post.HasCommentsEnabled = false;
 			}
 
 			post.Categories.Clear();
@@ -200,16 +200,16 @@ namespace BlogEngine.Core.API.MetaWeblog
                 post.Author = sentPost.author;
 			post.Title = sentPost.title;
 			post.Content = sentPost.description;
-			post.IsPublished = publish;
+			post.Published = publish;
 			post.Slug = sentPost.slug;
 			post.Description = sentPost.excerpt;
 
 			if (sentPost.commentPolicy != "")
 			{
 				if (sentPost.commentPolicy == "1")
-					post.IsCommentsEnabled = true;
+					post.HasCommentsEnabled = true;
 				else
-					post.IsCommentsEnabled = false;
+					post.HasCommentsEnabled = false;
 			}
 			post.Categories.Clear();
 			foreach (string item in sentPost.categories)
@@ -261,13 +261,13 @@ namespace BlogEngine.Core.API.MetaWeblog
 			sendPost.link = post.AbsoluteLink.AbsoluteUri;
 			sendPost.slug = post.Slug;
 			sendPost.excerpt = post.Description;
-			if (post.IsCommentsEnabled)
+			if (post.HasCommentsEnabled)
 				sendPost.commentPolicy = "1";
 			else
 				sendPost.commentPolicy = "0";
 
 
-			sendPost.publish = post.IsPublished;
+			sendPost.publish = post.Published;
 
 			List<string> cats = new List<string>();
 			for (int i = 0; i < post.Categories.Count; i++)
@@ -347,7 +347,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 
 			// Set Url
 			string rootUrl = Utils.AbsoluteWebRoot.ToString();
-			if (BlogSettings.Instance.RequireSSLMetaWeblogAPI)
+			if (BlogSettings.Instance.RequireSslMetaWeblogApi)
 				rootUrl = rootUrl.Replace("https://", "http://");
 
 			string mediaType = mediaObject.type;
@@ -410,7 +410,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 
             foreach (Post post in Post.Posts)
             {
-                if (post.IsVisible)
+                if (post.Visible)
                 {
                     foreach (string tag in post.Tags)
                     {
@@ -457,11 +457,11 @@ namespace BlogEngine.Core.API.MetaWeblog
 				tempPost.link = post.AbsoluteLink.AbsoluteUri;
 				tempPost.slug = post.Slug;
 				tempPost.excerpt = post.Description;
-				if (post.IsCommentsEnabled)
+				if (post.HasCommentsEnabled)
 					tempPost.commentPolicy = "";
 				else
 					tempPost.commentPolicy = "0";
-				tempPost.publish = post.IsPublished;
+				tempPost.publish = post.Published;
 				for (int i = 0; i < post.Categories.Count; i++)
 				{
 					tempCats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
@@ -551,7 +551,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 			if (mPage.pageDate != new DateTime())
 				page.DateCreated = mPage.pageDate;
 			page.ShowInList = publish;
-			page.IsPublished = publish;
+			page.Published = publish;
 			if (mPage.pageParentID != "0")
 				page.Parent = new Guid(mPage.pageParentID);
 
@@ -629,7 +629,7 @@ namespace BlogEngine.Core.API.MetaWeblog
 			page.Content = mPage.description;
 			page.Keywords = mPage.mt_keywords;
 			page.ShowInList = publish;
-			page.IsPublished = publish;
+			page.Published = publish;
 			if (mPage.pageParentID != "0")
 				page.Parent = new Guid(mPage.pageParentID);
 

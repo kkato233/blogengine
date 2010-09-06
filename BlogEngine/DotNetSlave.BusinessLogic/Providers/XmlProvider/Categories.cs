@@ -90,7 +90,7 @@ namespace BlogEngine.Core.Providers
     private void WriteToFile()
     {
         List<Category> categories = Category.Categories;
-        string fileName = _Folder + "categories.xml";
+        string fileName = this.Folder + "categories.xml";
 
         using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
         {
@@ -121,7 +121,7 @@ namespace BlogEngine.Core.Providers
     public override List<Category> FillCategories()
     {
 
-      string fileName = _Folder + "categories.xml";
+      string fileName = this.Folder + "categories.xml";
       if (!File.Exists(fileName))
         return null;
 

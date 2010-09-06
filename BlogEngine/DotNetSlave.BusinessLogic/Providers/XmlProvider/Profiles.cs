@@ -1,149 +1,217 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Xml;
-
-namespace BlogEngine.Core.Providers
+﻿namespace BlogEngine.Core.Providers
 {
-	public partial class XmlBlogProvider : BlogProvider
-	{
-		public override AuthorProfile SelectProfile(string id)
-		{
-			string fileName = _Folder + "profiles" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
-			XmlDocument doc = new XmlDocument();
-			doc.Load(fileName);
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml;
 
-			AuthorProfile profile = new AuthorProfile(id);
+    /// <summary>
+    /// The xml blog provider.
+    /// </summary>
+    public partial class XmlBlogProvider : BlogProvider
+    {
+        #region Public Methods
 
-			if (doc.SelectSingleNode("//DisplayName") != null)
-				profile.DisplayName = doc.SelectSingleNode("//DisplayName").InnerText;
+        /// <summary>
+        /// The delete profile.
+        /// </summary>
+        /// <param name="profile">
+        /// The profile.
+        /// </param>
+        public override void DeleteProfile(AuthorProfile profile)
+        {
+            var fileName = string.Format("{0}profiles{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, profile.Id);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
 
-			if (doc.SelectSingleNode("//FirstName") != null)
-				profile.FirstName = doc.SelectSingleNode("//FirstName").InnerText;
+            if (AuthorProfile.Profiles.Contains(profile))
+            {
+                AuthorProfile.Profiles.Remove(profile);
+            }
+        }
 
-			if (doc.SelectSingleNode("//MiddleName") != null)
-				profile.MiddleName = doc.SelectSingleNode("//MiddleName").InnerText;
+        /// <summary>
+        /// The fill profiles.
+        /// </summary>
+        /// <returns>
+        /// A list of AuthorProfile.
+        /// </returns>
+        public override List<AuthorProfile> FillProfiles()
+        {
+            var folder = string.Format("{0}profiles{1}", Category.Folder, Path.DirectorySeparatorChar);
 
-			if (doc.SelectSingleNode("//LastName") != null)
-				profile.LastName = doc.SelectSingleNode("//LastName").InnerText;
+            return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
+                    select new FileInfo(file)
+                    into info 
+                    select info.Name.Replace(".xml", string.Empty)
+                    into username
+                    select AuthorProfile.Load(username)).ToList();
+        }
 
-			//profile.Address1 = doc.SelectSingleNode("//Address1").InnerText;
-			//profile.Address2 = doc.SelectSingleNode("//Address2").InnerText;
-			if (doc.SelectSingleNode("//CityTown") != null)
-				profile.CityTown = doc.SelectSingleNode("//CityTown").InnerText;
+        /// <summary>
+        /// The insert profile.
+        /// </summary>
+        /// <param name="profile">
+        /// The profile.
+        /// </param>
+        public override void InsertProfile(AuthorProfile profile)
+        {
+            if (!Directory.Exists(string.Format("{0}profiles", this.Folder)))
+            {
+                Directory.CreateDirectory(string.Format("{0}profiles", this.Folder));
+            }
 
-			if (doc.SelectSingleNode("//RegionState") != null)
-				profile.RegionState = doc.SelectSingleNode("//RegionState").InnerText;
+            var fileName = string.Format("{0}profiles{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, profile.Id);
+            var settings = new XmlWriterSettings { Indent = true };
 
-			if (doc.SelectSingleNode("//Country") != null)
-				profile.Country = doc.SelectSingleNode("//Country").InnerText;
+            using (var writer = XmlWriter.Create(fileName, settings))
+            {
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("profileData");
 
-			if (doc.SelectSingleNode("//Birthday") != null)
-			{
-				DateTime date;
-				if (DateTime.TryParse(doc.SelectSingleNode("//Birthday").InnerText, out date))
-					profile.Birthday = date;
-			}
+                writer.WriteElementString("DisplayName", profile.DisplayName);
+                writer.WriteElementString("FirstName", profile.FirstName);
+                writer.WriteElementString("MiddleName", profile.MiddleName);
+                writer.WriteElementString("LastName", profile.LastName);
 
-			if (doc.SelectSingleNode("//AboutMe") != null)
-				profile.AboutMe = doc.SelectSingleNode("//AboutMe").InnerText;
+                writer.WriteElementString("CityTown", profile.CityTown);
+                writer.WriteElementString("RegionState", profile.RegionState);
+                writer.WriteElementString("Country", profile.Country);
 
-			if (doc.SelectSingleNode("//PhotoURL") != null)
-				profile.PhotoUrl = doc.SelectSingleNode("//PhotoURL").InnerText;
+                writer.WriteElementString("Birthday", profile.Birthday.ToString("yyyy-MM-dd"));
+                writer.WriteElementString("AboutMe", profile.AboutMe);
+                writer.WriteElementString("PhotoURL", profile.PhotoUrl);
 
-			if (doc.SelectSingleNode("//Company") != null)
-				profile.Company = doc.SelectSingleNode("//Company").InnerText;
-
-			if (doc.SelectSingleNode("//EmailAddress") != null)
-				profile.EmailAddress = doc.SelectSingleNode("//EmailAddress").InnerText;
-
-			if (doc.SelectSingleNode("//PhoneMain") != null)
-				profile.PhoneMain = doc.SelectSingleNode("//PhoneMain").InnerText;
-
-			if (doc.SelectSingleNode("//PhoneMobile") != null)
-				profile.PhoneMobile = doc.SelectSingleNode("//PhoneMobile").InnerText;
-
-			if (doc.SelectSingleNode("//PhoneFax") != null)
-				profile.PhoneFax = doc.SelectSingleNode("//PhoneFax").InnerText;
-
-            if (doc.SelectSingleNode("//IsPrivate") != null)
-                profile.Private = doc.SelectSingleNode("//IsPrivate").InnerText == "true";
-
-			//page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
-			//page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
-
-			return profile;
-		}
-
-		public override void InsertProfile(AuthorProfile profile)
-		{
-			if (!Directory.Exists(_Folder + "profiles"))
-				Directory.CreateDirectory(_Folder + "profiles");
-
-			string fileName = _Folder + "profiles" + Path.DirectorySeparatorChar + profile.Id + ".xml";
-			XmlWriterSettings settings = new XmlWriterSettings();
-			settings.Indent = true;
-
-			using (XmlWriter writer = XmlWriter.Create(fileName, settings))
-			{
-				writer.WriteStartDocument(true);
-				writer.WriteStartElement("profileData");
-
-				writer.WriteElementString("DisplayName", profile.DisplayName);
-				writer.WriteElementString("FirstName", profile.FirstName);
-				writer.WriteElementString("MiddleName", profile.MiddleName);
-				writer.WriteElementString("LastName", profile.LastName);
-
-				writer.WriteElementString("CityTown", profile.CityTown);
-				writer.WriteElementString("RegionState", profile.RegionState);
-				writer.WriteElementString("Country", profile.Country);
-
-				writer.WriteElementString("Birthday", profile.Birthday.ToString("yyyy-MM-dd"));
-				writer.WriteElementString("AboutMe", profile.AboutMe);
-				writer.WriteElementString("PhotoURL", profile.PhotoUrl);
-
-				writer.WriteElementString("Company", profile.Company);
-				writer.WriteElementString("EmailAddress", profile.EmailAddress);
-				writer.WriteElementString("PhoneMain", profile.PhoneMain);
-				writer.WriteElementString("PhoneMobile", profile.PhoneMobile);
-				writer.WriteElementString("PhoneFax", profile.PhoneFax);
+                writer.WriteElementString("Company", profile.Company);
+                writer.WriteElementString("EmailAddress", profile.EmailAddress);
+                writer.WriteElementString("PhoneMain", profile.PhoneMain);
+                writer.WriteElementString("PhoneMobile", profile.PhoneMobile);
+                writer.WriteElementString("PhoneFax", profile.PhoneFax);
 
                 writer.WriteElementString("IsPrivate", profile.Private.ToString());
 
-				writer.WriteEndElement();
-			}
-		}
+                writer.WriteEndElement();
+            }
+        }
 
-		public override void UpdateProfile(AuthorProfile profile)
-		{
-			InsertProfile(profile);
-		}
+        /// <summary>
+        /// Retrieves a Page from the provider based on the specified id.
+        /// </summary>
+        /// <param name="id">The AuthorProfile id.</param>
+        /// <returns>An AuthorProfile.</returns>
+        public override AuthorProfile SelectProfile(string id)
+        {
+            var fileName = string.Format("{0}profiles{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, id);
+            var doc = new XmlDocument();
+            doc.Load(fileName);
 
-		public override void DeleteProfile(AuthorProfile profile)
-		{
-			string fileName = _Folder + "profiles" + Path.DirectorySeparatorChar + profile.Id + ".xml";
-			if (File.Exists(fileName))
-				File.Delete(fileName);
+            var profile = new AuthorProfile(id);
 
-			if (AuthorProfile.Profiles.Contains(profile))
-				AuthorProfile.Profiles.Remove(profile);
-		}
+            if (doc.SelectSingleNode("//DisplayName") != null)
+            {
+                profile.DisplayName = doc.SelectSingleNode("//DisplayName").InnerText;
+            }
 
-		public override List<AuthorProfile> FillProfiles()
-		{
-			string folder = Category.Folder + "profiles" + Path.DirectorySeparatorChar;
-			List<AuthorProfile> profiles = new List<AuthorProfile>();
+            if (doc.SelectSingleNode("//FirstName") != null)
+            {
+                profile.FirstName = doc.SelectSingleNode("//FirstName").InnerText;
+            }
 
-			foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-			{
-				FileInfo info = new FileInfo(file);
-				string username = info.Name.Replace(".xml", string.Empty);
-				AuthorProfile profile = AuthorProfile.Load(username);
-				profiles.Add(profile);
-			}
+            if (doc.SelectSingleNode("//MiddleName") != null)
+            {
+                profile.MiddleName = doc.SelectSingleNode("//MiddleName").InnerText;
+            }
 
-			return profiles;
-		}
-	}
+            if (doc.SelectSingleNode("//LastName") != null)
+            {
+                profile.LastName = doc.SelectSingleNode("//LastName").InnerText;
+            }
+
+            // profile.Address1 = doc.SelectSingleNode("//Address1").InnerText;
+            // profile.Address2 = doc.SelectSingleNode("//Address2").InnerText;
+            if (doc.SelectSingleNode("//CityTown") != null)
+            {
+                profile.CityTown = doc.SelectSingleNode("//CityTown").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//RegionState") != null)
+            {
+                profile.RegionState = doc.SelectSingleNode("//RegionState").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//Country") != null)
+            {
+                profile.Country = doc.SelectSingleNode("//Country").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//Birthday") != null)
+            {
+                DateTime date;
+                if (DateTime.TryParse(doc.SelectSingleNode("//Birthday").InnerText, out date))
+                {
+                    profile.Birthday = date;
+                }
+            }
+
+            if (doc.SelectSingleNode("//AboutMe") != null)
+            {
+                profile.AboutMe = doc.SelectSingleNode("//AboutMe").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//PhotoURL") != null)
+            {
+                profile.PhotoUrl = doc.SelectSingleNode("//PhotoURL").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//Company") != null)
+            {
+                profile.Company = doc.SelectSingleNode("//Company").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//EmailAddress") != null)
+            {
+                profile.EmailAddress = doc.SelectSingleNode("//EmailAddress").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//PhoneMain") != null)
+            {
+                profile.PhoneMain = doc.SelectSingleNode("//PhoneMain").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//PhoneMobile") != null)
+            {
+                profile.PhoneMobile = doc.SelectSingleNode("//PhoneMobile").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//PhoneFax") != null)
+            {
+                profile.PhoneFax = doc.SelectSingleNode("//PhoneFax").InnerText;
+            }
+
+            if (doc.SelectSingleNode("//IsPrivate") != null)
+            {
+                profile.Private = doc.SelectSingleNode("//IsPrivate").InnerText == "true";
+            }
+
+            // page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
+            // page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
+            return profile;
+        }
+
+        /// <summary>
+        /// The update profile.
+        /// </summary>
+        /// <param name="profile">
+        /// The profile.
+        /// </param>
+        public override void UpdateProfile(AuthorProfile profile)
+        {
+            this.InsertProfile(profile);
+        }
+
+        #endregion
+    }
 }

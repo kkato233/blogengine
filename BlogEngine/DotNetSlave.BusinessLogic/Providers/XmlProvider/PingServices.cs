@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Providers
     /// <returns></returns>
     public override StringCollection LoadPingServices()
     {
-      string fileName = _Folder + "pingservices.xml";
+      string fileName = this.Folder + "pingservices.xml";
       if (!File.Exists(fileName))
         return new StringCollection();
 
@@ -53,7 +53,7 @@ namespace BlogEngine.Core.Providers
       if (services == null)
         throw new ArgumentNullException("services");
 
-      string fileName = _Folder + "pingservices.xml";
+      string fileName = this.Folder + "pingservices.xml";
 
       using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
       {

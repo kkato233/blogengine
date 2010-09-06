@@ -1,143 +1,183 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Xml;
-using BlogEngine.Core;
-
-#endregion
-
-namespace BlogEngine.Core.Providers
+﻿namespace BlogEngine.Core.Providers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Xml;
+
+    /// <summary>
+    /// The xml blog provider.
+    /// </summary>
     public partial class XmlBlogProvider : BlogProvider
     {
-
-        #region Referrer
-
-        /// <summary>
-        /// Gets a Referrer based on the Id.
-        /// </summary>
-        /// <param name="Id">The Referrer's Id.</param>
-        /// <returns>A matching Referrer.</returns>
-        public override Referrer SelectReferrer(Guid Id)
-        {
-            Referrer refer = Referrer.Referrers.Find(r => r.Id.Equals(Id));
-            if (refer == null)
-            {
-                refer = new Referrer();
-            }
-            refer.MarkOld();
-            return refer;
-        }
-
-        /// <summary>
-        /// Inserts a Referrer.
-        /// </summary>
-        /// <param name="referrer">Must be a valid Referrer object.</param>
-        public override void InsertReferrer(Referrer referrer)
-        {
-            Referrer.Referrers.Add(referrer);
-
-            referrer.MarkOld();
-            List<Referrer> day = Referrer.Referrers.FindAll(r => r.Day.ToShortDateString() == referrer.Day.ToShortDateString());
-            writeReferrerFile(day, referrer.Day);
-        }
-
-        /// <summary>
-        /// Updates a Referrer.
-        /// </summary>
-        /// <param name="referrer">Must be a valid Referrer object.</param>
-        public override void UpdateReferrer(Referrer referrer)
-        {
-            List<Referrer> day = Referrer.Referrers.FindAll(r => r.Day.ToShortDateString() == referrer.Day.ToShortDateString());
-            writeReferrerFile(day, referrer.Day);
-        }
+        #region Public Methods
 
         /// <summary>
         /// Fills an unsorted list of Referrers.
         /// </summary>
-        /// <returns>A List&lt;Referrer&gt; of all Referrers.</returns>
+        /// <returns>
+        /// A List&lt;Referrer&gt; of all Referrers.
+        /// </returns>
         public override List<Referrer> FillReferrers()
         {
-            string folder = Path.Combine(_Folder, "log");
+            var folder = Path.Combine(this.Folder, "log");
 
-            List<Referrer> referrers = new List<Referrer>();
-            DateTime oldFileDate = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
+            var referrers = new List<Referrer>();
+            var oldFileDate = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
 
-            DirectoryInfo dirInfo = new DirectoryInfo(folder);
+            var dirInfo = new DirectoryInfo(folder);
             if (dirInfo.Exists)
             {
-                List<FileInfo> logFiles = new List<FileInfo>(dirInfo.GetFiles());
-                foreach (FileInfo file in logFiles)
+                var logFiles = new List<FileInfo>(dirInfo.GetFiles());
+                foreach (var file in logFiles)
                 {
-                    string fileName = file.Name.Replace(".xml", string.Empty);
-                    string[] dateStrings = fileName.Split(new char[] { '.' });
+                    var fileName = file.Name.Replace(".xml", string.Empty);
+                    var dateStrings = fileName.Split(new[] { '.' });
                     if (dateStrings.Length != 3)
                     {
                         file.Delete();
                         continue;
                     }
 
-                    DateTime day = new DateTime(int.Parse(dateStrings[0]), int.Parse(dateStrings[1]), int.Parse(dateStrings[2]));
+                    var day = new DateTime(
+                        int.Parse(dateStrings[0]), int.Parse(dateStrings[1]), int.Parse(dateStrings[2]));
                     if (day < oldFileDate)
                     {
                         file.Delete();
                         continue;
                     }
 
-                    referrers.AddRange(getReferrersFromFile(file, day));
+                    referrers.AddRange(GetReferrersFromFile(file, day));
                 }
             }
+
             return referrers;
         }
 
-        private List<Referrer> getReferrersFromFile(FileInfo file, DateTime day)
+        /// <summary>
+        /// Inserts a Referrer.
+        /// </summary>
+        /// <param name="referrer">
+        /// Must be a valid Referrer object.
+        /// </param>
+        public override void InsertReferrer(Referrer referrer)
         {
-            List<Referrer> referrers = new List<Referrer>();
+            Referrer.Referrers.Add(referrer);
 
-            XmlDocument doc = new XmlDocument();
+            referrer.MarkOld();
+            var day = Referrer.Referrers.FindAll(r => r.Day.ToShortDateString() == referrer.Day.ToShortDateString());
+            this.WriteReferrerFile(day, referrer.Day);
+        }
+
+        /// <summary>
+        /// Gets a Referrer based on the Id.
+        /// </summary>
+        /// <param name="Id">
+        /// The Referrer's Id.
+        /// </param>
+        /// <returns>
+        /// A matching Referrer.
+        /// </returns>
+        public override Referrer SelectReferrer(Guid Id)
+        {
+            var refer = Referrer.Referrers.Find(r => r.Id.Equals(Id)) ?? new Referrer();
+
+            refer.MarkOld();
+            return refer;
+        }
+
+        /// <summary>
+        /// Updates a Referrer.
+        /// </summary>
+        /// <param name="referrer">
+        /// Must be a valid Referrer object.
+        /// </param>
+        public override void UpdateReferrer(Referrer referrer)
+        {
+            var day = Referrer.Referrers.FindAll(r => r.Day.ToShortDateString() == referrer.Day.ToShortDateString());
+            this.WriteReferrerFile(day, referrer.Day);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The get referrers from file.
+        /// </summary>
+        /// <param name="file">
+        /// The file.
+        /// </param>
+        /// <param name="day">
+        /// The day.
+        /// </param>
+        /// <returns>
+        /// A list of Referrer.
+        /// </returns>
+        private static IEnumerable<Referrer> GetReferrersFromFile(FileInfo file, DateTime day)
+        {
+            var referrers = new List<Referrer>();
+
+            var doc = new XmlDocument();
             doc.Load(file.FullName);
 
-            XmlNodeList nodes = doc.SelectNodes("referrers/referrer");
-            foreach (XmlNode node in nodes)
+            var nodes = doc.SelectNodes("referrers/referrer");
+            if (nodes != null)
             {
-                Referrer refer = new Referrer()
+                foreach (var refer in
+                    nodes.Cast<XmlNode>().Select(
+                        node =>
+                        new Referrer
+                            {
+                                Url = node.Attributes["url"] == null ? null : new Uri(node.Attributes["url"].InnerText),
+                                Count =
+                                    node.Attributes["count"] == null ? 0 : int.Parse(node.Attributes["count"].InnerText),
+                                Day = day,
+                                PossibleSpam =
+                                    node.Attributes["isSpam"] == null
+                                        ? false
+                                        : bool.Parse(node.Attributes["isSpam"].InnerText),
+                                ReferrerUrl = new Uri(node.InnerText),
+                                Id = Guid.NewGuid()
+                            }))
                 {
-                    Url = node.Attributes["url"] == null ? null : new Uri(node.Attributes["url"].InnerText),
-                    Count = node.Attributes["count"] == null ? 0 : int.Parse(node.Attributes["count"].InnerText),
-                    Day = day,
-                    PossibleSpam = node.Attributes["isSpam"] == null ? false : bool.Parse(node.Attributes["isSpam"].InnerText),
-                    ReferrerUrl = new Uri(node.InnerText),
-                    Id = Guid.NewGuid()
-                };
-
-                refer.MarkOld();
-                referrers.Add(refer);
+                    refer.MarkOld();
+                    referrers.Add(refer);
+                }
             }
 
             return referrers;
         }
 
-        private void writeReferrerFile(List<Referrer> referrers, DateTime day)
+        /// <summary>
+        /// The write referrer file.
+        /// </summary>
+        /// <param name="referrers">
+        /// The referrers.
+        /// </param>
+        /// <param name="day">
+        /// The day.
+        /// </param>
+        private void WriteReferrerFile(List<Referrer> referrers, DateTime day)
         {
-            string folder = Path.Combine(_Folder, "log");
-            string fileName = Path.Combine(folder, day.ToString("yyyy.MM.dd") + ".xml");
-            DirectoryInfo dirInfo = new DirectoryInfo(folder);
+            var folder = Path.Combine(this.Folder, "log");
+            var fileName = Path.Combine(folder, string.Format("{0}.xml", day.ToString("yyyy.MM.dd")));
+            var dirInfo = new DirectoryInfo(folder);
             if (!dirInfo.Exists)
             {
                 dirInfo.Create();
             }
-            using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
+
+            using (var writer = new XmlTextWriter(fileName, Encoding.UTF8))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.Indentation = 4;
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("referrers");
 
-                foreach (Referrer refer in referrers)
+                foreach (var refer in referrers)
                 {
                     writer.WriteStartElement("referrer");
                     writer.WriteAttributeString("url", refer.Url.ToString());
@@ -152,6 +192,5 @@ namespace BlogEngine.Core.Providers
         }
 
         #endregion
-
     }
 }

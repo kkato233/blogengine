@@ -54,7 +54,7 @@ namespace BlogEngine.Core.API.BlogML
             post.DateModified = import.PostDate;
             post.Content = import.Content;
             post.Description = import.Description;
-            post.IsPublished = import.Publish;
+            post.Published = import.Publish;
 
             AddCategories(import.Categories, post);
 
