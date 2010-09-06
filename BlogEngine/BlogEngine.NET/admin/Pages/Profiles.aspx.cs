@@ -33,7 +33,7 @@ public partial class admin_profiles : Page
 		AuthorProfile pc = AuthorProfile.GetProfile(name);
 		if (pc != null)
 		{
-			cbIsPublic.Checked = pc.IsPrivate;
+			cbIsPublic.Checked = pc.Private;
 			tbDisplayName.Text = pc.DisplayName;
 			tbFirstName.Text = pc.FirstName;
 			tbMiddleName.Text = pc.MiddleName;
@@ -42,7 +42,7 @@ public partial class admin_profiles : Page
 			if (pc.Birthday != DateTime.MinValue)
 				tbBirthdate.Text = pc.Birthday.ToString("yyyy-MM-dd");
 
-			tbPhotoUrl.Text = pc.PhotoURL;
+			tbPhotoUrl.Text = pc.PhotoUrl;
 			tbPhoneMain.Text = pc.PhoneMain;
 			tbPhoneMobile.Text = pc.PhoneMobile;
 			tbPhoneFax.Text = pc.PhoneFax;
@@ -124,7 +124,7 @@ public partial class admin_profiles : Page
 		if (pc == null)
 			pc = new AuthorProfile(userProfileToSave);
 
-		pc.IsPrivate = cbIsPublic.Checked;
+		pc.Private = cbIsPublic.Checked;
 		pc.DisplayName = tbDisplayName.Text;
 		pc.FirstName = tbFirstName.Text;
 		pc.MiddleName = tbMiddleName.Text;
@@ -134,7 +134,7 @@ public partial class admin_profiles : Page
 		if (DateTime.TryParse(tbBirthdate.Text, out date))
 			pc.Birthday = date;
 
-		pc.PhotoURL = tbPhotoUrl.Text;
+		pc.PhotoUrl = tbPhotoUrl.Text;
 		pc.PhoneMain = tbPhoneMain.Text;
 		pc.PhoneMobile = tbPhoneMobile.Text;
 		pc.PhoneFax = tbPhoneFax.Text;

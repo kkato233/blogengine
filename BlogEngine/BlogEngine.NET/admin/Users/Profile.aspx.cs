@@ -49,7 +49,7 @@ public partial class admin_Pages_Profile : System.Web.UI.Page
             pf.MiddleName = "";
             pf.LastName = "";
             pf.Birthday = new DateTime(1001, 1, 1);
-            pf.PhotoURL = "";
+            pf.PhotoUrl = "";
             pf.EmailAddress = "";
             pf.PhoneMobile = "";
             pf.PhoneMain = "";

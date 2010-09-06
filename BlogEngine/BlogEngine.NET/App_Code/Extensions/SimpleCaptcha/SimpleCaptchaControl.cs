@@ -12,6 +12,7 @@ using SimpleCaptcha;
 
 namespace Controls
 {
+    using BlogEngine.Core.Web.Extensions;
 
     /// <summary>
     /// This is the IValidator control that gets embedded on the comment form if the SimpleCaptcha extension is enabled.

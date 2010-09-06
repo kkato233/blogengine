@@ -87,7 +87,7 @@ namespace Controls
             int currentPage = PageIndex();
             int pagesTotal = 1;
 
-            List<IPublishable> visiblePosts = _Posts.FindAll(delegate(IPublishable p) { return p.IsVisible; });
+            List<IPublishable> visiblePosts = _Posts.FindAll(delegate(IPublishable p) { return p.Visible; });
             int postCnt = visiblePosts.Count;
             
             if (postCnt % postsPerPage == 0)

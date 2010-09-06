@@ -53,7 +53,7 @@ namespace Controls
 
 					foreach (Post post in Post.Posts)
 					{
-						if (post.IsVisibleToPublic)
+						if (post.VisibleToPublic)
 						{
 							DateTime month = new DateTime(post.DateCreated.Year, post.DateCreated.Month, 1);
 							int count;

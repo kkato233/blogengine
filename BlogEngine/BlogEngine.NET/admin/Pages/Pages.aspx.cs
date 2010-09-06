@@ -2,311 +2,415 @@
 
 using System;
 using System.IO;
-using System.Web;
-using System.Text;
-using System.Web.UI.WebControls;
+using System.Linq;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
 using BlogEngine.Core;
-using System.Collections.Generic;
+
+using Resources;
+
+using Page = System.Web.UI.Page;
 
 #endregion
 
-public partial class admin_Pages_pages : System.Web.UI.Page, System.Web.UI.ICallbackEventHandler
+/// <summary>
+/// The admin_ pages_pages.
+/// </summary>
+public partial class admin_Pages_pages : Page, ICallbackEventHandler
 {
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		base.MaintainScrollPositionOnPostBack = true;
+    #region Constants and Fields
 
-		if (!Page.IsPostBack && !Page.IsCallback)
-		{
-			if (!String.IsNullOrEmpty(Request.QueryString["id"]) && Request.QueryString["id"].Length == 36)
-			{
-				Guid id = new Guid(Request.QueryString["id"]);
-				BindPage(id);
-				BindParents(id);
-			}
-			else if (!String.IsNullOrEmpty(Request.QueryString["delete"]) && Request.QueryString["delete"].Length == 36)
-			{
-				Guid id = new Guid(Request.QueryString["delete"]);
-				DeletePage(id);
-			}
-			else
-			{
-				BindParents(Guid.Empty);
-			}
+    /// <summary>
+    /// The callback.
+    /// </summary>
+    private string callback;
 
-			BindPageList();
-			Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
-		}
+    #endregion
 
-		btnSave.Click += new EventHandler(btnSave_Click);
-		btnSave.Text = Resources.labels.savePage; // mono does not interpret the inline code correctly
-		btnUploadFile.Click += new EventHandler(btnUploadFile_Click);
-		btnUploadImage.Click += new EventHandler(btnUploadImage_Click);
-		Page.Title = Resources.labels.pages;
+    #region Implemented Interfaces
 
-		if (!Utils.IsMono)
-			Page.Form.DefaultButton = btnSave.UniqueID;
-	}
+    #region ICallbackEventHandler
 
-	private void DeletePage(Guid pageId)
-	{
-		Page page = BlogEngine.Core.Page.GetPage(pageId);
-		if (page != null)
-		{
-			ResetParentPage(page);
-			page.Delete();
-			page.Save();
-			Response.Redirect("pages.aspx");
-		}
-	}
+    /// <summary>
+    /// Returns the results of a callback event that targets a control.
+    /// </summary>
+    /// <returns>The result of the callback.</returns>
+    public string GetCallbackResult()
+    {
+        return this.callback;
+    }
 
-	private void ResetParentPage(Page page)
-	{
-		foreach (BlogEngine.Core.Page child in BlogEngine.Core.Page.Pages)
-		{
-			if (page.Id == child.Parent)
-			{
-				child.Parent = Guid.Empty;
-				child.Save();
-				ResetParentPage(child);
-			}
-		}
-	}
+    /// <summary>
+    /// Processes a callback event that targets a control.
+    /// </summary>
+    /// <param name="eventArgument">A string that represents an event argument to pass to the event handler.</param>
+    public void RaiseCallbackEvent(string eventArgument)
+    {
+        this.callback = Utils.RemoveIllegalCharacters(eventArgument.Trim());
+    }
 
-	private void btnUploadImage_Click(object sender, EventArgs e)
-	{
-		string relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month.ToString() + Path.DirectorySeparatorChar;
-		string folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
-		string fileName = txtUploadImage.FileName;
-		Upload(folder + relativeFolder, txtUploadImage, fileName);
+    #endregion
 
-		string path = Utils.RelativeWebRoot.ToString();
-		string img = string.Format("<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", path, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
-		txtContent.Text += img;
-	}
+    #endregion
 
-	private void btnUploadFile_Click(object sender, EventArgs e)
-	{
-		string relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month.ToString() + Path.DirectorySeparatorChar;
-		string folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
-		string fileName = txtUploadFile.FileName;
-		Upload(folder + relativeFolder, txtUploadFile, fileName);
+    #region Methods
 
-		string a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
-		string text = txtUploadFile.FileName + " (" + SizeFormat(txtUploadFile.FileBytes.Length, "N") + ")";
-		txtContent.Text += string.Format(a, Utils.RelativeWebRoot, Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
-	}
+    /// <summary>
+    /// Handles the Load event of the Page control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        this.MaintainScrollPositionOnPostBack = true;
 
-	private void Upload(string virtualFolder, FileUpload control, string fileName)
-	{
-		string folder = Server.MapPath(virtualFolder);
-		if (!Directory.Exists(folder))
-			Directory.CreateDirectory(folder);
+        if (!this.Page.IsPostBack && !this.Page.IsCallback)
+        {
+            if (!String.IsNullOrEmpty(this.Request.QueryString["id"]) && this.Request.QueryString["id"].Length == 36)
+            {
+                var id = new Guid(this.Request.QueryString["id"]);
+                this.BindPage(id);
+                this.BindParents(id);
+            }
+            else if (!String.IsNullOrEmpty(this.Request.QueryString["delete"]) &&
+                     this.Request.QueryString["delete"].Length == 36)
+            {
+                var id = new Guid(this.Request.QueryString["delete"]);
+                this.DeletePage(id);
+            }
+            else
+            {
+                this.BindParents(Guid.Empty);
+            }
 
-		control.PostedFile.SaveAs(folder + fileName);
-	}
+            this.BindPageList();
+            this.Page.ClientScript.GetCallbackEventReference(this, "title", "ApplyCallback", "slug");
+        }
 
-	private string SizeFormat(float size, string formatString)
-	{
-		if (size < 1024)
-			return size.ToString(formatString) + " bytes";
+        this.btnSave.Click += this.btnSave_Click;
+        this.btnSave.Text = labels.savePage; // mono does not interpret the inline code correctly
+        this.btnUploadFile.Click += this.btnUploadFile_Click;
+        this.btnUploadImage.Click += this.btnUploadImage_Click;
+        this.Page.Title = labels.pages;
 
-		if (size < Math.Pow(1024, 2))
-			return (size / 1024).ToString(formatString) + " kb";
+        if (!Utils.IsMono)
+        {
+            this.Page.Form.DefaultButton = this.btnSave.UniqueID;
+        }
+    }
 
-		if (size < Math.Pow(1024, 3))
-			return (size / Math.Pow(1024, 2)).ToString(formatString) + " mb";
+    /// <summary>
+    /// The bind page.
+    /// </summary>
+    /// <param name="pageId">
+    /// The page id.
+    /// </param>
+    private void BindPage(Guid pageId)
+    {
+        var page = BlogEngine.Core.Page.GetPage(pageId);
+        this.txtTitle.Text = page.Title;
+        this.txtContent.Text = page.Content;
+        this.txtDescription.Text = page.Description;
+        this.txtKeyword.Text = page.Keywords;
+        this.txtSlug.Text = page.Slug;
+        this.cbFrontPage.Checked = page.FrontPage;
+        this.cbShowInList.Checked = page.ShowInList;
+        this.cbPublished.Checked = page.Published;
+    }
 
-		if (size < Math.Pow(1024, 4))
-			return (size / Math.Pow(1024, 3)).ToString(formatString) + " gb";
+    /// <summary>
+    /// The bind page list.
+    /// </summary>
+    private void BindPageList()
+    {
+        foreach (var page in BlogEngine.Core.Page.Pages)
+        {
+            if (!page.HasParentPage)
+            {
+                var li = new HtmlGenericControl("li");
+                var a = new HtmlAnchor { HRef = string.Format("?id={0}", page.Id), InnerHtml = page.Title };
 
-		return size.ToString(formatString);
-	}
+                var text = new LiteralControl(string.Format(" ({0}) ", page.DateCreated.ToString("yyyy-dd-MM HH:mm")));
 
-	#region Event handlers
+                const string DeleteText = "Are you sure you want to delete the page?";
+                var delete = new HtmlAnchor { InnerText = labels.delete };
+                delete.Attributes["onclick"] = "if (confirm('" + DeleteText + "')){location.href='?delete=" + page.Id +
+                                               "'}";
+                delete.HRef = "javascript:void(0);";
+                delete.Style.Add(HtmlTextWriterStyle.FontWeight, "normal");
 
-	private void btnSave_Click(object sender, EventArgs e)
-	{
-		if (!Page.IsValid)
-			throw new InvalidOperationException("One or more validators are invalid.");
+                li.Controls.Add(a);
+                li.Controls.Add(text);
+                li.Controls.Add(delete);
 
-		Page page;
-		if (Request.QueryString["id"] != null)
-			page = BlogEngine.Core.Page.GetPage(new Guid(Request.QueryString["id"]));
-		else
-			page = new Page();
+                if (page.HasChildPages)
+                {
+                    li.Controls.Add(this.BuildChildPageList(page));
+                }
 
-		if (string.IsNullOrEmpty(txtContent.Text))
-			txtContent.Text = "[No text]";
+                li.Attributes.CssStyle.Remove("font-weight");
+                li.Attributes.CssStyle.Add("font-weight", "bold");
 
-		page.Title = txtTitle.Text;
-		page.Content = txtContent.Text;
-		page.Description = txtDescription.Text;
-		page.Keywords = txtKeyword.Text;
+                this.ulPages.Controls.Add(li);
+            }
+        }
 
-		if (cbIsFrontPage.Checked)
-		{
-			foreach (Page otherPage in BlogEngine.Core.Page.Pages)
-			{
-				if (otherPage.IsFrontPage)
-				{
-					otherPage.IsFrontPage = false;
-					otherPage.Save();
-				}
-			}
-		}
+        this.divPages.Visible = true;
+        this.aPages.InnerHtml = string.Format("{0} {1}", BlogEngine.Core.Page.Pages.Count, labels.pages);
+    }
 
-		page.IsFrontPage = cbIsFrontPage.Checked;
-		page.ShowInList = cbShowInList.Checked;
-		page.IsPublished = cbIsPublished.Checked;
+    /// <summary>
+    /// The bind parents.
+    /// </summary>
+    /// <param name="pageId">
+    /// The page id.
+    /// </param>
+    private void BindParents(Guid pageId)
+    {
+        foreach (var page in BlogEngine.Core.Page.Pages.Where(page => pageId != page.Id))
+        {
+            this.ddlParent.Items.Add(new ListItem(page.Title, page.Id.ToString()));
+        }
 
-        if (!string.IsNullOrEmpty(txtSlug.Text))
-            page.Slug = Utils.RemoveIllegalCharacters(txtSlug.Text.Trim());
+        this.ddlParent.Items.Insert(0, string.Format("-- {0} --", labels.noParent));
+        if (pageId != Guid.Empty)
+        {
+            var parent = BlogEngine.Core.Page.GetPage(pageId);
+            if (parent != null)
+            {
+                this.ddlParent.SelectedValue = parent.Parent.ToString();
+            }
+        }
+    }
 
-		if (ddlParent.SelectedIndex != 0)
-			page.Parent = new Guid(ddlParent.SelectedValue);
-		else
-			page.Parent = Guid.Empty;
+    /// <summary>
+    /// The build child page list.
+    /// </summary>
+    /// <param name="page">
+    /// The page.
+    /// </param>
+    /// <returns>
+    /// </returns>
+    private HtmlGenericControl BuildChildPageList(BlogEngine.Core.Page page)
+    {
+        var ul = new HtmlGenericControl("ul");
+        foreach (var cPage in BlogEngine.Core.Page.Pages.FindAll(p => p.Parent == page.Id))
+        {
+            var cLi = new HtmlGenericControl("li");
+            cLi.Attributes.CssStyle.Add("font-weight", "normal");
+            var cA = new HtmlAnchor { HRef = string.Format("?id={0}", cPage.Id), InnerHtml = cPage.Title };
 
-		page.Save();
+            var cText = new LiteralControl(string.Format(" ({0}) ", cPage.DateCreated.ToString("yyyy-dd-MM HH:mm")));
 
-		Response.Redirect(page.RelativeLink.ToString());
-	}
+            const string DeleteText = "Are you sure you want to delete the page?";
+            var delete = new HtmlAnchor { InnerText = labels.delete };
+            delete.Attributes["onclick"] = "if (confirm('" + DeleteText + "')){location.href='?delete=" + cPage.Id +
+                                           "'}";
+            delete.HRef = "javascript:void(0);";
+            delete.Style.Add(HtmlTextWriterStyle.FontWeight, "normal");
 
-	#endregion
+            cLi.Controls.Add(cA);
+            cLi.Controls.Add(cText);
+            cLi.Controls.Add(delete);
 
-	#region Data binding
+            if (cPage.HasChildPages)
+            {
+                cLi.Attributes.CssStyle.Remove("font-weight");
+                cLi.Attributes.CssStyle.Add("font-weight", "bold");
+                cLi.Controls.Add(this.BuildChildPageList(cPage));
+            }
 
-	private void BindPage(Guid pageId)
-	{
-		Page page = BlogEngine.Core.Page.GetPage(pageId);
-		txtTitle.Text = page.Title;
-		txtContent.Text = page.Content;
-		txtDescription.Text = page.Description;
-		txtKeyword.Text = page.Keywords;
-		txtSlug.Text = page.Slug;
-		cbIsFrontPage.Checked = page.IsFrontPage;
-		cbShowInList.Checked = page.ShowInList;
-		cbIsPublished.Checked = page.IsPublished;
-	}
+            ul.Controls.Add(cLi);
+        }
 
-	private void BindParents(Guid pageId)
-	{
-		foreach (Page page in BlogEngine.Core.Page.Pages)
-		{
-			if (pageId != page.Id)
-				ddlParent.Items.Add(new ListItem(page.Title, page.Id.ToString()));
-		}
+        return ul;
+    }
 
-		ddlParent.Items.Insert(0, "-- " + Resources.labels.noParent + " --");
-		if (pageId != Guid.Empty)
-		{
-			Page parent = BlogEngine.Core.Page.GetPage(pageId);
-			if (parent != null)
-				ddlParent.SelectedValue = parent.Parent.ToString();
-		}
-	}
+    /// <summary>
+    /// The delete page.
+    /// </summary>
+    /// <param name="pageId">
+    /// The page id.
+    /// </param>
+    private void DeletePage(Guid pageId)
+    {
+        var page = BlogEngine.Core.Page.GetPage(pageId);
+        if (page != null)
+        {
+            this.ResetParentPage(page);
+            page.Delete();
+            page.Save();
+            this.Response.Redirect("pages.aspx");
+        }
+    }
 
-	private void BindPageList()
-	{
-		foreach (Page page in BlogEngine.Core.Page.Pages)
-		{
-			if (!page.HasParentPage)
-			{
-				HtmlGenericControl li = new HtmlGenericControl("li");
-				HtmlAnchor a = new HtmlAnchor();
-				a.HRef = "?id=" + page.Id.ToString();
-				a.InnerHtml = page.Title;
+    /// <summary>
+    /// The reset parent page.
+    /// </summary>
+    /// <param name="page">
+    /// The page.
+    /// </param>
+    private void ResetParentPage(BlogEngine.Core.Page page)
+    {
+        foreach (var child in BlogEngine.Core.Page.Pages.Where(child => page.Id == child.Parent))
+        {
+            child.Parent = Guid.Empty;
+            child.Save();
+            this.ResetParentPage(child);
+        }
+    }
 
-				System.Web.UI.LiteralControl text = new System.Web.UI.LiteralControl
-				(" (" + page.DateCreated.ToString("yyyy-dd-MM HH:mm") + ") ");
+    /// <summary>
+    /// The size format.
+    /// </summary>
+    /// <param name="size">
+    /// The size.
+    /// </param>
+    /// <param name="formatString">
+    /// The format string.
+    /// </param>
+    /// <returns>
+    /// The size format.
+    /// </returns>
+    private string SizeFormat(float size, string formatString)
+    {
+        if (size < 1024)
+        {
+            return size.ToString(formatString) + " bytes";
+        }
 
-				string deleteText = "Are you sure you want to delete the page?";
-				HtmlAnchor delete = new HtmlAnchor();
-				delete.InnerText = Resources.labels.delete;
-				delete.Attributes["onclick"] = "if (confirm('" + deleteText + "')){location.href='?delete=" + page.Id + "'}";
-				delete.HRef = "javascript:void(0);";
-				delete.Style.Add(System.Web.UI.HtmlTextWriterStyle.FontWeight, "normal");
+        if (size < Math.Pow(1024, 2))
+        {
+            return (size / 1024).ToString(formatString) + " kb";
+        }
 
-				li.Controls.Add(a);
-				li.Controls.Add(text);
-				li.Controls.Add(delete);
+        if (size < Math.Pow(1024, 3))
+        {
+            return (size / Math.Pow(1024, 2)).ToString(formatString) + " mb";
+        }
 
-				if (page.HasChildPages)
-				{
-					li.Controls.Add(BuildChildPageList(page));					
-				}
+        if (size < Math.Pow(1024, 4))
+        {
+            return (size / Math.Pow(1024, 3)).ToString(formatString) + " gb";
+        }
 
-				li.Attributes.CssStyle.Remove("font-weight");
-				li.Attributes.CssStyle.Add("font-weight", "bold");
+        return size.ToString(formatString);
+    }
 
-				ulPages.Controls.Add(li);
-			}
-		}
+    /// <summary>
+    /// The upload.
+    /// </summary>
+    /// <param name="virtualFolder">
+    /// The virtual folder.
+    /// </param>
+    /// <param name="control">
+    /// The control.
+    /// </param>
+    /// <param name="fileName">
+    /// The file name.
+    /// </param>
+    private void Upload(string virtualFolder, FileUpload control, string fileName)
+    {
+        var folder = this.Server.MapPath(virtualFolder);
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+        }
 
-		divPages.Visible = true;
-		aPages.InnerHtml = BlogEngine.Core.Page.Pages.Count + " " + Resources.labels.pages;
-	}
+        control.PostedFile.SaveAs(folder + fileName);
+    }
 
-	private HtmlGenericControl BuildChildPageList(BlogEngine.Core.Page page)
-	{
-		HtmlGenericControl ul = new HtmlGenericControl("ul");
-		foreach (Page cPage in BlogEngine.Core.Page.Pages.FindAll(delegate(BlogEngine.Core.Page p)
-		{
-			//p => (p.Parent == page.Id)))
-			return p.Parent == page.Id;
-		}))
-		{
-			HtmlGenericControl cLi = new HtmlGenericControl("li");
-			cLi.Attributes.CssStyle.Add("font-weight", "normal");
-			HtmlAnchor cA = new HtmlAnchor();
-			cA.HRef = "?id=" + cPage.Id.ToString();
-			cA.InnerHtml = cPage.Title;
+    /// <summary>
+    /// Handles the Click event of the btnSave control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    private void btnSave_Click(object sender, EventArgs e)
+    {
+        if (!this.Page.IsValid)
+        {
+            throw new InvalidOperationException("One or more validators are invalid.");
+        }
 
-			System.Web.UI.LiteralControl cText = new System.Web.UI.LiteralControl
-			(" (" + cPage.DateCreated.ToString("yyyy-dd-MM HH:mm") + ") ");
+        BlogEngine.Core.Page page;
+        page = this.Request.QueryString["id"] != null ? BlogEngine.Core.Page.GetPage(new Guid(this.Request.QueryString["id"])) : new BlogEngine.Core.Page();
 
-			string deleteText = "Are you sure you want to delete the page?";
-			HtmlAnchor delete = new HtmlAnchor();
-			delete.InnerText = Resources.labels.delete;
-			delete.Attributes["onclick"] = "if (confirm('" + deleteText + "')){location.href='?delete=" + cPage.Id + "'}";
-			delete.HRef = "javascript:void(0);";
-			delete.Style.Add(System.Web.UI.HtmlTextWriterStyle.FontWeight, "normal");
+        if (string.IsNullOrEmpty(this.txtContent.Text))
+        {
+            this.txtContent.Text = "[No text]";
+        }
 
-			cLi.Controls.Add(cA);
-			cLi.Controls.Add(cText);
-			cLi.Controls.Add(delete);
+        page.Title = this.txtTitle.Text;
+        page.Content = this.txtContent.Text;
+        page.Description = this.txtDescription.Text;
+        page.Keywords = this.txtKeyword.Text;
 
-			if (cPage.HasChildPages)
-			{
-				cLi.Attributes.CssStyle.Remove("font-weight");
-				cLi.Attributes.CssStyle.Add("font-weight", "bold");
-				cLi.Controls.Add(BuildChildPageList(cPage));
-			}
+        if (this.cbFrontPage.Checked)
+        {
+            foreach (var otherPage in BlogEngine.Core.Page.Pages.Where(otherPage => otherPage.FrontPage))
+            {
+                otherPage.FrontPage = false;
+                otherPage.Save();
+            }
+        }
 
-			ul.Controls.Add(cLi);
+        page.FrontPage = this.cbFrontPage.Checked;
+        page.ShowInList = this.cbShowInList.Checked;
+        page.Published = this.cbPublished.Checked;
 
-		}
-		return ul;
-	}
+        if (!string.IsNullOrEmpty(this.txtSlug.Text))
+        {
+            page.Slug = Utils.RemoveIllegalCharacters(this.txtSlug.Text.Trim());
+        }
 
+        page.Parent = this.ddlParent.SelectedIndex != 0 ? new Guid(this.ddlParent.SelectedValue) : Guid.Empty;
 
-	#endregion
+        page.Save();
 
-	#region ICallbackEventHandler Members
+        this.Response.Redirect(page.RelativeLink);
+    }
 
-	private string _Callback;
+    /// <summary>
+    /// Handles the Click event of the btnUploadFile control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    private void btnUploadFile_Click(object sender, EventArgs e)
+    {
+        var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
+                             Path.DirectorySeparatorChar;
+        var folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
+        var fileName = this.txtUploadFile.FileName;
+        this.Upload(folder + relativeFolder, this.txtUploadFile, fileName);
 
-	public string GetCallbackResult()
-	{
-		return _Callback;
-	}
+        var a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
+        var text = this.txtUploadFile.FileName + " (" + this.SizeFormat(this.txtUploadFile.FileBytes.Length, "N") + ")";
+        this.txtContent.Text += string.Format(
+            a, Utils.RelativeWebRoot, this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
+    }
 
-	public void RaiseCallbackEvent(string eventArgument)
-	{
-		_Callback = Utils.RemoveIllegalCharacters(eventArgument.Trim());
-	}
+    /// <summary>
+    /// Handles the Click event of the btnUploadImage control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    private void btnUploadImage_Click(object sender, EventArgs e)
+    {
+        var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
+                             Path.DirectorySeparatorChar;
+        var folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
+        var fileName = this.txtUploadImage.FileName;
+        this.Upload(folder + relativeFolder, this.txtUploadImage, fileName);
 
-	#endregion
+        var path = Utils.RelativeWebRoot;
+        var img = string.Format(
+            "<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", 
+            path, 
+            this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
+        this.txtContent.Text += img;
+    }
+
+    #endregion
 }

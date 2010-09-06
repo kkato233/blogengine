@@ -71,7 +71,7 @@ namespace Controls
       SortedDictionary<string, int> dic = new SortedDictionary<string, int>();
       foreach (Post post in Post.Posts)
       {
-        if (post.IsVisibleToPublic)
+        if (post.VisibleToPublic)
         {
           foreach (string tag in post.Tags)
           {

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
+
+using BlogEngine.Core.Web.Extensions;
 
 public partial class User_controls_xdashboard_Default : System.Web.UI.Page
 {
@@ -13,27 +16,22 @@ public partial class User_controls_xdashboard_Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         string ctrlToLoad = string.Empty;
-        UserControl uc = null;
+        UserControl uc;
 
         switch (Request.QueryString["ctrl"])
         {
           case "params":
             string xName = Request.QueryString["ext"].ToString();
 
-            foreach (ManagedExtension x in ExtensionManager.Extensions)
+            foreach (ExtensionSettings setting in from x in ExtensionManager.Extensions
+                                                  where x.Name == xName
+                                                  from setting in x.Settings
+                                                  where !string.IsNullOrEmpty(setting.Name) && !setting.Hidden
+                                                  select setting)
             {
-              if (x.Name == xName)
-              {
-                foreach (ExtensionSettings setting in x.Settings)
-                {
-                  if (!string.IsNullOrEmpty(setting.Name) && !setting.Hidden)
-                  {
-                    uc = (UserControl)Page.LoadControl("Settings.ascx");
-                    uc.ID = setting.Name;
-                    ucPlaceHolder.Controls.Add(uc);
-                  }
-                }
-              }
+                uc = (UserControl)this.Page.LoadControl("Settings.ascx");
+                uc.ID = setting.Name;
+                this.ucPlaceHolder.Controls.Add(uc);
             }
             break;
           case "editor":

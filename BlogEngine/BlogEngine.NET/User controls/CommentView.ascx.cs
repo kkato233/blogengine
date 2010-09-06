@@ -14,6 +14,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
+using BlogEngine.Core.Web.Extensions;
 
 #endregion
 
@@ -263,7 +264,7 @@ public partial class User_controls_CommentView : UserControl, ICallbackEventHand
             if (BlogSettings.Instance.IsCommentsEnabled)
             {
 
-                if (!Post.IsCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
+                if (!Post.HasCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
                    Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
                 {
                     phAddComment.Visible = false;

@@ -62,11 +62,11 @@ public class Profile  : System.Web.Services.WebService {
                 return _response;
             }
 
-            pf.PhotoURL = vals[6];
-            pf.IsPrivate = false;
+            pf.PhotoUrl = vals[6];
+            pf.Private = false;
             
             bool prv = false;
-            if (bool.TryParse(vals[7], out prv)) pf.IsPrivate = prv;
+            if (bool.TryParse(vals[7], out prv)) pf.Private = prv;
             
             pf.PhoneMobile = vals[8];
             pf.PhoneMain = vals[9];

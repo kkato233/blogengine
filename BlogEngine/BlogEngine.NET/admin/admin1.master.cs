@@ -40,9 +40,9 @@ public partial class admin_admin : System.Web.UI.MasterPage
         if (AdminProfile() != null)
         {
             adminName = AdminProfile().DisplayName;
-            if (!string.IsNullOrEmpty(AdminProfile().PhotoURL))
+            if (!string.IsNullOrEmpty(AdminProfile().PhotoUrl))
             {
-                src = AdminProfile().PhotoURL;
+                src = AdminProfile().PhotoUrl;
             }else
             {
                 if(!string.IsNullOrEmpty(AdminProfile().EmailAddress) &&

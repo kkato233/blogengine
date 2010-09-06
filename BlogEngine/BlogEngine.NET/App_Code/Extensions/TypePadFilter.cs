@@ -1,5 +1,7 @@
 ﻿using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
+using BlogEngine.Core.Web.Extensions;
+
 using Joel.Net;
 
 [Extension("TypePad anti-spam comment filter (based on AkismetFilter)", "1.0", "<a href=\"http://lucsiferre.net\">By Chris Nicola</a>")]
@@ -83,7 +85,7 @@ public class TypePadFilter : ICustomFilter
     private void InitSettings()
     {
         ExtensionSettings settings = new ExtensionSettings(this);
-        settings.IsScalar = true;
+        settings.Scalar = true;
 
         settings.AddParameter("SiteURL", "Site URL");
         settings.AddParameter("ApiKey", "API Key");

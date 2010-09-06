@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using BlogEngine.Core.Web.Extensions;
+
 public partial class User_controls_xmanager_Parameters : UserControl
 {
   #region Private members
@@ -33,7 +35,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
 
     if (!Page.IsPostBack)
     {
-      if (_settings.IsScalar)
+      if (_settings.Scalar)
       {
         BindScalar();
       }
@@ -44,7 +46,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
       }
     }
 
-    if (_settings.IsScalar)
+    if (_settings.Scalar)
     {
       btnAdd.Text = Resources.labels.save;
     }
@@ -79,7 +81,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
         {
           TextBox txt = (TextBox)ctl;
 
-          if (_settings.IsScalar)
+          if (_settings.Scalar)
             _settings.UpdateScalarValue(txt.ID, txt.Text);
           else
             _settings.AddValue(txt.ID, txt.Text);
@@ -106,7 +108,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
         }
       }
       ExtensionManager.SaveSettings(_extensionName, _settings);
-      if (_settings.IsScalar)
+      if (_settings.Scalar)
       {
         InfoMsg.InnerHtml = Resources.labels.theValuesSaved;
         InfoMsg.Visible = true;
@@ -428,7 +430,7 @@ public partial class User_controls_xmanager_Parameters : UserControl
           rval = false;
           break;
         }
-        if (!_settings.IsScalar)
+        if (!_settings.Scalar)
         {
           if (_settings.KeyField == (txt.ID) && _settings.IsKeyValueExists(txt.Text.Trim()))
           {
