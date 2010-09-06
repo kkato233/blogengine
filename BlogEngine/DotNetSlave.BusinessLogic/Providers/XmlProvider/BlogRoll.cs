@@ -53,7 +53,7 @@ namespace BlogEngine.Core.Providers
 
         private void writeBlogRollFile(List<BlogRollItem> blogRollItems)
         {
-            string fileName = _Folder + "blogroll.xml";
+            string fileName = this.Folder + "blogroll.xml";
 
             using (XmlTextWriter writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8))
             {
@@ -109,7 +109,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>A List&lt;BlogRoll&gt; of all BlogRolls</returns>
         public override List<BlogRollItem> FillBlogRoll()
         {
-            string fileName = _Folder + "blogroll.xml";
+            string fileName = this.Folder + "blogroll.xml";
             if (!File.Exists(fileName))
                 return null;
 

@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override Page SelectPage(Guid id)
     {
-      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
+      string fileName = this.Folder + "pages" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
       XmlDocument doc = new XmlDocument();
       doc.Load(fileName);
 
@@ -64,10 +64,10 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void InsertPage(Page page)
     {
-      if (!Directory.Exists(_Folder + "pages"))
-        Directory.CreateDirectory(_Folder + "pages");
+      if (!Directory.Exists(this.Folder + "pages"))
+        Directory.CreateDirectory(this.Folder + "pages");
 
-      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
+      string fileName = this.Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
       XmlWriterSettings settings = new XmlWriterSettings();
       settings.Indent = true;
 
@@ -105,7 +105,7 @@ namespace BlogEngine.Core.Providers
     /// </summary>
     public override void DeletePage(Page page)
     {
-      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
+      string fileName = this.Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
       if (File.Exists(fileName))
         File.Delete(fileName);
 

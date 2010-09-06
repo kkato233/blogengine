@@ -1,53 +1,38 @@
-﻿#region Using
-
-using System;
-using System.Xml;
-using System.IO;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using BlogEngine.Core;
-
-#endregion
-
-namespace BlogEngine.Core.Providers
+﻿namespace BlogEngine.Core.Providers
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Web;
+    using System.Web.Configuration;
+    using System.Xml;
+
     /// <summary>
     /// A storage provider for BlogEngine that uses XML files.
-    /// <remarks>
+    ///     <remarks>
     /// To build another provider, you can just copy and modify
-    /// this one. Then add it to the web.config's BlogEngine section.
-    /// </remarks>
+    ///         this one. Then add it to the web.config's BlogEngine section.
+    ///     </remarks>
     /// </summary>
     public partial class XmlBlogProvider : BlogProvider
     {
+        #region Public Methods
 
-        /// <summary>
-        /// The storage location is to allow Blog Providers to use alternative storage locations that app_data root directory.
-        /// </summary>
-        /// <returns></returns>
-        public override string StorageLocation()
-        {
-           if(String.IsNullOrEmpty(System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"]))
-               return @"~/app_data/";
-            return System.Web.Configuration.WebConfigurationManager.AppSettings["StorageLocation"];
-
-        }
         /// <summary>
         /// Loads the settings from the provider.
         /// </summary>
+        /// <returns>A StringDictionary.</returns>
         public override StringDictionary LoadSettings()
         {
-            string filename = System.Web.HttpContext.Current.Server.MapPath(StorageLocation() + "settings.xml");
-            StringDictionary dic = new StringDictionary();
+            var filename = HttpContext.Current.Server.MapPath(string.Format("{0}settings.xml", this.StorageLocation()));
+            var dic = new StringDictionary();
 
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(filename);
 
             foreach (XmlNode settingsNode in doc.SelectSingleNode("settings").ChildNodes)
             {
-                string name = settingsNode.Name;
-                string value = settingsNode.InnerText;
+                var name = settingsNode.Name;
+                var value = settingsNode.InnerText;
 
                 dic.Add(name, value);
             }
@@ -58,19 +43,23 @@ namespace BlogEngine.Core.Providers
         /// <summary>
         /// Saves the settings to the provider.
         /// </summary>
+        /// <param name="settings">
+        /// The settings.
+        /// </param>
         public override void SaveSettings(StringDictionary settings)
         {
             if (settings == null)
+            {
                 throw new ArgumentNullException("settings");
+            }
 
-            string filename = _Folder + "settings.xml";
-            XmlWriterSettings writerSettings = new XmlWriterSettings(); ;
-            writerSettings.Indent = true;
+            var filename = this.Folder + "settings.xml";
+            var writerSettings = new XmlWriterSettings { Indent = true };
 
-            //------------------------------------------------------------
-            //    Create XML writer against file path
-            //------------------------------------------------------------
-            using (XmlWriter writer = XmlWriter.Create(filename, writerSettings))
+            // ------------------------------------------------------------
+            // Create XML writer against file path
+            // ------------------------------------------------------------
+            using (var writer = XmlWriter.Create(filename, writerSettings))
             {
                 writer.WriteStartElement("settings");
 
@@ -83,5 +72,22 @@ namespace BlogEngine.Core.Providers
             }
         }
 
+        /// <summary>
+        /// The storage location is to allow Blog Providers to use alternative storage locations that app_data root directory.
+        /// </summary>
+        /// <returns>
+        /// The storage location.
+        /// </returns>
+        public override string StorageLocation()
+        {
+            if (String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]))
+            {
+                return @"~/app_data/";
+            }
+
+            return WebConfigurationManager.AppSettings["StorageLocation"];
+        }
+
+        #endregion
     }
 }

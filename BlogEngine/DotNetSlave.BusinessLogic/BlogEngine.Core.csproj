@@ -94,6 +94,7 @@
     <Compile Include="JsonResponse.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
+    <Compile Include="Providers\BlogProviderCollection.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
     <Compile Include="SavedEventArgs.cs" />

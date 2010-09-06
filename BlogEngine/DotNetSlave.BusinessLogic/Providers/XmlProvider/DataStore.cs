@@ -20,18 +20,18 @@ namespace BlogEngine.Core.Providers
     /// <summary>
     /// Loads settings from generic data store
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
+    /// <param name="extensionType">Extension Type</param>
+    /// <param name="extensionId">Extension ID</param>
     /// <returns>Stream Settings</returns>
-    public override object LoadFromDataStore(ExtensionType exType, string exId)
+    public override object LoadFromDataStore(ExtensionType extensionType, string extensionId)
     {
-      string _fileName = StorageLocation(exType) + exId + ".xml";
+      string _fileName = StorageLocation(extensionType) + extensionId + ".xml";
       StreamReader reader = null;
       Stream str = null;
       try
       {
-        if (!Directory.Exists(StorageLocation(exType)))
-          Directory.CreateDirectory(StorageLocation(exType));
+        if (!Directory.Exists(StorageLocation(extensionType)))
+          Directory.CreateDirectory(StorageLocation(extensionType));
 
         if (File.Exists(_fileName))
         {
@@ -49,16 +49,16 @@ namespace BlogEngine.Core.Providers
     /// <summary>
     /// Save settings to generic data store
     /// </summary>
-    /// <param name="exType">Type of extension</param>
-    /// <param name="exId">Extension ID</param>
+    /// <param name="extensionType">Type of extension</param>
+    /// <param name="extensionId">Extension ID</param>
     /// <param name="settings">Stream Settings</param>
-    public override void SaveToDataStore(ExtensionType exType, string exId, object settings)
+    public override void SaveToDataStore(ExtensionType extensionType, string extensionId, object settings)
     {
-      string _fileName = StorageLocation(exType) + exId + ".xml";
+      string _fileName = StorageLocation(extensionType) + extensionId + ".xml";
       try
       {
-        if (!Directory.Exists(StorageLocation(exType)))
-          Directory.CreateDirectory(StorageLocation(exType));
+        if (!Directory.Exists(StorageLocation(extensionType)))
+          Directory.CreateDirectory(StorageLocation(extensionType));
 
         TextWriter writer = new StreamWriter(_fileName);
         XmlSerializer x = new XmlSerializer(settings.GetType());
@@ -75,11 +75,11 @@ namespace BlogEngine.Core.Providers
     /// <summary>
     /// Removes settings from data store
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension Id</param>
-    public override void RemoveFromDataStore(DataStore.ExtensionType exType, string exId)
+    /// <param name="extensionType">Extension Type</param>
+    /// <param name="extensionId">Extension Id</param>
+    public override void RemoveFromDataStore(DataStore.ExtensionType extensionType, string extensionId)
     {
-      string _fileName = StorageLocation(exType) + exId + ".xml";
+      string _fileName = StorageLocation(extensionType) + extensionId + ".xml";
       try
       {
         File.Delete(_fileName);
