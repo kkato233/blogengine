@@ -45,13 +45,13 @@ namespace BlogEngine.Core.Providers
         page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
 
       if (doc.SelectSingleNode("page/isfrontpage") != null)
-        page.IsFrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
+        page.FrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
 
       if (doc.SelectSingleNode("page/showinlist") != null)
         page.ShowInList = bool.Parse(doc.SelectSingleNode("page/showinlist").InnerText);
 
       if (doc.SelectSingleNode("page/ispublished") != null)
-        page.IsPublished = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
+        page.Published = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
 
       page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
       page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
@@ -82,9 +82,9 @@ namespace BlogEngine.Core.Providers
         writer.WriteElementString("keywords", page.Keywords);
 				writer.WriteElementString("slug", page.Slug);
         writer.WriteElementString("parent", page.Parent.ToString());
-        writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
+        writer.WriteElementString("isfrontpage", page.FrontPage.ToString());
         writer.WriteElementString("showinlist", page.ShowInList.ToString());
-        writer.WriteElementString("ispublished", page.IsPublished.ToString());
+        writer.WriteElementString("ispublished", page.Published.ToString());
         writer.WriteElementString("datecreated", page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
         writer.WriteElementString("datemodified", page.DateModified.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 
@@ -119,7 +119,7 @@ namespace BlogEngine.Core.Providers
     /// <returns>List of Pages</returns>
     public override List<Page> FillPages()
     {
-      string folder = Category._Folder + "pages" + Path.DirectorySeparatorChar;
+      string folder = Category.Folder + "pages" + Path.DirectorySeparatorChar;
       List<Page> pages = new List<Page>();
 
       foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))

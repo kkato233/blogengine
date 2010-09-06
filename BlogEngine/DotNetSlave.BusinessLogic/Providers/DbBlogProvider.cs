@@ -99,7 +99,7 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "SELECT PostID, Title, Description, PostContent, DateCreated, " +
-                                "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug " +
+                                "DateModified, Author, Published, IsCommentEnabled, Raters, Rating, Slug " +
                                 "FROM " + tablePrefix + "Posts " +
                                 "WHERE PostID = " + parmPrefix + "id";
                     cmd.CommandText = sqlQuery;
@@ -129,9 +129,9 @@ namespace BlogEngine.Core.Providers
                             if (!rdr.IsDBNull(6))
                                 post.Author = rdr.GetString(6);
                             if (!rdr.IsDBNull(7))
-                                post.IsPublished = rdr.GetBoolean(7);
+                                post.Published = rdr.GetBoolean(7);
                             if (!rdr.IsDBNull(8))
-                                post.IsCommentsEnabled = rdr.GetBoolean(8);
+                                post.HasCommentsEnabled = rdr.GetBoolean(8);
                             if (!rdr.IsDBNull(9))
                                 post.Raters = rdr.GetInt32(9);
                             if (!rdr.IsDBNull(10))
@@ -256,7 +256,7 @@ namespace BlogEngine.Core.Providers
                 {
                     string sqlQuery = "INSERT INTO " + tablePrefix + 
                         "Posts (PostID, Title, Description, PostContent, DateCreated, " +
-                        "DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug)" +
+                        "DateModified, Author, Published, IsCommentEnabled, Raters, Rating, Slug)" +
                         "VALUES (@id, @title, @desc, @content, @created, @modified, " +
                         "@author, @published, @commentEnabled, @raters, @rating, @slug)";
                     if (parmPrefix != "@")
@@ -304,12 +304,12 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpPublished = provider.CreateParameter();
                     dpPublished.ParameterName = parmPrefix + "published";
-                    dpPublished.Value = post.IsPublished;
+                    dpPublished.Value = post.Published;
                     cmd.Parameters.Add(dpPublished);
 
                     DbParameter dpCommentEnabled = provider.CreateParameter();
                     dpCommentEnabled.ParameterName = parmPrefix + "commentEnabled";
-                    dpCommentEnabled.Value = post.IsCommentsEnabled;
+                    dpCommentEnabled.Value = post.HasCommentsEnabled;
                     cmd.Parameters.Add(dpCommentEnabled);
 
                     DbParameter dpRaters = provider.CreateParameter();
@@ -363,7 +363,7 @@ namespace BlogEngine.Core.Providers
                     string sqlQuery = "UPDATE " + tablePrefix + "Posts " +
                                   "SET Title = @title, Description = @desc, PostContent = @content, " +
                                   "DateCreated = @created, DateModified = @modified, Author = @Author, " +
-                                  "IsPublished = @published, IsCommentEnabled = @commentEnabled, " +
+                                  "Published = @published, IsCommentEnabled = @commentEnabled, " +
                                   "Raters = @raters, Rating = @rating, Slug = @slug " +
                                   "WHERE PostID = @id";
                     if (parmPrefix != "@")
@@ -411,12 +411,12 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpPublished = provider.CreateParameter();
                     dpPublished.ParameterName = parmPrefix + "published";
-                    dpPublished.Value = post.IsPublished;
+                    dpPublished.Value = post.Published;
                     cmd.Parameters.Add(dpPublished);
 
                     DbParameter dpCommentEnabled = provider.CreateParameter();
                     dpCommentEnabled.ParameterName = parmPrefix + "commentEnabled";
-                    dpCommentEnabled.Value = post.IsCommentsEnabled;
+                    dpCommentEnabled.Value = post.HasCommentsEnabled;
                     cmd.Parameters.Add(dpCommentEnabled);
 
                     DbParameter dpRaters = provider.CreateParameter();
@@ -550,7 +550,7 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "SELECT PageID, Title, Description, PageContent, DateCreated, " +
-                                        "   DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug " +
+                                        "   DateModified, Keywords, Published, FrontPage, Parent, ShowInList, Slug " +
                                         "FROM " + tablePrefix + "Pages " +
                                         "WHERE PageID = " + parmPrefix + "id";
 
@@ -580,9 +580,9 @@ namespace BlogEngine.Core.Providers
                             if (!rdr.IsDBNull(6))
                                 page.Keywords = rdr.GetString(6);
                             if (!rdr.IsDBNull(7))
-                                page.IsPublished = rdr.GetBoolean(7);
+                                page.Published = rdr.GetBoolean(7);
                             if (!rdr.IsDBNull(8))
-                                page.IsFrontPage = rdr.GetBoolean(8);
+                                page.FrontPage = rdr.GetBoolean(8);
                             if (!rdr.IsDBNull(9))
                                 page.Parent = rdr.GetGuid(9);
                             if (!rdr.IsDBNull(10))
@@ -614,7 +614,7 @@ namespace BlogEngine.Core.Providers
                 using (DbCommand cmd = conn.CreateCommand())
                 {
                     string sqlQuery = "INSERT INTO " + tablePrefix + "Pages (PageID, Title, Description, PageContent, " +
-                                     "DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug) " +
+                                     "DateCreated, DateModified, Keywords, Published, FrontPage, Parent, ShowInList, Slug) " +
                                      "VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist, @slug)";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
@@ -661,12 +661,12 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpPublished = provider.CreateParameter();
                     dpPublished.ParameterName = parmPrefix + "ispublished";
-                    dpPublished.Value = page.IsPublished;
+                    dpPublished.Value = page.Published;
                     cmd.Parameters.Add(dpPublished);
 
                     DbParameter dpFrontPage = provider.CreateParameter();
                     dpFrontPage.ParameterName = parmPrefix + "isfrontpage";
-                    dpFrontPage.Value = page.IsFrontPage;
+                    dpFrontPage.Value = page.FrontPage;
                     cmd.Parameters.Add(dpFrontPage);
 
                     DbParameter dpParent = provider.CreateParameter();
@@ -708,7 +708,7 @@ namespace BlogEngine.Core.Providers
                     string sqlQuery = "UPDATE " + tablePrefix + "Pages " +
                                         "SET Title = @title, Description = @desc, PageContent = @content, " +
                                         "DateCreated = @created, DateModified = @modified, Keywords = @keywords, " +
-                                        "IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug " +
+                                        "Published = @ispublished, FrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug " +
                                         "WHERE PageID = @id";
                     if (parmPrefix != "@")
                         sqlQuery = sqlQuery.Replace("@", parmPrefix);
@@ -755,12 +755,12 @@ namespace BlogEngine.Core.Providers
 
                     DbParameter dpPublished = provider.CreateParameter();
                     dpPublished.ParameterName = parmPrefix + "ispublished";
-                    dpPublished.Value = page.IsPublished;
+                    dpPublished.Value = page.Published;
                     cmd.Parameters.Add(dpPublished);
 
                     DbParameter dpFrontPage = provider.CreateParameter();
                     dpFrontPage.ParameterName = parmPrefix + "isfrontpage";
-                    dpFrontPage.Value = page.IsFrontPage;
+                    dpFrontPage.Value = page.FrontPage;
                     cmd.Parameters.Add(dpFrontPage);
 
                     DbParameter dpParent = provider.CreateParameter();
@@ -2105,7 +2105,7 @@ namespace BlogEngine.Core.Providers
             if (dic.ContainsKey("AboutMe"))
                 profile.AboutMe = dic["AboutMe"];
             if (dic.ContainsKey("PhotoURL"))
-                profile.PhotoURL = dic["PhotoURL"];
+                profile.PhotoUrl = dic["PhotoURL"];
             if (dic.ContainsKey("Company"))
                 profile.Company = dic["Company"];
             if (dic.ContainsKey("EmailAddress"))
@@ -2117,7 +2117,7 @@ namespace BlogEngine.Core.Providers
             if (dic.ContainsKey("PhoneFax"))
                 profile.PhoneFax = dic["PhoneFax"];
             if (dic.ContainsKey("IsPrivate"))
-                profile.IsPrivate = dic["IsPrivate"] == "true";
+                profile.Private = dic["IsPrivate"] == "true";
 
 		    return profile;
 		}
@@ -2159,8 +2159,8 @@ namespace BlogEngine.Core.Providers
                 dic.Add("Country", profile.Country);
             if (!String.IsNullOrEmpty(profile.AboutMe))
                 dic.Add("AboutMe", profile.AboutMe);
-            if (!String.IsNullOrEmpty(profile.PhotoURL))
-                dic.Add("PhotoURL", profile.PhotoURL);
+            if (!String.IsNullOrEmpty(profile.PhotoUrl))
+                dic.Add("PhotoURL", profile.PhotoUrl);
             if (!String.IsNullOrEmpty(profile.Company))
                 dic.Add("Company", profile.Company);
             if (!String.IsNullOrEmpty(profile.EmailAddress))
@@ -2174,7 +2174,7 @@ namespace BlogEngine.Core.Providers
             if (profile.Birthday != DateTime.MinValue)
                 dic.Add("Birthday", profile.Birthday.ToString("yyyy-MM-dd"));
             
-            dic.Add("IsPrivate", profile.IsPrivate.ToString());
+            dic.Add("IsPrivate", profile.Private.ToString());
             
             // Save Profile Dictionary
             string connString = ConfigurationManager.ConnectionStrings[connStringName].ConnectionString;

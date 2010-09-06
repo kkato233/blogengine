@@ -56,10 +56,10 @@ namespace BlogEngine.Core.Providers
 				post.Author = doc.SelectSingleNode("post/author").InnerText;
 
 			if (doc.SelectSingleNode("post/ispublished") != null)
-				post.IsPublished = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
+				post.Published = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
 
 			if (doc.SelectSingleNode("post/iscommentsenabled") != null)
-				post.IsCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
+				post.HasCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
 
 			if (doc.SelectSingleNode("post/raters") != null)
 				post.Raters = int.Parse(doc.SelectSingleNode("post/raters").InnerText, CultureInfo.InvariantCulture);
@@ -182,8 +182,8 @@ namespace BlogEngine.Core.Providers
 				writer.WriteElementString("title", post.Title);
 				writer.WriteElementString("description", post.Description);
 				writer.WriteElementString("content", post.Content);
-				writer.WriteElementString("ispublished", post.IsPublished.ToString());
-				writer.WriteElementString("iscommentsenabled", post.IsCommentsEnabled.ToString());
+				writer.WriteElementString("ispublished", post.Published.ToString());
+				writer.WriteElementString("iscommentsenabled", post.HasCommentsEnabled.ToString());
 				writer.WriteElementString("pubDate", post.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteElementString("lastModified", post.DateModified.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 				writer.WriteElementString("raters", post.Raters.ToString(CultureInfo.InvariantCulture));
@@ -281,7 +281,7 @@ namespace BlogEngine.Core.Providers
 		/// <returns>List of Posts</returns>
 		public override List<Post> FillPosts()
 		{
-			string folder = Category._Folder + "posts" + Path.DirectorySeparatorChar;
+			string folder = Category.Folder + "posts" + Path.DirectorySeparatorChar;
 			List<Post> posts = new List<Post>();
 
 			foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
