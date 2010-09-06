@@ -40,16 +40,15 @@ public partial class Account_PasswordRetrieval : System.Web.UI.Page
     {
         MailMessage mail = new MailMessage();
 
-        mail.From = new MailAddress("noreply@blogengine.net");
+        mail.From = new MailAddress(BlogSettings.Instance.Email);
         mail.To.Add(email);
-        mail.ReplyTo = new MailAddress("noreply@blogengine.net", HttpUtility.HtmlDecode("no reply"));
 
         mail.Subject = "Your password has been reset";
 
         mail.Body = "<div style=\"font: 11px verdana, arial\">";
         mail.Body += "Dear " + user + ":";
-        mail.Body += "<br/><br/>Your password at \"" + BlogSettings.Instance.Name + "\" has ben reset to: " + pwd;
-        mail.Body += "<br/><br/>If it wasn't you who initiated reset, please let us know immidiently (use contact form on our site)";
+        mail.Body += "<br/><br/>Your password at \"" + BlogSettings.Instance.Name + "\" has been reset to: " + pwd;
+        mail.Body += "<br/><br/>If it wasn't you who initiated the reset, please let us know immediately (use contact form on our site)";
         mail.Body += "<br/><br/>Sincerely,<br/><br/><a href=\"" + Utils.AbsoluteWebRoot.ToString() + "\">" + BlogSettings.Instance.Name + "</a> team.";
         mail.Body += "</div>";
         

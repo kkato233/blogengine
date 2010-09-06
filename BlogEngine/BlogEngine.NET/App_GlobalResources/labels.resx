@@ -977,7 +977,7 @@
     <value>Add to pages (in addition to posts)</value>
   </data>
   <data name="alreadyHaveAccount" xml:space="preserve">
-    <value>Alerady have account?</value>
+    <value>Already have an account?</value>
   </data>
   <data name="applyChanges" xml:space="preserve">
     <value>Apply changes</value>
