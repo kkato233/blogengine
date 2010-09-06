@@ -1,84 +1,108 @@
-﻿using System;
-using BlogEngine.Core.Providers;
-using System.IO;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Xml.Serialization;
-
-namespace BlogEngine.Core.DataStore
+﻿namespace BlogEngine.Core.DataStore
 {
-  class StringDictionaryBehavior : ISettingsBehavior
-  {
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public StringDictionaryBehavior() { }
+    using System.Collections;
+    using System.Collections.Specialized;
+    using System.Configuration;
+    using System.IO;
+    using System.Xml.Serialization;
 
-    private static BlogProviderSection _section = (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
+    using BlogEngine.Core.Providers;
+
     /// <summary>
-    /// Saves String Dictionary to Data Store
+    /// The string dictionary behavior.
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension Id</param>
-    /// <param name="settings">StringDictionary settings</param>
-    /// <returns></returns>
-    public bool SaveSettings(ExtensionType exType, string exId, object settings)
+    internal class StringDictionaryBehavior : ISettingsBehavior
     {
-      try
-      {
-        StringDictionary sd = (StringDictionary)settings;
-        SerializableStringDictionary ssd = new SerializableStringDictionary();
+        #region Constants and Fields
 
-        foreach (DictionaryEntry de in sd)
+        /// <summary>
+        /// The section.
+        /// </summary>
+        private static readonly BlogProviderSection Section =
+            (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region ISettingsBehavior
+
+        /// <summary>
+        /// Retreaves StringDictionary object from database or file system
+        /// </summary>
+        /// <param name="extensionType">
+        /// Extension Type
+        /// </param>
+        /// <param name="extensionId">
+        /// Extension Id
+        /// </param>
+        /// <returns>
+        /// StringDictionary object as Stream
+        /// </returns>
+        public object GetSettings(ExtensionType extensionType, string extensionId)
         {
-          ssd.Add(de.Key.ToString(), de.Value.ToString());
+            SerializableStringDictionary ssd;
+            var sd = new StringDictionary();
+            var serializer = new XmlSerializer(typeof(SerializableStringDictionary));
+
+            if (Section.DefaultProvider == "XmlBlogProvider")
+            {
+                var stm = (Stream)BlogService.LoadFromDataStore(extensionType, extensionId);
+                if (stm != null)
+                {
+                    ssd = (SerializableStringDictionary)serializer.Deserialize(stm);
+                    stm.Close();
+                    sd = ssd;
+                }
+            }
+            else
+            {
+                var o = BlogService.LoadFromDataStore(extensionType, extensionId);
+                if (!string.IsNullOrEmpty((string)o))
+                {
+                    using (var reader = new StringReader((string)o))
+                    {
+                        ssd = (SerializableStringDictionary)serializer.Deserialize(reader);
+                    }
+
+                    sd = ssd;
+                }
+            }
+
+            return sd;
         }
 
-        BlogService.SaveToDataStore(exType, exId, ssd);
-        return true;
-      }
-      catch (Exception)
-      {
-        throw;
-      }
+        /// <summary>
+        /// Saves String Dictionary to Data Store
+        /// </summary>
+        /// <param name="extensionType">
+        /// Extension Type
+        /// </param>
+        /// <param name="extensionId">
+        /// Extension Id
+        /// </param>
+        /// <param name="settings">
+        /// StringDictionary settings
+        /// </param>
+        /// <returns>
+        /// The save settings.
+        /// </returns>
+        public bool SaveSettings(ExtensionType extensionType, string extensionId, object settings)
+        {
+            var sd = (StringDictionary)settings;
+            var ssd = new SerializableStringDictionary();
+
+            foreach (DictionaryEntry de in sd)
+            {
+                ssd.Add(de.Key.ToString(), de.Value.ToString());
+            }
+
+            BlogService.SaveToDataStore(extensionType, extensionId, ssd);
+            return true;
+        }
+
+        #endregion
+
+        #endregion
     }
-
-    /// <summary>
-    /// Retreaves StringDictionary object from database or file system
-    /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension Id</param>
-    /// <returns>StringDictionary object as Stream</returns>
-    public object GetSettings(ExtensionType exType, string exId)
-    {
-      SerializableStringDictionary ssd = null;
-      StringDictionary sd = new StringDictionary();
-      XmlSerializer serializer = new XmlSerializer(typeof(SerializableStringDictionary));
-
-      if (_section.DefaultProvider == "XmlBlogProvider")
-      {
-        Stream stm = (Stream)BlogService.LoadFromDataStore(exType, exId);
-        if (stm != null)
-        {
-          ssd = (SerializableStringDictionary)serializer.Deserialize(stm);
-          stm.Close();
-          sd = (StringDictionary)ssd;
-        }
-      }
-      else
-      {
-        object o = BlogService.LoadFromDataStore(exType, exId);
-        if (!string.IsNullOrEmpty((string)o))
-        {
-          using (StringReader reader = new StringReader((string)o))
-          {
-            ssd = (SerializableStringDictionary)serializer.Deserialize(reader);
-          }
-          sd = (StringDictionary)ssd;
-        }
-      }
-      return sd;
-    }
-  }
 }

@@ -92,11 +92,9 @@
         #region Public Methods
 
         /// <summary>
-        /// Raises the <see cref="Serving"/> event.
+        /// Raises the <see cref="E:Serving"/> event.
         /// </summary>
-        /// <param name="eventArgs">
-        /// The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.
-        /// </param>
+        /// <param name="eventArgs">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
         void OnServing(ServingEventArgs eventArgs);
 
         #endregion

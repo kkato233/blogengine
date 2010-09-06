@@ -341,7 +341,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
         if (Cache[zone] == null)
 		{
 			WidgetSettings ws = new WidgetSettings(zone);
-			ws.SettingsBehavior = new XMLDocumentBehavior();
+			ws.SettingsBehavior = new XmlDocumentBehavior();
 			doc = (XmlDocument)ws.GetSettings();
 			if (doc.SelectSingleNode("widgets") == null)
 			{
@@ -361,7 +361,7 @@ public partial class User_controls_WidgetEditor : System.Web.UI.Page
 	private void SaveXmlDocument(XmlDocument doc, string zone)
 	{
 		WidgetSettings ws = new WidgetSettings(zone);
-		ws.SettingsBehavior = new XMLDocumentBehavior();
+		ws.SettingsBehavior = new XmlDocumentBehavior();
 		ws.SaveSettings(doc);
         Cache[zone] = doc;
 	}

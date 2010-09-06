@@ -46,7 +46,7 @@ namespace Controls
 		private XmlDocument RetrieveXml()
 		{
 			WidgetSettings ws = new WidgetSettings(_ZoneName);
-			ws.SettingsBehavior = new XMLDocumentBehavior();
+			ws.SettingsBehavior = new XmlDocumentBehavior();
 			XmlDocument doc = (XmlDocument)ws.GetSettings();
 			return doc;
 		}
