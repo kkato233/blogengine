@@ -19,6 +19,7 @@
         /// Loads the stop words used in the search feature.
         /// </summary>
         /// <returns>
+        /// A StringCollection.
         /// </returns>
         public override StringCollection LoadStopWords()
         {

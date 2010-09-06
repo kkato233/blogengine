@@ -21,7 +21,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets _Folder.
+        ///     Gets _Folder.
         /// </summary>
         internal string Folder
         {
@@ -40,7 +40,7 @@
         /// Deletes a post from the data store.
         /// </summary>
         /// <param name="post">
-        /// The post.
+        /// The post to delete.
         /// </param>
         public override void DeletePost(Post post)
         {
@@ -74,7 +74,9 @@
         /// <summary>
         /// Inserts a new Post to the data store.
         /// </summary>
-        /// <param name="post">The post to insert.</param>
+        /// <param name="post">
+        /// The post to insert.
+        /// </param>
         public override void InsertPost(Post post)
         {
             if (!Directory.Exists(string.Format("{0}posts", this.Folder)))
@@ -191,8 +193,12 @@
         /// <summary>
         /// Retrieves a Post from the provider based on the specified id.
         /// </summary>
-        /// <param name="id">The Post id.</param>
-        /// <returns>A Post object.</returns>
+        /// <param name="id">
+        /// The Post id.
+        /// </param>
+        /// <returns>
+        /// A Post object.
+        /// </returns>
         public override Post SelectPost(Guid id)
         {
             var fileName = string.Format("{0}posts{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, id);
@@ -248,7 +254,7 @@
             }
 
             // Tags
-            foreach (XmlNode node in
+            foreach (var node in
                 doc.SelectNodes("post/tags/tag").Cast<XmlNode>().Where(node => !string.IsNullOrEmpty(node.InnerText)))
             {
                 post.Tags.Add(node.InnerText);
@@ -259,13 +265,13 @@
             {
                 var comment = new Comment
                     {
-                        Id = new Guid(node.Attributes["id"].InnerText),
+                        Id = new Guid(node.Attributes["id"].InnerText), 
                         ParentId =
                             (node.Attributes["parentid"] != null)
                                 ? new Guid(node.Attributes["parentid"].InnerText)
-                                : Guid.Empty,
-                        Author = node.SelectSingleNode("author").InnerText,
-                        Email = node.SelectSingleNode("email").InnerText,
+                                : Guid.Empty, 
+                        Author = node.SelectSingleNode("author").InnerText, 
+                        Email = node.SelectSingleNode("email").InnerText, 
                         Parent = post
                     };
 
@@ -293,7 +299,8 @@
                     comment.ModeratedBy = node.SelectSingleNode("moderatedby").InnerText;
                 }
 
-                comment.IsApproved = node.Attributes["approved"] == null || bool.Parse(node.Attributes["approved"].InnerText);
+                comment.IsApproved = node.Attributes["approved"] == null ||
+                                     bool.Parse(node.Attributes["approved"].InnerText);
 
                 if (node.SelectSingleNode("avatar") != null)
                 {
@@ -311,11 +318,8 @@
             // categories
             foreach (var cat in from XmlNode node in doc.SelectNodes("post/categories/category")
                                 select new Guid(node.InnerText)
-                                into key
-                                select Category.GetCategory(key)
-                                into cat 
-                                where cat != null
-                                select cat)
+                                into key select Category.GetCategory(key)
+                                into cat where cat != null select cat)
             {
                 // CategoryDictionary.Instance.ContainsKey(key))
                 post.Categories.Add(cat);
@@ -333,7 +337,9 @@
         /// <summary>
         /// Updates an existing Post in the data store specified by the provider.
         /// </summary>
-        /// <param name="post">The post to update.</param>
+        /// <param name="post">
+        /// The post to update.
+        /// </param>
         public override void UpdatePost(Post post)
         {
             this.InsertPost(post);

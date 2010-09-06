@@ -1,54 +1,57 @@
-﻿using System;
-using BlogEngine.Core.Providers;
-using System.IO;
-
-namespace BlogEngine.Core.DataStore
+﻿namespace BlogEngine.Core.DataStore
 {
-  /// <summary>
-  /// Incapsulates behavior for saving and retreaving
-  /// extension settings
-  /// </summary>
-  public class ExtensionSettingsBehavior : ISettingsBehavior
-  {
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public ExtensionSettingsBehavior()
-    {
-      //
-      // TODO: Add constructor logic here
-      //
-    }
+    using BlogEngine.Core.Providers;
 
     /// <summary>
-    /// Saves extension to database or file system
+    /// Incapsulates behavior for saving and retreaving
+    ///     extension settings
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
-    /// <param name="settings">Extension object</param>
-    /// <returns>True if saved</returns>
-    public bool SaveSettings(ExtensionType exType, string exId, object settings)
+    public class ExtensionSettingsBehavior : ISettingsBehavior
     {
-      try
-      {
-        BlogService.SaveToDataStore(exType, exId, settings);
-        return true;
-      }
-      catch (Exception)
-      {
-        throw;
-      }
-    }
+        #region Implemented Interfaces
 
-    /// <summary>
-    /// Retreaves extension object from database or file system
-    /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
-    /// <returns>Extension object as Stream</returns>
-    public object GetSettings(ExtensionType exType, string exId)
-    {
-      return BlogService.LoadFromDataStore(exType, exId);
+        #region ISettingsBehavior
+
+        /// <summary>
+        /// Retreaves extension object from database or file system
+        /// </summary>
+        /// <param name="extensionType">
+        /// Extension Type
+        /// </param>
+        /// <param name="extensionId">
+        /// Extension ID
+        /// </param>
+        /// <returns>
+        /// Extension object as Stream
+        /// </returns>
+        public object GetSettings(ExtensionType extensionType, string extensionId)
+        {
+            return BlogService.LoadFromDataStore(extensionType, extensionId);
+        }
+
+        /// <summary>
+        /// Saves extension to database or file system
+        /// </summary>
+        /// <param name="extensionType">
+        /// Extension Type
+        /// </param>
+        /// <param name="extensionId">
+        /// Extension ID
+        /// </param>
+        /// <param name="settings">
+        /// Extension object
+        /// </param>
+        /// <returns>
+        /// True if saved
+        /// </returns>
+        public bool SaveSettings(ExtensionType extensionType, string extensionId, object settings)
+        {
+            BlogService.SaveToDataStore(extensionType, extensionId, settings);
+            return true;
+        }
+
+        #endregion
+
+        #endregion
     }
-  }
 }
