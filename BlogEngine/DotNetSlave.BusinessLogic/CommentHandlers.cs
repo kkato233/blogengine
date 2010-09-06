@@ -1,180 +1,398 @@
-﻿using System;
-using System.Collections;
-using System.Data;
-using System.Globalization;
-using System.Reflection;
-using System.Threading;
-using System.ComponentModel;
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
-    ///<summary>
+    using System;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+
+    /// <summary>
     /// Rules, Filters and anti-spam services use this class
-    /// to handle adding new comment to the blog
-    ///</summary>
+    ///     to handle adding new comment to the blog
+    /// </summary>
     public static class CommentHandlers
     {
-        static ExtensionSettings _filters;
-        static ExtensionSettings _customFilters;
+        #region Constants and Fields
 
-        ///<summary>
-        /// Initiate adding comment event listener
-        ///</summary>
-        public static void Listen()
-        {
-            Post.AddingComment += PostAddingComment;
-            Post.CommentAdded += PostCommentAdded;
-            Post.CommentUpdated += PostCommentUpdated;
-            
-            InitFilters();
-            InitCustomFilters();
-        }
+        /// <summary>
+        ///     The custom filters.
+        /// </summary>
+        private static ExtensionSettings customFilters;
+
+        /// <summary>
+        ///     The filters.
+        /// </summary>
+        private static ExtensionSettings filters;
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Add comment IP to white or black list
         /// </summary>
-        /// <param name="ip">Comment IP</param>
-        /// <param name="isSpam">True if comment is spam</param>
-        /// <param name="replaceIfExists">True if old filter (if exists) should be removed</param>
-        public static void AddIpToFilter(string ip, bool isSpam, bool replaceIfExists)
+        /// <param name="ip">
+        /// Comment IP
+        /// </param>
+        /// <param name="isspam">
+        /// True if comment is spam
+        /// </param>
+        /// <param name="replaceIfExists">
+        /// True if old filter (if exists) should be removed
+        /// </param>
+        public static void AddIpToFilter(string ip, bool isspam, bool replaceIfExists)
         {
             // Only handle auto-moderated comments
-            if (!BlogSettings.Instance.IsCommentsEnabled) return;
-            if (!BlogSettings.Instance.EnableCommentsModeration) return;
-            if (BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto) return;
+            if (!BlogSettings.Instance.IsCommentsEnabled)
+            {
+                return;
+            }
 
-            int indx = 0;
-            bool match = false;
+            if (!BlogSettings.Instance.EnableCommentsModeration)
+            {
+                return;
+            }
 
-            DataTable dt = _filters.GetDataTable();
+            if (BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto)
+            {
+                return;
+            }
+
+            var indx = 0;
+            var match = false;
+
+            var dt = filters.GetDataTable();
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    string subject = row["Subject"].ToString();
-                    string filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
+                    var subject = row["Subject"].ToString();
+                    var filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
 
                     if (subject == "IP" && filter == ip)
                     {
                         match = true;
                         break;
                     }
+
                     indx++;
                 }
             }
 
             if (replaceIfExists && match)
             {
-                string log = "Removed old filter ";
+                var log = "Removed old filter ";
+
                 // remove old filter
-                foreach (ExtensionParameter par in _filters.Parameters)
+                foreach (var par in filters.Parameters)
                 {
-                    log += ":" + par.Values[indx];
+                    log += string.Format(":{0}", par.Values[indx]);
                     par.DeleteValue(indx);
                 }
-                ExtensionManager.SaveSettings("MetaExtension", _filters);
+
+                ExtensionManager.SaveSettings("MetaExtension", filters);
                 Utils.Log(log);
             }
 
-            if (!match || replaceIfExists)
+            if (match && !replaceIfExists)
             {
-                // add ip to filters
-                string id = Guid.NewGuid().ToString();
-                string action = isSpam ? "Block" : "Allow";
-                string bwList = isSpam ? "Black" : "White";
-                string[] f = new string[] { id, action, "IP", "Equals", ip };
-
-                _filters.AddValues(f);
-                ExtensionManager.SaveSettings("MetaExtension", _filters);
-
-                Utils.Log(string.Format("IP added to {0} list: {1}", bwList, ip));
+                return;
             }
+
+            // add ip to filters
+            var id = Guid.NewGuid().ToString();
+            var action = isspam ? "Block" : "Allow";
+            var blackWhiteList = isspam ? "Black" : "White";
+            var f = new[] { id, action, "IP", "Equals", ip };
+
+            filters.AddValues(f);
+            ExtensionManager.SaveSettings("MetaExtension", filters);
+
+            Utils.Log(string.Format("IP added to {0} list: {1}", blackWhiteList, ip));
+        }
+
+        /// <summary>
+        /// Instantiates custom filter object
+        /// </summary>
+        /// <param name="className">
+        /// Name of the class to instantiate
+        /// </param>
+        /// <returns>
+        /// Object as ICustomFilter
+        /// </returns>
+        public static ICustomFilter GetCustomFilter(string className)
+        {
+            try
+            {
+                var codeAssemblies = Utils.CodeAssemblies();
+                return
+                    codeAssemblies.Cast<Assembly>().Select(a => a.GetType(className)).Where(t => t != null).Select(
+                        t => (ICustomFilter)Activator.CreateInstance(t)).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Initiate adding comment event listener
+        /// </summary>
+        public static void Listen()
+        {
+            Post.AddingComment += PostAddingComment;
+            Post.CommentAdded += PostCommentAdded;
+            Post.CommentUpdated += PostCommentUpdated;
+
+            InitFilters();
+            InitCustomFilters();
         }
 
         /// <summary>
         /// Report to service if comment is really spam
         /// </summary>
-        /// <param name="comment">Comment object</param>
+        /// <param name="comment">
+        /// Comment object
+        /// </param>
         public static void ReportMistake(Comment comment)
         {
-            string m = comment.ModeratedBy;
+            var m = comment.ModeratedBy;
 
-            DataTable dt = _customFilters.GetDataTable();
-            int i = 0;
+            var dt = customFilters.GetDataTable();
+            var i = 0;
 
-            foreach (DataRow row in dt.Rows)
+            foreach (var fileterName in from DataRow row in dt.Rows select row[0].ToString())
             {
-                string fileterName = row[0].ToString();
-
-                if(fileterName == m)
+                if (fileterName == m)
                 {
-                    ICustomFilter customFilter = GetCustomFilter(fileterName);
+                    var customFilter = GetCustomFilter(fileterName);
 
                     if (customFilter != null)
                     {
-                        int mistakes = int.Parse(_customFilters.Parameters[4].Values[i]);
-                        _customFilters.Parameters[4].Values[i] = (mistakes + 1).ToString();
+                        var mistakes = int.Parse(customFilters.Parameters[4].Values[i]);
+                        customFilters.Parameters[4].Values[i] = (mistakes + 1).ToString();
 
                         customFilter.Report(comment);
                     }
+
                     break;
                 }
+
                 i++;
             }
 
-            ExtensionManager.SaveSettings("MetaExtension", _customFilters);
-        }
-
-        #region Event handlers
-
-        static void PostAddingComment(object sender, CancelEventArgs e)
-        {
-            if(!BlogSettings.Instance.IsCommentsEnabled) return;
-            if(!BlogSettings.Instance.EnableCommentsModeration) return;
-            
-            // Only handle auto-moderated comments
-            if(BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto) return;
-
-            Comment comment = (Comment)sender;
-            comment.IsApproved = true;
-            comment.ModeratedBy = "Auto";
-
-            if (!ModeratedByRule(comment))
-            {
-                if (ModeratedByFilter(comment))
-                {
-                    if (!comment.IsApproved && comment.ModeratedBy == "Delete")
-                        e.Cancel = true;
-                }
-                else
-                {
-                    RunCustomModerators(comment);
-                }
-            }
-
-            if (!comment.IsApproved)
-            {
-                CommentHandlers.AddIpToFilter(comment.IP, true, false);
-            }
-        }
-
-        static void PostCommentAdded(object sender, EventArgs e)
-        {
-            Comment comment = (Comment)sender;
-            if (comment != null && !comment.IsApproved)
-                AddIpToFilter(comment.IP, true, true);
-        }
-
-        static void PostCommentUpdated(object sender, EventArgs e)
-        {
-            Comment comment = (Comment)sender;
-            if (comment != null && !comment.IsApproved)
-                AddIpToFilter(comment.IP, true, true);
+            ExtensionManager.SaveSettings("MetaExtension", customFilters);
         }
 
         #endregion
 
-        static bool ModeratedByRule(Comment comment)
+        #region Methods
+
+        /// <summary>
+        /// The init custom filters.
+        /// </summary>
+        private static void InitCustomFilters()
+        {
+            var settings = new ExtensionSettings("BeCustomFilters");
+
+            settings.AddParameter("FullName", "Name", 100, true, true);
+            settings.AddParameter("Name");
+            settings.AddParameter("Checked");
+            settings.AddParameter("Cought");
+            settings.AddParameter("Reported");
+            settings.AddParameter("Priority");
+
+            customFilters = ExtensionManager.InitSettings("MetaExtension", settings);
+            if (customFilters == null)
+            {
+                return;
+            }
+
+            var dt = customFilters.GetDataTable();
+            var codeAssemblies = Utils.CodeAssemblies();
+
+            foreach (var type in
+                codeAssemblies.Cast<Assembly>().Select(a => a.GetTypes()).SelectMany(
+                    types => (from type in types
+                              where type.GetInterface("BlogEngine.Core.ICustomFilter") != null
+                              let found = dt.Rows.Cast<DataRow>().Any(row => row[0].ToString() == type.Name)
+                              where !found
+                              select type)))
+            {
+                customFilters.AddValues(new[] { type.FullName, type.Name, "0", "0", "0", "0" });
+            }
+
+            ExtensionManager.SaveSettings("MetaExtension", customFilters);
+        }
+
+        /// <summary>
+        /// Inits the filters.
+        /// </summary>
+        private static void InitFilters()
+        {
+            var settings = new ExtensionSettings("BeCommentFilters");
+
+            settings.AddParameter("ID", "ID", 20, true, true, ParameterType.Integer);
+            settings.AddParameter("Action");
+            settings.AddParameter("Subject");
+            settings.AddParameter("Operator");
+            settings.AddParameter("Filter");
+
+            filters = ExtensionManager.InitSettings("MetaExtension", settings);
+        }
+
+        /// <summary>
+        /// Moderates the comment by the filter.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// Whether the comment is moderated by a filter.
+        /// </returns>
+        private static bool ModeratedByFilter(Comment comment)
+        {
+            var dt = filters.GetDataTable();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    var action = row["Action"].ToString();
+
+                    if (action == "Delete")
+                    {
+                        comment.IsApproved = false;
+                        comment.ModeratedBy = "Delete";
+                        return true;
+                    }
+
+                    var subject = row["Subject"].ToString();
+                    var oper = row["Operator"].ToString();
+                    var filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
+
+                    var comm = comment.Content.ToLower(CultureInfo.InvariantCulture);
+                    var auth = comment.Author.ToLower(CultureInfo.InvariantCulture);
+
+                    var wsite = string.Empty;
+                    if (comment.Website != null)
+                    {
+                        wsite = comment.Website.ToString().ToLower(CultureInfo.InvariantCulture);
+                    }
+
+                    var email = comment.Email.ToLower(CultureInfo.InvariantCulture);
+
+                    var match = false;
+
+                    if (oper == "Equals")
+                    {
+                        switch (subject)
+                        {
+                            case "IP":
+                                if (comment.IP == filter)
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Author":
+                                if (auth == filter)
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Website":
+                                if (wsite == filter)
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Email":
+                                if (email == filter)
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Comment":
+                                if (comm == filter)
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (subject)
+                        {
+                            case "IP":
+                                if (comment.IP.Contains(filter))
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Author":
+                                if (auth.Contains(filter))
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Website":
+                                if (wsite.Contains(filter))
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Email":
+                                if (email.Contains(filter))
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                            case "Comment":
+                                if (comm.Contains(filter))
+                                {
+                                    match = true;
+                                }
+
+                                break;
+                        }
+                    }
+
+                    if (!match)
+                    {
+                        continue;
+                    }
+
+                    comment.IsApproved = action != "Block";
+                    comment.ModeratedBy = "Filter";
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns whether the comment is moderated by a rule.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// Whether comment is moderated by a rule.
+        /// </returns>
+        private static bool ModeratedByRule(Comment comment)
         {
             // trust authenticated users
             if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
@@ -184,28 +402,29 @@ namespace BlogEngine.Core
                 return true;
             }
 
-            int blackCnt = 0;
-            int whiteCnt = 0;
+            var blackCnt = 0;
+            var whiteCnt = 0;
 
             // check if this user already has approved or
             // rejected comments and belongs to white/black list
-            foreach (Post p in Post.Posts)
+            foreach (var c in from p in Post.Posts
+                              from c in p.Comments
+                              where c.Email.ToLowerInvariant() == comment.Email.ToLowerInvariant() || c.IP == comment.IP
+                              select c)
             {
-                foreach (Comment c in p.Comments)
+                if (c.IsApproved)
                 {
-                    if (c.Email.ToLowerInvariant() == comment.Email.ToLowerInvariant()
-                        || c.IP == comment.IP)
-                    {
-                        if (c.IsApproved)
-                            whiteCnt++;
-                        else
-                            blackCnt++;
-                    }
+                    whiteCnt++;
+                }
+                else
+                {
+                    blackCnt++;
                 }
             }
 
             // user is in the white list - approve comment
-            if (BlogSettings.Instance.CommentWhiteListCount > 0 && whiteCnt >= BlogSettings.Instance.CommentWhiteListCount)
+            if (BlogSettings.Instance.CommentWhiteListCount > 0 &&
+                whiteCnt >= BlogSettings.Instance.CommentWhiteListCount)
             {
                 comment.IsApproved = true;
                 comment.ModeratedBy = "Rule:white list";
@@ -213,252 +432,180 @@ namespace BlogEngine.Core
             }
 
             // user is in the black list - reject comment
-            if (BlogSettings.Instance.CommentBlackListCount > 0 && blackCnt >= BlogSettings.Instance.CommentBlackListCount)
+            if (BlogSettings.Instance.CommentBlackListCount > 0 &&
+                blackCnt >= BlogSettings.Instance.CommentBlackListCount)
             {
                 comment.IsApproved = false;
                 comment.ModeratedBy = "Rule:black list";
                 return true;
             }
+
             return false;
         }
 
-        static bool ModeratedByFilter(Comment comment)
+        /// <summary>
+        /// Handles the AddingComment event of the Post control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        private static void PostAddingComment(object sender, CancelEventArgs e)
         {
-            DataTable dt = _filters.GetDataTable();
-
-            if (dt != null && dt.Rows.Count > 0)
+            if (!BlogSettings.Instance.IsCommentsEnabled)
             {
-                foreach (DataRow row in dt.Rows)
+                return;
+            }
+
+            if (!BlogSettings.Instance.EnableCommentsModeration)
+            {
+                return;
+            }
+
+            // Only handle auto-moderated comments
+            if (BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto)
+            {
+                return;
+            }
+
+            var comment = (Comment)sender;
+            comment.IsApproved = true;
+            comment.ModeratedBy = "Auto";
+
+            if (!ModeratedByRule(comment))
+            {
+                if (ModeratedByFilter(comment))
                 {
-                    string action = row["Action"].ToString();
-
-                    if(action == "Delete")
+                    if (!comment.IsApproved && comment.ModeratedBy == "Delete")
                     {
-                        comment.IsApproved = false;
-                        comment.ModeratedBy = "Delete";
-                        return true;
-                    }
-
-                    string subject = row["Subject"].ToString();
-                    string oper = row["Operator"].ToString();
-                    string filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
-
-                    string comm = comment.Content.ToLower(CultureInfo.InvariantCulture);
-                    string auth = comment.Author.ToLower(CultureInfo.InvariantCulture);
-
-                    string wsite = string.Empty;
-                    if(comment.Website != null)
-                        wsite = comment.Website.ToString().ToLower(CultureInfo.InvariantCulture);
-                    
-                    string email = comment.Email.ToLower(CultureInfo.InvariantCulture);
-
-                    bool match = false;
-
-                    if (oper == "Equals")
-                    {
-                        if (subject == "IP")
-                        {
-                            if (comment.IP == filter)
-                                match = true;
-                        }
-                        if (subject == "Author")
-                        {
-                            if (auth == filter)
-                                match = true;
-                        }
-                        if (subject == "Website")
-                        {
-                            if (wsite == filter)
-                                match = true;
-                        }
-                        if (subject == "Email")
-                        {
-                            if (email == filter)
-                                match = true;
-                        }
-                        if (subject == "Comment")
-                        {
-                            if (comm == filter)
-                                match = true;
-                        }
-                    }
-                    else
-                    {
-                        if (subject == "IP")
-                        {
-                            if (comment.IP.Contains(filter))
-                                match = true;
-                        }
-                        if (subject == "Author")
-                        {
-                            if (auth.Contains(filter))
-                                match = true;
-                        }
-                        if (subject == "Website")
-                        {
-                            if (wsite.Contains(filter))
-                                match = true;
-                        }
-                        if (subject == "Email")
-                        {
-                            if (email.Contains(filter))
-                                match = true;
-                        }
-                        if (subject == "Comment")
-                        {
-                            if (comm.Contains(filter))
-                                match = true;
-                        }
-                    }
-
-                    if (match)
-                    {
-                        comment.IsApproved = action != "Block";
-                        comment.ModeratedBy = "Filter";
-                        return true;
+                        e.Cancel = true;
                     }
                 }
+                else
+                {
+                    RunCustomModerators(comment);
+                }
             }
-            return false;
+
+            if (!comment.IsApproved)
+            {
+                AddIpToFilter(comment.IP, true, false);
+            }
         }
 
-        static void RunCustomModerators(Comment comment)
+        /// <summary>
+        /// Handles the Added event of the PostComment control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs"/> instance containing the event data.
+        /// </param>
+        private static void PostCommentAdded(object sender, EventArgs e)
         {
-            DataTable dt = _customFilters.GetDataTable();
+            var comment = (Comment)sender;
+            if (comment != null && !comment.IsApproved)
+            {
+                AddIpToFilter(comment.IP, true, true);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Updated event of the PostComment control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs"/> instance containing the event data.
+        /// </param>
+        private static void PostCommentUpdated(object sender, EventArgs e)
+        {
+            var comment = (Comment)sender;
+            if (comment != null && !comment.IsApproved)
+            {
+                AddIpToFilter(comment.IP, true, true);
+            }
+        }
+
+        /// <summary>
+        /// The run custom moderators.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        private static void RunCustomModerators(Comment comment)
+        {
+            var dt = customFilters.GetDataTable();
             dt.DefaultView.Sort = "Priority";
 
             foreach (DataRowView row in dt.DefaultView)
             {
-                string fileterName = row[0].ToString();
+                var fileterName = row[0].ToString();
 
-                ICustomFilter customFilter = GetCustomFilter(fileterName);             
+                var customFilter = GetCustomFilter(fileterName);
 
-                if (customFilter != null && customFilter.Initialize())
+                if (customFilter == null || !customFilter.Initialize())
                 {
-                    comment.IsApproved = !customFilter.Check(comment);
-                    comment.ModeratedBy = fileterName;
+                    continue;
+                }
 
-                    Utils.Log(string.Format("Custom filter [{0}] - setting approved to {1}", 
-                        fileterName, comment.IsApproved));
+                comment.IsApproved = !customFilter.Check(comment);
+                comment.ModeratedBy = fileterName;
 
-                    UpdateCustomFilter(fileterName, comment.IsApproved);
+                Utils.Log(
+                    string.Format("Custom filter [{0}] - setting approved to {1}", fileterName, comment.IsApproved));
 
-                    // the custom filter tells no further
-                    // validation needed. don't call others
-                    if (!customFilter.FallThrough) break;
+                UpdateCustomFilter(fileterName, comment.IsApproved);
+
+                // the custom filter tells no further
+                // validation needed. don't call others
+                if (!customFilter.FallThrough)
+                {
+                    break;
                 }
             }
         }
 
-        #region Settings
-
-        static void InitFilters()
+        /// <summary>
+        /// The update custom filter.
+        /// </summary>
+        /// <param name="filter">
+        /// The filter.
+        /// </param>
+        /// <param name="approved">
+        /// The approved.
+        /// </param>
+        private static void UpdateCustomFilter(string filter, bool approved)
         {
-            ExtensionSettings settings = new ExtensionSettings("BeCommentFilters");
+            var dt = customFilters.GetDataTable();
+            var i = 0;
 
-            settings.AddParameter("ID", "ID", 20, true, true, ParameterType.Integer);
-            settings.AddParameter("Action");
-            settings.AddParameter("Subject");
-            settings.AddParameter("Operator");
-            settings.AddParameter("Filter");
-
-            _filters = ExtensionManager.InitSettings("MetaExtension", settings);
-        }
-
-        static void InitCustomFilters()
-        {
-            ExtensionSettings settings = new ExtensionSettings("BeCustomFilters");
-
-            settings.AddParameter("FullName", "Name", 100, true, true);
-            settings.AddParameter("Name");
-            settings.AddParameter("Checked");
-            settings.AddParameter("Cought");
-            settings.AddParameter("Reported");
-            settings.AddParameter("Priority");
-
-            _customFilters = ExtensionManager.InitSettings("MetaExtension", settings);
-
-            if(_customFilters != null)
+            foreach (var fileterName in dt.Rows.Cast<DataRow>().Select(row => row[0].ToString()))
             {
-                DataTable dt = _customFilters.GetDataTable();
-                ArrayList codeAssemblies = Utils.CodeAssemblies();
-
-                foreach (Assembly a in codeAssemblies)
-                {
-                    Type[] types = a.GetTypes();
-                    foreach (Type type in types)
-                    {
-                        if (type.GetInterface("BlogEngine.Core.ICustomFilter") != null)
-                        {
-                            bool found = false;
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                if(row[0].ToString() == type.Name)
-                                {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if(!found)
-                            {
-                                _customFilters.AddValues(new string[] { type.FullName, type.Name, "0", "0", "0", "0" });
-                            }
-                        }
-                    }
-                }
-                ExtensionManager.SaveSettings("MetaExtension", _customFilters);
-            }
-        }
-
-        static void UpdateCustomFilter(string filter, bool approved)
-        {
-            DataTable dt = _customFilters.GetDataTable();
-            int i = 0;
-
-            foreach (DataRow row in dt.Rows)
-            {
-                string fileterName = row[0].ToString();
-
                 if (fileterName == filter)
                 {
-                    int total = int.Parse(_customFilters.Parameters[2].Values[i]);
-                    int spam = int.Parse(_customFilters.Parameters[3].Values[i]);
+                    var total = int.Parse(customFilters.Parameters[2].Values[i]);
+                    var spam = int.Parse(customFilters.Parameters[3].Values[i]);
 
-                    _customFilters.Parameters[2].Values[i] = (total + 1).ToString();
-                    if (!approved) _customFilters.Parameters[3].Values[i] = (spam + 1).ToString();
+                    customFilters.Parameters[2].Values[i] = (total + 1).ToString();
+                    if (!approved)
+                    {
+                        customFilters.Parameters[3].Values[i] = (spam + 1).ToString();
+                    }
 
                     break;
                 }
+
                 i++;
             }
 
-            ExtensionManager.SaveSettings("MetaExtension", _customFilters);
+            ExtensionManager.SaveSettings("MetaExtension", customFilters);
         }
 
         #endregion
-
-        /// <summary>
-        /// Instantiates custom filter object
-        /// </summary>
-        /// <param name="className">Name of the class to instantiate</param>
-        /// <returns>Object as ICustomFilter</returns>
-        public static ICustomFilter GetCustomFilter(string className)
-        {
-            try
-            {
-                ArrayList codeAssemblies = Utils.CodeAssemblies();
-                foreach (Assembly a in codeAssemblies)
-                {
-                    Type t = a.GetType(className);
-                    if(t != null) return (ICustomFilter)Activator.CreateInstance(t);
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
     }
 }
