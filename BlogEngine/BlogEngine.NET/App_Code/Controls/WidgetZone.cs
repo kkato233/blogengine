@@ -9,6 +9,7 @@ using System.Web.Hosting;
 using BlogEngine.Core;
 using BlogEngine.Core.DataStore;
 using System.IO;
+using System.Collections.Generic;
 
 #endregion
 
@@ -16,13 +17,31 @@ namespace Controls
 {
 	public class WidgetZone : PlaceHolder
 	{
-
-		public WidgetZone()
+		static WidgetZone()
 		{
-			WidgetEditBase.Saved += delegate { XML_DOCUMENT = RetrieveXml(); };
+            WidgetEditBase.Saved += delegate { OnZonesUpdated(); };
 		}
-        
-		private XmlDocument XML_DOCUMENT;
+
+        private static Dictionary<string, XmlDocument> _xmlDocumentByZone = new Dictionary<string, XmlDocument>();
+
+        private static void OnZonesUpdated()
+        {
+            _xmlDocumentByZone.Clear();
+        }
+
+        private XmlDocument XML_DOCUMENT
+        {
+            get
+            {
+                // look up the document by zone name
+                if (_xmlDocumentByZone.ContainsKey(ZoneName))
+                {
+                    return _xmlDocumentByZone[ZoneName];
+                }
+
+                return null;
+            }
+        }
 
         // For backwards compatibility or if a ZoneName is omitted, provide a default ZoneName.
         private string _ZoneName = "be_WIDGET_ZONE";
@@ -38,18 +57,25 @@ namespace Controls
         protected override void OnInit(EventArgs e)
         {
             if (XML_DOCUMENT == null)
-                XML_DOCUMENT = RetrieveXml();
+            {
+                // if there's no document for this zone name yet, load it
+                XmlDocument doc = RetrieveXml(ZoneName);
+                if (doc != null)
+                {
+                    _xmlDocumentByZone[ZoneName] = doc;
+                }
+            }
 
             base.OnInit(e);
         }
 
-		private XmlDocument RetrieveXml()
-		{
-			WidgetSettings ws = new WidgetSettings(_ZoneName);
-			ws.SettingsBehavior = new XMLDocumentBehavior();
-			XmlDocument doc = (XmlDocument)ws.GetSettings();
-			return doc;
-		}
+        private static XmlDocument RetrieveXml(string zoneName)
+        {
+            WidgetSettings ws = new WidgetSettings(zoneName);
+            ws.SettingsBehavior = new XMLDocumentBehavior();
+            XmlDocument doc = (XmlDocument)ws.GetSettings();
+            return doc;
+        }
 
 		/// <summary>
 		/// Raises the <see cref="E:System.Web.UI.Control.Load"></see> event.

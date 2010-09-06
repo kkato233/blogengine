@@ -21,12 +21,12 @@ namespace Controls
   /// </summary>
     public class Blogroll : Control
     {
-        public Blogroll()
+        static Blogroll()
         {
             BlogRollItem.Saved += new EventHandler<SavedEventArgs>(BlogRollItem_Saved);
         }
 
-        private void BlogRollItem_Saved(object sender, SavedEventArgs e)
+        private static void BlogRollItem_Saved(object sender, SavedEventArgs e)
         {
             if (e.Action == SaveAction.Insert || e.Action == SaveAction.Update || e.Action == SaveAction.Delete)
             {
