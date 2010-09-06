@@ -20,6 +20,7 @@
     using System.Xml;
 
     using BlogEngine.Core.Web.Controls;
+    using BlogEngine.Core.Web.Extensions;
 
     /// <summary>
     /// Utilities for the entire solution to use.

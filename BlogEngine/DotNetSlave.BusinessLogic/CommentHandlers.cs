@@ -8,6 +8,8 @@
     using System.Reflection;
     using System.Threading;
 
+    using BlogEngine.Core.Web.Extensions;
+
     /// <summary>
     /// Rules, Filters and anti-spam services use this class
     ///     to handle adding new comment to the blog

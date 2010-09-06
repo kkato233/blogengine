@@ -50,7 +50,7 @@ namespace BlogEngine.Core.Providers
 				profile.AboutMe = doc.SelectSingleNode("//AboutMe").InnerText;
 
 			if (doc.SelectSingleNode("//PhotoURL") != null)
-				profile.PhotoURL = doc.SelectSingleNode("//PhotoURL").InnerText;
+				profile.PhotoUrl = doc.SelectSingleNode("//PhotoURL").InnerText;
 
 			if (doc.SelectSingleNode("//Company") != null)
 				profile.Company = doc.SelectSingleNode("//Company").InnerText;
@@ -68,7 +68,7 @@ namespace BlogEngine.Core.Providers
 				profile.PhoneFax = doc.SelectSingleNode("//PhoneFax").InnerText;
 
             if (doc.SelectSingleNode("//IsPrivate") != null)
-                profile.IsPrivate = doc.SelectSingleNode("//IsPrivate").InnerText == "true";
+                profile.Private = doc.SelectSingleNode("//IsPrivate").InnerText == "true";
 
 			//page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
 			//page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
@@ -101,7 +101,7 @@ namespace BlogEngine.Core.Providers
 
 				writer.WriteElementString("Birthday", profile.Birthday.ToString("yyyy-MM-dd"));
 				writer.WriteElementString("AboutMe", profile.AboutMe);
-				writer.WriteElementString("PhotoURL", profile.PhotoURL);
+				writer.WriteElementString("PhotoURL", profile.PhotoUrl);
 
 				writer.WriteElementString("Company", profile.Company);
 				writer.WriteElementString("EmailAddress", profile.EmailAddress);
@@ -109,7 +109,7 @@ namespace BlogEngine.Core.Providers
 				writer.WriteElementString("PhoneMobile", profile.PhoneMobile);
 				writer.WriteElementString("PhoneFax", profile.PhoneFax);
 
-                writer.WriteElementString("IsPrivate", profile.IsPrivate.ToString());
+                writer.WriteElementString("IsPrivate", profile.Private.ToString());
 
 				writer.WriteEndElement();
 			}
@@ -132,7 +132,7 @@ namespace BlogEngine.Core.Providers
 
 		public override List<AuthorProfile> FillProfiles()
 		{
-			string folder = Category._Folder + "profiles" + Path.DirectorySeparatorChar;
+			string folder = Category.Folder + "profiles" + Path.DirectorySeparatorChar;
 			List<AuthorProfile> profiles = new List<AuthorProfile>();
 
 			foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
