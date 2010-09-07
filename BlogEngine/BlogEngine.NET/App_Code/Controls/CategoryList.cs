@@ -1,185 +1,247 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.IO;
-using System.Collections.Generic;
-using BlogEngine.Core;
-
-#endregion
-
-namespace Controls
+﻿namespace Controls
 {
-	/// <summary>
-	/// Builds a category list.
-	/// </summary>
-	public class CategoryList : Control
-	{
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
 
-		static CategoryList()
-		{
-			Post.Saved += delegate { _Html = null; };
-			Category.Saved += delegate { _Html = null; };
-		}
+    using BlogEngine.Core;
 
-		#region Properties
+    /// <summary>
+    /// Builds a category list.
+    /// </summary>
+    public class CategoryList : Control
+    {
+        #region Constants and Fields
 
-		private static bool _ShowRssIcon = true;
-		/// <summary>
-		/// Gets or sets whether or not to show feed icons next to the category links.
-		/// </summary>
-		public bool ShowRssIcon
-		{
-			get { return _ShowRssIcon; }
-			set
-			{
-				if (_ShowRssIcon != value)
-				{
-					_ShowRssIcon = value;
-					_Html = null;
-				}
-			}
-		}
+        /// <summary>
+        ///     The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
 
-		private bool _ShowPostCount;
+        /// <summary>
+        ///     The html string.
+        /// </summary>
+        private static string html;
 
-		public bool ShowPostCount
-		{
-			get { return _ShowPostCount; }
-			set
-			{
-				if (_ShowPostCount!= value)
-				{
-					_ShowPostCount = value;
-					_Html = null;
-				}
-			}
-		}
+        /// <summary>
+        ///     The show rss icon.
+        /// </summary>
+        private static bool showRssIcon = true;
 
+        /// <summary>
+        ///     The show post count.
+        /// </summary>
+        private bool showPostCount;
 
-		private static object _SyncRoot = new object();
-		private static string _Html;
-		private string Html
-		{
-			get
-			{
-				if (_Html == null)
-				{
-					lock (_SyncRoot)
-					{
-						if (_Html == null)
-						{
-							HtmlGenericControl ul = BindCategories();
-							System.IO.StringWriter sw = new System.IO.StringWriter();
-							ul.RenderControl(new HtmlTextWriter(sw));
-							_Html = sw.ToString();
-						}
-					}
-				}
+        #endregion
 
-				return _Html;
-			}
-		}
+        #region Constructors and Destructors
 
-		#endregion
+        /// <summary>
+        ///     Initializes static members of the <see cref = "CategoryList" /> class.
+        /// </summary>
+        static CategoryList()
+        {
+            Post.Saved += (sender, args) => html = null;
+            Category.Saved += (sender, args) => html = null;
+        }
 
-		private HtmlGenericControl BindCategories()
-		{
-			SortedDictionary<string, Guid> dic = SortCategories();
+        #endregion
 
-			if (dic.Keys.Count == 0)
-			{
-				HtmlGenericControl none = new HtmlGenericControl("p");
-				none.InnerText = "None";
-				return none;
-			}
+        #region Properties
 
-			HtmlGenericControl ul = new HtmlGenericControl("ul");
-			ul.ID = "categorylist";
+        /// <summary>
+        ///     Gets or sets a value indicating whether ShowPostCount.
+        /// </summary>
+        public bool ShowPostCount
+        {
+            get
+            {
+                return this.showPostCount;
+            }
 
-			foreach (Guid id in dic.Values)
-			{
+            set
+            {
+                if (this.showPostCount == value)
+                {
+                    return;
+                }
 
+                this.showPostCount = value;
+                html = null;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not to show feed icons next to the category links.
+        /// </summary>
+        public bool ShowRssIcon
+        {
+            get
+            {
+                return showRssIcon;
+            }
+
+            set
+            {
+                if (showRssIcon == value)
+                {
+                    return;
+                }
+
+                showRssIcon = value;
+                html = null;
+            }
+        }
+
+        /// <summary>
+        ///     Gets Html.
+        /// </summary>
+        private string Html
+        {
+            get
+            {
+                if (html == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (html == null)
+                        {
+                            var ul = this.BindCategories();
+                            var sw = new StringWriter();
+                            ul.RenderControl(new HtmlTextWriter(sw));
+                            html = sw.ToString();
+                        }
+                    }
+                }
+
+                return html;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object and stores tracing information about the control if tracing is enabled.
+        /// </summary>
+        /// <param name="writer">
+        /// The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.
+        /// </param>
+        public override void RenderControl(HtmlTextWriter writer)
+        {
+            writer.Write(this.Html);
+            writer.Write(Environment.NewLine);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Determines whether the specified category has posts.
+        /// </summary>
+        /// <param name="cat">
+        /// The category.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the specified category has posts; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool HasPosts(Category cat)
+        {
+            return
+                Post.Posts.Where(post => post.Visible).SelectMany(post => post.Categories).Any(
+                    category => category == cat);
+        }
+
+        /// <summary>
+        /// Sorts the categories.
+        /// </summary>
+        /// <returns>
+        /// The sorted categories.
+        /// </returns>
+        private static SortedDictionary<string, Guid> SortCategories()
+        {
+            var dic = new SortedDictionary<string, Guid>();
+            foreach (var cat in Category.Categories.Where(HasPosts))
+            {
+                dic.Add(cat.CompleteTitle(), cat.Id);
+            }
+
+            return dic;
+        }
+
+        /// <summary>
+        /// The bind categories.
+        /// </summary>
+        /// <returns>
+        /// A list of categories.
+        /// </returns>
+        private HtmlGenericControl BindCategories()
+        {
+            var dic = SortCategories();
+
+            if (dic.Keys.Count == 0)
+            {
+                var none = new HtmlGenericControl("p") { InnerText = "None" };
+                return none;
+            }
+
+            var ul = new HtmlGenericControl("ul") { ID = "categorylist" };
+
+            foreach (var id in dic.Values)
+            {
                 // Find full category
-			    Category cat = Category.GetCategory(id);
-			    string key = cat.CompleteTitle();
+                var cat = Category.GetCategory(id);
+                var key = cat.CompleteTitle();
 
-				HtmlGenericControl li = new HtmlGenericControl("li");
+                var li = new HtmlGenericControl("li");
 
-				if (ShowRssIcon)
-				{
-					HtmlImage img = new HtmlImage();
-					img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
-					img.Alt = BlogSettings.Instance.SyndicationFormat.ToUpperInvariant() + " feed for " + key;
-					img.Attributes["class"] = "rssButton";
+                if (this.ShowRssIcon)
+                {
+                    var img = new HtmlImage
+                        {
+                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot), 
+                            Alt =
+                                string.Format(
+                                    "{0} feed for {1}", BlogSettings.Instance.SyndicationFormat.ToUpperInvariant(), key)
+                        };
+                    img.Attributes["class"] = "rssButton";
 
-					HtmlAnchor feedAnchor = new HtmlAnchor();
-                    feedAnchor.HRef = cat.FeedRelativeLink;
-					feedAnchor.Attributes["rel"] = "nofollow";
-					feedAnchor.Controls.Add(img);
+                    var feedAnchor = new HtmlAnchor { HRef = cat.FeedRelativeLink };
+                    feedAnchor.Attributes["rel"] = "nofollow";
+                    feedAnchor.Controls.Add(img);
 
-					li.Controls.Add(feedAnchor);
-				}
+                    li.Controls.Add(feedAnchor);
+                }
 
-				int posts = Post.GetPostsByCategory(dic[key]).FindAll(delegate(Post p)
-				{
-					return p.Visible;
-				}).Count;
+                var posts = Post.GetPostsByCategory(dic[key]).FindAll(p => p.Visible).Count;
 
-				string postCount = " (" + posts + ")";
-				if (!ShowPostCount)
-					postCount = null;
+                var postCount = string.Format(" ({0})", posts);
+                if (!this.ShowPostCount)
+                {
+                    postCount = null;
+                }
 
-				HtmlAnchor anc = new HtmlAnchor();
-                anc.HRef = cat.RelativeLink;
-				anc.InnerHtml = HttpUtility.HtmlEncode(key) + postCount;
-				anc.Title = "Category: " + key;
+                var anc = new HtmlAnchor
+                    {
+                        HRef = cat.RelativeLink, 
+                        InnerHtml = HttpUtility.HtmlEncode(key) + postCount, 
+                        Title = string.Format("Category: {0}", key)
+                    };
 
-				li.Controls.Add(anc);
-				ul.Controls.Add(li);
-			}
+                li.Controls.Add(anc);
+                ul.Controls.Add(li);
+            }
 
-			return ul;
-		}
+            return ul;
+        }
 
-		private SortedDictionary<string, Guid> SortCategories()
-		{
-			SortedDictionary<string, Guid> dic = new SortedDictionary<string, Guid>();
-			foreach (Category cat in Category.Categories)
-			{
-				if (HasPosts(cat))
-					dic.Add(cat.CompleteTitle(), cat.Id);
-			}
-
-			return dic;
-		}
-
-		private bool HasPosts(Category cat)
-		{
-			foreach (Post post in Post.Posts)
-			{
-				if (post.Visible)
-				{
-					foreach (Category category in post.Categories)
-					{
-						if (category == cat)
-							return true;
-					}
-				}
-
-			}
-			return false;
-		}
-
-		/// <summary>
-		/// Renders the control.
-		/// </summary>
-		public override void RenderControl(HtmlTextWriter writer)
-		{
-			writer.Write(Html);
-			writer.Write(Environment.NewLine);
-		}
-	}
+        #endregion
+    }
 }

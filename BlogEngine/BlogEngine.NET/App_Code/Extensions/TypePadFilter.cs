@@ -4,96 +4,181 @@ using BlogEngine.Core.Web.Extensions;
 
 using Joel.Net;
 
-[Extension("TypePad anti-spam comment filter (based on AkismetFilter)", "1.0", "<a href=\"http://lucsiferre.net\">By Chris Nicola</a>")]
+/// <summary>
+/// The type pad filter.
+/// </summary>
+[Extension("TypePad anti-spam comment filter (based on AkismetFilter)", "1.0", 
+    "<a href=\"http://lucsiferre.net\">By Chris Nicola</a>")]
 public class TypePadFilter : ICustomFilter
 {
-    private static ExtensionSettings _settings;
-    private static Akismet _api;
-    private static string _site;
-    private static string _key;
-    private static bool _fallThrough = true;
+    #region Constants and Fields
 
+    /// <summary>
+    /// The Akismet api.
+    /// </summary>
+    private static Akismet api;
+
+    /// <summary>
+    /// The fall through.
+    /// </summary>
+    private static bool fallThrough = true;
+
+    /// <summary>
+    /// The TypePad key.
+    /// </summary>
+    private static string key;
+
+    /// <summary>
+    /// The settings.
+    /// </summary>
+    private static ExtensionSettings settings;
+
+    /// <summary>
+    /// The TypePad site.
+    /// </summary>
+    private static string site;
+
+    #endregion
+
+    #region Constructors and Destructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TypePadFilter"/> class.
+    /// </summary>
     public TypePadFilter()
     {
-        InitSettings();
-    }
-
-    #region ICustomFilter Members
-
-    public bool Initialize()
-    {
-        if (!ExtensionManager.ExtensionEnabled("TypePadFilter"))
-            return false;
-
-        _site = _settings.GetSingleValue("SiteURL");
-        _key = _settings.GetSingleValue("ApiKey");
-        _api = new Akismet(_key, _site, "BlogEngine.net 1.5", "api.antispam.typepad.com");
-
-        return _api.VerifyKey();
-    }
-
-    public bool Check(Comment comment)
-    {
-        if (_api == null) Initialize();
-
-        AkismetComment typePadComment = GetAkismetComment(comment);
-        bool isspam = _api.CommentCheck(typePadComment);
-        _fallThrough = !isspam;
-        return isspam;
-    }
-
-    public void Report(Comment comment)
-    {
-        if (_api == null) Initialize();
-
-        AkismetComment akismetComment = GetAkismetComment(comment);
-
-        if (comment.IsApproved)
-        {
-            Utils.Log(string.Format("TypePad: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-            _api.SubmitHam(akismetComment);
-        }
-        else
-        {
-            Utils.Log(string.Format("TypePad: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-            _api.SubmitSpam(akismetComment);
-        }
-    }
-
-    public bool FallThrough
-    {
-        get { return _fallThrough; }
+        this.InitSettings();
     }
 
     #endregion
 
+    #region Properties
+
+    /// <summary>
+    /// Gets a value indicating whether FallThrough.
+    /// </summary>
+    public bool FallThrough
+    {
+        get
+        {
+            return fallThrough;
+        }
+    }
+
+    #endregion
+
+    #region Implemented Interfaces
+
+    #region ICustomFilter
+
+    /// <summary>
+    /// Check if comment is spam
+    /// </summary>
+    /// <param name="comment">BlogEngine comment</param>
+    /// <returns>True if comment is spam</returns>
+    public bool Check(Comment comment)
+    {
+        if (api == null)
+        {
+            this.Initialize();
+        }
+
+        var typePadComment = GetAkismetComment(comment);
+        var isspam = api.CommentCheck(typePadComment);
+        fallThrough = !isspam;
+        return isspam;
+    }
+
+    /// <summary>
+    /// Initializes anti-spam service
+    /// </summary>
+    /// <returns>
+    /// True if service online and credentials validated
+    /// </returns>
+    public bool Initialize()
+    {
+        if (!ExtensionManager.ExtensionEnabled("TypePadFilter"))
+        {
+            return false;
+        }
+
+        site = settings.GetSingleValue("SiteURL");
+        key = settings.GetSingleValue("ApiKey");
+        api = new Akismet(key, site, "BlogEngine.net 1.5", "api.antispam.typepad.com");
+
+        return api.VerifyKey();
+    }
+
+    /// <summary>
+    /// Report mistakes back to service
+    /// </summary>
+    /// <param name="comment">BlogEngine comment</param>
+    public void Report(Comment comment)
+    {
+        if (api == null)
+        {
+            this.Initialize();
+        }
+
+        var akismetComment = GetAkismetComment(comment);
+
+        if (comment.IsApproved)
+        {
+            Utils.Log(string.Format("TypePad: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
+            api.SubmitHam(akismetComment);
+        }
+        else
+        {
+            Utils.Log(string.Format("TypePad: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
+            api.SubmitSpam(akismetComment);
+        }
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Gets the akismet comment.
+    /// </summary>
+    /// <param name="comment">The comment.</param>
+    /// <returns>An Akismet Comment.</returns>
     private static AkismetComment GetAkismetComment(Comment comment)
     {
-        AkismetComment akismetComment = new AkismetComment();
-        akismetComment.Blog = _settings.GetSingleValue("SiteURL");
-        akismetComment.UserIp = comment.IP;
-        akismetComment.CommentContent = comment.Content;
-        akismetComment.CommentAuthor = comment.Author;
-        akismetComment.CommentAuthorEmail = comment.Email;
+        var akismetComment = new AkismetComment
+            {
+                Blog = settings.GetSingleValue("SiteURL"),
+                UserIp = comment.IP,
+                CommentContent = comment.Content,
+                CommentAuthor = comment.Author,
+                CommentAuthorEmail = comment.Email
+            };
         if (comment.Website != null)
         {
             akismetComment.CommentAuthorUrl = comment.Website.OriginalString;
         }
+
         return akismetComment;
     }
 
+    /// <summary>
+    /// Inits the settings.
+    /// </summary>
     private void InitSettings()
     {
-        ExtensionSettings settings = new ExtensionSettings(this);
-        settings.Scalar = true;
+        var extensionSettings = new ExtensionSettings(this) { Scalar = true };
 
-        settings.AddParameter("SiteURL", "Site URL");
-        settings.AddParameter("ApiKey", "API Key");
+        extensionSettings.AddParameter("SiteURL", "Site URL");
+        extensionSettings.AddParameter("ApiKey", "API Key");
 
-        settings.AddValue("SiteURL", "http://example.com/blog");
-        settings.AddValue("ApiKey", "123456789");
+        extensionSettings.AddValue("SiteURL", "http://example.com/blog");
+        extensionSettings.AddValue("ApiKey", "123456789");
 
-        _settings = ExtensionManager.InitSettings("TypePadFilter", settings);
+        settings = ExtensionManager.InitSettings("TypePadFilter", extensionSettings);
         ExtensionManager.SetStatus("TypePadFilter", false);
     }
+
+    #endregion
 }

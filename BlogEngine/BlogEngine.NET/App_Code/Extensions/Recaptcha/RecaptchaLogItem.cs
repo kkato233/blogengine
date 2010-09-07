@@ -1,15 +1,12 @@
 ﻿// Copyright (c) 2007 Adrian Godong, Ben Maurer
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,97 +17,86 @@
 
 // Adapted for dotnetblogengine by Filip Stanek ( http://www.bloodforge.com )
 
-using System;
-using System.Data;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Recaptcha
 {
-    using BlogEngine.Core.Web.Extensions;
+    using System;
 
     /// <summary>
-    /// Summary description for RecaptchaLogItem
+    /// Recaptcha Log Item
     /// </summary>
     [Serializable]
     public class RecaptchaLogItem
     {
-        public string Response = String.Empty;
-        public string Challenge = String.Empty;
-        public Guid CommentId = Guid.Empty;
-        public double TimeToComment; // in seconds - this is the time from the initial page load until a captcha was successfully solved
-        public double TimeToSolveCapcha; // in seconds - this is the time from the last time the captcha was refreshed until it was successfully solved.
-        public UInt16 NumberOfAttempts;
-        public bool Enabled = true;
-        public bool Necessary = true;
-    }
-
-    /// <summary>
-    /// Methods to save and retrieve reCaptcha logs
-    /// </summary>
-    public static class RecaptchaLogger
-    {
-        /// <summary>
-        /// Saves log data to datastore as extension settings
-        /// </summary>
-        /// <param name="items">List of log items</param>
-        public static void SaveLogItems(List<RecaptchaLogItem> items)
-        {
-            if (items.Count > 0)
-            {
-                ExtensionSettings settings = ExtensionManager.GetSettings("Recaptcha", "RecaptchaLog");
-                DataTable table = settings.GetDataTable();
-
-                if (table.Rows.Count > 0)
-                {
-                    for (int i = table.Rows.Count -1; i > -1; i--)
-                    {
-                        foreach (ExtensionParameter par in settings.Parameters)
-                            par.DeleteValue(i);
-                    }
-                }
-                
-                foreach (RecaptchaLogItem item in items)
-                {
-                    settings.AddValues(new[] { 
-                        item.Response, 
-                        item.Challenge, 
-                        item.CommentId.ToString(),
-                        item.TimeToComment.ToString(),
-                        item.TimeToSolveCapcha.ToString(),
-                        item.NumberOfAttempts.ToString(),
-                        item.Enabled.ToString(),
-                        item.Necessary.ToString() });
-                }
-                ExtensionManager.SaveSettings("Recaptcha", settings);
-            }
-        }
+        #region Constructors and Destructors
 
         /// <summary>
-        /// Read log data from data store
+        ///     Initializes a new instance of the <see cref = "RecaptchaLogItem" /> class.
         /// </summary>
-        /// <returns>List of log items</returns>
-        public static List<RecaptchaLogItem> ReadLogItems()
+        public RecaptchaLogItem()
         {
-            ExtensionSettings settings = ExtensionManager.GetSettings("Recaptcha", "RecaptchaLog");
-            DataTable table = settings.GetDataTable();
-            var log = new List<RecaptchaLogItem>();
-
-            if (table.Rows.Count > 0)
-            {
-                log.AddRange(from DataRow row in table.Rows select new RecaptchaLogItem
-                    {
-                        Response = (string) row["Response"],
-                        Challenge = (string) row["Challenge"], 
-                        CommentId = new Guid((string) row["CommentID"]), 
-                        Enabled = bool.Parse(row["Enabled"].ToString()), 
-                        Necessary = bool.Parse(row["Necessary"].ToString()), 
-                        NumberOfAttempts = ushort.Parse(row["NumberOfAttempts"].ToString()), 
-                        TimeToComment = double.Parse(row["TimeToComment"].ToString()), 
-                        TimeToSolveCapcha = double.Parse(row["TimeToSolveCapcha"].ToString())
-                    });
-            }
-            return log;
+            this.Response = String.Empty;
+            this.Necessary = true;
+            this.Enabled = true;
+            this.CommentId = Guid.Empty;
+            this.Challenge = String.Empty;
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets or sets the challenge.
+        /// </summary>
+        /// <value>The challenge.</value>
+        public string Challenge { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the comment id.
+        /// </summary>
+        /// <value>The comment id.</value>
+        public Guid CommentId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this <see cref = "RecaptchaLogItem" /> is enabled.
+        /// </summary>
+        /// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this <see cref = "RecaptchaLogItem" /> is necessary.
+        /// </summary>
+        /// <value><c>true</c> if necessary; otherwise, <c>false</c>.</value>
+        public bool Necessary { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the number of attempts.
+        /// </summary>
+        /// <value>The number of attempts.</value>
+        public ushort NumberOfAttempts { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the response.
+        /// </summary>
+        /// <value>The response.</value>
+        public string Response { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the time to comment.
+        /// </summary>
+        /// <remarks>
+        ///     in seconds - this is the time from the initial page load until a captcha was successfully solved
+        /// </remarks>
+        public double TimeToComment { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the time to solve capcha.
+        /// </summary>
+        /// <remarks>
+        ///     in seconds - this is the time from the last time the captcha was refreshed until it was successfully solved.
+        /// </remarks>
+        public double TimeToSolveCapcha { get; set; }
+
+        #endregion
     }
 }

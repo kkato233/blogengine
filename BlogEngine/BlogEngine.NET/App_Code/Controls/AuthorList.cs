@@ -1,139 +1,176 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.IO;
-using BlogEngine.Core;
-
-#endregion
-
-namespace Controls
+﻿namespace Controls
 {
-	/// <summary>
-	/// Builds a authro list.
-	/// </summary>
-	public class AuthorList : Control
-	{
+    using System;
+    using System.IO;
+    using System.Web.Security;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
 
-		/// <summary>
-		/// Initializes the <see cref="AuthorList"/> class.
-		/// </summary>
-		static AuthorList()
-		{
-			Post.Saved += delegate { _Html = null; };
-		}
+    using BlogEngine.Core;
 
-		#region Properties
+    using Resources;
 
-		private static bool _ShowRssIcon = true;
-		/// <summary>
-		/// Gets or sets whether or not to show feed icons next to the category links.
-		/// </summary>
-		public bool ShowRssIcon
-		{
-			get { return _ShowRssIcon; }
-			set
-			{
-				if (_ShowRssIcon != value)
-				{
-					_ShowRssIcon = value;
-					_Html = null;
-				}
-			}
-		}
+    /// <summary>
+    /// Builds an author list.
+    /// </summary>
+    public class AuthorList : Control
+    {
+        #region Constants and Fields
 
-		private static object _SyncRoot = new object();
+        /// <summary>
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
 
-		private static string _Html;
-		/// <summary>
-		/// Caches the rendered HTML in the private field and first
-		/// updates it when a post has been saved (new or updated).
-		/// </summary>
-		private string Html
-		{
-			get
-			{
-				if (_Html == null)
-				{
-					lock (_SyncRoot)
-					{
-						if (_Html == null)
-						{
-							HtmlGenericControl ul = BindAuthors();
-							System.IO.StringWriter sw = new System.IO.StringWriter();
-							ul.RenderControl(new HtmlTextWriter(sw));
-							_Html = sw.ToString();
-						}
-					}
-				}
+        /// <summary>
+        /// The html string.
+        /// </summary>
+        private static string html;
 
-				return _Html;
-			}
-		}
+        /// <summary>
+        /// The show rss icon.
+        /// </summary>
+        private static bool showRssIcon = true;
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Loops through all users and builds the HTML
-		/// presentation.
-		/// </summary>
-		private HtmlGenericControl BindAuthors()
-		{
-			if (Post.Posts.Count == 0)
-			{
-				HtmlGenericControl p = new HtmlGenericControl("p");
-				p.InnerHtml = Resources.labels.none;
-				return p;
-			}
+        #region Constructors and Destructors
 
-			HtmlGenericControl ul = new HtmlGenericControl("ul");
-			ul.ID = "authorlist";
+        /// <summary>
+        /// Initializes static members of the <see cref="AuthorList"/> class. 
+        /// </summary>
+        static AuthorList()
+        {
+            Post.Saved += (sender, args) => html = null;
+        }
 
-			foreach (MembershipUser user in Membership.GetAllUsers())
-			{
-				int postCount = Post.GetPostsByAuthor(user.UserName).Count;
-				if (postCount == 0)
-					continue;
+        #endregion
 
-				HtmlGenericControl li = new HtmlGenericControl("li");
+        #region Properties
 
-				if (ShowRssIcon)
-				{
-					HtmlImage img = new HtmlImage();
-					img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
-					img.Alt = "RSS feed for " + user.UserName;
-					img.Attributes["class"] = "rssButton";
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not to show feed icons next to the category links.
+        /// </summary>
+        public bool ShowRssIcon
+        {
+            get
+            {
+                return showRssIcon;
+            }
 
-					HtmlAnchor feedAnchor = new HtmlAnchor();
-					feedAnchor.HRef = Utils.RelativeWebRoot + "syndication.axd?author=" + Utils.RemoveIllegalCharacters(user.UserName);
-					feedAnchor.Attributes["rel"] = "nofollow";
-					feedAnchor.Controls.Add(img);
+            set
+            {
+                if (showRssIcon != value)
+                {
+                    showRssIcon = value;
+                    html = null;
+                }
+            }
+        }
 
-					li.Controls.Add(feedAnchor);
-				}
-				
-				HtmlAnchor anc = new HtmlAnchor();
-				anc.HRef = Utils.RelativeWebRoot + "author/" + user.UserName + BlogSettings.Instance.FileExtension;
-				anc.InnerHtml = user.UserName + " (" + postCount + ")";
-				anc.Title = "Author: " + user.UserName;
+        /// <summary>
+        ///     Gets the rendered HTML in the private field and first
+        ///     updates it when a post has been saved (new or updated).
+        /// </summary>
+        private string Html
+        {
+            get
+            {
+                if (html == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (html == null)
+                        {
+                            var ul = this.BindAuthors();
+                            var sw = new StringWriter();
+                            ul.RenderControl(new HtmlTextWriter(sw));
+                            html = sw.ToString();
+                        }
+                    }
+                }
 
-				li.Controls.Add(anc);
-				ul.Controls.Add(li);
-			}
+                return html;
+            }
+        }
 
-			return ul;
-		}
+        #endregion
 
-		/// <summary>
-		/// Renders the control.
-		/// </summary>
-		public override void RenderControl(HtmlTextWriter writer)
-		{
-			writer.Write(Html);
-			writer.Write(Environment.NewLine);
-		}
-	}
+        #region Public Methods
+
+        /// <summary>
+        /// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object and stores tracing information about the control if tracing is enabled.
+        /// </summary>
+        /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.</param>
+        public override void RenderControl(HtmlTextWriter writer)
+        {
+            writer.Write(this.Html);
+            writer.Write(Environment.NewLine);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Loops through all users and builds the HTML
+        /// presentation.
+        /// </summary>
+        /// <returns>The authors.</returns>
+        private HtmlGenericControl BindAuthors()
+        {
+            if (Post.Posts.Count == 0)
+            {
+                var p = new HtmlGenericControl("p") { InnerHtml = labels.none };
+                return p;
+            }
+
+            var ul = new HtmlGenericControl("ul") { ID = "authorlist" };
+
+            foreach (MembershipUser user in Membership.GetAllUsers())
+            {
+                var postCount = Post.GetPostsByAuthor(user.UserName).Count;
+                if (postCount == 0)
+                {
+                    continue;
+                }
+
+                var li = new HtmlGenericControl("li");
+
+                if (this.ShowRssIcon)
+                {
+                    var img = new HtmlImage
+                        {
+                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot),
+                            Alt = string.Format("RSS feed for {0}", user.UserName)
+                        };
+                    img.Attributes["class"] = "rssButton";
+
+                    var feedAnchor = new HtmlAnchor
+                        {
+                            HRef =
+                                string.Format("{0}syndication.axd?author={1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(user.UserName))
+                        };
+                    feedAnchor.Attributes["rel"] = "nofollow";
+                    feedAnchor.Controls.Add(img);
+
+                    li.Controls.Add(feedAnchor);
+                }
+
+                var anc = new HtmlAnchor
+                    {
+                        HRef = string.Format("{0}author/{1}{2}", Utils.RelativeWebRoot, user.UserName, BlogSettings.Instance.FileExtension),
+                        InnerHtml = string.Format("{0} ({1})", user.UserName, postCount),
+                        Title = string.Format("Author: {0}", user.UserName)
+                    };
+
+                li.Controls.Add(anc);
+                ul.Controls.Add(li);
+            }
+
+            return ul;
+        }
+
+        #endregion
+    }
 }
