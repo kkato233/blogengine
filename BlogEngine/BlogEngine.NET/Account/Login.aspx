@@ -40,4 +40,10 @@
         <asp:HyperLink ID="RegisterHyperLink" runat="server" EnableViewState="false"/>
     </div>
     <% } %>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name$='UserName']").focus();
+        });
+    </script>
 </asp:Content>

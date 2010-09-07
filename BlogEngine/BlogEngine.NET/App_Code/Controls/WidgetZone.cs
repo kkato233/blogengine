@@ -1,6 +1,7 @@
 ﻿namespace Controls
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -21,15 +22,16 @@
         #region Constants and Fields
 
         /// <summary>
-        /// The xml document.
+        /// The xml document by zone.
         /// </summary>
-        private XmlDocument xmlDocument;
+        private static readonly Dictionary<string, XmlDocument> XmlDocumentByZone =
+            new Dictionary<string, XmlDocument>();
 
         /// <summary>
-        /// The zone name.
+        ///     The zone name.
         /// </summary>
         /// <remarks>
-        /// For backwards compatibility or if a ZoneName is omitted, provide a default ZoneName.
+        ///     For backwards compatibility or if a ZoneName is omitted, provide a default ZoneName.
         /// </remarks>
         private string zoneName = "be_WIDGET_ZONE";
 
@@ -38,11 +40,11 @@
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WidgetZone"/> class.
+        ///     Initializes static members of the <see cref = "WidgetZone" /> class.
         /// </summary>
-        public WidgetZone()
+        static WidgetZone()
         {
-            WidgetEditBase.Saved += (sender, args) => this.xmlDocument = this.RetrieveXml();
+            WidgetEditBase.Saved += (sender, args) => OnZonesUpdated();
         }
 
         #endregion
@@ -65,6 +67,19 @@
             }
         }
 
+        /// <summary>
+        /// Gets the XML document.
+        /// </summary>
+        /// <value>The XML document.</value>
+        private XmlDocument XmlDocument
+        {
+            get
+            {
+                // look up the document by zone name
+                return XmlDocumentByZone.ContainsKey(this.ZoneName) ? XmlDocumentByZone[this.ZoneName] : null;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -72,12 +87,19 @@
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
         /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs"/> object that contains the event data.
+        /// </param>
         protected override void OnInit(EventArgs e)
         {
-            if (this.xmlDocument == null)
+            if (this.XmlDocument == null)
             {
-                this.xmlDocument = this.RetrieveXml();
+                // if there's no document for this zone name yet, load it
+                var doc = RetrieveXml(this.ZoneName);
+                if (doc != null)
+                {
+                    XmlDocumentByZone[this.ZoneName] = doc;
+                }
             }
 
             base.OnInit(e);
@@ -93,7 +115,7 @@
         {
             base.OnLoad(e);
 
-            var zone = this.xmlDocument.SelectNodes("//widget");
+            var zone = this.XmlDocument.SelectNodes("//widget");
             if (zone == null)
             {
                 return;
@@ -109,12 +131,14 @@
                     {
                         control.WidgetId = new Guid(widget.Attributes["id"].InnerText);
                         control.Title = widget.Attributes["title"].InnerText;
-                        control.ShowTitle = control.IsEditable ? bool.Parse(widget.Attributes["showTitle"].InnerText) : control.DisplayHeader;
+                        control.ShowTitle = control.IsEditable
+                                                ? bool.Parse(widget.Attributes["showTitle"].InnerText)
+                                                : control.DisplayHeader;
                     }
 
                     control.ID = control.WidgetId.ToString().Replace("-", string.Empty);
                     control.Zone = this.zoneName;
-                    
+
                     control.LoadWidget();
                     this.Controls.Add(control);
                 }
@@ -122,15 +146,15 @@
                 {
                     var lit = new Literal
                         {
-                            Text = string.Format("<p style=\"color:red\">Widget {0} not found.<p>", widget.InnerText) 
+                           Text = string.Format("<p style=\"color:red\">Widget {0} not found.<p>", widget.InnerText) 
                         };
                     lit.Text += ex.Message;
                     if (widget.Attributes != null)
                     {
                         lit.Text +=
                             string.Format(
-                                "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('{0}');return false\" title=\"{1} widget\">X</a>",
-                                widget.Attributes["id"].InnerText,
+                                "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('{0}');return false\" title=\"{1} widget\">X</a>", 
+                                widget.Attributes["id"].InnerText, 
                                 labels.delete);
                     }
 
@@ -169,17 +193,33 @@
             }
 
             writer.Write("</select>&nbsp;&nbsp;");
-            writer.Write("<input type=\"button\" value=\"Add\" onclick=\"BlogEngine.widgetAdmin.addWidget(BlogEngine.$('{0}').value, '{1}')\" />", selectorId, this.zoneName);
+            writer.Write(
+                "<input type=\"button\" value=\"Add\" onclick=\"BlogEngine.widgetAdmin.addWidget(BlogEngine.$('{0}').value, '{1}')\" />", 
+                selectorId, 
+                this.zoneName);
             writer.Write("<div class=\"clear\" id=\"clear\">&nbsp;</div>");
+        }
+
+        /// <summary>
+        /// Called when [zones updated].
+        /// </summary>
+        private static void OnZonesUpdated()
+        {
+            XmlDocumentByZone.Clear();
         }
 
         /// <summary>
         /// Retrieves the XML.
         /// </summary>
-        /// <returns>An Xml Document.</returns>
-        private XmlDocument RetrieveXml()
+        /// <param name="zoneName">
+        /// The zone Name.
+        /// </param>
+        /// <returns>
+        /// An Xml Document.
+        /// </returns>
+        private static XmlDocument RetrieveXml(string zoneName)
         {
-            var ws = new WidgetSettings(this.zoneName) { SettingsBehavior = new XmlDocumentBehavior() };
+            var ws = new WidgetSettings(zoneName) { SettingsBehavior = new XmlDocumentBehavior() };
             var doc = (XmlDocument)ws.GetSettings();
             return doc;
         }
