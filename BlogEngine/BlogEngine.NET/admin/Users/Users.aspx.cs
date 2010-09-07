@@ -1,33 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Services;
-using System.Web.Security;
-using BlogEngine.Core;
-
-public partial class admin_newuser : System.Web.UI.Page
+﻿namespace admin.Users
 {
-    JsonResponse _response;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Security;
+    using System.Web.Services;
 
-	protected void Page_Load(object sender, EventArgs e)
-	{
-        _response = new JsonResponse();
-	}
+    using BlogEngine.Core;
 
-    [WebMethod]
-    public static List<MembershipUser> GetUsers()
+    /// <summary>
+    /// The admin_newuser.
+    /// </summary>
+    public partial class admin_newuser : Page
     {
-        int count = 0;
-        MembershipUserCollection userCollection =  Membership.Provider.GetAllUsers(0, 999, out count);
-        List<MembershipUser> users = new List<MembershipUser>();
+        #region Constants and Fields
 
-        foreach (MembershipUser user in userCollection)
+        /// <summary>
+        /// The response.
+        /// </summary>
+        private JsonResponse response;
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the users.
+        /// </summary>
+        /// <returns>The users.</returns>
+        [WebMethod]
+        public static List<MembershipUser> GetUsers()
         {
-            users.Add(user);
+            int count;
+            var userCollection = Membership.Provider.GetAllUsers(0, 999, out count);
+            var users = userCollection.Cast<MembershipUser>().ToList();
+
+            users.Sort((u1, u2) => string.Compare(u1.UserName, u2.UserName));
+
+            return users;
         }
 
-        users.Sort(delegate(MembershipUser u1, MembershipUser u2)
-        { return string.Compare(u1.UserName, u2.UserName); });
+        #endregion
 
-        return users;
+        #region Methods
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            this.response = new JsonResponse();
+        }
+
+        #endregion
     }
 }

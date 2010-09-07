@@ -20,25 +20,24 @@
     /// </summary>
     public partial class User_controls_WidgetEditor : Page
     {
-        #region Constants and Fields
-
         /*
         /// <summary>
         /// The file name.
         /// </summary>
         private static readonly string FileName =
             HostingEnvironment.MapPath(string.Format("{0}widgetzone.xml", BlogSettings.Instance.StorageLocation));
-*/
-
-        #endregion
-
+        */
         #region Methods
 
         /// <summary>
         /// Handles the Init event of the Page control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs"/> instance containing the event data.
+        /// </param>
         protected void Page_Init(object sender, EventArgs e)
         {
             if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
@@ -93,7 +92,8 @@
         /// </param>
         private void AddWidget(string type, string zone)
         {
-            var widget = (WidgetBase)this.LoadControl(string.Format("{0}widgets/{1}/widget.ascx", Utils.RelativeWebRoot, type));
+            var widget =
+                (WidgetBase)this.LoadControl(string.Format("{0}widgets/{1}/widget.ascx", Utils.RelativeWebRoot, type));
             widget.WidgetId = Guid.NewGuid();
             widget.ID = widget.WidgetId.ToString().Replace("-", string.Empty);
             widget.Title = type;
@@ -183,7 +183,8 @@
                                                        ? " (" + title.Replace("'", "\\'") + ")"
                                                        : string.Empty);
 
-                                sb.AppendFormat(" {{ id: '{0}',  desc: '{1}' }} ", node.Attributes["id"].InnerText, description);
+                                sb.AppendFormat(
+                                    " {{ id: '{0}',  desc: '{1}' }} ", node.Attributes["id"].InnerText, description);
                             }
 
                             firstWidget = false;
@@ -305,14 +306,16 @@
                     if (oldZoneDoc != null && newZoneDoc != null)
                     {
                         // Make sure we can find all required elements before moving anything.
-                        var widgetToMove = oldZoneDoc.SelectSingleNode(string.Format("//widget[@id=\"{0}\"]", widgetToMoveId));
+                        var widgetToMove =
+                            oldZoneDoc.SelectSingleNode(string.Format("//widget[@id=\"{0}\"]", widgetToMoveId));
 
                         // If a Zone was selected from the dropdown box (rather than a Widget), moveBeforeWidgetId
                         // will be null.  In this case, the widget is moved to the bottom of the new zone.
                         XmlNode moveBeforeWidget = null;
                         if (!string.IsNullOrEmpty(moveBeforeWidgetId))
                         {
-                            moveBeforeWidget = newZoneDoc.SelectSingleNode(string.Format("//widget[@id=\"{0}\"]", moveBeforeWidgetId));
+                            moveBeforeWidget =
+                                newZoneDoc.SelectSingleNode(string.Format("//widget[@id=\"{0}\"]", moveBeforeWidgetId));
                         }
 
                         if (widgetToMove != null)
@@ -337,7 +340,8 @@
                                 {
                                     if (moveBeforeWidget.ParentNode != null)
                                     {
-                                        moveBeforeWidget.ParentNode.InsertBefore(widgetToMoveIntoNewDoc, moveBeforeWidget);
+                                        moveBeforeWidget.ParentNode.InsertBefore(
+                                            widgetToMoveIntoNewDoc, moveBeforeWidget);
                                     }
                                 }
                             }

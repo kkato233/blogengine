@@ -96,7 +96,7 @@
             }
             else
             {
-                var path = this.Server.MapPath(Utils.RelativeWebRoot + "App_GlobalResources/");
+                var path = this.Server.MapPath(string.Format("{0}App_GlobalResources/", Utils.RelativeWebRoot));
                 foreach (var file in Directory.GetFiles(path, "labels.*.resx"))
                 {
                     var index = file.LastIndexOf(Path.DirectorySeparatorChar) + 1;
@@ -202,7 +202,7 @@
         /// </summary>
         private void BindThemes()
         {
-            var path = this.Server.MapPath(Utils.RelativeWebRoot + "themes/");
+            var path = this.Server.MapPath(string.Format("{0}themes/", Utils.RelativeWebRoot));
             foreach (var dic in Directory.GetDirectories(path))
             {
                 var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
@@ -300,7 +300,7 @@
 
             if (this.txtAlternateFeedUrl.Text.Trim().Length > 0 && !this.txtAlternateFeedUrl.Text.Contains("://"))
             {
-                this.txtAlternateFeedUrl.Text = "http://" + this.txtAlternateFeedUrl.Text;
+                this.txtAlternateFeedUrl.Text = string.Format("http://{0}", this.txtAlternateFeedUrl.Text);
             }
 
             BlogSettings.Instance.AlternateFeedUrl = this.txtAlternateFeedUrl.Text;
@@ -331,21 +331,17 @@
         }
 
         /// <summary>
-        /// The btn test smtp_ click.
+        /// Handles the Click event of the btnTestSmtp control.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void btnTestSmtp_Click(object sender, EventArgs e)
         {
             try
             {
                 var mail = new MailMessage { From = new MailAddress(this.txtEmail.Text, this.txtName.Text) };
                 mail.To.Add(mail.From);
-                mail.Subject = "Test mail from " + this.txtName.Text;
+                mail.Subject = string.Format("Test mail from {0}", this.txtName.Text);
                 mail.IsBodyHtml = true;
                 mail.Body = "<div style=\"font: 11px verdana, arial\">";
                 mail.Body += "Success";
@@ -353,8 +349,8 @@
                 {
                     mail.Body +=
                         "<br /><br />_______________________________________________________________________________<br /><br />";
-                    mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
-                    mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
+                    mail.Body += string.Format("<strong>IP address:</strong> {0}<br />", HttpContext.Current.Request.UserHostAddress);
+                    mail.Body += string.Format("<strong>User-agent:</strong> {0}", HttpContext.Current.Request.UserAgent);
                 }
 
                 mail.Body += "</div>";
@@ -370,7 +366,7 @@
                 smtp.EnableSsl = this.cbEnableSsl.Checked;
                 smtp.Port = int.Parse(this.txtSmtpServerPort.Text, CultureInfo.InvariantCulture);
                 smtp.Send(mail);
-                this.lbSmtpStatus.Text = "Test successfull";
+                this.lbSmtpStatus.Text = "Test successful.";
                 this.lbSmtpStatus.Style.Add(HtmlTextWriterStyle.Color, "green");
             }
             catch (Exception ex)
