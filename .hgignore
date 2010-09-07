@@ -34,5 +34,5 @@ _ReSharper*/
 [Bb]uild[Ll]og.*
 *.[Pp]ublish.xml
 glob:BlogEngine/BlogEngine.NET/App_Data/logger.txt
-glob:BlogEngine/BlogEngine.NET/{B02E9840-1261-47AB-AE40-D333E73BB2C0}/CodeAnalysisLog.xml
-glob:BlogEngine/BlogEngine.NET/{B02E9840-1261-47AB-AE40-D333E73BB2C0}/WebProject.lastcodeanalysissucceeded
+*/{B02E9840-1261-47AB-AE40-D333E73BB2C0}/**
+*/PrecompiledWeb/**
