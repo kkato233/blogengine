@@ -1,17 +1,14 @@
 ﻿#region using
 
-using System;
-using System.IO;
-using System.Text;
-using System.Web;
 using System.Text.RegularExpressions;
-using System.Web.Caching;
+using System.Web;
+
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
+
 using CodeFormatter;
 
 #endregion
-
 
 /// <summary>
 /// Converts text to formatted syntax highlighted code.
@@ -22,187 +19,242 @@ using CodeFormatter;
 [Extension("Converts text to formatted syntax highlighted code (beta).", "0.1", "www.manoli.net")]
 public class CodeFormatterExtension
 {
-    #region Constructors
+    #region Constants and Fields
 
     /// <summary>
-    /// Maps custom events to the ServingContent event
+    /// The regex.
+    /// </summary>
+    private static readonly Regex Aregex = new Regex("<[^>]*>", RegexOptions.Compiled);
+
+    /// <summary>
+    /// The code regex.
+    /// </summary>
+    private readonly Regex codeRegex =
+        new Regex(
+            @"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+    #endregion
+
+    #region Constructors and Destructors
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CodeFormatterExtension"/> class. 
+    ///     Maps custom events to the ServingContent event
     /// </summary>
     public CodeFormatterExtension()
     {
-        Page.Serving += new EventHandler<ServingEventArgs>(ServingContent);
-        Post.Serving += new EventHandler<ServingEventArgs>(ServingContent);
-    } 
+        Page.Serving += this.ServingContent;
+        Post.Serving += this.ServingContent;
+    }
 
     #endregion
 
-    #region RegEx
+    #region Methods
 
-    private Regex codeRegex = new Regex(@"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])",
-        RegexOptions.Compiled
-        | RegexOptions.CultureInvariant
-        | RegexOptions.IgnoreCase
-        | RegexOptions.Singleline);
-
-    #endregion
-    
     /// <summary>
-    /// An event that handles ServingEventArgs
+    /// Strips the HTML.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    void ServingContent(object sender, ServingEventArgs e)
+    /// <param name="html">The HTML string.</param>
+    /// <returns>The stripped HTML.</returns>
+    private static string StripHtml(string html)
     {
-      if (e.Body.Contains("[/code]"))
-      {
-        e.Body = codeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
-      }
+        return string.IsNullOrEmpty(html) ? string.Empty : Aregex.Replace(html, string.Empty);
     }
 
     /// <summary>
-    /// 
+    /// Codes the evaluator.
     /// </summary>
-    /// <param name="match"></param>
-    /// <returns></returns>
-    private string CodeEvaluator(Match match)
+    /// <param name="match">The match.</param>
+    /// <returns>The code string.</returns>
+    private static string CodeEvaluator(Match match)
     {
         if (!match.Success)
+        {
             return match.Value;
+        }
 
-        HighlightOptions options = new HighlightOptions();
+        var options = new HighlightOptions
+            {
+                Language = match.Groups["lang"].Value,
+                Code = match.Groups["code"].Value,
+                DisplayLineNumbers = match.Groups["linenumbers"].Value == "on" ? true : false,
+                Title = match.Groups["title"].Value,
+                AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on" ? true : false
+            };
 
-        options.Language = match.Groups["lang"].Value;
-        options.Code = match.Groups["code"].Value;
-        options.DisplayLineNumbers = match.Groups["linenumbers"].Value == "on" ? true : false;
-        options.Title = match.Groups["title"].Value;
-        options.AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on" ? true : false;
-
-
-        string result = match.Value.Replace(match.Groups["begin"].Value, "");
-        result = result.Replace(match.Groups["end"].Value, "");
+        var result = match.Value.Replace(match.Groups["begin"].Value, string.Empty);
+        result = result.Replace(match.Groups["end"].Value, string.Empty);
         result = Highlight(options, result);
         return result;
-
     }
 
     /// <summary>
     /// Returns the formatted text.
     /// </summary>
-    /// <param name="options">Whatever options were set in the regex groups.</param>
-    /// <param name="text">Send the e.body so it can get formatted.</param>
-    /// <returns>The formatted string of the match.</returns>
-    private string Highlight(HighlightOptions options, string text)
+    /// <param name="options">
+    /// Whatever options were set in the regex groups.
+    /// </param>
+    /// <param name="text">
+    /// Send the e.body so it can get formatted.
+    /// </param>
+    /// <returns>
+    /// The formatted string of the match.
+    /// </returns>
+    private static string Highlight(HighlightOptions options, string text)
     {
-
         switch (options.Language)
         {
             case "c#":
-                CSharpFormat csf = new CSharpFormat();
-                csf.LineNumbers = options.DisplayLineNumbers;
-                csf.Alternate = options.AlternateLineNumbers;
+                var csf = new CSharpFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 return HttpContext.Current.Server.HtmlDecode(csf.FormatCode(text));
 
             case "vb":
-                VisualBasicFormat vbf = new VisualBasicFormat();
-                vbf.LineNumbers = options.DisplayLineNumbers;
-                vbf.Alternate = options.AlternateLineNumbers;
+                var vbf = new VisualBasicFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 return HttpContext.Current.Server.HtmlDecode(vbf.FormatCode(text));
 
             case "js":
-                JavaScriptFormat jsf = new JavaScriptFormat();
-                jsf.LineNumbers = options.DisplayLineNumbers;
-                jsf.Alternate = options.AlternateLineNumbers;
+                var jsf = new JavaScriptFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 return HttpContext.Current.Server.HtmlDecode(jsf.FormatCode(text));
 
             case "html":
-                HtmlFormat htmlf = new HtmlFormat();
-                htmlf.LineNumbers = options.DisplayLineNumbers;
-                htmlf.Alternate = options.AlternateLineNumbers;
+                var htmlf = new HtmlFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 text = StripHtml(text).Trim();
-                string code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
+                var code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
                 return code.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
             case "xml":
-                HtmlFormat xmlf = new HtmlFormat();
-                xmlf.LineNumbers = options.DisplayLineNumbers;
-                xmlf.Alternate = options.AlternateLineNumbers;
+                var xmlf = new HtmlFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 text = text.Replace("<br />", "\r\n");
                 text = StripHtml(text).Trim();
-                string xml = xmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
+                var xml = xmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
                 return xml.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
             case "tsql":
-                TsqlFormat tsqlf = new TsqlFormat();
-                tsqlf.LineNumbers = options.DisplayLineNumbers;
-                tsqlf.Alternate = options.AlternateLineNumbers;
+                var tsqlf = new TsqlFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 return HttpContext.Current.Server.HtmlDecode(tsqlf.FormatCode(text));
 
             case "msh":
-                MshFormat mshf = new MshFormat();
-                mshf.LineNumbers = options.DisplayLineNumbers;
-                mshf.Alternate = options.AlternateLineNumbers;
+                var mshf = new MshFormat
+                    {
+                        LineNumbers = options.DisplayLineNumbers,
+                        Alternate = options.AlternateLineNumbers
+                    };
                 return HttpContext.Current.Server.HtmlDecode(mshf.FormatCode(text));
-            
         }
 
         return string.Empty;
     }
 
-    private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
-
-    private static string StripHtml(string html)
+    /// <summary>
+    /// Handles the Serving event of the control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
+    private void ServingContent(object sender, ServingEventArgs e)
     {
-      if (string.IsNullOrEmpty(html))
-        return string.Empty;
-
-      return _Regex.Replace(html, string.Empty);
+        if (e.Body.Contains("[/code]"))
+        {
+            e.Body = this.codeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
+        }
     }
+
+    #endregion
 
     /// <summary>
     /// Handles all of the options for changing the rendered code.
     /// </summary>
     private class HighlightOptions
     {
-        private string language, title, code;
-        private bool displayLineNumbers = false;
-        private bool alternateLineNumbers = false;
+        #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HighlightOptions"/> class.
+        /// </summary>
         public HighlightOptions()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HighlightOptions"/> class.
+        /// </summary>
+        /// <param name="language">
+        /// The language.
+        /// </param>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <param name="linenumbers">
+        /// The linenumbers.
+        /// </param>
+        /// <param name="code">
+        /// The code string.
+        /// </param>
+        /// <param name="alternateLineNumbers">
+        /// The alternate line numbers.
+        /// </param>
         public HighlightOptions(string language, string title, bool linenumbers, string code, bool alternateLineNumbers)
         {
-            this.language = language;
-            this.title = title;
-            this.alternateLineNumbers = alternateLineNumbers;
-            this.code = code;
-            this.displayLineNumbers = linenumbers;
+            this.Language = language;
+            this.Title = title;
+            this.AlternateLineNumbers = alternateLineNumbers;
+            this.Code = code;
+            this.DisplayLineNumbers = linenumbers;
         }
 
-        public string Code
-        {
-            get { return code; }
-            set { code = value; }
-        }
-        public bool DisplayLineNumbers
-        {
-            get { return displayLineNumbers; }
-            set { displayLineNumbers = value; }
-        }
-        public string Language
-        {
-            get { return language; }
-            set { language = value; }
-        }
-        public string Title
-        {
-            get { return title; }
-            set { title = value; }
-        }
-        public bool AlternateLineNumbers
-        {
-            get { return alternateLineNumbers; }
-            set { alternateLineNumbers = value; }
-        }
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether AlternateLineNumbers.
+        /// </summary>
+        public bool AlternateLineNumbers { get; set; }
+
+        /// <summary>
+        /// Gets or sets Code.
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether DisplayLineNumbers.
+        /// </summary>
+        public bool DisplayLineNumbers { get; set; }
+
+        /// <summary>
+        /// Gets or sets Language.
+        /// </summary>
+        public string Language { get; set; }
+
+        /// <summary>
+        /// Gets or sets Title.
+        /// </summary>
+        public string Title { get; set; }
+
+        #endregion
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Data;
-using System.Collections.Generic;
-using BlogEngine.Core.Web.Controls;
-
-namespace Recaptcha
+﻿namespace Recaptcha
 {
+    using BlogEngine.Core.Web.Controls;
     using BlogEngine.Core.Web.Extensions;
 
     /// <summary>
@@ -13,19 +9,30 @@ namespace Recaptcha
     [Extension("Settings for the Recaptcha control", "1.0", "<a href=\"http://www.bloodforge.com\">Bloodforge.com</a>")]
     public class Recaptcha
     {
-        static protected ExtensionSettings _settings;
+        #region Constructors and Destructors
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "Recaptcha" /> class.
+        /// </summary>
         public Recaptcha()
         {
-            InitSettings();
-            InitLogSettings();
+            this.InitSettings();
+            this.InitLogSettings();
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets JScript.
+        /// </summary>
         public string JScript
         {
             get
             {
-                string result = @"function showRecaptchaLog() {
+                const string Result =
+                    @"function showRecaptchaLog() {
         window.scrollTo(0, 0);
         var width = document.documentElement.clientWidth + document.documentElement.scrollLeft;
         var height = document.documentElement.clientHeight + document.documentElement.scrollTop;
@@ -63,42 +70,27 @@ namespace Recaptcha
         document.body.appendChild(iframe);
         return false;
     }";
-                return result;
+                return Result;
             }
         }
 
-        #region private methods
+        /// <summary>
+        ///     Gets or sets the settings.
+        /// </summary>
+        /// <value>The settings.</value>
+        protected static ExtensionSettings Settings { get; set; }
 
-        public void InitSettings()
-        {
-            ExtensionSettings settings = new ExtensionSettings(this);
-            settings.Scalar = true;
+        #endregion
 
-            settings.AddParameter("PublicKey", "Public Key", 50, true, true, ParameterType.String);
-            settings.AddValue("PublicKey", "YOURPUBLICKEY");
+        #region Public Methods
 
-            settings.AddParameter("PrivateKey", "Private Key", 50, true, true, ParameterType.String);
-            settings.AddValue("PrivateKey", "YOURPRIVATEKEY");
-
-            settings.AddParameter("ShowForAuthenticatedUsers", "Show Captcha For Authenticated Users", 1, true, false, ParameterType.Boolean);
-            settings.AddValue("ShowForAuthenticatedUsers", false);
-
-            settings.AddParameter("MaxLogEntries", "Logging: Maximum successful recaptcha attempts to store (set to 0 to disable logging)", 4, true, false, ParameterType.Integer);
-            settings.AddValue("MaxLogEntries", 50);
-
-            settings.AddParameter("Theme", "Theme", 20, true, false, ParameterType.DropDown);
-            settings.AddValue("Theme", new string[] { "red", "white", "blackglass", "clean" }, "white");
-
-            settings.Help = "\n<script language='javascript' type='text/javascript'>\n" + JScript + "\n</script>\n" + "You can create your own public key at <a href='http://www.Recaptcha.net'>http://www.Recaptcha.net</a>. This is used for communication between your website and the recapcha server.<br /><br />Please rememeber you need to <span style=\"color:red\">enable extension</span> for reCaptcha to show up on the comments form.<br /><br />You can see some statistics on Captcha solving by storing successful attempts. If you're getting spam, this should also confirm that the spammers are at least solving the captcha.<br /><br /><a href='../Pages/RecaptchaLogViewer.aspx' target='_blank' onclick='return showRecaptchaLog()'>Click here to view the log</a>";
-            _settings = ExtensionManager.InitSettings("Recaptcha", settings);
-
-            ExtensionManager.SetStatus("Recaptcha", false);
-        }
-
+        /// <summary>
+        /// The init log settings.
+        /// </summary>
         public void InitLogSettings()
         {
-            ExtensionSettings settings = new ExtensionSettings("RecaptchaLog");
-        
+            var settings = new ExtensionSettings("RecaptchaLog");
+
             settings.AddParameter("Response");
             settings.AddParameter("Challenge");
             settings.AddParameter("CommentID");
@@ -110,6 +102,49 @@ namespace Recaptcha
             settings.Hidden = true;
 
             ExtensionManager.InitSettings("Recaptcha", settings);
+        }
+
+        /// <summary>
+        /// The init settings.
+        /// </summary>
+        public void InitSettings()
+        {
+            var settings = new ExtensionSettings(this) { Scalar = true };
+
+            settings.AddParameter("PublicKey", "Public Key", 50, true, true, ParameterType.String);
+            settings.AddValue("PublicKey", "YOURPUBLICKEY");
+
+            settings.AddParameter("PrivateKey", "Private Key", 50, true, true, ParameterType.String);
+            settings.AddValue("PrivateKey", "YOURPRIVATEKEY");
+
+            settings.AddParameter(
+                "ShowForAuthenticatedUsers", 
+                "Show Captcha For Authenticated Users", 
+                1, 
+                true, 
+                false, 
+                ParameterType.Boolean);
+            settings.AddValue("ShowForAuthenticatedUsers", false);
+
+            settings.AddParameter(
+                "MaxLogEntries", 
+                "Logging: Maximum successful recaptcha attempts to store (set to 0 to disable logging)", 
+                4, 
+                true, 
+                false, 
+                ParameterType.Integer);
+            settings.AddValue("MaxLogEntries", 50);
+
+            settings.AddParameter("Theme", "Theme", 20, true, false, ParameterType.DropDown);
+            settings.AddValue("Theme", new[] { "red", "white", "blackglass", "clean" }, "white");
+
+            settings.Help =
+                string.Format(
+                    "\n<script language='javascript' type='text/javascript'>\n{0}\n</script>\nYou can create your own public key at <a href='http://www.Recaptcha.net'>http://www.Recaptcha.net</a>. This is used for communication between your website and the recapcha server.<br /><br />Please rememeber you need to <span style=\"color:red\">enable extension</span> for reCaptcha to show up on the comments form.<br /><br />You can see some statistics on Captcha solving by storing successful attempts. If you're getting spam, this should also confirm that the spammers are at least solving the captcha.<br /><br /><a href='../Pages/RecaptchaLogViewer.aspx' target='_blank' onclick='return showRecaptchaLog()'>Click here to view the log</a>", 
+                    this.JScript);
+            Settings = ExtensionManager.InitSettings("Recaptcha", settings);
+
+            ExtensionManager.SetStatus("Recaptcha", false);
         }
 
         #endregion
