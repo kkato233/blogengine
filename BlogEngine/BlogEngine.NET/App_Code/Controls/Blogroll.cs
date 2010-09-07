@@ -41,7 +41,7 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref = "Blogroll" /> class.
         /// </summary>
-        public Blogroll()
+        static Blogroll()
         {
             BlogRollItem.Saved += BlogRollItemSaved;
         }

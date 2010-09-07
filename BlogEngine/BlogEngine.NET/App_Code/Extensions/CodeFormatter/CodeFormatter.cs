@@ -29,7 +29,7 @@ public class CodeFormatterExtension
     /// <summary>
     /// The code regex.
     /// </summary>
-    private readonly Regex codeRegex =
+    private static readonly Regex CodeRegex =
         new Regex(
             @"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])",
             RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -39,13 +39,12 @@ public class CodeFormatterExtension
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CodeFormatterExtension"/> class. 
-    ///     Maps custom events to the ServingContent event
+    /// Initializes static members of the <see cref="CodeFormatterExtension"/> class. 
     /// </summary>
-    public CodeFormatterExtension()
+    static CodeFormatterExtension()
     {
-        Page.Serving += this.ServingContent;
-        Post.Serving += this.ServingContent;
+        Page.Serving += ServingContent;
+        Post.Serving += ServingContent;
     }
 
     #endregion
@@ -175,11 +174,11 @@ public class CodeFormatterExtension
     /// </summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
-    private void ServingContent(object sender, ServingEventArgs e)
+    private static void ServingContent(object sender, ServingEventArgs e)
     {
         if (e.Body.Contains("[/code]"))
         {
-            e.Body = this.codeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
+            e.Body = CodeRegex.Replace(e.Body, new MatchEvaluator(CodeEvaluator));
         }
     }
 
