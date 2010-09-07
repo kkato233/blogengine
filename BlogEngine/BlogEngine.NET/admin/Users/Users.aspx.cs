@@ -11,7 +11,7 @@
     /// <summary>
     /// The admin_newuser.
     /// </summary>
-    public partial class admin_newuser : Page
+    public partial class admin_newuser : System.Web.UI.Page
     {
         #region Constants and Fields
 
