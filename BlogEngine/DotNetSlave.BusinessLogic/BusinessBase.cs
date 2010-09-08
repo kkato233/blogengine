@@ -383,9 +383,9 @@
         #region IChangeTracking
 
         /// <summary>
-        /// Resets the object�s state to unchanged by accepting the modifications.
+        /// Resets the object's state to unchanged by accepting the modifications.
         /// </summary>
-        void IChangeTracking.AcceptChanges()
+        public void AcceptChanges()
         {
             this.Save();
         }
