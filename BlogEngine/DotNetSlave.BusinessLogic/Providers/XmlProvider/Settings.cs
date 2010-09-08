@@ -29,12 +29,16 @@
             var doc = new XmlDocument();
             doc.Load(filename);
 
-            foreach (XmlNode settingsNode in doc.SelectSingleNode("settings").ChildNodes)
+            var settings = doc.SelectSingleNode("settings");
+            if (settings != null)
             {
-                var name = settingsNode.Name;
-                var value = settingsNode.InnerText;
+                foreach (XmlNode settingsNode in settings.ChildNodes)
+                {
+                    var name = settingsNode.Name;
+                    var value = settingsNode.InnerText;
 
-                dic.Add(name, value);
+                    dic.Add(name, value);
+                }
             }
 
             return dic;
@@ -53,7 +57,7 @@
                 throw new ArgumentNullException("settings");
             }
 
-            var filename = this.Folder + "settings.xml";
+            var filename = string.Format("{0}settings.xml", this.Folder);
             var writerSettings = new XmlWriterSettings { Indent = true };
 
             // ------------------------------------------------------------
@@ -80,12 +84,7 @@
         /// </returns>
         public override string StorageLocation()
         {
-            if (String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]))
-            {
-                return @"~/app_data/";
-            }
-
-            return WebConfigurationManager.AppSettings["StorageLocation"];
+            return String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"];
         }
 
         #endregion
