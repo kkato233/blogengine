@@ -11,7 +11,7 @@ using BlogEngine.Core.Web.Extensions;
 /// <summary>
 /// Converts BBCode to XHTML in the comments.
 /// </summary>
-[Extension("Converts BBCode to XHTML in the comments", "1.0", 
+[Extension("Converts BBCode to XHTML in the comments", "1.0",
     "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
 public class BBCode
 {
@@ -20,7 +20,7 @@ public class BBCode
     /// <summary>
     /// The settings.
     /// </summary>
-    protected static ExtensionSettings Settings;
+    private static ExtensionSettings settings;
 
     #endregion
 
@@ -32,44 +32,64 @@ public class BBCode
     static BBCode()
     {
         Comment.Serving += PostCommentServing;
+    }
 
-        // create settings object. You need to pass exactly your
-        // extension class name (case sencitive)
-        var settings = new ExtensionSettings("BBCode");
+    /// <summary>
+    /// Gets or sets the settings.
+    /// </summary>
+    /// <value>The settings.</value>
+    protected static ExtensionSettings Settings
+    {
+        get
+        {
+            if (settings == null)
+            {
+                // create settings object. You need to pass exactly your
+                // extension class name (case sencitive)
+                var extensionSettings = new ExtensionSettings("BBCode");
 
-        // -----------------------------------------------------
-        // 1. Simple
-        // -----------------------------------------------------
-        // settings.AddParameter("Code");
-        // settings.AddParameter("OpenTag");
-        // settings.AddParameter("CloseTag");
-        // -----------------------------------------------------
-        // 2. Some more options
-        // -----------------------------------------------------
-        // settings.AddParameter("Code");
-        // settings.AddParameter("OpenTag", "Open Tag");
-        // settings.AddParameter("CloseTag", "Close Tag");
+                // -----------------------------------------------------
+                // 1. Simple
+                // -----------------------------------------------------
+                // settings.AddParameter("Code");
+                // settings.AddParameter("OpenTag");
+                // settings.AddParameter("CloseTag");
+                // -----------------------------------------------------
+                // 2. Some more options
+                // -----------------------------------------------------
+                // settings.AddParameter("Code");
+                // settings.AddParameter("OpenTag", "Open Tag");
+                // settings.AddParameter("CloseTag", "Close Tag");
 
-        //// describe specific rules applied to entering parameters. overrides default wording.
-        // settings.Help = "Converts BBCode to XHTML in the comments. Close tag is optional.";
-        // -----------------------------------------------------
-        // 3. More options including import defaults
-        // -----------------------------------------------------
-        settings.AddParameter("Code", "Code", 20, true);
-        settings.AddParameter("OpenTag", "Open Tag", 150, true);
-        settings.AddParameter("CloseTag", "Close Tag");
+                //// describe specific rules applied to entering parameters. overrides default wording.
+                // settings.Help = "Converts BBCode to XHTML in the comments. Close tag is optional.";
+                // -----------------------------------------------------
+                // 3. More options including import defaults
+                // -----------------------------------------------------
+                extensionSettings.AddParameter("Code", "Code", 20, true);
+                extensionSettings.AddParameter("OpenTag", "Open Tag", 150, true);
+                extensionSettings.AddParameter("CloseTag", "Close Tag");
 
-        // describe specific rules for entering parameters
-        settings.Help = "Converts BBCode to XHTML in the comments. Close tag is optional.";
+                // describe specific rules for entering parameters
+                extensionSettings.Help = "Converts BBCode to XHTML in the comments. Close tag is optional.";
 
-        settings.AddValues(new[] { "b", "strong", string.Empty });
-        settings.AddValues(new[] { "i", "em", string.Empty });
-        settings.AddValues(new[] { "u", "span style=\"text-decoration:underline\"", "span" });
-        settings.AddValues(new[] { "quote", "cite title=\"Quote\"", "cite" });
+                extensionSettings.AddValues(new[] { "b", "strong", string.Empty });
+                extensionSettings.AddValues(new[] { "i", "em", string.Empty });
+                extensionSettings.AddValues(new[] { "u", "span style=\"text-decoration:underline\"", "span" });
+                extensionSettings.AddValues(new[] { "quote", "cite title=\"Quote\"", "cite" });
 
-        // ------------------------------------------------------
-        ExtensionManager.ImportSettings(settings);
-        Settings = ExtensionManager.GetSettings("BBCode");
+                // ------------------------------------------------------
+                ExtensionManager.ImportSettings(extensionSettings);
+                settings = ExtensionManager.GetSettings("BBCode");
+            }
+
+            return settings;
+        }
+
+        set
+        {
+            settings = value;
+        }
     }
 
     #endregion
@@ -137,16 +157,19 @@ public class BBCode
 
         // retrieve parameters back as a data table
         // column = parameter
-        var table = Settings.GetDataTable();
-        foreach (DataRow row in table.Rows)
+        if (Settings != null)
         {
-            if (string.IsNullOrEmpty((string)row["CloseTag"]))
+            var table = Settings.GetDataTable();
+            foreach (DataRow row in table.Rows)
             {
-                Parse(ref body, (string)row["Code"], (string)row["OpenTag"]);
-            }
-            else
-            {
-                Parse(ref body, (string)row["Code"], (string)row["OpenTag"], (string)row["CloseTag"]);
+                if (string.IsNullOrEmpty((string)row["CloseTag"]))
+                {
+                    Parse(ref body, (string)row["Code"], (string)row["OpenTag"]);
+                }
+                else
+                {
+                    Parse(ref body, (string)row["Code"], (string)row["OpenTag"], (string)row["CloseTag"]);
+                }
             }
         }
 

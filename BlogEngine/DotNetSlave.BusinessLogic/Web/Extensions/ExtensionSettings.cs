@@ -103,7 +103,12 @@
         {
             get
             {
-                var rval = this.Parameters.FirstOrDefault(par => par.KeyField).Name;
+                var val = this.Parameters.FirstOrDefault(par => par.KeyField);
+                string rval = null;
+                if (val != null)
+                {
+                    rval = val.Name;
+                }
 
                 if (string.IsNullOrEmpty(rval))
                 {
