@@ -1,340 +1,381 @@
-﻿#region Using
-
-using System;
-using System.IO;
-using System.Net.Mail;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Globalization;
-using BlogEngine.Core;
-
-#endregion
-
-public partial class admin_Pages_configuration : System.Web.UI.Page
+﻿namespace admin.Pages
 {
-    protected void Page_Load(object sender, EventArgs e)
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Net;
+    using System.Net.Mail;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
+
+    using BlogEngine.Core;
+    using BlogEngine.Core.API.BlogML;
+
+    using Resources;
+
+    using Page = System.Web.UI.Page;
+
+    /// <summary>
+    /// The admin_ pages_configuration.
+    /// </summary>
+    public partial class admin_Pages_configuration : Page
     {
-        if (!IsPostBack)
+        #region Methods
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void Page_Load(object sender, EventArgs e)
         {
-            BindThemes();
-            BindCultures();
-            BindSettings();
-        }
-
-        Page.MaintainScrollPositionOnPostBack = true;
-        Page.Title = Resources.labels.settings;
-
-        btnSave.Click += new EventHandler(btnSave_Click);
-        btnSaveTop.Click += new EventHandler(btnSave_Click);
-        btnTestSmtp.Click += new EventHandler(btnTestSmtp_Click);
-
-        btnSaveTop.Text = Resources.labels.saveSettings;
-        btnSave.Text = btnSaveTop.Text;
-        valDescChar.ErrorMessage = "Please specify a number";
-    }
-
-    private void btnTestSmtp_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(txtEmail.Text, txtName.Text);
-            mail.To.Add(mail.From);
-            mail.Subject = "Test mail from " + txtName.Text;
-            mail.IsBodyHtml = true;
-            mail.Body = "<div style=\"font: 11px verdana, arial\">";
-            mail.Body += "Success";
-            if (HttpContext.Current != null)
+            if (!this.IsPostBack)
             {
-                mail.Body += "<br /><br />_______________________________________________________________________________<br /><br />";
-                mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
-                mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
+                this.BindThemes();
+                this.BindCultures();
+                this.BindSettings();
             }
-            mail.Body += "</div>";
-            SmtpClient smtp = new SmtpClient(txtSmtpServer.Text);
-            // don't send credentials if a server doesn't require it,
-            // linux smtp servers don't like that 
-            if (!string.IsNullOrEmpty(txtSmtpUsername.Text))
+
+            this.Page.MaintainScrollPositionOnPostBack = true;
+            this.Page.Title = labels.settings;
+
+            this.btnSave.Click += this.btnSave_Click;
+            this.btnSaveTop.Click += this.btnSave_Click;
+            this.btnTestSmtp.Click += this.btnTestSmtp_Click;
+
+            this.btnSaveTop.Text = labels.saveSettings;
+            this.btnSave.Text = this.btnSaveTop.Text;
+            this.valDescChar.ErrorMessage = "Please specify a number";
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnBlogMLImport control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void btnBlogMLImport_Click(object sender, EventArgs e)
+        {
+            var fileName = this.txtUploadFile.FileName;
+
+            if (string.IsNullOrEmpty(fileName))
             {
-                smtp.Credentials = new System.Net.NetworkCredential(txtSmtpUsername.Text, txtSmtpPassword.Text);
-            }
-            smtp.EnableSsl = cbEnableSsl.Checked;
-            smtp.Port = int.Parse(txtSmtpServerPort.Text, CultureInfo.InvariantCulture);
-            smtp.Send(mail);
-            lbSmtpStatus.Text = "Test successfull";
-            lbSmtpStatus.Style.Add(HtmlTextWriterStyle.Color, "green");
-        }
-        catch (Exception ex)
-        {
-            lbSmtpStatus.Text = "Could not connect - " + ex.Message;
-            lbSmtpStatus.Style.Add(HtmlTextWriterStyle.Color, "red");
-        }
-    }
-
-    private void btnSave_Click(object sender, EventArgs e)
-    {
-        bool enabledHttpCompressionSettingChanged = BlogSettings.Instance.EnableHttpCompression != cbEnableCompression.Checked;
-
-        //-----------------------------------------------------------------------
-        // Set Basic settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.Name = txtName.Text;
-        BlogSettings.Instance.Description = txtDescription.Text;
-        BlogSettings.Instance.PostsPerPage = int.Parse(txtPostsPerPage.Text);
-        BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
-        BlogSettings.Instance.MobileTheme = ddlMobileTheme.SelectedValue;
-        BlogSettings.Instance.UseBlogNameInPageTitles = cbUseBlogNameInPageTitles.Checked;
-        BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
-        BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
-        BlogSettings.Instance.ShowDescriptionInPostList = cbShowDescriptionInPostList.Checked;
-        BlogSettings.Instance.DescriptionCharacters = int.Parse(txtDescriptionCharacters.Text);
-        BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory = cbShowDescriptionInPostListForPostsByTagOrCategory.Checked;
-        BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory = int.Parse(txtDescriptionCharactersForPostsByTagOrCategory.Text);
-        BlogSettings.Instance.TimeStampPostLinks = cbTimeStampPostLinks.Checked;
-        BlogSettings.Instance.ShowPostNavigation = cbShowPostNavigation.Checked;
-        BlogSettings.Instance.Culture = ddlCulture.SelectedValue;
-        BlogSettings.Instance.Timezone = double.Parse(txtTimeZone.Text, CultureInfo.InvariantCulture);
-        BlogSettings.Instance.EnableSelfRegistration = cbEnableSelfRegistration.Checked;
-        BlogSettings.Instance.RequireLoginToViewPosts = cbRequireLoginToViewPosts.Checked;
-
-        //-----------------------------------------------------------------------
-        // Set Email settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.Email = txtEmail.Text;
-        BlogSettings.Instance.SmtpServer = txtSmtpServer.Text;
-        BlogSettings.Instance.SmtpServerPort = int.Parse(txtSmtpServerPort.Text);
-        BlogSettings.Instance.SmtpUserName = txtSmtpUsername.Text;
-        BlogSettings.Instance.SmtpPassword = txtSmtpPassword.Text;
-        BlogSettings.Instance.SendMailOnComment = cbComments.Checked;
-        BlogSettings.Instance.EnableSsl = cbEnableSsl.Checked;
-        BlogSettings.Instance.EmailSubjectPrefix = txtEmailSubjectPrefix.Text;
-
-        BlogSettings.Instance.EnableEnclosures = cbEnableEnclosures.Checked;
-
-        //-----------------------------------------------------------------------
-        // Set Advanced settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.EnableHttpCompression = cbEnableCompression.Checked;
-        BlogSettings.Instance.RemoveWhitespaceInStyleSheets = cbRemoveWhitespaceInStyleSheets.Checked;
-        BlogSettings.Instance.CompressWebResource = cbCompressWebResource.Checked;
-        BlogSettings.Instance.EnableOpenSearch = cbEnableOpenSearch.Checked;
-        BlogSettings.Instance.RequireSSLMetaWeblogAPI = cbRequireSslForMetaWeblogApi.Checked;
-        BlogSettings.Instance.HandleWwwSubdomain = rblWwwSubdomain.SelectedItem.Value;
-        BlogSettings.Instance.EnableTrackBackSend = cbEnableTrackBackSend.Checked;
-        BlogSettings.Instance.EnableTrackBackReceive = cbEnableTrackBackReceive.Checked;
-        BlogSettings.Instance.EnablePingBackSend = cbEnablePingBackSend.Checked;
-        BlogSettings.Instance.EnablePingBackReceive = cbEnablePingBackReceive.Checked;
-        BlogSettings.Instance.EnableErrorLogging = cbEnableErrorLogging.Checked;
-
-        //-----------------------------------------------------------------------
-        // Set Syndication settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.SyndicationFormat = ddlSyndicationFormat.SelectedValue;
-        BlogSettings.Instance.PostsPerFeed = int.Parse(txtPostsPerFeed.Text, CultureInfo.InvariantCulture);
-        BlogSettings.Instance.AuthorName = txtDublinCoreCreator.Text;
-        BlogSettings.Instance.Language = txtDublinCoreLanguage.Text;
-
-        float latitude;
-        if (Single.TryParse(txtGeocodingLatitude.Text.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out latitude))
-        {
-            BlogSettings.Instance.GeocodingLatitude = latitude;
-        }
-        else
-        {
-            BlogSettings.Instance.GeocodingLatitude = Single.MinValue;
-        }
-        float longitude;
-        if (Single.TryParse(txtGeocodingLongitude.Text.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out longitude))
-        {
-            BlogSettings.Instance.GeocodingLongitude = longitude;
-        }
-        else
-        {
-            BlogSettings.Instance.GeocodingLongitude = Single.MinValue;
-        }
-
-        BlogSettings.Instance.Endorsement = txtBlogChannelBLink.Text;
-
-        if (txtAlternateFeedUrl.Text.Trim().Length > 0 && !txtAlternateFeedUrl.Text.Contains("://"))
-            txtAlternateFeedUrl.Text = "http://" + txtAlternateFeedUrl.Text;
-
-        BlogSettings.Instance.AlternateFeedUrl = txtAlternateFeedUrl.Text;
-
-        //-----------------------------------------------------------------------
-        // HTML header section
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.HtmlHeader = txtHtmlHeader.Text;
-
-        //-----------------------------------------------------------------------
-        // Visitor tracking settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.TrackingScript = txtTrackingScript.Text;
-
-        //-----------------------------------------------------------------------
-        //  Persist settings
-        //-----------------------------------------------------------------------
-        BlogSettings.Instance.Save();
-
-        if (enabledHttpCompressionSettingChanged)
-        {
-            // To avoid errors in IIS7 when toggling between compression and no-compression, re-start the app.
-            string ConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "Web.Config";
-            File.SetLastWriteTimeUtc(ConfigPath, DateTime.UtcNow);
-        }
-
-        Response.Redirect(Request.RawUrl, true);
-    }
-
-    protected void btnBlogMLImport_Click(object sender, EventArgs e)
-    {
-        string fileName = txtUploadFile.FileName;
-
-        if (string.IsNullOrEmpty(fileName))
-        {
-            ((admin_admin)this.Master).SetStatus("warning", "File name is required");
-        }
-        else
-        {
-            BlogEngine.Core.API.BlogML.BlogReader reader = new BlogEngine.Core.API.BlogML.BlogReader();
-
-            Stream stm = txtUploadFile.FileContent;
-            StreamReader rdr = new StreamReader(stm);
-            reader.XmlData = rdr.ReadToEnd();
-
-            if (reader.Import())
-            {
-                ((admin_admin)this.Master).SetStatus("success", reader.Message);
+                ((admin_admin)this.Master).SetStatus("warning", "File name is required");
             }
             else
             {
-                ((admin_admin)this.Master).SetStatus("warning", reader.Message);
+                var reader = new BlogReader();
+
+                var stm = this.txtUploadFile.FileContent;
+                var rdr = new StreamReader(stm);
+                reader.XmlData = rdr.ReadToEnd();
+
+                ((admin_admin)this.Master).SetStatus(reader.Import() ? "success" : "warning", reader.Message);
             }
         }
-    }
 
-    private void BindSettings()
-    {
-        //-----------------------------------------------------------------------
-        // Bind Basic settings
-        //-----------------------------------------------------------------------
-        txtName.Text = BlogSettings.Instance.Name;
-        txtDescription.Text = BlogSettings.Instance.Description;
-        txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
-        cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
-        ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
-        ddlMobileTheme.SelectedValue = BlogSettings.Instance.MobileTheme;
-        cbUseBlogNameInPageTitles.Checked = BlogSettings.Instance.UseBlogNameInPageTitles;
-        cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
-        cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
-        txtDescriptionCharacters.Text = BlogSettings.Instance.DescriptionCharacters.ToString();
-        cbShowDescriptionInPostListForPostsByTagOrCategory.Checked = BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory;
-        txtDescriptionCharactersForPostsByTagOrCategory.Text = BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory.ToString();
-        cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
-        ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
-        txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
-        cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
-        cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
-        cbRequireLoginToViewPosts.Checked = BlogSettings.Instance.RequireLoginToViewPosts;
-
-        //-----------------------------------------------------------------------
-        // Bind Email settings
-        //-----------------------------------------------------------------------
-        txtEmail.Text = BlogSettings.Instance.Email;
-        txtSmtpServer.Text = BlogSettings.Instance.SmtpServer;
-        txtSmtpServerPort.Text = BlogSettings.Instance.SmtpServerPort.ToString();
-        txtSmtpUsername.Text = BlogSettings.Instance.SmtpUserName;
-        txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
-        cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
-        cbEnableSsl.Checked = BlogSettings.Instance.EnableSsl;
-        txtEmailSubjectPrefix.Text = BlogSettings.Instance.EmailSubjectPrefix;
-
-        cbEnableEnclosures.Checked = BlogSettings.Instance.EnableEnclosures;
-
-        //-----------------------------------------------------------------------
-        // Bind Advanced settings
-        //-----------------------------------------------------------------------
-        cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
-        cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
-        cbCompressWebResource.Checked = BlogSettings.Instance.CompressWebResource;
-        cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
-        cbRequireSslForMetaWeblogApi.Checked = BlogSettings.Instance.RequireSSLMetaWeblogAPI;
-        rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;
-        cbEnablePingBackSend.Checked = BlogSettings.Instance.EnablePingBackSend;
-        cbEnablePingBackReceive.Checked = BlogSettings.Instance.EnablePingBackReceive;
-        cbEnableTrackBackSend.Checked = BlogSettings.Instance.EnableTrackBackSend;
-        cbEnableTrackBackReceive.Checked = BlogSettings.Instance.EnableTrackBackReceive;
-        cbEnableErrorLogging.Checked = BlogSettings.Instance.EnableErrorLogging;
-
-        //-----------------------------------------------------------------------
-        // Bind Syndication settings
-        //-----------------------------------------------------------------------
-        ddlSyndicationFormat.SelectedValue = BlogSettings.Instance.SyndicationFormat;
-        txtPostsPerFeed.Text = BlogSettings.Instance.PostsPerFeed.ToString();
-        txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
-        txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
-
-        txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue ? BlogSettings.Instance.GeocodingLatitude.ToString(CultureInfo.InvariantCulture) : String.Empty;
-        txtGeocodingLongitude.Text = BlogSettings.Instance.GeocodingLongitude != Single.MinValue ? BlogSettings.Instance.GeocodingLongitude.ToString(CultureInfo.InvariantCulture) : String.Empty;
-
-        txtBlogChannelBLink.Text = BlogSettings.Instance.Endorsement;
-        txtAlternateFeedUrl.Text = BlogSettings.Instance.AlternateFeedUrl;
-
-        //-----------------------------------------------------------------------
-        // HTML header section
-        //-----------------------------------------------------------------------
-        txtHtmlHeader.Text = BlogSettings.Instance.HtmlHeader;
-
-        //-----------------------------------------------------------------------
-        // Visitor tracking settings
-        //-----------------------------------------------------------------------
-        txtTrackingScript.Text = BlogSettings.Instance.TrackingScript;
-    }
-
-    private void BindThemes()
-    {
-        string path = Server.MapPath(Utils.RelativeWebRoot + "themes/");
-        foreach (string dic in Directory.GetDirectories(path))
+        /// <summary>
+        /// Binds the cultures.
+        /// </summary>
+        private void BindCultures()
         {
-            int index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
-            ddlTheme.Items.Add(dic.Substring(index));
-            ddlMobileTheme.Items.Add(dic.Substring(index));
-        }
-    }
-
-    private void BindCultures()
-    {
-        if (File.Exists(Path.Combine(HttpRuntime.AppDomainAppPath, "PrecompiledApp.config")))
-        {
-
-            string precompiledDir = HttpRuntime.BinDirectory;
-            string[] translations = Directory.GetFiles(precompiledDir, "App_GlobalResources.resources.dll", SearchOption.AllDirectories);
-            foreach (string translation in translations)
+            if (File.Exists(Path.Combine(HttpRuntime.AppDomainAppPath, "PrecompiledApp.config")))
             {
-                string resourceDir = Path.GetDirectoryName(translation).Remove(0, precompiledDir.Length);
-                if (!String.IsNullOrEmpty(resourceDir))
+                var precompiledDir = HttpRuntime.BinDirectory;
+                var translations = Directory.GetFiles(
+                    precompiledDir, "App_GlobalResources.resources.dll", SearchOption.AllDirectories);
+                foreach (var translation in translations)
                 {
-
-                    System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(resourceDir);
-                    ddlCulture.Items.Add(new ListItem(info.NativeName, resourceDir));
+                    var resourceDir = Path.GetDirectoryName(translation).Remove(0, precompiledDir.Length);
+                    if (!String.IsNullOrEmpty(resourceDir))
+                    {
+                        var info = CultureInfo.GetCultureInfoByIetfLanguageTag(resourceDir);
+                        this.ddlCulture.Items.Add(new ListItem(info.NativeName, resourceDir));
+                    }
+                }
+            }
+            else
+            {
+                var path = this.Server.MapPath(string.Format("{0}App_GlobalResources/", Utils.RelativeWebRoot));
+                foreach (var file in Directory.GetFiles(path, "labels.*.resx"))
+                {
+                    var index = file.LastIndexOf(Path.DirectorySeparatorChar) + 1;
+                    var filename = file.Substring(index);
+                    filename = filename.Replace("labels.", string.Empty).Replace(".resx", string.Empty);
+                    var info = CultureInfo.GetCultureInfoByIetfLanguageTag(filename);
+                    this.ddlCulture.Items.Add(new ListItem(info.NativeName, filename));
                 }
             }
         }
-        else
+
+        /// <summary>
+        /// Binds the settings.
+        /// </summary>
+        private void BindSettings()
         {
+            // -----------------------------------------------------------------------
+            // Bind Basic settings
+            // -----------------------------------------------------------------------
+            this.txtName.Text = BlogSettings.Instance.Name;
+            this.txtDescription.Text = BlogSettings.Instance.Description;
+            this.txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
+            this.cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
+            this.ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
+            this.ddlMobileTheme.SelectedValue = BlogSettings.Instance.MobileTheme;
+            this.cbUseBlogNameInPageTitles.Checked = BlogSettings.Instance.UseBlogNameInPageTitles;
+            this.cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
+            this.cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
+            this.txtDescriptionCharacters.Text = BlogSettings.Instance.DescriptionCharacters.ToString();
+            this.cbShowDescriptionInPostListForPostsByTagOrCategory.Checked =
+                BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory;
+            this.txtDescriptionCharactersForPostsByTagOrCategory.Text =
+                BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory.ToString();
+            this.cbTimeStampPostLinks.Checked = BlogSettings.Instance.TimeStampPostLinks;
+            this.ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
+            this.txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
+            this.cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
+            this.cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
+            this.cbRequireLoginToViewPosts.Checked = BlogSettings.Instance.RequireLoginToViewPosts;
 
-            string path = Server.MapPath(Utils.RelativeWebRoot + "App_GlobalResources/");
-            foreach (string file in Directory.GetFiles(path, "labels.*.resx"))
+            // -----------------------------------------------------------------------
+            // Bind Email settings
+            // -----------------------------------------------------------------------
+            this.txtEmail.Text = BlogSettings.Instance.Email;
+            this.txtSmtpServer.Text = BlogSettings.Instance.SmtpServer;
+            this.txtSmtpServerPort.Text = BlogSettings.Instance.SmtpServerPort.ToString();
+            this.txtSmtpUsername.Text = BlogSettings.Instance.SmtpUserName;
+            this.txtSmtpPassword.Text = BlogSettings.Instance.SmtpPassword;
+            this.cbComments.Checked = BlogSettings.Instance.SendMailOnComment;
+            this.cbEnableSsl.Checked = BlogSettings.Instance.EnableSsl;
+            this.txtEmailSubjectPrefix.Text = BlogSettings.Instance.EmailSubjectPrefix;
+
+            this.cbEnableEnclosures.Checked = BlogSettings.Instance.EnableEnclosures;
+
+            // -----------------------------------------------------------------------
+            // Bind Advanced settings
+            // -----------------------------------------------------------------------
+            this.cbEnableCompression.Checked = BlogSettings.Instance.EnableHttpCompression;
+            this.cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
+            this.cbCompressWebResource.Checked = BlogSettings.Instance.CompressWebResource;
+            this.cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
+            this.cbRequireSslForMetaWeblogApi.Checked = BlogSettings.Instance.RequireSslMetaWeblogApi;
+            this.rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;
+            this.cbEnablePingBackSend.Checked = BlogSettings.Instance.EnablePingBackSend;
+            this.cbEnablePingBackReceive.Checked = BlogSettings.Instance.EnablePingBackReceive;
+            this.cbEnableTrackBackSend.Checked = BlogSettings.Instance.EnableTrackBackSend;
+            this.cbEnableTrackBackReceive.Checked = BlogSettings.Instance.EnableTrackBackReceive;
+            this.cbEnableErrorLogging.Checked = BlogSettings.Instance.EnableErrorLogging;
+
+            // -----------------------------------------------------------------------
+            // Bind Syndication settings
+            // -----------------------------------------------------------------------
+            this.ddlSyndicationFormat.SelectedValue = BlogSettings.Instance.SyndicationFormat;
+            this.txtPostsPerFeed.Text = BlogSettings.Instance.PostsPerFeed.ToString();
+            this.txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
+            this.txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
+
+            this.txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue
+                                                 ? BlogSettings.Instance.GeocodingLatitude.ToString(
+                                                     CultureInfo.InvariantCulture)
+                                                 : String.Empty;
+            this.txtGeocodingLongitude.Text = BlogSettings.Instance.GeocodingLongitude != Single.MinValue
+                                                  ? BlogSettings.Instance.GeocodingLongitude.ToString(
+                                                      CultureInfo.InvariantCulture)
+                                                  : String.Empty;
+
+            this.txtBlogChannelBLink.Text = BlogSettings.Instance.Endorsement;
+            this.txtAlternateFeedUrl.Text = BlogSettings.Instance.AlternateFeedUrl;
+
+            // -----------------------------------------------------------------------
+            // HTML header section
+            // -----------------------------------------------------------------------
+            this.txtHtmlHeader.Text = BlogSettings.Instance.HtmlHeader;
+
+            // -----------------------------------------------------------------------
+            // Visitor tracking settings
+            // -----------------------------------------------------------------------
+            this.txtTrackingScript.Text = BlogSettings.Instance.TrackingScript;
+        }
+
+        /// <summary>
+        /// Binds the themes.
+        /// </summary>
+        private void BindThemes()
+        {
+            var path = this.Server.MapPath(string.Format("{0}themes/", Utils.RelativeWebRoot));
+            foreach (var dic in Directory.GetDirectories(path))
             {
-
-                int index = file.LastIndexOf(Path.DirectorySeparatorChar) + 1;
-                string filename = file.Substring(index);
-                filename = filename.Replace("labels.", string.Empty).Replace(".resx", string.Empty);
-                System.Globalization.CultureInfo info = System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag(filename);
-                ddlCulture.Items.Add(new ListItem(info.NativeName, filename));
-
+                var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
+                this.ddlTheme.Items.Add(dic.Substring(index));
+                this.ddlMobileTheme.Items.Add(dic.Substring(index));
             }
         }
-    }
 
+        /// <summary>
+        /// Handles the Click event of the btnSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            var enabledHttpCompressionSettingChanged = BlogSettings.Instance.EnableHttpCompression !=
+                                                       this.cbEnableCompression.Checked;
+
+            // -----------------------------------------------------------------------
+            // Set Basic settings
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.Name = this.txtName.Text;
+            BlogSettings.Instance.Description = this.txtDescription.Text;
+            BlogSettings.Instance.PostsPerPage = int.Parse(this.txtPostsPerPage.Text);
+            BlogSettings.Instance.Theme = this.ddlTheme.SelectedValue;
+            BlogSettings.Instance.MobileTheme = this.ddlMobileTheme.SelectedValue;
+            BlogSettings.Instance.UseBlogNameInPageTitles = this.cbUseBlogNameInPageTitles.Checked;
+            BlogSettings.Instance.EnableRelatedPosts = this.cbShowRelatedPosts.Checked;
+            BlogSettings.Instance.EnableRating = this.cbEnableRating.Checked;
+            BlogSettings.Instance.ShowDescriptionInPostList = this.cbShowDescriptionInPostList.Checked;
+            BlogSettings.Instance.DescriptionCharacters = int.Parse(this.txtDescriptionCharacters.Text);
+            BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory =
+                this.cbShowDescriptionInPostListForPostsByTagOrCategory.Checked;
+            BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory =
+                int.Parse(this.txtDescriptionCharactersForPostsByTagOrCategory.Text);
+            BlogSettings.Instance.TimeStampPostLinks = this.cbTimeStampPostLinks.Checked;
+            BlogSettings.Instance.ShowPostNavigation = this.cbShowPostNavigation.Checked;
+            BlogSettings.Instance.Culture = this.ddlCulture.SelectedValue;
+            BlogSettings.Instance.Timezone = double.Parse(this.txtTimeZone.Text, CultureInfo.InvariantCulture);
+            BlogSettings.Instance.EnableSelfRegistration = this.cbEnableSelfRegistration.Checked;
+            BlogSettings.Instance.RequireLoginToViewPosts = this.cbRequireLoginToViewPosts.Checked;
+
+            // -----------------------------------------------------------------------
+            // Set Email settings
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.Email = this.txtEmail.Text;
+            BlogSettings.Instance.SmtpServer = this.txtSmtpServer.Text;
+            BlogSettings.Instance.SmtpServerPort = int.Parse(this.txtSmtpServerPort.Text);
+            BlogSettings.Instance.SmtpUserName = this.txtSmtpUsername.Text;
+            BlogSettings.Instance.SmtpPassword = this.txtSmtpPassword.Text;
+            BlogSettings.Instance.SendMailOnComment = this.cbComments.Checked;
+            BlogSettings.Instance.EnableSsl = this.cbEnableSsl.Checked;
+            BlogSettings.Instance.EmailSubjectPrefix = this.txtEmailSubjectPrefix.Text;
+
+            BlogSettings.Instance.EnableEnclosures = this.cbEnableEnclosures.Checked;
+
+            // -----------------------------------------------------------------------
+            // Set Advanced settings
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.EnableHttpCompression = this.cbEnableCompression.Checked;
+            BlogSettings.Instance.RemoveWhitespaceInStyleSheets = this.cbRemoveWhitespaceInStyleSheets.Checked;
+            BlogSettings.Instance.CompressWebResource = this.cbCompressWebResource.Checked;
+            BlogSettings.Instance.EnableOpenSearch = this.cbEnableOpenSearch.Checked;
+            BlogSettings.Instance.RequireSslMetaWeblogApi = this.cbRequireSslForMetaWeblogApi.Checked;
+            BlogSettings.Instance.HandleWwwSubdomain = this.rblWwwSubdomain.SelectedItem.Value;
+            BlogSettings.Instance.EnableTrackBackSend = this.cbEnableTrackBackSend.Checked;
+            BlogSettings.Instance.EnableTrackBackReceive = this.cbEnableTrackBackReceive.Checked;
+            BlogSettings.Instance.EnablePingBackSend = this.cbEnablePingBackSend.Checked;
+            BlogSettings.Instance.EnablePingBackReceive = this.cbEnablePingBackReceive.Checked;
+            BlogSettings.Instance.EnableErrorLogging = this.cbEnableErrorLogging.Checked;
+
+            // -----------------------------------------------------------------------
+            // Set Syndication settings
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.SyndicationFormat = this.ddlSyndicationFormat.SelectedValue;
+            BlogSettings.Instance.PostsPerFeed = int.Parse(this.txtPostsPerFeed.Text, CultureInfo.InvariantCulture);
+            BlogSettings.Instance.AuthorName = this.txtDublinCoreCreator.Text;
+            BlogSettings.Instance.Language = this.txtDublinCoreLanguage.Text;
+
+            float latitude;
+            BlogSettings.Instance.GeocodingLatitude = Single.TryParse(
+                this.txtGeocodingLatitude.Text.Replace(",", "."), 
+                NumberStyles.Any, 
+                CultureInfo.InvariantCulture, 
+                out latitude) ? latitude : Single.MinValue;
+
+            float longitude;
+            BlogSettings.Instance.GeocodingLongitude = Single.TryParse(
+                this.txtGeocodingLongitude.Text.Replace(",", "."), 
+                NumberStyles.Any, 
+                CultureInfo.InvariantCulture, 
+                out longitude) ? longitude : Single.MinValue;
+
+            BlogSettings.Instance.Endorsement = this.txtBlogChannelBLink.Text;
+
+            if (this.txtAlternateFeedUrl.Text.Trim().Length > 0 && !this.txtAlternateFeedUrl.Text.Contains("://"))
+            {
+                this.txtAlternateFeedUrl.Text = string.Format("http://{0}", this.txtAlternateFeedUrl.Text);
+            }
+
+            BlogSettings.Instance.AlternateFeedUrl = this.txtAlternateFeedUrl.Text;
+
+            // -----------------------------------------------------------------------
+            // HTML header section
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.HtmlHeader = this.txtHtmlHeader.Text;
+
+            // -----------------------------------------------------------------------
+            // Visitor tracking settings
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.TrackingScript = this.txtTrackingScript.Text;
+
+            // -----------------------------------------------------------------------
+            // Persist settings
+            // -----------------------------------------------------------------------
+            BlogSettings.Instance.Save();
+
+            if (enabledHttpCompressionSettingChanged)
+            {
+                // To avoid errors in IIS7 when toggling between compression and no-compression, re-start the app.
+                var configPath = string.Format("{0}Web.Config", HttpContext.Current.Request.PhysicalApplicationPath);
+                File.SetLastWriteTimeUtc(configPath, DateTime.UtcNow);
+            }
+
+            this.Response.Redirect(this.Request.RawUrl, true);
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnTestSmtp control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void btnTestSmtp_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var mail = new MailMessage { From = new MailAddress(this.txtEmail.Text, this.txtName.Text) };
+                mail.To.Add(mail.From);
+                mail.Subject = string.Format("Test mail from {0}", this.txtName.Text);
+                mail.IsBodyHtml = true;
+                mail.Body = "<div style=\"font: 11px verdana, arial\">";
+                mail.Body += "Success";
+                if (HttpContext.Current != null)
+                {
+                    mail.Body +=
+                        "<br /><br />_______________________________________________________________________________<br /><br />";
+                    mail.Body += string.Format("<strong>IP address:</strong> {0}<br />", HttpContext.Current.Request.UserHostAddress);
+                    mail.Body += string.Format("<strong>User-agent:</strong> {0}", HttpContext.Current.Request.UserAgent);
+                }
+
+                mail.Body += "</div>";
+                var smtp = new SmtpClient(this.txtSmtpServer.Text);
+
+                // don't send credentials if a server doesn't require it,
+                // linux smtp servers don't like that 
+                if (!string.IsNullOrEmpty(this.txtSmtpUsername.Text))
+                {
+                    smtp.Credentials = new NetworkCredential(this.txtSmtpUsername.Text, this.txtSmtpPassword.Text);
+                }
+
+                smtp.EnableSsl = this.cbEnableSsl.Checked;
+                smtp.Port = int.Parse(this.txtSmtpServerPort.Text, CultureInfo.InvariantCulture);
+                smtp.Send(mail);
+                this.lbSmtpStatus.Text = "Test successful.";
+                this.lbSmtpStatus.Style.Add(HtmlTextWriterStyle.Color, "green");
+            }
+            catch (Exception ex)
+            {
+                this.lbSmtpStatus.Text = string.Format("Could not connect - {0}", ex.Message);
+                this.lbSmtpStatus.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+        }
+
+        #endregion
+    }
 }

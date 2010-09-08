@@ -1,13 +1,11 @@
 ﻿/****************************************************************************
 Modification History:
 *****************************************************************************
-Date		Author		Description
+Date        Author      Description
 *****************************************************************************
-04/11/2007	brian.kuhn  Created SyndicationFormat Enumeration
+04/11/2007  brian.kuhn  Created SyndicationFormat Enumeration
 08/30/2007  brian.kuhn  Moved SyndicationFormat enum to root of library
 ****************************************************************************/
-using System;
-
 namespace BlogEngine.Core
 {
     /// <summary>
@@ -16,16 +14,18 @@ namespace BlogEngine.Core
     public enum SyndicationFormat
     {
         /// <summary>
-        /// No syndication format specified.
+        ///     No syndication format specified.
         /// </summary>
-        None    = 0,
+        None = 0, 
+
         /// <summary>
-        ///  Indicates that a feed conforms to the Atom syndication format.
+        ///     Indicates that a feed conforms to the Atom syndication format.
         /// </summary>
-        Atom    = 1,
+        Atom = 1, 
+
         /// <summary>
-        /// Indicates that a feed conforms to the RSS syndication format.
+        ///     Indicates that a feed conforms to the RSS syndication format.
         /// </summary>
-        Rss     = 2
-    };
+        Rss = 2
+    }
 }

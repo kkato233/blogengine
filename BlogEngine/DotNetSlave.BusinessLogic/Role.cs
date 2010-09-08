@@ -1,68 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Xml.Serialization;
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// 
+    /// The role class.
     /// </summary>
     public class Role
     {
-        private string _Name;
-        private List<string> _UserNames;
+        #region Constants and Fields
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Role"/> class.
         /// </summary>
-        /// <param name="name">A name.</param>
+        /// <param name="name">
+        /// A name of the role.
+        /// </param>
         public Role(string name)
         {
-            _Name = name;
-            _UserNames = new List<string>();
+            this.Name = name;
+            this.Users = new List<string>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Role"/> class.
+        ///     Initializes a new instance of the <see cref = "Role" /> class.
         /// </summary>
         public Role()
         {
-            _UserNames = new List<string>();
+            this.Users = new List<string>();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Role"/> class.
         /// </summary>
-        /// <param name="name">A name.</param>
-        /// <param name="userNames">A list of users in role.</param>
+        /// <param name="name">
+        /// A name of the role.
+        /// </param>
+        /// <param name="userNames">
+        /// A list of users in role.
+        /// </param>
         public Role(string name, List<string> userNames)
         {
-            _Name = name;
-            _UserNames = userNames;
+            this.Name = name;
+            this.Users = userNames;
         }
 
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Gets or sets the name.
+        ///     Gets or sets the name.
         /// </summary>
-        /// <value>The name.</value>
-        public string Name
-        {
-            get { return _Name; }
-            set { _Name = value; }
-        }
+        /// <value>The name of the role.</value>
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets the users.
+        ///     Gets the users.
         /// </summary>
         /// <value>The users.</value>
-        public List<string> Users
-        {
-            get { return _UserNames; }
-            //set { _UserNames = value; }
-        }
+        public List<string> Users { get; private set; }
+
+        #endregion
     }
-
-
 }

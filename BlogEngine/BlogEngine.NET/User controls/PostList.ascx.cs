@@ -30,7 +30,7 @@ public partial class User_controls_PostList : System.Web.UI.UserControl
 			return;
 		}
 
-		List<IPublishable> visiblePosts = Posts.FindAll(delegate(IPublishable p) { return p.IsVisible; });
+		List<IPublishable> visiblePosts = this.Posts.FindAll(p => p.Visible);
 
 		int count = Math.Min(BlogSettings.Instance.PostsPerPage, visiblePosts.Count);
 		int page = GetPageIndex();

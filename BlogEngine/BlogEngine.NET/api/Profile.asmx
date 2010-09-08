@@ -1,46 +1,55 @@
 ﻿<%@ WebService Language="C#" Class="Profile" %>
 
 using System;
-using System.Collections.Generic;
-using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Security;
+using System.Web.Services;
+
 using BlogEngine.Core;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-[System.Web.Script.Services.ScriptService]
-public class Profile  : System.Web.Services.WebService {
+[ScriptService]
+public class Profile : WebService
+{
+    #region Constants and Fields
 
     /// <summary>
-    /// JSON object that will be return back to client
+    ///     JSON object that will be return back to client
     /// </summary>
-    JsonResponse _response;
+    private readonly JsonResponse response;
+
+    #endregion
+
+    #region Constructors and Destructors
 
     public Profile()
     {
-        _response = new JsonResponse();
+        this.response = new JsonResponse();
     }
+
+    #endregion
+
+    #region Public Methods
 
     [WebMethod]
     public JsonResponse Save(string id, string[] vals, string[] roles)
     {
-        _response.Success = false;
+        this.response.Success = false;
 
-        if (!User.IsInRole(BlogSettings.Instance.AdministratorRole))
+        if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
         {
-            _response.Message = "Not authorized";
-            return _response;
+            this.response.Message = "Not authorized";
+            return this.response;
         }
-        
+
         if (string.IsNullOrEmpty(vals[0]))
         {
-            _response.Message = "Display name is required field";
-            return _response;
+            this.response.Message = "Display name is required field";
+            return this.response;
         }
 
-        AuthorProfile pf = AuthorProfile.GetProfile(id);
-        if (pf == null) pf = new AuthorProfile(id);
+        var pf = AuthorProfile.GetProfile(id) ?? new AuthorProfile(id);
 
         try
         {
@@ -51,23 +60,29 @@ public class Profile  : System.Web.Services.WebService {
             pf.EmailAddress = vals[4];
 
             DateTime date;
-            if (vals[5].Length == 0) vals[5] = "1/1/1001";
+            if (vals[5].Length == 0)
+            {
+                vals[5] = "1/1/1001";
+            }
             if (DateTime.TryParse(vals[5], out date))
             {
                 pf.Birthday = date;
             }
             else
             {
-                _response.Message = "Date must be in format mm/dd/yyyy";
-                return _response;
+                this.response.Message = "Date must be in format mm/dd/yyyy";
+                return this.response;
             }
 
-            pf.PhotoURL = vals[6];
-            pf.IsPrivate = false;
-            
-            bool prv = false;
-            if (bool.TryParse(vals[7], out prv)) pf.IsPrivate = prv;
-            
+            pf.PhotoUrl = vals[6];
+            pf.Private = false;
+
+            var prv = false;
+            if (bool.TryParse(vals[7], out prv))
+            {
+                pf.Private = prv;
+            }
+
             pf.PhoneMobile = vals[8];
             pf.PhoneMain = vals[9];
             pf.PhoneFax = vals[10];
@@ -75,7 +90,7 @@ public class Profile  : System.Web.Services.WebService {
             pf.CityTown = vals[11];
             pf.RegionState = vals[12];
             pf.Country = vals[13]; // ddlCountry.SelectedValue;
-            
+
             //pf.Company = tbCompany.Text;
             pf.AboutMe = vals[14];
 
@@ -90,14 +105,15 @@ public class Profile  : System.Web.Services.WebService {
         }
         catch (Exception ex)
         {
-            Utils.Log("Profile.Edit: " + ex.Message);
-            _response.Message = "Could not update the profile: " + vals[0];
-            return _response;
+            Utils.Log(string.Format("Profile.Edit: {0}", ex.Message));
+            this.response.Message = string.Format("Could not update the profile: {0}", vals[0]);
+            return this.response;
         }
 
-        _response.Success = true;
-        _response.Message = string.Format("Pforile {0} updated", vals[0]);
-        return _response;
+        this.response.Success = true;
+        this.response.Message = string.Format("Pforile {0} updated", vals[0]);
+        return this.response;
     }
-    
+
+    #endregion
 }

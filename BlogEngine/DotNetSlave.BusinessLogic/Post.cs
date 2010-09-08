@@ -1,926 +1,1076 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.IO;
-using System.Xml;
-using System.Text;
-using System.Net.Mail;
-using System.Globalization;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Collections.Generic;
-using System.ComponentModel;
-using BlogEngine.Core.Providers;
-using System.Threading;
-
-#endregion
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
-	/// <summary>
-	/// A post is an entry on the blog - a blog post.
-	/// </summary>
-	[Serializable]
-	public class Post : BusinessBase<Post, Guid>, IComparable<Post>, IPublishable
-	{
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net.Mail;
+    using System.Text;
+    using System.Web;
 
-		#region Constructor
+    using BlogEngine.Core.Providers;
 
-		/// <summary>
-		/// The default contstructor assign default values.
-		/// </summary>
-		public Post()
-		{
-			base.Id = Guid.NewGuid();
-			_Comments = new List<Comment>();
-			_Categories = new StateList<Category>();
-			_Tags = new StateList<string>();
-            _NotificationEmails = new StateList<string>();
-			DateCreated = DateTime.Now;
-			_IsPublished = true;
-			_IsCommentsEnabled = true;
-		}
+    /// <summary>
+    /// A post is an entry on the blog - a blog post.
+    /// </summary>
+    [Serializable]
+    public class Post : BusinessBase<Post, Guid>, IComparable<Post>, IPublishable
+    {
+        #region Constants and Fields
 
-		#endregion
-
-		#region Properties
-
-		private string _Author;
-		/// <summary>
-		/// Gets or sets the Author or the post.
-		/// </summary>
-		public string Author
-		{
-			get { return _Author; }
-			set
-			{
-				if (_Author != value) MarkChanged("Author");
-				_Author = value;
-			}
-		}
-
-		public AuthorProfile AuthorProfile
-		{
-			get { return AuthorProfile.GetProfile(Author); }
-		}
-
-
-		private string _Title;
-		/// <summary>
-		/// Gets or sets the Title or the post.
-		/// </summary>
-		public string Title
-		{
-			get { return _Title; }
-			set
-			{
-				if (_Title != value) MarkChanged("Title");
-				_Title = value;
-			}
-		}
-
-		private string _Description;
-		/// <summary>
-		/// Gets or sets the Description or the post.
-		/// </summary>
-		public string Description
-		{
-			get { return _Description; }
-			set
-			{
-				if (_Description != value) MarkChanged("Description");
-				_Description = value;
-			}
-		}
-
-		private string _Content;
-		/// <summary>
-		/// Gets or sets the Content or the post.
-		/// </summary>
-		public string Content
-		{
-			get { return _Content; }
-			set
-			{
-				if (_Content != value)
-				{
-					MarkChanged("Content");
-					HttpContext.Current.Cache.Remove("content_" + this.Id);
-					_Content = value;
-				}
-			}
-		}
-
-		private readonly List<Comment> _Comments;
-		/// <summary>
-		/// A collection of Approved comments for the post sorted by date.
-		/// </summary>
-		public List<Comment> ApprovedComments
-		{
-			get { return _Comments.FindAll(c => c.IsApproved); }
-		}
-
-		/// <summary>
-		/// A collection of comments waiting for approval for the post, sorted by date.
-		/// </summary>
-		public List<Comment> NotApprovedComments
-		{
-			get { return _Comments.FindAll(c => !c.IsApproved); }
-		}
-
-		/// <summary>
-		/// A Collection of All Comments for the post
-		/// </summary>
-		public List<Comment> Comments
-		{
-			get { return _Comments; }
-
-		}
-
-		private List<Comment> _NestedComments;
-
-		/// <summary>
-		/// A collection of the comments that are nested as replies
-		/// </summary>
-		public List<Comment> NestedComments
-		{
-			get
-			{
-				if (_NestedComments == null)
-					CreateNestedComments();
-				return _NestedComments;
-			}
-		}
-
-		/// <summary>
-		/// Clears all nesting of comments
-		/// </summary>
-		private void ResetNestedComments()
-		{
-			// void the List<>
-			_NestedComments = null;
-			// go through all comments and remove sub comments
-			foreach (Comment c in Comments)
-				c.Comments.Clear();
-		}
-
-		/// <summary>
-		/// Nests comments based on Id and ParentId
-		/// </summary>
-		private void CreateNestedComments()
-		{
-			// instantiate object
-			_NestedComments = new List<Comment>();
-			
-			// temporary ID/Comment table
-			Hashtable commentTable = new Hashtable();
-		
-			foreach (Comment comment in _Comments)
-			{
-				// add to hashtable for lookup
-				commentTable.Add(comment.Id, comment);
-
-				// check if this is a child comment
-				if (comment.ParentId == Guid.Empty)
-				{
-					// root comment, so add it to the list
-					_NestedComments.Add(comment);
-				}
-				else
-				{
-					// child comment, so find parent
-					Comment parentComment = commentTable[comment.ParentId] as Comment;
-					if (parentComment != null)
-					{
-						// double check that this sub comment has not already been added
-						if (parentComment.Comments.IndexOf(comment) == -1)
-							parentComment.Comments.Add(comment);	
-					}
-					else
-					{
-						// just add to the base to prevent an error
-						_NestedComments.Add(comment);
-					}
-				}
-			}
-			// kill this data
-			commentTable = null;
-		}
-
-		private StateList<Category> _Categories;
-		/// <summary>
-		/// An unsorted List of categories.
-		/// </summary>
-		public StateList<Category> Categories
-		{
-			get { return _Categories; }
-		}
-
-		private StateList<string> _Tags;
-		/// <summary>
-		/// An unsorted collection of tags.
-		/// </summary>
-		public StateList<string> Tags
-		{
-			get { return _Tags; }
-		}
-
-		private bool _IsCommentsEnabled;
-		/// <summary>
-		/// Gets or sets the EnableComments or the object.
-		/// </summary>
-		public bool IsCommentsEnabled
-		{
-			get { return _IsCommentsEnabled; }
-			set
-			{
-				if (_IsCommentsEnabled != value) MarkChanged("IsCommentsEnabled");
-				_IsCommentsEnabled = value;
-			}
-		}
-
-		private bool _IsPublished;
-		/// <summary>
-		/// Gets or sets whether or not the post is published.
-		/// </summary>
-		public bool IsPublished
-		{
-			get { return _IsPublished; }
-			set
-			{
-				if (_IsPublished != value) MarkChanged("IsPublished");
-				_IsPublished = value;
-			}
-		}
-
-		private float _Rating;
-		/// <summary>
-		/// Gets or sets the rating or the post.
-		/// </summary>
-		public float Rating
-		{
-			get { return _Rating; }
-			set
-			{
-				if (_Rating != value) MarkChanged("Rating");
-				_Rating = value;
-			}
-		}
-
-		private int _Raters;
-		/// <summary>
-		/// Gets or sets the number of raters or the object.
-		/// </summary>
-		public int Raters
-		{
-			get { return _Raters; }
-			set
-			{
-				if (_Raters != value) MarkChanged("Raters");
-				_Raters = value;
-			}
-		}
-
-		private string _Slug;
-		/// <summary>
-		/// Gets or sets the Slug of the Post.
-		/// A Slug is the relative URL used by the posts.
-		/// </summary>
-		public string Slug
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(_Slug))
-					return Utils.RemoveIllegalCharacters(Title);
-
-				return _Slug;
-			}
-			set
-			{
-				if (_Slug != value) MarkChanged("Slug");
-				_Slug = value;
-			}
-		}
-
-        private StateList<string> _NotificationEmails;
         /// <summary>
-        /// Gets a collection of email addresses that is signed up for 
-        /// comment notification on the specific post.
+        /// The sync root.
         /// </summary>
-        public StateList<string> NotificationEmails
+        private static readonly object SyncRoot = new object();
+
+        /// <summary>
+        /// The categories.
+        /// </summary>
+        private readonly StateList<Category> categories;
+
+        /// <summary>
+        /// The comments.
+        /// </summary>
+        private readonly List<Comment> comments;
+
+        /// <summary>
+        /// The notification emails.
+        /// </summary>
+        private readonly StateList<string> notificationEmails;
+
+        /// <summary>
+        /// The post tags.
+        /// </summary>
+        private readonly StateList<string> tags;
+
+        /// <summary>
+        /// The posts.
+        /// </summary>
+        private static List<Post> posts;
+
+        /// <summary>
+        ///     The author.
+        /// </summary>
+        private string author;
+
+        /// <summary>
+        ///     The content.
+        /// </summary>
+        private string content;
+
+        /// <summary>
+        ///     The description.
+        /// </summary>
+        private string description;
+
+        /// <summary>
+        ///     Whether the post is comments enabled.
+        /// </summary>
+        private bool hasCommentsEnabled;
+
+        /// <summary>
+        ///     The nested comments.
+        /// </summary>
+        private List<Comment> nestedComments;
+
+        /// <summary>
+        ///     Whether the post is published.
+        /// </summary>
+        private bool published;
+
+        /// <summary>
+        ///     The raters.
+        /// </summary>
+        private int raters;
+
+        /// <summary>
+        ///     The rating.
+        /// </summary>
+        private float rating;
+
+        /// <summary>
+        ///     The slug of the post.
+        /// </summary>
+        private string slug;
+
+        /// <summary>
+        ///     The title.
+        /// </summary>
+        private string title;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "Post" /> class. 
+        ///     The default contstructor assign default values.
+        /// </summary>
+        public Post()
         {
-            get { return _NotificationEmails; }
+            this.Id = Guid.NewGuid();
+            this.comments = new List<Comment>();
+            this.categories = new StateList<Category>();
+            this.tags = new StateList<string>();
+            this.notificationEmails = new StateList<string>();
+            this.DateCreated = DateTime.Now;
+            this.published = true;
+            this.hasCommentsEnabled = true;
         }
 
-		/// <summary>
-		/// Gets whether or not the post is visible or not.
-		/// </summary>
-		public bool IsVisible
-		{
-			get
-			{
-				if (IsAuthenticated || (IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone)))
-					return true;
+        #endregion
 
-				return false;
-			}
-		}
+        #region Events
 
         /// <summary>
-        /// Gets whether a post is available to visitors not logged into the blog.
+        ///     Occurs before a new comment is added.
         /// </summary>
-        public bool IsVisibleToPublic
+        public static event EventHandler<CancelEventArgs> AddingComment;
+
+        /// <summary>
+        ///     Occurs when a comment is added.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentAdded;
+
+        /// <summary>
+        ///     Occurs when a comment has been removed.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentRemoved;
+
+        /// <summary>
+        ///     Occurs when a comment is updated.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentUpdated;
+
+        /// <summary>
+        ///     Occurs when a visitor rates the post.
+        /// </summary>
+        public static event EventHandler<EventArgs> Rated;
+
+        /// <summary>
+        ///     Occurs before comment is removed.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> RemovingComment;
+
+        /// <summary>
+        ///     Occurs when the post is being served to the output stream.
+        /// </summary>
+        public static event EventHandler<ServingEventArgs> Serving;
+
+        /// <summary>
+        ///     Occurs before a new comment is updated.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> UpdatingComment;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets a sorted collection of all posts in the blog.
+        ///     Sorted by date.
+        /// </summary>
+        public static List<Post> Posts
         {
             get
             {
-                return IsPublished && DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
+                if (posts == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (posts == null)
+                        {
+                            posts = BlogService.FillPosts();
+                            posts.TrimExcess();
+                            AddRelations();
+                        }
+                    }
+                }
+
+                return posts;
             }
         }
 
-		private Post _Prev;
-		/// <summary>
-		/// Gets the previous post relative to this one based on time.
-		/// <remarks>
-		/// If this post is the oldest, then it returns null.
-		/// </remarks>
-		/// </summary>
-		public Post Previous
-		{
-			get { return _Prev; }
-		}
+        /// <summary>
+        ///     Gets the absolute link to the post.
+        /// </summary>
+        public Uri AbsoluteLink
+        {
+            get
+            {
+                return Utils.ConvertToAbsolute(this.RelativeLink);
+            }
+        }
 
-		private Post _Next;
-		/// <summary>
-		/// Gets the next post relative to this one based on time.
-		/// <remarks>
-		/// If this post is the newest, then it returns null.
-		/// </remarks>
-		/// </summary>
-		public Post Next
-		{
-			get { return _Next; }
-		}
+        /// <summary>
+        ///     Gets a collection of Approved comments for the post sorted by date.
+        /// </summary>
+        public List<Comment> ApprovedComments
+        {
+            get
+            {
+                return this.comments.FindAll(c => c.IsApproved);
+            }
+        }
 
-		#endregion
+        /// <summary>
+        ///     Gets or sets the Author or the post.
+        /// </summary>
+        public string Author
+        {
+            get
+            {
+                return this.author;
+            }
 
-		#region Links
+            set
+            {
+                if (this.author != value)
+                {
+                    this.MarkChanged("Author");
+                }
 
-		/// <summary>
-		/// The absolute permanent link to the post.
-		/// </summary>
-		public Uri PermaLink
-		{
-			get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "post.aspx?id=" + Id.ToString()); }
-		}
+                this.author = value;
+            }
+        }
 
-		/// <summary>
-		/// A relative-to-the-site-root path to the post.
-		/// Only for in-site use.
-		/// </summary>
-		public string RelativeLink
-		{
-			get
-			{
-				string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
+        /// <summary>
+        ///     Gets AuthorProfile.
+        /// </summary>
+        public AuthorProfile AuthorProfile
+        {
+            get
+            {
+                return AuthorProfile.GetProfile(this.Author);
+            }
+        }
 
-				if (BlogSettings.Instance.TimeStampPostLinks)
-					return Utils.RelativeWebRoot + "post/" + DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture) + slug;
+        /// <summary>
+        ///     Gets an unsorted List of categories.
+        /// </summary>
+        public StateList<Category> Categories
+        {
+            get
+            {
+                return this.categories;
+            }
+        }
 
-				return Utils.RelativeWebRoot + "post/" + slug;
-			}
-		}
+        /// <summary>
+        ///     Gets a Collection of All Comments for the post
+        /// </summary>
+        public List<Comment> Comments
+        {
+            get
+            {
+                return this.comments;
+            }
+        }
 
-		/// <summary>
-		/// The absolute link to the post.
-		/// </summary>
-		public Uri AbsoluteLink
-		{
-			get { return Utils.ConvertToAbsolute(RelativeLink); }
-		}
+        /// <summary>
+        ///     Gets or sets the Content or the post.
+        /// </summary>
+        public string Content
+        {
+            get
+            {
+                return this.content;
+            }
 
-		/// <summary>
-		/// The trackback link to the post.
-		/// </summary>
-		public Uri TrackbackLink
-		{
-			get { return new Uri(Utils.AbsoluteWebRoot.ToString() + "trackback.axd?id=" + Id.ToString()); }
-		}
+            set
+            {
+                if (this.content == value)
+                {
+                    return;
+                }
 
-		#endregion
+                this.MarkChanged("Content");
+                HttpContext.Current.Cache.Remove("content_" + this.Id);
+                this.content = value;
+            }
+        }
 
-		#region Methods
+        /// <summary>
+        ///     Gets or sets the Description or the post.
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
 
-		private static object _SyncRoot = new object();
-		private static List<Post> _Posts;
-		/// <summary>
-		/// A sorted collection of all posts in the blog.
-		/// Sorted by date.
-		/// </summary>
-		public static List<Post> Posts
-		{
-			get
-			{
-				if (_Posts == null)
-				{
-					lock (_SyncRoot)
-					{
-						if (_Posts == null)
-						{
-							_Posts = BlogService.FillPosts();
-							_Posts.TrimExcess();
-							AddRelations();
-						}
-					}
-				}
+            set
+            {
+                if (this.description != value)
+                {
+                    this.MarkChanged("Description");
+                }
 
-				return _Posts;
-			}
-		}
+                this.description = value;
+            }
+        }
 
-		///// <summary>
-		///// Lazy loads the content of the post into cache to reduce memory footprint.
-		///// </summary>
-		///// <returns>The content of the post.</returns>
-		//private string LoadPostContent()
-		//{
-		//  string key = string.Format("content_{0}", this.Id);
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance has comments enabled.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance has comments enabled; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasCommentsEnabled
+        {
+            get
+            {
+                return this.hasCommentsEnabled;
+            }
 
-		//  if (HttpContext.Current.Cache[key] == null)
-		//  {
-		//    string content = BlogService.SelectPostContent(this.Id);
-		//    HttpContext.Current.Cache.Insert(key, content, null, System.Web.Caching.Cache.NoAbsoluteExpiration, new TimeSpan(0, 3, 0));
-		//  }
+            set
+            {
+                if (this.hasCommentsEnabled != value)
+                {
+                    this.MarkChanged("hasCommentsEnabled");
+                }
 
-		//  return (string)HttpContext.Current.Cache[key];
-		//}
+                this.hasCommentsEnabled = value;
+            }
+        }
 
-		/// <summary>
-		/// Sets the Previous and Next properties to all posts.
-		/// </summary>
-		private static void AddRelations()
-		{
-			for (int i = 0; i < _Posts.Count; i++)
-			{
-				_Posts[i]._Next = null;
-				_Posts[i]._Prev = null;
-				if (i > 0)
-					_Posts[i]._Next = _Posts[i - 1];
+        /// <summary>
+        ///     Gets if the Post have been changed.
+        /// </summary>
+        public override bool IsChanged
+        {
+            get
+            {
+                if (base.IsChanged)
+                {
+                    return true;
+                }
 
-				if (i < _Posts.Count - 1)
-					_Posts[i]._Prev = _Posts[i + 1];
-			}
-		}
+                if (this.Categories.IsChanged || this.Tags.IsChanged || this.NotificationEmails.IsChanged)
+                {
+                    return true;
+                }
 
-		/// <summary>
-		/// Returns all posts in the specified category
-		/// </summary>
-		public static List<Post> GetPostsByCategory(Guid categoryId)
-		{
-			Category cat = Category.GetCategory(categoryId);
-			List<Post> col = Posts.FindAll(p => p.Categories.Contains(cat));
-			col.Sort();
-			col.TrimExcess();
-			return col;
-		}
+                return false;
+            }
+        }
 
-		/// <summary>
-		/// Returs a post based on the specified id.
-		/// </summary>
-		public static Post GetPost(Guid id)
-		{
-			return Posts.Find(p => p.Id == id);
-		}
+        /// <summary>
+        ///     Gets a collection of the comments that are nested as replies
+        /// </summary>
+        public List<Comment> NestedComments
+        {
+            get
+            {
+                if (this.nestedComments == null)
+                {
+                    this.CreateNestedComments();
+                }
 
-		/// <summary>
-		/// Checks to see if the specified title has already been used
-		/// by another post.
-		/// <remarks>
-		/// Titles must be unique because the title is part of the URL.
-		/// </remarks>
-		/// </summary>
-		public static bool IsTitleUnique(string title)
-		{
-			string legal = Utils.RemoveIllegalCharacters(title);
-			foreach (Post post in Posts)
-			{
-				if (Utils.RemoveIllegalCharacters(post.Title).Equals(legal, StringComparison.OrdinalIgnoreCase))
-					return false;
-			}
+                return this.nestedComments;
+            }
+        }
 
-			return true;
-		}
+        /// <summary>
+        ///     Gets the next post relative to this one based on time.
+        ///     <remarks>
+        ///         If this post is the newest, then it returns null.
+        ///     </remarks>
+        /// </summary>
+        public Post Next { get; private set; }
 
-		///// <summary>
-		///// Returns a post based on it's title.
-		///// </summary>
-		//public static Post GetPostBySlug(string slug, DateTime date)
-		//{
-		//  return Posts.Find(delegate(Post p)
-		//  {
-		//    if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
-		//    {
-		//      if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
-		//        return false;
-		//    }
+        /// <summary>
+        ///     Gets a collection of comments waiting for approval for the post, sorted by date.
+        /// </summary>
+        public List<Comment> NotApprovedComments
+        {
+            get
+            {
+                return this.comments.FindAll(c => !c.IsApproved);
+            }
+        }
 
-		//    return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
-		//  });
-		//}
+        /// <summary>
+        ///     Gets a collection of email addresses that is signed up for 
+        ///     comment notification on the specific post.
+        /// </summary>
+        public StateList<string> NotificationEmails
+        {
+            get
+            {
+                return this.notificationEmails;
+            }
+        }
 
-		/// <summary>
-		/// Returns all posts written by the specified author.
-		/// </summary>
-		public static List<Post> GetPostsByAuthor(string author)
-		{
-			string legalAuthor = Utils.RemoveIllegalCharacters(author);
-			List<Post> list = Posts.FindAll(delegate(Post p)
-			{
-				string legalTitle = Utils.RemoveIllegalCharacters(p.Author);
-				return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
-			});
+        /// <summary>
+        ///     Gets the absolute permanent link to the post.
+        /// </summary>
+        public Uri PermaLink
+        {
+            get
+            {
+                return new Uri(string.Format("{0}post.aspx?id={1}", Utils.AbsoluteWebRoot, this.Id));
+            }
+        }
 
-			list.TrimExcess();
-			return list;
-		}
+        /// <summary>
+        ///     Gets the previous post relative to this one based on time.
+        ///     <remarks>
+        ///         If this post is the oldest, then it returns null.
+        ///     </remarks>
+        /// </summary>
+        public Post Previous { get; private set; }
 
-		/// <summary>
-		/// Returns all posts tagged with the specified tag.
-		/// </summary>
-		public static List<Post> GetPostsByTag(string tag)
-		{
-			tag = Utils.RemoveIllegalCharacters(tag);
-			List<Post> list = Posts.FindAll(delegate(Post p)
-			{
-				foreach (string t in p.Tags)
-				{
-                    if (Utils.RemoveIllegalCharacters(t).Equals(tag, StringComparison.OrdinalIgnoreCase))
-						return true;
-				}
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not the post is published.
+        /// </summary>
+        public bool Published
+        {
+            get
+            {
+                return this.published;
+            }
 
-				return false;
-			});
+            set
+            {
+                if (this.published != value)
+                {
+                    this.MarkChanged("Published");
+                }
 
-			list.TrimExcess();
-			return list;
-		}
+                this.published = value;
+            }
+        }
 
-		/// <summary>
-		/// Returns all posts published between the two dates.
-		/// </summary>
-		public static List<Post> GetPostsByDate(DateTime dateFrom, DateTime dateTo)
-		{
-			List<Post> list = Posts.FindAll(p => p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
-			list.TrimExcess();
-			return list;
-		}
+        /// <summary>
+        ///     Gets or sets the number of raters or the object.
+        /// </summary>
+        public int Raters
+        {
+            get
+            {
+                return this.raters;
+            }
 
-		/// <summary>
-		/// Adds a rating to the post.
-		/// </summary>
-		public void Rate(int rating)
-		{
-			if (Raters > 0)
-			{
-				float total = Raters * Rating;
-				total += rating;
-				Raters++;
-				Rating = (float)(total / Raters);
-			}
-			else
-			{
-				Raters = 1;
-				Rating = rating;
-			}
+            set
+            {
+                if (this.raters != value)
+                {
+                    this.MarkChanged("Raters");
+                }
 
-			DataUpdate();
-			OnRated(this);
-		}
+                this.raters = value;
+            }
+        }
 
-		/// <summary>
-		/// Imports Post (without all standard saving routines
-		/// </summary>
-		public void Import()
-		{
-			if (this.IsDeleted)
-			{
-				if (!this.IsNew)
-				{
-					BlogService.DeletePost(this);
-				}
-			}
-			else
-			{
-				if (this.IsNew)
-				{
-					BlogService.InsertPost(this);
-				}
-				else
-				{
-					BlogService.UpdatePost(this);
-				}
-			}
-		}
+        /// <summary>
+        ///     Gets or sets the rating or the post.
+        /// </summary>
+        public float Rating
+        {
+            get
+            {
+                return this.rating;
+            }
 
-		/// <summary>
-		/// Force reload of all posts
-		/// </summary>
-		public static void Reload()
-		{
-			_Posts = BlogService.FillPosts();
-			_Posts.Sort();
-			AddRelations();
-		}
+            set
+            {
+                if (this.rating != value)
+                {
+                    this.MarkChanged("Rating");
+                }
 
-		/// <summary>
-		/// Adds a comment to the collection and saves the post.
-		/// </summary>
-		/// <param name="comment">The comment to add to the post.</param>
-		public void AddComment(Comment comment)
-		{
-			CancelEventArgs e = new CancelEventArgs();
-			OnAddingComment(comment, e);
-			if (!e.Cancel)
-			{
-				Comments.Add(comment);
-				DataUpdate();
-				OnCommentAdded(comment);
+                this.rating = value;
+            }
+        }
 
-                if (comment.IsApproved)
-                    SendNotifications(comment);
-			}
-		}
+        /// <summary>
+        ///     Gets a relative-to-the-site-root path to the post.
+        ///     Only for in-site use.
+        /// </summary>
+        public string RelativeLink
+        {
+            get
+            {
+                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogSettings.Instance.FileExtension;
+
+                return BlogSettings.Instance.TimeStampPostLinks
+                           ? string.Format(
+                               "{0}post/{1}{2}", 
+                               Utils.RelativeWebRoot, 
+                               this.DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture), 
+                               theslug)
+                           : string.Format("{0}post/{1}", Utils.RelativeWebRoot, theslug);
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Slug of the Post.
+        ///     A Slug is the relative URL used by the posts.
+        /// </summary>
+        public string Slug
+        {
+            get
+            {
+                return string.IsNullOrEmpty(this.slug) ? Utils.RemoveIllegalCharacters(this.Title) : this.slug;
+            }
+
+            set
+            {
+                if (this.slug != value)
+                {
+                    this.MarkChanged("Slug");
+                }
+
+                this.slug = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets an unsorted collection of tags.
+        /// </summary>
+        public StateList<string> Tags
+        {
+            get
+            {
+                return this.tags;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Title or the post.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+
+            set
+            {
+                if (this.title != value)
+                {
+                    this.MarkChanged("Title");
+                }
+
+                this.title = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the trackback link to the post.
+        /// </summary>
+        public Uri TrackbackLink
+        {
+            get
+            {
+                return new Uri(string.Format("{0}trackback.axd?id={1}", Utils.AbsoluteWebRoot, this.Id));
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether or not the post is visible or not.
+        /// </summary>
+        public bool Visible
+        {
+            get
+            {
+                return this.Authenticated ||
+                       (this.Published && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone));
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether a post is available to visitors not logged into the blog.
+        /// </summary>
+        public bool VisibleToPublic
+        {
+            get
+            {
+                return this.Published && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Returs a post based on the specified id.
+        /// </summary>
+        /// <param name="id">
+        /// The post id.
+        /// </param>
+        /// <returns>
+        /// The selected post.
+        /// </returns>
+        public static Post GetPost(Guid id)
+        {
+            return Posts.Find(p => p.Id == id);
+        }
+
+        ///// <summary>
+        ///// Returns a post based on it's title.
+        ///// </summary>
+        // public static Post GetPostBySlug(string slug, DateTime date)
+        // {
+        // return Posts.Find(delegate(Post p)
+        // {
+        // if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
+        // {
+        // if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
+        // return false;
+        // }
+
+        // return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
+        // });
+        // }
+
+        /// <summary>
+        /// Returns all posts written by the specified author.
+        /// </summary>
+        /// <param name="author">
+        /// The author.
+        /// </param>
+        /// <returns>
+        /// A list of Post.
+        /// </returns>
+        public static List<Post> GetPostsByAuthor(string author)
+        {
+            var legalAuthor = Utils.RemoveIllegalCharacters(author);
+            var list = Posts.FindAll(
+                p =>
+                    {
+                        var legalTitle = Utils.RemoveIllegalCharacters(p.Author);
+                        return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
+                    });
+
+            list.TrimExcess();
+            return list;
+        }
+
+        /// <summary>
+        /// Returns all posts in the specified category
+        /// </summary>
+        /// <param name="categoryId">
+        /// The category Id.
+        /// </param>
+        /// <returns>
+        /// A list of Post.
+        /// </returns>
+        public static List<Post> GetPostsByCategory(Guid categoryId)
+        {
+            var cat = Category.GetCategory(categoryId);
+            var col = Posts.FindAll(p => p.Categories.Contains(cat));
+            col.Sort();
+            col.TrimExcess();
+            return col;
+        }
+
+        /// <summary>
+        /// Returns all posts published between the two dates.
+        /// </summary>
+        /// <param name="dateFrom">
+        /// The date From.
+        /// </param>
+        /// <param name="dateTo">
+        /// The date To.
+        /// </param>
+        /// <returns>
+        /// A list of Post.
+        /// </returns>
+        public static List<Post> GetPostsByDate(DateTime dateFrom, DateTime dateTo)
+        {
+            var list = Posts.FindAll(p => p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
+            list.TrimExcess();
+            return list;
+        }
+
+        /// <summary>
+        /// Returns all posts tagged with the specified tag.
+        /// </summary>
+        /// <param name="tag">
+        /// The tag of the post.
+        /// </param>
+        /// <returns>
+        /// A list of Post.
+        /// </returns>
+        public static List<Post> GetPostsByTag(string tag)
+        {
+            tag = Utils.RemoveIllegalCharacters(tag);
+            var list =
+                Posts.FindAll(
+                    p =>
+                    p.Tags.Any(t => Utils.RemoveIllegalCharacters(t).Equals(tag, StringComparison.OrdinalIgnoreCase)));
+
+            list.TrimExcess();
+            return list;
+        }
+
+        /// <summary>
+        /// Checks to see if the specified title has already been used
+        ///     by another post.
+        ///     <remarks>
+        /// Titles must be unique because the title is part of the URL.
+        ///     </remarks>
+        /// </summary>
+        /// <param name="title">
+        /// The title.
+        /// </param>
+        /// <returns>
+        /// The is title unique.
+        /// </returns>
+        public static bool IsTitleUnique(string title)
+        {
+            var legal = Utils.RemoveIllegalCharacters(title);
+            return
+                Posts.All(
+                    post => !Utils.RemoveIllegalCharacters(post.Title).Equals(legal, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
+        /// Called when [serving].
+        /// </summary>
+        /// <param name="post">
+        /// The post being served.
+        /// </param>
+        /// <param name="arg">
+        /// The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.
+        /// </param>
+        public static void OnServing(Post post, ServingEventArgs arg)
+        {
+            if (Serving != null)
+            {
+                Serving(post, arg);
+            }
+        }
+
+        /// <summary>
+        /// Force reload of all posts
+        /// </summary>
+        public static void Reload()
+        {
+            posts = BlogService.FillPosts();
+            posts.Sort();
+            AddRelations();
+        }
+
+        /// <summary>
+        /// Adds a comment to the collection and saves the post.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment to add to the post.
+        /// </param>
+        public void AddComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnAddingComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            this.Comments.Add(comment);
+            this.DataUpdate();
+            this.OnCommentAdded(comment);
+
+            if (comment.IsApproved)
+            {
+                this.SendNotifications(comment);
+            }
+        }
+
+        /// <summary>
+        /// Approves all the comments in a post.  Included to save time on the approval process.
+        /// </summary>
+        public void ApproveAllComments()
+        {
+            foreach (var comment in this.Comments)
+            {
+                this.ApproveComment(comment);
+            }
+        }
+
+        /// <summary>
+        /// Approves a Comment for publication.
+        /// </summary>
+        /// <param name="comment">
+        /// The Comment to approve
+        /// </param>
+        public void ApproveComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            Comment.OnApproving(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            var inx = this.Comments.IndexOf(comment);
+            this.Comments[inx].IsApproved = true;
+            this.DateModified = comment.DateCreated;
+            this.DataUpdate();
+            Comment.OnApproved(comment);
+            this.SendNotifications(comment);
+        }
+
+        /// <summary>
+        /// Imports Post (without all standard saving routines
+        /// </summary>
+        public void Import()
+        {
+            if (this.Deleted)
+            {
+                if (!this.New)
+                {
+                    BlogService.DeletePost(this);
+                }
+            }
+            else
+            {
+                if (this.New)
+                {
+                    BlogService.InsertPost(this);
+                }
+                else
+                {
+                    BlogService.UpdatePost(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Imports a comment to comment collection and saves.  Does not
+        ///     notify user or run extension events.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment to add to the post.
+        /// </param>
+        public void ImportComment(Comment comment)
+        {
+            this.Comments.Add(comment);
+            this.DataUpdate();
+        }
+
+        /// <summary>
+        /// Marks the object as being an clean,
+        ///     which means not dirty.
+        /// </summary>
+        public override void MarkOld()
+        {
+            this.Categories.MarkOld();
+            this.Tags.MarkOld();
+            this.NotificationEmails.MarkOld();
+            base.MarkOld();
+        }
+
+        /// <summary>
+        /// Adds a rating to the post.
+        /// </summary>
+        /// <param name="newRating">
+        /// The rating.
+        /// </param>
+        public void Rate(int newRating)
+        {
+            if (this.Raters > 0)
+            {
+                var total = this.Raters * this.Rating;
+                total += newRating;
+                this.Raters++;
+                this.Rating = total / this.Raters;
+            }
+            else
+            {
+                this.Raters = 1;
+                this.Rating = newRating;
+            }
+
+            this.DataUpdate();
+            this.OnRated(this);
+        }
+
+        /// <summary>
+        /// Removes a comment from the collection and saves the post.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment to remove from the post.
+        /// </param>
+        public void RemoveComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnRemovingComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            this.Comments.Remove(comment);
+            this.DataUpdate();
+            this.OnCommentRemoved(comment);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.Title;
+        }
 
         /// <summary>
         /// Updates a comment in the collection and saves the post.
         /// </summary>
-        /// <param name="comment">The comment to update in the post.</param>
+        /// <param name="comment">
+        /// The comment to update in the post.
+        /// </param>
         public void UpdateComment(Comment comment)
         {
-            CancelEventArgs e = new CancelEventArgs();
-            OnUpdatingComment(comment, e);
-            if (!e.Cancel)
+            var e = new CancelEventArgs();
+            this.OnUpdatingComment(comment, e);
+            if (e.Cancel)
             {
-                int inx = Comments.IndexOf(comment);
+                return;
+            }
 
-                Comments[inx].IsApproved = comment.IsApproved;
-                Comments[inx].Content = comment.Content;
-                Comments[inx].Author = comment.Author;
-                Comments[inx].Country = comment.Country;
-                Comments[inx].Email = comment.Email;
-                Comments[inx].IP = comment.IP;
-                Comments[inx].Website = comment.Website;
-                Comments[inx].ModeratedBy = comment.ModeratedBy;
-                
-                DateModified = DateTime.Now;
-                DataUpdate();
+            var inx = this.Comments.IndexOf(comment);
 
-                DataUpdate();
-                OnCommentUpdated(comment);
+            this.Comments[inx].IsApproved = comment.IsApproved;
+            this.Comments[inx].Content = comment.Content;
+            this.Comments[inx].Author = comment.Author;
+            this.Comments[inx].Country = comment.Country;
+            this.Comments[inx].Email = comment.Email;
+            this.Comments[inx].IP = comment.IP;
+            this.Comments[inx].Website = comment.Website;
+            this.Comments[inx].ModeratedBy = comment.ModeratedBy;
+
+            this.DateModified = DateTime.Now;
+            this.DataUpdate();
+
+            this.DataUpdate();
+            this.OnCommentUpdated(comment);
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComparable<Post>
+
+        /// <summary>
+        /// Compares the current object with another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the 
+        ///     objects being compared. The return value has the following meanings: 
+        ///     Value Meaning Less than zero This object is less than the other parameter.Zero 
+        ///     This object is equal to other. Greater than zero This object is greater than other.
+        /// </returns>
+        public int CompareTo(Post other)
+        {
+            return other.DateCreated.CompareTo(this.DateCreated);
+        }
+
+        #endregion
+
+        #region IPublishable
+
+        /// <summary>
+        /// Raises the Serving event
+        /// </summary>
+        /// <param name="eventArgs">
+        /// The event Args.
+        /// </param>
+        public void OnServing(ServingEventArgs eventArgs)
+        {
+            if (Serving != null)
+            {
+                Serving(this, eventArgs);
             }
         }
 
-		/// <summary>
-		/// Imports a comment to comment collection and saves.  Does not
-		/// notify user or run extension events.
-		/// </summary>
-		/// <param name="comment">The comment to add to the post.</param>
-		public void ImportComment(Comment comment)
-		{
-			Comments.Add(comment);
-			DataUpdate();
+        #endregion
 
-		}
+        #endregion
 
-		/// <summary>
-		/// Sends a notification to all visitors  that has registered
-		/// to retrieve notifications for the specific post.
-		/// </summary>
-		private void SendNotifications(Comment comment)
-		{
-			if (NotificationEmails.Count == 0 || comment.IsApproved == false)
-				return;
-
-			foreach (string email in NotificationEmails)
-			{
-				if (email != comment.Email)
-				{
-                    // Intentionally using AbsoluteLink instead of PermaLink so the "unsubscribe-email" QS parameter
-                    // isn't dropped when post.aspx.cs does a 301 redirect to the RelativeLink, before the unsubscription
-                    // process takes place.
-                    string unsubscribeLink = AbsoluteLink.ToString();  
-                    unsubscribeLink += (unsubscribeLink.Contains("?") ? "&" : "?") + "unsubscribe-email=" + HttpUtility.UrlEncode(email);
-
-                    System.Globalization.CultureInfo defaultCulture = Utils.GetDefaultCulture();
-
-                    MailMessage mail = new MailMessage();
-                    mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
-                    mail.Subject = "New comment on " + Title;
-                    mail.Body = "<div style=\"font: 11px verdana, arial\">New Comment added by " + comment.Author + "<br /><br />";
-                    mail.Body += comment.Content.Replace(Environment.NewLine, "<br />") + "<br /><br />";
-                    mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br/>", Utils.Translate("post", null, defaultCulture), PermaLink + "#id_" + comment.Id, Title);
-                    mail.Body += "<br />_______________________________________________________________________________<br />";
-                    mail.Body += string.Format("<a href=\"{0}\">{1}</a></div>", unsubscribeLink, Utils.Translate("commentNotificationUnsubscribe"));
-
-					mail.To.Add(email);
-					Utils.SendMailMessageAsync(mail);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Removes a comment from the collection and saves the post.
-		/// </summary>
-		/// <param name="comment">The comment to remove from the post.</param>
-		public void RemoveComment(Comment comment)
-		{
-			CancelEventArgs e = new CancelEventArgs();
-			OnRemovingComment(comment, e);
-			if (!e.Cancel)
-			{
-				Comments.Remove(comment);
-				DataUpdate();
-				OnCommentRemoved(comment);
-				comment = null;
-			}
-		}
-
-		/// <summary>
-		/// Approves a Comment for publication.
-		/// </summary>
-		/// <param name="comment">The Comment to approve</param>
-		public void ApproveComment(Comment comment)
-		{
-			CancelEventArgs e = new CancelEventArgs();
-			Comment.OnApproving(comment, e);
-			if (!e.Cancel)
-			{
-				int inx = Comments.IndexOf(comment);
-				Comments[inx].IsApproved = true;
-				this.DateModified = comment.DateCreated;
-				this.DataUpdate();
-				Comment.OnApproved(comment);
-				SendNotifications(comment);
-			}
-		}
+        #region Methods
 
         /// <summary>
-		/// Approves all the comments in a post.  Included to save time on the approval process.
-		/// </summary>
-		public void ApproveAllComments()
-		{
-			foreach (Comment comment in Comments)
-			{
-				ApproveComment(comment);
-			}
-		}
-
-		#endregion
-
-		#region Base overrides
-
-		///// <summary>
-		///// Saves the object to the data store (inserts, updates or deletes).
-		///// </summary>
-		///// <returns></returns>
-		//public override SaveAction Save()
-		//{
-		//  SaveAction action = base.Save();
-		//  if (action == SaveAction.Insert || action == SaveAction.Update)
-		//    _Content = null;
-
-		//  return action;
-		//}
-
-		/// <summary>
-		/// Validates the Post instance.
-		/// </summary>
-		protected override void ValidationRules()
-		{
-			AddRule("Title", "Title must be set", String.IsNullOrEmpty(Title));
-			AddRule("Content", "Content must be set", String.IsNullOrEmpty(Content));
-		}
-
-		/// <summary>
-		/// Returns a Post based on the specified id.
-		/// </summary>
-		protected override Post DataSelect(Guid id)
-		{
-			return BlogService.SelectPost(id);
-		}
-
-		/// <summary>
-		/// Updates the Post.
-		/// </summary>
-		protected override void DataUpdate()
-		{
-			BlogService.UpdatePost(this);
-			Posts.Sort();
-			AddRelations();
-			ResetNestedComments();
-		}
-
-		/// <summary>
-		/// Inserts a new post to the current BlogProvider.
-		/// </summary>
-		protected override void DataInsert()
-		{
-			BlogService.InsertPost(this);
-
-			if (this.IsNew)
-			{
-				Posts.Add(this);
-				Posts.Sort();
-				AddRelations();
-			}
-		}
-
-		/// <summary>
-		/// Deletes the Post from the current BlogProvider.
-		/// </summary>
-		protected override void DataDelete()
-		{
-			BlogService.DeletePost(this);
-			if (Posts.Contains(this))
-			{
-				Posts.Remove(this);
-				Dispose();
-				AddRelations();
-			}
-		}
-
-		/// <summary>
-		/// Gets if the Post have been changed.
-		/// </summary>
-		public override bool IsChanged
-		{
-			get
-			{
-				if (base.IsChanged)
-					return true;
-
-                if (Categories.IsChanged || Tags.IsChanged || NotificationEmails.IsChanged)
-					return true;
-
-				return false;
-			}
-		}
-
-		/// <summary>
-		/// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-		/// </returns>
-		public override string ToString()
-		{
-			return Title;
-		}
-
-		/// <summary>
-		/// Marks the object as being an clean,
-		/// which means not dirty.
-		/// </summary>
-		public override void MarkOld()
-		{
-			this.Categories.MarkOld();
-			this.Tags.MarkOld();
-            this.NotificationEmails.MarkOld();
-			base.MarkOld();
-		}
-
-   
-		#endregion
-
-		#region IComparable<Post> Members
-
-		/// <summary>
-		/// Compares the current object with another object of the same type.
-		/// </summary>
-		/// <param name="other">An object to compare with this object.</param>
-		/// <returns>
-		/// A 32-bit signed integer that indicates the relative order of the 
-		/// objects being compared. The return value has the following meanings: 
-		/// Value Meaning Less than zero This object is less than the other parameter.Zero 
-		/// This object is equal to other. Greater than zero This object is greater than other.
-		/// </returns>
-		public int CompareTo(Post other)
-		{
-			return other.DateCreated.CompareTo(this.DateCreated);
-		}
-
-		#endregion
-
-		#region Events
-
-        /// <summary>
-        /// Occurs before a new comment is added.
+        /// Deletes the Post from the current BlogProvider.
         /// </summary>
-        public static event EventHandler<CancelEventArgs> AddingComment;
+        protected override void DataDelete()
+        {
+            BlogService.DeletePost(this);
+            if (!Posts.Contains(this))
+            {
+                return;
+            }
+
+            Posts.Remove(this);
+            this.Dispose();
+            AddRelations();
+        }
+
         /// <summary>
-        /// Raises the event in a safe way
+        /// Inserts a new post to the current BlogProvider.
         /// </summary>
+        protected override void DataInsert()
+        {
+            BlogService.InsertPost(this);
+
+            if (!this.New)
+            {
+                return;
+            }
+
+            Posts.Add(this);
+            Posts.Sort();
+            AddRelations();
+        }
+
+        /// <summary>
+        /// Returns a Post based on the specified id.
+        /// </summary>
+        /// <param name="id">
+        /// The post id.
+        /// </param>
+        /// <returns>
+        /// The selected Post.
+        /// </returns>
+        protected override Post DataSelect(Guid id)
+        {
+            return BlogService.SelectPost(id);
+        }
+
+        /// <summary>
+        /// Updates the Post.
+        /// </summary>
+        protected override void DataUpdate()
+        {
+            BlogService.UpdatePost(this);
+            Posts.Sort();
+            AddRelations();
+            this.ResetNestedComments();
+        }
+
+        /// <summary>
+        /// Called when [adding comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
         protected virtual void OnAddingComment(Comment comment, CancelEventArgs e)
         {
             if (AddingComment != null)
@@ -930,12 +1080,11 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
-        /// Occurs when a comment is added.
+        /// Called when [comment added].
         /// </summary>
-        public static event EventHandler<EventArgs> CommentAdded;
-        /// <summary>
-        /// Raises the event in a safe way
-        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
         protected virtual void OnCommentAdded(Comment comment)
         {
             if (CommentAdded != null)
@@ -945,12 +1094,73 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
-        /// Occurs before a new comment is updated.
+        /// Called when [comment removed].
         /// </summary>
-        public static event EventHandler<CancelEventArgs> UpdatingComment;
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        protected virtual void OnCommentRemoved(Comment comment)
+        {
+            if (CommentRemoved != null)
+            {
+                CommentRemoved(comment, new EventArgs());
+            }
+        }
+
         /// <summary>
-        /// Raises the event in a safe way
+        /// Called when [comment updated].
         /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        protected virtual void OnCommentUpdated(Comment comment)
+        {
+            if (CommentUpdated != null)
+            {
+                CommentUpdated(comment, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Called when [rated].
+        /// </summary>
+        /// <param name="post">
+        /// The rated post.
+        /// </param>
+        protected virtual void OnRated(Post post)
+        {
+            if (Rated != null)
+            {
+                Rated(post, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Called when [removing comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        protected virtual void OnRemovingComment(Comment comment, CancelEventArgs e)
+        {
+            if (RemovingComment != null)
+            {
+                RemovingComment(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when [updating comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
         protected virtual void OnUpdatingComment(Comment comment, CancelEventArgs e)
         {
             if (UpdatingComment != null)
@@ -960,92 +1170,151 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
-        /// Occurs when a comment is updated.
+        /// Validates the Post instance.
         /// </summary>
-        public static event EventHandler<EventArgs> CommentUpdated;
-        /// <summary>
-        /// Raises the event in a safe way
-        /// </summary>
-        protected virtual void OnCommentUpdated(Comment comment)
+        protected override void ValidationRules()
         {
-            if (CommentUpdated != null)
+            this.AddRule("Title", "Title must be set", String.IsNullOrEmpty(this.Title));
+            this.AddRule("Content", "Content must be set", String.IsNullOrEmpty(this.Content));
+        }
+
+        /// <summary>
+        /// Sets the Previous and Next properties to all posts.
+        /// </summary>
+        private static void AddRelations()
+        {
+            for (var i = 0; i < posts.Count; i++)
             {
-                CommentUpdated(comment, new EventArgs());
+                posts[i].Next = null;
+                posts[i].Previous = null;
+                if (i > 0)
+                {
+                    posts[i].Next = posts[i - 1];
+                }
+
+                if (i < posts.Count - 1)
+                {
+                    posts[i].Previous = posts[i + 1];
+                }
             }
         }
 
-		/// <summary>
-		/// Occurs before comment is removed.
-		/// </summary>
-		public static event EventHandler<CancelEventArgs> RemovingComment;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		protected virtual void OnRemovingComment(Comment comment, CancelEventArgs e)
-		{
-			if (RemovingComment != null)
-			{
-				RemovingComment(comment, e);
-			}
-		}
+        /// <summary>
+        /// Nests comments based on Id and ParentId
+        /// </summary>
+        private void CreateNestedComments()
+        {
+            // instantiate object
+            this.nestedComments = new List<Comment>();
 
-		/// <summary>
-		/// Occurs when a comment has been removed.
-		/// </summary>
-		public static event EventHandler<EventArgs> CommentRemoved;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		protected virtual void OnCommentRemoved(Comment comment)
-		{
-			if (CommentRemoved != null)
-			{
-				CommentRemoved(comment, new EventArgs());
-			}
-		}
+            // temporary ID/Comment table
+            var commentTable = new Hashtable();
 
-		/// <summary>
-		/// Occurs when a visitor rates the post.
-		/// </summary>
-		public static event EventHandler<EventArgs> Rated;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		protected virtual void OnRated(Post post)
-		{
-			if (Rated != null)
-			{
-				Rated(post, new EventArgs());
-			}
-		}
+            foreach (var comment in this.comments)
+            {
+                // add to hashtable for lookup
+                commentTable.Add(comment.Id, comment);
 
-		/// <summary>
-		/// Occurs when the post is being served to the output stream.
-		/// </summary>
-		public static event EventHandler<ServingEventArgs> Serving;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		public static void OnServing(Post post, ServingEventArgs arg)
-		{
-			if (Serving != null)
-			{
-				Serving(post, arg);
-			}
-		}
+                // check if this is a child comment
+                if (comment.ParentId == Guid.Empty)
+                {
+                    // root comment, so add it to the list
+                    this.nestedComments.Add(comment);
+                }
+                else
+                {
+                    // child comment, so find parent
+                    var parentComment = commentTable[comment.ParentId] as Comment;
+                    if (parentComment != null)
+                    {
+                        // double check that this sub comment has not already been added
+                        if (parentComment.Comments.IndexOf(comment) == -1)
+                        {
+                            parentComment.Comments.Add(comment);
+                        }
+                    }
+                    else
+                    {
+                        // just add to the base to prevent an error
+                        this.nestedComments.Add(comment);
+                    }
+                }
+            }
+        }
 
-		/// <summary>
-		/// Raises the Serving event
-		/// </summary>
-		public void OnServing(ServingEventArgs eventArgs)
-		{
-			if (Serving != null)
-			{
-				Serving(this, eventArgs);
-			}
-		}
+        /// <summary>
+        /// Clears all nesting of comments
+        /// </summary>
+        private void ResetNestedComments()
+        {
+            // void the List<>
+            this.nestedComments = null;
 
-		#endregion
+            // go through all comments and remove sub comments
+            foreach (var c in this.Comments)
+            {
+                c.Comments.Clear();
+            }
+        }
 
-	}
+        /// <summary>
+        /// Sends a notification to all visitors  that has registered
+        ///     to retrieve notifications for the specific post.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        private void SendNotifications(Comment comment)
+        {
+            if (this.NotificationEmails.Count == 0 || comment.IsApproved == false)
+            {
+                return;
+            }
+
+            foreach (var email in this.NotificationEmails)
+            {
+                if (email == comment.Email)
+                {
+                    continue;
+                }
+
+                // Intentionally using AbsoluteLink instead of PermaLink so the "unsubscribe-email" QS parameter
+                // isn't dropped when post.aspx.cs does a 301 redirect to the RelativeLink, before the unsubscription
+                // process takes place.
+                var unsubscribeLink = this.AbsoluteLink.ToString();
+                unsubscribeLink += string.Format(
+                    "{0}unsubscribe-email={1}", 
+                    unsubscribeLink.Contains("?") ? "&" : "?", 
+                    HttpUtility.UrlEncode(email));
+
+                var defaultCulture = Utils.GetDefaultCulture();
+
+                var sb = new StringBuilder();
+                sb.AppendFormat(
+                    "<div style=\"font: 11px verdana, arial\">New Comment added by {0}<br /><br />", comment.Author);
+                sb.AppendFormat("{0}<br /><br />", comment.Content.Replace(Environment.NewLine, "<br />"));
+                sb.AppendFormat(
+                    "<strong>{0}</strong>: <a href=\"{1}#id_{2}\">{3}</a><br/>", 
+                    Utils.Translate("post", null, defaultCulture), 
+                    this.PermaLink, 
+                    comment.Id, 
+                    this.Title);
+                sb.Append("<br />_______________________________________________________________________________<br />");
+                sb.AppendFormat(
+                    "<a href=\"{0}\">{1}</a></div>", unsubscribeLink, Utils.Translate("commentNotificationUnsubscribe"));
+
+                var mail = new MailMessage
+                    {
+                        From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name), 
+                        Subject = string.Format("New comment on {0}", this.Title), 
+                        Body = sb.ToString()
+                    };
+
+                mail.To.Add(email);
+                Utils.SendMailMessageAsync(mail);
+            }
+        }
+
+        #endregion
+    }
 }

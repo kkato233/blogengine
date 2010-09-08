@@ -41,7 +41,7 @@ public partial class widgets_RecentComments_widget : WidgetBase
 
 			foreach (Post post in Post.Posts)
 			{
-				if (post.IsVisible)
+				if (post.Visible)
 				{
 					comments.AddRange(post.Comments.FindAll(delegate(Comment c) { return c.IsApproved && c.Email.Contains("@"); }));
 				}
