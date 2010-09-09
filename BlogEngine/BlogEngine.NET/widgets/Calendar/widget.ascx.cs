@@ -1,29 +1,52 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-
-public partial class widgets_Calendar_widget : WidgetBase
+﻿namespace widgets.Calendar
 {
+    /// <summary>
+    /// The widget.
+    /// </summary>
+    public partial class widget : WidgetBase
+    {
+        #region Properties
 
-	public override string Name
-	{
-		get { return "Calendar"; }
-	}
+        /// <summary>
+        /// Gets a value indicating whether or not the widget can be edited.
+        /// <remarks>
+        /// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+        /// </remarks>
+        /// </summary>
+        /// <value></value>
+        public override bool IsEditable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-	public override bool IsEditable
-	{
-		get { return false; }
-	}
+        /// <summary>
+        /// Gets the name. It must be exactly the same as the folder that contains the widget.
+        /// </summary>
+        /// <value></value>
+        public override string Name
+        {
+            get
+            {
+                return "Calendar";
+            }
+        }
 
-	public override void LoadWidget()
-	{
-		// nothing to load
-	}
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        /// data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            // nothing to load
+        }
+
+        #endregion
+    }
 }

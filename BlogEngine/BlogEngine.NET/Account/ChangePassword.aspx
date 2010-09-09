@@ -1,11 +1,17 @@
-﻿<%@ Page Title="Change Password" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true" CodeFile="ChangePassword.aspx.cs" Inherits="Account_ChangePassword" %>
-<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
+﻿<%@ Page Title="Change Password" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
+    CodeFile="ChangePassword.aspx.cs" Inherits="Account.ChangePassword" %>
+
+<%@ MasterType VirtualPath="~/Account/Account.master" %>
+<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+</asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <h2><%=Resources.labels.changePassword %></h2>
+    <h2>
+        <%=Resources.labels.changePassword %></h2>
     <p>
-    <%=String.Format(Resources.labels.requiredPasswordLength,Membership.MinRequiredPasswordLength) %>
+        <%=String.Format(Resources.labels.requiredPasswordLength,Membership.MinRequiredPasswordLength) %>
     </p>
-    <asp:ChangePassword ID="ChangeUserPassword" runat="server" CancelDestinationPageUrl="~/" EnableViewState="false" RenderOuterTable="false" SuccessPageUrl="ChangePasswordSuccess.aspx">
+    <asp:ChangePassword ID="ChangeUserPassword" runat="server" CancelDestinationPageUrl="~/"
+        EnableViewState="false" RenderOuterTable="false" SuccessPageUrl="ChangePasswordSuccess.aspx">
         <ChangePasswordTemplate>
             <div class="accountInfo">
                 <div class="login">
@@ -29,7 +35,9 @@
                     </div>
                 </div>
                 <div class="submitButton">
-                    <asp:Button ID="ChangePasswordPushButton" runat="server" CommandName="ChangePassword" Text="<%$Resources:labels,changePassword %>" onclick="ChangePasswordPushButton_Click" OnClientClick="return ValidateChangePassword();" />
+                    <asp:Button ID="ChangePasswordPushButton" runat="server" CommandName="ChangePassword"
+                        Text="<%$Resources:labels,changePassword %>" OnClick="ChangePasswordPushButton_Click"
+                        OnClientClick="return ValidateChangePassword();" />
                 </div>
             </div>
         </ChangePasswordTemplate>

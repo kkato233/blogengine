@@ -21,46 +21,11 @@ using BlogEngine.Core.Web.Extensions;
 #endregion
 
 /// <summary>
-/// The user_controls_ comment view.
+/// The comment view.
 /// </summary>
-public partial class UserControlsCommentView : UserControl, ICallbackEventHandler
+public partial class CommentView : UserControl, ICallbackEventHandler
 {
     #region Constants and Fields
-
-    /// <summary>
-    ///     The any captcha enabled.
-    /// </summary>
-    protected bool AnyCaptchaEnabled;
-
-    /// <summary>
-    ///     The any captcha necessary.
-    /// </summary>
-    protected bool AnyCaptchaNecessary;
-
-    /// <summary>
-    ///     The comment counter.
-    /// </summary>
-    protected int CommentCounter;
-
-    /// <summary>
-    ///     The default name.
-    /// </summary>
-    protected string DefaultName = string.Empty;
-
-    /// <summary>
-    ///     The name input id.
-    /// </summary>
-    protected string NameInputId = string.Empty;
-
-    /// <summary>
-    ///     The re captcha enabled.
-    /// </summary>
-    protected bool ReCaptchaEnabled;
-
-    /// <summary>
-    ///     The simple captcha enabled.
-    /// </summary>
-    protected bool SimpleCaptchaEnabled;
 
     /// <summary>
     ///     The callback.
@@ -71,6 +36,15 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     ///     The nesting supported.
     /// </summary>
     private bool? nestingSupported;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CommentView"/> class.
+    /// </summary>
+    public CommentView()
+    {
+        this.NameInputId = string.Empty;
+        this.DefaultName = string.Empty;
+    }
 
     #endregion
 
@@ -84,12 +58,9 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     {
         get
         {
-            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == 0)
-            {
-                return "true";
-            }
-
-            return "false";
+            return BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == 0
+                       ? "true"
+                       : "false";
         }
     }
 
@@ -108,7 +79,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
                 }
                 else
                 {
-                    var path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/CommentView.ascx";
+                    var path = string.Format("{0}themes/{1}/CommentView.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
 
                     // test comment control for nesting placeholder (for backwards compatibility with older themes)
                     var commentTester = (CommentViewBase)this.LoadControl(path);
@@ -125,6 +96,50 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     ///     Gets or sets the post from which the comments are parsed.
     /// </summary>
     public Post Post { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [any captcha enabled].
+    /// </summary>
+    /// <value><c>true</c> if [any captcha enabled]; otherwise, <c>false</c>.</value>
+    protected bool AnyCaptchaEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [any captcha necessary].
+    /// </summary>
+    /// <value><c>true</c> if [any captcha necessary]; otherwise, <c>false</c>.</value>
+    protected bool AnyCaptchaNecessary { get; set; }
+
+    /// <summary>
+    /// Gets or sets the comment counter.
+    /// </summary>
+    /// <value>The comment counter.</value>
+    protected int CommentCounter { get; set; }
+
+    /// <summary>
+    /// Gets or sets the default name.
+    /// </summary>
+    /// <value>The default name.</value>
+    protected string DefaultName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name input id.
+    /// </summary>
+    /// <value>The name input id.</value>
+    protected string NameInputId { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [re captcha enabled].
+    /// </summary>
+    /// <value><c>true</c> if [re captcha enabled]; otherwise, <c>false</c>.</value>
+    protected bool ReCaptchaEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether [simple captcha enabled].
+    /// </summary>
+    /// <value>
+    ///     <c>true</c> if [simple captcha enabled]; otherwise, <c>false</c>.
+    /// </value>
+    protected bool SimpleCaptchaEnabled { get; set; }
 
     #endregion
 
@@ -468,12 +483,12 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
         var image = new StringBuilder();
         image.Append("<img src=\"");
         image.Append("http://www.gravatar.com/avatar.php?");
-        image.Append("gravatar_id=" + hash);
+        image.AppendFormat("gravatar_id={0}", hash);
         image.Append("&amp;rating=G");
-        image.Append("&amp;size=" + size);
+        image.AppendFormat("&amp;size={0}", size);
         image.Append("&amp;default=");
         image.Append(
-            this.Server.UrlEncode(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg"));
+            this.Server.UrlEncode(string.Format("{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme)));
         image.Append("\" alt=\"\" />");
         return image.ToString();
     }
@@ -541,8 +556,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
                 if (this.Post != null)
                 {
                     foreach (var comment in
-                        this.Post.Comments.Where(comment => comment.Email != "pingback" && comment.Email != "trackback")
-                        )
+                        this.Post.Comments.Where(comment => comment.Email != "pingback" && comment.Email != "trackback"))
                     {
                         if (comment.IsApproved)
                         {
@@ -703,7 +717,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     }
 
     /// <summary>
-    /// The approve all comments.
+    /// Approves all comments.
     /// </summary>
     private void ApproveAllComments()
     {
@@ -715,32 +729,26 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     }
 
     /// <summary>
-    /// The approve comment.
+    /// Approves the comment.
     /// </summary>
     private void ApproveComment()
     {
-        foreach (var comment in this.Post.NotApprovedComments)
+        foreach (var comment in
+            this.Post.NotApprovedComments.Where(comment => comment.Id == new Guid(this.Request.QueryString["approvecomment"])))
         {
-            if (comment.Id == new Guid(this.Request.QueryString["approvecomment"]))
-            {
-                this.Post.ApproveComment(comment);
+            this.Post.ApproveComment(comment);
 
-                var index = this.Request.RawUrl.IndexOf("?");
-                var url = this.Request.RawUrl.Substring(0, index);
-                this.Response.Redirect(url, true);
-            }
+            var index = this.Request.RawUrl.IndexOf("?");
+            var url = this.Request.RawUrl.Substring(0, index);
+            this.Response.Redirect(url, true);
         }
     }
 
     /// <summary>
-    /// The collect comment to delete.
+    /// Collects the comment to delete.
     /// </summary>
-    /// <param name="comment">
-    /// The comment.
-    /// </param>
-    /// <param name="commentsToDelete">
-    /// The comments to delete.
-    /// </param>
+    /// <param name="comment">The comment.</param>
+    /// <param name="commentsToDelete">The comments to delete.</param>
     private void CollectCommentToDelete(Comment comment, List<Comment> commentsToDelete)
     {
         commentsToDelete.Add(comment);
@@ -753,51 +761,51 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     }
 
     /// <summary>
-    /// The delete comment.
+    /// Deletes the comment.
     /// </summary>
     private void DeleteComment()
     {
-        foreach (var comment in this.Post.Comments)
+        foreach (var comment in
+            this.Post.Comments.Where(comment => comment.Id == new Guid(this.Request.QueryString["deletecomment"])))
         {
-            if (comment.Id == new Guid(this.Request.QueryString["deletecomment"]))
-            {
-                this.Post.RemoveComment(comment);
+            this.Post.RemoveComment(comment);
 
-                var index = this.Request.RawUrl.IndexOf("?");
-                var url = this.Request.RawUrl.Substring(0, index) + "#comment";
-                this.Response.Redirect(url, true);
-            }
+            var index = this.Request.RawUrl.IndexOf("?");
+            var url = string.Format("{0}#comment", this.Request.RawUrl.Substring(0, index));
+            this.Response.Redirect(url, true);
         }
     }
 
     /// <summary>
-    /// The delete comment and children.
+    /// Deletes the comment and children.
     /// </summary>
     private void DeleteCommentAndChildren()
     {
         foreach (var comment in this.Post.Comments)
         {
-            if (comment.Id == new Guid(this.Request.QueryString["deletecommentandchildren"]))
+            if (comment.Id != new Guid(this.Request.QueryString["deletecommentandchildren"]))
             {
-                // collect comments to delete first so the Nesting isn't lost
-                var commentsToDelete = new List<Comment>();
-
-                this.CollectCommentToDelete(comment, commentsToDelete);
-
-                foreach (var commentToDelete in commentsToDelete)
-                {
-                    this.Post.RemoveComment(commentToDelete);
-                }
-
-                var index = this.Request.RawUrl.IndexOf("?");
-                var url = this.Request.RawUrl.Substring(0, index) + "#comment";
-                this.Response.Redirect(url, true);
+                continue;
             }
+
+            // collect comments to delete first so the Nesting isn't lost
+            var commentsToDelete = new List<Comment>();
+
+            this.CollectCommentToDelete(comment, commentsToDelete);
+
+            foreach (var commentToDelete in commentsToDelete)
+            {
+                this.Post.RemoveComment(commentToDelete);
+            }
+
+            var index = this.Request.RawUrl.IndexOf("?");
+            var url = string.Format("{0}#comment", this.Request.RawUrl.Substring(0, index));
+            this.Response.Redirect(url, true);
         }
     }
 
     /// <summary>
-    /// The enable captchas.
+    /// Enables the captchas.
     /// </summary>
     private void EnableCaptchas()
     {
@@ -827,7 +835,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     }
 
     /// <summary>
-    /// The enable recaptcha.
+    /// Enables the recaptcha.
     /// </summary>
     private void EnableRecaptcha()
     {
@@ -839,7 +847,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     }
 
     /// <summary>
-    /// The enable simple captcha.
+    /// Enables the simple captcha.
     /// </summary>
     private void EnableSimpleCaptcha()
     {
@@ -890,7 +898,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     ///     so it can be prefilled on next visit.
     /// </summary>
     /// <param name="name">
-    /// The name.
+    /// The cookie name.
     /// </param>
     /// <param name="email">
     /// The email.
@@ -903,8 +911,7 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     /// </param>
     private void SetCookie(string name, string email, string website, string country)
     {
-        var cookie = new HttpCookie("comment");
-        cookie.Expires = DateTime.Now.AddMonths(24);
+        var cookie = new HttpCookie("comment") { Expires = DateTime.Now.AddMonths(24) };
         cookie.Values.Add("name", this.Server.UrlEncode(name.Trim()));
         cookie.Values.Add("email", email.Trim());
         cookie.Values.Add("url", website.Trim());
@@ -913,18 +920,14 @@ public partial class UserControlsCommentView : UserControl, ICallbackEventHandle
     }
 
     /// <summary>
-    /// The set flag image url.
+    /// Sets the flag image URL.
     /// </summary>
     private void SetFlagImageUrl()
     {
-        if (!string.IsNullOrEmpty(this.ddlCountry.SelectedValue))
-        {
-            this.imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + this.ddlCountry.SelectedValue + ".png";
-        }
-        else
-        {
-            this.imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/pixel.png";
-        }
+        this.imgFlag.ImageUrl = !string.IsNullOrEmpty(this.ddlCountry.SelectedValue)
+                                    ? string.Format(
+                                        "{0}pics/flags/{1}.png", Utils.RelativeWebRoot, this.ddlCountry.SelectedValue)
+                                    : string.Format("{0}pics/pixel.png", Utils.RelativeWebRoot);
     }
 
     #endregion
