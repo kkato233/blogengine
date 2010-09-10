@@ -27,7 +27,7 @@ public class CodeFormatterExtension
     /// <summary>
     /// Maps custom events to the ServingContent event
     /// </summary>
-    public CodeFormatterExtension()
+    static CodeFormatterExtension()
     {
         Page.Serving += new EventHandler<ServingEventArgs>(ServingContent);
         Post.Serving += new EventHandler<ServingEventArgs>(ServingContent);
@@ -37,7 +37,7 @@ public class CodeFormatterExtension
 
     #region RegEx
 
-    private Regex codeRegex = new Regex(@"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])",
+    private static Regex codeRegex = new Regex(@"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])",
         RegexOptions.Compiled
         | RegexOptions.CultureInvariant
         | RegexOptions.IgnoreCase
@@ -50,7 +50,7 @@ public class CodeFormatterExtension
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    void ServingContent(object sender, ServingEventArgs e)
+    static void ServingContent(object sender, ServingEventArgs e)
     {
       if (e.Body.Contains("[/code]"))
       {
@@ -63,7 +63,7 @@ public class CodeFormatterExtension
     /// </summary>
     /// <param name="match"></param>
     /// <returns></returns>
-    private string CodeEvaluator(Match match)
+    private static string CodeEvaluator(Match match)
     {
         if (!match.Success)
             return match.Value;
@@ -90,7 +90,7 @@ public class CodeFormatterExtension
     /// <param name="options">Whatever options were set in the regex groups.</param>
     /// <param name="text">Send the e.body so it can get formatted.</param>
     /// <returns>The formatted string of the match.</returns>
-    private string Highlight(HighlightOptions options, string text)
+    private static string Highlight(HighlightOptions options, string text)
     {
 
         switch (options.Language)

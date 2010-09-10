@@ -207,25 +207,32 @@ public class ExtensionManager
           {
             ExtensionAttribute xa = (ExtensionAttribute)attribute;
             // try to load from storage
-            ManagedExtension x = DataStoreExtension(type.Name);
-            // if nothing, crete new extension
-            if (x == null)
+            try
             {
-              x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
-              _newExtensions.Add(type.Name);
-              SaveToStorage(x);
-            }
-            else
-            {
-              // update attributes from assembly
-              x.Version = xa.Version;
-              x.Description = xa.Description;
-              x.Author = xa.Author;
+                ManagedExtension x = DataStoreExtension(type.Name);
+                // if nothing, crete new extension
+                if (x == null)
+                {
+                    x = new ManagedExtension(type.Name, xa.Version, xa.Description, xa.Author);
+                    _newExtensions.Add(type.Name);
+                    SaveToStorage(x);
+                }
+                else
+                {
+                    // update attributes from assembly
+                    x.Version = xa.Version;
+                    x.Description = xa.Description;
+                    x.Author = xa.Author;
 
-              if(x.Priority == 0)
-                x.Priority = xa.Priority;
+                    if (x.Priority == 0)
+                        x.Priority = xa.Priority;
+                }
+                _extensions.Add(x);
             }
-            _extensions.Add(x);
+            catch (Exception e)
+            {
+                Utils.Log("Can not load " + type.Name + ": " + e.Message);
+            }
           }
         }
       }
