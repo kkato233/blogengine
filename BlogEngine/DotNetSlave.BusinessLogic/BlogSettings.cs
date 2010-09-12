@@ -276,6 +276,31 @@ namespace BlogEngine.Core
 		public string SyndicationFormat { get; set; }
 		#endregion
 
+		#region ThemeCookieName
+		
+		private const string defaultThemeCookieName = "theme";
+		private string _themeCookieName;
+		
+		/// <summary>
+		/// Gets or sets the name of the cookie that can override
+		/// the selected theme.
+		/// </summary>
+		/// <value>The name of the cookie that is checked while determining the theme.</value>
+		/// <remarks>The default value is "theme".</remarks>
+		public string ThemeCookieName
+		{
+			get
+			{
+				return _themeCookieName ?? defaultThemeCookieName;
+			}
+			set
+			{
+				_themeCookieName = value != defaultThemeCookieName ? value : null;
+			}
+		}
+		
+		#endregion
+		
 		#region Theme
 		/// <summary>
 		/// Gets or sets the current theme applied to the blog.
@@ -297,8 +322,8 @@ namespace BlogEngine.Core
                         if (request.QueryString["theme"] != null)
                             return request.QueryString["theme"];
 
-                        if (request.Cookies != null && request.Cookies["theme"] != null)
-                            return request.Cookies["theme"].Value;
+                        if (request.Cookies != null && request.Cookies[ThemeCookieName] != null)
+                            return request.Cookies[ThemeCookieName].Value;
                     }
                 }
 
