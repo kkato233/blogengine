@@ -379,6 +379,9 @@
   <data name="mobileTheme" xml:space="preserve">
     <value>Mobile theme</value>
   </data>
+  <data name="themeCookieName" xml:space="preserve">
+    <value>Theme cookie name</value>
+  </data>
   <data name="more" xml:space="preserve">
     <value>More</value>
   </data>
