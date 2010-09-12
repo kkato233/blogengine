@@ -84,6 +84,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         BlogSettings.Instance.PostsPerPage = int.Parse(txtPostsPerPage.Text);
         BlogSettings.Instance.Theme = ddlTheme.SelectedValue;
         BlogSettings.Instance.MobileTheme = ddlMobileTheme.SelectedValue;
+        BlogSettings.Instance.ThemeCookieName = txtThemeCookieName.Text;
         BlogSettings.Instance.UseBlogNameInPageTitles = cbUseBlogNameInPageTitles.Checked;
         BlogSettings.Instance.EnableRelatedPosts = cbShowRelatedPosts.Checked;
         BlogSettings.Instance.EnableRating = cbEnableRating.Checked;
@@ -224,6 +225,7 @@ public partial class admin_Pages_configuration : System.Web.UI.Page
         cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
         ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
         ddlMobileTheme.SelectedValue = BlogSettings.Instance.MobileTheme;
+        txtThemeCookieName.Text = BlogSettings.Instance.ThemeCookieName;
         cbUseBlogNameInPageTitles.Checked = BlogSettings.Instance.UseBlogNameInPageTitles;
         cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
         cbShowDescriptionInPostList.Checked = BlogSettings.Instance.ShowDescriptionInPostList;
