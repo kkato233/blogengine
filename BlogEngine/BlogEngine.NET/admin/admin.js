@@ -1,5 +1,4 @@
-﻿
-$.ajaxSetup({
+﻿$.ajaxSetup({
     type: "post",
     contentType: "application/json; charset=utf-8",
     dataType: "json"
@@ -20,7 +19,7 @@ function EditRow(obj) {
     var button = '<div><input type="button" value="Save" class="saveButton btn rounded" /> <br/> <a href="#" class="cancelButton">Cancel</a></div>';
 
     $('.editable', row).each(function () {
-        var txt = '<td><input id="' + $(this).html() + '" type=\"text\" class=\"txt200\" value=\"' + $(this).html() + '"/></td>';  
+        var txt = '<td><input id="' + $(this).html() + '" type=\"text\" class=\"txt200\" value=\"' + $(this).html() + '"/></td>';
         $(this).after(txt).remove();
     });
 
@@ -48,7 +47,7 @@ function SaveChanges(obj, str) {
         cnt = cnt + 1;
     });
 
-    var dto = { "id": id, "bg" : bg, "vals": editVals };
+    var dto = { "id": id, "bg": bg, "vals": editVals };
     $.ajax({
         url: "../../api/" + srv + ".asmx/Edit",
         data: JSON.stringify(dto),
@@ -86,7 +85,7 @@ function DeleteRow(obj) {
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
-                 $(that).fadeOut(500, function () {
+                $(that).fadeOut(500, function () {
                     $(that).remove();
                 });
                 ShowStatus("success", rt.Message);

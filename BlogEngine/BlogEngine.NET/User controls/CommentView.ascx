@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="User_controls_CommentView" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="CommentView" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (CommentCounter > 0)
@@ -30,8 +30,8 @@
 		<p id="cancelReply" style="display:none;"><a href="javascript:void(0);" onclick="BlogEngine.cancelReply();"><%=Resources.labels.cancelReply %></a></p>
 	  <%} %>
 
-	  <label for="<%=NameInputId %>"><%=Resources.labels.name %>*</label>
-	  <input type="text" name="<%= NameInputId %>" id="<%= NameInputId %>" tabindex="2" value="<%= DefaultName %>" />
+	  <label for="<%=this.NameInputId %>"><%=Resources.labels.name %>*</label>
+	  <input type="text" name="<%= this.NameInputId %>" id="<%= this.NameInputId %>" tabindex="2" value="<%= this.DefaultName %>" />
 	  <span id="spnNameRequired" style="color:Red;display:none;"> <asp:Literal ID="Literal1" runat="server" Text="<%$Resources:labels, required %>"></asp:Literal></span>
 	  <span id="spnChooseOtherName" style="color:Red;display:none;"> <asp:Literal ID="Literal2" runat="server" Text="<%$Resources:labels, chooseOtherName %>"></asp:Literal></span><br />
 
@@ -90,7 +90,7 @@ function registerCommentBox(){
 	BlogEngine.comments.moderation = <%=ManualModeration %>;
 	BlogEngine.comments.checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
 	BlogEngine.comments.postAuthor = "<%=Post.Author %>";
-	BlogEngine.comments.nameBox = BlogEngine.$("<%= NameInputId %>");
+	BlogEngine.comments.nameBox = BlogEngine.$("<%= this.NameInputId %>");
 	BlogEngine.comments.emailBox = BlogEngine.$("<%=txtEmail.ClientID %>");
 	BlogEngine.comments.websiteBox = BlogEngine.$("<%=txtWebsite.ClientID %>");
 	BlogEngine.comments.countryDropDown = BlogEngine.$("<%=ddlCountry.ClientID %>"); 

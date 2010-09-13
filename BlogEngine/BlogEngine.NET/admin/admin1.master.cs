@@ -1,123 +1,189 @@
-﻿using System;
-using System.Globalization;
-using System.Web.Security;
-using System.IO;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using BlogEngine.Core;
-
-public partial class admin_admin : System.Web.UI.MasterPage
+﻿namespace admin
 {
-    private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Threading;
+    using System.Web.Security;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
 
-    protected void Page_Load(object sender, EventArgs e)
+    using BlogEngine.Core;
+
+    /// <summary>
+    /// The admin_admin.
+    /// </summary>
+    public partial class admin_admin : MasterPage
     {
-        if (!System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
-            Response.Redirect(Utils.RelativeWebRoot);
+        #region Constants and Fields
 
-        AddJquery();
-        AddJavaScript(Utils.RelativeWebRoot + "admin/admin.js");
-    }
+        /// <summary>
+        /// The gravatar image.
+        /// </summary>
+        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
-    protected AuthorProfile AdminProfile()
-    {
-        try
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Sets the status.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <param name="msg">The message.</param>
+        public void SetStatus(string status, string msg)
         {
-            return AuthorProfile.GetProfile(System.Threading.Thread.CurrentPrincipal.Identity.Name);
+            this.AdminStatus.Attributes.Clear();
+            this.AdminStatus.Attributes.Add("class", status);
+            this.AdminStatus.InnerHtml = string.Format("{0}<a href=\"javascript:HideStatus()\" style=\"width:20px;float:right\">X</a>", this.Server.HtmlEncode(msg));
+
+            // Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", 
+            // "ShowStatus('" + status + "','" + msg + "');", true);
         }
-        catch (Exception e)
-        {
-            Utils.Log(e.Message);
-            return null;
-        }
-    }
 
-    protected string AdminPhoto()
-    {
-        string src = Utils.AbsoluteWebRoot + "admin/images/no_avatar.png";
-        string adminName = "";
+        #endregion
 
-        if (AdminProfile() != null)
+        #region Methods
+
+        /// <summary>
+        /// The add jquery.
+        /// </summary>
+        protected virtual void AddJquery()
         {
-            adminName = AdminProfile().DisplayName;
-            if (!string.IsNullOrEmpty(AdminProfile().PhotoURL))
+            var s = Path.Combine(this.Server.MapPath("~/"), "Scripts");
+            var fileEntries = Directory.GetFiles(s);
+            foreach (var fileName in
+                fileEntries.Where(fileName => (fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) && fileName.Contains("jquery-")) && !fileName.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase)))
             {
-                src = AdminProfile().PhotoURL;
-            }else
-            {
-                if(!string.IsNullOrEmpty(AdminProfile().EmailAddress) &&
-                    BlogSettings.Instance.Avatar != "none")
-                        src = Avatar(AdminProfile().EmailAddress);
+                this.AddJavaScript(string.Format("{0}Scripts/{1}", Utils.RelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)));
             }
         }
-        return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, src, adminName);
-    }
 
-    protected string Avatar(string email)
-    {
-        string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
-        string src = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=28&amp;d=";
-
-        switch (BlogSettings.Instance.Avatar)
+        /// <summary>
+        /// Gets the admin photo.
+        /// </summary>
+        /// <returns>
+        /// The admin photo.
+        /// </returns>
+        protected string AdminPhoto()
         {
-            case "identicon":
-                src += "identicon";
-                break;
-            case "wavatar":
-                src += "wavatar";
-                break;
-            default:
-                src += "monsterid";
-                break;
-        }
-        return src;
-    }
+            var src = string.Format("{0}admin/images/no_avatar.png", Utils.AbsoluteWebRoot);
+            var adminName = string.Empty;
 
-    public void SetStatus(string status, string msg)
-    {
-        AdminStatus.Attributes.Clear();
-        AdminStatus.Attributes.Add("class", status);
-        AdminStatus.InnerHtml = Server.HtmlEncode(msg) + "<a href=\"javascript:HideStatus()\" style=\"width:20px;float:right\">X</a>";
-        
-        //Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", 
-        //    "ShowStatus('" + status + "','" + msg + "');", true);
-    }
-
-    protected virtual void AddJquery()
-    {
-        string s = Path.Combine(Server.MapPath("~/"), "Scripts");
-        string[] fileEntries = Directory.GetFiles(s);
-        foreach (string fileName in fileEntries)
-        {
-            if ((fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) && fileName.Contains("jquery-")) &&
-                !fileName.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase))
+            if (this.AdminProfile() != null)
             {
-                AddJavaScript(Utils.RelativeWebRoot + "Scripts/" + Utils.ExtractFileNameFromPath(fileName));
-            }
-        }
-    }
-
-    void AddJavaScript(string src)
-    {
-        foreach (Control ctl in Page.Header.Controls)
-        {
-            if (ctl.GetType() == typeof(HtmlGenericControl))
-            {
-                HtmlGenericControl gc = (HtmlGenericControl)ctl;
-                if (gc.Attributes["src"] != null)
+                adminName = this.AdminProfile().DisplayName;
+                if (!string.IsNullOrEmpty(this.AdminProfile().PhotoUrl))
                 {
-                    if (gc.Attributes["src"].Contains(src))
-                        return;
+                    src = this.AdminProfile().PhotoUrl;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(this.AdminProfile().EmailAddress) && BlogSettings.Instance.Avatar != "none")
+                    {
+                        src = this.Avatar(this.AdminProfile().EmailAddress);
+                    }
                 }
             }
+
+            return string.Format(CultureInfo.InvariantCulture, GravatarImage, src, adminName);
         }
 
-        HtmlGenericControl js = new HtmlGenericControl("script");
+        /// <summary>
+        /// The admin profile.
+        /// </summary>
+        /// <returns>
+        /// An Author Profile.
+        /// </returns>
+        protected AuthorProfile AdminProfile()
+        {
+            try
+            {
+                return AuthorProfile.GetProfile(Thread.CurrentPrincipal.Identity.Name);
+            }
+            catch (Exception e)
+            {
+                Utils.Log(e.Message);
+                return null;
+            }
+        }
 
-        js.Attributes["type"] = "text/javascript";
-        js.Attributes["src"] = Utils.RelativeWebRoot + "js.axd?path=" + Server.UrlEncode(src);
-        js.Attributes["defer"] = "defer";
+        /// <summary>
+        /// Gets the avatar for the specified email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns>The avatar.</returns>
+        protected string Avatar(string email)
+        {
+            var hash =
+                FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5");
+            if (hash != null)
+            {
+                hash = hash.ToLowerInvariant();
+            }
 
-        Page.Header.Controls.Add(js);
+            var src = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s=28&amp;d=", hash);
+
+            switch (BlogSettings.Instance.Avatar)
+            {
+                case "identicon":
+                    src += "identicon";
+                    break;
+                case "wavatar":
+                    src += "wavatar";
+                    break;
+                default:
+                    src += "monsterid";
+                    break;
+            }
+
+            return src;
+        }
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            {
+                this.Response.Redirect(Utils.RelativeWebRoot);
+            }
+
+            this.AddJquery();
+            this.AddJavaScript(Utils.RelativeWebRoot + "admin/admin.js");
+        }
+
+        /// <summary>
+        /// The add java script.
+        /// </summary>
+        /// <param name="src">
+        /// The source.
+        /// </param>
+        private void AddJavaScript(string src)
+        {
+            if ((from Control ctl in this.Page.Header.Controls
+                 where ctl.GetType() == typeof(HtmlGenericControl)
+                 select (HtmlGenericControl)ctl
+                 into gc
+                 where gc.Attributes["src"] != null
+                 select gc).Any(gc => gc.Attributes["src"].Contains(src)))
+            {
+                return;
+            }
+
+            var js = new HtmlGenericControl("script");
+
+            js.Attributes["type"] = "text/javascript";
+            js.Attributes["src"] = string.Format("{0}js.axd?path={1}", Utils.RelativeWebRoot, this.Server.UrlEncode(src));
+            js.Attributes["defer"] = "defer";
+
+            this.Page.Header.Controls.Add(js);
+        }
+
+        #endregion
     }
 }

@@ -1,109 +1,104 @@
 ﻿#region Using
 
 using System;
-using System.IO;
-using System.Web;
-using System.Web.Hosting;
-using System.Web.UI;
-using System.Threading;
-using System.Xml;
-using System.Xml.Serialization;
-using BlogEngine.Core;
-using BlogEngine.Core.DataStore;
 using System.Collections.Specialized;
+using System.Web.UI;
+
+using BlogEngine.Core.DataStore;
 
 #endregion
 
 /// <summary>
-/// Summary description for WidgetBase
+/// Widget Edit Base
 /// </summary>
 public abstract class WidgetEditBase : UserControl
 {
-	#region Properties
+    #region Events
 
-  private string _Title;
-	/// <summary>
-	/// Gets or sets the title of the widget. It is mandatory for all widgets to set the Title.
-	/// </summary>
-	/// <value>The title of the widget.</value>
-	public string Title
-	{
-		get { return _Title; }
-		set { _Title = value; }
-	}
+    /// <summary>
+    /// Occurs when [saved].
+    /// </summary>
+    public static event EventHandler<EventArgs> Saved;
 
-	private bool _ShowTitle;
-	/// <summary>
-	/// Gets or sets a value indicating whether [show title].
-	/// </summary>
-	/// <value><c>true</c> if [show title]; otherwise, <c>false</c>.</value>
-	public bool ShowTitle
-	{
-		get { return _ShowTitle; }
-		set { _ShowTitle = value; }
-	}
+    #endregion
 
-	private Guid _WidgetID;
-	/// <summary>
-	/// Gets the widget ID.
-	/// </summary>
-	/// <value>The widget ID.</value>
-	public Guid WidgetID
-	{
-		get { return _WidgetID; }
-		set { _WidgetID = value; }
-	}
+    #region Properties
 
-	#endregion
+    /// <summary>
+    ///     Gets or sets a value indicating whether [show title].
+    /// </summary>
+    /// <value><c>true</c> if [show title]; otherwise, <c>false</c>.</value>
+    public bool ShowTitle { get; set; }
 
-	/// <summary>
-	/// Saves this the basic widget settings such as the Title.
-	/// </summary>
-	public abstract void Save();
+    /// <summary>
+    ///     Gets or sets the title of the widget. It is mandatory for all widgets to set the Title.
+    /// </summary>
+    /// <value>The title of the widget.</value>
+    public string Title { get; set; }
 
-  #region Settings
+    /// <summary>
+    /// Gets or sets the widget id.
+    /// </summary>
+    /// <value>The widget id.</value>
+    public Guid WidgetId { get; set; }
 
-  /// <summary>
-  /// Get settings from data store
-  /// </summary>
-  /// <returns>Settings</returns>
-  public StringDictionary GetSettings()
-  {
-    string cacheId = "be_widget_" + WidgetID;
-    if (Cache[cacheId] == null)
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Called when [saved].
+    /// </summary>
+    public static void OnSaved()
     {
-      WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-      Cache[cacheId] = (StringDictionary)ws.GetSettings();
+        if (Saved != null)
+        {
+            Saved(null, new EventArgs());
+        }
     }
-    return (StringDictionary)Cache[cacheId];
-  }
 
-  /// <summary>
-  /// Saves settings to data store
-  /// </summary>
-  /// <param name="settings">Settings</param>
-  protected virtual void SaveSettings(StringDictionary settings)
-  {
-    string cacheId = "be_widget_" + WidgetID;
+    /// <summary>
+    /// Get settings from data store
+    /// </summary>
+    /// <returns>
+    /// The settings
+    /// </returns>
+    public StringDictionary GetSettings()
+    {
+        var cacheId = string.Format("be_widget_{0}", this.WidgetId);
+        if (this.Cache[cacheId] == null)
+        {
+            var ws = new WidgetSettings(this.WidgetId.ToString());
+            this.Cache[cacheId] = ws.GetSettings();
+        }
 
-    WidgetSettings ws = new WidgetSettings(WidgetID.ToString());
-    ws.SaveSettings(settings);
-    
-    Cache[cacheId] = settings;
-  }
+        return (StringDictionary)this.Cache[cacheId];
+    }
 
-  #endregion
+    /// <summary>
+    /// Saves this the basic widget settings such as the Title.
+    /// </summary>
+    public abstract void Save();
 
-  public static event EventHandler<EventArgs> Saved;
-	/// <summary>
-	/// Occurs when the class is Saved
-	/// </summary>
-	public static void OnSaved()
-	{
-		if (Saved != null)
-		{
-			Saved(null, new EventArgs());
-		}
-	}
+    #endregion
 
+    #region Methods
+
+    /// <summary>
+    /// Saves settings to data store
+    /// </summary>
+    /// <param name="settings">
+    /// The settings
+    /// </param>
+    protected virtual void SaveSettings(StringDictionary settings)
+    {
+        var cacheId = string.Format("be_widget_{0}", this.WidgetId);
+
+        var ws = new WidgetSettings(this.WidgetId.ToString());
+        ws.SaveSettings(settings);
+
+        this.Cache[cacheId] = settings;
+    }
+
+    #endregion
 }

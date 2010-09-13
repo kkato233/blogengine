@@ -83,12 +83,12 @@ public partial class widgets_Newsletter_widget : WidgetBase, ICallbackEventHandl
 
         SetSendNewsletterEmails(post.Id, false);  // default to not sending
 
-        if (e.Action == SaveAction.Insert && post.IsVisibleToPublic)
+        if (e.Action == SaveAction.Insert && post.VisibleToPublic)
             SetSendNewsletterEmails(post.Id, true);
-        else if (e.Action == SaveAction.Update && post.IsVisibleToPublic)
+        else if (e.Action == SaveAction.Update && post.VisibleToPublic)
         {
             Post preUpdatePost = BlogEngine.Core.Providers.BlogService.SelectPost(post.Id);
-            if (preUpdatePost != null && !preUpdatePost.IsVisibleToPublic)
+            if (preUpdatePost != null && !preUpdatePost.VisibleToPublic)
                 SetSendNewsletterEmails(post.Id, true);
         }
     }

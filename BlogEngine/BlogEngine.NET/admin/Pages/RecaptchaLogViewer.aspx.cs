@@ -1,142 +1,186 @@
-﻿#region using declarations
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Globalization;
-using System.IO;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-
-using Controls;
-using BlogEngine.Core;
-using BlogEngine.Core.Providers;
-using Recaptcha;
-
-#endregion
-
-public partial class admin_Pages_RecaptchaLogViewer : System.Web.UI.Page
+﻿namespace admin.Pages
 {
-    private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using System.Web.Security;
 
-    protected void Page_Load(object sender, EventArgs e)
+    using BlogEngine.Core;
+
+    using Recaptcha;
+
+    using Page = System.Web.UI.Page;
+
+    /// <summary>
+    /// The admin_ pages_ recaptcha log viewer.
+    /// </summary>
+    public partial class admin_Pages_RecaptchaLogViewer : Page
     {
-        if (!System.Threading.Thread.CurrentPrincipal.Identity.IsAuthenticated)
-        {
-            Response.Redirect(BlogEngine.Core.Utils.RelativeWebRoot);
-        }
-        if (!IsPostBack)
-        {
-            BindGrid();
-        }
-    }
+        #region Constants and Fields
 
-    private void BindGrid()
-    {
-        List<RecaptchaLogItem> log = RecaptchaLogger.ReadLogItems();
+        /// <summary>
+        /// The gravatar image.
+        /// </summary>
+        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
-        Dictionary<Guid, Comment> comments = new Dictionary<Guid, Comment>();
-        foreach (Post post in Post.Posts)
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// The get website.
+        /// </summary>
+        /// <param name="website">
+        /// The website.
+        /// </param>
+        /// <returns>
+        /// The get website.
+        /// </returns>
+        public static string GetWebsite(object website)
         {
-            foreach (Comment comment in post.Comments)
+            if (website == null)
             {
-                comments.Add(comment.Id, comment);
+                return string.Empty;
+            }
+
+            const string Templ = "<a href='{0}' target='_new' rel='{0}'>{1}</a>";
+
+            var site = website.ToString();
+            site = site.Replace("http://www.", string.Empty);
+            site = site.Replace("http://", string.Empty);
+            site = site.Length < 20 ? site : string.Format("{0}...", site.Substring(0, 17));
+
+            return string.Format(Templ, website, site);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gravatars the specified email.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="author">The author.</param>
+        /// <returns></returns>
+        protected string Gravatar(string email, string author)
+        {
+            if (BlogSettings.Instance.Avatar == "none")
+            {
+                return null;
+            }
+
+            if (String.IsNullOrEmpty(email) || !email.Contains("@"))
+            {
+                return string.Format("<img src=\"{0}themes/{1}/noavatar.jpg\" alt=\"{2}\" width=\"28\" height=\"28\" />", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme, author);
+            }
+
+            var hash =
+                FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5");
+            if (hash != null)
+            {
+                hash = hash.ToLowerInvariant();
+            }
+
+            var gravatar = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s=28&amp;d=", hash);
+
+            string link;
+            switch (BlogSettings.Instance.Avatar)
+            {
+                case "identicon":
+                    link = string.Format("{0}identicon", gravatar);
+                    break;
+
+                case "wavatar":
+                    link = string.Format("{0}wavatar", gravatar);
+                    break;
+
+                default:
+                    link = string.Format("{0}monsterid", gravatar);
+                    break;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, author);
+        }
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            {
+                this.Response.Redirect(Utils.RelativeWebRoot);
+            }
+
+            if (!this.IsPostBack)
+            {
+                this.BindGrid();
             }
         }
 
-        DataTable dtLogView = new DataTable("LogView");
-        dtLogView.Columns.Add("Email");
-        dtLogView.Columns.Add("Date", typeof(DateTime));
-        dtLogView.Columns.Add("Author");
-        dtLogView.Columns.Add("Website");
-        dtLogView.Columns.Add("IP");
-        dtLogView.Columns.Add("RecaptchaAttempts", typeof(UInt16));
-        dtLogView.Columns.Add("CommentTime", typeof(Double));
-        dtLogView.Columns.Add("RecaptchaTime", typeof(Double));
-
-        List<RecaptchaLogItem> orphanedRecords = new List<RecaptchaLogItem>();
-
-        foreach (RecaptchaLogItem item in log)
+        /// <summary>
+        /// The bind grid.
+        /// </summary>
+        private void BindGrid()
         {
-            if (comments.ContainsKey(item.CommentId))
+            var log = RecaptchaLogger.ReadLogItems();
+
+            var comments = Post.Posts.SelectMany(post => post.Comments).ToDictionary(comment => comment.Id);
+
+            var logView = new DataTable("LogView");
+            logView.Columns.Add("Email");
+            logView.Columns.Add("Date", typeof(DateTime));
+            logView.Columns.Add("Author");
+            logView.Columns.Add("Website");
+            logView.Columns.Add("IP");
+            logView.Columns.Add("RecaptchaAttempts", typeof(ushort));
+            logView.Columns.Add("CommentTime", typeof(double));
+            logView.Columns.Add("RecaptchaTime", typeof(double));
+
+            var orphanedRecords = new List<RecaptchaLogItem>();
+
+            foreach (var item in log)
             {
-                Comment comment = comments[item.CommentId];
-                dtLogView.Rows.Add(comment.Email, comment.DateCreated, comment.Author, comment.Website, comment.IP, item.NumberOfAttempts, item.TimeToComment, item.TimeToSolveCapcha);
+                if (comments.ContainsKey(item.CommentId))
+                {
+                    var comment = comments[item.CommentId];
+                    logView.Rows.Add(
+                        comment.Email,
+                        comment.DateCreated,
+                        comment.Author,
+                        comment.Website,
+                        comment.IP,
+                        item.NumberOfAttempts,
+                        item.TimeToComment,
+                        item.TimeToSolveCapcha);
+                }
+                else
+                {
+                    orphanedRecords.Add(item);
+                }
             }
-            else
+
+            if (orphanedRecords.Count > 0)
             {
-                orphanedRecords.Add(item);
+                foreach (var orphan in orphanedRecords)
+                {
+                    log.Remove(orphan);
+                }
+
+                RecaptchaLogger.SaveLogItems(log);
             }
+
+            var view = new DataView(logView) { Sort = "Date DESC" };
+            this.RecaptchaLog.DataSource = view;
+            this.RecaptchaLog.DataBind();
         }
 
-        if (orphanedRecords.Count > 0)
-        {
-            foreach (RecaptchaLogItem orphan in orphanedRecords)
-            {
-                log.Remove(orphan);
-            }
-            RecaptchaLogger.SaveLogItems(log);
-        }
-
-        DataView view = new DataView(dtLogView);
-        view.Sort = "Date DESC";
-        RecaptchaLog.DataSource = view;
-        RecaptchaLog.DataBind();
+        #endregion
     }
-
-    #region helper methods
-
-    protected string Gravatar(string email, string author)
-    {
-        if (BlogSettings.Instance.Avatar == "none")
-            return null;
-
-        if (String.IsNullOrEmpty(email) || !email.Contains("@"))
-        {
-            return "<img src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + author + "\" width=\"28\" height=\"28\" />";
-        }
-
-        string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
-        string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=28&amp;d=";
-
-        string link = string.Empty;
-        switch (BlogSettings.Instance.Avatar)
-        {
-            case "identicon":
-                link = gravatar + "identicon";
-                break;
-
-            case "wavatar":
-                link = gravatar + "wavatar";
-                break;
-
-            default:
-                link = gravatar + "monsterid";
-                break;
-        }
-
-        return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, author);
-    }
-
-    public static string GetWebsite(object website)
-    {
-        if (website == null) return "";
-
-        const string templ = "<a href='{0}' target='_new' rel='{0}'>{1}</a>";
-
-        string site = website.ToString();
-        site = site.Replace("http://www.", "");
-        site = site.Replace("http://", "");
-        site = site.Length < 20 ? site : site.Substring(0, 17) + "...";
-
-        return string.Format(templ, website, site);
-    }
-
-    #endregion
 }

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogEngine.Core", "DotNetSlave.BusinessLogic\BlogEngine.Core.csproj", "{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET", "BlogEngine.NET\", "{B02E9840-1261-47AB-AE40-D333E73BB2C0}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET", "BlogEngine.NET", "{B02E9840-1261-47AB-AE40-D333E73BB2C0}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
 		SccAuxPath = ""
@@ -16,6 +16,9 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET", "BlogEngin
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\BlogEngine.NET\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.KeyFile = "DotNetSlave.BusinessLogic\key.snk"
+		Debug.AspNetCompiler.DelaySign = "false"
+		Debug.AspNetCompiler.AllowPartiallyTrustedCallers = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/BlogEngine.NET"
@@ -23,6 +26,9 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET", "BlogEngin
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\BlogEngine.NET\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.KeyFile = "DotNetSlave.BusinessLogic\key.snk"
+		Release.AspNetCompiler.DelaySign = "false"
+		Release.AspNetCompiler.AllowPartiallyTrustedCallers = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "52457"
@@ -61,5 +67,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution
+		SpecExplorer.ActivityCompletionStatus = 
 	EndGlobalSection
 EndGlobal

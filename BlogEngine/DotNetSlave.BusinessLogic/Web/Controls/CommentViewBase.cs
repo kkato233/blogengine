@@ -1,248 +1,310 @@
-﻿#region Using
-
-using System;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using BlogEngine.Core;
-using System.Web.Security;
-
-#endregion
-
-namespace BlogEngine.Core.Web.Controls
+﻿namespace BlogEngine.Core.Web.Controls
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Security;
+    using System.Web.UI;
 
-	/// <summary>
-	/// Inherit from this class when you are building the
-	/// commentview.ascx user control in your custom theme.
-	/// </summary>
-	/// <remarks>
-	/// The class exposes a lot of functionality to the custom
-	/// comment control in the theme folder.
-	/// </remarks>
-	public class CommentViewBase : UserControl
-	{
+    /// <summary>
+    /// Inherit from this class when you are building the
+    ///     commentview.ascx user control in your custom theme.
+    /// </summary>
+    /// <remarks>
+    /// The class exposes a lot of functionality to the custom
+    ///     comment control in the theme folder.
+    /// </remarks>
+    public class CommentViewBase : UserControl
+    {
+        #region Constants and Fields
 
-		#region Properties
+        /// <summary>
+        /// The flag image.
+        /// </summary>
+        private const string FlagImage =
+            "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" title=\"{2}\" alt=\"{2}\" /></span>";
 
-		private Post _Post;
+        /// <summary>
+        /// The gravatar image.
+        /// </summary>
+        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
-		/// <summary>
-		/// Gets or sets the Post from which the comment belongs.
-		/// </summary>
-		/// <value>The Post object.</value>
-		public Post Post
-		{
-			get { return _Post; }
-			set { _Post = value; }
-		}
+/*
+        /// <summary>
+        /// The link.
+        /// </summary>
+        private const string Link = "<a href=\"{0}{1}\" rel=\"nofollow\">{2}</a>";
+*/
 
-		private Comment _Comment;
+/*
+        /// <summary>
+        /// The link regex.
+        /// </summary>
+        private static readonly Regex LinkRegex =
+            new Regex(
+                "((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?;~&#=\\-_\\./]{2,})", 
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
+*/
 
-		/// <summary>
-		/// Gets or sets the Comment.
-		/// </summary>
-		/// <value>The comment.</value>
-		public Comment Comment
-		{
-			get { return _Comment; }
-			set { _Comment = value; }
-		}
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Methods
+        /// <summary>
+        ///     Gets or sets the Comment.
+        /// </summary>
+        /// <value>The comment.</value>
+        public Comment Comment { get; set; }
 
-		/// <summary>
-		/// The regular expression used to parse links.
-		/// </summary>
-		private static readonly Regex regex = new Regex("((http://|www\\.)([A-Z0-9.-]{1,})\\.[0-9A-Z?;~&#=\\-_\\./]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-		private const string link = "<a href=\"{0}{1}\" rel=\"nofollow\">{2}</a>";
+        /// <summary>
+        ///     Gets or sets the Post from which the comment belongs.
+        /// </summary>
+        /// <value>The Post object.</value>
+        public Post Post { get; set; }
 
-		/// <summary>
-		/// Examins the comment body for any links and turns them
-		/// automatically into one that can be clicked.
-		/// </summary>
-		[Obsolete("Use the Text property instead. This method will be removed in a future version.")]
-		protected string ResolveLinks(string body)
-		{
-			return Text;
-		}
-
-		/// <summary>
-		/// Gets the text of the comment.
-		/// </summary>
-		/// <value>The text.</value>
-		public string Text
-		{
-			get
-			{
-				ServingEventArgs arg = new ServingEventArgs(Comment.Content, ServingLocation.SinglePost);
-				Comment.OnServing(Comment, arg);
-				if (arg.Cancel)
-				{
-					this.Visible = false;
-				}
-
-				string body = arg.Body.Replace("\n", "<br />");
-				body = body.Replace("\t", "&nbsp;&nbsp;");
-				body = body.Replace("  ", "&nbsp;&nbsp;");
-				return body;
-			}
-		}
-
-		/// <summary>
-		/// Displays a link that lets a user reply to a specific comment
-		/// </summary>
-		protected string ReplyToLink
-		{
-			get
-			{
-				if (!BlogSettings.Instance.IsCommentsEnabled ||
-					!BlogSettings.Instance.IsCommentNestingEnabled ||
-					!Post.IsCommentsEnabled ||
-					!Comment.IsApproved ||
-					(BlogSettings.Instance.DaysCommentsAreEnabled > 0 && Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date))
-				{
-					return "";
-				}
-				else
-				{
-					return "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"BlogEngine.replyToComment('" + Comment.Id.ToString() + "');\">" + Utils.Translate("replyToThis") + "</a>";
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// Displays a delete link to visitors that are authenticated
-		/// using the default membership provider.
-		/// </summary>
-		protected string AdminLinks
-		{
-			get
-			{
-				if (Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name.Equals(Post.Author))
-				{
-					System.Text.StringBuilder sb = new System.Text.StringBuilder();
-					sb.AppendFormat(" | <a class=\"email\" href=\"mailto:{0}\">{0}</a>", Comment.Email);
-					sb.AppendFormat(" | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", Comment.IP);
-
-					if (Comment.Comments.Count > 0)
-					{
-						string confirmDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("theComment"));
-						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, Utils.Translate("deleteKeepReplies"));
-
-                        string confirmRepliesDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("theComment"));
-						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecommentandchildren={0}'\">{2}</a>", Comment.Id, confirmRepliesDelete, Utils.Translate("deletePlusReplies"));
-					}
-					else
-					{
-                        string confirmDelete = string.Format(CultureInfo.InvariantCulture, Utils.Translate("areYouSure"), Utils.Translate("delete").ToLowerInvariant(), Utils.Translate("theComment"));
-						sb.AppendFormat(" | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", Comment.Id, confirmDelete, Utils.Translate("delete"));
-					}
-
-					if (!Comment.IsApproved)
-					{
-                        sb.AppendFormat(" | <a href=\"?approvecomment={0}\">{1}</a>", Comment.Id, Utils.Translate("approve"));
-
-					}
-					return sb.ToString();
-				}
-				return string.Empty;
-			}
-		}
-
-		private const string FLAG_IMAGE = "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" title=\"{2}\" alt=\"{2}\" /></span>";
-
-		/// <summary>
-		/// Displays the flag of the country from which the comment was written.
-		/// <remarks>
-		/// If the country hasn't been resolved from the authors IP address or
-		/// the flag does not exist for that country, nothing is displayed.
-		/// </remarks>
-		/// </summary>
-		protected string Flag
-		{
-			get
-			{
-				if (!string.IsNullOrEmpty(Comment.Country))
-				{
-					//return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"country-name flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
-					return string.Format(FLAG_IMAGE, Utils.RelativeWebRoot, Comment.Country, FindCountry(Comment.Country));
-				}
-
-				return null;
-			}
-		}
-
-		string FindCountry(string isoCode)
-		{
-			foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
-			{
-				RegionInfo ri = new RegionInfo(ci.Name);
-				if (ri.TwoLetterISORegionName.Equals(isoCode, StringComparison.OrdinalIgnoreCase))
-				{
-					return ri.DisplayName;
-				}
-			}
-
-			return isoCode;
-		}
-
-		private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
-
-		/// <summary>
-		/// Displays the Gravatar image that matches the specified email.
-		/// </summary>
-		protected string Gravatar(int size)
-		{
-			if (BlogSettings.Instance.Avatar == "none")
-				return null;
-
-            if (!string.IsNullOrEmpty(Comment.Avatar))
+        /// <summary>
+        ///     Gets the text of the comment.
+        /// </summary>
+        /// <value>The comment text.</value>
+        public string Text
+        {
+            get
             {
-                return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, Comment.Avatar, Comment.Author);
+                var arg = new ServingEventArgs(this.Comment.Content, ServingLocation.SinglePost);
+                Comment.OnServing(this.Comment, arg);
+                if (arg.Cancel)
+                {
+                    this.Visible = false;
+                }
+
+                var body = arg.Body.Replace("\n", "<br />");
+                body = body.Replace("\t", "&nbsp;&nbsp;");
+                body = body.Replace("  ", "&nbsp;&nbsp;");
+                return body;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a delete link to visitors that are authenticated
+        ///     using the default membership provider.
+        /// </summary>
+        protected string AdminLinks
+        {
+            get
+            {
+                if (this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) ||
+                    this.Page.User.Identity.Name.Equals(this.Post.Author))
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendFormat(" | <a class=\"email\" href=\"mailto:{0}\">{0}</a>", this.Comment.Email);
+                    sb.AppendFormat(
+                        " | <a href=\"http://www.domaintools.com/go/?service=whois&amp;q={0}/\">{0}</a>", 
+                        this.Comment.IP);
+
+                    if (this.Comment.Comments.Count > 0)
+                    {
+                        var confirmDelete = string.Format(
+                            CultureInfo.InvariantCulture, 
+                            Utils.Translate("areYouSure"), 
+                            Utils.Translate("delete").ToLowerInvariant(), 
+                            Utils.Translate("theComment"));
+                        sb.AppendFormat(
+                            " | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", 
+                            this.Comment.Id, 
+                            confirmDelete, 
+                            Utils.Translate("deleteKeepReplies"));
+
+                        var confirmRepliesDelete = string.Format(
+                            CultureInfo.InvariantCulture, 
+                            Utils.Translate("areYouSure"), 
+                            Utils.Translate("delete").ToLowerInvariant(), 
+                            Utils.Translate("theComment"));
+                        sb.AppendFormat(
+                            " | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecommentandchildren={0}'\">{2}</a>", 
+                            this.Comment.Id, 
+                            confirmRepliesDelete, 
+                            Utils.Translate("deletePlusReplies"));
+                    }
+                    else
+                    {
+                        var confirmDelete = string.Format(
+                            CultureInfo.InvariantCulture, 
+                            Utils.Translate("areYouSure"), 
+                            Utils.Translate("delete").ToLowerInvariant(), 
+                            Utils.Translate("theComment"));
+                        sb.AppendFormat(
+                            " | <a href=\"javascript:void(0);\" onclick=\"if (confirm('{1}?')) location.href='?deletecomment={0}'\">{2}</a>", 
+                            this.Comment.Id, 
+                            confirmDelete, 
+                            Utils.Translate("delete"));
+                    }
+
+                    if (!this.Comment.IsApproved)
+                    {
+                        sb.AppendFormat(
+                            " | <a href=\"?approvecomment={0}\">{1}</a>", this.Comment.Id, Utils.Translate("approve"));
+                    }
+
+                    return sb.ToString();
+                }
+
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the flag of the country from which the comment was written.
+        ///     <remarks>
+        ///         If the country hasn't been resolved from the authors IP address or
+        ///         the flag does not exist for that country, nothing is displayed.
+        ///     </remarks>
+        /// </summary>
+        protected string Flag
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.Comment.Country))
+                {
+                    // return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"country-name flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
+                    return string.Format(
+                        FlagImage, Utils.RelativeWebRoot, this.Comment.Country, FindCountry(this.Comment.Country));
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a link that lets a user reply to a specific comment
+        /// </summary>
+        protected string ReplyToLink
+        {
+            get
+            {
+                return (((BlogSettings.Instance.IsCommentsEnabled && BlogSettings.Instance.IsCommentNestingEnabled) &&
+                         this.Post.HasCommentsEnabled) && this.Comment.IsApproved) &&
+                       (BlogSettings.Instance.DaysCommentsAreEnabled <= 0 ||
+                        this.Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) >= DateTime.Now.Date)
+                           ? string.Format(
+                               "<a href=\"javascript:void(0);\" class=\"reply-to-comment\" onclick=\"BlogEngine.replyToComment('{0}');\">{1}</a>", 
+                               this.Comment.Id, 
+                               Utils.Translate("replyToThis"))
+                           : string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Displays the Gravatar image that matches the specified email.
+        /// </summary>
+        /// <param name="size">
+        /// The image size.
+        /// </param>
+        /// <returns>
+        /// The gravatar.
+        /// </returns>
+        protected string Gravatar(int size)
+        {
+            if (BlogSettings.Instance.Avatar == "none")
+            {
+                return null;
             }
 
-			if (String.IsNullOrEmpty(Comment.Email) || !Comment.Email.Contains("@"))
-			{
-				if (Comment.Website != null && Comment.Website.ToString().Length > 0 && Comment.Website.ToString().Contains("http://"))
-				{
-					return string.Format(CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(Comment.Website.ToString()), Comment.Email);
-				}
+            if (!string.IsNullOrEmpty(this.Comment.Avatar))
+            {
+                return string.Format(
+                    CultureInfo.InvariantCulture, GravatarImage, this.Comment.Avatar, this.Comment.Author);
+            }
 
-				return "<img src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + Comment.Author + "\" />";
-			}
+            if (String.IsNullOrEmpty(this.Comment.Email) || !this.Comment.Email.Contains("@"))
+            {
+                if (this.Comment.Website != null && this.Comment.Website.ToString().Length > 0 &&
+                    this.Comment.Website.ToString().Contains("http://"))
+                {
+                    return string.Format(
+                        CultureInfo.InvariantCulture, 
+                        "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", 
+                        this.Server.UrlEncode(this.Comment.Website.ToString()), 
+                        this.Comment.Email);
+                }
 
-			string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(Comment.Email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
-			string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&amp;d=";
+                return string.Format(
+                    "<img src=\"{0}themes/{1}/noavatar.jpg\" alt=\"{2}\" />", 
+                    Utils.AbsoluteWebRoot, 
+                    BlogSettings.Instance.Theme, 
+                    this.Comment.Author);
+            }
 
-			string link = string.Empty;
-			switch (BlogSettings.Instance.Avatar)
-			{
-				case "identicon":
-					link = gravatar + "identicon";
-					break;
+            var hash =
+                FormsAuthentication.HashPasswordForStoringInConfigFile(
+                    this.Comment.Email.ToLowerInvariant().Trim(), "MD5");
+            if (hash != null)
+            {
+                hash = hash.ToLowerInvariant();
+            }
 
-				case "wavatar":
-					link = gravatar + "wavatar";
-					break;
+            var gravatar = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s={1}&amp;d=", hash, size);
 
-				default:
-					link = gravatar + "monsterid";
-					break;
-			}
+            string link;
+            switch (BlogSettings.Instance.Avatar)
+            {
+                case "identicon":
+                    link = string.Format("{0}identicon", gravatar);
+                    break;
 
-			return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, link, Comment.Author);
-		}
+                case "wavatar":
+                    link = string.Format("{0}wavatar", gravatar);
+                    break;
 
-		#endregion
+                default:
+                    link = string.Format("{0}monsterid", gravatar);
+                    break;
+            }
 
-	}
+            return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, this.Comment.Author);
+        }
+
+        /// <summary>
+        /// Examins the comment body for any links and turns them
+        ///     automatically into one that can be clicked.
+        /// </summary>
+        /// <param name="body">
+        /// The body string.
+        /// </param>
+        /// <returns>
+        /// The resolve links.
+        /// </returns>
+        [Obsolete("Use the Text property instead. This method will be removed in a future version.")]
+        protected string ResolveLinks(string body)
+        {
+            return this.Text;
+        }
+
+        /// <summary>
+        /// Finds country.
+        /// </summary>
+        /// <param name="isoCode">
+        /// The iso code.
+        /// </param>
+        /// <returns>
+        /// The find country.
+        /// </returns>
+        private static string FindCountry(string isoCode)
+        {
+            foreach (var ri in
+                CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(ci => new RegionInfo(ci.Name)).Where(
+                    ri => ri.TwoLetterISORegionName.Equals(isoCode, StringComparison.OrdinalIgnoreCase)))
+            {
+                return ri.DisplayName;
+            }
+
+            return isoCode;
+        }
+
+        #endregion
+    }
 }
