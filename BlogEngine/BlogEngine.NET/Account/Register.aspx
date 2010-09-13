@@ -52,4 +52,9 @@
     </asp:CreateUserWizard>
     <asp:HiddenField ID="hdnPassLength" runat="server" />
     
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name$='UserName']").focus();
+        });
+    </script>
 </asp:Content>

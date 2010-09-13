@@ -424,7 +424,7 @@ namespace BlogEngine.Core
 				smtp.Send(message);
 				OnEmailSent(message);
 			}
-			catch (SmtpException)
+			catch (SmtpException ex)
 			{
 				OnEmailFailed(message);
 			}

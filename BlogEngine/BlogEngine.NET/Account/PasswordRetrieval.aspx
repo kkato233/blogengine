@@ -21,4 +21,10 @@
             </p>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name$='txtEmail']").focus();
+        });
+    </script>
 </asp:Content>
