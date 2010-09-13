@@ -154,7 +154,7 @@
             BlogSettings.Instance.RemoveWhitespaceInStyleSheets = this.cbRemoveWhitespaceInStyleSheets.Checked;
             BlogSettings.Instance.CompressWebResource = this.cbCompressWebResource.Checked;
             BlogSettings.Instance.EnableOpenSearch = this.cbEnableOpenSearch.Checked;
-            BlogSettings.Instance.RequireSSLMetaWeblogAPI = this.cbRequireSslForMetaWeblogApi.Checked;
+            BlogSettings.Instance.RequireSslMetaWeblogApi = this.cbRequireSslForMetaWeblogApi.Checked;
             BlogSettings.Instance.HandleWwwSubdomain = this.rblWwwSubdomain.SelectedItem.Value;
             BlogSettings.Instance.EnableTrackBackSend = this.cbEnableTrackBackSend.Checked;
             BlogSettings.Instance.EnableTrackBackReceive = this.cbEnableTrackBackReceive.Checked;
@@ -294,7 +294,7 @@
             this.cbRemoveWhitespaceInStyleSheets.Checked = BlogSettings.Instance.RemoveWhitespaceInStyleSheets;
             this.cbCompressWebResource.Checked = BlogSettings.Instance.CompressWebResource;
             this.cbEnableOpenSearch.Checked = BlogSettings.Instance.EnableOpenSearch;
-            this.cbRequireSslForMetaWeblogApi.Checked = BlogSettings.Instance.RequireSSLMetaWeblogAPI;
+            this.cbRequireSslForMetaWeblogApi.Checked = BlogSettings.Instance.RequireSslMetaWeblogApi;
             this.rblWwwSubdomain.SelectedValue = BlogSettings.Instance.HandleWwwSubdomain;
             this.cbEnablePingBackSend.Checked = BlogSettings.Instance.EnablePingBackSend;
             this.cbEnablePingBackReceive.Checked = BlogSettings.Instance.EnablePingBackReceive;
