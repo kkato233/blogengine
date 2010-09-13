@@ -62,6 +62,10 @@
         <asp:DropDownList runat="server" ID="ddlMobileTheme" />
         </div>
         <div style="margin-bottom:3px">
+        <label for="<%=txtThemeCookieName.ClientID %>"><%=Resources.labels.themeCookieName %></label>
+        <asp:TextBox runat="server" ID="txtThemeCookieName" />
+        </div>
+        <div style="margin-bottom:3px">
         <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
         <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" /><%=Resources.labels.useBlogNameInPageTitlesDescription%>
         </div>
