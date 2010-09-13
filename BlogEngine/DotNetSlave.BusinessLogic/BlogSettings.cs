@@ -462,7 +462,7 @@
         /// <summary>
         ///     Gets or sets a value indicating whether [require SSL for MetaWeblogAPI connections].
         /// </summary>
-        public bool RequireSSLMetaWeblogAPI { get; set; }
+        public bool RequireSslMetaWeblogApi { get; set; }
 
         #endregion
 
@@ -827,12 +827,12 @@
             /// <summary>
             ///     Comments moderated manually
             /// </summary>
-            Manual = 0, 
+            Manual = 0,
 
             /// <summary>
             ///     Comments moderated by filters
             /// </summary>
-            Auto = 1, 
+            Auto = 1,
 
             /// <summary>
             ///     Moderated by Disqus
@@ -1097,9 +1097,9 @@
                                 else
                                 {
                                     propertyInformation.SetValue(
-                                        this, 
+                                        this,
                                         Convert.ChangeType(
-                                            value, propertyInformation.PropertyType, CultureInfo.CurrentCulture), 
+                                            value, propertyInformation.PropertyType, CultureInfo.CurrentCulture),
                                         null);
                                 }
                             }
@@ -1126,25 +1126,10 @@
         /// </summary>
         private static void OnChanged()
         {
-            // ------------------------------------------------------------
-            // 	Attempt to raise the Changed event
-            // ------------------------------------------------------------
-            try
+            // Execute event handler
+            if (Changed != null)
             {
-                // ------------------------------------------------------------
-                // 	Execute event handler
-                // ------------------------------------------------------------
-                if (Changed != null)
-                {
-                    Changed(null, new EventArgs());
-                }
-            }
-            catch
-            {
-                // ------------------------------------------------------------
-                // 	Rethrow exception
-                // ------------------------------------------------------------
-                throw;
+                Changed(null, new EventArgs());
             }
         }
 
