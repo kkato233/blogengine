@@ -1,33 +1,53 @@
-﻿using System;
-using System.Web;
-using System.Web.Security;
-
-public partial class Account_Login : System.Web.UI.Page
+﻿namespace Account
 {
-    protected void Page_Load(object sender, EventArgs e)
+    using System;
+    using System.Web;
+    using System.Web.Security;
+    using System.Web.UI;
+
+    using Resources;
+
+    /// <summary>
+    /// The login.
+    /// </summary>
+    public partial class Login : Page
     {
-        RegisterHyperLink.NavigateUrl = "Register.aspx?ReturnUrl=" + HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
-        RegisterHyperLink.Text = Resources.labels.createNow;
+        #region Methods
 
-        if (Request.QueryString.ToString() == "logoff")
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void Page_Load(object sender, EventArgs e)
         {
-            FormsAuthentication.SignOut();
-            if (Request.UrlReferrer != null && Request.UrlReferrer != Request.Url)
+            this.RegisterHyperLink.NavigateUrl = "Register.aspx?ReturnUrl=" +
+                                                 HttpUtility.UrlEncode(this.Request.QueryString["ReturnUrl"]);
+            this.RegisterHyperLink.Text = labels.createNow;
+
+            if (this.Request.QueryString.ToString() == "logoff")
             {
-                Response.Redirect(Request.UrlReferrer.ToString(), true);
+                FormsAuthentication.SignOut();
+                if (this.Request.UrlReferrer != null && this.Request.UrlReferrer != this.Request.Url)
+                {
+                    this.Response.Redirect(this.Request.UrlReferrer.ToString(), true);
+                }
+                else
+                {
+                    this.Response.Redirect("login.aspx");
+                }
+
+                return;
             }
-            else
+
+            if (!this.Page.IsPostBack || this.User.Identity.IsAuthenticated)
             {
-                Response.Redirect("login.aspx");
+                return;
             }
+
+            this.Master.SetStatus("warning", "Login failed");
         }
 
-        if(Page.IsPostBack)
-        {
-            if(!User.Identity.IsAuthenticated)
-            {
-                ((Account_Account)this.Master).SetStatus("warning", "Login failed");
-            }
-        }
+        #endregion
     }
 }

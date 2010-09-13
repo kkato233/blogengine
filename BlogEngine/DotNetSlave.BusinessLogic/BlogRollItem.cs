@@ -1,219 +1,333 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using BlogEngine.Core.Providers;
-
-#endregion
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
+    using System;
+    using System.Collections.Generic;
+
+    using BlogEngine.Core.Providers;
+
     /// <summary>
     /// BlogRolls are links to outside blogs.
     /// </summary>
     [Serializable]
     public class BlogRollItem : BusinessBase<BlogRollItem, Guid>, IComparable<BlogRollItem>
     {
-        #region Constructor
+        #region Constants and Fields
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlogRollItem"/> class.
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
+
+        /// <summary>
+        /// The blog rolls.
+        /// </summary>
+        private static List<BlogRollItem> blogRolls;
+
+        /// <summary>
+        /// The blog url.
+        /// </summary>
+        private Uri blogUrl;
+
+        /// <summary>
+        /// The description.
+        /// </summary>
+        private string description;
+
+        /// <summary>
+        /// The feed url.
+        /// </summary>
+        private Uri feedUrl;
+
+        /// <summary>
+        /// The sort index.
+        /// </summary>
+        private int sortIndex;
+
+        /// <summary>
+        /// The title.
+        /// </summary>
+        private string title;
+
+        /// <summary>
+        /// The xfn string.
+        /// </summary>
+        private string xfn;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "BlogRollItem" /> class.
         /// </summary>
         public BlogRollItem()
         {
-            Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BlogRollItem"/> class.
         /// </summary>
-        /// <param name="Title">The title of the BlogRollItem.</param>
-        /// <param name="Description">The description of the BlogRollItem.</param>
-        /// <param name="BlogUrl">The <see cref="Uri"/> of the BlogRollItem.</param>
-        public BlogRollItem(string Title, string Description, Uri BlogUrl)
+        /// <param name="title">
+        /// The title of the BlogRollItem.
+        /// </param>
+        /// <param name="description">
+        /// The description of the BlogRollItem.
+        /// </param>
+        /// <param name="blogUrl">
+        /// The <see cref="Uri"/> of the BlogRollItem.
+        /// </param>
+        public BlogRollItem(string title, string description, Uri blogUrl)
         {
             this.Id = Guid.NewGuid();
-            this.Title = Title;
-            this.Description = Description;
-            this.BlogUrl = BlogUrl;
+            this.Title = title;
+            this.Description = description;
+            this.BlogUrl = blogUrl;
         }
 
         #endregion
 
         #region Properties
 
-        private string _Title;
         /// <summary>
-        /// Gets or sets the Title of the object.
-        /// </summary>
-        public string Title
-        {
-            get
-            {
-                return _Title;
-            }
-            set
-            {
-                if (_Title != value)
-                {
-                    MarkChanged("Title");
-                }
-                _Title = value;
-            }
-        }
-
-        private string _Description;
-        /// <summary>
-        /// Gets or sets the Description of the object.
-        /// </summary>
-        public string Description
-        {
-            get
-            {
-                return _Description;
-            }
-            set
-            {
-                if (_Description != value)
-                {
-                    MarkChanged("Description");
-                }
-                _Description = value;
-            }
-        }
-
-        private Uri _FeedUrl;
-        /// <summary>
-        /// Gets or sets the FeedUrl of the object.
-        /// </summary>
-        public Uri FeedUrl
-        {
-            get
-            {
-                return _FeedUrl;
-            }
-            set
-            {
-                if (_FeedUrl == null || !_FeedUrl.Equals(value))
-                {
-                    MarkChanged("FeedUrl");
-                }
-                _FeedUrl = value;
-            }
-        }
-
-        private Uri _BlogUrl;
-        /// <summary>
-        /// Gets or sets the BlogUrl of the object.
-        /// </summary>
-        public Uri BlogUrl
-        {
-            get
-            {
-                return _BlogUrl;
-            }
-            set
-            {
-                if (_BlogUrl == null || !_BlogUrl.Equals(value))
-                {
-                    MarkChanged("BlogUrl");
-                }
-                _BlogUrl = value;
-            }
-        }
-
-        private string _Xfn;
-        /// <summary>
-        /// Gets or sets the Xfn of the object.
-        /// </summary>
-        public string Xfn
-        {
-            get
-            {
-                return _Xfn;
-            }
-            set
-            {
-                if (_Xfn != value)
-                {
-                    MarkChanged("Xfn");
-                }
-                _Xfn = value;
-            }
-        }
-
-        private int _SortIndex;
-        /// <summary>
-        /// Gets or sets the SortIndex of the object.
-        /// </summary>
-        public int SortIndex
-        {
-            get
-            {
-                return _SortIndex;
-            }
-            set
-            {
-                if (_SortIndex != value)
-                {
-                    MarkChanged("SortIndex");
-                }
-                _SortIndex = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the BlogRollItem from the data store.
-        /// </summary>
-        public static BlogRollItem GetBlogRollItem(Guid id)
-        {
-            return BlogRolls.Find(br => br.Id == id);
-        }
-
-		private static object _SyncRoot = new object();
-        private static List<BlogRollItem> _BlogRolls;
-        /// <summary>
-        /// Gets all of the BlogRollItems from the data store.
+        ///     Gets all of the BlogRollItems from the data store.
         /// </summary>
         public static List<BlogRollItem> BlogRolls
         {
             get
             {
-                if (_BlogRolls == null || _BlogRolls.Count == 0)
+                if (blogRolls == null || blogRolls.Count == 0)
                 {
-                    lock (_SyncRoot)
+                    lock (SyncRoot)
                     {
-                        if (_BlogRolls == null || _BlogRolls.Count == 0)
+                        if (blogRolls == null || blogRolls.Count == 0)
                         {
-                            _BlogRolls = BlogService.FillBlogRolls();
-                            _BlogRolls.Sort();
+                            blogRolls = BlogService.FillBlogRolls();
+                            blogRolls.Sort();
                         }
                     }
                 }
 
-                return _BlogRolls;
+                return blogRolls;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the BlogUrl of the object.
+        /// </summary>
+        public Uri BlogUrl
+        {
+            get
+            {
+                return this.blogUrl;
+            }
+
+            set
+            {
+                if (this.blogUrl == null || !this.blogUrl.Equals(value))
+                {
+                    this.MarkChanged("BlogUrl");
+                }
+
+                this.blogUrl = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Description of the object.
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+
+            set
+            {
+                if (this.description != value)
+                {
+                    this.MarkChanged("Description");
+                }
+
+                this.description = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the FeedUrl of the object.
+        /// </summary>
+        public Uri FeedUrl
+        {
+            get
+            {
+                return this.feedUrl;
+            }
+
+            set
+            {
+                if (this.feedUrl == null || !this.feedUrl.Equals(value))
+                {
+                    this.MarkChanged("FeedUrl");
+                }
+
+                this.feedUrl = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the SortIndex of the object.
+        /// </summary>
+        public int SortIndex
+        {
+            get
+            {
+                return this.sortIndex;
+            }
+
+            set
+            {
+                if (this.sortIndex != value)
+                {
+                    this.MarkChanged("SortIndex");
+                }
+
+                this.sortIndex = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Title of the object.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+
+            set
+            {
+                if (this.title != value)
+                {
+                    this.MarkChanged("Title");
+                }
+
+                this.title = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Xfn of the object.
+        /// </summary>
+        public string Xfn
+        {
+            get
+            {
+                return this.xfn;
+            }
+
+            set
+            {
+                if (this.xfn != value)
+                {
+                    this.MarkChanged("Xfn");
+                }
+
+                this.xfn = value;
             }
         }
 
         #endregion
 
-        #region Base overrides
+        #region Public Methods
 
         /// <summary>
-        /// Reinforces the business rules by adding additional rules to the
-        /// broken rules collection.
+        /// Gets the BlogRollItem from the data store.
         /// </summary>
-        protected override void ValidationRules()
+        /// <param name="id">The blogroll item id.</param>
+        /// <returns>The blogroll item.</returns>
+        public static BlogRollItem GetBlogRollItem(Guid id)
         {
-            AddRule("Title", "Title must be set", string.IsNullOrEmpty(Title));
-            AddRule("BlogUrl", "BlogUrl must be set", BlogUrl == null);
+            return BlogRolls.Find(br => br.Id == id);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.Title;
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComparable<BlogRollItem>
+
+        /// <summary>
+        /// Compares the current object with another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. 
+        ///     The return value has the following meanings: Value Meaning Less than zero This object is 
+        ///     less than the other parameter.Zero This object is equal to other. Greater than zero This object is greater than other.
+        /// </returns>
+        public int CompareTo(BlogRollItem other)
+        {
+            return this.SortIndex.CompareTo(other.SortIndex);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Deletes the object from the data store.
+        /// </summary>
+        protected override void DataDelete()
+        {
+            OnSaving(this, SaveAction.Delete);
+            if (this.Deleted)
+            {
+                BlogService.DeleteBlogRoll(this);
+            }
+
+            BlogRolls.Remove(this);
+            OnSaved(this, SaveAction.Delete);
+
+            this.Dispose();
+        }
+
+        /// <summary>
+        /// Inserts a new object to the data store.
+        /// </summary>
+        protected override void DataInsert()
+        {
+            OnSaving(this, SaveAction.Insert);
+            if (this.New)
+            {
+                BlogService.InsertBlogRoll(this);
+            }
+
+            OnSaved(this, SaveAction.Insert);
         }
 
         /// <summary>
         /// Retrieves the object from the data store and populates it.
         /// </summary>
-        /// <param name="id">The unique identifier of the object.</param>
+        /// <param name="id">
+        /// The unique identifier of the object.
+        /// </param>
         /// <returns>
         /// The object that was selected from the data store.
         /// </returns>
@@ -228,63 +342,22 @@ namespace BlogEngine.Core
         protected override void DataUpdate()
         {
             OnSaving(this, SaveAction.Update);
-            if (IsChanged)
+            if (this.IsChanged)
+            {
                 BlogService.UpdateBlogRoll(this);
+            }
+
             OnSaved(this, SaveAction.Update);
         }
 
         /// <summary>
-        /// Inserts a new object to the data store.
+        /// Reinforces the business rules by adding additional rules to the
+        ///     broken rules collection.
         /// </summary>
-        protected override void DataInsert()
+        protected override void ValidationRules()
         {
-            OnSaving(this, SaveAction.Insert);
-            if (IsNew)
-                BlogService.InsertBlogRoll(this);
-            OnSaved(this, SaveAction.Insert);
-        }
-
-        /// <summary>
-        /// Deletes the object from the data store.
-        /// </summary>
-        protected override void DataDelete()
-        {
-            OnSaving(this, SaveAction.Delete);
-            if (IsDeleted)
-                BlogService.DeleteBlogRoll(this);
-            BlogRolls.Remove(this);
-            OnSaved(this, SaveAction.Delete);
-
-            Dispose();
-        }
-
-        /// <summary>
-        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </returns>
-        public override string ToString()
-        {
-            return Title;
-        }
-
-        #endregion
-
-        #region IComparable<BlogRoll> Members
-
-        /// <summary>
-        /// Compares the current object with another object of the same type.
-        /// </summary>
-        /// <param name="other">An object to compare with this object.</param>
-        /// <returns>
-        /// A 32-bit signed integer that indicates the relative order of the objects being compared. 
-        /// The return value has the following meanings: Value Meaning Less than zero This object is 
-        /// less than the other parameter.Zero This object is equal to other. Greater than zero This object is greater than other.
-        /// </returns>
-        public int CompareTo(BlogRollItem other)
-        {
-            return this.SortIndex.CompareTo(other.SortIndex);
+            this.AddRule("Title", "Title must be set", string.IsNullOrEmpty(this.Title));
+            this.AddRule("BlogUrl", "BlogUrl must be set", this.BlogUrl == null);
         }
 
         #endregion

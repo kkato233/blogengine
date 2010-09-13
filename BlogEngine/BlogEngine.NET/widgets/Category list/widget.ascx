@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Categories_widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="WidgetsCategoriesWidget" %>
 <blog:CategoryList runat="server" ID="uxCategoryList" />

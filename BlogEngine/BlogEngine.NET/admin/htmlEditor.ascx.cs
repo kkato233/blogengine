@@ -1,24 +1,46 @@
-﻿using System;
-using System.ComponentModel;
-using System.Web;
-using System.Web.UI.WebControls;
+﻿using System.Web.UI;
 
-
-public partial class admin_htmlEditor : System.Web.UI.UserControl
+namespace admin
 {
+    /// <summary>
+    /// The admin_html editor.
+    /// </summary>
+    public partial class admin_htmlEditor : UserControl
+    {
+        #region Properties
 
+        /// <summary>
+        /// Gets or sets TabIndex.
+        /// </summary>
+        public short TabIndex
+        {
+            get
+            {
+                return this.TinyMCE1.TabIndex;
+            }
 
-  public string Text
-  {
-    get { return TinyMCE1.Text; }
-      set { TinyMCE1.Text = value; }
-  }
+            set
+            {
+                this.TinyMCE1.TabIndex = value;
+            }
+        }
 
-  public short TabIndex
-  {
-      get { return TinyMCE1.TabIndex; }
-      set { TinyMCE1.TabIndex = value; }
-  }
+        /// <summary>
+        /// Gets or sets Text.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return this.TinyMCE1.Text;
+            }
 
+            set
+            {
+                this.TinyMCE1.Text = value;
+            }
+        }
 
+        #endregion
+    }
 }
