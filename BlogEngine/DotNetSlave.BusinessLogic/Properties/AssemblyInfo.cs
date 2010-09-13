@@ -24,4 +24,4 @@ using System.Security;
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
 
-[assembly: AssemblyVersion("1.6.2.1")]
+[assembly: AssemblyVersion("1.6.2.5")]

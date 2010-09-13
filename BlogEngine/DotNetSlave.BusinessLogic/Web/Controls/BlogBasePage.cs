@@ -160,32 +160,6 @@ namespace BlogEngine.Core.Web.Controls
         /// </summary>
         protected virtual void AddGlobalStyles()
         {
-            // copy header styles
-            List<HtmlLink> links = new List<HtmlLink>();
-            List<int> indexes = new List<int>();
-            int cnt = 0;
-
-            foreach (Control item in Page.Header.Controls)
-            {
-                try
-                {
-                    HtmlLink lnk = (HtmlLink)item;
-                    if (lnk.Attributes["type"] == "text/css")
-                    {
-                        links.Add(lnk);
-                        indexes.Add(cnt);
-                    }
-                    cnt++;
-                }
-                catch (Exception) { cnt++; }
-            }
-
-            // remove all css links from header
-            foreach (int i in indexes)
-            {
-                Page.Header.Controls.RemoveAt(i);
-            }
-            
             // add styles in the ~/Styles folder to the page header
             string s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "Styles");
             string[] fileEntries = Directory.GetFiles(s);
@@ -193,14 +167,8 @@ namespace BlogEngine.Core.Web.Controls
             {
                 if (fileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
                 {
-                    AddStylesheetInclude(Utils.RelativeWebRoot + "Styles/" + Utils.ExtractFileNameFromPath(fileName));
+                    AddStylesheetInclude(Utils.RelativeWebRoot + "Styles/" + Utils.ExtractFileNameFromPath(fileName), true);
                 }
-            }
-
-            // add styles saved in the step 1
-            foreach (HtmlLink hlink in links)
-            {
-                Page.Header.Controls.Add(hlink);
             }
         }
 
@@ -341,14 +309,28 @@ namespace BlogEngine.Core.Web.Controls
 		/// Adds a Stylesheet reference to the HTML head tag.
 		/// </summary>
 		/// <param name="url">The relative URL.</param>
-		public virtual void AddStylesheetInclude(string url)
+        /// <param name="insertAtFront">If true, inserts in beginning of HTML head tag.</param>
+		public virtual void AddStylesheetInclude(string url, bool insertAtFront)
 		{
 			HtmlLink link = new HtmlLink();
 			link.Attributes["type"] = "text/css";
 			link.Attributes["href"] = url;
 			link.Attributes["rel"] = "stylesheet";
-			Page.Header.Controls.Add(link);
+
+            if (insertAtFront)
+                Page.Header.Controls.AddAt(0, link);
+            else
+			    Page.Header.Controls.Add(link);
 		}
+
+        /// <summary>
+        /// Adds a Stylesheet reference to the HTML head tag.
+        /// </summary>
+        /// <param name="url">The relative URL.</param>
+        public virtual void AddStylesheetInclude(string url)
+        {
+            AddStylesheetInclude(url, false);
+        }
 
 		/// <summary>
 		/// Resolves the script URL.
