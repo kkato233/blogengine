@@ -877,16 +877,19 @@
                    ProhibitDtd = false, MaxCharactersFromEntities = 1024, XmlResolver = new XmlSafeResolver() 
                 };
 
-            var reader = XmlReader.Create(absoluteUrl, readerSettings);
-            var doc = new XmlDocument();
+            XmlDocument doc;
+            using (var reader = XmlReader.Create(absoluteUrl, readerSettings))
+            {
+                doc = new XmlDocument();
 
-            try
-            {
-                doc.Load(reader);
-            }
-            catch (Exception)
-            {
-                return null;
+                try
+                {
+                    doc.Load(reader);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
 
             return doc;

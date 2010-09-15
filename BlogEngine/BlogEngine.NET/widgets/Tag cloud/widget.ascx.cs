@@ -1,183 +1,227 @@
 ﻿#region Using
 
 using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.UI.HtmlControls;
+
 using BlogEngine.Core;
 
 #endregion
 
-public partial class widgets_Tag_cloud_widget : WidgetBase
+/// <summary>
+/// The widgets_ tag_cloud_widget.
+/// </summary>
+public partial class WidgetsTagCloudWidget : WidgetBase
 {
+    /// <summary>
+    /// This method works as a substitute for Page_Load. You should use this method for
+    /// data binding etc. instead of Page_Load.
+    /// </summary>
+    public override void LoadWidget()
+    {
+        foreach (var key in this.WeightedList.Keys)
+        {
+            using (var li = new HtmlGenericControl("li"))
+            {
+                li.InnerHtml = string.Format(
+                    Link, 
+                    string.Format("{0}?tag=/{1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(key)), 
+                    this.WeightedList[key], 
+                    "Tag: " + key, 
+                    key);
+                this.ulTags.Controls.Add(li);
+            }
+        }
+    }
 
-	public override void LoadWidget()
-	{
-		foreach (string key in WeightedList.Keys)
-		{
-			HtmlGenericControl li = new HtmlGenericControl("li");
-			li.InnerHtml = string.Format(LINK, Utils.RelativeWebRoot + "?tag=/" + Utils.RemoveIllegalCharacters(key), WeightedList[key], "Tag: " + key, key);
-			ulTags.Controls.Add(li);
-		}
-	}
+    /// <summary>
+    /// Initializes static members of the <see cref="WidgetsTagCloudWidget"/> class. 
+    /// </summary>
+    static WidgetsTagCloudWidget()
+    {
+        Post.Saved += delegate { Reload(); };
+    }
 
-	/// <summary>
-	/// Initializes the <see cref="widgets_Tag_cloud_widget"/> class.
-	/// </summary>
-	static widgets_Tag_cloud_widget()
-	{
-		Post.Saved += delegate { Reload(); };
-	}
+    /// <summary>
+    /// Reloads this instance.
+    /// </summary>
+    public static void Reload()
+    {
+        weightedList = null;
+    }
 
-	public static void Reload()
-	{
-		_WeightedList = null;
-	}
+    #region Private fields
 
-	#region Private fields
+    /// <summary>
+    /// The link.
+    /// </summary>
+    private const string Link = "<a href=\"{0}\" class=\"{1}\" title=\"{2}\">{3}</a> ";
 
-	private const string LINK = "<a href=\"{0}\" class=\"{1}\" title=\"{2}\">{3}</a> ";
-	private static Dictionary<string, string> _WeightedList;
-	private static object _SyncRoot = new object();
+    /// <summary>
+    /// The _ weighted list.
+    /// </summary>
+    private static Dictionary<string, string> weightedList;
 
-	#endregion
+    /// <summary>
+    /// The _ sync root.
+    /// </summary>
+    private static readonly object SyncRoot = new object();
 
-	private int _MinimumPosts = 1;
-    private int _TagCloudSize = -1;
+    #endregion
 
-	private int MinimumPosts
-	{
-		get 
-		{
-			StringDictionary settings = GetSettings();
-			if (settings.ContainsKey("minimumposts"))
-			{
-				int.TryParse(settings["minimumposts"], out _MinimumPosts);
-			}
+    /// <summary>
+    /// The _ minimum posts.
+    /// </summary>
+    private int minimumPosts = 1;
 
-			return _MinimumPosts; 		
-		}
-	}
+    /// <summary>
+    /// The _ tag cloud size.
+    /// </summary>
+    private int tagCloudSize = -1;
 
+    /// <summary>
+    /// Gets MinimumPosts.
+    /// </summary>
+    private int MinimumPosts
+    {
+        get
+        {
+            var settings = this.GetSettings();
+            if (settings.ContainsKey("minimumposts"))
+            {
+                int.TryParse(settings["minimumposts"], out this.minimumPosts);
+            }
+
+            return this.minimumPosts;
+        }
+    }
+
+    /// <summary>
+    /// Gets TagCloudSize.
+    /// </summary>
     private int TagCloudSize
     {
         get
         {
-            StringDictionary settings = GetSettings();
+            var settings = this.GetSettings();
             if (settings.ContainsKey("tagcloudsize"))
             {
-                int.TryParse(settings["tagcloudsize"], out _TagCloudSize);
+                int.TryParse(settings["tagcloudsize"], out this.tagCloudSize);
             }
 
-            return _TagCloudSize;
+            return this.tagCloudSize;
         }
     }
 
-	private Dictionary<string, string> WeightedList
-	{
-		get
-		{
-			if (_WeightedList == null)
-			{
-				lock (_SyncRoot)
-				{
-					if (_WeightedList == null)
-					{
-						_WeightedList = new Dictionary<string, string>();
-						SortList();
-					}
-				}
-			}
+    /// <summary>
+    /// Gets WeightedList.
+    /// </summary>
+    private Dictionary<string, string> WeightedList
+    {
+        get
+        {
+            if (weightedList == null)
+            {
+                lock (SyncRoot)
+                {
+                    if (weightedList == null)
+                    {
+                        weightedList = new Dictionary<string, string>();
+                        this.SortList();
+                    }
+                }
+            }
 
-			return _WeightedList;
-		}
-	}
+            return weightedList;
+        }
+    }
 
-	/// <summary>
-	/// Builds a raw list of all tags and the number of times
-	/// they have been added to a post.
-	/// </summary>
-	private static SortedDictionary<string, int> CreateRawList()
-	{
-        SortedDictionary<string, int> dic = new SortedDictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
-		foreach (Post post in Post.Posts)
-		{
-			if (post.VisibleToPublic)
-			{
-				foreach (string tag in post.Tags)
-				{
-                    if (dic.ContainsKey(tag))
-                        dic[tag]++;
-                    else
-                        dic[tag] = 1;
-				}
-			}
-		}
-		return dic;
-	}
+    /// <summary>
+    /// Builds a raw list of all tags and the number of times
+    ///     they have been added to a post.
+    /// </summary>
+    private static SortedDictionary<string, int> CreateRawList()
+    {
+        var dic = new SortedDictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
+        foreach (var tag in Post.Posts.Where(post => post.VisibleToPublic).SelectMany(post => post.Tags))
+        {
+            if (dic.ContainsKey(tag))
+            {
+                dic[tag]++;
+            }
+            else
+            {
+                dic[tag] = 1;
+            }
+        }
 
-	/// <summary>
-	/// Sorts the list of tags based on how much they are used.
-	/// </summary>
-	private void SortList()
-	{
-		SortedDictionary<string, int> dic = CreateRawList();
-		int max = 0;
-		foreach (int value in dic.Values)
-		{
-			if (value > max)
-				max = value;
-		}
+        return dic;
+    }
 
-        int CurrentTagCount = 0;
+    /// <summary>
+    /// Sorts the list of tags based on how much they are used.
+    /// </summary>
+    private void SortList()
+    {
+        var dic = CreateRawList();
+        var max = dic.Values.Max();
+        
+        var currentTagCount = 0;
 
-		foreach (string key in dic.Keys)
-		{
-			if (dic[key] < MinimumPosts)
-				continue;
+        foreach (var key in
+            dic.Keys.Where(key => dic[key] >= this.MinimumPosts).Where(key => this.TagCloudSize <= 0 || currentTagCount < this.TagCloudSize))
+        {
+            currentTagCount++;
 
-            if (TagCloudSize > 0 && CurrentTagCount >= TagCloudSize)
-                continue;
+            var weight = ((double)dic[key] / max) * 100;
+            if (weight >= 99)
+            {
+                weightedList.Add(key, "biggest");
+            }
+            else if (weight >= 70)
+            {
+                weightedList.Add(key, "big");
+            }
+            else if (weight >= 40)
+            {
+                weightedList.Add(key, "medium");
+            }
+            else if (weight >= 20)
+            {
+                weightedList.Add(key, "small");
+            }
+            else if (weight >= 3)
+            {
+                weightedList.Add(key, "smallest");
+            }
+        }
+    }
 
-            CurrentTagCount++;
+    /// <summary>
+    ///     Gets the name. It must be exactly the same as the folder that contains the widget.
+    /// </summary>
+    /// <value></value>
+    public override string Name
+    {
+        get
+        {
+            return "Tag cloud";
+        }
+    }
 
-			double weight = ((double)dic[key] / max) * 100;
-			if (weight >= 99)
-				_WeightedList.Add(key, "biggest");
-			else if (weight >= 70)
-				_WeightedList.Add(key, "big");
-			else if (weight >= 40)
-				_WeightedList.Add(key, "medium");
-			else if (weight >= 20)
-				_WeightedList.Add(key, "small");
-			else if (weight >= 3)
-				_WeightedList.Add(key, "smallest");
-		}
-	}
-
-
-	/// <summary>
-	/// Gets the name. It must be exactly the same as the folder that contains the widget.
-	/// </summary>
-	/// <value></value>
-	public override string Name
-	{
-		get { return "Tag cloud"; }
-	}
-
-	/// <summary>
-	/// Gets wether or not the widget can be edited.
-	/// <remarks>
-	/// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
-	/// </remarks>
-	/// </summary>
-	/// <value></value>
-	public override bool IsEditable
-	{
-		get { return true; }
-	}
-
+    /// <summary>
+    ///     Gets wether or not the widget can be edited.
+    ///     <remarks>
+    ///         The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+    ///     </remarks>
+    /// </summary>
+    /// <value></value>
+    public override bool IsEditable
+    {
+        get
+        {
+            return true;
+        }
+    }
 }

@@ -518,7 +518,6 @@ namespace Joel.Net
             using (var writer = new StreamWriter(request.GetRequestStream()))
             {
                 writer.Write(data);
-                writer.Close();
             }
 
             // Read Response
@@ -529,7 +528,6 @@ namespace Joel.Net
                 using (var reader = new StreamReader(responseStream))
                 {
                     value = reader.ReadToEnd();
-                    reader.Close();
                 }
             }
 

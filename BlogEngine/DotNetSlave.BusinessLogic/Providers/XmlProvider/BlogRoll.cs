@@ -64,7 +64,13 @@
                 foreach (var br in from XmlNode node in nodes
                                    select new BlogRollItem
                                        {
-                                           Id = node.Attributes["id"] == null ? Guid.NewGuid() : new Guid(node.Attributes["id"].InnerText), Title = node.Attributes["title"] == null ? null : node.Attributes["title"].InnerText, Description = node.Attributes["description"] == null ? null : node.Attributes["description"].InnerText, BlogUrl = node.Attributes["htmlUrl"] == null ? null : new Uri(node.Attributes["htmlUrl"].InnerText), FeedUrl = node.Attributes["xmlUrl"] == null ? null : new Uri(node.Attributes["xmlUrl"].InnerText), Xfn = node.Attributes["xfn"] == null ? null : node.Attributes["xfn"].InnerText, SortIndex = node.Attributes["sortIndex"] == null ? (blogRoll.Count == 0 ? 0 : largestSortIndex + 1) : int.Parse(node.Attributes["sortIndex"].InnerText)
+                                           Id = node.Attributes["id"] == null ? Guid.NewGuid() : new Guid(node.Attributes["id"].InnerText),
+                                           Title = node.Attributes["title"] == null ? null : node.Attributes["title"].InnerText,
+                                           Description = node.Attributes["description"] == null ? null : node.Attributes["description"].InnerText,
+                                           BlogUrl = node.Attributes["htmlUrl"] == null ? null : new Uri(node.Attributes["htmlUrl"].InnerText),
+                                           FeedUrl = node.Attributes["xmlUrl"] == null ? null : new Uri(node.Attributes["xmlUrl"].InnerText), 
+                                           Xfn = node.Attributes["xfn"] == null ? null : node.Attributes["xfn"].InnerText,
+                                           SortIndex = node.Attributes["sortIndex"] == null ? (blogRoll.Count == 0 ? 0 : largestSortIndex + 1) : int.Parse(node.Attributes["sortIndex"].InnerText)
                                        })
                 {
                     if (br.SortIndex > largestSortIndex)
@@ -111,11 +117,7 @@
         /// </returns>
         public override BlogRollItem SelectBlogRollItem(Guid id)
         {
-            var blogRoll = BlogRollItem.BlogRolls.Find(br => br.Id == id);
-            if (blogRoll == null)
-            {
-                blogRoll = new BlogRollItem();
-            }
+            var blogRoll = BlogRollItem.BlogRolls.Find(br => br.Id == id) ?? new BlogRollItem();
 
             blogRoll.MarkOld();
             return blogRoll;

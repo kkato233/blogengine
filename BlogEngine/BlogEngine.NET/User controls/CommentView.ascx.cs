@@ -471,8 +471,11 @@ public partial class CommentView : UserControl, ICallbackEventHandler
         }
 
         // http://www.artviper.net/screenshots/screener.php?&url={0}&h={1}&w={1}
-        MD5 md5 = new MD5CryptoServiceProvider();
-        var result = md5.ComputeHash(Encoding.ASCII.GetBytes(email));
+        byte[] result;
+        using (MD5 md5 = new MD5CryptoServiceProvider())
+        {
+            result = md5.ComputeHash(Encoding.ASCII.GetBytes(email));
+        }
 
         var hash = new StringBuilder();
         for (var i = 0; i < result.Length; i++)

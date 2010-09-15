@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="admin_Comments_Menu" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="admin.Comments.Menu" %>
 <table width="100%" style="padding: 0; margin: 0; margin-bottom: 10px">
     <tr>
         <td>

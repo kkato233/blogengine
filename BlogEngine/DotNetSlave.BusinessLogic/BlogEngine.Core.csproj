@@ -206,7 +206,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="API\BlogML\BlogML.cd" />
+    <None Include="API\MetaWeblog\MetaWeblog.cd" />
+    <None Include="BlogEngine.Core.cd" />
+    <None Include="DataStore\DataStore.cd" />
     <None Include="key.snk" />
+    <None Include="Ping\Ping.cd" />
+    <None Include="Providers\Providers.cd" />
+    <None Include="Web\Web.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

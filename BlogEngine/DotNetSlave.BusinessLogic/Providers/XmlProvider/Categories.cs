@@ -118,13 +118,7 @@
         {
             var categories = Category.Categories;
 
-            var category = new Category();
-
-            foreach (var cat in categories.Where(cat => cat.Id == id))
-            {
-                category = cat;
-            }
-
+            var category = categories.FirstOrDefault(cat => cat.Id == id) ?? new Category();
             category.MarkOld();
             return category;
         }

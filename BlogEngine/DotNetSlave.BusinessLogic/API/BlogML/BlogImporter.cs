@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Web;
 
@@ -92,7 +91,8 @@
                 {
                     // Search for matching post (by date and title) and delete it
                     foreach (var temp in
-                        Post.GetPostsByDate(import.PostDate.AddDays(-2), import.PostDate.AddDays(2)).Where(temp => temp.Title == import.Title))
+                        Post.GetPostsByDate(import.PostDate.AddDays(-2), import.PostDate.AddDays(2)).Where(
+                            temp => temp.Title == import.Title))
                     {
                         temp.Delete();
                         temp.Import();
@@ -100,33 +100,35 @@
                 }
             }
 
-            var post = new Post
+            using (
+                var post = new Post
+                    {
+                        Title = import.Title,
+                        Author = import.Author,
+                        DateCreated = import.PostDate,
+                        DateModified = import.PostDate,
+                        Content = import.Content,
+                        Description = import.Description,
+                        Published = import.Publish
+                    })
+            {
+                AddCategories(import.Categories, post);
+
+                // Tag Support:
+                if (import.Tags.Count == 0 && import.Categories.Count > 0)
                 {
-                    Title = import.Title, 
-                    Author = import.Author, 
-                    DateCreated = import.PostDate, 
-                    DateModified = import.PostDate, 
-                    Content = import.Content, 
-                    Description = import.Description, 
-                    Published = import.Publish
-                };
+                    // No tags. Use categories. 
+                    post.Tags.AddRange(import.Categories);
+                }
+                else
+                {
+                    post.Tags.AddRange(import.Tags);
+                }
 
-            AddCategories(import.Categories, post);
+                post.Import();
 
-            // Tag Support:
-            if (import.Tags.Count == 0 && import.Categories.Count > 0)
-            {
-                // No tags. Use categories. 
-                post.Tags.AddRange(import.Categories);
+                return post.Id.ToString();
             }
-            else
-            {
-                post.Tags.AddRange(import.Tags);
-            }
-
-            post.Import();
-
-            return post.Id.ToString();
         }
 
         /// <summary>
@@ -176,9 +178,11 @@
                         continue;
                     }
 
-                    var newCat = new Category(category, string.Empty);
-                    newCat.Save();
-                    post.Categories.Add(newCat);
+                    using (var newCat = new Category(category, string.Empty))
+                    {
+                        newCat.Save();
+                        post.Categories.Add(newCat);
+                    }
                 }
             }
             catch (Exception ex)
@@ -191,7 +195,7 @@
         /// Determines whether this instance is authenticated.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
         /// </returns>
         private static bool IsAuthenticated()
         {
@@ -208,44 +212,44 @@
             #region Constants and Fields
 
             /// <summary>
-            ///     The author.
+            ///     Gets or sets the author.
             /// </summary>
-            public string Author;
+            public string Author { get; set; }
 
             /// <summary>
-            ///     The categories.
+            ///     Gets or sets the categories.
             /// </summary>
-            public Collection<string> Categories;
+            public ICollection<string> Categories { get; set; }
 
             /// <summary>
-            ///     The content.
+            ///     Gets or sets the content.
             /// </summary>
-            public string Content;
+            public string Content { get; set; }
 
             /// <summary>
-            ///     The description.
+            ///     Gets or sets the description.
             /// </summary>
-            public string Description;
+            public string Description { get; set; }
 
             /// <summary>
-            ///     The post date.
+            ///     Gets or sets the post date.
             /// </summary>
-            public DateTime PostDate;
+            public DateTime PostDate { get; set; }
 
             /// <summary>
-            ///     The publish.
+            ///     Gets or sets a value indicating whether the post is published.
             /// </summary>
-            public bool Publish;
+            public bool Publish { get; set; }
 
             /// <summary>
-            ///     The tags.
+            ///     Gets or sets the tags.
             /// </summary>
-            public Collection<string> Tags;
+            public ICollection<string> Tags { get; set; }
 
             /// <summary>
-            ///     The title.
+            ///     Gets or sets the title.
             /// </summary>
-            public string Title;
+            public string Title { get; set; }
 
             #endregion
         }

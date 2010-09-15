@@ -8,7 +8,7 @@
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseReader"/> class.
+        ///     Initializes a new instance of the <see cref = "BaseReader" /> class.
         /// </summary>
         public BaseReader()
         {
@@ -23,22 +23,22 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether ApprovedCommentsOnly.
+        ///     Gets or sets a value indicating whether ApprovedCommentsOnly.
         /// </summary>
         public bool ApprovedCommentsOnly { get; set; }
 
         /// <summary>
-        /// Gets or sets Author.
+        ///     Gets or sets Author.
         /// </summary>
         public string Author { get; set; }
 
         /// <summary>
-        /// Gets or sets Message.
+        ///     Gets or sets Message.
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether RemoveDuplicates.
+        ///     Gets or sets a value indicating whether RemoveDuplicates.
         /// </summary>
         public bool RemoveDuplicates { get; set; }
 
@@ -49,7 +49,9 @@
         /// <summary>
         /// Imports this instance.
         /// </summary>
-        /// <returns>Always returns false.</returns>
+        /// <returns>
+        /// Always returns false.
+        /// </returns>
         public virtual bool Import()
         {
             return false;
@@ -58,7 +60,9 @@
         /// <summary>
         /// Validates this instance.
         /// </summary>
-        /// <returns>Always returns false.</returns>
+        /// <returns>
+        /// Always returns false.
+        /// </returns>
         public virtual bool Validate()
         {
             return false;

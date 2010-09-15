@@ -176,9 +176,12 @@
                 RecaptchaLogger.SaveLogItems(log);
             }
 
-            var view = new DataView(logView) { Sort = "Date DESC" };
-            this.RecaptchaLog.DataSource = view;
-            this.RecaptchaLog.DataBind();
+            using (var view = new DataView(logView))
+            {
+                view.Sort = "Date DESC";
+                this.RecaptchaLog.DataSource = view;
+                this.RecaptchaLog.DataBind();
+            }
         }
 
         #endregion

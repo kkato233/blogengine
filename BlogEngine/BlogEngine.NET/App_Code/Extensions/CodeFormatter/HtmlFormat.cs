@@ -116,19 +116,22 @@ namespace CodeFormatter
             if (match.Groups[2].Success)
             {
                 // comment
-                var reader = new StringReader(match.ToString());
-                string line;
-                var sb = new StringBuilder();
-                while ((line = reader.ReadLine()) != null)
+                StringBuilder sb;
+                using (var reader = new StringReader(match.ToString()))
                 {
-                    if (sb.Length > 0)
+                    string line;
+                    sb = new StringBuilder();
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        sb.Append("\n");
-                    }
+                        if (sb.Length > 0)
+                        {
+                            sb.Append("\n");
+                        }
 
-                    sb.Append("<span class=\"rem\">");
-                    sb.Append(line);
-                    sb.Append("</span>");
+                        sb.Append("<span class=\"rem\">");
+                        sb.Append(line);
+                        sb.Append("</span>");
+                    }
                 }
 
                 return sb.ToString();

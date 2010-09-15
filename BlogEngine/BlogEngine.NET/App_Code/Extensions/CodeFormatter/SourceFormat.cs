@@ -254,34 +254,35 @@ namespace CodeFormatter
                     sb.Append("<div class=\"code\">\n");
                 }
 
-                var reader = new StringReader(source);
-                var i = 0;
-                const string Spaces = "    ";
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (var reader = new StringReader(source))
                 {
-                    i++;
-                    if (alternate && ((i % 2) == 1))
+                    var i = 0;
+                    const string Spaces = "    ";
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        sb.Append("<p class=\"alt\">");
-                    }
-                    else
-                    {
-                        sb.Append("<div>");
-                    }
+                        i++;
+                        if (alternate && ((i % 2) == 1))
+                        {
+                            sb.Append("<p class=\"alt\">");
+                        }
+                        else
+                        {
+                            sb.Append("<div>");
+                        }
 
-                    if (lineNumbers)
-                    {
-                        var order = (int)Math.Log10(i);
-                        sb.AppendFormat("<span class=\"lnum\">{0}{1}:  </span>", Spaces.Substring(0, 3 - order), i);
+                        if (lineNumbers)
+                        {
+                            var order = (int)Math.Log10(i);
+                            sb.AppendFormat("<span class=\"lnum\">{0}{1}:  </span>", Spaces.Substring(0, 3 - order), i);
+                        }
+
+                        sb.Append(line.Length == 0 ? "&nbsp;" : line);
+
+                        sb.Append("</div>\n");
                     }
-
-                    sb.Append(line.Length == 0 ? "&nbsp;" : line);
-
-                    sb.Append("</div>\n");
                 }
 
-                reader.Close();
                 if (!subCode)
                 {
                     sb.Append("</div>");
