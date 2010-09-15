@@ -83,9 +83,11 @@
                         if (html == null)
                         {
                             var ul = this.BindAuthors();
-                            var sw = new StringWriter();
-                            ul.RenderControl(new HtmlTextWriter(sw));
-                            html = sw.ToString();
+                            using (var sw = new StringWriter())
+                            {
+                                ul.RenderControl(new HtmlTextWriter(sw));
+                                html = sw.ToString();
+                            }
                         }
                     }
                 }

@@ -19,22 +19,22 @@
         #region Constants and Fields
 
         /// <summary>
-        /// The blog tags.
+        ///     The blog tags.
         /// </summary>
         private readonly Dictionary<string, StringCollection> tags = new Dictionary<string, StringCollection>();
 
         /// <summary>
-        /// The xml data.
+        ///     The xml data.
         /// </summary>
         private string xmlData = string.Empty;
 
         /// <summary>
-        /// The author lookup.
+        ///     The author lookup.
         /// </summary>
         private StringDictionary authorLookup;
 
         /// <summary>
-        /// The category lookup.
+        ///     The category lookup.
         /// </summary>
         private StringDictionary categoryLookup;
 
@@ -149,8 +149,12 @@
         /// <summary>
         /// Loads the blog page.
         /// </summary>
-        /// <param name="blog">The blog importer.</param>
-        /// <param name="post">The BlogML post.</param>
+        /// <param name="blog">
+        /// The blog importer.
+        /// </param>
+        /// <param name="post">
+        /// The BlogML post.
+        /// </param>
         private static void LoadBlogPage(BlogImporter blog, BlogMLPost post)
         {
             // TODO: Load Pages?
@@ -161,17 +165,21 @@
         /// <summary>
         /// Loads the blog post.
         /// </summary>
-        /// <param name="blog">The blog importer.</param>
-        /// <param name="post">The BlogML post.</param>
+        /// <param name="blog">
+        /// The blog importer.
+        /// </param>
+        /// <param name="post">
+        /// The BlogML post.
+        /// </param>
         private void LoadBlogPost(BlogImporter blog, BlogMLPost post)
         {
             var import = new BlogImporter.ImportPost
                 {
-                    Title = post.Title,
-                    Author = this.Author == string.Empty ? this.authorLookup[post.Authors[0].Ref] : this.Author,
-                    PostDate = post.DateCreated,
-                    Description = post.Excerpt.UncodedText,
-                    Publish = true,
+                    Title = post.Title, 
+                    Author = this.Author == string.Empty ? this.authorLookup[post.Authors[0].Ref] : this.Author, 
+                    PostDate = post.DateCreated, 
+                    Description = post.Excerpt.UncodedText, 
+                    Publish = true, 
                     Content = post.Content.UncodedText
                 };
 
@@ -210,22 +218,22 @@
                     if (comment.Approved)
                     {
                         blog.AddComment(
-                            postId,
-                            comment.UserName,
-                            comment.UserEMail,
-                            comment.UserUrl,
-                            comment.Content.UncodedText,
+                            postId, 
+                            comment.UserName, 
+                            comment.UserEMail, 
+                            comment.UserUrl, 
+                            comment.Content.UncodedText, 
                             comment.DateCreated);
                     }
                 }
                 else
                 {
                     blog.AddComment(
-                        postId,
-                        comment.UserName,
-                        comment.UserEMail,
-                        comment.UserUrl,
-                        comment.Content.UncodedText,
+                        postId, 
+                        comment.UserName, 
+                        comment.UserEMail, 
+                        comment.UserUrl, 
+                        comment.Content.UncodedText, 
                         comment.DateCreated);
                 }
             }
@@ -266,7 +274,7 @@
                     {
                         continue;
                     }
-                        
+
                     foreach (XmlNode tag in child.ChildNodes)
                     {
                         if (tag.Attributes != null)

@@ -131,69 +131,74 @@
                 return string.Format("<p>{0}</p>", labels.none);
             }
 
-            var ul = new HtmlGenericControl("ul");
-            ul.Attributes.Add("id", "monthList");
-            HtmlGenericControl year;
-            HtmlGenericControl list = null;
-            var current = 0;
-
-            foreach (var date in months.Keys)
+            using (var ul = new HtmlGenericControl("ul"))
             {
-                if (current == 0)
+                ul.Attributes.Add("id", "monthList");
+                HtmlGenericControl year;
+                HtmlGenericControl list = null;
+                var current = 0;
+
+                foreach (var date in months.Keys)
                 {
+                    if (current == 0)
+                    {
+                        current = date.Year;
+                    }
+
+                    if (date.Year > current || ul.Controls.Count == 0)
+                    {
+                        list = new HtmlGenericControl("ul") { ID = "year" + date.Year };
+
+                        year = new HtmlGenericControl("li") { InnerHtml = date.Year.ToString() };
+                        year.Attributes.Add("class", "year");
+                        year.Attributes.Add("onclick", string.Format("BlogEngine.toggleMonth('year{0}')", date.Year));
+                        year.Controls.Add(list);
+
+                        if (date.Year == DateTime.Now.Year)
+                        {
+                            list.Attributes.Add("class", "open");
+                        }
+
+                        ul.Controls.AddAt(0, year);
+                    }
+
+                    using (var li = new HtmlGenericControl("li"))
+                    {
+                        var anc = new HtmlAnchor
+                            {
+                                HRef =
+                                    string.Format(
+                                        "{0}{1}/{2}/default{3}",
+                                        Utils.RelativeWebRoot,
+                                        date.Year,
+                                        date.ToString("MM"),
+                                        BlogSettings.Instance.FileExtension),
+                                InnerHtml =
+                                    string.Format(
+                                        "{0} ({1})",
+                                        DateTime.Parse(string.Format("{0}-{1}-01", date.Year, date.Month)).ToString("MMMM"),
+                                        months[date])
+                            };
+
+                        li.Controls.Add(anc);
+                        if (list != null)
+                        {
+                            list.Controls.AddAt(0, li);
+                        }
+                    }
+
                     current = date.Year;
                 }
 
-                if (date.Year > current || ul.Controls.Count == 0)
+                using (var sw = new StringWriter())
                 {
-                    list = new HtmlGenericControl("ul") { ID = "year" + date.Year };
-
-                    year = new HtmlGenericControl("li") { InnerHtml = date.Year.ToString() };
-                    year.Attributes.Add("class", "year");
-                    year.Attributes.Add("onclick", string.Format("BlogEngine.toggleMonth('year{0}')", date.Year));
-                    year.Controls.Add(list);
-
-                    if (date.Year == DateTime.Now.Year)
-                    {
-                        list.Attributes.Add("class", "open");
-                    }
-
-                    ul.Controls.AddAt(0, year);
+                    ul.RenderControl(new HtmlTextWriter(sw));
+                    return sw.ToString();
                 }
-
-                var li = new HtmlGenericControl("li");
-
-                var anc = new HtmlAnchor
-                    {
-                        HRef =
-                            string.Format(
-                                "{0}{1}/{2}/default{3}",
-                                Utils.RelativeWebRoot,
-                                date.Year,
-                                date.ToString("MM"),
-                                BlogSettings.Instance.FileExtension),
-                        InnerHtml =
-                            string.Format(
-                                "{0} ({1})",
-                                DateTime.Parse(string.Format("{0}-{1}-01", date.Year, date.Month)).ToString("MMMM"),
-                                months[date])
-                    };
-
-                li.Controls.Add(anc);
-                if (list != null)
-                {
-                    list.Controls.AddAt(0, li);
-                }
-
-                current = date.Year;
             }
-
-            var sw = new StringWriter();
-            ul.RenderControl(new HtmlTextWriter(sw));
-            return sw.ToString();
         }
 
-/*
+        /*
         /// <summary>
         /// Sorts the categories.
         /// </summary>

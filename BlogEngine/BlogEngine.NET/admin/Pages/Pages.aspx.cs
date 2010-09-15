@@ -125,36 +125,35 @@ public partial class admin_Pages_pages : Page, ICallbackEventHandler
     /// </summary>
     private void BindPageList()
     {
-        foreach (var page in BlogEngine.Core.Page.Pages)
+        foreach (var page in BlogEngine.Core.Page.Pages.Where(page => !page.HasParentPage))
         {
-            if (!page.HasParentPage)
+            var li = new HtmlGenericControl("li");
+            var a = new HtmlAnchor { HRef = string.Format("?id={0}", page.Id), InnerHtml = page.Title };
+
+            HtmlAnchor delete;
+            using (var text = new LiteralControl(string.Format(" ({0}) ", page.DateCreated.ToString("yyyy-dd-MM HH:mm"))))
             {
-                var li = new HtmlGenericControl("li");
-                var a = new HtmlAnchor { HRef = string.Format("?id={0}", page.Id), InnerHtml = page.Title };
-
-                var text = new LiteralControl(string.Format(" ({0}) ", page.DateCreated.ToString("yyyy-dd-MM HH:mm")));
-
                 const string DeleteText = "Are you sure you want to delete the page?";
-                var delete = new HtmlAnchor { InnerText = labels.delete };
-                delete.Attributes["onclick"] = "if (confirm('" + DeleteText + "')){location.href='?delete=" + page.Id +
-                                               "'}";
+                delete = new HtmlAnchor { InnerText = labels.delete };
+                delete.Attributes["onclick"] = string.Format("if (confirm('{0}')){{location.href='?delete={1}'}}", DeleteText, page.Id);
                 delete.HRef = "javascript:void(0);";
                 delete.Style.Add(HtmlTextWriterStyle.FontWeight, "normal");
 
                 li.Controls.Add(a);
                 li.Controls.Add(text);
-                li.Controls.Add(delete);
-
-                if (page.HasChildPages)
-                {
-                    li.Controls.Add(this.BuildChildPageList(page));
-                }
-
-                li.Attributes.CssStyle.Remove("font-weight");
-                li.Attributes.CssStyle.Add("font-weight", "bold");
-
-                this.ulPages.Controls.Add(li);
             }
+
+            li.Controls.Add(delete);
+
+            if (page.HasChildPages)
+            {
+                li.Controls.Add(this.BuildChildPageList(page));
+            }
+
+            li.Attributes.CssStyle.Remove("font-weight");
+            li.Attributes.CssStyle.Add("font-weight", "bold");
+
+            this.ulPages.Controls.Add(li);
         }
 
         this.divPages.Visible = true;
@@ -406,8 +405,8 @@ public partial class admin_Pages_pages : Page, ICallbackEventHandler
 
         var path = Utils.RelativeWebRoot;
         var img = string.Format(
-            "<img src=\"{0}image.axd?picture={1}\" alt=\"\" />", 
-            path, 
+            "<img src=\"{0}image.axd?picture={1}\" alt=\"\" />",
+            path,
             this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
         this.txtContent.Text += img;
     }

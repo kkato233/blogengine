@@ -32,7 +32,6 @@
         public override object LoadFromDataStore(ExtensionType extensionType, string extensionId)
         {
             var fileName = string.Format("{0}{1}.xml", StorageLocation(extensionType), extensionId);
-            StreamReader reader;
             Stream str = null;
             if (!Directory.Exists(StorageLocation(extensionType)))
             {
@@ -41,7 +40,7 @@
 
             if (File.Exists(fileName))
             {
-                reader = new StreamReader(fileName);
+                var reader = new StreamReader(fileName);
                 str = reader.BaseStream;
             }
 
@@ -83,10 +82,11 @@
                 Directory.CreateDirectory(StorageLocation(extensionType));
             }
 
-            TextWriter writer = new StreamWriter(fileName);
-            var x = new XmlSerializer(settings.GetType());
-            x.Serialize(writer, settings);
-            writer.Close();
+            using (TextWriter writer = new StreamWriter(fileName))
+            {
+                var x = new XmlSerializer(settings.GetType());
+                x.Serialize(writer, settings);
+            }
         }
 
         #endregion

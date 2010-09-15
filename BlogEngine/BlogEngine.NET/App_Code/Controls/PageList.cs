@@ -54,9 +54,11 @@
                         if (html == null || BlogEngine.Core.Page.Pages == null)
                         {
                             var ul = BindPages();
-                            var sw = new StringWriter();
-                            ul.RenderControl(new HtmlTextWriter(sw));
-                            html = sw.ToString();
+                            using (var sw = new StringWriter())
+                            {
+                                ul.RenderControl(new HtmlTextWriter(sw));
+                                html = sw.ToString();
+                            }
                         }
                     }
                 }

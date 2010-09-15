@@ -112,9 +112,11 @@
                         if (html == null)
                         {
                             var ul = this.BindCategories();
-                            var sw = new StringWriter();
-                            ul.RenderControl(new HtmlTextWriter(sw));
-                            html = sw.ToString();
+                            using (var sw = new StringWriter())
+                            {
+                                ul.RenderControl(new HtmlTextWriter(sw));
+                                html = sw.ToString();
+                            }
                         }
                     }
                 }
@@ -206,7 +208,7 @@
                 {
                     var img = new HtmlImage
                         {
-                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot), 
+                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot),
                             Alt =
                                 string.Format(
                                     "{0} feed for {1}", BlogSettings.Instance.SyndicationFormat.ToUpperInvariant(), key)
@@ -230,8 +232,8 @@
 
                 var anc = new HtmlAnchor
                     {
-                        HRef = cat.RelativeLink, 
-                        InnerHtml = HttpUtility.HtmlEncode(key) + postCount, 
+                        HRef = cat.RelativeLink,
+                        InnerHtml = HttpUtility.HtmlEncode(key) + postCount,
                         Title = string.Format("Category: {0}", key)
                     };
 

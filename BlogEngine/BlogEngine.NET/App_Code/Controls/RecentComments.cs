@@ -123,71 +123,75 @@
                 return string.Format("<p>{0}</p>", labels.none);
             }
 
-            var ul = new HtmlGenericControl("ul");
-            ul.Attributes.Add("class", "recentComments");
-            ul.ID = "recentComments";
-
-            foreach (var comment in Comments.Where(comment => comment.IsApproved))
+            using (var ul = new HtmlGenericControl("ul"))
             {
-                var li = new HtmlGenericControl("li");
+                ul.Attributes.Add("class", "recentComments");
+                ul.ID = "recentComments";
 
-                // The post title
-                var title = new HtmlAnchor { HRef = comment.Parent.RelativeLink, InnerText = comment.Parent.Title };
-                title.Attributes.Add("class", "postTitle");
-                li.Controls.Add(title);
-
-                // The comment count on the post
-                var count =
-                    new LiteralControl(string.Format(" ({0})<br />", ((Post)comment.Parent).ApprovedComments.Count));
-                li.Controls.Add(count);
-
-                // The author
-                if (comment.Website != null)
+                foreach (var comment in Comments.Where(comment => comment.IsApproved))
                 {
-                    var author = new HtmlAnchor { HRef = comment.Website.ToString(), InnerHtml = comment.Author };
-                    author.Attributes.Add("rel", "nofollow");
-                    li.Controls.Add(author);
+                    var li = new HtmlGenericControl("li");
 
-                    var wrote = new LiteralControl(string.Format(" {0}: ", labels.wrote));
-                    li.Controls.Add(wrote);
-                }
-                else
-                {
-                    var author = new LiteralControl(string.Format("{0} {1}: ", comment.Author, labels.wrote));
-                    li.Controls.Add(author);
-                }
+                    // The post title
+                    var title = new HtmlAnchor { HRef = comment.Parent.RelativeLink, InnerText = comment.Parent.Title };
+                    title.Attributes.Add("class", "postTitle");
+                    li.Controls.Add(title);
 
-                // The comment body
-                var commentBody = Regex.Replace(comment.Content, @"\[(.*?)\]", string.Empty);
-                var bodyLength = Math.Min(commentBody.Length, 50);
+                    // The comment count on the post
+                    var count =
+                        new LiteralControl(string.Format(" ({0})<br />", ((Post)comment.Parent).ApprovedComments.Count));
+                    li.Controls.Add(count);
 
-                commentBody = commentBody.Substring(0, bodyLength);
-                if (commentBody.Length > 0)
-                {
-                    if (commentBody[commentBody.Length - 1] == '&')
+                    // The author
+                    if (comment.Website != null)
                     {
-                        commentBody = commentBody.Substring(0, commentBody.Length - 1);
+                        var author = new HtmlAnchor { HRef = comment.Website.ToString(), InnerHtml = comment.Author };
+                        author.Attributes.Add("rel", "nofollow");
+                        li.Controls.Add(author);
+
+                        var wrote = new LiteralControl(string.Format(" {0}: ", labels.wrote));
+                        li.Controls.Add(wrote);
                     }
+                    else
+                    {
+                        var author = new LiteralControl(string.Format("{0} {1}: ", comment.Author, labels.wrote));
+                        li.Controls.Add(author);
+                    }
+
+                    // The comment body
+                    var commentBody = Regex.Replace(comment.Content, @"\[(.*?)\]", string.Empty);
+                    var bodyLength = Math.Min(commentBody.Length, 50);
+
+                    commentBody = commentBody.Substring(0, bodyLength);
+                    if (commentBody.Length > 0)
+                    {
+                        if (commentBody[commentBody.Length - 1] == '&')
+                        {
+                            commentBody = commentBody.Substring(0, commentBody.Length - 1);
+                        }
+                    }
+
+                    commentBody += comment.Content.Length <= 50 ? " " : "� ";
+                    var body = new LiteralControl(commentBody);
+                    li.Controls.Add(body);
+
+                    // The comment link
+                    var link = new HtmlAnchor
+                        {
+                            HRef = string.Format("{0}#id_{1}", comment.Parent.RelativeLink, comment.Id), InnerHtml = string.Format("[{0}]", labels.more) 
+                        };
+                    link.Attributes.Add("class", "moreLink");
+                    li.Controls.Add(link);
+
+                    ul.Controls.Add(li);
                 }
 
-                commentBody += comment.Content.Length <= 50 ? " " : "� ";
-                var body = new LiteralControl(commentBody);
-                li.Controls.Add(body);
-
-                // The comment link
-                var link = new HtmlAnchor
-                    {
-                        HRef = string.Format("{0}#id_{1}", comment.Parent.RelativeLink, comment.Id), InnerHtml = "[" + labels.more + "]" 
-                    };
-                link.Attributes.Add("class", "moreLink");
-                li.Controls.Add(link);
-
-                ul.Controls.Add(li);
+                using (var sw = new StringWriter())
+                {
+                    ul.RenderControl(new HtmlTextWriter(sw));
+                    return sw.ToString();
+                }
             }
-
-            var sw = new StringWriter();
-            ul.RenderControl(new HtmlTextWriter(sw));
-            return sw.ToString();
         }
 
         #endregion

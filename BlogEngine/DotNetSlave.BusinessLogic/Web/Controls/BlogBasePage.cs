@@ -45,11 +45,13 @@
         /// </param>
         public virtual void AddGenericLink(string relation, string title, string href)
         {
-            var link = new HtmlLink();
-            link.Attributes["rel"] = relation;
-            link.Attributes["title"] = title;
-            link.Attributes["href"] = href;
-            this.Page.Header.Controls.Add(link);
+            using (var link = new HtmlLink())
+            {
+                link.Attributes["rel"] = relation;
+                link.Attributes["title"] = title;
+                link.Attributes["href"] = href;
+                this.Page.Header.Controls.Add(link);
+            }
         }
 
         /// <summary>

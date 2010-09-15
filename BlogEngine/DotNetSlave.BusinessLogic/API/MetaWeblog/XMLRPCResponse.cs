@@ -17,72 +17,7 @@
         /// <summary>
         /// The method name.
         /// </summary>
-        private readonly string _methodName;
-
-        /// <summary>
-        /// The authors.
-        /// </summary>
-        private List<MWAAuthor> _authors;
-
-        /// <summary>
-        /// The blogs.
-        /// </summary>
-        private List<MWABlogInfo> _blogs;
-
-        /// <summary>
-        /// The categories.
-        /// </summary>
-        private List<MWACategory> _categories;
-
-        /// <summary>
-        /// The completed.
-        /// </summary>
-        private bool _completed;
-
-        /// <summary>
-        /// The fault.
-        /// </summary>
-        private MWAFault _fault;
-
-        /// <summary>
-        /// The keywords.
-        /// </summary>
-        private List<string> _keywords;
-
-        /// <summary>
-        /// The media info.
-        /// </summary>
-        private MWAMediaInfo _mediaInfo;
-
-        /// <summary>
-        /// The page.
-        /// </summary>
-        private MWAPage _page;
-
-        /// <summary>
-        /// The page id.
-        /// </summary>
-        private string _pageID;
-
-        /// <summary>
-        /// The pages.
-        /// </summary>
-        private List<MWAPage> _pages;
-
-        /// <summary>
-        /// The post.
-        /// </summary>
-        private MWAPost _post;
-
-        /// <summary>
-        /// The post id.
-        /// </summary>
-        private string _postID;
-
-        /// <summary>
-        /// The posts.
-        /// </summary>
-        private List<MWAPost> _posts;
+        private readonly string methodName;
 
         #endregion
 
@@ -97,13 +32,13 @@
         /// </param>
         public XMLRPCResponse(string methodName)
         {
-            this._methodName = methodName;
-            this._blogs = new List<MWABlogInfo>();
-            this._categories = new List<MWACategory>();
-            this._keywords = new List<string>();
-            this._posts = new List<MWAPost>();
-            this._pages = new List<MWAPage>();
-            this._authors = new List<MWAAuthor>();
+            this.methodName = methodName;
+            this.Blogs = new List<MWABlogInfo>();
+            this.Categories = new List<MWACategory>();
+            this.Keywords = new List<string>();
+            this.Posts = new List<MWAPost>();
+            this.Pages = new List<MWAPage>();
+            this.Authors = new List<MWAAuthor>();
         }
 
         #endregion
@@ -111,213 +46,70 @@
         #region Properties
 
         /// <summary>
-        ///     List if author structs.  Used by wp.getAuthors.
+        ///     Gets or sets List if author structs.  Used by wp.getAuthors.
         /// </summary>
-        public List<MWAAuthor> Authors
-        {
-            get
-            {
-                return this._authors;
-            }
-
-            set
-            {
-                this._authors = value;
-            }
-        }
+        public List<MWAAuthor> Authors { get; set; }
 
         /// <summary>
-        ///     List of blog structs.  Used by blogger.getUsersBlogs.
+        ///     Gets or sets List of blog structs.  Used by blogger.getUsersBlogs.
         /// </summary>
-        public List<MWABlogInfo> Blogs
-        {
-            get
-            {
-                return this._blogs;
-            }
-
-            set
-            {
-                this._blogs = value;
-            }
-        }
+        public List<MWABlogInfo> Blogs { get; set; }
 
         /// <summary>
-        ///     List of category structs. Used by metaWeblog.getCategories.
+        ///     Gets or sets List of category structs. Used by metaWeblog.getCategories.
         /// </summary>
-        public List<MWACategory> Categories
-        {
-            get
-            {
-                return this._categories;
-            }
-
-            set
-            {
-                this._categories = value;
-            }
-        }
+        public List<MWACategory> Categories { get; set; }
 
         /// <summary>
-        ///     Marks whether function call was completed and successful.  
+        ///     Gets or sets a value indicating whether function call was completed and successful.  
         ///     Used by metaWeblog.editPost and blogger.deletePost.
         /// </summary>
-        public bool Completed
-        {
-            get
-            {
-                return this._completed;
-            }
-
-            set
-            {
-                this._completed = value;
-            }
-        }
+        public bool Completed { get; set; }
 
         /// <summary>
-        ///     Fault Struct. Used by API to return error information
+        ///     Gets or sets Fault Struct. Used by API to return error information
         /// </summary>
-        public MWAFault Fault
-        {
-            get
-            {
-                return this._fault;
-            }
-
-            set
-            {
-                this._fault = value;
-            }
-        }
+        public MWAFault Fault { get; set; }
 
         /// <summary>
-        ///     List of Tags.  Used by wp.getTags.
+        ///     Gets or sets List of Tags.  Used by wp.getTags.
         /// </summary>
-        public List<string> Keywords
-        {
-            get
-            {
-                return this._keywords;
-            }
-
-            set
-            {
-                this._keywords = value;
-            }
-        }
+        public List<string> Keywords { get; set; }
 
         /// <summary>
-        ///     MediaInfo Struct
+        ///     Gets or sets MediaInfo Struct
         /// </summary>
-        public MWAMediaInfo MediaInfo
-        {
-            get
-            {
-                return this._mediaInfo;
-            }
-
-            set
-            {
-                this._mediaInfo = value;
-            }
-        }
+        public MWAMediaInfo MediaInfo { get; set; }
 
         /// <summary>
-        ///     MWAPage struct
+        ///     Gets or sets MWAPage struct
         /// </summary>
-        public MWAPage Page
-        {
-            get
-            {
-                return this._page;
-            }
-
-            set
-            {
-                this._page = value;
-            }
-        }
+        public MWAPage Page { get; set; }
 
         /// <summary>
-        ///     Id of page that was just added.
+        ///     Gets or sets Id of page that was just added.
         /// </summary>
-        public string PageID
-        {
-            get
-            {
-                return this._pageID;
-            }
-
-            set
-            {
-                this._pageID = value;
-            }
-        }
+        public string PageID { get; set; }
 
         /// <summary>
-        ///     List of Page Structs
+        ///     Gets or sets List of Page Structs
         /// </summary>
-        public List<MWAPage> Pages
-        {
-            get
-            {
-                return this._pages;
-            }
-
-            set
-            {
-                this._pages = value;
-            }
-        }
+        public List<MWAPage> Pages { get; set; }
 
         /// <summary>
-        ///     Metaweblog Post Struct. Used by metaWeblog.getPost
+        ///     Gets or sets Metaweblog Post Struct. Used by metaWeblog.getPost
         /// </summary>
-        public MWAPost Post
-        {
-            get
-            {
-                return this._post;
-            }
-
-            set
-            {
-                this._post = value;
-            }
-        }
+        public MWAPost Post { get; set; }
 
         /// <summary>
-        ///     Id of post that was just added.  Used by metaWeblog.newPost
+        ///     Gets or sets Id of post that was just added.  Used by metaWeblog.newPost
         /// </summary>
-        public string PostID
-        {
-            get
-            {
-                return this._postID;
-            }
-
-            set
-            {
-                this._postID = value;
-            }
-        }
+        public string PostID { get; set; }
 
         /// <summary>
-        ///     List of Metaweblog Post Structs.  Used by metaWeblog.getRecentPosts
+        ///     Gets or sets List of Metaweblog Post Structs.  Used by metaWeblog.getRecentPosts
         /// </summary>
-        public List<MWAPost> Posts
-        {
-            get
-            {
-                return this._posts;
-            }
-
-            set
-            {
-                this._posts = value;
-            }
-        }
+        public List<MWAPost> Posts { get; set; }
 
         #endregion
 
@@ -337,16 +129,9 @@
                 data.Formatting = Formatting.Indented;
                 data.WriteStartDocument();
                 data.WriteStartElement("methodResponse");
-                if (this._methodName == "fault")
-                {
-                    data.WriteStartElement("fault");
-                }
-                else
-                {
-                    data.WriteStartElement("params");
-                }
+                data.WriteStartElement(this.methodName == "fault" ? "fault" : "params");
 
-                switch (this._methodName)
+                switch (this.methodName)
                 {
                     case "metaWeblog.newPost":
                         this.WriteNewPost(data);
@@ -415,11 +200,16 @@
         /// <returns>
         /// ISO8601 date string
         /// </returns>
-        private string ConvertDatetoISO8601(DateTime date)
+        private static string ConvertDatetoISO8601(DateTime date)
         {
-            var temp = date.Year + date.Month.ToString().PadLeft(2, '0') + date.Day.ToString().PadLeft(2, '0') + "T" +
-                       date.Hour.ToString().PadLeft(2, '0') + ":" + date.Minute.ToString().PadLeft(2, '0') + ":" +
-                       date.Second.ToString().PadLeft(2, '0');
+            var temp = string.Format(
+                "{0}{1}{2}T{3}:{4}:{5}",
+                date.Year,
+                date.Month.ToString().PadLeft(2, '0'),
+                date.Day.ToString().PadLeft(2, '0'),
+                date.Hour.ToString().PadLeft(2, '0'),
+                date.Minute.ToString().PadLeft(2, '0'),
+                date.Second.ToString().PadLeft(2, '0'));
             return temp;
         }
 
@@ -429,14 +219,14 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteAuthors(XmlTextWriter data)
+        private void WriteAuthors(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var author in this._authors)
+            foreach (var author in this.Authors)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -488,10 +278,10 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteBool(XmlTextWriter data)
+        private void WriteBool(XmlWriter data)
         {
             var postValue = "0";
-            if (this._completed)
+            if (this.Completed)
             {
                 postValue = "1";
             }
@@ -509,7 +299,7 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteFault(XmlTextWriter data)
+        private void WriteFault(XmlWriter data)
         {
             data.WriteStartElement("value");
             data.WriteStartElement("struct");
@@ -517,13 +307,13 @@
             // faultCode
             data.WriteStartElement("member");
             data.WriteElementString("name", "faultCode");
-            data.WriteElementString("value", this._fault.faultCode);
+            data.WriteElementString("value", this.Fault.faultCode);
             data.WriteEndElement();
 
             // faultString
             data.WriteStartElement("member");
             data.WriteElementString("name", "faultString");
-            data.WriteElementString("value", this._fault.faultString);
+            data.WriteElementString("value", this.Fault.faultString);
             data.WriteEndElement();
 
             data.WriteEndElement();
@@ -536,14 +326,14 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteGetCategories(XmlTextWriter data)
+        private void WriteGetCategories(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var category in this._categories)
+            foreach (var category in this.Categories)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -593,15 +383,16 @@
         /// Writes array of BlogInfo structs of Response
         /// </summary>
         /// <param name="data">
+        /// xml response
         /// </param>
-        private void WriteGetUsersBlogs(XmlTextWriter data)
+        private void WriteGetUsersBlogs(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var blog in this._blogs)
+            foreach (var blog in this.Blogs)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -641,14 +432,14 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteKeywords(XmlTextWriter data)
+        private void WriteKeywords(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var keyword in this._keywords)
+            foreach (var keyword in this.Keywords)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -676,7 +467,7 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteMediaInfo(XmlTextWriter data)
+        private void WriteMediaInfo(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
@@ -686,7 +477,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "url");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._mediaInfo.url);
+            data.WriteElementString("string", this.MediaInfo.url);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -701,11 +492,11 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteNewPage(XmlTextWriter data)
+        private void WriteNewPage(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._pageID);
+            data.WriteElementString("string", this.PageID);
             data.WriteEndElement();
             data.WriteEndElement();
         }
@@ -716,11 +507,11 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WriteNewPost(XmlTextWriter data)
+        private void WriteNewPost(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._postID);
+            data.WriteElementString("string", this.PostID);
             data.WriteEndElement();
             data.WriteEndElement();
         }
@@ -731,7 +522,7 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WritePage(XmlTextWriter data)
+        private void WritePage(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
@@ -741,7 +532,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "page_id");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._page.pageID);
+            data.WriteElementString("string", this.Page.pageID);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -749,7 +540,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "title");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._page.title);
+            data.WriteElementString("string", this.Page.title);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -757,7 +548,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "description");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._page.description);
+            data.WriteElementString("string", this.Page.description);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -765,7 +556,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "link");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._page.link);
+            data.WriteElementString("string", this.Page.link);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -781,7 +572,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "dateCreated");
             data.WriteStartElement("value");
-            data.WriteElementString("dateTime.iso8601", this.ConvertDatetoISO8601(this.Page.pageDate));
+            data.WriteElementString("dateTime.iso8601", ConvertDatetoISO8601(this.Page.pageDate));
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -794,16 +585,16 @@
         /// The write pages.
         /// </summary>
         /// <param name="data">
-        /// The data.
+        /// xml response
         /// </param>
-        private void WritePages(XmlTextWriter data)
+        private void WritePages(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var page in this._pages)
+            foreach (var page in this.Pages)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -852,12 +643,12 @@
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "dateCreated");
                 data.WriteStartElement("value");
-                data.WriteElementString("dateTime.iso8601", this.ConvertDatetoISO8601(page.pageDate));
+                data.WriteElementString("dateTime.iso8601", ConvertDatetoISO8601(page.pageDate));
                 data.WriteEndElement();
                 data.WriteEndElement();
 
                 // page_parent_id
-                if (page.pageParentID != null && page.pageParentID != string.Empty)
+                if (!string.IsNullOrEmpty(page.pageParentID))
                 {
                     data.WriteStartElement("member");
                     data.WriteElementString("name", "page_parent_id");
@@ -884,7 +675,7 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WritePost(XmlTextWriter data)
+        private void WritePost(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
@@ -894,7 +685,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "postid");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._post.postID);
+            data.WriteElementString("string", this.Post.postID);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -902,7 +693,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "title");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._post.title);
+            data.WriteElementString("string", this.Post.title);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -910,7 +701,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "description");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._post.description);
+            data.WriteElementString("string", this.Post.description);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -918,7 +709,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "link");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._post.link);
+            data.WriteElementString("string", this.Post.link);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -926,7 +717,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "wp_slug");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._post.slug);
+            data.WriteElementString("string", this.Post.slug);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -934,7 +725,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "mt_excerpt");
             data.WriteStartElement("value");
-            data.WriteElementString("string", this._post.excerpt);
+            data.WriteElementString("string", this.Post.excerpt);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -942,7 +733,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "mt_allow_comments");
             data.WriteStartElement("value");
-            data.WriteElementString("int", this._post.commentPolicy);
+            data.WriteElementString("int", this.Post.commentPolicy);
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -950,7 +741,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "dateCreated");
             data.WriteStartElement("value");
-            data.WriteElementString("dateTime.iso8601", this.ConvertDatetoISO8601(this._post.postDate));
+            data.WriteElementString("dateTime.iso8601", ConvertDatetoISO8601(this.Post.postDate));
             data.WriteEndElement();
             data.WriteEndElement();
 
@@ -958,14 +749,7 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "publish");
             data.WriteStartElement("value");
-            if (this._post.publish)
-            {
-                data.WriteElementString("boolean", "1");
-            }
-            else
-            {
-                data.WriteElementString("boolean", "0");
-            }
+            data.WriteElementString("boolean", this.Post.publish ? "1" : "0");
 
             data.WriteEndElement();
             data.WriteEndElement();
@@ -974,10 +758,10 @@
             data.WriteStartElement("member");
             data.WriteElementString("name", "mt_keywords");
             data.WriteStartElement("value");
-            var tags = new string[this._post.tags.Count];
-            for (var i = 0; i < this._post.tags.Count; i++)
+            var tags = new string[this.Post.tags.Count];
+            for (var i = 0; i < this.Post.tags.Count; i++)
             {
-                tags[i] = this._post.tags[i];
+                tags[i] = this.Post.tags[i];
             }
 
             var tagList = string.Join(",", tags);
@@ -986,14 +770,14 @@
             data.WriteEndElement();
 
             // categories
-            if (this._post.categories.Count > 0)
+            if (this.Post.categories.Count > 0)
             {
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "categories");
                 data.WriteStartElement("value");
                 data.WriteStartElement("array");
                 data.WriteStartElement("data");
-                foreach (var cat in this._post.categories)
+                foreach (var cat in this.Post.categories)
                 {
                     data.WriteStartElement("value");
                     data.WriteElementString("string", cat);
@@ -1017,14 +801,14 @@
         /// <param name="data">
         /// xml response
         /// </param>
-        private void WritePosts(XmlTextWriter data)
+        private void WritePosts(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var post in this._posts)
+            foreach (var post in this.Posts)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -1041,7 +825,7 @@
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "dateCreated");
                 data.WriteStartElement("value");
-                data.WriteElementString("dateTime.iso8601", this.ConvertDatetoISO8601(post.postDate));
+                data.WriteElementString("dateTime.iso8601", ConvertDatetoISO8601(post.postDate));
                 data.WriteEndElement();
                 data.WriteEndElement();
 
@@ -1110,14 +894,7 @@
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "publish");
                 data.WriteStartElement("value");
-                if (post.publish)
-                {
-                    data.WriteElementString("boolean", "1");
-                }
-                else
-                {
-                    data.WriteElementString("boolean", "0");
-                }
+                data.WriteElementString("boolean", post.publish ? "1" : "0");
 
                 data.WriteEndElement();
                 data.WriteEndElement();
@@ -1158,16 +935,16 @@
         /// The write short pages.
         /// </summary>
         /// <param name="data">
-        /// The data.
+        /// xml response
         /// </param>
-        private void WriteShortPages(XmlTextWriter data)
+        private void WriteShortPages(XmlWriter data)
         {
             data.WriteStartElement("param");
             data.WriteStartElement("value");
             data.WriteStartElement("array");
             data.WriteStartElement("data");
 
-            foreach (var page in this._pages)
+            foreach (var page in this.Pages)
             {
                 data.WriteStartElement("value");
                 data.WriteStartElement("struct");
@@ -1200,7 +977,7 @@
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "dateCreated");
                 data.WriteStartElement("value");
-                data.WriteElementString("dateTime.iso8601", this.ConvertDatetoISO8601(page.pageDate));
+                data.WriteElementString("dateTime.iso8601", ConvertDatetoISO8601(page.pageDate));
                 data.WriteEndElement();
                 data.WriteEndElement();
 
@@ -1208,7 +985,7 @@
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "date_created_gmt");
                 data.WriteStartElement("value");
-                data.WriteElementString("dateTime.iso8601", this.ConvertDatetoISO8601(page.pageDate));
+                data.WriteElementString("dateTime.iso8601", ConvertDatetoISO8601(page.pageDate));
                 data.WriteEndElement();
                 data.WriteEndElement();
 

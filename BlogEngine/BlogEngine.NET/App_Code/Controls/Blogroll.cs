@@ -64,13 +64,15 @@
             }
 
             var ul = this.DisplayBlogroll();
-            var sw = new StringWriter();
-            ul.RenderControl(new HtmlTextWriter(sw));
-            var html = sw.ToString();
+            using (var sw = new StringWriter())
+            {
+                ul.RenderControl(new HtmlTextWriter(sw));
+                var html = sw.ToString();
 
-            writer.WriteLine("<div id=\"blogroll\">");
-            writer.WriteLine(html);
-            writer.WriteLine("</div>");
+                writer.WriteLine("<div id=\"blogroll\">");
+                writer.WriteLine(html);
+                writer.WriteLine("</div>");
+            }
         }
 
         #region Private fields
@@ -159,13 +161,13 @@
                 {
                     feedAnchor = new HtmlAnchor { HRef = item.RollItem.FeedUrl.AbsoluteUri };
 
-                    var image = new HtmlImage
+                    using (var image = new HtmlImage
+                        {
+                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot), Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
+                        })
                     {
-                        Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot),
-                        Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
-                    };
-
-                    feedAnchor.Controls.Add(image);
+                        feedAnchor.Controls.Add(image);
+                    }
                 }
 
                 var webAnchor = new HtmlAnchor
@@ -184,17 +186,18 @@
                     webAnchor.Attributes["rel"] = item.RollItem.Xfn;
                 }
 
-                var li = new HtmlGenericControl("li");
-
-                if (null != feedAnchor)
+                using (var li = new HtmlGenericControl("li"))
                 {
-                    li.Controls.Add(feedAnchor);
+                    if (null != feedAnchor)
+                    {
+                        li.Controls.Add(feedAnchor);
+                    }
+
+                    li.Controls.Add(webAnchor);
+
+                    AddRssChildItems(item, li);
+                    ul.Controls.Add(li);
                 }
-
-                li.Controls.Add(webAnchor);
-
-                AddRssChildItems(item, li);
-                ul.Controls.Add(li);
             }
 
             return ul;
@@ -212,27 +215,29 @@
                 return;
             }
 
-            var div = new HtmlGenericControl("ul");
-            for (var i = 0; i < item.ItemTitles.Count; i++)
+            using (var div = new HtmlGenericControl("ul"))
             {
-                if (i >= BlogSettings.Instance.BlogrollVisiblePosts)
+                for (var i = 0; i < item.ItemTitles.Count; i++)
                 {
-                    break;
+                    if (i >= BlogSettings.Instance.BlogrollVisiblePosts)
+                    {
+                        break;
+                    }
+
+                    var subLi = new HtmlGenericControl("li");
+                    using (var a = new HtmlAnchor
+                        {
+                            HRef = item.ItemLinks[i], Title = HttpUtility.HtmlEncode(item.ItemTitles[i]), InnerHtml = EnsureLength(item.ItemTitles[i])
+                        })
+                    {
+                        subLi.Controls.Add(a);
+                    }
+
+                    div.Controls.Add(subLi);
                 }
 
-                var subLi = new HtmlGenericControl("li");
-                var a = new HtmlAnchor
-                {
-                    HRef = item.ItemLinks[i],
-                    Title = HttpUtility.HtmlEncode(item.ItemTitles[i]),
-                    InnerHtml = EnsureLength(item.ItemTitles[i])
-                };
-
-                subLi.Controls.Add(a);
-                div.Controls.Add(subLi);
+                li.Controls.Add(div);
             }
-
-            li.Controls.Add(div);
         }
 
         /// <summary>
