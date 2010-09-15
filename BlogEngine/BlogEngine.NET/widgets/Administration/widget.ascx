@@ -1,3 +1,3 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Administration_widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets.Administration.widget" %>
 <%@ Register Src="~/admin/menu.ascx" TagPrefix="ux" TagName="Menu" %>
-<ux:menu runat="server" ID="uxMenu" />
+<ux:Menu runat="server" ID="uxMenu" />

@@ -1,46 +1,59 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Web.Caching;
-using System.Xml;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using BlogEngine.Core;
-
-#endregion
-
-public partial class widgets_Categories_widget : WidgetBase
+﻿/// <summary>
+/// The widgets_ categories_widget.
+/// </summary>
+public partial class WidgetsCategoriesWidget : WidgetBase
 {
+    #region Properties
 
-	public override string Name
-	{
-		get { return "Category list"; }
-	}
+    /// <summary>
+    /// Gets a value indicating whether or not the widget can be edited.
+    /// <remarks>
+    /// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+    /// </remarks>
+    /// </summary>
+    /// <value></value>
+    public override bool IsEditable
+    {
+        get
+        {
+            return true;
+        }
+    }
 
-	public override bool IsEditable
-	{
-		get { return true; }
-	}
+    /// <summary>
+    /// Gets the name. It must be exactly the same as the folder that contains the widget.
+    /// </summary>
+    /// <value></value>
+    public override string Name
+    {
+        get
+        {
+            return "Category list";
+        }
+    }
 
-	public override void LoadWidget()
-	{
-		StringDictionary settings = GetSettings();
-		bool showRssIcon = true;
-		bool showPostCount = true;
-		if (settings.ContainsKey("showrssicon"))
-		{
-			bool.TryParse(settings["showrssicon"], out showRssIcon);
-			bool.TryParse(settings["showpostcount"], out showPostCount);
-		}
+    #endregion
 
-		uxCategoryList.ShowRssIcon = showRssIcon;
-		uxCategoryList.ShowPostCount = showPostCount;
-	}
+    #region Public Methods
+
+    /// <summary>
+    /// This method works as a substitute for Page_Load. You should use this method for
+    /// data binding etc. instead of Page_Load.
+    /// </summary>
+    public override void LoadWidget()
+    {
+        var settings = this.GetSettings();
+        var showRssIcon = true;
+        var showPostCount = true;
+        if (settings.ContainsKey("showrssicon"))
+        {
+            bool.TryParse(settings["showrssicon"], out showRssIcon);
+            bool.TryParse(settings["showpostcount"], out showPostCount);
+        }
+
+        this.uxCategoryList.ShowRssIcon = showRssIcon;
+        this.uxCategoryList.ShowPostCount = showPostCount;
+    }
+
+    #endregion
 }

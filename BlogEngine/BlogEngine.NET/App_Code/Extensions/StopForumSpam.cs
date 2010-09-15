@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.IO;
+using System.Net;
+
 using BlogEngine.Core;
 
 /// <summary>
@@ -8,44 +9,70 @@ using BlogEngine.Core;
 /// </summary>
 public class StopForumSpam : ICustomFilter
 {
-    private static bool _passThrough = true;
+    #region Constants and Fields
 
     /// <summary>
-    /// Enables or disables filter
+    /// The pass through.
     /// </summary>
-    /// <returns>True of false</returns>
-    public bool Initialize()
+    private static bool passThrough = true;
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    ///     Gets a value indicating whether comment will be passed to other
+    ///     custom filters for validation
+    /// </summary>
+    public bool FallThrough
     {
-        // do not need any initialization
-        // simply return true to enable filter
-        return true;
+        get
+        {
+            return passThrough;
+        }
     }
+
+    #endregion
+
+    #region Implemented Interfaces
+
+    #region ICustomFilter
 
     /// <summary>
     /// Check if comment is spam
     /// </summary>
-    /// <param name="comment">Comment</param>
-    /// <returns>True if comment is spam</returns>
+    /// <param name="comment">
+    /// The comment
+    /// </param>
+    /// <returns>
+    /// True if comment is spam
+    /// </returns>
     public bool Check(Comment comment)
     {
         try
         {
-            string url = string.Format("http://www.stopforumspam.com/api?ip={0}", comment.IP);
+            var url = string.Format("http://www.stopforumspam.com/api?ip={0}", comment.IP);
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseStream = response.GetResponseStream();
+            if (responseStream != null)
+            {
+                var reader = new StreamReader(responseStream);
 
-            string value = reader.ReadToEnd();
-            reader.Close();
+                var value = reader.ReadToEnd();
+                reader.Close();
 
-            bool spam = value.ToLowerInvariant().Contains("<appears>yes</appears>") ? true : false;
+                var spam = value.ToLowerInvariant().Contains("<appears>yes</appears>") ? true : false;
 
-            // if comment IP appears in the stopforumspam list
-            // it is for sure spam; no need to pass to others.
-            _passThrough = (spam) ? false : true;
+                // if comment IP appears in the stopforumspam list
+                // it is for sure spam; no need to pass to others.
+                passThrough = spam ? false : true;
 
-            return spam;
+                return spam;
+            }
+            
+            return false;
         }
         catch (Exception e)
         {
@@ -55,18 +82,31 @@ public class StopForumSpam : ICustomFilter
     }
 
     /// <summary>
+    /// Enables or disables filter
+    /// </summary>
+    /// <returns>
+    /// True of false
+    /// </returns>
+    public bool Initialize()
+    {
+        // do not need any initialization
+        // simply return true to enable filter
+        return true;
+    }
+
+    /// <summary>
     /// Report mistakes to service
     /// </summary>
-    /// <param name="comment">Comment</param>
+    /// <param name="comment">
+    /// A Comment.
+    /// </param>
     public void Report(Comment comment)
     {
         // if we needed report mistakes back to
         // service, we would put code here
     }
 
-    /// <summary>
-    /// If true comment will be passed to other
-    /// custom filters for validation
-    /// </summary>
-    public bool FallThrough { get { return _passThrough; } }
+    #endregion
+
+    #endregion
 }

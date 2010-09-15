@@ -1,163 +1,236 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml;
-using System.Collections.Specialized;
-
-#endregion
-
-public partial class widgets_LinkList_edit : WidgetEditBase
+﻿namespace widgets.LinkList
 {
+    using System;
+    using System.Data;
+    using System.Web.UI.WebControls;
+    using System.Xml;
 
-	/// <summary>
-	/// Handles the Load event of the Page control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		if (!Page.IsPostBack)
-		{
-			BindGrid();
-		}
-		
-		grid.RowEditing += new GridViewEditEventHandler(grid_RowEditing);
-		grid.RowUpdating += new GridViewUpdateEventHandler(grid_RowUpdating);
-		grid.RowCancelingEdit += delegate { grid.EditIndex = -1; };
-		grid.RowDeleting += new GridViewDeleteEventHandler(grid_RowDeleting);
-		btnAdd.Click += new EventHandler(btnAdd_Click);
-	}
+    /// <summary>
+    /// The widgets link list_edit.
+    /// </summary>
+    public partial class edit : WidgetEditBase
+    {
+        #region Public Methods
 
-	void btnAdd_Click(object sender, EventArgs e)
-	{
-    XmlDocument doc = Doc();
-		XmlNode links = doc.SelectSingleNode("links");
-		if (links == null)
-		{
-			links = doc.CreateElement("links");
-			doc.AppendChild(links);
-		}
+        /// <summary>
+        /// Saves this the basic widget settings such as the Title.
+        /// </summary>
+        public override void Save()
+        {
+            var doc = this.Doc();
+        }
 
-		XmlNode link = doc.CreateElement("link");
-	
-		XmlAttribute id = doc.CreateAttribute("id");
-		id.InnerText = Guid.NewGuid().ToString();
-		link.Attributes.Append(id);
+        #endregion
 
-		XmlAttribute title = doc.CreateAttribute("title");
-		title.InnerText = txtTitle.Text.Trim(); ;
-		link.Attributes.Append(title);
+        #region Methods
 
-		XmlAttribute url = doc.CreateAttribute("url");
-		url.InnerText = txtUrl.Text.Trim();
-		link.Attributes.Append(url);
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+        
+            if (!this.Page.IsPostBack)
+            {
+                this.BindGrid();
+            }
 
-		XmlAttribute newwindow = doc.CreateAttribute("newwindow");
-		newwindow.InnerText = cbNewWindow.Checked.ToString();
-		link.Attributes.Append(newwindow);
+            this.grid.RowEditing += this.grid_RowEditing;
+            this.grid.RowUpdating += this.grid_RowUpdating;
+            this.grid.RowCancelingEdit += (o, args) => this.grid.EditIndex = -1;
+            this.grid.RowDeleting += this.grid_RowDeleting;
+            this.btnAdd.Click += this.btnAdd_Click;
+        }
 
-		links.AppendChild(link);
-    Save(doc);
-		BindGrid();
-	}
+        /// <summary>
+        /// Binds the grid.
+        /// </summary>
+        private void BindGrid()
+        {
+            var doc = this.Doc();
+            var list = doc.SelectNodes("//link");
+            if (list == null || list.Count <= 0)
+            {
+                return;
+            }
 
-	private void BindGrid()
-	{
-    XmlDocument doc = Doc();
-		XmlNodeList list = doc.SelectNodes("//link");
-		if (list.Count > 0)
-		{			
-			using (XmlTextReader reader = new XmlTextReader(doc.OuterXml, XmlNodeType.Document, null))
-			{
-				System.Data.DataSet ds = new System.Data.DataSet();
-				ds.ReadXml(reader);
-				grid.DataSource = ds;
-				grid.DataKeyNames = new string[] { "id" };
-				grid.DataBind();
-				ds.Dispose();
-			}			
-		}
-	}
+            using (var reader = new XmlTextReader(doc.OuterXml, XmlNodeType.Document, null))
+            {
+                var ds = new DataSet();
+                ds.ReadXml(reader);
+                this.grid.DataSource = ds;
+                this.grid.DataKeyNames = new[] { "id" };
+                this.grid.DataBind();
+                ds.Dispose();
+            }
+        }
 
-	/// <summary>
-	/// Handles the RowDeleting event of the grid control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.</param>
-	void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
-	{
-    XmlDocument doc = Doc();
-		string id = (string)grid.DataKeys[e.RowIndex].Value;
-		XmlNode node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
-		if (node != null)
-		{
-			node.ParentNode.RemoveChild(node);
-      Save(doc);
-			BindGrid();
-		}
-	}
+        /// <summary>
+        /// Gets the xml document.
+        /// </summary>
+        /// <returns>The xml document.</returns>
+        private XmlDocument Doc()
+        {
+            var settings = this.GetSettings();
+            var doc = new XmlDocument();
+            if (settings["content"] != null)
+            {
+                doc.InnerXml = settings["content"];
+            }
 
-	/// <summary>
-	/// Handles the RowUpdating event of the grid control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.</param>
-	void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
-	{
-    XmlDocument doc = Doc();
-		string id = (string)grid.DataKeys[e.RowIndex].Value;
-		TextBox textboxTitle = (TextBox)grid.Rows[e.RowIndex].FindControl("txtTitle");
-		TextBox textboxUrl = (TextBox)grid.Rows[e.RowIndex].FindControl("txtUrl");
-		CheckBox checkboxNewWindow = (CheckBox)grid.Rows[e.RowIndex].FindControl("cbNewWindow");
-		XmlNode node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
-		
-		if (node != null)
-		{
-			node.Attributes["title"].InnerText = textboxTitle.Text;
-			node.Attributes["url"].InnerText = textboxUrl.Text;
-			node.Attributes["newwindow"].InnerText = checkboxNewWindow.Checked.ToString();
-			grid.EditIndex = -1;
-      Save(doc);
-			BindGrid();
-		}
-	}
+            return doc;
+        }
 
-	/// <summary>
-	/// Handles the RowEditing event of the grid control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.Web.UI.WebControls.GridViewEditEventArgs"/> instance containing the event data.</param>
-	void grid_RowEditing(object sender, GridViewEditEventArgs e)
-	{
-		grid.EditIndex = e.NewEditIndex;
-		BindGrid();
-	}
+        /// <summary>
+        /// Saves the specified xml document.
+        /// </summary>
+        /// <param name="doc">The xml document.</param>
+        private void Save(XmlNode doc)
+        {
+            var settings = this.GetSettings();
+            settings["content"] = doc.InnerXml;
+            this.SaveSettings(settings);
+        }
 
-	/// <summary>
-	/// Saves this the basic widget settings such as the Title.
-	/// </summary>
-	public override void Save()
-	{
-    XmlDocument doc = Doc();
-	}
+        /// <summary>
+        /// Handles the Click event of the btnAdd control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var doc = this.Doc();
+            var links = doc.SelectSingleNode("links");
+            if (links == null)
+            {
+                links = doc.CreateElement("links");
+                doc.AppendChild(links);
+            }
 
-  void Save(XmlDocument doc)
-  {
-    StringDictionary settings = GetSettings();
-    settings["content"] = doc.InnerXml;
-    SaveSettings(settings);
-  }
+            XmlNode link = doc.CreateElement("link");
 
-  XmlDocument Doc()
-  {
-    StringDictionary settings = GetSettings();
-    XmlDocument doc = new XmlDocument();
-    if (settings["content"] != null)
-      doc.InnerXml = settings["content"];
+            var id = doc.CreateAttribute("id");
+            id.InnerText = Guid.NewGuid().ToString();
+            if (link.Attributes != null)
+            {
+                link.Attributes.Append(id);
+            }
 
-    return doc;
-  }
+            var title = doc.CreateAttribute("title");
+            title.InnerText = this.txtTitle.Text.Trim();
+
+            if (link.Attributes != null)
+            {
+                link.Attributes.Append(title);
+            }
+
+            var url = doc.CreateAttribute("url");
+            url.InnerText = this.txtUrl.Text.Trim();
+            if (link.Attributes != null)
+            {
+                link.Attributes.Append(url);
+            }
+
+            var newwindow = doc.CreateAttribute("newwindow");
+            newwindow.InnerText = this.cbNewWindow.Checked.ToString();
+            if (link.Attributes != null)
+            {
+                link.Attributes.Append(newwindow);
+            }
+
+            links.AppendChild(link);
+            this.Save(doc);
+            this.BindGrid();
+        }
+
+        /// <summary>
+        /// Handles the RowDeleting event of the grid control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.
+        /// </param>
+        private void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            var doc = this.Doc();
+            var row = this.grid.DataKeys[e.RowIndex];
+            if (row != null)
+            {
+                var id = (string)row.Value;
+                var node = doc.SelectSingleNode(string.Format("//link[@id=\"{0}\"]", id));
+                if (node == null)
+                {
+                    return;
+                }
+
+                if (node.ParentNode != null)
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+            }
+            
+            this.Save(doc);
+            this.BindGrid();
+        }
+
+        /// <summary>
+        /// Handles the RowEditing event of the grid control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Web.UI.WebControls.GridViewEditEventArgs"/> instance containing the event data.
+        /// </param>
+        private void grid_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            this.grid.EditIndex = e.NewEditIndex;
+            this.BindGrid();
+        }
+
+        /// <summary>
+        /// Handles the RowUpdating event of the grid control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.
+        /// </param>
+        private void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            var doc = this.Doc();
+            var row = this.grid.DataKeys[e.RowIndex];
+            if (row != null)
+            {
+                var id = (string)row.Value;
+                var textboxTitle = (TextBox)this.grid.Rows[e.RowIndex].FindControl("txtTitle");
+                var textboxUrl = (TextBox)this.grid.Rows[e.RowIndex].FindControl("txtUrl");
+                var checkboxNewWindow = (CheckBox)this.grid.Rows[e.RowIndex].FindControl("cbNewWindow");
+                var node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
+
+                if (node == null)
+                {
+                    return;
+                }
+
+                if (node.Attributes != null)
+                {
+                    node.Attributes["title"].InnerText = textboxTitle.Text;
+                    node.Attributes["url"].InnerText = textboxUrl.Text;
+                    node.Attributes["newwindow"].InnerText = checkboxNewWindow.Checked.ToString();
+                }
+            }
+
+            this.grid.EditIndex = -1;
+            this.Save(doc);
+            this.BindGrid();
+        }
+
+        #endregion
+    }
 }
