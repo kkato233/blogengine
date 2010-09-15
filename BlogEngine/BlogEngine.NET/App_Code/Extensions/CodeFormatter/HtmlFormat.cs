@@ -1,4 +1,5 @@
-﻿#region Copyright � 2001-2003 Jean-Claude Manoli [jc@manoli.net]
+﻿#region Copyright &copy; 2001-2003 Jean-Claude Manoli [jc@manoli.net]
+
 /*
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the author(s) be held liable for any damages arising from
@@ -17,134 +18,192 @@
  *      be misrepresented as being the original software.
  * 
  *   3. This notice may not be removed or altered from any source distribution.
- */ 
+ */
 #endregion
-
-using System;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace CodeFormatter
 {
-	/// <summary>
-	/// Generates color-coded HTML 4.01 from HTML/XML/ASPX source code.
-	/// </summary>
-	/// <remarks>
-	/// <para>
-	/// This implementation assumes that code inside &lt;script&gt; blocks 
-	/// is JavaScript, and code inside &lt;% %&gt; blocks is C#.</para>
-	/// <para>
-	/// The default tab width is set to 2 characters in this class.</para>
-	/// </remarks>
-	public class HtmlFormat : SourceFormat
-	{
-		private CSharpFormat csf; //to format embedded C# code
-		private JavaScriptFormat jsf; //to format client-side JavaScript code
-		private Regex attribRegex;
+    using System.IO;
+    using System.Text;
+    using System.Text.RegularExpressions;
 
-		/// <summary/>
-		public HtmlFormat()
-		{
-			const string regJavaScript = @"(?<=&lt;script(?:\s.*?)?&gt;).+?(?=&lt;/script&gt;)";
-			const string regComment = @"&lt;!--.*?--&gt;";
-			const string regAspTag = @"&lt;%@.*?%&gt;|&lt;%|%&gt;";
-			const string regAspCode = @"(?<=&lt;%).*?(?=%&gt;)";
-			const string regTagDelimiter = @"(?:&lt;/?!?\??(?!%)|(?<!%)/?&gt;)+";
-			const string regTagName = @"(?<=&lt;/?!?\??(?!%))[\w\.:-]+(?=.*&gt;)";
-			const string regAttributes = @"(?<=&lt;(?!%)/?!?\??[\w:-]+).*?(?=(?<!%)/?&gt;)";
-			const string regEntity = @"&amp;\w+;";
-			const string regAttributeMatch = @"(=?"".*?""|=?'.*?')|([\w:-]+)";
-			
-			//the regex object will handle all the replacements in one pass
-			string regAll = "(" + regJavaScript + ")|(" + regComment + ")|(" 
-				+ regAspTag + ")|(" + regAspCode + ")|(" 
-				+ regTagDelimiter + ")|(" + regTagName + ")|("
-				+ regAttributes + ")|(" + regEntity + ")";
+    /// <summary>
+    /// Generates color-coded HTML 4.01 from HTML/XML/ASPX source code.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This implementation assumes that code inside &lt;script&gt; blocks 
+    ///         is JavaScript, and code inside &lt;% %&gt; blocks is C#.
+    /// </para>
+    /// <para>
+    /// The default tab width is set to 2 characters in this class.
+    /// </para>
+    /// </remarks>
+    public class HtmlFormat : SourceFormat
+    {
+        #region Constants and Fields
 
-			CodeRegex = new Regex(regAll, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-			attribRegex = new Regex(regAttributeMatch, RegexOptions.Singleline);
+        /// <summary>
+        /// The attrib regex.
+        /// </summary>
+        private readonly Regex attribRegex;
 
-			csf = new CSharpFormat();
-			jsf = new JavaScriptFormat();
-		}
+        /// <summary>
+        /// To format embedded C# code.
+        /// </summary>
+        private readonly CSharpFormat csf;
 
-		/// <summary>
-		/// Called to evaluate the HTML fragment corresponding to each 
-		/// attribute's name/value in the code.
-		/// </summary>
-		/// <param name="match">The <see cref="Match"/> resulting from a 
-		/// single regular expression match.</param>
-		/// <returns>A string containing the HTML code fragment.</returns>
-		private string AttributeMatchEval(Match match)
-		{
-			if(match.Groups[1].Success) //attribute value
-				return "<span class=\"kwrd\">" + match.ToString() + "</span>";
+        /// <summary>
+        /// To format client-side JavaScript code.
+        /// </summary>
+        private readonly JavaScriptFormat jsf; 
 
-			if(match.Groups[2].Success) //attribute name
-				return "<span class=\"attr\">" + match.ToString() + "</span>";
+        #endregion
 
-			return match.ToString();
-		}
+        #region Constructors and Destructors
 
-		/// <summary>
-		/// Called to evaluate the HTML fragment corresponding to each 
-		/// matching token in the code.
-		/// </summary>
-		/// <param name="match">The <see cref="Match"/> resulting from a 
-		/// single regular expression match.</param>
-		/// <returns>A string containing the HTML code fragment.</returns>
-		protected override string MatchEval(Match match)
-		{
-			if(match.Groups[1].Success) //JavaScript code
-			{
-				string s = match.ToString();
-				return jsf.FormatSubCode(match.ToString());
-			}
-			if(match.Groups[2].Success) //comment
-			{
-				StringReader reader = new StringReader(match.ToString());
-				string line;
-				StringBuilder sb = new StringBuilder();
-				while ((line = reader.ReadLine()) != null)
-				{
-					if(sb.Length > 0)
-					{
-						sb.Append("\n");
-					}
-					sb.Append("<span class=\"rem\">");
-					sb.Append(line);
-					sb.Append("</span>");
-				}
-				return sb.ToString();
-			}
-			if(match.Groups[3].Success) //asp tag
-			{
-				return "<span class=\"asp\">" + match.ToString() + "</span>";
-			}
-			if(match.Groups[4].Success) //asp C# code
-			{
-				return csf.FormatSubCode(match.ToString());
-			}
-			if(match.Groups[5].Success) //tag delimiter
-			{
-				return "<span class=\"kwrd\">" + match.ToString() + "</span>";
-			}
-			if(match.Groups[6].Success) //html tagname
-			{
-				return "<span class=\"html\">" + match.ToString() + "</span>";
-			}
-			if(match.Groups[7].Success) //attributes
-			{
-				return attribRegex.Replace(match.ToString(), 
-					new MatchEvaluator(this.AttributeMatchEval));
-			}
-			if(match.Groups[8].Success) //entity
-			{
-				return "<span class=\"attr\">" + match.ToString() + "</span>";
-			}
-			return match.ToString();
-		}
-	}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HtmlFormat"/> class. 
+        /// The html format.
+        /// </summary>
+        public HtmlFormat()
+        {
+            const string RegJavaScript = @"(?<=&lt;script(?:\s.*?)?&gt;).+?(?=&lt;/script&gt;)";
+            const string RegComment = @"&lt;!--.*?--&gt;";
+            const string RegAspTag = @"&lt;%@.*?%&gt;|&lt;%|%&gt;";
+            const string RegAspCode = @"(?<=&lt;%).*?(?=%&gt;)";
+            const string RegTagDelimiter = @"(?:&lt;/?!?\??(?!%)|(?<!%)/?&gt;)+";
+            const string RegTagName = @"(?<=&lt;/?!?\??(?!%))[\w\.:-]+(?=.*&gt;)";
+            const string RegAttributes = @"(?<=&lt;(?!%)/?!?\??[\w:-]+).*?(?=(?<!%)/?&gt;)";
+            const string RegEntity = @"&amp;\w+;";
+            const string RegAttributeMatch = @"(=?"".*?""|=?'.*?')|([\w:-]+)";
+
+            // the regex object will handle all the replacements in one pass
+            const string RegAll = "(" + RegJavaScript + ")|(" + RegComment + ")|(" + RegAspTag + ")|(" + RegAspCode + ")|(" +
+                                  RegTagDelimiter + ")|(" + RegTagName + ")|(" + RegAttributes + ")|(" + RegEntity + ")";
+
+            this.CodeRegex = new Regex(RegAll, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            this.attribRegex = new Regex(RegAttributeMatch, RegexOptions.Singleline);
+
+            this.csf = new CSharpFormat();
+            this.jsf = new JavaScriptFormat();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Called to evaluate the HTML fragment corresponding to each 
+        ///     matching token in the code.
+        /// </summary>
+        /// <param name="match">
+        /// The <see cref="Match"/> resulting from a 
+        ///     single regular expression match.
+        /// </param>
+        /// <returns>
+        /// A string containing the HTML code fragment.
+        /// </returns>
+        protected override string MatchEval(Match match)
+        {
+            if (match.Groups[1].Success)
+            {
+                // JavaScript code
+                var s = match.ToString();
+                return this.jsf.FormatSubCode(match.ToString());
+            }
+
+            if (match.Groups[2].Success)
+            {
+                // comment
+                StringBuilder sb;
+                using (var reader = new StringReader(match.ToString()))
+                {
+                    string line;
+                    sb = new StringBuilder();
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (sb.Length > 0)
+                        {
+                            sb.Append("\n");
+                        }
+
+                        sb.Append("<span class=\"rem\">");
+                        sb.Append(line);
+                        sb.Append("</span>");
+                    }
+                }
+
+                return sb.ToString();
+            }
+
+            if (match.Groups[3].Success)
+            {
+                // asp tag
+                return string.Format("<span class=\"asp\">{0}</span>", match);
+            }
+
+            if (match.Groups[4].Success)
+            {
+                // asp C# code
+                return this.csf.FormatSubCode(match.ToString());
+            }
+
+            if (match.Groups[5].Success)
+            {
+                // tag delimiter
+                return string.Format("<span class=\"kwrd\">{0}</span>", match);
+            }
+
+            if (match.Groups[6].Success)
+            {
+                // html tagname
+                return string.Format("<span class=\"html\">{0}</span>", match);
+            }
+
+            if (match.Groups[7].Success)
+            {
+                // attributes
+                return this.attribRegex.Replace(match.ToString(), new MatchEvaluator(AttributeMatchEval));
+            }
+
+            if (match.Groups[8].Success)
+            {
+                // entity
+                return string.Format("<span class=\"attr\">{0}</span>", match);
+            }
+
+            return match.ToString();
+        }
+
+        /// <summary>
+        /// Called to evaluate the HTML fragment corresponding to each 
+        ///     attribute's name/value in the code.
+        /// </summary>
+        /// <param name="match">
+        /// The <see cref="Match"/> resulting from a 
+        ///     single regular expression match.
+        /// </param>
+        /// <returns>
+        /// A string containing the HTML code fragment.
+        /// </returns>
+        private static string AttributeMatchEval(Match match)
+        {
+            if (match.Groups[1].Success)
+            {
+                // attribute value
+                return string.Format("<span class=\"kwrd\">{0}</span>", match);
+            }
+
+            if (match.Groups[2].Success)
+            {
+                // attribute name
+                return string.Format("<span class=\"attr\">{0}</span>", match);
+            }
+
+            return match.ToString();
+        }
+
+        #endregion
+    }
 }
-

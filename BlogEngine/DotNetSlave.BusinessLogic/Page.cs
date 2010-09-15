@@ -1,401 +1,551 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Xml;
-using BlogEngine.Core.Providers;
-
-#endregion
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
-	/// <summary>
-	/// A page is much like a post, but is not part of the
-	/// blog chronology and is more static in nature.
-	/// <remarks>
-	/// Pages can be used for "About" pages or other static
-	/// information.
-	/// </remarks>
-	/// </summary>
-	public sealed class Page : BusinessBase<Page, Guid>, IPublishable
-	{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-		#region Constructor
+    using BlogEngine.Core.Providers;
 
-		/// <summary>
-		/// The contructor sets default values.
-		/// </summary>
-		public Page()
-		{
-			base.Id = Guid.NewGuid();
-			DateCreated = DateTime.Now;
-		}
-
-		#endregion
-
-		#region Properties
-
-		private string _Title;
-		/// <summary>
-		/// Gets or sets the Title or the object.
-		/// </summary>
-		public string Title
-		{
-			get { return _Title; }
-			set
-			{
-				if (_Title != value) MarkChanged("Title");
-				_Title = value;
-			}
-		}
-
-		private string _Content;
-		/// <summary>
-		/// Gets or sets the Description or the object.
-		/// </summary>
-		public string Content
-		{
-			get { return _Content; }
-			set
-			{
-				if (_Content != value) MarkChanged("Content");
-				_Content = value;
-			}
-		}
-
-		private string _Description;
-		/// <summary>
-		/// Gets or sets the Description or the object.
-		/// </summary>
-		public string Description
-		{
-			get { return _Description; }
-			set
-			{
-				if (_Description != value) MarkChanged("Description");
-				_Description = value;
-			}
-		}
-
-		private string _Keywords;
-		/// <summary>
-		/// Gets or sets the Keywords or the object.
-		/// </summary>
-		public string Keywords
-		{
-			get { return _Keywords; }
-			set
-			{
-				if (_Keywords != value) MarkChanged("Keywords");
-				_Keywords = value;
-			}
-		}
-
-		private Guid _Parent;
-		/// <summary>
-		/// Gets or sets the parent of the Page. It is used to construct the 
-		/// hierachy of the pages.
-		/// </summary>
-		public Guid Parent
-		{
-			get { return _Parent; }
-			set
-			{
-				if (_Parent != value) MarkChanged("Parent");
-				_Parent = value;
-			}
-		}
-
-		///  
-		/// Does this post have a parent page?  
-		///   
-		public bool HasParentPage
-		{
-			get { return this.Parent != Guid.Empty; }
-		}
-
-		///  
-		/// Does this post have child pages   
-		///   
-		public bool HasChildPages
-		{
-			get
-			{
-				foreach (Page p in Page._Pages)
-				{
-					if (p.Parent == this.Id)
-						return true;
-				}
-				return false;
-			}
-		}
-
-		private string _Slug;
-		/// <summary>
-		/// Gets or sets the Slug of the Page.
-		/// A Slug is the relative URL used by the pages.
-		/// </summary>
-		public string Slug
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(_Slug))
-					return Utils.RemoveIllegalCharacters(Title);
-
-				return _Slug;
-			}
-			set
-            {
-                if (_Slug != value) MarkChanged("Slug");
-                _Slug = value;                
-            }
-		}
-
-		private bool _IsPublished;
-		/// <summary>
-		/// Gets or sets whether or not this page should be published.
-		/// </summary>
-		public bool IsPublished
-		{
-			get { return _IsPublished; }
-			set
-			{
-				if (_IsPublished != value) MarkChanged("IsPublished");
-				_IsPublished = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets whether or not this page should be shown
-		/// </summary>
-		/// <value></value>
-		public bool IsVisible
-		{
-			get { return IsAuthenticated || IsPublished; }
-		}
+    /// <summary>
+    /// A page is much like a post, but is not part of the
+    ///     blog chronology and is more static in nature.
+    ///     <remarks>
+    /// Pages can be used for "About" pages or other static
+    ///         information.
+    ///     </remarks>
+    /// </summary>
+    public sealed class Page : BusinessBase<Page, Guid>, IPublishable
+    {
+        #region Constants and Fields
 
         /// <summary>
-        /// Gets whether or not this page is visible to visitors not logged into the blog.
+        /// The _ sync root.
         /// </summary>
-        /// <value></value>
-        public bool IsVisibleToPublic
+        private static readonly object SyncRoot = new object();
+
+        /// <summary>
+        /// The _ pages.
+        /// </summary>
+        private static List<Page> pages;
+
+        /// <summary>
+        /// The _ content.
+        /// </summary>
+        private string content;
+
+        /// <summary>
+        /// The _ description.
+        /// </summary>
+        private string description;
+
+        /// <summary>
+        /// The _ keywords.
+        /// </summary>
+        private string keywords;
+
+        /// <summary>
+        /// The _ parent.
+        /// </summary>
+        private Guid parent;
+
+        /// <summary>
+        /// The _ show in list.
+        /// </summary>
+        private bool showInList;
+
+        /// <summary>
+        /// The _ slug.
+        /// </summary>
+        private string slug;
+
+        /// <summary>
+        /// The _ title.
+        /// </summary>
+        private string title;
+
+        /// <summary>
+        /// The front page.
+        /// </summary>
+        private bool frontPage;
+
+        /// <summary>
+        /// The published.
+        /// </summary>
+        private bool published;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Page"/> class. 
+        ///     The contructor sets default values.
+        /// </summary>
+        public Page()
         {
-            get { return IsPublished; }
+            this.Id = Guid.NewGuid();
+            this.DateCreated = DateTime.Now;
         }
 
-		private bool _IsFrontPage;
-		/// <summary>
-		/// Gets or sets whether or not this page should be displayed on the front page.
-		/// </summary>
-		public bool IsFrontPage
-		{
-			get { return _IsFrontPage; }
-			set
-			{
-				if (_IsFrontPage != value) MarkChanged("IsFrontPage");
-				_IsFrontPage = value;
-			}
-		}
+        #endregion
 
-		private bool _ShowInList;
-		/// <summary>
-		/// Gets or sets whether or not this page should be in the sitemap list.
-		/// </summary>
-		public bool ShowInList
-		{
-			get { return _ShowInList; }
-			set
-			{
-				if (_ShowInList != value) MarkChanged("ShowInList");
-				_ShowInList = value;
-			}
-		}
+        #region Events
 
-		/// <summary>
-		/// A relative-to-the-site-root path to the post.
-		/// Only for in-site use.
-		/// </summary>
-		public string RelativeLink
-		{
-			get
-			{
-				string slug = Utils.RemoveIllegalCharacters(Slug) + BlogSettings.Instance.FileExtension;
-				return Utils.RelativeWebRoot + "page/" + slug;
-			}
-		}
+        /// <summary>
+        ///     Occurs when the page is being served to the output stream.
+        /// </summary>
+        public static event EventHandler<ServingEventArgs> Serving;
 
-		/// <summary>
-		/// The absolute link to the post.
-		/// </summary>
-		public Uri AbsoluteLink
-		{
-			get { return Utils.ConvertToAbsolute(RelativeLink); }
-		}
+        #endregion
 
-		private static object _SyncRoot = new object();
-		private static List<Page> _Pages;
-		/// <summary>
-		/// Gets an unsorted list of all pages.
-		/// </summary>
-		public static List<Page> Pages
-		{
-			get
-			{
-				if (_Pages == null)
-				{
-					lock (_SyncRoot)
-					{
-						if (_Pages == null)
-						{
-							_Pages = BlogService.FillPages();
-							_Pages.Sort(delegate(Page p1, Page p2) { return String.Compare(p1.Title, p2.Title); });
-						}
-					}
-				}
+        #region Properties
 
-				return _Pages;
-			}
-		}
+        /// <summary>
+        ///     Gets an unsorted list of all pages.
+        /// </summary>
+        public static List<Page> Pages
+        {
+            get
+            {
+                if (pages == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (pages == null)
+                        {
+                            pages = BlogService.FillPages();
+                            pages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
+                        }
+                    }
+                }
 
-		/// <summary>
-		/// Returns a page based on the specified id.
-		/// </summary>
-		public static Page GetPage(Guid id)
-		{
-			foreach (Page page in Pages)
-			{
-				if (page.Id == id)
-					return page;
-			}
+                return pages;
+            }
+        }
 
-			return null;
-		}
+        /// <summary>
+        ///     Gets the absolute link to the post.
+        /// </summary>
+        public Uri AbsoluteLink
+        {
+            get
+            {
+                return Utils.ConvertToAbsolute(this.RelativeLink);
+            }
+        }
 
-		/// <summary>
-		/// Returns the front page if any is available.
-		/// </summary>
-		public static Page GetFrontPage()
-		{
-			//foreach (Page page in Pages)
-			//{
-			//  if (page.IsFrontPage)
-			//    return page;
-			//}
+        /// <summary>
+        ///     Gets or sets the Description or the object.
+        /// </summary>
+        public string Content
+        {
+            get
+            {
+                return this.content;
+            }
 
-			return Pages.Find(delegate(Page page)
-			{
-				return page.IsFrontPage;
-			});
+            set
+            {
+                if (this.content != value)
+                {
+                    this.MarkChanged("Content");
+                }
 
-			//return null;
-		}
+                this.content = value;
+            }
+        }
 
-		String IPublishable.Author
-		{
-			get { return BlogSettings.Instance.AuthorName; }
-		}
+        /// <summary>
+        ///     Gets or sets the Description or the object.
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
 
-		StateList<Category> IPublishable.Categories
-		{
-			get { return null; }
-		}
+            set
+            {
+                if (this.description != value)
+                {
+                    this.MarkChanged("Description");
+                }
 
-		#endregion
+                this.description = value;
+            }
+        }
 
-		#region Base overrides
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not this page should be displayed on the front page.
+        /// </summary>
+        public bool FrontPage
+        {
+            get
+            {
+                return this.frontPage;
+            }
 
-		/// <summary>
-		/// Validates the properties on the Page.
-		/// </summary>
-		protected override void ValidationRules()
-		{
-			AddRule("Title", "Title must be set", string.IsNullOrEmpty(Title));
-			AddRule("Content", "Content must be set", string.IsNullOrEmpty(Content));
-		}
+            set
+            {
+                if (this.frontPage != value)
+                {
+                    this.MarkChanged("FrontPage");
+                }
 
-		/// <summary>
-		/// Retrieves a page form the BlogProvider
-		/// based on the specified id.
-		/// </summary>
-		protected override Page DataSelect(Guid id)
-		{
-			return BlogService.SelectPage(id);
-		}
+                this.frontPage = value;
+            }
+        }
 
-		/// <summary>
-		/// Updates the object in its data store.
-		/// </summary>
-		protected override void DataUpdate()
-		{
-			BlogService.UpdatePage(this);
-		}
+        /// <summary>
+        /// Gets a value indicating whether the has child pages.
+        /// </summary>
+        /// Does this post have child pages
+        public bool HasChildPages
+        {
+            get
+            {
+                return pages.Any(p => p.Parent == this.Id);
+            }
+        }
 
-		/// <summary>
-		/// Inserts a new page to current BlogProvider.
-		/// </summary>
-		protected override void DataInsert()
-		{
-			BlogService.InsertPage(this);
+        /// <summary>
+        /// Gets a value indicating whether the has parent page.
+        /// </summary>
+        /// Does this post have a parent page?
+        public bool HasParentPage
+        {
+            get
+            {
+                return this.Parent != Guid.Empty;
+            }
+        }
 
-			if (IsNew)
-				Pages.Add(this);
-		}
+        /// <summary>
+        ///     Gets or sets the Keywords or the object.
+        /// </summary>
+        public string Keywords
+        {
+            get
+            {
+                return this.keywords;
+            }
 
-		/// <summary>
-		/// Deletes the page from the current BlogProvider.
-		/// </summary>
-		protected override void DataDelete()
-		{
-			BlogService.DeletePage(this);
-			if (Pages.Contains(this))
-				Pages.Remove(this);
-		}
+            set
+            {
+                if (this.keywords != value)
+                {
+                    this.MarkChanged("Keywords");
+                }
 
-		/// <summary>
-		/// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-		/// </summary>
-		/// <returns>
-		/// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-		/// </returns>
-		public override string ToString()
-		{
-			return Title;
-		}
+                this.keywords = value;
+            }
+        }
 
-		#endregion
+        /// <summary>
+        ///     Gets or sets the parent of the Page. It is used to construct the 
+        ///     hierachy of the pages.
+        /// </summary>
+        public Guid Parent
+        {
+            get
+            {
+                return this.parent;
+            }
 
-		#region Events
+            set
+            {
+                if (this.parent != value)
+                {
+                    this.MarkChanged("Parent");
+                }
 
-		/// <summary>
-		/// Occurs when the page is being served to the output stream.
-		/// </summary>
-		public static event EventHandler<ServingEventArgs> Serving;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		public static void OnServing(Page page, ServingEventArgs arg)
-		{
-			if (Serving != null)
-			{
-				Serving(page, arg);
-			}
-		}
+                this.parent = value;
+            }
+        }
 
-		/// <summary>
-		/// Raises the Serving event
-		/// </summary>
-		public void OnServing(ServingEventArgs eventArgs)
-		{
-			if (Serving != null)
-			{
-				Serving(this, eventArgs);
-			}
-		}
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not this page should be published.
+        /// </summary>
+        public bool Published
+        {
+            get
+            {
+                return this.published;
+            }
 
-		#endregion
+            set
+            {
+                if (this.published != value)
+                {
+                    this.MarkChanged("Published");
+                }
 
-	}
+                this.published = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a relative-to-the-site-root path to the post.
+        ///     Only for in-site use.
+        /// </summary>
+        public string RelativeLink
+        {
+            get
+            {
+                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogSettings.Instance.FileExtension;
+                return string.Format("{0}page/{1}", Utils.RelativeWebRoot, theslug);
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not this page should be in the sitemap list.
+        /// </summary>
+        public bool ShowInList
+        {
+            get
+            {
+                return this.showInList;
+            }
+
+            set
+            {
+                if (this.showInList != value)
+                {
+                    this.MarkChanged("ShowInList");
+                }
+
+                this.showInList = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Slug of the Page.
+        ///     A Slug is the relative URL used by the pages.
+        /// </summary>
+        public string Slug
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.slug))
+                {
+                    return Utils.RemoveIllegalCharacters(this.Title);
+                }
+
+                return this.slug;
+            }
+
+            set
+            {
+                if (this.slug != value)
+                {
+                    this.MarkChanged("Slug");
+                }
+
+                this.slug = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the Title or the object.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+
+            set
+            {
+                if (this.title != value)
+                {
+                    this.MarkChanged("Title");
+                }
+
+                this.title = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether or not this page should be shown
+        /// </summary>
+        /// <value></value>
+        public bool Visible
+        {
+            get
+            {
+                return this.Authenticated || this.Published;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether or not this page is visible to visitors not logged into the blog.
+        /// </summary>
+        /// <value></value>
+        public bool VisibleToPublic
+        {
+            get
+            {
+                return this.Published;
+            }
+        }
+
+        /// <summary>
+        /// Gets Author.
+        /// </summary>
+        string IPublishable.Author
+        {
+            get
+            {
+                return BlogSettings.Instance.AuthorName;
+            }
+        }
+
+        /// <summary>
+        /// Gets Categories.
+        /// </summary>
+        StateList<Category> IPublishable.Categories
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Returns the front page if any is available.
+        /// </summary>
+        /// <returns>The front Page.</returns>
+        public static Page GetFrontPage()
+        {
+            // foreach (Page page in Pages)
+            // {
+            // if (page.FrontPage)
+            // return page;
+            // }
+            return Pages.Find(page => page.FrontPage);
+
+            // return null;
+        }
+
+        /// <summary>
+        /// Returns a page based on the specified id.
+        /// </summary>
+        /// <param name="id">The page id.</param>
+        /// <returns>The Page requested.</returns>
+        public static Page GetPage(Guid id)
+        {
+            return Pages.FirstOrDefault(page => page.Id == id);
+        }
+
+        /// <summary>
+        /// Called when [serving].
+        /// </summary>
+        /// <param name="page">The page being served.</param>
+        /// <param name="arg">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
+        public static void OnServing(Page page, ServingEventArgs arg)
+        {
+            if (Serving != null)
+            {
+                Serving(page, arg);
+            }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.Title;
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IPublishable
+
+        /// <summary>
+        /// Raises the Serving event
+        /// </summary>
+        /// <param name="eventArgs">
+        /// The event Args.
+        /// </param>
+        public void OnServing(ServingEventArgs eventArgs)
+        {
+            if (Serving != null)
+            {
+                Serving(this, eventArgs);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Deletes the page from the current BlogProvider.
+        /// </summary>
+        protected override void DataDelete()
+        {
+            BlogService.DeletePage(this);
+            if (Pages.Contains(this))
+            {
+                Pages.Remove(this);
+            }
+        }
+
+        /// <summary>
+        /// Inserts a new page to current BlogProvider.
+        /// </summary>
+        protected override void DataInsert()
+        {
+            BlogService.InsertPage(this);
+
+            if (this.New)
+            {
+                Pages.Add(this);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a page form the BlogProvider
+        /// based on the specified id.
+        /// </summary>
+        /// <param name="id">The page id.</param>
+        /// <returns>The Page requested.</returns>
+        protected override Page DataSelect(Guid id)
+        {
+            return BlogService.SelectPage(id);
+        }
+
+        /// <summary>
+        /// Updates the object in its data store.
+        /// </summary>
+        protected override void DataUpdate()
+        {
+            BlogService.UpdatePage(this);
+        }
+
+        /// <summary>
+        /// Validates the properties on the Page.
+        /// </summary>
+        protected override void ValidationRules()
+        {
+            this.AddRule("Title", "Title must be set", string.IsNullOrEmpty(this.Title));
+            this.AddRule("Content", "Content must be set", string.IsNullOrEmpty(this.Content));
+        }
+
+        #endregion
+    }
 }

@@ -1,63 +1,66 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Web;
-using System.Xml;
-using System.Net;
-using BlogEngine.Core;
-
-#endregion
-
-namespace BlogEngine.Core.Web.HttpHandlers
+﻿namespace BlogEngine.Core.Web.HttpHandlers
 {
-	/// <summary>
-	/// Implements a custom handler to synchronously process HTTP Web requests for a syndication feed.
-	/// </summary>
-	/// <remarks>
-	/// This handler can generate syndication feeds in a variety of formats and filtering 
-	/// options based on the query string parmaeters provided.
-	/// </remarks>
-	/// <seealso cref="IHttpHandler"/>
-	/// <seealso cref="SyndicationGenerator"/>
-	public class SyndicationHandler : IHttpHandler
-	{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
+    using System.Web;
+    using System.Xml;
 
-		#region IHttpHandler Members
+    using BlogEngine.Core.Web.HttpModules;
 
-		/// <summary>
-		/// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.
-		/// </summary>
-		/// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
-		public bool IsReusable
-		{
-			get { return false; }
-		}
+    /// <summary>
+    /// Implements a custom handler to synchronously process HTTP Web requests for a syndication feed.
+    /// </summary>
+    /// <remarks>
+    /// This handler can generate syndication feeds in a variety of formats and filtering 
+    ///     options based on the query string parmaeters provided.
+    /// </remarks>
+    /// <seealso cref="IHttpHandler"/>
+    /// <seealso cref="SyndicationGenerator"/>
+    public class SyndicationHandler : IHttpHandler
+    {
+        #region Properties
 
-		/// <summary>
-		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements 
-		/// the <see cref="T:System.Web.IHttpHandler"></see> interface.
-		/// </summary>
-		/// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references 
-		/// to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.
-		/// </param>
+        /// <summary>
+        ///     Gets a value indicating whether another request can use the <see cref = "T:System.Web.IHttpHandler"></see> instance.
+        /// </summary>
+        /// <returns>true if the <see cref = "T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IHttpHandler
+
+        /// <summary>
+        /// Enables processing of HTTP Web requests by a custom HttpHandler that implements 
+        ///     the <see cref="T:System.Web.IHttpHandler"></see> interface.
+        /// </summary>
+        /// <param name="context">
+        /// An <see cref="T:System.Web.HttpContext"></see> object that provides references 
+        ///     to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.
+        /// </param>
         public void ProcessRequest(HttpContext context)
         {
-            string title = RetrieveTitle(context);
-            SyndicationFormat format = RetrieveFormat(context);
-            List<IPublishable> list = GenerateItemList(context);
+            var title = RetrieveTitle(context);
+            var format = RetrieveFormat(context);
+            var list = GenerateItemList(context);
             list = CleanList(list);
 
             if (string.IsNullOrEmpty(context.Request.QueryString["post"]))
             {
                 // Shorten the list to the number of posts stated in the settings, except for the comment feed.
-                int max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
-                list = list.FindAll(delegate(IPublishable item)
-                {
-                    return item.IsVisible == true;
-                });
+                var max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
+                list = list.FindAll(item => item.Visible);
 
                 list = list.GetRange(0, max);
             }
@@ -65,246 +68,296 @@ namespace BlogEngine.Core.Web.HttpHandlers
             SetHeaderInformation(context, list, format);
 
             if (BlogSettings.Instance.EnableHttpCompression)
-                HttpModules.CompressionModule.CompressResponse(context);
+            {
+                CompressionModule.CompressResponse(context);
+            }
 
-            SyndicationGenerator generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
+            var generator = new SyndicationGenerator(BlogSettings.Instance, Category.Categories);
             generator.WriteFeed(format, context.Response.OutputStream, list, title);
         }
 
-		#endregion
+        #endregion
 
-		#region Retrieve feed items
+        #endregion
 
-		/// <summary>
-		/// Generates the list of feed items based on the URL.
-		/// </summary>
-		private static List<IPublishable> GenerateItemList(HttpContext context)
-		{
-			if (!string.IsNullOrEmpty(context.Request.QueryString["category"]))
-			{
-				// All posts in the specified category
-				Guid categoryId = new Guid(context.Request.QueryString["category"]);
-				return Post.GetPostsByCategory(categoryId).ConvertAll(new Converter<Post, IPublishable>(ConvertToIPublishable));
-			}
+        #region Methods
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["author"]))
-			{
-				// All posts by the specified author
-				string author = context.Request.QueryString["author"];
-				return Post.GetPostsByAuthor(author).ConvertAll(new Converter<Post, IPublishable>(ConvertToIPublishable));
-			}
+        /// <summary>
+        /// Cleans the list.
+        /// </summary>
+        /// <param name="list">The list of IPublishable.</param>
+        /// <returns>The cleaned list of IPublishable.</returns>
+        private static List<IPublishable> CleanList(List<IPublishable> list)
+        {
+            return list.FindAll(item => item.Visible);
+        }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["post"]))
-			{
-				// All comments of the specified post
-				Post post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
-				return post.Comments.ConvertAll(new Converter<Comment, IPublishable>(ConvertToIPublishable));
-			}
+        /// <summary>
+        /// A converter delegate used for converting Results to Posts.
+        /// </summary>
+        /// <param name="item">
+        /// The publishable item.
+        /// </param>
+        /// <returns>
+        /// Converts to publishable interface.
+        /// </returns>
+        private static IPublishable ConvertToIPublishable(IPublishable item)
+        {
+            return item;
+        }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["comments"]))
-			{
-				// The recent comments added to any post.
-				return RecentComments();
-			}
+        /// <summary>
+        /// Generates the list of feed items based on the URL.
+        /// </summary>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        /// <returns>
+        /// A list of IPublishable.
+        /// </returns>
+        private static List<IPublishable> GenerateItemList(HttpContext context)
+        {
+            if (!string.IsNullOrEmpty(context.Request.QueryString["category"]))
+            {
+                // All posts in the specified category
+                var categoryId = new Guid(context.Request.QueryString["category"]);
+                return Post.GetPostsByCategory(categoryId).ConvertAll(ConvertToIPublishable);
+            }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["q"]))
-			{
-				// Searches posts and pages
-				return Search.Hits(context.Request.QueryString["q"], false);
-			}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["author"]))
+            {
+                // All posts by the specified author
+                var author = context.Request.QueryString["author"];
+                return Post.GetPostsByAuthor(author).ConvertAll(ConvertToIPublishable);
+            }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["apml"]))
-			{
-				// Finds matches to  an APML file in both posts and pages
-				try
-				{
-					using (WebClient client = new WebClient())
-					{
-						client.Credentials = CredentialCache.DefaultNetworkCredentials;
-						client.Encoding = Encoding.Default;
-						using (System.IO.Stream stream = client.OpenRead(context.Request.QueryString["apml"]))
-						{
-							XmlDocument doc = new XmlDocument();
-							doc.Load(stream);
-							List<IPublishable> list = Search.ApmlMatches(doc, 30);
-							list.Sort(delegate(IPublishable i1, IPublishable i2) { return i2.DateCreated.CompareTo(i1.DateCreated); });
-							return list;
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					context.Response.Clear();
-					context.Response.Write(ex.Message);
-					context.Response.ContentType = "text/plain";
-					context.Response.AppendHeader("Content-Disposition", "inline; filename=\"error.txt\"");
-					context.Response.End();
-				}
-			}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["post"]))
+            {
+                // All comments of the specified post
+                var post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
+                return post.Comments.ConvertAll(ConvertToIPublishable);
+            }
 
-			// The latest posts
-			return Post.Posts.ConvertAll(new Converter<Post, IPublishable>(ConvertToIPublishable));
-		}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["comments"]))
+            {
+                // The recent comments added to any post.
+                return RecentComments();
+            }
 
-		private static List<IPublishable> CleanList(List<IPublishable> list)
-		{
-			return list.FindAll(delegate(IPublishable item)
-			{
-				return item.IsVisible;
-			});
-		}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["q"]))
+            {
+                // Searches posts and pages
+                return Search.Hits(context.Request.QueryString["q"], false);
+            }
 
-		/// <summary>
-		/// Creates a list of the most recent comments
-		/// </summary>
-		private static List<IPublishable> RecentComments()
-		{
-			List<Comment> temp = new List<Comment>();
+            if (!string.IsNullOrEmpty(context.Request.QueryString["apml"]))
+            {
+                // Finds matches to  an APML file in both posts and pages
+                try
+                {
+                    using (var client = new WebClient())
+                    {
+                        client.Credentials = CredentialCache.DefaultNetworkCredentials;
+                        client.Encoding = Encoding.Default;
+                        using (var stream = client.OpenRead(context.Request.QueryString["apml"]))
+                        {
+                            var doc = new XmlDocument();
+                            if (stream != null)
+                            {
+                                doc.Load(stream);
+                            }
 
-			foreach (Post post in Post.Posts)
-			{
-				foreach (Comment comment in post.ApprovedComments)
-				{
-					temp.Add(comment);
-				}
-			}
+                            var list = Search.ApmlMatches(doc, 30);
+                            list.Sort((i1, i2) => i2.DateCreated.CompareTo(i1.DateCreated));
+                            return list;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    context.Response.Clear();
+                    context.Response.Write(ex.Message);
+                    context.Response.ContentType = "text/plain";
+                    context.Response.AppendHeader("Content-Disposition", "inline; filename=\"error.txt\"");
+                    context.Response.End();
+                }
+            }
 
-			temp.Sort();
-			temp.Reverse();
-			List<Comment> list = new List<Comment>();
+            // The latest posts
+            return Post.Posts.ConvertAll(ConvertToIPublishable);
+        }
 
-			foreach (Comment comment in temp)
-			{
-				list.Add(comment);
-			}
+        /// <summary>
+        /// Creates a list of the most recent comments
+        /// </summary>
+        /// <returns>
+        /// A list of IPublishable.
+        /// </returns>
+        private static List<IPublishable> RecentComments()
+        {
+            var temp = Post.Posts.SelectMany(post => post.ApprovedComments).ToList();
 
-			return list.ConvertAll(new Converter<Comment, IPublishable>(ConvertToIPublishable));
-		}
+            temp.Sort();
+            temp.Reverse();
+            var list = temp.ToList();
 
-		#endregion
+            return list.ConvertAll(ConvertToIPublishable);
+        }
 
-		#region Helper methods
+        /// <summary>
+        /// Retrieves the syndication format from the urL parameters.
+        /// </summary>
+        /// <param name="context">
+        /// The HTTP context.
+        /// </param>
+        /// <returns>
+        /// The syndication format.
+        /// </returns>
+        private static SyndicationFormat RetrieveFormat(HttpContext context)
+        {
+            var query = context.Request.QueryString["format"];
+            var format = BlogSettings.Instance.SyndicationFormat;
+            if (!string.IsNullOrEmpty(query))
+            {
+                format = context.Request.QueryString["format"];
+            }
 
-		/// <summary>
-		/// A converter delegate used for converting Results to Posts.
-		/// </summary>
-		private static IPublishable ConvertToIPublishable(IPublishable item)
-		{
-			return item;
-		}
+            try
+            {
+                return (SyndicationFormat)Enum.Parse(typeof(SyndicationFormat), format, true);
+            }
+            catch (ArgumentException)
+            {
+                return SyndicationFormat.None;
+            }
+        }
 
-		/// <summary>
-		/// Retrieves the syndication format from the urL parameters.
-		/// </summary>
-		private static SyndicationFormat RetrieveFormat(HttpContext context)
-		{
-			string query = context.Request.QueryString["format"];
-			string format = BlogSettings.Instance.SyndicationFormat;
-			if (!string.IsNullOrEmpty(query))
-			{
-				format = context.Request.QueryString["format"];
-			}
+        /// <summary>
+        /// Retrieves the title.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The title string.</returns>
+        private static string RetrieveTitle(HttpContext context)
+        {
+            var title = BlogSettings.Instance.Name;
+            string subTitle = null;
 
-			try
-			{
-				return (SyndicationFormat)Enum.Parse(typeof(SyndicationFormat), format, true);
-			}
-			catch (ArgumentException)
-			{
-				return SyndicationFormat.None;
-			}
-		}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["category"]))
+            {
+                if (context.Request.QueryString["category"].Length != 36)
+                {
+                    StopServing(context);
+                }
 
-		private static string RetrieveTitle(HttpContext context)
-		{
-			string title = BlogSettings.Instance.Name;
-			string subTitle = null;
+                var categoryId = new Guid(context.Request.QueryString["category"]);
+                var currentCategory = Category.GetCategory(categoryId);
+                if (currentCategory == null)
+                {
+                    StopServing(context);
+                }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["category"]))
-			{
-				if (context.Request.QueryString["category"].Length != 36)
-					StopServing(context);
+                if (currentCategory != null)
+                {
+                    subTitle = currentCategory.Title;
+                }
+            }
 
-				Guid categoryId = new Guid(context.Request.QueryString["category"]);
-				Category currentCategory = Category.GetCategory(categoryId);
-				if (currentCategory == null)
-				{
-					StopServing(context);
-				}
-				subTitle = currentCategory.Title;
-			}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["author"]))
+            {
+                subTitle = context.Request.QueryString["author"];
+            }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["author"]))
-			{
-				subTitle = context.Request.QueryString["author"];
-			}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["post"]))
+            {
+                if (context.Request.QueryString["post"].Length != 36)
+                {
+                    StopServing(context);
+                }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["post"]))
-			{
-				if (context.Request.QueryString["post"].Length != 36)
-					StopServing(context);
+                var post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
+                if (post == null)
+                {
+                    StopServing(context);
+                }
 
-				Post post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
-				if (post == null)
-				{
-					StopServing(context);
-				}
-				subTitle = post.Title;
-			}
+                if (post != null)
+                {
+                    subTitle = post.Title;
+                }
+            }
 
-			if (!string.IsNullOrEmpty(context.Request.QueryString["comments"]))
-			{
-				subTitle = "Comments";
-			}
+            if (!string.IsNullOrEmpty(context.Request.QueryString["comments"]))
+            {
+                subTitle = "Comments";
+            }
 
-			if (subTitle != null)
-				return title + " - " + subTitle;
+            if (subTitle != null)
+            {
+                return string.Format("{0} - {1}", title, subTitle);
+            }
 
-			return title;
-		}
+            return title;
+        }
 
-		private static void StopServing(HttpContext context)
-		{
-			context.Response.Clear();
-			context.Response.StatusCode = 404;
-			context.Response.End();
-		}
+        /// <summary>
+        /// Sets the response header information.
+        /// </summary>
+        /// <param name="context">
+        /// An <see cref="HttpContext"/> object that provides references to the intrinsic server objects (for example, <b>Request</b>, <b>Response</b>, <b>Session</b>, and <b>Server</b>) used to service HTTP requests.
+        /// </param>
+        /// <param name="items">
+        /// The collection of <see cref="IPublishable"/> instances used when setting the response header details.
+        /// </param>
+        /// <param name="format">
+        /// The format of the syndication feed being generated.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="items"/> is a null reference (Nothing in Visual Basic).
+        /// </exception>
+        private static void SetHeaderInformation(
+            HttpContext context, IEnumerable<IPublishable> items, SyndicationFormat format)
+        {
+            var lastModified = new DateTime(1900, 1, 3); // don't use DateTime.MinValue here, as Mono doesn't like it
+            foreach (var item in items)
+            {
+                if (item.DateModified.AddHours(-BlogSettings.Instance.Timezone) > lastModified)
+                {
+                    lastModified = item.DateModified.AddHours(-BlogSettings.Instance.Timezone);
+                }
+            }
 
-		/// <summary>
-		/// Sets the response header information.
-		/// </summary>
-		/// <param name="context">An <see cref="HttpContext"/> object that provides references to the intrinsic server objects (for example, <b>Request</b>, <b>Response</b>, <b>Session</b>, and <b>Server</b>) used to service HTTP requests.</param>
-		/// <param name="items">The collection of <see cref="IPublishable"/> instances used when setting the response header details.</param>
-		/// <param name="format">The format of the syndication feed being generated.</param>
-		/// <exception cref="ArgumentNullException">The <paramref name="context"/> is a null reference (Nothing in Visual Basic) -or- the <paramref name="posts"/> is a null reference (Nothing in Visual Basic).</exception>
-		private static void SetHeaderInformation(HttpContext context, List<IPublishable> items, SyndicationFormat format)
-		{
-            DateTime lastModified = new DateTime(1900, 1, 3); // don't use DateTime.MinValue here, as Mono doesn't like it
-			foreach (IPublishable item in items)
-			{
-				if (item.DateModified.AddHours(-BlogSettings.Instance.Timezone) > lastModified)
-					lastModified = item.DateModified.AddHours(-BlogSettings.Instance.Timezone);
-			}
+            switch (format)
+            {
+                case SyndicationFormat.Atom:
+                    context.Response.ContentType = "application/atom+xml";
+                    context.Response.AppendHeader("Content-Disposition", "inline; filename=atom.xml");
+                    break;
 
-			switch (format)
-			{
-				case SyndicationFormat.Atom:
-					context.Response.ContentType = "application/atom+xml";
-					context.Response.AppendHeader("Content-Disposition", "inline; filename=atom.xml");
-					break;
+                case SyndicationFormat.Rss:
+                    context.Response.ContentType = "application/rss+xml";
+                    context.Response.AppendHeader("Content-Disposition", "inline; filename=rss.xml");
+                    break;
+            }
 
-				case SyndicationFormat.Rss:
-					context.Response.ContentType = "application/rss+xml";
-					context.Response.AppendHeader("Content-Disposition", "inline; filename=rss.xml");
-					break;
-			}
-
-            if (Utils.SetConditionalGetHeaders(lastModified)) 
+            if (Utils.SetConditionalGetHeaders(lastModified))
+            {
                 context.Response.End();
-            
-		}
+            }
+        }
 
-		#endregion
+        /// <summary>
+        /// The stop serving.
+        /// </summary>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        private static void StopServing(HttpContext context)
+        {
+            context.Response.Clear();
+            context.Response.StatusCode = 404;
+            context.Response.End();
+        }
 
-	}
+        #endregion
+    }
 }

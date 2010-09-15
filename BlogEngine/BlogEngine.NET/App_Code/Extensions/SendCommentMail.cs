@@ -1,11 +1,13 @@
 #region using
 
 using System;
-using System.Web;
-using BlogEngine.Core.Web.Controls;
-using BlogEngine.Core;
 using System.Net.Mail;
+using System.Text;
 using System.Threading;
+using System.Web;
+
+using BlogEngine.Core;
+using BlogEngine.Core.Web.Controls;
 
 #endregion
 
@@ -15,81 +17,116 @@ using System.Threading;
 [Extension("Sends an e-mail to the blog owner whenever a comment is added", "1.3", "BlogEngine.NET")]
 public class SendCommentMail
 {
+    #region Constructors and Destructors
 
-	/// <summary>
-	/// Hooks up an event handler to the Post.CommentAdded event.
-	/// </summary>
-	static SendCommentMail()
-	{
-		Post.CommentAdded += new EventHandler<EventArgs>(Post_CommentAdded);
-	}
+    /// <summary>
+    /// Initializes static members of the <see cref="SendCommentMail"/> class. 
+    ///     Hooks up an event handler to the Post.CommentAdded event.
+    /// </summary>
+    static SendCommentMail()
+    {
+        Post.CommentAdded += PostCommentAdded;
+    }
 
-	private static void Post_CommentAdded(object sender, EventArgs e)
-	{
-		Post post = (Post)((Comment)sender).Parent;
-		if (post != null && BlogSettings.Instance.SendMailOnComment && !Thread.CurrentPrincipal.Identity.IsAuthenticated)
-		{
-			Comment comment = post.Comments[post.Comments.Count - 1];
+    #endregion
 
-            // Do not send email if comment auto-moderated and is spam
-            if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto && !comment.IsApproved) return;
+    #region Methods
 
-			// Trackback and pingback comments don't have a '@' symbol in the e-mail field.
-			string replyTo = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
-			string subject = " comment on ";
+    /// <summary>
+    /// Handles the CommentAdded event of the Post control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+    private static void PostCommentAdded(object sender, EventArgs e)
+    {
+        var post = (Post)((Comment)sender).Parent;
+        if (post == null || !BlogSettings.Instance.SendMailOnComment || Thread.CurrentPrincipal.Identity.IsAuthenticated)
+        {
+            return;
+        }
 
-			if (comment.Email == "trackback")
-				subject = " trackback on ";
-			else if (comment.Email == "pingback")
-				subject = " pingback on ";
+        var comment = post.Comments[post.Comments.Count - 1];
 
-            System.Globalization.CultureInfo defaultCulture = Utils.GetDefaultCulture();
+        // Do not send email if comment auto-moderated and is spam
+        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto && !comment.IsApproved)
+        {
+            return;
+        }
 
-			ServingEventArgs args = new ServingEventArgs(comment.Content, ServingLocation.Email);
-			Comment.OnServing(comment, args);
-			string body = args.Body;
-            body = body.Replace(Environment.NewLine, "<br />");
-            body = body.Replace("<img src=\"" + Utils.RelativeWebRoot, "<img src=\"" + Utils.AbsoluteWebRoot);
+        // Trackback and pingback comments don't have a '@' symbol in the e-mail field.
+        var replyTo = comment.Email.Contains("@") ? comment.Email : BlogSettings.Instance.Email;
+        var subject = " comment on ";
 
-			MailMessage mail = new MailMessage();
-			mail.From = new MailAddress(BlogSettings.Instance.Email);
-			mail.To.Add(BlogSettings.Instance.Email);
-            mail.ReplyTo = new MailAddress(replyTo, HttpUtility.HtmlDecode(comment.Author));
-			mail.Subject = BlogSettings.Instance.EmailSubjectPrefix + subject + post.Title;
-			mail.Body = "<div style=\"font: 11px verdana, arial\">";
-            mail.Body += body + "<br /><br />";
-            mail.Body += string.Format("<strong>{0}</strong>: <a href=\"{1}\">{2}</a><br /><br />", Utils.Translate("post", null, defaultCulture), post.PermaLink + "#id_" + comment.Id, post.Title);
+        switch (comment.Email)
+        {
+            case "trackback":
+                subject = " trackback on ";
+                break;
+            case "pingback":
+                subject = " pingback on ";
+                break;
+        }
 
-			string deleteLink = post.AbsoluteLink + "?deletecomment=" + comment.Id;
-            mail.Body += string.Format("<a href=\"{0}\">{1}</a>", deleteLink, Utils.Translate("delete", null, defaultCulture));
+        var defaultCulture = Utils.GetDefaultCulture();
 
-			if (BlogSettings.Instance.EnableCommentsModeration)
-			{
-				string approveLink = post.AbsoluteLink + "?approvecomment=" + comment.Id;
-                mail.Body += string.Format(" | <a href=\"{0}\">{1}</a>", approveLink, Utils.Translate("approve", null, defaultCulture));
-			}
+        var args = new ServingEventArgs(comment.Content, ServingLocation.Email);
+        Comment.OnServing(comment, args);
+        var body = args.Body;
+        body = body.Replace(Environment.NewLine, "<br />");
+        body = body.Replace(string.Format("<img src=\"{0}", Utils.RelativeWebRoot), string.Format("<img src=\"{0}", Utils.AbsoluteWebRoot));
 
-			mail.Body += "<br />_______________________________________________________________________________<br />";
-			mail.Body += "<h3>Author information</h3>";
-			mail.Body += "<div style=\"font-size:10px;line-height:16px\">";
-			mail.Body += "<strong>Name:</strong> " + comment.Author + "<br />";
-			mail.Body += "<strong>E-mail:</strong> " + comment.Email + "<br />";
-			mail.Body += string.Format("<strong>Website:</strong> <a href=\"{0}\">{0}</a><br />", comment.Website);
+        var mail = new MailMessage
+            {
+                From = new MailAddress(BlogSettings.Instance.Email),
+                ReplyTo = new MailAddress(replyTo, HttpUtility.HtmlDecode(comment.Author)),
+                Subject = BlogSettings.Instance.EmailSubjectPrefix + subject + post.Title
+            };
+        mail.To.Add(BlogSettings.Instance.Email);
 
-			if (comment.Country != null)
-				mail.Body += "<strong>Country code:</strong> " + comment.Country.ToUpperInvariant() + "<br />";
+        var sb = new StringBuilder();
+        sb.Append("<div style=\"font: 11px verdana, arial\">");
+        sb.AppendFormat("{0}<br /><br />", body);
+        sb.AppendFormat(
+            "<strong>{0}</strong>: <a href=\"{1}#id_{2}\">{3}</a><br /><br />",
+            Utils.Translate("post", null, defaultCulture),
+            post.PermaLink,
+            comment.Id,
+            post.Title);
 
-			if (HttpContext.Current != null)
-			{
-				mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
-				mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
-			}
+        var deleteLink = string.Format("{0}?deletecomment={1}", post.AbsoluteLink, comment.Id);
+        sb.AppendFormat(
+            "<a href=\"{0}\">{1}</a>", deleteLink, Utils.Translate("delete", null, defaultCulture));
 
-			mail.Body += "</div>";
-			mail.Body += "</div>";
+        if (BlogSettings.Instance.EnableCommentsModeration)
+        {
+            var approveLink = string.Format("{0}?approvecomment={1}", post.AbsoluteLink, comment.Id);
+            sb.AppendFormat(
+                " | <a href=\"{0}\">{1}</a>", approveLink, Utils.Translate("approve", null, defaultCulture));
+        }
 
-			Utils.SendMailMessageAsync(mail);
-		}
-	}
+        sb.Append("<br />_______________________________________________________________________________<br />");
+        sb.Append("<h3>Author information</h3>");
+        sb.Append("<div style=\"font-size:10px;line-height:16px\">");
+        sb.AppendFormat("<strong>Name:</strong> {0}<br />", comment.Author);
+        sb.AppendFormat("<strong>E-mail:</strong> {0}<br />", comment.Email);
+        sb.AppendFormat("<strong>Website:</strong> <a href=\"{0}\">{0}</a><br />", comment.Website);
 
+        if (comment.Country != null)
+        {
+            sb.AppendFormat("<strong>Country code:</strong> {0}<br />", comment.Country.ToUpperInvariant());
+        }
+
+        if (HttpContext.Current != null)
+        {
+            sb.AppendFormat("<strong>IP address:</strong> {0}<br />", HttpContext.Current.Request.UserHostAddress);
+            sb.AppendFormat("<strong>User-agent:</strong> {0}", HttpContext.Current.Request.UserAgent);
+        }
+
+        sb.Append("</div>");
+        sb.Append("</div>");
+
+        Utils.SendMailMessageAsync(mail);
+    }
+
+    #endregion
 }

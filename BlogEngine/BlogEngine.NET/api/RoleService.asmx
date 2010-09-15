@@ -1,57 +1,67 @@
 ﻿<%@ WebService Language="C#" Class="RoleService" %>
 
 using System;
-using System.Collections.Generic;
-using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Security;
+using System.Web.Services;
+
 using BlogEngine.Core;
 
 /// <summary>
-/// Membership service to support AJAX calls
+///     Membership service to support AJAX calls
 /// </summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-[System.Web.Script.Services.ScriptService]
+[ScriptService]
 public class RoleService : WebService
 {
+    #region Constants and Fields
+
     /// <summary>
-    /// JSON object that will be return back to client
+    ///     JSON object that will be return back to client
     /// </summary>
-    JsonResponse _response;
-    
+    private readonly JsonResponse response;
+
+    #endregion
+
+    #region Constructors and Destructors
+
     public RoleService()
     {
-        _response = new JsonResponse();
+        this.response = new JsonResponse();
     }
+
+    #endregion
+
+    #region Public Methods
 
     [WebMethod]
     public JsonResponse Add(string roleName)
     {
-        if (!IsAdmin())
+        if (!this.IsAdmin())
         {
-            _response.Success = false;
-            _response.Message = "Not authorized";
-            return _response;
+            this.response.Success = false;
+            this.response.Message = "Not authorized";
+            return this.response;
         }
 
         if (string.IsNullOrEmpty(roleName))
         {
-            _response.Success = false;
-            _response.Message = "Role name is required field";
-            return _response;
+            this.response.Success = false;
+            this.response.Message = "Role name is required field";
+            return this.response;
         }
 
-        string[] roles = Roles.GetAllRoles();
+        var roles = Roles.GetAllRoles();
         if (roles.GetUpperBound(0) > 0)
         {
-            for (int i = 0; i <= roles.GetUpperBound(0); i++)
+            for (var i = 0; i <= roles.GetUpperBound(0); i++)
             {
                 if (roles[i].ToLowerInvariant() == roleName.ToLowerInvariant())
                 {
-                    _response.Success = false;
-                    _response.Message = string.Format("Role \"{0}\" already exists", roleName);
-                    return _response;
+                    this.response.Success = false;
+                    this.response.Message = string.Format("Role \"{0}\" already exists", roleName);
+                    return this.response;
                 }
             }
         }
@@ -62,33 +72,33 @@ public class RoleService : WebService
         }
         catch (Exception ex)
         {
-            Utils.Log("Roles.AddRole: " + ex.Message);
-            _response.Success = false;
-            _response.Message = "Could not create the role: " + roleName;
-            return _response;
+            Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
+            this.response.Success = false;
+            this.response.Message = string.Format("Could not create the role: {0}", roleName);
+            return this.response;
         }
 
-        _response.Success = true;
-        _response.Message = "Role \"" + roleName + "\" has been created";
+        this.response.Success = true;
+        this.response.Message = string.Format("Role \"{0}\" has been created", roleName);
         //_response.Data = string.Format(row, roleName);
-        return _response;
+        return this.response;
     }
-    
+
     [WebMethod]
     public JsonResponse Delete(string id)
     {
-        if (!IsAdmin())
+        if (!this.IsAdmin())
         {
-            _response.Success = false;
-            _response.Message = "Not authorized";
-            return _response;
+            this.response.Success = false;
+            this.response.Message = "Not authorized";
+            return this.response;
         }
 
         if (string.IsNullOrEmpty(id))
         {
-            _response.Success = false;
-            _response.Message = "Role name is required field";
-            return _response;
+            this.response.Success = false;
+            this.response.Message = "Role name is required field";
+            return this.response;
         }
 
         try
@@ -97,37 +107,39 @@ public class RoleService : WebService
         }
         catch (Exception ex)
         {
-            Utils.Log("Roles.AddRole: " + ex.Message);
-            _response.Success = false;
-            _response.Message = "Could not delete the role: " + id;
-            return _response;
+            Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
+            this.response.Success = false;
+            this.response.Message = string.Format("Could not delete the role: {0}", id);
+            return this.response;
         }
 
-        _response.Success = true;
-        _response.Message = "Role \"" + id + "\" has been deleted";
-        return _response;
+        this.response.Success = true;
+        this.response.Message = string.Format("Role \"{0}\" has been deleted", id);
+        return this.response;
     }
 
     [WebMethod]
     public JsonResponse Edit(string id, string bg, string[] vals)
     {
-        string ptrn = "<tr id=\"{0}\" bgcolor=\"#{1}\"><td><input type=\"checkbox\" class\"chk\"/></td>";
-        ptrn += "<td class='editable'>{0}</td><td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"editButton\">edit</a></td>";
-	    ptrn += "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"deleteButton\">delete</a></td></tr>";
+        var ptrn = "<tr id=\"{0}\" bgcolor=\"#{1}\"><td><input type=\"checkbox\" class\"chk\"/></td>";
+        ptrn +=
+            "<td class='editable'>{0}</td><td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"editButton\">edit</a></td>";
+        ptrn +=
+            "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"deleteButton\">delete</a></td></tr>";
 
-        _response.Success = false;
-        _response.Data = string.Format(ptrn, vals[0], bg);
-        
-        if (!IsAdmin())
+        this.response.Success = false;
+        this.response.Data = string.Format(ptrn, vals[0], bg);
+
+        if (!this.IsAdmin())
         {
-            _response.Message = "Not authorized";
-            return _response;
+            this.response.Message = "Not authorized";
+            return this.response;
         }
 
         if (string.IsNullOrEmpty(vals[0]))
         {
-            _response.Message = "Role name is required field";
-            return _response;
+            this.response.Message = "Role name is required field";
+            return this.response;
         }
 
         try
@@ -137,18 +149,24 @@ public class RoleService : WebService
         }
         catch (Exception ex)
         {
-            Utils.Log("Roles.UpdateRole: " + ex.Message);
-            _response.Message = "Could not update the role: " + vals[0];
-            return _response;
+            Utils.Log(string.Format("Roles.UpdateRole: {0}", ex.Message));
+            this.response.Message = string.Format("Could not update the role: {0}", vals[0]);
+            return this.response;
         }
 
-        _response.Success = true;
-        _response.Message = string.Format("Role updated from \"{0}\" to \"{1}\"", id, vals[0]);
-        return _response;
+        this.response.Success = true;
+        this.response.Message = string.Format("Role updated from \"{0}\" to \"{1}\"", id, vals[0]);
+        return this.response;
     }
+
+    #endregion
+
+    #region Methods
 
     private bool IsAdmin()
     {
-        return User.IsInRole(BlogSettings.Instance.AdministratorRole);
+        return this.User.IsInRole(BlogSettings.Instance.AdministratorRole);
     }
+
+    #endregion
 }
