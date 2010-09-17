@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="admin_Pages_Profile" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="admin_Pages_Profile" %>
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
     <script type="text/javascript">
@@ -75,29 +75,26 @@
             return false;
         }
     </script>
-    <table width="100%" border="0">
-        <tr>
-            <td style="width:auto; vertical-align: top;">
-                <div class="beTableHdr">
-		            <span class="SectionHeader"><%=Resources.labels.profile %> : <%=Request.QueryString["id"] %></span>
-	            </div>
-                <div id="Container"></div>
-                <fieldset class="rounded">
-                    <legend>Roles</legend>
-                    <div><%=RolesList%></div>
-                </fieldset>
-                <div id="Container2"></div>
-                <div>
-                    <input type="submit" class="btn rounded" value="<%=Resources.labels.save %>" onclick="return SaveProfile()" />
-		            or <a href="Users.aspx"><%=Resources.labels.cancel %></a>
-                </div>
-            </td>
-            <td style="width:180px; vertical-align: top; padding-left: 10px;">
-                <ul id="RightList">
-                    <li><a href="Users.aspx" class="selected"><%=Resources.labels.users %></a></li>
-                    <li><a href="Roles.aspx"><%=Resources.labels.roles %></a></li>
-                </ul>
-            </td>
-        </tr>
-    </table>
+    <div class="content-box-hdr">
+        <span class="SectionHeader"><%=Resources.labels.profile %> : <%=Request.QueryString["id"] %></span>
+    </div>
+	<div class="content-box-outer">
+		<div class="content-box-right">
+			<div class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></div>
+			<div><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></div>
+			<div><a href="Rights.aspx">Rights</a></div>
+		</div>
+		<div class="content-box-left">
+            <div id="Container"></div>
+            <fieldset class="rounded">
+                <legend>Roles</legend>
+                <div><%=RolesList%></div>
+            </fieldset>
+            <div id="Container2"></div>
+            <div>
+                <input type="submit" class="btn rounded" value="<%=Resources.labels.save %>" onclick="return SaveProfile()" />
+		        or <a href="Users.aspx"><%=Resources.labels.cancel %></a>
+            </div>
+		</div>
+	</div>
 </asp:Content>

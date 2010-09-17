@@ -22,7 +22,7 @@
                 </div>                                  
                 <div class="banner-links">
                     Welcome <%= AdminProfile() == null ? Page.User.Identity.Name : AdminProfile().DisplayName %>
-                    | <a href="<%=Utils.RelativeWebRoot %>admin/Pages/Profiles.aspx"><%=Resources.labels.myProfile %></a>
+                    | <a href="<%=Utils.RelativeWebRoot %>admin/Users/Profile.aspx?id=<%=Page.User.Identity.Name %>"><%=Resources.labels.myProfile %></a>
                     | <a href="<%=Utils.RelativeWebRoot %>"><%=Resources.labels.goToFrontPage %></a>
                     | <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
                 </div>                                   
