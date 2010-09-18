@@ -87,7 +87,17 @@
     <Compile Include="API\BlogML\BaseReader.cs" />
     <Compile Include="API\BlogML\BlogImporter.cs" />
     <Compile Include="API\BlogML\BlogReader.cs" />
+    <Compile Include="API\MetaWeblog\MetaWeblogException.cs" />
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
+    <Compile Include="API\MetaWeblog\MWAAuthor.cs" />
+    <Compile Include="API\MetaWeblog\MWABlogInfo.cs" />
+    <Compile Include="API\MetaWeblog\MWACategory.cs" />
+    <Compile Include="API\MetaWeblog\MWAFault.cs" />
+    <Compile Include="API\MetaWeblog\MWAMediaInfo.cs" />
+    <Compile Include="API\MetaWeblog\MWAMediaObject.cs" />
+    <Compile Include="API\MetaWeblog\MWAPage.cs" />
+    <Compile Include="API\MetaWeblog\MWAPost.cs" />
+    <Compile Include="API\MetaWeblog\MWAUserInfo.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Category.cs" />
