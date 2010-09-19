@@ -1,44 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Services;
-using System.Web.Security;
-using BlogEngine.Core;
-
-public partial class admin_Account_Roles : System.Web.UI.Page
+﻿namespace admin.Users
 {
-    JsonResponse _response;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Security;
+    using System.Web.Services;
 
-    protected void Page_Load(object sender, EventArgs e)
+    using BlogEngine.Core;
+
+    using Page = System.Web.UI.Page;
+
+    /// <summary>
+    /// The admin_ account_ roles.
+    /// </summary>
+    public partial class admin_Account_Roles : Page
     {
-        _response = new JsonResponse();
-    }
+        #region Constants and Fields
 
-    [WebMethod]
-    public static List<Role> GetRoles()
-    {
-        List<Role> roles = new List<Role>();
-        string[] sRoles = Roles.GetAllRoles();
+        /// <summary>
+        /// The response.
+        /// </summary>
+        private JsonResponse response;
 
-        for (int i = 0; i <= sRoles.GetUpperBound(0); i++)
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Gets the roles.
+        /// </summary>
+        /// <returns>The roles.</returns>
+        [WebMethod]
+        public static List<Role> GetRoles()
         {
-            Role r = new Role();
-            r.RoleName = sRoles[i];
-            roles.Add(r);
+            var roles = new List<Role>();
+            roles.AddRange(Roles.GetAllRoles().Select(r => new Role { RoleName = r }));
+            roles.Sort((r1, r2) => string.Compare(r1.RoleName, r2.RoleName));
+
+            return roles;
         }
 
-        roles.Sort(delegate(Role r1, Role r2)
-        { return string.Compare(r1.RoleName, r2.RoleName); });
+        #endregion
 
-        return roles;
+        #region Methods
+
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            this.response = new JsonResponse();
+        }
+
+/*
+        /// <summary>
+        /// Determines whether this instance is admin.
+        /// </summary>
+        /// <returns>
+        ///     <c>true</c> if this instance is admin; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsAdmin()
+        {
+            return this.User.IsInRole(BlogSettings.Instance.AdministratorRole);
+        }
+*/
+
+        #endregion
     }
 
-    private bool IsAdmin()
+    /// <summary>
+    /// The role.
+    /// </summary>
+    public class Role
     {
-        return User.IsInRole(BlogSettings.Instance.AdministratorRole);
-    }
-}
+        #region Constants and Fields
 
-public class Role
-{
-    public string RoleName;
+        /// <summary>
+        /// Gets or sets the name of the role.
+        /// </summary>
+        /// <value>The name of the role.</value>
+        public string RoleName { get; set; }
+
+        #endregion
+    }
 }

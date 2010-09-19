@@ -1,67 +1,69 @@
-﻿using System;
-using System.Xml;
-
-namespace BlogEngine.Core.DataStore
+﻿namespace BlogEngine.Core.DataStore
 {
-  /// <summary>
-  /// Base class for extension settings
-  /// </summary>
-  public abstract class SettingsBase
-  {
-    #region Behaviors
-    private ISettingsBehavior _settingsBehavior;
     /// <summary>
-    /// Settings behavior
+    /// Base class for extension settings
     /// </summary>
-    public ISettingsBehavior SettingsBehavior
+    public abstract class SettingsBase
     {
-      get
-      {
-        return _settingsBehavior;
-      }
-      set
-      {
-        _settingsBehavior = value;
-      }
+        #region Constants and Fields
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsBase"/> class.
+        /// </summary>
+        protected SettingsBase()
+        {
+            this.SettingId = string.Empty;
+            this.ExType = ExtensionType.Extension;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets or sets the type of extension (extension, widget or theme)
+        /// </summary>
+        public ExtensionType ExType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Setting ID
+        /// </summary>
+        public string SettingId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Settings behavior
+        /// </summary>
+        public ISettingsBehavior SettingsBehavior { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Get settings object from data storage
+        /// </summary>
+        /// <returns>
+        /// Stream representing extension object
+        /// </returns>
+        public object GetSettings()
+        {
+            return this.SettingsBehavior.GetSettings(this.ExType, this.SettingId);
+        }
+
+        /// <summary>
+        /// Saves setting object to data storage
+        /// </summary>
+        /// <param name="settings">
+        /// Settings object
+        /// </param>
+        /// <returns>
+        /// True if saved
+        /// </returns>
+        public bool SaveSettings(object settings)
+        {
+            return this.SettingsBehavior.SaveSettings(this.ExType, this.SettingId, settings);
+        }
+
+        #endregion
     }
-    #endregion
-
-    /// <summary>
-    /// Default constructor
-    /// </summary>
-    public SettingsBase()
-    {
-    }
-
-    ExtensionType _type = ExtensionType.Extension;
-    /// <summary>
-    /// Type of extension (extension, widget or theme)
-    /// </summary>
-    public ExtensionType ExType { get { return _type; } set { _type = value; } }
-
-    string _settingId = string.Empty;
-    /// <summary>
-    /// Setting ID
-    /// </summary>
-    public string SettingID { get { return _settingId; } set { _settingId = value; } }
-
-    /// <summary>
-    /// Saves setting object to data storage
-    /// </summary>
-    /// <param name="settings">Settings</param>
-    /// <returns>True if saved</returns>
-    public bool SaveSettings(object settings)
-    {
-      return _settingsBehavior.SaveSettings(_type, _settingId, settings);
-    }
-
-    /// <summary>
-    /// Get settings object from data storage
-    /// </summary>
-    /// <returns>Stream representing extension object</returns>
-    public object GetSettings()
-    {
-      return _settingsBehavior.GetSettings(_type, _settingId);
-    }
-  }
 }

@@ -1,59 +1,90 @@
-﻿using System;
-using System.Web;
-using System.Net.Mail;
-using System.Web.Security;
-using BlogEngine.Core;
-
-public partial class Account_PasswordRetrieval : System.Web.UI.Page
+﻿namespace Account
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
+    using System;
+    using System.Net.Mail;
+    using System.Text;
+    using System.Web.Security;
 
-    }
-    protected void LoginButton_Click(object sender, EventArgs e)
-    {
-        string email = txtEmail.Text;
+    using BlogEngine.Core;
 
-        if (string.IsNullOrEmpty(email))
+    using Page = System.Web.UI.Page;
+
+    /// <summary>
+    /// The password retrieval.
+    /// </summary>
+    public partial class PasswordRetrieval : Page
+    {
+        #region Methods
+
+        /// <summary>
+        /// Handles the Click event of the LoginButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void LoginButton_Click(object sender, EventArgs e)
         {
-            ((Account_Account)this.Master).SetStatus("warning", "Email is required");
-            return;
+            var email = this.txtEmail.Text;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                this.Master.SetStatus("warning", "Email is required");
+                return;
+            }
+
+            var userName = Membership.Provider.GetUserNameByEmail(email);
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                this.Master.SetStatus("warning", "Email does not exist in our system");
+                return;
+            }
+
+            var pwd = Membership.Provider.ResetPassword(userName, string.Empty);
+
+            if (!string.IsNullOrEmpty(pwd))
+            {
+                this.SendMail(email, userName, pwd);
+            }
         }
 
-        string userName = Membership.Provider.GetUserNameByEmail(email);
-
-        if (string.IsNullOrEmpty(userName))
+        /// <summary>
+        /// Sends the mail.
+        /// </summary>
+        /// <param name="email">
+        /// The email.
+        /// </param>
+        /// <param name="user">
+        /// The user name.
+        /// </param>
+        /// <param name="pwd">
+        /// The password.
+        /// </param>
+        private void SendMail(string email, string user, string pwd)
         {
-            ((Account_Account)this.Master).SetStatus("warning", "Email does not exist in our system");
-            return;
+            var mail = new MailMessage
+                {
+                    From = new MailAddress(BlogSettings.Instance.Email),
+                    Subject = "Your password has been reset"
+                };
+
+            mail.To.Add(email);
+
+            var sb = new StringBuilder();
+            sb.Append("<div style=\"font: 11px verdana, arial\">");
+            sb.AppendFormat("Dear {0}:", user);
+            sb.AppendFormat("<br/><br/>Your password at \"{0}\" has been reset to: {1}", BlogSettings.Instance.Name, pwd);
+            sb.Append(
+                "<br/><br/>If it wasn't you who initiated the reset, please let us know immediately (use contact form on our site)");
+            sb.AppendFormat("<br/><br/>Sincerely,<br/><br/><a href=\"{0}\">{1}</a> team.", Utils.AbsoluteWebRoot, BlogSettings.Instance.Name);
+            sb.Append("</div>");
+
+            mail.Body = sb.ToString();
+
+            Utils.SendMailMessageAsync(mail);
+
+            this.Master.SetStatus("success", "The password has been sent");
         }
 
-        string pwd = Membership.Provider.ResetPassword(userName, "");
-
-        if (!string.IsNullOrEmpty(pwd))
-        {
-            SendMail(email, userName, pwd);
-        }
-    }
-
-    void SendMail(string email, string  user, string pwd)
-    {
-        MailMessage mail = new MailMessage();
-
-        mail.From = new MailAddress(BlogSettings.Instance.Email);
-        mail.To.Add(email);
-
-        mail.Subject = "Your password has been reset";
-
-        mail.Body = "<div style=\"font: 11px verdana, arial\">";
-        mail.Body += "Dear " + user + ":";
-        mail.Body += "<br/><br/>Your password at \"" + BlogSettings.Instance.Name + "\" has been reset to: " + pwd;
-        mail.Body += "<br/><br/>If it wasn't you who initiated the reset, please let us know immediately (use contact form on our site)";
-        mail.Body += "<br/><br/>Sincerely,<br/><br/><a href=\"" + Utils.AbsoluteWebRoot.ToString() + "\">" + BlogSettings.Instance.Name + "</a> team.";
-        mail.Body += "</div>";
-        
-        Utils.SendMailMessageAsync(mail);
-
-        ((Account_Account)this.Master).SetStatus("success", "The password has been sent");
+        #endregion
     }
 }

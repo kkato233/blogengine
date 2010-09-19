@@ -1,156 +1,174 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using BlogEngine.Core;
-
-#endregion
-
-namespace Controls
+﻿namespace Controls
 {
-	/// <summary>
-	/// If the visitor arrives through a search engine, this control
-	/// will display an in-site search result based on the same search term.
-	/// </summary>
-	public class SearchOnSearch : Control
-	{
-		#region Class Data
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Web;
+    using System.Web.UI;
 
-		private static Regex _rxSearchTerm = null;
+    using BlogEngine.Core;
 
-		#endregion
+    /// <summary>
+    /// If the visitor arrives through a search engine, this control
+    ///     will display an in-site search result based on the same search term.
+    /// </summary>
+    public class SearchOnSearch : Control
+    {
+        #region Constants and Fields
 
+        /// <summary>
+        /// The rx search term.
+        /// </summary>
+        private static readonly Regex RxSearchTerm;
 
-		#region Class Constructor
+        #endregion
 
-		static SearchOnSearch()
-		{
-			// Matches the query string parameter "q" and its value.  Does not match if "q" is blank.
-			_rxSearchTerm = new Regex("[?&]q=([^&#]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
-		}
+        #region Constructors and Destructors
 
-		#endregion
+        /// <summary>
+        /// Initializes static members of the <see cref="SearchOnSearch"/> class.
+        /// </summary>
+        static SearchOnSearch()
+        {
+            // Matches the query string parameter "q" and its value.  Does not match if "q" is blank.
+            RxSearchTerm = new Regex(
+                "[?&]q=([^&#]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        }
 
-		#region Properties
+        #endregion
 
-		private int _MaxResults;
-		/// <summary>
-		/// Gets or sets the maximum numbers of results to display.
-		/// </summary>
-		public int MaxResults
-		{
-			get { return _MaxResults; }
-			set { _MaxResults = value; }
-		}
+        #region Properties
 
-		private string _Headline;
-		/// <summary>
-		/// Gets or sets the text of the headline.
-		/// </summary>
-		public string Headline
-		{
-			get { return _Headline; }
-			set { _Headline = value; }
-		}
+        /// <summary>
+        ///     Gets or sets the text of the headline.
+        /// </summary>
+        public string Headline { get; set; }
 
-		private string _Text;
-		/// <summary>
-		/// Gets or sets the text displayed below the headline.
-		/// </summary>
-		public string Text
-		{
-			get { return _Text; }
-			set { _Text = value; }
-		}
+        /// <summary>
+        ///     Gets or sets the maximum numbers of results to display.
+        /// </summary>
+        public int MaxResults { get; set; }
 
-		#endregion
+        /// <summary>
+        ///     Gets or sets the text displayed below the headline.
+        /// </summary>
+        public string Text { get; set; }
 
-		#region Methods
+        /// <summary>
+        ///     Gets a value indicating whether the referrer is from a search engine.
+        /// </summary>
+        private bool IsSearch
+        {
+            get
+            {
+                if (this.Context.Request.UrlReferrer != null)
+                {
+                    var referrer = this.Context.Request.UrlReferrer.ToString().ToLowerInvariant();
+                    return RxSearchTerm.IsMatch(referrer);
+                }
 
-		/// <summary>
-		/// Checks the referrer to see if it qualifies as a search.
-		/// </summary>
-		private string Html()
-		{
-			if (Context.Request.UrlReferrer != null && !Context.Request.UrlReferrer.ToString().Contains(Utils.AbsoluteWebRoot.ToString()) && IsSearch)
-			{
-				string referrer = HttpContext.Current.Request.UrlReferrer.ToString().ToLowerInvariant();
-				string searchTerm = GetSearchTerm(referrer);
-				List<IPublishable> items = Search.Hits(searchTerm, false);
-				if (items.Count == 0)
-					return null;
+                return false;
+            }
+        }
 
-				return WriteHtml(items, searchTerm);
-			}
+        #endregion
 
-			return null;
-		}
+        #region Public Methods
 
-		/// <summary>
-		/// Writes the search results as HTML.
-		/// </summary>
-		private string WriteHtml(List<IPublishable> items, string searchTerm)
-		{
-			int results = MaxResults < items.Count ? MaxResults : items.Count;
-			StringBuilder sb = new StringBuilder();
-			sb.Append("<div id=\"searchonsearch\">");
-			sb.AppendFormat("<h3>{0} '{1}'</h3>", Headline, HttpUtility.HtmlEncode(HttpUtility.UrlDecode(searchTerm)));
-			sb.AppendFormat("<p>{0}</p>", Text);
-			sb.Append("<ol>");
+        /// <summary>
+        /// Renders the control as a script tag.
+        /// </summary>
+        /// <param name="writer">
+        /// The writer.
+        /// </param>
+        public override void RenderControl(HtmlTextWriter writer)
+        {
+            var html = this.Html();
+            if (html != null)
+            {
+                writer.Write(html);
+            }
+        }
 
-			for (int i = 0; i < results; i++)
-			{
-				sb.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", items[i].RelativeLink, items[i].Title);
-			}
+        #endregion
 
-			sb.Append("</ol>");
-			sb.Append("</div>");
+        #region Methods
 
-			return sb.ToString();
-		}
+        /// <summary>
+        /// Retrieves the search term from the specified referrer string.
+        /// </summary>
+        /// <param name="referrer">
+        /// The referrer.
+        /// </param>
+        /// <returns>
+        /// The get search term.
+        /// </returns>
+        private static string GetSearchTerm(string referrer)
+        {
+            var term = string.Empty;
+            var match = RxSearchTerm.Match(referrer);
 
-		/// <summary>
-		/// Retrieves the search term from the specified referrer string.
-		/// </summary>
-		private string GetSearchTerm(string referrer)
-		{
-			string term = string.Empty;
-			Match match = _rxSearchTerm.Match(referrer);
+            if (match.Success)
+            {
+                term = match.Groups[1].Value;
+            }
 
-			if (match.Success)
-			{
-				term = match.Groups[1].Value;
-			}
+            return term.Replace("+", " ");
+        }
 
-			return term.Replace("+", " ");
-		}
+        /// <summary>
+        /// Checks the referrer to see if it qualifies as a search.
+        /// </summary>
+        /// <returns>
+        /// The html string.
+        /// </returns>
+        private string Html()
+        {
+            if (this.Context.Request.UrlReferrer != null &&
+                !this.Context.Request.UrlReferrer.ToString().Contains(Utils.AbsoluteWebRoot.ToString()) && this.IsSearch)
+            {
+                var referrer = this.Context.Request.UrlReferrer.ToString().ToLowerInvariant();
+                var searchTerm = GetSearchTerm(referrer);
+                var items = Search.Hits(searchTerm, false);
+                return items.Count == 0 ? null : this.WriteHtml(items, searchTerm);
+            }
 
-		/// <summary>
-		/// Checks the referrer to see if it is from a search engine.
-		/// </summary>
-		private bool IsSearch
-		{
-			get
-			{
-				string referrer = HttpContext.Current.Request.UrlReferrer.ToString().ToLowerInvariant();
-				return _rxSearchTerm.IsMatch(referrer);
-			}
-		}
+            return null;
+        }
 
-		#endregion
+        /// <summary>
+        /// Writes the search results as HTML.
+        /// </summary>
+        /// <param name="items">
+        /// The items.
+        /// </param>
+        /// <param name="searchTerm">
+        /// The search Term.
+        /// </param>
+        /// <returns>
+        /// The write html.
+        /// </returns>
+        private string WriteHtml(List<IPublishable> items, string searchTerm)
+        {
+            var results = this.MaxResults < items.Count ? this.MaxResults : items.Count;
+            var sb = new StringBuilder();
+            sb.Append("<div id=\"searchonsearch\">");
+            sb.AppendFormat(
+                "<h3>{0} '{1}'</h3>", this.Headline, HttpUtility.HtmlEncode(HttpUtility.UrlDecode(searchTerm)));
+            sb.AppendFormat("<p>{0}</p>", this.Text);
+            sb.Append("<ol>");
 
-		/// <summary>
-		/// Renders the control as a script tag.
-		/// </summary>
-		public override void RenderControl(HtmlTextWriter writer)
-		{
-			string html = Html();
-			if (html != null)
-				writer.Write(html);
-		}
-	}
+            for (var i = 0; i < results; i++)
+            {
+                sb.AppendFormat("<li><a href=\"{0}\">{1}</a></li>", items[i].RelativeLink, items[i].Title);
+            }
+
+            sb.Append("</ol>");
+            sb.Append("</div>");
+
+            return sb.ToString();
+        }
+
+        #endregion
+    }
 }
