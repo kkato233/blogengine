@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-public partial class Account_ChangePasswordSuccess : System.Web.UI.Page
+﻿namespace Account
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
+    using System.Web.UI;
 
+    /// <summary>
+    /// The change password success.
+    /// </summary>
+    public partial class ChangePasswordSuccess : Page
+    {
     }
 }

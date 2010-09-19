@@ -1,31 +1,79 @@
-﻿using System;
-using System.Web;
-using System.Web.UI.WebControls;
-
-public partial class admin_tinyMCE : System.Web.UI.UserControl
+﻿namespace admin
 {
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
 
-  public string Text
-  {
-    get { return txtContent.Text; }
-    set { txtContent.Text = value; }
-  }
+    /// <summary>
+    /// The admin_tiny mce.
+    /// </summary>
+    public partial class admin_tinyMCE : UserControl
+    {
+        #region Properties
 
-  public short TabIndex
-  {
-    get { return txtContent.TabIndex; }
-    set { txtContent.TabIndex = value; }
-  }
+        /// <summary>
+        /// Gets or sets Height.
+        /// </summary>
+        public Unit Height
+        {
+            get
+            {
+                return this.txtContent.Height;
+            }
 
-	public Unit Width
-	{
-		get { return txtContent.Width; }
-		set { txtContent.Width = value; }
-	}
+            set
+            {
+                this.txtContent.Height = value;
+            }
+        }
 
-	public Unit Height
-	{
-		get { return txtContent.Height; }
-		set { txtContent.Height = value; }
-	}
+        /// <summary>
+        /// Gets or sets TabIndex.
+        /// </summary>
+        public short TabIndex
+        {
+            get
+            {
+                return this.txtContent.TabIndex;
+            }
+
+            set
+            {
+                this.txtContent.TabIndex = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets Text.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return this.txtContent.Text;
+            }
+
+            set
+            {
+                this.txtContent.Text = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets Width.
+        /// </summary>
+        public Unit Width
+        {
+            get
+            {
+                return this.txtContent.Width;
+            }
+
+            set
+            {
+                this.txtContent.Width = value;
+            }
+        }
+
+        #endregion
+    }
 }

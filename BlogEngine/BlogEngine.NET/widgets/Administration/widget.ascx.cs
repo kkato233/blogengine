@@ -1,25 +1,52 @@
-﻿using System;
-using System.Configuration;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-
-public partial class widgets_Administration_widget : WidgetBase
+﻿namespace widgets.Administration
 {
+    /// <summary>
+    /// The widget.
+    /// </summary>
+    public partial class widget : WidgetBase
+    {
+        #region Properties
 
-	public override string Name
-	{
-		get { return "Administration"; }
-	}
+        /// <summary>
+        /// Gets a value indicating whether or not the widget can be edited.
+        /// <remarks>
+        /// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+        /// </remarks>
+        /// </summary>
+        /// <value></value>
+        public override bool IsEditable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-	public override bool IsEditable
-	{
-		get { return false; }
-	}
+        /// <summary>
+        /// Gets the name. It must be exactly the same as the folder that contains the widget.
+        /// </summary>
+        /// <value></value>
+        public override string Name
+        {
+            get
+            {
+                return "Administration";
+            }
+        }
 
-	public override void LoadWidget()
-	{
-		Visible = Page.User.Identity.IsAuthenticated;
-	}
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        /// data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            this.Visible = this.Page.User.Identity.IsAuthenticated;
+        }
+
+        #endregion
+    }
 }

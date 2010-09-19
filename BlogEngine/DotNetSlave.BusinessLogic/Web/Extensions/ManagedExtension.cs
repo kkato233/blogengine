@@ -1,176 +1,201 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-
-/// <summary>
-/// Serializable object that holds extension,
-/// extension attributes and methods
-/// </summary>
-[Serializable()]
-public class ManagedExtension
+﻿namespace BlogEngine.Core.Web.Extensions
 {
-  #region Private members
-  string _name = string.Empty;
-  string _version = string.Empty;
-  int _priority;
-  string _description = string.Empty;
-  bool _enabled = true;
-  string _author = string.Empty;
-  string _adminPage = string.Empty;
-  List<ExtensionSettings> _settings;
-  bool _showSettings = true;
-  #endregion
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml.Serialization;
 
-  #region Constructor
-  /// <summary>
-  /// Default constructor required for serialization
-  /// </summary>
-  public ManagedExtension() { }
-  /// <summary>
-  /// Constructor
-  /// </summary>
-  /// <param name="name">Extension Name</param>
-  /// <param name="version">Extension Version</param>
-  /// <param name="desc">Description</param>
-  /// <param name="author">Extension Author</param>
-  public ManagedExtension(string name, string version, string desc, string author)
-  {
-    _name = name;
-    _version = version;
-    _description = desc;
-    _author = author;
-    _settings = new List<ExtensionSettings>();
-    _enabled = true;
-    _showSettings = true;
-  }
-  #endregion
-
-  #region Public Serializable
-  /// <summary>
-  /// Extension Name
-  /// </summary>
-  [XmlAttribute]
-  public string Name { get { return _name; } set { _name = value; } }
-  /// <summary>
-  /// Extension Version
-  /// </summary>
-  [XmlElement]
-  public string Version { get { return _version; } set { _version = value; } }
-  /// <summary>
-  /// Extension Priority
-  /// </summary>
-  [XmlElement]
-  public int Priority { get { return _priority; } set { _priority = value; } }
-  /// <summary>
-  /// Extension Description
-  /// </summary>
-  [XmlElement]
-  public string Description { get { return _description; } set { _description = value; } }
-  /// <summary>
-  /// Extension Author. Will show up in the settings page, can be used as a 
-  /// link to author's home page 
-  /// </summary>
-  [XmlElement]
-  public string Author { get { return _author; } set { _author = value; } }
-  /// <summary>
-  /// Custom admin page. If defined, link to default settings
-  /// page will be replaced by the link to this page in the UI
-  /// </summary>
-  [XmlElement]
-  public string AdminPage { get { return _adminPage; } set { _adminPage = value; } }
-  /// <summary>
-  /// Defines if extension is enabled.
-  /// </summary>
-  [XmlElement]
-  public bool Enabled { get { return _enabled; } set { _enabled = value; } }
-  /// <summary>
-  /// Settings for the extension
-  /// </summary>
-  [XmlElement(IsNullable = true)]
-  public List<ExtensionSettings> Settings 
-  { 
-      get 
-      { 
-          if(_settings != null)
-            _settings.Sort(delegate(ExtensionSettings s1, ExtensionSettings s2)
-            {return string.Compare(s1.Index.ToString(), s2.Index.ToString());});
-          return _settings;
-      } 
-      set { _settings = value; } 
-  }
-  /// <summary>
-  /// Show or hide settings in the admin/extensions list
-  /// </summary>
-  [XmlElement]
-  public bool ShowSettings { get { return _showSettings; } set { _showSettings = value; } }
-
-  #endregion
-
-  #region Public methods
-  /// <summary>
-  /// Method to cache and serialize settings object
-  /// </summary>
-  /// <param name="settings">Settings object</param>
-  public void SaveSettings(ExtensionSettings settings)
-  {
-    if (string.IsNullOrEmpty(settings.Name))
-      settings.Name = _name;
-
-    foreach (ExtensionSettings setItem in _settings)
+    /// <summary>
+    /// Serializable object that holds extension,
+    ///     extension attributes and methods
+    /// </summary>
+    [Serializable]
+    public class ManagedExtension
     {
-      if (setItem.Name == settings.Name)
-      {
-        _settings.Remove(setItem);
-        break;
-      }
-    }
-    _settings.Add(settings);
-  }
-  public void InitializeSettings(ExtensionSettings settings)
-  {
-    settings.Index = _settings.Count;
-    SaveSettings(settings);
-  }
-  
-  /// <summary>
-  /// Determine if settings has been initialized with default
-  /// values (first time new extension loaded into the manager)
-  /// </summary>
-  /// <param name="settingName">Settings name</param>
-  /// <returns>True if initialized</returns>
-  public bool Initialized(ExtensionSettings xs)
-  {
-    if (xs != null)
-    {
-      foreach (ExtensionSettings setItem in _settings)
-      {
-        if (setItem.Name == xs.Name)
+        #region Constants and Fields
+
+        /// <summary>
+        /// The settings.
+        /// </summary>
+        private List<ExtensionSettings> settings;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "ManagedExtension" /> class. 
+        ///     Default constructor required for serialization
+        /// </summary>
+        public ManagedExtension()
         {
-            if (setItem.Parameters.Count == xs.Parameters.Count)
+            this.Version = string.Empty;
+            this.ShowSettings = true;
+            this.Name = string.Empty;
+            this.Enabled = true;
+            this.Description = string.Empty;
+            this.Author = string.Empty;
+            this.AdminPage = string.Empty;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManagedExtension"/> class.
+        /// </summary>
+        /// <param name="name">The extension name.</param>
+        /// <param name="version">The version.</param>
+        /// <param name="desc">The description.</param>
+        /// <param name="author">The author.</param>
+        public ManagedExtension(string name, string version, string desc, string author)
+        {
+            this.AdminPage = string.Empty;
+            this.Name = name;
+            this.Version = version;
+            this.Description = desc;
+            this.Author = author;
+            this.settings = new List<ExtensionSettings>();
+            this.Enabled = true;
+            this.ShowSettings = true;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets or sets Custom admin page. If defined, link to default settings
+        ///     page will be replaced by the link to this page in the UI
+        /// </summary>
+        [XmlElement]
+        public string AdminPage { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Extension Author. Will show up in the settings page, can be used as a 
+        ///     link to author's home page
+        /// </summary>
+        [XmlElement]
+        public string Author { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Extension Description
+        /// </summary>
+        [XmlElement]
+        public string Description { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether extension is enabled.
+        /// </summary>
+        [XmlElement]
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Extension Name
+        /// </summary>
+        [XmlAttribute]
+        public string Name { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Extension Priority
+        /// </summary>
+        [XmlElement]
+        public int Priority { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Settings for the extension
+        /// </summary>
+        [XmlElement(IsNullable = true)]
+        public List<ExtensionSettings> Settings
+        {
+            get
             {
-                return true;
+                if (this.settings != null)
+                {
+                    this.settings.Sort((s1, s2) => string.Compare(s1.Index.ToString(), s2.Index.ToString()));
+                }
+
+                return this.settings;
+            }
+
+            set
+            {
+                this.settings = value;
             }
         }
-      }
-    }
-    return false;
-  }
-  /// <summary>
-  /// Method to find out if extension has setting with this name
-  /// </summary>
-  /// <param name="settingName">Setting Name</param>
-  /// <returns>True if settings with this name already exists</returns>
-  public bool ContainsSetting(string settingName)
-  {
-    foreach (ExtensionSettings xset in _settings)
-    {
-      if (xset.Name == settingName)
-      {
-        return true;
-      }
-    }
-    return false;
-  }
 
-  #endregion
+        /// <summary>
+        ///     Gets or sets a value indicating whether to Show or hide settings in the admin/extensions list
+        /// </summary>
+        [XmlElement]
+        public bool ShowSettings { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Extension Version
+        /// </summary>
+        [XmlElement]
+        public string Version { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Method to find out if extension has setting with this name
+        /// </summary>
+        /// <param name="settingName">
+        /// Setting Name
+        /// </param>
+        /// <returns>
+        /// True if settings with this name already exists
+        /// </returns>
+        public bool ContainsSetting(string settingName)
+        {
+            return this.settings.Any(xset => xset.Name == settingName);
+        }
+
+        /// <summary>
+        /// Initializes the settings.
+        /// </summary>
+        /// <param name="extensionSettings">The extension settings.</param>
+        public void InitializeSettings(ExtensionSettings extensionSettings)
+        {
+            extensionSettings.Index = this.settings.Count;
+            this.SaveSettings(extensionSettings);
+        }
+
+        /// <summary>
+        /// Determine if settings has been initialized with default
+        ///     values (first time new extension loaded into the manager)
+        /// </summary>
+        /// <param name="xs">
+        /// The ExtensionSettings.
+        /// </param>
+        /// <returns>
+        /// True if initialized
+        /// </returns>
+        public bool Initialized(ExtensionSettings xs)
+        {
+            return xs != null && this.settings.Where(setItem => setItem.Name == xs.Name).Any(setItem => setItem.Parameters.Count == xs.Parameters.Count);
+        }
+
+        /// <summary>
+        /// Method to cache and serialize settings object
+        /// </summary>
+        /// <param name="extensionSettings">The extension settings.</param>
+        public void SaveSettings(ExtensionSettings extensionSettings)
+        {
+            if (string.IsNullOrEmpty(extensionSettings.Name))
+            {
+                extensionSettings.Name = this.Name;
+            }
+
+            foreach (var setItem in this.settings.Where(setItem => setItem.Name == extensionSettings.Name))
+            {
+                this.settings.Remove(setItem);
+                break;
+            }
+
+            this.settings.Add(extensionSettings);
+        }
+
+        #endregion
+    }
 }

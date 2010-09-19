@@ -37,7 +37,7 @@
   <label for="<%=ddlParent.ClientID %>"><%=Resources.labels.selectParent %></label>
   <asp:DropDownList runat="server" id="ddlParent" />&nbsp;&nbsp;&nbsp;
   
-  <asp:CheckBox runat="Server" ID="cbIsFrontPage" Text="<%$ Resources:labels, isFrontPage %>" />
+  <asp:CheckBox runat="Server" ID="cbFrontPage" Text="<%$ Resources:labels, isFrontPage %>" />
   
   <asp:CheckBox runat="Server" ID="cbShowInList" Text="<%$ Resources:labels, showInList %>" Checked="true" />
   <br /><br />
@@ -78,7 +78,7 @@
     </tr>
     <tr>
       <td class="label"><%=Resources.labels.settings %></td>
-      <td><asp:CheckBox runat="Server" ID="cbIsPublished" Checked="true" Text="<%$ Resources:labels, publish %>" /></td>
+      <td><asp:CheckBox runat="Server" ID="cbPublished" Checked="true" Text="<%$ Resources:labels, publish %>" /></td>
     </tr>
   </table>  
   
