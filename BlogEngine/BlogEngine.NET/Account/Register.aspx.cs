@@ -1,48 +1,78 @@
-﻿using System;
-using System.Web.Security;
-
-public partial class Account_Register : System.Web.UI.Page
+﻿namespace Account
 {
-    protected void Page_Load(object sender, EventArgs e)
+    using System;
+    using System.Web.Security;
+    using System.Web.UI.WebControls;
+
+    using BlogEngine.Core;
+
+    using Page = System.Web.UI.Page;
+
+    /// <summary>
+    /// The account register.
+    /// </summary>
+    public partial class Register : Page
     {
-        RegisterUser.ContinueDestinationPageUrl = Request.QueryString["ReturnUrl"];
-        hdnPassLength.Value = Membership.MinRequiredPasswordLength.ToString();
+        #region Methods
 
-        // if self registration not allowed and user is trying to directly
-        // navigate to register page, redirect to login
-        if (!BlogEngine.Core.BlogSettings.Instance.EnableSelfRegistration)
+        /// <summary>
+        /// Handles the Load event of the Page control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void Page_Load(object sender, EventArgs e)
         {
-            if(!User.Identity.IsAuthenticated)
-                Response.Redirect("~/Account/login.aspx?ReturnUrl=" + Request.QueryString["ReturnUrl"]);
+            this.RegisterUser.ContinueDestinationPageUrl = this.Request.QueryString["ReturnUrl"];
+            this.hdnPassLength.Value = Membership.MinRequiredPasswordLength.ToString();
+
+            // if self registration not allowed and user is trying to directly
+            // navigate to register page, redirect to login
+            if (!BlogSettings.Instance.EnableSelfRegistration)
+            {
+                if (!this.User.Identity.IsAuthenticated)
+                {
+                    this.Response.Redirect(string.Format("~/Account/login.aspx?ReturnUrl={0}", this.Request.QueryString["ReturnUrl"]));
+                }
+            }
         }
 
+        /// <summary>
+        /// Handles the CreatedUser event of the RegisterUser control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void RegisterUser_CreatedUser(object sender, EventArgs e)
+        {
+            FormsAuthentication.SetAuthCookie(this.RegisterUser.UserName, false /* createPersistentCookie */);
+
+            var continueUrl = this.RegisterUser.ContinueDestinationPageUrl;
+            if (String.IsNullOrEmpty(continueUrl))
+            {
+                continueUrl = "~/";
+            }
+
+            this.Response.Redirect(continueUrl);
+        }
+
+        /// <summary>
+        /// Handles the CreatingUser event of the RegisterUser control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Web.UI.WebControls.LoginCancelEventArgs"/> instance containing the event data.</param>
+        protected void RegisterUser_CreatingUser(object sender, LoginCancelEventArgs e)
+        {
+            if (Membership.GetUser(this.RegisterUser.UserName) != null)
+            {
+                e.Cancel = true;
+                this.Master.SetStatus("warning", "Please select another user name.");
+            }
+            else if (Membership.GetUserNameByEmail(this.RegisterUser.Email) != null)
+            {
+                e.Cancel = true;
+                this.Master.SetStatus("warning", "Please select another email address.");
+            }
+        }
+
+        #endregion
     }
-
-    protected void RegisterUser_CreatedUser(object sender, EventArgs e)
-    {
-        FormsAuthentication.SetAuthCookie(RegisterUser.UserName, false /* createPersistentCookie */);
-
-        string continueUrl = RegisterUser.ContinueDestinationPageUrl;
-        if (String.IsNullOrEmpty(continueUrl))
-        {
-            continueUrl = "~/";
-        }
-        Response.Redirect(continueUrl);
-    }
-    protected void RegisterUser_CreatingUser(object sender, System.Web.UI.WebControls.LoginCancelEventArgs e)
-    {
-        if (Membership.GetUser(RegisterUser.UserName) != null)
-        {
-            e.Cancel = true;
-            ((Account_Account)this.Master).SetStatus("warning", "Please select another user name.");
-            
-        }
-        else if (Membership.GetUserNameByEmail(RegisterUser.Email) != null)
-        {
-            e.Cancel = true;
-            ((Account_Account)this.Master).SetStatus("warning", "Please select another email address.");
-        }
-    }
-
-
 }

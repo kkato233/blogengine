@@ -49,7 +49,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
 			if (Post != null)
 			{
-				if (!this.Post.IsVisible && !Page.User.Identity.IsAuthenticated)
+				if (!this.Post.Visible && !Page.User.Identity.IsAuthenticated)
 					Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
 
                 string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";
@@ -73,7 +73,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				AddMetaDescription();
 				base.AddMetaTag("author", Server.HtmlEncode(Post.AuthorProfile == null ? Post.Author : Post.AuthorProfile.FullName));
 
-				List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
+				List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p) { return p.Visible; });
 				if (visiblePosts.Count > 0)
 				{
 					AddGenericLink("last", visiblePosts[0].Title, visiblePosts[0].RelativeLink.ToString());
@@ -116,7 +116,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (post.Next == null)
 			return null;
 
-		if (post.Next.IsVisible || Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Next.Author)
+		if (post.Next.Visible || Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Next.Author)
 			return post.Next;
 
 		return GetNextPost(post.Next);
@@ -130,7 +130,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (post.Previous == null)
 			return null;
 
-		if (post.Previous.IsVisible || Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Previous.Author)
+		if (post.Previous.Visible || Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Previous.Author)
 			return post.Previous;
 
 		return GetPrevPost(post.Previous);
@@ -146,7 +146,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 			Post next = GetNextPost(Post);
 			Post prev = GetPrevPost(Post);
 
-			if (next != null && !next.IsDeleted)
+			if (next != null && !next.Deleted)
 			{
 				hlNext.NavigateUrl = next.RelativeLink;
 				hlNext.Text = Server.HtmlEncode(next.Title + " >>");
@@ -155,7 +155,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				phPostNavigation.Visible = true;
 			}
 
-			if (prev != null && !prev.IsDeleted)
+			if (prev != null && !prev.Deleted)
 			{
 				hlPrev.NavigateUrl = prev.RelativeLink;
 				hlPrev.Text = Server.HtmlEncode("<< " + prev.Title);

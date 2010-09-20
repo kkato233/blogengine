@@ -1,69 +1,130 @@
-﻿using System;
-using System.IO;
-using System.Web;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using BlogEngine.Core.Providers;
-using BlogEngine.Core;
-
-public partial class admin_menu : System.Web.UI.UserControl
+﻿namespace admin
 {
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		if (!Page.IsCallback)
-			BindMenu();
-	}
+    using System;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
 
-	private void BindMenu()
-	{
-		SiteMapNode root = SiteMap.Providers["SecuritySiteMap"].RootNode;
-		if (root != null)
-		{
-			foreach (SiteMapNode adminNode in root.ChildNodes)
-			{
-				if (adminNode.IsAccessibleToUser(HttpContext.Current))
-				{
-					if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") && (adminNode.Url.Contains("xmanager") || adminNode.Url.Contains("PingServices")))
-						continue;
+    using BlogEngine.Core;
 
-					HtmlAnchor a = new HtmlAnchor();
-					a.HRef = adminNode.Url;
+    using Resources;
 
-                    a.InnerHtml = "<span>" + Utils.Translate(adminNode.Title, adminNode.Title) + "</span>";//"<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-					if (Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
-						a.Attributes["class"] = "current";
-
-                    // if "page" has its own subfolder (comments, extensions) should 
-                    // select parent tab when navigating through child tabs
-                    if (adminNode.Url.IndexOf("/admin/pages/", StringComparison.OrdinalIgnoreCase) == -1 && SubUrl(Request.RawUrl) == SubUrl(adminNode.Url))
-                        a.Attributes["class"] = "current";
-
-					HtmlGenericControl li = new HtmlGenericControl("li");
-					li.Controls.Add(a);
-					ulMenu.Controls.Add(li);
-				}
-			}
-		}
-
-		if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
-			AddItem(Resources.labels.changePassword, Utils.RelativeWebRoot + "Account/ChangePassword.aspx");
-	}
-
-	public void AddItem(string text, string url)
-	{
-		HtmlAnchor a = new HtmlAnchor();
-		a.InnerHtml = "<span>" + text + "</span>";
-		a.HRef = url;
-
-		HtmlGenericControl li = new HtmlGenericControl("li");
-		li.Controls.Add(a);
-		ulMenu.Controls.Add(li);
-	}
-
-    private string SubUrl(string url)
+    /// <summary>
+    /// The admin_menu.
+    /// </summary>
+    public partial class admin_menu : UserControl
     {
-        int i = url.LastIndexOf("/");
+        #region Public Methods
 
-        return (i > 0) ? url.Substring(0, i) : "";
+        /// <summary>
+        /// Adds the item.
+        /// </summary>
+        /// <param name="text">
+        /// The text string.
+        /// </param>
+        /// <param name="url">
+        /// The URL string.
+        /// </param>
+        public void AddItem(string text, string url)
+        {
+            var a = new HtmlAnchor { InnerHtml = string.Format("<span>{0}</span>", text), HRef = url };
+
+            var li = new HtmlGenericControl("li");
+            li.Controls.Add(a);
+            this.ulMenu.Controls.Add(li);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="T:System.EventArgs"/> object that contains the event data.
+        /// </param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            if (!this.Page.IsCallback)
+            {
+                this.BindMenu();
+            }
+        }
+
+        /// <summary>
+        /// Gets the sub URL.
+        /// </summary>
+        /// <param name="url">
+        /// The URL string.
+        /// </param>
+        /// <returns>
+        /// The sub-url.
+        /// </returns>
+        private static string SubUrl(string url)
+        {
+            var i = url.LastIndexOf("/");
+
+            return (i > 0) ? url.Substring(0, i) : string.Empty;
+        }
+
+        /// <summary>
+        /// The bind menu.
+        /// </summary>
+        private void BindMenu()
+        {
+            var sitemap = SiteMap.Providers["SecuritySiteMap"];
+            if (sitemap != null)
+            {
+                var root = sitemap.RootNode;
+                if (root != null)
+                {
+                    foreach (
+                        var adminNode in
+                            root.ChildNodes.Cast<SiteMapNode>().Where(
+                                adminNode => adminNode.IsAccessibleToUser(HttpContext.Current)).Where(
+                                    adminNode =>
+                                    this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") ||
+                                    (!adminNode.Url.Contains("xmanager") && !adminNode.Url.Contains("PingServices"))))
+                    {
+                        var a = new HtmlAnchor
+                            {
+                                HRef = adminNode.Url, 
+                                InnerHtml =
+                                    string.Format("<span>{0}</span>", Utils.Translate(adminNode.Title, adminNode.Title))
+                            };
+
+                        // "<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
+                        if (this.Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
+                        {
+                            a.Attributes["class"] = "current";
+                        }
+
+                        // if "page" has its own subfolder (comments, extensions) should 
+                        // select parent tab when navigating through child tabs
+                        if (adminNode.Url.IndexOf("/admin/pages/", StringComparison.OrdinalIgnoreCase) == -1 &&
+                            SubUrl(this.Request.RawUrl) == SubUrl(adminNode.Url))
+                        {
+                            a.Attributes["class"] = "current";
+                        }
+
+                        var li = new HtmlGenericControl("li");
+                        li.Controls.Add(a);
+                        this.ulMenu.Controls.Add(li);
+                    }
+                }
+            }
+
+            if (!this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
+            {
+                this.AddItem(
+                    labels.changePassword, string.Format("{0}Account/ChangePassword.aspx", Utils.RelativeWebRoot));
+            }
+        }
+
+        #endregion
     }
 }

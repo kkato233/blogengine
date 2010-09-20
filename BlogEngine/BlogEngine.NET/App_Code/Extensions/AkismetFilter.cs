@@ -1,118 +1,192 @@
-using System;
-using System.IO;
-using System.Net;
-using System.Web;
 using BlogEngine.Core;
 using BlogEngine.Core.Web.Controls;
+using BlogEngine.Core.Web.Extensions;
+
 using Joel.Net;
 
 /// <summary>
-/// Summary description for AkismetFilter
+/// Akismet Filter
 /// </summary>
 [Extension("Akismet anti-spam comment filter", "1.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
 public class AkismetFilter : ICustomFilter
 {
-    #region Private members
+    #region Constants and Fields
 
-    private static ExtensionSettings _settings;
-    private static Akismet _api;
-    private static string _site;
-    private static string _key;
-    private bool _fallThrough;
+    /// <summary>
+    ///     The api.
+    /// </summary>
+    private static Akismet api;
+
+    /// <summary>
+    ///     The key.
+    /// </summary>
+    private static string key;
+
+    /// <summary>
+    ///     The settings.
+    /// </summary>
+    private static ExtensionSettings settings;
+
+    /// <summary>
+    ///     The site.
+    /// </summary>
+    private static string site;
 
     #endregion
 
+    #region Constructors and Destructors
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref = "AkismetFilter" /> class.
+    /// </summary>
     public AkismetFilter()
     {
-        InitSettings();
+        this.InitSettings();
     }
 
-    #region ICustomFilter implementation
+    #endregion
 
+    #region Properties
+
+    /// <summary>
+    ///     Gets a value indicating whether FallThrough.
+    /// </summary>
+    public bool FallThrough { get; private set; }
+
+    #endregion
+
+    #region Implemented Interfaces
+
+    #region ICustomFilter
+
+    /// <summary>
+    /// Check if comment is spam
+    /// </summary>
+    /// <param name="comment">BlogEngine comment</param>
+    /// <returns>True if comment is spam</returns>
+    public bool Check(Comment comment)
+    {
+        if (api == null)
+        {
+            this.Initialize();
+        }
+
+        if (settings == null)
+        {
+            this.InitSettings();
+        }
+
+        var akismetComment = GetAkismetComment(comment);
+        var spam = api.CommentCheck(akismetComment);
+        this.FallThrough = !spam;
+        return spam;
+    }
+
+    /// <summary>
+    /// Initializes anti-spam service
+    /// </summary>
+    /// <returns>
+    /// True if service online and credentials validated
+    /// </returns>
     public bool Initialize()
     {
         if (!ExtensionManager.ExtensionEnabled("AkismetFilter"))
+        {
             return false;
+        }
 
-        if (_settings == null) InitSettings();
+        if (settings == null)
+        {
+            this.InitSettings();
+        }
 
-        _site = _settings.GetSingleValue("SiteURL");
-        _key = _settings.GetSingleValue("ApiKey");
-        _api = new Akismet(_key, _site, "BlogEngine.net 1.6");
+        site = settings.GetSingleValue("SiteURL");
+        key = settings.GetSingleValue("ApiKey");
+        api = new Akismet(key, site, "BlogEngine.net 1.6");
 
-        return _api.VerifyKey();
+        return api.VerifyKey();
     }
 
-    public bool Check(Comment comment)
-    {
-        if (_api == null) Initialize();
-
-        if (_settings == null) InitSettings();
-
-        AkismetComment akismetComment = GetAkismetComment(comment);
-        bool isSpam = _api.CommentCheck(akismetComment);
-        _fallThrough = !isSpam;
-        return isSpam;
-    }
-
+    /// <summary>
+    /// The report.
+    /// </summary>
+    /// <param name="comment">
+    /// The comment.
+    /// </param>
     public void Report(Comment comment)
     {
-        if (_api == null) Initialize();
+        if (api == null)
+        {
+            this.Initialize();
+        }
 
-        if (_settings == null) InitSettings();
+        if (settings == null)
+        {
+            this.InitSettings();
+        }
 
-        AkismetComment akismetComment = GetAkismetComment(comment);
+        var akismetComment = GetAkismetComment(comment);
 
         if (comment.IsApproved)
         {
             Utils.Log(string.Format("Akismet: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-            _api.SubmitHam(akismetComment);
+            api.SubmitHam(akismetComment);
         }
         else
         {
             Utils.Log(string.Format("Akismet: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-            _api.SubmitSpam(akismetComment);
+            api.SubmitSpam(akismetComment);
         }
-    }
-
-    public bool FallThrough
-    {
-        get { return _fallThrough; }
     }
 
     #endregion
 
-    #region Private methods
+    #endregion
 
+    #region Methods
+
+    /// <summary>
+    /// Gets an akismet comment.
+    /// </summary>
+    /// <param name="comment">
+    /// The comment.
+    /// </param>
+    /// <returns>
+    /// An Akismet Comment.
+    /// </returns>
     private static AkismetComment GetAkismetComment(Comment comment)
     {
-        AkismetComment akismetComment = new AkismetComment();
-        akismetComment.Blog = _settings.GetSingleValue("SiteURL");
-        akismetComment.UserIp = comment.IP;
-        akismetComment.CommentContent = comment.Content;
-        akismetComment.CommentType = "comment";
-        akismetComment.CommentAuthor = comment.Author;
-        akismetComment.CommentAuthorEmail = comment.Email;
+        var akismetComment = new AkismetComment
+            {
+                Blog = settings.GetSingleValue("SiteURL"),
+                UserIp = comment.IP,
+                CommentContent = comment.Content,
+                CommentType = "comment",
+                CommentAuthor = comment.Author,
+                CommentAuthorEmail = comment.Email
+            };
         if (comment.Website != null)
         {
             akismetComment.CommentAuthorUrl = comment.Website.OriginalString;
         }
+
         return akismetComment;
     }
 
+    /// <summary>
+    /// The init settings.
+    /// </summary>
     private void InitSettings()
     {
-        ExtensionSettings settings = new ExtensionSettings(this);
-        settings.IsScalar = true;
+        var extensionSettings = new ExtensionSettings(this) { Scalar = true };
 
-        settings.AddParameter("SiteURL", "Site URL");
-        settings.AddParameter("ApiKey", "API Key");
+        extensionSettings.AddParameter("SiteURL", "Site URL");
+        extensionSettings.AddParameter("ApiKey", "API Key");
 
-        settings.AddValue("SiteURL", "http://example.com/blog");
-        settings.AddValue("ApiKey", "123456789");
+        extensionSettings.AddValue("SiteURL", "http://example.com/blog");
+        extensionSettings.AddValue("ApiKey", "123456789");
 
-
-        _settings = ExtensionManager.InitSettings("AkismetFilter", settings);
+        settings = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
         ExtensionManager.SetStatus("AkismetFilter", false);
     }
 
@@ -130,151 +204,332 @@ public class AkismetFilter : ICustomFilter
 
 namespace Joel.Net
 {
+    using System;
+    using System.IO;
+    using System.Net;
+    using System.Web;
 
     #region - public class AkismetComment -
 
+    /// <summary>
+    /// The akismet comment.
+    /// </summary>
     public class AkismetComment
     {
-        public string Blog;
-        public string CommentAuthor;
-        public string CommentAuthorEmail;
-        public string CommentAuthorUrl;
-        public string CommentContent;
-        public string CommentType;
-        public string Permalink;
-        public string Referrer;
-        public string UserAgent;
-        public string UserIp;
+        #region Constants and Fields
+
+        /// <summary>
+        ///     The blog.
+        /// </summary>
+        public string Blog { get; set; }
+
+        /// <summary>
+        ///     The comment author.
+        /// </summary>
+        public string CommentAuthor { get; set; }
+
+        /// <summary>
+        ///     The comment author email.
+        /// </summary>
+        public string CommentAuthorEmail { get; set; }
+
+        /// <summary>
+        ///     The comment author url.
+        /// </summary>
+        public string CommentAuthorUrl { get; set; }
+
+        /// <summary>
+        ///     The comment content.
+        /// </summary>
+        public string CommentContent { get; set; }
+
+        /// <summary>
+        ///     The comment type.
+        /// </summary>
+        public string CommentType { get; set; }
+
+        /// <summary>
+        ///     The permalink.
+        /// </summary>
+        public string Permalink { get; set; }
+
+        /// <summary>
+        ///     The referrer.
+        /// </summary>
+        public string Referrer { get; set; }
+
+        /// <summary>
+        ///     The user agent.
+        /// </summary>
+        public string UserAgent { get; set; }
+
+        /// <summary>
+        ///     The user ip.
+        /// </summary>
+        public string UserIp { get; set; }
+
+        #endregion
     }
 
     #endregion
 
+    /// <summary>
+    /// The akismet.
+    /// </summary>
     public class Akismet
     {
-        public string CharSet = "UTF-8";
-        private string apiKey;
-        private string blog;
-        private string verifyUrl = "http://rest.akismet.com/1.1/verify-key";
-        private string commentCheckUrl = "http://{0}.rest.akismet.com/1.1/comment-check";
-        private string submitHamUrl = "http://{0}.rest.akismet.com/1.1/submit-ham";
-        private string submitSpamUrl = "http://{0}.rest.akismet.com/1.1/submit-spam";
-        private string userAgent = "Joel.Net's Akismet API/1.0";
+        #region Constants and Fields
 
-        /// <summary>Creates an Akismet API object.</summary>
-        /// <param name="apiKey">Your wordpress.com API key.</param>
-        /// <param name="blog">URL to your blog</param>
-        /// <param name="userAgent">Name of application using API.  example: "Joel.Net's Akismet API/1.0"</param>
-        /// <remarks>Accepts required fields 'apiKey', 'blog', 'userAgent'.</remarks>
+        /// <summary>
+        ///     The api key.
+        /// </summary>
+        private readonly string apiKey;
+
+        /// <summary>
+        ///     The blog string.
+        /// </summary>
+        private readonly string blog;
+
+        /// <summary>
+        ///     The comment check url.
+        /// </summary>
+        private readonly string commentCheckUrl = "http://{0}.rest.akismet.com/1.1/comment-check";
+
+        /// <summary>
+        ///     The submit ham url.
+        /// </summary>
+        private readonly string submitHamUrl = "http://{0}.rest.akismet.com/1.1/submit-ham";
+
+        /// <summary>
+        ///     The submit spam url.
+        /// </summary>
+        private readonly string submitSpamUrl = "http://{0}.rest.akismet.com/1.1/submit-spam";
+
+        /// <summary>
+        ///     The user agent.
+        /// </summary>
+        private readonly string userAgent = "Joel.Net's Akismet API/1.0";
+
+        /// <summary>
+        ///     The verify url.
+        /// </summary>
+        private readonly string verifyUrl = "http://rest.akismet.com/1.1/verify-key";
+
+        /// <summary>
+        ///     The char set.
+        /// </summary>
+        private string charSet = "UTF-8";
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Akismet"/> class. 
+        ///     Creates an Akismet API object.
+        /// </summary>
+        /// <param name="apiKey">
+        /// Your wordpress.com API key.
+        /// </param>
+        /// <param name="blog">
+        /// URL to your blog
+        /// </param>
+        /// <param name="userAgent">
+        /// Name of application using API.  example: "Joel.Net's Akismet API/1.0"
+        /// </param>
+        /// <remarks>
+        /// Accepts required fields 'apiKey', 'blog', 'userAgent'.
+        /// </remarks>
         public Akismet(string apiKey, string blog, string userAgent)
         {
             this.apiKey = apiKey;
-            if (userAgent != null) this.userAgent = userAgent + " | Akismet/1.11";
+            if (userAgent != null)
+            {
+                this.userAgent = string.Format("{0} | Akismet/1.11", userAgent);
+            }
+
             this.blog = blog;
         }
 
         /// <summary>
-        /// Create an Akismet API object
+        /// Initializes a new instance of the <see cref="Akismet"/> class. 
+        ///     Create an Akismet API object
         /// </summary>
-        /// <param name="apiKey">Your wordpress.com API key.</param>
-        /// <param name="blog">URL to your blog</param>
-        /// <param name="userAgent">Name of application using API.  example: "Joel.Net's Akismet API/1.0"</param>
-        /// <param name="serviceUrl">The url for the service (uses Akismet service by default)</param>
+        /// <param name="apiKey">
+        /// Your wordpress.com API key.
+        /// </param>
+        /// <param name="blog">
+        /// URL to your blog
+        /// </param>
+        /// <param name="userAgent">
+        /// Name of application using API.  example: "Joel.Net's Akismet API/1.0"
+        /// </param>
+        /// <param name="serviceUrl">
+        /// The url for the service (uses Akismet service by default)
+        /// </param>
         public Akismet(string apiKey, string blog, string userAgent, string serviceUrl)
             : this(apiKey, blog, userAgent)
         {
-            verifyUrl = "http://" + serviceUrl + "/1.1/verify-key";
-            commentCheckUrl = "http://{0}." + serviceUrl + "/1.1/comment-check";
-            submitSpamUrl = "http://{0}." + serviceUrl + "/1.1/submit-spam";
-            submitHamUrl = "http://{0}." + serviceUrl + "/1.1/submit-ham";
+            this.verifyUrl = string.Format("http://{0}/1.1/verify-key", serviceUrl);
+            this.commentCheckUrl = string.Format("http://{{0}}.{0}/1.1/comment-check", serviceUrl);
+            this.submitSpamUrl = string.Format("http://{{0}}.{0}/1.1/submit-spam", serviceUrl);
+            this.submitHamUrl = string.Format("http://{{0}}.{0}/1.1/submit-ham", serviceUrl);
         }
 
-        /// <summary>Verifies your wordpress.com key.</summary>
-        /// <returns>'True' is key is valid.</returns>
-        public bool VerifyKey()
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     The char set.
+        /// </summary>
+        public string CharSet
         {
-            bool value = false;
+            get
+            {
+                return this.charSet;
+            }
 
-            string response = HttpPost(verifyUrl, String.Format("key={0}&blog={1}", apiKey, HttpUtility.UrlEncode(blog)),
-                                       CharSet);
-            value = (response == "valid") ? true : false;
-            return value;
+            set
+            {
+                this.charSet = value;
+            }
         }
 
-        /// <summary>Checks TypePadComment object against Akismet database.</summary>
-        /// <param name="comment">TypePadComment object to check.</param>
-        /// <returns>'True' if spam, 'False' if not spam.</returns>
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Checks TypePadComment object against Akismet database.
+        /// </summary>
+        /// <param name="comment">
+        /// TypePadComment object to check.
+        /// </param>
+        /// <returns>
+        /// 'True' if spam, 'False' if not spam.
+        /// </returns>
         public bool CommentCheck(AkismetComment comment)
         {
-            bool value = false;
-
-            value = Convert.ToBoolean(HttpPost(String.Format(commentCheckUrl, apiKey), CreateData(comment), CharSet));
+            var value =
+                Convert.ToBoolean(
+                    this.HttpPost(String.Format(this.commentCheckUrl, this.apiKey), CreateData(comment), this.charSet));
             return value;
         }
 
-        /// <summary>Submits TypePadComment object into Akismet database.</summary>
-        /// <param name="comment">TypePadComment object to submit.</param>
-        public void SubmitSpam(AkismetComment comment)
-        {
-            string value = HttpPost(String.Format(submitSpamUrl, apiKey), CreateData(comment), CharSet);
-        }
-
-        /// <summary>Retracts false positive from Akismet database.</summary>
-        /// <param name="comment">TypePadComment object to retract.</param>
+        /// <summary>
+        /// Retracts false positive from Akismet database.
+        /// </summary>
+        /// <param name="comment">
+        /// TypePadComment object to retract.
+        /// </param>
         public void SubmitHam(AkismetComment comment)
         {
-            string value = HttpPost(String.Format(submitHamUrl, apiKey), CreateData(comment), CharSet);
+            this.HttpPost(String.Format(this.submitHamUrl, this.apiKey), CreateData(comment), this.charSet);
         }
 
-        #region - Private Methods (CreateData, HttpPost) -
-
-        /// <summary>Takes an TypePadComment object and returns an (escaped) string of data to POST.</summary>
-        /// <param name="comment">TypePadComment object to translate.</param>
-        /// <returns>A System.String containing the data to POST to Akismet API.</returns>
-        private string CreateData(AkismetComment comment)
+        /// <summary>
+        /// Submits TypePadComment object into Akismet database.
+        /// </summary>
+        /// <param name="comment">
+        /// TypePadComment object to submit.
+        /// </param>
+        public void SubmitSpam(AkismetComment comment)
         {
-            string value = String.Format("blog={0}&user_ip={1}&user_agent={2}&referrer={3}&permalink={4}&comment_type={5}" +
-                                         "&comment_author={6}&comment_author_email={7}&comment_author_url={8}&comment_content={9}",
-                                         HttpUtility.UrlEncode(comment.Blog),
-                                         HttpUtility.UrlEncode(comment.UserIp),
-                                         HttpUtility.UrlEncode(comment.UserAgent),
-                                         HttpUtility.UrlEncode(comment.Referrer),
-                                         HttpUtility.UrlEncode(comment.Permalink),
-                                         HttpUtility.UrlEncode(comment.CommentType),
-                                         HttpUtility.UrlEncode(comment.CommentAuthor),
-                                         HttpUtility.UrlEncode(comment.CommentAuthorEmail),
-                                         HttpUtility.UrlEncode(comment.CommentAuthorUrl),
-                                         HttpUtility.UrlEncode(comment.CommentContent)
-              );
+            this.HttpPost(String.Format(this.submitSpamUrl, this.apiKey), CreateData(comment), this.charSet);
+        }
+
+        /// <summary>
+        /// Verifies your wordpress.com key.
+        /// </summary>
+        /// <returns>
+        /// 'True' is key is valid.
+        /// </returns>
+        public bool VerifyKey()
+        {
+            var response = this.HttpPost(
+                this.verifyUrl, 
+                String.Format("key={0}&blog={1}", this.apiKey, HttpUtility.UrlEncode(this.blog)), 
+                this.charSet);
+            var value = (response == "valid") ? true : false;
+            return value;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Takes an TypePadComment object and returns an (escaped) string of data to POST.
+        /// </summary>
+        /// <param name="comment">
+        /// TypePadComment object to translate.
+        /// </param>
+        /// <returns>
+        /// A System.String containing the data to POST to Akismet API.
+        /// </returns>
+        private static string CreateData(AkismetComment comment)
+        {
+            var value =
+                String.Format(
+                    "blog={0}&user_ip={1}&user_agent={2}&referrer={3}&permalink={4}&comment_type={5}" +
+                    "&comment_author={6}&comment_author_email={7}&comment_author_url={8}&comment_content={9}", 
+                    HttpUtility.UrlEncode(comment.Blog), 
+                    HttpUtility.UrlEncode(comment.UserIp), 
+                    HttpUtility.UrlEncode(comment.UserAgent), 
+                    HttpUtility.UrlEncode(comment.Referrer), 
+                    HttpUtility.UrlEncode(comment.Permalink), 
+                    HttpUtility.UrlEncode(comment.CommentType), 
+                    HttpUtility.UrlEncode(comment.CommentAuthor), 
+                    HttpUtility.UrlEncode(comment.CommentAuthorEmail), 
+                    HttpUtility.UrlEncode(comment.CommentAuthorUrl), 
+                    HttpUtility.UrlEncode(comment.CommentContent));
 
             return value;
         }
 
-        /// <summary>Sends HttpPost</summary>
-        /// <param name="url">URL to Post data to.</param>
-        /// <param name="data">Data to post. example: key=&ltwordpress-key&gt;&blog=http://joel.net</param>
-        /// <param name="charSet">Character set of your blog. example: UTF-8</param>
-        /// <returns>A System.String containing the Http Response.</returns>
-        private string HttpPost(string url, string data, string charSet)
+        /// <summary>
+        /// Performs a web request.
+        /// </summary>
+        /// <param name="url">
+        /// The URL of the request.
+        /// </param>
+        /// <param name="data">
+        /// The data to post.
+        /// </param>
+        /// <param name="charset">
+        /// The char set.
+        /// </param>
+        /// <returns>
+        /// The response string.
+        /// </returns>
+        private string HttpPost(string url, string data, string charset)
         {
-            string value = "";
+            var value = string.Empty;
 
             // Initialize Connection
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            var request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded; charset=" + charSet;
-            request.UserAgent = userAgent;
+            request.ContentType = string.Format("application/x-www-form-urlencoded; charset={0}", charset);
+            request.UserAgent = this.userAgent;
             request.ContentLength = data.Length;
 
             // Write Data
-            StreamWriter writer = new StreamWriter(request.GetRequestStream());
-            writer.Write(data);
-            writer.Close();
+            using (var writer = new StreamWriter(request.GetRequestStream()))
+            {
+                writer.Write(data);
+            }
 
             // Read Response
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream());
-            value = reader.ReadToEnd();
-            reader.Close();
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseStream = response.GetResponseStream();
+            if (responseStream != null)
+            {
+                using (var reader = new StreamReader(responseStream))
+                {
+                    value = reader.ReadToEnd();
+                }
+            }
 
             return value;
         }

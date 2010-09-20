@@ -1,1025 +1,903 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Web;
-using System.Web.Security;
-using BlogEngine.Core;
-
-namespace BlogEngine.Core.API.MetaWeblog
+﻿namespace BlogEngine.Core.API.MetaWeblog
 {
-	/// <summary>
-	/// HTTP Handler for MetaWeblog API
-	/// </summary>
-	internal class MetaWeblogHandler : IHttpHandler
-	{
-		#region IHttpHandler Members
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Security;
 
-		/// <summary>
-		/// Gets a value indicating whether another request can use the <see cref="T:System.Web.IHttpHandler"></see> instance.
-		/// </summary>
-		/// <value></value>
-		/// <returns>true if the <see cref="T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
-		public bool IsReusable
-		{
-			get { return false; }
-		}
+    /// <summary>
+    /// HTTP Handler for MetaWeblog API
+    /// </summary>
+    internal class MetaWeblogHandler : IHttpHandler
+    {
+        #region Properties
 
-		/// <summary>
-		/// Process the HTTP Request.  Create XMLRPC request, find method call, process it and create response object and sent it back.
-		/// This is the heart of the MetaWeblog API
-		/// </summary>
-		/// <param name="context"></param>
-		public void ProcessRequest(HttpContext context)
-		{
-			try
-			{
-				string rootUrl = Utils.AbsoluteWebRoot.ToString();// context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("metaweblog.axd"));
-				XMLRPCRequest input = new XMLRPCRequest(context);
-				XMLRPCResponse output = new XMLRPCResponse(input.MethodName);
-
-				switch (input.MethodName)
-				{
-					case "metaWeblog.newPost":
-						output.PostID = NewPost(input.BlogID, input.UserName, input.Password, input.Post, input.Publish);
-						break;
-					case "metaWeblog.editPost":
-						output.Completed = EditPost(input.PostID, input.UserName, input.Password, input.Post, input.Publish);
-						break;
-					case "metaWeblog.getPost":
-						output.Post = GetPost(input.PostID, input.UserName, input.Password);
-						break;
-					case "metaWeblog.newMediaObject":
-						output.MediaInfo = NewMediaObject(input.BlogID, input.UserName, input.Password, input.MediaObject, context);
-						break;
-					case "metaWeblog.getCategories":
-						output.Categories = GetCategories(input.BlogID, input.UserName, input.Password, rootUrl);
-						break;
-					case "metaWeblog.getRecentPosts":
-						output.Posts = GetRecentPosts(input.BlogID, input.UserName, input.Password, input.NumberOfPosts);
-						break;
-					case "blogger.getUsersBlogs":
-					case "metaWeblog.getUsersBlogs":
-						output.Blogs = GetUserBlogs(input.AppKey, input.UserName, input.Password, rootUrl);
-						break;
-					case "blogger.deletePost":
-						output.Completed = DeletePost(input.AppKey, input.PostID, input.UserName, input.Password, input.Publish);
-						break;
-					case "blogger.getUserInfo":
-						//Not implemented.  Not planned.
-						throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
-					case "wp.newPage":
-						output.PageID = NewPage(input.BlogID, input.UserName, input.Password, input.Page, input.Publish);
-						break;
-					case "wp.getPageList":
-					case "wp.getPages":
-						output.Pages = GetPages(input.BlogID, input.UserName, input.Password);
-						break;
-					case "wp.getPage":
-						output.Page = GetPage(input.BlogID, input.PageID, input.UserName, input.Password);
-						break;
-					case "wp.editPage":
-						output.Completed = EditPage(input.BlogID, input.PageID, input.UserName, input.Password, input.Page, input.Publish);
-						break;
-					case "wp.deletePage":
-						output.Completed = DeletePage(input.BlogID, input.PageID, input.UserName, input.Password);
-						break;
-                    case "wp.getAuthors":
-				        output.Authors = GetAuthors(input.BlogID, input.UserName, input.Password);
-				        break;
-                    case "wp.getTags":
-                        output.Keywords = GetKeywords(input.BlogID, input.UserName, input.Password);
-				        break;
-				}
-
-				output.Response(context);
-			}
-			catch (MetaWeblogException mex)
-			{
-				XMLRPCResponse output = new XMLRPCResponse("fault");
-				MWAFault fault = new MWAFault();
-				fault.faultCode = mex.Code;
-				fault.faultString = mex.Message;
-				output.Fault = fault;
-				output.Response(context);
-			}
-			catch (Exception ex)
-			{
-				XMLRPCResponse output = new XMLRPCResponse("fault");
-				MWAFault fault = new MWAFault();
-				fault.faultCode = "0";
-				fault.faultString = ex.Message;
-				output.Fault = fault;
-				output.Response(context);
-			}
-		}
-
-		#endregion
-
-		#region API Methods
-
-		/// <summary>
-		/// metaWeblog.newPost
-		/// </summary>
-		/// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="sentPost">struct with post details</param>
-		/// <param name="publish">mark as published?</param>
-		/// <returns>postID as string</returns>
-		internal string NewPost(string blogID, string userName, string password, MWAPost sentPost, bool publish)
-		{
-			ValidateRequest(userName, password);
-
-			Post post = new Post();
-
-            if (String.IsNullOrEmpty(sentPost.author))
-                post.Author = userName;
-            else
-                post.Author = sentPost.author;
-			post.Title = sentPost.title;
-			post.Content = sentPost.description;
-			post.IsPublished = publish;
-			post.Slug = sentPost.slug;
-			post.Description = sentPost.excerpt;
-
-			if (sentPost.commentPolicy != "")
-			{
-				if (sentPost.commentPolicy == "1")
-					post.IsCommentsEnabled = true;
-				else
-					post.IsCommentsEnabled = false;
-			}
-
-			post.Categories.Clear();
-			foreach (string item in sentPost.categories)
-			{
-				Category cat;
-				if (LookupCategoryGuidByName(item, out cat))
-					post.Categories.Add(cat);
-				else
-				{
-					// Allowing new categories to be added.  (This breaks spec, but is supported via WLW)
-					Category newcat = new Category(item, "");
-					newcat.Save();
-					post.Categories.Add(newcat);
-				}
-			}
-			post.Tags.Clear();
-			foreach (string item in sentPost.tags)
-			{
-				if (item != null && item.Trim() != string.Empty)
-					post.Tags.Add(item);
-			}
-
-			if (sentPost.postDate != new DateTime())
-				post.DateCreated = sentPost.postDate;
-
-			post.Save();
-
-			return post.Id.ToString();
-		}
-
-		/// <summary>
-		/// metaWeblog.editPost
-		/// </summary>
-		/// <param name="postID">post guid in string format</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="sentPost">struct with post details</param>
-		/// <param name="publish">mark as published?</param>
-		/// <returns>1 if successful</returns>
-		internal bool EditPost(string postID, string userName, string password, MWAPost sentPost, bool publish)
-		{
-			ValidateRequest(userName, password);
-
-			Post post = Post.GetPost(new Guid(postID));
-
-            if (String.IsNullOrEmpty(sentPost.author))
-                post.Author = userName;
-            else
-                post.Author = sentPost.author;
-			post.Title = sentPost.title;
-			post.Content = sentPost.description;
-			post.IsPublished = publish;
-			post.Slug = sentPost.slug;
-			post.Description = sentPost.excerpt;
-
-			if (sentPost.commentPolicy != "")
-			{
-				if (sentPost.commentPolicy == "1")
-					post.IsCommentsEnabled = true;
-				else
-					post.IsCommentsEnabled = false;
-			}
-			post.Categories.Clear();
-			foreach (string item in sentPost.categories)
-			{
-				Category cat;
-				if (LookupCategoryGuidByName(item, out cat))
-					post.Categories.Add(cat);
-				else
-				{
-					// Allowing new categories to be added.  (This breaks spec, but is supported via WLW)
-					Category newcat = new Category(item, "");
-					newcat.Save();
-					post.Categories.Add(newcat);
-				}
-			}
-			post.Tags.Clear();
-			foreach (string item in sentPost.tags)
-			{
-				if (item != null && item.Trim() != string.Empty)
-					post.Tags.Add(item);
-			}
-
-			if (sentPost.postDate != new DateTime())
-				post.DateCreated = sentPost.postDate.AddHours(-BlogSettings.Instance.Timezone);
-
-			post.Save();
-
-			return true;
-		}
-
-		/// <summary>
-		/// metaWeblog.getPost
-		/// </summary>
-		/// <param name="postID">post guid in string format</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <returns>struct with post details</returns>
-		internal MWAPost GetPost(string postID, string userName, string password)
-		{
-			ValidateRequest(userName, password);
-
-			MWAPost sendPost = new MWAPost();
-			Post post = Post.GetPost(new Guid(postID));
-
-			sendPost.postID = post.Id.ToString();
-			sendPost.postDate = post.DateCreated;
-			sendPost.title = post.Title;
-			sendPost.description = post.Content;
-			sendPost.link = post.AbsoluteLink.AbsoluteUri;
-			sendPost.slug = post.Slug;
-			sendPost.excerpt = post.Description;
-			if (post.IsCommentsEnabled)
-				sendPost.commentPolicy = "1";
-			else
-				sendPost.commentPolicy = "0";
-
-
-			sendPost.publish = post.IsPublished;
-
-			List<string> cats = new List<string>();
-			for (int i = 0; i < post.Categories.Count; i++)
-			{
-				cats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
-			}
-			sendPost.categories = cats;
-
-			List<string> tags = new List<string>();
-			for (int i = 0; i < post.Tags.Count; i++)
-			{
-				tags.Add(post.Tags[i]);
-			}
-			sendPost.tags = tags;
-
-			return sendPost;
-		}
-
-		/// <summary>
-		/// metaWeblog.newMediaObject
-		/// </summary>
-		/// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="mediaObject">struct with media details</param>
-		/// <param name="request">The HTTP request.</param>
-		/// <returns>struct with url to media</returns>
-		internal MWAMediaInfo NewMediaObject(string blogID, string userName, string password, MWAMediaObject mediaObject, HttpContext request)
-		{
-			ValidateRequest(userName, password);
-
-			MWAMediaInfo mediaInfo = new MWAMediaInfo();
-
-			string rootPath = BlogSettings.Instance.StorageLocation + "files/";
-			string serverPath = request.Server.MapPath(rootPath);
-			string saveFolder = serverPath;
-			string fileName = mediaObject.name;
-            string mediaFolder = "";
-
-			// Check/Create Folders & Fix fileName
-			if (mediaObject.name.LastIndexOf('/') > -1)
-			{
-                mediaFolder = mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
-				saveFolder += mediaFolder;
-                mediaFolder += "/";
-				saveFolder = saveFolder.Replace('/', Path.DirectorySeparatorChar);
-				fileName = mediaObject.name.Substring(mediaObject.name.LastIndexOf('/') + 1);
-			}
-			else
-			{
-				if (saveFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
-					saveFolder = saveFolder.Substring(0, saveFolder.Length - 1);
-			}
-			if (!Directory.Exists(saveFolder))
-				Directory.CreateDirectory(saveFolder);
-			saveFolder += Path.DirectorySeparatorChar;
-
-            if (File.Exists(saveFolder + fileName))
+        /// <summary>
+        ///     Gets a value indicating whether another request can use the <see cref = "T:System.Web.IHttpHandler"></see> instance.
+        /// </summary>
+        /// <value></value>
+        /// <returns>true if the <see cref = "T:System.Web.IHttpHandler"></see> instance is reusable; otherwise, false.</returns>
+        public bool IsReusable
+        {
+            get
             {
-                // Find unique fileName
-                for (int count = 1; count < 30000; count++)
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IHttpHandler
+
+        /// <summary>
+        /// Process the HTTP Request.  Create XMLRPC request, find method call, process it and create response object and sent it back.
+        /// This is the heart of the MetaWeblog API
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
+        public void ProcessRequest(HttpContext context)
+        {
+            try
+            {
+                var rootUrl = Utils.AbsoluteWebRoot.ToString();
+                    
+                    // context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("metaweblog.axd"));
+                var input = new XMLRPCRequest(context);
+                var output = new XMLRPCResponse(input.MethodName);
+
+                switch (input.MethodName)
                 {
-                    string tempFileName = fileName.Insert(fileName.LastIndexOf('.'), "_" + count);
-                    if (!File.Exists(saveFolder + tempFileName))
-                    {
-                        fileName = tempFileName;
+                    case "metaWeblog.newPost":
+                        output.PostID = this.NewPost(
+                            input.BlogID, input.UserName, input.Password, input.Post, input.Publish);
                         break;
+                    case "metaWeblog.editPost":
+                        output.Completed = this.EditPost(
+                            input.PostID, input.UserName, input.Password, input.Post, input.Publish);
+                        break;
+                    case "metaWeblog.getPost":
+                        output.Post = this.GetPost(input.PostID, input.UserName, input.Password);
+                        break;
+                    case "metaWeblog.newMediaObject":
+                        output.MediaInfo = this.NewMediaObject(
+                            input.BlogID, input.UserName, input.Password, input.MediaObject, context);
+                        break;
+                    case "metaWeblog.getCategories":
+                        output.Categories = this.GetCategories(input.BlogID, input.UserName, input.Password, rootUrl);
+                        break;
+                    case "metaWeblog.getRecentPosts":
+                        output.Posts = this.GetRecentPosts(
+                            input.BlogID, input.UserName, input.Password, input.NumberOfPosts);
+                        break;
+                    case "blogger.getUsersBlogs":
+                    case "metaWeblog.getUsersBlogs":
+                        output.Blogs = this.GetUserBlogs(input.AppKey, input.UserName, input.Password, rootUrl);
+                        break;
+                    case "blogger.deletePost":
+                        output.Completed = this.DeletePost(
+                            input.AppKey, input.PostID, input.UserName, input.Password, input.Publish);
+                        break;
+                    case "blogger.getUserInfo":
+
+                        // Not implemented.  Not planned.
+                        throw new MetaWeblogException("10", "The method GetUserInfo is not implemented.");
+                    case "wp.newPage":
+                        output.PageID = this.NewPage(
+                            input.BlogID, input.UserName, input.Password, input.Page, input.Publish);
+                        break;
+                    case "wp.getPageList":
+                    case "wp.getPages":
+                        output.Pages = this.GetPages(input.BlogID, input.UserName, input.Password);
+                        break;
+                    case "wp.getPage":
+                        output.Page = this.GetPage(input.BlogID, input.PageID, input.UserName, input.Password);
+                        break;
+                    case "wp.editPage":
+                        output.Completed = this.EditPage(
+                            input.BlogID, input.PageID, input.UserName, input.Password, input.Page, input.Publish);
+                        break;
+                    case "wp.deletePage":
+                        output.Completed = this.DeletePage(input.BlogID, input.PageID, input.UserName, input.Password);
+                        break;
+                    case "wp.getAuthors":
+                        output.Authors = this.GetAuthors(input.BlogID, input.UserName, input.Password);
+                        break;
+                    case "wp.getTags":
+                        output.Keywords = this.GetKeywords(input.BlogID, input.UserName, input.Password);
+                        break;
+                }
+
+                output.Response(context);
+            }
+            catch (MetaWeblogException mex)
+            {
+                var output = new XMLRPCResponse("fault");
+                var fault = new MWAFault { faultCode = mex.Code, faultString = mex.Message };
+                output.Fault = fault;
+                output.Response(context);
+            }
+            catch (Exception ex)
+            {
+                var output = new XMLRPCResponse("fault");
+                var fault = new MWAFault { faultCode = "0", faultString = ex.Message };
+                output.Fault = fault;
+                output.Response(context);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Deletes the page.
+        /// </summary>
+        /// <param name="blogId">
+        /// The blog id.
+        /// </param>
+        /// <param name="pageId">
+        /// The page id.
+        /// </param>
+        /// <param name="userName">
+        /// The user name.
+        /// </param>
+        /// <param name="password">
+        /// The password.
+        /// </param>
+        /// <returns>
+        /// The delete page.
+        /// </returns>
+        /// <exception cref="MetaWeblogException">
+        /// </exception>
+        internal bool DeletePage(string blogId, string pageId, string userName, string password)
+        {
+            ValidateRequest(userName, password);
+            try
+            {
+                var page = Page.GetPage(new Guid(pageId));
+                page.Delete();
+                page.Save(userName, password);
+            }
+            catch (Exception ex)
+            {
+                throw new MetaWeblogException("15", string.Format("DeletePage failed.  Error: {0}", ex.Message));
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// blogger.deletePost method
+        /// </summary>
+        /// <param name="appKey">
+        /// Key from application.  Outdated methodology that has no use here.
+        /// </param>
+        /// <param name="postId">
+        /// post guid in string format
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="publish">
+        /// mark as published?
+        /// </param>
+        /// <returns>
+        /// Whether deletion was successful or not.
+        /// </returns>
+        internal bool DeletePost(string appKey, string postId, string userName, string password, bool publish)
+        {
+            ValidateRequest(userName, password);
+            try
+            {
+                var post = Post.GetPost(new Guid(postId));
+                post.Delete();
+                post.Save(userName, password);
+            }
+            catch (Exception ex)
+            {
+                throw new MetaWeblogException("12", string.Format("DeletePost failed.  Error: {0}", ex.Message));
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Edits the page.
+        /// </summary>
+        /// <param name="blogId">
+        /// The blog id.
+        /// </param>
+        /// <param name="pageId">
+        /// The page id.
+        /// </param>
+        /// <param name="userName">
+        /// The user name.
+        /// </param>
+        /// <param name="password">
+        /// The password.
+        /// </param>
+        /// <param name="mwaPage">
+        /// The m page.
+        /// </param>
+        /// <param name="publish">
+        /// The publish.
+        /// </param>
+        /// <returns>
+        /// The edit page.
+        /// </returns>
+        internal bool EditPage(
+            string blogId, string pageId, string userName, string password, MWAPage mwaPage, bool publish)
+        {
+            ValidateRequest(userName, password);
+
+            var page = Page.GetPage(new Guid(pageId));
+
+            page.Title = mwaPage.title;
+            page.Content = mwaPage.description;
+            page.Keywords = mwaPage.mt_keywords;
+            page.ShowInList = publish;
+            page.Published = publish;
+            if (mwaPage.pageParentID != "0")
+            {
+                page.Parent = new Guid(mwaPage.pageParentID);
+            }
+
+            page.Save();
+
+            return true;
+        }
+
+        /// <summary>
+        /// metaWeblog.editPost method
+        /// </summary>
+        /// <param name="postId">
+        /// post guid in string format
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="sentPost">
+        /// struct with post details
+        /// </param>
+        /// <param name="publish">
+        /// mark as published?
+        /// </param>
+        /// <returns>
+        /// 1 if successful
+        /// </returns>
+        internal bool EditPost(string postId, string userName, string password, MWAPost sentPost, bool publish)
+        {
+            ValidateRequest(userName, password);
+
+            var post = Post.GetPost(new Guid(postId));
+
+            post.Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
+            post.Title = sentPost.title;
+            post.Content = sentPost.description;
+            post.Published = publish;
+            post.Slug = sentPost.slug;
+            post.Description = sentPost.excerpt;
+
+            if (sentPost.commentPolicy != string.Empty)
+            {
+                post.HasCommentsEnabled = sentPost.commentPolicy == "1";
+            }
+
+            post.Categories.Clear();
+            foreach (var item in sentPost.categories)
+            {
+                Category cat;
+                if (LookupCategoryGuidByName(item, out cat))
+                {
+                    post.Categories.Add(cat);
+                }
+                else
+                {
+                    // Allowing new categories to be added.  (This breaks spec, but is supported via WLW)
+                    using (var newcat = new Category(item, string.Empty))
+                    {
+                        newcat.Save();
+                        post.Categories.Add(newcat);
                     }
                 }
             }
 
-			// Save File
-			FileStream fs = new FileStream(saveFolder + fileName, FileMode.Create);
-			BinaryWriter bw = new BinaryWriter(fs);
-			bw.Write(mediaObject.bits);
-			bw.Close();
+            post.Tags.Clear();
+            foreach (var item in sentPost.tags.Where(item => item != null && item.Trim() != string.Empty))
+            {
+                post.Tags.Add(item);
+            }
 
-			// Set Url
-			string rootUrl = Utils.AbsoluteWebRoot.ToString();
-			if (BlogSettings.Instance.RequireSSLMetaWeblogAPI)
-				rootUrl = rootUrl.Replace("https://", "http://");
+            if (sentPost.postDate != new DateTime())
+            {
+                post.DateCreated = sentPost.postDate.AddHours(-BlogSettings.Instance.Timezone);
+            }
 
-			string mediaType = mediaObject.type;
-			if (mediaType.IndexOf('/') > -1)
-				mediaType = mediaType.Substring(0, mediaType.IndexOf('/'));
-			switch (mediaType)
-			{
-				case "image":
-				case "notsent": // If there wasn't a type, let's pretend it is an image.  (Thanks Zoundry.  This is for you.)
-					rootUrl += "image.axd?picture=";
-					break;
-				default:
-					rootUrl += "file.axd?file=";
-					break;
-			}
+            post.Save();
 
-			mediaInfo.url = rootUrl + mediaFolder + fileName;
-			return mediaInfo;
-		}
-
-		/// <summary>
-		/// metaWeblog.getCategories
-		/// </summary>
-		/// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="rootUrl">The root URL.</param>
-		/// <returns>array of category structs</returns>
-		internal List<MWACategory> GetCategories(string blogID, string userName, string password, string rootUrl)
-		{
-			List<MWACategory> categories = new List<MWACategory>();
-
-			ValidateRequest(userName, password);
-
-			foreach (Category cat in Category.Categories)
-			{
-				MWACategory temp = new MWACategory();
-				temp.title = cat.Title;
-				temp.description = cat.Title; //cat.Description;
-                temp.htmlUrl = cat.AbsoluteLink.ToString();
-                temp.rssUrl = cat.FeedAbsoluteLink.ToString();
-				categories.Add(temp);
-			}
-
-			return categories;
-		}
+            return true;
+        }
 
         /// <summary>
-        /// wp.getTags
+        /// Gets authors.
         /// </summary>
-        /// <param name="blogID"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns>list of tags</returns>
-        internal List<string> GetKeywords(string blogID, string userName, string password)
+        /// <param name="blogId">
+        /// The blog id.
+        /// </param>
+        /// <param name="userName">
+        /// The user name.
+        /// </param>
+        /// <param name="password">
+        /// The password.
+        /// </param>
+        /// <returns>
+        /// A list of authors.
+        /// </returns>
+        internal List<MWAAuthor> GetAuthors(string blogId, string userName, string password)
         {
-            List<string> keywords = new List<string>();
+            ValidateRequest(userName, password);
+
+            var authors = new List<MWAAuthor>();
+
+            if (Roles.IsUserInRole(userName, BlogSettings.Instance.AdministratorRole))
+            {
+                int total;
+                
+                var users = Membership.Provider.GetAllUsers(0, 999, out total);
+
+                authors.AddRange(
+                    users.Cast<MembershipUser>().Select(
+                        user =>
+                        new MWAAuthor
+                            {
+                                user_id = user.UserName,
+                                user_login = user.UserName,
+                                display_name = user.UserName,
+                                user_email = user.Email,
+                                meta_value = string.Empty
+                            }));
+            }
+            else
+            {
+                // If not admin, just add that user to the options.
+                var single = Membership.GetUser(userName);
+                if (single != null)
+                {
+                    var temp = new MWAAuthor
+                        {
+                            user_id = single.UserName,
+                            user_login = single.UserName,
+                            display_name = single.UserName,
+                            user_email = single.Email,
+                            meta_value = string.Empty
+                        };
+                    authors.Add(temp);
+                }
+            }
+
+            return authors;
+        }
+
+        /// <summary>
+        /// metaWeblog.getCategories method
+        /// </summary>
+        /// <param name="blogId">
+        /// always 1000 in BlogEngine since it is a singlar blog instance
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="rootUrl">
+        /// The root URL.
+        /// </param>
+        /// <returns>
+        /// array of category structs
+        /// </returns>
+        internal List<MWACategory> GetCategories(string blogId, string userName, string password, string rootUrl)
+        {
+            ValidateRequest(userName, password);
+
+            return Category.Categories.Select(cat => new MWACategory
+                {
+                    title = cat.Title, description = cat.Title, htmlUrl = cat.AbsoluteLink.ToString(), rssUrl = cat.FeedAbsoluteLink.ToString()
+                }).ToList();
+        }
+
+        /// <summary>
+        /// wp.getTags method
+        /// </summary>
+        /// <param name="blogId">The blog id.</param>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>list of tags</returns>
+        internal List<string> GetKeywords(string blogId, string userName, string password)
+        {
+            var keywords = new List<string>();
 
             ValidateRequest(userName, password);
 
-            foreach (Post post in Post.Posts)
+            foreach (var tag in
+                Post.Posts.Where(post => post.Visible).SelectMany(post => post.Tags.Where(tag => !keywords.Contains(tag))))
             {
-                if (post.IsVisible)
-                {
-                    foreach (string tag in post.Tags)
-                    {
-                        if (!keywords.Contains(tag))
-                            keywords.Add(tag);
-                    }
-                }
+                keywords.Add(tag);
             }
+
             keywords.Sort();
 
             return keywords;
         }
 
-		/// <summary>
-		/// metaWeblog.getRecentPosts
-		/// </summary>
-		/// <param name="blogID">always 1000 in BlogEngine since it is a singlar blog instance</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="numberOfPosts">number of posts to return</param>
-		/// <returns>array of post structs</returns>
-		internal List<MWAPost> GetRecentPosts(string blogID, string userName, string password, int numberOfPosts)
-		{
-			ValidateRequest(userName, password);
-
-			List<MWAPost> sendPosts = new List<MWAPost>();
-			List<Post> posts = Post.Posts;
-
-			// Set End Point
-			int stop = numberOfPosts;
-			if (stop > posts.Count)
-				stop = posts.Count;
-
-			foreach (Post post in posts.GetRange(0, stop))
-			{
-				MWAPost tempPost = new MWAPost();
-				List<string> tempCats = new List<string>();
-				List<string> tempTags = new List<string>();
-
-				tempPost.postID = post.Id.ToString();
-				tempPost.postDate = post.DateCreated;
-				tempPost.title = post.Title;
-				tempPost.description = post.Content;
-				tempPost.link = post.AbsoluteLink.AbsoluteUri;
-				tempPost.slug = post.Slug;
-				tempPost.excerpt = post.Description;
-				if (post.IsCommentsEnabled)
-					tempPost.commentPolicy = "";
-				else
-					tempPost.commentPolicy = "0";
-				tempPost.publish = post.IsPublished;
-				for (int i = 0; i < post.Categories.Count; i++)
-				{
-					tempCats.Add(Category.GetCategory(post.Categories[i].Id).ToString());
-				}
-				tempPost.categories = tempCats;
-
-				for (int i = 0; i < post.Tags.Count; i++)
-				{
-					tempTags.Add(post.Tags[i]);
-				}
-				tempPost.tags = tempTags;
-
-				sendPosts.Add(tempPost);
-
-			}
-
-			return sendPosts;
-		}
-
-		/// <summary>
-		/// blogger.getUsersBlogs
-		/// </summary>
-		/// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="rootUrl">The root URL.</param>
-		/// <returns>array of blog structs</returns>
-		internal List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password, string rootUrl)
-		{
-			List<MWABlogInfo> blogs = new List<MWABlogInfo>();
-
-			ValidateRequest(userName, password);
-
-			MWABlogInfo temp = new MWABlogInfo();
-			temp.url = rootUrl;
-			temp.blogID = "1000";
-			temp.blogName = BlogSettings.Instance.Name;
-			blogs.Add(temp);
-
-			return blogs;
-		}
-
-		/// <summary>
-		/// blogger.deletePost
-		/// </summary>
-		/// <param name="appKey">Key from application.  Outdated methodology that has no use here.</param>
-		/// <param name="postID">post guid in string format</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="publish">mark as published?</param>
-		/// <returns></returns>
-		internal bool DeletePost(string appKey, string postID, string userName, string password, bool publish)
-		{
-			ValidateRequest(userName, password);
-			try
-			{
-				Post post = Post.GetPost(new Guid(postID));
-				post.Delete();
-				post.Save(userName, password);
-			}
-			catch (Exception ex)
-			{
-				throw new MetaWeblogException("12", "DeletePost failed.  Error: " + ex.Message);
-			}
-
-			return true;
-		}
-
-		/// <summary>
-		/// wp.newPage
-		/// </summary>
-		/// <param name="blogID">blogID in string format</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <param name="mPage"></param>
-		/// <param name="publish"></param>
-		/// <returns></returns>
-		internal string NewPage(string blogID, string userName, string password, MWAPage mPage, bool publish)
-		{
-			ValidateRequest(userName, password);
-
-			Page page = new Page();
-			page.Title = mPage.title;
-			page.Content = mPage.description;
-			page.Description = ""; // Can not be set from WLW
-			page.Keywords = mPage.mt_keywords;
-			if (mPage.pageDate != new DateTime())
-				page.DateCreated = mPage.pageDate;
-			page.ShowInList = publish;
-			page.IsPublished = publish;
-			if (mPage.pageParentID != "0")
-				page.Parent = new Guid(mPage.pageParentID);
-
-			page.Save();
-
-			return page.Id.ToString();
-		}
-
-		/// <summary>
-		/// wp.getPages
-		/// </summary>
-		/// <param name="blogID">blogID in string format</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <returns></returns>
-		internal List<MWAPage> GetPages(string blogID, string userName, string password)
-		{
-			ValidateRequest(userName, password);
-
-			List<MWAPage> pages = new List<MWAPage>();
-
-			foreach (Page page in Page.Pages)
-			{
-				MWAPage mPage = new MWAPage();
-				mPage.pageID = page.Id.ToString();
-				mPage.title = page.Title;
-				mPage.description = page.Content;
-				mPage.mt_keywords = page.Keywords;
-				mPage.pageDate = page.DateCreated;
-				mPage.link = page.AbsoluteLink.AbsoluteUri;
-				mPage.mt_convert_breaks = "__default__";
-				mPage.pageParentID = page.Parent.ToString();
-
-				pages.Add(mPage);
-			}
-
-			return pages;
-		}
-
-		/// <summary>
-		/// wp.getPage
-		/// </summary>
-		/// <param name="blogID">blogID in string format</param>
-		/// <param name="pageID">page guid in string format</param>
-		/// <param name="userName">login username</param>
-		/// <param name="password">login password</param>
-		/// <returns>struct with post details</returns>
-		internal MWAPage GetPage(string blogID, string pageID, string userName, string password)
-		{
-			ValidateRequest(userName, password);
-
-			MWAPage sendPage = new MWAPage();
-			Page page = Page.GetPage(new Guid(pageID));
-
-			sendPage.pageID = page.Id.ToString();
-			sendPage.title = page.Title;
-			sendPage.description = page.Content;
-			sendPage.mt_keywords = page.Keywords;
-			sendPage.pageDate = page.DateCreated;
-			sendPage.link = page.AbsoluteLink.AbsoluteUri;
-			sendPage.mt_convert_breaks = "__default__";
-			if (page.Parent != null)
-				sendPage.pageParentID = page.Parent.ToString();
-
-			return sendPage;
-		}
-
-		internal bool EditPage(string blogID, string pageID, string userName, string password, MWAPage mPage, bool publish)
-		{
-			ValidateRequest(userName, password);
-
-			Page page = Page.GetPage(new Guid(pageID));
-
-			page.Title = mPage.title;
-			page.Content = mPage.description;
-			page.Keywords = mPage.mt_keywords;
-			page.ShowInList = publish;
-			page.IsPublished = publish;
-			if (mPage.pageParentID != "0")
-				page.Parent = new Guid(mPage.pageParentID);
-
-			page.Save();
-
-			return true;
-		}
-
-		internal bool DeletePage(string blogID, string pageID, string userName, string password)
-		{
-			ValidateRequest(userName, password);
-			try
-			{
-				Page page = Page.GetPage(new Guid(pageID));
-				page.Delete();
-				page.Save(userName, password);
-			}
-			catch (Exception ex)
-			{
-				throw new MetaWeblogException("15", "DeletePage failed.  Error: " + ex.Message);
-			}
-
-			return true;
-		}
-
-        internal List<MWAAuthor> GetAuthors(string blogID, string userName, string password)
+        /// <summary>
+        /// wp.getPage method
+        /// </summary>
+        /// <param name="blogId">
+        /// blogID in string format
+        /// </param>
+        /// <param name="pageId">
+        /// page guid in string format
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <returns>
+        /// struct with post details
+        /// </returns>
+        internal MWAPage GetPage(string blogId, string pageId, string userName, string password)
         {
             ValidateRequest(userName, password);
 
-            List<MWAAuthor> authors = new List<MWAAuthor>();
+            var sendPage = new MWAPage();
+            var page = Page.GetPage(new Guid(pageId));
 
-            if (Roles.IsUserInRole(userName, BlogSettings.Instance.AdministratorRole))
-            {
-                int total = 0;
-                int count = 0;
-                MembershipUserCollection users = Membership.Provider.GetAllUsers(0, 999, out total);
+            sendPage.pageID = page.Id.ToString();
+            sendPage.title = page.Title;
+            sendPage.description = page.Content;
+            sendPage.mt_keywords = page.Keywords;
+            sendPage.pageDate = page.DateCreated;
+            sendPage.link = page.AbsoluteLink.AbsoluteUri;
+            sendPage.mt_convert_breaks = "__default__";
+            sendPage.pageParentID = page.Parent.ToString();
 
-                foreach (MembershipUser user in users)
+            return sendPage;
+        }
+
+        /// <summary>
+        /// wp.getPages method
+        /// </summary>
+        /// <param name="blogId">
+        /// blogID in string format
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <returns>
+        /// a list of pages
+        /// </returns>
+        internal List<MWAPage> GetPages(string blogId, string userName, string password)
+        {
+            ValidateRequest(userName, password);
+
+            return Page.Pages.Select(page => new MWAPage
                 {
-                    count++;
-                    MWAAuthor temp = new MWAAuthor();
-                    temp.user_id = user.UserName;
-                    temp.user_login = user.UserName;
-                    temp.display_name = user.UserName;
-                    temp.user_email = user.Email;
-                    temp.meta_value = "";
-                    authors.Add(temp);
-                }
+                    pageID = page.Id.ToString(), title = page.Title, description = page.Content, mt_keywords = page.Keywords, pageDate = page.DateCreated, link = page.AbsoluteLink.AbsoluteUri, mt_convert_breaks = "__default__", pageParentID = page.Parent.ToString()
+                }).ToList();
+        }
+
+        /// <summary>
+        /// metaWeblog.getPost method
+        /// </summary>
+        /// <param name="postId">
+        /// post guid in string format
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <returns>
+        /// struct with post details
+        /// </returns>
+        internal MWAPost GetPost(string postId, string userName, string password)
+        {
+            ValidateRequest(userName, password);
+
+            var sendPost = new MWAPost();
+            var post = Post.GetPost(new Guid(postId));
+
+            sendPost.postID = post.Id.ToString();
+            sendPost.postDate = post.DateCreated;
+            sendPost.title = post.Title;
+            sendPost.description = post.Content;
+            sendPost.link = post.AbsoluteLink.AbsoluteUri;
+            sendPost.slug = post.Slug;
+            sendPost.excerpt = post.Description;
+            sendPost.commentPolicy = post.HasCommentsEnabled ? "1" : "0";
+            sendPost.publish = post.Published;
+
+            var cats = post.Categories.Select(t => Category.GetCategory(t.Id).ToString()).ToList();
+
+            sendPost.categories = cats;
+
+            var tags = post.Tags.ToList();
+
+            sendPost.tags = tags;
+
+            return sendPost;
+        }
+
+        /// <summary>
+        /// metaWeblog.getRecentPosts method
+        /// </summary>
+        /// <param name="blogId">
+        /// always 1000 in BlogEngine since it is a singlar blog instance
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="numberOfPosts">
+        /// number of posts to return
+        /// </param>
+        /// <returns>
+        /// array of post structs
+        /// </returns>
+        internal List<MWAPost> GetRecentPosts(string blogId, string userName, string password, int numberOfPosts)
+        {
+            ValidateRequest(userName, password);
+
+            var sendPosts = new List<MWAPost>();
+            var posts = Post.Posts;
+
+            // Set End Point
+            var stop = numberOfPosts;
+            if (stop > posts.Count)
+            {
+                stop = posts.Count;
+            }
+
+            foreach (var post in posts.GetRange(0, stop))
+            {
+                var tempPost = new MWAPost
+                    {
+                        postID = post.Id.ToString(),
+                        postDate = post.DateCreated,
+                        title = post.Title,
+                        description = post.Content,
+                        link = post.AbsoluteLink.AbsoluteUri,
+                        slug = post.Slug,
+                        excerpt = post.Description,
+                        commentPolicy = post.HasCommentsEnabled ? string.Empty : "0",
+                        publish = post.Published
+                    };
+
+                var tempCats = post.Categories.Select(t => Category.GetCategory(t.Id).ToString()).ToList();
+
+                tempPost.categories = tempCats;
+
+                var tempTags = post.Tags.ToList();
+
+                tempPost.tags = tempTags;
+
+                sendPosts.Add(tempPost);
+            }
+
+            return sendPosts;
+        }
+
+        /// <summary>
+        /// blogger.getUsersBlogs method
+        /// </summary>
+        /// <param name="appKey">
+        /// Key from application.  Outdated methodology that has no use here.
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="rootUrl">
+        /// The root URL.
+        /// </param>
+        /// <returns>
+        /// array of blog structs
+        /// </returns>
+        internal List<MWABlogInfo> GetUserBlogs(string appKey, string userName, string password, string rootUrl)
+        {
+            var blogs = new List<MWABlogInfo>();
+
+            ValidateRequest(userName, password);
+
+            var temp = new MWABlogInfo { url = rootUrl, blogID = "1000", blogName = BlogSettings.Instance.Name };
+            blogs.Add(temp);
+
+            return blogs;
+        }
+
+        /// <summary>
+        /// metaWeblog.newMediaObject method
+        /// </summary>
+        /// <param name="blogId">
+        /// always 1000 in BlogEngine since it is a singlar blog instance
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="mediaObject">
+        /// struct with media details
+        /// </param>
+        /// <param name="request">
+        /// The HTTP request.
+        /// </param>
+        /// <returns>
+        /// struct with url to media
+        /// </returns>
+        internal MWAMediaInfo NewMediaObject(
+            string blogId, string userName, string password, MWAMediaObject mediaObject, HttpContext request)
+        {
+            ValidateRequest(userName, password);
+
+            var mediaInfo = new MWAMediaInfo();
+
+            var rootPath = string.Format("{0}files/", BlogSettings.Instance.StorageLocation);
+            var serverPath = request.Server.MapPath(rootPath);
+            var saveFolder = serverPath;
+            var fileName = mediaObject.name;
+            var mediaFolder = string.Empty;
+
+            // Check/Create Folders & Fix fileName
+            if (mediaObject.name.LastIndexOf('/') > -1)
+            {
+                mediaFolder = mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
+                saveFolder += mediaFolder;
+                mediaFolder += "/";
+                saveFolder = saveFolder.Replace('/', Path.DirectorySeparatorChar);
+                fileName = mediaObject.name.Substring(mediaObject.name.LastIndexOf('/') + 1);
             }
             else
             {
-                // If not admin, just add that user to the options.
-                MembershipUser single = Membership.GetUser(userName);
-                MWAAuthor temp = new MWAAuthor();
-                temp.user_id = single.UserName;
-                temp.user_login = single.UserName;
-                temp.display_name = single.UserName;
-                temp.user_email = single.Email;
-                temp.meta_value = "";
-                authors.Add(temp);
+                if (saveFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                {
+                    saveFolder = saveFolder.Substring(0, saveFolder.Length - 1);
+                }
             }
-            return authors;
+
+            if (!Directory.Exists(saveFolder))
+            {
+                Directory.CreateDirectory(saveFolder);
+            }
+
+            saveFolder += Path.DirectorySeparatorChar;
+
+            if (File.Exists(saveFolder + fileName))
+            {
+                // Find unique fileName
+                for (var count = 1; count < 30000; count++)
+                {
+                    var tempFileName = fileName.Insert(fileName.LastIndexOf('.'), string.Format("_{0}", count));
+                    if (File.Exists(saveFolder + tempFileName))
+                    {
+                        continue;
+                    }
+
+                    fileName = tempFileName;
+                    break;
+                }
+            }
+
+            // Save File
+            using (var fs = new FileStream(saveFolder + fileName, FileMode.Create))
+            using (var bw = new BinaryWriter(fs))
+            {
+                bw.Write(mediaObject.bits);
+                bw.Close();
+            }
+
+            // Set Url
+            var rootUrl = Utils.AbsoluteWebRoot.ToString();
+            if (BlogSettings.Instance.RequireSslMetaWeblogApi)
+            {
+                rootUrl = rootUrl.Replace("https://", "http://");
+            }
+
+            var mediaType = mediaObject.type;
+            if (mediaType.IndexOf('/') > -1)
+            {
+                mediaType = mediaType.Substring(0, mediaType.IndexOf('/'));
+            }
+
+            switch (mediaType)
+            {
+                case "image":
+                case "notsent":
+                    // If there wasn't a type, let's pretend it is an image.  (Thanks Zoundry.  This is for you.)
+                    rootUrl += "image.axd?picture=";
+                    break;
+                default:
+                    rootUrl += "file.axd?file=";
+                    break;
+            }
+
+            mediaInfo.url = rootUrl + mediaFolder + fileName;
+            return mediaInfo;
         }
 
-		#endregion
-
-		#region Private Methods
-
-		/// <summary>
-		/// Checks username and password.  Throws error if validation fails.
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <param name="password"></param>
-		private void ValidateRequest(string userName, string password)
-		{
-			if (!Membership.ValidateUser(userName, password))
-			{
-				throw new MetaWeblogException("11", "User authentication failed");
-			}
-		}
-
-		/// <summary>
-		/// Returns Category Guid from Category name.
-		/// </summary>
-		/// <remarks>
-		/// Reverse dictionary lookups are ugly.
-		/// </remarks>
-		/// <param name="name"></param>
-		/// <param name="cat"></param>
-		/// <returns></returns>
-		private bool LookupCategoryGuidByName(string name, out Category cat)
-		{
-			cat = new Category();
-			foreach (Category item in Category.Categories)
-			{
-				if (item.Title == name)
-				{
-					cat = item;
-					return true;
-				}
-			}
-			return false;
-		}
-
-		#endregion
-	}
-
-	/// <summary>
-	/// Exception specifically for MetaWeblog API.  Error (or fault) responses 
-	/// request a code value.  This is our chance to add one to the exceptions
-	/// which can be used to produce a proper fault.
-	/// </summary>
-	[Serializable()]
-	public class MetaWeblogException : Exception
-	{
-		/// <summary>
-		/// Constructor to load properties
-		/// </summary>
-		/// <param name="code">Fault code to be returned in Fault Response</param>
-		/// <param name="message">Message to be returned in Fault Response</param>
-		public MetaWeblogException(string code, string message)
-			: base(message)
-		{
-			_code = code;
-		}
-
-		private string _code;
-		/// <summary>
-		/// Code is actually for Fault Code.  It will be passed back in the 
-		/// response along with the error message.
-		/// </summary>
-		public string Code
-		{
-			get { return _code; }
-		}
-	}
-
-	/// <summary>
-	/// MetaWeblog Category struct
-	/// returned as an array from GetCategories
-	/// </summary>
-	internal struct MWACategory
-	{
-		/// <summary>
-		/// Category title
-		/// </summary>
-		public string description;
-		/// <summary>
-		/// Url to thml display of category
-		/// </summary>
-		public string htmlUrl;
-		/// <summary>
-		/// Url to RSS for category
-		/// </summary>
-		public string rssUrl;
-		/// <summary>
-		/// The guid of the category
-		/// </summary>
-		public string id;
-		/// <summary>
-		/// The title/name of the category
-		/// </summary>
-		public string title;
-	}
-
-	/// <summary>
-	/// MetaWeblog BlogInfo struct
-	/// returned as an array from getUserBlogs
-	/// </summary>
-	internal struct MWABlogInfo
-	{
-		/// <summary>
-		/// Blog Url
-		/// </summary>
-		public string url;
-		/// <summary>
-		/// Blog ID (Since BlogEngine.NET is single instance this number is always 10.
-		/// </summary>
-		public string blogID;
-		/// <summary>
-		/// Blog Title
-		/// </summary>
-		public string blogName;
-	}
-
-	/// <summary>
-	/// MetaWeblog Fault struct
-	/// returned when error occurs
-	/// </summary>
-	internal struct MWAFault
-	{
-		/// <summary>
-		/// Error code of Fault Response
-		/// </summary>
-		public string faultCode;
-		/// <summary>
-		/// Message of Fault Response
-		/// </summary>
-		public string faultString;
-	}
-
-	/// <summary>
-	/// MetaWeblog MediaObject struct
-	/// passed in the newMediaObject call
-	/// </summary>
-	internal struct MWAMediaObject
-	{
-		/// <summary>
-		/// Name of media object (filename)
-		/// </summary>
-		public string name;
-		/// <summary>
-		/// Type of file
-		/// </summary>
-		public string type;
-		/// <summary>
-		/// Media
-		/// </summary>
-		public byte[] bits;
-	}
-
-	/// <summary>
-	/// MetaWeblog MediaInfo struct
-	/// returned from NewMediaObject call
-	/// </summary>
-	internal struct MWAMediaInfo
-	{
-		/// <summary>
-		/// Url that points to Saved MediaObejct
-		/// </summary>
-		public string url;
-	}
-
-	/// <summary>
-	/// MetaWeblog Post struct
-	/// used in newPost, editPost, getPost, recentPosts
-	/// not all properties are used everytime.
-	/// </summary>
-	internal struct MWAPost
-	{
-		/// <summary>
-		/// PostID Guid in string format
-		/// </summary>
-		public string postID;
-		/// <summary>
-		/// Title of Blog Post
-		/// </summary>
-		public string title;
-		/// <summary>
-		/// Link to Blog Post
-		/// </summary>
-		public string link;
-		/// <summary>
-		/// Content of Blog Post
-		/// </summary>
-		public string description;
-		/// <summary>
-		/// List of Categories assigned for Blog Post
-		/// </summary>
-		public List<string> categories;
-		/// <summary>
-		/// List of Tags assinged for Blog Post
-		/// </summary>
-		public List<string> tags;
-		/// <summary>
-		/// Display date of Blog Post (DateCreated)
-		/// </summary>
-		public DateTime postDate;
-		/// <summary>
-		/// Whether the Post is published or not.
-		/// </summary>
-		public bool publish;
-		/// <summary>
-		/// Slug of post
-		/// </summary>
-		public string slug;
-		/// <summary>
-		/// CommentPolicy (Allow/Deny)
-		/// </summary>
-		public string commentPolicy;
-		/// <summary>
-		/// Excerpt
-		/// </summary>
-		public string excerpt;
         /// <summary>
-        /// wp_author_id
+        /// wp.newPage method
         /// </summary>
-	    public string author;
+        /// <param name="blogId">blogID in string format</param>
+        /// <param name="userName">login username</param>
+        /// <param name="password">login password</param>
+        /// <param name="mwaPage">The mwa page.</param>
+        /// <param name="publish">if set to <c>true</c> [publish].</param>
+        /// <returns>The new page.</returns>
+        internal string NewPage(string blogId, string userName, string password, MWAPage mwaPage, bool publish)
+        {
+            ValidateRequest(userName, password);
 
-	}
+            var page = new Page
+                {
+                    Title = mwaPage.title,
+                    Content = mwaPage.description,
+                    Description = string.Empty,
+                    Keywords = mwaPage.mt_keywords
+                };
+            if (mwaPage.pageDate != new DateTime())
+            {
+                page.DateCreated = mwaPage.pageDate;
+            }
 
-	///// <summary>
-	///// MetaWeblog UserInfo struct
-	///// returned from GetUserInfo call
-	///// </summary>
-	///// <remarks>
-	///// Not used currently, but here for completeness.
-	///// </remarks>
-	//internal struct MWAUserInfo
-	//{
-	//  /// <summary>
-	//  /// User Name Proper
-	//  /// </summary>
-	//  //public string nickname;
-	//  /// <summary>
-	//  /// Login ID
-	//  /// </summary>
-	//  //public string userID;
-	//  /// <summary>
-	//  /// Url to User Blog?
-	//  /// </summary>
-	//  //public string url;
-	//  /// <summary>
-	//  /// Email address of User
-	//  /// </summary>
-	//  public string email;
-	//  /// <summary>
-	//  /// User LastName
-	//  /// </summary>
-	//  public string lastName;
-	//  /// <summary>
-	//  /// User First Name
-	//  /// </summary>
-	//  public string firstName;
-	//}
+            page.ShowInList = publish;
+            page.Published = publish;
+            if (mwaPage.pageParentID != "0")
+            {
+                page.Parent = new Guid(mwaPage.pageParentID);
+            }
 
-	/// <summary>
-	/// wp Page Struct
-	/// </summary>
-	internal struct MWAPage
-	{
-		/// <summary>
-		/// PostID Guid in string format
-		/// </summary>
-		public string pageID;
-		/// <summary>
-		/// Title of Blog Post
-		/// </summary>
-		public string title;
-		/// <summary>
-		/// Link to Blog Post
-		/// </summary>
-		public string link;
-		/// <summary>
-		/// Content of Blog Post
-		/// </summary>
-		public string description;
-		/// <summary>
-		/// Display date of Blog Post (DateCreated)
-		/// </summary>
-		public DateTime pageDate;
-		/// <summary>
-		/// Convert Breaks
-		/// </summary>
-		public string mt_convert_breaks;
-		/// <summary>
-		/// Page Parent ID
-		/// </summary>
-		public string pageParentID;
-		/// <summary>
-		/// Page keywords
-		/// </summary>
-		public string mt_keywords;
-	}
+            page.Save();
 
-    /// <summary>
-    /// wp Author struct
-    /// </summary>
-    internal struct MWAAuthor
-    {
+            return page.Id.ToString();
+        }
+
         /// <summary>
-        /// userID - Specs call for a int, but our ID is a string.
+        /// metaWeblog.newPost method
         /// </summary>
-        public string user_id;
+        /// <param name="blogId">
+        /// always 1000 in BlogEngine since it is a singlar blog instance
+        /// </param>
+        /// <param name="userName">
+        /// login username
+        /// </param>
+        /// <param name="password">
+        /// login password
+        /// </param>
+        /// <param name="sentPost">
+        /// struct with post details
+        /// </param>
+        /// <param name="publish">
+        /// mark as published?
+        /// </param>
+        /// <returns>
+        /// postID as string
+        /// </returns>
+        internal string NewPost(string blogId, string userName, string password, MWAPost sentPost, bool publish)
+        {
+            ValidateRequest(userName, password);
+
+            var post = new Post
+                {
+                    Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author,
+                    Title = sentPost.title,
+                    Content = sentPost.description,
+                    Published = publish,
+                    Slug = sentPost.slug,
+                    Description = sentPost.excerpt
+                };
+
+            if (sentPost.commentPolicy != string.Empty)
+            {
+                post.HasCommentsEnabled = sentPost.commentPolicy == "1";
+            }
+
+            post.Categories.Clear();
+            foreach (var item in sentPost.categories)
+            {
+                Category cat;
+                if (LookupCategoryGuidByName(item, out cat))
+                {
+                    post.Categories.Add(cat);
+                }
+                else
+                {
+                    // Allowing new categories to be added.  (This breaks spec, but is supported via WLW)
+                    var newcat = new Category(item, string.Empty);
+                    newcat.Save();
+                    post.Categories.Add(newcat);
+                }
+            }
+
+            post.Tags.Clear();
+            foreach (var item in sentPost.tags.Where(item => item != null && item.Trim() != string.Empty))
+            {
+                post.Tags.Add(item);
+            }
+
+            if (sentPost.postDate != new DateTime())
+            {
+                post.DateCreated = sentPost.postDate;
+            }
+
+            post.Save();
+
+            return post.Id.ToString();
+        }
+
         /// <summary>
-        /// user login name
+        /// Returns Category Guid from Category name.
         /// </summary>
-        public string user_login;
+        /// <remarks>
+        /// Reverse dictionary lookups are ugly.
+        /// </remarks>
+        /// <param name="name">
+        /// The category name.
+        /// </param>
+        /// <param name="cat">
+        /// The category.
+        /// </param>
+        /// <returns>
+        /// Whether the category was found or not.
+        /// </returns>
+        private static bool LookupCategoryGuidByName(string name, out Category cat)
+        {
+            cat = new Category();
+            foreach (var item in Category.Categories.Where(item => item.Title == name))
+            {
+                cat = item;
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
-        /// display name
+        /// Checks username and password.  Throws error if validation fails.
         /// </summary>
-        public string display_name;
-        /// <summary>
-        /// user email
-        /// </summary>
-        public string user_email;
-        /// <summary>
-        /// nothing to see here.
-        /// </summary>
-        public string meta_value;
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="password">The password.</param>
+        private static void ValidateRequest(string userName, string password)
+        {
+            if (!Membership.ValidateUser(userName, password))
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
+        }
+
+        #endregion
     }
-
 }

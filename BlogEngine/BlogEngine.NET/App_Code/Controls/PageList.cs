@@ -1,100 +1,112 @@
-﻿#region Using
-
-using System;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.IO;
-using BlogEngine.Core;
-
-#endregion
-
-namespace Controls
+﻿namespace Controls
 {
-  /// <summary>
-  /// Builds a page list.
-  /// </summary>
-  public class PageList : Control
-  {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Web.UI;
+    using System.Web.UI.HtmlControls;
 
     /// <summary>
-    /// Initializes the <see cref="PageList"/> class.
+    /// Builds a page list.
     /// </summary>
-    static PageList()
+    public class PageList : Control
     {
-      BlogEngine.Core.Page.Saved += delegate { _Html = null; };
-    }
+        #region Constants and Fields
 
-    #region Properties
-      
+        /// <summary>
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
 
-    private static object _SyncRoot = new object(); 
-    private static string _Html;
-    /// <summary>
-    /// Caches the rendered HTML in the private field and first
-    /// updates it when a post has been saved (new or updated).
-    /// </summary>
-    private string Html
-    {
-      get
-      {
-        if (_Html == null)
+        /// <summary>
+        /// The html string.
+        /// </summary>
+        private static string html;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes static members of the <see cref="PageList"/> class. 
+        /// </summary>
+        static PageList()
         {
-          lock (_SyncRoot)
-          {
-              if (_Html == null || BlogEngine.Core.Page.Pages == null)
+            BlogEngine.Core.Page.Saved += (sender, args) => html = null;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets the rendered HTML in the private field and first
+        ///     updates it when a post has been saved (new or updated).
+        /// </summary>
+        private static string Html
+        {
+            get
             {
-              HtmlGenericControl ul = BindPages();
-              System.IO.StringWriter sw = new System.IO.StringWriter();
-              ul.RenderControl(new HtmlTextWriter(sw));
-              _Html = sw.ToString();
+                if (html == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (html == null || BlogEngine.Core.Page.Pages == null)
+                        {
+                            var ul = BindPages();
+                            using (var sw = new StringWriter())
+                            {
+                                ul.RenderControl(new HtmlTextWriter(sw));
+                                html = sw.ToString();
+                            }
+                        }
+                    }
+                }
+
+                return html;
             }
-          }
         }
 
-        return _Html;
-      }
-    }
+        #endregion
 
-    #endregion
+        #region Public Methods
 
-    /// <summary>
-    /// Loops through all pages and builds the HTML
-    /// presentation.
-    /// </summary>
-    private HtmlGenericControl BindPages()
-    {
-      HtmlGenericControl ul = new HtmlGenericControl("ul");
-			ul.Attributes.Add("class", "pagelist");
-			ul.ID = "pagelist";
-
-      foreach (BlogEngine.Core.Page page in BlogEngine.Core.Page.Pages)
-      {
-        if (page.ShowInList && page.IsVisibleToPublic)
+        /// <summary>
+        /// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object and stores tracing information about the control if tracing is enabled.
+        /// </summary>
+        /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.</param>
+        public override void RenderControl(HtmlTextWriter writer)
         {
-          HtmlGenericControl li = new HtmlGenericControl("li");
-
-          HtmlAnchor anc = new HtmlAnchor();
-          anc.HRef = page.RelativeLink.ToString();
-          anc.InnerHtml = page.Title;
-          anc.Title = page.Description;
-
-          li.Controls.Add(anc);
-          ul.Controls.Add(li);
+            writer.Write(Html);
+            writer.Write(Environment.NewLine);
         }
-      }
 
-      return ul;
-    }
+        #endregion
 
-    /// <summary>
-    /// Renders the control.
-    /// </summary>
-    public override void RenderControl(HtmlTextWriter writer)
-    {
-      writer.Write(Html);
-      writer.Write(Environment.NewLine);
+        #region Methods
+
+        /// <summary>
+        /// Loops through all pages and builds the HTML
+        /// presentation.
+        /// </summary>
+        /// <returns>A list item.</returns>
+        private static HtmlGenericControl BindPages()
+        {
+            var ul = new HtmlGenericControl("ul") { ID = "pagelist" };
+            ul.Attributes.Add("class", "pagelist");
+
+            foreach (var page in BlogEngine.Core.Page.Pages.Where(page => page.ShowInList && page.VisibleToPublic))
+            {
+                var li = new HtmlGenericControl("li");
+                var anc = new HtmlAnchor { HRef = page.RelativeLink, InnerHtml = page.Title, Title = page.Description };
+
+                li.Controls.Add(anc);
+                ul.Controls.Add(li);
+            }
+
+            return ul;
+        }
+
+        #endregion
     }
-  }
 }
