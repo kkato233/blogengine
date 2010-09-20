@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using Resources;
@@ -64,5 +65,14 @@ public partial class admin_Comments_Menu : System.Web.UI.UserControl
         {
             hdr.InnerHtml = labels.comments + ": " + labels.settings;
         }
+    }
+
+    protected string Current(string pg)
+    {
+        if (Request.Path.ToLower().Contains(pg.ToLower()))
+        {
+            return "class=\"content-box-selected\"";
+        }
+        return "";
     }
 }

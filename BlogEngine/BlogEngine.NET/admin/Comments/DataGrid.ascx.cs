@@ -3,6 +3,7 @@ using System.Web;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Security;
+using System.Text;
 using BlogEngine.Core;
 using System.Web.UI.WebControls;
 using Resources;
@@ -18,8 +19,6 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     static protected List<Comment> Comments;
     private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
-    private const string REMOVE_AUTHOR_FILTER = "<a href='?author=' alt='{0} {1}'>{0} {1}</a>";
-    private const string REMOVE_IP_FILTER = "<a href='?ip=' alt='{0} {1}'>{0} {1}</a>";
     private bool _autoModerated;
     protected enum ActionType
     {
@@ -34,84 +33,9 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
-        {
-            Response.Redirect("Settings.aspx");
-        }
-        gridComments.RowDataBound += gridComments_RowDataBound;
-        gridComments.PageSize = (BlogSettings.Instance.CommentsPerPage > 0) ? BlogSettings.Instance.CommentsPerPage : 15;
-        _autoModerated = BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto ? true : false;
-
-        string confirm = "return confirm('{0}');";
-        string msg = "";
-        NoComments.Visible = false;
-
-        btnDeleteAll.Visible = false;
-
-        if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
-            btnAction.Visible = false;
-            
-        if (Request.Path.ToLower().Contains("approved.aspx"))
-        {
-            btnAction.Text = labels.reject;
-            msg = string.Format(labels.areYouSure, labels.reject.ToLower(), labels.selectedComments);
-            btnAction.OnClientClick = string.Format(confirm, msg);
-        }
-        else if (Request.Path.ToLower().Contains("spam.aspx"))
-        {
-            btnAction.Text = labels.restore;
-            msg = string.Format(labels.areYouSure, labels.restore.ToLower(), labels.selectedComments);
-            btnAction.OnClientClick = string.Format(confirm, msg);
-            
-            btnDeleteAll.Visible = true;
-        }
-        else
-        {
-            if (_autoModerated)
-            {
-                btnAction.Text = labels.spam;
-                msg = string.Format(labels.areYouSure, labels.spam.ToLower(), labels.selectedComments);
-                btnAction.OnClientClick = string.Format(confirm, msg);
-            }
-            else
-            {
-                btnAction.Text = labels.approve;
-                msg = string.Format(labels.areYouSure, labels.approve.ToLower(), labels.selectedComments);
-                btnAction.OnClientClick = string.Format(confirm, msg);
-            }
-        }
-
-        SetFilters();
-
         if (!Page.IsPostBack)
         {
-            BindComments();
-        }
-    }
 
-    protected void ddCommentType_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        BindComments();
-    }
-
-    protected void gridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        BindComments();
-        gridComments.PageIndex = e.NewPageIndex;
-        gridComments.DataBind();
-    }
-
-    protected void gridComments_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.Footer)
-        {
-            e.Row.Cells[8].Text = string.Format("{0} : {1} {2}", labels.total, Comments.Count, labels.comments);
-
-            if(!string.IsNullOrEmpty(_authorFilter))
-                e.Row.Cells[3].Text = string.Format(REMOVE_AUTHOR_FILTER, labels.remove, labels.filter);
-
-            if(!string.IsNullOrEmpty(_ipFilter))
-                e.Row.Cells[4].Text = string.Format(REMOVE_IP_FILTER, labels.remove, labels.filter);
         }
     }
 
@@ -119,54 +43,48 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     #region Binding
 
-    protected void BindComments()
-    {
-        LoadData();
-        gridComments.DataSource = Comments;
-        gridComments.DataBind();
-    }
-
-    #endregion
-
-    #region Data handling
-
-    protected void LoadData()
+    protected string BindComments()
     {
         List<Comment> comments = new List<Comment>();
+        StringBuilder sb = new StringBuilder();
+        int rowCnt = 0;
+        string  bg = "";
 
         foreach (Post p in Post.Posts)
         {
             foreach (Comment c in p.Comments)
             {
-                if (!BlogSettings.Instance.ShowPingBacks)
-                {
-                    // do not include trackbacks and pingbacks to comment list
-                    if (c.Email == "trackback" || c.Email == "pingback") continue;
-                }
+                comments.Add(c);
 
-                if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
-                {
-                    if(Filtered(c)) comments.Add(c);
-                }
-                else
-                {
-                    if (Request.Path.ToLower().Contains("approved.aspx"))
-                    {
-                        if (c.IsApproved && Filtered(c)) comments.Add(c);
-                    }
-                    else if (Request.Path.ToLower().Contains("spam.aspx"))
-                    {
-                        if (!c.IsApproved && Filtered(c)) comments.Add(c);
-                    }
-                    else
-                    {
-                        // if auto-moderated, inbox has unapproved comments
-                        if (_autoModerated && c.IsApproved && Filtered(c)) comments.Add(c);
+                //if (!BlogSettings.Instance.ShowPingBacks)
+                //{
+                //    // do not include trackbacks and pingbacks to comment list
+                //    if (c.Email == "trackback" || c.Email == "pingback") continue;
+                //}
 
-                        // if manual moderation inbox has unapproved comments
-                        if (!_autoModerated && !c.IsApproved && Filtered(c)) comments.Add(c);
-                    }
-                }
+                //if (!BlogSettings.Instance.EnableCommentsModeration || !BlogSettings.Instance.IsCommentsEnabled)
+                //{
+                //    if (Filtered(c)) comments.Add(c);
+                //}
+                //else
+                //{
+                //    if (Request.Path.ToLower().Contains("approved.aspx"))
+                //    {
+                //        if (c.IsApproved && Filtered(c)) comments.Add(c);
+                //    }
+                //    else if (Request.Path.ToLower().Contains("spam.aspx"))
+                //    {
+                //        if (!c.IsApproved && Filtered(c)) comments.Add(c);
+                //    }
+                //    else
+                //    {
+                //        // if auto-moderated, inbox has unapproved comments
+                //        if (_autoModerated && c.IsApproved && Filtered(c)) comments.Add(c);
+
+                //        // if manual moderation inbox has unapproved comments
+                //        if (!_autoModerated && !c.IsApproved && Filtered(c)) comments.Add(c);
+                //    }
+                //}
             }
         }
         // sort in descending order
@@ -174,11 +92,32 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
         { return DateTime.Compare(c2.DateCreated, c1.DateCreated); });
         Comments = comments;
 
-        if(comments.Count == 0)
+        foreach (Comment cmt in comments)
         {
-            NoComments.Visible = true;
+            rowCnt++;
+            bg = (rowCnt % 2 == 0) ? "#F8F8F8" : "#F0F0F0";
+            sb.Append(Environment.NewLine);
+
+            sb.Append("<tr id=\"" + cmt.Id + "\" bgcolor=\"" + bg + "\">");
+            sb.Append("<td><input type=\"checkbox\" name=\"chk1\" class=\"chk\"/></td>");
+            sb.Append("<td>" + Gravatar(cmt.Email, cmt.Author) + "</td>");
+            sb.Append("<td class=\"editable\">" + cmt.Author + "</td>");
+            sb.Append("<td>" + cmt.IP + "</td>");
+            sb.Append("<td class=\"editable\">" + cmt.Email + "</td>");
+            sb.Append("<td class=\"editable\">" + GetWebsite(cmt.Website) + "</td>");
+            sb.Append("<td class=\"editable\">" + GetComment(cmt.Content) + "</td>");
+            sb.Append("<td>" + cmt.DateCreated + "</td>");
+            sb.Append("<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" onclick=\"alert('" + cmt.Id + "');return false;\">edit</a></td>");
+	        sb.Append("<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"deleteButton\">delete</a></td>");
+            sb.Append("</tr>");
         }
+
+        return sb.ToString();
     }
+
+    #endregion
+
+    #region Data handling
 
     protected void ApproveComment(Comment comment)
     {
@@ -248,28 +187,28 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void btnSelect_Click(object sender, EventArgs e)
     {
-        BindComments();
-        foreach (GridViewRow row in gridComments.Rows)
-        {
-            CheckBox cb = (CheckBox)row.FindControl("chkSelect");
-            if (cb != null && cb.Enabled)
-            {
-                cb.Checked = true;
-            }
-        }
+        //BindComments();
+        //foreach (GridViewRow row in gridComments.Rows)
+        //{
+        //    CheckBox cb = (CheckBox)row.FindControl("chkSelect");
+        //    if (cb != null && cb.Enabled)
+        //    {
+        //        cb.Checked = true;
+        //    }
+        //}
     }
 
     protected void btnClear_Click(object sender, EventArgs e)
     {
-        BindComments();
-        foreach (GridViewRow row in gridComments.Rows)
-        {
-            CheckBox cb = (CheckBox)row.FindControl("chkSelect");
-            if (cb != null && cb.Enabled)
-            {
-                cb.Checked = false;
-            }
-        }
+        //BindComments();
+        //foreach (GridViewRow row in gridComments.Rows)
+        //{
+        //    CheckBox cb = (CheckBox)row.FindControl("chkSelect");
+        //    if (cb != null && cb.Enabled)
+        //    {
+        //        cb.Checked = false;
+        //    }
+        //}
     }
 
     protected void btnAction_Click(object sender, EventArgs e)
@@ -329,21 +268,21 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void SetFilters()
     {
-        string auth = Request.QueryString["author"];
-        string ip = Request.QueryString["ip"];
+        //string auth = Request.QueryString["author"];
+        //string ip = Request.QueryString["ip"];
 
-        if (auth != null) _authorFilter = auth;
-        if (ip != null) _ipFilter = ip;
+        //if (auth != null) _authorFilter = auth;
+        //if (ip != null) _ipFilter = ip;
 
-        // with filters applied, it is read only
-        if (_authorFilter.Length > 0 || _ipFilter.Length > 0)
-        {
-            buttonsPanel.Visible = false;
-        }
-        else
-        {
-            buttonsPanel.Visible = true;
-        }
+        //// with filters applied, it is read only
+        //if (_authorFilter.Length > 0 || _ipFilter.Length > 0)
+        //{
+        //    buttonsPanel.Visible = false;
+        //}
+        //else
+        //{
+        //    buttonsPanel.Visible = true;
+        //}
     }
 
     protected bool Filtered(Comment c)
@@ -366,49 +305,49 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
 
     protected void ProcessSelected(ActionType action)
     {
-        List<Comment> tmp = new List<Comment>();
+        //List<Comment> tmp = new List<Comment>();
 
-        foreach (GridViewRow row in gridComments.Rows)
-        {
-            try
-            {
-                CheckBox cbx = (CheckBox)row.FindControl("chkSelect");
-                if (cbx != null && cbx.Checked)
-                {
-                    Comment comment = Comments.Find(
-                    delegate(Comment c)
-                    {
-                        return c.Id == (Guid)gridComments.DataKeys[row.RowIndex].Value;
-                    });
+        //foreach (GridViewRow row in gridComments.Rows)
+        //{
+        //    try
+        //    {
+        //        CheckBox cbx = (CheckBox)row.FindControl("chkSelect");
+        //        if (cbx != null && cbx.Checked)
+        //        {
+        //            Comment comment = Comments.Find(
+        //            delegate(Comment c)
+        //            {
+        //                return c.Id == (Guid)gridComments.DataKeys[row.RowIndex].Value;
+        //            });
 
-                    if (comment != null) tmp.Add(comment);
-                }
-            }
-            catch (Exception e)
-            {
-                Utils.Log(string.Format("Error processing selected row in comments data grid: {0}", e.Message));
-            }
-        }
+        //            if (comment != null) tmp.Add(comment);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Utils.Log(string.Format("Error processing selected row in comments data grid: {0}", e.Message));
+        //    }
+        //}
 
-        foreach (Comment cm in tmp)
-        {
-            if (action == ActionType.Approve)
-            {
-                if (!cm.IsApproved)
-                    ApproveComment(cm);
-            }
-            else if (action == ActionType.Reject)
-            {
-                if (cm.IsApproved)
-                    RejectComment(cm);
-            }
-            if (action == ActionType.Delete)
-            {
-                RemoveComment(cm);
-            }
-        }
+        //foreach (Comment cm in tmp)
+        //{
+        //    if (action == ActionType.Approve)
+        //    {
+        //        if (!cm.IsApproved)
+        //            ApproveComment(cm);
+        //    }
+        //    else if (action == ActionType.Reject)
+        //    {
+        //        if (cm.IsApproved)
+        //            RejectComment(cm);
+        //    }
+        //    if (action == ActionType.Delete)
+        //    {
+        //        RemoveComment(cm);
+        //    }
+        //}
 
-        BindComments();
+        //BindComments();
     }
 
     protected void ReportAndUpdate(Comment comment)
@@ -436,6 +375,13 @@ public partial class admin_Comments_DataGrid : System.Web.UI.UserControl
             }
         }
         return true;
+    }
+
+    string GetComment(string comment)
+    {
+        if (string.IsNullOrEmpty(comment)) return "";
+        if (comment.Length > 200) return Server.HtmlEncode(comment.Substring(0, 180) + "...");
+        return Server.HtmlEncode(comment);
     }
 
     public static string GetEditHtml(string id)

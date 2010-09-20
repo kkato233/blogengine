@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Spam.aspx.cs" Inherits="admin_Comments_Spam" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Pending.aspx.cs" Inherits="admin_Comments_Pending" %>
 <%@ Register src="DataGrid.ascx" tagname="DataGrid" tagprefix="uc1" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">  
+<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
     <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.spam %></span>
+        <span class="SectionHeader">Pending</span>
     </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
@@ -14,8 +14,9 @@
             <uc1:DataGrid ID="DataGridComments" runat="server" />
 		</div>
         <div style="text-align:center">
-            <input type="submit" class="btnAddNew btn rounded" value="Restore Selected" onclick="return AddRole();" />&nbsp;
+            <input type="submit" class="btnAddNew btn rounded" value="Approve Selected" onclick="return AddRole();" />&nbsp;
+            <input type="submit" class="btnAddNew btn rounded" value="Reject Selected" onclick="return AddRole();" />&nbsp;
 		    <input type="submit" class="btnAddNew btn rounded" value="Delete Selected" onclick="return AddRole();" />
         </div>
-	</div>       
+	</div> 
 </asp:Content>
