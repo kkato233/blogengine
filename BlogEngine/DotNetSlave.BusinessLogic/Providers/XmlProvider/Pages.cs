@@ -1,138 +1,161 @@
-﻿#region Using
-
-using System;
-using System.Xml;
-using System.IO;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using BlogEngine.Core;
-
-#endregion
-
-namespace BlogEngine.Core.Providers
+﻿namespace BlogEngine.Core.Providers
 {
-  /// <summary>
-  /// A storage provider for BlogEngine that uses XML files.
-  /// <remarks>
-  /// To build another provider, you can just copy and modify
-  /// this one. Then add it to the web.config's BlogEngine section.
-  /// </remarks>
-  /// </summary>
-  public partial class XmlBlogProvider : BlogProvider
-  {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Xml;
 
     /// <summary>
-    /// Retrieves a Page from the data store.
+    /// A storage provider for BlogEngine that uses XML files.
+    ///     <remarks>
+    /// To build another provider, you can just copy and modify
+    ///         this one. Then add it to the web.config's BlogEngine section.
+    ///     </remarks>
     /// </summary>
-    public override Page SelectPage(Guid id)
+    public partial class XmlBlogProvider : BlogProvider
     {
-      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + id.ToString() + ".xml";
-      XmlDocument doc = new XmlDocument();
-      doc.Load(fileName);
+        #region Public Methods
 
-      Page page = new Page();
+        /// <summary>
+        /// Deletes a Page from the data store specified by the provider.
+        /// </summary>
+        /// <param name="page">The page to delete.</param>
+        public override void DeletePage(Page page)
+        {
+            var fileName = string.Format("{0}pages{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, page.Id);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
 
-      page.Title = doc.SelectSingleNode("page/title").InnerText;
-      page.Description = doc.SelectSingleNode("page/description").InnerText;
-      page.Content = doc.SelectSingleNode("page/content").InnerText;
-      page.Keywords = doc.SelectSingleNode("page/keywords").InnerText;
+            if (Page.Pages.Contains(page))
+            {
+                Page.Pages.Remove(page);
+            }
+        }
 
-			if (doc.SelectSingleNode("page/slug") != null)
-				page.Slug = doc.SelectSingleNode("page/slug").InnerText;
+        /// <summary>
+        /// Retrieves all pages from the data store
+        /// </summary>
+        /// <returns>
+        /// List of Pages
+        /// </returns>
+        public override List<Page> FillPages()
+        {
+            var folder = string.Format("{0}pages{1}", Category.Folder, Path.DirectorySeparatorChar);
 
-      if (doc.SelectSingleNode("page/parent") != null)
-        page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
+            return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
+                    select new FileInfo(file)
+                    into info
+                    select info.Name.Replace(".xml", string.Empty)
+                    into id 
+                    select Page.Load(new Guid(id))).ToList();
+        }
 
-      if (doc.SelectSingleNode("page/isfrontpage") != null)
-        page.IsFrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
+        /// <summary>
+        /// Inserts a new Page into the data store specified by the provider.
+        /// </summary>
+        /// <param name="page">The page to insert.</param>
+        public override void InsertPage(Page page)
+        {
+            if (!Directory.Exists(string.Format("{0}pages", this.Folder)))
+            {
+                Directory.CreateDirectory(string.Format("{0}pages", this.Folder));
+            }
 
-      if (doc.SelectSingleNode("page/showinlist") != null)
-        page.ShowInList = bool.Parse(doc.SelectSingleNode("page/showinlist").InnerText);
+            var fileName = string.Format("{0}pages{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, page.Id);
+            var settings = new XmlWriterSettings { Indent = true };
 
-      if (doc.SelectSingleNode("page/ispublished") != null)
-        page.IsPublished = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
+            using (var writer = XmlWriter.Create(fileName, settings))
+            {
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("page");
 
-      page.DateCreated = DateTime.Parse(doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
-      page.DateModified = DateTime.Parse(doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
+                writer.WriteElementString("title", page.Title);
+                writer.WriteElementString("description", page.Description);
+                writer.WriteElementString("content", page.Content);
+                writer.WriteElementString("keywords", page.Keywords);
+                writer.WriteElementString("slug", page.Slug);
+                writer.WriteElementString("parent", page.Parent.ToString());
+                writer.WriteElementString("isfrontpage", page.FrontPage.ToString());
+                writer.WriteElementString("showinlist", page.ShowInList.ToString());
+                writer.WriteElementString("ispublished", page.Published.ToString());
+                writer.WriteElementString(
+                    "datecreated", 
+                    page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString(
+                        "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+                writer.WriteElementString(
+                    "datemodified", 
+                    page.DateModified.AddHours(-BlogSettings.Instance.Timezone).ToString(
+                        "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 
-      return page;
+                writer.WriteEndElement();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a Page from the provider based on the specified id.
+        /// </summary>
+        /// <param name="id">The Page id.</param>
+        /// <returns>The Page object.</returns>
+        public override Page SelectPage(Guid id)
+        {
+            var fileName = string.Format("{0}pages{1}{2}.xml", this.Folder, Path.DirectorySeparatorChar, id);
+            var doc = new XmlDocument();
+            doc.Load(fileName);
+
+            var page = new Page
+                {
+                    Title = doc.SelectSingleNode("page/title").InnerText,
+                    Description = doc.SelectSingleNode("page/description").InnerText,
+                    Content = doc.SelectSingleNode("page/content").InnerText,
+                    Keywords = doc.SelectSingleNode("page/keywords").InnerText
+                };
+
+            if (doc.SelectSingleNode("page/slug") != null)
+            {
+                page.Slug = doc.SelectSingleNode("page/slug").InnerText;
+            }
+
+            if (doc.SelectSingleNode("page/parent") != null)
+            {
+                page.Parent = new Guid(doc.SelectSingleNode("page/parent").InnerText);
+            }
+
+            if (doc.SelectSingleNode("page/isfrontpage") != null)
+            {
+                page.FrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
+            }
+
+            if (doc.SelectSingleNode("page/showinlist") != null)
+            {
+                page.ShowInList = bool.Parse(doc.SelectSingleNode("page/showinlist").InnerText);
+            }
+
+            if (doc.SelectSingleNode("page/ispublished") != null)
+            {
+                page.Published = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
+            }
+
+            page.DateCreated = DateTime.Parse(
+                doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
+            page.DateModified = DateTime.Parse(
+                doc.SelectSingleNode("page/datemodified").InnerText, CultureInfo.InvariantCulture);
+
+            return page;
+        }
+
+        /// <summary>
+        /// Updates an existing Page in the data store specified by the provider.
+        /// </summary>
+        /// <param name="page">The page to update.</param>
+        public override void UpdatePage(Page page)
+        {
+            this.InsertPage(page);
+        }
+
+        #endregion
     }
-
-    /// <summary>
-    /// Inserts a new Page to the data store.
-    /// </summary>
-    public override void InsertPage(Page page)
-    {
-      if (!Directory.Exists(_Folder + "pages"))
-        Directory.CreateDirectory(_Folder + "pages");
-
-      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
-      XmlWriterSettings settings = new XmlWriterSettings();
-      settings.Indent = true;
-
-      using (XmlWriter writer = XmlWriter.Create(fileName, settings))
-      {
-        writer.WriteStartDocument(true);
-        writer.WriteStartElement("page");
-
-        writer.WriteElementString("title", page.Title);
-        writer.WriteElementString("description", page.Description);
-        writer.WriteElementString("content", page.Content);
-        writer.WriteElementString("keywords", page.Keywords);
-				writer.WriteElementString("slug", page.Slug);
-        writer.WriteElementString("parent", page.Parent.ToString());
-        writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
-        writer.WriteElementString("showinlist", page.ShowInList.ToString());
-        writer.WriteElementString("ispublished", page.IsPublished.ToString());
-        writer.WriteElementString("datecreated", page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-        writer.WriteElementString("datemodified", page.DateModified.AddHours(-BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
-
-        writer.WriteEndElement();
-      }
-    }
-
-    /// <summary>
-    /// Updates a Page.
-    /// </summary>
-    public override void UpdatePage(Page page)
-    {
-      InsertPage(page);
-    }
-
-    /// <summary>
-    /// Deletes a page from the data store.
-    /// </summary>
-    public override void DeletePage(Page page)
-    {
-      string fileName = _Folder + "pages" + Path.DirectorySeparatorChar + page.Id.ToString() + ".xml";
-      if (File.Exists(fileName))
-        File.Delete(fileName);
-
-      if (Page.Pages.Contains(page))
-        Page.Pages.Remove(page);
-    }
-
-    /// <summary>
-    /// Retrieves all pages from the data store
-    /// </summary>
-    /// <returns>List of Pages</returns>
-    public override List<Page> FillPages()
-    {
-      string folder = Category._Folder + "pages" + Path.DirectorySeparatorChar;
-      List<Page> pages = new List<Page>();
-
-      foreach (string file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly))
-      {
-        FileInfo info = new FileInfo(file);
-        string id = info.Name.Replace(".xml", string.Empty);
-        Page page = Page.Load(new Guid(id));
-        pages.Add(page);
-      }
-
-      return pages;
-    }
-
-
-  }
 }

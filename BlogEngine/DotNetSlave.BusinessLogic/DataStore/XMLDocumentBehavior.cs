@@ -1,116 +1,144 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Serialization;
-using BlogEngine.Core.Providers;
-using System.IO;
-using System.Configuration;
-using System.Text;
-
-namespace BlogEngine.Core.DataStore
+﻿namespace BlogEngine.Core.DataStore
 {
-  /// <summary>
-  /// Class to encapsulate saving and retreaving 
-  /// XML documents to and from data storage
-  /// </summary>
-  public class XMLDocumentBehavior : ISettingsBehavior   
-  {
-    private static BlogProviderSection _section = (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
+    using System;
+    using System.Configuration;
+    using System.IO;
+    using System.Xml;
+    using System.Xml.Serialization;
+
+    using BlogEngine.Core.Providers;
 
     /// <summary>
-    /// Default constructor
+    /// Class to encapsulate saving and retreaving 
+    ///     XML documents to and from data storage
     /// </summary>
-    public XMLDocumentBehavior()
+    public class XmlDocumentBehavior : ISettingsBehavior
     {
-      //
-      // TODO: Add constructor logic here
-      //
+        #region Constants and Fields
+
+        /// <summary>
+        ///     The _section.
+        /// </summary>
+        private static readonly BlogProviderSection Section =
+            (BlogProviderSection)ConfigurationManager.GetSection("BlogEngine/blogProvider");
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region ISettingsBehavior
+
+        /// <summary>
+        /// Gets settings from data store
+        /// </summary>
+        /// <param name="extensionType">
+        /// Extension Type
+        /// </param>
+        /// <param name="extensionId">
+        /// Extension ID
+        /// </param>
+        /// <returns>
+        /// Settings as Stream
+        /// </returns>
+        public object GetSettings(ExtensionType extensionType, string extensionId)
+        {
+            WidgetData widgetData;
+            var xml = new XmlDocument();
+
+            if (Section.DefaultProvider == "XmlBlogProvider")
+            {
+                var stm = (Stream)BlogService.LoadFromDataStore(extensionType, extensionId);
+                if (stm != null)
+                {
+                    var x = new XmlSerializer(typeof(XmlDocument));
+                    xml = (XmlDocument)x.Deserialize(stm);
+                    stm.Close();
+                }
+            }
+            else
+            {
+                var o = BlogService.LoadFromDataStore(extensionType, extensionId);
+                if (!string.IsNullOrEmpty((string)o))
+                {
+                    var serializer = new XmlSerializer(typeof(WidgetData));
+                    using (var reader = new StringReader((string)o))
+                    {
+                        widgetData = (WidgetData)serializer.Deserialize(reader);
+                    }
+
+                    if (widgetData.Settings.Length > 0)
+                    {
+                        xml.InnerXml = widgetData.Settings;
+                    }
+                }
+            }
+
+            return xml;
+        }
+
+        /// <summary>
+        /// Saves XML document to data storage
+        /// </summary>
+        /// <param name="extensionType">
+        /// Extension Type
+        /// </param>
+        /// <param name="extensionId">
+        /// Extension ID
+        /// </param>
+        /// <param name="settings">
+        /// Settings as XML document
+        /// </param>
+        /// <returns>
+        /// True if saved
+        /// </returns>
+        public bool SaveSettings(ExtensionType extensionType, string extensionId, object settings)
+        {
+            var xml = (XmlDocument)settings;
+
+            if (Section.DefaultProvider == "XmlBlogProvider")
+            {
+                BlogService.SaveToDataStore(extensionType, extensionId, xml);
+            }
+            else
+            {
+                var wd = new WidgetData { Settings = xml.InnerXml };
+                BlogService.SaveToDataStore(extensionType, extensionId, wd);
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        #endregion
     }
 
     /// <summary>
-    /// Saves XML document to data storage
+    /// Wrap around xml document
     /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
-    /// <param name="settings">Settings as XML document</param>
-    /// <returns>True if saved</returns>
-    public bool SaveSettings(ExtensionType exType, string exId, object settings)
+    [Serializable]
+    public class WidgetData
     {
-      try
-      {
-        XmlDocument xml = (XmlDocument)settings;
+        #region Constructors and Destructors
 
-        if (_section.DefaultProvider == "XmlBlogProvider")
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "WidgetData" /> class.
+        /// </summary>
+        public WidgetData()
         {
-          BlogService.SaveToDataStore(exType, exId, xml);
+            this.Settings = string.Empty;
         }
-        else
-        {
-          WidgetData wd = new WidgetData();
-          wd.Settings = xml.InnerXml;
-          BlogService.SaveToDataStore(exType, exId, wd);
-        }
-        return true;
-      }
-      catch (Exception)
-      {
-        throw;
-      }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets or sets the settings.
+        /// </summary>
+        /// <value>The settings.</value>
+        public string Settings { get; set; }
+
+        #endregion
     }
-
-    /// <summary>
-    /// Gets settings from data store
-    /// </summary>
-    /// <param name="exType">Extension Type</param>
-    /// <param name="exId">Extension ID</param>
-    /// <returns>Settings as Stream</returns>
-    public object GetSettings(ExtensionType exType, string exId)
-    {
-      WidgetData wd = new WidgetData();
-      XmlDocument xml = new XmlDocument();
-
-      if (_section.DefaultProvider == "XmlBlogProvider")
-      {
-        Stream stm = (Stream)BlogService.LoadFromDataStore(exType, exId);
-        if (stm != null)
-        {
-          XmlSerializer x = new XmlSerializer(typeof(XmlDocument));
-          xml = (XmlDocument)x.Deserialize(stm);
-          stm.Close();
-        }
-      }
-      else
-      {
-        object o = BlogService.LoadFromDataStore(exType, exId);
-        if (!string.IsNullOrEmpty((string)o))
-        {
-          XmlSerializer serializer = new XmlSerializer(typeof(WidgetData));
-          using (StringReader reader = new StringReader((string)o))
-          {
-            wd = (WidgetData)serializer.Deserialize(reader);
-          }
-
-          if (wd.Settings.Length > 0)
-            xml.InnerXml = wd.Settings;
-        }
-      }
-      return xml;
-    }
-  }
-  /// <summary>
-  /// Wrap around xml document
-  /// </summary>
-  [Serializable()]
-  public class WidgetData 
-  {
-    /// <summary>
-    /// Defatul constructor
-    /// </summary>
-    public WidgetData() { }
-
-    private string settings = string.Empty;
-    /// <summary>
-    /// Settings data
-    /// </summary>
-    public string Settings { get { return settings; } set { settings = value; } }
-  }
 }

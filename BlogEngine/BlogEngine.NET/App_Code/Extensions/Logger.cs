@@ -1,75 +1,106 @@
-﻿#region using
-
-using System;
-using BlogEngine.Core;
-using BlogEngine.Core.Web.Controls;
-using System.IO;
-using System.Text;
-
-#endregion
-
-/// <summary>
-/// Subscribes to Log events and records the events in a file.
-/// </summary>
-[Extension("Subscribes to Log events and records the events in a file.", "1.0", "BlogEngine.NET")]
-public class Logger
+﻿namespace App_Code.Extensions
 {
-	static Logger()
-	{
-        Utils.OnLog += new EventHandler<EventArgs>(OnLog);
-	}
+    using System;
+    using System.IO;
+    using System.Web.Hosting;
 
-	/// <summary>
-	/// The event handler that is triggered every time there is a log notification.
-	/// </summary>
-    private static void OnLog(object sender, EventArgs e)
-	{
-        if (sender == null || !(sender is string))
-            return;
+    using BlogEngine.Core;
+    using BlogEngine.Core.Web.Controls;
 
-        string logMsg = (string)sender;
+    /// <summary>
+    /// Subscribes to Log events and records the events in a file.
+    /// </summary>
+    [Extension("Subscribes to Log events and records the events in a file.", "1.0", "BlogEngine.NET")]
+    public class Logger
+    {
+        #region Constants and Fields
 
-        if (string.IsNullOrEmpty(logMsg))
-            return;
+        /// <summary>
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
 
-        string file = GetFileName();
+        /// <summary>
+        /// The file name.
+        /// </summary>
+        private static string fileName;
 
-        StringBuilder sb = new StringBuilder();
+        #endregion
 
-        lock (_SyncRoot)
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes static members of the <see cref="Logger"/> class.
+        /// </summary>
+        static Logger()
         {
-            try
+            Utils.OnLog += OnLog;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the name of the file.
+        /// </summary>
+        /// <returns>The file name.</returns>
+        private static string GetFileName()
+        {
+            if (fileName != null)
             {
-                using (FileStream fs = new FileStream(file, FileMode.Append))
+                return fileName;
+            }
+
+            fileName = HostingEnvironment.MapPath(Path.Combine(BlogSettings.Instance.StorageLocation, "logger.txt"));
+            return fileName;
+        }
+
+        /// <summary>
+        /// The event handler that is triggered every time there is a log notification.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The event arguments.
+        /// </param>
+        private static void OnLog(object sender, EventArgs e)
+        {
+            if (sender == null || !(sender is string))
+            {
+                return;
+            }
+
+            var logMsg = (string)sender;
+
+            if (string.IsNullOrEmpty(logMsg))
+            {
+                return;
+            }
+
+            var file = GetFileName();
+
+            lock (SyncRoot)
+            {
+                try
                 {
-                    using (StreamWriter sw = new StreamWriter(fs))
+                    using (var fs = new FileStream(file, FileMode.Append))
+                    using (var sw = new StreamWriter(fs))
                     {
                         sw.WriteLine(@"*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-                        sw.WriteLine("Date: " + DateTime.Now.ToString());
+                        sw.WriteLine("Date: {0}", DateTime.Now);
                         sw.WriteLine("Contents Below");
                         sw.WriteLine(logMsg);
-
-                        sw.Close();
-                        fs.Close();
                     }
                 }
-            }
-            catch
-            {
-                // Absorb the error.
+                catch
+                {
+                    // Absorb the error.
+                }
             }
         }
-	}
 
-    private static string _FileName;
-    private static object _SyncRoot = new object();
-
-    private static string GetFileName()
-    { 
-        if (_FileName != null)
-            return _FileName;
-
-        _FileName = System.Web.Hosting.HostingEnvironment.MapPath(Path.Combine(BlogSettings.Instance.StorageLocation, "logger.txt"));
-        return _FileName;
+        #endregion
     }
 }

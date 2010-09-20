@@ -64,6 +64,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\BlogEngine.Core.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BlogML">
@@ -86,13 +87,26 @@
     <Compile Include="API\BlogML\BaseReader.cs" />
     <Compile Include="API\BlogML\BlogImporter.cs" />
     <Compile Include="API\BlogML\BlogReader.cs" />
+    <Compile Include="API\MetaWeblog\MetaWeblogException.cs" />
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
+    <Compile Include="API\MetaWeblog\MWAAuthor.cs" />
+    <Compile Include="API\MetaWeblog\MWABlogInfo.cs" />
+    <Compile Include="API\MetaWeblog\MWACategory.cs" />
+    <Compile Include="API\MetaWeblog\MWAFault.cs" />
+    <Compile Include="API\MetaWeblog\MWAMediaInfo.cs" />
+    <Compile Include="API\MetaWeblog\MWAMediaObject.cs" />
+    <Compile Include="API\MetaWeblog\MWAPage.cs" />
+    <Compile Include="API\MetaWeblog\MWAPost.cs" />
+    <Compile Include="API\MetaWeblog\MWAUserInfo.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="JsonResponse.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
+    <Compile Include="Ping\TrackbackMessage.cs" />
+    <Compile Include="Providers\BlogProviderCollection.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
     <Compile Include="SavedEventArgs.cs" />
@@ -138,6 +152,7 @@
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
     <Compile Include="Web\HttpModules\WwwSubDomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
+    <Compile Include="XmlSafeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogRollItem.cs" />
@@ -201,7 +216,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="API\BlogML\BlogML.cd" />
+    <None Include="API\MetaWeblog\MetaWeblog.cd" />
+    <None Include="BlogEngine.Core.cd" />
+    <None Include="DataStore\DataStore.cd" />
     <None Include="key.snk" />
+    <None Include="Ping\Ping.cd" />
+    <None Include="Providers\Providers.cd" />
+    <None Include="Web\Web.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -36,6 +36,6 @@ public partial class widgets_Tag_cloud_edit : WidgetEditBase
         settings["minimumposts"] = ddlMinimumPosts.SelectedValue;
         settings["tagcloudsize"] = ddlCloudSize.SelectedValue;
 		SaveSettings(settings);
-		widgets_Tag_cloud_widget.Reload();
+		WidgetsTagCloudWidget.Reload();
 	}
 }

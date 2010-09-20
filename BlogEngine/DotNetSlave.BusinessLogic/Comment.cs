@@ -1,362 +1,366 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Xml.Serialization;
-
-#endregion
-
-namespace BlogEngine.Core
+﻿namespace BlogEngine.Core
 {
-	/// <summary>
-	/// Represents a comment to a blog post.
-	/// </summary>
-	[Serializable]
-	public sealed class Comment : IComparable<Comment>, IPublishable
-	{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Xml.Serialization;
 
-		#region Properties
+    /// <summary>
+    /// Represents a comment to a blog post.
+    /// </summary>
+    [Serializable]
+    public sealed class Comment : IComparable<Comment>, IPublishable
+    {
+        #region Constants and Fields
 
-		private Guid _Id;
-		/// <summary>
-		/// The Id of the comment.
-		/// </summary>
-		public Guid Id
-		{
-			get { return _Id; }
-			set { _Id = value; }
-		}
-
-		private Guid _ParentId;
-		/// <summary>
-		/// The Id of the parent comment.
-		/// </summary>
-		public Guid ParentId
-		{
-			get { return _ParentId; }
-			set { _ParentId = value; }
-		}
-
-		private List<Comment> _Comments;
-		/// <summary>
-		/// The Id of the comment.
-		/// </summary>
-		public List<Comment> Comments
-		{
-			get {
-				if (_Comments == null)
-					_Comments = new List<Comment>();
-				return _Comments;
-			}		
-		}
-
-		private string _Author;
-		/// <summary>
-		/// Gets or sets the author.
-		/// </summary>
-		/// <value>The author.</value>
-		public string Author
-		{
-			get { return _Author; }
-			set { _Author = value; }
-		}
-
-		private string _Email;
-		/// <summary>
-		/// Gets or sets the email.
-		/// </summary>
-		/// <value>The email.</value>
-		public string Email
-		{
-			get { return _Email; }
-			set { _Email = value; }
-		}
-
-		private Uri _Website;
-
-		/// <summary>
-		/// Gets or sets the website.
-		/// </summary>
-		/// <value>The website.</value>
-		public Uri Website
-		{
-			get { return _Website; }
-			set { _Website = value; }
-		}
-
-		private string _Content;
-		/// <summary>
-		/// Gets or sets the content.
-		/// </summary>
-		/// <value>The content.</value>
-		public string Content
-		{
-			get { return _Content; }
-			set { _Content = value; }
-		}
-
-	    /// <summary>
-	    /// Abbreviated content
-	    /// </summary>
-	    public string Teaser
-	    {
-	        get
-	        {
-	            string ret = Utils.StripHtml(_Content).Trim();
-                if (ret.Length > 120)
-                    return ret.Substring(0, 116) + " ...";
-	            return ret;
-	        }
-	    }
-
-		private string _Country;
-		/// <summary>
-		/// Gets or sets the country.
-		/// </summary>
-		/// <value>The country.</value>
-		public string Country
-		{
-			get { return _Country; }
-			set { _Country = value; }
-		}
-
-		private string _IP;
-		/// <summary>
-		/// Gets or sets the IP address.
-		/// </summary>
-		/// <value>The IP.</value>
-		public string IP
-		{
-			get { return _IP; }
-			set { _IP = value; }
-		}
-
-        private string _moderatedBy;
-        ///<summary>
-        /// Process that approved or rejected comment
-        ///</summary>
-        [XmlElement]
-        public string ModeratedBy
-        {
-            get { return _moderatedBy; }
-            set { _moderatedBy = value; }
-        }
-
-        private string _Avatar;
         /// <summary>
-        /// The Avatar of the comment.
+        /// The comments.
         /// </summary>
-        public string Avatar
-        {
-            get { return _Avatar; }
-            set { _Avatar = value; }
-        }
-
-		private IPublishable _Post;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public IPublishable Parent
-		{
-			get { return _Post; }
-			set { _Post = value; }
-		}
-
-		private bool _IsApproved;
-		/// <summary>
-		/// Gets or sets the Comment approval status
-		/// </summary>
-		public bool IsApproved
-		{
-			get { return _IsApproved; }
-			set { _IsApproved = value; }
-		}
-
-		/// <summary>
-		/// Gets whether or not this comment has been published
-		/// </summary>
-		public bool IsPublished
-		{
-			get { return IsApproved; }
-		}
-
-		/// <summary>
-		/// Gets whether or not this comment should be shown
-		/// </summary>
-		/// <value></value>
-		public bool IsVisible
-		{
-			get { return IsApproved; }
-		}
+        private List<Comment> comments;
 
         /// <summary>
-        /// Gets whether or not this comment is visible to visitors not logged into the blog.
+        /// The date created.
+        /// </summary>
+        private DateTime dateCreated = DateTime.MinValue;
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        ///     Occurs after a comment is approved by the comment moderator.
+        /// </summary>
+        public static event EventHandler<EventArgs> Approved;
+
+        /// <summary>
+        ///     Occurs just before a comment is approved by the comment moderator.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> Approving;
+
+        /// <summary>
+        ///     Occurs when the post is being served to the output stream.
+        /// </summary>
+        public static event EventHandler<ServingEventArgs> Serving;
+
+        /// <summary>
+        ///     Occurs when the page is being attacked by robot spam.
+        /// </summary>
+        public static event EventHandler<EventArgs> SpamAttack;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets the absolute link.
+        /// </summary>
+        /// <value>The absolute link.</value>
+        public Uri AbsoluteLink
+        {
+            get
+            {
+                return new Uri(string.Format("{0}#id_{1}", this.Parent.AbsoluteLink, this.Id));
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the author.
+        /// </summary>
+        /// <value>The author.</value>
+        public string Author { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Avatar of the comment.
+        /// </summary>
+        public string Avatar { get; set; }
+
+        /// <summary>
+        ///     Gets a list of Comments.
+        /// </summary>
+        public List<Comment> Comments
+        {
+            get
+            {
+                return this.comments ?? (this.comments = new List<Comment>());
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public string Content { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the country.
+        /// </summary>
+        /// <value>The country.</value>
+        public string Country { get; set; }
+
+        /// <summary>
+        ///     Gets or sets when the comment was created.
+        /// </summary>
+        public DateTime DateCreated
+        {
+            get
+            {
+                return this.dateCreated == DateTime.MinValue ? this.dateCreated : this.dateCreated.AddHours(BlogSettings.Instance.Timezone);
+            }
+
+            set
+            {
+                this.dateCreated = value;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the description. Returns always string.empty.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the email.
+        /// </summary>
+        /// <value>The email.</value>
+        public string Email { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the IP address.
+        /// </summary>
+        /// <value>The IP address.</value>
+        public string IP { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Id of the comment.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether the Comment is approved.
+        /// </summary>
+        public bool IsApproved { get; set; }
+
+        /// <summary>
+        ///     Gets a value indicating whether or not this comment has been published
+        /// </summary>
+        public bool Published
+        {
+            get
+            {
+                return this.IsApproved;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a value indicating whether or not this comment should be shown
         /// </summary>
         /// <value></value>
-        public bool IsVisibleToPublic
+        public bool Visible
         {
-            get { return IsApproved; }
+            get
+            {
+                return this.IsApproved;
+            }
         }
 
-		private DateTime _DateCreated = DateTime.MinValue;
-		/// <summary>
-		/// Gets or sets when the comment was created.
-		/// </summary>
-		public DateTime DateCreated
-		{
-			get
-			{
-				if (_DateCreated == DateTime.MinValue)
-					return _DateCreated;
+        /// <summary>
+        ///     Gets a value indicating whether or not this comment is visible to visitors not logged into the blog.
+        /// </summary>
+        /// <value></value>
+        public bool VisibleToPublic
+        {
+            get
+            {
+                return this.IsApproved;
+            }
+        }
 
-				return _DateCreated.AddHours(BlogSettings.Instance.Timezone);
+        /// <summary>
+        ///    Gets or sets process that approved or rejected comment
+        /// </summary>
+        [XmlElement]
+        public string ModeratedBy { get; set; }
 
-			}
-			set { _DateCreated = value; }
-		}
+        /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        /// <value>The parent.</value>
+        public IPublishable Parent { get; set; }
 
-		DateTime IPublishable.DateModified
-		{
-			get { return DateCreated; }
-		}
+        /// <summary>
+        ///     Gets or sets the Id of the parent comment.
+        /// </summary>
+        public Guid ParentId { get; set; }
 
-		/// <summary>
-		/// Gets the title of the object
-		/// </summary>
-		/// <value></value>
-		public String Title
-		{
-			get { return Author + " on " + Parent.Title; }
-		}
+        /// <summary>
+        ///     Gets the relative link of the comment.
+        /// </summary>
+        /// <value>The relative link.</value>
+        public string RelativeLink
+        {
+            get
+            {
+                return string.Format("{0}#id_{1}", this.Parent.RelativeLink, this.Id);
+            }
+        }
 
-		/// <summary>
-		/// Gets the relative link of the comment.
-		/// </summary>
-		/// <value>The relative link.</value>
-		public string RelativeLink
-		{
-			get { return Parent.RelativeLink.ToString() + "#id_" + Id; }
-		}
+        /// <summary>
+        ///     Gets abbreviated content
+        /// </summary>
+        public string Teaser
+        {
+            get
+            {
+                var ret = Utils.StripHtml(this.Content).Trim();
+                return ret.Length > 120 ? string.Format("{0} ...", ret.Substring(0, 116)) : ret;
+            }
+        }
 
-		/// <summary>
-		/// Gets the absolute link.
-		/// </summary>
-		/// <value>The absolute link.</value>
-		public Uri AbsoluteLink
-		{
-			get { return new Uri(Parent.AbsoluteLink + "#id_" + Id); }
-		}
+        /// <summary>
+        ///     Gets the title of the object
+        /// </summary>
+        /// <value></value>
+        public string Title
+        {
+            get
+            {
+                return string.Format("{0} on {1}", this.Author, this.Parent.Title);
+            }
+        }
 
-		/// <summary>
-		/// Gets the description. Returns always string.empty.
-		/// </summary>
-		/// <value>The description.</value>
-		public String Description
-		{
-			get { return string.Empty; }
-		}
+        /// <summary>
+        ///     Gets or sets the website.
+        /// </summary>
+        /// <value>The website.</value>
+        public Uri Website { get; set; }
 
-		StateList<Category> IPublishable.Categories
-		{
-			get { return null; }
-		}
+        /// <summary>
+        /// Gets Categories.
+        /// </summary>
+        StateList<Category> IPublishable.Categories
+        {
+            get
+            {
+                return null;
+            }
+        }
 
-		#endregion
+        /// <summary>
+        /// Gets DateModified.
+        /// </summary>
+        DateTime IPublishable.DateModified
+        {
+            get
+            {
+                return this.DateCreated;
+            }
+        }
 
-		#region IComparable<Comment> Members
+        #endregion
 
-		/// <summary>
-		/// Compares the current object with another object of the same type.
-		/// </summary>
-		/// <param name="other">An object to compare with this object.</param>
-		/// <returns>
-		/// A 32-bit signed integer that indicates the relative order of the 
-		/// objects being compared. The return value has the following meanings: 
-		/// Value Meaning Less than zero This object is less than the other parameter.
-		/// Zero This object is equal to other. Greater than zero This object is greater than other.
-		/// </returns>
-		public int CompareTo(Comment other)
-		{
-			return this.DateCreated.CompareTo(other.DateCreated);
-		}
+        #region Public Methods
 
-		#endregion
+        /// <summary>
+        /// Called when [serving].
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        /// <param name="arg">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
+        public static void OnServing(Comment comment, ServingEventArgs arg)
+        {
+            if (Serving != null)
+            {
+                Serving(comment, arg);
+            }
+        }
 
-		#region Events
+        /// <summary>
+        /// Called when [spam attack].
+        /// </summary>
+        public static void OnSpamAttack()
+        {
+            if (SpamAttack != null)
+            {
+                SpamAttack(null, new EventArgs());
+            }
+        }
 
-		/// <summary>
-		/// Occurs when the post is being served to the output stream.
-		/// </summary>
-		public static event EventHandler<ServingEventArgs> Serving;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		public static void OnServing(Comment comment, ServingEventArgs arg)
-		{
-			if (Serving != null)
-			{
-				Serving(comment, arg);
-			}
-		}
+        #endregion
 
-		/// <summary>
-		/// Raises the Serving event
-		/// </summary>
-		public void OnServing(ServingEventArgs eventArgs)
-		{
-			if (Serving != null)
-			{
-				Serving(this, eventArgs);
-			}
-		}
+        #region Implemented Interfaces
 
-		/// <summary>
-		/// Occurs just before a comment is approved by the comment moderator.
-		/// </summary>
-		public static event EventHandler<CancelEventArgs> Approving;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		internal static void OnApproving(Comment comment, CancelEventArgs e)
-		{
-			if (Approving != null)
-			{
-				Approving(comment, e);
-			}
-		}
+        #region IComparable<Comment>
 
-		/// <summary>
-		/// Occurs after a comment is approved by the comment moderator.
-		/// </summary>
-		public static event EventHandler<EventArgs> Approved;
-		/// <summary>
-		/// Raises the event in a safe way
-		/// </summary>
-		internal static void OnApproved(Comment comment)
-		{
-			if (Approved != null)
-			{
-				Approved(comment, EventArgs.Empty);
-			}
-		}
+        /// <summary>
+        /// Compares the current object with another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the 
+        ///     objects being compared. The return value has the following meanings: 
+        ///     Value Meaning Less than zero This object is less than the other parameter.
+        ///     Zero This object is equal to other. Greater than zero This object is greater than other.
+        /// </returns>
+        public int CompareTo(Comment other)
+        {
+            return this.DateCreated.CompareTo(other.DateCreated);
+        }
 
-		/// <summary>
-		/// Occurs when the page is being attacked by robot spam.
-		/// </summary>
-		public static event EventHandler<EventArgs> SpamAttack;
-		/// <summary>
-		/// Raises the SpamAttack event in a safe way
-		/// </summary>
-		public static void OnSpamAttack()
-		{
-			if (SpamAttack != null)
-			{
-				SpamAttack(null, new EventArgs());
-			}
-		}
+        #endregion
 
-		#endregion
-	}
+        #region IPublishable
+
+        /// <summary>
+        /// Raises the <see cref="Serving"/> event.
+        /// </summary>
+        /// <param name="eventArgs">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
+        public void OnServing(ServingEventArgs eventArgs)
+        {
+            if (Serving != null)
+            {
+                Serving(this, eventArgs);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Called when [approved].
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        internal static void OnApproved(Comment comment)
+        {
+            if (Approved != null)
+            {
+                Approved(comment, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Called when [approving].
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+        internal static void OnApproving(Comment comment, CancelEventArgs e)
+        {
+            if (Approving != null)
+            {
+                Approving(comment, e);
+            }
+        }
+
+        #endregion
+    }
 }

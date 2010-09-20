@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="admin_Comments_Menu" %>
-<table width="100%" style="padding: 0; margin: 0; margin-bottom: 10px; display:none">
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="admin.Comments.Menu" %>
+<table width="100%" style="padding: 0; margin: 0; margin-bottom: 10px">
     <tr>
         <td>
             <h1 style="margin-bottom: -14px; margin-right: -5px"><span id="hdr" runat="server" /></h1>

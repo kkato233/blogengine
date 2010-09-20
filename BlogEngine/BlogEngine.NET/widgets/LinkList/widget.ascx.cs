@@ -1,64 +1,104 @@
-﻿#region Using
-
-using System;
-using System.Collections;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Xml;
-using System.IO;
-using System.Collections.Specialized;
-using BlogEngine.Core;
-
-#endregion
-
-public partial class widgets_LinkList_widget : WidgetBase
+﻿namespace widgets.LinkList
 {
-	public override void LoadWidget()
-	{
-    StringDictionary settings = GetSettings();
-    XmlDocument doc = new XmlDocument();
+    using System;
+    using System.Web.UI.HtmlControls;
+    using System.Xml;
 
-    if (settings["content"] != null)
-      doc.InnerXml = settings["content"];
-    
-		XmlNodeList links = doc.SelectNodes("//link");
+    /// <summary>
+    /// The widgets link list_widget.
+    /// </summary>
+    public partial class widget : WidgetBase
+    {
+        #region Properties
 
-		if (links.Count == 0)
-		{
-			ulLinks.Visible = false;
-		}
-		else
-		{
-			foreach (XmlNode node in links)
-			{
-				HtmlAnchor a = new HtmlAnchor();
-					
-				if (node.Attributes["url"] != null)
-					a.HRef = node.Attributes["url"].InnerText;
+        /// <summary>
+        /// Gets a value indicating whether or not the widget can be edited.
+        /// <remarks>
+        /// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+        /// </remarks>
+        /// </summary>
+        /// <value></value>
+        public override bool IsEditable
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-				if (node.Attributes["title"] != null)
-					a.InnerText = node.Attributes["title"].InnerText;
+        /// <summary>
+        /// Gets the name. It must be exactly the same as the folder that contains the widget.
+        /// </summary>
+        /// <value></value>
+        public override string Name
+        {
+            get
+            {
+                return "LinkList";
+            }
+        }
 
-				if (node.Attributes["newwindow"] != null && node.Attributes["newwindow"].InnerText.Equals("true", StringComparison.OrdinalIgnoreCase))
-					a.Target = "_blank";
+        #endregion
 
-				HtmlGenericControl li = new HtmlGenericControl("li");
-				li.Controls.Add(a);
-				ulLinks.Controls.Add(li);
-			}
-		}
-	}
+        #region Public Methods
 
-	public override string Name
-	{
-		get { return "LinkList"; }
-	}
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        /// data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            var settings = this.GetSettings();
+            var doc = new XmlDocument();
 
-	public override bool IsEditable
-	{
-		get { return true; }
-	}
+            if (settings["content"] != null)
+            {
+                doc.InnerXml = settings["content"];
+            }
 
+            var links = doc.SelectNodes("//link");
+
+            if (links == null)
+            {
+                return;
+            }
+
+            if (links.Count == 0)
+            {
+                this.ulLinks.Visible = false;
+            }
+            else
+            {
+                foreach (XmlNode node in links)
+                {
+                    var a = new HtmlAnchor();
+
+                    if (node.Attributes != null)
+                    {
+                        if (node.Attributes["url"] != null)
+                        {
+                            a.HRef = node.Attributes["url"].InnerText;
+                        }
+
+                        if (node.Attributes["title"] != null)
+                        {
+                            a.InnerText = node.Attributes["title"].InnerText;
+                        }
+
+                        if (node.Attributes["newwindow"] != null &&
+                            node.Attributes["newwindow"].InnerText.Equals("true", StringComparison.OrdinalIgnoreCase))
+                        {
+                            a.Target = "_blank";
+                        }
+                    }
+
+                    var li = new HtmlGenericControl("li");
+                    li.Controls.Add(a);
+                    this.ulLinks.Controls.Add(li);
+                }
+            }
+        }
+
+        #endregion
+    }
 }

@@ -1,162 +1,247 @@
-﻿#region Using
-
-using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Web.UI;
-using System.IO;
-using BlogEngine.Core;
-
-#endregion
-
-namespace Controls
+﻿namespace Controls
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Web;
+    using System.Web.UI;
 
-	public class RelatedPosts : Control
-	{
+    using BlogEngine.Core;
 
-		static RelatedPosts()
-		{
-			Post.Saved += new EventHandler<SavedEventArgs>(Post_Saved);
-		}
+    using Resources;
 
-		static void Post_Saved(object sender, SavedEventArgs e)
-		{
-			if (e.Action == SaveAction.Update)
-			{
-				Post post = (Post)sender;
-				if (_Cache.ContainsKey(post.Id))
-					_Cache.Remove(post.Id);
-			}
-		}
+    /// <summary>
+    /// The related posts.
+    /// </summary>
+    public class RelatedPosts : Control
+    {
+        #region Constants and Fields
 
-		#region Properties
+        /// <summary>
+        /// The cache.
+        /// </summary>
+        private static readonly Dictionary<Guid, string> Cache = new Dictionary<Guid, string>();
 
-		private IPublishable _Item;
+        /// <summary>
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
 
-		public IPublishable Item
-		{
-			get { return _Item; }
-			set { _Item = value; }
-		}
+        /// <summary>
+        /// The description max length.
+        /// </summary>
+        private int descriptionMaxLength = 100;
 
-		private int _MaxResults = 3;
+        /// <summary>
+        /// The headline.
+        /// </summary>
+        private string headline = labels.relatedPosts;
 
-		public int MaxResults
-		{
-			get { return _MaxResults; }
-			set { _MaxResults = value; }
-		}
+        /// <summary>
+        /// The max results.
+        /// </summary>
+        private int maxResults = 3;
 
-		private bool _ShowDescription;
+        #endregion
 
-		public bool ShowDescription
-		{
-			get { return _ShowDescription; }
-			set { _ShowDescription = value; }
-		}
+        #region Constructors and Destructors
 
-		private int _DescriptionMaxLength = 100;
+        /// <summary>
+        /// Initializes static members of the <see cref="RelatedPosts"/> class.
+        /// </summary>
+        static RelatedPosts()
+        {
+            Post.Saved += PostSaved;
+        }
 
-		public int DescriptionMaxLength
-		{
-			get { return _DescriptionMaxLength; }
-			set { _DescriptionMaxLength = value; }
-		}
+        #endregion
 
-		private string _Headline = Resources.labels.relatedPosts;
+        #region Properties
 
-		public string Headline
-		{
-			get { return _Headline; }
-			set { _Headline = value; }
-		}
+        /// <summary>
+        /// Gets or sets DescriptionMaxLength.
+        /// </summary>
+        public int DescriptionMaxLength
+        {
+            get
+            {
+                return this.descriptionMaxLength;
+            }
 
-		#endregion
+            set
+            {
+                this.descriptionMaxLength = value;
+            }
+        }
 
-		#region Private fiels
+        /// <summary>
+        /// Gets or sets Headline.
+        /// </summary>
+        public string Headline
+        {
+            get
+            {
+                return this.headline;
+            }
 
-		private static Dictionary<Guid, string> _Cache = new Dictionary<Guid, string>();
-		private static object _SyncRoot = new object();
+            set
+            {
+                this.headline = value;
+            }
+        }
 
-		#endregion
+        /// <summary>
+        /// Gets or sets Item.
+        /// </summary>
+        public IPublishable Item { get; set; }
 
-		/// <summary>
-		/// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and stores tracing information about the control if tracing is enabled.
-		/// </summary>
-		/// <param name="writer">The <see cref="T:System.Web.UI.HTmlTextWriter"></see> object that receives the control content.</param>
-		public override void RenderControl(HtmlTextWriter writer)
-		{
-			if (!BlogSettings.Instance.EnableRelatedPosts || Item == null)
-				return;
+        /// <summary>
+        /// Gets or sets MaxResults.
+        /// </summary>
+        public int MaxResults
+        {
+            get
+            {
+                return this.maxResults;
+            }
 
-			if (!_Cache.ContainsKey(Item.Id))
-			{
-				lock (_SyncRoot)
-				{
-					if (!_Cache.ContainsKey(Item.Id))
-					{
-						List<IPublishable> relatedPosts = SearchForPosts();
-						if (relatedPosts.Count <= 1)
-							return;
+            set
+            {
+                this.maxResults = value;
+            }
+        }
 
-						CreateList(relatedPosts);
-					}
-				}
-			}
+        /// <summary>
+        /// Gets or sets a value indicating whether ShowDescription.
+        /// </summary>
+        public bool ShowDescription { get; set; }
 
-			writer.Write(_Cache[Item.Id].Replace("+++", this.Headline));
-		}
+        #endregion
 
-		/// <summary>
-		/// Creates the list of related posts in HTML.
-		/// </summary>
-		/// <param name="relatedPosts">The related posts.</param>
-		private void CreateList(List<IPublishable> relatedPosts)
-		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        #region Public Methods
 
-			string link = "<a href=\"{0}\">{1}</a>";
-			string desc = "<span>{0}</span>";
-			sb.Append("<div id=\"relatedPosts\">");
-			sb.Append("<p>+++</p>");
-			sb.Append("<div>");
-			
-			int count = 0;
-			foreach (IPublishable post in relatedPosts)
-			{
-				if (post != this.Item)
-				{
-					sb.Append(string.Format(link, post.RelativeLink, HttpUtility.HtmlEncode(post.Title)));
-					if (ShowDescription)
-					{
-						string description = post.Description;
-						if (description != null && description.Length > DescriptionMaxLength)
-							description = description.Substring(0, DescriptionMaxLength) + "...";
+        /// <summary>
+        /// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"></see> object and stores tracing information about the control if tracing is enabled.
+        /// </summary>
+        /// <param name="writer">
+        /// The <see cref="T:System.Web.UI.HtmlTextWriter"></see> object that receives the control content.
+        /// </param>
+        public override void RenderControl(HtmlTextWriter writer)
+        {
+            if (!BlogSettings.Instance.EnableRelatedPosts || this.Item == null)
+            {
+                return;
+            }
 
-						if (String.IsNullOrEmpty(description))
-						{
-							string content = Utils.StripHtml(post.Content);
-							description = content.Length > DescriptionMaxLength ? content.Substring(0, DescriptionMaxLength) + "..." : content;
-						}
+            if (!Cache.ContainsKey(this.Item.Id))
+            {
+                lock (SyncRoot)
+                {
+                    if (!Cache.ContainsKey(this.Item.Id))
+                    {
+                        var relatedPosts = this.SearchForPosts();
+                        if (relatedPosts.Count <= 1)
+                        {
+                            return;
+                        }
 
-						sb.Append(string.Format(desc, description));
-					}
-					count++;
-				}
+                        this.CreateList(relatedPosts);
+                    }
+                }
+            }
 
-				if (count == MaxResults)
-					break;
-			}
+            writer.Write(Cache[this.Item.Id].Replace("+++", this.Headline));
+        }
 
-			sb.Append("</div>");
-			sb.Append("</div>");
-			_Cache.Add(Item.Id, sb.ToString());
-		}
+        #endregion
 
-		private List<IPublishable> SearchForPosts()
-		{
-			return Search.FindRelatedItems(this.Item);
-		}
-	}
+        #region Methods
+
+        /// <summary>
+        /// Handles the Saved event of the Post control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.</param>
+        private static void PostSaved(object sender, SavedEventArgs e)
+        {
+            if (e.Action != SaveAction.Update)
+            {
+                return;
+            }
+
+            var post = (Post)sender;
+            if (Cache.ContainsKey(post.Id))
+            {
+                Cache.Remove(post.Id);
+            }
+        }
+
+        /// <summary>
+        /// Creates the list of related posts in HTML.
+        /// </summary>
+        /// <param name="relatedPosts">
+        /// The related posts.
+        /// </param>
+        private void CreateList(IEnumerable<IPublishable> relatedPosts)
+        {
+            var sb = new StringBuilder();
+
+            const string LinkFormat = "<a href=\"{0}\">{1}</a>";
+            const string DescriptionFormat = "<span>{0}</span>";
+            sb.Append("<div id=\"relatedPosts\">");
+            sb.Append("<p>+++</p>");
+            sb.Append("<div>");
+
+            var count = 0;
+            foreach (var post in relatedPosts)
+            {
+                if (post != this.Item)
+                {
+                    sb.Append(string.Format(LinkFormat, post.RelativeLink, HttpUtility.HtmlEncode(post.Title)));
+                    if (this.ShowDescription)
+                    {
+                        var description = post.Description;
+                        if (description != null && description.Length > this.DescriptionMaxLength)
+                        {
+                            description = string.Format("{0}...", description.Substring(0, this.DescriptionMaxLength));
+                        }
+
+                        if (String.IsNullOrEmpty(description))
+                        {
+                            var content = Utils.StripHtml(post.Content);
+                            description = content.Length > this.DescriptionMaxLength
+                                              ? string.Format("{0}...", content.Substring(0, this.DescriptionMaxLength))
+                                              : content;
+                        }
+
+                        sb.Append(string.Format(DescriptionFormat, description));
+                    }
+
+                    count++;
+                }
+
+                if (count == this.MaxResults)
+                {
+                    break;
+                }
+            }
+
+            sb.Append("</div>");
+            sb.Append("</div>");
+            Cache.Add(this.Item.Id, sb.ToString());
+        }
+
+        /// <summary>
+        /// The search for posts.
+        /// </summary>
+        /// <returns>
+        /// A list of publishable interface.
+        /// </returns>
+        private List<IPublishable> SearchForPosts()
+        {
+            return Search.FindRelatedItems(this.Item);
+        }
+
+        #endregion
+    }
 }
