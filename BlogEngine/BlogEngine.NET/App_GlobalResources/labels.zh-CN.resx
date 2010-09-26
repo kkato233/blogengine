@@ -146,7 +146,7 @@
     <comment>Advanced settings</comment>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>替换 feed URL</value>
+    <value>替换 Feed URL</value>
     <comment>Alternate feed URL</comment>
   </data>
   <data name="approve" xml:space="preserve">
@@ -162,7 +162,7 @@
     <comment>Archive</comment>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>你确定要 {0} {1}?</value>
+    <value>您确定要 {0} {1}?</value>
     <comment>Are you sure you want to {0} {1}?</comment>
   </data>
   <data name="attachFile" xml:space="preserve">
@@ -178,11 +178,11 @@
     <comment>Avatars</comment>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>基本</value>
+    <value>基础</value>
     <comment>Basic</comment>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>第一个打分</value>
+    <value>第一个评分</value>
     <comment>Be the first to rate this post</comment>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
@@ -266,7 +266,7 @@
     <comment>Date</comment>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>默认Feed输出</value>
+    <value>默认 Feed 输出</value>
     <comment>Default feed output</comment>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
@@ -378,7 +378,7 @@
     <comment>Enable trackbacks</comment>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>批准（bLink）</value>
+    <value>标记（bLink）</value>
     <comment>Endorsement (bLink)</comment>
   </data>
   <data name="enforce" xml:space="preserve">
@@ -487,7 +487,7 @@
     <comment>None</comment>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>没有上层</value>
+    <value>没有上级</value>
     <comment>No parent</comment>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
@@ -495,19 +495,19 @@
     <comment>Notify me when new comments are added</comment>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>没有评分</value>
+    <value>未评分</value>
     <comment>Not rated yet</comment>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>评论数量</value>
+    <value>评论条数</value>
     <comment>Number of comments</comment>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value>显示文章数目</value>
+    <value>显示文章条数</value>
     <comment># of displayed items</comment>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>文章数量</value>
+    <value>文章条数</value>
     <comment>Number of posts</comment>
   </data>
   <data name="page" xml:space="preserve">
@@ -523,7 +523,7 @@
     <comment>Password</comment>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>端口</value>
+    <value>端口号</value>
     <comment>Port number</comment>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
@@ -647,7 +647,7 @@
     <comment>Select day</comment>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>选择上层</value>
+    <value>选择上级</value>
     <comment>Select parent</comment>
   </data>
   <data name="send" xml:space="preserve">
@@ -715,7 +715,7 @@
     <comment>the comment</comment>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>主题</value>
+    <value>主题模板</value>
     <comment>Theme</comment>
   </data>
   <data name="thePost" xml:space="preserve">
@@ -743,7 +743,7 @@
     <comment>Trim stylesheets</comment>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>在运行的时候去除样式表中的空白使主题文件更小</value>
+    <value>在运行的时候去除样式表中的空白使主题模板文件更小</value>
     <comment>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</comment>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
@@ -775,15 +775,15 @@
     <comment>Website</comment>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>将显示你的{0}头像</value>
+    <value>将显示您的{0}头像</value>
     <comment>Will show your {0} icon</comment>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>已写</value>
+    <value>写道</value>
     <comment>wrote</comment>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>你已经对该文章评过分</value>
+    <value>您已经对该文章评过分</value>
     <comment>You already rated this post</comment>
   </data>
   <data name="userProfiles" xml:space="preserve">
@@ -983,7 +983,7 @@
     <comment>Number of characters</comment>
   </data>
   <data name="ratingHasBeenRegistered" xml:space="preserve">
-    <value>你的评分已经被记录，谢谢！</value>
+    <value>您的评分已经被记录，谢谢！</value>
     <comment>Your rating has been registered. Thank you!</comment>
   </data>
   <data name="rateThisXStars" xml:space="preserve">
@@ -1253,5 +1253,321 @@
   <data name="register" xml:space="preserve">
     <value>注册</value>
     <comment>Register</comment>
+  </data>
+  <data name="addCommentsToPages" xml:space="preserve">
+    <value>在页面中添加评论</value>
+    <comment>Add Comments to Pages</comment>
+  </data>
+  <data name="addToPages" xml:space="preserve">
+    <value>添加到页面 (增加到文章中)</value>
+    <comment>Add to pages (in addition to posts)</comment>
+  </data>
+  <data name="alreadyHaveAccount" xml:space="preserve">
+    <value>已经有帐号了?</value>
+    <comment>Already have an account?</comment>
+  </data>
+  <data name="applyChanges" xml:space="preserve">
+    <value>应用更改</value>
+    <comment>Apply changes</comment>
+  </data>
+  <data name="clickToDisable" xml:space="preserve">
+    <value>点击禁用</value>
+    <comment>Click to disable</comment>
+  </data>
+  <data name="clickToEnable" xml:space="preserve">
+    <value>点击启用</value>
+    <comment>Click to enable</comment>
+  </data>
+  <data name="commentsWhere" xml:space="preserve">
+    <value>评论在</value>
+    <comment>comments where</comment>
+  </data>
+  <data name="confirmNewPassword" xml:space="preserve">
+    <value>确认新密码</value>
+    <comment>Confirm New Password</comment>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>确认密码</value>
+    <comment>Confirm Password</comment>
+  </data>
+  <data name="createAccount" xml:space="preserve">
+    <value>创建帐号</value>
+    <comment>Create Account</comment>
+  </data>
+  <data name="createNow" xml:space="preserve">
+    <value>现在创建!</value>
+    <comment>Create now!</comment>
+  </data>
+  <data name="createUser" xml:space="preserve">
+    <value>创建用户</value>
+    <comment>Create User</comment>
+  </data>
+  <data name="deleteConfirm" xml:space="preserve">
+    <value>您确定要删除这条的评论吗?</value>
+    <comment>Are you sure you want to delete this comment?</comment>
+  </data>
+  <data name="developmentMode" xml:space="preserve">
+    <value>开发模式</value>
+    <comment>Development mode</comment>
+  </data>
+  <data name="developmentModeCheckboxMessage" xml:space="preserve">
+    <value>如果您在本地测试 disqus 的话, 请勾选</value>
+    <comment>Check this when you test disqus locally</comment>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>禁用</value>
+    <comment>Disabled</comment>
+  </data>
+  <data name="disqusSettings" xml:space="preserve">
+    <value>Disqus 配置</value>
+    <comment>Disqus Settings</comment>
+  </data>
+  <data name="disqusShortName" xml:space="preserve">
+    <value>Disqus 站点短名</value>
+    <comment>Disqus Website Short Name</comment>
+  </data>
+  <data name="disqusSignupMessage" xml:space="preserve">
+    <value>要使用 Disqus 评论系统的话, 需要先在 &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+            注册, 将获得的短名填入配置项中(站点短名在基础配置中).</value>
+    <comment>To use Disqus as your comment manager you need first set up account at &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+            Short name used to uniquely identify your website on Disqus (Website shortname in Basic Settings).</comment>
+  </data>
+  <data name="dontHaveAccount" xml:space="preserve">
+    <value>还没有帐号?</value>
+    <comment>Don't have account yet?</comment>
+  </data>
+  <data name="forgotPassword" xml:space="preserve">
+    <value>忘记密码了?</value>
+    <comment>Forgot your password?</comment>
+  </data>
+  <data name="isAlreadyExists" xml:space="preserve">
+    <value>已经存在</value>
+    <comment>is already exists</comment>
+  </data>
+  <data name="isRequiredField" xml:space="preserve">
+    <value>是必填项</value>
+    <comment>is a required field</comment>
+  </data>
+  <data name="loginNow" xml:space="preserve">
+    <value>立即登录!</value>
+    <comment>Login now!</comment>
+  </data>
+  <data name="makeDonation" xml:space="preserve">
+    <value>捐赠</value>
+    <comment>Make a donation</comment>
+  </data>
+  <data name="moderatedByDisqus" xml:space="preserve">
+    <value>由 Disqus 提供管理.</value>
+    <comment>Moderated by Disqus.</comment>
+  </data>
+  <data name="myProfile" xml:space="preserve">
+    <value>个人资料</value>
+    <comment>My Profile</comment>
+  </data>
+  <data name="never" xml:space="preserve">
+    <value>从不</value>
+    <comment>Never</comment>
+  </data>
+  <data name="newPassword" xml:space="preserve">
+    <value>新密码</value>
+    <comment>New Password</comment>
+  </data>
+  <data name="oldPassword" xml:space="preserve">
+    <value>原密码</value>
+    <comment>Old Password</comment>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>或</value>
+    <comment>or</comment>
+  </data>
+  <data name="passwordChangeSuccess" xml:space="preserve">
+    <value>密码修改成功.</value>
+    <comment>Your password has been changed successfully.</comment>
+  </data>
+  <data name="passwordMinimumCharacters" xml:space="preserve">
+    <value>密码 (至少 {0} 个字符)</value>
+    <comment>Password (min {0} characters)</comment>
+  </data>
+  <data name="passwordRetrieval" xml:space="preserve">
+    <value>找回密码</value>
+    <comment>Password Retrieval</comment>
+  </data>
+  <data name="passwordRetrievalInstructionMessage" xml:space="preserve">
+    <value>输入您的 Email 地址, 您将立刻收到找回密码的邮件.</value>
+    <comment>Type your email address in the field above and your password will be emailed to you shortly.</comment>
+  </data>
+  <data name="rememberMe" xml:space="preserve">
+    <value>保持我的登录状态</value>
+    <comment>Keep me logged in</comment>
+  </data>
+  <data name="requiredPasswordLength" xml:space="preserve">
+    <value>新密码至少需要 {0} 个字符.</value>
+    <comment>New passwords are required to be a minimum of {0} characters in length.</comment>
+  </data>
+  <data name="returnToBlog" xml:space="preserve">
+    <value>返回博客</value>
+    <comment>Return to blog</comment>
+  </data>
+  <data name="siteUnavailableConfirm" xml:space="preserve">
+    <value>站点将暂停数秒, 确定要继续吗?</value>
+    <comment>The website will be unavailable for a few seconds.\nAre you sure you wish to continue?</comment>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>源代码</value>
+    <comment>Source</comment>
+  </data>
+  <data name="sourceViewer" xml:space="preserve">
+    <value>源代码阅读器</value>
+    <comment>Source Viewer</comment>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>状态</value>
+    <comment>Status</comment>
+  </data>
+  <data name="theValuesSaved" xml:space="preserve">
+    <value>选项已保存</value>
+    <comment>The values has been saved</comment>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>版本</value>
+    <comment>Version</comment>
+  </data>
+  <data name="addNewRole" xml:space="preserve">
+    <value>添加新角色</value>
+    <comment>Add new role</comment>
+  </data>
+  <data name="areYouSureDeleteRow" xml:space="preserve">
+    <value>确定要删除这一行吗?</value>
+    <comment>Are you sure you want to delete this row?</comment>
+  </data>
+  <data name="categoryAlreadyExists" xml:space="preserve">
+    <value>该分类已存在</value>
+    <comment>The category already exist</comment>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Close</comment>
+  </data>
+  <data name="createRole" xml:space="preserve">
+    <value>创建角色</value>
+    <comment>Create Role</comment>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>下载</value>
+    <comment>Download</comment>
+  </data>
+  <data name="enableEnclosures" xml:space="preserve">
+    <value>启用 Enclosures</value>
+    <comment>Enable Enclosures</comment>
+  </data>
+  <data name="enableSelfRegistration" xml:space="preserve">
+    <value>启用自助注册</value>
+    <comment>Enable Self Registration</comment>
+  </data>
+  <data name="enterDate" xml:space="preserve">
+    <value>请输入时间 (yyyy-mm-dd hh:mm)</value>
+    <comment>Please enter a date (yyyy-mm-dd hh:mm)</comment>
+  </data>
+  <data name="enterTitle" xml:space="preserve">
+    <value>请输入标题</value>
+    <comment>Please enter a title</comment>
+  </data>
+  <data name="enterValidDate" xml:space="preserve">
+    <value>请输入有效的日期 (yyyy-mm-dd hh:mm)</value>
+    <comment>Please enter a valid date (yyyy-mm-dd hh:mm)</comment>
+  </data>
+  <data name="enterValidName" xml:space="preserve">
+    <value>请输入有效的名字</value>
+    <comment>Please enter a valid name</comment>
+  </data>
+  <data name="enterValidNumber" xml:space="preserve">
+    <value>请输入一个有效数</value>
+    <comment>Please enter a valid number</comment>
+  </data>
+  <data name="enterValidNumberPositiveNegative" xml:space="preserve">
+    <value>请指定一个有效数 (正数或负数)</value>
+    <comment>Please specify a valid number (positive or negative)</comment>
+  </data>
+  <data name="extractFromTitle" xml:space="preserve">
+    <value>从标题中截取</value>
+    <comment>Extract from title</comment>
+  </data>
+  <data name="findPosition" xml:space="preserve">
+    <value>查找位置</value>
+    <comment>Find Position</comment>
+  </data>
+  <data name="importFromBlogML" xml:space="preserve">
+    <value>从 BlogML 导入</value>
+    <comment>Import from BlogML</comment>
+  </data>
+  <data name="invalid" xml:space="preserve">
+    <value>无效</value>
+    <comment>Invalid</comment>
+  </data>
+  <data name="noValidNumber" xml:space="preserve">
+    <value>不是有效数</value>
+    <comment>Not a valid number</comment>
+  </data>
+  <data name="onlyLoggedInCanView" xml:space="preserve">
+    <value>必须登录才能查看文章 (私密博客)</value>
+    <comment>Only logged in users can view posts (private blog)</comment>
+  </data>
+  <data name="parent" xml:space="preserve">
+    <value>上级</value>
+    <comment>Parent</comment>
+  </data>
+  <data name="pingService" xml:space="preserve">
+    <value>Ping 服务</value>
+    <comment>Ping Services</comment>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>预览</value>
+    <comment>Preview</comment>
+  </data>
+  <data name="roles" xml:space="preserve">
+    <value>角色</value>
+    <comment>Roles</comment>
+  </data>
+  <data name="showSelector" xml:space="preserve">
+    <value>显示选择器</value>
+    <comment>Show selector</comment>
+  </data>
+  <data name="slug" xml:space="preserve">
+    <value>别名 (可选)</value>
+    <comment>Slug (optional)</comment>
+  </data>
+  <data name="specifyPingService" xml:space="preserve">
+    <value>请指定一个 Ping 服务</value>
+    <comment>Please specify a ping service</comment>
+  </data>
+  <data name="tags" xml:space="preserve">
+    <value>标签</value>
+    <comment>Tags</comment>
+  </data>
+  <data name="testEmailSettings" xml:space="preserve">
+    <value>测试邮件配置</value>
+    <comment>Test mail settings</comment>
+  </data>
+  <data name="trackingScript" xml:space="preserve">
+    <value>跟踪脚本</value>
+    <comment>Tracking Script</comment>
+  </data>
+  <data name="trackingScriptDescription" xml:space="preserve">
+    <value>您可以在这里放置统计代码等 JavaScript 代码.&lt;br /&gt;&lt;br /&gt;
+          这些代码将被加入到每个页面的最底部而不管您使用的是何种主题模板.&lt;br /&gt;&lt;br /&gt;(需添加 &amp;lt;script&amp;gt; 标记)</value>
+    <comment>Visitor tracking script&lt;br /&gt;&lt;br /&gt;The JavaScript code from i.e. Google Analytics.&lt;br /&gt;&lt;br /&gt;
+          Will be added in the bottom of each page regardless of the theme.&lt;br /&gt;&lt;br /&gt;(remember to add the &amp;lt;script&amp;gt; tags)</comment>
+  </data>
+  <data name="upload" xml:space="preserve">
+    <value>上传</value>
+    <comment>Upload</comment>
+  </data>
+  <data name="usernameAlreadyTaken" xml:space="preserve">
+    <value>用户名已被占用</value>
+    <comment>Username is already taken</comment>
+  </data>
+  <data name="themeCookieName" xml:space="preserve">
+    <value>主题模板 Cookie 名</value>
+    <comment>Theme cookie name</comment>
   </data>
 </root>
