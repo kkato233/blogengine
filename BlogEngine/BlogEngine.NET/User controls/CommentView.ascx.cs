@@ -51,20 +51,6 @@ public partial class CommentView : UserControl, ICallbackEventHandler
     #region Properties
 
     /// <summary>
-    ///     Gets true if on comment save will show "awaiting moderation" message
-    ///     otherwise "comment saved, thank you.." will be displayd.
-    /// </summary>
-    public string ManualModeration
-    {
-        get
-        {
-            return BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.ModerationType == 0
-                       ? "true"
-                       : "false";
-        }
-    }
-
-    /// <summary>
     ///     Gets a value indicating whether NestingSupported.
     /// </summary>
     public bool NestingSupported
@@ -318,7 +304,7 @@ public partial class CommentView : UserControl, ICallbackEventHandler
                 Avatar = avatar.Trim()
             };
 
-        if (this.Page.User.Identity.IsAuthenticated)
+        if (this.Page.User.Identity.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
         {
             comment.IsApproved = true;
         }
@@ -693,6 +679,11 @@ public partial class CommentView : UserControl, ICallbackEventHandler
             var control = (CommentViewBase)this.LoadControl(path);
             if ((!comment.IsApproved && BlogSettings.Instance.EnableCommentsModeration) &&
                 (comment.IsApproved || !this.Page.User.Identity.IsAuthenticated))
+            {
+                continue;
+            }
+
+            if (comment.Email == "pingback" || comment.Email == "trackback")
             {
                 continue;
             }

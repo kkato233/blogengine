@@ -1,14 +1,18 @@
-﻿$.ajaxSetup({
+﻿
+$.ajaxSetup({
     type: "post",
     contentType: "application/json; charset=utf-8",
     dataType: "json"
 });
+
+var pageSize = 10;
 
 LoadView();
 
 $(document).ready(function () {
     $('.editButton').live("click", function () { return EditRow(this); });
     $('.deleteButton').live("click", function () { return DeleteRow(this); });
+    $('.loader').hide();
 });
 
 //-------------		EDITING
@@ -114,6 +118,36 @@ function LoadView() {
     }
 }
 
+function LoadComments(pg, srvs) {
+    $.ajax({
+        type: "POST",
+        url: srvs + "/LoadComments",
+        data: "{'PageSize':'" + pageSize + "', 'Page':'" + pg + "'}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/comments.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+            LoadPager(pg, srvs);
+        }
+    });
+    return false;
+}
+
+function LoadPager(pg, srvs) {
+    $.ajax({
+        type: "POST",
+        url: srvs + "/LoadPager",
+        data: "{'PageSize':'" + pageSize + "', 'Page':'" + pg + "'}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Pager').html(msg.d);
+        }
+    });
+    return false;
+}
+
 function LoadRoles() {
     $.ajax({
         url: "Roles.aspx/GetRoles",
@@ -121,8 +155,6 @@ function LoadRoles() {
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
-
-            //$('#RSSTable').tablesorter();
         }
     });
 }
@@ -134,8 +166,6 @@ function LoadUsers() {
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
-
-            //$('#RSSTable').tablesorter();
         }
     });
 }
@@ -155,11 +185,105 @@ function LoadProfile() {
     });
 }
 
+//--------------    COMMENTS
+
+function ProcessSelected(action, page) {
+    var vals = new Array();
+    var cnt = 0;
+    // action: approve, reject, restore or delete
+    var srv = "../../api/Comments.asmx/" + action;
+
+    $('input[@type=checkbox]:checked').each(function () {
+        vals[cnt] = $(this).closest("tr").attr("id");
+        cnt = cnt + 1;
+    });
+
+    if (cnt == 0) return false;
+    $('.loader').show();
+
+    var dto = { "vals": vals };
+    $.ajax({
+        url: srv,
+        data: JSON.stringify(dto),
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $('input[@type=checkbox]:checked').each(function () { 
+                    var that = $("[id$='" + $(this).closest("tr").attr("id") + "']");
+                    
+                    $(that).fadeOut(500, function () {
+                        $(that).remove();
+                    });
+
+                    // update menu counters
+                    var com_cnt = $('#comment_counter').text();
+                    var spm_cnt = $('#spam_counter').text();
+                    var pbk_cnt = $('#pingback_counter').text();
+                    var pnd_cnt = $('#pending_counter').text();
+
+                    if (action == 'Reject') {
+                        $('#spam_counter').text(parseInt(spm_cnt) + 1);
+
+                        if (page == 'Approved') $('#comment_counter').text(parseInt(com_cnt) - 1);
+                        if (page == 'Pending') $('#pending_counter').text(parseInt(pnd_cnt) - 1);
+                    }
+                    if (action == 'Approve') {
+                        $('#comment_counter').text(parseInt(com_cnt) + 1);
+
+                        if (page == 'Pending') $('#pending_counter').text(parseInt(pnd_cnt) - 1);
+                        if (page == 'Spam') $('#spam_counter').text(parseInt(spm_cnt) - 1);
+                    }
+                    if (action == 'Delete') {
+                        if (page == 'Approved') $('#comment_counter').text(parseInt(com_cnt) - 1);
+                        if (page == 'Spam') $('#spam_counter').text(parseInt(spm_cnt) - 1);
+                        if (page == 'Pingback') $('#pingback_counter').text(parseInt(pbk_cnt) - 1);
+                        if (page == 'Pending') $('#pending_counter').text(parseInt(pnd_cnt) - 1);
+                    }
+                });
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+
+    $('.loader').hide();
+    
+    ShowStatus("success", "Updated");
+    return false;
+}
+
+function DeleteAllSpam() {
+    $('.loader').show();
+    $.ajax({
+        url: "../../api/Comments.asmx/DeleteAll",
+        data: "{ }",
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $('.chk').each(function () {
+                    var that = $("[id$='" + $(this).closest("tr").attr("id") + "']");
+                    $(that).fadeOut(500, function () {
+                        $(that).remove();
+                    });
+                    ShowStatus("success", rt.Message);
+                    $('#spam_counter').text('0');
+                });
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    $('.loader').hide();
+    return false;
+}
+
 //-------------- 	HELPERS AND MISC
 
 function toggleAllChecks(o) {
     if ($(o).attr('checked')) {
-        $('.chk').attr('checked', 'checked');
+        $('.chk').not(':disabled').attr('checked', 'checked');
     }
     else {
         $('.chk').attr('checked', '');

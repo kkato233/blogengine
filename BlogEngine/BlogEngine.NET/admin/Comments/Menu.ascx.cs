@@ -19,83 +19,59 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            this.BuildMenuList();
-
             base.OnInit(e);
         }
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            SetCounters();
+        }
+
         /// <summary>
-        /// Builds the menu list.
+        /// Comment counter
         /// </summary>
-        protected void BuildMenuList()
-        {
-            const string Tmpl = "<a href=\"{0}.aspx\" class=\"{1}\"><span>{2}</span></a>";
+        protected int CommentCount { get; set; }
+        /// <summary>
+        /// Pingback/trackback counter
+        /// </summary>
+        protected int PingbackCount { get; set; }
+        /// <summary>
+        /// Spam counter
+        /// </summary>
+        protected int SpamCount { get; set; }
+        /// <summary>
+        /// Pending approval
+        /// </summary>
+        protected int PendingCount { get; set; }
 
-            using (var inbx = new HtmlGenericControl("li"))
+        /// <summary>
+        /// Indicate that menu item selected
+        /// </summary>
+        /// <param name="pg">Page address</param>
+        /// <returns>CSS class to append for current menu item</returns>
+        protected string Current(string pg)
+        {
+            if (Request.Path.ToLower().Contains(pg.ToLower()))
             {
-                var cssClass = this.Request.Path.ToLower().Contains("default.aspx") ? "current" : string.Empty;
-                inbx.InnerHtml = string.Format(Tmpl, "Default", cssClass, labels.inbox);
-
-                using (var appr = new HtmlGenericControl("li"))
-                {
-                    cssClass = this.Request.Path.ToLower().Contains("approved.aspx") ? "current" : string.Empty;
-                    appr.InnerHtml = string.Format(Tmpl, "Approved", cssClass, labels.approved);
-
-                    using (var spm = new HtmlGenericControl("li"))
-                    {
-                        cssClass = this.Request.Path.ToLower().Contains("spam.aspx") ? "current" : string.Empty;
-                        spm.InnerHtml = string.Format(Tmpl, "Spam", cssClass, labels.spam);
-
-                        using (var stn = new HtmlGenericControl("li"))
-                        {
-                            cssClass = this.Request.Path.ToLower().Contains("settings.aspx") ? "current" : string.Empty;
-                            stn.InnerHtml = string.Format(Tmpl, "Settings", cssClass, labels.configuration);
-
-                            if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
-                            {
-                                this.hdr.InnerHtml = "Moderated by Disqus";
-                                this.UlMenu.Controls.Add(stn);
-                                return;
-                            }
-
-                            this.UlMenu.Controls.Add(inbx);
-
-                            if (BlogSettings.Instance.EnableCommentsModeration && BlogSettings.Instance.IsCommentsEnabled)
-                            {
-                                if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto)
-                                {
-                                    this.hdr.InnerHtml = string.Format("{0}: {1}", labels.comments, labels.automoderation);
-                                    this.UlMenu.Controls.Add(spm);
-                                }
-                                else
-                                {
-                                    this.hdr.InnerHtml = string.Format("{0}: {1} {2}", labels.comments, labels.manual, labels.moderation);
-                                    this.UlMenu.Controls.Add(appr);
-                                }
-                            }
-                            else
-                            {
-                                this.hdr.InnerHtml = string.Format("{0}: {1}", labels.comments, labels.unmoderated);
-                            }
-
-                            this.UlMenu.Controls.Add(stn);
-                        }
-                    }
-                }
+                return "class=\"content-box-selected\"";
             }
-
-        if (Request.Path.ToLower().Contains("settings.aspx"))
-        {
-            hdr.InnerHtml = labels.comments + ": " + labels.settings;
+            return "";
         }
-    }
 
-    protected string Current(string pg)
-    {
-        if (Request.Path.ToLower().Contains(pg.ToLower()))
+        /// <summary>
+        /// Gets the cookie with visitor information if any is set.
+        ///     Then fills the contact information fields in the form.
+        /// </summary>
+        private void SetCounters()
         {
-            return "class=\"content-box-selected\"";
+            foreach (Post p in Post.Posts)
+            {
+                PendingCount += p.NotApprovedComments.Count;
+                PingbackCount += p.Pingbacks.Count;
+                CommentCount += p.ApprovedComments.Count;
+                SpamCount += p.SpamComments.Count;
+            }
         }
-        return "";
+
     }
 }

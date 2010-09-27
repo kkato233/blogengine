@@ -79,12 +79,11 @@ label.wide {
 
 .banner {
 	width: 100%;
-	height: 70px;
+	height: 50px;
 	margin-bottom: 10px;
 }
 
-.banner-links 
-{
+.banner-links {
     width: 450px;
     float:right;
     overflow:hidden;
@@ -94,8 +93,8 @@ label.wide {
 }
 
 .be-logo {
-    background: url( '../pics/be-logo.jpg' ) 40px 14px no-repeat;
-    height: 70px;
+    background: url( '../pics/logo.png' ) 40px 0px no-repeat;
+    height: 50px;
     margin: 0;
     padding: 0;
     width: 400px;
@@ -104,8 +103,8 @@ label.wide {
 
 .be-logo span {
     position: relative;
-    top: 47px;
-    left: 205px;
+    top: 24px;
+    left: 170px;
     font: bold 1.1em Verdana, Arial, Helvetica, sans-serif;
 }
 
@@ -143,7 +142,8 @@ label.wide {
     border: 0px solid #ccc; 
     display: block; 
     min-height: 300px; 
-    margin: 0; 
+    margin: 0;
+    padding-bottom: 20px;
 }
 .content-box-left{
     width: auto; 
@@ -474,10 +474,16 @@ input[type="checkbox"] {
     border: 1px solid #ccc;
 }
 
+.gravatar {
+    width: 38px;
+    border: 0;
+}
+
 #StatusBox {
     padding: 0;
     margin: 0;
-    position:absolute;
+    position: fixed;
+    bottom: 0px;
     display:block;
     width: 100%;
     z-index: 999;
@@ -562,12 +568,11 @@ input[type="checkbox"] {
 	padding: 10px;
 }
 
-.subsection 
-{
+.subsection {
     display: block;
     clear: both;
-    padding: 10px;
-    margin: 10px 0;
+    /*padding: 10px;
+    margin: 10px 0;*/
 }
 
 .subsection2cols {
@@ -584,6 +589,21 @@ input[type="checkbox"] {
 .subsectioncol2 {
     width: 250px;
     float:right;
+}
+
+.sectionRow {
+    vertical-align: middle;
+    padding: 2px 0;
+}
+
+.sectionRow .lbl200 {
+    margin-top: 0;
+}
+
+.txt {
+	border: 1px solid #CCC;
+    padding: 5px;
+    margin: 2px 0;
 }
 
 .txt200 {
@@ -662,4 +682,28 @@ legend {
 
 .clear {
     clear:both;
+}
+
+.comment_auth {
+    font-weight:bold;
+}
+
+.action_buttons {
+    display:block;
+    padding-left: 60px;
+}
+
+.loader {
+    width: 24px;
+    height:24px;
+    display:inline-block;
+    border: 0;
+    position:relative;
+    top:-4px;
+    background: url('../pics/ajax-loader.gif') 0px 0px no-repeat;
+}
+
+.comment_date, comment_time {
+    display:block;
+    padding: 2px 0;
 }

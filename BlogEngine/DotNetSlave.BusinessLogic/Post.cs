@@ -166,7 +166,7 @@
 
         #endregion
 
-        #region Properties
+        #region Post Properties
 
         /// <summary>
         ///     Gets a sorted collection of all posts in the blog.
@@ -201,17 +201,6 @@
             get
             {
                 return Utils.ConvertToAbsolute(this.RelativeLink);
-            }
-        }
-
-        /// <summary>
-        ///     Gets a collection of Approved comments for the post sorted by date.
-        /// </summary>
-        public List<Comment> ApprovedComments
-        {
-            get
-            {
-                return this.comments.FindAll(c => c.IsApproved);
             }
         }
 
@@ -255,17 +244,6 @@
             get
             {
                 return this.categories;
-            }
-        }
-
-        /// <summary>
-        ///     Gets a Collection of All Comments for the post
-        /// </summary>
-        public List<Comment> Comments
-        {
-            get
-            {
-                return this.comments;
             }
         }
 
@@ -314,30 +292,6 @@
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether this instance has comments enabled.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance has comments enabled; otherwise, <c>false</c>.
-        /// </value>
-        public bool HasCommentsEnabled
-        {
-            get
-            {
-                return this.hasCommentsEnabled;
-            }
-
-            set
-            {
-                if (this.hasCommentsEnabled != value)
-                {
-                    this.MarkChanged("hasCommentsEnabled");
-                }
-
-                this.hasCommentsEnabled = value;
-            }
-        }
-
-        /// <summary>
         ///     Gets if the Post have been changed.
         /// </summary>
         public override bool IsChanged
@@ -359,39 +313,12 @@
         }
 
         /// <summary>
-        ///     Gets a collection of the comments that are nested as replies
-        /// </summary>
-        public List<Comment> NestedComments
-        {
-            get
-            {
-                if (this.nestedComments == null)
-                {
-                    this.CreateNestedComments();
-                }
-
-                return this.nestedComments;
-            }
-        }
-
-        /// <summary>
         ///     Gets the next post relative to this one based on time.
         ///     <remarks>
         ///         If this post is the newest, then it returns null.
         ///     </remarks>
         /// </summary>
         public Post Next { get; private set; }
-
-        /// <summary>
-        ///     Gets a collection of comments waiting for approval for the post, sorted by date.
-        /// </summary>
-        public List<Comment> NotApprovedComments
-        {
-            get
-            {
-                return this.comments.FindAll(c => !c.IsApproved);
-            }
-        }
 
         /// <summary>
         ///     Gets a collection of email addresses that is signed up for 
@@ -597,7 +524,138 @@
 
         #endregion
 
-        #region Public Methods
+        #region Comment Properties
+
+        /// <summary>
+        ///     Gets a Collection of All Comments for the post
+        /// </summary>
+        public List<Comment> Comments
+        {
+            get
+            {
+                return this.comments;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a Collection of All Comments for the post
+        /// </summary>
+        public List<Comment> AllComments
+        {
+            get
+            {
+                return this.comments.FindAll(c => !c.IsDeleted);
+            }
+        }
+
+        /// <summary>
+        ///     Gets a collection of Approved comments for the post sorted by date.
+        ///     When moderation is enabled, unapproved comments go to pending.
+        ///     Whith moderation off, they shown as approved.
+        /// </summary>
+        public List<Comment> ApprovedComments
+        {
+            get
+            {
+                if (BlogSettings.Instance.EnableCommentsModeration)
+                {
+                    return this.comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                }
+                else
+                {
+                    return this.comments.FindAll(c => !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Gets a collection of comments waiting for approval for the post, sorted by date
+        ///     excluding comments rejected as spam
+        /// </summary>
+        public List<Comment> NotApprovedComments
+        {
+            get
+            {
+                return this.comments.FindAll(c => !c.IsApproved && !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+            }
+        }
+
+        /// <summary>
+        ///     Gets a collection of pingbacks and trackbacks for the post, sorted by date
+        /// </summary>
+        public List<Comment> Pingbacks
+        {
+            get
+            {
+                return this.comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsDeleted && c.IsPingbackOrTrackback);
+            }
+        }
+
+        /// <summary>
+        ///     Gets a collection of comments marked as spam for the post, sorted by date.
+        /// </summary>
+        public List<Comment> SpamComments
+        {
+            get
+            {
+                return this.comments.FindAll(c => c.IsSpam && !c.IsDeleted);
+            }
+        }
+
+        /// <summary>
+        ///     Gets a collection of comments marked as deleted for the post, sorted by date.
+        /// </summary>
+        public List<Comment> DeletedComments
+        {
+            get
+            {
+                return this.comments.FindAll(c => c.IsDeleted);
+            }
+        }
+
+        /// <summary>
+        ///     Gets a collection of the comments that are nested as replies
+        /// </summary>
+        public List<Comment> NestedComments
+        {
+            get
+            {
+                if (this.nestedComments == null)
+                {
+                    this.CreateNestedComments();
+                }
+
+                return this.nestedComments;
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance has comments enabled.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance has comments enabled; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasCommentsEnabled
+        {
+            get
+            {
+                return this.hasCommentsEnabled;
+            }
+
+            set
+            {
+                if (this.hasCommentsEnabled != value)
+                {
+                    this.MarkChanged("hasCommentsEnabled");
+                }
+
+                this.hasCommentsEnabled = value;
+            }
+        }
+
+        #endregion
+
+        #region Post Public Methods
 
         /// <summary>
         /// Returs a post based on the specified id.
@@ -760,6 +818,83 @@
         }
 
         /// <summary>
+        /// Imports Post (without all standard saving routines
+        /// </summary>
+        public void Import()
+        {
+            if (this.Deleted)
+            {
+                if (!this.New)
+                {
+                    BlogService.DeletePost(this);
+                }
+            }
+            else
+            {
+                if (this.New)
+                {
+                    BlogService.InsertPost(this);
+                }
+                else
+                {
+                    BlogService.UpdatePost(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Marks the object as being an clean,
+        ///     which means not dirty.
+        /// </summary>
+        public override void MarkOld()
+        {
+            this.Categories.MarkOld();
+            this.Tags.MarkOld();
+            this.NotificationEmails.MarkOld();
+            base.MarkOld();
+        }
+
+        /// <summary>
+        /// Adds a rating to the post.
+        /// </summary>
+        /// <param name="newRating">
+        /// The rating.
+        /// </param>
+        public void Rate(int newRating)
+        {
+            if (this.Raters > 0)
+            {
+                var total = this.Raters * this.Rating;
+                total += newRating;
+                this.Raters++;
+                this.Rating = total / this.Raters;
+            }
+            else
+            {
+                this.Raters = 1;
+                this.Rating = newRating;
+            }
+
+            this.DataUpdate();
+            this.OnRated(this);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.Title;
+        }
+
+        #endregion
+
+        #region Comment Public Methods
+
+        /// <summary>
         /// Adds a comment to the collection and saves the post.
         /// </summary>
         /// <param name="comment">
@@ -812,6 +947,7 @@
 
             var inx = this.Comments.IndexOf(comment);
             this.Comments[inx].IsApproved = true;
+            this.Comments[inx].IsSpam = false;
             this.DateModified = comment.DateCreated;
             this.DataUpdate();
             Comment.OnApproved(comment);
@@ -819,28 +955,27 @@
         }
 
         /// <summary>
-        /// Imports Post (without all standard saving routines
+        /// Disapproves a Comment as Spam.
         /// </summary>
-        public void Import()
+        /// <param name="comment">
+        /// The Comment to approve
+        /// </param>
+        public void DisapproveComment(Comment comment)
         {
-            if (this.Deleted)
+            var e = new CancelEventArgs();
+            Comment.OnDisapproving(comment, e);
+            if (e.Cancel)
             {
-                if (!this.New)
-                {
-                    BlogService.DeletePost(this);
-                }
+                return;
             }
-            else
-            {
-                if (this.New)
-                {
-                    BlogService.InsertPost(this);
-                }
-                else
-                {
-                    BlogService.UpdatePost(this);
-                }
-            }
+
+            var inx = this.Comments.IndexOf(comment);
+            this.Comments[inx].IsApproved = false;
+            this.Comments[inx].IsSpam = true;
+            this.DateModified = comment.DateCreated;
+            this.DataUpdate();
+            Comment.OnDisapproved(comment);
+            this.SendNotifications(comment);
         }
 
         /// <summary>
@@ -854,74 +989,6 @@
         {
             this.Comments.Add(comment);
             this.DataUpdate();
-        }
-
-        /// <summary>
-        /// Marks the object as being an clean,
-        ///     which means not dirty.
-        /// </summary>
-        public override void MarkOld()
-        {
-            this.Categories.MarkOld();
-            this.Tags.MarkOld();
-            this.NotificationEmails.MarkOld();
-            base.MarkOld();
-        }
-
-        /// <summary>
-        /// Adds a rating to the post.
-        /// </summary>
-        /// <param name="newRating">
-        /// The rating.
-        /// </param>
-        public void Rate(int newRating)
-        {
-            if (this.Raters > 0)
-            {
-                var total = this.Raters * this.Rating;
-                total += newRating;
-                this.Raters++;
-                this.Rating = total / this.Raters;
-            }
-            else
-            {
-                this.Raters = 1;
-                this.Rating = newRating;
-            }
-
-            this.DataUpdate();
-            this.OnRated(this);
-        }
-
-        /// <summary>
-        /// Removes a comment from the collection and saves the post.
-        /// </summary>
-        /// <param name="comment">
-        /// The comment to remove from the post.
-        /// </param>
-        public void RemoveComment(Comment comment)
-        {
-            var e = new CancelEventArgs();
-            this.OnRemovingComment(comment, e);
-            if (e.Cancel)
-            {
-                return;
-            }
-
-            this.Comments.Remove(comment);
-            this.DataUpdate();
-            this.OnCommentRemoved(comment);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
-        /// </returns>
-        public override string ToString()
-        {
-            return this.Title;
         }
 
         /// <summary>
@@ -949,12 +1016,34 @@
             this.Comments[inx].IP = comment.IP;
             this.Comments[inx].Website = comment.Website;
             this.Comments[inx].ModeratedBy = comment.ModeratedBy;
+            this.Comments[inx].IsSpam = comment.IsSpam;
+            this.Comments[inx].IsDeleted = comment.IsDeleted;
 
             this.DateModified = DateTime.Now;
             this.DataUpdate();
 
             this.DataUpdate();
             this.OnCommentUpdated(comment);
+        }
+
+        /// <summary>
+        /// Removes a comment from the collection and saves the post.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment to remove from the post.
+        /// </param>
+        public void RemoveComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnRemovingComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            this.Comments.Remove(comment);
+            this.DataUpdate();
+            this.OnCommentRemoved(comment);
         }
 
         #endregion

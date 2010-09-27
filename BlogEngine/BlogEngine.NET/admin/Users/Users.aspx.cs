@@ -7,6 +7,7 @@
     using System.Web.Services;
 
     using BlogEngine.Core;
+    using BlogEngine.Core.Json;
 
     /// <summary>
     /// The admin_newuser.
