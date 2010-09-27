@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Web.Services;
 
 using BlogEngine.Core;
+using BlogEngine.Core.Json;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]

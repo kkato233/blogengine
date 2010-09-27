@@ -47,8 +47,8 @@ public class SendCommentMail
 
         var comment = post.Comments[post.Comments.Count - 1];
 
-        // Do not send email if comment auto-moderated and is spam
-        if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Auto && !comment.IsApproved)
+        // Do not send email if comment not approved
+        if (!comment.IsApproved)
         {
             return;
         }

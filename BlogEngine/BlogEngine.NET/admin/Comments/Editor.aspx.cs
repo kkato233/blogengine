@@ -148,12 +148,12 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
 
     protected void btnBlockIP_Click(object sender, EventArgs e)
     {
-        CommentHandlers.AddIpToFilter(CurrentComment.IP, true, true);
+        //CommentHandlers.AddIpToFilter(CurrentComment.IP, true, true);
     }
     
     protected void btnAllowIP_Click(object sender, EventArgs e)
     {
-        CommentHandlers.AddIpToFilter(CurrentComment.IP, false, true);
+        //CommentHandlers.AddIpToFilter(CurrentComment.IP, false, true);
     }
 
     #endregion

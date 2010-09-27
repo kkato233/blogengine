@@ -44,24 +44,8 @@
         /// <param name="replaceIfExists">
         /// True if old filter (if exists) should be removed
         /// </param>
-        public static void AddIpToFilter(string ip, bool isspam, bool replaceIfExists)
+        public static void AddIpToFilter(string ip, bool isspam)
         {
-            // Only handle auto-moderated comments
-            if (!BlogSettings.Instance.IsCommentsEnabled)
-            {
-                return;
-            }
-
-            if (!BlogSettings.Instance.EnableCommentsModeration)
-            {
-                return;
-            }
-
-            if (BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto)
-            {
-                return;
-            }
-
             var indx = 0;
             var match = false;
 
@@ -83,7 +67,7 @@
                 }
             }
 
-            if (replaceIfExists && match)
+            if (match)
             {
                 var log = "Removed old filter ";
 
@@ -96,11 +80,6 @@
 
                 ExtensionManager.SaveSettings("MetaExtension", filters);
                 Utils.Log(log);
-            }
-
-            if (match && !replaceIfExists)
-            {
-                return;
             }
 
             // add ip to filters
@@ -145,8 +124,6 @@
         public static void Listen()
         {
             Post.AddingComment += PostAddingComment;
-            Post.CommentAdded += PostCommentAdded;
-            Post.CommentUpdated += PostCommentUpdated;
 
             InitFilters();
             InitCustomFilters();
@@ -178,7 +155,6 @@
 
                         customFilter.Report(comment);
                     }
-
                     break;
                 }
 
@@ -397,7 +373,7 @@
         private static bool ModeratedByRule(Comment comment)
         {
             // trust authenticated users
-            if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            if (Thread.CurrentPrincipal.Identity.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
             {
                 comment.IsApproved = true;
                 comment.ModeratedBy = "Rule:authenticated";
@@ -437,7 +413,7 @@
             if (BlogSettings.Instance.CommentBlackListCount > 0 &&
                 blackCnt >= BlogSettings.Instance.CommentBlackListCount)
             {
-                comment.IsApproved = false;
+                comment.IsSpam = true;
                 comment.ModeratedBy = "Rule:black list";
                 return true;
             }
@@ -456,25 +432,15 @@
         /// </param>
         private static void PostAddingComment(object sender, CancelEventArgs e)
         {
-            if (!BlogSettings.Instance.IsCommentsEnabled)
-            {
-                return;
-            }
+            var comment = (Comment)sender;
 
+            // if not moderated, comments approved by default
+            // and then go through filters that can reject spam
             if (!BlogSettings.Instance.EnableCommentsModeration)
             {
-                return;
+                comment.IsApproved = true;
+                comment.ModeratedBy = "Auto";
             }
-
-            // Only handle auto-moderated comments
-            if (BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Auto)
-            {
-                return;
-            }
-
-            var comment = (Comment)sender;
-            comment.IsApproved = true;
-            comment.ModeratedBy = "Auto";
 
             if (!ModeratedByRule(comment))
             {
@@ -489,47 +455,6 @@
                 {
                     RunCustomModerators(comment);
                 }
-            }
-
-            if (!comment.IsApproved)
-            {
-                AddIpToFilter(comment.IP, true, false);
-            }
-        }
-
-        /// <summary>
-        /// Handles the Added event of the PostComment control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
-        /// </param>
-        private static void PostCommentAdded(object sender, EventArgs e)
-        {
-            var comment = (Comment)sender;
-            if (comment != null && !comment.IsApproved)
-            {
-                AddIpToFilter(comment.IP, true, true);
-            }
-        }
-
-        /// <summary>
-        /// Handles the Updated event of the PostComment control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
-        /// </param>
-        private static void PostCommentUpdated(object sender, EventArgs e)
-        {
-            var comment = (Comment)sender;
-            if (comment != null && !comment.IsApproved)
-            {
-                AddIpToFilter(comment.IP, true, true);
             }
         }
 
@@ -555,20 +480,24 @@
                     continue;
                 }
 
-                comment.IsApproved = !customFilter.Check(comment);
-                comment.ModeratedBy = fileterName;
-
-                Utils.Log(
-                    string.Format("Custom filter [{0}] - setting approved to {1}", fileterName, comment.IsApproved));
-
-                UpdateCustomFilter(fileterName, comment.IsApproved);
-
-                // the custom filter tells no further
-                // validation needed. don't call others
-                if (!customFilter.FallThrough)
+                // caught spam!
+                if(customFilter.Check(comment))
                 {
-                    break;
-                }
+                    comment.IsSpam = true;
+                    comment.ModeratedBy = fileterName;
+
+                    Utils.Log(
+                    string.Format("Custom filter [{0}] - found spam; comment id: {1}", fileterName, comment.Id));
+
+                    UpdateCustomFilter(fileterName, false);
+
+                    // the custom filter tells no further
+                    // validation needed. don't call others
+                    if (!customFilter.FallThrough)
+                    {
+                        break;
+                    }
+                }              
             }
         }
 

@@ -528,11 +528,13 @@
                 var minCount = Int32.MaxValue;
                 var changeCount = 0;
 
-                int count = minCount;
-                foreach (var t in this.Parameters.Where(t => t.Values.Count < count))
+                for (var j = 0; j < this.Parameters.Count; j++)
                 {
-                    minCount = t.Values.Count;
-                    changeCount++;
+                    if (this.Parameters[j].Values.Count < minCount)
+                    {
+                        minCount = this.Parameters[j].Values.Count;
+                        changeCount++;
+                    }
                 }
 
                 for (var i = 0; i < minCount; i++)
