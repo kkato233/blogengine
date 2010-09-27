@@ -1,5 +1,7 @@
-﻿namespace BlogEngine.Core
+﻿namespace BlogEngine.Core.Json
 {
+    using System;
+
     /// <summary>
     /// The json response.
     /// </summary>

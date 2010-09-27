@@ -1,9 +1,12 @@
 ﻿namespace BlogEngine.Core
 {
     using System;
+    using System.Text;
+    using System.Web;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Xml.Serialization;
+    using System.Security.Cryptography;
 
     /// <summary>
     /// Represents a comment to a blog post.
@@ -23,6 +26,11 @@
         /// </summary>
         private DateTime dateCreated = DateTime.MinValue;
 
+        /// <summary>
+        /// String representing avatar image.
+        /// </summary>
+        private string avatar;
+
         #endregion
 
         #region Events
@@ -36,6 +44,16 @@
         ///     Occurs just before a comment is approved by the comment moderator.
         /// </summary>
         public static event EventHandler<CancelEventArgs> Approving;
+
+        /// <summary>
+        ///     Occurs after a comment is disapproved by the comment moderator.
+        /// </summary>
+        public static event EventHandler<EventArgs> Disapproved;
+
+        /// <summary>
+        ///     Occurs just before a comment is disapproved by the comment moderator.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> Disapproving;
 
         /// <summary>
         ///     Occurs when the post is being served to the output stream.
@@ -148,13 +166,23 @@
         public bool IsApproved { get; set; }
 
         /// <summary>
+        ///     Indicate if comment is spam
+        /// </summary>
+        public bool IsSpam { get; set; }
+
+        /// <summary>
+        ///     indicate if comment is deleted
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
         ///     Gets a value indicating whether or not this comment has been published
         /// </summary>
         public bool Published
         {
             get
             {
-                return this.IsApproved;
+                return IsApproved && !IsSpam && !IsDeleted;
             }
         }
 
@@ -166,7 +194,7 @@
         {
             get
             {
-                return this.IsApproved;
+                return IsApproved && !IsSpam && !IsDeleted;
             }
         }
 
@@ -178,7 +206,7 @@
         {
             get
             {
-                return this.IsApproved;
+                return IsApproved && !IsSpam && !IsDeleted;
             }
         }
 
@@ -224,6 +252,14 @@
         }
 
         /// <summary>
+        /// Pingbacks and trackbacks are identified by email
+        /// </summary>
+        public bool IsPingbackOrTrackback
+        {
+            get { return (this.Email.ToLowerInvariant() == "pingback" || this.Email.ToLowerInvariant() == "trackback") ? true : false; }
+        }
+
+        /// <summary>
         ///     Gets the title of the object
         /// </summary>
         /// <value></value>
@@ -231,7 +267,11 @@
         {
             get
             {
-                return string.Format("{0} on {1}", this.Author, this.Parent.Title);
+                if (this.Website != null)
+                {
+                    return string.Format("<a class=\"comment_auth\" href=\"{2}\" alt=\"{2}\" title=\"{2}\">{0}</a> on <a href=\"{3}\" alt=\"{3}\">{1}</a>", this.Author, this.Parent.Title, this.Website.ToString(), this.RelativeLink);
+                }
+                return string.Format("{0} on <a href=\"{2}\" alt=\"{2}\">{1}</a>", this.Author, this.Parent.Title, this.RelativeLink);             
             }
         }
 
@@ -358,6 +398,31 @@
             if (Approving != null)
             {
                 Approving(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when [disapproved].
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        internal static void OnDisapproved(Comment comment)
+        {
+            if (Disapproved != null)
+            {
+                Disapproved(comment, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Called when [disapproving].
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+        internal static void OnDisapproving(Comment comment, CancelEventArgs e)
+        {
+            if (Disapproving != null)
+            {
+                Disapproving(comment, e);
             }
         }
 

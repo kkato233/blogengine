@@ -6,6 +6,7 @@ using System.Web.Security;
 using System.Web.Services;
 
 using BlogEngine.Core;
+using BlogEngine.Core.Json;
 
 /// <summary>
 ///     Membership service to support AJAX calls

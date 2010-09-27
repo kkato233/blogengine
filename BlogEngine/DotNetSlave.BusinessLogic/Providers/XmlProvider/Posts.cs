@@ -129,6 +129,9 @@
                     writer.WriteAttributeString("id", comment.Id.ToString());
                     writer.WriteAttributeString("parentid", comment.ParentId.ToString());
                     writer.WriteAttributeString("approved", comment.IsApproved.ToString());
+                    writer.WriteAttributeString("spam", comment.IsSpam.ToString());
+                    writer.WriteAttributeString("deleted", comment.IsDeleted.ToString());
+
                     writer.WriteElementString(
                         "date", 
                         comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString(
@@ -307,9 +310,16 @@
                     comment.Avatar = node.SelectSingleNode("avatar").InnerText;
                 }
 
+                comment.IsSpam = node.Attributes["spam"] == null ? false : 
+                                    bool.Parse(node.Attributes["spam"].InnerText);
+
+                comment.IsDeleted = node.Attributes["deleted"] == null ? false : 
+                                    bool.Parse(node.Attributes["deleted"].InnerText);
+
                 comment.Content = node.SelectSingleNode("content").InnerText;
                 comment.DateCreated = DateTime.Parse(
                     node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
+
                 post.Comments.Add(comment);
             }
 

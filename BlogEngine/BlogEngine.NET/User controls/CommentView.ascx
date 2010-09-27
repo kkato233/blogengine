@@ -87,7 +87,7 @@
 function registerCommentBox(){
 	BlogEngine.comments.flagImage = BlogEngine.$("<%= imgFlag.ClientID %>");
 	BlogEngine.comments.contentBox = BlogEngine.$("<%=txtContent.ClientID %>");
-	BlogEngine.comments.moderation = <%=ManualModeration %>;
+	BlogEngine.comments.moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
 	BlogEngine.comments.checkName = <%=(!Page.User.Identity.IsAuthenticated).ToString().ToLowerInvariant() %>;
 	BlogEngine.comments.postAuthor = "<%=Post.Author %>";
 	BlogEngine.comments.nameBox = BlogEngine.$("<%= this.NameInputId %>");

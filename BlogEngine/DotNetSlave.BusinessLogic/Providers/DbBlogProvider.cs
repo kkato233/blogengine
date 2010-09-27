@@ -744,7 +744,7 @@
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Pages (PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, Published, FrontPage, Parent, ShowInList, Slug) VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist, @slug)", this.tablePrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Pages (PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug) VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist, @slug)", this.tablePrefix);
                     if (this.parmPrefix != "@")
                     {
                         sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
@@ -877,7 +877,7 @@
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Posts (PostID, Title, Description, PostContent, DateCreated, DateModified, Author, Published, IsCommentEnabled, Raters, Rating, Slug)VALUES (@id, @title, @desc, @content, @created, @modified, @author, @published, @commentEnabled, @raters, @rating, @slug)", this.tablePrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Posts (PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug)VALUES (@id, @title, @desc, @content, @created, @modified, @author, @published, @commentEnabled, @raters, @rating, @slug)", this.tablePrefix);
                     if (this.parmPrefix != "@")
                     {
                         sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
@@ -1524,7 +1524,7 @@
 
                     using (var cmd = conn.CreateCommand())
                     {
-                        var sqlQuery = string.Format("SELECT PageID, Title, Description, PageContent, DateCreated,    DateModified, Keywords, Published, FrontPage, Parent, ShowInList, Slug FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
+                        var sqlQuery = string.Format("SELECT PageID, Title, Description, PageContent, DateCreated,    DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
 
                         cmd.CommandText = sqlQuery;
                         cmd.CommandType = CommandType.Text;
@@ -1623,7 +1623,7 @@
 
                 using (var cmd = conn.CreateCommand())
                 {
-                    var sqlQuery = string.Format("SELECT PostID, Title, Description, PostContent, DateCreated, DateModified, Author, Published, IsCommentEnabled, Raters, Rating, Slug FROM {0}Posts WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("SELECT PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug FROM {0}Posts WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
                     cmd.CommandText = sqlQuery;
                     cmd.CommandType = CommandType.Text;
 
@@ -1719,7 +1719,7 @@
 
                     // Comments
                     sqlQuery =
-                        string.Format("SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        string.Format("SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar, IsSpam, IsDeleted FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
                     cmd.CommandText = sqlQuery;
                     using (var rdr = cmd.ExecuteReader())
                     {
@@ -1767,6 +1767,16 @@
                             if (!rdr.IsDBNull(11))
                             {
                                 comment.Avatar = rdr.GetString(11);
+                            }
+
+                            if (!rdr.IsDBNull(12))
+                            {
+                                comment.IsSpam = rdr.GetBoolean(12);
+                            }
+
+                            if (!rdr.IsDBNull(13))
+                            {
+                                comment.IsDeleted = rdr.GetBoolean(13);
                             }
 
                             post.Comments.Add(comment);
@@ -2099,7 +2109,7 @@
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Pages SET Title = @title, Description = @desc, PageContent = @content, DateCreated = @created, DateModified = @modified, Keywords = @keywords, Published = @ispublished, FrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug WHERE PageID = @id", this.tablePrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Pages SET Title = @title, Description = @desc, PageContent = @content, DateCreated = @created, DateModified = @modified, Keywords = @keywords, IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug WHERE PageID = @id", this.tablePrefix);
                     if (this.parmPrefix != "@")
                     {
                         sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
@@ -2232,7 +2242,7 @@
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = @title, Description = @desc, PostContent = @content, DateCreated = @created, DateModified = @modified, Author = @Author, Published = @published, IsCommentEnabled = @commentEnabled, Raters = @raters, Rating = @rating, Slug = @slug WHERE PostID = @id", this.tablePrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = @title, Description = @desc, PostContent = @content, DateCreated = @created, DateModified = @modified, Author = @Author, IsPublished = @published, IsCommentEnabled = @commentEnabled, Raters = @raters, Rating = @rating, Slug = @slug WHERE PostID = @id", this.tablePrefix);
                     if (this.parmPrefix != "@")
                     {
                         sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
@@ -2585,7 +2595,7 @@
 
                 foreach (var comment in post.Comments)
                 {
-                    sqlQuery = string.Format("INSERT INTO {0}PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar) VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved, @moderatedby, @avatar)", this.tablePrefix);
+                    sqlQuery = string.Format("INSERT INTO {0}PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted) VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved, @moderatedby, @avatar, @isspam, @isdeleted)", this.tablePrefix);
                     if (this.parmPrefix != "@")
                     {
                         sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
@@ -2669,6 +2679,16 @@
                     dpAvatar.ParameterName = this.parmPrefix + "avatar";
                     dpAvatar.Value = comment.Avatar ?? string.Empty;
                     cmd.Parameters.Add(dpAvatar);
+
+                    var dpIsSpam = provider.CreateParameter();
+                    dpIsSpam.ParameterName = this.parmPrefix + "isspam";
+                    dpIsSpam.Value = comment.IsSpam;
+                    cmd.Parameters.Add(dpIsSpam);
+
+                    var dpIsDeleted = provider.CreateParameter();
+                    dpIsDeleted.ParameterName = this.parmPrefix + "isdeleted";
+                    dpIsDeleted.Value = comment.IsDeleted;
+                    cmd.Parameters.Add(dpIsDeleted);
 
                     cmd.ExecuteNonQuery();
                 }

@@ -115,14 +115,14 @@ public class AkismetFilter : ICustomFilter
     /// </param>
     public void Report(Comment comment)
     {
-        if (api == null)
+        if (api == null && !Initialize())
         {
-            this.Initialize();
+            return;
         }
 
         if (settings == null)
         {
-            this.InitSettings();
+             this.InitSettings();
         }
 
         var akismetComment = GetAkismetComment(comment);
