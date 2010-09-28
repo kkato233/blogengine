@@ -227,33 +227,29 @@ public class Comments  : System.Web.Services.WebService {
         return this.response;
     }
 
-    protected void UpdateComment(Comment comment)
+    [WebMethod]
+    public static JsonComment SaveComment(string id, string author, string email, string website, string cont)
     {
-        bool found = false;
-        // Cast ToArray so the original collection isn't modified. 
+        Guid gId = new Guid(id);
+        JsonComment jc = new JsonComment();
+        
         foreach (Post p in Post.Posts.ToArray())
         {
-            // Cast ToArray so the original collection isn't modified. 
             foreach (Comment c in p.Comments.ToArray())
             {
-                if (c.Id == comment.Id)
+                if (c.Id == gId)
                 {
-                    c.Content = comment.Content;
-                    c.IsApproved = comment.IsApproved;
-                    c.ModeratedBy = comment.ModeratedBy;
-
-                    // Need to mark post as "changed" for it to get saved into the data store. 
-                    string desc = p.Description;
-                    p.Description = (desc ?? string.Empty) + " ";
-                    p.Description = desc;
+                    c.Author = author;
+                    c.Email = email;
+                    c.Website = new Uri(website);
+                    c.Content = cont;
 
                     p.Save();
-                    found = true;
-                    break;
+                    return JsonComments.GetComment(gId);
                 }
             }
-            if (found) break;
         }
+        return jc;
     }
 
     protected void RemoveComment(Comment comment)
@@ -298,6 +294,5 @@ public class Comments  : System.Web.Services.WebService {
             }
         }
     }
-
 
 }

@@ -1,11 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Spam.aspx.cs" Inherits="admin.Comments.Spam" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server"> 
+    <script src="<%= Utils.AbsoluteWebRoot %>Scripts/jquery.js" type="text/javascript"></script>
+    <script src="<%= Utils.AbsoluteWebRoot %>Scripts/jquery-jtemplates.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+    <script src="<%= Utils.AbsoluteWebRoot %>admin/admin.js" type="text/javascript"></script>
 
-    <script src="../../Scripts/jquery-1.4.1.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery-jtemplates.js" type="text/javascript"></script>
-    <script src="../admin.js" type="text/javascript"></script>
     <script type="text/javascript">
         LoadComments(1, 'Spam.aspx');
     </script>

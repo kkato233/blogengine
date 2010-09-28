@@ -38,3 +38,6 @@ glob:BlogEngine/BlogEngine.NET/App_Data/logger.txt
 */PrecompiledWeb/**
 glob:BlogEngine/BlogEngine.NET/{B02E9840-1261-47AB-AE40-D333E73BB2C0}/CodeAnalysisLog.xml
 glob:BlogEngine/BlogEngine.NET/{B02E9840-1261-47AB-AE40-D333E73BB2C0}/WebProject.lastcodeanalysissucceeded
+glob:BlogEngine/BlogEngine.NET/pics/Thumbs.db
+glob:BlogEngine/BlogEngine.NET/pics/flags/Thumbs.db
+glob:BlogEngine/BlogEngine.NET/pics/xfn/Thumbs.db

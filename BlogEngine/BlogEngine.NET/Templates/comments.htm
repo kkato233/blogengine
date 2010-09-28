@@ -1,4 +1,4 @@
-﻿<table id="TableComments" class="beTable rounded">
+﻿<table id="Comments" class="beTable rounded">
     <thead>
         <tr>
 	        <th width="20"><input type="checkbox" id="selectall" onclick="toggleAllChecks(this)" /></th>
@@ -20,8 +20,8 @@
             <td>{$T.cmt.Teaser}</td>
             <td>{$T.cmt.Ip}</td>
             <td><span class="comment_date">{$T.cmt.Date}</span><span class="comment_time">{$T.cmt.Time}</span></td>
-            <td align="center" style="vertical-align:middle"><a href="#">edit</a></td>
-            <td align="center" style="vertical-align:middle"><a href="#">delete</a></td>
+            <td align="center" style="vertical-align:middle"><a href="#" onclick="return EditComment('{$T.cmt.Id}');">edit</a></td>
+            <td align="center" style="vertical-align:middle">{#if $T.cmt.HasChildred == false}<a href="#" onclick="return DeleteComment('{$T.cmt.Id}');">delete</a>{#/if}</td>
         </tr>
         {#/for}
     </tbody>

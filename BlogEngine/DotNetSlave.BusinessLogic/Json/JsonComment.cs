@@ -81,6 +81,14 @@
         /// </summary>
         public string Teaser { get; set; }
         /// <summary>
+        /// Author's website
+        /// </summary>
+        public string Website { get; set; }
+        /// <summary>
+        /// Comment body
+        /// </summary>
+        public string Content { get; set; }
+        /// <summary>
         /// Ip
         /// </summary>
         public string Ip { get; set; }
