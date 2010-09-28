@@ -11,7 +11,7 @@ using BlogEngine.Core.Web.Controls;
 /// <summary>
 /// Auto resolves URLs in the comments and turn them into valid hyperlinks.
 /// </summary>
-[Extension("Auto resolves URLs in the comments and turn them into valid hyperlinks.", "1.4", "BlogEngine.NET")]
+[Extension("Auto resolves URLs in the comments and turn them into valid hyperlinks.", "1.5", "BlogEngine.NET")]
 public class ResolveLinks
 {
     #region Constants and Fields
@@ -30,8 +30,9 @@ public class ResolveLinks
     ///     The regular expression used to parse links.
     /// </summary>
     private static readonly Regex LinkRegex =
+        
         new Regex(
-            "((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&\\(\\)#,=\\-_\\./\\+]{2,})",
+            "((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&%\\(\\)#,=\\-_\\./\\+]{2,}[0-9A-Z?~&%#=\\-_/\\+])",
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     #endregion
