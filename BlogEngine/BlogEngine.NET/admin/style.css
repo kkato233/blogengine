@@ -619,6 +619,15 @@ input[type="checkbox"] {
 	padding: 0 10px 0 3px;
 }
 
+.lbl100 {
+	display:block;
+	float:left;
+	width: 100px;
+	padding: 10px 0 0 0;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
 .lbl150 {
 	display:block;
 	float:left;
@@ -672,6 +681,15 @@ legend {
 	cursor: pointer;
 }
 
+label.error {
+  color: red;
+}
+
+#EditCommentLeftBox label.error {
+  color: red;
+  margin-left: 100px;
+}
+
 .req {
 	color: red;
 }
@@ -701,6 +719,7 @@ legend {
     position:relative;
     top:-4px;
     background: url('../pics/ajax-loader.gif') 0px 0px no-repeat;
+    display: none;
 }
 
 .comment_date, comment_time {

@@ -1,13 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Approved.aspx.cs" Inherits="admin.Comments.Approved" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server"> 
-    <script src="../../Scripts/jquery-1.4.1.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery-jtemplates.js" type="text/javascript"></script>
-    <script src="../admin.js" type="text/javascript"></script>
+    <script src="<%= Utils.AbsoluteWebRoot %>Scripts/jquery.js" type="text/javascript"></script>
+    <script src="<%= Utils.AbsoluteWebRoot %>Scripts/jquery-jtemplates.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+    <script src="<%= Utils.AbsoluteWebRoot %>admin/admin.js" type="text/javascript"></script>
+    
     <script type="text/javascript">
         LoadComments(1, 'Approved.aspx');
     </script>
+    
     <div class="content-box-hdr">
         <span class="SectionHeader">Approved Comments</span>
     </div>

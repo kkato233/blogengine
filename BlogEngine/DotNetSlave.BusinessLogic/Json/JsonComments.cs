@@ -94,6 +94,37 @@ namespace BlogEngine.Core.Json
         }
 
         /// <summary>
+        /// Single commnet by ID
+        /// </summary>
+        /// <param name="id">Comment id</param>
+        /// <returns>Comment</returns>
+        public static JsonComment GetComment(Guid id)
+        {
+            foreach (Post p in Post.Posts)
+            {
+                foreach (Comment c in p.AllComments)
+                {
+                    if (c.Id == id)
+                    {
+                        JsonComment jc = new JsonComment();
+                        jc.Id = c.Id;
+                        jc.Email = c.Email;
+                        jc.Author = c.Author;
+                        jc.Title = c.Title;
+                        jc.Teaser = c.Teaser;
+                        jc.Website = c.Website == null ? "" : c.Website.ToString();
+                        jc.Content = c.Content;
+                        jc.Ip = c.IP;
+                        jc.Date = c.DateCreated.ToString("dd MMM yyyy");
+                        jc.Time = c.DateCreated.ToString("t");
+                        return jc;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Builds pager control for comments page
         /// </summary>
         /// <param name="PageSize">Page size</param>

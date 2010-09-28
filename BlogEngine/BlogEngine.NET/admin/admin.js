@@ -253,6 +253,115 @@ function ProcessSelected(action, page) {
     return false;
 }
 
+var editingComment = '';
+
+function EditComment(id) {
+    var oRow = $("[id$='" + id + "']");
+    var hRow = oRow.html();
+    editingComment = hRow;
+
+    var dto = { "id": id };
+    $.ajax({
+        url: "Approved.aspx/GetComment",
+        data: JSON.stringify(dto),
+        success: function (result) {
+            oRow.setTemplateURL('../../Templates/editcomment.htm', null, { filter_data: false });
+            oRow.processTemplate(result);
+        }
+    });
+    return false;
+}
+
+function SaveComment(obj) {
+    var frm = document.forms['aspnetForm'];
+    $(frm).validate({
+        rules: {
+            txtAuthor: {
+                required: true,
+                maxlength: 30
+            },
+            txtComment: {
+                required: true,
+                maxlength: 2000
+            },
+            txtEmail: {
+                required: true,
+                email: true
+            }
+        }
+    });
+
+    var isValid = $(frm).valid();
+    if (!isValid) return false;
+
+    var oRow = $(obj).closest("tr");
+    var vals = new Array();
+
+    vals[0] = $(obj).closest("tr").attr("id");
+    vals[1] = $("#txtAuthor").val();
+    vals[2] = $("#txtEmail").val();
+    vals[3] = $("#txtWebsite").val();
+    vals[4] = $("#txtComment").val();
+
+    var dto = { "vals": vals };
+    $.ajax({
+        url: "Approved.aspx/SaveComment",
+        data: JSON.stringify(dto),
+        success: function (result) {
+            oRow.setTemplateURL('../../Templates/commentrow.htm', null, { filter_data: false });
+            oRow.processTemplate(result);
+        }
+    });
+    
+    return false;
+}
+
+function CancelEditComment(obj) {
+    var oRow = $(obj).closest("tr");
+    $(oRow).html(editingComment);
+    //$(oRow).fadeOut(1).html(editingComment).fadeIn(1);
+}
+
+function DeleteComment(id) {
+    var oRow = $("[id$='" + id + "']");
+    var hRow = oRow.html();
+
+    var loader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+    oRow.html(loader);
+
+    var vals = new Array();
+    vals[0] = id;
+    var dto = { "vals": vals };
+    $.ajax({
+        url: "../../api/Comments.asmx/Delete",
+        data: JSON.stringify(dto),
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                var com_cnt = $('#comment_counter').text();
+                var spm_cnt = $('#spam_counter').text();
+                var pbk_cnt = $('#pingback_counter').text();
+                var pnd_cnt = $('#pending_counter').text();
+
+                if (location.href.indexOf('Comments\/Approved.aspx') > 0) $('#comment_counter').text(parseInt(com_cnt) - 1);
+                if (location.href.indexOf('Comments\/Spam.aspx') > 0) $('#spam_counter').text(parseInt(spm_cnt) - 1);
+                if (location.href.indexOf('Comments\/Pingback.aspx') > 0) $('#pingback_counter').text(parseInt(pbk_cnt) - 1);
+                if (location.href.indexOf('Comments\/Pending.aspx') > 0) $('#pending_counter').text(parseInt(pnd_cnt) - 1);
+
+                $(oRow).fadeOut(500, function () {
+                    $(oRow).remove();
+                });
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                oRow.html(hRow);
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });   
+    return false;
+}
+
 function DeleteAllSpam() {
     $('.loader').show();
     $.ajax({
