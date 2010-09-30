@@ -7,12 +7,11 @@
     using System.Web.Services;
 
     using BlogEngine.Core;
-    using BlogEngine.Core.Json;
 
     /// <summary>
-    /// The admin_newuser.
+    /// The Users.
     /// </summary>
-    public partial class admin_newuser : System.Web.UI.Page
+    public partial class Users : System.Web.UI.Page
     {
         #region Constants and Fields
 

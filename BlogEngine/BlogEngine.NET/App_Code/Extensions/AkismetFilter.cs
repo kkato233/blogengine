@@ -1,198 +1,3 @@
-using BlogEngine.Core;
-using BlogEngine.Core.Web.Controls;
-using BlogEngine.Core.Web.Extensions;
-
-using Joel.Net;
-
-/// <summary>
-/// Akismet Filter
-/// </summary>
-[Extension("Akismet anti-spam comment filter", "1.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
-public class AkismetFilter : ICustomFilter
-{
-    #region Constants and Fields
-
-    /// <summary>
-    ///     The api.
-    /// </summary>
-    private static Akismet api;
-
-    /// <summary>
-    ///     The key.
-    /// </summary>
-    private static string key;
-
-    /// <summary>
-    ///     The settings.
-    /// </summary>
-    private static ExtensionSettings settings;
-
-    /// <summary>
-    ///     The site.
-    /// </summary>
-    private static string site;
-
-    #endregion
-
-    #region Constructors and Destructors
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref = "AkismetFilter" /> class.
-    /// </summary>
-    public AkismetFilter()
-    {
-        this.InitSettings();
-    }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    ///     Gets a value indicating whether FallThrough.
-    /// </summary>
-    public bool FallThrough { get; private set; }
-
-    #endregion
-
-    #region Implemented Interfaces
-
-    #region ICustomFilter
-
-    /// <summary>
-    /// Check if comment is spam
-    /// </summary>
-    /// <param name="comment">BlogEngine comment</param>
-    /// <returns>True if comment is spam</returns>
-    public bool Check(Comment comment)
-    {
-        if (api == null)
-        {
-            this.Initialize();
-        }
-
-        if (settings == null)
-        {
-            this.InitSettings();
-        }
-
-        var akismetComment = GetAkismetComment(comment);
-        var spam = api.CommentCheck(akismetComment);
-        this.FallThrough = !spam;
-        return spam;
-    }
-
-    /// <summary>
-    /// Initializes anti-spam service
-    /// </summary>
-    /// <returns>
-    /// True if service online and credentials validated
-    /// </returns>
-    public bool Initialize()
-    {
-        if (!ExtensionManager.ExtensionEnabled("AkismetFilter"))
-        {
-            return false;
-        }
-
-        if (settings == null)
-        {
-            this.InitSettings();
-        }
-
-        site = settings.GetSingleValue("SiteURL");
-        key = settings.GetSingleValue("ApiKey");
-        api = new Akismet(key, site, "BlogEngine.net 1.6");
-
-        return api.VerifyKey();
-    }
-
-    /// <summary>
-    /// The report.
-    /// </summary>
-    /// <param name="comment">
-    /// The comment.
-    /// </param>
-    public void Report(Comment comment)
-    {
-        if (api == null && !Initialize())
-        {
-            return;
-        }
-
-        if (settings == null)
-        {
-             this.InitSettings();
-        }
-
-        var akismetComment = GetAkismetComment(comment);
-
-        if (comment.IsApproved)
-        {
-            Utils.Log(string.Format("Akismet: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-            api.SubmitHam(akismetComment);
-        }
-        else
-        {
-            Utils.Log(string.Format("Akismet: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-            api.SubmitSpam(akismetComment);
-        }
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Methods
-
-    /// <summary>
-    /// Gets an akismet comment.
-    /// </summary>
-    /// <param name="comment">
-    /// The comment.
-    /// </param>
-    /// <returns>
-    /// An Akismet Comment.
-    /// </returns>
-    private static AkismetComment GetAkismetComment(Comment comment)
-    {
-        var akismetComment = new AkismetComment
-            {
-                Blog = settings.GetSingleValue("SiteURL"),
-                UserIp = comment.IP,
-                CommentContent = comment.Content,
-                CommentType = "comment",
-                CommentAuthor = comment.Author,
-                CommentAuthorEmail = comment.Email
-            };
-        if (comment.Website != null)
-        {
-            akismetComment.CommentAuthorUrl = comment.Website.OriginalString;
-        }
-
-        return akismetComment;
-    }
-
-    /// <summary>
-    /// The init settings.
-    /// </summary>
-    private void InitSettings()
-    {
-        var extensionSettings = new ExtensionSettings(this) { Scalar = true };
-
-        extensionSettings.AddParameter("SiteURL", "Site URL");
-        extensionSettings.AddParameter("ApiKey", "API Key");
-
-        extensionSettings.AddValue("SiteURL", "http://example.com/blog");
-        extensionSettings.AddValue("ApiKey", "123456789");
-
-        settings = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
-        ExtensionManager.SetStatus("AkismetFilter", false);
-    }
-
-    #endregion
-}
-
 /* Author:      Joel Thoms (http://joel.net)
  * Copyright:   2006 Joel Thoms (http://joel.net)
  * About:       Akismet (http://akismet.com) .Net 2.0 API allow you to check
@@ -315,11 +120,6 @@ namespace Joel.Net
         /// </summary>
         private readonly string verifyUrl = "http://rest.akismet.com/1.1/verify-key";
 
-        /// <summary>
-        ///     The char set.
-        /// </summary>
-        private string charSet = "UTF-8";
-
         #endregion
 
         #region Constructors and Destructors
@@ -342,6 +142,7 @@ namespace Joel.Net
         /// </remarks>
         public Akismet(string apiKey, string blog, string userAgent)
         {
+            this.CharSet = "UTF-8";
             this.apiKey = apiKey;
             if (userAgent != null)
             {
@@ -381,20 +182,9 @@ namespace Joel.Net
         #region Properties
 
         /// <summary>
-        ///     The char set.
+        ///     Gets or sets the character set.
         /// </summary>
-        public string CharSet
-        {
-            get
-            {
-                return this.charSet;
-            }
-
-            set
-            {
-                this.charSet = value;
-            }
-        }
+        public string CharSet { get; set; }
 
         #endregion
 
@@ -413,7 +203,7 @@ namespace Joel.Net
         {
             var value =
                 Convert.ToBoolean(
-                    this.HttpPost(String.Format(this.commentCheckUrl, this.apiKey), CreateData(comment), this.charSet));
+                    this.HttpPost(String.Format(this.commentCheckUrl, this.apiKey), CreateData(comment), this.CharSet));
             return value;
         }
 
@@ -425,7 +215,7 @@ namespace Joel.Net
         /// </param>
         public void SubmitHam(AkismetComment comment)
         {
-            this.HttpPost(String.Format(this.submitHamUrl, this.apiKey), CreateData(comment), this.charSet);
+            this.HttpPost(String.Format(this.submitHamUrl, this.apiKey), CreateData(comment), this.CharSet);
         }
 
         /// <summary>
@@ -436,7 +226,7 @@ namespace Joel.Net
         /// </param>
         public void SubmitSpam(AkismetComment comment)
         {
-            this.HttpPost(String.Format(this.submitSpamUrl, this.apiKey), CreateData(comment), this.charSet);
+            this.HttpPost(String.Format(this.submitSpamUrl, this.apiKey), CreateData(comment), this.CharSet);
         }
 
         /// <summary>
@@ -450,7 +240,7 @@ namespace Joel.Net
             var response = this.HttpPost(
                 this.verifyUrl, 
                 String.Format("key={0}&blog={1}", this.apiKey, HttpUtility.UrlEncode(this.blog)), 
-                this.charSet);
+                this.CharSet);
             var value = (response == "valid") ? true : false;
             return value;
         }
@@ -532,6 +322,209 @@ namespace Joel.Net
             }
 
             return value;
+        }
+
+        #endregion
+    }
+}
+
+namespace App_Code.Extensions
+{
+    using BlogEngine.Core;
+    using BlogEngine.Core.Web.Controls;
+    using BlogEngine.Core.Web.Extensions;
+
+    using Joel.Net;
+
+    /// <summary>
+    /// Akismet Filter
+    /// </summary>
+    [Extension("Akismet anti-spam comment filter", "1.0", "<a href=\"http://dotnetblogengine.net\">BlogEngine.NET</a>")]
+    public class AkismetFilter : ICustomFilter
+    {
+        #region Constants and Fields
+
+        /// <summary>
+        ///     The api.
+        /// </summary>
+        private static Akismet api;
+
+        /// <summary>
+        ///     The key.
+        /// </summary>
+        private static string key;
+
+        /// <summary>
+        ///     The settings.
+        /// </summary>
+        private static ExtensionSettings settings;
+
+        /// <summary>
+        ///     The site.
+        /// </summary>
+        private static string site;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref = "AkismetFilter" /> class.
+        /// </summary>
+        public AkismetFilter()
+        {
+            this.InitSettings();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        ///     Gets a value indicating whether FallThrough.
+        /// </summary>
+        public bool FallThrough { get; private set; }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region ICustomFilter
+
+        /// <summary>
+        /// Check if comment is spam
+        /// </summary>
+        /// <param name="comment">
+        /// BlogEngine comment
+        /// </param>
+        /// <returns>
+        /// True if comment is spam
+        /// </returns>
+        public bool Check(Comment comment)
+        {
+            if (api == null)
+            {
+                this.Initialize();
+            }
+
+            if (settings == null)
+            {
+                this.InitSettings();
+            }
+
+            var akismetComment = GetAkismetComment(comment);
+            var spam = api.CommentCheck(akismetComment);
+            this.FallThrough = !spam;
+            return spam;
+        }
+
+        /// <summary>
+        /// Initializes anti-spam service
+        /// </summary>
+        /// <returns>
+        /// True if service online and credentials validated
+        /// </returns>
+        public bool Initialize()
+        {
+            if (!ExtensionManager.ExtensionEnabled("AkismetFilter"))
+            {
+                return false;
+            }
+
+            if (settings == null)
+            {
+                this.InitSettings();
+            }
+
+            site = settings.GetSingleValue("SiteURL");
+            key = settings.GetSingleValue("ApiKey");
+            api = new Akismet(key, site, "BlogEngine.net 1.6");
+
+            return api.VerifyKey();
+        }
+
+        /// <summary>
+        /// The report.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        public void Report(Comment comment)
+        {
+            if (api == null && !this.Initialize())
+            {
+                return;
+            }
+
+            if (settings == null)
+            {
+                this.InitSettings();
+            }
+
+            var akismetComment = GetAkismetComment(comment);
+
+            if (comment.IsApproved)
+            {
+                Utils.Log(
+                    string.Format("Akismet: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
+                api.SubmitHam(akismetComment);
+            }
+            else
+            {
+                Utils.Log(string.Format("Akismet: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
+                api.SubmitSpam(akismetComment);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets an akismet comment.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <returns>
+        /// An Akismet Comment.
+        /// </returns>
+        private static AkismetComment GetAkismetComment(Comment comment)
+        {
+            var akismetComment = new AkismetComment
+                {
+                    Blog = settings.GetSingleValue("SiteURL"), 
+                    UserIp = comment.IP, 
+                    CommentContent = comment.Content, 
+                    CommentType = "comment", 
+                    CommentAuthor = comment.Author, 
+                    CommentAuthorEmail = comment.Email
+                };
+            if (comment.Website != null)
+            {
+                akismetComment.CommentAuthorUrl = comment.Website.OriginalString;
+            }
+
+            return akismetComment;
+        }
+
+        /// <summary>
+        /// The init settings.
+        /// </summary>
+        private void InitSettings()
+        {
+            var extensionSettings = new ExtensionSettings(this) { Scalar = true };
+
+            extensionSettings.AddParameter("SiteURL", "Site URL");
+            extensionSettings.AddParameter("ApiKey", "API Key");
+
+            extensionSettings.AddValue("SiteURL", "http://example.com/blog");
+            extensionSettings.AddValue("ApiKey", "123456789");
+
+            settings = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
+            ExtensionManager.SetStatus("AkismetFilter", false);
         }
 
         #endregion

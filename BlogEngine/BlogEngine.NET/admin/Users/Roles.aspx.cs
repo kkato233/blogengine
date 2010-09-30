@@ -3,18 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web.Security;
     using System.Web.Services;
 
     using BlogEngine.Core;
-    using BlogEngine.Core.Json;
 
     using Page = System.Web.UI.Page;
 
     /// <summary>
-    /// The admin_ account_ roles.
+    /// The admin account roles.
     /// </summary>
-    public partial class admin_Account_Roles : Page
+    public partial class Roles : Page
     {
         #region Constants and Fields
 
@@ -35,7 +33,7 @@
         public static List<Role> GetRoles()
         {
             var roles = new List<Role>();
-            roles.AddRange(Roles.GetAllRoles().Select(r => new Role { RoleName = r }));
+            roles.AddRange(System.Web.Security.Roles.GetAllRoles().Select(r => new Role { RoleName = r }));
             roles.Sort((r1, r2) => string.Compare(r1.RoleName, r2.RoleName));
 
             return roles;
@@ -72,7 +70,7 @@
     }
 
     /// <summary>
-    /// The role.
+    /// The user role.
     /// </summary>
     public class Role
     {

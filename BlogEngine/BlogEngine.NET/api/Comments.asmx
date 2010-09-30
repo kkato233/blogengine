@@ -1,12 +1,9 @@
 ﻿<%@ WebService Language="C#" Class="Comments" %>
 
 using System;
-using System.Web;
-using System.Text;
-using System.Web.UI.WebControls;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Script.Services;
-using System.Web.Security;
 using System.Web.Services;
 
 using BlogEngine.Core;
@@ -14,9 +11,9 @@ using BlogEngine.Core.Json;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-[System.Web.Script.Services.ScriptService]
-public class Comments  : System.Web.Services.WebService {
-
+[ScriptService]
+public class Comments : WebService
+{
     #region Constants and Fields
 
     /// <summary>
@@ -24,12 +21,14 @@ public class Comments  : System.Web.Services.WebService {
     /// </summary>
     private readonly JsonResponse response;
 
-    protected static int currentPage = 1;
-    protected static int lastPage = 1;
-    protected static int commCnt = 1;
+    protected static int CurrentPage = 1;
+
+    protected static int LastPage = 1;
+
+    protected static int CommCnt = 1;
 
     #endregion
-    
+
     #region Constructors and Destructors
 
     public Comments()
@@ -40,9 +39,9 @@ public class Comments  : System.Web.Services.WebService {
     #endregion
 
     /// <summary>
-    /// Reject selected comments
+    ///     Reject selected comments
     /// </summary>
-    /// <param name="vals">Array of comments</param>
+    /// <param name = "vals">Array of comments</param>
     /// <returns>Json response</returns>
     [WebMethod]
     public JsonResponse Reject(string[] vals)
@@ -61,22 +60,16 @@ public class Comments  : System.Web.Services.WebService {
         }
 
         try
-        {         
-            foreach (Post p in Post.Posts.ToArray())
+        {
+            foreach (var p in Post.Posts.ToArray())
             {
-                foreach (Comment c in p.Comments.ToArray())
+                foreach (var c in from c in p.Comments.ToArray() from t in vals where c.Id == new Guid(t) select c)
                 {
-                    for (int i = 0; i < vals.Length; i++)
-                    {
-                        if (c.Id == new Guid(vals[i]))
-                        {
-                            CommentHandlers.AddIpToFilter(c.IP, true);
-                            CommentHandlers.ReportMistake(c);
+                    CommentHandlers.AddIpToFilter(c.IP, true);
+                    CommentHandlers.ReportMistake(c);
 
-                            c.ModeratedBy = this.User.Identity.Name;
-                            p.DisapproveComment(c);
-                        }
-                    }
+                    c.ModeratedBy = this.User.Identity.Name;
+                    p.DisapproveComment(c);
                 }
             }
         }
@@ -92,9 +85,9 @@ public class Comments  : System.Web.Services.WebService {
     }
 
     /// <summary>
-    /// Restore selected comments
+    ///     Restore selected comments
     /// </summary>
-    /// <param name="vals">Array of comments</param>
+    /// <param name = "vals">Array of comments</param>
     /// <returns>Json response</returns>
     [WebMethod]
     public JsonResponse Approve(string[] vals)
@@ -114,22 +107,18 @@ public class Comments  : System.Web.Services.WebService {
 
         try
         {
-            foreach (Post p in Post.Posts.ToArray())
-            {
-                foreach (Comment c in p.Comments.ToArray())
-                {
-                    for (int i = 0; i < vals.Length; i++)
-                    {
-                        if (c.Id == new Guid(vals[i]))
-                        {
-                            CommentHandlers.AddIpToFilter(c.IP, false);
-                            CommentHandlers.ReportMistake(c);
+            var toapprove = from p in Post.Posts
+                            from c in p.Comments
+                            join t in vals on c.Id equals new Guid(t)
+                            select new { p, c };
 
-                            c.ModeratedBy = this.User.Identity.Name;
-                            p.ApproveComment(c);
-                        }
-                    }
-                }
+            foreach (var t in toapprove)
+            {
+                CommentHandlers.AddIpToFilter(t.c.IP, false);
+                CommentHandlers.ReportMistake(t.c);
+
+                t.c.ModeratedBy = this.User.Identity.Name;
+                t.p.ApproveComment(t.c);
             }
         }
         catch (Exception ex)
@@ -144,9 +133,9 @@ public class Comments  : System.Web.Services.WebService {
     }
 
     /// <summary>
-    /// Delete selected comments
+    ///     Delete selected comments
     /// </summary>
-    /// <param name="vals">Array of comments</param>
+    /// <param name = "vals">Array of comments</param>
     /// <returns>Json response</returns>
     [WebMethod]
     public JsonResponse Delete(string[] vals)
@@ -166,25 +155,17 @@ public class Comments  : System.Web.Services.WebService {
 
         try
         {
-            List<Comment> tmp = new List<Comment>();
+            var tmp = new List<Comment>();
 
-            foreach (Post post in Post.Posts)
+            foreach (var post in Post.Posts)
             {
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    Comment comment = post.Comments.Find(
-                            delegate(Comment c)
-                            {
-                                return c.Id == new Guid(vals[i]);
-                            });
-
-                    if (comment != null) tmp.Add(comment);
-                }
+                var post1 = post;
+                tmp.AddRange(vals.Select(t => post1.Comments.Find(c => c.Id == new Guid(t))).Where(comment => comment != null));
             }
 
-            foreach (Comment c in tmp)
+            foreach (var c in tmp)
             {
-                RemoveComment(c);
+                this.RemoveComment(c);
             }
         }
         catch (Exception ex)
@@ -199,7 +180,7 @@ public class Comments  : System.Web.Services.WebService {
     }
 
     /// <summary>
-    /// Delete all spam comments
+    ///     Delete all spam comments
     /// </summary>
     /// <returns>Json response</returns>
     [WebMethod]
@@ -214,7 +195,7 @@ public class Comments  : System.Web.Services.WebService {
         }
         try
         {
-            DeleteAllComments();
+            this.DeleteAllComments();
         }
         catch (Exception ex)
         {
@@ -230,23 +211,20 @@ public class Comments  : System.Web.Services.WebService {
     [WebMethod]
     public static JsonComment SaveComment(string id, string author, string email, string website, string cont)
     {
-        Guid gId = new Guid(id);
-        JsonComment jc = new JsonComment();
-        
-        foreach (Post p in Post.Posts.ToArray())
-        {
-            foreach (Comment c in p.Comments.ToArray())
-            {
-                if (c.Id == gId)
-                {
-                    c.Author = author;
-                    c.Email = email;
-                    c.Website = new Uri(website);
-                    c.Content = cont;
+        var gId = new Guid(id);
+        var jc = new JsonComment();
 
-                    p.Save();
-                    return JsonComments.GetComment(gId);
-                }
+        foreach (var p in Post.Posts.ToArray())
+        {
+            foreach (var c in p.Comments.Where(c => c.Id == gId).ToArray())
+            {
+                c.Author = author;
+                c.Email = email;
+                c.Website = new Uri(website);
+                c.Content = cont;
+
+                p.Save();
+                return JsonComments.GetComment(gId);
             }
         }
         return jc;
@@ -254,45 +232,40 @@ public class Comments  : System.Web.Services.WebService {
 
     protected void RemoveComment(Comment comment)
     {
-        bool found = false;
-        for (int i = 0; i < Post.Posts.Count; i++)
+        var toremove = from p in Post.Posts from c in p.Comments where c.Id == comment.Id select new { p, c };
+        foreach (var t in toremove)
         {
-            for (int j = 0; j < Post.Posts[i].Comments.Count; j++)
-            {
-                if (Post.Posts[i].Comments[j].Id == comment.Id)
-                {
-                    Post.Posts[i].RemoveComment(Post.Posts[i].Comments[j]);
-                    found = true;
-                    break;
-                }
-            }
-            if (found) { break; }
+            t.p.RemoveComment(t.c);
         }
     }
 
     protected void DeleteAllComments()
     {
-        if (Post.Posts.Count > 0)
+        if (Post.Posts.Count <= 0)
         {
-            // loop backwards to avoid "collection was modified" error
-            for (int i = Post.Posts.Count - 1; i >= 0; i--)
+            return;
+        }
+
+        // loop backwards to avoid "collection was modified" error
+        for (var i = Post.Posts.Count - 1; i >= 0; i--)
+        {
+            if (Post.Posts[i].Comments.Count <= 0)
             {
-                if (Post.Posts[i].Comments.Count > 0)
+                continue;
+            }
+
+            for (var j = Post.Posts[i].Comments.Count - 1; j >= 0; j--)
+            {
+                var comment = Post.Posts[i].Comments[j];
+
+                // spam comments should never have children but
+                // be on a safe side insure we won't create
+                // orphan comment with deleted parent
+                if (!comment.IsApproved && comment.Comments.Count == 0)
                 {
-                    for (int j = Post.Posts[i].Comments.Count - 1; j >= 0; j--)
-                    {
-                        Comment comment = Post.Posts[i].Comments[j];
-                        // spam comments should never have children but
-                        // be on a safe side insure we won't create
-                        // orphan comment with deleted parent
-                        if (!comment.IsApproved && comment.Comments.Count == 0)
-                        {
-                            Post.Posts[i].RemoveComment(comment);
-                        }
-                    }
+                    Post.Posts[i].RemoveComment(comment);
                 }
             }
         }
     }
-
 }

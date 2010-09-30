@@ -50,7 +50,7 @@
 
                 // Service 
                 rsd.WriteStartElement("service");
-                rsd.WriteElementString("engineName", "BlogEngine.NET " + BlogSettings.Instance.Version());
+                rsd.WriteElementString("engineName", string.Format("BlogEngine.NET {0}", BlogSettings.Instance.Version()));
                 rsd.WriteElementString("engineLink", "http://dotnetblogengine.com");
                 rsd.WriteElementString("homePageLink", Utils.AbsoluteWebRoot.ToString());
 
@@ -71,7 +71,7 @@
                 rsd.WriteStartElement("api");
                 rsd.WriteAttributeString("name", "BlogML");
                 rsd.WriteAttributeString("preferred", "false");
-                rsd.WriteAttributeString("apiLink", Utils.AbsoluteWebRoot + "api/BlogImporter.asmx");
+                rsd.WriteAttributeString("apiLink", string.Format("{0}api/BlogImporter.asmx", Utils.AbsoluteWebRoot));
                 rsd.WriteAttributeString("blogID", Utils.AbsoluteWebRoot.ToString());
                 rsd.WriteEndElement();
 

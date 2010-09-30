@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="CommentView" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="UserControls.CommentView" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (CommentCounter > 0)

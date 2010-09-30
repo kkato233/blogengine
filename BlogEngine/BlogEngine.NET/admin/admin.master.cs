@@ -12,9 +12,9 @@
     using BlogEngine.Core;
 
     /// <summary>
-    /// The admin_admin.
+    /// The Admin.
     /// </summary>
-    public partial class admin_admin : MasterPage
+    public partial class Admin : MasterPage
     {
         #region Constants and Fields
 
@@ -142,19 +142,29 @@
         }
 
         /// <summary>
-        /// Handles the Load event of the Page control.
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Page_Load(object sender, EventArgs e)
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnLoad(EventArgs e)
         {
+            base.OnLoad(e);
+
             if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
             {
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
+        }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
+        {
             this.AddJquery();
-            this.AddJavaScript(Utils.RelativeWebRoot + "admin/admin.js");
+            this.AddJavaScript(string.Format("{0}admin/admin.js", Utils.RelativeWebRoot));
+
+            base.OnInit(e);
         }
 
         /// <summary>
