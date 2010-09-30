@@ -1206,4 +1206,7 @@
   <data name="usernameAlreadyTaken" xml:space="preserve">
     <value>Username is already taken</value>
   </data>
+  <data name="notifiedPublished" xml:space="preserve">
+    <value>Get notified when a new post is published.</value>
+  </data>
 </root>
