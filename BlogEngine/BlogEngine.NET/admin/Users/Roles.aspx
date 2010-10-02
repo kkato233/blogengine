@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Roles.aspx.cs" Inherits="admin.Users.admin_Account_Roles" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Roles.aspx.cs" Inherits="admin.Users.Roles" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
         function AddRole() {

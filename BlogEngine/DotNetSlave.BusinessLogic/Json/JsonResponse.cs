@@ -1,7 +1,5 @@
 ﻿namespace BlogEngine.Core.Json
 {
-    using System;
-
     /// <summary>
     /// The json response.
     /// </summary>
@@ -10,17 +8,17 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets Data.
+        ///     Gets or sets Data.
         /// </summary>
         public string Data { get; set; }
 
         /// <summary>
-        /// Gets or sets Message.
+        ///     Gets or sets Message.
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether Success.
+        ///     Gets or sets a value indicating whether Success.
         /// </summary>
         public bool Success { get; set; }
 
