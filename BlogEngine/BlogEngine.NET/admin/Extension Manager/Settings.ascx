@@ -1,10 +1,10 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Settings.ascx.cs" Inherits="User_controls_xmanager_Parameters" %>
-<h1><%=SettingName%></h1>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Settings.ascx.cs" Inherits="Admin.ExtensionManager.UserControlsXmanagerParameters" %>
+<h1><%=this.SettingName%></h1>
 <div id="ErrorMsg" runat="server" style="color:Red; padding:5px 0 5px 0; display:block;"></div>
 <div id="InfoMsg" runat="server" style="color:Green; padding:5px 0 5px 0; display:block;"></div>
 
-<% if(!string.IsNullOrEmpty(_settings.Help)) { %>
-<div class="info" style="float:right; width: 350px;"><%=_settings.Help%></div>
+<% if(!string.IsNullOrEmpty(this.Settings.Help)) { %>
+<div class="info" style="float:right; width: 350px;"><%=this.Settings.Help%></div>
 <%} %>
 
 <div class="mgr">
@@ -27,6 +27,6 @@
         Width="100%"
         AllowPaging="True" 
         AllowSorting="True"
-        onpageindexchanging="grid_PageIndexChanging" 
-        OnRowDataBound="grid_RowDataBound" >
+        onpageindexchanging="GridPageIndexChanging" 
+        OnRowDataBound="GridRowDataBound" >
  </asp:GridView>
