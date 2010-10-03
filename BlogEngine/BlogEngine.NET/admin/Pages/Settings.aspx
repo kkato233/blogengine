@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="false"
-    AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin.Pages.Configuration"
+    AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="Admin.Pages.Configuration"
     Title="Settings" %>
 
 <%@ MasterType VirtualPath="~/admin/admin1.master" %>
