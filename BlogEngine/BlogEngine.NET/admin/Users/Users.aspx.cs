@@ -1,28 +1,15 @@
-﻿namespace admin.Users
+﻿namespace Admin.Users
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Security;
     using System.Web.Services;
 
-    using BlogEngine.Core;
-    using BlogEngine.Core.Json;
-
     /// <summary>
-    /// The admin_newuser.
+    /// The Users.
     /// </summary>
-    public partial class admin_newuser : System.Web.UI.Page
+    public partial class Users : System.Web.UI.Page
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// The response.
-        /// </summary>
-        private JsonResponse response;
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -39,21 +26,6 @@
             users.Sort((u1, u2) => string.Compare(u1.UserName, u2.UserName));
 
             return users;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
-        /// </summary>
-        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-
-            this.response = new JsonResponse();
         }
 
         #endregion

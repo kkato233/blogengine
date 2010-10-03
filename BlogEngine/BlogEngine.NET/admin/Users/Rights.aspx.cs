@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-public partial class admin_Users_Rights : System.Web.UI.Page
+﻿namespace Admin.Users
 {
-    protected void Page_Load(object sender, EventArgs e)
+    public partial class Rights : System.Web.UI.Page
     {
-
     }
 }

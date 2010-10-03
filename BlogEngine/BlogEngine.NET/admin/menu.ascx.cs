@@ -1,4 +1,10 @@
-﻿namespace admin
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The Menu control.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Admin
 {
     using System;
     using System.Linq;
@@ -11,9 +17,9 @@
     using Resources;
 
     /// <summary>
-    /// The admin_menu.
+    /// The Menu control.
     /// </summary>
-    public partial class admin_menu : UserControl
+    public partial class Menu : UserControl
     {
         #region Public Methods
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="WidgetEditor.aspx.cs" Inherits="admin.User_controls_WidgetEditor"
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="WidgetEditor.aspx.cs" Inherits="Admin.WidgetEditor"
     ValidateRequest="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

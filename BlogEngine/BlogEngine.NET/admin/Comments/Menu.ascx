@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="admin.Comments.Menu" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="Admin.Comments.Menu" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if(BlogSettings.Instance.EnableCommentsModeration){ %>

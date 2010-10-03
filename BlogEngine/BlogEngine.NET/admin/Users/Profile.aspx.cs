@@ -1,16 +1,15 @@
-﻿namespace admin.Users
+﻿namespace Admin.Users
 {
     using System;
     using System.Linq;
-    using System.Web.Security;
     using System.Web.Services;
 
     using BlogEngine.Core;
 
     /// <summary>
-    /// The admin_ pages_ profile.
+    /// The admin pages profile.
     /// </summary>
-    public partial class admin_Pages_Profile : System.Web.UI.Page
+    public partial class ProfilePage : System.Web.UI.Page
     {
         #region Constants and Fields
 
@@ -32,8 +31,8 @@
             {
                 var ret = string.Empty;
                 const string Ptrn = "<input type=\"checkbox\" id=\"{0}\" class=\"chkRole\" {1} /><span class=\"lbl\">{0}</span>";
-                var allRoles = Roles.GetAllRoles();
-                return allRoles.Aggregate(ret, (current, r) => current + (Roles.IsUserInRole(theId, r) ? string.Format(Ptrn, r, "checked") : string.Format(Ptrn, r, string.Empty)));
+                var allRoles = System.Web.Security.Roles.GetAllRoles();
+                return allRoles.Aggregate(ret, (current, r) => current + (System.Web.Security.Roles.IsUserInRole(theId, r) ? string.Format(Ptrn, r, "checked") : string.Format(Ptrn, r, string.Empty)));
             }
         }
 
@@ -79,16 +78,17 @@
         #region Methods
 
         /// <summary>
-        /// Handles the Load event of the Page control.
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Page_Load(object sender, EventArgs e)
+        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
         {
             if (!string.IsNullOrEmpty(this.Request.QueryString["id"]))
             {
                 theId = this.Request.QueryString["id"];
             }
+
+            base.OnInit(e);
         }
 
         #endregion

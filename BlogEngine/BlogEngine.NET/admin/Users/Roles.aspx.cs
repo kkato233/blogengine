@@ -1,30 +1,16 @@
-﻿namespace admin.Users
+﻿namespace Admin.Users
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web.Security;
     using System.Web.Services;
-
-    using BlogEngine.Core;
-    using BlogEngine.Core.Json;
 
     using Page = System.Web.UI.Page;
 
     /// <summary>
-    /// The admin_ account_ roles.
+    /// The admin account roles.
     /// </summary>
-    public partial class admin_Account_Roles : Page
+    public partial class Roles : Page
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// The response.
-        /// </summary>
-        private JsonResponse response;
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -35,7 +21,7 @@
         public static List<Role> GetRoles()
         {
             var roles = new List<Role>();
-            roles.AddRange(Roles.GetAllRoles().Select(r => new Role { RoleName = r }));
+            roles.AddRange(System.Web.Security.Roles.GetAllRoles().Select(r => new Role { RoleName = r }));
             roles.Sort((r1, r2) => string.Compare(r1.RoleName, r2.RoleName));
 
             return roles;
@@ -44,16 +30,6 @@
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Handles the Load event of the Page control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            this.response = new JsonResponse();
-        }
 
 /*
         /// <summary>
@@ -67,22 +43,6 @@
             return this.User.IsInRole(BlogSettings.Instance.AdministratorRole);
         }
 */
-
-        #endregion
-    }
-
-    /// <summary>
-    /// The role.
-    /// </summary>
-    public class Role
-    {
-        #region Constants and Fields
-
-        /// <summary>
-        /// Gets or sets the name of the role.
-        /// </summary>
-        /// <value>The name of the role.</value>
-        public string RoleName { get; set; }
 
         #endregion
     }

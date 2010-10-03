@@ -1,11 +1,17 @@
-﻿using System.Web.UI;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The admin_html editor.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace admin
+namespace Admin
 {
+    using System.Web.UI;
+
     /// <summary>
     /// The admin_html editor.
     /// </summary>
-    public partial class admin_htmlEditor : UserControl
+    public partial class HtmlEditor : UserControl
     {
         #region Properties
 

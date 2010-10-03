@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true"
-    ValidateRequest="False" CodeFile="Profiles.aspx.cs" Inherits="admin.Pages.admin_profiles"
+    ValidateRequest="False" CodeFile="Profiles.aspx.cs" Inherits="Admin.Pages.Profiles"
     Title="Modify Profiles" %>
 
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
@@ -14,7 +14,7 @@
                     <asp:Panel ID="pnlAdmin" runat="server" Visible='<%# User.IsInRole("Administrator") %>'>
                         <asp:DropDownList ID="ddlUserList" runat="server">
                         </asp:DropDownList>
-                        <asp:LinkButton ID="lbChangeUserProfile" runat="server" OnClick="lbChangeUserProfile_Click"><%= Resources.labels.switchUserProfile %></asp:LinkButton>
+                        <asp:LinkButton ID="lbChangeUserProfile" runat="server" OnClick="LbChangeUserProfileClick"><%= Resources.labels.switchUserProfile %></asp:LinkButton>
                     </asp:Panel>
                 </div>
                 <div class="settings" style="padding: 0 10px">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <p style="text-align: right;">
-                    <asp:Button ID="lbSaveProfile" runat="server" OnClick="lbSaveProfile_Click" />
+                    <asp:Button ID="lbSaveProfile" runat="server" OnClick="LbSaveProfileClick" />
                 </p>
             </td>
             <td style="width: 180px; vertical-align: top">

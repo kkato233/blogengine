@@ -1,4 +1,10 @@
-﻿namespace admin.Pages
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The admin pages recaptcha log viewer.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Admin.Pages
 {
     using System;
     using System.Collections.Generic;
@@ -15,25 +21,26 @@
     using Page = System.Web.UI.Page;
 
     /// <summary>
-    /// The admin_ pages_ recaptcha log viewer.
+    /// The admin pages recaptcha log viewer.
     /// </summary>
-    public partial class admin_Pages_RecaptchaLogViewer : Page
+    public partial class RecaptchaLogViewer : Page
     {
         #region Constants and Fields
+
+        /// <summary>
+        ///     The gravatar image.
+        /// </summary>
+        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
         #endregion
 
         #region Public Methods
 
         /// <summary>
-        /// The get website.
+        /// Gets the website.
         /// </summary>
-        /// <param name="website">
-        /// The website.
-        /// </param>
-        /// <returns>
-        /// The get website.
-        /// </returns>
+        /// <param name="website">The website.</param>
+        /// <returns>A website string.</returns>
         public static string GetWebsite(object website)
         {
             if (website == null)
@@ -58,34 +65,76 @@
         /// <summary>
         /// Gravatars the specified email.
         /// </summary>
-        /// <param name="email">The email.</param>
-        /// <param name="author">The author.</param>
-        /// <returns></returns>
+        /// <param name="email">
+        /// The email.
+        /// </param>
+        /// <param name="author">
+        /// The author.
+        /// </param>
+        /// <returns>
+        /// The gravatar.
+        /// </returns>
         protected string Gravatar(string email, string author)
         {
-            return Avatar.GetAvatarImageTag(28, email, null, null, author);
+            if (BlogSettings.Instance.Avatar == "none")
+            {
+                return null;
+            }
+
+            if (String.IsNullOrEmpty(email) || !email.Contains("@"))
+            {
+                return string.Format(
+                    "<img src=\"{0}themes/{1}/noavatar.jpg\" alt=\"{2}\" width=\"28\" height=\"28\" />", 
+                    Utils.AbsoluteWebRoot, 
+                    BlogSettings.Instance.Theme, 
+                    author);
+            }
+
+            var hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5");
+            if (hash != null)
+            {
+                hash = hash.ToLowerInvariant();
+            }
+
+            var gravatar = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s=28&amp;d=", hash);
+
+            string link;
+            switch (BlogSettings.Instance.Avatar)
+            {
+                case "identicon":
+                    link = string.Format("{0}identicon", gravatar);
+                    break;
+
+                case "wavatar":
+                    link = string.Format("{0}wavatar", gravatar);
+                    break;
+
+                default:
+                    link = string.Format("{0}monsterid", gravatar);
+                    break;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, author);
         }
 
         /// <summary>
-        /// Handles the Load event of the Page control.
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Page_Load(object sender, EventArgs e)
+        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
         {
             if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
             {
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
 
-            if (!this.IsPostBack)
-            {
-                this.BindGrid();
-            }
+            this.BindGrid();
+
+            base.OnInit(e);
         }
 
         /// <summary>
-        /// The bind grid.
+        /// Binds the grid.
         /// </summary>
         private void BindGrid()
         {
@@ -111,13 +160,13 @@
                 {
                     var comment = comments[item.CommentId];
                     logView.Rows.Add(
-                        comment.Email,
-                        comment.DateCreated,
-                        comment.Author,
-                        comment.Website,
-                        comment.IP,
-                        item.NumberOfAttempts,
-                        item.TimeToComment,
+                        comment.Email, 
+                        comment.DateCreated, 
+                        comment.Author, 
+                        comment.Website, 
+                        comment.IP, 
+                        item.NumberOfAttempts, 
+                        item.TimeToComment, 
                         item.TimeToSolveCapcha);
                 }
                 else

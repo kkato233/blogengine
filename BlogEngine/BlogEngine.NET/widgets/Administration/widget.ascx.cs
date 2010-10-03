@@ -3,7 +3,7 @@
     /// <summary>
     /// The widget.
     /// </summary>
-    public partial class widget : WidgetBase
+    public partial class Widget : WidgetBase
     {
         #region Properties
 

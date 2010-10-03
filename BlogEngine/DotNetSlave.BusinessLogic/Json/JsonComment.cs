@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Web.Security;
 
     /// <summary>
@@ -12,19 +13,22 @@
         #region Constants and Fields
 
         /// <summary>
-        /// Comment Id
+        ///     Gets or sets the Comment Id
         /// </summary>
         public Guid Id { get; set; }
+
         /// <summary>
-        /// Email
+        ///     Gets or sets the Email
         /// </summary>
         public string Email { get; set; }
+
         /// <summary>
-        /// Author
+        ///     Gets or sets the Author
         /// </summary>
         public string Author { get; set; }
+
         /// <summary>
-        /// Avatar image
+        ///     Gets the avatar image
         /// </summary>
         public string Avatar
         {
@@ -42,69 +46,71 @@
                 return string.Format(CultureInfo.InvariantCulture, linkWithImage, Author, avatar.ImageTag, Email);
             }
         }
+
         /// <summary>
-        /// If comment has nested comments
+        ///     Gets a value indicating whether this comment has nested comments
         /// </summary>
         public bool HasChildred
         {
             get
             {
-                return GetChildren(Id);
+                return GetChildren(this.Id);
             }
         }
+
         /// <summary>
-        /// Comment title
+        ///     Gets or sets the comment title
         /// </summary>
         public string Title { get; set; }
+
         /// <summary>
-        /// Shorten comment content
+        ///     Gets or sets the shorten comment content
         /// </summary>
         public string Teaser { get; set; }
+
         /// <summary>
-        /// Author's website
+        ///     Gets or sets the author's website
         /// </summary>
         public string Website { get; set; }
+
         /// <summary>
         /// Static avatar image
         /// </summary>
         public string AuthorAvatar { get; set; }
         /// <summary>
-        /// Comment body
+        ///     Gets or sets the comment body
         /// </summary>
         public string Content { get; set; }
+
         /// <summary>
-        /// Ip
+        ///     Gets or sets the ip
         /// </summary>
         public string Ip { get; set; }
+
         /// <summary>
-        /// Date portion of published date
+        ///     Gets or sets the date portion of published date
         /// </summary>
         public string Date { get; set; }
+
         /// <summary>
-        /// Time portion of published date
+        ///     Gets or sets the time portion of published date
         /// </summary>
         public string Time { get; set; }
 
         #endregion
 
         /// <summary>
-        /// If comment has nested comments
+        /// If connent has nested comments
         /// </summary>
-        /// <param name="comId">Comment Id</param>
-        /// <returns>True if has child records</returns>
-        static bool GetChildren(Guid comId)
+        /// <param name="comId">
+        /// Comment Id
+        /// </param>
+        /// <returns>
+        /// True if has child records
+        /// </returns>
+        private static bool GetChildren(Guid comId)
         {
-            foreach (Post p in Post.Posts)
-            {
-                foreach (Comment c in p.Comments)
-                {
-                    if (c.ParentId == comId)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return Post.Posts.SelectMany(p => p.Comments).Any(c => c.ParentId == comId);
         }
     }
 }

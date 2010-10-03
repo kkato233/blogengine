@@ -1,37 +1,41 @@
-﻿namespace admin
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The Admin1MasterPage.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Admin
 {
     using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
     using System.Threading;
-    using System.Web.Security;
     using System.Web.UI;
-    using System.Web.UI.HtmlControls;
-    using System.Collections.Generic;
+
     using BlogEngine.Core;
 
     /// <summary>
-    /// The admin_admin.
+    /// The Admin1MasterPage.
     /// </summary>
-    public partial class admin_admin : MasterPage
+    public partial class Admin1MasterPage : MasterPage
     {
-        #region Constants and Fields
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
         /// Sets the status.
         /// </summary>
-        /// <param name="status">The status.</param>
-        /// <param name="msg">The message.</param>
+        /// <param name="status">
+        /// The status.
+        /// </param>
+        /// <param name="msg">
+        /// The message.
+        /// </param>
         public void SetStatus(string status, string msg)
         {
             this.AdminStatus.Attributes.Clear();
             this.AdminStatus.Attributes.Add("class", status);
-            this.AdminStatus.InnerHtml = string.Format("{0}<a href=\"javascript:HideStatus()\" style=\"width:20px;float:right\">X</a>", this.Server.HtmlEncode(msg));
+            this.AdminStatus.InnerHtml =
+                string.Format(
+                    "{0}<a href=\"javascript:HideStatus()\" style=\"width:20px;float:right\">X</a>", 
+                    this.Server.HtmlEncode(msg));
 
             // Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", 
             // "ShowStatus('" + status + "','" + msg + "');", true);
@@ -52,7 +56,7 @@
             var src = string.Format("{0}admin/images/no_avatar.png", Utils.AbsoluteWebRoot);
             var email = (string)null;
             var adminName = string.Empty;
-            AuthorProfile ap = this.AdminProfile();
+            var ap = this.AdminProfile();
 
             if (ap != null)
             {
@@ -94,11 +98,10 @@
         }
 
         /// <summary>
-        /// Handles the Load event of the Page control.
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        protected void Page_Load(object sender, EventArgs e)
+        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
         {
             if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
             {
@@ -107,6 +110,8 @@
 
             Utils.AddFolderJavaScripts(this.Page, "Scripts", false);
             Utils.AddJavaScriptInclude(this.Page, Utils.RelativeWebRoot + "admin/admin.js", false, false);
+            
+            base.OnInit(e);
         }
 
         #endregion

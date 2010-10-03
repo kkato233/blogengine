@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="false"
-    AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="admin.Pages.Configuration"
+    AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="Admin.Pages.Configuration"
     Title="Settings" %>
 
 <%@ MasterType VirtualPath="~/admin/admin1.master" %>
@@ -329,7 +329,7 @@
         <input type="button" value="<%=Resources.labels.export %>" onclick="location.href='blogml.axd'" />
         <asp:FileUpload runat="server" ID="txtUploadFile" Width="200" size="50" />
         <asp:Button ID="btnBlogMLImport" runat="server" Text="<%$Resources:labels,importFromBlogML %>"
-            OnClick="btnBlogMLImport_Click" />
+            OnClick="BtnBlogMlImportClick" />
     </div>
     <div align="right">
         <asp:Button runat="server" ID="btnSave" />

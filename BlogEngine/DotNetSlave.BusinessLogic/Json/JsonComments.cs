@@ -1,31 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BlogEngine.Core.Json
+﻿namespace BlogEngine.Core.Json
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Comment type.
     /// </summary>
-    public enum CommentType 
-    { 
+    public enum CommentType
+    {
         /// <summary>
-        /// Penging
+        ///     Pending Comment Type
         /// </summary>
-        Pending, 
+        Pending,
+
         /// <summary>
-        /// Approved
+        ///     Approved Comment Type
         /// </summary>
-        Approved, 
+        Approved,
+
         /// <summary>
-        /// Pingbacks and trackbacks
+        ///     Pingbacks and trackbacks Comment Type
         /// </summary>
-        Pingback, 
+        Pingback,
+
         /// <summary>
-        /// Spam
+        ///     Spam Comment Type
         /// </summary>
-        Spam 
+        Spam
     }
 
     /// <summary>
@@ -33,28 +35,43 @@ namespace BlogEngine.Core.Json
     /// </summary>
     public static class JsonComments
     {
-        static int currentPage = 1;
-        static int commCnt = 0;
+        /// <summary>
+        /// The current page.
+        /// </summary>
+        private static int currentPage = 1;
 
         /// <summary>
-        /// List of comments based on type for a single page
+        /// The comm cnt.
         /// </summary>
-        /// <param name="cType">Comment type</param>
-        /// <param name="PageSize">Page size</param>
-        /// <param name="Page">Current page</param>
-        /// <returns></returns>
-        public static List<JsonComment> GetComments(CommentType cType, int PageSize, int Page)
+        private static int commCnt;
+
+        /// <summary>
+        /// List of comments based on type for a single page.
+        /// </summary>
+        /// <param name="commentType">
+        /// The comment type.
+        /// </param>
+        /// <param name="pageSize">
+        /// The page size.
+        /// </param>
+        /// <param name="page">
+        /// The current page.
+        /// </param>
+        /// <returns>
+        /// A list of JSON comments.
+        /// </returns>
+        public static List<JsonComment> GetComments(CommentType commentType, int pageSize, int page)
         {
-            int cntTo = Page * PageSize;
-            int cntFrom = cntTo - PageSize;
-            int cnt = 0;
+            var cntTo = page * pageSize;
+            var cntFrom = cntTo - pageSize;
+            var cnt = 0;
 
-            List<Comment> allComments = new List<Comment>();
-            List<JsonComment> pageComments = new List<JsonComment>();
+            var pageComments = new List<JsonComment>();
 
-            foreach (Post p in Post.Posts)
+            foreach (var p in Post.Posts)
             {
-                switch (cType)
+                List<Comment> allComments;
+                switch (commentType)
                 {
                     case CommentType.Pending:
                         allComments = p.NotApprovedComments;
@@ -69,39 +86,63 @@ namespace BlogEngine.Core.Json
                         allComments = p.ApprovedComments;
                         break;
                 }
-                foreach (Comment c in allComments)
+
+                foreach (var c in allComments)
                 {
                     cnt++;
-                    if (cnt > cntFrom && cnt <= cntTo)
+                    if (cnt <= cntFrom || cnt > cntTo)
                     {
-                        pageComments.Add(CreateJsonCommentFromComment(c));
+                        continue;
                     }
+
+                    var jc = new JsonComment
+                        {
+                            Id = c.Id,
+                            Email = c.Email,
+                            Author = c.Author,
+                            Title = c.Title,
+                            Teaser = c.Teaser,
+                            Ip = c.IP,
+                            Date = c.DateCreated.ToString("dd MMM yyyy"),
+                            Time = c.DateCreated.ToString("t")
+                        };
+                    pageComments.Add(jc);
                 }
             }
-            currentPage = Page;
+
+            currentPage = page;
             commCnt = cnt;
 
             return pageComments;
         }
 
         /// <summary>
-        /// Single comment by ID
+        /// Single commnet by ID
         /// </summary>
-        /// <param name="id">Comment id</param>
-        /// <returns>Comment</returns>
+        /// <param name="id">
+        /// Comment id
+        /// </param>
+        /// <returns>
+        /// A JSON Comment
+        /// </returns>
         public static JsonComment GetComment(Guid id)
         {
-            foreach (Post p in Post.Posts)
-            {
-                foreach (Comment c in p.AllComments)
-                {
-                    if (c.Id == id)
-                    {
-                        return CreateJsonCommentFromComment(c);
-                    }
-                }
-            }
-            return null;
+            return (from p in Post.Posts
+                    from c in p.AllComments
+                    where c.Id == id
+                    select new JsonComment
+                        {
+                            Id = c.Id,
+                            Email = c.Email,
+                            Author = c.Author,
+                            Title = c.Title,
+                            Teaser = c.Teaser,
+                            Website = c.Website == null ? string.Empty : c.Website.ToString(),
+                            Content = c.Content,
+                            Ip = c.IP,
+                            Date = c.DateCreated.ToString("dd MMM yyyy"),
+                            Time = c.DateCreated.ToString("t")
+                        }).FirstOrDefault();
         }
 
         private static JsonComment CreateJsonCommentFromComment(Comment c)
@@ -124,34 +165,46 @@ namespace BlogEngine.Core.Json
         /// <summary>
         /// Builds pager control for comments page
         /// </summary>
-        /// <param name="PageSize">Page size</param>
-        /// <param name="Page">Current page</param>
-        /// <returns>HTML with next and previous buttons</returns>
-        public static string GetPager(int PageSize, int Page, string Srvs)
+        /// <param name="pageSize">
+        /// Page size.
+        /// </param>
+        /// <param name="page">
+        /// Current page
+        /// </param>
+        /// <param name="srvs">
+        /// The Srvs..
+        /// </param>
+        /// <returns>
+        /// HTML with next and previous buttons
+        /// </returns>
+        public static string GetPager(int pageSize, int page, string srvs)
         {
-            if (commCnt == 0) return "";
+            if (commCnt == 0)
+            {
+                return string.Empty;
+            }
 
-            string prvLnk = "";
-            string nxtLnk = "";
-            string lnk = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadComments({1}, '" + Srvs + "');\" alt=\"{2}\">{2}</a>";
+            var prvLnk = string.Empty;
+            var nxtLnk = string.Empty;
+            const string LinkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadComments({1}, '{3}');\" alt=\"{2}\">{2}</a>";
 
-            decimal pgs = Convert.ToDecimal(commCnt) / Convert.ToDecimal(PageSize);
-            decimal p = pgs - (int)pgs;
-            int lastPage = p > 0 ? (int)pgs + 1 : (int)pgs;
+            var pgs = Convert.ToDecimal(commCnt) / Convert.ToDecimal(pageSize);
+            var p = pgs - (int)pgs;
+            var lastPage = p > 0 ? (int)pgs + 1 : (int)pgs;
 
-            string pgLink = string.Format("<span>Page {0} of {1}</span>", currentPage, lastPage);
+            var pageLink = string.Format("<span>Page {0} of {1}</span>", currentPage, lastPage);
 
             if (currentPage > 1)
             {
-                prvLnk = string.Format(lnk, "prevLink", (currentPage - 1).ToString(), "&lt;&lt; ");
+                prvLnk = string.Format(LinkFormat, "prevLink", currentPage - 1, "&lt;&lt; ", srvs);
             }
 
-            if (Page < lastPage)
+            if (page < lastPage)
             {
-                nxtLnk = string.Format(lnk, "nextLink", (currentPage + 1).ToString(), " &gt;&gt;");
+                nxtLnk = string.Format(LinkFormat, "nextLink", currentPage + 1, " &gt;&gt;", srvs);
             }
 
-            return prvLnk + pgLink + nxtLnk;
+            return prvLnk + pageLink + nxtLnk;
         }
     }
 }

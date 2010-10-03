@@ -1,47 +1,52 @@
-﻿using System;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-
-using BlogEngine.Core.Web.Extensions;
-
-public partial class User_controls_xdashboard_Default : System.Web.UI.Page
+﻿namespace Admin.ExtensionManager
 {
+    using System;
+    using System.Linq;
+    using System.Web.UI;
+
+    using BlogEngine.Core.Web.Extensions;
+
     /// <summary>
-    /// Handles page load, loading control
-    /// based on query string parameter
+    /// The user_controls_xdashboard_ default.
     /// </summary>
-    /// <param name="sender">Page</param>
-    /// <param name="e">Event args</param>
-    protected void Page_Load(object sender, EventArgs e)
+    public partial class Default : Page
     {
-        string ctrlToLoad = string.Empty;
-        UserControl uc;
-
-        switch (Request.QueryString["ctrl"])
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
         {
-          case "params":
-            string xName = Request.QueryString["ext"].ToString();
+            UserControl uc;
 
-            foreach (ExtensionSettings setting in from x in ExtensionManager.Extensions
-                                                  where x.Name == xName
-                                                  from setting in x.Settings
-                                                  where !string.IsNullOrEmpty(setting.Name) && !setting.Hidden
-                                                  select setting)
+            switch (this.Request.QueryString["ctrl"])
             {
-                uc = (UserControl)this.Page.LoadControl("Settings.ascx");
-                uc.ID = setting.Name;
-                this.ucPlaceHolder.Controls.Add(uc);
+                case "params":
+                    var extname = this.Request.QueryString["ext"];
+
+                    foreach (var setting in from x in ExtensionManager.Extensions
+                                            where x.Name == extname
+                                            from setting in x.Settings
+                                            where !string.IsNullOrEmpty(setting.Name) && !setting.Hidden
+                                            select setting)
+                    {
+                        uc = (UserControl)this.Page.LoadControl("Settings.ascx");
+                        uc.ID = setting.Name;
+                        this.ucPlaceHolder.Controls.Add(uc);
+                    }
+
+                    break;
+                case "editor":
+                    uc = (UserControl)this.Page.LoadControl("Editor.ascx");
+                    this.ucPlaceHolder.Controls.Add(uc);
+                    break;
+                default:
+                    uc = (UserControl)this.Page.LoadControl("Extensions.ascx");
+                    this.ucPlaceHolder.Controls.Add(uc);
+                    break;
             }
-            break;
-          case "editor":
-              uc = (UserControl)Page.LoadControl("Editor.ascx");
-              ucPlaceHolder.Controls.Add(uc);
-              break;
-          default:
-              uc = (UserControl)Page.LoadControl("Extensions.ascx");
-              ucPlaceHolder.Controls.Add(uc);
-              break;
+
+            base.OnInit(e);
         }
     }
 }

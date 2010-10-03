@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Extensions.ascx.cs" Inherits="UserControlsXmanagerExtensionsList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Extensions.ascx.cs" Inherits="Admin.ExtensionManager.UserControlsXmanagerExtensionsList" %>
 <asp:Literal ID="Literal1" runat="server" Text="<h1>Extensions</h1>" />
 <div id="lblErrorMsg" style="padding:5px; color:Red;" runat="server"></div>
 
@@ -46,12 +46,12 @@
     <asp:BoundField HeaderText="<%$Resources:labels,priority %>" DataField = "Priority" />
     <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
         <ItemTemplate>
-            <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="btnPriorityUp_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="Up" />
+            <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="BtnPriorityUpClick" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="Up" />
         </ItemTemplate>
     </asp:TemplateField>
     <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
         <ItemTemplate>
-            <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="btnPriorityDwn_click" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/down_arrow_small.gif" CommandName="btnPriorityDwn" AlternateText="" />
+            <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="BtnPriorityDwnClick" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/down_arrow_small.gif" CommandName="btnPriorityDwn" AlternateText="" />
         </ItemTemplate>
     </asp:TemplateField>
   </Columns>

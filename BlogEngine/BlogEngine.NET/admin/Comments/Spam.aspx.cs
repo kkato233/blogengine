@@ -1,23 +1,50 @@
-﻿namespace admin.Comments
+﻿namespace Admin.Comments
 {
     using System.Collections;
     using System.Web.Services;
+    using System.Web.UI;
 
-    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
-    public partial class Spam : System.Web.UI.Page
+    /// <summary>
+    /// The spam settings.
+    /// </summary>
+    public partial class Spam : Page
     {
+        /// <summary>
+        /// Loads the comments.
+        /// </summary>
+        /// <param name="pageSize">
+        /// Size of the page.
+        /// </param>
+        /// <param name="page">
+        /// The page number.
+        /// </param>
+        /// <returns>
+        /// An enumerable of comments.
+        /// </returns>
         [WebMethod]
-        public static IEnumerable LoadComments(int PageSize, int Page)
+        public static IEnumerable LoadComments(int pageSize, int page)
         {
-            return JsonComments.GetComments(CommentType.Spam, PageSize, Page);
+            return JsonComments.GetComments(CommentType.Spam, pageSize, page);
         }
 
+        /// <summary>
+        /// Loads the pager.
+        /// </summary>
+        /// <param name="pageSize">
+        /// Size of the page.
+        /// </param>
+        /// <param name="page">
+        /// The page number.
+        /// </param>
+        /// <returns>
+        /// The pager.
+        /// </returns>
         [WebMethod]
-        public static string LoadPager(int PageSize, int Page)
+        public static string LoadPager(int pageSize, int page)
         {
-            return JsonComments.GetPager(PageSize, Page, "Spam.aspx");
+            return JsonComments.GetPager(pageSize, page, "Spam.aspx");
         }
     }
 }
