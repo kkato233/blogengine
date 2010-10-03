@@ -76,6 +76,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -101,6 +103,17 @@
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Compilation\BaseServerObjectExpressionBuilder.cs" />
+    <Compile Include="Compilation\CodeExpressionBuilder.cs" />
+    <Compile Include="Compilation\Design\CodeExpressionEditor.cs" />
+    <Compile Include="Compilation\Design\QueryStringExpressionEditor.cs" />
+    <Compile Include="Compilation\Design\ServerVariableExpressionEditor.cs" />
+    <Compile Include="Compilation\Design\SessionExpressionEditor.cs" />
+    <Compile Include="Compilation\LinqLengthExpressionBuilder.cs" />
+    <Compile Include="Compilation\QueryStringExpressionBuilder.cs" />
+    <Compile Include="Compilation\ReflectExpressionBuilder.cs" />
+    <Compile Include="Compilation\ServerVariableExpressionBuilder.cs" />
+    <Compile Include="Compilation\SessionExpressionBuilder.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Json\JsonComment.cs" />
     <Compile Include="Json\JsonResponse.cs" />

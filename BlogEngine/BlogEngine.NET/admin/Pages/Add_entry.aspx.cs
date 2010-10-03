@@ -155,12 +155,12 @@
                 this.Page.Form.DefaultButton = this.btnSave.UniqueID;
             }
 
-            this.btnSave.Click += this.btnSave_Click;
-            this.btnCategory.Click += this.btnCategory_Click;
-            this.btnUploadFile.Click += this.btnUploadFile_Click;
-            this.btnUploadImage.Click += this.btnUploadImage_Click;
-            this.valExist.ServerValidate += this.valExist_ServerValidate;
-            this.cbUseRaw.CheckedChanged += this.cbUseRaw_CheckedChanged;
+            this.btnSave.Click += this.BtnSaveClick;
+            this.btnCategory.Click += this.BtnCategoryClick;
+            this.btnUploadFile.Click += this.BtnUploadFileClick;
+            this.btnUploadImage.Click += this.BtnUploadImageClick;
+            this.valExist.ServerValidate += this.ValExistServerValidate;
+            this.cbUseRaw.CheckedChanged += this.CbUseRawCheckedChanged;
 
             this.btnSave.Text = labels.savePost; // mono does not interpret the inline code correctly
 
@@ -368,17 +368,11 @@
         }
 
         /// <summary>
-        /// The upload.
+        /// Uploads the specified virtual folder.
         /// </summary>
-        /// <param name="virtualFolder">
-        /// The virtual folder.
-        /// </param>
-        /// <param name="control">
-        /// The control.
-        /// </param>
-        /// <param name="fileName">
-        /// The file name.
-        /// </param>
+        /// <param name="virtualFolder">The virtual folder.</param>
+        /// <param name="control">The control.</param>
+        /// <param name="fileName">Name of the file.</param>
         private void Upload(string virtualFolder, FileUpload control, string fileName)
         {
             var folder = this.Server.MapPath(virtualFolder);
@@ -391,11 +385,11 @@
         }
 
         /// <summary>
-        /// Creates and saves a new category
+        /// Handles the Click event of the btnCategory control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void btnCategory_Click(object sender, EventArgs e)
+        private void BtnCategoryClick(object sender, EventArgs e)
         {
             if (!this.Page.IsValid)
             {
@@ -412,11 +406,11 @@
         }
 
         /// <summary>
-        /// Saves the post
+        /// Handles the Click event of the btnSave control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSaveClick(object sender, EventArgs e)
         {
             if (!this.Page.IsValid)
             {
@@ -482,11 +476,11 @@
         }
 
         /// <summary>
-        /// The btn upload file_ click.
+        /// Handles the Click event of the btnUploadFile control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void btnUploadFile_Click(object sender, EventArgs e)
+        private void BtnUploadFileClick(object sender, EventArgs e)
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
@@ -494,24 +488,20 @@
             var fileName = this.txtUploadFile.FileName;
             this.Upload(folder + relativeFolder, this.txtUploadFile, fileName);
 
-            var a = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
+            const string A = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
             var text = string.Format("{0} ({1})", this.txtUploadFile.FileName, SizeFormat(this.txtUploadFile.FileBytes.Length, "N"));
             this.txtContent.Text += string.Format(
-                a, Utils.RelativeWebRoot, this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
+                A, Utils.RelativeWebRoot, this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
             this.txtRawContent.Text += string.Format(
-                a, Utils.RelativeWebRoot, this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
+                A, Utils.RelativeWebRoot, this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
         }
 
         /// <summary>
-        /// The btn upload image_ click.
+        /// Handles the Click event of the btnUploadImage control.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void btnUploadImage_Click(object sender, EventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void BtnUploadImageClick(object sender, EventArgs e)
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
@@ -529,11 +519,11 @@
         }
 
         /// <summary>
-        /// The cb use raw_ checked changed.
+        /// Handles the CheckedChanged event of the cbUseRaw control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void cbUseRaw_CheckedChanged(object sender, EventArgs e)
+        private void CbUseRawCheckedChanged(object sender, EventArgs e)
         {
             if (this.cbUseRaw.Checked)
             {
@@ -562,7 +552,7 @@
         /// </summary>
         /// <param name="source">The source of the event.</param>
         /// <param name="args">The <see cref="System.Web.UI.WebControls.ServerValidateEventArgs"/> instance containing the event data.</param>
-        private void valExist_ServerValidate(object source, ServerValidateEventArgs args)
+        private void ValExistServerValidate(object source, ServerValidateEventArgs args)
         {
             args.IsValid =
                 !Category.Categories.Any(
