@@ -145,6 +145,23 @@
                         }).FirstOrDefault();
         }
 
+        private static JsonComment CreateJsonCommentFromComment(Comment c)
+        {
+            JsonComment jc = new JsonComment();
+            jc.Id = c.Id;
+            jc.Email = c.Email;
+            jc.Author = c.Author;
+            jc.Title = c.Title;
+            jc.Teaser = c.Teaser;
+            jc.Website = c.Website == null ? "" : c.Website.ToString();
+            jc.AuthorAvatar = c.Avatar;
+            jc.Content = c.Content;
+            jc.Ip = c.IP;
+            jc.Date = c.DateCreated.ToString("dd MMM yyyy");
+            jc.Time = c.DateCreated.ToString("t");
+            return jc;
+        }
+
         /// <summary>
         /// Builds pager control for comments page
         /// </summary>

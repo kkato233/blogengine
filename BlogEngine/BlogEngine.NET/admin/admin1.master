@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="admin1.master.cs" Inherits="Admin.Admin1" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="admin1.master.cs" Inherits="Admin.Admin1MasterPage" %>
 <%@ Register Src="menu.ascx" TagName="menu" TagPrefix="uc1" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

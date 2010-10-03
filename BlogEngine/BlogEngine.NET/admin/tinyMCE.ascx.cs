@@ -1,12 +1,18 @@
-﻿namespace Admin
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The admin tiny mce.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Admin
 {
     using System.Web.UI;
     using System.Web.UI.WebControls;
 
     /// <summary>
-    /// The admin_tiny mce.
+    /// The admin tiny mce.
     /// </summary>
-    public partial class admin_tinyMCE : UserControl
+    public partial class TinyMce : UserControl
     {
         #region Properties
 

@@ -34,45 +34,16 @@
         {
             get
             {
-                const string GravatarImage = "<a href=\"mailto:{2}\" alt=\"{2}\" title=\"{2}\"><img class=\"gravatar\" src=\"{0}\" alt=\"{1}\" /></a>";
-
-                if (BlogSettings.Instance.Avatar == "none")
+                BlogEngine.Core.Avatar avatar = BlogEngine.Core.Avatar.GetAvatar(28, Email, null, null, Author);
+                
+                if (avatar.HasNoImage || string.IsNullOrEmpty(Email) || !Email.Contains("@"))
                 {
-                    return null;
+                    // <img> tag pointing to noavatar.jpg, or no image if Avatar setting is "none".
+                    return avatar.ImageTag ?? string.Empty;
                 }
 
-                if (String.IsNullOrEmpty(this.Email) || !this.Email.Contains("@"))
-                {
-                    return string.Format("<img class=\"gravatar\" src=\"{0}themes/{1}/noavatar.jpg\" alt=\"{2}\" />", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme, this.Author);
-                }
-
-                var hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile(
-                    this.Email.ToLowerInvariant().Trim(), "MD5");
-                if (hashedPassword != null)
-                {
-                    var hash = hashedPassword.ToLowerInvariant();
-                    var gravatar = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s=28&amp;d=", hash);
-
-                    string link;
-                    switch (BlogSettings.Instance.Avatar)
-                    {
-                        case "identicon":
-                            link = string.Format("{0}identicon", gravatar);
-                            break;
-
-                        case "wavatar":
-                            link = string.Format("{0}wavatar", gravatar);
-                            break;
-
-                        default:
-                            link = string.Format("{0}monsterid", gravatar);
-                            break;
-                    }
-
-                    return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, this.Author, this.Email);
-                }
-
-                return null;
+                string linkWithImage = "<a href=\"mailto:{2}\" alt=\"{0}\" title=\"{0}\">{1}</a>";
+                return string.Format(CultureInfo.InvariantCulture, linkWithImage, Author, avatar.ImageTag, Email);
             }
         }
 
@@ -102,6 +73,10 @@
         /// </summary>
         public string Website { get; set; }
 
+        /// <summary>
+        /// Static avatar image
+        /// </summary>
+        public string AuthorAvatar { get; set; }
         /// <summary>
         ///     Gets or sets the comment body
         /// </summary>

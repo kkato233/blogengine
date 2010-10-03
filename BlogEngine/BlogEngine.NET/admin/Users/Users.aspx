@@ -45,6 +45,9 @@
                 $.ajax({
                     url: "../../api/UserService.asmx/Add",
                     data: JSON.stringify(dto),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
                     success: function (result) {
                         var rt = result.d;
                         if (rt.Success) {

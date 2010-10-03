@@ -40,7 +40,7 @@ public partial class widgets_Most_comments_widget : WidgetBase
 	}
 
 	/// <summary>
-	/// Gets wether or not the widget can be edited.
+	/// Gets whether the widget can be edited.
 	/// <remarks>
 	/// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
 	/// </remarks>
@@ -102,7 +102,7 @@ public partial class widgets_Most_comments_widget : WidgetBase
 			Literal number = (Literal)e.Item.FindControl("litNumber");
 			Literal litCountry = (Literal)e.Item.FindControl("litCountry");
 
-			imgAvatar.ImageUrl = Gravatar(AVATAR_SIZE, visitor.Email);
+            imgAvatar.ImageUrl = Avatar.GetAvatar(AVATAR_SIZE, visitor.Email, null, null, null).Url.ToString();
 			imgAvatar.AlternateText = visitor.Name;
 			imgAvatar.Width = Unit.Pixel(AVATAR_SIZE);
 
@@ -140,34 +140,6 @@ public partial class widgets_Most_comments_widget : WidgetBase
 			}
 		}
 	}
-
-	#region Gravatar
-
-	private string Gravatar(int size, string email)
-	{
-		string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant(); 
-		string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&d=";
-
-		string link = string.Empty;
-		switch (BlogSettings.Instance.Avatar)
-		{
-			case "identicon":
-				link = gravatar + "identicon";
-				break;
-
-			case "wavatar":
-				link = gravatar + "wavatar";
-				break;
-
-			default:
-				link = gravatar + "monsterid";
-				break;
-		}
-
-		return link;
-	}
-
-	#endregion
 
 	#region Build the list
 

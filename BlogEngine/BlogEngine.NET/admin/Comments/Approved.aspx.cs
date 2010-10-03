@@ -36,8 +36,6 @@
             string website = vals[3];
             string cont = vals[4];
 
-            JsonComment jc = new JsonComment();
-
             foreach (Post p in Post.Posts.ToArray())
             {
                 foreach (Comment c in p.Comments.ToArray())
@@ -54,7 +52,8 @@
                     }
                 }
             }
-            return jc;
+
+            return new JsonComment();
         }
     }
 }

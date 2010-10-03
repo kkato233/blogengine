@@ -1,4 +1,10 @@
-﻿namespace Admin
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget editor.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Admin
 {
     using System;
     using System.IO;
@@ -18,7 +24,7 @@
     /// <summary>
     /// The widget editor.
     /// </summary>
-    public partial class User_controls_WidgetEditor : Page
+    public partial class WidgetEditor : Page
     {
         /*
         /// <summary>
@@ -30,15 +36,10 @@
         #region Methods
 
         /// <summary>
-        /// Handles the Init event of the Page control.
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
         /// </summary>
-        /// <param name="sender">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
-        /// </param>
-        protected void Page_Init(object sender, EventArgs e)
+        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
         {
             if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
@@ -79,8 +80,10 @@
             {
                 this.GetMoveItems(getMoveItems);
             }
-        }
 
+            base.OnInit(e);
+        }
+    
         /// <summary>
         /// Adds a widget of the specified type.
         /// </summary>
@@ -274,7 +277,7 @@
                 this.btnSave.Text = labels.save;
             }
 
-            this.btnSave.Click += this.btnSave_Click;
+            this.btnSave.Click += this.BtnSaveClick;
         }
 
         /// <summary>
@@ -474,7 +477,7 @@
         /// <param name="e">
         /// The <see cref="System.EventArgs"/> instance containing the event data.
         /// </param>
-        private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSaveClick(object sender, EventArgs e)
         {
             var widget = (WidgetEditBase)this.FindControl("widget");
             var zone = this.Request.QueryString["zone"];
