@@ -3,10 +3,7 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server"> 
-    <script src="<%= Utils.AbsoluteWebRoot %>Scripts/jquery.js" type="text/javascript"></script>
-    <script src="<%= Utils.AbsoluteWebRoot %>Scripts/jquery-jtemplates.js" type="text/javascript"></script>
     <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-    <script src="<%= Utils.AbsoluteWebRoot %>admin/admin.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         LoadComments(1, 'Spam.aspx');
