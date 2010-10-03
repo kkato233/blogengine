@@ -1,64 +1,87 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Globalization;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The admin pages controls.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using BlogEngine.Core;
-
-public partial class admin_Pages_Controls : System.Web.UI.Page
+namespace Admin.Pages
 {
-  protected void Page_Load(object sender, EventArgs e)
-  {
-    if (!Page.IsPostBack)
-      BindSettings();
+    using System;
+    using System.Globalization;
 
-    btnSave.Click += new EventHandler(btnSave_Click);
-    btnSave.Text = Resources.labels.save + " " + Resources.labels.settings;
-    Page.Title = Resources.labels.controls;
-  }
+    using BlogEngine.Core;
 
-  void btnSave_Click(object sender, EventArgs e)
-  {
-    BlogSettings.Instance.NumberOfRecentPosts = int.Parse(txtNumberOfPosts.Text, CultureInfo.InvariantCulture);
-    BlogSettings.Instance.DisplayCommentsOnRecentPosts = cbDisplayComments.Checked;
-    BlogSettings.Instance.DisplayRatingsOnRecentPosts = cbDisplayRating.Checked;
+    using Resources;
 
-    BlogSettings.Instance.NumberOfRecentComments = int.Parse(txtNumberOfComments.Text, CultureInfo.InvariantCulture);
+    /// <summary>
+    /// The admin pages controls.
+    /// </summary>
+    public partial class Controls : System.Web.UI.Page
+    {
+        #region Methods
 
-    BlogSettings.Instance.SearchButtonText = txtSearchButtonText.Text;
-    BlogSettings.Instance.SearchCommentLabelText = txtCommentLabelText.Text;
-    BlogSettings.Instance.SearchDefaultText = txtDefaultSearchText.Text;
-    BlogSettings.Instance.EnableCommentSearch = cbEnableCommentSearch.Checked;
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
+        {
+            this.BindSettings();
 
-    BlogSettings.Instance.ContactFormMessage = txtFormMessage.Text;
-    BlogSettings.Instance.ContactThankMessage = txtThankMessage.Text;
-    BlogSettings.Instance.EnableContactAttachments = cbEnableAttachments.Checked;
+            this.btnSave.Click += this.BtnSaveClick;
+            this.btnSave.Text = string.Format("{0} {1}", labels.save, labels.settings);
+            this.Page.Title = labels.controls;
 
-    BlogSettings.Instance.Save();
-  }
+            base.OnInit(e);
+        }
 
-  private void BindSettings()
-  {
-    txtNumberOfPosts.Text = BlogSettings.Instance.NumberOfRecentPosts.ToString();
-    cbDisplayComments.Checked = BlogSettings.Instance.DisplayCommentsOnRecentPosts;
-    cbDisplayRating.Checked = BlogSettings.Instance.DisplayRatingsOnRecentPosts;
+        /// <summary>
+        /// Binds the settings.
+        /// </summary>
+        private void BindSettings()
+        {
+            this.txtNumberOfPosts.Text = BlogSettings.Instance.NumberOfRecentPosts.ToString();
+            this.cbDisplayComments.Checked = BlogSettings.Instance.DisplayCommentsOnRecentPosts;
+            this.cbDisplayRating.Checked = BlogSettings.Instance.DisplayRatingsOnRecentPosts;
 
-    txtNumberOfComments.Text = BlogSettings.Instance.NumberOfRecentComments.ToString();
+            this.txtNumberOfComments.Text = BlogSettings.Instance.NumberOfRecentComments.ToString();
 
-    txtSearchButtonText.Text = BlogSettings.Instance.SearchButtonText;
-    txtCommentLabelText.Text = BlogSettings.Instance.SearchCommentLabelText;
-    txtDefaultSearchText.Text = BlogSettings.Instance.SearchDefaultText;
-    cbEnableCommentSearch.Checked = BlogSettings.Instance.EnableCommentSearch;
+            this.txtSearchButtonText.Text = BlogSettings.Instance.SearchButtonText;
+            this.txtCommentLabelText.Text = BlogSettings.Instance.SearchCommentLabelText;
+            this.txtDefaultSearchText.Text = BlogSettings.Instance.SearchDefaultText;
+            this.cbEnableCommentSearch.Checked = BlogSettings.Instance.EnableCommentSearch;
 
-    txtThankMessage.Text = BlogSettings.Instance.ContactThankMessage;
-    txtFormMessage.Text = BlogSettings.Instance.ContactFormMessage;
-    cbEnableAttachments.Checked = BlogSettings.Instance.EnableContactAttachments;
-  }
+            this.txtThankMessage.Text = BlogSettings.Instance.ContactThankMessage;
+            this.txtFormMessage.Text = BlogSettings.Instance.ContactFormMessage;
+            this.cbEnableAttachments.Checked = BlogSettings.Instance.EnableContactAttachments;
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void BtnSaveClick(object sender, EventArgs e)
+        {
+            BlogSettings.Instance.NumberOfRecentPosts = int.Parse(this.txtNumberOfPosts.Text, CultureInfo.InvariantCulture);
+            BlogSettings.Instance.DisplayCommentsOnRecentPosts = this.cbDisplayComments.Checked;
+            BlogSettings.Instance.DisplayRatingsOnRecentPosts = this.cbDisplayRating.Checked;
+
+            BlogSettings.Instance.NumberOfRecentComments = int.Parse(
+                this.txtNumberOfComments.Text, CultureInfo.InvariantCulture);
+
+            BlogSettings.Instance.SearchButtonText = this.txtSearchButtonText.Text;
+            BlogSettings.Instance.SearchCommentLabelText = this.txtCommentLabelText.Text;
+            BlogSettings.Instance.SearchDefaultText = this.txtDefaultSearchText.Text;
+            BlogSettings.Instance.EnableCommentSearch = this.cbEnableCommentSearch.Checked;
+
+            BlogSettings.Instance.ContactFormMessage = this.txtFormMessage.Text;
+            BlogSettings.Instance.ContactThankMessage = this.txtThankMessage.Text;
+            BlogSettings.Instance.EnableContactAttachments = this.cbEnableAttachments.Checked;
+
+            BlogSettings.Instance.Save();
+        }
+
+        #endregion
+    }
 }

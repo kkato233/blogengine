@@ -1,4 +1,10 @@
-﻿namespace Admin.Pages
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The Profiles.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Admin.Pages
 {
     using System;
     using System.Collections.Generic;
@@ -15,9 +21,9 @@
     using Page = System.Web.UI.Page;
 
     /// <summary>
-    /// The admin_profiles.
+    /// The Profiles.
     /// </summary>
-    public partial class admin_profiles : Page
+    public partial class Profiles : Page
     {
         #region Public Methods
 
@@ -67,30 +73,6 @@
         #region Methods
 
         /// <summary>
-        /// Handles the Load event of the Page control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
-        /// </param>
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            if (!this.Page.IsPostBack)
-            {
-                this.ClearFormControls();
-                this.BindCountries();
-                this.SetDdlUser();
-                this.SetProfile(this.User.Identity.Name);
-                this.dropdown.Visible = this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole);
-            }
-
-            this.lbSaveProfile.Text = labels.saveProfile;
-            this.Page.Title = labels.profile;
-        }
-
-        /// <summary>
         /// Handles the Click event of the lbChangeUserProfile control.
         /// </summary>
         /// <param name="sender">
@@ -99,7 +81,7 @@
         /// <param name="e">
         /// The <see cref="System.EventArgs"/> instance containing the event data.
         /// </param>
-        protected void lbChangeUserProfile_Click(object sender, EventArgs e)
+        protected void LbChangeUserProfileClick(object sender, EventArgs e)
         {
             this.SetProfile(this.ddlUserList.SelectedValue);
         }
@@ -113,7 +95,7 @@
         /// <param name="e">
         /// The <see cref="System.EventArgs"/> instance containing the event data.
         /// </param>
-        protected void lbSaveProfile_Click(object sender, EventArgs e)
+        protected void LbSaveProfileClick(object sender, EventArgs e)
         {
             var userProfileToSave = this.ViewState["selectedProfile"] as string;
             var pc = AuthorProfile.GetProfile(userProfileToSave) ?? new AuthorProfile(userProfileToSave);
@@ -145,6 +127,26 @@
         }
 
         /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
+        /// </summary>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs"/> that contains the event data.
+        /// </param>
+        protected override void OnInit(EventArgs e)
+        {
+            this.lbSaveProfile.Text = labels.saveProfile;
+            this.Page.Title = labels.profile;
+
+            this.ClearFormControls();
+            this.BindCountries();
+            this.SetDdlUser();
+            this.SetProfile(this.User.Identity.Name);
+            this.dropdown.Visible = this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole);
+
+            base.OnInit(e);
+        }
+
+        /// <summary>
         /// Returns the ListItem that has a value matching the Value passed in
         ///     via a OrdinalIgnoreCase search.
         /// </summary>
@@ -171,11 +173,11 @@
         {
             // if (!string.IsNullOrEmpty(ddlCountry.SelectedValue))
             // {
-            // imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + ddlCountry.SelectedValue + ".png";
+            //     imgFlag.ImageUrl = string.Format("{0}pics/flags/{1}.png", Utils.RelativeWebRoot, ddlCountry.SelectedValue);
             // }
             // else
             // {
-            // imgFlag.ImageUrl = Utils.RelativeWebRoot + "pics/pixel.png";
+            //     imgFlag.ImageUrl = string.Format("{0}pics/pixel.png", Utils.RelativeWebRoot);
             // }
         }
 
