@@ -1,74 +1,81 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="False" AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="admin_Pages_Controls" Title="Control settings" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" ValidateRequest="False"
+    AutoEventWireup="true" CodeFile="Controls.aspx.cs" Inherits="Admin.Pages.Controls"
+    Title="Control settings" %>
 
-<div class="settings">
-    <h1><%=Resources.labels.recentPosts %></h1>
-    <div style="margin-bottom:3px">
-        <label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfPosts %></label>
-        <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
-        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Required" />
-        <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Operator="dataTypeCheck" Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
+<asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
+    <div class="settings">
+        <h1>
+            <%=Resources.labels.recentPosts %></h1>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="txtNumberOfPosts" Text='<%$ Code: Resources.labels.numberOfPosts %>' />
+            <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Required" />
+            <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Operator="dataTypeCheck"
+                Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
+        </div>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="cbDisplayComments" Text='<%$ Code: Resources.labels.displayCommentsOnRecentPosts %>' />
+            <asp:CheckBox runat="Server" ID="cbDisplayComments" /><br />
+            <asp:Label runat="server" AssociatedControlID="cbDisplayRating" Text='<%$ Code: Resources.labels.displayRatingsOnRecentPosts %>' />
+            <asp:CheckBox runat="Server" ID="cbDisplayRating" />
+        </div>
     </div>
-    <div style="margin-bottom:3px">
-        <label for="<%=cbDisplayComments.ClientID %>"><%=Resources.labels.displayCommentsOnRecentPosts %></label>
-        <asp:CheckBox runat="Server" ID="cbDisplayComments" /><br />
-        <label for="<%=cbDisplayRating.ClientID %>"><%=Resources.labels.displayRatingsOnRecentPosts %></label>
-        <asp:CheckBox runat="Server" ID="cbDisplayRating" />
+    <div class="settings">
+        <h1>
+            <%=Resources.labels.recentComments %></h1>
+        <asp:Label runat="server" AssociatedControlID="txtNumberOfPosts" Text='<%$ Code: Resources.labels.numberOfComments %>' />
+        <asp:TextBox runat="server" ID="txtNumberOfComments" Width="30" />
+        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfComments"
+            ErrorMessage="<%$Resources:labels,required %>" />
+        <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfComments" Operator="dataTypeCheck"
+            Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
     </div>
-</div>
-
-<div class="settings">
-  <h1><%=Resources.labels.recentComments %></h1>
-  <label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfComments %></label>
-  <asp:TextBox runat="server" ID="txtNumberOfComments" Width="30" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfComments" ErrorMessage="<%$Resources:labels,required %>" />
-  <asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfComments" Operator="dataTypeCheck" Type="integer" ErrorMessage="<%$Resources:labels,enterValidNumber %>" /><br />
-</div>
-
-<div class="settings">
-  <h1><%=Resources.labels.searchField %></h1>
-  
-  <div style="margin-bottom:3px">
-  <label for="<%=txtSearchButtonText.ClientID %>"><%=Resources.labels.buttonText %></label>
-  <asp:TextBox runat="server" ID="txtSearchButtonText" Width="320" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSearchButtonText" ErrorMessage="<%$Resources:labels,required %>" />
-  </div>
-  <div style="margin-bottom:3px">
-  <label for="<%=txtDefaultSearchText.ClientID %>"><%=Resources.labels.searchFieldText %></label>
-  <asp:TextBox runat="server" ID="txtDefaultSearchText" Width="320" /> <%=Resources.labels.defaultTextShownInSearchField %>
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDefaultSearchText" ErrorMessage="<%$Resources:labels,required %>" />
-  </div>
-  <div style="margin-bottom:3px">
-  <label for="<%=cbEnableCommentSearch.ClientID %>"><%=Resources.labels.enableCommentSearch %></label>
-  <asp:CheckBox runat="Server" ID="cbEnableCommentSearch" />
-  </div>
-  <div style="margin-bottom:3px">
-  <label for="<%=txtCommentLabelText.ClientID %>"><%=Resources.labels.commentLabelText %></label>
-  <asp:TextBox runat="server" ID="txtCommentLabelText" Width="320" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCommentLabelText" ErrorMessage="<%$Resources:labels,required %>" />
-  </div>
-</div>
-
-<div class="settings">
-
-  <h1><%=Resources.labels.contactForm %></h1>
-  <div style="margin-bottom:3px">
-  <label for="<%=txtFormMessage.ClientID %>"><%=Resources.labels.formMessage %></label>
-  <asp:TextBox runat="server" ID="txtFormMessage" TextMode="multiLine" Rows="5" Columns="40" /><br />
-  </div>
-  <div style="margin-bottom:3px">
-  <label for="<%=txtThankMessage.ClientID %>"><%=Resources.labels.thankYouMessage %></label>
-  <asp:TextBox runat="server" ID="txtThankMessage" TextMode="multiLine" Rows="5" Columns="40" />
-  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="<%$Resources:labels,required %>" /><br />
-  </div>
-  <div style="margin-bottom:3px">
-  <label for="<%=cbEnableAttachments.ClientID %>"><%=Resources.labels.enableAttachments %></label>
-  <asp:CheckBox runat="Server" ID="cbEnableAttachments" />
-  </div>
-</div>
-
-<div style="text-align: right">
-  <asp:Button runat="server" ID="btnSave" />
-</div><br />
+    <div class="settings">
+        <h1>
+            <%=Resources.labels.searchField %></h1>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="txtSearchButtonText" Text='<%$ Code: Resources.labels.buttonText %>' />
+            <asp:TextBox runat="server" ID="txtSearchButtonText" Width="320" />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtSearchButtonText"
+                ErrorMessage="<%$Resources:labels,required %>" />
+        </div>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="txtDefaultSearchText" Text='<%$ Code: Resources.labels.searchFieldText %>' />
+            <asp:TextBox runat="server" ID="txtDefaultSearchText" Width="320" />
+            <%=Resources.labels.defaultTextShownInSearchField %>
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDefaultSearchText"
+                ErrorMessage="<%$Resources:labels,required %>" />
+        </div>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="cbEnableCommentSearch" Text='<%$ Code: Resources.labels.enableCommentSearch %>' />
+            <asp:CheckBox runat="Server" ID="cbEnableCommentSearch" />
+        </div>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="txtCommentLabelText" Text='<%$ Code: Resources.labels.commentLabelText %>' />
+            <asp:TextBox runat="server" ID="txtCommentLabelText" Width="320" />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCommentLabelText"
+                ErrorMessage="<%$Resources:labels,required %>" />
+        </div>
+    </div>
+    <div class="settings">
+        <h1>
+            <%=Resources.labels.contactForm %></h1>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="txtFormMessage" Text='<%$ Code: Resources.labels.formMessage %>' />
+            <asp:TextBox runat="server" ID="txtFormMessage" TextMode="multiLine" Rows="5" Columns="40" /><br />
+        </div>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="txtThankMessage" Text='<%$ Code: Resources.labels.thankYouMessage %>' />
+            <asp:TextBox runat="server" ID="txtThankMessage" TextMode="multiLine" Rows="5" Columns="40" />
+            <asp:RequiredFieldValidator runat="server" ControlToValidate="txtThankMessage" ErrorMessage="<%$Resources:labels,required %>" /><br />
+        </div>
+        <div style="margin-bottom: 3px">
+            <asp:Label runat="server" AssociatedControlID="cbEnableAttachments" Text='<%$ Code: Resources.labels.enableAttachments %>' />
+            <asp:CheckBox runat="Server" ID="cbEnableAttachments" />
+        </div>
+    </div>
+    <div style="text-align: right">
+        <asp:Button runat="server" ID="btnSave" />
+    </div>
+    <br />
 </asp:Content>
-
