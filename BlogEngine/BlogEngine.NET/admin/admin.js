@@ -1,10 +1,4 @@
 ﻿
-$.ajaxSetup({
-    type: "post",
-    contentType: "application/json; charset=utf-8",
-    dataType: "json"
-});
-
 var pageSize = 10;
 
 LoadView();
@@ -55,6 +49,9 @@ function SaveChanges(obj, str) {
     $.ajax({
         url: "../../api/" + srv + ".asmx/Edit",
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -86,6 +83,9 @@ function DeleteRow(obj) {
     $.ajax({
         url: "../../api/" + srv + ".asmx/Delete",
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -120,9 +120,9 @@ function LoadView() {
 
 function LoadComments(pg, srvs) {
     $.ajax({
-        type: "POST",
         url: srvs + "/LoadComments",
         data: "{'PageSize':'" + pageSize + "', 'Page':'" + pg + "'}",
+        type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
@@ -136,9 +136,9 @@ function LoadComments(pg, srvs) {
 
 function LoadPager(pg, srvs) {
     $.ajax({
-        type: "POST",
         url: srvs + "/LoadPager",
         data: "{'PageSize':'" + pageSize + "', 'Page':'" + pg + "'}",
+        type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
@@ -152,6 +152,9 @@ function LoadRoles() {
     $.ajax({
         url: "Roles.aspx/GetRoles",
         data: "{ }",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
@@ -163,6 +166,9 @@ function LoadUsers() {
     $.ajax({
         url: "Users.aspx/GetUsers",
         data: "{ }",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
@@ -175,6 +181,9 @@ function LoadProfile() {
     $.ajax({
         url: "Profile.aspx/GetProfile",
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/profile.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
@@ -205,6 +214,9 @@ function ProcessSelected(action, page) {
     $.ajax({
         url: srv,
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -264,6 +276,9 @@ function EditComment(id) {
     $.ajax({
         url: "Approved.aspx/GetComment",
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             oRow.setTemplateURL('../../Templates/editcomment.htm', null, { filter_data: false });
             oRow.processTemplate(result);
@@ -307,6 +322,9 @@ function SaveComment(obj) {
     $.ajax({
         url: "Approved.aspx/SaveComment",
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             oRow.setTemplateURL('../../Templates/commentrow.htm', null, { filter_data: false });
             oRow.processTemplate(result);
@@ -335,6 +353,9 @@ function DeleteComment(id) {
     $.ajax({
         url: "../../api/Comments.asmx/Delete",
         data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -367,6 +388,9 @@ function DeleteAllSpam() {
     $.ajax({
         url: "../../api/Comments.asmx/DeleteAll",
         data: "{ }",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
