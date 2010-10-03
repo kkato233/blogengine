@@ -1,4 +1,4 @@
-﻿namespace admin
+﻿namespace Admin
 {
     using System;
     using System.Globalization;

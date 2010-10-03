@@ -1,4 +1,4 @@
-﻿namespace admin.Comments
+﻿namespace Admin.Comments
 {
     using System;
     using System.Data;

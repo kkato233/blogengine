@@ -1,4 +1,4 @@
-﻿namespace admin.Pages
+﻿namespace Admin.Pages
 {
     using System;
     using System.Collections.Generic;

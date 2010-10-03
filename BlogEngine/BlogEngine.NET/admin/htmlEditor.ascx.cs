@@ -1,6 +1,6 @@
 ﻿using System.Web.UI;
 
-namespace admin
+namespace Admin
 {
     /// <summary>
     /// The admin_html editor.

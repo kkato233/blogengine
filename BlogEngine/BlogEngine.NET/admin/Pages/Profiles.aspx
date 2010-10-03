@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true"
-    ValidateRequest="False" CodeFile="Profiles.aspx.cs" Inherits="admin.Pages.admin_profiles"
+    ValidateRequest="False" CodeFile="Profiles.aspx.cs" Inherits="Admin.Pages.admin_profiles"
     Title="Modify Profiles" %>
 
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>

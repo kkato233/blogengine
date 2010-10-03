@@ -1,8 +1,7 @@
-﻿namespace admin.Users
+﻿namespace Admin.Users
 {
     using System;
     using System.Linq;
-    using System.Web.Security;
     using System.Web.Services;
 
     using BlogEngine.Core;
@@ -32,8 +31,8 @@
             {
                 var ret = string.Empty;
                 const string Ptrn = "<input type=\"checkbox\" id=\"{0}\" class=\"chkRole\" {1} /><span class=\"lbl\">{0}</span>";
-                var allRoles = Roles.GetAllRoles();
-                return allRoles.Aggregate(ret, (current, r) => current + (Roles.IsUserInRole(theId, r) ? string.Format(Ptrn, r, "checked") : string.Format(Ptrn, r, string.Empty)));
+                var allRoles = System.Web.Security.Roles.GetAllRoles();
+                return allRoles.Aggregate(ret, (current, r) => current + (System.Web.Security.Roles.IsUserInRole(theId, r) ? string.Format(Ptrn, r, "checked") : string.Format(Ptrn, r, string.Empty)));
             }
         }
 

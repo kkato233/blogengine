@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="admin_entry" ValidateRequest="False" EnableSessionState="True" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin1.master" AutoEventWireup="true" CodeFile="Add_entry.aspx.cs" Inherits="Admin.Pages.AddEntry" ValidateRequest="False" EnableSessionState="True" %>
 <%@ Register Src="../htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 

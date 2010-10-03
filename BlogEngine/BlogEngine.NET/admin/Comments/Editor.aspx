@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" CodeFile="Editor.aspx.cs" Inherits="admin_Comments_Editor" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" CodeFile="Editor.aspx.cs" Inherits="Admin.Comments.Editor" %>
 <%@ Import Namespace="Resources"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -37,10 +37,10 @@
         <%=labels.ip %>: <a href='http://www.domaintools.com/go/?service=whois&q=<%=CurrentComment.IP%>' target='_new'><%=CurrentComment.IP%></a>
         &nbsp;&nbsp;
         <asp:LinkButton ID="btnBlockIP" runat="server" Text="<%$ Resources:labels, block %>" 
-              onclick="btnBlockIP_Click"></asp:LinkButton>
+              onclick="BtnBlockIPClick"></asp:LinkButton>
         &nbsp;&nbsp;
         <asp:LinkButton ID="btnAllowIP" runat="server" Text="<%$ Resources:labels, allow %>" 
-              onclick="btnAllowIP_Click"></asp:LinkButton>
+              onclick="BtnAllowIPClick"></asp:LinkButton>
       </div>
     </div>
     

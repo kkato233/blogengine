@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RecaptchaLogViewer.aspx.cs" Inherits="admin.Pages.admin_Pages_RecaptchaLogViewer" EnableViewState="true" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RecaptchaLogViewer.aspx.cs" Inherits="Admin.Pages.admin_Pages_RecaptchaLogViewer" EnableViewState="true" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
