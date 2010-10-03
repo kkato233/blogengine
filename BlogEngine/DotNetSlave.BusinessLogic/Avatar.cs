@@ -1,12 +1,15 @@
-﻿namespace BlogEngine.Core
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Avatar support.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace BlogEngine.Core
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Web.Security;
     using System.Globalization;
     using System.Web;
+    using System.Web.Security;
 
     /// <summary>
     /// Avatar support.
@@ -16,24 +19,24 @@
         #region Constants and Fields
 
         /// <summary>
-        /// The URL to the Avatar image.
+        ///     The avatar image.
+        /// </summary>
+        private const string AvatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+
+        /// <summary>
+        ///     Gets or sets the URL to the Avatar image.
         /// </summary>
         public Uri Url { get; set; }
 
         /// <summary>
-        /// The image tag for the Avatar image.
+        ///     Gets or sets the image tag for the Avatar image.
         /// </summary>
         public string ImageTag { get; set; }
 
         /// <summary>
-        /// true if there is not a specific image available.
+        ///    Gets or sets a value indicating whether there is not a specific image available.
         /// </summary>
         public bool HasNoImage { get; set; }
-
-        /// <summary>
-        /// The avatar image.
-        /// </summary>
-        private const string AvatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
         #endregion
 
@@ -64,64 +67,46 @@
         {
             if (BlogSettings.Instance.Avatar == "none")
             {
-                return new Avatar()
-                {
-                    HasNoImage = true
-                };
+                return new Avatar { HasNoImage = true };
             }
 
-            string imageTag = null;
-            Uri url = null;
+            string imageTag;
+            Uri url;
 
             if (!string.IsNullOrEmpty(avatarUrl) && Uri.TryCreate(avatarUrl, UriKind.RelativeOrAbsolute, out url))
             {
                 imageTag = string.Format(
-                    CultureInfo.InvariantCulture, AvatarImage, url.ToString(), HttpUtility.HtmlEncode(description));
+                    CultureInfo.InvariantCulture, AvatarImage, url, HttpUtility.HtmlEncode(description));
 
-                return new Avatar()
-                {
-                    Url = url,
-                    ImageTag = imageTag
-                };
+                return new Avatar { Url = url, ImageTag = imageTag };
             }
 
             if (string.IsNullOrEmpty(email) || !email.Contains("@"))
             {
-                if (website != null && website.ToString().Length > 0 &&
-                    website.ToString().Contains("http://"))
+                if (website != null && website.ToString().Length > 0 && website.ToString().Contains("http://"))
                 {
-                    url = new Uri(string.Format(
-                        "http://images.websnapr.com/?url={0}&amp;size=t", HttpUtility.UrlEncode(website.ToString())));
+                    url =
+                        new Uri(
+                            string.Format(
+                                "http://images.websnapr.com/?url={0}&amp;size=t", 
+                                HttpUtility.UrlEncode(website.ToString())));
 
                     imageTag = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "<img class=\"thumb\" src=\"{0}\" alt=\"{1}\" />",
-                        url, email);
+                        CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"{0}\" alt=\"{1}\" />", url, email);
 
-                    return new Avatar()
-                    {
-                        Url = url,
-                        ImageTag = imageTag
-                    };
+                    return new Avatar { Url = url, ImageTag = imageTag };
                 }
 
-                Uri uri = new Uri(string.Format(
-                    "{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme));
+                var uri =
+                    new Uri(
+                        string.Format("{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme));
 
-                imageTag = string.Format(
-                    "<img src=\"{0}\" alt=\"{1}\" />", uri.ToString(), description);
+                imageTag = string.Format("<img src=\"{0}\" alt=\"{1}\" />", uri, description);
 
-                return new Avatar()
-                {
-                    Url = uri,
-                    ImageTag = imageTag,
-                    HasNoImage = true
-                };
+                return new Avatar { Url = uri, ImageTag = imageTag, HasNoImage = true };
             }
 
-            var hash =
-                FormsAuthentication.HashPasswordForStoringInConfigFile(
-                    email.ToLowerInvariant().Trim(), "MD5");
+            var hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5");
             if (hash != null)
             {
                 hash = hash.ToLowerInvariant();
@@ -145,13 +130,10 @@
                     break;
             }
 
-            imageTag = string.Format(CultureInfo.InvariantCulture, AvatarImage, link, HttpUtility.HtmlEncode(description));
+            imageTag = string.Format(
+                CultureInfo.InvariantCulture, AvatarImage, link, HttpUtility.HtmlEncode(description));
 
-            return new Avatar()
-            {
-                Url = new Uri(link),
-                ImageTag = imageTag
-            };
+            return new Avatar { Url = new Uri(link), ImageTag = imageTag };
         }
 
         /// <summary>
@@ -175,9 +157,10 @@
         /// <returns>
         /// The avatar/gravatar image.
         /// </returns>
-        public static string GetAvatarImageTag(int size, string email, Uri website, string avatarUrl, string description)
+        public static string GetAvatarImageTag(
+            int size, string email, Uri website, string avatarUrl, string description)
         {
-            Avatar avatar = GetAvatar(size, email, website, avatarUrl, description);
+            var avatar = GetAvatar(size, email, website, avatarUrl, description);
             return avatar == null ? string.Empty : avatar.ImageTag;
         }
 
