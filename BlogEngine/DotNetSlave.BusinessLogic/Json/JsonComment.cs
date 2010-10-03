@@ -30,36 +30,16 @@
         {
             get
             {
-                string GravatarImage = "<a href=\"mailto:{2}\" alt=\"{2}\" title=\"{2}\"><img class=\"gravatar\" src=\"{0}\" alt=\"{1}\" /></a>";
-
-                if (BlogSettings.Instance.Avatar == "none")
-                    return null;
-
-                if (String.IsNullOrEmpty(Email) || !Email.Contains("@"))
+                BlogEngine.Core.Avatar avatar = BlogEngine.Core.Avatar.GetAvatar(28, Email, null, null, Author);
+                
+                if (avatar.HasNoImage || string.IsNullOrEmpty(Email) || !Email.Contains("@"))
                 {
-                    return "<img class=\"gravatar\" src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + Author + "\" />";
+                    // <img> tag pointing to noavatar.jpg, or no image if Avatar setting is "none".
+                    return avatar.ImageTag ?? string.Empty;
                 }
 
-                string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(Email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
-                string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=28&amp;d=";
-
-                string link;
-                switch (BlogSettings.Instance.Avatar)
-                {
-                    case "identicon":
-                        link = gravatar + "identicon";
-                        break;
-
-                    case "wavatar":
-                        link = gravatar + "wavatar";
-                        break;
-
-                    default:
-                        link = gravatar + "monsterid";
-                        break;
-                }
-
-                return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, Author, Email);
+                string linkWithImage = "<a href=\"mailto:{2}\" alt=\"{0}\" title=\"{0}\">{1}</a>";
+                return string.Format(CultureInfo.InvariantCulture, linkWithImage, Author, avatar.ImageTag, Email);
             }
         }
         /// <summary>
@@ -85,6 +65,10 @@
         /// </summary>
         public string Website { get; set; }
         /// <summary>
+        /// Static avatar image
+        /// </summary>
+        public string AuthorAvatar { get; set; }
+        /// <summary>
         /// Comment body
         /// </summary>
         public string Content { get; set; }
@@ -104,7 +88,7 @@
         #endregion
 
         /// <summary>
-        /// If connent has nested comments
+        /// If comment has nested comments
         /// </summary>
         /// <param name="comId">Comment Id</param>
         /// <returns>True if has child records</returns>

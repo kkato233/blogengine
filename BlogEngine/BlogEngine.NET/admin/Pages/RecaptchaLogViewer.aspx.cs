@@ -21,11 +21,6 @@
     {
         #region Constants and Fields
 
-        /// <summary>
-        /// The gravatar image.
-        /// </summary>
-        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
-
         #endregion
 
         #region Public Methods
@@ -68,42 +63,7 @@
         /// <returns></returns>
         protected string Gravatar(string email, string author)
         {
-            if (BlogSettings.Instance.Avatar == "none")
-            {
-                return null;
-            }
-
-            if (String.IsNullOrEmpty(email) || !email.Contains("@"))
-            {
-                return string.Format("<img src=\"{0}themes/{1}/noavatar.jpg\" alt=\"{2}\" width=\"28\" height=\"28\" />", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme, author);
-            }
-
-            var hash =
-                FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5");
-            if (hash != null)
-            {
-                hash = hash.ToLowerInvariant();
-            }
-
-            var gravatar = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s=28&amp;d=", hash);
-
-            string link;
-            switch (BlogSettings.Instance.Avatar)
-            {
-                case "identicon":
-                    link = string.Format("{0}identicon", gravatar);
-                    break;
-
-                case "wavatar":
-                    link = string.Format("{0}wavatar", gravatar);
-                    break;
-
-                default:
-                    link = string.Format("{0}monsterid", gravatar);
-                    break;
-            }
-
-            return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, author);
+            return Avatar.GetAvatarImageTag(28, email, null, null, author);
         }
 
         /// <summary>

@@ -25,11 +25,6 @@
         private const string FlagImage =
             "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" title=\"{2}\" alt=\"{2}\" /></span>";
 
-        /// <summary>
-        /// The gravatar image.
-        /// </summary>
-        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
-
 /*
         /// <summary>
         /// The link.
@@ -209,63 +204,7 @@
         /// </returns>
         protected string Gravatar(int size)
         {
-            if (BlogSettings.Instance.Avatar == "none")
-            {
-                return null;
-            }
-
-            if (!string.IsNullOrEmpty(this.Comment.Avatar))
-            {
-                return string.Format(
-                    CultureInfo.InvariantCulture, GravatarImage, this.Comment.Avatar, this.Comment.Author);
-            }
-
-            if (String.IsNullOrEmpty(this.Comment.Email) || !this.Comment.Email.Contains("@"))
-            {
-                if (this.Comment.Website != null && this.Comment.Website.ToString().Length > 0 &&
-                    this.Comment.Website.ToString().Contains("http://"))
-                {
-                    return string.Format(
-                        CultureInfo.InvariantCulture, 
-                        "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", 
-                        this.Server.UrlEncode(this.Comment.Website.ToString()), 
-                        this.Comment.Email);
-                }
-
-                return string.Format(
-                    "<img src=\"{0}themes/{1}/noavatar.jpg\" alt=\"{2}\" />", 
-                    Utils.AbsoluteWebRoot, 
-                    BlogSettings.Instance.Theme, 
-                    this.Comment.Author);
-            }
-
-            var hash =
-                FormsAuthentication.HashPasswordForStoringInConfigFile(
-                    this.Comment.Email.ToLowerInvariant().Trim(), "MD5");
-            if (hash != null)
-            {
-                hash = hash.ToLowerInvariant();
-            }
-
-            var gravatar = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s={1}&amp;d=", hash, size);
-
-            string link;
-            switch (BlogSettings.Instance.Avatar)
-            {
-                case "identicon":
-                    link = string.Format("{0}identicon", gravatar);
-                    break;
-
-                case "wavatar":
-                    link = string.Format("{0}wavatar", gravatar);
-                    break;
-
-                default:
-                    link = string.Format("{0}monsterid", gravatar);
-                    break;
-            }
-
-            return string.Format(CultureInfo.InvariantCulture, GravatarImage, link, this.Comment.Author);
+            return Avatar.GetAvatarImageTag(size, this.Comment.Email, this.Comment.Website, this.Comment.Avatar, this.Comment.Author);
         }
 
         /// <summary>

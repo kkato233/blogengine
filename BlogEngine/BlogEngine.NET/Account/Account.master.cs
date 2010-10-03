@@ -44,35 +44,8 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.AddJavaScript(string.Format("{0}Account/Account.js", Utils.RelativeWebRoot));
-        }
-
-        /// <summary>
-        /// Adds the java script.
-        /// </summary>
-        /// <param name="src">
-        /// The SRC.
-        /// </param>
-        private void AddJavaScript(string src)
-        {
-            if (this.Page.Header.Controls.Cast<Control>()
-                .Where(ctl => ctl.GetType() == typeof(HtmlGenericControl))
-                    .Select(ctl => (HtmlGenericControl)ctl)
-                        .Where(gc => gc.Attributes["src"] != null)
-                        .Any(gc => gc.Attributes["src"].Contains(src)))
-            {
-                return;
-            }
-
-            using (var js = new HtmlGenericControl("script"))
-            {
-                js.Attributes["type"] = "text/javascript";
-                js.Attributes["src"] = string.Format(
-                    "{0}js.axd?path={1}", Utils.RelativeWebRoot, this.Server.UrlEncode(src));
-                js.Attributes["defer"] = "defer";
-
-                this.Page.Header.Controls.Add(js);
-            }
+            Utils.AddFolderJavaScripts(this.Page, "Scripts", true);
+            Utils.AddJavaScriptInclude(this.Page, string.Format("{0}Account/Account.js", Utils.RelativeWebRoot), false, false);
         }
 
         #endregion
