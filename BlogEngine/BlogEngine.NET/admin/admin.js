@@ -43,8 +43,8 @@ function SaveChanges(obj, str) {
    var row = jQobj.closest("tr");
    var id = row.attr("id");
    var srv = jQobj.closest("table").attr("id");
-   var editVals = new Array();
-   var bg = ((row.prevAll().length + 1) % 2 == 0) ? 'F8F8F8' : 'F0F0F0';
+   var editVals = [];
+   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'F8F8F8' : 'F0F0F0';
 
    $(':text', row).each(function () {
       editVals.push($(this).val());
@@ -75,7 +75,7 @@ function CancelChanges(obj, str) {
    var jObj = $(obj);
    var row = jObj.closest("tr");
    var id = row.attr("id");
-   var bg = ((row.prevAll().length + 1) % 2 == 0) ? 'F8F8F8' : 'F0F0F0';
+   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'F8F8F8' : 'F0F0F0';
 
    jObj.parent().parent().parent().after('<tr id="' + id + '" bgcolor="#' + bg + '">' + str + '</tr>').remove();
    return false;
@@ -204,7 +204,7 @@ function LoadProfile() {
 //--------------    COMMENTS
 
 function ProcessSelected(action, page) {
-   var vals = new Array();
+   var vals = [];
 
    // store the rows so they don't need to be queried for again.
    var commentsAndRows = [];
@@ -258,10 +258,10 @@ function ProcessSelected(action, page) {
 
                // parse the current counts
                // Change these values before setting it to the element's text.
-               var com_cnt = parseInt(comment_counter.text());
-               var spm_cnt = parseInt(spam_counter.text());
-               var pbk_cnt = parseInt(pingback_counter.text());
-               var pnd_cnt = parseInt(pending_counter.text());
+               var com_cnt = parseInt(comment_counter.text(),10);
+               var spm_cnt = parseInt(spam_counter.text(), 10);
+               var pbk_cnt = parseInt(pingback_counter.text(), 10);
+               var pnd_cnt = parseInt(pending_counter.text(), 10);
 
 
                $.each(commentsAndRows, function (index, value) {
@@ -301,7 +301,6 @@ function ProcessSelected(action, page) {
 
                      default:
                         throw new Error("Unknown action: " + action);
-                        break;
                   }
                });
 
@@ -349,7 +348,7 @@ function EditComment(id) {
 }
 
 function SaveComment(obj) {
-   var frm = document.forms['aspnetForm'];
+   var frm = document.forms.aspnetForm;
    $(frm).validate({
       rules: {
          txtAuthor: {
@@ -368,10 +367,10 @@ function SaveComment(obj) {
    });
 
    var isValid = $(frm).valid();
-   if(!isValid) return false;
+   if(!isValid) { return false; }
 
    var oRow = $(obj).closest("tr");
-   var vals = new Array();
+   var vals = [];
 
    vals[0] = $(obj).closest("tr").attr("id");
    vals[1] = $("#txtAuthor").val();
@@ -408,7 +407,7 @@ function DeleteComment(id) {
    var loader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
    oRow.html(loader);
 
-   var vals = new Array();
+   var vals = [];
    vals[0] = id;
    var dto = { "vals": vals };
    $.ajax({
@@ -425,10 +424,10 @@ function DeleteComment(id) {
             var pbk_cnt = $('#pingback_counter').text();
             var pnd_cnt = $('#pending_counter').text();
 
-            if(location.href.indexOf('Comments\/Approved.aspx') > 0) $('#comment_counter').text(parseInt(com_cnt) - 1);
-            if(location.href.indexOf('Comments\/Spam.aspx') > 0) $('#spam_counter').text(parseInt(spm_cnt) - 1);
-            if(location.href.indexOf('Comments\/Pingback.aspx') > 0) $('#pingback_counter').text(parseInt(pbk_cnt) - 1);
-            if(location.href.indexOf('Comments\/Pending.aspx') > 0) $('#pending_counter').text(parseInt(pnd_cnt) - 1);
+            if(location.href.indexOf('Comments\/Approved.aspx') > 0) { $('#comment_counter').text(parseInt(com_cnt, 10) - 1); }
+            if(location.href.indexOf('Comments\/Spam.aspx') > 0) { $('#spam_counter').text(parseInt(spm_cnt, 10) - 1); }
+            if(location.href.indexOf('Comments\/Pingback.aspx') > 0) { $('#pingback_counter').text(parseInt(pbk_cnt, 10) - 1); }
+            if(location.href.indexOf('Comments\/Pending.aspx') > 0) { $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1); }
 
             $(oRow).fadeOut(500, function () {
                $(oRow).remove();
@@ -473,7 +472,7 @@ function DeleteAllSpam() {
    return false;
 }
 
-//-------------- 	HELPERS AND MISC
+//--------------HELPERS AND MISC
 
 function toggleAllChecks(o) {
    if($(o).attr('checked')) {
@@ -486,27 +485,30 @@ function toggleAllChecks(o) {
 }
 
 function formatJSONDate(jsonDate) {
-   var date = new Date(parseInt(jsonDate.substr(6)));
-   var parsedDate = Date.parse(date);
-   var d = new Date(parsedDate);
-   var m = d.getMonth() + 1;
-   var s = m + "/" + d.getDate() + "/" + d.getFullYear();
+   var d = new Date(parseInt(jsonDate.substr(6), 10));
+   var nullDate = new Date(1001, 0, 1);
 
-   if(s == "1/1/1001") {
+   if(d.getTime() <= nullDate.getTime()) {
       return "";
-   } else {
+   }
+   else {
+      var m = d.getMonth() + 1;
+      var s = m + "/" + d.getDate() + "/" + d.getFullYear();
       return s;
    }
 }
+
 
 function Querystring(key) {
    key = key.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
    var regex = new RegExp("[\\?&]" + key + "=([^&#]*)");
    var qs = regex.exec(window.location.href);
-   if(qs == null)
+   if(qs === null) {
       return "";
-   else
+   }
+   else {
       return qs[1];
+   }
 }
 
 //--------------	STATUS AND MESSAGES
