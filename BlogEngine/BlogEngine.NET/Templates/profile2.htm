@@ -1,0 +1,30 @@
+﻿<fieldset class="rounded">
+    <legend>Contact Details and Address</legend>
+    <div class="subsection2cols">
+        <div class="subsectioncol1">
+            <span class="lbl200">Mobile Phone</span>
+            <input type="text" id="txtMobile" class="txt200" value="{$T.d.PhoneMobile}" />
+
+            <span class="lbl200">Main Phone</span>
+            <input type="text" id="txtMainPhone" class="txt200" value="{$T.d.PhoneMain}" />
+
+            <span class="lbl200">Fax</span>
+            <input type="text" id="txtFax" class="txt200" value="{$T.d.PhoneFax}" />
+        </div>
+        <div class="subsectioncol2">
+            <span class="lbl200 indent">City/Town</span>
+            <input type="text" id="txtCity" class="txt200" value="{$T.d.CityTown}" />
+
+            <span class="lbl200">State/Region</span>
+            <input type="text" id="txtState" class="txt200" value="{$T.d.RegionState}" />
+
+            <span class="lbl200">Country</span>
+            <input type="text" id="txtCountry" class="txt200" value="{$T.d.Country}" />
+        </div>
+    </div>
+</fieldset>
+
+<fieldset class="rounded">
+    <legend>Short Biography</legend>
+    <textarea name="biography" id="biography" rows="5" cols="57">{$T.d.AboutMe}</textarea>
+</fieldset>
