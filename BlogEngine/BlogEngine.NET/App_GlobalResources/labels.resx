@@ -1206,6 +1206,12 @@
   <data name="usernameAlreadyTaken" xml:space="preserve">
     <value>Username is already taken</value>
   </data>
+  <data name="notifiedPublished" xml:space="preserve">
+    <value>Get notified when a new post is published.</value>
+  </data>
+  <data name="pendingApproval" xml:space="preserve">
+    <value>Comments will be pending administrator's approval</value>
+  </data>
 	<data name="Referrers_BindTable_Total">
 		<value xml:space="preserve">Total</value>
 		<comment>
