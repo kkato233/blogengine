@@ -577,4 +577,7 @@
   <data name="youAlreadyRated" xml:space="preserve">
     <value>Você já avaliou este post</value>
   </data>
+  <data name="notifiedPublished" xml:space="preserve">
+    <value>Seja notificado quando um novo post for publicado.</value>
+  </data>
 </root>

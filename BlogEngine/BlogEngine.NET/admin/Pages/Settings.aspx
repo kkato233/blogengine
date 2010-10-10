@@ -18,6 +18,7 @@
         }
 
         function geoFound(pos) {
+            alert(pos);
             document.getElementById('<%=txtGeocodingLatitude.ClientID %>').value = pos.latitude;
             document.getElementById('<%=txtGeocodingLongitude.ClientID %>').value = pos.longitude;
         }
