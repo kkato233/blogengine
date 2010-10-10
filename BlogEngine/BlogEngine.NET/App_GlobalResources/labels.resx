@@ -1212,4 +1212,20 @@
   <data name="pendingApproval" xml:space="preserve">
     <value>Comments will be pending administrator's approval</value>
   </data>
+	<data name="Referrers_BindTable_Total">
+		<value xml:space="preserve">Total</value>
+		<comment>
+			Footer row text of first cell
+		</comment>
+	</data>
+	<data name="Configuration_OnInit_Please_specify_a_number">
+		<value xml:space="preserve">Please specify a number</value>
+		<comment>
+			valDescChar Error Message
+		</comment>
+	</data>
+	<data name="Configuration_BtnTestSmtpClick_Test_successfull">
+		<value xml:space="preserve">Test successfull</value>
+		<comment>Smtp status text</comment>
+	</data>
 </root>
