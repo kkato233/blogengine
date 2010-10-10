@@ -165,20 +165,20 @@
                     using (var li = new HtmlGenericControl("li"))
                     {
                         var anc = new HtmlAnchor
-                            {
-                                HRef =
-                                    string.Format(
-                                        "{0}{1}/{2}/default{3}",
-                                        Utils.RelativeWebRoot,
-                                        date.Year,
-                                        date.ToString("MM"),
-                                        BlogSettings.Instance.FileExtension),
-                                InnerHtml =
-                                    string.Format(
-                                        "{0} ({1})",
-                                        DateTime.Parse(string.Format("{0}-{1}-01", date.Year, date.Month)).ToString("MMMM"),
-                                        months[date])
-                            };
+                        {
+                            HRef =
+                                string.Format(
+                                    "{0}{1}/{2}/default{3}",
+                                    Utils.RelativeWebRoot,
+                                    date.Year,
+                                    date.ToString("MM"),
+                                    BlogSettings.Instance.FileExtension),
+                            InnerHtml =
+                                string.Format(
+                                    "{0} ({1})",
+                                    DateTime.Parse(string.Format("{0}-{1}-01", date.Year, date.Month), System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM"),
+                                    months[date])
+                        };
 
                         li.Controls.Add(anc);
                         if (list != null)

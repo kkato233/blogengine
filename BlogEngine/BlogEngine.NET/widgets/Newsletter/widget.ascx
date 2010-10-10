@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Newsletter_widget" %>
 
 <div id="newsletterform">
-  <p>Get notified when a new post is published.</p>
+  <p><%=Resources.labels.notifiedPublished %></p>
 
   <label for="<%=txtEmail.ClientID %>" style="font-weight:bold">Enter your e-mail</label><br />
   <asp:TextBox runat="server" ID="txtEmail" Width="100%" />
