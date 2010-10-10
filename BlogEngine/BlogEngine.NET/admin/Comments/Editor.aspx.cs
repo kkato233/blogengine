@@ -12,7 +12,6 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
     private static string _id;
     private static Comment _comment;
     private static string _urlReferrer;
-    private const string GRAVATAR_IMAGE = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
     private const string FLAG_IMAGE = "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" title=\"{2}\" alt=\"{2}\" /></span>";
 
     #endregion
@@ -195,39 +194,7 @@ public partial class admin_Comments_Editor : System.Web.UI.Page
 
     protected string Gravatar(int size)
     {
-        if (BlogSettings.Instance.Avatar == "none")
-            return null;
-
-        if (String.IsNullOrEmpty(_comment.Email) || !_comment.Email.Contains("@"))
-        {
-            if (_comment.Website != null && _comment.Website.ToString().Length > 0 && _comment.Website.ToString().Contains("http://"))
-            {
-                return string.Format(CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", Server.UrlEncode(_comment.Website.ToString()), _comment.Email);
-            }
-
-            return "<img src=\"" + Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/noavatar.jpg\" alt=\"" + _comment.Author + "\" />";
-        }
-
-        string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(_comment.Email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
-        string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&amp;d=";
-
-        string link = string.Empty;
-        switch (BlogSettings.Instance.Avatar)
-        {
-            case "identicon":
-                link = gravatar + "identicon";
-                break;
-
-            case "wavatar":
-                link = gravatar + "wavatar";
-                break;
-
-            default:
-                link = gravatar + "monsterid";
-                break;
-        }
-
-        return string.Format(CultureInfo.InvariantCulture, GRAVATAR_IMAGE, link, _comment.Author);
+        return Avatar.GetAvatarImageTag(size, _comment.Email, _comment.Website, _comment.Avatar, _comment.Author);
     }
 
     protected string Flag

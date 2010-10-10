@@ -74,16 +74,7 @@ namespace BlogEngine.Core.Json
                     cnt++;
                     if (cnt > cntFrom && cnt <= cntTo)
                     {
-                        JsonComment jc = new JsonComment();
-                        jc.Id = c.Id;
-                        jc.Email = c.Email;
-                        jc.Author = c.Author;
-                        jc.Title = c.Title;
-                        jc.Teaser = c.Teaser;
-                        jc.Ip = c.IP;
-                        jc.Date = c.DateCreated.ToString("dd MMM yyyy");
-                        jc.Time = c.DateCreated.ToString("t");
-                        pageComments.Add(jc);
+                        pageComments.Add(CreateJsonCommentFromComment(c));
                     }
                 }
             }
@@ -94,7 +85,7 @@ namespace BlogEngine.Core.Json
         }
 
         /// <summary>
-        /// Single commnet by ID
+        /// Single comment by ID
         /// </summary>
         /// <param name="id">Comment id</param>
         /// <returns>Comment</returns>
@@ -106,22 +97,28 @@ namespace BlogEngine.Core.Json
                 {
                     if (c.Id == id)
                     {
-                        JsonComment jc = new JsonComment();
-                        jc.Id = c.Id;
-                        jc.Email = c.Email;
-                        jc.Author = c.Author;
-                        jc.Title = c.Title;
-                        jc.Teaser = c.Teaser;
-                        jc.Website = c.Website == null ? "" : c.Website.ToString();
-                        jc.Content = c.Content;
-                        jc.Ip = c.IP;
-                        jc.Date = c.DateCreated.ToString("dd MMM yyyy");
-                        jc.Time = c.DateCreated.ToString("t");
-                        return jc;
+                        return CreateJsonCommentFromComment(c);
                     }
                 }
             }
             return null;
+        }
+
+        private static JsonComment CreateJsonCommentFromComment(Comment c)
+        {
+            JsonComment jc = new JsonComment();
+            jc.Id = c.Id;
+            jc.Email = c.Email;
+            jc.Author = c.Author;
+            jc.Title = c.Title;
+            jc.Teaser = c.Teaser;
+            jc.Website = c.Website == null ? "" : c.Website.ToString();
+            jc.AuthorAvatar = c.Avatar;
+            jc.Content = c.Content;
+            jc.Ip = c.IP;
+            jc.Date = c.DateCreated.ToString("dd MMM yyyy");
+            jc.Time = c.DateCreated.ToString("t");
+            return jc;
         }
 
         /// <summary>

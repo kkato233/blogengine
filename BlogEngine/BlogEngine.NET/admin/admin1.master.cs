@@ -8,7 +8,7 @@
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
-
+    using System.Collections.Generic;
     using BlogEngine.Core;
 
     /// <summary>
@@ -17,11 +17,6 @@
     public partial class admin_admin : MasterPage
     {
         #region Constants and Fields
-
-        /// <summary>
-        /// The gravatar image.
-        /// </summary>
-        private const string GravatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
 
         #endregion
 
@@ -47,20 +42,6 @@
         #region Methods
 
         /// <summary>
-        /// The add jquery.
-        /// </summary>
-        protected virtual void AddJquery()
-        {
-            var s = Path.Combine(this.Server.MapPath("~/"), "Scripts");
-            var fileEntries = Directory.GetFiles(s);
-            foreach (var fileName in
-                fileEntries.Where(fileName => (fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) && fileName.Contains("jquery-")) && !fileName.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase)))
-            {
-                this.AddJavaScript(string.Format("{0}Scripts/{1}", Utils.RelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)));
-            }
-        }
-
-        /// <summary>
         /// Gets the admin photo.
         /// </summary>
         /// <returns>
@@ -69,25 +50,28 @@
         protected string AdminPhoto()
         {
             var src = string.Format("{0}admin/images/no_avatar.png", Utils.AbsoluteWebRoot);
+            var email = (string)null;
             var adminName = string.Empty;
+            AuthorProfile ap = this.AdminProfile();
 
-            if (this.AdminProfile() != null)
+            if (ap != null)
             {
-                adminName = this.AdminProfile().DisplayName;
-                if (!string.IsNullOrEmpty(this.AdminProfile().PhotoUrl))
+                adminName = ap.DisplayName;
+                if (!string.IsNullOrEmpty(ap.PhotoUrl))
                 {
-                    src = this.AdminProfile().PhotoUrl;
+                    src = ap.PhotoUrl;
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(this.AdminProfile().EmailAddress) && BlogSettings.Instance.Avatar != "none")
+                    if (!string.IsNullOrEmpty(ap.EmailAddress) && BlogSettings.Instance.Avatar != "none")
                     {
-                        src = this.Avatar(this.AdminProfile().EmailAddress);
+                        email = ap.EmailAddress;
+                        src = null;
                     }
                 }
             }
 
-            return string.Format(CultureInfo.InvariantCulture, GravatarImage, src, adminName);
+            return Avatar.GetAvatarImageTag(28, email, null, src, adminName);
         }
 
         /// <summary>
@@ -110,38 +94,6 @@
         }
 
         /// <summary>
-        /// Gets the avatar for the specified email.
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <returns>The avatar.</returns>
-        protected string Avatar(string email)
-        {
-            var hash =
-                FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5");
-            if (hash != null)
-            {
-                hash = hash.ToLowerInvariant();
-            }
-
-            var src = string.Format("http://www.gravatar.com/avatar/{0}.jpg?s=28&amp;d=", hash);
-
-            switch (BlogSettings.Instance.Avatar)
-            {
-                case "identicon":
-                    src += "identicon";
-                    break;
-                case "wavatar":
-                    src += "wavatar";
-                    break;
-                default:
-                    src += "monsterid";
-                    break;
-            }
-
-            return src;
-        }
-
-        /// <summary>
         /// Handles the Load event of the Page control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -153,35 +105,8 @@
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
 
-            this.AddJquery();
-            this.AddJavaScript(Utils.RelativeWebRoot + "admin/admin.js");
-        }
-
-        /// <summary>
-        /// The add java script.
-        /// </summary>
-        /// <param name="src">
-        /// The source.
-        /// </param>
-        private void AddJavaScript(string src)
-        {
-            if ((from Control ctl in this.Page.Header.Controls
-                 where ctl.GetType() == typeof(HtmlGenericControl)
-                 select (HtmlGenericControl)ctl
-                 into gc
-                 where gc.Attributes["src"] != null
-                 select gc).Any(gc => gc.Attributes["src"].Contains(src)))
-            {
-                return;
-            }
-
-            var js = new HtmlGenericControl("script");
-
-            js.Attributes["type"] = "text/javascript";
-            js.Attributes["src"] = string.Format("{0}js.axd?path={1}", Utils.RelativeWebRoot, this.Server.UrlEncode(src));
-            js.Attributes["defer"] = "defer";
-
-            this.Page.Header.Controls.Add(js);
+            Utils.AddFolderJavaScripts(this.Page, "Scripts", false);
+            Utils.AddJavaScriptInclude(this.Page, Utils.RelativeWebRoot + "admin/admin.js", false, false);
         }
 
         #endregion

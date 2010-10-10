@@ -58,7 +58,9 @@ public partial class widgets_Visitor_info_widget : WidgetBase
 		if (name.Contains(" "))
 			name = name.Substring(0, name.IndexOf(" "));
 
-		Title = string.Format("<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> Hi {1}", Gravatar(16, email), Server.HtmlEncode(name));
+        Avatar avatar = Avatar.GetAvatar(16, email, null, null, name);
+        string avatarLink = avatar == null || avatar.Url == null ? string.Empty : avatar.Url.ToString();
+        Title = string.Format("<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> Hi {1}", avatarLink, Server.HtmlEncode(name));
 		pName.InnerHtml = "<strong>Welcome back!</strong>";
 		List<Post> list = GetCommentedPosts(email, website);
 
@@ -72,30 +74,6 @@ public partial class widgets_Visitor_info_widget : WidgetBase
 		{
 			pComment.InnerHtml += "You have written " + _NumberOfComments + " comments in total."; 
 		}
-	}
-
-	private string Gravatar(int size, string email)
-	{
-		string hash = FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant().Trim(), "MD5").ToLowerInvariant();
-		string gravatar = "http://www.gravatar.com/avatar/" + hash + ".jpg?s=" + size + "&d=";
-
-		string link = string.Empty;
-		switch (BlogSettings.Instance.Avatar)
-		{
-			case "identicon":
-				link = gravatar + "identicon";
-				break;
-
-			case "wavatar":
-				link = gravatar + "wavatar";
-				break;
-
-			default:
-				link = gravatar + "monsterid";
-				break;
-		}
-
-		return link;
 	}
 
 	private int _NumberOfComments = 0;

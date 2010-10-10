@@ -11,7 +11,7 @@
     </script>
   
     <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.configuration %></span>
+        <span class="SectionHeader"><%=labels.configuration %></span>
     </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
@@ -30,7 +30,7 @@
                     <div class="sectionRow">
                         <label class="lbl200" for="<%=cbEnableCommentsModeration.ClientID %>"><%=labels.enableCommentsModeration%></label>
                         <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" onclick="ToggleModeration();" /> 
-                        <label class="lbl"><%=labels.commentsUnmodApproved%></label>
+                        <label class="lbl"><%=labels.pendingApproval%></label>
                     </div>
                     <div class="sectionRow">
                         <label class="lbl200" for="<%=cbRequireLogin.ClientID %>">Require Login To Post Comment</label>
@@ -108,29 +108,29 @@
             </fieldset>
 
             <fieldset class="rounded">
-                <legend><%=Resources.labels.disqusSettings %></legend>       
+                <legend><%=labels.disqusSettings %></legend>       
                 <div class="subsection" style="float:left;width:500px">
                     <div class="sectionRow">
                         <label class="lbl200" for="<%=cbEnableDisqus.ClientID %>">Switch comments to Disqus</label>
                         <asp:CheckBox runat="server" ID="cbEnableDisqus" />
                     </div>
                     <div class="sectionRow">
-                        <label class="lbl200" for="<%=txtDisqusName.ClientID %>"><%=Resources.labels.disqusShortName %></label>
+                        <label class="lbl200" for="<%=txtDisqusName.ClientID %>"><%=labels.disqusShortName %></label>
                         <asp:TextBox runat="server" ID="txtDisqusName" class="txt200" MaxLength="250" />
                     </div>
                     <div class="sectionRow">
-                        <label class="lbl200" for="<%=cbDisqusDevMode.ClientID %>"><%=Resources.labels.developmentMode %></label>
+                        <label class="lbl200" for="<%=cbDisqusDevMode.ClientID %>"><%=labels.developmentMode %></label>
                         <asp:CheckBox runat="server" ID="cbDisqusDevMode" />
-                        <label class="lbl"><%=Resources.labels.developmentModeCheckboxMessage %></label>
+                        <label class="lbl"><%=labels.developmentModeCheckboxMessage %></label>
                     </div>
                     <div class="sectionRow">
-                        <label class="lbl200" for="<%=cbDisqusAddToPages.ClientID %>"><%=Resources.labels.addCommentsToPages %></label>
+                        <label class="lbl200" for="<%=cbDisqusAddToPages.ClientID %>"><%=labels.addCommentsToPages %></label>
                         <asp:CheckBox runat="server" ID="cbDisqusAddToPages" />
-                        <label class="lbl"><%=Resources.labels.addToPages %></label>
+                        <label class="lbl"><%=labels.addToPages %></label>
                     </div>
                 </div>
                 <div class="info rounded" style="float:right; position:relative; overflow:visible; width: 350px; top: 0;">
-                    <%=Resources.labels.disqusSignupMessage %>
+                    <%=labels.disqusSignupMessage %>
                 </div>  
             </fieldset>
     
