@@ -122,8 +122,8 @@ label.wide {
     border-radius: 10px;
 }
 .content-box-wraper { 
-	width: 100%;
-    margin: 0 20px;
+	 width: 100%;
+     margin: 0 20px;
 	-moz-border-radius: 10px;
     -khtml-border-radius: 10px
     -webkit-border-radius: 10px;
@@ -492,9 +492,9 @@ input[type="checkbox"] {
 .success, .warning, .validation {
     border: 1px solid #ccc;
     margin: 0;
-    padding:5px 5px 5px 60px;
+    padding:8px 5px 8px 60px;
     background-repeat: no-repeat;
-    background-position: 25px 1px;
+    background-position: 25px 5px;
 }
 
 .success {
@@ -567,6 +567,37 @@ input[type="checkbox"] {
 	border: 1px solid #ccc;
 	padding: 10px;
 }
+
+.tblForm td {
+    padding: 0 10px 0 0;
+}
+
+.tblForm label {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	padding: 0 10px 0 0;
+}
+
+.tblForm input[type="text"], .tblForm input[type="password"], .tblForm select, .tblForm textarea {
+    border: 1px solid #CCC;
+    padding: 5px;
+    margin: 2px 0;
+}
+.tblForm input[type="checkbox"] {
+    margin: 9px 7px 3px 0;
+}
+
+.tblForm input[type="radio"] 
+{
+    border: none;
+    margin: 7px 5px 7px 0;
+}
+
+.tblForm td span label {
+    padding: 0 10px 0 0;
+}
+
+.w300 { width: 300px; }
 
 .subsection {
     display: block;
@@ -683,6 +714,7 @@ legend {
 
 label.error {
   color: red;
+  padding-left: 5px;
 }
 
 #EditCommentLeftBox label.error {
@@ -719,7 +751,7 @@ label.error {
     position:relative;
     top:-4px;
     background: url('../pics/ajax-loader.gif') 0px 0px no-repeat;
-    display: none;
+    /*display: none;*/
 }
 
 .comment_date, comment_time {

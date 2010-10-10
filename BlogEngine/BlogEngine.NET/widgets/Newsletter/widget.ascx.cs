@@ -10,6 +10,7 @@ using System.Xml;
 using BlogEngine.Core;
 using System.Net.Mail;
 using System.Collections.Generic;
+using System.Text;
 
 #endregion
 
@@ -113,16 +114,36 @@ public partial class widgets_Newsletter_widget : WidgetBase, ICallbackEventHandl
     {
         MailMessage mail = new MailMessage();
         mail.Subject = post.Title;
-        mail.Body = "<div style=\"font: 11px verdana, arial\">";
-        mail.Body += "There'a new post available.<br /><br /> <a href=\"" + post.AbsoluteLink + "\">" + post.Title + "</a><br />";
-        mail.Body += post.Description;
-        mail.Body += "<br /><br />_______________________________________________________________________________<br />";
-        mail.Body += "You receive this e-mail because you have signed up for<br />e-mail notifications at: ";
-        mail.Body += "<a href=\"" + Utils.AbsoluteWebRoot + "\">" + Utils.AbsoluteWebRoot + "</a></div>";
+        mail.Body = FormatBodyMail(post);
         mail.From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name);
         return mail;
     }
 
+	/// <summary>
+	/// Replace tags below in newsletter.html theme
+	/// [TITLE]
+	/// [LINK_DESCRIPTION]
+	/// [LINK]
+	/// [WebRoot]
+	/// [httpBase]
+	/// </summary>
+	/// <param name="post"></param>
+	/// <returns></returns>
+	private static string FormatBodyMail(Post post)
+	{
+		var body = new StringBuilder();
+		var urlbase = Path.Combine(Path.Combine(Utils.AbsoluteWebRoot.AbsoluteUri, "themes"), BlogSettings.Instance.Theme);
+		var fileName = string.Format("~/themes/{0}/newsletter.html", BlogSettings.Instance.Theme);
+		fileName = System.Web.Hosting.HostingEnvironment.MapPath(fileName);
+		var file = File.OpenText(fileName);
+		body.Append(file.ReadToEnd());
+		body = body.Replace("[TITLE]", post.Title);
+		body = body.Replace("[LINK]", post.AbsoluteLink.AbsoluteUri);
+		body = body.Replace("[LINK_DESCRIPTION]", post.Description);
+		body = body.Replace("[WebRoot]", Utils.AbsoluteWebRoot.AbsoluteUri);
+		body = body.Replace("[httpBase]", urlbase);
+		return body.ToString();
+	}
     #endregion
 
     #region Save and retrieve e-mails
