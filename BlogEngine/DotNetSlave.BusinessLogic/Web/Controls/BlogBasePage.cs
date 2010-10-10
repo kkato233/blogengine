@@ -80,39 +80,6 @@
         }
 
         /// <summary>
-        /// Adds a JavaScript reference to the HTML head tag.
-        /// </summary>
-        /// <param name="url">
-        /// The url string.
-        /// </param>
-        /// <param name="placeInBottom">
-        /// The place In Bottom.
-        /// </param>
-        /// <param name="addDeferAttribute">
-        /// The add Defer Attribute.
-        /// </param>
-        public virtual void AddJavaScriptInclude(string url, bool placeInBottom, bool addDeferAttribute)
-        {
-            if (placeInBottom)
-            {
-                var script = string.Format("<script type=\"text/javascript\"{0} src=\"{1}\"></script>", (addDeferAttribute ? " defer=\"defer\"" : string.Empty), this.ResolveScriptUrl(url));
-                this.ClientScript.RegisterStartupScript(this.GetType(), url.GetHashCode().ToString(), script);
-            }
-            else
-            {
-                var script = new HtmlGenericControl("script");
-                script.Attributes["type"] = "text/javascript";
-                script.Attributes["src"] = this.ResolveScriptUrl(url);
-                if (addDeferAttribute)
-                {
-                    script.Attributes["defer"] = "defer";
-                }
-
-                this.Page.Header.Controls.Add(script);
-            }
-        }
-
-        /// <summary>
         /// Adds a Stylesheet reference to the HTML head tag.
         /// </summary>
         /// <param name="url">
@@ -147,20 +114,6 @@
         public virtual void AddStylesheetInclude(string url)
         {
             this.AddStylesheetInclude(url, false);
-        }
-
-        /// <summary>
-        /// Resolves the script URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL string.
-        /// </param>
-        /// <returns>
-        /// The resolve script url.
-        /// </returns>
-        public virtual string ResolveScriptUrl(string url)
-        {
-            return string.Format("{0}js.axd?path={1}", Utils.RelativeWebRoot, HttpUtility.UrlEncode(url));
         }
 
         #endregion
@@ -203,35 +156,6 @@
             {
                 this.AddStylesheetInclude(
                     string.Format("{0}Styles/{1}", Utils.RelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)), true);
-            }
-        }
-
-        /// <summary>
-        /// Add java scripts from /Scripts and custom theme to any post or page
-        ///     Ignore jQuery document file as exception, it is used for VS only
-        /// </summary>
-        protected virtual void AddJavaScripts()
-        {
-            // add scripts in the ~/Scripts folder to the page header
-            var s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "Scripts");
-            var fileEntries = Directory.GetFiles(s);
-            foreach (var fileName in
-                fileEntries.Where(fileName => fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase)))
-            {
-                this.AddJavaScriptInclude(
-                    string.Format("{0}Scripts/{1}", Utils.RelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)), true, true);
-            }
-
-            // add scripts in the custom theme folder
-            s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), string.Format("themes/{0}", this.theme));
-            fileEntries = Directory.GetFiles(s);
-            foreach (var fileName in
-                fileEntries.Where(fileName => fileName.EndsWith(".js", StringComparison.OrdinalIgnoreCase)))
-            {
-                this.AddJavaScriptInclude(
-                    string.Format("{0}themes/{1}/{2}", Utils.RelativeWebRoot, this.theme, Utils.ExtractFileNameFromPath(fileName)),
-                    true,
-                    true);
             }
         }
 
@@ -445,7 +369,8 @@
 
                 this.AddGlobalStyles();
 
-                this.AddJavaScripts();
+                Utils.AddFolderJavaScripts(this, "Scripts", true);
+                Utils.AddFolderJavaScripts(this, string.Format("themes/{0}", this.theme), true);
 
                 if (BlogSettings.Instance.EnableOpenSearch)
                 {
@@ -466,7 +391,7 @@
 
             if (this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
-                this.AddJavaScriptInclude(string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, true);
+                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, true);
             }
 
             if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)

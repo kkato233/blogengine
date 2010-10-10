@@ -231,7 +231,6 @@ public class Comments  : System.Web.Services.WebService {
     public static JsonComment SaveComment(string id, string author, string email, string website, string cont)
     {
         Guid gId = new Guid(id);
-        JsonComment jc = new JsonComment();
         
         foreach (Post p in Post.Posts.ToArray())
         {
@@ -249,7 +248,7 @@ public class Comments  : System.Web.Services.WebService {
                 }
             }
         }
-        return jc;
+        return new JsonComment();
     }
 
     protected void RemoveComment(Comment comment)
