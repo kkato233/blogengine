@@ -196,6 +196,8 @@ function LoadProfile() {
 
 //--------------    COMMENTS
 
+var rowLoading = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+
 function ProcessSelected(action, page) {
     var vals = new Array();
     var cnt = 0;
@@ -272,6 +274,8 @@ function EditComment(id) {
     var hRow = oRow.html();
     editingComment = hRow;
 
+    $(oRow).html(rowLoading);
+
     var dto = { "id": id };
     $.ajax({
         url: "Approved.aspx/GetComment",
@@ -284,6 +288,7 @@ function EditComment(id) {
             oRow.processTemplate(result);
         }
     });
+
     return false;
 }
 
@@ -344,8 +349,7 @@ function DeleteComment(id) {
     var oRow = $("[id$='" + id + "']");
     var hRow = oRow.html();
 
-    var loader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
-    oRow.html(loader);
+    oRow.html(rowLoading);
 
     var vals = new Array();
     vals[0] = id;
