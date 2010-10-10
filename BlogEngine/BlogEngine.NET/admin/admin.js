@@ -203,6 +203,8 @@ function LoadProfile() {
 
 //--------------    COMMENTS
 
+var rowLoading = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+
 function ProcessSelected(action, page) {
    var vals = new Array();
 
