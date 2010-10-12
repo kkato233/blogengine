@@ -13,7 +13,7 @@ namespace BlogEngine.Core.Compilation
     /// Server Variable Expression Builder
     /// </summary>
     [ExpressionPrefix("ServerVariable")]
-    [ExpressionEditor("WebApp.Compilation.Design.ServerVariableExpressionEditor, WebApp")]
+    [ExpressionEditor("BlogEngine.Core.Compilation.Design.ServerVariableExpressionEditor, BlogEngine.Core")]
     public class ServerVariableExpressionBuilder : BaseServerObjectExpressionBuilder
     {
         #region Properties
