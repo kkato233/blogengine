@@ -279,24 +279,21 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            while (rdr.Read())
                             {
-                                while (rdr.Read())
-                                {
-                                    var br = new BlogRollItem
-                                        {
-                                            Id = rdr.GetGuid(0),
-                                            Title = rdr.GetString(1),
-                                            Description = rdr.IsDBNull(2) ? string.Empty : rdr.GetString(2),
-                                            BlogUrl = rdr.IsDBNull(3) ? null : new Uri(rdr.GetString(3)),
-                                            FeedUrl = rdr.IsDBNull(4) ? null : new Uri(rdr.GetString(4)),
-                                            Xfn = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5),
-                                            SortIndex = rdr.GetInt32(6)
-                                        };
+                                var br = new BlogRollItem
+                                    {
+                                        Id = rdr.GetGuid(0),
+                                        Title = rdr.GetString(1),
+                                        Description = rdr.IsDBNull(2) ? string.Empty : rdr.GetString(2),
+                                        BlogUrl = rdr.IsDBNull(3) ? null : new Uri(rdr.GetString(3)),
+                                        FeedUrl = rdr.IsDBNull(4) ? null : new Uri(rdr.GetString(4)),
+                                        Xfn = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5),
+                                        SortIndex = rdr.GetInt32(6)
+                                    };
 
-                                    blogRoll.Add(br);
-                                    br.MarkOld();
-                                }
+                                blogRoll.Add(br);
+                                br.MarkOld();
                             }
                         }
                     }
@@ -334,21 +331,18 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            while (rdr.Read())
                             {
-                                while (rdr.Read())
-                                {
-                                    var cat = new Category
-                                        {
-                                            Title = rdr.GetString(1),
-                                            Description = rdr.IsDBNull(2) ? string.Empty : rdr.GetString(2),
-                                            Parent = rdr.IsDBNull(3) ? (Guid?)null : new Guid(rdr.GetGuid(3).ToString()),
-                                            Id = new Guid(rdr.GetGuid(0).ToString())
-                                        };
+                                var cat = new Category
+                                    {
+                                        Title = rdr.GetString(1),
+                                        Description = rdr.IsDBNull(2) ? string.Empty : rdr.GetString(2),
+                                        Parent = rdr.IsDBNull(3) ? (Guid?)null : new Guid(rdr.GetGuid(3).ToString()),
+                                        Id = new Guid(rdr.GetGuid(0).ToString())
+                                    };
 
-                                    categories.Add(cat);
-                                    cat.MarkOld();
-                                }
+                                categories.Add(cat);
+                                cat.MarkOld();
                             }
                         }
                     }
@@ -513,23 +507,20 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            while (rdr.Read())
                             {
-                                while (rdr.Read())
-                                {
-                                    var refer = new Referrer
-                                        {
-                                            Id = rdr.GetGuid(0),
-                                            Day = rdr.GetDateTime(1),
-                                            ReferrerUrl = new Uri(rdr.GetString(2)),
-                                            Count = rdr.GetInt32(3),
-                                            Url = rdr.IsDBNull(4) ? null : new Uri(rdr.GetString(4)),
-                                            PossibleSpam = rdr.IsDBNull(5) ? false : rdr.GetBoolean(5)
-                                        };
+                                var refer = new Referrer
+                                    {
+                                        Id = rdr.GetGuid(0),
+                                        Day = rdr.GetDateTime(1),
+                                        ReferrerUrl = new Uri(rdr.GetString(2)),
+                                        Count = rdr.GetInt32(3),
+                                        Url = rdr.IsDBNull(4) ? null : new Uri(rdr.GetString(4)),
+                                        PossibleSpam = rdr.IsDBNull(5) ? false : rdr.GetBoolean(5)
+                                    };
 
-                                    referrers.Add(refer);
-                                    refer.MarkOld();
-                                }
+                                referrers.Add(refer);
+                                refer.MarkOld();
                             }
                         }
                     }
@@ -1540,10 +1531,8 @@
                         conn.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
-                                rdr.Read();
-
                                 page.Id = rdr.GetGuid(0);
                                 page.Title = rdr.IsDBNull(1) ? String.Empty : rdr.GetString(1);
                                 page.Content = rdr.IsDBNull(3) ? String.Empty : rdr.GetString(3);
@@ -1639,10 +1628,8 @@
 
                     using (var rdr = cmd.ExecuteReader())
                     {
-                        if (rdr.HasRows)
+                        if (rdr.Read())
                         {
-                            rdr.Read();
-
                             post.Id = rdr.GetGuid(0);
                             post.Title = rdr.GetString(1);
                             post.Content = rdr.GetString(3);

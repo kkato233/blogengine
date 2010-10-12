@@ -87,6 +87,7 @@
                     cmd.CommandType = CommandType.Text;
                     foreach (var user in usernames)
                     {
+                        cmd.Parameters.Clear();
                         cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
                         var userDp = provider.CreateParameter();
                         if (userDp != null)
@@ -100,6 +101,7 @@
 
                         foreach (var role in roleNames)
                         {
+                            cmd.Parameters.Clear();
                             cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
                             var roleDp = provider.CreateParameter();
                             if (roleDp != null)
@@ -563,7 +565,7 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
                                 roleFound = true;
                             }
@@ -598,6 +600,7 @@
                         cmd.CommandType = CommandType.Text;
                         foreach (var user in usernames)
                         {
+                            cmd.Parameters.Clear();
                             cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
                             var userDp = provider.CreateParameter();
                             if (userDp != null)
@@ -624,6 +627,7 @@
 
                             foreach (var role in roleNames)
                             {
+                                cmd.Parameters.Clear();
                                 cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
                                 var roleDp = provider.CreateParameter();
                                 if (roleDp != null)
@@ -696,7 +700,7 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
                                 roleFound = true;
                             }

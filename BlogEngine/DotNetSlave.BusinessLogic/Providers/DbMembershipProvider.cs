@@ -215,9 +215,8 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
-                                rdr.Read();
                                 var actualPassword = rdr.GetString(0);
                                 if (actualPassword == string.Empty)
                                 {
@@ -575,9 +574,8 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
-                                rdr.Read();
                                 user = this.GetMembershipUser(username, rdr.GetString(1), rdr.GetDateTime(2));
                             }
                         }
@@ -630,9 +628,8 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
-                                rdr.Read();
                                 userName = rdr.GetString(0);
                             }
                         }
@@ -791,9 +788,8 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
-                                rdr.Read();
                                 oldPassword = rdr.GetString(0);
                             }
                         }
@@ -914,9 +910,8 @@
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
+                            if (rdr.Read())
                             {
-                                rdr.Read();
                                 var storedPwd = rdr.GetString(0);
 
                                 if (storedPwd == string.Empty)
