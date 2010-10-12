@@ -126,7 +126,7 @@
             }
 
             this.response.Success = true;
-            this.response.Message = string.Format("Pforile {0} updated", vals[0]);
+            this.response.Message = string.Format("Profile {0} updated", vals[0]);
             return this.response;
         }
 

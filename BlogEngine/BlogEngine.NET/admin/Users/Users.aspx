@@ -11,7 +11,7 @@
             var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
             var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
             row += '<td>' + txtUser + '</td><td class="editable">' + txtEmail + '</td>';
-            row += '<td align="center"><a href="Profile.aspx?id="' + txtUser + '">profile</a></td>';
+            row += '<td align="center"><a href="Profile.aspx?id=' + txtUser + '">profile</a></td>';
             row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
             row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
 

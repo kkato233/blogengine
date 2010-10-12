@@ -22,12 +22,12 @@
             <input type="text" id="txtBirthday" class="txt200" value="{formatJSONDate($T.d.Birthday)}" />
 
             <span class="lbl200">Photo URL</span>
-            <input type="text" id="txtPhotoURL" class="txt200" value="{$T.d.PhotoURL}" />
+            <input type="text" id="txtPhotoURL" class="txt200" value="{$T.d.PhotoUrl}" />
 
             <span class="lbl200">&nbsp;</span>
             <div class="clear"></div>
             <div style="padding-top: 8px">
-                <input type="checkbox" id="chkPrivate" {#if $T.d.IsPrivate} checked {#/if} />
+                <input type="checkbox" id="chkPrivate" {#if $T.d.Private} checked {#/if} />
                 <span class="lbl">Is Private</span>
             </div>
         </div>
