@@ -111,6 +111,16 @@ namespace Controls
     internal sealed class DefaultWidgetContainer : WidgetContainer
     {
 
+        /// <summary>
+        /// The phWidgetBody instance needed by all WidgetContainers.
+        /// </summary>
+        private System.Web.UI.WebControls.PlaceHolder phWidgetBody = new System.Web.UI.WebControls.PlaceHolder(){ID = "phWidgetBody"};
+
+        internal DefaultWidgetContainer() : base()
+        {
+            this.Controls.Add(this.phWidgetBody);
+        }
+
         protected override void Render(HtmlTextWriter writer)
         {
 
