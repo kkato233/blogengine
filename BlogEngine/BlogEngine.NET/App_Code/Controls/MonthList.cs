@@ -89,7 +89,7 @@
                         CacheKey, months, null, DateTime.Now.AddHours(CacheTimeoutInHours), Cache.NoSlidingExpiration);
 
                     foreach (var month in
-                        Post.Posts.Where(post => post.VisibleToPublic).Select(
+                        Post.Posts.Where(post => post.IsVisibleToPublic).Select(
                             post => new DateTime(post.DateCreated.Year, post.DateCreated.Month, 1)))
                     {
                         int count;

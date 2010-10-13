@@ -143,7 +143,7 @@
             var dic = new Dictionary<string, Concept>();
             foreach (var post in Post.Posts)
             {
-                if (!post.Visible)
+                if (!post.IsVisible)
                 {
                     continue;
                 }

@@ -130,9 +130,9 @@ namespace Admin.Pages
             this.txtDescription.Text = page.Description;
             this.txtKeyword.Text = page.Keywords;
             this.txtSlug.Text = page.Slug;
-            this.cbFrontPage.Checked = page.FrontPage;
+            this.cbFrontPage.Checked = page.IsFrontPage;
             this.cbShowInList.Checked = page.ShowInList;
-            this.cbPublished.Checked = page.Published;
+            this.cbPublished.Checked = page.IsPublished;
         }
 
         /// <summary>
@@ -348,16 +348,16 @@ namespace Admin.Pages
 
             if (this.cbFrontPage.Checked)
             {
-                foreach (var otherPage in BlogEngine.Core.Page.Pages.Where(otherPage => otherPage.FrontPage))
+                foreach (var otherPage in BlogEngine.Core.Page.Pages.Where(otherPage => otherPage.IsFrontPage))
                 {
-                    otherPage.FrontPage = false;
+                    otherPage.IsFrontPage = false;
                     otherPage.Save();
                 }
             }
 
-            page.FrontPage = this.cbFrontPage.Checked;
+            page.IsFrontPage = this.cbFrontPage.Checked;
             page.ShowInList = this.cbShowInList.Checked;
-            page.Published = this.cbPublished.Checked;
+            page.IsPublished = this.cbPublished.Checked;
 
             if (!string.IsNullOrEmpty(this.txtSlug.Text))
             {

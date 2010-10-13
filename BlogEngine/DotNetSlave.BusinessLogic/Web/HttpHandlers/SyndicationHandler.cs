@@ -60,7 +60,7 @@
             {
                 // Shorten the list to the number of posts stated in the settings, except for the comment feed.
                 var max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
-                list = list.FindAll(item => item.Visible);
+                list = list.FindAll(item => item.IsVisible);
 
                 list = list.GetRange(0, max);
             }
@@ -89,7 +89,7 @@
         /// <returns>The cleaned list of IPublishable.</returns>
         private static List<IPublishable> CleanList(List<IPublishable> list)
         {
-            return list.FindAll(item => item.Visible);
+            return list.FindAll(item => item.IsVisible);
         }
 
         /// <summary>

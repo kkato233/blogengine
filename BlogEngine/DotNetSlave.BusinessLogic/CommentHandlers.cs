@@ -41,9 +41,6 @@
         /// <param name="isspam">
         /// True if comment is spam
         /// </param>
-        /// <param name="replaceIfExists">
-        /// True if old filter (if exists) should be removed
-        /// </param>
         public static void AddIpToFilter(string ip, bool isspam)
         {
             var indx = 0;

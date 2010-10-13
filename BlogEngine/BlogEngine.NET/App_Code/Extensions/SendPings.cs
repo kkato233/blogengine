@@ -86,7 +86,7 @@ public class SendPings
         }
 
         var item = (IPublishable)sender;
-        if (!item.VisibleToPublic)
+        if (!item.IsVisibleToPublic)
         {
             return;
         }

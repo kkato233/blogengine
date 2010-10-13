@@ -105,14 +105,14 @@
                 {
                     cell.Controls.Add(new LiteralControl(day.DayNumberText));
                     foreach (var a in
-                        list.Where(post => post.Visible).Select(post => new HtmlAnchor { InnerHtml = string.Format("<br /><br />{0}", post.Title), HRef = post.RelativeLink }))
+                        list.Where(post => post.IsVisible).Select(post => new HtmlAnchor { InnerHtml = string.Format("<br /><br />{0}", post.Title), HRef = post.RelativeLink }))
                     {
                         cell.Controls.Add(a);
                     }
                 }
                 else
                 {
-                    if (list[0].Visible)
+                    if (list[0].IsVisible)
                     {
                         var a = new HtmlAnchor
                             {

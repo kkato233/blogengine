@@ -804,7 +804,7 @@
                     if (published != null)
                     {
                         published.ParameterName = string.Format("{0}ispublished", this.parmPrefix);
-                        published.Value = page.Published;
+                        published.Value = page.IsPublished;
                         cmd.Parameters.Add(published);
                     }
 
@@ -812,7 +812,7 @@
                     if (frontPage != null)
                     {
                         frontPage.ParameterName = string.Format("{0}isfrontpage", this.parmPrefix);
-                        frontPage.Value = page.FrontPage;
+                        frontPage.Value = page.IsFrontPage;
                         cmd.Parameters.Add(frontPage);
                     }
 
@@ -914,7 +914,7 @@
 
                     var dpPublished = provider.CreateParameter();
                     dpPublished.ParameterName = this.parmPrefix + "published";
-                    dpPublished.Value = post.Published;
+                    dpPublished.Value = post.IsPublished;
                     cmd.Parameters.Add(dpPublished);
 
                     var dpCommentEnabled = provider.CreateParameter();
@@ -1554,12 +1554,12 @@
 
                                 if (!rdr.IsDBNull(7))
                                 {
-                                    page.Published = rdr.GetBoolean(7);
+                                    page.IsPublished = rdr.GetBoolean(7);
                                 }
 
                                 if (!rdr.IsDBNull(8))
                                 {
-                                    page.FrontPage = rdr.GetBoolean(8);
+                                    page.IsFrontPage = rdr.GetBoolean(8);
                                 }
 
                                 if (!rdr.IsDBNull(9))
@@ -1651,7 +1651,7 @@
 
                             if (!rdr.IsDBNull(7))
                             {
-                                post.Published = rdr.GetBoolean(7);
+                                post.IsPublished = rdr.GetBoolean(7);
                             }
 
                             if (!rdr.IsDBNull(8))
@@ -2165,7 +2165,7 @@
                     if (published != null)
                     {
                         published.ParameterName = string.Format("{0}ispublished", this.parmPrefix);
-                        published.Value = page.Published;
+                        published.Value = page.IsPublished;
                         cmd.Parameters.Add(published);
                     }
 
@@ -2173,7 +2173,7 @@
                     if (frontPage != null)
                     {
                         frontPage.ParameterName = string.Format("{0}isfrontpage", this.parmPrefix);
-                        frontPage.Value = page.FrontPage;
+                        frontPage.Value = page.IsFrontPage;
                         cmd.Parameters.Add(frontPage);
                     }
 
@@ -2275,7 +2275,7 @@
 
                     var dpPublished = provider.CreateParameter();
                     dpPublished.ParameterName = this.parmPrefix + "published";
-                    dpPublished.Value = post.Published;
+                    dpPublished.Value = post.IsPublished;
                     cmd.Parameters.Add(dpPublished);
 
                     var dpCommentEnabled = provider.CreateParameter();

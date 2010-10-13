@@ -91,7 +91,7 @@
         ///     be added to the form to update and store input
         /// </summary>
         [XmlElement]
-        public bool Scalar { get; set; }
+        public bool IsScalar { get; set; }
 
         /// <summary>
         ///     Gets or sets a field used as primary key for settings.
@@ -574,7 +574,7 @@
         {
             var dic = new Dictionary<string, string>();
 
-            if (this.Scalar)
+            if (this.IsScalar)
             {
                 foreach (var par in this.Parameters)
                 {

@@ -79,7 +79,7 @@
             {
                 Comments.Clear();
                 var comments = (from post in Post.Posts
-                                where post.Visible
+                                where post.IsVisible
                                 from comment in post.Comments
                                 where comment.IsApproved
                                 select comment).ToList();

@@ -144,7 +144,7 @@ public partial class WidgetsTagCloudWidget : WidgetBase
     private static SortedDictionary<string, int> CreateRawList()
     {
         var dic = new SortedDictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
-        foreach (var tag in Post.Posts.Where(post => post.VisibleToPublic).SelectMany(post => post.Tags))
+        foreach (var tag in Post.Posts.Where(post => post.IsVisibleToPublic).SelectMany(post => post.Tags))
         {
             if (dic.ContainsKey(tag))
             {

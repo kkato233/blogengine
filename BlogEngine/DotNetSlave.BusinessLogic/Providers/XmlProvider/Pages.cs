@@ -79,9 +79,9 @@
                 writer.WriteElementString("keywords", page.Keywords);
                 writer.WriteElementString("slug", page.Slug);
                 writer.WriteElementString("parent", page.Parent.ToString());
-                writer.WriteElementString("isfrontpage", page.FrontPage.ToString());
+                writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
                 writer.WriteElementString("showinlist", page.ShowInList.ToString());
-                writer.WriteElementString("ispublished", page.Published.ToString());
+                writer.WriteElementString("ispublished", page.IsPublished.ToString());
                 writer.WriteElementString(
                     "datecreated", 
                     page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString(
@@ -126,7 +126,7 @@
 
             if (doc.SelectSingleNode("page/isfrontpage") != null)
             {
-                page.FrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
+                page.IsFrontPage = bool.Parse(doc.SelectSingleNode("page/isfrontpage").InnerText);
             }
 
             if (doc.SelectSingleNode("page/showinlist") != null)
@@ -136,7 +136,7 @@
 
             if (doc.SelectSingleNode("page/ispublished") != null)
             {
-                page.Published = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
+                page.IsPublished = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
             }
 
             page.DateCreated = DateTime.Parse(

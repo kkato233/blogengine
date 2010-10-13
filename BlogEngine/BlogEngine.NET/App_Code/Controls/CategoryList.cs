@@ -157,7 +157,7 @@
         private static bool HasPosts(Category cat)
         {
             return
-                Post.Posts.Where(post => post.Visible).SelectMany(post => post.Categories).Any(
+                Post.Posts.Where(post => post.IsVisible).SelectMany(post => post.Categories).Any(
                     category => category == cat);
         }
 
@@ -222,7 +222,7 @@
                     li.Controls.Add(feedAnchor);
                 }
 
-                var posts = Post.GetPostsByCategory(dic[key]).FindAll(p => p.Visible).Count;
+                var posts = Post.GetPostsByCategory(dic[key]).FindAll(p => p.IsVisible).Count;
 
                 var postCount = string.Format(" ({0})", posts);
                 if (!this.ShowPostCount)

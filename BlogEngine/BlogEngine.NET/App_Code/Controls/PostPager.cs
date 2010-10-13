@@ -185,7 +185,7 @@
             var currentPage = PageIndex();
             var pagesTotal = 1;
 
-            var visiblePosts = this.Posts.FindAll(p => p.Visible);
+            var visiblePosts = this.Posts.FindAll(p => p.IsVisible);
             var postCnt = visiblePosts.Count;
 
             pagesTotal = postCnt % postsPerPage == 0 ? postCnt / postsPerPage : (postCnt / postsPerPage) + 1;

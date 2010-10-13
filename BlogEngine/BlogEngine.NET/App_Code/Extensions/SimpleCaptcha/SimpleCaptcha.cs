@@ -51,7 +51,7 @@ namespace SimpleCaptcha
         /// </summary>
         private void InitSettings()
         {
-            var settings = new ExtensionSettings(this) { Scalar = true };
+            var settings = new ExtensionSettings(this) { IsScalar = true };
 
             settings.AddParameter("CaptchaLabel", "Your captcha's label", 30, true, true, ParameterType.String);
             settings.AddValue("CaptchaLabel", "5+5 = ");

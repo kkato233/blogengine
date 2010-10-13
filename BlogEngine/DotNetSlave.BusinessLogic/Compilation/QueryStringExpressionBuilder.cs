@@ -13,7 +13,7 @@ namespace BlogEngine.Core.Compilation
     /// Query String Expression Builder
     /// </summary>
     [ExpressionPrefix("QueryString")]
-    [ExpressionEditor("WebApp.Compilation.Design.QueryStringExpressionEditor, WebApp")]
+    [ExpressionEditor("BlogEngine.Core.Compilation.Design.QueryStringExpressionEditor, BlogEngine.Core")]
     public class QueryStringExpressionBuilder : BaseServerObjectExpressionBuilder
     {
         #region Properties

@@ -34,7 +34,7 @@
             url = url.Substring(start, stop - start);
 
             return Page.Pages
-                .Where(page => page.Visible && url.Equals(Utils.RemoveIllegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
+                .Where(page => page.IsVisible && url.Equals(Utils.RemoveIllegalCharacters(page.Title), StringComparison.OrdinalIgnoreCase))
                 .Select(page => new SiteMapNode(this, page.Id.ToString(), page.RelativeLink, page.Title, page.Description)).FirstOrDefault();
         }
 
@@ -51,7 +51,7 @@
         {
             var col = new SiteMapNodeCollection();
             var id = new Guid(node.Key);
-            foreach (var page in Page.Pages.Where(page => page.Visible && page.Parent == id && page.ShowInList))
+            foreach (var page in Page.Pages.Where(page => page.IsVisible && page.Parent == id && page.ShowInList))
             {
                 col.Add(new SiteMapNode(this, page.Id.ToString(), page.RelativeLink, page.Title, page.Description));
             }
@@ -75,7 +75,7 @@
             if (parentId != Guid.Empty && parentId != id)
             {
                 var parent = Page.GetPage(parentId);
-                if (parent.Visible)
+                if (parent.IsVisible)
                 {
                     return new SiteMapNode(
                         this, parent.Id.ToString(), parent.RelativeLink, parent.Title, parent.Description);

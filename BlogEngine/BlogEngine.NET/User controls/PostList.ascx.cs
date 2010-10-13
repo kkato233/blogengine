@@ -88,7 +88,7 @@ namespace UserControls
                 return;
             }
 
-            var visiblePosts = this.Posts.FindAll(p => p.Visible);
+            var visiblePosts = this.Posts.FindAll(p => p.IsVisible);
 
             var count = Math.Min(BlogSettings.Instance.PostsPerPage, visiblePosts.Count);
             var page = this.GetPageIndex();
