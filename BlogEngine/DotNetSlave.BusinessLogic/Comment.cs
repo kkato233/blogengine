@@ -26,11 +26,6 @@
         /// </summary>
         private DateTime dateCreated = DateTime.MinValue;
 
-        /// <summary>
-        /// String representing avatar image.
-        /// </summary>
-        private string avatar;
-
         #endregion
 
         #region Events
@@ -178,7 +173,7 @@
         /// <summary>
         ///     Gets a value indicating whether or not this comment has been published
         /// </summary>
-        public bool Published
+        public bool IsPublished
         {
             get
             {
@@ -190,7 +185,7 @@
         ///     Gets a value indicating whether or not this comment should be shown
         /// </summary>
         /// <value></value>
-        public bool Visible
+        public bool IsVisible
         {
             get
             {
@@ -202,7 +197,7 @@
         ///     Gets a value indicating whether or not this comment is visible to visitors not logged into the blog.
         /// </summary>
         /// <value></value>
-        public bool VisibleToPublic
+        public bool IsVisibleToPublic
         {
             get
             {

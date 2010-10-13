@@ -210,7 +210,7 @@
 
             foreach (var post in Post.Posts)
             {
-                if (post.Published || post.Id == id)
+                if (post.IsPublished || post.Id == id)
                 {
                     continue;
                 }
@@ -261,7 +261,7 @@
             this.txtDescription.Text = post.Description;
             this.txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH\\:mm");
             this.cbEnableComments.Checked = post.HasCommentsEnabled;
-            this.cbPublish.Checked = post.Published;
+            this.cbPublish.Checked = post.IsPublished;
             this.txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
 
             this.PreSelectAuthor(post.Author);
@@ -436,7 +436,7 @@
             post.Title = this.txtTitle.Text.Trim();
             post.Content = this.txtContent.Text;
             post.Description = this.txtDescription.Text.Trim();
-            post.Published = this.cbPublish.Checked;
+            post.IsPublished = this.cbPublish.Checked;
             post.HasCommentsEnabled = this.cbEnableComments.Checked;
 
             if (!string.IsNullOrEmpty(this.txtSlug.Text))

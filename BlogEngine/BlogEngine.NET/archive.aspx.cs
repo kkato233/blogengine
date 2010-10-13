@@ -64,7 +64,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		{
 			bool postsExist = cat.Posts.FindAll(delegate(Post post)
 			{
-				return post.Visible;
+				return post.IsVisible;
 			}).Count > 0;
 
 			if (postsExist)
@@ -79,7 +79,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 		foreach (Category cat in Category.Categories)
 		{
 			string name = cat.Title;
-			List<Post> list = cat.Posts.FindAll(delegate(Post p) { return p.Visible; });
+			List<Post> list = cat.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
 
 			HtmlGenericControl h2 = CreateRowHeader(cat, name, list.Count);
 			phArchive.Controls.Add(h2);
@@ -93,7 +93,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 			phArchive.Controls.Add(table);
 		}
 
-		List<Post> noCatList = Post.Posts.FindAll(delegate(Post p) { return p.Categories.Count == 0 && p.Visible; });
+		List<Post> noCatList = Post.Posts.FindAll(delegate(Post p) { return p.Categories.Count == 0 && p.IsVisible; });
 		if (noCatList.Count > 0)
 		{
 			string name = Resources.labels.uncategorized;
@@ -212,7 +212,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		int comments = 0;
 		int raters = 0;
-		List<Post> posts = Post.Posts.FindAll(delegate(Post p) { return p.Visible; });
+		List<Post> posts = Post.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
 		foreach (Post post in posts)
 		{
 			comments += post.ApprovedComments.Count;

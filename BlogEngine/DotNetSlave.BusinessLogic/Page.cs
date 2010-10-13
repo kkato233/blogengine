@@ -179,7 +179,7 @@
         /// <summary>
         ///     Gets or sets a value indicating whether or not this page should be displayed on the front page.
         /// </summary>
-        public bool FrontPage
+        public bool IsFrontPage
         {
             get
             {
@@ -267,7 +267,7 @@
         /// <summary>
         ///     Gets or sets a value indicating whether or not this page should be published.
         /// </summary>
-        public bool Published
+        public bool IsPublished
         {
             get
             {
@@ -371,11 +371,11 @@
         ///     Gets a value indicating whether or not this page should be shown
         /// </summary>
         /// <value></value>
-        public bool Visible
+        public bool IsVisible
         {
             get
             {
-                return this.Authenticated || this.Published;
+                return this.Authenticated || this.IsPublished;
             }
         }
 
@@ -383,11 +383,11 @@
         ///     Gets a value indicating whether or not this page is visible to visitors not logged into the blog.
         /// </summary>
         /// <value></value>
-        public bool VisibleToPublic
+        public bool IsVisibleToPublic
         {
             get
             {
-                return this.Published;
+                return this.IsPublished;
             }
         }
 
@@ -428,7 +428,7 @@
             // if (page.FrontPage)
             // return page;
             // }
-            return Pages.Find(page => page.FrontPage);
+            return Pages.Find(page => page.IsFrontPage);
 
             // return null;
         }

@@ -515,7 +515,7 @@ namespace App_Code.Extensions
         /// </summary>
         private void InitSettings()
         {
-            var extensionSettings = new ExtensionSettings(this) { Scalar = true };
+            var extensionSettings = new ExtensionSettings(this) { IsScalar = true };
 
             extensionSettings.AddParameter("SiteURL", "Site URL");
             extensionSettings.AddParameter("ApiKey", "API Key");

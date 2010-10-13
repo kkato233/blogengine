@@ -64,7 +64,7 @@
         /// <summary>
         ///     Gets a value indicating whether or not this item is published.
         /// </summary>
-        bool Published { get; }
+        bool IsPublished { get; }
 
         /// <summary>
         ///     Gets the relative link.
@@ -80,12 +80,12 @@
         /// <summary>
         ///     Gets a value indicating whether or not this item should be shown.
         /// </summary>
-        bool Visible { get; }
+        bool IsVisible { get; }
 
         /// <summary>
         ///     Gets a value indicating whether or not this item is visible to the public.
         /// </summary>
-        bool VisibleToPublic { get; }
+        bool IsVisibleToPublic { get; }
 
         #endregion
 

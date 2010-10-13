@@ -409,7 +409,7 @@
                 writer.WriteAttributeString(
                     "hasexcerpt", (!string.IsNullOrEmpty(post.Description)).ToString().ToLowerInvariant());
                 writer.WriteAttributeString("views", "0");
-                writer.WriteAttributeString("is-published", post.Published.ToString());
+                writer.WriteAttributeString("is-published", post.IsPublished.ToString());
 
                 AddPostTitle(writer, post);
                 AddPostContent(writer, post);

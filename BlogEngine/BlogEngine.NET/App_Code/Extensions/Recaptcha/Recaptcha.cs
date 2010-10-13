@@ -109,7 +109,7 @@
         /// </summary>
         public void InitSettings()
         {
-            var settings = new ExtensionSettings(this) { Scalar = true };
+            var settings = new ExtensionSettings(this) { IsScalar = true };
 
             settings.AddParameter("PublicKey", "Public Key", 50, true, true, ParameterType.String);
             settings.AddValue("PublicKey", "YOURPUBLICKEY");

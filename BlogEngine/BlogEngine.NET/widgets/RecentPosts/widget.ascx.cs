@@ -43,7 +43,7 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 		
 			List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p)
 			{
-				return p.VisibleToPublic;
+				return p.IsVisibleToPublic;
 			});
 
 			int max = Math.Min(visiblePosts.Count, numberOfPosts);
@@ -82,7 +82,7 @@ public partial class widgets_RecentPosts_widget : WidgetBase
 
 		foreach (Post post in posts)
 		{
-			if (!post.VisibleToPublic)
+			if (!post.IsVisibleToPublic)
 				continue;
 
 			string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);

@@ -74,7 +74,7 @@
 
             if (!this.Page.IsPostBack)
             {
-                if (this.Settings.Scalar)
+                if (this.Settings.IsScalar)
                 {
                     this.BindScalar();
                 }
@@ -85,7 +85,7 @@
                 }
             }
 
-            if (this.Settings.Scalar)
+            if (this.Settings.IsScalar)
             {
                 this.btnAdd.Text = labels.save;
             }
@@ -132,7 +132,7 @@
                         {
                             var txt = (TextBox)ctl;
 
-                            if (this.Settings.Scalar)
+                            if (this.Settings.IsScalar)
                             {
                                 this.Settings.UpdateScalarValue(txt.ID, txt.Text);
                             }
@@ -175,7 +175,7 @@
             }
 
             ExtensionManager.SaveSettings(this.SettingName, this.Settings);
-            if (this.Settings.Scalar)
+            if (this.Settings.IsScalar)
             {
                 this.InfoMsg.InnerHtml = labels.theValuesSaved;
                 this.InfoMsg.Visible = true;
@@ -544,7 +544,7 @@
                 }
 
                 if (txt.Text != null &&
-                    (!this.Settings.Scalar &&
+                    (!this.Settings.IsScalar &&
                      (this.Settings.KeyField == txt.ID && this.Settings.IsKeyValueExists(txt.Text.Trim()))))
                 {
                     this.ErrorMsg.InnerHtml = string.Format("\"{0}\" {1}", txt.Text, labels.isAlreadyExists);

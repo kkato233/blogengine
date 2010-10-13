@@ -49,7 +49,7 @@
                 writer.WriteStartElement("urlset", "http://www.google.com/schemas/sitemap/0.84");
 
                 // Posts
-                foreach (var post in Post.Posts.Where(post => post.VisibleToPublic))
+                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
                 {
                     writer.WriteStartElement("url");
                     writer.WriteElementString("loc", post.AbsoluteLink.ToString());
@@ -60,7 +60,7 @@
                 }
 
                 // Pages
-                foreach (var page in Page.Pages.Where(page => page.VisibleToPublic))
+                foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic))
                 {
                     writer.WriteStartElement("url");
                     writer.WriteElementString("loc", page.AbsoluteLink.ToString());

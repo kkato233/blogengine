@@ -95,7 +95,7 @@
             var ul = new HtmlGenericControl("ul") { ID = "pagelist" };
             ul.Attributes.Add("class", "pagelist");
 
-            foreach (var page in BlogEngine.Core.Page.Pages.Where(page => page.ShowInList && page.VisibleToPublic))
+            foreach (var page in BlogEngine.Core.Page.Pages.Where(page => page.ShowInList && page.IsVisibleToPublic))
             {
                 var li = new HtmlGenericControl("li");
                 var anc = new HtmlAnchor { HRef = page.RelativeLink, InnerHtml = page.Title, Title = page.Description };

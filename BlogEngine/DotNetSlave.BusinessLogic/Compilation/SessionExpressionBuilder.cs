@@ -13,7 +13,7 @@ namespace BlogEngine.Core.Compilation
     /// Session Expression Builder
     /// </summary>
     [ExpressionPrefix("Session")]
-    [ExpressionEditor("WebApp.Compilation.Design.SessionExpressionEditor, WebApp")]
+    [ExpressionEditor("BlogEngine.Core.Compilation.Design.SessionExpressionEditor, BlogEngine.Core")]
     public class SessionExpressionBuilder : BaseServerObjectExpressionBuilder
     {
         #region Properties

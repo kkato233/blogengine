@@ -83,7 +83,7 @@
                 }
 
                 Posts.Clear();
-                foreach (var post in Post.Posts.Where(post => post.VisibleToPublic).Take(number))
+                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic).Take(number))
                 {
                     Posts.Add(post);
                 }
@@ -119,7 +119,7 @@
             var sb = new StringBuilder();
             sb.Append("<ul class=\"recentPosts\" id=\"recentPosts\">");
 
-            foreach (var post in Posts.Where(post => post.VisibleToPublic))
+            foreach (var post in Posts.Where(post => post.IsVisibleToPublic))
             {
                 var rating = Math.Round(post.Rating, 1).ToString(CultureInfo.InvariantCulture);
 
