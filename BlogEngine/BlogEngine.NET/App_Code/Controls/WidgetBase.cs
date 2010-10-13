@@ -113,68 +113,7 @@ public abstract class WidgetBase : UserControl
         {
             throw new NullReferenceException("Name must be set on a widget");
         }
-
-        var sb = new StringBuilder();
-
-        sb.AppendFormat("<div class=\"widget {0}\" id=\"widget{1}\">", this.Name.Replace(" ", string.Empty).ToLowerInvariant(), this.WidgetId);
-
-        sb.Append("<div class=\"widgetContainer\">");
-        sb.Append("<div class=\"Header\">");
-        sb.Append("<div class=\"HeaderLeft\">");
-        sb.Append("<div class=\"HeaderRight\">");
-        sb.Append("<div class=\"HeaderContent\">");
-
-        if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
-        {
-            sb.AppendFormat("<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('{0}');return false\" title=\"{1} widget\">X</a>", this.WidgetId, labels.delete);
-
-            // if (IsEditable)
-            sb.AppendFormat("<a class=\"edit\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.editWidget('{0}', '{1}');return false\" title=\"{2} widget\">{3}</a>", this.Name, this.WidgetId, labels.edit, labels.edit);
-            sb.AppendFormat("<a class=\"move\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.initiateMoveWidget('{0}');return false\" title=\"{1} widget\">{2}</a>", this.WidgetId, labels.move, labels.move);
-        }
-
-        if (this.ShowTitle)
-        {
-            sb.AppendFormat("<h4>{0}</h4>", this.Title);
-        }
-        else
-        {
-            sb.Append("<br />");
-        }
-
-        sb.Append("</div>");
-        sb.Append("</div>");
-        sb.Append("</div>");
-        sb.Append("</div>");
-
-        sb.Append("<div class=\"Body\">");
-        sb.Append("<div class=\"BodyLeft\">");
-        sb.Append("<div class=\"BodyRight\">");
-        sb.Append("<div class=\"BodyContent\">");
-
-        sb.Append("<div class=\"content\">");
-        writer.Write(sb.ToString());
-
         base.Render(writer);
-
-        writer.Write("</div>");
-
-        writer.Write("</div>");
-        writer.Write("</div>");
-        writer.Write("</div>");
-        writer.Write("</div>");
-
-        writer.Write("<div class=\"Footer\">");
-        writer.Write("<div class=\"FooterLeft\">");
-        writer.Write("<div class=\"FooterRight\">");
-        writer.Write("<div class=\"FooterContent\">");
-        writer.Write("</div>");
-        writer.Write("</div>");
-        writer.Write("</div>");
-        writer.Write("</div>");
-        writer.Write("</div>");
-
-        writer.Write("</div>");
     }
 
     #endregion
