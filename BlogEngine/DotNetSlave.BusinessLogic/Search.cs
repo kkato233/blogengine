@@ -316,7 +316,7 @@
             lock (SyncRoot)
             {
                 Catalog.Clear();
-                foreach (var post in Post.Posts.Where(post => post.VisibleToPublic))
+                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
                 {
                     AddItem(post);
                     if (!BlogSettings.Instance.EnableCommentSearch)
@@ -330,7 +330,7 @@
                     }
                 }
 
-                foreach (var page in Page.Pages.Where(page => page.VisibleToPublic))
+                foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic))
                 {
                     AddItem(page);
                 }

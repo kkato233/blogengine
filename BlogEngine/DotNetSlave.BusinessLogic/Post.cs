@@ -354,7 +354,7 @@
         /// <summary>
         ///     Gets or sets a value indicating whether or not the post is published.
         /// </summary>
-        public bool Published
+        public bool IsPublished
         {
             get
             {
@@ -502,23 +502,23 @@
         /// <summary>
         ///     Gets a value indicating whether or not the post is visible or not.
         /// </summary>
-        public bool Visible
+        public bool IsVisible
         {
             get
             {
                 return this.Authenticated ||
-                       (this.Published && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone));
+                       (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone));
             }
         }
 
         /// <summary>
         ///     Gets a value indicating whether a post is available to visitors not logged into the blog.
         /// </summary>
-        public bool VisibleToPublic
+        public bool IsVisibleToPublic
         {
             get
             {
-                return this.Published && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
+                return this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
             }
         }
 

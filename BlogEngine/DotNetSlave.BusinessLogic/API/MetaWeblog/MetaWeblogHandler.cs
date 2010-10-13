@@ -244,7 +244,7 @@
             page.Content = mwaPage.description;
             page.Keywords = mwaPage.mt_keywords;
             page.ShowInList = publish;
-            page.Published = publish;
+            page.IsPublished = publish;
             if (mwaPage.pageParentID != "0")
             {
                 page.Parent = new Guid(mwaPage.pageParentID);
@@ -285,7 +285,7 @@
             post.Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
             post.Title = sentPost.title;
             post.Content = sentPost.description;
-            post.Published = publish;
+            post.IsPublished = publish;
             post.Slug = sentPost.slug;
             post.Description = sentPost.excerpt;
 
@@ -431,7 +431,7 @@
             ValidateRequest(userName, password);
 
             foreach (var tag in
-                Post.Posts.Where(post => post.Visible).SelectMany(post => post.Tags.Where(tag => !keywords.Contains(tag))))
+                Post.Posts.Where(post => post.IsVisible).SelectMany(post => post.Tags.Where(tag => !keywords.Contains(tag))))
             {
                 keywords.Add(tag);
             }
@@ -533,7 +533,7 @@
             sendPost.slug = post.Slug;
             sendPost.excerpt = post.Description;
             sendPost.commentPolicy = post.HasCommentsEnabled ? "1" : "0";
-            sendPost.publish = post.Published;
+            sendPost.publish = post.IsPublished;
 
             var cats = post.Categories.Select(t => Category.GetCategory(t.Id).ToString()).ToList();
 
@@ -590,7 +590,7 @@
                         slug = post.Slug,
                         excerpt = post.Description,
                         commentPolicy = post.HasCommentsEnabled ? string.Empty : "0",
-                        publish = post.Published
+                        publish = post.IsPublished
                     };
 
                 var tempCats = post.Categories.Select(t => Category.GetCategory(t.Id).ToString()).ToList();
@@ -774,7 +774,7 @@
             }
 
             page.ShowInList = publish;
-            page.Published = publish;
+            page.IsPublished = publish;
             if (mwaPage.pageParentID != "0")
             {
                 page.Parent = new Guid(mwaPage.pageParentID);
@@ -815,7 +815,7 @@
                     Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author,
                     Title = sentPost.title,
                     Content = sentPost.description,
-                    Published = publish,
+                    IsPublished = publish,
                     Slug = sentPost.slug,
                     Description = sentPost.excerpt
                 };

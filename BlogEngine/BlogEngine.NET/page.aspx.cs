@@ -55,7 +55,7 @@ public partial class page : BlogBasePage
     {
         this.Page = BlogEngine.Core.Page.GetPage(id);
 
-        if (this.Page == null || (!this.Page.Visible))
+        if (this.Page == null || (!this.Page.IsVisible))
         {
             this.Response.Redirect(string.Format("{0}error404.aspx", Utils.RelativeWebRoot), true);
             return; // WLF: ReSharper is stupid and doesn't know that redirect returns this method.... or does it not...?

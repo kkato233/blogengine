@@ -850,7 +850,7 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             // Skip publishable content if it is not visible
             // ------------------------------------------------------------
-            foreach (var publishable in publishables.Where(publishable => publishable.Visible))
+            foreach (var publishable in publishables.Where(publishable => publishable.IsVisible))
             {
                 // ------------------------------------------------------------
                 // Write <entry> element for publishable content
@@ -1018,7 +1018,7 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             this.WriteRssChannelCommonElements(writer);
 
-            foreach (var publishable in publishables.Where(publishable => publishable.Visible))
+            foreach (var publishable in publishables.Where(publishable => publishable.IsVisible))
             {
                 WriteRssItem(writer, publishable);
             }

@@ -136,7 +136,7 @@
                     DateModified = import.PostDate,
                     Content = import.Content,
                     Description = import.Description,
-                    Published = import.Publish
+                    IsPublished = import.Publish
                 };
 
             // TODO: Save Previous Url?

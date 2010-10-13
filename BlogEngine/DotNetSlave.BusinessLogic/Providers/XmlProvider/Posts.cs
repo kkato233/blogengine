@@ -98,7 +98,7 @@
                 writer.WriteElementString("title", post.Title);
                 writer.WriteElementString("description", post.Description);
                 writer.WriteElementString("content", post.Content);
-                writer.WriteElementString("ispublished", post.Published.ToString());
+                writer.WriteElementString("ispublished", post.IsPublished.ToString());
                 writer.WriteElementString("iscommentsenabled", post.HasCommentsEnabled.ToString());
                 writer.WriteElementString(
                     "pubDate", 
@@ -232,7 +232,7 @@
 
             if (doc.SelectSingleNode("post/ispublished") != null)
             {
-                post.Published = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
+                post.IsPublished = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
             }
 
             if (doc.SelectSingleNode("post/iscommentsenabled") != null)

@@ -109,7 +109,7 @@
                         DateModified = import.PostDate,
                         Content = import.Content,
                         Description = import.Description,
-                        Published = import.Publish
+                        IsPublished = import.Publish
                     })
             {
                 AddCategories(import.Categories, post);

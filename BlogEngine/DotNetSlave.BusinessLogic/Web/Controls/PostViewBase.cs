@@ -249,7 +249,7 @@
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-            if (!this.Post.Visible && !this.Page.User.Identity.IsAuthenticated)
+            if (!this.Post.IsVisible && !this.Page.User.Identity.IsAuthenticated)
             {
                 this.Visible = false;
             }
