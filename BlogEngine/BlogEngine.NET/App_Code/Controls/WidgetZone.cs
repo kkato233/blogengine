@@ -84,6 +84,7 @@
 
         #region Methods
 
+       
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
         /// </summary>
@@ -121,11 +122,19 @@
                 return;
             }
 
+            // This is for compatibility with older themes that do not have a WidgetContainer control.
+            var absWCPath = this.Page.Server.MapPath(String.Format("~/themes/{0}/WidgetContainer.ascx", BlogSettings.Instance.Theme));
+            bool widgetContainerExists = File.Exists(absWCPath);
+
+            var widgetContainerPath = String.Format("{0}/themes/{1}/WidgetContainer.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
+            
+
             foreach (XmlNode widget in zone)
             {
                 var fileName = string.Format("{0}widgets/{1}/widget.ascx", Utils.RelativeWebRoot, widget.InnerText);
                 try
                 {
+
                     var control = (WidgetBase)this.Page.LoadControl(fileName);
                     if (widget.Attributes != null)
                     {
@@ -140,7 +149,16 @@
                     control.Zone = this.zoneName;
 
                     control.LoadWidget();
-                    this.Controls.Add(control);
+
+                    // If a custom WidgetContainer can't be found, create a new DefaultWidgetContainer instance as it
+                    // provides backwards compatibility with existing themes that may have depended on WidgetBase's
+                    // old rendering method.
+                    var widgetContainer = (widgetContainerExists ? (WidgetContainer)this.Page.LoadControl(widgetContainerPath) : new DefaultWidgetContainer());
+                   
+                    widgetContainer.Widget = control;
+                    this.Controls.Add(widgetContainer);
+
+                  
                 }
                 catch (Exception ex)
                 {
@@ -153,7 +171,7 @@
                     {
                         lit.Text +=
                             string.Format(
-                                "<a class=\"delete\" href=\"javascript:void(0)\" onclick=\"BlogEngine.widgetAdmin.removeWidget('{0}');return false\" title=\"{1} widget\">X</a>", 
+                                "<a class=\"delete\" href=\"#\" onclick=\"BlogEngine.widgetAdmin.removeWidget('{0}');return false\" title=\"{1} widget\">X</a>", 
                                 widget.Attributes["id"].InnerText, 
                                 labels.delete);
                     }
