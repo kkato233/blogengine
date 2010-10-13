@@ -24,7 +24,7 @@ namespace BlogEngine.Core.Compilation
     ///     &lt;/compilation&gt;
     /// </example>
     [ExpressionPrefix("Code")]
-    [ExpressionEditor("WebApp.Compilation.Design.CodeExpressionEditor, WebApp")]
+    [ExpressionEditor("BlogEngine.Core.Compilation.Design.CodeExpressionEditor, BlogEngine.Core")]
     public class CodeExpressionBuilder : ExpressionBuilder
     {
         #region Public Methods
