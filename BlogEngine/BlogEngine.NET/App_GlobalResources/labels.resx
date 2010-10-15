@@ -1212,20 +1212,35 @@
   <data name="pendingApproval" xml:space="preserve">
     <value>Comments will be pending administrator's approval</value>
   </data>
-	<data name="Referrers_BindTable_Total">
-		<value xml:space="preserve">Total</value>
-		<comment>
+  <data name="Referrers_BindTable_Total" xml:space="preserve">
+    <value>Total</value>
+    <comment>
 			Footer row text of first cell
 		</comment>
-	</data>
-	<data name="Configuration_OnInit_Please_specify_a_number">
-		<value xml:space="preserve">Please specify a number</value>
-		<comment>
+  </data>
+  <data name="Configuration_OnInit_Please_specify_a_number" xml:space="preserve">
+    <value>Please specify a number</value>
+    <comment>
 			valDescChar Error Message
 		</comment>
-	</data>
-	<data name="Configuration_BtnTestSmtpClick_Test_successfull">
-		<value xml:space="preserve">Test successfull</value>
-		<comment>Smtp status text</comment>
-	</data>
+  </data>
+  <data name="Configuration_BtnTestSmtpClick_Test_successfull" xml:space="preserve">
+    <value>Test successfull</value>
+    <comment>Smtp status text</comment>
+  </data>
+  <data name="allowRemoteFileDownloads" xml:space="preserve">
+    <value>Allow remote file downloads</value>
+  </data>
+  <data name="allowRemoteFileDownloadsDescription" xml:space="preserve">
+    <value>Allow the server's handlers to download/cache/process resources on other websites.</value>
+  </data>
+  <data name="remoteTimeout" xml:space="preserve">
+    <value>Max remote download time</value>
+  </data>
+  <data name="remoteTimeoutDescription" xml:space="preserve">
+    <value>The maximum length of time(milliseconds) the server can spend downloading a remote resource. Set to 0 for unlimited. Default is 30000.</value>
+  </data>
+  <data name="securitySettings" xml:space="preserve">
+    <value>Security Settings</value>
+  </data>
 </root>

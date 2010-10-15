@@ -46,13 +46,17 @@
         /// </param>
         public static void Send(IPublishable item, Uri itemUrl)
         {
+
             foreach (var url in GetUrlsFromContent(item.Content))
             {
                 var trackbackSent = false;
 
                 if (BlogSettings.Instance.EnableTrackBackSend)
                 {
-                    var pageContent = Utils.DownloadWebPage(url); // ReadFromWeb(url);
+                    // ignoreRemoteDownloadSettings should be set to true
+                    // for backwards compatibilty with Utils.DownloadWebPage.
+                    var remoteFile = new RemoteFile(url, true);
+                    var pageContent = remoteFile.GetFileAsString(); // ReadFromWeb(url);
                     var trackbackUrl = GetTrackBackUrlFromPage(pageContent);
 
                     if (trackbackUrl != null)
@@ -106,29 +110,6 @@
 
             return urlsList;
         }
-
-/*
-        /// <summary>
-        /// Returns the HTML code of a given URL.
-        /// </summary>
-        /// <param name="sourceUrl">
-        /// The URL you want to extract the html code.
-        /// </param>
-        /// <returns>
-        /// The read from web.
-        /// </returns>
-        private static string ReadFromWeb(Uri sourceUrl)
-        {
-            string html;
-            using (var client = new WebClient())
-            {
-                client.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)");
-                html = client.DownloadString(sourceUrl);
-            }
-
-            return html;
-        }
-*/
 
         #endregion
     }

@@ -30,7 +30,9 @@
 				"enableTrackBackReceive": $("[id$='_cbEnableTrackBackReceive']").attr('checked'),
 				"enablePingBackSend": $("[id$='_cbEnablePingBackSend']").attr('checked'),
 				"enablePingBackReceive": $("[id$='_cbEnablePingBackReceive']").attr('checked'),
-				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked')
+				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
+				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
+				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value')
 			};
 			
             $.ajax({
@@ -61,12 +63,12 @@
 		</div>
 		<div class="content-box-left">
 
-            <fieldset class="rounded">
+           <fieldset class="rounded">
                 <legend><%=Resources.labels.advancedSettings %></legend>
 
                 <table class="tblForm">
                     <tr>
-                        <td width="250"><label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label></td>
+                        <td style="width:250px;"><label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label></td>
                         <td><asp:CheckBox runat="server" ID="cbEnableCompression" /><label><%=Resources.labels.enableHttpCompressionDescription %></label></td>
                     </tr>
                     <tr>
@@ -114,6 +116,21 @@
                     <tr>
                         <td><label for="<%=cbEnableErrorLogging.ClientID %>"><%=Resources.labels.enableErrorLogging %></label></td>
                         <td><asp:CheckBox runat="server" ID="cbEnableErrorLogging" /><label><%=Resources.labels.enableErrorLoggingDescription%></label></td>
+                    </tr>
+                 </table>
+            </fieldset>
+
+            <fieldset class="rounded">
+                <legend><%=Resources.labels.securitySettings %></legend>
+
+                <table class="tblForm">
+                    <tr>
+                        <td style="width:250px;"><label for="<%=cbAllowRemoteFileDownloads.ClientID %>"><%=Resources.labels.allowRemoteFileDownloads %></label></td>
+                        <td><asp:CheckBox runat="server" ID="cbAllowRemoteFileDownloads" /><label><%=Resources.labels.allowRemoteFileDownloadsDescription%></label></td>
+                    </tr>
+                    <tr>
+                        <td><label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label></td>
+                        <td><asp:TextBox runat="server" ID="txtRemoteTimeout" /><label><%=Resources.labels.remoteTimeoutDescription %></label></td>
                     </tr>
                 </table>
             </fieldset>

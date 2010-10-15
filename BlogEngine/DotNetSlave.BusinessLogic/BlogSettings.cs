@@ -40,6 +40,13 @@
         /// </summary>
         private bool enableHttpCompression;
 
+        /// <summary>
+        /// The timeout in milliseconds for a remote download. Default is 30 seconds.
+        /// </summary>
+        private int remoteDownloadTimeout = defaultRemoteDownloadTimeout;
+        private const int defaultRemoteDownloadTimeout = 30000;
+
+
         #endregion
 
         #region BlogSettings()
@@ -1050,6 +1057,73 @@
 
         #endregion
 
+        /// <summary>
+        /// Gets or sets whether this application's handlers should be able to download and cache files hosted on other servers.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Allowing the server's various handlers(Such as JavaScriptHandler and CssHandler) could potentially allow a an attacker
+        /// to tie up the server by continuously requesting files of excess file size, or from servers that take forever to time out.
+        /// 
+        /// This is false by default.
+        /// 
+        /// </remarks>
+        public bool AllowServerToDownloadRemoteFiles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum length of time in milliseconds the server should spend downloading remote files. The default value is 30000.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// If the limit is set to something below 0, the defaultRemoteDownloadTimeout will be used instead.
+        /// 0 is an acceptable value, users should use this value to indicate "unlimited time".
+        /// </remarks>
+        public int RemoteFileDownloadTimeout
+        {
+            get
+            {
+                if (this.remoteDownloadTimeout < 0)
+                {
+                    this.remoteDownloadTimeout = defaultRemoteDownloadTimeout;
+                }
+                return this.remoteDownloadTimeout;
+            }
+            set
+            {
+                if (value < 0) { value = defaultRemoteDownloadTimeout; }
+                this.remoteDownloadTimeout = value;
+            }
+        }
+
+
+        #region Version()
+
+        /// <summary>
+        ///     The version.
+        /// </summary>
+        private static string version;
+
+        /// <summary>
+        /// Returns the BlogEngine.NET version information.
+        /// </summary>
+        /// <value>
+        /// The BlogEngine.NET major, minor, revision, and build numbers.
+        /// </value>
+        /// <remarks>
+        /// The current version is determined by extracting the build version of the BlogEngine.Core assembly.
+        /// </remarks>
+        /// <returns>
+        /// The version.
+        /// </returns>
+        public string Version()
+        {
+            return version ?? (version = this.GetType().Assembly.GetName().Version.ToString());
+        }
+
+        #endregion
+
+        #region "Methods"
+
         #region Load()
 
         /// <summary>
@@ -1185,30 +1259,7 @@
 
         #endregion
 
-        #region Version()
-
-        /// <summary>
-        ///     The version.
-        /// </summary>
-        private static string version;
-
-        /// <summary>
-        /// Returns the BlogEngine.NET version information.
-        /// </summary>
-        /// <value>
-        /// The BlogEngine.NET major, minor, revision, and build numbers.
-        /// </value>
-        /// <remarks>
-        /// The current version is determined by extracting the build version of the BlogEngine.Core assembly.
-        /// </remarks>
-        /// <returns>
-        /// The version.
-        /// </returns>
-        public string Version()
-        {
-            return version ?? (version = this.GetType().Assembly.GetName().Version.ToString());
-        }
-
         #endregion
+
     }
 }

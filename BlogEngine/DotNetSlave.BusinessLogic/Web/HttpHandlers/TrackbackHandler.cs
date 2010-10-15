@@ -283,12 +283,10 @@
         {
             try
             {
-                using (var client = new WebClient())
-                {
-                    client.Credentials = CredentialCache.DefaultNetworkCredentials;
-                    var html = client.DownloadString(sourceUrl);
-                    this.sourceHasLink = html.ToUpperInvariant().Contains(targetUrl.ToUpperInvariant());
-                }
+                var remoteFile = new RemoteFile(new Uri(sourceUrl), true);
+                var html = remoteFile.GetFileAsString();
+                this.sourceHasLink = html.ToUpperInvariant().Contains(targetUrl.ToUpperInvariant());
+                
             }
             catch (WebException)
             {

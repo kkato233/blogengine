@@ -417,14 +417,12 @@
         {
             try
             {
-                using (var client = new WebClient())
-                {
-                    client.Credentials = CredentialCache.DefaultNetworkCredentials;
-                    var html = client.DownloadString(sourceUrl);
-                    this.title = RegexTitle.Match(html).Value.Trim();
-                    this.containsHtml = RegexHtml.IsMatch(this.title);
-                    this.sourceHasLink = html.ToUpperInvariant().Contains(targetUrl.ToUpperInvariant());
-                }
+
+                var remoteFile = new RemoteFile(new Uri(sourceUrl), true);
+                var html = remoteFile.GetFileAsString();
+                this.title = RegexTitle.Match(html).Value.Trim();
+                this.containsHtml = RegexHtml.IsMatch(this.title);
+                this.sourceHasLink = html.ToUpperInvariant().Contains(targetUrl.ToUpperInvariant());
             }
             catch (WebException)
             {
