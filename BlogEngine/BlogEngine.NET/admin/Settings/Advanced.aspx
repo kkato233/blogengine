@@ -32,7 +32,8 @@
 				"enablePingBackReceive": $("[id$='_cbEnablePingBackReceive']").attr('checked'),
 				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
 				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
-				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value')
+				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
+				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value')                
 			};
 			
             $.ajax({
@@ -131,6 +132,10 @@
                     <tr>
                         <td><label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label></td>
                         <td><asp:TextBox runat="server" ID="txtRemoteTimeout" /><label><%=Resources.labels.remoteTimeoutDescription %></label></td>
+                    </tr>
+                    <tr>
+                        <td><label for="<%=txtRemoteMaxFileSize.ClientID %>"><%=Resources.labels.maximumRemoteFileSize%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtRemoteMaxFileSize" /><label><%=Resources.labels.maximumRemoteFileSizeDescription%></label></td>
                     </tr>
                 </table>
             </fieldset>

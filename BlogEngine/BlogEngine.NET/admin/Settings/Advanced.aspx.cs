@@ -47,7 +47,7 @@
             cbEnableErrorLogging.Checked = settings.EnableErrorLogging;
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
-
+            txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
         }
 		
         /// <summary>
@@ -80,7 +80,8 @@
             bool enablePingBackReceive,
             bool enableErrorLogging,
             bool allowRemoteFileDownloads,
-            int remoteTimeout)
+            int remoteTimeout,
+            int remoteMaxFileSize)
         {
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
@@ -94,6 +95,20 @@
             try
             {
 
+                // Validate values before setting any of them to the BlogSettings instance.
+                // Because it's a singleton, we don't want partial data being stored to
+                // it if there's any exceptions thrown prior to saving. 
+
+                if (remoteTimeout < 0)
+                {
+                    throw new ArgumentOutOfRangeException("RemoteFileDownloadTimeout must be greater than or equal to 0 milliseconds.");
+                }
+                else if (remoteMaxFileSize < 0)
+                {
+                    throw new ArgumentOutOfRangeException("RemoteMaxFileSize must be greater than or equal to 0 bytes.");
+                }
+
+         
 
                 settings.EnableHttpCompression = enableCompression;
                 settings.RemoveWhitespaceInStyleSheets = removeWhitespaceInStyleSheets;
@@ -108,15 +123,8 @@
                 settings.EnableErrorLogging = enableErrorLogging;
 
                 settings.AllowServerToDownloadRemoteFiles = allowRemoteFileDownloads;
-
-                if (remoteTimeout >= 0)
-                {
-                    settings.RemoteFileDownloadTimeout = remoteTimeout;
-                }
-                else {
-                    throw new ArgumentOutOfRangeException("RemoteFileDownloadTimeout must be greater than or equal to 0 milliseconds.");
-                }
-               
+                settings.RemoteFileDownloadTimeout = remoteTimeout;
+                settings.RemoteMaxFileSize = remoteMaxFileSize;
 
                 settings.Save();
             }

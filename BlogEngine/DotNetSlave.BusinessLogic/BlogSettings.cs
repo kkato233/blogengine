@@ -46,6 +46,8 @@
         private int remoteDownloadTimeout = defaultRemoteDownloadTimeout;
         private const int defaultRemoteDownloadTimeout = 30000;
 
+        private int maxRemoteFileSize = defaultMaxRemoteFileSize;
+        private const int defaultMaxRemoteFileSize = 524288;
 
         #endregion
 
@@ -1095,6 +1097,30 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the maximum allowed file size in bytes that BlogEngine can download from a remote server. Defaults to 512k.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Set this value to 0 for unlimited file size.
+        /// 
+        /// </remarks>
+        public int RemoteMaxFileSize
+        {
+            get
+            {
+                if (this.maxRemoteFileSize < 0)
+                {
+                    this.maxRemoteFileSize = defaultMaxRemoteFileSize;
+                }
+                return this.maxRemoteFileSize;
+            }
+            set
+            {
+                if (value < 0) { value = defaultMaxRemoteFileSize; }
+                this.maxRemoteFileSize = value;
+            }
+        }
 
         #region Version()
 

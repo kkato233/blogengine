@@ -1232,7 +1232,7 @@
     <value>Allow remote file downloads</value>
   </data>
   <data name="allowRemoteFileDownloadsDescription" xml:space="preserve">
-    <value>Allow the server's handlers to download/cache/process resources on other websites.</value>
+    <value>Allow the server's handlers to download/cache/process resources from other websites.</value>
   </data>
   <data name="remoteTimeout" xml:space="preserve">
     <value>Max remote download time</value>
@@ -1242,5 +1242,11 @@
   </data>
   <data name="securitySettings" xml:space="preserve">
     <value>Security Settings</value>
+  </data>
+  <data name="maximumRemoteFileSize" xml:space="preserve">
+    <value>Max Remote File Size</value>
+  </data>
+  <data name="maximumRemoteFileSizeDescription" xml:space="preserve">
+    <value>The maximum size in bytes of a remote file the server can download. Set to 0 for unlimited.</value>
   </data>
 </root>

@@ -26,8 +26,8 @@ namespace BlogEngine.Core
     /// 
     /// This class will not throw an exception if the Uri supplied points to a resource local to the running BlogEngine instance.
     /// 
-    /// There shouldn't be any security issues there, as the WebRequest class is still calling it remotely. Any local files that shouldn't
-    /// be accessed by this won't be allowed by the remote call.
+    /// There shouldn't be any security issues there, as the internal WebRequest instance is still calling it remotely. 
+    /// Any local files that shouldn't be accessed by this won't be allowed by the remote call.
     /// 
     /// </remarks>
     internal sealed class RemoteFile
@@ -61,45 +61,46 @@ namespace BlogEngine.Core
         /// This method is meant for outside users who need specific access to the WebResponse this class
         /// generates. They're responsible for disposing of it.
         /// 
-        /// Because GetWebRequest() is public, any properties that can be modified on the WebRequest instance
-        /// that may conflict with remote download settings must be revalidated before returning the WebResponse.
-        /// 
-        /// While someone modifying the request won't stop them from calling Request.GetRespone() themselves, at
-        /// that point they probably wouldn't be using the RemoteFile class anyway.
-        /// 
         /// </remarks>
         public WebResponse GetWebResponse()
         {
-            var request = this.GetWebRequest();
+            var response = this.GetWebRequest().GetResponse();
 
-            if ((!IgnoreRemoteDownloadSettings) && (request.Timeout != this.TimeoutLength))
-            {
-                throw new SecurityException("Timeout length can not be changed.");
+            long contentLength = response.ContentLength;
+            
+            // WebResponse.ContentLength doesn't always know the value, it returns -1 in this case.
+            if (contentLength == -1) {
+
+
+                // Response headers may still have the Content-Length inside of it.
+                string headerContentLength = response.Headers["Content-Length"];
+
+                if (!String.IsNullOrEmpty(headerContentLength))
+                {
+                    contentLength = long.Parse(headerContentLength);
+                }
+
             }
 
-            
-            return request.GetResponse();
+            // -1 means an unknown ContentLength was found
+            // Numbers any lower than that will always indicate that someone tampered with
+            // the Content-Length header.
+            if (contentLength <= -1)
+            {
+                response.Close();
+                throw new SecurityException("An attempt to download a remote file has been halted due to unknown content length.");
+            }
+            else if ((BlogSettings.Instance.RemoteMaxFileSize > 0) && (contentLength > BlogSettings.Instance.RemoteMaxFileSize))
+            {
+                response.Close();
+                throw new SecurityException("An attempt to download a remote file has been halted because the file is larger than allowed.");
+            }
+           
+          
+            return response;
         }
 
         private WebRequest _webRequest;
-
-        /// <summary>
-        /// Returns the WebRequest instance used for downloading this file.
-        /// </summary>
-        /// <returns>
-        /// 
-        /// This is here for anyone that needs to specifically modify the request in some way. 
-        ///  
-        /// </returns>
-        public WebRequest GetWebRequest()
-        {
-            if (this._webRequest == null)
-            {
-                this._webRequest = this.GetRequestInternal();
-            }
-
-            return this._webRequest;
-        }
 
         /// <summary>
         /// Returns the remote file as a string.
@@ -134,22 +135,37 @@ namespace BlogEngine.Core
             }
         }
 
-        private WebRequest GetRequestInternal()
+        /// <summary>
+        /// Creates the WebRequest object used internally for this RemoteFile instance.
+        /// </summary>
+        /// <returns>
+        /// 
+        /// The WebRequest should not be passed outside of this instance, as it will allow tampering. Anyone
+        /// that needs more fine control over the downloading process should probably be using the WebRequest
+        /// class on its own.
+        /// 
+        /// </returns>
+        private WebRequest GetWebRequest()
         {
             this.CheckCanDownload();
 
-            var request = (HttpWebRequest)WebRequest.Create(this.Uri);
-            request.Headers["Accept-Encoding"] = "gzip";
-            request.Headers["Accept-Language"] = "en-us";
-            request.Credentials = CredentialCache.DefaultNetworkCredentials;
-            request.AutomaticDecompression = DecompressionMethods.GZip;
-
-            if (this.TimeoutLength > 0)
+            if (this._webRequest == null)
             {
-                request.Timeout = this.TimeoutLength;
+                var request = (HttpWebRequest)WebRequest.Create(this.Uri);
+                request.Headers["Accept-Encoding"] = "gzip";
+                request.Headers["Accept-Language"] = "en-us";
+                request.Credentials = CredentialCache.DefaultNetworkCredentials;
+                request.AutomaticDecompression = DecompressionMethods.GZip;
+
+                if (this.TimeoutLength > 0)
+                {
+                    request.Timeout = this.TimeoutLength;
+                }
+                this._webRequest = request;
             }
 
-            return request;
+            return this._webRequest;
+
         }
 
       
@@ -248,10 +264,6 @@ namespace BlogEngine.Core
                     else
                     {
                         this._timeoutLength = value;
-                        if (this._webRequest != null)
-                        {
-                            this._webRequest.Timeout = value;
-                        }
                     }
 
                 }
