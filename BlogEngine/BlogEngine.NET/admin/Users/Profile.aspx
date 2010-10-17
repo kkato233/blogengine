@@ -78,16 +78,16 @@
             return false;
         }
     </script>
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.profile %> : <%=Request.QueryString["id"] %></span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
-			<div class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></div>
-			<div><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></div>
-			<div><a href="Rights.aspx">Rights</a></div>
+            <ul>
+			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+			    <li><a href="Rights.aspx">Rights</a></li>
+            </ul>
 		</div>
 		<div class="content-box-left">
+            <h1 style="border:none;"><%=Resources.labels.profile %> : <%=Request.QueryString["id"] %></h1>
             <div id="Container"></div>
             <fieldset class="rounded">
                 <legend>Roles</legend>

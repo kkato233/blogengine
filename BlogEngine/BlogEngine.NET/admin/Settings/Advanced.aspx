@@ -30,7 +30,10 @@
 				"enableTrackBackReceive": $("[id$='_cbEnableTrackBackReceive']").attr('checked'),
 				"enablePingBackSend": $("[id$='_cbEnablePingBackSend']").attr('checked'),
 				"enablePingBackReceive": $("[id$='_cbEnablePingBackReceive']").attr('checked'),
-				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked')
+				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
+				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
+				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
+				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value')                
 			};
 			
             $.ajax({
@@ -52,21 +55,18 @@
         }  
     </script>
      
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-
-            <fieldset class="rounded">
+            <h1><%=Resources.labels.advancedSettings %></h1>
+           <fieldset class="hide">
                 <legend><%=Resources.labels.advancedSettings %></legend>
 
                 <table class="tblForm">
                     <tr>
-                        <td width="250"><label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label></td>
+                        <td style="width:250px;"><label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label></td>
                         <td><asp:CheckBox runat="server" ID="cbEnableCompression" /><label><%=Resources.labels.enableHttpCompressionDescription %></label></td>
                     </tr>
                     <tr>
@@ -115,14 +115,31 @@
                         <td><label for="<%=cbEnableErrorLogging.ClientID %>"><%=Resources.labels.enableErrorLogging %></label></td>
                         <td><asp:CheckBox runat="server" ID="cbEnableErrorLogging" /><label><%=Resources.labels.enableErrorLoggingDescription%></label></td>
                     </tr>
-                </table>
+                 </table>
             </fieldset>
 
+            <fieldset class="rounded">
+                <legend><%=Resources.labels.securitySettings %></legend>
+
+                <table class="tblForm">
+                    <tr>
+                        <td style="width:250px;"><label for="<%=cbAllowRemoteFileDownloads.ClientID %>"><%=Resources.labels.allowRemoteFileDownloads %></label></td>
+                        <td><asp:CheckBox runat="server" ID="cbAllowRemoteFileDownloads" /><label><%=Resources.labels.allowRemoteFileDownloadsDescription%></label></td>
+                    </tr>
+                    <tr>
+                        <td><label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label></td>
+                        <td><asp:TextBox runat="server" Width="80" ID="txtRemoteTimeout" />&nbsp;&nbsp;<label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeoutDescription %></label></td>
+                    </tr>
+                    <tr>
+                        <td><label for="<%=txtRemoteMaxFileSize.ClientID %>"><%=Resources.labels.maximumRemoteFileSize%></label></td>
+                        <td><asp:TextBox runat="server" ID="txtRemoteMaxFileSize" /><label><%=Resources.labels.maximumRemoteFileSizeDescription%></label></td>
+                    </tr>
+                </table>
+            </fieldset>
+            <div class="action_buttons">
+                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+            </div>
 		</div>
-        <div class="action_buttons">
-            <input type="submit" id="btnSave" class="btn rounded" value="Save" />&nbsp;
-            <span class="loader">&nbsp;</span>
-        </div>
 	</div>       
 </asp:Content>
 

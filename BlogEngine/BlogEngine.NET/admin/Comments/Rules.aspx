@@ -4,15 +4,12 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 
-        <div class="content-box-hdr">
-        <span class="SectionHeader"><%=labels.rules %> & <%=labels.filters %></span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu1" runat="server" />
 		</div>
 		<div class="content-box-left">
-
+            <h1><%=labels.rules %> & <%=labels.filters %></h1>
             <fieldset class="rounded">
                 <legend><%=labels.rules%></legend>
                 <div class="subsection">

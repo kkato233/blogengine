@@ -271,7 +271,7 @@
         /// <summary>
         /// Represents a JS, CSS or other external content type.
         /// </summary>
-        private class ExternalContentItem
+        private sealed class ExternalContentItem
         {
             public string ItemName { get; set; }
             public int Priority { get; set; }
@@ -463,34 +463,19 @@
         /// <returns>
         /// The HTML or null if the URL isn't valid.
         /// </returns>
+        [Obsolete("Use the RemoteFile class instead.")]
         public static string DownloadWebPage(Uri url)
         {
             try
             {
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.Headers["Accept-Encoding"] = "gzip";
-                request.Headers["Accept-Language"] = "en-us";
-                request.Credentials = CredentialCache.DefaultNetworkCredentials;
-                request.AutomaticDecompression = DecompressionMethods.GZip;
-
-                using (var response = request.GetResponse())
-                {
-                    var responseStream = response.GetResponseStream();
-                    if (responseStream != null)
-                    {
-                        using (var reader = new StreamReader(responseStream))
-                        {
-                            return reader.ReadToEnd();
-                        }
-                    }
-                }
+                var remoteFile = new RemoteFile(url, true);
+                return remoteFile.GetFileAsString();
             }
             catch (Exception)
             {
                 return null;
             }
 
-            return null;
         }
 
         /// <summary>
@@ -561,7 +546,10 @@
         {
             var list = new Dictionary<Uri, XmlDocument>();
 
-            var content = DownloadWebPage(url);
+            // ignoreRemoteDownloadSettings is set to true for the
+            // RemoteFile instance for backwards compatibility.
+            var remoteFile = new RemoteFile(url, true);
+            var content = remoteFile.GetFileAsString();
             if (!string.IsNullOrEmpty(content))
             {
                 var upper = content.ToUpperInvariant();

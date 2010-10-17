@@ -8,6 +8,7 @@
     using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Caching;
+    using System.Linq;
 
     using BlogEngine.Core.Web.HttpModules;
 
@@ -68,27 +69,35 @@
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
-            if (!string.IsNullOrEmpty(context.Request.QueryString["name"]))
+
+            var request = context.Request;
+            string fileName = (string)request.QueryString["name"];
+
+            if (!string.IsNullOrEmpty(fileName))
             {
-                var fileName = context.Request.QueryString["name"].Replace(
-                    BlogSettings.Instance.Version(), string.Empty);
+                fileName = fileName.Replace(BlogSettings.Instance.Version(), string.Empty);
 
                 OnServing(fileName);
 
-                // Check if a .css file was requested
-                if (!fileName.EndsWith("css", StringComparison.OrdinalIgnoreCase))
+                if (StringComparer.InvariantCultureIgnoreCase.Compare(Path.GetExtension(fileName), ".css") != 0)
                 {
                     throw new SecurityException("Invalid CSS file extension");
                 }
 
-                // In cache?
-                // Not found in cache, let's load it up
-                // Found in cache
-                var css = context.Cache[context.Request.RawUrl] == null
-                                 ? (fileName.StartsWith("http", StringComparison.OrdinalIgnoreCase)
-                                        ? RetrieveRemoteCss(fileName)
-                                        : RetrieveLocalCss(fileName))
-                                 : (string)context.Cache[context.Request.RawUrl];
+                string cacheKey = request.RawUrl.Trim();
+                string css = (string)context.Cache[cacheKey];
+
+                if (String.IsNullOrEmpty(css))
+                {
+                    if (fileName.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    {
+                        css = RetrieveRemoteCss(fileName, cacheKey);
+                    }
+                    else
+                    {
+                        css = RetrieveLocalCss(fileName, cacheKey);
+                    }
+                }
 
                 // Make sure css isn't empty
                 if (!string.IsNullOrEmpty(css))
@@ -157,15 +166,32 @@
         }
 
         /// <summary>
+        /// Call this method to do any post-processing on the css before its returned in the context response.
+        /// </summary>
+        /// <param name="css"></param>
+              /// <returns></returns>
+        private static string ProcessCss(string css)
+        {
+            if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
+            {
+                css = StripWhitespace(css);
+            }
+            return css;
+        }
+
+        /// <summary>
         /// Retrieves the local CSS from the disk
         /// </summary>
         /// <param name="file">
         /// The file name.
         /// </param>
+        /// <param name="cacheKey">
+        /// The key used to insert this script into the cache.
+        /// </param>
         /// <returns>
         /// The retrieve local css.
         /// </returns>
-        private static string RetrieveLocalCss(string file)
+        private static string RetrieveLocalCss(string file, string cacheKey)
         {
             var path = HttpContext.Current.Server.MapPath(file);
             try
@@ -173,15 +199,11 @@
                 string css;
                 using (var reader = new StreamReader(path))
                 {
-                    // load CSS content
                     css = reader.ReadToEnd();
-
-                    // Optimize CSS content
-                    css = StripWhitespace(css);
-
-                    // Insert into cache
-                    HttpContext.Current.Cache.Insert(HttpContext.Current.Request.RawUrl, css, new CacheDependency(path));
                 }
+
+                css = ProcessCss(css);
+                HttpContext.Current.Cache.Insert(cacheKey, css, new CacheDependency(path));
 
                 return css;
             }
@@ -192,44 +214,47 @@
         }
 
         /// <summary>
-        /// Retrieves the specified remote CSS using a WebClient.
+        /// Retrieves and caches the specified remote CSS.
         /// </summary>
         /// <param name="file">
         /// The remote URL
         /// </param>
+        /// <param name="cacheKey">
+        /// The key used to insert this script into the cache.
+        /// </param>
         /// <returns>
         /// The retrieve remote css.
         /// </returns>
-        private static string RetrieveRemoteCss(string file)
+        private static string RetrieveRemoteCss(string file, string cacheKey)
         {
-            try
-            {
-                var url = new Uri(file, UriKind.Absolute);
-                string css;
-                using (var client = new WebClient())
-                {
-                    // Load CSS content
-                    client.Credentials = CredentialCache.DefaultNetworkCredentials;
-                    css = client.DownloadString(url);
 
-                    // Optimize CSS content
-                    css = StripWhitespace(css);
+            Uri url;
+
+            if (Uri.TryCreate(file, UriKind.Absolute, out url))
+            {
+                try
+                {
+                    var remoteFile = new RemoteFile(url, false);
+                    string css = remoteFile.GetFileAsString();
+                    css = ProcessCss(css);
 
                     // Insert into cache
                     HttpContext.Current.Cache.Insert(
-                        HttpContext.Current.Request.RawUrl, 
-                        css, 
-                        null, 
-                        Cache.NoAbsoluteExpiration, 
+                        cacheKey,
+                        css,
+                        null,
+                        Cache.NoAbsoluteExpiration,
                         new TimeSpan(3, 0, 0, 0));
-                }
 
-                return css;
+                    return css;
+                }
+                catch (SocketException)
+                {
+                    // The remote site is currently down. Try again next time.
+                }
             }
-            catch (SocketException)
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -244,27 +269,31 @@
         /// </param>
         private static void SetHeaders(int hash, HttpContext context)
         {
-            context.Response.ContentType = "text/css";
-            context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
 
-            context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
-            context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
-            context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+            var response = context.Response;
+            response.ContentType = "text/css";
+
+            var cache = response.Cache;
+            cache.VaryByHeaders["Accept-Encoding"] = true;
+
+            cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
+            cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+            cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
 
             var etag = string.Format("\"{0}\"", hash);
             var incomingEtag = context.Request.Headers["If-None-Match"];
 
-            context.Response.Cache.SetETag(etag);
-            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            cache.SetETag(etag);
+            cache.SetCacheability(HttpCacheability.Public);
 
             if (String.Compare(incomingEtag, etag) != 0)
             {
                 return;
             }
 
-            context.Response.Clear();
-            context.Response.StatusCode = (int)HttpStatusCode.NotModified;
-            context.Response.SuppressContent = true;
+            response.Clear();
+            response.StatusCode = (int)HttpStatusCode.NotModified;
+            response.SuppressContent = true;
         }
 
         /// <summary>
@@ -278,6 +307,7 @@
         /// </returns>
         private static string StripWhitespace(string body)
         {
+
             body = body.Replace("  ", " ");
             body = body.Replace(Environment.NewLine, String.Empty);
             body = body.Replace("\t", string.Empty);
@@ -303,46 +333,5 @@
 
         #endregion
 
-        // #region Compression
-
-        // private const string GZIP = "gzip";
-        // private const string DEFLATE = "deflate";
-
-        // private static void Compress(HttpContext context)
-        // {
-        // if (context.Request.UserAgent != null && context.Request.UserAgent.Contains("MSIE 6"))
-        // return;
-
-        // if (IsEncodingAccepted(GZIP))
-        // {
-        // context.Response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
-        // SetEncoding(GZIP);
-        // }
-        // else if (IsEncodingAccepted(DEFLATE))
-        // {
-        // context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
-        // SetEncoding(DEFLATE);
-        // }
-        // }
-
-        ///// <summary>
-        ///// Checks the request headers to see if the specified
-        ///// encoding is accepted by the client.
-        ///// </summary>
-        // private static bool IsEncodingAccepted(string encoding)
-        // {
-        // return HttpContext.Current.Request.Headers["Accept-encoding"] != null && HttpContext.Current.Request.Headers["Accept-encoding"].Contains(encoding);
-        // }
-
-        ///// <summary>
-        ///// Adds the specified encoding to the response headers.
-        ///// </summary>
-        ///// <param name="encoding"></param>
-        // private static void SetEncoding(string encoding)
-        // {
-        // HttpContext.Current.Response.AppendHeader("Content-encoding", encoding);
-        // }
-
-        // #endregion
     }
 }

@@ -53,18 +53,29 @@
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
-            var path = context.Request.QueryString["path"];
+            var request = context.Request;
+            var path = request.QueryString["path"];
 
             if (string.IsNullOrEmpty(path))
             {
                 return;
             }
 
-            var script = context.Cache[path] == null
-                                ? (path.StartsWith("http", StringComparison.OrdinalIgnoreCase)
-                                       ? RetrieveRemoteScript(path)
-                                       : RetrieveLocalScript(path))
-                                : (string)context.Cache[path];
+            string cacheKey = request.RawUrl;
+            string script = (string)context.Cache[cacheKey];
+
+            if (String.IsNullOrEmpty(script))
+            {
+                if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    script = RetrieveRemoteScript(path, cacheKey);
+                }
+                else
+                {
+                    script = RetrieveLocalScript(path, cacheKey);
+                }
+            }
+
 
             if (string.IsNullOrEmpty(script))
             {
@@ -99,74 +110,88 @@
         }
 
         /// <summary>
+        /// Call this method for any extra processing that needs to be done on a script resource before
+        /// being written to the response.
+        /// </summary>
+        /// <param name="script"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private static string ProcessScript(string script, string fileName)
+        {
+            return StripWhitespace(script, HardMinify(fileName));
+        }
+
+        /// <summary>
         /// Retrieves the local script from the disk
         /// </summary>
         /// <param name="file">
         /// The file name.
         /// </param>
+        /// <param name="cacheKey">The key used to insert this script into the cache.</param>
         /// <returns>
         /// The retrieve local script.
         /// </returns>
-        private static string RetrieveLocalScript(string file)
+        private static string RetrieveLocalScript(string file, string cacheKey)
         {
-            if (!file.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+
+            if (StringComparer.InvariantCultureIgnoreCase.Compare(Path.GetExtension(file), ".js") != 0)
             {
                 throw new SecurityException("No access");
             }
 
             var path = HttpContext.Current.Server.MapPath(file);
-            string script = null;
 
             if (File.Exists(path))
             {
+                string script;
                 using (var reader = new StreamReader(path))
                 {
                     script = reader.ReadToEnd();
-                    script = StripWhitespace(script, HardMinify(file));
-                    HttpContext.Current.Cache.Insert(file, script, new CacheDependency(path));
                 }
+
+                script = ProcessScript(script, file);
+                HttpContext.Current.Cache.Insert(cacheKey, script, new CacheDependency(path));
+                return script;
             }
 
-            return script;
+            return string.Empty;
         }
 
         /// <summary>
-        /// Retrieves the specified remote script using a WebClient.
+        /// Retrieves and cached the specified remote script.
         /// </summary>
         /// <param name="file">
         /// The remote URL
         /// </param>
+        /// <param name="cacheKey">The key used to insert this script into the cache.</param>
         /// <returns>
         /// The retrieve remote script.
         /// </returns>
-        private static string RetrieveRemoteScript(string file)
+        private static string RetrieveRemoteScript(string file, string cacheKey)
         {
-            string script = null;
 
-            try
+            Uri url;
+
+            if (Uri.TryCreate(file, UriKind.Absolute, out url))
             {
-                var url = new Uri(file, UriKind.Absolute);
-
-                using (var client = new WebClient())
+                try
                 {
-                    client.Credentials = CredentialCache.DefaultNetworkCredentials;
-                    script = client.DownloadString(url);
-                    script = StripWhitespace(script, HardMinify(file));
-                    HttpContext.Current.Cache.Insert(
-                        file, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+
+                    var remoteFile = new RemoteFile(url, false);
+                    string script = ProcessScript(remoteFile.GetFileAsString(), file);
+                   HttpContext.Current.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+                    return script;
+                }
+                catch (SocketException)
+                {
+                    // The remote site is currently down. Try again next time.
                 }
             }
-            catch (SocketException)
-            {
-                // The remote site is currently down. Try again next time.
-            }
-            catch (UriFormatException)
-            {
-                // Only valid absolute URLs are accepted
-            }
 
-            return script;
+            return String.Empty;
         }
+
+
 
         /// <summary>
         /// This will make the browser and server keep the output
@@ -180,27 +205,32 @@
         /// </param>
         private static void SetHeaders(int hash, HttpContext context)
         {
-            context.Response.ContentType = "text/javascript";
-            context.Response.Cache.VaryByHeaders["Accept-Encoding"] = true;
 
-            context.Response.Cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
-            context.Response.Cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
-            context.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+            var response = context.Response;
+
+            response.ContentType = "text/javascript";
+
+            var cache = response.Cache;
+
+            cache.VaryByHeaders["Accept-Encoding"] = true;
+            cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
+            cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+            cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
 
             var etag = string.Format("\"{0}\"", hash);
             var incomingEtag = context.Request.Headers["If-None-Match"];
 
-            context.Response.Cache.SetETag(etag);
-            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            cache.SetETag(etag);
+            cache.SetCacheability(HttpCacheability.Public);
 
             if (String.Compare(incomingEtag, etag) != 0)
             {
                 return;
             }
 
-            context.Response.Clear();
-            context.Response.StatusCode = (int)HttpStatusCode.NotModified;
-            context.Response.SuppressContent = true;
+            response.Clear();
+            response.StatusCode = (int)HttpStatusCode.NotModified;
+            response.SuppressContent = true;
         }
 
         /// <summary>
@@ -213,15 +243,25 @@
         /// The is Blog Engine Script.
         /// </param>
         /// <returns>
-        /// The strip whitespace.
+        /// A string contained the whitespace-removed copy of the script.
         /// </returns>
         private static string StripWhitespace(string body, bool blogEngineScript)
         {
+
             var lines = body.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             var emptyLines = new StringBuilder();
-            foreach (var s in lines.Select(line => line.Trim()).Where(s => s.Length > 0 && !s.StartsWith("//")))
+
+            // Don't use linq for this. The previous method was using Trim() in a linq query, but since
+            // it couldn't be cached, the resulting loop had to Trim it again.
+            foreach (var s in lines)
             {
-                emptyLines.AppendLine(s.Trim());
+                var line = s.Trim();
+
+                if ((line.Length > 0) && !line.StartsWith("//"))
+                {
+                    // Use AppendLine over Append, otherwise the Regex doesn't remove everything correctly.
+                    emptyLines.AppendLine(line);
+                }
             }
 
             body = emptyLines.ToString();
@@ -233,18 +273,17 @@
                     new Regex(
                         "\"(([^\"\\r\\n])|(\\\"))*\"|'[^'\\r\\n]*'|/[^/\\*](?<![/\\S]/.)([^/\\\\\\r\\n]|\\\\.)*/(?=[ig]{0,2}[^\\S])",
                         RegexOptions.Compiled | RegexOptions.Multiline);
-                var strs = new List<string>();
+
                 var m = re.Matches(body);
+                var strs = new List<string>(m.Count);
                 for (var i = 0; i < m.Count; i++)
                 {
                     strs.Add(m[i].Value);
 
                     // replace string and regular expression with marker
-                    var sb = new StringBuilder();
-                    sb.Append("_____STRINGREGEX_");
-                    sb.Append(i.ToString());
-                    sb.Append("_STRINGREGEX_____");
-                    body = re.Replace(body, sb.ToString(), 1);
+                    // This will be inlined, so there's no real reason to use a StringBuilder here.
+                    string strRegex = "_____STRINGREGEX_" + i.ToString() + "_STRINGREGEX_____";
+                    body = re.Replace(body, strRegex, 1);
                 }
 
                 // remove line comments
@@ -278,31 +317,17 @@
                     " ",
                     RegexOptions.Compiled | RegexOptions.ECMAScript);
 
-                // remove all newline
-                // body = Regex.Replace(body, "\\r\\n", "", RegexOptions.Compiled | RegexOptions.ECMAScript);
-
                 // restore marked strings and regular expressions
                 for (var i = 0; i < strs.Count; i++)
                 {
-                    var sb = new StringBuilder();
-                    sb.Append("_____STRINGREGEX_");
-                    sb.Append(i.ToString());
-                    sb.Append("_STRINGREGEX_____");
-                    body = Regex.Replace(body, sb.ToString(), strs[i]);
+                    string strReg = "_____STRINGREGEX_" + i.ToString() + "_STRINGREGEX_____";
+                    body = Regex.Replace(body, strReg, strs[i]);
+
                 }
             }
             else
             {
-                // string[] lines = body.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                // StringBuilder sb = new StringBuilder();
-                // foreach (string line in lines)
-                // {
-                // string s = line.Trim();
-                // if (s.Length > 0 && !s.StartsWith("//"))
-                // sb.AppendLine(s.Trim());
-                // }
-
-                // body = sb.ToString();
+                
                 body = Regex.Replace(body, @"^[\s]+|[ \f\r\t\v]+$", String.Empty);
                 body = Regex.Replace(body, @"([+-])\n\1", "$1 $1");
                 body = Regex.Replace(body, @"([^+-][+-])\n", "$1");
@@ -321,48 +346,9 @@
             return body;
         }
 
+
+
         #endregion
 
-        // #region Compression
-
-        // private const string GZIP = "gzip";
-        // private const string DEFLATE = "deflate";
-
-        // private static void Compress(HttpContext context)
-        // {
-        // if (context.Request.UserAgent != null && context.Request.UserAgent.Contains("MSIE 6"))
-        // return;
-
-        // if (IsEncodingAccepted(GZIP))
-        // {
-        // context.Response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
-        // SetEncoding(GZIP);
-        // }
-        // else if (IsEncodingAccepted(DEFLATE))
-        // {
-        // context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
-        // SetEncoding(DEFLATE);
-        // }
-        // }
-
-        ///// <summary>
-        ///// Checks the request headers to see if the specified
-        ///// encoding is accepted by the client.
-        ///// </summary>
-        // private static bool IsEncodingAccepted(string encoding)
-        // {
-        // return HttpContext.Current.Request.Headers["Accept-encoding"] != null && HttpContext.Current.Request.Headers["Accept-encoding"].Contains(encoding);
-        // }
-
-        ///// <summary>
-        ///// Adds the specified encoding to the response headers.
-        ///// </summary>
-        ///// <param name="encoding"></param>
-        // private static void SetEncoding(string encoding)
-        // {
-        // HttpContext.Current.Response.AppendHeader("Content-encoding", encoding);
-        // }
-
-        // #endregion
     }
 }

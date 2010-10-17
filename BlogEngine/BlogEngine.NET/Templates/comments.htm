@@ -13,15 +13,15 @@
     </thead>
     <tbody>
         {#foreach $T.d as cmt}
-        <tr id="{$T.cmt.Id}" bgcolor="{#cycle values=['#F0F0F0','#F8F8F8']}">
+        <tr id="{$T.cmt.Id}" class="{#cycle values=['','alt']}">
             <td><input type="checkbox" {#if $T.cmt.HasChildred} disabled {#/if} class="chk"/></td>
             <td>{$T.cmt.Avatar}</td>
             <td>{$T.cmt.Title}</td>
             <td>{$T.cmt.Teaser}</td>
             <td>{$T.cmt.Ip}</td>
             <td><span class="comment_date">{$T.cmt.Date}</span><span class="comment_time">{$T.cmt.Time}</span></td>
-            <td class="btnRowEdit" align="center" style="vertical-align:middle"><a href="#" onclick="return EditComment('{$T.cmt.Id}');">edit</a></td>
-            <td class="btnRowDelete" align="center" style="vertical-align:middle">{#if $T.cmt.HasChildred == false}<a href="#" onclick="return DeleteComment('{$T.cmt.Id}');">delete</a>{#/if}</td>
+            <td class="btnRowEdit" align="center" style="vertical-align:middle"><a href="#" onclick="return EditComment('{$T.cmt.Id}');">Edit</a></td>
+            <td class="btnRowDelete" align="center" style="vertical-align:middle">{#if $T.cmt.HasChildred == false}<a href="#" onclick="return DeleteComment('{$T.cmt.Id}');">Delete</a>{#/if}</td>
         </tr>
         {#/for}
     </tbody>
