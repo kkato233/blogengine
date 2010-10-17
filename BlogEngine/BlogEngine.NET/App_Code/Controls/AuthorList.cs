@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Builds an author list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.IO;
@@ -60,11 +66,13 @@
 
             set
             {
-                if (showRssIcon != value)
+                if (showRssIcon == value)
                 {
-                    showRssIcon = value;
-                    html = null;
+                    return;
                 }
+
+                showRssIcon = value;
+                html = null;
             }
         }
 

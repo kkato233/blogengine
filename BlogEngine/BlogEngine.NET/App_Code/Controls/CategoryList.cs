@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Builds a category list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -179,11 +185,9 @@
         }
 
         /// <summary>
-        /// The bind categories.
+        /// Binds the categories.
         /// </summary>
-        /// <returns>
-        /// A list of categories.
-        /// </returns>
+        /// <returns>A category control.</returns>
         private HtmlGenericControl BindCategories()
         {
             var dic = SortCategories();

@@ -1,4 +1,14 @@
-﻿namespace BlogEngine.Core.Providers
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   A storage provider for BlogEngine that uses XML files.
+//   <remarks>
+//   To build another provider, you can just copy and modify
+//   this one. Then add it to the web.config's BlogEngine section.
+//   </remarks>
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace BlogEngine.Core.Providers
 {
     using System.IO;
     using System.Web.Hosting;

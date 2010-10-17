@@ -1,34 +1,57 @@
-﻿#region Using
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The edit.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Specialized;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using BlogEngine.Core;
-
-#endregion
-
-public partial class widgets_RecentComments_edit : WidgetEditBase
+namespace Widgets.RecentComments
 {
-	protected void Page_PreRender(object sender, EventArgs e)
-	{
-		if (!Page.IsPostBack)
-		{
-			StringDictionary settings = GetSettings();
-			if (settings.ContainsKey("numberofcomments"))
-				txtNumberOfPosts.Text = settings["numberofcomments"];
-			else
-				txtNumberOfPosts.Text = "10";
-		}
-	}
+    using System;
+    using System.Web;
 
-	public override void Save()
-	{
-		StringDictionary settings = GetSettings();
-		settings["numberofcomments"] = txtNumberOfPosts.Text;
-		SaveSettings(settings);
-		HttpRuntime.Cache.Remove("widget_recentcomments");
-	}
+    using App_Code.Controls;
+
+    /// <summary>
+    /// The edit.
+    /// </summary>
+    public partial class Edit : WidgetEditBase
+    {
+        #region Public Methods
+
+        /// <summary>
+        /// Saves this the basic widget settings such as the Title.
+        /// </summary>
+        public override void Save()
+        {
+            var settings = this.GetSettings();
+            settings["numberofcomments"] = this.txtNumberOfPosts.Text;
+            this.SaveSettings(settings);
+            HttpRuntime.Cache.Remove("widget_recentcomments");
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.PreRender"/> event.
+        /// </summary>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs"/> object that contains the event data.
+        /// </param>
+        protected override void OnPreRender(EventArgs e)
+        {
+            base.OnPreRender(e);
+
+            if (this.Page.IsPostBack)
+            {
+                return;
+            }
+
+            var settings = this.GetSettings();
+            this.txtNumberOfPosts.Text = settings.ContainsKey("numberofcomments") ? settings["numberofcomments"] : "10";
+        }
+
+        #endregion
+    }
 }

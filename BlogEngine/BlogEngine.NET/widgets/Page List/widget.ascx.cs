@@ -1,24 +1,54 @@
-﻿using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-public partial class widgets_PageList_widget : WidgetBase
+namespace Widgets.PageList
 {
+    using App_Code.Controls;
 
-	public override string Name
-	{
-		get { return "Page List"; }
-	}
+    /// <summary>
+    /// The widget.
+    /// </summary>
+    public partial class Widget : WidgetBase
+    {
+        #region Properties
 
-	public override bool IsEditable
-	{
-		get { return true; }
-	}
+        /// <summary>
+        /// Gets a value indicating whether IsEditable.
+        /// </summary>
+        public override bool IsEditable
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-	public override void LoadWidget()
-	{
-		// Nothing to load
-	}
+        /// <summary>
+        /// Gets Name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return "Page List";
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// The load widget.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            // Nothing to load
+        }
+
+        #endregion
+    }
 }

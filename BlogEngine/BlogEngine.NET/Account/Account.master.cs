@@ -1,16 +1,14 @@
 ﻿namespace Account
 {
     using System;
-    using System.Linq;
     using System.Web.UI;
-    using System.Web.UI.HtmlControls;
 
     using BlogEngine.Core;
 
     /// <summary>
     /// The account_ account.
     /// </summary>
-    public partial class Account : MasterPage
+    public partial class AccountMasterPage : MasterPage
     {
         #region Public Methods
 

@@ -1,244 +1,345 @@
-﻿#region Using
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The most comments widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using BlogEngine.Core;
-using System.Collections.Specialized;
-using System.Web.Security;
-
-#endregion
-
-public partial class widgets_Most_comments_widget : WidgetBase
+namespace Widgets.MostComments
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Web;
+    using System.Web.UI.WebControls;
 
-	#region Private variables
+    using App_Code.Controls;
 
-	private int AVATAR_SIZE = 50;
-	private int NUMBER_OF_VISITORS = 3;
-	private int DAYS = 60;
-	private bool SHOW_COMMENTS = true;
+    using BlogEngine.Core;
 
-	#endregion
+    using Resources;
 
-	static widgets_Most_comments_widget()
-	{
-		Post.CommentAdded += delegate { HttpRuntime.Cache.Remove("most_comments"); };
-	}
+    /// <summary>
+    /// The visitor.
+    /// </summary>
+    public struct Visitor
+    {
+        #region Constants and Fields
 
-	/// <summary>
-	/// Gets the name. It must be exactly the same as the folder that contains the widget.
-	/// </summary>
-	public override string Name
-	{
-		get { return "Most comments"; }
-	}
+        /// <summary>
+        ///     The comments.
+        /// </summary>
+        public int Comments;
 
-	/// <summary>
-	/// Gets whether the widget can be edited.
-	/// <remarks>
-	/// The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
-	/// </remarks>
-	/// </summary>
-	public override bool IsEditable
-	{
-		get { return true; }
-	}
+        /// <summary>
+        ///     The country.
+        /// </summary>
+        public string Country;
 
-	/// <summary>
-	/// This method works as a substitute for Page_Load. You should use this method for
-	/// data binding etc. instead of Page_Load.
-	/// </summary>
-	public override void LoadWidget()
-	{
-		LoadSettings();
+        /// <summary>
+        ///     The email.
+        /// </summary>
+        public string Email;
 
-		if (Cache["most_comments"] == null)
-		{
-			BuildList();
-		}
+        /// <summary>
+        ///     The visitor name.
+        /// </summary>
+        public string Name;
 
-		List<Visitor> visitors = (List<Visitor>)Cache["most_comments"];
+        /// <summary>
+        ///     The website.
+        /// </summary>
+        public Uri Website;
 
-		rep.ItemDataBound += new RepeaterItemEventHandler(rep_ItemDataBound);
-		rep.DataSource = visitors;
-		rep.DataBind();
-	}
+        #endregion
+    }
 
-	private void LoadSettings()
-	{
-		StringDictionary settings = GetSettings();
-		try
-		{
-			if (settings.ContainsKey("avatarsize"))
-				AVATAR_SIZE = int.Parse(settings["avatarsize"]);
+    /// <summary>
+    /// The most comments widget.
+    /// </summary>
+    public partial class Widget : WidgetBase
+    {
+        #region Constants and Fields
 
-			if (settings.ContainsKey("numberofvisitors"))
-				NUMBER_OF_VISITORS = int.Parse(settings["numberofvisitors"]);
+        /// <summary>
+        ///     The avatar size.
+        /// </summary>
+        private int avatarSize = 50;
 
-			if (settings.ContainsKey("days"))
-				DAYS = int.Parse(settings["days"]);
+        /// <summary>
+        ///     The 60 days.
+        /// </summary>
+        private int days = 60;
 
-			if (settings.ContainsKey("showcomments"))
-				SHOW_COMMENTS = settings["showcomments"].Equals("true", StringComparison.OrdinalIgnoreCase);
-		}
-		catch
-		{ }
-	}
+        /// <summary>
+        ///     The number of visitors.
+        /// </summary>
+        private int numberOfVisitors = 3;
 
-	void rep_ItemDataBound(object sender, RepeaterItemEventArgs e)
-	{
-		if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-		{
-			Visitor visitor = (Visitor)e.Item.DataItem;
-			Image imgAvatar = (Image)e.Item.FindControl("imgAvatar");
-			Image imgCountry = (Image)e.Item.FindControl("imgCountry");
-			Literal name = (Literal)e.Item.FindControl("litName");
-			Literal number = (Literal)e.Item.FindControl("litNumber");
-			Literal litCountry = (Literal)e.Item.FindControl("litCountry");
+        /// <summary>
+        ///     The show comments.
+        /// </summary>
+        private bool showComments = true;
 
-            imgAvatar.ImageUrl = Avatar.GetAvatar(AVATAR_SIZE, visitor.Email, null, null, null).Url.ToString();
-			imgAvatar.AlternateText = visitor.Name;
-			imgAvatar.Width = Unit.Pixel(AVATAR_SIZE);
+        #endregion
 
-			if (SHOW_COMMENTS)
-				number.Text = visitor.Comments + " " + Resources.labels.comments.ToLowerInvariant() + "<br />";
+        #region Constructors and Destructors
 
-			if (visitor.Website != null)
-			{
-				string link = "<a rel=\"nofollow contact\" class=\"url fn\" href=\"{0}\">{1}</a>";
-				name.Text = string.Format(link, visitor.Website, visitor.Name);
-			}
-			else
-			{
-				name.Text = "<span class=\"fn\">" + visitor.Name + "</span>";
-			}
+        /// <summary>
+        ///     Initializes static members of the <see cref = "Widget" /> class.
+        /// </summary>
+        static Widget()
+        {
+            Post.CommentAdded += (sender, args) => HttpRuntime.Cache.Remove("most_comments");
+        }
 
-			if (!string.IsNullOrEmpty(visitor.Country))
-			{
-				imgCountry.ImageUrl = Utils.RelativeWebRoot + "pics/flags/" + visitor.Country + ".png";
-				imgCountry.AlternateText = visitor.Country;
+        #endregion
 
-				foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
-				{
-					RegionInfo ri = new RegionInfo(ci.Name);
-					if (ri.TwoLetterISORegionName.Equals(visitor.Country, StringComparison.OrdinalIgnoreCase))
-					{
-						litCountry.Text = ri.DisplayName;
-						break;
-					}
-				}
-			}
-			else
-			{
-				imgCountry.Visible = false;
-			}
-		}
-	}
+        #region Properties
 
-	#region Build the list
+        /// <summary>
+        ///     Gets whether the widget can be edited.
+        ///     <remarks>
+        ///         The only way a widget can be editable is by adding a edit.ascx file to the widget folder.
+        ///     </remarks>
+        /// </summary>
+        public override bool IsEditable
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-	private void BuildList()
-	{
-		Dictionary<string, int> visitors = new Dictionary<string, int>();
-		foreach (Post post in Post.Posts)
-		{
-			foreach (Comment comment in post.ApprovedComments)
-			{
-				if (comment.DateCreated.AddDays(DAYS) < DateTime.Now || string.IsNullOrEmpty(comment.Email) || !comment.Email.Contains("@"))
-					continue;
+        /// <summary>
+        ///     Gets the name. It must be exactly the same as the folder that contains the widget.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return "Most comments";
+            }
+        }
 
-				if (post.Author.Equals(comment.Author, StringComparison.OrdinalIgnoreCase))
-					continue;
+        #endregion
 
-				if (visitors.ContainsKey(comment.Email))
-				{
-					visitors[comment.Email] += 1;
-				}
-				else
-				{
-					visitors.Add(comment.Email, 1);
-				}
-			}
-		}
+        #region Public Methods
 
-		visitors = SortDictionary(visitors);
-		int max = Math.Min(visitors.Count, NUMBER_OF_VISITORS);
-		int count = 0;
-		List<Visitor> list = new List<Visitor>();
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        ///     data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            this.LoadSettings();
 
-		foreach (string key in visitors.Keys)
-		{
-			Visitor v = FindVisitor(key, visitors[key]);
-			list.Add(v);
+            if (this.Cache["most_comments"] == null)
+            {
+                this.BuildList();
+            }
 
-			count++;
+            var visitors = (List<Visitor>)this.Cache["most_comments"];
 
-			if (count == NUMBER_OF_VISITORS)
-				break;
-		}
+            this.rep.ItemDataBound += this.RepItemDataBound;
+            this.rep.DataSource = visitors;
+            this.rep.DataBind();
+        }
 
-		Cache.Insert("most_comments", list);
-	}
+        #endregion
 
-	private Visitor FindVisitor(string email, int comments)
-	{
-		foreach (Post post in Post.Posts)
-		{
-			foreach (Comment comment in post.ApprovedComments)
-			{
-				if (comment.Email == email)
-				{
-					Visitor visitor = new Visitor();
-					visitor.Name = comment.Author;
-					visitor.Country = comment.Country;
-					visitor.Website = comment.Website;
-					visitor.Comments = comments;
-					visitor.Email = email;
-					return visitor;
-				}
-			}
-		}
+        #region Methods
 
-		return new Visitor();
-	}
+        /// <summary>
+        /// Finds the visitor.
+        /// </summary>
+        /// <param name="email">
+        /// The email.
+        /// </param>
+        /// <param name="comments">
+        /// The comments.
+        /// </param>
+        /// <returns>
+        /// The Visitor.
+        /// </returns>
+        private static Visitor FindVisitor(string email, int comments)
+        {
+            foreach (var visitor in from post in Post.Posts
+                                    from comment in post.ApprovedComments
+                                    where comment.Email == email
+                                    select
+                                        new Visitor
+                                            {
+                                                Name = comment.Author, 
+                                                Country = comment.Country, 
+                                                Website = comment.Website, 
+                                                Comments = comments, 
+                                                Email = email
+                                            })
+            {
+                return visitor;
+            }
 
-	private static Dictionary<string, int> SortDictionary(Dictionary<string, int> dic)
-	{
-		List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>();
-		foreach (string key in dic.Keys)
-		{
-			list.Add(new KeyValuePair<string, int>(key, dic[key]));
-		}
+            return new Visitor();
+        }
 
-		list.Sort(delegate(KeyValuePair<string, int> obj1, KeyValuePair<string, int> obj2)
-		{
-			return obj2.Value.CompareTo(obj1.Value);
-		});
+        /// <summary>
+        /// Sorts the dictionary.
+        /// </summary>
+        /// <param name="dic">
+        /// The dictionary.
+        /// </param>
+        /// <returns>
+        /// The sorted dictionary.
+        /// </returns>
+        private static Dictionary<string, int> SortDictionary(Dictionary<string, int> dic)
+        {
+            var list = dic.Keys.Select(key => new KeyValuePair<string, int>(key, dic[key])).ToList();
 
-		Dictionary<string, int> sortedDic = new Dictionary<string, int>();
-		foreach (KeyValuePair<string, int> pair in list)
-		{
-			sortedDic.Add(pair.Key, pair.Value);
-		}
+            list.Sort((obj1, obj2) => obj2.Value.CompareTo(obj1.Value));
 
-		return sortedDic;
-	}
+            return list.ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
 
-	#endregion
+        /// <summary>
+        /// Builds the list.
+        /// </summary>
+        private void BuildList()
+        {
+            var visitors = new Dictionary<string, int>();
+            foreach (var comment in from post in Post.Posts
+                                    from comment in post.ApprovedComments
+                                    where
+                                        (comment.DateCreated.AddDays(this.days) >= DateTime.Now &&
+                                         !string.IsNullOrEmpty(comment.Email)) && comment.Email.Contains("@")
+                                    where !post.Author.Equals(comment.Author, StringComparison.OrdinalIgnoreCase)
+                                    select comment)
+            {
+                if (visitors.ContainsKey(comment.Email))
+                {
+                    visitors[comment.Email] += 1;
+                }
+                else
+                {
+                    visitors.Add(comment.Email, 1);
+                }
+            }
 
-}
+            visitors = SortDictionary(visitors);
+            
+            // var max = Math.Min(visitors.Count, this.numberOfVisitors);
+            var count = 0;
+            var list = new List<Visitor>();
 
-public struct Visitor
-{
-	public string Name;
-	public string Country;
-	public Uri Website;
-	public int Comments;
-	public string Email;
+            foreach (var v in visitors.Keys.Select(key => FindVisitor(key, visitors[key])))
+            {
+                list.Add(v);
+
+                count++;
+
+                if (count == this.numberOfVisitors)
+                {
+                    break;
+                }
+            }
+
+            this.Cache.Insert("most_comments", list);
+        }
+
+        /// <summary>
+        /// The load settings.
+        /// </summary>
+        private void LoadSettings()
+        {
+            var settings = this.GetSettings();
+            try
+            {
+                if (settings.ContainsKey("avatarsize"))
+                {
+                    this.avatarSize = int.Parse(settings["avatarsize"]);
+                }
+
+                if (settings.ContainsKey("numberofvisitors"))
+                {
+                    this.numberOfVisitors = int.Parse(settings["numberofvisitors"]);
+                }
+
+                if (settings.ContainsKey("days"))
+                {
+                    this.days = int.Parse(settings["days"]);
+                }
+
+                if (settings.ContainsKey("showcomments"))
+                {
+                    this.showComments = settings["showcomments"].Equals("true", StringComparison.OrdinalIgnoreCase);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Handles the ItemDataBound event of the rep control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.Web.UI.WebControls.RepeaterItemEventArgs"/> instance containing the event data.
+        /// </param>
+        private void RepItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType != ListItemType.Item && e.Item.ItemType != ListItemType.AlternatingItem)
+            {
+                return;
+            }
+
+            var visitor = (Visitor)e.Item.DataItem;
+            var imgAvatar = (Image)e.Item.FindControl("imgAvatar");
+            var imgCountry = (Image)e.Item.FindControl("imgCountry");
+            var name = (Literal)e.Item.FindControl("litName");
+            var number = (Literal)e.Item.FindControl("litNumber");
+            var litCountry = (Literal)e.Item.FindControl("litCountry");
+
+            imgAvatar.ImageUrl = Avatar.GetAvatar(this.avatarSize, visitor.Email, null, null, null).Url.ToString();
+            imgAvatar.AlternateText = visitor.Name;
+            imgAvatar.Width = Unit.Pixel(this.avatarSize);
+
+            if (this.showComments)
+            {
+                number.Text = string.Format("{0} {1}<br />", visitor.Comments, labels.comments.ToLowerInvariant());
+            }
+
+            if (visitor.Website != null)
+            {
+                const string LinkFormat = "<a rel=\"nofollow contact\" class=\"url fn\" href=\"{0}\">{1}</a>";
+                name.Text = string.Format(LinkFormat, visitor.Website, visitor.Name);
+            }
+            else
+            {
+                name.Text = string.Format("<span class=\"fn\">{0}</span>", visitor.Name);
+            }
+
+            if (!string.IsNullOrEmpty(visitor.Country))
+            {
+                imgCountry.ImageUrl = string.Format("{0}pics/flags/{1}.png", Utils.RelativeWebRoot, visitor.Country);
+                imgCountry.AlternateText = visitor.Country;
+
+                foreach (var ri in
+                    CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(ci => new RegionInfo(ci.Name)).Where(
+                        ri => ri.TwoLetterISORegionName.Equals(visitor.Country, StringComparison.OrdinalIgnoreCase)))
+                {
+                    litCountry.Text = ri.DisplayName;
+                    break;
+                }
+            }
+            else
+            {
+                imgCountry.Visible = false;
+            }
+        }
+
+        #endregion
+    }
 }

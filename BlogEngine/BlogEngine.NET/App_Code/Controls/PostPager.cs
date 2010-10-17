@@ -1,7 +1,14 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Post Pager
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web;
     using System.Web.UI;
@@ -51,8 +58,9 @@
                 {
                     retValue = int.Parse(url);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Debug.WriteLine(ex);
                 }
             }
 
@@ -183,12 +191,11 @@
 
             var postsPerPage = BlogSettings.Instance.PostsPerPage;
             var currentPage = PageIndex();
-            var pagesTotal = 1;
 
             var visiblePosts = this.Posts.FindAll(p => p.IsVisible);
             var postCnt = visiblePosts.Count;
 
-            pagesTotal = postCnt % postsPerPage == 0 ? postCnt / postsPerPage : (postCnt / postsPerPage) + 1;
+            var pagesTotal = postCnt % postsPerPage == 0 ? postCnt / postsPerPage : (postCnt / postsPerPage) + 1;
 
             if (pagesTotal == 0)
             {

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Newsletter_widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.Newsletter.Widget" %>
 
 <div id="newsletterform">
   <p><%=Resources.labels.notifiedPublished %></p>
