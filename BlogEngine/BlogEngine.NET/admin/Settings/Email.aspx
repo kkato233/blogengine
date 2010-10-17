@@ -79,15 +79,13 @@
         } 
     </script>
      
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <fieldset class="rounded">
+        <h1><%=Resources.labels.settings %></h1>
+            <fieldset class="hide">
                 <legend><%=Resources.labels.email %></legend>
 
                 <table class="tblForm">
@@ -126,16 +124,13 @@
                         <td><label for="<%=txtEmailSubjectPrefix.ClientID %>"><%=Resources.labels.emailSubjectPrefix %></label></td>
                         <td><asp:TextBox runat="server" ID="txtEmailSubjectPrefix" Width="300" /></td>
                     </tr>
-                    <tr>
-                        <td><input type="submit" class="btn rounded" value="<%=Resources.labels.testEmailSettings %>" onclick="return TestEmail();" /></td>
-                        <td><asp:Label runat="Server" ID="lbSmtpStatus" /></td>
-                    </tr>
                 </table>
             </fieldset>
-        </div>
-        <div class="action_buttons">
-            <input type="submit" id="btnSave" class="btn rounded" value="Save" />&nbsp;
-            <span class="loader">&nbsp;</span>
+            <div class="action_buttons">
+                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+                <input type="submit" class="btn rounded" value="<%=Resources.labels.testEmailSettings %>" onclick="return TestEmail();" />
+                <asp:Label runat="Server" ID="lbSmtpStatus" />
+            </div>
         </div>
     </div>
 </asp:Content>

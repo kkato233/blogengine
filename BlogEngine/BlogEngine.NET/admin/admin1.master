@@ -16,11 +16,11 @@
                 <div id="AdminStatus" runat="server" style="display:none"></div>
             </div>
 
-            <div class="banner">
+            <div class="header">
                 <div class="be-logo">
                     <span>V<%=BlogSettings.Instance.Version() %> Admin</span>
                 </div>                                  
-                <div class="banner-links">
+                <div class="toolbox">
                     Welcome <%= AdminProfile() == null ? Page.User.Identity.Name : AdminProfile().DisplayName %>
                     | <a href="<%=Utils.RelativeWebRoot %>admin/Users/Profile.aspx?id=<%=Page.User.Identity.Name %>"><%=Resources.labels.myProfile %></a>
                     | <a href="<%=Utils.RelativeWebRoot %>"><%=Resources.labels.goToFrontPage %></a>
@@ -28,14 +28,14 @@
                 </div>                                   
             </div>
             
-            <div style="padding: 0px 18px;">
-                <div class="tabs" style="width:100%">
-                    <uc1:menu ID="Menu1" runat="server" />
-                </div>
-                <div class="content-box"> 
-                    <asp:ContentPlaceHolder ID="cphAdmin" runat="server" />                                                                                                 
-                </div>                                              
+            <div class="tabs">
+                <uc1:menu ID="Menu1" runat="server" />
             </div>
+            <div class="clear"></div>
+            <div class="content-box"> 
+                <asp:ContentPlaceHolder ID="cphAdmin" runat="server" />                                                                                                 
+            </div>        
+                                                  
             <div id="footer">
                 <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" target="_blank" method="post" style="float:left;margin-left:10px">
                 <input type="hidden" name="cmd" value="_s-xclick" />

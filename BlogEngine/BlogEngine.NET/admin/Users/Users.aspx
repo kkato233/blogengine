@@ -11,9 +11,9 @@
             var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
             var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
             row += '<td>' + txtUser + '</td><td class="editable">' + txtEmail + '</td>';
-            row += '<td align="center"><a href="Profile.aspx?id=' + txtUser + '">profile</a></td>';
-            row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
-            row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
+            row += '<td align="center"><a href="Profile.aspx?id=' + txtUser + '">Profile</a></td>';
+            row += '<td align="center"><a href="#" class="editButton">Edit</a></td>';
+            row += '<td align="center"><a href="#" class="deleteButton">Delete</a></td></tr>';
 
             $('#txtUserNameReq').addClass('hidden');
             $('#txtPasswordReq').addClass('hidden');
@@ -63,29 +63,29 @@
             return false;
         }
     </script>
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.users %></span>
-		<a href="#" onclick="Show('frmAddNew');" class="addNew">add new</a>
-    </div>
+
 	<div class="content-box-outer">
 		<div class="content-box-right">
-			<div class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></div>
-			<div><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></div>
-			<div><a href="Rights.aspx">Rights</a></div>
+            <ul>
+			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+			    <li><a href="Rights.aspx">Rights</a></li>
+            </ul>
 		</div>
 		<div class="content-box-left">
+            <h1><%=Resources.labels.users %><a href="#" onclick="Show('frmAddNew');" class="addNew">Add new user</a></h1>
             <div id="frmAddNew" class="rounded" style="display:none">
-				<span class="lbl200">Name</span>
+				<label for="txtUserName" class="lbl200">Name</label>
 				<input type="text" id="txtUserName" class="txt200"/>
 				<span id="txtUserNameReq" class="req hidden">*</span>
 				<br/>
-				<span class="lbl200">Password</span>
+				<label for="txtPassword" class="lbl200">Password</label>
 				<input type="password" id="txtPassword" class="txt200"/>
 				<input type="password" id="txtPassword2" class="txt200"/>
 				<span  id= "txtPasswordReq" class="req hidden">*</span>
 				<span  id= "txtPasswordMatch" class="req hidden">Passwords should match</span>
 				<br/>
-				<span class="lbl200">Email</span>
+				<label for="txtEmail" class="lbl200">Email</label>
 				<input type="text" id="txtEmail" class="txt200"/>
 				<span id= "txtEmailReq" class="req hidden">*</span>
 				<br/>

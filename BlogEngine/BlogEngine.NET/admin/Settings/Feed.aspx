@@ -60,15 +60,14 @@
             return false;
         }
     </script>   
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
+
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <fieldset class="rounded">
+            <h1><%=Resources.labels.settings %></h1>
+            <fieldset class="hide">
                 <legend>Feed Settings</legend>
 
                 <table class="tblForm">
@@ -127,10 +126,9 @@
                     </tr>
                 </table>
             </fieldset>
-        </div>
-        <div class="action_buttons">
-            <input type="submit" id="btnSave" class="btn rounded" value="Save" />&nbsp;
-            <span class="loader">&nbsp;</span>
-        </div>
+            <div class="action_buttons">
+                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+            </div>
+       </div>
     </div>
 </asp:Content>
