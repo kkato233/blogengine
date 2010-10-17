@@ -64,17 +64,16 @@
             return false;
         }  
     </script>
-     
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
+    
+ 
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
+            <h1 ><%=Resources.labels.basic %> <%=Resources.labels.settings %></h1>
 
-            <fieldset class="rounded">
+            <fieldset class="hide">
                 <legend><%=Resources.labels.basic %> <%=Resources.labels.settings %></legend>
 
                 <table class="tblForm">
@@ -174,11 +173,9 @@
                     </tr>
                 </table>
             </fieldset>
-
+            <div class="action_buttons">
+                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+            </div>
 		</div>
-        <div class="action_buttons">
-            <input type="submit" id="btnSave" class="btn rounded" value="Save" />&nbsp;
-            <span class="loader">&nbsp;</span>
-        </div>
 	</div>    
 </asp:Content>

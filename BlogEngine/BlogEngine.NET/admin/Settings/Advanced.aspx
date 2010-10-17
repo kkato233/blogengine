@@ -55,16 +55,13 @@
         }  
     </script>
      
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-
-           <fieldset class="rounded">
+            <h1><%=Resources.labels.advancedSettings %></h1>
+           <fieldset class="hide">
                 <legend><%=Resources.labels.advancedSettings %></legend>
 
                 <table class="tblForm">
@@ -131,7 +128,7 @@
                     </tr>
                     <tr>
                         <td><label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtRemoteTimeout" /><label><%=Resources.labels.remoteTimeoutDescription %></label></td>
+                        <td><asp:TextBox runat="server" Width="80" ID="txtRemoteTimeout" />&nbsp;&nbsp;<label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeoutDescription %></label></td>
                     </tr>
                     <tr>
                         <td><label for="<%=txtRemoteMaxFileSize.ClientID %>"><%=Resources.labels.maximumRemoteFileSize%></label></td>
@@ -139,12 +136,10 @@
                     </tr>
                 </table>
             </fieldset>
-
+            <div class="action_buttons">
+                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+            </div>
 		</div>
-        <div class="action_buttons">
-            <input type="submit" id="btnSave" class="btn rounded" value="Save" />&nbsp;
-            <span class="loader">&nbsp;</span>
-        </div>
 	</div>       
 </asp:Content>
 

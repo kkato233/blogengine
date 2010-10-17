@@ -28,15 +28,14 @@
             return false;
         }       
     </script>  
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
+
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <fieldset class="rounded">
+            <h1><%=Resources.labels.settings %></h1>
+            <fieldset class="hide">
                 <legend>Header and Tracking Script</legend>
 
                 <table class="tblForm">
@@ -50,10 +49,9 @@
                     </tr>
                 </table>
             </fieldset>
-        </div>
-         <div class="action_buttons">
-            <input type="submit" class="btn rounded" value="Save" onclick="return SaveSettings();" />&nbsp;
-            <span class="loader">&nbsp;</span>
+             <div class="action_buttons">
+                <input type="submit" class="primarybtn rounded" value="Save" onclick="return SaveSettings();" />
+            </div>
         </div>
     </div>
 </asp:Content>
