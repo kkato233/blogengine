@@ -10,15 +10,12 @@
         } 
     </script>
   
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=labels.configuration %></span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu1" runat="server" />
 		</div>
 		<div class="content-box-left">
-
+            <h1 style="border:none;"><%=labels.configuration %></h1>
             <fieldset class="rounded">
                 <legend>General</legend>
                 <div class="subsection">

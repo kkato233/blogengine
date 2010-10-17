@@ -14,16 +14,21 @@ $(document).ready(function () {
 function EditRow(obj) {
    var row = $(obj).closest("tr");
    var revert = $(row).html();
-   var button = '<div><input type="button" value="Save" class="saveButton btn rounded" /> <br/> <a href="#" class="cancelButton">Cancel</a></div>';
+   var button = '<div><input type="button" value="Save" class="saveButton btn rounded" /> <a href="#" class="cancelButton">Cancel</a></div>';
 
    $('.editable', row).each(function () {
       var _this = $(this);
       var _thisHtml = _this.html();
       var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
       _this.after(txt).remove();
-   });
+  });
 
-   $(obj).replaceWith(button);
+  var delCel = $(row).find('.deleteButton').closest("td");
+  $(delCel).remove();
+
+  var editCel = $(row).find('.editButton').closest("td");
+  $(editCel).attr('colspan', '2');
+  $(row).find('.editButton').replaceWith(button);
 
    var cancelButton = $('.cancelButton');
    var saveButton = $('.saveButton');
@@ -44,7 +49,7 @@ function SaveChanges(obj, str) {
    var id = row.attr("id");
    var srv = jQobj.closest("table").attr("id");
    var editVals = [];
-   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'F8F8F8' : 'F0F0F0';
+   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'fefefe' : 'fff';
 
    $(':text', row).each(function () {
       editVals.push($(this).val());
@@ -75,7 +80,7 @@ function CancelChanges(obj, str) {
    var jObj = $(obj);
    var row = jObj.closest("tr");
    var id = row.attr("id");
-   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'F8F8F8' : 'F0F0F0';
+   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'fefefe' : 'fff';
 
    jObj.parent().parent().parent().after('<tr id="' + id + '" bgcolor="#' + bg + '">' + str + '</tr>').remove();
    return false;
@@ -397,9 +402,8 @@ function SaveComment(obj) {
 }
 
 function CancelEditComment(obj) {
-   var oRow = $(obj).closest("tr");
-   $(oRow).html(editingComment);
-   //$(oRow).fadeOut(1).html(editingComment).fadeIn(1);
+    var oRow = $(obj).closest("tr");
+    $(oRow).html(editingComment);
 }
 
 function DeleteComment(id) {

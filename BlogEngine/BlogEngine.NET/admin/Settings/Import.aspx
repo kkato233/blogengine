@@ -3,15 +3,14 @@
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">    
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.settings %></span>
-    </div>
+
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <fieldset class="rounded">
+            <h1><%=Resources.labels.settings %></h1>
+            <fieldset class="hide">
                 <legend><%=Resources.labels.email %></legend>
 
                 <table class="tblForm">
