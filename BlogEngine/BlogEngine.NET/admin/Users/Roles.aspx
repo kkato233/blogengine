@@ -41,18 +41,17 @@
         }
     </script>
 
-    <div class="content-box-hdr">
-        <span class="SectionHeader"><%=Resources.labels.roles %></span>
-		<a href="#" onclick="Show('frmAddNew');" class="addNew">add new</a>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
-			<div><a href="Users.aspx"><%=Resources.labels.users %></a></div>
-			<div class="content-box-selected"><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></div>
-			<div><a href="Rights.aspx">Rights</a></div>
+            <ul>
+			    <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+			    <li class="content-box-selected"><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+			    <li><a href="Rights.aspx">Rights</a></li>
+            </ul>
 		</div>
 		<div class="content-box-left">
-            <div id="frmAddNew" class="rounded" style="display:none">
+            <h1><%=Resources.labels.roles %><a href="#" onclick="Show('frmAddNew');" class="addNew">Add new role</a></h1>
+           <div id="frmAddNew" class="rounded" style="display:none">
 		        <span class="lbl200">Name</span>
 		        <input type="text" id="txtUserName" class="txt200" />
 		        <span id="txtUserNameReq" class="req hidden">*</span>

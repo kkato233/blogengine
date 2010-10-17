@@ -9,11 +9,11 @@
   </thead>
   <tbody>
     {#foreach $T.d as post}
-    <tr id="{$T.post.RoleName}" bgcolor="{#cycle values=['#F0F0F0','#F8F8F8']}">
+    <tr id="{$T.post.RoleName}" class="{#cycle values=['','alt']}">
 	  <td><input type="checkbox" name="chk"{$T.post.RoleName} class="chk"/></td>
       <td class="editable">{$T.post.RoleName}</td>
-	  <td align="center" style="vertical-align:middle"><a href="#" class="editButton">edit</a></td>
-	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton">delete</a></td>
+	  <td align="center" style="vertical-align:middle"><a href="#" class="editButton">Edit</a></td>
+	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton">Delete</a></td>
     </tr>
     {#/for}
   </tbody>

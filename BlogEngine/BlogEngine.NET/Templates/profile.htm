@@ -2,33 +2,33 @@
     <legend>Personal Details</legend>
     <div class="subsection2cols">
         <div class="subsectioncol1">
-            <span class="lbl200">Display Name</span>
+            <label for="txtDispalayName" class="lbl200">Display Name</label>
             <input type="text" id="txtDispalayName" class="txt200" value="{$T.d.DisplayName}" />
 
-            <span class="lbl200">First Name</span>
+            <label for="txtFirstName" class="lbl200">First Name</label>
             <input type="text" id="txtFirstName" class="txt200" value="{$T.d.FirstName}" />
 
-            <span class="lbl200">Middle Name</span>
+            <label for="txtMiddleName" class="lbl200">Middle Name</label>
             <input type="text" id="txtMiddleName" class="txt200" value="{$T.d.MiddleName}" />
 
-            <span class="lbl200">Last Name</span>
+            <label for="txtLastName" class="lbl200">Last Name</label>
             <input type="text" id="txtLastName" class="txt200" value="{$T.d.LastName}" />
         </div>
         <div class="subsectioncol2">
-            <span class="lbl200 indent">Email</span>
+            <label for="txtEmail" class="lbl200 indent">Email</label>
             <input type="text" id="txtEmail" class="txt200" value="{$T.d.EmailAddress}" />
 
-            <span class="lbl200">Birthday</span>
+            <label for="txtBirthday" class="lbl200">Birthday</label>
             <input type="text" id="txtBirthday" class="txt200" value="{formatJSONDate($T.d.Birthday)}" />
 
-            <span class="lbl200">Photo URL</span>
+            <label for="txtPhotoURL" class="lbl200">Photo URL</label>
             <input type="text" id="txtPhotoURL" class="txt200" value="{$T.d.PhotoUrl}" />
 
-            <span class="lbl200">&nbsp;</span>
+            <label for="chkPrivate" class="lbl200">&nbsp;</label>
             <div class="clear"></div>
             <div style="padding-top: 8px">
                 <input type="checkbox" id="chkPrivate" {#if $T.d.Private} checked {#/if} />
-                <span class="lbl">Is Private</span>
+                <label for="chkPrivate" class="lbl">Is Private</label>
             </div>
         </div>
     </div>

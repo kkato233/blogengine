@@ -9,20 +9,18 @@
         LoadComments(1, 'Pingbacks.aspx');
     </script>
      
-    <div class="content-box-hdr">
-        <span class="SectionHeader">Pingbacks & Trackbacks</span>
-    </div>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
+            <h1>Pingbacks & Trackbacks</h1>
             <div id="Container"></div>
             <div id="Pager"></div>
+            <div class="action_buttons">
+		        <input type="submit" class="btnAddNew btn rounded" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Pingback');" />&nbsp;
+                <span class="loader">&nbsp;</span>
+            </div>
 		</div>
-        <div class="action_buttons">
-		    <input type="submit" class="btnAddNew btn rounded" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Pingback');" />&nbsp;
-            <span class="loader">&nbsp;</span>
-        </div>
 	</div>      
 </asp:Content>
