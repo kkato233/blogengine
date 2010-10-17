@@ -13,6 +13,8 @@ namespace Admin
     using System.Web.UI;
     using System.Xml;
 
+    using App_Code.Controls;
+
     using BlogEngine.Core;
     using BlogEngine.Core.DataStore;
     using BlogEngine.Core.Providers;

@@ -1,108 +1,167 @@
-﻿#region Using
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using BlogEngine.Core;
-using System.Collections.Generic;
-using System.Web.Security;
-
-#endregion
-
-public partial class widgets_Visitor_info_widget : WidgetBase
+namespace Widgets.VisitorInfo
 {
+    using System;
+    using System.Collections.Generic;
 
-	public override string Name
-	{
-		get { return "Visitor info"; }
-	}
+    using App_Code.Controls;
 
-	public override bool IsEditable
-	{
-		get { return false; }
-	}
+    using BlogEngine.Core;
 
-	public override void LoadWidget()
-	{
-		this.Visible = false;
-		HttpCookie cookie = Request.Cookies["comment"];
+    /// <summary>
+    /// The widget.
+    /// </summary>
+    public partial class Widget : WidgetBase
+    {
+        #region Constants and Fields
 
-		if (cookie != null)
-		{
-			string name = cookie.Values["name"];
-			string email = cookie.Values["email"];
-			string website = cookie.Values["url"];
+        /// <summary>
+        /// The number of comments.
+        /// </summary>
+        private int numberOfComments;
 
-			if (name != null)
-			{
-				name = name.Replace("+", " ");
-				WriteHtml(name, email, website);
+        #endregion
 
-				Uri url;
-				if (Request.QueryString["apml"] == null && Uri.TryCreate(website, UriKind.Absolute, out url))
-				{
-					phScript.Visible = true;
-					ltWebsite.Text = url.ToString();
-				}
+        #region Properties
 
-				this.Visible = true;
-			}
-		}
-	}
+        /// <summary>
+        /// Gets a value indicating whether IsEditable.
+        /// </summary>
+        public override bool IsEditable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-	private void WriteHtml(string name, string email, string website)
-	{
-		if (name.Contains(" "))
-			name = name.Substring(0, name.IndexOf(" "));
+        /// <summary>
+        /// Gets Name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return "Visitor info";
+            }
+        }
 
-        Avatar avatar = Avatar.GetAvatar(16, email, null, null, name);
-        string avatarLink = avatar == null || avatar.Url == null ? string.Empty : avatar.Url.ToString();
-        Title = string.Format("<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> Hi {1}", avatarLink, Server.HtmlEncode(name));
-		pName.InnerHtml = "<strong>Welcome back!</strong>";
-		List<Post> list = GetCommentedPosts(email, website);
+        #endregion
 
-		if (list.Count > 0)
-		{
-			string link = string.Format("<a href=\"{0}\">{1}</a>", list[0].RelativeLink, Server.HtmlEncode(list[0].Title));
-			pComment.InnerHtml = "New comments have been added to " + link + " since your last comment. ";			
-		}
+        #region Public Methods
 
-		if (_NumberOfComments > 0)
-		{
-			pComment.InnerHtml += "You have written " + _NumberOfComments + " comments in total."; 
-		}
-	}
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        /// data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            this.Visible = false;
+            var cookie = this.Request.Cookies["comment"];
 
-	private int _NumberOfComments = 0;
+            if (cookie == null)
+            {
+                return;
+            }
 
-	private List<Post> GetCommentedPosts(string email, string website)
-	{
-		List<Post> list = new List<Post>();
-		foreach (Post post in Post.Posts)
-		{
-			List<Comment> comments = post.Comments.FindAll(delegate(Comment c)
-			{
-				if (email.Equals(c.Email, StringComparison.OrdinalIgnoreCase))
-					return true;
+            var name = cookie.Values["name"];
+            var email = cookie.Values["email"];
+            var website = cookie.Values["url"];
 
-				if (c.Website != null && c.Website.ToString().Equals(website, StringComparison.OrdinalIgnoreCase))
-					return true;
+            if (name == null)
+            {
+                return;
+            }
 
-				return false;
-			});
+            name = name.Replace("+", " ");
+            this.WriteHtml(name, email, website);
 
-			if (comments.Count > 0)
-			{
-				_NumberOfComments += comments.Count;
-				int index = post.Comments.IndexOf(comments[comments.Count - 1]);
-				if (index < post.Comments.Count - 1 && post.Comments[post.Comments.Count - 1].DateCreated > DateTime.Now.AddDays(-7))
-					list.Add(post);
-			}
-		}
+            Uri url;
+            if (this.Request.QueryString["apml"] == null && Uri.TryCreate(website, UriKind.Absolute, out url))
+            {
+                this.phScript.Visible = true;
 
-		return list;
-	}
+                // ltWebsite.Text = url.ToString();
+            }
+
+            this.Visible = true;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the commented posts.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <param name="website">The website.</param>
+        /// <returns>A list of Post</returns>
+        private List<Post> GetCommentedPosts(string email, string website)
+        {
+            var list = new List<Post>();
+            foreach (var post in Post.Posts)
+            {
+                var comments = post.Comments.FindAll(
+                    c => email.Equals(c.Email, StringComparison.OrdinalIgnoreCase) ||
+                         (c.Website != null &&
+                          c.Website.ToString().Equals(website, StringComparison.OrdinalIgnoreCase)));
+
+                if (comments.Count <= 0)
+                {
+                    continue;
+                }
+                
+                this.numberOfComments += comments.Count;
+                var index = post.Comments.IndexOf(comments[comments.Count - 1]);
+                if (index < post.Comments.Count - 1 &&
+                    post.Comments[post.Comments.Count - 1].DateCreated > DateTime.Now.AddDays(-7))
+                {
+                    list.Add(post);
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Writes the HTML.
+        /// </summary>
+        /// <param name="name">The name to write.</param>
+        /// <param name="email">The email.</param>
+        /// <param name="website">The website.</param>
+        private void WriteHtml(string name, string email, string website)
+        {
+            if (name.Contains(" "))
+            {
+                name = name.Substring(0, name.IndexOf(" "));
+            }
+
+            var avatar = Avatar.GetAvatar(16, email, null, null, name);
+            var avatarLink = avatar == null || avatar.Url == null ? string.Empty : avatar.Url.ToString();
+            this.Title = string.Format(
+                "<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> Hi {1}", avatarLink, this.Server.HtmlEncode(name));
+            this.pName.InnerHtml = "<strong>Welcome back!</strong>";
+            var list = this.GetCommentedPosts(email, website);
+
+            if (list.Count > 0)
+            {
+                var link = string.Format(
+                    "<a href=\"{0}\">{1}</a>", list[0].RelativeLink, this.Server.HtmlEncode(list[0].Title));
+                this.pComment.InnerHtml = string.Format("New comments have been added to {0} since your last comment. ", link);
+            }
+
+            if (this.numberOfComments > 0)
+            {
+                this.pComment.InnerHtml += string.Format("You have written {0} comments in total.", this.numberOfComments);
+            }
+        }
+
+        #endregion
+    }
 }

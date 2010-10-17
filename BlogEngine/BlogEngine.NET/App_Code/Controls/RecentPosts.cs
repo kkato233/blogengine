@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Shows a chronological list of recent posts.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;

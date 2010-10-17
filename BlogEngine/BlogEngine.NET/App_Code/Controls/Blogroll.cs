@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Creates and displays a dynamic blogroll.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;

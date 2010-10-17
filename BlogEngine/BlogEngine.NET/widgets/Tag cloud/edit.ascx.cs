@@ -1,41 +1,65 @@
-﻿#region Using
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widgets tag cloud edit.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Collections.Specialized;
-
-#endregion
-
-public partial class widgets_Tag_cloud_edit : WidgetEditBase
+namespace Widgets.TagCloud
 {
+    using System;
 
-	protected override void OnLoad(EventArgs e)
-	{
-		if (!Page.IsPostBack)
-		{
-			StringDictionary settings = GetSettings();
-			string minimumPosts = "1";
-			if (settings.ContainsKey("minimumposts"))
-				minimumPosts = settings["minimumposts"];
+    using App_Code.Controls;
 
-            string tagcloudsize = "-1";
+    /// <summary>
+    /// The widgets tag cloud edit.
+    /// </summary>
+    public partial class Edit : WidgetEditBase
+    {
+        #region Public Methods
+
+        /// <summary>
+        /// Saves this the basic widget settings such as the Title.
+        /// </summary>
+        public override void Save()
+        {
+            var settings = this.GetSettings();
+            settings["minimumposts"] = this.ddlMinimumPosts.SelectedValue;
+            settings["tagcloudsize"] = this.ddlCloudSize.SelectedValue;
+            this.SaveSettings(settings);
+            WidgetsTagCloudWidget.Reload();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+        /// </summary>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs"/> object that contains the event data.
+        /// </param>
+        protected override void OnInit(EventArgs e)
+        {
+            var settings = this.GetSettings();
+            var minimumPosts = "1";
+            if (settings.ContainsKey("minimumposts"))
+            {
+                minimumPosts = settings["minimumposts"];
+            }
+
+            var tagcloudsize = "-1";
             if (settings.ContainsKey("tagcloudsize"))
+            {
                 tagcloudsize = settings["tagcloudsize"];
+            }
 
-            ddlMinimumPosts.SelectedValue = minimumPosts;
-            ddlCloudSize.SelectedValue = tagcloudsize;
-		}
-	}
+            this.ddlMinimumPosts.SelectedValue = minimumPosts;
+            this.ddlCloudSize.SelectedValue = tagcloudsize;
 
-	public override void Save()
-	{
-		StringDictionary settings = GetSettings();
-        settings["minimumposts"] = ddlMinimumPosts.SelectedValue;
-        settings["tagcloudsize"] = ddlCloudSize.SelectedValue;
-		SaveSettings(settings);
-		WidgetsTagCloudWidget.Reload();
-	}
+            base.OnInit(e);
+        }
+
+        #endregion
+    }
 }

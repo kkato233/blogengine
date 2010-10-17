@@ -1,4 +1,14 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Includes a reference to a JavaScript.
+//   <remarks>
+//   This control is needed in order to let the src
+//   attribute of the script tage be relative to the root.
+//   </remarks>
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System.Text;
     using System.Web;

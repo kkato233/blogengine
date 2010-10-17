@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Builds a category list.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +37,7 @@
         private const double CacheTimeoutInHours = 1;
 
         /// <summary>
-        /// The _ sync root.
+        /// The sync root.
         /// </summary>
         private static readonly object SyncRoot = new object();
 
@@ -52,19 +58,19 @@
         #region Public Methods
 
         /// <summary>
-        /// Renders the control.
+        /// Outputs server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object and stores tracing information about the control if tracing is enabled.
         /// </summary>
-        /// <param name="writer">
-        /// The writer.
-        /// </param>
+        /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.</param>
         public override void RenderControl(HtmlTextWriter writer)
         {
-            if (Post.Posts.Count > 0)
+            if (Post.Posts.Count <= 0)
             {
-                var html = RenderMonths();
-                writer.Write(html);
-                writer.Write(Environment.NewLine);
+                return;
             }
+
+            var html = RenderMonths();
+            writer.Write(html);
+            writer.Write(Environment.NewLine);
         }
 
         #endregion
@@ -147,7 +153,7 @@
 
                     if (date.Year > current || ul.Controls.Count == 0)
                     {
-                        list = new HtmlGenericControl("ul") { ID = "year" + date.Year };
+                        list = new HtmlGenericControl("ul") { ID = string.Format("year{0}", date.Year) };
 
                         year = new HtmlGenericControl("li") { InnerHtml = date.Year.ToString() };
                         year.Attributes.Add("class", "year");

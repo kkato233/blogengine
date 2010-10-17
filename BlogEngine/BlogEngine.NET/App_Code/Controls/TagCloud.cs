@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The tag cloud.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -182,7 +188,7 @@
             var dic = CreateRawList();
             var max = 0;
 
-            int max1 = max;
+            var max1 = max;
             foreach (var value in dic.Values.Where(value => value > max1))
             {
                 max = value;

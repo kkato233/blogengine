@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets_Most_comments_widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.MostComments.Widget" %>
 <asp:Repeater runat="server" ID="rep">
     <HeaderTemplate>
         <table style="border-collapse: collapse">
