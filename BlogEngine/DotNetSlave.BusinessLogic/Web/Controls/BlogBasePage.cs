@@ -45,13 +45,7 @@
         /// </param>
         public virtual void AddGenericLink(string relation, string title, string href)
         {
-            using (var link = new HtmlLink())
-            {
-                link.Attributes["rel"] = relation;
-                link.Attributes["title"] = title;
-                link.Attributes["href"] = href;
-                this.Page.Header.Controls.Add(link);
-            }
+            this.AddGenericLink(null, relation, title, href);
         }
 
         /// <summary>
@@ -71,12 +65,7 @@
         /// </param>
         public virtual void AddGenericLink(string type, string relation, string title, string href)
         {
-            var link = new HtmlLink();
-            link.Attributes["type"] = type;
-            link.Attributes["rel"] = relation;
-            link.Attributes["title"] = title;
-            link.Attributes["href"] = href;
-            this.Page.Header.Controls.Add(link);
+            this.Page.Header.Controls.Add(GetGenericLink(type, relation, title, href));
         }
 
         /// <summary>
@@ -302,6 +291,33 @@
             }
         }
 
+
+        /// <summary>
+        /// Creates and returns a generic link control.
+        /// </summary>
+        /// <param name="type">
+        /// The HtmlLink's "type" attribute value.
+        /// </param>
+        /// <param name="relation">
+        /// The HtmlLink's "rel" attribute value.
+        /// </param>
+        /// <param name="title">
+        /// The HtmlLink's "title" attribute value.
+        /// </param>
+        /// <param name="href">
+        /// The HtmlLink's "href" attribute value.
+        /// </param>
+        private static HtmlLink GetGenericLink(string type, string relation, string title, string href)
+        {
+            var link = new HtmlLink();
+
+            if (type != null) { link.Attributes["type"] = type; }
+            link.Attributes["rel"] = relation;
+            link.Attributes["title"] = title;
+            link.Attributes["href"] = href;
+            return link;
+        }
+
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.TemplateControl.Error"></see> event.
         /// </summary>
@@ -332,34 +348,39 @@
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+
+            string relativeWebRoot = Utils.RelativeWebRoot;
+            Uri absoluteWebRoot = Utils.AbsoluteWebRoot;
+            string instanceName = BlogSettings.Instance.Name;
+
             if (!this.Page.IsCallback)
             {
                 // Links
-                this.AddGenericLink("contents", "Archive", string.Format("{0}archive.aspx", Utils.RelativeWebRoot));
-                this.AddGenericLink("start", BlogSettings.Instance.Name, Utils.RelativeWebRoot);
-                this.AddGenericLink("application/rdf+xml", "meta", "SIOC", string.Format("{0}sioc.axd", Utils.AbsoluteWebRoot));
-                this.AddGenericLink("application/apml+xml", "meta", "APML", string.Format("{0}apml.axd", Utils.AbsoluteWebRoot));
-                this.AddGenericLink("application/rdf+xml", "meta", "FOAF", string.Format("{0}foaf.axd", Utils.AbsoluteWebRoot));
+                this.AddGenericLink("contents", "Archive", string.Format("{0}archive.aspx", relativeWebRoot));
+                this.AddGenericLink("start", instanceName, relativeWebRoot);
+                this.AddGenericLink("application/rdf+xml", "meta", "SIOC", string.Format("{0}sioc.axd", absoluteWebRoot));
+                this.AddGenericLink("application/apml+xml", "meta", "APML", string.Format("{0}apml.axd", absoluteWebRoot));
+                this.AddGenericLink("application/rdf+xml", "meta", "FOAF", string.Format("{0}foaf.axd", absoluteWebRoot));
 
                 if (string.IsNullOrEmpty(BlogSettings.Instance.AlternateFeedUrl))
                 {
                     this.AddGenericLink(
                         "application/rss+xml",
                         "alternate",
-                        string.Format("{0} (RSS)", BlogSettings.Instance.Name),
+                        string.Format("{0} (RSS)", instanceName),
                         string.Format("{0}?format=rss", Utils.FeedUrl));
                     this.AddGenericLink(
                         "application/atom+xml",
                         "alternate",
-                        string.Format("{0} (ATOM)", BlogSettings.Instance.Name),
+                        string.Format("{0} (ATOM)", instanceName),
                         string.Format("{0}?format=atom", Utils.FeedUrl));
                 }
                 else
                 {
-                    this.AddGenericLink("application/rss+xml", "alternate", BlogSettings.Instance.Name, Utils.FeedUrl);
+                    this.AddGenericLink("application/rss+xml", "alternate", instanceName, Utils.FeedUrl);
                 }
 
-                this.AddGenericLink("application/rsd+xml", "edituri", "RSD", string.Format("{0}rsd.axd", Utils.AbsoluteWebRoot));
+                this.AddGenericLink("application/rsd+xml", "edituri", "RSD", string.Format("{0}rsd.axd", absoluteWebRoot));
 
                 this.AddMetaContentType();
 
@@ -377,8 +398,8 @@
                     this.AddGenericLink(
                         "application/opensearchdescription+xml",
                         "search",
-                        BlogSettings.Instance.Name,
-                        string.Format("{0}opensearch.axd", Utils.AbsoluteWebRoot));
+                        instanceName,
+                        string.Format("{0}opensearch.axd", absoluteWebRoot));
                 }
 
                 if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
@@ -391,7 +412,7 @@
 
             if (this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
-                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, true);
+                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", relativeWebRoot), true, true);
             }
 
             if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
