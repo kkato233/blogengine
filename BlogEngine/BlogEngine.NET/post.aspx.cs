@@ -13,19 +13,29 @@ using System.Collections.Generic;
 
 public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 {
-	protected void Page_Init(object sender, EventArgs e)
-	{
-	    CommentView1.Visible = ShowCommentsForm;
-	    disqus_box.Visible = ShowDisqusForm;
 
-		if (!Page.IsPostBack && !Page.IsCallback)
-		{
-			if (Request.RawUrl.Contains("?id=") && Request.QueryString["id"].Length == 36)
-			{
-				Guid id = new Guid(Request.QueryString["id"]);
-				Post post = Post.GetPost(id);
-				if (post != null)
-				{
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+
+        bool shouldThrow404 = false;
+
+
+        CommentView1.Visible = ShowCommentsForm;
+        disqus_box.Visible = ShowDisqusForm;
+
+        var requestId = Request.QueryString["id"];
+        Guid id;
+
+        if ((!Utils.StringIsNullOrWhitespace(requestId)) && requestId.TryParse(out id))
+        {
+
+            Post post = Post.GetPost(id);
+
+            if (post != null)
+            {
+                if (!Page.IsPostBack && !Page.IsCallback && Request.RawUrl.Contains("?id="))
+                {
                     // If there's more than one post that has the same RelativeLink
                     // this post has then don't do a 301 redirect.
 
@@ -38,75 +48,84 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                         Response.AppendHeader("location", post.RelativeLink.ToString());
                         Response.End();
                     }
-				}
-			}
-		}
-
-		if (Request.QueryString["id"] != null && Request.QueryString["id"].Length == 36)
-		{
-			Guid id = new Guid(Request.QueryString["id"]);
-			this.Post = Post.GetPost(id);
-
-			if (Post != null)
-			{
-				if (!this.Post.IsVisible && !Page.User.Identity.IsAuthenticated)
-					Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
-
-                string path = Utils.RelativeWebRoot + "themes/" + BlogSettings.Instance.Theme + "/PostView.ascx";
-
-				PostViewBase postView = (PostViewBase)LoadControl(path);
-				postView.Post = Post;
-				postView.ID = Post.Id.ToString().Replace("-", string.Empty);
-				postView.Location = ServingLocation.SinglePost;
-				pwPost.Controls.Add(postView);
-
-				if (BlogSettings.Instance.EnableRelatedPosts)
-				{
-					related.Visible = true;
-					related.Item = this.Post;
-				}
-
-				CommentView1.Post = Post;
-
-				Page.Title = Server.HtmlEncode(Post.Title);
-				AddMetaKeywords();
-				AddMetaDescription();
-				base.AddMetaTag("author", Server.HtmlEncode(Post.AuthorProfile == null ? Post.Author : Post.AuthorProfile.FullName));
-
-				List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
-				if (visiblePosts.Count > 0)
-				{
-					AddGenericLink("last", visiblePosts[0].Title, visiblePosts[0].RelativeLink.ToString());
-					AddGenericLink("first", visiblePosts[visiblePosts.Count - 1].Title, visiblePosts[visiblePosts.Count - 1].RelativeLink.ToString());
-				}
-
-				InitNavigationLinks();
-
-				phRDF.Visible = BlogSettings.Instance.EnableTrackBackReceive;
-
-				base.AddGenericLink("application/rss+xml", "alternate", Server.HtmlEncode(Post.Title) + " (RSS)", postView.CommentFeed + "?format=ATOM");
-				base.AddGenericLink("application/rss+xml", "alternate", Server.HtmlEncode(Post.Title) + " (ATOM)", postView.CommentFeed + "?format=ATOM");
-
-				if (BlogSettings.Instance.EnablePingBackReceive)
-					Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
-
-                string commentNotificationUnsubscribeEmailAddress = Request.QueryString["unsubscribe-email"];
-                if (!string.IsNullOrEmpty(commentNotificationUnsubscribeEmailAddress))
+                }
+                else if (!post.IsVisible && !Page.User.Identity.IsAuthenticated)
                 {
-                    if (Post.NotificationEmails.Contains(commentNotificationUnsubscribeEmailAddress))
+                    shouldThrow404 = true;
+                }
+                else
+                {
+                    this.Post = post;
+
+                    var settings = BlogSettings.Instance;
+                    string encodedPostTitle = Server.HtmlEncode(Post.Title);
+                    string path = Utils.RelativeWebRoot + "themes/" + settings.Theme + "/PostView.ascx";
+
+                    PostViewBase postView = (PostViewBase)LoadControl(path);
+                    postView.Post = Post;
+                    postView.ID = Post.Id.ToString().Replace("-", string.Empty);
+                    postView.Location = ServingLocation.SinglePost;
+                    pwPost.Controls.Add(postView);
+
+                    if (settings.EnableRelatedPosts)
                     {
-                        Post.NotificationEmails.Remove(commentNotificationUnsubscribeEmailAddress);
-                        Post.Save();
-                        phCommentNotificationUnsubscription.Visible = true;
+                        related.Visible = true;
+                        related.Item = this.Post;
+                    }
+
+                    CommentView1.Post = Post;
+
+                    Page.Title = encodedPostTitle;
+                    AddMetaKeywords();
+                    AddMetaDescription();
+                    base.AddMetaTag("author", Server.HtmlEncode(Post.AuthorProfile == null ? Post.Author : Post.AuthorProfile.FullName));
+
+                    List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
+                    if (visiblePosts.Count > 0)
+                    {
+                        AddGenericLink("last", visiblePosts[0].Title, visiblePosts[0].RelativeLink);
+                        AddGenericLink("first", visiblePosts[visiblePosts.Count - 1].Title, visiblePosts[visiblePosts.Count - 1].RelativeLink);
+                    }
+
+                    InitNavigationLinks();
+
+                    phRDF.Visible = settings.EnableTrackBackReceive;
+
+                    base.AddGenericLink("application/rss+xml", "alternate", encodedPostTitle + " (RSS)", postView.CommentFeed + "?format=ATOM");
+                    base.AddGenericLink("application/rss+xml", "alternate", encodedPostTitle + " (ATOM)", postView.CommentFeed + "?format=ATOM");
+
+                    if (BlogSettings.Instance.EnablePingBackReceive)
+                    {
+                        Response.AppendHeader("x-pingback", "http://" + Request.Url.Authority + Utils.RelativeWebRoot + "pingback.axd");
+                    }
+
+                    string commentNotificationUnsubscribeEmailAddress = Request.QueryString["unsubscribe-email"];
+                    if (!string.IsNullOrEmpty(commentNotificationUnsubscribeEmailAddress))
+                    {
+                        if (Post.NotificationEmails.Contains(commentNotificationUnsubscribeEmailAddress))
+                        {
+                            Post.NotificationEmails.Remove(commentNotificationUnsubscribeEmailAddress);
+                            Post.Save();
+                            phCommentNotificationUnsubscription.Visible = true;
+                        }
                     }
                 }
-			}
-		}
-		else
-		{
-			Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
-		}
-	}
+
+            }
+
+        }
+
+        else
+        {
+            shouldThrow404 = true;
+        }
+
+        if (shouldThrow404)
+        {
+            Response.Redirect(Utils.RelativeWebRoot + "error404.aspx", true);
+        }
+
+    }
 
 	/// <summary>
 	/// Gets the next post filtered for invisible posts.
@@ -151,7 +170,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				hlNext.NavigateUrl = next.RelativeLink;
 				hlNext.Text = Server.HtmlEncode(next.Title + " >>");
 				hlNext.ToolTip = Resources.labels.nextPost;
-				base.AddGenericLink("next", next.Title, next.RelativeLink.ToString());
+				base.AddGenericLink("next", next.Title, next.RelativeLink);
 				phPostNavigation.Visible = true;
 			}
 
@@ -160,7 +179,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 				hlPrev.NavigateUrl = prev.RelativeLink;
 				hlPrev.Text = Server.HtmlEncode("<< " + prev.Title);
 				hlPrev.ToolTip = Resources.labels.previousPost;
-				base.AddGenericLink("prev", prev.Title, prev.RelativeLink.ToString());
+				base.AddGenericLink("prev", prev.Title, prev.RelativeLink);
 				phPostNavigation.Visible = true;
 			}
 		}
@@ -179,14 +198,9 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// </summary>
 	private void AddMetaKeywords()
 	{
-		if (Post.Tags.Count > 0)
+        if (Post.Tags.Count > 0)
 		{
-			string[] tags = new string[Post.Tags.Count];
-			for (int i = 0; i < Post.Tags.Count; i++)
-			{
-				tags[i] = Post.Tags[i];
-			}
-			base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", tags)));
+            base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", Post.Tags.ToArray())));
 		}
 	}
 
