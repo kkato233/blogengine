@@ -1,6 +1,7 @@
-﻿/* General styles */
+﻿body { 
+/* General styles */
 /* ------------------------------*/
-body { background: #e7e7e7 url(images/bkg.png) repeat fixed 0 0; line-height:150%;
+background: #e7e7e7 url(images/bkg.png) repeat fixed 0 0; line-height:150%;
     font-size: 13px; font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;  margin: 10px 40px; padding: 0px; color: #696969; }
     
