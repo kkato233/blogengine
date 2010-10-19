@@ -83,6 +83,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +118,7 @@
     <Compile Include="Compilation\SessionExpressionBuilder.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Json\JsonComment.cs" />
+    <Compile Include="Json\JsonCulture.cs" />
     <Compile Include="Json\JsonResponse.cs" />
     <Compile Include="Json\JsonComments.cs" />
     <Compile Include="Ping\Manager.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Web\HttpHandlers\ImageHandler.cs" />
     <Compile Include="Web\HttpHandlers\OpenSearchHandler.cs" />
     <Compile Include="Web\HttpHandlers\PingbackHandler.cs" />
+    <Compile Include="Web\HttpHandlers\ResourceHandler.cs" />
     <Compile Include="Web\HttpHandlers\RsdHandler.cs" />
     <Compile Include="Web\HttpHandlers\SiteMap.cs" />
     <Compile Include="Providers\BlogProvider.cs" />
