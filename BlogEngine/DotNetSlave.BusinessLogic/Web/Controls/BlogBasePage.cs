@@ -149,42 +149,6 @@
         }
 
         /// <summary>
-        /// Adds the localization keys to JavaScript for use globally.
-        /// </summary>
-        protected virtual void AddLocalizationKeys()
-        {
-            var sb = new StringBuilder();
-            sb.Append("function registerVariables(){");
-            sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
-            sb.AppendFormat("BlogEngine.i18n.hasRated='{0}';", Utils.Translate("youAlreadyRated").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.savingTheComment='{0}';", Utils.Translate("savingTheComment").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.comments='{0}';", Utils.Translate("comments").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.commentWasSaved='{0}';", Utils.Translate("commentWasSaved").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.commentWaitingModeration='{0}';",
-                Utils.Translate("commentWaitingModeration").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.cancel='{0}';", Utils.Translate("cancel").Replace("'", "\\'"));
-            sb.AppendFormat("BlogEngine.i18n.filter='{0}';", Utils.Translate("filter").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.apmlDescription='{0}';", Utils.Translate("filterByApmlDescription").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.beTheFirstToRate='{0}';", Utils.Translate("beTheFirstToRate").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.currentlyRated='{0}';", Utils.Translate("currentlyRated").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.ratingHasBeenRegistered='{0}';",
-                Utils.Translate("ratingHasBeenRegistered").Replace("'", "\\'"));
-            sb.AppendFormat(
-                "BlogEngine.i18n.rateThisXStars='{0}';", Utils.Translate("rateThisXStars").Replace("'", "\\'"));
-
-            sb.Append("};");
-
-            this.ClientScript.RegisterStartupScript(this.GetType(), "registerVariables", sb.ToString(), true);
-        }
-
-        /// <summary>
         /// Adds the content-type meta tag to the header.
         /// </summary>
         protected virtual void AddMetaContentType()
@@ -386,11 +350,12 @@
 
                 this.AddDefaultLanguages();
 
-                this.AddLocalizationKeys();
+             //   this.AddLocalizationKeys();
 
                 this.AddGlobalStyles();
 
                 Utils.AddFolderJavaScripts(this, "Scripts", true);
+                Utils.AddJavaScriptResourcesToPage(this);
                 Utils.AddFolderJavaScripts(this, string.Format("themes/{0}", this.theme), true);
 
                 if (BlogSettings.Instance.EnableOpenSearch)

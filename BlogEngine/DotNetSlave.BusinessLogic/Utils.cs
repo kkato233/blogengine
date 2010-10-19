@@ -67,9 +67,9 @@
         private static readonly Regex RegexStripHtml = new Regex("<[^>]*>", RegexOptions.Compiled);
 
         /// <summary>
-        ///     The mono int.
+        ///     Boolean for returning whether or not BlogEngine is currently running on Mono.
         /// </summary>
-        private static int mono;
+        private static readonly bool isMono = (Type.GetType("Mono.Runtime") != null);
 
         /// <summary>
         ///     The relative web root.
@@ -107,25 +107,21 @@
         {
             get
             {
-                // if (_AbsoluteWebRoot == null)
-                // {
                 var context = HttpContext.Current;
                 if (context == null)
                 {
                     throw new WebException("The current HttpContext is null");
                 }
 
-                if (context.Items["absoluteurl"] == null)
+                var absoluteurl = context.Items["absoluteurl"];
+                if (absoluteurl == null)
                 {
-                    context.Items["absoluteurl"] =
-                        new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
+                    absoluteurl = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
+                    context.Items["absoluteurl"] = absoluteurl;
                 }
 
-                return context.Items["absoluteurl"] as Uri;
+                return absoluteurl as Uri;
 
-                // _AbsoluteWebRoot = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);// new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
-                // }
-                // return _AbsoluteWebRoot;
             }
         }
 
@@ -192,12 +188,7 @@
         {
             get
             {
-                if (mono == 0)
-                {
-                    mono = Type.GetType("Mono.Runtime") != null ? 1 : 2;
-                }
-
-                return mono == 1;
+                return isMono;
             }
         }
 
@@ -363,6 +354,21 @@
                         string.Format("{0}/{1}", pathFromRoot, fileName), addAtBottom, defer);
                 }
             }
+
+           
+        }
+
+        /// <summary>
+        /// This method adds the resource handler script responsible for loading up BlogEngine's culture-specific resource strings
+        /// on the client side. This needs to be called at a point after blog.js has been added to the page, otherwise this script
+        /// will fail at load time.
+        /// </summary>
+        /// <param name="page">The System.Web.UI.Page instance the resources will be added to.</param>
+        public static void AddJavaScriptResourcesToPage(System.Web.UI.Page page)
+        {
+            var resourcePath = Web.HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            var script = string.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", resourcePath);
+            page.ClientScript.RegisterStartupScript(page.GetType(), resourcePath.GetHashCode().ToString(), script);
         }
 
         /// <summary>
@@ -400,8 +406,7 @@
                 }
                 else
                 {
-                    var t = Type.GetType("Mono.Runtime");
-                    if (t != null)
+                    if (!IsMono)
                     {
                         assemblyName = "App_Code";
                     }
@@ -609,6 +614,7 @@
         /// </returns>
         public static string GetSubDomain(Uri url)
         {
+           
             if (url.HostNameType == UriHostNameType.Dns)
             {
                 var host = url.Host;

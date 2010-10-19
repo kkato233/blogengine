@@ -603,8 +603,6 @@ if (typeof ($) == 'undefined')
 
 if (typeof (registerCommentBox) != 'undefined')
     BlogEngine.addLoadEvent(registerCommentBox);
-if (typeof (registerVariables) != 'undefined')
-    BlogEngine.addLoadEvent(registerVariables);
 if (typeof (setupBlogEngineCalendar) != 'undefined')
     BlogEngine.addLoadEvent(setupBlogEngineCalendar);
 
