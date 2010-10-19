@@ -14,7 +14,7 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1>Pingbacks & Trackbacks</h1>
+            <h1>Pingbacks &amp; Trackbacks</h1>
             <div id="Container"></div>
             <div id="Pager"></div>
             <div class="action_buttons">
