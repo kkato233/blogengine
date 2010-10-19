@@ -24,7 +24,11 @@
         /// <summary>
         ///     The blog settings singleton.
         /// </summary>
-        private static BlogSettings blogSettingsSingleton;
+        /// <remarks>
+        /// This should be created immediately instead of lazyloaded. It'll reduce the number of null checks that occur
+        /// due to heavy reliance on calls to BlogSettings.Instance.
+        /// </remarks>
+        private static readonly BlogSettings blogSettingsSingleton = new BlogSettings();
 
         /// <summary>
         ///     The configured theme.
@@ -77,11 +81,6 @@
         {
             get
             {
-                if (blogSettingsSingleton == null)
-                {
-                    blogSettingsSingleton = new BlogSettings();
-                }
-
                 return blogSettingsSingleton;
             }
         }
