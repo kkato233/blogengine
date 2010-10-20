@@ -14,37 +14,37 @@
         /// <summary>
         /// Loads the comments.
         /// </summary>
-        /// <param name="pageSize">
+        /// <param name="PageSize">
         /// Size of the page.
         /// </param>
-        /// <param name="page">
+        /// <param name="Page">
         /// The page number.
         /// </param>
         /// <returns>
         /// An enumerable of comments.
         /// </returns>
         [WebMethod]
-        public static IEnumerable LoadComments(int pageSize, int page)
+        public static IEnumerable LoadComments(int PageSize, int Page)
         {
-            return JsonComments.GetComments(CommentType.Spam, pageSize, page);
+            return JsonComments.GetComments(CommentType.Spam, PageSize, Page);
         }
 
         /// <summary>
         /// Loads the pager.
         /// </summary>
-        /// <param name="pageSize">
+        /// <param name="PageSize">
         /// Size of the page.
         /// </param>
-        /// <param name="page">
+        /// <param name="Page">
         /// The page number.
         /// </param>
         /// <returns>
         /// The pager.
         /// </returns>
         [WebMethod]
-        public static string LoadPager(int pageSize, int page)
+        public static string LoadPager(int PageSize, int Page)
         {
-            return JsonComments.GetPager(pageSize, page, "Spam.aspx");
+            return JsonComments.GetPager(PageSize, Page, "Spam.aspx");
         }
     }
 }
