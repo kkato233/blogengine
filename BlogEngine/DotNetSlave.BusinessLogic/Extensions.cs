@@ -7,6 +7,19 @@
     /// </summary>
     public static class Extensions
     {
+
+        /// <summary>
+        /// Checks whether a source string contains another string based on the supplied StringComparison.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="partial"></param>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
+        public static bool Contains(this string source, string partial, StringComparison comparison)
+        {
+            return (source.IndexOf(partial, comparison) >= 0);
+        }
+
         /// <summary>
         /// Tries to parse the string into the specified Guid.
         /// </summary>
