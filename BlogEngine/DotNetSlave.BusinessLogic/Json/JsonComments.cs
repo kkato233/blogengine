@@ -87,6 +87,8 @@
                         break;
                 }
 
+                allComments.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
+
                 foreach (var c in allComments)
                 {
                     cnt++;
