@@ -216,12 +216,36 @@
         /// <param name="url">
         /// The URL string.
         /// </param>
+        /// <param name="minify"></param>
         /// <returns>
         /// The resolve script url.
         /// </returns>
-        public static string ResolveScriptUrl(string url)
+        public static string ResolveScriptUrl(string url, bool minify)
         {
-            return string.Format("{0}js.axd?path={1}", Utils.RelativeWebRoot, HttpUtility.UrlEncode(url));
+            var minifyQuery = (minify ? "&minify=" : String.Empty);
+            return string.Format("{0}js.axd?path={1}{2}", 
+                                    Utils.RelativeWebRoot,
+                                    HttpUtility.UrlEncode(url),
+                                    minifyQuery);
+        }
+
+           /// <summary>
+        /// Adds a JavaScript reference to the HTML head tag.
+        /// </summary>
+        /// <param name="page">
+        /// The page to add the JavaScript include to.
+        /// </param>
+        /// <param name="url">
+        /// The url string.
+        /// </param>
+        /// <param name="placeInBottom">
+        /// The place In Bottom.
+        /// </param>
+        /// <param name="addDeferAttribute">
+        /// The add Defer Attribute.
+        /// </param>
+        public static void AddJavaScriptInclude(System.Web.UI.Page page, string url, bool placeInBottom, bool addDeferAttribute) {
+            AddJavaScriptInclude(page, url, placeInBottom, addDeferAttribute, false);
         }
 
         /// <summary>
@@ -239,18 +263,20 @@
         /// <param name="addDeferAttribute">
         /// The add Defer Attribute.
         /// </param>
-        public static void AddJavaScriptInclude(System.Web.UI.Page page, string url, bool placeInBottom, bool addDeferAttribute)
+        /// <param name="minify">Set to true if the minify querystring parameter should be added to this script.</param>
+        public static void AddJavaScriptInclude(System.Web.UI.Page page, string url, bool placeInBottom, bool addDeferAttribute, bool minify)
         {
             if (placeInBottom)
             {
-                var script = string.Format("<script type=\"text/javascript\"{0} src=\"{1}\"></script>", (addDeferAttribute ? " defer=\"defer\"" : string.Empty), ResolveScriptUrl(url));
+                var deferAttr = (addDeferAttribute ? " defer=\"defer\"" : string.Empty);
+                var script = string.Format("<script type=\"text/javascript\"{0} src=\"{1}\"></script>", deferAttr, ResolveScriptUrl(url, minify));
                 page.ClientScript.RegisterStartupScript(page.GetType(), url.GetHashCode().ToString(), script);
             }
             else
             {
                 var script = new HtmlGenericControl("script");
                 script.Attributes["type"] = "text/javascript";
-                script.Attributes["src"] = ResolveScriptUrl(url);
+                script.Attributes["src"] = ResolveScriptUrl(url,minify);
                 if (addDeferAttribute)
                 {
                     script.Attributes["defer"] = "defer";
@@ -270,6 +296,7 @@
             public bool Defer { get; set; }
             public bool AddAtBottom { get; set; }
             public bool IsFrontEndOnly { get; set; }
+            public bool Minify { get; set; }
         }
 
         /// <summary>
@@ -293,10 +320,11 @@
             }
 
             // common rules for sorting, etc.
+            // Files that are already minified shouldn't be re-minified as it could cause problems.
             List<ExternalContentItem> knownItems = new List<ExternalContentItem>()
             {
-                new ExternalContentItem() { ItemName = "jquery.js", Priority = 0, Defer = false },
-                new ExternalContentItem() { ItemName = "blog.js", Priority = 1, Defer = false, IsFrontEndOnly = true, AddAtBottom = true },
+                new ExternalContentItem() { ItemName = "jquery.js", Priority = 0, Defer = false, Minify=false },
+                new ExternalContentItem() { ItemName = "blog.js", Priority = 1, Defer = false, IsFrontEndOnly = true, AddAtBottom = true, Minify = true },
             };
 
             Dictionary<string, ExternalContentItem> contentItems = knownItems.ToDictionary(i => i.ItemName, i => i, StringComparer.OrdinalIgnoreCase);
@@ -336,14 +364,17 @@
                 bool defer = false;
                 bool addItem = true;
                 bool addAtBottom = false;
+                bool minify = false;
 
                 if (externalContentItem != null)
                 {
                     defer = externalContentItem.Defer;
                     addAtBottom = externalContentItem.AddAtBottom;
-
+                    minify = externalContentItem.Minify;
                     if (externalContentItem.IsFrontEndOnly && !isFrontEnd)
+                    {
                         addItem = false;
+                    }
                 }
 
                 if (addItem)
@@ -351,7 +382,7 @@
                     scriptsAddedDuringRequest.Add(file, true);
 
                     AddJavaScriptInclude(page,
-                        string.Format("{0}/{1}", pathFromRoot, fileName), addAtBottom, defer);
+                        string.Format("{0}/{1}", pathFromRoot, fileName), addAtBottom, defer, minify);
                 }
             }
 

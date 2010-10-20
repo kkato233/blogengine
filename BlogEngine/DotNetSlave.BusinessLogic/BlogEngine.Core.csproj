@@ -67,6 +67,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\..\lib\ajaxminify\AjaxMin.dll</HintPath>
+    </Reference>
     <Reference Include="BlogML">
       <HintPath>..\..\lib\blogml\BlogML.dll</HintPath>
     </Reference>
@@ -121,6 +124,7 @@
     <Compile Include="Json\JsonCulture.cs" />
     <Compile Include="Json\JsonResponse.cs" />
     <Compile Include="Json\JsonComments.cs" />
+    <Compile Include="JavascriptMinifier.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />

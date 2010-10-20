@@ -248,7 +248,7 @@
                 {
                     continue;
                 }
-                
+
                 var url = string.Format("{0}themes/{1}/css.axd?name={2}", Utils.RelativeWebRoot, this.theme, c.Attributes["href"]);
                 c.Attributes["href"] = url.Replace(".css", string.Format("{0}.css", BlogSettings.Instance.Version()));
                 c.EnableViewState = false;
@@ -377,7 +377,7 @@
 
             if (this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
-                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", relativeWebRoot), true, true);
+                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, true, true);
             }
 
             if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
@@ -412,14 +412,14 @@
             {
                 return;
             }
-            
+
             var post = Post.GetPost(new Guid(this.Request.QueryString["deletepost"]));
             if (!this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) &&
                 this.Page.User.Identity.Name != post.Author)
             {
                 return;
             }
-            
+
             post.Delete();
             post.Save();
             this.Response.Redirect(Utils.RelativeWebRoot);
