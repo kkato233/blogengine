@@ -19,6 +19,12 @@
     /// Removes whitespace in all stylesheets added to the 
     ///     header of the HTML document in site.master.
     /// </summary>
+    /// <remarks>
+    /// 
+    /// This handler uses an external library to perform minification of scripts. 
+    /// See the BlogEngine.Core.JavascriptMinifier class for more details.
+    /// 
+    /// </remarks>
     public class JavaScriptHandler : IHttpHandler
     {
         #region Properties
@@ -61,18 +67,21 @@
                 return;
             }
 
-            string cacheKey = request.RawUrl;
+            string rawUrl = request.RawUrl.Trim();
+            string cacheKey = context.Server.HtmlDecode(rawUrl);
             string script = (string)context.Cache[cacheKey];
+            bool minify = ((request.QueryString["minify"] != null) || (BlogSettings.Instance.CompressWebResource && cacheKey.Contains("WebResource.axd")));
+
 
             if (String.IsNullOrEmpty(script))
             {
                 if (path.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 {
-                    script = RetrieveRemoteScript(path, cacheKey);
+                    script = RetrieveRemoteScript(path, cacheKey, minify);
                 }
                 else
                 {
-                    script = RetrieveLocalScript(path, cacheKey);
+                    script = RetrieveLocalScript(path, cacheKey, minify);
                 }
             }
 
@@ -114,11 +123,24 @@
         /// being written to the response.
         /// </summary>
         /// <param name="script"></param>
-        /// <param name="fileName"></param>
+        /// <param name="filePath"></param>
+        /// <param name="shouldMinify"></param>
         /// <returns></returns>
-        private static string ProcessScript(string script, string fileName)
+        private static string ProcessScript(string script, string filePath, bool shouldMinify)
         {
-            return StripWhitespace(script, HardMinify(fileName));
+            // The HardMinify call is for backwards compatibility. It's really not needed anymore.
+            if ((shouldMinify) || HardMinify(filePath))
+            {
+                var min = new JavascriptMinifier();
+                min.VariableMinification = VariableMinification.LocalVariablesOnly;
+
+                return min.Minify(script);
+            }
+            else
+            {
+                return script;
+            }
+
         }
 
         /// <summary>
@@ -128,13 +150,14 @@
         /// The file name.
         /// </param>
         /// <param name="cacheKey">The key used to insert this script into the cache.</param>
+        /// <param name="minify">Whether or not the local script should be minfied</param>
         /// <returns>
         /// The retrieve local script.
         /// </returns>
-        private static string RetrieveLocalScript(string file, string cacheKey)
+        private static string RetrieveLocalScript(string file, string cacheKey, bool minify)
         {
 
-            if (StringComparer.InvariantCultureIgnoreCase.Compare(Path.GetExtension(file), ".js") != 0)
+            if (StringComparer.OrdinalIgnoreCase.Compare(Path.GetExtension(file), ".js") != 0)
             {
                 throw new SecurityException("No access");
             }
@@ -149,7 +172,7 @@
                     script = reader.ReadToEnd();
                 }
 
-                script = ProcessScript(script, file);
+                script = ProcessScript(script, file, minify);
                 HttpContext.Current.Cache.Insert(cacheKey, script, new CacheDependency(path));
                 return script;
             }
@@ -164,10 +187,11 @@
         /// The remote URL
         /// </param>
         /// <param name="cacheKey">The key used to insert this script into the cache.</param>
+        /// <param name="minify">Whether or not the remote script should be minified</param>
         /// <returns>
         /// The retrieve remote script.
         /// </returns>
-        private static string RetrieveRemoteScript(string file, string cacheKey)
+        private static string RetrieveRemoteScript(string file, string cacheKey, bool minify)
         {
 
             Uri url;
@@ -178,8 +202,9 @@
                 {
 
                     var remoteFile = new RemoteFile(url, false);
-                    string script = ProcessScript(remoteFile.GetFileAsString(), file);
-                   HttpContext.Current.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+                    string script = remoteFile.GetFileAsString();
+                    script = ProcessScript(script, file, minify);
+                    HttpContext.Current.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
                     return script;
                 }
                 catch (SocketException)
@@ -232,121 +257,6 @@
             response.StatusCode = (int)HttpStatusCode.NotModified;
             response.SuppressContent = true;
         }
-
-        /// <summary>
-        /// Strips the whitespace from any .css file.
-        /// </summary>
-        /// <param name="body">
-        /// The body string.
-        /// </param>
-        /// <param name="blogEngineScript">
-        /// The is Blog Engine Script.
-        /// </param>
-        /// <returns>
-        /// A string contained the whitespace-removed copy of the script.
-        /// </returns>
-        private static string StripWhitespace(string body, bool blogEngineScript)
-        {
-
-            var lines = body.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            var emptyLines = new StringBuilder();
-
-            // Don't use linq for this. The previous method was using Trim() in a linq query, but since
-            // it couldn't be cached, the resulting loop had to Trim it again.
-            foreach (var s in lines)
-            {
-                var line = s.Trim();
-
-                if ((line.Length > 0) && !line.StartsWith("//"))
-                {
-                    // Use AppendLine over Append, otherwise the Regex doesn't remove everything correctly.
-                    emptyLines.AppendLine(line);
-                }
-            }
-
-            body = emptyLines.ToString();
-
-            if (blogEngineScript)
-            {
-                // mark strings and regular expressions
-                var re =
-                    new Regex(
-                        "\"(([^\"\\r\\n])|(\\\"))*\"|'[^'\\r\\n]*'|/[^/\\*](?<![/\\S]/.)([^/\\\\\\r\\n]|\\\\.)*/(?=[ig]{0,2}[^\\S])",
-                        RegexOptions.Compiled | RegexOptions.Multiline);
-
-                var m = re.Matches(body);
-                var strs = new List<string>(m.Count);
-                for (var i = 0; i < m.Count; i++)
-                {
-                    strs.Add(m[i].Value);
-
-                    // replace string and regular expression with marker
-                    // This will be inlined, so there's no real reason to use a StringBuilder here.
-                    string strRegex = "_____STRINGREGEX_" + i.ToString() + "_STRINGREGEX_____";
-                    body = re.Replace(body, strRegex, 1);
-                }
-
-                // remove line comments
-                body = Regex.Replace(body, "//.*[\r\n]", String.Empty, RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // remove C styles comments
-                body = Regex.Replace(body, "/\\*.*?\\*/", String.Empty, RegexOptions.Compiled | RegexOptions.Singleline);
-
-                // trim left
-                body = Regex.Replace(body, "^\\s*", String.Empty, RegexOptions.Compiled | RegexOptions.Multiline);
-
-                // trim right
-                body = Regex.Replace(body, "\\s*[\\r\\n]", "\r\n", RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // remove whitespace beside of left curly braced
-                body = Regex.Replace(body, "\\s*{\\s*", "{", RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // remove whitespace beside of right curly braced
-                body = Regex.Replace(body, "\\s*}\\s*", "}", RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // remove whitespace beside of coma
-                body = Regex.Replace(body, "\\s*,\\s*", ",", RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // remove whitespace beside of semicolon
-                body = Regex.Replace(body, "\\s*;\\s*", ";", RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // remove newline after keywords
-                body = Regex.Replace(
-                    body,
-                    "\\r\\n(?<=\\b(abstract|boolean|break|byte|case|catch|char|class|const|continue|default|delete|do|double|else|extends|false|final|finally|float|for|function|goto|if|implements|import|in|instanceof|int|interface|long|native|new|null|package|private|protected|public|return|short|static|super|switch|synchronized|this|throw|throws|transient|true|try|typeof|var|void|while|with)\\r\\n)",
-                    " ",
-                    RegexOptions.Compiled | RegexOptions.ECMAScript);
-
-                // restore marked strings and regular expressions
-                for (var i = 0; i < strs.Count; i++)
-                {
-                    string strReg = "_____STRINGREGEX_" + i.ToString() + "_STRINGREGEX_____";
-                    body = Regex.Replace(body, strReg, strs[i]);
-
-                }
-            }
-            else
-            {
-                
-                body = Regex.Replace(body, @"^[\s]+|[ \f\r\t\v]+$", String.Empty);
-                body = Regex.Replace(body, @"([+-])\n\1", "$1 $1");
-                body = Regex.Replace(body, @"([^+-][+-])\n", "$1");
-                body = Regex.Replace(body, @"([^+]) ?(\+)", "$1$2");
-                body = Regex.Replace(body, @"(\+) ?([^+])", "$1$2");
-                body = Regex.Replace(body, @"([^-]) ?(\-)", "$1$2");
-                body = Regex.Replace(body, @"(\-) ?([^-])", "$1$2");
-                body = Regex.Replace(body, @"\n([{}()[\],<>/*%&|^!~?:=.;+-])", "$1");
-                body = Regex.Replace(body, @"(\W(if|while|for)\([^{]*?\))\n", "$1");
-                body = Regex.Replace(body, @"(\W(if|while|for)\([^{]*?\))((if|while|for)\([^{]*?\))\n", "$1$3");
-                body = Regex.Replace(body, @"([;}]else)\n", "$1 ");
-                body = Regex.Replace(
-                    body, @"(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,}(?=&nbsp;)|(?<=&ndsp;)\s{2,}(?=[<])", String.Empty);
-            }
-
-            return body;
-        }
-
-
 
         #endregion
 
