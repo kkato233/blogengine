@@ -107,6 +107,7 @@ namespace Admin
             {
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
+            System.Diagnostics.Debug.Print(this.Request.IsAuthenticated.ToString());
 
             Utils.AddFolderJavaScripts(this.Page, "Scripts", false);
             Utils.AddJavaScriptInclude(this.Page, string.Format("{0}admin/admin.js", Utils.RelativeWebRoot), false, false);

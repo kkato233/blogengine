@@ -1,6 +1,7 @@
 ﻿namespace BlogEngine.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Configuration;
     using System.Globalization;
@@ -23,7 +24,11 @@
         /// <summary>
         ///     The blog settings singleton.
         /// </summary>
-        private static BlogSettings blogSettingsSingleton;
+        /// <remarks>
+        /// This should be created immediately instead of lazyloaded. It'll reduce the number of null checks that occur
+        /// due to heavy reliance on calls to BlogSettings.Instance.
+        /// </remarks>
+        private static readonly BlogSettings blogSettingsSingleton = new BlogSettings();
 
         /// <summary>
         ///     The configured theme.
@@ -76,11 +81,6 @@
         {
             get
             {
-                if (blogSettingsSingleton == null)
-                {
-                    blogSettingsSingleton = new BlogSettings();
-                }
-
                 return blogSettingsSingleton;
             }
         }
@@ -1152,66 +1152,68 @@
 
         #region Load()
 
+        private IDictionary<String, System.Reflection.PropertyInfo> GetSettingsTypePropertyDict()
+        {
+            var settingsType = this.GetType();
+
+            var result = new System.Collections.Generic.Dictionary<String, System.Reflection.PropertyInfo>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var prop in settingsType.GetProperties())
+            {
+                result[prop.Name] = prop;
+            }
+
+            return result;
+
+        }
+
         /// <summary>
         /// Initializes the singleton instance of the <see cref="BlogSettings"/> class.
         /// </summary>
         private void Load()
         {
-            var settingsType = this.GetType();
 
             // ------------------------------------------------------------
             // 	Enumerate through individual settings nodes
             // ------------------------------------------------------------
             var dic = BlogService.LoadSettings();
+            var settingsProps = GetSettingsTypePropertyDict();
 
-            foreach (string key in dic.Keys)
+            
+
+            foreach (System.Collections.DictionaryEntry entry in dic)
             {
-                // ------------------------------------------------------------
-                // 	Extract the setting's name/value pair
-                // ------------------------------------------------------------
-                var name = key;
-                var value = dic[key];
+                string name = (string)entry.Key;
+                System.Reflection.PropertyInfo property = null;
 
-                // ------------------------------------------------------------
-                // 	Enumerate through public properties of this instance
-                // ------------------------------------------------------------
-                foreach (var propertyInformation in settingsType.GetProperties())
+                if (settingsProps.TryGetValue(name, out property))
                 {
                     // ------------------------------------------------------------
-                    // 	Determine if configured setting matches current setting based on name
+                    // 	Attempt to apply configured setting
                     // ------------------------------------------------------------
-                    if (propertyInformation.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    try
                     {
-                        // ------------------------------------------------------------
-                        // 	Attempt to apply configured setting
-                        // ------------------------------------------------------------
-                        try
+                        if (property.CanWrite)
                         {
-                            if (propertyInformation.CanWrite)
+                            string value = (string)entry.Value;
+                            var propType = property.PropertyType;
+
+                            if (propType.IsEnum)
                             {
-                                if (propertyInformation.PropertyType.IsEnum)
-                                {
-                                    propertyInformation.SetValue(
-                                        this, Enum.Parse(propertyInformation.PropertyType, value), null);
-                                }
-                                else
-                                {
-                                    propertyInformation.SetValue(
-                                        this,
-                                        Convert.ChangeType(
-                                            value, propertyInformation.PropertyType, CultureInfo.CurrentCulture),
-                                        null);
-                                }
+                                property.SetValue(this, Enum.Parse(propType, value), null);
+                            }
+                            else
+                            {
+                                property.SetValue(this, Convert.ChangeType(value, propType, CultureInfo.CurrentCulture), null);
                             }
                         }
-                        catch (Exception e)
-                        {
-                            Utils.Log(string.Format("Error loading blog settings: {0}", e.Message));
-                        }
-
-                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Utils.Log(string.Format("Error loading blog settings: {0}", e.Message));
                     }
                 }
+
             }
 
             this.StorageLocation = BlogService.GetStorageLocation();

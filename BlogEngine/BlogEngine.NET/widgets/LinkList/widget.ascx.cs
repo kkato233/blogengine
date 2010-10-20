@@ -1,13 +1,21 @@
-﻿namespace widgets.LinkList
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widgets link list_widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Widgets.LinkList
 {
     using System;
     using System.Web.UI.HtmlControls;
     using System.Xml;
 
+    using App_Code.Controls;
+
     /// <summary>
     /// The widgets link list_widget.
     /// </summary>
-    public partial class widget : WidgetBase
+    public partial class Widget : WidgetBase
     {
         #region Properties
 

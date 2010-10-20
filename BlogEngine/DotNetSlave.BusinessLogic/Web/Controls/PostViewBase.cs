@@ -20,12 +20,6 @@
         #region Constants and Fields
 
         /// <summary>
-        /// The body regex.
-        /// </summary>
-        private static readonly Regex BodyRegex = new Regex(
-            @"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PostViewBase"/> class.
         /// </summary>
         public PostViewBase()
@@ -270,9 +264,7 @@
         {
             base.OnLoad(e);
 
-            // Used to track where we are in the 'Body' as we parse it.
-            var currentPosition = 0;
-            var content = this.Body;
+         
             var bodyContent = (PlaceHolder)this.FindControl("BodyContent");
             if (bodyContent == null)
             {
@@ -280,66 +272,7 @@
             }
             else
             {
-                var matches = BodyRegex.Matches(content);
-
-                foreach (Match match in matches)
-                {
-                    // Add literal for content before custom tag should it exist.
-                    if (match.Index > currentPosition)
-                    {
-                        bodyContent.Controls.Add(
-                            new LiteralControl(content.Substring(currentPosition, match.Index - currentPosition)));
-                    }
-
-                    // Now lets add our user control.
-                    try
-                    {
-                        var all = match.Groups[1].Value.Trim();
-                        Control usercontrol;
-
-                        if (!all.EndsWith(".ascx", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) + 5;
-                            usercontrol = this.LoadControl(all.Substring(0, index));
-
-                            var parameters = this.Server.HtmlDecode(all.Substring(index));
-                            var type = usercontrol.GetType();
-                            var paramCollection = parameters.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-
-                            foreach (var param in paramCollection)
-                            {
-                                var name = param.Split('=')[0].Trim();
-                                var value = param.Split('=')[1].Trim();
-                                var property = type.GetProperty(name);
-                                property.SetValue(
-                                    usercontrol,
-                                    Convert.ChangeType(value, property.PropertyType, CultureInfo.InvariantCulture),
-                                    null);
-                            }
-                        }
-                        else
-                        {
-                            usercontrol = this.LoadControl(all);
-                        }
-
-                        bodyContent.Controls.Add(usercontrol);
-
-                        // Now we will update our position.
-                        // currentPosition = myMatch.Index + myMatch.Groups[0].Length;
-                    }
-                    catch (Exception)
-                    {
-                        // Whoopss, can't load that control so lets output something that tells the developer that theres a problem.
-                        bodyContent.Controls.Add(
-                            new LiteralControl(string.Format("ERROR - UNABLE TO LOAD CONTROL : {0}", match.Groups[1].Value)));
-                    }
-
-                    currentPosition = match.Index + match.Groups[0].Length;
-                }
-
-                // Finally we add any trailing static text.
-                bodyContent.Controls.Add(
-                    new LiteralControl(content.Substring(currentPosition, content.Length - currentPosition)));
+                Utils.InjectUserControls(bodyContent, this.Body);
             }
         }
 
@@ -354,22 +287,23 @@
         /// </returns>
         protected virtual string TagLinks(string separator)
         {
-            if (this.Post.Tags.Count == 0)
+            var tags = this.Post.Tags;
+            if (tags.Count == 0)
             {
                 return null;
             }
 
-            var tags = new string[this.Post.Tags.Count];
+            var tagStrings = new string[tags.Count];
             const string Link = "<a href=\"{0}/{1}\" rel=\"tag\">{2}</a>";
             var path = Utils.RelativeWebRoot + "?tag=";
-            for (var i = 0; i < this.Post.Tags.Count; i++)
+            for (var i = 0; i < tags.Count; i++)
             {
-                var tag = this.Post.Tags[i];
-                tags[i] = string.Format(
+                var tag = tags[i];
+                tagStrings[i] = string.Format(
                     CultureInfo.InvariantCulture, Link, path, HttpUtility.UrlEncode(tag), HttpUtility.HtmlEncode(tag));
             }
 
-            return string.Join(separator, tags);
+            return string.Join(separator, tagStrings);
         }
 
         #endregion

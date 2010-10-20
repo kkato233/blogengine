@@ -18,6 +18,7 @@
     using System.Web;
     using System.Web.Configuration;
     using System.Xml;
+    using System.Web.UI;
     using System.Web.UI.HtmlControls;
     using System.Web.Hosting;
 
@@ -66,9 +67,9 @@
         private static readonly Regex RegexStripHtml = new Regex("<[^>]*>", RegexOptions.Compiled);
 
         /// <summary>
-        ///     The mono int.
+        ///     Boolean for returning whether or not BlogEngine is currently running on Mono.
         /// </summary>
-        private static int mono;
+        private static readonly bool isMono = (Type.GetType("Mono.Runtime") != null);
 
         /// <summary>
         ///     The relative web root.
@@ -106,25 +107,21 @@
         {
             get
             {
-                // if (_AbsoluteWebRoot == null)
-                // {
                 var context = HttpContext.Current;
                 if (context == null)
                 {
                     throw new WebException("The current HttpContext is null");
                 }
 
-                if (context.Items["absoluteurl"] == null)
+                var absoluteurl = context.Items["absoluteurl"];
+                if (absoluteurl == null)
                 {
-                    context.Items["absoluteurl"] =
-                        new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
+                    absoluteurl = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
+                    context.Items["absoluteurl"] = absoluteurl;
                 }
 
-                return context.Items["absoluteurl"] as Uri;
+                return absoluteurl as Uri;
 
-                // _AbsoluteWebRoot = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);// new Uri(context.Request.Url.Scheme + "://" + context.Request.Url.Authority + RelativeWebRoot);
-                // }
-                // return _AbsoluteWebRoot;
             }
         }
 
@@ -191,12 +188,7 @@
         {
             get
             {
-                if (mono == 0)
-                {
-                    mono = Type.GetType("Mono.Runtime") != null ? 1 : 2;
-                }
-
-                return mono == 1;
+                return isMono;
             }
         }
 
@@ -393,6 +385,21 @@
                         string.Format("{0}/{1}", pathFromRoot, fileName), addAtBottom, defer, minify);
                 }
             }
+
+           
+        }
+
+        /// <summary>
+        /// This method adds the resource handler script responsible for loading up BlogEngine's culture-specific resource strings
+        /// on the client side. This needs to be called at a point after blog.js has been added to the page, otherwise this script
+        /// will fail at load time.
+        /// </summary>
+        /// <param name="page">The System.Web.UI.Page instance the resources will be added to.</param>
+        public static void AddJavaScriptResourcesToPage(System.Web.UI.Page page)
+        {
+            var resourcePath = Web.HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            var script = string.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", resourcePath);
+            page.ClientScript.RegisterStartupScript(page.GetType(), resourcePath.GetHashCode().ToString(), script);
         }
 
         /// <summary>
@@ -430,8 +437,7 @@
                 }
                 else
                 {
-                    var t = Type.GetType("Mono.Runtime");
-                    if (t != null)
+                    if (!IsMono)
                     {
                         assemblyName = "App_Code";
                     }
@@ -639,6 +645,7 @@
         /// </returns>
         public static string GetSubDomain(Uri url)
         {
+           
             if (url.HostNameType == UriHostNameType.Dns)
             {
                 var host = url.Host;
@@ -671,6 +678,84 @@
                 return Convert.ToBase64String(sha.Hash);
             }
         }
+
+        /// <summary>
+        /// The body regex.
+        /// </summary>
+        private static readonly Regex BodyRegex = new Regex(@"\[UserControl:(.*?)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Injects any user controls if one is referenced in the text.
+        /// </summary>
+        /// <param name="containerControl">The control that the user controls will be injected in to.</param>
+        /// <param name="content">The string to parse for user controls.</param>
+        public static void InjectUserControls(System.Web.UI.Control containerControl, string content)
+        {
+            var currentPosition = 0;
+            var matches = BodyRegex.Matches(content);
+            var containerControls = containerControl.Controls;
+            var page = containerControl.Page;
+
+            foreach (Match match in matches)
+            {
+                // Add literal for content before custom tag should it exist.
+                if (match.Index > currentPosition)
+                {
+                    containerControls.Add(new LiteralControl(content.Substring(currentPosition, match.Index - currentPosition)));
+                }
+
+                // Now lets add our user control.
+                try
+                {
+                    var all = match.Groups[1].Value.Trim();
+                    Control usercontrol;
+
+                    if (!all.EndsWith(".ascx", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var index = all.IndexOf(".ascx", StringComparison.OrdinalIgnoreCase) + 5;
+                        usercontrol = page.LoadControl(all.Substring(0, index));
+
+                        var parameters = page.Server.HtmlDecode(all.Substring(index));
+                        var type = usercontrol.GetType();
+                        var paramCollection = parameters.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+                        foreach (var param in paramCollection)
+                        {
+                            var paramSplit = param.Split('=');
+                            var name = paramSplit[0].Trim();
+                            var value = paramSplit[1].Trim();
+                            var property = type.GetProperty(name);
+                            property.SetValue(
+                                usercontrol,
+                                Convert.ChangeType(value, property.PropertyType, CultureInfo.InvariantCulture),
+                                null);
+                        }
+                    }
+                    else
+                    {
+                        usercontrol = page.LoadControl(all);
+                    }
+
+                    containerControls.Add(usercontrol);
+
+                    // Now we will update our position.
+                    // currentPosition = myMatch.Index + myMatch.Groups[0].Length;
+                }
+                catch (Exception)
+                {
+                    // Whoopss, can't load that control so lets output something that tells the developer that theres a problem.
+                    containerControls.Add(
+                        new LiteralControl(string.Format("ERROR - UNABLE TO LOAD CONTROL : {0}", match.Groups[1].Value)));
+                }
+
+                currentPosition = match.Index + match.Groups[0].Length;
+            }
+
+            // Finally we add any trailing static text.
+            containerControls.Add(
+                new LiteralControl(content.Substring(currentPosition, content.Length - currentPosition)));
+        }
+
 
         /// <summary>
         /// Run through all code assemblies and creates object
@@ -901,6 +986,16 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns whether a string is null, empty, or whitespace. Same implementation as in String.IsNullOrWhitespace in .Net 4.0
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool StringIsNullOrWhitespace(string value)
+        {
+            return ((value == null) || (value.Trim().Length == 0));
         }
 
         /// <summary>

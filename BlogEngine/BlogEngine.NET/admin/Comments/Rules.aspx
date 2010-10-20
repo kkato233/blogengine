@@ -9,7 +9,7 @@
 			<menu:TabMenu ID="TabMenu1" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1><%=labels.rules %> & <%=labels.filters %></h1>
+            <h1><%=labels.rules %> &amp; <%=labels.filters %></h1>
             <fieldset class="rounded">
                 <legend><%=labels.rules%></legend>
                 <div class="subsection">

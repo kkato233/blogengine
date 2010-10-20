@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.UI;
-using System.Threading;
-using BlogEngine.Core;
-using Resources;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Themeable class for displaying WidgetBase derived controls.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-namespace Controls
+namespace App_Code.Controls
 {
+    using System;
+    using System.Text;
+    using System.Threading;
+    using System.Web.UI;
+
+    using BlogEngine.Core;
+
+    using Resources;
 
     /// <summary>
     /// Themeable class for displaying WidgetBase derived controls.
@@ -18,16 +22,12 @@ namespace Controls
     /// WidgetContainer is meant to be the themeable parent class of any control that derives from WidgetBase. This way a theme can automatically
     /// apply some basic styling to the way widgets are displayed without having to edit each one or edit the WidgetBase class to change the
     /// rendered output.
-    /// 
     /// Inherited WidgetContainers must contain a control named phWidgetBody. This is the control that the WidgetContainer's child Widget is 
     /// injected inside of. phWidgetBody just needs to derive from Control to work, leaving flexibility for anyone creating a theme.
-    /// 
     /// If phWidgetBody isn't found, an exception isn't thrown, but a warning label is applied to the page. 
-    /// 
     /// </remarks>
-    public abstract class WidgetContainer : System.Web.UI.UserControl
+    public abstract class WidgetContainer : UserControl
     {
-
         #region "Properties"
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Controls
         /// <summary>
         /// Gets a string representing the rendered html for administrative control of this WidgetContainer's child Widget.
         /// </summary>
-        protected String AdminLinks
+        protected string AdminLinks
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Controls
                 {
                     if (this.Widget != null)
                     {
-                        var sb = new System.Text.StringBuilder();
+                        var sb = new StringBuilder();
 
                         var widgetId = this.Widget.WidgetId;
 
@@ -70,38 +70,44 @@ namespace Controls
         }
 
         #endregion
-
-
+        
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
             // phWidgetBody is the control that the Widget control
             // gets added to.
-            Control phWidgetBody = this.FindControl("phWidgetBody");
+            var widgetBody = this.FindControl("phWidgetBody");
 
-            if (phWidgetBody != null)
+            if (widgetBody != null)
             {
-                phWidgetBody.Controls.Add(this.Widget);
+                widgetBody.Controls.Add(this.Widget);
             }
             else
             {
-                var warn = new LiteralControl();
-                warn.Text = "Unable to find control with id \"phWidgetBody\" in theme's WidgetContainer.";
+                var warn = new LiteralControl
+                    {
+                        Text = "Unable to find control with id \"phWidgetBody\" in theme's WidgetContainer." 
+                    };
                 this.Controls.Add(warn);
             }
-
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.PreRender"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnPreRender(EventArgs e)
         {
             base.OnPreRender(e);
 
             // Hide the container if the Widget is null or also not visible.
-            this.Visible = ((this.Widget != null) && (this.Widget.Visible));
-
+            this.Visible = (this.Widget != null) && this.Widget.Visible;
         }
-        
     }
 
     /// <summary>
@@ -110,40 +116,48 @@ namespace Controls
     /// </summary>
     internal sealed class DefaultWidgetContainer : WidgetContainer
     {
+        /// <summary>
+        /// The widgetBody instance needed by all WidgetContainers.
+        /// </summary>
+        private readonly System.Web.UI.WebControls.PlaceHolder widgetBody = new System.Web.UI.WebControls.PlaceHolder
+            {
+                ID = "phWidgetBody" 
+            };
 
         /// <summary>
-        /// The phWidgetBody instance needed by all WidgetContainers.
+        /// Initializes a new instance of the <see cref="DefaultWidgetContainer"/> class.
         /// </summary>
-        private System.Web.UI.WebControls.PlaceHolder phWidgetBody = new System.Web.UI.WebControls.PlaceHolder(){ID = "phWidgetBody"};
-
-        internal DefaultWidgetContainer() : base()
+        internal DefaultWidgetContainer()
         {
-            this.Controls.Add(this.phWidgetBody);
+            this.Controls.Add(this.widgetBody);
         }
 
+        /// <summary>
+        /// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object, which writes the content to be rendered on the client.
+        /// </summary>
+        /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the server control content.</param>
         protected override void Render(HtmlTextWriter writer)
         {
-
             if (this.Widget == null)
             {
                 throw new NullReferenceException("WidgetContainer requires its Widget property be set to a valid WidgetBase derived control");
             }
 
-            String wName = this.Widget.Name;
-            Guid widgetId = this.Widget.WidgetId;
+            var widgetName = this.Widget.Name;
+            var widgetId = this.Widget.WidgetId;
 
             if (string.IsNullOrEmpty(this.Widget.Name))
             {
                 throw new NullReferenceException("Name must be set on a widget");
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            sb.Append("<div class=\"widget " + wName.Replace(" ", string.Empty).ToLowerInvariant() + "\" id=\"widget" + widgetId + "\">");
+            sb.AppendFormat("<div class=\"widget {0}\" id=\"widget{1}\">", widgetName.Replace(" ", string.Empty).ToLowerInvariant(), widgetId);
             sb.Append(this.AdminLinks);
             if (this.Widget.ShowTitle)
             {
-                sb.Append("<h4>" + this.Widget.Title + "</h4>");
+                sb.AppendFormat("<h4>{0}</h4>", this.Widget.Title);
             }
             else
             {
@@ -156,9 +170,6 @@ namespace Controls
             base.Render(writer);
             writer.Write("</div>");
             writer.Write("</div>");
-
         }
-
     }
-
 }

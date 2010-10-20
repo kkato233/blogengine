@@ -1,4 +1,10 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget zone.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -83,8 +89,7 @@
         #endregion
 
         #region Methods
-
-       
+        
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
         /// </summary>
@@ -123,8 +128,8 @@
             }
 
             // This is for compatibility with older themes that do not have a WidgetContainer control.
-            var absWCPath = this.Page.Server.MapPath(String.Format("~/themes/{0}/WidgetContainer.ascx", BlogSettings.Instance.Theme));
-            bool widgetContainerExists = File.Exists(absWCPath);
+            var absWcPath = this.Page.Server.MapPath(String.Format("~/themes/{0}/WidgetContainer.ascx", BlogSettings.Instance.Theme));
+            var widgetContainerExists = File.Exists(absWcPath);
 
             var widgetContainerPath = String.Format("{0}/themes/{1}/WidgetContainer.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
             
@@ -153,12 +158,10 @@
                     // If a custom WidgetContainer can't be found, create a new DefaultWidgetContainer instance as it
                     // provides backwards compatibility with existing themes that may have depended on WidgetBase's
                     // old rendering method.
-                    var widgetContainer = (widgetContainerExists ? (WidgetContainer)this.Page.LoadControl(widgetContainerPath) : new DefaultWidgetContainer());
+                    var widgetContainer = widgetContainerExists ? (WidgetContainer)this.Page.LoadControl(widgetContainerPath) : new DefaultWidgetContainer();
                    
                     widgetContainer.Widget = control;
                     this.Controls.Add(widgetContainer);
-
-                  
                 }
                 catch (Exception ex)
                 {

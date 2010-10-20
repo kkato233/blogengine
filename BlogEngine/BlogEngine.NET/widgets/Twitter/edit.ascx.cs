@@ -1,47 +1,74 @@
-﻿#region Using
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The edit.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Collections.Specialized;
-
-#endregion
-
-public partial class widgets_Twitter_edit : WidgetEditBase
+namespace Widgets.Twitter
 {
-    private const string TWITTER_SETTINGS_CACHE_KEY = "twitter-settings";  // same key used in widget.ascx.cs.
+    using System;
+    using System.Web;
 
-	protected void Page_Load(object sender, EventArgs e)
-	{
-        if (!IsPostBack)
-        { 
-		    StringDictionary settings = GetSettings();
-		    if (settings.ContainsKey("feedurl"))
-		    {
-			    txtUrl.Text = settings["feedurl"];
-			    txtAccountUrl.Text = settings["accounturl"];
-			    txtTwits.Text = settings["maxitems"];
-                txtPolling.Text = settings["pollinginterval"];
-                txtFollowMe.Text = settings["followmetext"];
-		    }
+    using App_Code.Controls;
+
+    /// <summary>
+    /// The edit.
+    /// </summary>
+    public partial class Edit : WidgetEditBase
+    {
+        #region Constants and Fields
+
+        /// <summary>
+        /// The twitter settings cache key.
+        /// </summary>
+        private const string TwitterSettingsCacheKey = "twitter-settings"; // same key used in widget.ascx.cs.
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Saves this the basic widget settings such as the Title.
+        /// </summary>
+        public override void Save()
+        {
+            var settings = this.GetSettings();
+            settings["feedurl"] = this.txtUrl.Text;
+            settings["accounturl"] = this.txtAccountUrl.Text;
+            settings["maxitems"] = this.txtTwits.Text;
+            settings["pollinginterval"] = this.txtPolling.Text;
+            settings["followmetext"] = this.txtFollowMe.Text;
+            this.SaveSettings(settings);
+
+            // Don't need to clear Feed out of cache because when the Settings are cleared,
+            // the last modified date (i.e. TwitterSettings.LastModified) will reset to
+            // DateTime.MinValue and Twitter will be re-queried.
+            HttpRuntime.Cache.Remove(TwitterSettingsCacheKey);
         }
-	}
 
-	public override void Save()
-	{
-		StringDictionary settings = GetSettings();		
-		settings["feedurl"] = txtUrl.Text;
-		settings["accounturl"] = txtAccountUrl.Text;
-		settings["maxitems"] = txtTwits.Text;
-        settings["pollinginterval"] = txtPolling.Text;
-        settings["followmetext"] = txtFollowMe.Text;
-		SaveSettings(settings);
+        #endregion
 
-        // Don't need to clear Feed out of cache because when the Settings are cleared,
-        // the last modified date (i.e. TwitterSettings.LastModified) will reset to
-        // DateTime.MinValue and Twitter will be re-queried.
-        HttpRuntime.Cache.Remove(TWITTER_SETTINGS_CACHE_KEY);
-	}
+        #region Methods
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+        /// </summary>
+        /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
+        protected override void OnInit(EventArgs e)
+        {
+            var settings = this.GetSettings();
+            if (settings.ContainsKey("feedurl"))
+            {
+                this.txtUrl.Text = settings["feedurl"];
+                this.txtAccountUrl.Text = settings["accounturl"];
+                this.txtTwits.Text = settings["maxitems"];
+                this.txtPolling.Text = settings["pollinginterval"];
+                this.txtFollowMe.Text = settings["followmetext"];
+            }
+
+            base.OnInit(e);
+        }
+
+        #endregion
+    }
 }

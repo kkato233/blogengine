@@ -14,7 +14,7 @@
         /// <summary>
         /// Loads the comments.
         /// </summary>
-        /// <param name=PpageSize">
+        /// <param name="PageSize">
         /// Size of the page.
         /// </param>
         /// <param name="Page">

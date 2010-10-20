@@ -1,4 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="widgets.Calendar.widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.Calendar.Widget" %>
+<%@ Register TagPrefix="blog" Namespace="App_Code.Controls" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <div style="text-align: center">
     <blog:PostCalendar ID="PostCalendar1" runat="Server" NextMonthText=">>" DayNameFormat="FirstTwoLetters"

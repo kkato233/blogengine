@@ -1,126 +1,201 @@
-﻿#region Using
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Web.Caching;
-using System.Xml;
-using System.IO;
-using System.Text;
-using BlogEngine.Core;
-
-#endregion
-
-public partial class widgets_RecentPosts_widget : WidgetBase
+namespace Widgets.RecentPosts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
+    using System.Web.UI;
 
-	private const int DEFAULT_NUMBER_OF_POSTS = 10;
-	private const bool DEFAULT_SHOW_COMMENTS = true;
-	private const bool DEFAULT_SHOW_RATING = true;
+    using App_Code.Controls;
 
-	static widgets_RecentPosts_widget()
-	{
-		Post.Saved += delegate { HttpRuntime.Cache.Remove("widget_recentposts"); };
-		Post.CommentAdded += delegate { HttpRuntime.Cache.Remove("widget_recentposts"); };
-		Post.CommentRemoved += delegate { HttpRuntime.Cache.Remove("widget_recentposts"); };
-		Post.Rated += delegate { HttpRuntime.Cache.Remove("widget_recentposts"); };
-		BlogSettings.Changed += delegate { HttpRuntime.Cache.Remove("widget_recentposts"); };
-	}
+    using BlogEngine.Core;
 
-	public override void LoadWidget()
-	{
-		StringDictionary settings = GetSettings();
-		int numberOfPosts = DEFAULT_NUMBER_OF_POSTS;
-		if (settings.ContainsKey("numberofposts"))
-			numberOfPosts = int.Parse(settings["numberofposts"]);
+    using Resources;
 
-		if (HttpRuntime.Cache["widget_recentposts"] == null)
-		{
-		
-			List<Post> visiblePosts = Post.Posts.FindAll(delegate(Post p)
-			{
-				return p.IsVisibleToPublic;
-			});
+    /// <summary>
+    /// The widget.
+    /// </summary>
+    public partial class Widget : WidgetBase
+    {
+        #region Constants and Fields
 
-			int max = Math.Min(visiblePosts.Count, numberOfPosts);
-			List<Post> list = visiblePosts.GetRange(0, max);
-			HttpRuntime.Cache.Insert("widget_recentposts", list);
-		}
+        /// <summary>
+        /// The default number of posts.
+        /// </summary>
+        private const int DefaultNumberOfPosts = 10;
 
-		string content = RenderPosts((List<Post>)HttpRuntime.Cache["widget_recentposts"], settings);
+        /// <summary>
+        /// The default show comments.
+        /// </summary>
+        private const bool DefaultShowComments = true;
 
-		LiteralControl html = new LiteralControl(content); //new LiteralControl((string)HttpRuntime.Cache["widget_recentposts"]);
-		phPosts.Controls.Add(html);
-	}
+        /// <summary>
+        /// The default show rating.
+        /// </summary>
+        private const bool DefaultShowRating = true;
 
-	private string RenderPosts(List<Post> posts, StringDictionary settings)
-	{
-		if (posts.Count == 0)
-		{
-			//HttpRuntime.Cache.Insert("widget_recentposts", "<p>" + Resources.labels.none + "</p>");
-			return "<p>" + Resources.labels.none + "</p>";
-		}
+        #endregion
 
-		StringBuilder sb = new StringBuilder();
-		sb.Append("<ul class=\"recentPosts\" id=\"recentPosts\">");
+        #region Constructors and Destructors
 
-		bool showComments = DEFAULT_SHOW_COMMENTS;
-		bool showRating = DEFAULT_SHOW_RATING;
-        if (settings.ContainsKey("showcomments"))
+        /// <summary>
+        /// Initializes static members of the <see cref="Widget"/> class.
+        /// </summary>
+        static Widget()
         {
-            bool.TryParse(settings["showcomments"], out showComments);
+            Post.Saved += (sender, args) => HttpRuntime.Cache.Remove("widget_recentposts");
+            Post.CommentAdded += (sender, args) => HttpRuntime.Cache.Remove("widget_recentposts");
+            Post.CommentRemoved += (sender, args) => HttpRuntime.Cache.Remove("widget_recentposts");
+            Post.Rated += (sender, args) => HttpRuntime.Cache.Remove("widget_recentposts");
+            BlogSettings.Changed += (sender, args) => HttpRuntime.Cache.Remove("widget_recentposts");
         }
 
-        if (settings.ContainsKey("showrating"))
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a value indicating whether IsEditable.
+        /// </summary>
+        public override bool IsEditable
         {
-            bool.TryParse(settings["showrating"], out showRating);
+            get
+            {
+                return true;
+            }
         }
 
-		foreach (Post post in posts)
-		{
-			if (!post.IsVisibleToPublic)
-				continue;
+        /// <summary>
+        /// Gets Name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return "RecentPosts";
+            }
+        }
 
-			string rating = Math.Round(post.Rating, 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        #endregion
 
-			string link = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";
+        #region Public Methods
 
-            string comments = string.Format("<span>{0}: {1}</span>", Resources.labels.comments, post.ApprovedComments.Count);
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        /// data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            var settings = this.GetSettings();
+            var numberOfPosts = DefaultNumberOfPosts;
+            if (settings.ContainsKey("numberofposts"))
+            {
+                numberOfPosts = int.Parse(settings["numberofposts"]);
+            }
 
-            if(BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
-                comments = string.Format("<span><a href=\"{0}#disqus_thread\">{1}</a></span>", post.PermaLink, Resources.labels.comments);
+            if (HttpRuntime.Cache["widget_recentposts"] == null)
+            {
+                var visiblePosts = Post.Posts.FindAll(p => p.IsVisibleToPublic);
 
-            string rate = string.Format("<span>{0}: {1} / {2}</span>", Resources.labels.rating, rating, post.Raters);
+                var max = Math.Min(visiblePosts.Count, numberOfPosts);
+                var list = visiblePosts.GetRange(0, max);
+                HttpRuntime.Cache.Insert("widget_recentposts", list);
+            }
 
-			if (!showComments || !BlogSettings.Instance.IsCommentsEnabled)
-				comments = null;
+            var content = RenderPosts((List<Post>)HttpRuntime.Cache["widget_recentposts"], settings);
 
-			if (!showRating || !BlogSettings.Instance.EnableRating)
-				rate = null;
+            var html = new LiteralControl(content);
+                
+                // new LiteralControl((string)HttpRuntime.Cache["widget_recentposts"]);
+            this.phPosts.Controls.Add(html);
+        }
 
-			if (post.Raters == 0)
-				rating = Resources.labels.notRatedYet;
+        #endregion
 
-			sb.AppendFormat(link, post.RelativeLink, HttpUtility.HtmlEncode(post.Title), comments, rate);
-		}
+        #region Methods
 
-		sb.Append("</ul>");
-		//HttpRuntime.Cache.Insert("widget_recentposts", sb.ToString());
-		return sb.ToString();
-	}
+        /// <summary>
+        /// Renders the posts.
+        /// </summary>
+        /// <param name="posts">The posts.</param>
+        /// <param name="settings">The settings.</param>
+        /// <returns>The rendered html.</returns>
+        private static string RenderPosts(List<Post> posts, StringDictionary settings)
+        {
+            if (posts.Count == 0)
+            {
+                // HttpRuntime.Cache.Insert("widget_recentposts", "<p>" + Resources.labels.none + "</p>");
+                return string.Format("<p>{0}</p>", labels.none);
+            }
 
-	public override string Name
-	{
-		get { return "RecentPosts"; }
-	}
+            var sb = new StringBuilder();
+            sb.Append("<ul class=\"recentPosts\" id=\"recentPosts\">");
 
-	public override bool IsEditable
-	{
-		get { return true; }
-	}
+            var showComments = DefaultShowComments;
+            var showRating = DefaultShowRating;
+            if (settings.ContainsKey("showcomments"))
+            {
+                bool.TryParse(settings["showcomments"], out showComments);
+            }
 
+            if (settings.ContainsKey("showrating"))
+            {
+                bool.TryParse(settings["showrating"], out showRating);
+            }
+
+            foreach (var post in posts)
+            {
+                if (!post.IsVisibleToPublic)
+                {
+                    continue;
+                }
+
+                var rating = Math.Round(post.Rating, 1).ToString(CultureInfo.InvariantCulture);
+
+                const string LinkFormat = "<li><a href=\"{0}\">{1}</a>{2}{3}</li>";
+
+                var comments = string.Format("<span>{0}: {1}</span>", labels.comments, post.ApprovedComments.Count);
+
+                if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+                {
+                    comments = string.Format(
+                        "<span><a href=\"{0}#disqus_thread\">{1}</a></span>", post.PermaLink, labels.comments);
+                }
+
+                var rate = string.Format("<span>{0}: {1} / {2}</span>", labels.rating, rating, post.Raters);
+
+                if (!showComments || !BlogSettings.Instance.IsCommentsEnabled)
+                {
+                    comments = null;
+                }
+
+                if (!showRating || !BlogSettings.Instance.EnableRating)
+                {
+                    rate = null;
+                }
+
+                if (post.Raters == 0)
+                {
+                    rating = labels.notRatedYet;
+                }
+
+                sb.AppendFormat(LinkFormat, post.RelativeLink, HttpUtility.HtmlEncode(post.Title), comments, rate);
+            }
+
+            sb.Append("</ul>");
+
+            // HttpRuntime.Cache.Insert("widget_recentposts", sb.ToString());
+            return sb.ToString();
+        }
+
+        #endregion
+    }
 }

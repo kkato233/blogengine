@@ -1,14 +1,22 @@
-﻿namespace widgets.LinkList
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widgets link list_edit.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Widgets.LinkList
 {
     using System;
     using System.Data;
     using System.Web.UI.WebControls;
     using System.Xml;
 
+    using App_Code.Controls;
+
     /// <summary>
     /// The widgets link list_edit.
     /// </summary>
-    public partial class edit : WidgetEditBase
+    public partial class Edit : WidgetEditBase
     {
         #region Public Methods
 
@@ -37,11 +45,11 @@
                 this.BindGrid();
             }
 
-            this.grid.RowEditing += this.grid_RowEditing;
-            this.grid.RowUpdating += this.grid_RowUpdating;
+            this.grid.RowEditing += this.GridRowEditing;
+            this.grid.RowUpdating += this.GridRowUpdating;
             this.grid.RowCancelingEdit += (o, args) => this.grid.EditIndex = -1;
-            this.grid.RowDeleting += this.grid_RowDeleting;
-            this.btnAdd.Click += this.btnAdd_Click;
+            this.grid.RowDeleting += this.GridRowDeleting;
+            this.btnAdd.Click += this.BtnAddClick;
         }
 
         /// <summary>
@@ -99,7 +107,7 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void BtnAddClick(object sender, EventArgs e)
         {
             var doc = this.Doc();
             var links = doc.SelectSingleNode("links");
@@ -154,7 +162,7 @@
         /// <param name="e">
         /// The <see cref="System.Web.UI.WebControls.GridViewDeleteEventArgs"/> instance containing the event data.
         /// </param>
-        private void grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        private void GridRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             var doc = this.Doc();
             var row = this.grid.DataKeys[e.RowIndex];
@@ -186,7 +194,7 @@
         /// <param name="e">
         /// The <see cref="System.Web.UI.WebControls.GridViewEditEventArgs"/> instance containing the event data.
         /// </param>
-        private void grid_RowEditing(object sender, GridViewEditEventArgs e)
+        private void GridRowEditing(object sender, GridViewEditEventArgs e)
         {
             this.grid.EditIndex = e.NewEditIndex;
             this.BindGrid();
@@ -201,7 +209,7 @@
         /// <param name="e">
         /// The <see cref="System.Web.UI.WebControls.GridViewUpdateEventArgs"/> instance containing the event data.
         /// </param>
-        private void grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        private void GridRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             var doc = this.Doc();
             var row = this.grid.DataKeys[e.RowIndex];
@@ -211,7 +219,7 @@
                 var textboxTitle = (TextBox)this.grid.Rows[e.RowIndex].FindControl("txtTitle");
                 var textboxUrl = (TextBox)this.grid.Rows[e.RowIndex].FindControl("txtUrl");
                 var checkboxNewWindow = (CheckBox)this.grid.Rows[e.RowIndex].FindControl("cbNewWindow");
-                var node = doc.SelectSingleNode("//link[@id=\"" + id + "\"]");
+                var node = doc.SelectSingleNode(string.Format("//link[@id=\"{0}\"]", id));
 
                 if (node == null)
                 {

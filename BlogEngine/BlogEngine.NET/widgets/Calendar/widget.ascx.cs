@@ -1,9 +1,17 @@
-﻿namespace widgets.Calendar
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Widgets.Calendar
 {
+    using App_Code.Controls;
+
     /// <summary>
     /// The widget.
     /// </summary>
-    public partial class widget : WidgetBase
+    public partial class Widget : WidgetBase
     {
         #region Properties
 

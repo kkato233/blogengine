@@ -1,4 +1,11 @@
-﻿namespace Controls
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   If the visitor arrives through a search engine, this control
+//   will display an in-site search result based on the same search term.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace App_Code.Controls
 {
     using System.Collections.Generic;
     using System.Text;
@@ -148,7 +155,7 @@
         /// <returns>
         /// The write html.
         /// </returns>
-        private string WriteHtml(List<IPublishable> items, string searchTerm)
+        private string WriteHtml(IList<IPublishable> items, string searchTerm)
         {
             var results = this.MaxResults < items.Count ? this.MaxResults : items.Count;
             var sb = new StringBuilder();

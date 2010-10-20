@@ -661,7 +661,7 @@
                 name = "DbMembershipProvider";
             }
 
-            if (Type.GetType("Mono.Runtime") != null)
+            if (Utils.IsMono)
             {
                 // Mono dies with a "Unrecognized attribute: description" if a description is part of the config.
                 if (!string.IsNullOrEmpty(config["description"]))

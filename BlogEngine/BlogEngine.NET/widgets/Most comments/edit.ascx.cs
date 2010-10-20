@@ -1,51 +1,82 @@
-﻿using System;
-using System.Data;
-using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Collections.Specialized;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   Edit widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-public partial class widgets_Most_comments_edit : WidgetEditBase
+namespace Widgets.ModeComments
 {
+    using System;
 
-	protected override void OnPreRender(EventArgs e)
-	{
-		if (!Page.IsPostBack)
-		{
-			txtNumber.Text = "3";
-			txtSize.Text = "50";
-			txtDays.Text = "60";
-			cbShowComments.Checked = true;
+    using App_Code.Controls;
 
-			StringDictionary settings = GetSettings();
-			if (settings.ContainsKey("avatarsize"))
-				txtSize.Text = settings["avatarsize"];
+    /// <summary>
+    /// Edit widget.
+    /// </summary>
+    public partial class Edit : WidgetEditBase
+    {
+        #region Public Methods
 
-			if (settings.ContainsKey("numberofvisitors"))
-				txtNumber.Text = settings["numberofvisitors"];
+        /// <summary>
+        /// Saves this the basic widget settings such as the Title.
+        /// </summary>
+        public override void Save()
+        {
+            var settings = this.GetSettings();
+            settings["avatarsize"] = this.txtSize.Text;
+            settings["numberofvisitors"] = this.txtNumber.Text;
+            settings["days"] = this.txtDays.Text;
+            settings["showcomments"] = this.cbShowComments.Checked.ToString();
+            this.SaveSettings(settings);
 
-			if (settings.ContainsKey("days"))
-				txtDays.Text = settings["days"];
+            this.Cache.Remove("most_comments");
+        }
 
-			if (settings.ContainsKey("showcomments"))
-				cbShowComments.Checked = settings["showcomments"].Equals("true", StringComparison.OrdinalIgnoreCase);
-		}
-	}
+        #endregion
 
-	public override void Save()
-	{
-		StringDictionary settings = GetSettings();
-		settings["avatarsize"] = txtSize.Text;
-		settings["numberofvisitors"] = txtNumber.Text;
-		settings["days"] = txtDays.Text;
-		settings["showcomments"] = cbShowComments.Checked.ToString();
-		SaveSettings(settings);
+        #region Methods
 
-		Cache.Remove("most_comments");
-	}
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.PreRender"/> event.
+        /// </summary>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs"/> object that contains the event data.
+        /// </param>
+        protected override void OnPreRender(EventArgs e)
+        {
+            if (this.Page.IsPostBack)
+            {
+                return;
+            }
+
+            this.txtNumber.Text = @"3";
+            this.txtSize.Text = @"50";
+            this.txtDays.Text = @"60";
+            this.cbShowComments.Checked = true;
+
+            var settings = this.GetSettings();
+            if (settings.ContainsKey("avatarsize"))
+            {
+                this.txtSize.Text = settings["avatarsize"];
+            }
+
+            if (settings.ContainsKey("numberofvisitors"))
+            {
+                this.txtNumber.Text = settings["numberofvisitors"];
+            }
+
+            if (settings.ContainsKey("days"))
+            {
+                this.txtDays.Text = settings["days"];
+            }
+
+            if (settings.ContainsKey("showcomments"))
+            {
+                this.cbShowComments.Checked = settings["showcomments"].Equals(
+                    "true", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        #endregion
+    }
 }

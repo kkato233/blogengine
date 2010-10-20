@@ -1,23 +1,55 @@
-﻿using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <summary>
+//   The widget.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
-public partial class widgets_Month_List_widget : WidgetBase
+namespace Widgets.MonthList
 {
+    using App_Code.Controls;
 
-	public override string Name
-	{
-		get {return "Month List"; }
-	}
+    /// <summary>
+    /// The widget.
+    /// </summary>
+    public partial class Widget : WidgetBase
+    {
+        #region Properties
 
-	public override bool IsEditable
-	{
-		get { return false; }
-	}
+        /// <summary>
+        /// Gets a value indicating whether IsEditable.
+        /// </summary>
+        public override bool IsEditable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-	public override void LoadWidget()
-	{
-		// No action
-	}
+        /// <summary>
+        /// Gets Name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return "Month List";
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// This method works as a substitute for Page_Load. You should use this method for
+        /// data binding etc. instead of Page_Load.
+        /// </summary>
+        public override void LoadWidget()
+        {
+            // No action
+        }
+
+        #endregion
+    }
 }

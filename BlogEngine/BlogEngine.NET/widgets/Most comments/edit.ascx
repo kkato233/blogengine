@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="widgets_Most_comments_edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.ModeComments.Edit" %>
 
 <label for="<%=cbShowComments.ClientID %>">Show comments</label><br />
 <asp:CheckBox runat="Server" ID="cbShowComments" />

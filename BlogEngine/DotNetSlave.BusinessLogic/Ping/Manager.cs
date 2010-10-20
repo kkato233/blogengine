@@ -46,7 +46,6 @@
         /// </param>
         public static void Send(IPublishable item, Uri itemUrl)
         {
-
             foreach (var url in GetUrlsFromContent(item.Content))
             {
                 var trackbackSent = false;
