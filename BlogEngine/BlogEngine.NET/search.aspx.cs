@@ -20,39 +20,39 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
 	#region Event handlers
 
-	/// <summary>
-	/// Handles the Load event of the Page control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		rep.ItemDataBound += new RepeaterItemEventHandler(rep_ItemDataBound);
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
 
-		if (!string.IsNullOrEmpty(Request.QueryString["q"]))
-		{
-			bool includeComments = Request.QueryString["comment"] == "true";
-			string term = Request.QueryString["q"];
-			Page.Title = Server.HtmlEncode(Resources.labels.searchResultsFor) + " '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
-			h1Headline.InnerHtml = Resources.labels.searchResultsFor + " '" + Server.HtmlEncode(Request.QueryString["q"]) + "'";
+        rep.ItemDataBound += new RepeaterItemEventHandler(rep_ItemDataBound);
 
-			Uri url;
-			if (!Uri.TryCreate(term, UriKind.Absolute, out url))
-			{
-				List<IPublishable> list = Search.Hits(term, includeComments);
-				BindSearchResult(list);
-			}
-			else
-			{
-				SearchByApml(url);
-			}
-		}
-		else
-		{
-			Page.Title = Resources.labels.search;
-			h1Headline.InnerHtml = Resources.labels.search;
-		}
-	}
+        var term = Request.QueryString["q"];
+        if (!Utils.StringIsNullOrWhitespace(term))
+        {
+            bool includeComments = (Request.QueryString["comment"] == "true");
+
+            var encodedTerm = Server.HtmlEncode(term);
+            Page.Title = Server.HtmlEncode(Resources.labels.searchResultsFor) + " '" + encodedTerm + "'";
+            h1Headline.InnerHtml = Resources.labels.searchResultsFor + " '" + encodedTerm + "'";
+
+            Uri url;
+            if (!Uri.TryCreate(term, UriKind.Absolute, out url))
+            {
+                List<IPublishable> list = Search.Hits(term, includeComments);
+                BindSearchResult(list);
+            }
+            else
+            {
+                SearchByApml(url);
+            }
+        }
+        else
+        {
+            Page.Title = Resources.labels.search;
+            h1Headline.InnerHtml = Resources.labels.search;
+        }
+
+    }
 
 	private void SearchByApml(Uri url)
 	{
@@ -148,6 +148,7 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 	private void BindSearchResult(List<IPublishable> list)
 	{
 		int page = 1;
+
 		if (Request.QueryString["page"] != null)
 		{
 			page = int.Parse(Request.QueryString["page"]);
@@ -177,6 +178,8 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
 		HtmlGenericControl ul = new HtmlGenericControl("ul");
 		ul.Attributes.Add("class", "paging");
+        string q = Server.HtmlEncode(Request.QueryString["q"]);
+        string comment = Request.QueryString["comment"];
 
 		for (int i = 0; i < pages; i++)
 		{
@@ -189,13 +192,13 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 			HtmlAnchor a = new HtmlAnchor();
 			a.InnerHtml = (i + 1).ToString();
 
-			string comment = string.Empty;
-			if (Request.QueryString["comment"] != null)
+			string comm = comment;
+			if (comm != null)
 			{
-				comment = "&amp;comment=true";
+				comm = "&amp;comment=true";
 			}
 
-			a.HRef = "?q=" + Server.HtmlEncode(Request.QueryString["q"]) + comment + "&amp;page=" + (i + 1);
+            a.HRef = "?q=" + q + comm + "&amp;page=" + (i + 1);
 
 			li.Controls.Add(a);
 			ul.Controls.Add(li);
