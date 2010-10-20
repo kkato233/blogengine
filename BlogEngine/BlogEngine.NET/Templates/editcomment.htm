@@ -1,0 +1,26 @@
+﻿<td>&nbsp;</td>
+<td>{$T.d.Avatar}</td>
+<td colspan="4">
+        <div id="EditCommentLeftBox" style="width: 230px; float:left;"> 
+
+                <label for="txtAuthor" class="lbl100">Author</label>
+		        <input type="text" id="txtAuthor" name="txtAuthor" class="txt200" value="{$T.d.Author}" />
+
+
+                <label for="txtEmail" class="lbl100">Email</label>
+		        <input type="text" id="txtEmail" class="txt200 required" value="{$T.d.Email}" />
+
+                <label for="txtWebsite" class="lbl100">Website</label>
+		        <input type="text" id="txtWebsite" class="txt200" value="{$T.d.Website}" />   
+
+        </div>
+        <div style="width: 400px; float:left;">
+            <label for="txtComment" class="lbl100">Comment</label>
+            <textarea name="txtComment" id="txtComment" class="txt" rows="5" cols="50" style="height: 138px">{$T.d.Content}</textarea>
+        </div>
+        <div class="clear"></div>
+</td>
+<td colspan="2" align="center">
+    <input type="submit" class="btn rounded" id="btnSave" onclick="return SaveComment(this);" value="save" />
+    <a href="#" onclick="javascript:CancelEditComment(this)">Cancel</a>
+</td>
