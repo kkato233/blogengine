@@ -25,7 +25,7 @@
       <li><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><%=Resources.labels.home %></a></li>
       <li><a href="<%=Utils.AbsoluteWebRoot %>archive.aspx"><%=Resources.labels.archive %></a></li>
       <li><a href="<%=Utils.AbsoluteWebRoot %>contact.aspx"><%=Resources.labels.contact %></a></li>
-      <li><a href="<%=Utils.FeedUrl %>" class="feed"><img src="<%=Utils.AbsoluteWebRoot %>pics/rssButton.gif" alt="Feed" /><%=Resources.labels.subscribe %></a></li>
+      <li><a href="<%=Utils.FeedUrl %>" class="feed"><img src="<%=Utils.AbsoluteWebRoot %>pics/rssButton.png" alt="Feed" /><%=Resources.labels.subscribe %></a></li>
       <li><a href="javascript:void(BlogEngine.filterByAPML())" class="apmlfilter"><%=Resources.labels.filterByApml %></a></li>
     </ul>
   </div>

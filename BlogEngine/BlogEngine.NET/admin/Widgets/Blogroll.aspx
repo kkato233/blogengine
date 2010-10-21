@@ -3,102 +3,133 @@
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
+    <script type="text/javascript" src="../jquery.colorbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".showSettings").colorbox({ width: "50%", inline: true, href: "#blogrollSettings" });
+            $(".addNew").colorbox({ width: "80%", inline: true, href: "#addBlogroll" });
+        });
+
+        function closeOverlay() {
+            $.colorbox.close();
+        }
+    </script>
 	<div class="content-box-outer">
 		<div class="content-box-right">
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1>
-                <%=Resources.labels.settings %></h1>
-            <div>
-                <asp:Label runat="server" AssociatedControlID="ddlVisiblePosts" CssClass="wide" Text='<%$ Code: Resources.labels.numberOfDisplayedItems %>' />
-                <asp:DropDownList runat="server" ID="ddlVisiblePosts">
-                    <asp:ListItem Text="0" />
-                    <asp:ListItem Text="1" />
-                    <asp:ListItem Text="2" />
-                    <asp:ListItem Text="3" />
-                    <asp:ListItem Text="4" />
-                    <asp:ListItem Text="5" />
-                    <asp:ListItem Text="6" />
-                    <asp:ListItem Text="7" />
-                    <asp:ListItem Text="8" />
-                    <asp:ListItem Text="9" />
-                    <asp:ListItem Text="10" />
-                </asp:DropDownList>
+            <h1>Blogroll
+            <a href="#" class="showSettings">Settings</a>
+            <a href="#" class="addNew">Add new blog</a></h1>
+
+            <div style="display:none;">
+            <div id="blogrollSettings" class="overlaypanel">
+                <h2><%=Resources.labels.settings %></h2>
+                <ul class="fl" style="overflow:hidden;">
+                    <li style="float:left; margin:0 20px 0 0;">
+                        <asp:Label runat="server" AssociatedControlID="ddlVisiblePosts" CssClass="lbl" Text='<%$ Code: Resources.labels.numberOfDisplayedItems %>' />
+                        <asp:DropDownList runat="server" ID="ddlVisiblePosts">
+                            <asp:ListItem Text="0" />
+                            <asp:ListItem Text="1" />
+                            <asp:ListItem Text="2" />
+                            <asp:ListItem Text="3" />
+                            <asp:ListItem Text="4" />
+                            <asp:ListItem Text="5" />
+                            <asp:ListItem Text="6" />
+                            <asp:ListItem Text="7" />
+                            <asp:ListItem Text="8" />
+                            <asp:ListItem Text="9" />
+                            <asp:ListItem Text="10" />
+                        </asp:DropDownList>
+                    </li>
+                    <li style="float:left; margin:0 20px 0 0;">
+                        <asp:Label runat="server" AssociatedControlID="txtMaxLength" CssClass="lbl" Text='<%$ Code: Resources.labels.maxLengthOfItems %>' />
+                        <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
+                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength"
+                            Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
+                    </li>
+                    <li style="float:left; margin:0 20px 0 0;">
+                        <asp:Label runat="server" AssociatedControlID="txtUpdateFrequency" CssClass="lbl"
+                            Text='<%$ Code: Resources.labels.updateFrequenzy %>' />
+                        <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
+                        <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency"
+                            Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
+                    </li>
+                </ul>
+                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="primarybtn rounded" OnClientClick="closeOverlay();" /> 
+                or <a href="#" onclick="closeOverlay();">cancel</a>
             </div>
-            <div style="padding-bottom: 5px">
-                <asp:Label runat="server" AssociatedControlID="txtMaxLength" CssClass="wide" Text='<%$ Code: Resources.labels.maxLengthOfItems %>' />
-                <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
-                <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength"
-                    Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
             </div>
-            <div>
-                <asp:Label runat="server" AssociatedControlID="txtUpdateFrequency" CssClass="wide"
-                    Text='<%$ Code: Resources.labels.updateFrequenzy %>' />
-                <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
-                <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency"
-                    Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
+
+            <div style="display:none;">
+            <div id="addBlogroll" class="overlaypanel">
+                <h2><%=Resources.labels.add %> blog information</h2>
+                <div style="overflow:hidden">
+                    <div style="float:left; margin-right:20px;">
+                    <ul class="fl">
+                        <li>
+                            <asp:Label runat="server" AssociatedControlID="txtTitle" CssClass="lbl" Text='<%$ Code: Resources.labels.title %>' />
+                            <asp:TextBox runat="server" ID="txtTitle" Width="500px" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ControlToValidate="txtTitle"
+                                ErrorMessage="<%$Resources:labels,required %>" ValidationGroup="addNew" Display="Dynamic" />
+                        </li>
+                        <li>
+                            <asp:Label runat="server" AssociatedControlID="txtDescription" CssClass="lbl" Text='<%$ Code: Resources.labels.description %>' />
+                            <asp:TextBox runat="server" ID="txtDescription" Width="500px" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtDescription"
+                                ErrorMessage="<%$Resources:labels,required %>" ValidationGroup="addNew" Display="Dynamic" />
+                        </li>
+                        <li>
+                            <asp:Label runat="server" AssociatedControlID="txtWebUrl" CssClass="lbl" Text='<%$ Code: Resources.labels.website %>' />
+                            <asp:TextBox runat="server" ID="txtWebUrl" Width="500px" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtWebUrl"
+                                ErrorMessage="<%$Resources:labels,required %>" Display="Dynamic" ValidationGroup="addNew" />
+                            <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtWebUrl"  Display="Dynamic"
+                                ErrorMessage="<%$Resources:labels,invalid %>" EnableClientScript="false" OnServerValidate="validateWebUrl"
+                                ValidationGroup="addnew"></asp:CustomValidator>
+                        </li>
+                        <li>
+                            <asp:Label runat="server" AssociatedControlID="txtFeedUrl" CssClass="lbl" Text="RSS url" />
+                            <asp:TextBox runat="server" ID="txtFeedUrl" Width="500px" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="Server" ControlToValidate="txtFeedUrl"
+                                ErrorMessage="<%$Resources:labels,required %>" Display="Dynamic" ValidationGroup="addNew" />
+                            <asp:CustomValidator ID="CustomValidator2" runat="server" ControlToValidate="txtFeedUrl"
+                                ErrorMessage="<%$Resources:labels,invalid %>" Display="Dynamic" EnableClientScript="false" OnServerValidate="validateFeedUrl"
+                                ValidationGroup="addnew"></asp:CustomValidator>
+                        </li>
+                    </ul>
+                    </div>
+                    <div style="float:left;">
+                        <asp:Label runat="server" AssociatedControlID="cblXfn" CssClass="lbl" Text="XFN tag" />
+                        <asp:CheckBoxList runat="server" ID="cblXfn" CssClass="nowidth" RepeatColumns="4">
+                            <asp:ListItem Text="contact" />
+                            <asp:ListItem Text="acquaintance " />
+                            <asp:ListItem Text="friend " />
+                            <asp:ListItem Text="met" />
+                            <asp:ListItem Text="co-worker" />
+                            <asp:ListItem Text="colleague " />
+                            <asp:ListItem Text="co-resident" />
+                            <asp:ListItem Text="neighbor " />
+                            <asp:ListItem Text="child" />
+                            <asp:ListItem Text="parent" />
+                            <asp:ListItem Text="sibling" />
+                            <asp:ListItem Text="spouse" />
+                            <asp:ListItem Text="kin" />
+                            <asp:ListItem Text="muse" />
+                            <asp:ListItem Text="crush" />
+                            <asp:ListItem Text="date" />
+                            <asp:ListItem Text="sweetheart" />
+                            <asp:ListItem Text="me" />
+                        </asp:CheckBoxList>
+                    </div>
+                </div>
+                <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="primarybtn rounded" OnClientClick="closeOverlay();" /> 
+                or <a href="#" onclick="closeOverlay();">cancel</a>
+
             </div>
-            <div style="text-align: right">
-                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" Width="120" />
             </div>
-            <h1 style="margin: 0 0 5px 0">
-                <%=Resources.labels.add %>
-                blog</h1>
-            <div style="margin-bottom: 3px">
-                <asp:Label runat="server" AssociatedControlID="txtTitle" CssClass="wide" Text='<%$ Code: Resources.labels.title %>' />
-                <asp:TextBox runat="server" ID="txtTitle" Width="600px" />
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ControlToValidate="txtTitle"
-                    ErrorMessage="<%$Resources:labels,required %>" ValidationGroup="addNew" />
-            </div>
-            <div style="margin-bottom: 3px">
-                <asp:Label runat="server" AssociatedControlID="txtDescription" CssClass="wide" Text='<%$ Code: Resources.labels.description %>' />
-                <asp:TextBox runat="server" ID="txtDescription" Width="600px" />
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtDescription"
-                    ErrorMessage="<%$Resources:labels,required %>" ValidationGroup="addNew" />
-            </div>
-            <div style="margin-bottom: 3px">
-                <asp:Label runat="server" AssociatedControlID="txtWebUrl" CssClass="wide" Text='<%$ Code: Resources.labels.website %>' />
-                <asp:TextBox runat="server" ID="txtWebUrl" Width="600px" />
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtWebUrl"
-                    ErrorMessage="<%$Resources:labels,required %>" Display="Dynamic" ValidationGroup="addNew" />
-                <asp:CustomValidator ID="CustomValidator1" runat="server" ControlToValidate="txtWebUrl"
-                    ErrorMessage="<%$Resources:labels,invalid %>" EnableClientScript="false" OnServerValidate="validateWebUrl"
-                    ValidationGroup="addnew"></asp:CustomValidator>
-            </div>
-            <div style="margin-bottom: 3px">
-                <asp:Label runat="server" AssociatedControlID="txtFeedUrl" CssClass="wide" Text="RSS url" />
-                <asp:TextBox runat="server" ID="txtFeedUrl" Width="600px" />
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="Server" ControlToValidate="txtFeedUrl"
-                    ErrorMessage="<%$Resources:labels,required %>" Display="Dynamic" ValidationGroup="addNew" />
-                <asp:CustomValidator ID="CustomValidator2" runat="server" ControlToValidate="txtFeedUrl"
-                    ErrorMessage="<%$Resources:labels,invalid %>" EnableClientScript="false" OnServerValidate="validateFeedUrl"
-                    ValidationGroup="addnew"></asp:CustomValidator>
-            </div>
-            <asp:Label runat="server" AssociatedControlID="cblXfn" CssClass="wide" Text="XFN tag" />
-            <asp:CheckBoxList runat="server" ID="cblXfn" CssClass="nowidth" RepeatColumns="8">
-                <asp:ListItem Text="contact" />
-                <asp:ListItem Text="acquaintance " />
-                <asp:ListItem Text="friend " />
-                <asp:ListItem Text="met" />
-                <asp:ListItem Text="co-worker" />
-                <asp:ListItem Text="colleague " />
-                <asp:ListItem Text="co-resident" />
-                <asp:ListItem Text="neighbor " />
-                <asp:ListItem Text="child" />
-                <asp:ListItem Text="parent" />
-                <asp:ListItem Text="sibling" />
-                <asp:ListItem Text="spouse" />
-                <asp:ListItem Text="kin" />
-                <asp:ListItem Text="muse" />
-                <asp:ListItem Text="crush" />
-                <asp:ListItem Text="date" />
-                <asp:ListItem Text="sweetheart" />
-                <asp:ListItem Text="me" />
-            </asp:CheckBoxList>
-            <div style="padding: 3px; text-align: right; margin-bottom: 5px">
-                <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" Width="120" />
-            </div>
+
             <asp:GridView runat="server" ID="grid" BorderColor="#f8f8f8" BorderStyle="solid"
                 BorderWidth="1px" RowStyle-BorderWidth="0" RowStyle-BorderStyle="None" GridLines="None"
                 Width="100%" AlternatingRowStyle-BackColor="#f8f8f8" AlternatingRowStyle-BorderColor="#f8f8f8"
@@ -107,18 +138,8 @@
                 <Columns>
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:HyperLink ID="feedLink" runat="server" ImageUrl="~/pics/rssButton.gif" NavigateUrl='<%# Eval("FeedUrl").ToString() %>'
+                            <asp:HyperLink ID="feedLink" runat="server" ImageUrl="~/pics/rssButton.png" NavigateUrl='<%# Eval("FeedUrl").ToString() %>'
                                 Text="<%# string.Empty %>"></asp:HyperLink>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField ControlStyle-BackColor="Transparent">
-                        <ItemTemplate>
-                            <asp:ImageButton ID="ibMoveUp" ImageUrl="~/pics/up_arrow_small.gif" runat="server"
-                                CommandArgument="<%# ((GridViewRow)Container).RowIndex %>" CommandName="moveUp"
-                                Width="16" Height="8" />
-                            <asp:ImageButton ID="ibMoveDown" ImageUrl="~/pics/down_arrow_small.gif" runat="server"
-                                CommandArgument="<%# ((GridViewRow)Container).RowIndex %>" CommandName="moveDown"
-                                Width="16" Height="8" />
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>
@@ -133,6 +154,15 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:CommandField ShowDeleteButton="True" />
+                    <asp:TemplateField ControlStyle-BackColor="Transparent">
+                        <ItemTemplate>
+                            <asp:ImageButton ID="ibMoveUp" ImageUrl="~/admin/images/action-up.png" runat="server"
+                                CommandArgument="<%# ((GridViewRow)Container).RowIndex %>" CommandName="moveUp" />
+                            <asp:ImageButton ID="ibMoveDown" ImageUrl="~/admin/images/action-down.png" runat="server"
+                                CommandArgument="<%# ((GridViewRow)Container).RowIndex %>" CommandName="moveDown" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                 </Columns>
             </asp:GridView>
         </div>

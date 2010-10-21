@@ -196,9 +196,12 @@
                               where !found
                               select type)))
             {
-                customFilters.AddValues(new[] { type.FullName, type.Name, "0", "0", "0", "0" });
+                // if new filter found in the assembly, add it to settings
+                if (!customFilters.IsKeyValueExists(type.FullName))
+                {
+                    customFilters.AddValues(new[] { type.FullName, type.Name, "0", "0", "0", "0" });
+                }
             }
-
             ExtensionManager.SaveSettings("MetaExtension", customFilters);
         }
 

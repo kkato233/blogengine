@@ -546,5 +546,12 @@ function Show(element) {
 
 function Hide(element) {
    $("[id$='" + element + "']").slideUp('slow', function () { });
-   return false;
+   return false;}
+
+function Toggle(element) {
+    if ($("[id$='" + element + "']").is(':visible'))
+        $("[id$='" + element + "']").slideUp('slow', function () { });
+    else
+        $("[id$='" + element + "']").slideDown('slow', function () { });
+    return false;
 }

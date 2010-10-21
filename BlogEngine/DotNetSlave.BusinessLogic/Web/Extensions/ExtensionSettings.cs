@@ -481,6 +481,13 @@
 
             for (var i = 0; i < this.Parameters.Count; i++)
             {
+                if (IsKeyValueExists(values[i]))
+                {
+                    string err = string.Format("Dupliate value of '{0}' not allowed for parameter '{1}'", values[i], this.Parameters[i].Label);
+                    Utils.Log(err);
+
+                    throw new ApplicationException(err);   
+                }
                 this.Parameters[i].AddValue(values[i]);
             }
         }
@@ -500,6 +507,13 @@
 
             for (var i = 0; i < this.Parameters.Count; i++)
             {
+                if (IsKeyValueExists(values[i]))
+                {
+                    string err = string.Format("Dupliate value of '{0}' not allowed for parameter '{1}'", values[i], this.Parameters[i].Label);
+                    Utils.Log(err);
+
+                    throw new ApplicationException(err);   
+                }
                 this.Parameters[i].AddValue(values[i]);
             }
         }

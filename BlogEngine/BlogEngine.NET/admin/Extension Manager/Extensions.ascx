@@ -2,23 +2,15 @@
 <asp:Literal ID="Literal1" runat="server" Text="<h1>Extensions</h1>" />
 <div id="lblErrorMsg" style="padding:5px; color:Red;" runat="server"></div>
 
-<div style="border:1px solid #f3f3f3">
 <asp:GridView ID="gridExtensionsList" 
-    BorderColor="#f8f8f8" 
-    BorderStyle="solid" 
-    BorderWidth="1px" 
-    RowStyle-BorderWidth="0"
-    RowStyle-BorderStyle="None"
-    gridlines="None"
-    datakeynames="Name"
     runat="server"  
-    width="100%"
+    AutoGenerateColumns="False"
+    datakeynames="Name"
+    ShowFooter="true"
+    gridlines="None"
     AlternatingRowStyle-BackColor="#f8f8f8"
     AlternatingRowStyle-BorderColor="#f8f8f8" 
-    HeaderStyle-BackColor="#F1F1F1"
-    cellpadding="3"
-    AutoGenerateColumns="False"
-    ShowFooter="true" >
+    CssClass="beTable" >
   <Columns>
     <asp:BoundField HeaderText="<%$Resources:labels,name %>" HeaderStyle-HorizontalAlign="Left" DataField = "Name" />  
     <asp:BoundField HeaderText="<%$Resources:labels,version %>" DataField = "Version" />
@@ -58,9 +50,7 @@
   <pagersettings Mode="NumericFirstLast" position="Bottom" pagebuttoncount="20" />
   <PagerStyle HorizontalAlign="Center"/>
 </asp:GridView>
-</div>
 
-<br />
 <div style="text-align:right">
   <asp:Button runat="Server" ID="btnRestart" 
     Text="<%$Resources:labels,applyChanges %>"   />
