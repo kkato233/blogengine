@@ -85,10 +85,8 @@
 		</div>
 		<div class="content-box-left">
         <h1><%=Resources.labels.settings %></h1>
-            <fieldset class="hide">
-                <legend><%=Resources.labels.email %></legend>
 
-                <ul class="fl">
+                <ul class="fl leftaligned">
                     <li>
                         <label class="lbl" for="<%=txtEmail.ClientID %>"><%=Resources.labels.emailAddress %></label>
                         <asp:TextBox CssClass="w300 email" runat="server" ID="txtEmail" />
@@ -115,7 +113,7 @@
                         <asp:TextBox runat="server" ID="txtEmailSubjectPrefix" Width="300" />
                     </li>
                     <li>
-                        <span class="filler"></span>
+                        <label class="lbl">Other settings</label>
                         <asp:CheckBox runat="Server" ID="cbEnableSsl" />
                         <label for="<%=cbEnableSsl.ClientID %>"><%=Resources.labels.enableSsl%></label>
                     </li>
@@ -125,7 +123,6 @@
                         <label for="<%=cbComments.ClientID %>"><%=Resources.labels.sendCommentEmail %></label>
                     </li>
                 </ul>
-            </fieldset>
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
                 <input type="submit" class="btn rounded" value="<%=Resources.labels.testEmailSettings %>" onclick="return TestEmail();" />

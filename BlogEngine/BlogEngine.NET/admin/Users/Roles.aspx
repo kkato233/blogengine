@@ -4,11 +4,11 @@
         function AddRole() {
             var txtUser = $('#txtUserName').val();
             var rowCnt = $('#RoleService tr').length;
-            var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
+            var bg = (rowCnt % 2 == 0) ? 'class=""' : 'class="alt"';
             var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
             row += '<td class="editable">' + txtUser + '</td>';
-            row += '<td align="center"><a href="#" class="editButton">edit</a></td>';
-            row += '<td align="center"><a href="#" class="deleteButton">delete</a></td></tr>';
+            row += '<td align="center"><a href="#" class="editButton">Edit</a></td>';
+            row += '<td align="center"><a href="#" class="deleteButton">Delete</a></td></tr>';
 
             if (txtUser.length == 0) {
                 $('#txtUserNameReq').removeClass('hidden');
@@ -37,7 +37,18 @@
                     }
                 });
             }
+            closeOverlay();
             return false;
+        }
+    </script>
+    <script type="text/javascript" src="../jquery.colorbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".addNew").colorbox({ width: "50%", inline: true, href: "#frmAddNew" });
+        });
+
+        function closeOverlay() {
+            $.colorbox.close();
         }
     </script>
 
@@ -50,15 +61,18 @@
             </ul>
 		</div>
 		<div class="content-box-left">
-            <h1><%=Resources.labels.roles %><a href="#" onclick="Show('frmAddNew');" class="addNew">Add new role</a></h1>
-           <div id="frmAddNew" class="rounded" style="display:none">
+            <h1><%=Resources.labels.roles %><a href="#" class="addNew">Add new role</a></h1>
+            <div  style="display:none;">
+            <div id="frmAddNew" class="overlaypanel">
+                <h2>Add new role</h2>
 		        <label for="txtUserName" class="lbl">Name</label>
 		        <input type="text" id="txtUserName" class="txt200" />
 		        <span id="txtUserNameReq" class="req hidden">*</span>
 		        <br/><br/>
-		        <input type="submit" class="btnAddNew btn rounded" value="save" onclick="return AddRole();" />
-		        or <a href="#" onclick="Hide('frmAddNew');">cancel</a>
+		        <input type="submit" class="primarybtn rounded" value="save" onclick="return AddRole();" />
+		        or <a href="#" onclick="closeOverlay();">cancel</a>
 	        </div>
+            </div>
             <div id="Container"></div>
 		</div>
 	</div>

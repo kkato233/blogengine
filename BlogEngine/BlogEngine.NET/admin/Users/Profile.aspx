@@ -89,13 +89,13 @@
 		<div class="content-box-left">
             <h1 style="border:none;"><%=Resources.labels.profile %> : <%=Request.QueryString["id"] %></h1>
             <div id="Container"></div>
-            <fieldset class="rounded">
-                <legend>Roles</legend>
-                <div><%=RolesList%></div>
-            </fieldset>
+
+            <h2>Roles</h2>
+            <div><%=RolesList%></div>
+
             <div id="Container2"></div>
             <div>
-                <input type="submit" class="btn rounded" value="<%=Resources.labels.save %>" onclick="return SaveProfile()" />
+                <input type="submit" class="primarybtn rounded" value="<%=Resources.labels.save %>" onclick="return SaveProfile()" />
 		        or <a href="Users.aspx"><%=Resources.labels.cancel %></a>
             </div>
 		</div>

@@ -151,7 +151,7 @@ namespace App_Code.Controls
                 {
                     var img = new HtmlImage
                         {
-                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot),
+                            Src = string.Format("{0}pics/rssButton.png", Utils.RelativeWebRoot),
                             Alt = string.Format("RSS feed for {0}", user.UserName)
                         };
                     img.Attributes["class"] = "rssButton";

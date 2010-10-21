@@ -82,10 +82,7 @@
 		<div class="content-box-left">
             <h1 ><%=Resources.labels.basic %> <%=Resources.labels.settings %></h1>
 
-            <fieldset class="hide">
-                <legend><%=Resources.labels.basic %> <%=Resources.labels.settings %></legend>
-
-                <ul class="fl">
+                <ul class="fl leftaligned">
                     <li>
                         <label class="lbl" for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
                         <asp:TextBox width="300" runat="server" ID="txtName" CssClass="required" /></li>
@@ -123,23 +120,7 @@
                         <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" CssClass="required number" />
                     </li>
                     <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" />
-                        <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
-                        <span class="insetHelp">(<%=Resources.labels.useBlogNameInPageTitlesDescription%>)</span>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbShowRelatedPosts" />
-                        <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbEnableRating" />
-                        <label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
+                        <label class="lbl">Appearance</label>
                         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
                         <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
                         <div class="insetForm" id="DescriptionCharacters" style=" display:none;">
@@ -158,13 +139,29 @@
                     </li>
                     <li>
                         <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" />
-                        <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
+                        <asp:CheckBox runat="server" ID="cbShowRelatedPosts" />
+                        <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
                     </li>
                     <li>
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbShowPostNavigation" />
                         <label for="<%=cbShowPostNavigation.ClientID %>"><%=Resources.labels.showPostNavigation %></label>
+                    </li>
+                    <li>
+                        <label class="lbl">Other settings</label>
+                        <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" />
+                        <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
+                        <span class="insetHelp">(<%=Resources.labels.useBlogNameInPageTitlesDescription%>)</span>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnableRating" />
+                        <label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" />
+                        <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
                     </li>
                     <li>
                         <span class="filler"></span>
@@ -177,7 +174,7 @@
                         <label for="<%=cbRequireLoginToViewPosts.ClientID %>"><%=Resources.labels.onlyLoggedInCanView %></label>
                     </li>
                 </ul>
-            </fieldset>
+
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
             </div>

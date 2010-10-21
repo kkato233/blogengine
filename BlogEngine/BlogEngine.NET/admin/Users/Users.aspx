@@ -8,12 +8,12 @@
             var txtEmail = $('#txtEmail').val();
 
             var rowCnt = $('#UserService tr').length;
-            var bg = (rowCnt % 2 == 0) ? 'bgcolor="#F8F8F8"' : 'bgcolor="#F0F0F0"';
+            var bg = (rowCnt % 2 == 0) ? 'class=""' : 'class="alt"';
             var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
             row += '<td>' + txtUser + '</td><td class="editable">' + txtEmail + '</td>';
-            row += '<td align="center"><a href="Profile.aspx?id=' + txtUser + '">Profile</a></td>';
             row += '<td align="center"><a href="#" class="editButton">Edit</a></td>';
             row += '<td align="center"><a href="#" class="deleteButton">Delete</a></td></tr>';
+            row += '<td align="center"><a href="Profile.aspx?id=' + txtUser + '">Profile</a></td>';
 
             $('#txtUserNameReq').addClass('hidden');
             $('#txtPasswordReq').addClass('hidden');
@@ -60,10 +60,22 @@
                     }
                 });
             }
+            $.colorbox.close();
             return false;
         }
+
     </script>
 
+    <script type="text/javascript" src="../jquery.colorbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".addNew").colorbox({ width: "50%", inline: true, href: "#frmAddNew" });
+        });
+
+        function closeOverlay() {
+            $.colorbox.close();
+        }
+    </script>
 	<div class="content-box-outer">
 		<div class="content-box-right">
             <ul>
@@ -73,8 +85,9 @@
             </ul>
 		</div>
 		<div class="content-box-left">
-            <h1><%=Resources.labels.users %><a href="#" onclick="Show('frmAddNew');" class="addNew">Add new user</a></h1>
-            <div id="frmAddNew" class="rounded" style="display:none;">
+            <h2><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h2>
+            <div style="display:none;">
+            <div id="frmAddNew" class="overlaypanel" >
                 <table class="tblForm">
                     <tr>
                         <td>
@@ -101,9 +114,10 @@
                         </td>
                     </tr>
                 </table>
-				<input type="submit" class="btnAddNew btn rounded" value="save" onclick="return AddUser(this);" id="btnNewUser" />
-				or <a href="#" onclick="Hide('frmAddNew');">cancel</a>
+				<input type="submit" class="primarybtn rounded" value="save" onclick="return AddUser(this);" id="btnNewUser" />
+				or <a href="#" onclick="closeOverlay();">cancel</a>
 			</div>
+            </div>
             <div id="Container"></div>
 		</div>
 	</div>

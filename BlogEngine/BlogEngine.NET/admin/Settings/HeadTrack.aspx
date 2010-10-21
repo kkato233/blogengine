@@ -35,22 +35,20 @@
 		</div>
 		<div class="content-box-left">
             <h1><%=Resources.labels.settings %></h1>
-            <fieldset class="hide">
-                <legend>Header and Tracking Script</legend>
 
-                <ul class="fl">
+                <ul class="fl leftaligned">
                     <li>
                         <label class="lbl"><%=Resources.labels.addCustomCodeToHeader %></label>
                         <asp:TextBox runat="server" ID="txtHtmlHeader" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
                     </li>
                     <li>
-                        <label class="lbl">Visitor tracking script</label>
+                        <label class="lbl"><%=Resources.labels.trackingScript %></label>
                         <asp:TextBox runat="server" ID="txtTrackingScript" TextMode="multiLine" Rows="9" Columns="30" Width="500" />
-                        <span class="belowHelp" style="width:500px;">Will be added in the bottom of each page regardless of the theme. 
-                            You can insert JavaScript code from i.e. Google Analytics (remember to add the &lt;script&gt; tags).</span>
+                        <%--<span class="belowHelp" style="width:500px;">Will be added in the bottom of each page regardless of the theme. 
+                            You can insert JavaScript code from i.e. Google Analytics (remember to add the &lt;script&gt; tags).</span>--%>
                     </li>
                 </ul>
-            </fieldset>
+
              <div class="action_buttons">
                 <input type="submit" class="primarybtn rounded" value="Save" onclick="return SaveSettings();" />
             </div>

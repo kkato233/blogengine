@@ -169,7 +169,7 @@ namespace App_Code.Controls
 
                     using (var image = new HtmlImage
                         {
-                            Src = string.Format("{0}pics/rssButton.gif", Utils.RelativeWebRoot), Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
+                            Src = string.Format("{0}pics/rssButton.png", Utils.RelativeWebRoot), Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
                         })
                     {
                         feedAnchor.Controls.Add(image);

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
+  <allowservertodownloadremotefiles>False</allowservertodownloadremotefiles>
   <themecookiename>theme</themecookiename>
   <numberofreferrerdays>1</numberofreferrerdays>
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
@@ -12,6 +13,7 @@
   <descriptioncharacters>300</descriptioncharacters>
   <searchbuttontext>Search</searchbuttontext>
   <requirelogintoviewposts>False</requirelogintoviewposts>
+  <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
   <enablecontactattachments>True</enablecontactattachments>
   <enableselfregistration>False</enableselfregistration>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
@@ -69,6 +71,7 @@
   <sendmailoncomment>True</sendmailoncomment>
   <enablecountryincomments>True</enablecountryincomments>
   <timestamppostlinks>False</timestamppostlinks>
+  <remotemaxfilesize>524288</remotemaxfilesize>
   <iscommentnestingenabled>True</iscommentnestingenabled>
   <numberofrecentcomments>10</numberofrecentcomments>
   <language>en-US</language>

@@ -96,22 +96,22 @@
             if (x.Enabled)
             {
                 sb.AppendFormat(
-                    "<span style='background:#ccffcc'><a href='?act=dis&ext={0}' title='{1}{2}' {3}>{4}</a></span>",
+                    "<span class='extEnabled'><a href='?act=dis&ext={0}' title='{1}{2}' {3}>{4}</a></span>",
                     x.Name,
                     labels.clickToDisable,
                     x.Name,
                     jsonclick,
-                    labels.enabled);
+                    "(Disable)");
             }
             else
             {
                 sb.AppendFormat(
-                    "<span style='background:#ffcc66'><a href='?act=enb&ext={0}' title='{1}{2}' {3}>{4}</a></span>",
+                    "<span class='extDisabled'><a href='?act=enb&ext={0}' title='{1}{2}' {3}>{4}</a></span>",
                     x.Name,
                     labels.clickToEnable,
                     x.Name,
                     jsonclick,
-                    labels.disabled);
+                    "(Enable)");
             }
 
             return sb.ToString();

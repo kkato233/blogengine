@@ -67,10 +67,8 @@
 		</div>
 		<div class="content-box-left">
             <h1><%=Resources.labels.settings %></h1>
-            <fieldset class="hide">
-                <legend>Feed Settings</legend>
 
-                <ul class="fl">
+                <ul class="fl leftaligned">
                     <li>
                         <label class="lbl" for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label>
                         <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" />
@@ -113,12 +111,11 @@
                         </script>
                     </li>
                     <li>
-                        <span class="filler"></span>
+                        <label class="lbl">Other settings</label>
                         <asp:CheckBox runat="server" ID="cbEnableEnclosures" />
                         <label for="<%=cbEnableEnclosures.ClientID %>"><%=Resources.labels.enableEnclosures %></label>
                     </li>
                 </ul>
-            </fieldset>
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
             </div>

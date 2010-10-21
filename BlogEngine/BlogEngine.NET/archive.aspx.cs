@@ -123,7 +123,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
             feed.HRef = cat.FeedRelativeLink;
 
 			HtmlImage img = new HtmlImage();
-			img.Src = Utils.RelativeWebRoot + "pics/rssButton.gif";
+			img.Src = Utils.RelativeWebRoot + "pics/rssButton.png";
 			img.Alt = "RSS";
 			feed.Controls.Add(img);
 			h2.Controls.Add(feed);

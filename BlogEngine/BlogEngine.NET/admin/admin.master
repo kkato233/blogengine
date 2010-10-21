@@ -6,6 +6,7 @@
 <head id="Head1" runat="server">
     <title>BlogEngine.NET Admin</title>
     <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="colorbox.css" type="text/css" />
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
