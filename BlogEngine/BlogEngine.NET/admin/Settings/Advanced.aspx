@@ -127,20 +127,26 @@
             <fieldset class="rounded">
                 <legend><%=Resources.labels.securitySettings %></legend>
 
-                <table class="tblForm">
-                    <tr>
-                        <td style="width:250px;"><label for="<%=cbAllowRemoteFileDownloads.ClientID %>"><%=Resources.labels.allowRemoteFileDownloads %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbAllowRemoteFileDownloads" /><label><%=Resources.labels.allowRemoteFileDownloadsDescription%></label></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label></td>
-                        <td><asp:TextBox runat="server" Width="80" ID="txtRemoteTimeout" />&nbsp;&nbsp;<label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeoutDescription %></label></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtRemoteMaxFileSize.ClientID %>"><%=Resources.labels.maximumRemoteFileSize%></label></td>
-                        <td><asp:TextBox runat="server" ID="txtRemoteMaxFileSize" /><label><%=Resources.labels.maximumRemoteFileSizeDescription%></label></td>
-                    </tr>
-                </table>
+                <ul class="fl">
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbAllowRemoteFileDownloads" />
+                        <label for="<%=cbAllowRemoteFileDownloads.ClientID %>"><%=Resources.labels.allowRemoteFileDownloads %></label>
+                        <span class="insetHelp">(<%=Resources.labels.allowRemoteFileDownloadsDescription%>)</span>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <label class="lbl" for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label>
+                        <asp:TextBox runat="server" Width="100" ID="txtRemoteTimeout" />
+                        <span class="insetHelp">(<%=Resources.labels.remoteTimeoutDescription %>)</span>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <label class="lbl" for="<%=txtRemoteMaxFileSize.ClientID %>"><%=Resources.labels.maximumRemoteFileSize%></label>
+                        <asp:TextBox runat="server" Width="100" ID="txtRemoteMaxFileSize" />
+                        <span class="insetHelp">(<%=Resources.labels.maximumRemoteFileSizeDescription %>)</span>
+                    </li>
+                </ul>
             </fieldset>
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />

@@ -457,3 +457,5 @@ label.error {
     display:block;
     padding: 2px 0;
 }
+
+input[type="file"] {    color: #666;	background: #FFFFFF;	border: 1px solid #B8C1CA;	padding: 5px;}

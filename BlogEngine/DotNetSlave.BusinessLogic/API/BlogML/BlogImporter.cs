@@ -33,8 +33,12 @@
         /// <param name="date">
         /// comment datetime
         /// </param>
-        public void AddComment(
-            string postId, string author, string email, string website, string description, DateTime date)
+        public void AddComment(string postId, string author, string email, string website, string description, DateTime date)
+        {
+            AddComment(postId, author, email, website, description, date, false);
+        }
+
+        public void AddComment(string postId, string author, string email, string website, string description, DateTime date, bool approved)
         {
             if (!IsAuthenticated())
             {
