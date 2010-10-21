@@ -88,43 +88,43 @@
             <fieldset class="hide">
                 <legend><%=Resources.labels.email %></legend>
 
-                <table class="tblForm">
-                    <tr>
-                        <td width="250"><label for="<%=txtEmail.ClientID %>"><%=Resources.labels.emailAddress %></label></td>
-                        <td><asp:TextBox CssClass="w300 email" runat="server" ID="txtEmail" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtSmtpServer.ClientID %>">SMTP server</label></td>
-                        <td><asp:TextBox runat="server" ID="txtSmtpServer" CssClass="w300" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.portNumber %></label></td>
-                        <td>
-                            <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" CssClass="number" />
-                            <label><%=Resources.labels.portNumberDescription %></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtSmtpUsername.ClientID %>"><%=Resources.labels.userName %></label></td>
-                        <td><asp:TextBox CssClass="txt" runat="server" ID="txtSmtpUsername" Width="300" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtSmtpPassword.ClientID %>"><%=Resources.labels.password %></label></td>
-                        <td><asp:TextBox TextMode="Password"  runat="server" ID="txtSmtpPassword" Width="300" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbEnableSsl.ClientID %>"><%=Resources.labels.enableSsl%></label></td>
-                        <td><asp:CheckBox runat="Server" ID="cbEnableSsl" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbComments.ClientID %>"><%=Resources.labels.sendCommentEmail %></label></td>
-                        <td><asp:CheckBox runat="Server" ID="cbComments" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtEmailSubjectPrefix.ClientID %>"><%=Resources.labels.emailSubjectPrefix %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtEmailSubjectPrefix" Width="300" /></td>
-                    </tr>
-                </table>
+                <ul class="fl">
+                    <li>
+                        <label class="lbl" for="<%=txtEmail.ClientID %>"><%=Resources.labels.emailAddress %></label>
+                        <asp:TextBox CssClass="w300 email" runat="server" ID="txtEmail" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtSmtpServer.ClientID %>">SMTP server</label>
+                        <asp:TextBox runat="server" ID="txtSmtpServer" CssClass="w300" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtSmtpServerPort.ClientID %>"><%=Resources.labels.portNumber %></label>
+                        <asp:TextBox runat="server" ID="txtSmtpServerPort" Width="35" CssClass="number" />
+                        <span class="belowHelp"><%=Resources.labels.portNumberDescription %></span>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtSmtpUsername.ClientID %>"><%=Resources.labels.userName %></label>
+                        <asp:TextBox CssClass="txt" runat="server" ID="txtSmtpUsername" Width="300" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtSmtpPassword.ClientID %>"><%=Resources.labels.password %></label>
+                        <asp:TextBox TextMode="Password"  runat="server" ID="txtSmtpPassword" Width="300" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtEmailSubjectPrefix.ClientID %>"><%=Resources.labels.emailSubjectPrefix %></label>
+                        <asp:TextBox runat="server" ID="txtEmailSubjectPrefix" Width="300" />
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="Server" ID="cbEnableSsl" />
+                        <label for="<%=cbEnableSsl.ClientID %>"><%=Resources.labels.enableSsl%></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="Server" ID="cbComments" />
+                        <label for="<%=cbComments.ClientID %>"><%=Resources.labels.sendCommentEmail %></label>
+                    </li>
+                </ul>
             </fieldset>
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />

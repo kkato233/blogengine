@@ -16,6 +16,15 @@
 
                 evt.preventDefault();
             });
+
+            $("#<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>").change(function () {
+                $("#DescriptionCharactersForPostsByTagOrCategory").toggle();
+            });
+
+            $("#<%=cbShowDescriptionInPostList.ClientID %>").change(function () {
+                $("#DescriptionCharacters").toggle();
+            });
+
         });
         function PreviewTheme() {
             var theme = document.getElementById('<%=ddlTheme.ClientID %>').value;
@@ -76,102 +85,98 @@
             <fieldset class="hide">
                 <legend><%=Resources.labels.basic %> <%=Resources.labels.settings %></legend>
 
-                <table class="tblForm">
-                    <tr>
-                        <td width="250"><label for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label></td>
-                        <td>
-                            <asp:TextBox width="300" runat="server" ID="txtName" CssClass="required" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label></td>
-                        <td><asp:TextBox width="300" runat="server" ID="txtDescription" /></td>
-                    </tr>
-                    <tr>
-                        <td><label class="lbl200" for="<%=txtPostsPerPage.ClientID %>"><%=Resources.labels.postPerPage %></label></td>
-                        <td>
-                            <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" CssClass="required number" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label></td>
-                        <td>
-                            <asp:DropDownList CssClass="txt" Width="212" runat="server" ID="ddlTheme" />
-                            <a href="javascript:void(PreviewTheme());"><%=Resources.labels.preview %></a> | <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank"><%=Resources.labels.download %></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=ddlMobileTheme.ClientID %>"><%=Resources.labels.mobileTheme %></label></td>
-                        <td><asp:DropDownList CssClass="txt" Width="212" runat="server" ID="ddlMobileTheme" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtThemeCookieName.ClientID %>"><%=Resources.labels.themeCookieName %></label></td>
-                        <td><asp:TextBox CssClass="w300" runat="server" ID="txtThemeCookieName" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label></td>
-                        <td>
-                            <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" />
-                            <label><%=Resources.labels.useBlogNameInPageTitlesDescription%></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbShowRelatedPosts" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbEnableRating" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label></td>
-                        <td>
-                            <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
-                            <label style="width: 200px" for="<%=txtDescriptionCharacters.ClientID %>"><%=Resources.labels.numberOfCharacters %></label>
+                <ul class="fl">
+                    <li>
+                        <label class="lbl" for="<%=txtName.ClientID %>"><%=Resources.labels.name %></label>
+                        <asp:TextBox width="300" runat="server" ID="txtName" CssClass="required" /></li>
+                    <li>
+                        <label class="lbl" for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label>
+                        <asp:TextBox width="300" runat="server" ID="txtDescription" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
+                        <asp:DropDownList CssClass="txt" Width="212" runat="server" ID="ddlTheme" />
+                        <a href="javascript:void(PreviewTheme());"><%=Resources.labels.preview %></a> | <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank"><%=Resources.labels.download %></a>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=ddlMobileTheme.ClientID %>"><%=Resources.labels.mobileTheme %></label>
+                        <asp:DropDownList CssClass="txt" Width="212" runat="server" ID="ddlMobileTheme" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtThemeCookieName.ClientID %>"><%=Resources.labels.themeCookieName %></label>
+                        <asp:TextBox CssClass="w300" runat="server" ID="txtThemeCookieName" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label>
+                        <asp:DropDownList runat="Server" ID="ddlCulture" Style="text-transform: capitalize">
+                            <asp:ListItem Text="Auto" />
+                            <asp:ListItem Text="english" Value="en" />
+                        </asp:DropDownList>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtTimeZone.ClientID %>"><%=Resources.labels.timezone %></label>
+                        <asp:TextBox runat="Server" ID="txtTimeZone" Width="30" CssClass="number" />
+                        <span>Server time: <%=DateTime.Now.ToShortTimeString() %></span>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtPostsPerPage.ClientID %>"><%=Resources.labels.postPerPage %></label>
+                        <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" CssClass="required number" />
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" />
+                        <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
+                        <span class="insetHelp">(<%=Resources.labels.useBlogNameInPageTitlesDescription%>)</span>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbShowRelatedPosts" />
+                        <label for="<%=cbShowRelatedPosts.ClientID %>"><%=Resources.labels.showRelatedPosts %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnableRating" />
+                        <label for="<%=cbEnableRating.ClientID %>"><%=Resources.labels.enableRating %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
+                        <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
+                        <div class="insetForm" id="DescriptionCharacters" style=" display:none;">
+                            <label for="<%=txtDescriptionCharacters.ClientID %>"><%=Resources.labels.numberOfCharacters %></label>
                             <asp:TextBox runat="server" ID="txtDescriptionCharacters" Width="40" CssClass="number" />      
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>"><%=Resources.labels.showDescriptionInPostListForPostsByTagOrCategory %></label></td>
-                        <td>
-                            <asp:CheckBox runat="server" ID="cbShowDescriptionInPostListForPostsByTagOrCategory" />
+                        </div>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbShowDescriptionInPostListForPostsByTagOrCategory" />
+                        <label for="<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>"><%=Resources.labels.showDescriptionInPostListForPostsByTagOrCategory %></label>
+                        <div class="insetForm" id="DescriptionCharactersForPostsByTagOrCategory" style=" display:none;">
                             <label for="<%=txtDescriptionCharactersForPostsByTagOrCategory.ClientID %>" style="float: none; position: relative; top: -2px;"><%=Resources.labels.numberOfCharacters %></label>
                             <asp:TextBox runat="server" ID="txtDescriptionCharactersForPostsByTagOrCategory" Width="40" CssClass="number" />
-                         </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbTimeStampPostLinks" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbShowPostNavigation.ClientID %>"><%=Resources.labels.showPostNavigation %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbShowPostNavigation" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=ddlCulture.ClientID %>"><%=Resources.labels.language %></label></td>
-                        <td>
-                            <asp:DropDownList runat="Server" ID="ddlCulture" Style="text-transform: capitalize">
-                                <asp:ListItem Text="Auto" />
-                                <asp:ListItem Text="english" Value="en" />
-                            </asp:DropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtTimeZone.ClientID %>"><%=Resources.labels.timezone %></label></td>
-                        <td>
-                            <asp:TextBox runat="Server" ID="txtTimeZone" Width="30" CssClass="number" />
-                            <label>Server time: <%=DateTime.Now.ToShortTimeString() %></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbEnableSelfRegistration" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=cbRequireLoginToViewPosts.ClientID %>"><%=Resources.labels.onlyLoggedInCanView %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbRequireLoginToViewPosts" /></td>
-                    </tr>
-                </table>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" />
+                        <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbShowPostNavigation" />
+                        <label for="<%=cbShowPostNavigation.ClientID %>"><%=Resources.labels.showPostNavigation %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
+                        <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbRequireLoginToViewPosts" />
+                        <label for="<%=cbRequireLoginToViewPosts.ClientID %>"><%=Resources.labels.onlyLoggedInCanView %></label>
+                    </li>
+                </ul>
             </fieldset>
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />

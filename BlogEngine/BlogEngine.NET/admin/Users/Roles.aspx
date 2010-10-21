@@ -52,11 +52,10 @@
 		<div class="content-box-left">
             <h1><%=Resources.labels.roles %><a href="#" onclick="Show('frmAddNew');" class="addNew">Add new role</a></h1>
            <div id="frmAddNew" class="rounded" style="display:none">
-		        <span class="lbl200">Name</span>
+		        <label for="txtUserName" class="lbl">Name</label>
 		        <input type="text" id="txtUserName" class="txt200" />
 		        <span id="txtUserNameReq" class="req hidden">*</span>
-		        <br/>
-                <span class="lbl200">&nbsp;</span>
+		        <br/><br/>
 		        <input type="submit" class="btnAddNew btn rounded" value="save" onclick="return AddRole();" />
 		        or <a href="#" onclick="Hide('frmAddNew');">cancel</a>
 	        </div>

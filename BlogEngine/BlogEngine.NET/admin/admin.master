@@ -32,7 +32,7 @@
                 <uc1:menu ID="Menu1" runat="server" />
             </div>
             <div class="clear"></div>
-            <div class="content-box-wraper">  
+            <div>  
                 <asp:ContentPlaceHolder ID="cphAdmin" runat="server" />
 	        </div>
 

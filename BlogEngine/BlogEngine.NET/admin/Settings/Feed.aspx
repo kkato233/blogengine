@@ -70,61 +70,54 @@
             <fieldset class="hide">
                 <legend>Feed Settings</legend>
 
-                <table class="tblForm">
-                    <tr>
-                        <td width="250"><label for="<%=ddlSyndicationFormat.ClientID %>" style="position: relative; top: 4px"><%=Resources.labels.defaultFeedOutput %></label></td>
-                        <td>
-                            <asp:DropDownList runat="server" ID="ddlSyndicationFormat">
-                                <asp:ListItem Text="RSS 2.0" Value="Rss" Selected="True" />
-                                <asp:ListItem Text="Atom 1.0" Value="Atom" />
-                            </asp:DropDownList>
-                            format.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtPostsPerFeed.ClientID %>"><%=Resources.labels.postsPerFeed %></label></td>
-                        <td>
-                            <asp:TextBox runat="server" ID="txtPostsPerFeed" Width="50" MaxLength="4" CssClass="required number" />
-                         </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtDublinCoreLanguage.ClientID %>"><%=Resources.labels.languageCode %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtDublinCoreLanguage" Width="60" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtGeocodingLatitude.ClientID %>"><%=Resources.labels.latitude %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtGeocodingLatitude" Width="300" CssClass="number" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label></td>
-                        <td>
-                            <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="300" CssClass="number" />&nbsp;
-                            <input type="button" class="btn rounded" id="findPosition" onclick="geodeAsk()" value="<%=Resources.labels.findPosition %>" style="display: none" />
-                            <script type="text/javascript">
-                                if (navigator.geolocation) document.getElementById('findPosition').style.display = 'inline';
-                            </script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtBlogChannelBLink.ClientID %>"><%=Resources.labels.endorsment %></label></td>
-                        <td><asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="300" /></td>
-                    </tr>
-                    <tr>
-                        <td><label for="<%=txtAlternateFeedUrl.ClientID %>"><%=Resources.labels.alternateFeedUrl %></label></td>
-                        <td>
-                            <asp:TextBox runat="server" ID="txtAlternateFeedUrl" Width="300" CssClass="url" />
-                            <em>(http://feeds.feedburner.com/username)</em>
-                        </td>
-                    </tr>
-                     <tr>
-                        <td><label for="<%=cbEnableEnclosures.ClientID %>"><%=Resources.labels.enableEnclosures %></label></td>
-                        <td><asp:CheckBox runat="server" ID="cbEnableEnclosures" /></td>
-                    </tr>
-                </table>
+                <ul class="fl">
+                    <li>
+                        <label class="lbl" for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label>
+                        <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtBlogChannelBLink.ClientID %>"><%=Resources.labels.endorsment %></label>
+                        <asp:TextBox runat="server" ID="txtBlogChannelBLink" MaxLength="255" Width="300" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtAlternateFeedUrl.ClientID %>"><%=Resources.labels.alternateFeedUrl %></label>
+                        <asp:TextBox runat="server" ID="txtAlternateFeedUrl" Width="300" CssClass="url" />
+                        <span class="belowHelp">(http://feeds.feedburner.com/username)</span>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=ddlSyndicationFormat.ClientID %>" style="position: relative; top: 4px"><%=Resources.labels.defaultFeedOutput %></label>
+                        <asp:DropDownList runat="server" ID="ddlSyndicationFormat">
+                            <asp:ListItem Text="RSS 2.0" Value="Rss" Selected="True" />
+                            <asp:ListItem Text="Atom 1.0" Value="Atom" />
+                        </asp:DropDownList>
+                        format.
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtDublinCoreLanguage.ClientID %>"><%=Resources.labels.languageCode %></label>
+                        <asp:TextBox runat="server" ID="txtDublinCoreLanguage" Width="60" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtPostsPerFeed.ClientID %>"><%=Resources.labels.postsPerFeed %></label>
+                        <asp:TextBox runat="server" ID="txtPostsPerFeed" Width="50" MaxLength="4" CssClass="required number" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtGeocodingLatitude.ClientID %>"><%=Resources.labels.latitude %></label>
+                        <asp:TextBox runat="server" ID="txtGeocodingLatitude" Width="150" CssClass="number" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label>
+                        <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="150" CssClass="number" />&nbsp;
+                        <input type="button" class="btn rounded" id="findPosition" onclick="geodeAsk()" value="<%=Resources.labels.findPosition %>" style="display: none" />
+                        <script type="text/javascript">
+                            if (navigator.geolocation) document.getElementById('findPosition').style.display = 'inline';
+                        </script>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnableEnclosures" />
+                        <label for="<%=cbEnableEnclosures.ClientID %>"><%=Resources.labels.enableEnclosures %></label>
+                    </li>
+                </ul>
             </fieldset>
             <div class="action_buttons">
                 <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
