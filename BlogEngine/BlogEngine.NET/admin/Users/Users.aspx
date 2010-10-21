@@ -74,22 +74,33 @@
 		</div>
 		<div class="content-box-left">
             <h1><%=Resources.labels.users %><a href="#" onclick="Show('frmAddNew');" class="addNew">Add new user</a></h1>
-            <div id="frmAddNew" class="rounded" style="display:none">
-				<label for="txtUserName" class="lbl200">Name</label>
-				<input type="text" id="txtUserName" class="txt200"/>
-				<span id="txtUserNameReq" class="req hidden">*</span>
-				<br/>
-				<label for="txtPassword" class="lbl200">Password</label>
-				<input type="password" id="txtPassword" class="txt200"/>
-				<input type="password" id="txtPassword2" class="txt200"/>
-				<span  id= "txtPasswordReq" class="req hidden">*</span>
-				<span  id= "txtPasswordMatch" class="req hidden">Passwords should match</span>
-				<br/>
-				<label for="txtEmail" class="lbl200">Email</label>
-				<input type="text" id="txtEmail" class="txt200"/>
-				<span id= "txtEmailReq" class="req hidden">*</span>
-				<br/>
-				<span class="lbl200">&nbsp;</span>
+            <div id="frmAddNew" class="rounded" style="display:none;">
+                <table class="tblForm">
+                    <tr>
+                        <td>
+				            <label for="txtUserName" class="lbl">Name</label>
+				            <input type="text" id="txtUserName" class="txt200"/>
+				            <span id="txtUserNameReq" class="req hidden">*</span>
+				        </td>
+				        <td>
+				            <label for="txtEmail" class="lbl">Email</label>
+				            <input type="text" id="txtEmail" class="txt200"/>
+				            <span id= "txtEmailReq" class="req hidden">*</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+				                <label for="txtPassword" class="lbl">Password</label>
+				                <input type="password" id="txtPassword" class="txt200"/>
+                        </td>
+                        <td>
+                                <label for="txtPassword2" class="lbl">Confirm password</label>
+				                <input type="password" id="txtPassword2" class="txt200"/>
+				                <span  id= "txtPasswordReq" class="req hidden">*</span>
+				                <span  id= "txtPasswordMatch" class="req hidden">Passwords should match</span>
+                        </td>
+                    </tr>
+                </table>
 				<input type="submit" class="btnAddNew btn rounded" value="save" onclick="return AddUser(this);" id="btnNewUser" />
 				or <a href="#" onclick="Hide('frmAddNew');">cancel</a>
 			</div>

@@ -44,14 +44,14 @@
         </ItemTemplate>
     </asp:TemplateField>
     <asp:BoundField HeaderText="<%$Resources:labels,priority %>" DataField = "Priority" />
-    <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
+    <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20">
         <ItemTemplate>
-            <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="BtnPriorityUpClick" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/up_arrow_small.gif" CommandName="btnPriorityUp" AlternateText="Up" />
+            <asp:ImageButton ID="btnPriorityUp" runat="server" OnClick="BtnPriorityUpClick" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/action-up.png" CommandName="btnPriorityUp" AlternateText="Up" />
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
+    <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20">
         <ItemTemplate>
-            <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="BtnPriorityDwnClick" ImageAlign="middle" CausesValidation="false" ImageUrl="~/pics/down_arrow_small.gif" CommandName="btnPriorityDwn" AlternateText="" />
+            <asp:ImageButton ID="btnPriorityDwn" runat="server" OnClick="BtnPriorityDwnClick" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/action-down.png" CommandName="btnPriorityDwn" AlternateText="" />
         </ItemTemplate>
     </asp:TemplateField>
   </Columns>

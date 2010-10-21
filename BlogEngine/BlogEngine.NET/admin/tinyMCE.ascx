@@ -12,12 +12,13 @@
 		convert_urls: false,
 		
 	  // Theme options
-		theme_advanced_buttons1: "fullscreen,code,|,cut,copy,paste,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,|,iespell,link,unlink,sub,sup,removeformat,cleanup,charmap,emotions,|,formatselect,fontselect,fontsizeselect",
+		theme_advanced_buttons1: "fullscreen,code,|,cut,copy,paste,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,|,iespell,link,unlink,removeformat,cleanup,charmap,emotions,|,formatselect,fontselect,fontsizeselect",
 		theme_advanced_buttons2: "",
 		theme_advanced_toolbar_location: "top",
 		theme_advanced_toolbar_align: "left",
 		theme_advanced_statusbar_location: "bottom",
 		theme_advanced_resizing: true,
+        theme_advanced_resize_horizontal : false,
 		
 		tab_focus : ":prev,:next"
 	});

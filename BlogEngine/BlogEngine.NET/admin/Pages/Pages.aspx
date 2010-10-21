@@ -23,88 +23,72 @@
             slug.value = arg;
         }
     </script>
-    <div id="divPages" runat="server" visible="true" enableviewstate="False" style="margin-bottom: 10px">
-        <a id="aPages" runat="server" href="javascript:void(ToggleVisibility());" />
-        <ul id="ulPages" runat="server" style="display: none; list-style-type: circle" />
-    </div>
-    <label for="<%=txtTitle.ClientID %>">
-        <%=Resources.labels.title %></label>
-    <asp:TextBox runat="server" ID="txtTitle" Width="400px" />
-    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle" Display="Dynamic"
-        ErrorMessage="<%$Resources:labels,enterTitle %>" />&nbsp;&nbsp;&nbsp;
-    <label for="<%=ddlParent.ClientID %>">
-        <%=Resources.labels.selectParent %></label>
-    <asp:DropDownList runat="server" ID="ddlParent" />
-    &nbsp;&nbsp;&nbsp;
-    <asp:CheckBox runat="Server" ID="cbFrontPage" Text="<%$ Resources:labels, isFrontPage %>" />
-    <asp:CheckBox runat="Server" ID="cbShowInList" Text="<%$ Resources:labels, showInList %>"
-        Checked="true" />
-    <br />
-    <br />
-    <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
-    <table id="entrySettings">
-        <tr>
-            <td class="label">
-                <%=Resources.labels.uploadImage %>
-            </td>
-            <td>
-                <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" />
-                <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
+    <div class="content-box-full">
+        <h1>Edit page</h1>
+        <div id="divPages" runat="server" visible="true" enableviewstate="False" style="margin-bottom: 10px">
+            <a id="aPages" runat="server" href="javascript:void(ToggleVisibility());" />
+            <ul id="ulPages" runat="server" style="display: none; list-style-type: circle" />
+        </div>
+        <ul class="fl">
+            <li>
+                <div style="float:left; margin:0 20px 0 0;">
+                    <label class="lbl" for="<%=txtTitle.ClientID %>">
+                        <%=Resources.labels.title %></label>
+                    <asp:TextBox runat="server" ID="txtTitle" Width="500" />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtTitle" Display="Dynamic"
+                        ErrorMessage="<%$Resources:labels,enterTitle %>" />
+                </div>
+                <div style="float:left; margin:0 20px 0 0;">
+                    <label class="lbl" for="<%=ddlParent.ClientID %>"><%=Resources.labels.selectParent %></label>
+                    <asp:DropDownList runat="server" ID="ddlParent" Width="250" />
+                </div>
+                <div style="float:left; margin:25px 0 0 0;">
+                    <asp:CheckBox runat="Server" ID="cbFrontPage" Text="<%$ Resources:labels, isFrontPage %>" />
+                    <asp:CheckBox runat="Server" ID="cbShowInList" Text="<%$ Resources:labels, showInList %>" Checked="true" />
+                </div>
+            </li>
+            <li>
+                <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
+            </li>
+            <li>
+                <label class="lbl"><%=Resources.labels.uploadImage %></label>
+                <asp:FileUpload runat="server" ID="txtUploadImage" size="50" />
+                <asp:Button CssClass="btn rounded" runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
                     ValidationGroup="imageupload" />
-                <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
                     ValidationGroup="imageupload" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                <%=Resources.labels.uploadFile %>
-            </td>
-            <td>
-                <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" />
-                <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
+            </li>
+            <li>
+                <label class="lbl"><%=Resources.labels.uploadFile %></label>
+                <asp:FileUpload runat="server" ID="txtUploadFile" size="50" />
+                <asp:Button CssClass="btn rounded" runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
                     ValidationGroup="fileUpload" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>"
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>"
                     ValidationGroup="fileUpload" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                <%=Resources.labels.slug %>
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="txtSlug" TabIndex="9" Width="400" />
+            </li>
+            <li>
+                <label class="lbl"><%=Resources.labels.slug %></label>
+                <asp:TextBox runat="server" ID="txtSlug" TabIndex="9" Width="600" />
                 <a href="javascript:void(GetSlug());">
                     <%=Resources.labels.extractFromTitle %></a>
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                <%=Resources.labels.description %>
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="txtDescription" Width="400" TextMode="multiLine"
+            </li>
+            <li>
+                <label class="lbl"><%=Resources.labels.description %></label>
+                <asp:TextBox runat="server" ID="txtDescription" Width="600" TextMode="multiLine"
                     Columns="50" Rows="4" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                <%=Resources.labels.keywords %>
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="txtKeyword" Width="400" />
-            </td>
-        </tr>
-        <tr>
-            <td class="label">
-                <%=Resources.labels.settings %>
-            </td>
-            <td>
+            </li>
+            <li>
+                <label class="lbl"><%=Resources.labels.keywords %></label>
+                <asp:TextBox runat="server" ID="txtKeyword" Width="600" />
+            </li>
+            <li>
+                <label class="lbl"><%=Resources.labels.settings %></label>
                 <asp:CheckBox runat="Server" ID="cbPublished" Checked="true" Text="<%$ Resources:labels, publish %>" />
-            </td>
-        </tr>
-    </table>
-    <div style="text-align: right">
-        <asp:Button runat="server" ID="btnSave" />
+            </li>
+        </ul>
+
+        <div class="action_buttons">
+            <asp:Button runat="server" ID="btnSave" CssClass="primarybtn rounded" />
+        </div>
     </div>
-    <br />
 </asp:Content>

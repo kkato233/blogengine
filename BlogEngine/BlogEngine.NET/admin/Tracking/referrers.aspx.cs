@@ -4,7 +4,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admin.Pages
+namespace Admin.Tracking
 {
     using System;
     using System.Collections.Generic;

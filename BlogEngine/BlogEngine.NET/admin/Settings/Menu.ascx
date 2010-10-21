@@ -5,5 +5,8 @@
     <li <%=Current("Feed.aspx")%>><a href="Feed.aspx">Feed</a></li>
     <li <%=Current("Email.aspx")%>><a href="Email.aspx"><%=Resources.labels.email %></a></li>
     <li <%=Current("HeadTrack.aspx")%>><a href="HeadTrack.aspx">Header & Tracking</a></li>
+    <li <%=Current("Comments.aspx")%>><a href="Comments.aspx"><%=Resources.labels.comments %></a></li>
+    <li <%=Current("Rules.aspx")%>><a href="Rules.aspx"><%=Resources.labels.comments %> <%=Resources.labels.rules %> & <%=Resources.labels.filters %></a></li>
+    <li <%=Current("PingServices.aspx")%>><a href="PingServices.aspx">Ping Services</a></li>
     <li <%=Current("Import.aspx")%>><a href="Import.aspx"><%=Resources.labels.import %> & <%=Resources.labels.export %></a></li>
 </ul>

@@ -49,7 +49,7 @@
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
         }
-		
+
         /// <summary>
         /// Save settings
         /// </summary>
@@ -66,6 +66,7 @@
         /// <param name="enableErrorLogging"></param>
         /// <param name="allowRemoteFileDownloads"></param>
         /// <param name="remoteTimeout"></param>
+        /// <param name="remoteMaxFileSize"></param>
         /// <returns></returns>
         [WebMethod]
         public static JsonResponse Save(bool enableCompression, 

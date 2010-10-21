@@ -28,11 +28,11 @@
                 </div>                                   
             </div>
             
-            <div class="tabs">
+            <div class="tabs toprounded">
                 <uc1:menu ID="Menu1" runat="server" />
             </div>
             <div class="clear"></div>
-            <div class="content-box"> 
+            <div class="content-box-outer"> 
                 <asp:ContentPlaceHolder ID="cphAdmin" runat="server" />                                                                                                 
             </div>        
                                                   
