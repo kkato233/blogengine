@@ -218,22 +218,23 @@
                     if (comment.Approved)
                     {
                         blog.AddComment(
-                            postId, 
-                            comment.UserName, 
-                            comment.UserEMail, 
-                            comment.UserUrl, 
-                            comment.Content.UncodedText, 
-                            comment.DateCreated);
+                            postId,
+                            comment.UserName,
+                            comment.UserEMail,
+                            comment.UserUrl,
+                            comment.Content.UncodedText,
+                            comment.DateCreated,
+                            true);
                     }
                 }
                 else
                 {
                     blog.AddComment(
-                        postId, 
-                        comment.UserName, 
-                        comment.UserEMail, 
-                        comment.UserUrl, 
-                        comment.Content.UncodedText, 
+                        postId,
+                        comment.UserName,
+                        comment.UserEMail,
+                        comment.UserUrl,
+                        comment.Content.UncodedText,
                         comment.DateCreated);
                 }
             }
