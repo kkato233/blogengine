@@ -132,12 +132,14 @@
 
             set
             {
-                if (this.count != value)
+                if (value < 0)
                 {
-                    this.MarkChanged("Count");
+                    throw new ArgumentOutOfRangeException("Count must be greater than or equal to 0.");
                 }
-
-                this.count = value;
+                else
+                {
+                    base.SetValue("Count", value, ref this.count);
+                }
             }
         }
 
@@ -153,12 +155,7 @@
 
             set
             {
-                if (!this.day.Equals(value))
-                {
-                    this.MarkChanged("Day");
-                }
-
-                this.day = value;
+                base.SetValue("Day", value, ref this.day);
             }
         }
 
@@ -174,12 +171,7 @@
 
             set
             {
-                if (this.possibleSpam != value)
-                {
-                    this.MarkChanged("PossibleSpam");
-                }
-
-                this.possibleSpam = value;
+                base.SetValue("PossibleSpam", value, ref this.possibleSpam);
             }
         }
 
@@ -195,12 +187,7 @@
 
             set
             {
-                if (this.referrer == null || !this.referrer.Equals(value))
-                {
-                    this.MarkChanged("Referrer");
-                }
-
-                this.referrer = value;
+                base.SetValue("ReferrerUrl", value, ref this.referrer);
             }
         }
 
@@ -216,12 +203,7 @@
 
             set
             {
-                if (this.url == null || !this.url.Equals(value))
-                {
-                    this.MarkChanged("Url");
-                }
-
-                this.url = value;
+                base.SetValue("Url", value, ref this.url);
             }
         }
 

@@ -132,12 +132,7 @@
 
             set
             {
-                if (this.description != value)
-                {
-                    this.MarkChanged("Description");
-                }
-
-                this.description = value;
+                base.SetValue("Description", value, ref this.description);
             }
         }
 
@@ -162,9 +157,9 @@
             get
             {
                 return string.Format(
-                    "{0}category/feed/{1}{2}", 
-                    Utils.RelativeWebRoot, 
-                    Utils.RemoveIllegalCharacters(this.Title), 
+                    "{0}category/feed/{1}{2}",
+                    Utils.RelativeWebRoot,
+                    Utils.RemoveIllegalCharacters(this.Title),
                     BlogSettings.Instance.FileExtension);
             }
         }
@@ -182,12 +177,7 @@
 
             set
             {
-                if (this.parent != value)
-                {
-                    this.MarkChanged("Parent");
-                }
-
-                this.parent = value;
+                base.SetValue("Parent", value, ref this.parent);
             }
         }
 
@@ -229,12 +219,7 @@
 
             set
             {
-                if (this.title != value)
-                {
-                    this.MarkChanged("Title");
-                }
-
-                this.title = value;
+                base.SetValue("Title", value, ref this.title);
             }
         }
 
@@ -275,32 +260,6 @@
                        : string.Format("{0} - {1}", GetCategory((Guid)this.parent).CompleteTitle(), this.title);
         }
 
-        ///// <summary>
-        ///// Saves the object to the database.
-        ///// </summary>
-        // public override void Save()
-        // {
-        // if (this.Deleted)
-        // {
-        // BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Delete);
-        // BlogService.DeleteCategory(this);
-        // BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Delete);
-        // }
-
-        // if (this.IsDirty && !this.Deleted && !this.New)
-        // {
-        // BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Update);
-        // BlogService.UpdateCategory(this);
-        // BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Update);
-        // }
-
-        // if (this.New)
-        // {
-        // BusinessBase<Category, Guid>.OnSaving(this, SaveAction.Insert);
-        // BlogService.InsertCategory(this);
-        // BusinessBase<Category, Guid>.OnSaved(this, SaveAction.Insert);
-        // }
-        // }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
