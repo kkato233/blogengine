@@ -138,7 +138,7 @@
             <div class="clear"></div>
     
             <div class="action_buttons">
-                <asp:Button runat="server" class="primarybtn rounded" ID="btnSave" />&nbsp;
+                <asp:Button runat="server" class="btn primary rounded" ID="btnSave" />&nbsp;
                 <span class="loader">&nbsp;</span>
             </div>
             

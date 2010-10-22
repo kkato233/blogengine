@@ -309,10 +309,21 @@
         /// </param>
         protected void RemoveComment(Comment comment)
         {
-            var toremove = from p in Post.Posts from c in p.Comments where c.Id == comment.Id select new { p, c };
-            foreach (var t in toremove)
+            // just as in DeleteAll, we can't use foreach/var
+            // to avoid "collection modified" error (sorry ReSharper...)
+            var found = false;
+            for (int i = 0; i < Post.Posts.Count; i++)
             {
-                t.p.RemoveComment(t.c);
+                for (int j = 0; j < Post.Posts[i].Comments.Count; j++)
+                {
+                    if (Post.Posts[i].Comments[j].Id == comment.Id)
+                    {
+                        Post.Posts[i].RemoveComment(Post.Posts[i].Comments[j]);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) { break; }
             }
         }
 

@@ -12,7 +12,7 @@
             <ul class="fl">
                 <li>
                     <asp:TextBox runat="Server" ID="txtNewCategory" Width="300" MaxLength="255" />
-                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn rounded" />
+                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn" />
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="Server" ValidationGroup="new"
                         ControlToValidate="txtNewCategory" ErrorMessage="<%$Resources:labels,specifyPingService %>" /><br />
                 </li>

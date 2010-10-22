@@ -80,7 +80,7 @@
                 </li>
             </ul>
             <div class="action_buttons">
-                <asp:Button runat="server" ID="btnSave" CssClass="primarybtn rounded" />
+                <asp:Button runat="server" ID="btnSave" CssClass="btn primary rounded" />
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
 
             <div class="header">
                 <div class="be-logo">
-                    <span>V<%=BlogSettings.Instance.Version() %> Admin</span>
+                    <span><%=BlogSettings.Instance.Name %> Admin</span>
                 </div>                                  
                 <div class="toolbox">
                     Welcome <%= AdminProfile() == null ? Page.User.Identity.Name : AdminProfile().DisplayName %>

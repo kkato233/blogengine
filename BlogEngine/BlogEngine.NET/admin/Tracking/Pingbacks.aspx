@@ -18,7 +18,7 @@
             <div id="Container"></div>
             <div id="Pager"></div>
             <div class="action_buttons">
-		        <input type="submit" class="btnAddNew btn rounded" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Pingback');" />&nbsp;
+		        <input type="submit" class="btnAddNew btn" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Pingback');" />&nbsp;
                 <span class="loader">&nbsp;</span>
             </div>
 		</div>

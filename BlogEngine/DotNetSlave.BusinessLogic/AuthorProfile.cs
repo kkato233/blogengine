@@ -162,12 +162,7 @@
 
             set
             {
-                if (value != this.aboutMe)
-                {
-                    this.MarkChanged("AboutMe");
-                }
-
-                this.aboutMe = value;
+                base.SetValue("AboutMe", value, ref this.aboutMe);
             }
         }
 
@@ -183,29 +178,9 @@
 
             set
             {
-                if (value != this.birthday)
-                {
-                    this.MarkChanged("Birthday");
-                }
-
-                this.birthday = value;
+                base.SetValue("Birthday", value, ref this.birthday);
             }
         }
-
-        // private string _Address1;
-        // public string Address1
-        // {
-        // get { return _Address1; }
-        // set { _Address1 = value; }
-        // }
-
-        // private string _Address2;
-
-        // public string Address2
-        // {
-        // get { return _Address2; }
-        // set { _Address2 = value; }
-        // }
 
         /// <summary>
         /// Gets or sets CityTown.
@@ -219,12 +194,7 @@
 
             set
             {
-                if (value != this.cityTown)
-                {
-                    this.MarkChanged("CityTown");
-                }
-
-                this.cityTown = value;
+                base.SetValue("CityTown", value, ref this.cityTown);
             }
         }
 
@@ -240,12 +210,7 @@
 
             set
             {
-                if (value != this.company)
-                {
-                    this.MarkChanged("Company");
-                }
-
-                this.company = value;
+                base.SetValue("Company", value, ref this.company);
             }
         }
 
@@ -261,12 +226,7 @@
 
             set
             {
-                if (value != this.country)
-                {
-                    this.MarkChanged("Country");
-                }
-
-                this.country = value;
+                base.SetValue("Country", value, ref this.country);
             }
         }
 
@@ -282,12 +242,7 @@
 
             set
             {
-                if (value != this.displayName)
-                {
-                    this.MarkChanged("DisplayName");
-                }
-
-                this.displayName = value;
+                base.SetValue("DisplayName", value, ref this.displayName);
             }
         }
 
@@ -303,12 +258,7 @@
 
             set
             {
-                if (value != this.emailAddress)
-                {
-                    this.MarkChanged("EmailAddress");
-                }
-
-                this.emailAddress = value;
+                base.SetValue("EmailAddress", value, ref this.emailAddress);
             }
         }
 
@@ -324,12 +274,7 @@
 
             set
             {
-                if (value != this.firstName)
-                {
-                    this.MarkChanged("FirstName");
-                }
-
-                this.firstName = value;
+                base.SetValue("FirstName", value, ref this.firstName);
             }
         }
 
@@ -356,12 +301,7 @@
 
             set
             {
-                if (value != this.isprivate)
-                {
-                    this.MarkChanged("Private");
-                }
-
-                this.isprivate = value;
+                base.SetValue("Private", value, ref this.isprivate);
             }
         }
 
@@ -377,12 +317,7 @@
 
             set
             {
-                if (value != this.lastName)
-                {
-                    this.MarkChanged("LastName");
-                }
-
-                this.lastName = value;
+                base.SetValue("LastName", value, ref this.lastName);
             }
         }
 
@@ -398,12 +333,7 @@
 
             set
             {
-                if (value != this.middleName)
-                {
-                    this.MarkChanged("MiddleName");
-                }
-
-                this.middleName = value;
+                base.SetValue("MiddleName", value, ref this.middleName);
             }
         }
 
@@ -419,12 +349,7 @@
 
             set
             {
-                if (value != this.phoneFax)
-                {
-                    this.MarkChanged("PhoneFax");
-                }
-
-                this.phoneFax = value;
+                base.SetValue("PhoneFax", value, ref this.phoneFax);
             }
         }
 
@@ -440,12 +365,7 @@
 
             set
             {
-                if (value != this.phoneMain)
-                {
-                    this.MarkChanged("PhoneMain");
-                }
-
-                this.phoneMain = value;
+                base.SetValue("PhoneMain", value, ref this.phoneMain);
             }
         }
 
@@ -461,12 +381,7 @@
 
             set
             {
-                if (value != this.phoneMobile)
-                {
-                    this.MarkChanged("PhoneMobile");
-                }
-
-                this.phoneMobile = value;
+                base.SetValue("PhoneMobile", value, ref this.phoneMobile);
             }
         }
 
@@ -482,12 +397,7 @@
 
             set
             {
-                if (value != this.photoUrl)
-                {
-                    this.MarkChanged("PhotoURL");
-                }
-
-                this.photoUrl = value;
+                base.SetValue("PhotoUrl", value, ref this.photoUrl);
             }
         }
 
@@ -503,12 +413,7 @@
 
             set
             {
-                if (value != this.regionState)
-                {
-                    this.MarkChanged("RegionState");
-                }
-
-                this.regionState = value;
+                base.SetValue("RegionState", value, ref this.regionState);
             }
         }
 
@@ -613,8 +518,8 @@
         protected override void ValidationRules()
         {
             this.AddRule(
-                "Id", 
-                "Id must be set to the username of the user who the profile belongs to", 
+                "Id",
+                "Id must be set to the username of the user who the profile belongs to",
                 string.IsNullOrEmpty(this.Id));
         }
 

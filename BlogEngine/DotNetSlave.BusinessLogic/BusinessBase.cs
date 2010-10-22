@@ -1,6 +1,7 @@
 ﻿namespace BlogEngine.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Globalization;
@@ -20,7 +21,7 @@
     /// The type of the Id property.
     /// </typeparam>
     [Serializable]
-    public abstract class BusinessBase<T, TKey> : IDataErrorInfo, INotifyPropertyChanged, IChangeTracking, IDisposable
+    public abstract class BusinessBase<T, TKey> : IDataErrorInfo, INotifyPropertyChanged, INotifyPropertyChanging, IChangeTracking, IDisposable
         where T : BusinessBase<T, TKey>, new()
     {
         #region Constants and Fields
@@ -28,12 +29,21 @@
         /// <summary>
         /// The broken rules.
         /// </summary>
-        private readonly StringDictionary brokenRules = new StringDictionary();
+        /// <remarks>
+        /// This has been updated from using the old StringDictionary class from .Net 1.1. The StringDictionary class
+        /// used case-insensitive keys, so this one needs to have StringComparer.OrdinalIgnoreCase passed in the constructor for
+        /// backwards compatibility.
+        /// 
+        /// INotifyPropertyChanging is implemented in case down the line someone wants to create a provider that uses BusinessBase
+        /// objects as Linq-To-SQL entities(DataContext performance skyrockets when this is used). 
+        /// 
+        /// </remarks>
+        private readonly Dictionary<String, String> brokenRules = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// The changed properties.
         /// </summary>
-        private readonly StringCollection changedProperties = new StringCollection();
+        private readonly HashSet<string> changedProperties = new HashSet<string>();
 
         /// <summary>
         /// The date created.
@@ -74,6 +84,11 @@
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Event raised when an instance is about to change one of its property values.
+        /// </summary>
+        public event PropertyChangingEventHandler PropertyChanging;
+
         #endregion
 
         #region Properties
@@ -90,12 +105,7 @@
 
             set
             {
-                if (this.dateCreated != value)
-                {
-                    this.MarkChanged("DateCreated");
-                }
-
-                this.dateCreated = value;
+                this.SetValue("DateCreated", value, ref this.dateCreated);
             }
         }
 
@@ -106,12 +116,13 @@
         {
             get
             {
-                return this.dateModified == DateTime.MinValue ? this.dateModified : this.dateModified.AddHours(BlogSettings.Instance.Timezone);
+                return (this.dateModified == DateTime.MinValue ? this.dateModified : this.dateModified.AddHours(BlogSettings.Instance.Timezone));
             }
 
             set
             {
-                this.dateModified = value;
+                this.SetValue("DateModifier", value, ref this.dateModified);
+                //  this.dateModified = value;
             }
         }
 
@@ -187,7 +198,7 @@
         ///     Gets a collection of the properties that have 
         ///     been marked as being dirty.
         /// </summary>
-        protected virtual StringCollection ChangedProperties
+        protected virtual HashSet<string> ChangedProperties
         {
             get
             {
@@ -405,6 +416,62 @@
 
         #endregion
 
+        #region "INotifyPropertyChanged"
+
+        /// <summary>
+        /// Marks an object as being dirty, or changed.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to mark dirty.
+        /// </param>
+        protected virtual void MarkChanged(string propertyName)
+        {
+            this.IsChanged = true;
+
+            // No need to check for duplicates since changedProperties 
+            // is just a HashSet.
+            this.changedProperties.Add(propertyName);
+            this.OnPropertyChanged(propertyName);
+        }
+
+        /// <summary>
+        /// Raises the PropertyChanged event safely.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The property Name.
+        /// </param>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
+        #region "INotifyPropertyChanging"
+
+        /// <summary>
+        /// Method called just before a property's value will change.
+        /// </summary>
+        /// <param name="propertyName">The name of the property whose value changing.</param>
+        /// <remarks>
+        /// 
+        /// This method should only be called when a value is definitely going to be changed. This
+        /// should occur after any value validation or other methods are called.
+        /// 
+        /// </remarks>
+        protected virtual void OnPropertyChanging(string propertyName)
+        {
+            if (PropertyChanging != null)
+            {
+                PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Methods
@@ -463,10 +530,7 @@
             }
             else
             {
-                if (this.brokenRules.ContainsKey(propertyName))
-                {
-                    this.brokenRules.Remove(propertyName);
-                }
+                this.brokenRules.Remove(propertyName);
             }
         }
 
@@ -504,50 +568,54 @@
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.Disposed)
+            try
             {
-                return;
-            }
+                if (this.Disposed)
+                {
+                    return;
+                }
 
-            if (!disposing)
+                if (!disposing)
+                {
+                    return;
+                }
+
+                this.changedProperties.Clear();
+                this.brokenRules.Clear();
+            }
+            finally
             {
-                return;
+                this.Disposed = true;
             }
-
-            this.changedProperties.Clear();
-            this.brokenRules.Clear();
-            this.Disposed = true;
         }
 
-        /// <summary>
-        /// Marks an object as being dirty, or changed.
-        /// </summary>
-        /// <param name="propertyName">
-        /// The name of the property to mark dirty.
-        /// </param>
-        protected virtual void MarkChanged(string propertyName)
-        {
-            this.IsChanged = true;
-            if (!this.changedProperties.Contains(propertyName))
-            {
-                this.changedProperties.Add(propertyName);
-            }
 
-            this.OnPropertyChanged(propertyName);
-        }
 
         /// <summary>
-        /// Raises the PropertyChanged event safely.
+        /// Use this method to change values of properties that participate in INotifyPropertyChanged event notification.
         /// </summary>
-        /// <param name="propertyName">
-        /// The property Name.
-        /// </param>
-        protected virtual void OnPropertyChanged(string propertyName)
+        /// <typeparam name="TValueType">The object type for both the new value and old value.</typeparam>
+        /// <param name="propertyName">The name of the property that should be used when raising the PropertyChanged event.</param>
+        /// <param name="newValue">The new value to be set on the property if it's different from oldValue</param>
+        /// <param name="oldValue">The current value of the property.</param>
+        /// <returns>True if the the property value has been changed, false otherwise.</returns>
+        /// <remarks>
+        /// 
+        /// This is left as virtual so users can override this if they have their own validation needs.
+        /// 
+        /// </remarks>
+        protected virtual bool SetValue<TValueType>(string propertyName, TValueType newValue, ref TValueType oldValue)
         {
-            if (this.PropertyChanged != null)
+            bool isChanged = (!Object.Equals(newValue, oldValue));
+
+            if (isChanged)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                OnPropertyChanging(propertyName);
+                oldValue = newValue;
+                MarkChanged(propertyName);
             }
+            return isChanged;
+
         }
 
         /// <summary>
