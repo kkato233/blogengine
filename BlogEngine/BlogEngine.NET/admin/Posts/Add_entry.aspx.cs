@@ -121,7 +121,8 @@
             else
             {
                 this.PreSelectAuthor(this.Page.User.Identity.Name);
-                this.txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd HH\\:mm");
+                this.txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd");
+                this.txtTime.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("HH\\:mm");
                 this.cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
                 if (this.Session["content"] != null)
                 {
@@ -259,7 +260,8 @@
             this.txtContent.Text = post.Content;
             this.txtRawContent.Text = post.Content;
             this.txtDescription.Text = post.Description;
-            this.txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd HH\\:mm");
+            this.txtDate.Text = post.DateCreated.ToString("yyyy-MM-dd");
+            this.txtTime.Text = post.DateCreated.ToString("HH\\:mm");
             this.cbEnableComments.Checked = post.HasCommentsEnabled;
             this.cbPublish.Checked = post.IsPublished;
             this.txtSlug.Text = Utils.RemoveIllegalCharacters(post.Slug);
@@ -430,7 +432,7 @@
             }
 
             post.DateCreated =
-                DateTime.ParseExact(this.txtDate.Text, "yyyy-MM-dd HH\\:mm", null).AddHours(
+                DateTime.ParseExact(this.txtDate.Text + " " + this.txtTime.Text, "yyyy-MM-dd HH\\:mm", null).AddHours(
                     -BlogSettings.Instance.Timezone);
             post.Author = this.ddlAuthor.SelectedValue;
             post.Title = this.txtTitle.Text.Trim();
