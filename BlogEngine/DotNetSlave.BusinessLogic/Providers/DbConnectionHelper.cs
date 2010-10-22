@@ -52,14 +52,14 @@ namespace BlogEngine.Core.Providers
         /// <param name="connectionString"></param>
         public DbConnectionHelper(string providerName, string connectionString)
         {
-            this.dbProvFactory = DbProviderFactories.GetFactory(providerName);
-            this.connection = this.dbProvFactory.CreateConnection();
+            this._dbProvFactory = DbProviderFactories.GetFactory(providerName);
+            this._connection = this._dbProvFactory.CreateConnection();
 
-            this.hasConnection = (this.connection != null);
-            if (this.hasConnection)
+            this._hasConnection = (this._connection != null);
+            if (this._hasConnection)
             {
-                this.connection.ConnectionString = connectionString;
-                this.connection.Open();
+                this._connection.ConnectionString = connectionString;
+                this._connection.Open();
             }
         }
 
@@ -72,28 +72,28 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         public DbConnection Connection
         {
-            get { return this.connection; }
+            get { return this._connection; }
         }
-        private DbConnection connection;
+        private DbConnection _connection;
 
         /// <summary>
         /// Gets whether the Connection of this ConnectionHelper instance is null.
         /// </summary>
         public bool HasConnection
         {
-            get { return this.HasConnection; }
+            get { return this._hasConnection; }
         }
 
-        private bool hasConnection;
+        private bool _hasConnection;
 
         /// <summary>
         /// Gets the DbProviderFactory used by this ConnectionHelper instance.
         /// </summary>
         public DbProviderFactory Provider
         {
-            get { return this.dbProvFactory; }
+            get { return this._dbProvFactory; }
         }
-        private DbProviderFactory dbProvFactory;
+        private DbProviderFactory _dbProvFactory;
 
         #endregion
 
@@ -169,17 +169,17 @@ namespace BlogEngine.Core.Providers
             {
                 if (!this.isDisposed && disposing)
                 {
-                    if (this.connection != null)
+                    if (this._connection != null)
                     {
-                        this.connection.Dispose();
+                        this._connection.Dispose();
                     }
                 }
             }
             finally
             {
-                this.dbProvFactory = null;
-                this.connection = null;
-                this.hasConnection = false;
+                this._dbProvFactory = null;
+                this._connection = null;
+                this._hasConnection = false;
                 this.isDisposed = true;
             }
         }
