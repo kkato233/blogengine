@@ -68,69 +68,41 @@
         /// <param name="roleNames">A string array of the role names to add the specified user names to.</param>
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandType = CommandType.Text;
-                    foreach (var user in usernames)
+                    using (var cmd = conn.CreateCommand())
                     {
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
-                        var userDp = provider.CreateParameter();
-                        if (userDp != null)
+                        cmd.CommandType = CommandType.Text;
+
+                        var parms = cmd.Parameters;
+
+                        foreach (var user in usernames)
                         {
-                            userDp.ParameterName = string.Format("{0}user", this.parmPrefix);
-                            userDp.Value = user;
-                            cmd.Parameters.Add(userDp);
-                        }
+                            parms.Clear();
+                            cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
 
-                        var userId = Int32.Parse(cmd.ExecuteScalar().ToString());
+                            parms.Add(conn.CreateParameter(FormatParamName("user"), user));
 
-                        foreach (var role in roleNames)
-                        {
-                            cmd.Parameters.Clear();
-                            cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
-                            var roleDp = provider.CreateParameter();
-                            if (roleDp != null)
+                            var userId = Int32.Parse(cmd.ExecuteScalar().ToString());
+
+                            foreach (var role in roleNames)
                             {
-                                roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                                roleDp.Value = role;
-                                cmd.Parameters.Add(roleDp);
+                                parms.Clear();
+                                cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
+
+                                parms.Add(conn.CreateParameter(FormatParamName("role"), role));
+
+                                var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
+
+                                cmd.CommandText = string.Format("INSERT INTO {0}UserRoles (UserID, RoleID) VALUES ({1}uID, {1}rID)", this.tablePrefix, this.parmPrefix);
+
+                                parms.Add(conn.CreateParameter(FormatParamName("uID"), userId));
+                                parms.Add(conn.CreateParameter(FormatParamName("rID"), roleId));
+
+                                cmd.ExecuteNonQuery();
                             }
-
-                            var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
-
-                            cmd.CommandText = string.Format("INSERT INTO {0}UserRoles (UserID, RoleID) VALUES ({1}uID, {2}rID)", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                            var userIdDp = provider.CreateParameter();
-                            if (userIdDp != null)
-                            {
-                                userIdDp.ParameterName = string.Format("{0}uID", this.parmPrefix);
-                                userIdDp.Value = userId;
-                                cmd.Parameters.Add(userIdDp);
-                            }
-
-                            var roleIdDp = provider.CreateParameter();
-                            if (roleIdDp != null)
-                            {
-                                roleIdDp.ParameterName = string.Format("{0}rID", this.parmPrefix);
-                                roleIdDp.Value = roleId;
-                                cmd.Parameters.Add(roleIdDp);
-                            }
-
-                            cmd.ExecuteNonQuery();
                         }
                     }
                 }
@@ -143,36 +115,15 @@
         /// <param name="roleName">The name of the role to create.</param>
         public override void CreateRole(string roleName)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-                
-                conn.ConnectionString = connString;
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("INSERT INTO {0}Roles (role) VALUES ({1}role)", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    conn.Open();
-
-                    var roleDp = provider.CreateParameter();
-                    if (roleDp != null)
+                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}Roles (role) VALUES ({1}role)", this.tablePrefix, this.parmPrefix)))
                     {
-                        roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                        roleDp.Value = roleName;
-                        cmd.Parameters.Add(roleDp);
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -188,38 +139,16 @@
             var success = false;
             if (roleName != "Administrators")
             {
-                var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-                var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-                var provider = DbProviderFactories.GetFactory(providerName);
-
-                using (var conn = provider.CreateConnection())
+                using (var conn = this.CreateConnection())
                 {
-                    if (conn == null)
+                    if (conn.HasConnection)
                     {
-                        return false;
-                    }
-
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
-                    {
-                        var sqlQuery = string.Format("DELETE FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var roleDp = provider.CreateParameter();
-                        if (roleDp != null)
+                        using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix)))
                         {
-                            roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                            roleDp.Value = roleName;
-                            cmd.Parameters.Add(roleDp);
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
+                            cmd.ExecuteNonQuery();
+                            success = true;
                         }
-
-                        cmd.ExecuteNonQuery();
-
-                        success = true;
                     }
                 }
             }
@@ -238,39 +167,17 @@
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
             var users = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    var sqlQuery = string.Format("SELECT u.UserName FROM {0}Users u INNER JOIN {0}UserRoles ur ON u.UserID = ur.UserID INNER JOIN {0}Roles r ON ur.RoleID = r.RoleID WHERE r.Role  = {1}role AND u.UserName LIKE {1}name", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        var sqlQuery = string.Format("SELECT u.UserName FROM {0}Users u INNER JOIN {1}UserRoles ur ON u.UserID = ur.UserID INNER JOIN {2}Roles r ON ur.RoleID = r.RoleID WHERE r.Role  = {3}role AND u.UserName LIKE {4}name", this.tablePrefix, this.tablePrefix, this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var roleDp = provider.CreateParameter();
-                        if (roleDp != null)
-                        {
-                            roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                            roleDp.Value = roleName;
-                            cmd.Parameters.Add(roleDp);
-                        }
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = string.Format("{0}%", usernameToMatch);
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("role"), roleName));
+                        parms.Add(conn.CreateParameter(FormatParamName("name"), string.Format("{0}%", usernameToMatch)));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -298,24 +205,13 @@
         public override string[] GetAllRoles()
         {
             var roles = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT role FROM {0}Roles", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT role FROM {0}Roles", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -343,31 +239,16 @@
         public override string[] GetRolesForUser(string username)
         {
             var roles = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
+                    var sqlQuery = string.Format("SELECT r.role FROM {0}Roles r INNER JOIN {0}UserRoles ur ON r.RoleID = ur.RoleID INNER JOIN {0}Users u ON ur.UserID = u.UserID WHERE u.UserName = {1}name", this.tablePrefix, this.parmPrefix);
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        var sqlQuery = string.Format("SELECT r.role FROM {0}Roles r INNER JOIN {1}UserRoles ur ON r.RoleID = ur.RoleID INNER JOIN {2}Users u ON ur.UserID = u.UserID WHERE u.UserName = {3}name", this.tablePrefix, this.tablePrefix, this.tablePrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -396,31 +277,16 @@
         public override string[] GetUsersInRole(string roleName)
         {
             var users = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
+                    var sqlQuery = string.Format("SELECT u.UserName FROM {0}Users u INNER JOIN {0}UserRoles ur ON u.UserID = ur.UserID INNER JOIN {0}Roles r ON ur.RoleID = r.RoleID WHERE r.Role  = {1}role", this.tablePrefix, this.parmPrefix);
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        var sqlQuery = string.Format("SELECT u.UserName FROM {0}Users u INNER JOIN {1}UserRoles ur ON u.UserID = ur.UserID INNER JOIN {2}Roles r ON ur.RoleID = r.RoleID WHERE r.Role  = {3}role", this.tablePrefix, this.tablePrefix, this.tablePrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var roleDp = provider.CreateParameter();
-                        if (roleDp != null)
-                        {
-                            roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                            roleDp.Value = roleName;
-                            cmd.Parameters.Add(roleDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -524,51 +390,22 @@
         public override bool IsUserInRole(string username, string roleName)
         {
             var roleFound = false;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
+                    var sqlQuery = string.Format("SELECT r.roleID FROM {0}Roles r INNER JOIN {0}UserRoles ur ON r.RoleID = ur.RoleID INNER JOIN {0}Users u ON ur.UserID = u.UserID WHERE u.UserName = {1}name AND r.role = {1}role", this.tablePrefix, this.parmPrefix);
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        var sqlQuery = string.Format("SELECT r.roleID FROM {0}Roles r INNER JOIN {1}UserRoles ur ON r.RoleID = ur.RoleID INNER JOIN {2}Users u ON ur.UserID = u.UserID WHERE u.UserName = @name AND r.role = @role", this.tablePrefix, this.tablePrefix, this.tablePrefix);
-                        if (this.parmPrefix != "@")
-                        {
-                            sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
-                        }
-
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
-
-                        var roleDp = provider.CreateParameter();
-                        if (roleDp != null)
-                        {
-                            roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                            roleDp.Value = roleName;
-                            cmd.Parameters.Add(roleDp);
-                        }
-
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("name"), username));
+                        parms.Add(conn.CreateParameter(FormatParamName("role"), roleName));
+                        
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.Read())
-                            {
-                                roleFound = true;
-                            }
+                            roleFound = rdr.Read();
                         }
                     }
                 }
@@ -584,32 +421,24 @@
         /// <param name="roleNames">A string array of role names to remove the specified user names from.</param>
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-                    conn.Open();
-
                     using (var cmd = conn.CreateCommand())
                     {
                         cmd.CommandType = CommandType.Text;
+
+                        var parms = cmd.Parameters;
+
                         foreach (var user in usernames)
                         {
-                            cmd.Parameters.Clear();
+                            parms.Clear();
                             cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
-                            var userDp = provider.CreateParameter();
-                            if (userDp != null)
-                            {
-                                userDp.ParameterName = string.Format("{0}user", this.parmPrefix);
-                                userDp.Value = user;
-                                cmd.Parameters.Add(userDp);
-                            }
 
+                            parms.Add(conn.CreateParameter(FormatParamName("user"), user));
+                            
                             int userId;
                             try
                             {
@@ -627,34 +456,17 @@
 
                             foreach (var role in roleNames)
                             {
-                                cmd.Parameters.Clear();
+                                parms.Clear();
                                 cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
-                                var roleDp = provider.CreateParameter();
-                                if (roleDp != null)
-                                {
-                                    roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                                    roleDp.Value = role;
-                                    cmd.Parameters.Add(roleDp);
-                                }
+
+                                parms.Add(conn.CreateParameter(FormatParamName("role"), role));
 
                                 var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
 
-                                cmd.CommandText = string.Format("DELETE FROM {0}UserRoles WHERE UserID = {1}uID AND RoleID = {2}rID", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                                var userIdDp = provider.CreateParameter();
-                                if (userIdDp != null)
-                                {
-                                    userIdDp.ParameterName = string.Format("{0}uID", this.parmPrefix);
-                                    userIdDp.Value = userId;
-                                    cmd.Parameters.Add(userIdDp);
-                                }
+                                cmd.CommandText = string.Format("DELETE FROM {0}UserRoles WHERE UserID = {1}uID AND RoleID = {1}rID", this.tablePrefix, this.parmPrefix);
 
-                                var roleIdDp = provider.CreateParameter();
-                                if (roleIdDp != null)
-                                {
-                                    roleIdDp.ParameterName = string.Format("{0}rID", this.parmPrefix);
-                                    roleIdDp.Value = roleId;
-                                    cmd.Parameters.Add(roleIdDp);
-                                }
+                                parms.Add(conn.CreateParameter(FormatParamName("uID"), userId));
+                                parms.Add(conn.CreateParameter(FormatParamName("rID"), roleId));
 
                                 cmd.ExecuteNonQuery();
                             }
@@ -672,38 +484,19 @@
         public override bool RoleExists(string roleName)
         {
             var roleFound = false;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT roleID FROM {0}Roles WHERE role = {1}role", this.tablePrefix, this.parmPrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT roleID FROM {0}Roles WHERE role = {1}role", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var roleDp = provider.CreateParameter();
-                        if (roleDp != null)
-                        {
-                            roleDp.ParameterName = string.Format("{0}role", this.parmPrefix);
-                            roleDp.Value = roleName;
-                            cmd.Parameters.Add(roleDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.Read())
-                            {
-                                roleFound = true;
-                            }
+                            roleFound = rdr.Read();
                         }
                     }
                 }
@@ -713,5 +506,27 @@
         }
 
         #endregion
+
+        #region "Methods"
+
+        private DbConnectionHelper CreateConnection()
+        {
+            var settings = ConfigurationManager.ConnectionStrings[this.connStringName];
+            return new DbConnectionHelper(settings);
+        }
+
+
+        /// <summary>
+        /// Returns a formatted parameter name to include this DbRoleProvider instance's paramPrefix.
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        private string FormatParamName(string parameterName)
+        {
+            return String.Format("{0}{1}", this.parmPrefix, parameterName);
+        }
+
+        #endregion
+
     }
 }

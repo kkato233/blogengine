@@ -38,6 +38,7 @@
 
         #endregion
 
+
         #region Public Methods
 
         /// <summary>
@@ -52,34 +53,18 @@
             blogRolls.Remove(blogRollItem);
             blogRolls.Add(blogRollItem);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
-                {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
+                if (conn.HasConnection)
                 {
                     var sqlQuery = string.Format("DELETE FROM {0}BlogRollItems WHERE BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
 
-                    var parameter = provider.CreateParameter();
-                    if (parameter != null)
+                    using (var cmd = conn.CreateCommand())
                     {
-                        parameter.ParameterName = string.Format("{0}BlogRollId", this.parmPrefix);
-                        parameter.Value = blogRollItem.Id.ToString();
-                        cmd.Parameters.Add(parameter);
-                    }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogRollId"), blogRollItem.Id.ToString()));
 
-                    cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -95,34 +80,17 @@
             var categories = Category.Categories;
             categories.Remove(category);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE CategoryID = {1}catid;DELETE FROM {0}Categories WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE CategoryID = {1}catid;DELETE FROM {2}Categories WHERE CategoryID = {3}catid", this.tablePrefix, this.parmPrefix, this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        id.ParameterName = string.Format("{0}catid", this.parmPrefix);
-                        id.Value = category.Id.ToString();
-                        cmd.Parameters.Add(id);
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -135,34 +103,15 @@
         /// </param>
         public override void DeletePage(Page page)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix)))
                     {
-                        id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        id.Value = page.Id.ToString();
-                        cmd.Parameters.Add(id);
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), page.Id.ToString()));
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -175,39 +124,18 @@
         /// </param>
         public override void DeletePost(Post post)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = {1}id;DELETE FROM {0}PostCategory WHERE PostID = {1}id;DELETE FROM {0}PostNotify WHERE PostID = {1}id;DELETE FROM {0}PostComment WHERE PostID = {1}id;DELETE FROM {0}Posts WHERE PostID = {1}id;", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = @id;DELETE FROM {1}PostCategory WHERE PostID = @id;DELETE FROM {2}PostNotify WHERE PostID = @id;DELETE FROM {3}PostComment WHERE PostID = @id;DELETE FROM {4}Posts WHERE PostID = @id;", this.tablePrefix, this.tablePrefix, this.tablePrefix, this.tablePrefix, this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        cmd.ExecuteNonQuery();
                     }
 
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
-                    {
-                        id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        id.Value = post.Id.ToString();
-                        cmd.Parameters.Add(id);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -218,35 +146,15 @@
         /// <param name="profile">An AuthorProfile.</param>
         public override void DeleteProfile(AuthorProfile profile)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var nameDp = provider.CreateParameter();
-                    if (nameDp != null)
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                        nameDp.Value = profile.Id;
-                        cmd.Parameters.Add(nameDp);
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), profile.Id));
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -261,22 +169,12 @@
         {
             var blogRoll = new List<BlogRollItem>();
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-                    conn.Open();
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex FROM {0}BlogRollItems ", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex FROM {0}BlogRollItems ", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -312,23 +210,13 @@
         public override List<Category> FillCategories()
         {
             var categories = new List<Category>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT CategoryID, CategoryName, description, ParentID FROM {0}Categories ", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT CategoryID, CategoryName, description, ParentID FROM {0}Categories ", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -361,24 +249,13 @@
         public override List<Page> FillPages()
         {
             var pageIDs = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PageID FROM {0}Pages ", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT PageID FROM {0}Pages ", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -402,24 +279,13 @@
         public override List<Post> FillPosts()
         {
             var postIDs = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PostID FROM {0}Posts ", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT PostID FROM {0}Posts ", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -446,23 +312,13 @@
         public override List<AuthorProfile> FillProfiles()
         {
             var profileNames = new List<string>();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-                    conn.Open();
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT UserName FROM {0}Profiles GROUP BY UserName", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT UserName FROM {0}Profiles GROUP BY UserName", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -489,22 +345,12 @@
 
             var referrers = new List<Referrer>();
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-                    conn.Open();
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam FROM {0}Referrers ", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam FROM {0}Referrers ", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -608,33 +454,18 @@
             var blogRolls = BlogRollItem.BlogRolls;
             blogRolls.Add(blogRollItem);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("INSERT INTO {0}BlogRollItems (BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex) VALUES (@BlogRollId, @Title, @Description, @BlogUrl, @FeedUrl, @Xfn, @SortIndex)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    var sqlQuery = string.Format("INSERT INTO {0}BlogRollItems (BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex) VALUES ({1}BlogRollId, {1}Title, {1}Description, {1}BlogUrl, {1}FeedUrl, {1}Xfn, {1}SortIndex)", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        this.AddBlogRollParametersToCommand(blogRollItem, conn, cmd);
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    this.AddBlogRollParametersToCommand(blogRollItem, provider, cmd);
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -650,64 +481,22 @@
             var categories = Category.Categories;
             categories.Add(category);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("INSERT INTO {0}Categories (CategoryID, CategoryName, description, ParentID) VALUES ({1}catid, {1}catname, {1}description, {1}parentid)", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("INSERT INTO {0}Categories (CategoryID, CategoryName, description, ParentID) VALUES (@catid, @catname, @description, @parentid)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
+                        parms.Add(conn.CreateParameter(FormatParamName("catname"), category.Title));
+                        parms.Add(conn.CreateParameter(FormatParamName("description"), category.Description));
+                        parms.Add(conn.CreateParameter(FormatParamName("parentid"), (category.Parent == null ? (object)DBNull.Value : category.Parent.ToString())));
+
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
-                    {
-                        id.ParameterName = this.parmPrefix + "catid";
-                        id.Value = category.Id.ToString();
-                        cmd.Parameters.Add(id);
-                    }
-
-                    var title = provider.CreateParameter();
-                    if (title != null)
-                    {
-                        title.ParameterName = this.parmPrefix + "catname";
-                        title.Value = category.Title;
-                        cmd.Parameters.Add(title);
-                    }
-
-                    var desc = provider.CreateParameter();
-                    if (desc != null)
-                    {
-                        desc.ParameterName = this.parmPrefix + "description";
-                        desc.Value = category.Description;
-                        cmd.Parameters.Add(desc);
-                    }
-
-                    var parent = provider.CreateParameter();
-                    if (parent != null)
-                    {
-                        parent.ParameterName = this.parmPrefix + "parentid";
-                        parent.Value = category.Parent == null ? (object)DBNull.Value : category.Parent.ToString();
-
-                        cmd.Parameters.Add(parent);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -720,127 +509,32 @@
         /// </param>
         public override void InsertPage(Page page)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("INSERT INTO {0}Pages (PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug) VALUES (@id, @title, @desc, @content, @created, @modified, @keywords, @ispublished, @isfrontpage, @parent, @showinlist, @slug)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    var sqlQuery = string.Format("INSERT INTO {0}Pages (PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug) VALUES ({1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}keywords, {1}ispublished, {1}isfrontpage, {1}parent, {1}showinlist, {1}slug)", this.tablePrefix, this.parmPrefix);
+                   
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("id"), page.Id.ToString()));
+                        parms.Add(conn.CreateParameter(FormatParamName("title"), page.Title));
+                        parms.Add(conn.CreateParameter(FormatParamName("desc"), page.Description));
+                        parms.Add(conn.CreateParameter(FormatParamName("content"), page.Content));
+                        parms.Add(conn.CreateParameter(FormatParamName("created"), page.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                        parms.Add(conn.CreateParameter(FormatParamName("modified"),
+                                                                    (page.DateModified == new DateTime() ? DateTime.Now : page.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
+                        parms.Add(conn.CreateParameter(FormatParamName("keywords"), page.Keywords));
+                        parms.Add(conn.CreateParameter(FormatParamName("ispublished"), page.IsPublished));
+                        parms.Add(conn.CreateParameter(FormatParamName("isfrontpage"), page.IsFrontPage));
+                        parms.Add(conn.CreateParameter(FormatParamName("parent"), page.Parent.ToString()));
+                        parms.Add(conn.CreateParameter(FormatParamName("showinlist"), page.ShowInList));
+                        parms.Add(conn.CreateParameter(FormatParamName("slug"), page.Slug));
+
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
-                    {
-                        id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        id.Value = page.Id.ToString();
-                        cmd.Parameters.Add(id);
-                    }
-
-                    var title = provider.CreateParameter();
-                    if (title != null)
-                    {
-                        title.ParameterName = string.Format("{0}title", this.parmPrefix);
-                        title.Value = page.Title;
-                        cmd.Parameters.Add(title);
-                    }
-
-                    var desc = provider.CreateParameter();
-                    if (desc != null)
-                    {
-                        desc.ParameterName = string.Format("{0}desc", this.parmPrefix);
-                        desc.Value = page.Description;
-                        cmd.Parameters.Add(desc);
-                    }
-
-                    var content = provider.CreateParameter();
-                    if (content != null)
-                    {
-                        content.ParameterName = string.Format("{0}content", this.parmPrefix);
-                        content.Value = page.Content;
-                        cmd.Parameters.Add(content);
-                    }
-
-                    var created = provider.CreateParameter();
-                    if (created != null)
-                    {
-                        created.ParameterName = string.Format("{0}created", this.parmPrefix);
-                        created.Value = page.DateCreated.AddHours(-BlogSettings.Instance.Timezone);
-                        cmd.Parameters.Add(created);
-                    }
-
-                    var modified = provider.CreateParameter();
-                    if (modified != null)
-                    {
-                        modified.ParameterName = string.Format("{0}modified", this.parmPrefix);
-                        modified.Value = page.DateModified == new DateTime() ? DateTime.Now : page.DateModified.AddHours(-BlogSettings.Instance.Timezone);
-                        cmd.Parameters.Add(modified);
-                    }
-
-                    var keywords = provider.CreateParameter();
-                    if (keywords != null)
-                    {
-                        keywords.ParameterName = string.Format("{0}keywords", this.parmPrefix);
-                        keywords.Value = page.Keywords;
-                        cmd.Parameters.Add(keywords);
-                    }
-
-                    var published = provider.CreateParameter();
-                    if (published != null)
-                    {
-                        published.ParameterName = string.Format("{0}ispublished", this.parmPrefix);
-                        published.Value = page.IsPublished;
-                        cmd.Parameters.Add(published);
-                    }
-
-                    var frontPage = provider.CreateParameter();
-                    if (frontPage != null)
-                    {
-                        frontPage.ParameterName = string.Format("{0}isfrontpage", this.parmPrefix);
-                        frontPage.Value = page.IsFrontPage;
-                        cmd.Parameters.Add(frontPage);
-                    }
-
-                    var parent = provider.CreateParameter();
-                    if (parent != null)
-                    {
-                        parent.ParameterName = string.Format("{0}parent", this.parmPrefix);
-                        parent.Value = page.Parent.ToString();
-                        cmd.Parameters.Add(parent);
-                    }
-
-                    var showInList = provider.CreateParameter();
-                    if (showInList != null)
-                    {
-                        showInList.ParameterName = string.Format("{0}showinlist", this.parmPrefix);
-                        showInList.Value = page.ShowInList;
-                        cmd.Parameters.Add(showInList);
-                    }
-
-                    var slug = provider.CreateParameter();
-                    if (slug != null)
-                    {
-                        slug.ParameterName = string.Format("{0}slug", this.parmPrefix);
-                        slug.Value = page.Slug;
-                        cmd.Parameters.Add(slug);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -853,105 +547,46 @@
         /// </param>
         public override void InsertPost(Post post)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("INSERT INTO {0}Posts (PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug)VALUES (@id, @title, @desc, @content, @created, @modified, @author, @published, @commentEnabled, @raters, @rating, @slug)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    var sqlQuery = string.Format("INSERT INTO {0}Posts (PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug)VALUES ({1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}author, {1}published, {1}commentEnabled, {1}raters, {1}rating, {1}slug)", this.tablePrefix, this.parmPrefix);
+               
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        parms.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
+                        parms.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
+                        parms.Add(conn.CreateParameter(FormatParamName("content"), post.Content));
+                        parms.Add(conn.CreateParameter(FormatParamName("created"), post.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                        parms.Add(conn.CreateParameter(FormatParamName("modified"), (post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
+                        parms.Add(conn.CreateParameter(FormatParamName("author"), (post.Author ?? string.Empty)));
+                        parms.Add(conn.CreateParameter(FormatParamName("published"), post.IsPublished));
+                        parms.Add(conn.CreateParameter(FormatParamName("commentEnabled"), post.HasCommentsEnabled));
+                        parms.Add(conn.CreateParameter(FormatParamName("raters"), post.Raters));
+                        parms.Add(conn.CreateParameter(FormatParamName("rating"), post.Rating));
+                        parms.Add(conn.CreateParameter(FormatParamName("slug"), (post.Slug ?? string.Empty)));
+
+                        cmd.ExecuteNonQuery();
                     }
 
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
+                    // Tags
+                    this.UpdateTags(post, conn);
 
-                    var dpID = provider.CreateParameter();
-                    dpID.ParameterName = this.parmPrefix + "id";
-                    dpID.Value = post.Id.ToString();
-                    cmd.Parameters.Add(dpID);
+                    // Categories
+                    this.UpdateCategories(post, conn);
 
-                    var dpTitle = provider.CreateParameter();
-                    dpTitle.ParameterName = this.parmPrefix + "title";
-                    dpTitle.Value = post.Title;
-                    cmd.Parameters.Add(dpTitle);
+                    // Comments
+                    this.UpdateComments(post, conn);
 
-                    var dpDesc = provider.CreateParameter();
-                    dpDesc.ParameterName = this.parmPrefix + "desc";
-                    dpDesc.Value = post.Description ?? string.Empty;
-                    cmd.Parameters.Add(dpDesc);
-
-                    var dpContent = provider.CreateParameter();
-                    dpContent.ParameterName = this.parmPrefix + "content";
-                    dpContent.Value = post.Content;
-                    cmd.Parameters.Add(dpContent);
-
-                    var dpCreated = provider.CreateParameter();
-                    dpCreated.ParameterName = this.parmPrefix + "created";
-                    dpCreated.Value = post.DateCreated.AddHours(-BlogSettings.Instance.Timezone);
-                    cmd.Parameters.Add(dpCreated);
-
-                    var dpModified = provider.CreateParameter();
-                    dpModified.ParameterName = this.parmPrefix + "modified";
-                    dpModified.Value = post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone);
-                    cmd.Parameters.Add(dpModified);
-
-                    var dpAuthor = provider.CreateParameter();
-                    dpAuthor.ParameterName = this.parmPrefix + "author";
-                    dpAuthor.Value = post.Author ?? string.Empty;
-                    cmd.Parameters.Add(dpAuthor);
-
-                    var dpPublished = provider.CreateParameter();
-                    dpPublished.ParameterName = this.parmPrefix + "published";
-                    dpPublished.Value = post.IsPublished;
-                    cmd.Parameters.Add(dpPublished);
-
-                    var dpCommentEnabled = provider.CreateParameter();
-                    dpCommentEnabled.ParameterName = this.parmPrefix + "commentEnabled";
-                    dpCommentEnabled.Value = post.HasCommentsEnabled;
-                    cmd.Parameters.Add(dpCommentEnabled);
-
-                    var dpRaters = provider.CreateParameter();
-                    dpRaters.ParameterName = this.parmPrefix + "raters";
-                    dpRaters.Value = post.Raters;
-                    cmd.Parameters.Add(dpRaters);
-
-                    var dpRating = provider.CreateParameter();
-                    dpRating.ParameterName = this.parmPrefix + "rating";
-                    dpRating.Value = post.Rating;
-                    cmd.Parameters.Add(dpRating);
-
-                    var dpSlug = provider.CreateParameter();
-                    dpSlug.ParameterName = this.parmPrefix + "slug";
-                    dpSlug.Value = post.Slug ?? string.Empty;
-                    cmd.Parameters.Add(dpSlug);
-
-                    cmd.ExecuteNonQuery();
+                    // Email Notification
+                    this.UpdateNotify(post, conn);
                 }
-
-                // Tags
-                this.UpdateTags(post, conn, provider);
-
-                // Categories
-                this.UpdateCategories(post, conn, provider);
-
-                // Comments
-                this.UpdateComments(post, conn, provider);
-
-                // Email Notification
-                this.UpdateNotify(post, conn, provider);
             }
+
         }
 
         /// <summary>
@@ -974,33 +609,17 @@
             var referrers = Referrer.Referrers;
             referrers.Add(referrer);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("INSERT INTO {0}Referrers (ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam) VALUES ({1}ReferrerId, {1}ReferralDay, {1}ReferrerUrl, {1}ReferralCount, {1}Url, {1}IsSpam)", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("INSERT INTO {0}Referrers (ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam) VALUES (@ReferrerId, @ReferralDay, @ReferrerUrl, @ReferralCount, @Url, @IsSpam)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        this.AddReferrersParametersToCommand(referrer, conn, cmd);
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    this.AddReferrersParametersToCommand(referrer, provider, cmd);
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -1021,43 +640,21 @@
         {
             // MemoryStream stream;
             object o = null;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return o;
-                }
-
-                conn.ConnectionString = connString;
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("SELECT Settings FROM {0}DataStoreSettings WHERE ExtensionType = {1}etype AND ExtensionId = {2}eid", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-                    conn.Open();
-
-                    var dpeType = provider.CreateParameter();
-                    if (dpeType != null)
+                    var sqlQuery = string.Format("SELECT Settings FROM {0}DataStoreSettings WHERE ExtensionType = {1}etype AND ExtensionId = {1}eid", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        dpeType.ParameterName = string.Format("{0}etype", this.parmPrefix);
-                        dpeType.Value = extensionType.GetHashCode();
-                        cmd.Parameters.Add(dpeType);
-                    }
 
-                    var dpeId = provider.CreateParameter();
-                    if (dpeId != null)
-                    {
-                        dpeId.ParameterName = string.Format("{0}eid", this.parmPrefix);
-                        dpeId.Value = extensionId;
-                        cmd.Parameters.Add(dpeId);
-                    }
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("etype"), extensionType.GetHashCode()));
+                        parms.Add(conn.CreateParameter(FormatParamName("eid"), extensionId));
 
-                    o = cmd.ExecuteScalar();
+                        o = cmd.ExecuteScalar();
+                    }
                 }
             }
 
@@ -1073,23 +670,13 @@
         public override StringCollection LoadPingServices()
         {
             var col = new StringCollection();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT Link FROM {0}PingService", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT Link FROM {0}PingService", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -1116,23 +703,13 @@
         public override StringDictionary LoadSettings()
         {
             var dic = new StringDictionary();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Settings", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT SettingName, SettingValue FROM {0}Settings", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -1159,30 +736,21 @@
         public override StringCollection LoadStopWords()
         {
             var col = new StringCollection();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT StopWord FROM {0}StopWords", this.tablePrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT StopWord FROM {0}StopWords", this.tablePrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
-                                if (!col.Contains(rdr.GetString(0)))
+                                var value = rdr.GetString(0);
+                                if (!col.Contains(value))
                                 {
-                                    col.Add(rdr.GetString(0));
+                                    col.Add(value);
                                 }
                             }
                         }
@@ -1204,42 +772,21 @@
         /// </param>
         public override void RemoveFromDataStore(ExtensionType extensionType, string extensionId)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE ExtensionType = {1}type AND ExtensionId = {2}id", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
+                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE ExtensionType = {1}type AND ExtensionId = {1}id", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        id.ParameterName = string.Format("{0}type", this.parmPrefix);
-                        id.Value = extensionType;
-                        cmd.Parameters.Add(id);
+
+                        var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("type"), extensionType));
+                        p.Add(conn.CreateParameter(FormatParamName("id"), extensionId));
+
+                        cmd.ExecuteNonQuery();
                     }
 
-                    var type = provider.CreateParameter();
-                    if (type != null)
-                    {
-                        type.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        type.Value = extensionId;
-                        cmd.Parameters.Add(type);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -1257,42 +804,24 @@
                 throw new ArgumentNullException("services");
             }
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}PingService", this.tablePrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    cmd.ExecuteNonQuery();
-
-                    foreach (var service in services)
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}PingService", this.tablePrefix)))
                     {
-                        sqlQuery = string.Format("INSERT INTO {0}PingService (Link) VALUES ({1}link)", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.Parameters.Clear();
-
-                        var linkDp = provider.CreateParameter();
-                        if (linkDp != null)
-                        {
-                            linkDp.ParameterName = string.Format("{0}link", this.parmPrefix);
-                            linkDp.Value = service;
-                            cmd.Parameters.Add(linkDp);
-                        }
-
                         cmd.ExecuteNonQuery();
+
+                        foreach (var service in services)
+                        {
+                            cmd.CommandText = string.Format("INSERT INTO {0}PingService (Link) VALUES ({1}link)", this.tablePrefix, this.parmPrefix);
+                            cmd.Parameters.Clear();
+
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("link"), service));
+
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                 }
             }
@@ -1311,50 +840,24 @@
                 throw new ArgumentNullException("settings");
             }
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}Settings", this.tablePrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    cmd.ExecuteNonQuery();
-
-                    foreach (string key in settings.Keys)
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Settings", this.tablePrefix)))
                     {
-                        sqlQuery = string.Format("INSERT INTO {0}Settings (SettingName, SettingValue) VALUES ({1}name, {2}value)", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.Parameters.Clear();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = key;
-                            cmd.Parameters.Add(nameDp);
-                        }
-
-                        var valueDp = provider.CreateParameter();
-                        if (valueDp != null)
-                        {
-                            valueDp.ParameterName = string.Format("{0}value", this.parmPrefix);
-                            valueDp.Value = settings[key];
-                            cmd.Parameters.Add(valueDp);
-                        }
-
                         cmd.ExecuteNonQuery();
+
+                        foreach (string key in settings.Keys)
+                        {
+                            cmd.CommandText = string.Format("INSERT INTO {0}Settings (SettingName, SettingValue) VALUES ({1}name, {1}value)", this.tablePrefix, this.parmPrefix);
+                            cmd.Parameters.Clear();
+
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), key));
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("value"), settings[key]));
+
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                 }
             }
@@ -1380,9 +883,6 @@
             }
 
             // Save
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
             var xs = new XmlSerializer(settings.GetType());
             string objectXml;
@@ -1392,63 +892,28 @@
                 objectXml = sw.ToString();
             }
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE ExtensionType = {1}type AND ExtensionId = {1}id; ", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE ExtensionType = @type AND ExtensionId = @id; ", this.tablePrefix);
-
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+
+                        var p = cmd.Parameters;
+
+                        p.Add(conn.CreateParameter(FormatParamName("type"), extensionType.GetHashCode()));
+                        p.Add(conn.CreateParameter(FormatParamName("id"), extensionId));
+
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = string.Format("INSERT INTO {0}DataStoreSettings (ExtensionType, ExtensionId, Settings) VALUES ({1}type, {1}id, {1}file)", this.tablePrefix, this.parmPrefix);
+
+                        p.Add(conn.CreateParameter(FormatParamName("file"), objectXml));
+
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var id = provider.CreateParameter();
-                    if (id != null)
-                    {
-                        id.ParameterName = string.Format("{0}type", this.parmPrefix);
-                        id.Value = extensionType.GetHashCode();
-                        cmd.Parameters.Add(id);
-                    }
-
-                    var type = provider.CreateParameter();
-                    if (type != null)
-                    {
-                        type.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        type.Value = extensionId;
-                        cmd.Parameters.Add(type);
-                    }
-
-                    cmd.ExecuteNonQuery();
-
-                    sqlQuery = string.Format("INSERT INTO {0}DataStoreSettings (ExtensionType, ExtensionId, Settings) VALUES (@type, @id, @file)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
-                    {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
-                    }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var fileDp = provider.CreateParameter();
-                    if (fileDp != null)
-                    {
-                        fileDp.ParameterName = string.Format("{0}file", this.parmPrefix);
-                        fileDp.Value = objectXml; // settings.ToString(); // file;
-                        cmd.Parameters.Add(fileDp);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -1503,32 +968,17 @@
         {
             var page = new Page();
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
+                    var sqlQuery = string.Format("SELECT PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        var sqlQuery = string.Format("SELECT PageID, Title, Description, PageContent, DateCreated,    DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
 
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), id.ToString()));
 
-                        var idparameter = provider.CreateParameter();
-                        if (idparameter != null)
-                        {
-                            idparameter.ParameterName = string.Format("{0}id", this.parmPrefix);
-                            idparameter.Value = id.ToString();
-                            cmd.Parameters.Add(idparameter);
-                        }
-
-                        conn.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
                             if (rdr.Read())
@@ -1597,196 +1047,179 @@
         public override Post SelectPost(Guid id)
         {
             var post = new Post();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
-                {
-                    return post;
-                }
-
-                conn.ConnectionString = connString;
-
-                using (var cmd = conn.CreateCommand())
+                if (conn.HasConnection)
                 {
                     var sqlQuery = string.Format("SELECT PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug FROM {0}Posts WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var idparameter = provider.CreateParameter();
-                    if (idparameter != null)
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        idparameter.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        idparameter.Value = id.ToString();
-                        cmd.Parameters.Add(idparameter);
-                    }
 
-                    conn.Open();
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), id.ToString()));
 
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        if (rdr.Read())
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            post.Id = rdr.GetGuid(0);
-                            post.Title = rdr.GetString(1);
-                            post.Content = rdr.GetString(3);
-                            post.Description = rdr.IsDBNull(2) ? String.Empty : rdr.GetString(2);
-                            if (!rdr.IsDBNull(4))
+                            if (rdr.Read())
                             {
-                                post.DateCreated = rdr.GetDateTime(4);
-                            }
-
-                            if (!rdr.IsDBNull(5))
-                            {
-                                post.DateModified = rdr.GetDateTime(5);
-                            }
-
-                            if (!rdr.IsDBNull(6))
-                            {
-                                post.Author = rdr.GetString(6);
-                            }
-
-                            if (!rdr.IsDBNull(7))
-                            {
-                                post.IsPublished = rdr.GetBoolean(7);
-                            }
-
-                            if (!rdr.IsDBNull(8))
-                            {
-                                post.HasCommentsEnabled = rdr.GetBoolean(8);
-                            }
-
-                            if (!rdr.IsDBNull(9))
-                            {
-                                post.Raters = rdr.GetInt32(9);
-                            }
-
-                            if (!rdr.IsDBNull(10))
-                            {
-                                post.Rating = rdr.GetFloat(10);
-                            }
-
-                            post.Slug = !rdr.IsDBNull(11) ? rdr.GetString(11) : string.Empty;
-                        }
-                    }
-
-                    // Tags
-                    sqlQuery = string.Format("SELECT Tag FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
-                        {
-                            if (!rdr.IsDBNull(0))
-                            {
-                                post.Tags.Add(rdr.GetString(0));
-                            }
-                        }
-                    }
-
-                    post.Tags.MarkOld();
-
-                    // Categories
-                    sqlQuery = string.Format("SELECT CategoryID FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
-                        {
-                            var key = rdr.GetGuid(0);
-                            if (Category.GetCategory(key) != null)
-                            {
-                                post.Categories.Add(Category.GetCategory(key));
-                            }
-                        }
-                    }
-
-                    // Comments
-                    sqlQuery =
-                        string.Format("SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar, IsSpam, IsDeleted FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
-                        {
-                            var comment = new Comment
+                                post.Id = rdr.GetGuid(0);
+                                post.Title = rdr.GetString(1);
+                                post.Content = rdr.GetString(3);
+                                post.Description = rdr.IsDBNull(2) ? String.Empty : rdr.GetString(2);
+                                if (!rdr.IsDBNull(4))
                                 {
-                                    Id = rdr.GetGuid(0),
-                                    IsApproved = true,
-                                    Author = rdr.GetString(2)
-                                };
-                            if (!rdr.IsDBNull(4))
-                            {
-                                Uri website;
-                                if (Uri.TryCreate(rdr.GetString(4), UriKind.Absolute, out website))
+                                    post.DateCreated = rdr.GetDateTime(4);
+                                }
+
+                                if (!rdr.IsDBNull(5))
                                 {
-                                    comment.Website = website;
+                                    post.DateModified = rdr.GetDateTime(5);
+                                }
+
+                                if (!rdr.IsDBNull(6))
+                                {
+                                    post.Author = rdr.GetString(6);
+                                }
+
+                                if (!rdr.IsDBNull(7))
+                                {
+                                    post.IsPublished = rdr.GetBoolean(7);
+                                }
+
+                                if (!rdr.IsDBNull(8))
+                                {
+                                    post.HasCommentsEnabled = rdr.GetBoolean(8);
+                                }
+
+                                if (!rdr.IsDBNull(9))
+                                {
+                                    post.Raters = rdr.GetInt32(9);
+                                }
+
+                                if (!rdr.IsDBNull(10))
+                                {
+                                    post.Rating = rdr.GetFloat(10);
+                                }
+
+                                post.Slug = !rdr.IsDBNull(11) ? rdr.GetString(11) : string.Empty;
+                            }
+                        }
+
+                        // Tags
+                        cmd.CommandText = string.Format("SELECT Tag FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                if (!rdr.IsDBNull(0))
+                                {
+                                    post.Tags.Add(rdr.GetString(0));
                                 }
                             }
-
-                            comment.Email = rdr.GetString(3);
-                            comment.Content = rdr.GetString(5);
-                            comment.DateCreated = rdr.GetDateTime(1);
-                            comment.Parent = post;
-
-                            if (!rdr.IsDBNull(6))
-                            {
-                                comment.Country = rdr.GetString(6);
-                            }
-
-                            if (!rdr.IsDBNull(7))
-                            {
-                                comment.IP = rdr.GetString(7);
-                            }
-
-                            comment.IsApproved = rdr.IsDBNull(8) || rdr.GetBoolean(8);
-
-                            comment.ParentId = rdr.GetGuid(9);
-
-                            if (!rdr.IsDBNull(10))
-                            {
-                                comment.ModeratedBy = rdr.GetString(10);
-                            }
-
-                            if (!rdr.IsDBNull(11))
-                            {
-                                comment.Avatar = rdr.GetString(11);
-                            }
-
-                            if (!rdr.IsDBNull(12))
-                            {
-                                comment.IsSpam = rdr.GetBoolean(12);
-                            }
-
-                            if (!rdr.IsDBNull(13))
-                            {
-                                comment.IsDeleted = rdr.GetBoolean(13);
-                            }
-
-                            post.Comments.Add(comment);
                         }
-                    }
 
-                    post.Comments.Sort();
+                        post.Tags.MarkOld();
 
-                    // Email Notification
-                    sqlQuery = string.Format("SELECT NotifyAddress FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
+                        // Categories
+                        cmd.CommandText = string.Format("SELECT CategoryID FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (!rdr.IsDBNull(0))
+                            while (rdr.Read())
                             {
-                                post.NotificationEmails.Add(rdr.GetString(0));
+                                var key = rdr.GetGuid(0);
+                                if (Category.GetCategory(key) != null)
+                                {
+                                    post.Categories.Add(Category.GetCategory(key));
+                                }
+                            }
+                        }
+
+                        // Comments
+                        cmd.CommandText = string.Format("SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar, IsSpam, IsDeleted FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var comment = new Comment
+                                    {
+                                        Id = rdr.GetGuid(0),
+                                        IsApproved = true,
+                                        Author = rdr.GetString(2)
+                                    };
+                                if (!rdr.IsDBNull(4))
+                                {
+                                    Uri website;
+                                    if (Uri.TryCreate(rdr.GetString(4), UriKind.Absolute, out website))
+                                    {
+                                        comment.Website = website;
+                                    }
+                                }
+
+                                comment.Email = rdr.GetString(3);
+                                comment.Content = rdr.GetString(5);
+                                comment.DateCreated = rdr.GetDateTime(1);
+                                comment.Parent = post;
+
+                                if (!rdr.IsDBNull(6))
+                                {
+                                    comment.Country = rdr.GetString(6);
+                                }
+
+                                if (!rdr.IsDBNull(7))
+                                {
+                                    comment.IP = rdr.GetString(7);
+                                }
+
+                                comment.IsApproved = rdr.IsDBNull(8) || rdr.GetBoolean(8);
+
+                                comment.ParentId = rdr.GetGuid(9);
+
+                                if (!rdr.IsDBNull(10))
+                                {
+                                    comment.ModeratedBy = rdr.GetString(10);
+                                }
+
+                                if (!rdr.IsDBNull(11))
+                                {
+                                    comment.Avatar = rdr.GetString(11);
+                                }
+
+                                if (!rdr.IsDBNull(12))
+                                {
+                                    comment.IsSpam = rdr.GetBoolean(12);
+                                }
+
+                                if (!rdr.IsDBNull(13))
+                                {
+                                    comment.IsDeleted = rdr.GetBoolean(13);
+                                }
+
+                                post.Comments.Add(comment);
+                            }
+                        }
+
+                        post.Comments.Sort();
+
+                        // Email Notification
+                        cmd.CommandText = string.Format("SELECT NotifyAddress FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                if (!rdr.IsDBNull(0))
+                                {
+                                    var email = rdr.GetString(0);
+                                    if (post.NotificationEmails.Contains(email))
+                                    {
+                                        post.NotificationEmails.Add(email);
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+
 
             return post;
         }
@@ -1802,30 +1235,14 @@
             var profile = new AuthorProfile(id);
 
             // Retrieve Profile data from Db
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-                    conn.Open();
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        var sqlQuery = string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = id;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), id));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -1968,33 +1385,17 @@
             blogRolls.Remove(blogRollItem);
             blogRolls.Add(blogRollItem);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("UPDATE {0}BlogRollItems SET Title = {1}Title, Description = {1}Description, BlogUrl = {1}BlogUrl, FeedUrl = {1}FeedUrl, Xfn = {1}Xfn, SortIndex = {1}SortIndex WHERE BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("UPDATE {0}BlogRollItems SET Title = @Title, Description = @Description, BlogUrl = @BlogUrl, FeedUrl = @FeedUrl, Xfn = @Xfn, SortIndex = @SortIndex WHERE BlogRollId = @BlogRollId", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        this.AddBlogRollParametersToCommand(blogRollItem, conn, cmd);
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    this.AddBlogRollParametersToCommand(blogRollItem, provider, cmd);
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -2011,64 +1412,24 @@
             categories.Remove(category);
             categories.Add(category);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("UPDATE {0}Categories SET CategoryName = {1}catname, Description = {1}description, ParentID = {1}parentid WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("UPDATE {0}Categories SET CategoryName = @catname, Description = @description, ParentID = @parentid WHERE CategoryID = @catid", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+
+                        var p = cmd.Parameters;
+
+                        p.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("catname"), category.Title));
+                        p.Add(conn.CreateParameter(FormatParamName("description"), category.Description));
+                        p.Add(conn.CreateParameter(FormatParamName("parentid"), (category.Parent == null ? (object)DBNull.Value : category.Parent.ToString())));
+
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var catid = provider.CreateParameter();
-                    if (catid != null)
-                    {
-                        catid.ParameterName = string.Format("{0}catid", this.parmPrefix);
-                        catid.Value = category.Id.ToString();
-                        cmd.Parameters.Add(catid);
-                    }
-
-                    var title = provider.CreateParameter();
-                    if (title != null)
-                    {
-                        title.ParameterName = string.Format("{0}catname", this.parmPrefix);
-                        title.Value = category.Title;
-                        cmd.Parameters.Add(title);
-                    }
-
-                    var desc = provider.CreateParameter();
-                    if (desc != null)
-                    {
-                        desc.ParameterName = string.Format("{0}description", this.parmPrefix);
-                        desc.Value = category.Description;
-                        cmd.Parameters.Add(desc);
-                    }
-
-                    var parent = provider.CreateParameter();
-                    if (parent != null)
-                    {
-                        parent.ParameterName = string.Format("{0}parentid", this.parmPrefix);
-                        parent.Value = category.Parent == null ? (object)DBNull.Value : category.Parent.ToString();
-
-                        cmd.Parameters.Add(parent);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -2081,127 +1442,31 @@
         /// </param>
         public override void UpdatePage(Page page)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("UPDATE {0}Pages SET Title = {1}title, Description = {1}desc, PageContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Keywords = {1}keywords, IsPublished = {1}ispublished, IsFrontPage = {1}isfrontpage, Parent = {1}parent, ShowInList = {1}showinlist, Slug = {1}slug WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("UPDATE {0}Pages SET Title = @title, Description = @desc, PageContent = @content, DateCreated = @created, DateModified = @modified, Keywords = @keywords, IsPublished = @ispublished, IsFrontPage = @isfrontpage, Parent = @parent, ShowInList = @showinlist, Slug = @slug WHERE PageID = @id", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        var p = cmd.Parameters;
+
+                        p.Add(conn.CreateParameter(FormatParamName("id"), page.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("title"), page.Title));
+                        p.Add(conn.CreateParameter(FormatParamName("desc"), page.Description));
+                        p.Add(conn.CreateParameter(FormatParamName("content"), page.Content));
+                        p.Add(conn.CreateParameter(FormatParamName("created"), page.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                        p.Add(conn.CreateParameter(FormatParamName("modified"), (page.DateModified == new DateTime() ? DateTime.Now : page.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
+                        p.Add(conn.CreateParameter(FormatParamName("keywords"), page.Keywords));
+                        p.Add(conn.CreateParameter(FormatParamName("ispublished"), page.IsPublished));
+                        p.Add(conn.CreateParameter(FormatParamName("isfrontpage"), page.IsFrontPage));
+                        p.Add(conn.CreateParameter(FormatParamName("parent"), page.Parent.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("showinlist"), page.ShowInList));
+                        p.Add(conn.CreateParameter(FormatParamName("slug"), page.Slug));
+
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var idparameter = provider.CreateParameter();
-                    if (idparameter != null)
-                    {
-                        idparameter.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        idparameter.Value = page.Id.ToString();
-                        cmd.Parameters.Add(idparameter);
-                    }
-
-                    var title = provider.CreateParameter();
-                    if (title != null)
-                    {
-                        title.ParameterName = string.Format("{0}title", this.parmPrefix);
-                        title.Value = page.Title;
-                        cmd.Parameters.Add(title);
-                    }
-
-                    var desc = provider.CreateParameter();
-                    if (desc != null)
-                    {
-                        desc.ParameterName = string.Format("{0}desc", this.parmPrefix);
-                        desc.Value = page.Description;
-                        cmd.Parameters.Add(desc);
-                    }
-
-                    var content = provider.CreateParameter();
-                    if (content != null)
-                    {
-                        content.ParameterName = string.Format("{0}content", this.parmPrefix);
-                        content.Value = page.Content;
-                        cmd.Parameters.Add(content);
-                    }
-
-                    var created = provider.CreateParameter();
-                    if (created != null)
-                    {
-                        created.ParameterName = string.Format("{0}created", this.parmPrefix);
-                        created.Value = page.DateCreated.AddHours(-BlogSettings.Instance.Timezone);
-                        cmd.Parameters.Add(created);
-                    }
-
-                    var modified = provider.CreateParameter();
-                    if (modified != null)
-                    {
-                        modified.ParameterName = string.Format("{0}modified", this.parmPrefix);
-                        modified.Value = page.DateModified == new DateTime() ? DateTime.Now : page.DateModified.AddHours(-BlogSettings.Instance.Timezone);
-                        cmd.Parameters.Add(modified);
-                    }
-
-                    var keywords = provider.CreateParameter();
-                    if (keywords != null)
-                    {
-                        keywords.ParameterName = string.Format("{0}keywords", this.parmPrefix);
-                        keywords.Value = page.Keywords;
-                        cmd.Parameters.Add(keywords);
-                    }
-
-                    var published = provider.CreateParameter();
-                    if (published != null)
-                    {
-                        published.ParameterName = string.Format("{0}ispublished", this.parmPrefix);
-                        published.Value = page.IsPublished;
-                        cmd.Parameters.Add(published);
-                    }
-
-                    var frontPage = provider.CreateParameter();
-                    if (frontPage != null)
-                    {
-                        frontPage.ParameterName = string.Format("{0}isfrontpage", this.parmPrefix);
-                        frontPage.Value = page.IsFrontPage;
-                        cmd.Parameters.Add(frontPage);
-                    }
-
-                    var parent = provider.CreateParameter();
-                    if (parent != null)
-                    {
-                        parent.ParameterName = string.Format("{0}parent", this.parmPrefix);
-                        parent.Value = page.Parent.ToString();
-                        cmd.Parameters.Add(parent);
-                    }
-
-                    var showInList = provider.CreateParameter();
-                    if (showInList != null)
-                    {
-                        showInList.ParameterName = string.Format("{0}showinlist", this.parmPrefix);
-                        showInList.Value = page.ShowInList;
-                        cmd.Parameters.Add(showInList);
-                    }
-
-                    var slug = provider.CreateParameter();
-                    if (slug != null)
-                    {
-                        slug.ParameterName = string.Format("{0}slug", this.parmPrefix);
-                        slug.Value = page.Slug;
-                        cmd.Parameters.Add(slug);
-                    }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -2214,104 +1479,44 @@
         /// </param>
         public override void UpdatePost(Post post)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = {1}title, Description = {1}desc, PostContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Author = {1}Author, IsPublished = {1}published, IsCommentEnabled = {1}commentEnabled, Raters = {1}raters, Rating = {1}rating, Slug = {1}slug WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = @title, Description = @desc, PostContent = @content, DateCreated = @created, DateModified = @modified, Author = @Author, IsPublished = @published, IsCommentEnabled = @commentEnabled, Raters = @raters, Rating = @rating, Slug = @slug WHERE PostID = @id", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+
+                        var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
+                        p.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
+                        p.Add(conn.CreateParameter(FormatParamName("content"), post.Content));
+                        p.Add(conn.CreateParameter(FormatParamName("created"), post.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                        p.Add(conn.CreateParameter(FormatParamName("modified"), (post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
+                        p.Add(conn.CreateParameter(FormatParamName("author"), (post.Author ?? string.Empty)));
+                        p.Add(conn.CreateParameter(FormatParamName("published"), post.IsPublished));
+                        p.Add(conn.CreateParameter(FormatParamName("commentEnabled"), post.HasCommentsEnabled));
+                        p.Add(conn.CreateParameter(FormatParamName("raters"), post.Raters));
+                        p.Add(conn.CreateParameter(FormatParamName("rating"), post.Rating));
+                        p.Add(conn.CreateParameter(FormatParamName("slug"), (post.Slug ?? string.Empty)));
+
+                        cmd.ExecuteNonQuery();
                     }
 
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
+                    // Tags
+                    this.UpdateTags(post, conn);
 
-                    var dpID = provider.CreateParameter();
-                    dpID.ParameterName = this.parmPrefix + "id";
-                    dpID.Value = post.Id.ToString();
-                    cmd.Parameters.Add(dpID);
+                    // Categories
+                    this.UpdateCategories(post, conn);
 
-                    var dpTitle = provider.CreateParameter();
-                    dpTitle.ParameterName = this.parmPrefix + "title";
-                    dpTitle.Value = post.Title;
-                    cmd.Parameters.Add(dpTitle);
+                    // Comments
+                    this.UpdateComments(post, conn);
 
-                    var dpDesc = provider.CreateParameter();
-                    dpDesc.ParameterName = this.parmPrefix + "desc";
-                    dpDesc.Value = post.Description ?? string.Empty;
-                    cmd.Parameters.Add(dpDesc);
-
-                    var dpContent = provider.CreateParameter();
-                    dpContent.ParameterName = this.parmPrefix + "content";
-                    dpContent.Value = post.Content;
-                    cmd.Parameters.Add(dpContent);
-
-                    var dpCreated = provider.CreateParameter();
-                    dpCreated.ParameterName = this.parmPrefix + "created";
-                    dpCreated.Value = post.DateCreated.AddHours(-BlogSettings.Instance.Timezone);
-                    cmd.Parameters.Add(dpCreated);
-
-                    var dpModified = provider.CreateParameter();
-                    dpModified.ParameterName = this.parmPrefix + "modified";
-                    dpModified.Value = post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone);
-                    cmd.Parameters.Add(dpModified);
-
-                    var dpAuthor = provider.CreateParameter();
-                    dpAuthor.ParameterName = this.parmPrefix + "author";
-                    dpAuthor.Value = post.Author ?? string.Empty;
-                    cmd.Parameters.Add(dpAuthor);
-
-                    var dpPublished = provider.CreateParameter();
-                    dpPublished.ParameterName = this.parmPrefix + "published";
-                    dpPublished.Value = post.IsPublished;
-                    cmd.Parameters.Add(dpPublished);
-
-                    var dpCommentEnabled = provider.CreateParameter();
-                    dpCommentEnabled.ParameterName = this.parmPrefix + "commentEnabled";
-                    dpCommentEnabled.Value = post.HasCommentsEnabled;
-                    cmd.Parameters.Add(dpCommentEnabled);
-
-                    var dpRaters = provider.CreateParameter();
-                    dpRaters.ParameterName = this.parmPrefix + "raters";
-                    dpRaters.Value = post.Raters;
-                    cmd.Parameters.Add(dpRaters);
-
-                    var dpRating = provider.CreateParameter();
-                    dpRating.ParameterName = this.parmPrefix + "rating";
-                    dpRating.Value = post.Rating;
-                    cmd.Parameters.Add(dpRating);
-
-                    var dpSlug = provider.CreateParameter();
-                    dpSlug.ParameterName = this.parmPrefix + "slug";
-                    dpSlug.Value = post.Slug ?? string.Empty;
-                    cmd.Parameters.Add(dpSlug);
-
-                    cmd.ExecuteNonQuery();
+                    // Email Notification
+                    this.UpdateNotify(post, conn);
                 }
-
-                // Tags
-                this.UpdateTags(post, conn, provider);
-
-                // Categories
-                this.UpdateCategories(post, conn, provider);
-
-                // Comments
-                this.UpdateComments(post, conn, provider);
-
-                // Email Notification
-                this.UpdateNotify(post, conn, provider);
             }
         }
 
@@ -2407,42 +1612,20 @@
             dic.Add("IsPrivate", profile.Private.ToString());
 
             // Save Profile Dictionary
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                conn.ConnectionString = connString;
-                conn.Open();
-
                 using (var cmd = conn.CreateCommand())
                 {
                     foreach (string key in dic.Keys)
                     {
-                        var sqlQuery = string.Format("INSERT INTO {0}Profiles (UserName, SettingName, SettingValue) VALUES (@user, @name, @value)", this.tablePrefix);
-                        if (this.parmPrefix != "@")
-                        {
-                            sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
-                        }
+                        var sqlQuery = string.Format("INSERT INTO {0}Profiles (UserName, SettingName, SettingValue) VALUES ({1}user, {1}name, {1}value)", this.tablePrefix, this.parmPrefix);
 
                         cmd.CommandText = sqlQuery;
                         cmd.Parameters.Clear();
-
-                        var dpUser = provider.CreateParameter();
-                        dpUser.ParameterName = this.parmPrefix + "user";
-                        dpUser.Value = profile.Id;
-                        cmd.Parameters.Add(dpUser);
-
-                        var dpName = provider.CreateParameter();
-                        dpName.ParameterName = this.parmPrefix + "name";
-                        dpName.Value = key;
-                        cmd.Parameters.Add(dpName);
-
-                        var dpValue = provider.CreateParameter();
-                        dpValue.ParameterName = this.parmPrefix + "value";
-                        dpValue.Value = dic[key];
-                        cmd.Parameters.Add(dpValue);
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("user"), profile.Id));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), key));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("value"), dic[key]));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -2462,40 +1645,38 @@
             referrers.Remove(referrer);
             referrers.Add(referrer);
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
+                    var sqlQuery = string.Format("UPDATE {0}Referrers SET ReferralDay = {1}ReferralDay, ReferrerUrl = {1}ReferrerUrl, ReferralCount = {1}ReferralCount, Url = {1}Url, IsSpam = {1}IsSpam WHERE ReferrerId = {1}ReferrerId", this.tablePrefix, this.parmPrefix);
 
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("UPDATE {0}Referrers SET ReferralDay = @ReferralDay, ReferrerUrl = @ReferrerUrl, ReferralCount = @ReferralCount, Url = @Url, IsSpam = @IsSpam WHERE ReferrerId = @ReferrerId", this.tablePrefix);
-                    if (this.parmPrefix != "@")
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
+                        this.AddReferrersParametersToCommand(referrer, conn, cmd);
+
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    this.AddReferrersParametersToCommand(referrer, provider, cmd);
-
-                    cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns a formatted parameter name to include this DbBlogProvider instance's paramPrefix.
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        private string FormatParamName(string parameterName)
+        {
+            return String.Format("{0}{1}", this.parmPrefix, parameterName);
         }
 
         #endregion
 
         #region Methods
+
+
+
 
         /// <summary>
         /// The update categories.
@@ -2506,45 +1687,21 @@
         /// <param name="conn">
         /// The connection.
         /// </param>
-        /// <param name="provider">
-        /// The provider.
-        /// </param>
-        private void UpdateCategories(Post post, DbConnection conn, DbProviderFactory provider)
+        private void UpdateCategories(Post post, DbConnectionHelper conn)
         {
             var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-            using (var cmd = conn.CreateCommand())
+            using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
-                cmd.CommandText = sqlQuery;
-                cmd.CommandType = CommandType.Text;
-                var id = provider.CreateParameter();
-                if (id != null)
-                {
-                    id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                    id.Value = post.Id.ToString();
-                    cmd.Parameters.Add(id);
-                }
+                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
 
                 cmd.ExecuteNonQuery();
 
                 foreach (var cat in post.Categories)
                 {
-                    cmd.CommandText = string.Format("INSERT INTO {0}PostCategory (PostID, CategoryID) VALUES ({1}id, {2}cat)", this.tablePrefix, this.parmPrefix, this.parmPrefix);
+                    cmd.CommandText = string.Format("INSERT INTO {0}PostCategory (PostID, CategoryID) VALUES ({1}id, {1}cat)", this.tablePrefix, this.parmPrefix);
                     cmd.Parameters.Clear();
-                    var postId = provider.CreateParameter();
-                    if (postId != null)
-                    {
-                        postId.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        postId.Value = post.Id.ToString();
-                        cmd.Parameters.Add(postId);
-                    }
-
-                    var category = provider.CreateParameter();
-                    if (category != null)
-                    {
-                        category.ParameterName = string.Format("{0}cat", this.parmPrefix);
-                        category.Value = cat.Id.ToString();
-                        cmd.Parameters.Add(category);
-                    }
+                    cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                    cmd.Parameters.Add(conn.CreateParameter(FormatParamName("cat"), cat.Id.ToString()));
 
                     cmd.ExecuteNonQuery();
                 }
@@ -2560,122 +1717,40 @@
         /// <param name="conn">
         /// The connection.
         /// </param>
-        /// <param name="provider">
-        /// The provider.
-        /// </param>
-        private void UpdateComments(Post post, DbConnection conn, DbProviderFactory provider)
+        private void UpdateComments(Post post, DbConnectionHelper conn)
         {
             var sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-            using (var cmd = conn.CreateCommand())
+            using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
-                cmd.CommandText = sqlQuery;
-                cmd.CommandType = CommandType.Text;
-                var id = provider.CreateParameter();
-                if (id != null)
-                {
-                    id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                    id.Value = post.Id.ToString();
-                    cmd.Parameters.Add(id);
-                }
+
+                var parms = cmd.Parameters;
+
+                parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
 
                 cmd.ExecuteNonQuery();
 
                 foreach (var comment in post.Comments)
                 {
-                    sqlQuery = string.Format("INSERT INTO {0}PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted) VALUES (@postcommentid, @parentid, @id, @date, @author, @email, @website, @comment, @country, @ip, @isapproved, @moderatedby, @avatar, @isspam, @isdeleted)", this.tablePrefix);
-                    if (this.parmPrefix != "@")
-                    {
-                        sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
-                    }
+                    sqlQuery = string.Format("INSERT INTO {0}PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted) VALUES ({1}postcommentid, {1}parentid, {1}id, {1}date, {1}author, {1}email, {1}website, {1}comment, {1}country, {1}ip, {1}isapproved, {1}moderatedby, {1}avatar, {1}isspam, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
 
                     cmd.CommandText = sqlQuery;
-                    cmd.Parameters.Clear();
-                    var commentId = provider.CreateParameter();
-                    if (commentId != null)
-                    {
-                        commentId.ParameterName = string.Format("{0}postcommentid", this.parmPrefix);
-                        commentId.Value = comment.Id.ToString();
-                        cmd.Parameters.Add(commentId);
-                    }
+                    parms.Clear();
 
-                    var parentId = provider.CreateParameter();
-                    if (parentId != null)
-                    {
-                        parentId.ParameterName = string.Format("{0}parentid", this.parmPrefix);
-                        parentId.Value = comment.ParentId.ToString();
-                        cmd.Parameters.Add(parentId);
-                    }
-
-                    var postId = provider.CreateParameter();
-                    if (postId != null)
-                    {
-                        postId.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        postId.Value = post.Id.ToString();
-                        cmd.Parameters.Add(postId);
-                    }
-
-                    var dpCommentDate = provider.CreateParameter();
-                    dpCommentDate.ParameterName = this.parmPrefix + "date";
-                    dpCommentDate.Value = comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone);
-                    cmd.Parameters.Add(dpCommentDate);
-
-                    var dpAuthor = provider.CreateParameter();
-                    dpAuthor.ParameterName = this.parmPrefix + "author";
-                    dpAuthor.Value = comment.Author;
-                    cmd.Parameters.Add(dpAuthor);
-
-                    var dpEmail = provider.CreateParameter();
-                    dpEmail.ParameterName = this.parmPrefix + "email";
-                    dpEmail.Value = comment.Email ?? string.Empty;
-                    cmd.Parameters.Add(dpEmail);
-
-                    var dpWebsite = provider.CreateParameter();
-                    if (dpWebsite != null)
-                    {
-                        dpWebsite.ParameterName = string.Format("{0}website", this.parmPrefix);
-                        dpWebsite.Value = comment.Website == null ? string.Empty : comment.Website.ToString();
-                        cmd.Parameters.Add(dpWebsite);
-                    }
-
-                    var dpContent = provider.CreateParameter();
-                    dpContent.ParameterName = this.parmPrefix + "comment";
-                    dpContent.Value = comment.Content;
-                    cmd.Parameters.Add(dpContent);
-
-                    var dpCountry = provider.CreateParameter();
-                    dpCountry.ParameterName = this.parmPrefix + "country";
-                    dpCountry.Value = comment.Country ?? string.Empty;
-                    cmd.Parameters.Add(dpCountry);
-
-                    var dpIP = provider.CreateParameter();
-                    dpIP.ParameterName = this.parmPrefix + "ip";
-                    dpIP.Value = comment.IP ?? string.Empty;
-                    cmd.Parameters.Add(dpIP);
-
-                    var dpIsApproved = provider.CreateParameter();
-                    dpIsApproved.ParameterName = this.parmPrefix + "isapproved";
-                    dpIsApproved.Value = comment.IsApproved;
-                    cmd.Parameters.Add(dpIsApproved);
-
-                    var dpModeratedBy = provider.CreateParameter();
-                    dpModeratedBy.ParameterName = this.parmPrefix + "moderatedby";
-                    dpModeratedBy.Value = comment.ModeratedBy ?? string.Empty;
-                    cmd.Parameters.Add(dpModeratedBy);
-
-                    var dpAvatar = provider.CreateParameter();
-                    dpAvatar.ParameterName = this.parmPrefix + "avatar";
-                    dpAvatar.Value = comment.Avatar ?? string.Empty;
-                    cmd.Parameters.Add(dpAvatar);
-
-                    var dpIsSpam = provider.CreateParameter();
-                    dpIsSpam.ParameterName = this.parmPrefix + "isspam";
-                    dpIsSpam.Value = comment.IsSpam;
-                    cmd.Parameters.Add(dpIsSpam);
-
-                    var dpIsDeleted = provider.CreateParameter();
-                    dpIsDeleted.ParameterName = this.parmPrefix + "isdeleted";
-                    dpIsDeleted.Value = comment.IsDeleted;
-                    cmd.Parameters.Add(dpIsDeleted);
+                    parms.Add(conn.CreateParameter(FormatParamName("postcommentid"), comment.Id.ToString()));
+                    parms.Add(conn.CreateParameter(FormatParamName("parentid"), comment.ParentId.ToString()));
+                    parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                    parms.Add(conn.CreateParameter(FormatParamName("date"), comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                    parms.Add(conn.CreateParameter(FormatParamName("author"), comment.Author));
+                    parms.Add(conn.CreateParameter(FormatParamName("email"), comment.Email));
+                    parms.Add(conn.CreateParameter(FormatParamName("website"), (comment.Website == null ? string.Empty : comment.Website.ToString())));
+                    parms.Add(conn.CreateParameter(FormatParamName("comment"), comment.Content));
+                    parms.Add(conn.CreateParameter(FormatParamName("country"), (comment.Country ?? string.Empty)));
+                    parms.Add(conn.CreateParameter(FormatParamName("ip"), (comment.IP ?? string.Empty)));
+                    parms.Add(conn.CreateParameter(FormatParamName("isapproved"), comment.IsApproved));
+                    parms.Add(conn.CreateParameter(FormatParamName("moderatedby"), (comment.ModeratedBy ?? string.Empty)));
+                    parms.Add(conn.CreateParameter(FormatParamName("avatar"), (comment.Avatar ?? string.Empty)));
+                    parms.Add(conn.CreateParameter(FormatParamName("isspam"), comment.IsSpam));
+                    parms.Add(conn.CreateParameter(FormatParamName("isdeleted"), comment.IsDeleted));
 
                     cmd.ExecuteNonQuery();
                 }
@@ -2691,44 +1766,24 @@
         /// <param name="conn">
         /// The connection.
         /// </param>
-        /// <param name="provider">
-        /// The provider.
-        /// </param>
-        private void UpdateNotify(Post post, DbConnection conn, DbProviderFactory provider)
+        private void UpdateNotify(Post post, DbConnectionHelper conn)
         {
             var sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-            using (var cmd = conn.CreateCommand())
+            using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
-                cmd.CommandText = sqlQuery;
-                cmd.CommandType = CommandType.Text;
-                var id = provider.CreateParameter();
-                if (id != null)
-                {
-                    id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                    id.Value = post.Id.ToString();
-                    cmd.Parameters.Add(id);
-                }
+                var parms = cmd.Parameters;
+
+                parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
 
                 cmd.ExecuteNonQuery();
 
                 foreach (var email in post.NotificationEmails)
                 {
-                    cmd.CommandText = string.Format("INSERT INTO {0}PostNotify (PostID, NotifyAddress) VALUES ({1}id, {2}notify)", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                    cmd.Parameters.Clear();
-                    var postId = provider.CreateParameter();
-                    if (postId != null)
-                    {
-                        postId.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        postId.Value = post.Id.ToString();
-                        cmd.Parameters.Add(postId);
-                    }
-                    var notify = provider.CreateParameter();
-                    if (notify != null)
-                    {
-                        notify.ParameterName = string.Format("{0}notify", this.parmPrefix);
-                        notify.Value = email;
-                        cmd.Parameters.Add(notify);
-                    }
+                    cmd.CommandText = string.Format("INSERT INTO {0}PostNotify (PostID, NotifyAddress) VALUES ({1}id, {1}notify)", this.tablePrefix, this.parmPrefix);
+                    parms.Clear();
+
+                    parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                    parms.Add(conn.CreateParameter(FormatParamName("notify"), email));
 
                     cmd.ExecuteNonQuery();
                 }
@@ -2742,47 +1797,24 @@
         /// The post to update.
         /// </param>
         /// <param name="conn">
-        /// The connection.
+        /// The connection
         /// </param>
-        /// <param name="provider">
-        /// The provider.
-        /// </param>
-        private void UpdateTags(Post post, DbConnection conn, DbProviderFactory provider)
+        private void UpdateTags(Post post, DbConnectionHelper conn)
         {
             var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
-            using (var cmd = conn.CreateCommand())
+            using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
-                cmd.CommandText = sqlQuery;
-                cmd.CommandType = CommandType.Text;
-                var id = provider.CreateParameter();
-                if (id != null)
-                {
-                    id.ParameterName = string.Format("{0}id", this.parmPrefix);
-                    id.Value = post.Id.ToString();
-                    cmd.Parameters.Add(id);
-                }
 
+                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                 cmd.ExecuteNonQuery();
 
                 foreach (var tag in post.Tags)
                 {
-                    cmd.CommandText = string.Format("INSERT INTO {0}PostTag (PostID, Tag) VALUES ({1}id, {2}tag)", this.tablePrefix, this.parmPrefix, this.parmPrefix);
+                    cmd.CommandText = string.Format("INSERT INTO {0}PostTag (PostID, Tag) VALUES ({1}id, {1}tag)", this.tablePrefix, this.parmPrefix);
                     cmd.Parameters.Clear();
-                    var postId = provider.CreateParameter();
-                    if (postId != null)
-                    {
-                        postId.ParameterName = string.Format("{0}id", this.parmPrefix);
-                        postId.Value = post.Id.ToString();
-                        cmd.Parameters.Add(postId);
-                    }
 
-                    var tag2 = provider.CreateParameter();
-                    if (tag2 != null)
-                    {
-                        tag2.ParameterName = string.Format("{0}tag", this.parmPrefix);
-                        tag2.Value = tag;
-                        cmd.Parameters.Add(tag2);
-                    }
+                    cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                    cmd.Parameters.Add(conn.CreateParameter(FormatParamName("tag"), tag));
 
                     cmd.ExecuteNonQuery();
                 }
@@ -2795,49 +1827,24 @@
         /// <param name="blogRollItem">
         /// The blog roll item.
         /// </param>
-        /// <param name="provider">
-        /// The provider.
+        /// <param name="conn">
+        /// The connection.
         /// </param>
         /// <param name="cmd">
         /// The command.
         /// </param>
         private void AddBlogRollParametersToCommand(
-            BlogRollItem blogRollItem, DbProviderFactory provider, DbCommand cmd)
+            BlogRollItem blogRollItem, DbConnectionHelper conn, DbCommand cmd)
         {
-            var dpID = provider.CreateParameter();
-            dpID.ParameterName = this.parmPrefix + "BlogRollId";
-            dpID.Value = blogRollItem.Id.ToString();
-            cmd.Parameters.Add(dpID);
 
-            var dpTitle = provider.CreateParameter();
-            dpTitle.ParameterName = this.parmPrefix + "Title";
-            dpTitle.Value = blogRollItem.Title;
-            cmd.Parameters.Add(dpTitle);
-
-            var dpDesc = provider.CreateParameter();
-            dpDesc.ParameterName = this.parmPrefix + "Description";
-            dpDesc.Value = blogRollItem.Description;
-            cmd.Parameters.Add(dpDesc);
-
-            var dpBlogUrl = provider.CreateParameter();
-            dpBlogUrl.ParameterName = "BlogUrl";
-            dpBlogUrl.Value = blogRollItem.BlogUrl != null ? (object)blogRollItem.BlogUrl.ToString() : DBNull.Value;
-            cmd.Parameters.Add(dpBlogUrl);
-
-            var dpFeedUrl = provider.CreateParameter();
-            dpFeedUrl.ParameterName = "FeedUrl";
-            dpFeedUrl.Value = blogRollItem.FeedUrl != null ? (object)blogRollItem.FeedUrl.ToString() : DBNull.Value;
-            cmd.Parameters.Add(dpFeedUrl);
-
-            var dpXfn = provider.CreateParameter();
-            dpXfn.ParameterName = "Xfn";
-            dpXfn.Value = blogRollItem.Xfn;
-            cmd.Parameters.Add(dpXfn);
-
-            var dpSortIndex = provider.CreateParameter();
-            dpSortIndex.ParameterName = "SortIndex";
-            dpSortIndex.Value = blogRollItem.SortIndex;
-            cmd.Parameters.Add(dpSortIndex);
+            var parms = cmd.Parameters;
+            parms.Add(conn.CreateParameter(FormatParamName("BlogRollId"), blogRollItem.Id.ToString()));
+            parms.Add(conn.CreateParameter(FormatParamName("Title"), blogRollItem.Title));
+            parms.Add(conn.CreateParameter(FormatParamName("Description"), blogRollItem.Description));
+            parms.Add(conn.CreateParameter(FormatParamName("BlogUrl"), (blogRollItem.BlogUrl != null ? (object)blogRollItem.BlogUrl.ToString() : DBNull.Value)));
+            parms.Add(conn.CreateParameter(FormatParamName("FeedUrl"), (blogRollItem.FeedUrl != null ? (object)blogRollItem.FeedUrl.ToString() : DBNull.Value)));
+            parms.Add(conn.CreateParameter(FormatParamName("Xfn"), blogRollItem.Xfn));
+            parms.Add(conn.CreateParameter(FormatParamName("SortIndex"), blogRollItem.SortIndex));
         }
 
         /// <summary>
@@ -2846,43 +1853,22 @@
         /// <param name="referrer">
         /// The referrer.
         /// </param>
-        /// <param name="provider">
-        /// The provider.
+        /// <param name="conn">
+        /// The connection.
         /// </param>
         /// <param name="cmd">
         /// The command.
         /// </param>
-        private void AddReferrersParametersToCommand(Referrer referrer, DbProviderFactory provider, DbCommand cmd)
+        private void AddReferrersParametersToCommand(Referrer referrer, DbConnectionHelper conn, DbCommand cmd)
         {
-            var dpId = provider.CreateParameter();
-            dpId.ParameterName = "ReferrerId";
-            dpId.Value = referrer.Id.ToString();
-            cmd.Parameters.Add(dpId);
+            var parms = cmd.Parameters;
 
-            var dpDay = provider.CreateParameter();
-            dpDay.ParameterName = this.parmPrefix + "ReferralDay";
-            dpDay.Value = referrer.Day;
-            cmd.Parameters.Add(dpDay);
-
-            var dpReferrer = provider.CreateParameter();
-            dpReferrer.ParameterName = this.parmPrefix + "ReferrerUrl";
-            dpReferrer.Value = referrer.ReferrerUrl != null ? (object)referrer.ReferrerUrl.ToString() : DBNull.Value;
-            cmd.Parameters.Add(dpReferrer);
-
-            var dpCount = provider.CreateParameter();
-            dpCount.ParameterName = this.parmPrefix + "ReferralCount";
-            dpCount.Value = referrer.Count;
-            cmd.Parameters.Add(dpCount);
-
-            var dpUrl = provider.CreateParameter();
-            dpUrl.ParameterName = "Url";
-            dpUrl.Value = referrer.Url != null ? (object)referrer.Url.ToString() : DBNull.Value;
-            cmd.Parameters.Add(dpUrl);
-
-            var dpIsSpam = provider.CreateParameter();
-            dpIsSpam.ParameterName = "IsSpam";
-            dpIsSpam.Value = referrer.PossibleSpam;
-            cmd.Parameters.Add(dpIsSpam);
+            parms.Add(conn.CreateParameter("ReferrerId", referrer.Id.ToString()));
+            parms.Add(conn.CreateParameter(FormatParamName("ReferralDay"), referrer.Day));
+            parms.Add(conn.CreateParameter(FormatParamName("ReferrerUrl"), (referrer.ReferrerUrl != null ? (object)referrer.ReferrerUrl.ToString() : DBNull.Value)));
+            parms.Add(conn.CreateParameter(FormatParamName("ReferralCount"), referrer.Count));
+            parms.Add(conn.CreateParameter(FormatParamName("Url"), (referrer.Url != null ? (object)referrer.Url.ToString() : DBNull.Value)));
+            parms.Add(conn.CreateParameter(FormatParamName("IsSpam"), referrer.PossibleSpam));
         }
 
         /// <summary>
@@ -2890,40 +1876,34 @@
         /// </summary>
         private void DeleteOldReferrers()
         {
-            var cutoff = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
-
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    var sqlQuery = string.Format("DELETE FROM {0}Referrers WHERE ReferralDay < {1}ReferralDay", this.tablePrefix, this.parmPrefix);
-                    cmd.CommandText = sqlQuery;
-                    cmd.CommandType = CommandType.Text;
-
-                    var theDay = provider.CreateParameter();
-                    if (theDay != null)
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Referrers WHERE ReferralDay < {1}ReferralDay", this.tablePrefix, this.parmPrefix)))
                     {
-                        theDay.ParameterName = string.Format("{0}ReferralDay", this.parmPrefix);
-                        theDay.Value = cutoff;
-                        cmd.Parameters.Add(theDay);
-                    }
+                        var cutoff = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
 
-                    cmd.ExecuteNonQuery();
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("ReferralDay"), cutoff));
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Creates a new DbConnectionHelper for this DbBlogProvider instance.
+        /// </summary>
+        /// <returns></returns>
+        private DbConnectionHelper CreateConnection()
+        {
+            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[this.connStringName];
+            return new DbConnectionHelper(settings);
+        }
+
     }
 }

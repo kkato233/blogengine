@@ -129,6 +129,7 @@
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />
     <Compile Include="Providers\BlogProviderCollection.cs" />
+    <Compile Include="Providers\DbConnectionHelper.cs" />
     <Compile Include="RemoteFile.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />

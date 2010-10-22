@@ -187,31 +187,15 @@
             var oldPasswordCorrect = false;
             var success = false;
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
                         // Check Old Password
-                        cmd.CommandText = string.Format("SELECT password FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandType = CommandType.Text;
 
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -246,16 +230,9 @@
                         // Update New Password
                         if (oldPasswordCorrect)
                         {
-                            cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE userName = {2}name", this.tablePrefix, this.parmPrefix, this.parmPrefix);
+                            cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE userName = {1}name", this.tablePrefix, this.parmPrefix);
 
-                            var pwdDp = provider.CreateParameter();
-                            if (pwdDp != null)
-                            {
-                                pwdDp.ParameterName = string.Format("{0}pwd", this.parmPrefix);
-                                pwdDp.Value = this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(newPassword) : newPassword;
-
-                                cmd.Parameters.Add(pwdDp);
-                            }
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("pwd"), (this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(newPassword) : newPassword)));
 
                             cmd.ExecuteNonQuery();
                             success = true;
@@ -305,61 +282,20 @@
             object providerUserKey,
             out MembershipCreateStatus status)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    var sqlQuery = string.Format("INSERT INTO {0}Users (userName, password, emailAddress, lastLoginTime) VALUES ({1}name, {1}pwd, {1}email, {1}login)", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-                        var sqlQuery = string.Format("INSERT INTO {0}Users (userName, password, emailAddress, lastLoginTime) VALUES (@name, @pwd, @email, @login)", this.tablePrefix);
-                        if (this.parmPrefix != "@")
-                        {
-                            sqlQuery = sqlQuery.Replace("@", this.parmPrefix);
-                        }
 
-                        cmd.CommandText = sqlQuery;
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
-
-                        var pwdDp = provider.CreateParameter();
-                        if (pwdDp != null)
-                        {
-                            pwdDp.ParameterName = string.Format("{0}pwd", this.parmPrefix);
-                            pwdDp.Value = this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(password) : password;
-
-                            cmd.Parameters.Add(pwdDp);
-                        }
-
-                        var emailDp = provider.CreateParameter();
-                        if (emailDp != null)
-                        {
-                            emailDp.ParameterName = string.Format("{0}email", this.parmPrefix);
-                            emailDp.Value = email;
-                            cmd.Parameters.Add(emailDp);
-                        }
-
-                        var loginDp = provider.CreateParameter();
-                        if (loginDp != null)
-                        {
-                            loginDp.ParameterName = string.Format("{0}login", this.parmPrefix);
-                            loginDp.Value = DateTime.Now;
-                            cmd.Parameters.Add(loginDp);
-                        }
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("name"), username));
+                        parms.Add(conn.CreateParameter(FormatParamName("pwd"), (this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(password) : password)));
+                        parms.Add(conn.CreateParameter(FormatParamName("email"), email));
+                        parms.Add(conn.CreateParameter(FormatParamName("login"), DateTime.Now));
 
                         cmd.ExecuteNonQuery();
                     }
@@ -380,36 +316,15 @@
         /// <returns>The delete user.</returns>
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
         {
-            bool success;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
+            bool success = false;
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    success = false;
-                }
-                else
-                {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.CommandText = string.Format(
-                            "DELETE FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         try
                         {
@@ -471,23 +386,13 @@
         public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
         {
             var users = new MembershipUserCollection();
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users", this.tablePrefix)))
                     {
-                        cmd.CommandText = string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users", this.tablePrefix);
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -549,28 +454,14 @@
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
             MembershipUser user = null;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.CommandText = string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandType = CommandType.Text;
-                        conn.Open();
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -601,30 +492,14 @@
             }
 
             string userName = null;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT userName FROM {0}Users WHERE emailAddress = {1}email", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.CommandText = string.Format("SELECT userName FROM {0}Users WHERE emailAddress = {1}email", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandType = CommandType.Text;
-
-                        conn.Open();
-
-                        var emailDp = provider.CreateParameter();
-                        if (emailDp != null)
-                        {
-                            emailDp.ParameterName = string.Format("{0}email", this.parmPrefix);
-                            emailDp.Value = email;
-                            cmd.Parameters.Add(emailDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("email"), email));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -757,34 +632,19 @@
                 return string.Empty;
             }
 
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
             var oldPassword = string.Empty;
             var randomPassword = Utils.RandomPassword();
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
                         // Check Old Password
-                        cmd.CommandText = string.Format("SELECT password FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandType = CommandType.Text;
 
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -799,14 +659,7 @@
                         {
                             cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE userName = {2}name", this.tablePrefix, this.parmPrefix, this.parmPrefix);
 
-                            var pwdDp = provider.CreateParameter();
-                            if (pwdDp != null)
-                            {
-                                pwdDp.ParameterName = string.Format("{0}pwd", this.parmPrefix);
-                                pwdDp.Value = this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(randomPassword) : randomPassword;
-
-                                cmd.Parameters.Add(pwdDp);
-                            }
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("pwd"), (this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(randomPassword) : randomPassword)));
 
                             cmd.ExecuteNonQuery();
                             return randomPassword;
@@ -834,43 +687,18 @@
         /// <param name="user">A <see cref="T:System.Web.Security.MembershipUser"/> object that represents the user to update and the updated information for the user.</param>
         public override void UpdateUser(MembershipUser user)
         {
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn == null)
+                if (conn.HasConnection)
                 {
-                    return;
-                }
-
-                conn.ConnectionString = connString;
-
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = string.Format("UPDATE {0}Users SET emailAddress = {1}email WHERE userName = {2}name", this.tablePrefix, this.parmPrefix, this.parmPrefix);
-                    cmd.CommandType = CommandType.Text;
-
-                    conn.Open();
-
-                    var nameDp = provider.CreateParameter();
-                    if (nameDp != null)
+                    using (var cmd = conn.CreateTextCommand(string.Format("UPDATE {0}Users SET emailAddress = {1}email WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                        nameDp.Value = user.UserName;
-                        cmd.Parameters.Add(nameDp);
-                    }
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("name"), user.UserName));
+                        parms.Add(conn.CreateParameter(FormatParamName("email"), user.Email));
 
-                    var emailDp = provider.CreateParameter();
-                    if (emailDp != null)
-                    {
-                        emailDp.ParameterName = string.Format("{0}email", this.parmPrefix);
-                        emailDp.Value = user.Email;
-                        cmd.Parameters.Add(emailDp);
+                        cmd.ExecuteNonQuery();
                     }
-
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -884,29 +712,14 @@
         public override bool ValidateUser(string username, string password)
         {
             var validated = false;
-            var connString = ConfigurationManager.ConnectionStrings[this.connStringName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[this.connStringName].ProviderName;
-            var provider = DbProviderFactories.GetFactory(providerName);
 
-            using (var conn = provider.CreateConnection())
+            using (var conn = this.CreateConnection())
             {
-                if (conn != null)
+                if (conn.HasConnection)
                 {
-                    conn.ConnectionString = connString;
-
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.CommandText = string.Format("SELECT password FROM {0}Users WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix);
-                        cmd.CommandType = CommandType.Text;
-                        conn.Open();
-
-                        var nameDp = provider.CreateParameter();
-                        if (nameDp != null)
-                        {
-                            nameDp.ParameterName = string.Format("{0}name", this.parmPrefix);
-                            nameDp.Value = username;
-                            cmd.Parameters.Add(nameDp);
-                        }
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -948,6 +761,23 @@
         #endregion
 
         #region Methods
+
+        private DbConnectionHelper CreateConnection()
+        {
+            var settings = ConfigurationManager.ConnectionStrings[this.connStringName];
+            return new DbConnectionHelper(settings);
+        }
+
+
+        /// <summary>
+        /// Returns a formatted parameter name to include this DbBlogProvider instance's paramPrefix.
+        /// </summary>
+        /// <param name="parameterName"></param>
+        /// <returns></returns>
+        private string FormatParamName(string parameterName)
+        {
+            return String.Format("{0}{1}", this.parmPrefix, parameterName);
+        }
 
         /// <summary>
         /// Gets membership user.
