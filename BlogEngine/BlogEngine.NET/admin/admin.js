@@ -14,7 +14,7 @@ $(document).ready(function () {
 function EditRow(obj) {
    var row = $(obj).closest("tr");
    var revert = $(row).html();
-   var button = '<div><input type="button" value="Save" class="saveButton btn rounded" /> <a href="#" class="cancelButton">Cancel</a></div>';
+   var button = '<div><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></div>';
 
    $('.editable', row).each(function () {
       var _this = $(this);
@@ -546,7 +546,8 @@ function Show(element) {
 
 function Hide(element) {
    $("[id$='" + element + "']").slideUp('slow', function () { });
-   return false;}
+   return false;
+}
 
 function Toggle(element) {
     if ($("[id$='" + element + "']").is(':visible'))

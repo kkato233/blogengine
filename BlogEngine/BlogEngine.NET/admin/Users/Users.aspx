@@ -85,7 +85,7 @@
             </ul>
 		</div>
 		<div class="content-box-left">
-            <h2><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h2>
+            <h1><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h1>
             <div style="display:none;">
             <div id="frmAddNew" class="overlaypanel" >
                 <table class="tblForm">
@@ -114,7 +114,7 @@
                         </td>
                     </tr>
                 </table>
-				<input type="submit" class="primarybtn rounded" value="save" onclick="return AddUser(this);" id="btnNewUser" />
+				<input type="submit" class="btn primary rounded" value="save" onclick="return AddUser(this);" id="btnNewUser" />
 				or <a href="#" onclick="closeOverlay();">cancel</a>
 			</div>
             </div>

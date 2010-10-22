@@ -176,7 +176,7 @@
                 </ul>
 
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+                <input type="submit" id="btnSave" class="btn primary rounded" value="Save" />
             </div>
 		</div>
 	</div>    

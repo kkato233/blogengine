@@ -18,9 +18,9 @@
             <div id="Container"></div>
             <div id="Pager"></div>
             <div class="action_buttons">
-		        <input type="submit" class="btn rounded" value="Approve Selected" onclick="return ProcessSelected('Approve', 'Pending');" />&nbsp;
-                <input type="submit" class="btn rounded" value="Reject Selected" onclick="return ProcessSelected('Reject', 'Pending');" />&nbsp;
-                <input type="submit" class="btn rounded" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Pending');" />&nbsp;
+		        <input type="submit" class="btn" value="Approve Selected" onclick="return ProcessSelected('Approve', 'Pending');" />&nbsp;
+                <input type="submit" class="btn" value="Reject Selected" onclick="return ProcessSelected('Reject', 'Pending');" />&nbsp;
+                <input type="submit" class="btn" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Pending');" />&nbsp;
                 <span class="loader">&nbsp;</span>
             </div>
 		</div>
