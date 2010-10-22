@@ -57,7 +57,7 @@
                             Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
                     </li>
                 </ul>
-                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="primarybtn rounded" OnClientClick="closeOverlay();" /> 
+                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="btn primary rounded" OnClientClick="closeOverlay();" /> 
                 or <a href="#" onclick="closeOverlay();">cancel</a>
             </div>
             </div>
@@ -124,7 +124,7 @@
                         </asp:CheckBoxList>
                     </div>
                 </div>
-                <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="primarybtn rounded" OnClientClick="closeOverlay();" /> 
+                <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary rounded" OnClientClick="closeOverlay();" /> 
                 or <a href="#" onclick="closeOverlay();">cancel</a>
 
             </div>

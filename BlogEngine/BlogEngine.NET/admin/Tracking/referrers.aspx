@@ -9,20 +9,16 @@
 		</div>
         <div class="content-box-left">
         <div style="float: right;">
-            <asp:Button CssClass="btn rounded" runat="server" ID="btnSaveTop" Text="<%$ Resources:labels, saveSettings %>" />
+            <asp:Button CssClass="btn" runat="server" ID="btnSaveTop" Text="<%$ Resources:labels, saveSettings %>" />
         </div>
         <h1 style="border:none;">Referrers</h1>
-        <fieldset style="margin:0;">
-            <legend>Settings</legend>
+            <h2>Settings</h2>
             <table class="tblForm" style="margin:0;">
                 <tr>
                 <td>
                     <asp:CheckBox runat="Server" ID="cbEnableReferrers" AutoPostBack="true" />
                     <label for=""><%=Resources.labels.enableReferrerTracking %></label>
                 </td>
-                <td></td>
-                </tr>
-                <tr>
                 <td>
                     <label class="lbl" for="<%= txtNumberOfDays.ClientID %>"><%= Resources.labels.numberOfDaysToKeep %></label>
                     <asp:TextBox ID="txtNumberOfDays" runat="server"></asp:TextBox><br />
@@ -35,7 +31,6 @@
                 </td>
                 </tr>
             </table>
-        </fieldset>
         <div>
             <h2><%=Resources.labels.referrers%></h2>
             <asp:GridView runat="server" ID="grid" BorderColor="#f8f8f8" BorderStyle="solid"
@@ -71,7 +66,7 @@
             </asp:GridView>
         </div>
         <div class="action_buttons">
-            <asp:Button runat="server" CssClass="btn rounded" ID="btnSave" Text="<%$ Resources:labels, saveSettings %>" />
+            <asp:Button runat="server" CssClass="btn" ID="btnSave" Text="<%$ Resources:labels, saveSettings %>" />
         </div>
         </div>
     </div>
