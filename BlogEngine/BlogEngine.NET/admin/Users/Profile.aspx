@@ -91,11 +91,11 @@
             <div id="Container"></div>
 
             <h2>Roles</h2>
-            <div><%=RolesList%></div>
+            <div id="rolelist" style="margin:0 0 20px;"><%=RolesList%></div>
 
             <div id="Container2"></div>
-            <div>
-                <input type="submit" class="primarybtn rounded" value="<%=Resources.labels.save %>" onclick="return SaveProfile()" />
+            <div class="action_buttons">
+                <input type="submit" class="btn primary rounded" value="<%=Resources.labels.save %>" onclick="return SaveProfile()" />
 		        or <a href="Users.aspx"><%=Resources.labels.cancel %></a>
             </div>
 		</div>

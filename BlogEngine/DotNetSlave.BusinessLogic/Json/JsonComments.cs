@@ -66,50 +66,50 @@
             var cntFrom = cntTo - pageSize;
             var cnt = 0;
 
+            var allComments = new List<Comment>();
             var pageComments = new List<JsonComment>();
 
             foreach (var p in Post.Posts)
             {
-                List<Comment> allComments;
                 switch (commentType)
                 {
                     case CommentType.Pending:
-                        allComments = p.NotApprovedComments;
+                        allComments.AddRange(p.NotApprovedComments);
                         break;
                     case CommentType.Pingback:
-                        allComments = p.Pingbacks;
+                        allComments.AddRange(p.Pingbacks);
                         break;
                     case CommentType.Spam:
-                        allComments = p.SpamComments;
+                        allComments.AddRange(p.SpamComments);
                         break;
                     default:
-                        allComments = p.ApprovedComments;
+                        allComments.AddRange(p.ApprovedComments);
                         break;
                 }
+            }
 
-                allComments.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
+            allComments.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
 
-                foreach (var c in allComments)
+            foreach (var c in allComments)
+            {
+                cnt++;
+                if (cnt <= cntFrom || cnt > cntTo)
                 {
-                    cnt++;
-                    if (cnt <= cntFrom || cnt > cntTo)
-                    {
-                        continue;
-                    }
-
-                    var jc = new JsonComment
-                        {
-                            Id = c.Id,
-                            Email = c.Email,
-                            Author = c.Author,
-                            Title = c.Title,
-                            Teaser = c.Teaser,
-                            Ip = c.IP,
-                            Date = c.DateCreated.ToString("dd MMM yyyy"),
-                            Time = c.DateCreated.ToString("t")
-                        };
-                    pageComments.Add(jc);
+                    continue;
                 }
+
+                var jc = new JsonComment
+                {
+                    Id = c.Id,
+                    Email = c.Email,
+                    Author = c.Author,
+                    Title = c.Title,
+                    Teaser = c.Teaser,
+                    Ip = c.IP,
+                    Date = c.DateCreated.ToString("dd MMM yyyy"),
+                    Time = c.DateCreated.ToString("t")
+                };
+                pageComments.Add(jc);
             }
 
             currentPage = page;
