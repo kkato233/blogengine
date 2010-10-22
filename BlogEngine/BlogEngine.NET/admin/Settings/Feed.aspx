@@ -105,7 +105,7 @@
                     <li>
                         <label class="lbl" for="<%=txtGeocodingLongitude.ClientID %>"><%=Resources.labels.longtitude %></label>
                         <asp:TextBox runat="server" ID="txtGeocodingLongitude" Width="150" CssClass="number" />&nbsp;
-                        <input type="button" class="btn rounded" id="findPosition" onclick="geodeAsk()" value="<%=Resources.labels.findPosition %>" style="display: none" />
+                        <input type="button" class="btn" id="findPosition" onclick="geodeAsk()" value="<%=Resources.labels.findPosition %>" style="display: none" />
                         <script type="text/javascript">
                             if (navigator.geolocation) document.getElementById('findPosition').style.display = 'inline';
                         </script>
@@ -117,7 +117,7 @@
                     </li>
                 </ul>
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="primarybtn rounded" value="Save" />
+                <input type="submit" id="btnSave" class="btn primary rounded" value="Save" />
             </div>
        </div>
     </div>

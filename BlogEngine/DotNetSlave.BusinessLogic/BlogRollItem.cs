@@ -124,12 +124,7 @@
 
             set
             {
-                if (this.blogUrl == null || !this.blogUrl.Equals(value))
-                {
-                    this.MarkChanged("BlogUrl");
-                }
-
-                this.blogUrl = value;
+                base.SetValue("BlogUrl", value, ref this.blogUrl);
             }
         }
 
@@ -145,12 +140,7 @@
 
             set
             {
-                if (this.description != value)
-                {
-                    this.MarkChanged("Description");
-                }
-
-                this.description = value;
+                base.SetValue("Description", value, ref this.description);
             }
         }
 
@@ -166,12 +156,7 @@
 
             set
             {
-                if (this.feedUrl == null || !this.feedUrl.Equals(value))
-                {
-                    this.MarkChanged("FeedUrl");
-                }
-
-                this.feedUrl = value;
+                base.SetValue("FeedUrl", value, ref this.feedUrl);
             }
         }
 
@@ -187,12 +172,7 @@
 
             set
             {
-                if (this.sortIndex != value)
-                {
-                    this.MarkChanged("SortIndex");
-                }
-
-                this.sortIndex = value;
+                base.SetValue("SortIndex", value, ref this.sortIndex);
             }
         }
 
@@ -208,12 +188,7 @@
 
             set
             {
-                if (this.title != value)
-                {
-                    this.MarkChanged("Title");
-                }
-
-                this.title = value;
+                base.SetValue("Title", value, ref this.title);
             }
         }
 
@@ -229,12 +204,7 @@
 
             set
             {
-                if (this.xfn != value)
-                {
-                    this.MarkChanged("Xfn");
-                }
-
-                this.xfn = value;
+                base.SetValue("Xfn", value, ref this.xfn);
             }
         }
 

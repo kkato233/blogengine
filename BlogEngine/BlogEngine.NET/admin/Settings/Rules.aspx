@@ -68,7 +68,7 @@
                         <asp:ListItem Text="<%$ Resources:labels, contains %>" Value="Contains" Selected=false></asp:ListItem>
                     </asp:DropDownList>
                     <asp:TextBox ID="txtFilter" runat="server" CssClass="txt" MaxLength="250" Width="300px"></asp:TextBox>
-                    <asp:Button ID="btnAddFilter" class="btn rounded" runat="server" Text="<%$ Resources:labels, addFilter %>" OnClick="btnAddFilter_Click"/>
+                    <asp:Button ID="btnAddFilter" class="btn" runat="server" Text="<%$ Resources:labels, addFilter %>" OnClick="btnAddFilter_Click"/>
                     <span runat="Server" ID="FilterValidation" style="color:Red"></span>
                 </li>
             </ul>
@@ -124,7 +124,7 @@
                         
                         <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
                             <ItemTemplate>
-                                <asp:ImageButton ID="btnDelete" runat="server" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/del.png" OnClick="btnDelete_Click" CommandName="btnDelete" AlternateText="<%=labels.delete%>" />
+                                <asp:ImageButton ID="btnDelete" runat="server" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/action-delete.png" OnClick="btnDelete_Click" CommandName="btnDelete" AlternateText="<%=labels.delete%>" />
                             </ItemTemplate>
                         </asp:TemplateField>
                         </Columns>
@@ -190,7 +190,7 @@
             </div>
 
             <div class="action_buttons">
-                <asp:Button runat="server" class="primarybtn rounded" ID="btnSave" />
+                <asp:Button runat="server" class="btn primary rounded" ID="btnSave" />
                 <span class="loader">&nbsp;</span>
             </div>
             

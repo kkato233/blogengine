@@ -18,8 +18,8 @@
             <div id="Container"></div>
             <div id="Pager"></div>
             <div class="action_buttons">
-                <input type="submit" class="btn rounded" value="Reject Selected" onclick="return ProcessSelected('Reject', 'Approved');" />&nbsp;
-                <input type="submit" class="btn rounded" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Approved');" />&nbsp;
+                <input type="submit" class="btn" value="Reject Selected" onclick="return ProcessSelected('Reject', 'Approved');" />&nbsp;
+                <input type="submit" class="btn" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Approved');" />&nbsp;
                 <span class="loader">&nbsp;</span>
             </div>
 		</div>

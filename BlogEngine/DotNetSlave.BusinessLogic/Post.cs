@@ -78,7 +78,7 @@
         /// <summary>
         ///     Whether the post is published.
         /// </summary>
-        private bool published;
+        private bool isPublished;
 
         /// <summary>
         ///     The raters.
@@ -116,7 +116,7 @@
             this.tags = new StateList<string>();
             this.notificationEmails = new StateList<string>();
             this.DateCreated = DateTime.Now;
-            this.published = true;
+            this.isPublished = true;
             this.hasCommentsEnabled = true;
         }
 
@@ -216,12 +216,7 @@
 
             set
             {
-                if (this.author != value)
-                {
-                    this.MarkChanged("Author");
-                }
-
-                this.author = value;
+                base.SetValue("Author", value, ref this.author);
             }
         }
 
@@ -259,14 +254,17 @@
 
             set
             {
-                if (this.content == value)
-                {
-                    return;
-                }
 
-                this.MarkChanged("Content");
-                HttpContext.Current.Cache.Remove("content_" + this.Id);
-                this.content = value;
+                base.SetValue("Content", value, ref this.content);
+
+                // This is commented out only because I can't find any reference to
+                // this cache item anywhere in the project. So it seems pretty obscure
+                // if it's supposed to be used by plugins or something else.
+
+                //if (base.SetValue("Content", value, ref this.content))
+                //{
+                //    HttpContext.Current.Cache.Remove("content_" + this.Id);
+                //}
             }
         }
 
@@ -282,12 +280,7 @@
 
             set
             {
-                if (this.description != value)
-                {
-                    this.MarkChanged("Description");
-                }
-
-                this.description = value;
+                base.SetValue("Description", value, ref this.description);
             }
         }
 
@@ -358,17 +351,12 @@
         {
             get
             {
-                return this.published;
+                return this.isPublished;
             }
 
             set
             {
-                if (this.published != value)
-                {
-                    this.MarkChanged("Published");
-                }
-
-                this.published = value;
+                base.SetValue("IsPublished", value, ref this.isPublished);
             }
         }
 
@@ -384,12 +372,7 @@
 
             set
             {
-                if (this.raters != value)
-                {
-                    this.MarkChanged("Raters");
-                }
-
-                this.raters = value;
+                base.SetValue("Raters", value, ref this.raters);
             }
         }
 
@@ -405,12 +388,7 @@
 
             set
             {
-                if (this.rating != value)
-                {
-                    this.MarkChanged("Rating");
-                }
-
-                this.rating = value;
+                base.SetValue("Rating", value, ref this.rating);
             }
         }
 
@@ -426,9 +404,9 @@
 
                 return BlogSettings.Instance.TimeStampPostLinks
                            ? string.Format(
-                               "{0}post/{1}{2}", 
-                               Utils.RelativeWebRoot, 
-                               this.DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture), 
+                               "{0}post/{1}{2}",
+                               Utils.RelativeWebRoot,
+                               this.DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture),
                                theslug)
                            : string.Format("{0}post/{1}", Utils.RelativeWebRoot, theslug);
             }
@@ -447,12 +425,7 @@
 
             set
             {
-                if (this.slug != value)
-                {
-                    this.MarkChanged("Slug");
-                }
-
-                this.slug = value;
+                base.SetValue("Slug", value, ref this.slug);
             }
         }
 
@@ -479,12 +452,7 @@
 
             set
             {
-                if (this.title != value)
-                {
-                    this.MarkChanged("Title");
-                }
-
-                this.title = value;
+                base.SetValue("Title", value, ref this.title);
             }
         }
 
@@ -644,12 +612,8 @@
 
             set
             {
-                if (this.hasCommentsEnabled != value)
-                {
-                    this.MarkChanged("hasCommentsEnabled");
-                }
+                base.SetValue("HasCommentsEnabled", value, ref this.hasCommentsEnabled);
 
-                this.hasCommentsEnabled = value;
             }
         }
 
@@ -702,12 +666,11 @@
             var legalAuthor = Utils.RemoveIllegalCharacters(author);
             var list = Posts.FindAll(
                 p =>
-                    {
-                        var legalTitle = Utils.RemoveIllegalCharacters(p.Author);
-                        return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
-                    });
+                {
+                    var legalTitle = Utils.RemoveIllegalCharacters(p.Author);
+                    return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
+                });
 
-            list.TrimExcess();
             return list;
         }
 
@@ -725,7 +688,6 @@
             var cat = Category.GetCategory(categoryId);
             var col = Posts.FindAll(p => p.Categories.Contains(cat));
             col.Sort();
-            col.TrimExcess();
             return col;
         }
 
@@ -744,7 +706,6 @@
         public static List<Post> GetPostsByDate(DateTime dateFrom, DateTime dateTo)
         {
             var list = Posts.FindAll(p => p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
-            list.TrimExcess();
             return list;
         }
 
@@ -760,12 +721,12 @@
         public static List<Post> GetPostsByTag(string tag)
         {
             tag = Utils.RemoveIllegalCharacters(tag);
+
             var list =
                 Posts.FindAll(
                     p =>
                     p.Tags.Any(t => Utils.RemoveIllegalCharacters(t).Equals(tag, StringComparison.OrdinalIgnoreCase)));
 
-            list.TrimExcess();
             return list;
         }
 
@@ -1372,8 +1333,8 @@
                 // process takes place.
                 var unsubscribeLink = this.AbsoluteLink.ToString();
                 unsubscribeLink += string.Format(
-                    "{0}unsubscribe-email={1}", 
-                    unsubscribeLink.Contains("?") ? "&" : "?", 
+                    "{0}unsubscribe-email={1}",
+                    unsubscribeLink.Contains("?") ? "&" : "?",
                     HttpUtility.UrlEncode(email));
 
                 var defaultCulture = Utils.GetDefaultCulture();
@@ -1383,21 +1344,21 @@
                     "<div style=\"font: 11px verdana, arial\">New Comment added by {0}<br /><br />", comment.Author);
                 sb.AppendFormat("{0}<br /><br />", comment.Content.Replace(Environment.NewLine, "<br />"));
                 sb.AppendFormat(
-                    "<strong>{0}</strong>: <a href=\"{1}#id_{2}\">{3}</a><br/>", 
-                    Utils.Translate("post", null, defaultCulture), 
-                    this.PermaLink, 
-                    comment.Id, 
+                    "<strong>{0}</strong>: <a href=\"{1}#id_{2}\">{3}</a><br/>",
+                    Utils.Translate("post", null, defaultCulture),
+                    this.PermaLink,
+                    comment.Id,
                     this.Title);
                 sb.Append("<br />_______________________________________________________________________________<br />");
                 sb.AppendFormat(
                     "<a href=\"{0}\">{1}</a></div>", unsubscribeLink, Utils.Translate("commentNotificationUnsubscribe"));
 
                 var mail = new MailMessage
-                    {
-                        From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name), 
-                        Subject = string.Format("New comment on {0}", this.Title), 
-                        Body = sb.ToString()
-                    };
+                {
+                    From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name),
+                    Subject = string.Format("New comment on {0}", this.Title),
+                    Body = sb.ToString()
+                };
 
                 mail.To.Add(email);
                 Utils.SendMailMessageAsync(mail);

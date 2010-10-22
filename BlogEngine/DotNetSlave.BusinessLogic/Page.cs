@@ -71,7 +71,7 @@
         /// <summary>
         /// The published.
         /// </summary>
-        private bool published;
+        private bool isPublished;
 
         #endregion
 
@@ -146,12 +146,7 @@
 
             set
             {
-                if (this.content != value)
-                {
-                    this.MarkChanged("Content");
-                }
-
-                this.content = value;
+                base.SetValue("Content", value, ref this.content);
             }
         }
 
@@ -167,12 +162,7 @@
 
             set
             {
-                if (this.description != value)
-                {
-                    this.MarkChanged("Description");
-                }
-
-                this.description = value;
+                base.SetValue("Description", value, ref this.description);
             }
         }
 
@@ -188,12 +178,7 @@
 
             set
             {
-                if (this.frontPage != value)
-                {
-                    this.MarkChanged("FrontPage");
-                }
-
-                this.frontPage = value;
+                base.SetValue("IsFrontPage", value, ref this.frontPage);
             }
         }
 
@@ -233,12 +218,7 @@
 
             set
             {
-                if (this.keywords != value)
-                {
-                    this.MarkChanged("Keywords");
-                }
-
-                this.keywords = value;
+                base.SetValue("Keywords", value, ref this.keywords);
             }
         }
 
@@ -255,12 +235,7 @@
 
             set
             {
-                if (this.parent != value)
-                {
-                    this.MarkChanged("Parent");
-                }
-
-                this.parent = value;
+                base.SetValue("Parent", value, ref this.parent);
             }
         }
 
@@ -271,17 +246,12 @@
         {
             get
             {
-                return this.published;
+                return this.isPublished;
             }
 
             set
             {
-                if (this.published != value)
-                {
-                    this.MarkChanged("Published");
-                }
-
-                this.published = value;
+                base.SetValue("IsPublished", value, ref this.isPublished);
             }
         }
 
@@ -310,12 +280,7 @@
 
             set
             {
-                if (this.showInList != value)
-                {
-                    this.MarkChanged("ShowInList");
-                }
-
-                this.showInList = value;
+                base.SetValue("ShowInList", value, ref this.showInList);
             }
         }
 
@@ -337,12 +302,7 @@
 
             set
             {
-                if (this.slug != value)
-                {
-                    this.MarkChanged("Slug");
-                }
-
-                this.slug = value;
+                base.SetValue("Slug", value, ref this.slug);
             }
         }
 
@@ -358,12 +318,7 @@
 
             set
             {
-                if (this.title != value)
-                {
-                    this.MarkChanged("Title");
-                }
-
-                this.title = value;
+                base.SetValue("Title", value, ref this.title);
             }
         }
 
@@ -405,13 +360,21 @@
         /// <summary>
         /// Gets Categories.
         /// </summary>
+        /// <remarks>
+        /// 
+        /// 10/21/10
+        /// This was returning null. I'm not sure what the purpose of that is. An IEnumerable should return
+        /// an empty collection rather than null to indicate that there's nothing there.
+        /// 
+        /// </remarks>
         StateList<Category> IPublishable.Categories
         {
             get
             {
-                return null;
+                return this.categories;
             }
         }
+        private StateList<Category> categories = new StateList<Category>();
 
         #endregion
 
@@ -423,14 +386,7 @@
         /// <returns>The front Page.</returns>
         public static Page GetFrontPage()
         {
-            // foreach (Page page in Pages)
-            // {
-            // if (page.FrontPage)
-            // return page;
-            // }
             return Pages.Find(page => page.IsFrontPage);
-
-            // return null;
         }
 
         /// <summary>
@@ -499,10 +455,7 @@
         protected override void DataDelete()
         {
             BlogService.DeletePage(this);
-            if (Pages.Contains(this))
-            {
-                Pages.Remove(this);
-            }
+            Pages.Remove(this);
         }
 
         /// <summary>
