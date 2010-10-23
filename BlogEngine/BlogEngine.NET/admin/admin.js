@@ -341,7 +341,7 @@ function EditComment(id) {
 
    var dto = { "id": id };
    $.ajax({
-      url: "Approved.aspx/GetComment",
+      url: "../AjaxHelper.aspx/GetComment",
       data: JSON.stringify(dto),
       type: "POST",
       contentType: "application/json; charset=utf-8",
@@ -387,7 +387,7 @@ function SaveComment(obj) {
 
    var dto = { "vals": vals };
    $.ajax({
-      url: "Approved.aspx/SaveComment",
+       url: "../AjaxHelper.aspx/SaveComment",
       data: JSON.stringify(dto),
       type: "POST",
       contentType: "application/json; charset=utf-8",

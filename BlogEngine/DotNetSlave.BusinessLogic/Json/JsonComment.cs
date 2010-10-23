@@ -3,7 +3,6 @@
     using System;
     using System.Globalization;
     using System.Linq;
-    using System.Web.Security;
 
     /// <summary>
     /// Wrapper for Json serializible comment list
@@ -34,7 +33,8 @@
         {
             get
             {
-                BlogEngine.Core.Avatar avatar = BlogEngine.Core.Avatar.GetAvatar(28, Email, null, null, Author);
+                Uri uri = string.IsNullOrEmpty(Website) ? null : new Uri(Website);
+                Avatar avatar = Core.Avatar.GetAvatar(32, Email, uri, null, Author);
                 
                 if (avatar.HasNoImage || string.IsNullOrEmpty(Email) || !Email.Contains("@"))
                 {
@@ -42,7 +42,7 @@
                     return avatar.ImageTag ?? string.Empty;
                 }
 
-                string linkWithImage = "<a href=\"mailto:{2}\" alt=\"{0}\" title=\"{0}\">{1}</a>";
+                const string linkWithImage = "<a href=\"mailto:{2}\" alt=\"{0}\" title=\"{0}\">{1}</a>";
                 return string.Format(CultureInfo.InvariantCulture, linkWithImage, Author, avatar.ImageTag, Email);
             }
         }
@@ -54,7 +54,7 @@
         {
             get
             {
-                return GetChildren(this.Id);
+                return GetChildren(Id);
             }
         }
 
