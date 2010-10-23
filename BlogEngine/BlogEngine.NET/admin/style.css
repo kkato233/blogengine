@@ -386,3 +386,4 @@ label.error {
 .loader { width: 24px;height:24px;display:inline-block;border: 0;position:relative;top:-4px;
     background: url('../pics/ajax-loader.gif') 0px 0px no-repeat;}
 
+.thumb { width: 60px }

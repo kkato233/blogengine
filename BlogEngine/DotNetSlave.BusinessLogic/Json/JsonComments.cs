@@ -103,6 +103,7 @@
                     Id = c.Id,
                     Email = c.Email,
                     Author = c.Author,
+                    Website = c.Website == null ? "" : c.Website.ToString(),
                     Title = c.Title,
                     Teaser = c.Teaser,
                     Ip = c.IP,
