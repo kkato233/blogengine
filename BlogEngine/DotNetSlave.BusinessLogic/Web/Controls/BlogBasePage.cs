@@ -377,7 +377,7 @@
 
             if (this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
-                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, true, true);
+                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, false, true);
             }
 
             if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)

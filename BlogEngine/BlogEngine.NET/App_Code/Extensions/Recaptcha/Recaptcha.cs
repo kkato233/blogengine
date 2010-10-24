@@ -138,9 +138,12 @@
             settings.AddParameter("Theme", "Theme", 20, true, false, ParameterType.DropDown);
             settings.AddValue("Theme", new[] { "red", "white", "blackglass", "clean" }, "white");
 
+            settings.AddParameter("Language", "Language", 5, true, false, ParameterType.DropDown);
+            settings.AddValue("Language", new[] { "en|English", "nl|Dutch", "fr|French", "de|German", "pt|Portuguese", "ru|Russian", "es|Spanish", "tr|Turkish" }, "en");
+
             settings.Help =
                 string.Format(
-                    "\n<script language='javascript' type='text/javascript'>\n{0}\n</script>\nYou can create your own public key at <a href='http://www.Recaptcha.net'>http://www.Recaptcha.net</a>. This is used for communication between your website and the recapcha server.<br /><br />Please rememeber you need to <span style=\"color:red\">enable extension</span> for reCaptcha to show up on the comments form.<br /><br />You can see some statistics on Captcha solving by storing successful attempts. If you're getting spam, this should also confirm that the spammers are at least solving the captcha.<br /><br /><a href='../Pages/RecaptchaLogViewer.aspx' target='_blank' onclick='return showRecaptchaLog()'>Click here to view the log</a>", 
+                    "\n<script type='text/javascript'>\n{0}\n</script>\nYou can create your own public key at <a href='http://www.Recaptcha.net'>http://www.Recaptcha.net</a>. This is used for communication between your website and the recapcha server.<br /><br />Please rememeber you need to <span style=\"color:red\">enable extension</span> for reCaptcha to show up on the comments form.<br /><br />You can see some statistics on Captcha solving by storing successful attempts. If you're getting spam, this should also confirm that the spammers are at least solving the captcha.<br /><br /><a href='../Pages/RecaptchaLogViewer.aspx' target='_blank' onclick='return showRecaptchaLog()'>Click here to view the log</a>", 
                     this.JScript);
             Settings = ExtensionManager.InitSettings("Recaptcha", settings);
 

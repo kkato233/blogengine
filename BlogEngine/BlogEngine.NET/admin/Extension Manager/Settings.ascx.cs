@@ -429,7 +429,12 @@
                     var dd = new DropDownList();
                     foreach (var item in par.Values)
                     {
-                        dd.Items.Add(item);
+                        string[] parts = item.Split('|');
+                        ListItem li = new ListItem();
+                        li.Text = parts.Length == 1 ? parts[0] : parts[1];
+                        li.Value = parts[0];
+
+                        dd.Items.Add(li);
                     }
 
                     dd.SelectedValue = par.SelectedValue;

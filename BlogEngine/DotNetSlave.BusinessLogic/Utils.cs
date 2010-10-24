@@ -282,7 +282,19 @@
                     script.Attributes["defer"] = "defer";
                 }
 
-                page.Header.Controls.Add(script);
+                string itemsKey = "next-script-insert-position";
+                HttpContext context = HttpContext.Current;
+
+                // Inserting scripts in the beginning of the HEAD tag so any user
+                // scripts that may rely on our scripts (jQuery, etc) have these
+                // scripts available to them.  Also maintaining order so subsequent
+                // scripts are added after scripts we already added.
+
+                int? nextInsertPosition = context == null ? null : context.Items[itemsKey] as int?;
+                if (!nextInsertPosition.HasValue) { nextInsertPosition = 0; }
+
+                page.Header.Controls.AddAt(nextInsertPosition.Value, script);
+                if (context != null) { context.Items[itemsKey] = ++nextInsertPosition; }
             }
         }
 

@@ -176,6 +176,11 @@ namespace Controls
         public string Theme { get; set; }
 
         /// <summary>
+        ///     Gets or sets Language.
+        /// </summary>
+        public string Language { get; set; }
+
+        /// <summary>
         ///     Gets or sets UserUniqueIdentifier.
         /// </summary>
         public string UserUniqueIdentifier { get; set; }
@@ -489,6 +494,11 @@ namespace Controls
                 this.Theme = settings.GetSingleValue("Theme");
             }
 
+            if (String.IsNullOrEmpty(this.Language))
+            {
+                this.Language = settings.GetSingleValue("Language");
+            }
+
             if (this.RecaptchaEnabled && this.RecaptchaNecessary)
             {
                 this.skipRecaptcha = false;
@@ -546,7 +556,6 @@ namespace Controls
         {
             output.AddAttribute("type", "text/javascript");
             output.AddAttribute("src", "http://api.recaptcha.net/js/recaptcha_ajax.js");
-            output.AddAttribute("defer", "defer");
             output.RenderBeginTag("script");
             output.RenderEndTag();
 
@@ -565,6 +574,7 @@ namespace Controls
             output.WriteLine("function showRecaptcha() {");
             output.WriteLine("Recaptcha.create('{0}', 'recaptcha_placeholder', {{", this.publicKey);
             output.WriteLine("theme: '{0}',", this.Theme);
+            output.WriteLine("lang: '{0}',", this.Language);
             output.WriteLine("tabindex: {0}", this.TabIndex);
             output.WriteLine("})");
             output.WriteLine("}");
