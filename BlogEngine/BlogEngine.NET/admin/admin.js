@@ -478,7 +478,7 @@ function DeleteAllSpam() {
    return false;
 }
 
-//--------------  POSTS
+//--------------  POSTS AND PAGES
 
 function LoadPosts(pg, type) {
     $.ajax({
@@ -491,6 +491,21 @@ function LoadPosts(pg, type) {
             $('#Container').setTemplateURL('../../Templates/posts.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
             LoadPostsPager(pg, type);
+        }
+    });
+    return false;
+}
+
+function LoadPages(type) {
+    $.ajax({
+        url: "../AjaxHelper.aspx/LoadPages",
+        data: "{'type':'" + type + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/pages.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
         }
     });
     return false;
@@ -531,6 +546,35 @@ function DeletePost(obj) {
                 });
                 ShowStatus("success", rt.Message);
                 LoadPosts(currPage);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    return false;
+}
+
+function DeletePage(obj) {
+    var id = $(obj).closest("tr").attr("id");
+    var srv = $(obj).closest("table").attr("id");
+    var that = $("[id$='" + id + "']");
+    var dto = { "id": id };
+
+    $.ajax({
+        url: "../../Api/Posts.asmx/DeletePage",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $(that).fadeOut(500, function () {
+                    $(that).remove();
+                });
+                ShowStatus("success", rt.Message);
+                LoadPosts('All');
             }
             else {
                 ShowStatus("warning", rt.Message);

@@ -111,7 +111,7 @@ namespace Admin
 
                         // if "page" has its own subfolder (comments, extensions) should 
                         // select parent tab when navigating through child tabs
-                        if (adminNode.Url.IndexOf("/admin/pages/", StringComparison.OrdinalIgnoreCase) == -1 &&
+                        if (adminNode.Url.IndexOf("/admin/pagesxx/", StringComparison.OrdinalIgnoreCase) == -1 &&
                             SubUrl(this.Request.RawUrl) == SubUrl(adminNode.Url))
                         {
                             a.Attributes["class"] = "current";

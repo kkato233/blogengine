@@ -50,7 +50,7 @@
             }
             catch (Exception ex)
             {
-                Utils.Log(string.Format("Api.Posts.Delete: {0}", ex.Message));
+                Utils.Log(string.Format("Api.Posts.DeletePost: {0}", ex.Message));
                 response.Message = string.Format("Could not delete post: {0}", ex.Message);
                 return response;
             }
@@ -59,6 +59,50 @@
             response.Message = "Post deleted";
             return response;
         }
+
+        [WebMethod]
+        public JsonResponse DeletePage(string id)
+        {
+            JsonResponse response = new JsonResponse();
+            response.Success = false;
+
+            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            {
+                response.Message = "Not authorized";
+                return response;
+            }
+
+            if (string.IsNullOrEmpty(id))
+            {
+                response.Message = "Page id is required";
+                return response;
+            }
+
+            try
+            {
+                var page = BlogEngine.Core.Page.GetPage(new Guid(id));
+                if (page == null)
+                {
+                    response.Message = "Error getting page object";
+                    return response;
+                }
+
+                page.Delete();
+                page.Save();
+            }
+            catch (Exception ex)
+            {
+                Utils.Log(string.Format("Api.Posts.DeletePage: {0}", ex.Message));
+                response.Message = string.Format("Could not delete page: {0}", ex.Message);
+                return response;
+            }
+
+            response.Success = true;
+            response.Message = "Page deleted";
+            return response;
+        }
+
+
     }
 
 }
