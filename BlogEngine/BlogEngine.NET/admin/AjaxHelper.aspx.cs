@@ -1,16 +1,18 @@
-﻿namespace Admin.Comments
+﻿namespace Admin
 {
     using System;
     using System.Collections;
     using System.Web.Services;
-    using System.Security;
     using System.Web;
+    using System.Collections.Generic;
 
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     public partial class AjaxHelper : System.Web.UI.Page
     {
+        
+
         [WebMethod]
         public static JsonComment GetComment(string id)
         {
@@ -18,7 +20,7 @@
             {
                 return null;
             }
-            return JsonComments.GetComment(new System.Guid(id));
+            return JsonComments.GetComment(new Guid(id));
         }
 
         [WebMethod]
@@ -28,7 +30,7 @@
             {
                 return null;
             }
-            Guid gId = new Guid(vals[0]);
+            var gId = new Guid(vals[0]);
             string author = vals[1];
             string email = vals[2];
             string website = vals[3];
@@ -52,6 +54,18 @@
             }
 
             return new JsonComment();
+        }
+
+        [WebMethod]
+        public static IEnumerable LoadPosts(int pageSize, int page, string  type)
+        {
+            return JsonPosts.GetPosts(pageSize, page, type);
+        }
+
+        [WebMethod]
+        public static string LoadPostPager(int pageSize, int page, string type)
+        {
+            return JsonPosts.GetPager(pageSize, page, type);
         }
 
     }

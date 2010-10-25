@@ -137,7 +137,7 @@
                     <li>
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbAllowRemoteFileDownloads" /><label for="<%=cbAllowRemoteFileDownloads.ClientID %>"><%=Resources.labels.allowRemoteFileDownloads %></label>
-                        <label><%=Resources.labels.allowRemoteFileDownloadsDescription%></label></span>
+                        <span class="insetHelp"><%=Resources.labels.allowRemoteFileDownloadsDescription%></span>
                     </li>
                 </ul>
             <div class="action_buttons">
