@@ -6,7 +6,7 @@
     /// <summary>
     /// Builds the recaptcha control ( http://www.Recaptcha.net )
     /// </summary>
-    [Extension("Settings for the Recaptcha control", "1.0", "<a href=\"http://www.bloodforge.com\">Bloodforge.com</a>")]
+    [Extension("Settings for the Recaptcha control", "1.1", "<a href=\"http://www.bloodforge.com\">Bloodforge.com</a>")]
     public class Recaptcha
     {
         #region Constructors and Destructors
