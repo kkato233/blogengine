@@ -6,8 +6,8 @@
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $(".showSettings").colorbox({ width: "50%", inline: true, href: "#blogrollSettings" });
-            $(".addNew").colorbox({ width: "80%", inline: true, href: "#addBlogroll" });
+            $(".showSettings").colorbox({ width: "600px", inline: true, href: "#blogrollSettings" });
+            $(".addNew").colorbox({ width: "620px", inline: true, href: "#addBlogroll" });
         });
 
         function closeOverlay() {
@@ -46,14 +46,14 @@
                     <li style="float:left; margin:0 20px 0 0;">
                         <asp:Label runat="server" AssociatedControlID="txtMaxLength" CssClass="lbl" Text='<%$ Code: Resources.labels.maxLengthOfItems %>' />
                         <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
-                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength"
+                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength" Display="Dynamic"
                             Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
                     </li>
                     <li style="float:left; margin:0 20px 0 0;">
                         <asp:Label runat="server" AssociatedControlID="txtUpdateFrequency" CssClass="lbl"
                             Text='<%$ Code: Resources.labels.updateFrequenzy %>' />
                         <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
-                        <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency"
+                        <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency"  Display="Dynamic"
                             Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
                     </li>
                 </ul>
@@ -63,10 +63,8 @@
             </div>
 
             <div style="display:none;">
-            <div id="addBlogroll" class="overlaypanel">
-                <h2><%=Resources.labels.add %> blog information</h2>
-                <div style="overflow:hidden">
-                    <div style="float:left; margin-right:20px;">
+                <div id="addBlogroll" class="overlaypanel">
+                    <h2><%=Resources.labels.add %> blog information</h2>
                     <ul class="fl">
                         <li>
                             <asp:Label runat="server" AssociatedControlID="txtTitle" CssClass="lbl" Text='<%$ Code: Resources.labels.title %>' />
@@ -98,36 +96,34 @@
                                 ErrorMessage="<%$Resources:labels,invalid %>" Display="Dynamic" EnableClientScript="false" OnServerValidate="validateFeedUrl"
                                 ValidationGroup="addnew"></asp:CustomValidator>
                         </li>
+                        <li>
+                            <asp:Label runat="server" AssociatedControlID="cblXfn" CssClass="lbl" Text="XFN tag" />
+                            <asp:CheckBoxList runat="server" ID="cblXfn" CssClass="nowidth" RepeatLayout="Table" RepeatDirection="Horizontal" RepeatColumns="6" >
+                                <asp:ListItem Text="contact" />
+                                <asp:ListItem Text="acquaintance " />
+                                <asp:ListItem Text="friend " />
+                                <asp:ListItem Text="met" />
+                                <asp:ListItem Text="co-worker" />
+                                <asp:ListItem Text="colleague " />
+                                <asp:ListItem Text="co-resident" />
+                                <asp:ListItem Text="neighbor " />
+                                <asp:ListItem Text="child" />
+                                <asp:ListItem Text="parent" />
+                                <asp:ListItem Text="sibling" />
+                                <asp:ListItem Text="spouse" />
+                                <asp:ListItem Text="kin" />
+                                <asp:ListItem Text="muse" />
+                                <asp:ListItem Text="crush" />
+                                <asp:ListItem Text="date" />
+                                <asp:ListItem Text="sweetheart" />
+                                <asp:ListItem Text="me" />
+                            </asp:CheckBoxList>
+                        </li>
                     </ul>
-                    </div>
-                    <div style="float:left;">
-                        <asp:Label runat="server" AssociatedControlID="cblXfn" CssClass="lbl" Text="XFN tag" />
-                        <asp:CheckBoxList runat="server" ID="cblXfn" CssClass="nowidth" RepeatColumns="4">
-                            <asp:ListItem Text="contact" />
-                            <asp:ListItem Text="acquaintance " />
-                            <asp:ListItem Text="friend " />
-                            <asp:ListItem Text="met" />
-                            <asp:ListItem Text="co-worker" />
-                            <asp:ListItem Text="colleague " />
-                            <asp:ListItem Text="co-resident" />
-                            <asp:ListItem Text="neighbor " />
-                            <asp:ListItem Text="child" />
-                            <asp:ListItem Text="parent" />
-                            <asp:ListItem Text="sibling" />
-                            <asp:ListItem Text="spouse" />
-                            <asp:ListItem Text="kin" />
-                            <asp:ListItem Text="muse" />
-                            <asp:ListItem Text="crush" />
-                            <asp:ListItem Text="date" />
-                            <asp:ListItem Text="sweetheart" />
-                            <asp:ListItem Text="me" />
-                        </asp:CheckBoxList>
-                    </div>
-                </div>
-                <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary rounded" OnClientClick="closeOverlay();" /> 
-                or <a href="#" onclick="closeOverlay();">cancel</a>
+                    <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary rounded" OnClientClick="closeOverlay();" /> 
+                    or <a href="#" onclick="closeOverlay();">cancel</a>
 
-            </div>
+                </div>
             </div>
 
             <asp:GridView runat="server" ID="grid" BorderColor="#f8f8f8" BorderStyle="solid"

@@ -476,6 +476,68 @@ function DeleteAllSpam() {
    });
    $('.loader').hide();
    return false;
+}
+
+//--------------  POSTS
+
+function LoadPosts(pg, type) {
+    $.ajax({
+        url: "../AjaxHelper.aspx/LoadPosts",
+        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/posts.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+            LoadPostsPager(pg, type);
+        }
+    });
+    return false;
+}
+
+function LoadPostsPager(pg, type) {
+    $.ajax({
+        url: "../AjaxHelper.aspx/LoadPostPager",
+        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Pager').html(msg.d);
+        }
+    });
+    return false;
+}
+
+function DeletePost(obj) {
+    var id = $(obj).closest("tr").attr("id");
+    var srv = $(obj).closest("table").attr("id");
+    var that = $("[id$='" + id + "']");
+    var dto = { "id": id };
+    var currPage = $('#PagerCurrentPage').html();
+
+    $.ajax({
+        url: "../../Api/Posts.asmx/DeletePost",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $(that).fadeOut(500, function () {
+                    $(that).remove();
+                });
+                ShowStatus("success", rt.Message);
+                LoadPosts(currPage);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    return false;
 }
 
 //--------------HELPERS AND MISC

@@ -31,6 +31,7 @@ namespace Admin.Tracking
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            infoPanel.Visible = false;
             if (BlogSettings.Instance.EnableReferrerTracking)
             {
                 this.BindDays();
@@ -39,6 +40,7 @@ namespace Admin.Tracking
             else
             {
                 this.ddlDays.Enabled = false;
+                infoPanel.Visible = true;
             }
 
             this.txtNumberOfDays.Text = BlogSettings.Instance.NumberOfReferrerDays.ToString();
@@ -116,6 +118,11 @@ namespace Admin.Tracking
 
             BindTable(table, this.grid);
             BindTable(spamTable, this.spamGrid);
+
+            if (table.Rows.Count < 1)
+            {
+                infoPanel.Visible = true;
+            }
         }
 
         /// <summary>
@@ -140,6 +147,9 @@ namespace Admin.Tracking
             {
                 gridview.FooterRow.Cells[0].Text = labels.Referrers_BindTable_Total;
                 gridview.FooterRow.Cells[gridview.FooterRow.Cells.Count - 1].Text = total;
+            }
+            else
+            {
             }
 
             PaintRows(gridview, 3);

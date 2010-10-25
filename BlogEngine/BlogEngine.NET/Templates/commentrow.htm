@@ -1,9 +1,8 @@
 ﻿
 <td><input type="checkbox" {#if $T.d.HasChildred} disabled {#/if} class="chk"/></td>
 <td>{$T.d.Avatar}</td>
-<td>{$T.d.Title}</td>
-<td>{$T.d.Teaser}</td>
+<td><span class="commenttitle">{$T.d.Title}</span>{$T.d.Teaser}</td>
 <td>{$T.d.Ip}</td>
 <td><span class="comment_date">{$T.d.Date}</span><span class="comment_time">{$T.d.Time}</span></td>
-<td align="center" style="vertical-align:middle"><a href="#" onclick="return EditComment('{$T.d.Id}');">Edit</a></td>
-<td align="center" style="vertical-align:middle">{#if $T.d.HasChildred == false}<a href="#" onclick="return DeleteComment('{$T.d.Id}');">Delete</a>{#/if}</td>
+<td class="btnRowEdit" align="center"><a href="#" onclick="return EditComment('{$T.d.Id}');">Edit</a></td>
+<td class="btnRowDelete" align="center">{#if $T.d.HasChildred == false}<a href="#" onclick="return DeleteComment('{$T.d.Id}');">Delete</a>{#/if}</td>

@@ -46,6 +46,9 @@
                     }
 
                     setTimeout("AutoSave()", 5000);
+
+                    var currentDate = new Date()
+                    document.getElementById('autoSaveLabel').innerHTML = "Autosaved on " + currentDate;
                 }
 
                 document.body.onkeypress = ESCclose;
@@ -70,7 +73,62 @@
                     else
                         element.style.display = "none";
                 }
+                function toggleAutomaticDate() {
+                    var element = document.getElementById('rbtManual');
+                    var panel = document.getElementById('datePanel');
+                    if (element.checked) {
+                        panel.style.display = "block";
+                    }
+                    else {
+                        panel.style.display = "none";
+                    }
+                }
             </script>
+
+            <script type="text/javascript" src="../jquery.colorbox.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#uploadImage").colorbox({ width: "550px", inline: true, href: "#uploadImagePanel" });
+                    $("#uploadFile").colorbox({ width: "550px", inline: true, href: "#uploadFilePanel" });
+                });
+
+                function closeOverlay() {
+                    $.colorbox.close();
+                }
+            </script>
+
+            <div style="display:none;">
+                <div id="uploadImagePanel" class="overlaypanel">
+                    <h2><%=Resources.labels.uploadImage %></h2>
+                    <ul class="fl" style="margin:0;">
+                        <li>
+                            <asp:Label ID="lblFileUpload" CssClass="lbl" AssociatedControlID="txtUploadImage" runat="server" Text='Choose image you wish to upload' />
+                            <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" ValidationGroup="imageupload" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
+                                ValidationGroup="imageupload" />
+                        </li>
+                        <li style="margin:0;">
+                            <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
+                                ValidationGroup="imageupload" CssClass="btn primary" /> or <a href="#" onclick="closeOverlay();">cancel</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="uploadFilePanel" class="overlaypanel">
+                    <h2><%=Resources.labels.uploadFile%></h2>
+                    <ul class="fl" style="margin:0;">
+                        <li>
+                            <asp:Label ID="Label1" CssClass="lbl" AssociatedControlID="txtUploadFile" runat="server" Text='Choose image you wish to upload' />
+                            <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>"
+                                ValidationGroup="fileUpload" />
+                        </li>
+                        <li style="margin:0;">
+                            <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
+                                ValidationGroup="fileUpload" CssClass="btn primary" /> or <a href="#" onclick="closeOverlay();">cancel</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
             <table class="tblForm largeForm" style="width:100%; margin:0;">
                 <tr>
@@ -83,34 +141,15 @@
                                     ErrorMessage="<%$Resources:labels,enterTitle %>" Display="Dynamic" />
                             </li>
                             <li>
-                                <asp:CheckBox runat="server" ID="cbUseRaw" Text="<%$Resources:labels,useRawHtmlEditor %>"
-                                    AutoPostBack="true" />
+                                <div class="editToolbar">
+                                    <asp:CheckBox runat="server" ID="cbUseRaw" Text="<%$Resources:labels,useRawHtmlEditor %>"
+                                        AutoPostBack="true" />
+                                    <a href="#" id="uploadImage">Insert image</a>
+                                    <a href="#" id="uploadFile">Upload file</a>
+                                </div>
                                 <Blog:TextEditor runat="server" id="txtContent" />
                                 <asp:TextBox runat="server" ID="txtRawContent" Width="98%" TextMode="multiLine"
                                     Height="400px" Visible="false" />
-
-                                <%--<a href="#">Upload image</a>
-                                <a href="#">Upload file</a>--%>
-                            </li>
-                            <li>
-                                <div id="uploadImagePanel">
-                                    <asp:Label ID="lblFileUpload" CssClass="lbl" AssociatedControlID="txtUploadImage" runat="server" Text='<%$Resources:labels,uploadImage %>' />
-                                    <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" ValidationGroup="imageupload" />
-                                    <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
-                                        ValidationGroup="imageupload" CssClass="btn" />
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
-                                        ValidationGroup="imageupload" />
-                                </div>
-                            </li>
-                            <li>
-                                <div id="uploadFilePanel">
-                                    <asp:Label ID="Label1" CssClass="lbl" AssociatedControlID="txtUploadFile" runat="server" Text='<%$Resources:labels,uploadFile %>' />
-                                    <asp:FileUpload runat="server" ID="txtUploadFile" Width="400" size="50" />
-                                    <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
-                                        ValidationGroup="fileUpload" CssClass="btn" />
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>"
-                                        ValidationGroup="fileUpload" />
-                                </div>
                             </li>
                             <li>
                                 <asp:Label ID="Label2" CssClass="lbl" AssociatedControlID="txtSlug" runat="server" Text='<%$Resources:labels,slug %>' />
@@ -127,13 +166,15 @@
                                 <label class="lbl">Options</label>
                                 <asp:CheckBox runat="server" ID="cbEnableComments" Text="<%$ Resources:labels, enableComments %>"
                                     Checked="true" />
-                                <asp:CheckBox runat="server" ID="cbPublish" Text="<%$ Resources:labels, publish %>"
-                                    Checked="true" />
                             </li>
+                            <li>
+                                 <asp:CheckBox runat="server" ID="cbPublish" Text="<%$ Resources:labels, publish %>"
+                                    Checked="true" />
+                           </li>
                         </ul>
                         <div class="action_buttons">
                             <asp:Button runat="server" ID="btnSave" CssClass="btn primary rounded" />
-                            <span>Autosaved on 22:13</span>
+                            <span id="autoSaveLabel"></span>
                         </div>
                     </td>
                     <td class="secondaryForm" style="padding:0; vertical-align:top;">
@@ -143,17 +184,17 @@
                                 <asp:DropDownList runat="Server" ID="ddlAuthor" />
                             </li>
                             <li>
-                                <asp:Label CssClass="lbl" AssociatedControlID="txtDate" runat="server" Text='<%$ Code: Resources.labels.date %>' />
-                                <asp:TextBox runat="server" ID="txtDate" Width="170" />
-                                <asp:TextBox runat="server" ID="txtTime" Width="50" />
-                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"
-                                    ErrorMessage="<%$Resources:labels,enterValidDate %>" Display="dynamic" />
-                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDate" ErrorMessage="<%$Resources:labels,enterDate %>"
-                                    Display="Dynamic" />
-                                <asp:RegularExpressionValidator ID="RegularExpressionTimeValidator" runat="server" ControlToValidate="txtTime" ValidationExpression="[0-9][0-9]:[0-9][0-9]"
-                                    ErrorMessage="<%$Resources:labels,enterValidDate %>" Display="dynamic" />
-                                <asp:RequiredFieldValidator ID="RequiredFieldTimeValidator" runat="server" ControlToValidate="txtTime" ErrorMessage="<%$Resources:labels,enterDate %>"
-                                    Display="Dynamic" />
+                                <asp:Label CssClass="lbl" AssociatedControlID="txtDate" runat="server" Text='Set publish date' />
+                                <input type="radio" name="PublishDate" id="rbtAuto" onclick="toggleAutomaticDate()" checked="checked" /><label for="rbtAuto">Automatically</label>
+                                <input type="radio" name="PublishDate" id="rbtManual" onclick="toggleAutomaticDate()" /><label for="rbtManual">Manually</label>
+                                <div id="datePanel" style="display:none;">
+                                    <asp:TextBox runat="server" ID="txtDate" Width="170" />
+                                    <asp:TextBox runat="server" ID="txtTime" Width="50" />
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtDate" ValidationExpression="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]"
+                                        ErrorMessage="<%$Resources:labels,enterValidDate %>" Display="dynamic" />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDate" ErrorMessage="<%$Resources:labels,enterDate %>"
+                                        Display="Dynamic" />
+                                </div>
                             </li>
                             <li>
                                 <label class="lbl"><%=Resources.labels.categories %></label>

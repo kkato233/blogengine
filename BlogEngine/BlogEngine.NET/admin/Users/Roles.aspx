@@ -44,7 +44,7 @@
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $(".addNew").colorbox({ width: "50%", inline: true, href: "#frmAddNew" });
+            $(".addNew").colorbox({ width: "300px", inline: true, href: "#frmAddNew" });
         });
 
         function closeOverlay() {
