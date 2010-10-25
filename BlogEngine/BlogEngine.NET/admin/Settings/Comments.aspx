@@ -116,7 +116,7 @@
                 <li>
                     <label class="lbl">Turn Disqus on or off</label>
                     <asp:CheckBox runat="server" ID="cbEnableDisqus" />
-                    <label for="<%=cbEnableDisqus.ClientID %>">Switch comments to Disqus</label>
+                    <label for="<%=cbEnableDisqus.ClientID %>">Use Disqus as a comment provider</label>
                 </li>
                 <li>
                     <label class="lbl" for="<%=txtDisqusName.ClientID %>"><%=labels.disqusShortName %></label>

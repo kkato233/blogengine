@@ -33,7 +33,7 @@ label.wide {float: left;display: block;}
 /* ------------------------------*/
 .header {width: 100%; height: 60px; min-width:980px;}
 .toolbox {width: 450px; float:right; overflow:hidden; text-align: right; margin-top:20px; margin-right:40px; }
-.be-logo { background: url( '../pics/logo.png' ) 40px 0px no-repeat; height: 60px;  margin: 0; float: left; width:200px;}
+.be-logo { background: url( '../pics/logo.png' ) 40px 0px no-repeat; height: 60px;  margin: 0; float: left; }
 .be-logo span { position: relative; top: 20px; left: 210px; font-size:18px; font-weight:bold; }
 
 /* Content */
@@ -69,9 +69,11 @@ label.wide {float: left;display: block;}
 .content-box-right ul li { float:left;}    
 .content-box-right li a { text-decoration: none; padding:10px 10px 10px 20px; display:block; color:#000;
     border-top: 1px solid transparent; border-bottom: 1px solid transparent; width:150px;}
-.content-box-right li.content-box-selected a { background: #FFF;  font-weight: bold; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; 
+.content-box-right li.content-box-selected a { background-color: #FFF;  font-weight: bold; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; 
     border-right: 1px solid #ccc;}
-.content-box-right a:hover {background: #FFF; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;}
+.content-box-right a:hover {background-color: #FFF; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;}
+.content-box-right a.new { background-image: url("images/action-add.png"); background-repeat: no-repeat; background-position:20px center;
+                           padding-left:40px; width:130px;  }
 
 /* Forms */
 /* ------------------------------*/
@@ -125,6 +127,8 @@ label.lbl { display:block; margin:0 0 5px 0;}
 #tagselector a.close { float:right; display:block; width:14px; height:14px; margin:1px; padding:0;
     background: transparent url("images/action-delete.png") no-repeat scroll center center;}
 .autosaveMsg { font-style:italic; color:#dcdcdc;}
+.editToolbar { margin:0 0 5px;}
+.editToolbar a { float:right; margin-left:10px;}
 
 /* Tables */
 /* ------------------------------*/
@@ -135,7 +139,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
 
 /* Sliding panels */
 /* ------------------------------*/
-.addNew {float:right; font-size:13px; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px;
+.addNew {float:right; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px;
          background: transparent url("images/action-add.png") no-repeat scroll left center;  }
 .showSettings {float:right; font-size:13px; font-weight:normal; padding: 5px 10px 5px 18px; margin-left:20px;
          background: transparent url("images/action-settings.png") no-repeat scroll left center;}
@@ -147,8 +151,9 @@ label.lbl { display:block; margin:0 0 5px 0;}
 /* Messages  */
 /* ------------------------------*/
 #StatusBox { padding: 0; margin: 0; position: fixed; top: 0px; left:0px; right:0px; display:block; z-index: 999;}
-.success, .warning, .validation { border: 1px solid #ccc; margin: 0; padding:10px 10px 10px 60px; background-repeat: no-repeat;
+.success, .warning, .validation, .info { border: 1px solid #ccc; margin: 0 0 20px; padding:10px 10px 10px 60px; background-repeat: no-repeat;
     background-position: 25px 7px;}
+.info { color:#555; background-color: #ddeaff; background-image: url(images/status-info.png);border:solid 1px #8bb9ff; }
 .success { color: #555; background-color: #c6f7a5; background-image: url('images/status-success.png'); border:solid 1px #55b51d; }
 .warning { color: #555; background-color: #fcff9e; background-image: url('images/status-warning.png'); border:solid 1px #c99900; }
 
@@ -296,12 +301,6 @@ table.referrer caption {
 
 /*-------------*/
 
-.info {
-	background: url(images/status-info.png) 10px 15px no-repeat;
-	padding:10px 10px 10px 40px;
-	border: 1px solid #ccc; 
-	margin:0 0 20px;
-}
 
 /* Extension settings */
 .mgr input, .mgr select {
