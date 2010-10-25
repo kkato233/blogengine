@@ -69,7 +69,7 @@
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $(".addNew").colorbox({ width: "50%", inline: true, href: "#frmAddNew" });
+            $(".addNew").colorbox({ width: "550px", inline: true, href: "#frmAddNew" });
         });
 
         function closeOverlay() {
@@ -85,9 +85,10 @@
             </ul>
 		</div>
 		<div class="content-box-left">
-            <h1><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h1>
+            <h2><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h2>
             <div style="display:none;">
             <div id="frmAddNew" class="overlaypanel" >
+                <h2>Add new user</h2>
                 <table class="tblForm">
                     <tr>
                         <td>

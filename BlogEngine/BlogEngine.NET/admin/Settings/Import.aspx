@@ -16,24 +16,22 @@
             <h2><%=Resources.labels.import %></h2>
             <ul class="fl leftaligned">
                 <li>
-                    <input type="button" class="btn rounded" value="<%=Resources.labels.import %>" onclick="location.href='http://dotnetblogengine.net/clickonce/blogimporter/blog.importer.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=Page.User.Identity.Name %>'" />
-                    <label>Run click-once application to import content saved as BlogML or RSS 2.0 into your blog. Internet Explorer only.</label>
+                    <label class="lbl">Run click-once application to import content saved as BlogML or RSS 2.0 into your blog. <i>Internet Explorer only.</i></label>
+                    <input type="button" class="btn rounded" value="<%=Resources.labels.import %> with click-once" onclick="location.href='http://dotnetblogengine.net/clickonce/blogimporter/blog.importer.application?url=<%=Utils.AbsoluteWebRoot %>&username=<%=Page.User.Identity.Name %>'" />
                 </li>
-                <li>OR</li>
+                <li><strong>OR</strong></li>
                 <li>
-                    <asp:FileUpload runat="server" CssClass="btn rounded" ID="txtUploadFile" Width="300" />
-                </li>
-                <li>
-                    <asp:Button ID="btnBlogMLImport" runat="server" CssClass="btn rounded" Text="<%$Resources:labels,import %>" OnClick="BtnBlogMlImportClick" />
-                    <label>Select saved BlogML file and import it into your blog. Any browser, BlogML only.</label>
+                    <label class="lbl">Select saved BlogML file and import it into your blog. Any browser, BlogML only.</label>
+                    <asp:FileUpload runat="server" ID="txtUploadFile" Width="300" style="margin:0 0 5px;" /><br />
+                    <asp:Button ID="btnBlogMLImport" runat="server" CssClass="btn rounded" Text="Import from file" OnClick="BtnBlogMlImportClick" />
                 </li>
             </ul>
             
             <h2><%=Resources.labels.export %></h2>
             <ul class="fl leftaligned">
                 <li>
-                    <input type="button" class="btn rounded" value="<%=Resources.labels.export %>" onclick="location.href='blogml.axd'" />
-                    <label>Export your blog's content into XML file (BlogML)</label>
+                    <label class="lbl">Export your blog's content into XML file (BlogML)</label>
+                    <input type="button" class="btn rounded" value="<%=Resources.labels.export %> and save" onclick="location.href='blogml.axd'" />
                 </li>
             </ul>
 

@@ -7,22 +7,22 @@
                 <h2>Statistics</h2>
                     <ul>
                         <li>
-                            135 Posts <a href="#">View all</a>
+                            <%=PostsPublished%> Posts <a href="Posts/Posts.aspx">View all</a>
                         </li>
                         <li>
-                            5 Pages <a href="#">View all</a>
+                            <%=PagesCount%> Pages <a href="Pages/Pages.aspx">View all</a>
                         </li>
                         <li>
-                            3560 Comments <a href="#">View all</a>
+                            <%=CommentsAll%> Comments <a href="Comments/Approved.aspx">View all</a>
                         </li>
                         <li>
-                            5 Categories <a href="#">View all</a>
+                            <%=CategoriesCount%> Categories <a href="Posts/Categories.aspx">View all</a>
                         </li>
                         <li>
-                            200 Tags <a href="#">View all</a>
+                            <%=TagsCount%> Tags <a href="#">View all</a>
                         </li>
                         <li>
-                            7 Users <a href="#">View all</a>
+                            <%=UsersCount%> Users <a href="Users/Users.aspx">View all</a>
                         </li>
                     </ul>
             </div>
