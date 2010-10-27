@@ -12,39 +12,46 @@
     public partial class Spam : Page
     {
         /// <summary>
+        /// Number of comments in the list
+        /// </summary>
+        protected static int CommentCounter { get; set; }
+
+        /// <summary>
         /// Loads the comments.
         /// </summary>
-        /// <param name="PageSize">
+        /// <param name="pageSize">
         /// Size of the page.
         /// </param>
-        /// <param name="Page">
+        /// <param name="page">
         /// The page number.
         /// </param>
         /// <returns>
         /// An enumerable of comments.
         /// </returns>
         [WebMethod]
-        public static IEnumerable LoadComments(int PageSize, int Page)
+        public static IEnumerable LoadComments(int pageSize, int page)
         {
-            return JsonComments.GetComments(CommentType.Spam, PageSize, Page);
+            var commentList = JsonComments.GetComments(CommentType.Spam, pageSize, page);
+            CommentCounter = commentList.Count;
+            return commentList;
         }
 
         /// <summary>
         /// Loads the pager.
         /// </summary>
-        /// <param name="PageSize">
+        /// <param name="pageSize">
         /// Size of the page.
         /// </param>
-        /// <param name="Page">
+        /// <param name="page">
         /// The page number.
         /// </param>
         /// <returns>
         /// The pager.
         /// </returns>
         [WebMethod]
-        public static string LoadPager(int PageSize, int Page)
+        public static string LoadPager(int pageSize, int page)
         {
-            return JsonComments.GetPager(PageSize, Page, "Spam.aspx");
+            return JsonComments.GetPager(pageSize, page, "Spam.aspx");
         }
     }
 }

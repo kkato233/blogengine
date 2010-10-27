@@ -16,9 +16,9 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
 
         function SavePage() {
             $('.loader').show();
-            tinyMCE.triggerSave();
 
             var content = tinyMCE.activeEditor.getContent();
+
             if (content.length == 0) content = '[No text]';
 
             var title = $("[id$='txtTitle']").val();
@@ -66,6 +66,52 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
             return false;
         }
     </script>
+
+    <script type="text/javascript" src="../jquery.colorbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#uploadImage").colorbox({ width: "550px", inline: true, href: "#uploadImagePanel" });
+            $("#uploadFile").colorbox({ width: "550px", inline: true, href: "#uploadFilePanel" });
+        });
+
+        function closeOverlay() {
+            $.colorbox.close();
+        }
+    </script>
+
+    <div style="display:none;">
+        <div id="uploadImagePanel" class="overlaypanel">
+            <h2><%=Resources.labels.uploadImage %></h2>
+            <ul class="fl" style="margin:0;">
+                <li>
+                    <label class="lbl"><%=Resources.labels.uploadImage %></label>
+                    <asp:FileUpload runat="server" ID="txtUploadImage" size="50" />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
+                        ValidationGroup="imageupload" />
+                </li>
+                <li style="margin:0;">
+                    <asp:Button CssClass="btn primary" runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
+                        ValidationGroup="imageupload" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                </li>
+            </ul>
+        </div>
+        <div id="uploadFilePanel" class="overlaypanel">
+            <h2><%=Resources.labels.uploadFile%></h2>
+            <ul class="fl" style="margin:0;">
+                <li>
+                    <label class="lbl"><%=Resources.labels.uploadFile %></label>
+                    <asp:FileUpload runat="server" ID="txtUploadFile" size="50" />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>"
+                        ValidationGroup="fileUpload" />
+                </li>
+                <li style="margin:0;">
+                    <asp:Button CssClass="btn primary" runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
+                        ValidationGroup="fileUpload" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <div class="content-box-full">
         <h1>Edit page</h1>
         <table class="tblForm largeForm" style="width:100%; margin:0;">
@@ -80,23 +126,11 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                                 ErrorMessage="<%$Resources:labels,enterTitle %>" />
                         </li>
                         <li>
+                            <div class="editToolbar">
+                                <a href="#" id="uploadImage" class="image">Insert image</a>
+                                <a href="#" id="uploadFile" class="file">Attach file</a>
+                            </div>
                             <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
-                        </li>
-                        <li>
-                            <label class="lbl"><%=Resources.labels.uploadImage %></label>
-                            <asp:FileUpload runat="server" ID="txtUploadImage" size="50" />
-                            <asp:Button CssClass="btn" runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="imageupload" />
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
-                                ValidationGroup="imageupload" />
-                        </li>
-                        <li>
-                            <label class="lbl"><%=Resources.labels.uploadFile %></label>
-                            <asp:FileUpload runat="server" ID="txtUploadFile" size="50" />
-                            <asp:Button CssClass="btn" runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="fileUpload" />
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtUploadFile" ErrorMessage="<%$ Resources:labels, required %>"
-                                ValidationGroup="fileUpload" />
                         </li>
                         <li>
                             <label class="lbl" for="<%=txtSlug.ClientID %>"><%=Resources.labels.slug %></label>

@@ -1,3 +1,8 @@
+{#if $T.d.length == 0}
+<div class="info">
+    You haven't added any user so far. To add a new user use the link in the top right corner of the page.
+</div>
+{#else}
 <table id="UserService" class="beTable rounded">
   <thead>
     <tr>
@@ -15,10 +20,11 @@
 	  <td><input type="checkbox" name="chk"{$T.post.UserName} class="chk"/></td>
       <td>{$T.post.UserName}</td>
       <td class="editable">{$T.post.Email}</td>
-      <td align="center" style="vertical-align:middle"><a href="#" class="editButton">Edit</a></td>
-	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton">Delete</a></td>
+      <td align="center" style="vertical-align:middle"><a href="#" class="editButton editAction">Edit</a></td>
+	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton deleteAction">Delete</a></td>
 	  <td align="center" style="vertical-align:middle"><a href="Profile.aspx?id={$T.post.UserName}">Profile</a></td>
     </tr>
     {#/for}
   </tbody>
 </table>
+{#/if}

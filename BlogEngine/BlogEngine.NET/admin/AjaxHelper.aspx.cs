@@ -1,4 +1,6 @@
-﻿namespace Admin
+﻿using System.IO;
+
+namespace Admin
 {
     using System;
     using System.Collections;
@@ -57,9 +59,9 @@
         }
 
         [WebMethod]
-        public static IEnumerable LoadPosts(int pageSize, int page, string  type)
+        public static IEnumerable LoadPosts(int pageSize, int page, string  type, string val)
         {
-            return JsonPosts.GetPosts(pageSize, page, type);
+            return JsonPosts.GetPosts(pageSize, page, type, val);
         }
 
         [WebMethod]
@@ -72,6 +74,95 @@
         public static string LoadPostPager(int pageSize, int page, string type)
         {
             return JsonPosts.GetPager(pageSize, page, type);
+        }
+
+        [WebMethod]
+        public static JsonResponse SavePost(
+            string id,
+            string content,
+            string title,
+            string desc,
+            string slug,
+            string tags,
+            string author,
+            bool isPublished,
+            bool hasCommentsEnabled,
+            string cats,
+            string date,
+            string time)
+        {
+            var response = new JsonResponse { Success = false };
+            var settings = BlogSettings.Instance;
+
+            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            {
+                return null;
+            }
+
+            try
+            {
+                var post = string.IsNullOrEmpty(id) ? new BlogEngine.Core.Post() : BlogEngine.Core.Post.GetPost(new Guid(id));
+
+                if (string.IsNullOrEmpty(content))
+                {
+                    content = "[No text]";
+                }
+                post.Author = author;
+                post.Title = title;
+                post.Content = content;
+                post.Description = desc;
+
+                if (!string.IsNullOrEmpty(slug))
+                {
+                    post.Slug = Utils.RemoveIllegalCharacters(slug.Trim());
+                }
+
+                post.DateCreated =
+                DateTime.ParseExact(date + " " + time, "yyyy-MM-dd HH\\:mm", null).AddHours(
+                    -BlogSettings.Instance.Timezone);
+
+                post.IsPublished = isPublished;
+                post.HasCommentsEnabled = hasCommentsEnabled;
+
+                post.Tags.Clear();
+                if (tags.Trim().Length > 0)
+                {
+                    var vtags = tags.Trim().Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var tag in
+                        vtags.Where(tag => string.IsNullOrEmpty(post.Tags.Find(t => t.Equals(tag.Trim(), StringComparison.OrdinalIgnoreCase)))))
+                    {
+                        post.Tags.Add(tag.Trim());
+                    }
+                }
+
+                post.Categories.Clear();
+                if (cats.Trim().Length > 0)
+                {
+                    var vcats = cats.Trim().Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var cat in vcats)
+                    {
+                        post.Categories.Add(Category.GetCategory(new Guid(cat)));
+                    }
+                }
+               
+                post.Save();
+
+                HttpContext.Current.Session.Remove("content");
+                HttpContext.Current.Session.Remove("title");
+                HttpContext.Current.Session.Remove("description");
+                HttpContext.Current.Session.Remove("slug");
+                HttpContext.Current.Session.Remove("tags");
+            }
+            catch (Exception ex)
+            {
+                Utils.Log(string.Format("Admin.AjaxHelper.SavePost(): {0}", ex.Message));
+                response.Message = string.Format("Could not save post: {0}", ex.Message);
+                return response;
+            }
+
+            response.Success = true;
+            response.Message = "Post saved";
+            return response;
         }
 
         [WebMethod]

@@ -49,5 +49,11 @@ namespace BlogEngine.Core.Json
         /// Comment count for the post
         /// </summary>
         public int Comments { get; set; }
+
+        /// <summary>
+        /// Gets or sets post status
+        /// </summary>
+        public bool IsPublished { get; set; }
+
     }
 }
