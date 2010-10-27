@@ -5,11 +5,18 @@
     <users>
       <user>Admin</user>
     </users>
+    <rights>
+      <right>CreateComments</right>
+      <right>EditOwnPosts</right>
+    </rights>
   </role>
   <role>
     <name>Editors</name>
     <users>
-      <user>mads</user>
     </users>
+    <rights>
+      <right>CreateComments</right>
+      <right>EditOwnPosts</right>
+    </rights>
   </role>
 </roles>

@@ -14,6 +14,7 @@
     using System.Web.Security;
     using System.Xml;
 
+
     /// <summary>
     /// The xml role provider.
     /// </summary>
@@ -203,6 +204,7 @@
                     where user.Equals(username, StringComparison.OrdinalIgnoreCase)
                     select role.Name).ToArray();
         }
+
 
         /// <summary>
         /// Gets a list of users in the specified role for the configured applicationName.
@@ -454,7 +456,7 @@
         {
             var fullyQualifiedPath =
                 VirtualPathUtility.Combine(
-                    VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), 
+                    VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath),
                     BlogSettings.Instance.StorageLocation + "users.xml");
 
             lock (this)
@@ -514,6 +516,19 @@
                             {
                                 tempRole.Users.Add(userNode.InnerText);
                             }
+                        }
+
+                        var rightsNodes = roleNode.SelectSingleNode("rights/right");
+                        var rightstoSet = new List<Right>();
+
+                        if (rightsNodes != null)
+                        {
+                            foreach (XmlNode rightNode in rightsNodes)
+                            {
+                                var right = Right.GetRightByName(rightNode.InnerText);
+                                rightstoSet.Add(right);
+                            }
+                            tempRole.UpdateRights(rightstoSet);
                         }
 
                         this.roles.Add(tempRole);

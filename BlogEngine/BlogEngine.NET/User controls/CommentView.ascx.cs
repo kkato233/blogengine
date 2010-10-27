@@ -236,7 +236,7 @@
         /// </param>
         public void RaiseCallbackEvent(string eventArgument)
         {
-            if (!BlogSettings.Instance.IsCommentsEnabled)
+            if (!BlogSettings.Instance.IsCommentsEnabled || !Security.IsAuthorizedTo(RightFlags.CreateComments))
             {
                 return;
             }
@@ -304,7 +304,7 @@
                     Avatar = avatar.Trim()
                 };
 
-            if (this.Page.User.Identity.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
+            if (Security.IsAuthenticated  && BlogSettings.Instance.TrustAuthenticatedUsers)
             {
                 comment.IsApproved = true;
             }
@@ -374,7 +374,8 @@
         /// </returns>
         protected string AdminLink(string id)
         {
-            if (this.Page.User.Identity.IsAuthenticated)
+
+            if (Security.IsAuthenticated)
             {
                 var sb = new StringBuilder();
                 foreach (var comment in this.Post.Comments.Where(comment => comment.Id.ToString() == id))
@@ -382,14 +383,38 @@
                     sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", comment.Email);
                 }
 
-                const string ConfirmDelete = "Are you sure you want to delete the comment?";
-                sb.AppendFormat(
-                    " | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", 
-                    id, 
-                    ConfirmDelete, 
-                    "Delete");
+                if (Security.IsAuthorizedTo(RightFlags.ModerateComments))
+                {
+                    const string ConfirmDelete = "Are you sure you want to delete the comment?";
+                    sb.AppendFormat(
+                        " | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>",
+                        id,
+                        ConfirmDelete,
+                        "Delete");
+
+                }
                 return sb.ToString();
             }
+
+
+            // Previous code 
+
+            //if (this.Page.User.Identity.IsAuthenticated)
+            //{
+            //    var sb = new StringBuilder();
+            //    foreach (var comment in this.Post.Comments.Where(comment => comment.Id.ToString() == id))
+            //    {
+            //        sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", comment.Email);
+            //    }
+
+            //    const string ConfirmDelete = "Are you sure you want to delete the comment?";
+            //    sb.AppendFormat(
+            //        " | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", 
+            //        id, 
+            //        ConfirmDelete, 
+            //        "Delete");
+            //    return sb.ToString();
+            //}
 
             return string.Empty;
         }
@@ -506,7 +531,7 @@
 
             if (!this.Page.IsPostBack && !this.Page.IsCallback)
             {
-                if (this.Page.User.Identity.IsAuthenticated)
+                if (Security.IsAuthenticated)
                 {
                     if (this.Request.QueryString["deletecomment"] != null)
                     {
@@ -568,7 +593,7 @@
                     }
 
                     // Add unapproved comments
-                    if (this.Page.User.Identity.IsAuthenticated)
+                    if (Security.IsAuthorizedTo(RightFlags.ModerateComments))
                     {
                         if (this.Post != null)
                         {
@@ -637,7 +662,7 @@
                     this.phTrckbacks.Visible = false;
                 }
 
-                if (BlogSettings.Instance.IsCommentsEnabled)
+                if (BlogSettings.Instance.IsCommentsEnabled && Security.IsAuthorizedTo(RightFlags.CreateComments))
                 {
                     if (this.Post != null &&
                         (!this.Post.HasCommentsEnabled ||
@@ -682,7 +707,7 @@
             {
                 var control = (CommentViewBase)this.LoadControl(path);
                 if ((!comment.IsApproved && BlogSettings.Instance.EnableCommentsModeration) &&
-                    (comment.IsApproved || !this.Page.User.Identity.IsAuthenticated))
+                    (comment.IsApproved || !Security.IsAuthenticated))
                 {
                     continue;
                 }
@@ -731,6 +756,10 @@
         /// </summary>
         private void ApproveComment()
         {
+            // Using this will throw a SecurityException if the user does not
+            // have the given right.
+            Security.DemandUserHasRight(RightFlags.ModerateComments);
+
             foreach (var comment in
                 this.Post.NotApprovedComments.Where(
                     comment => comment.Id == new Guid(this.Request.QueryString["approvecomment"])))
@@ -768,6 +797,8 @@
         /// </summary>
         private void DeleteComment()
         {
+            Security.DemandUserHasRight(RightFlags.ModerateComments);
+
             foreach (var comment in
                 this.Post.Comments.Where(comment => comment.Id == new Guid(this.Request.QueryString["deletecomment"])))
             {
@@ -784,6 +815,8 @@
         /// </summary>
         private void DeleteCommentAndChildren()
         {
+            Security.DemandUserHasRight(RightFlags.ModerateComments);
+
             foreach (var comment in this.Post.Comments)
             {
                 if (comment.Id != new Guid(this.Request.QueryString["deletecommentandchildren"]))
@@ -878,7 +911,7 @@
                     this.ddlCountry.SelectedValue = cookie.Values["country"];
                     this.SetFlagImageUrl();
                 }
-                else if (this.Page.User.Identity.IsAuthenticated)
+                else if (Security.IsAuthenticated)
                 {
                     var user = Membership.GetUser();
                     if (user != null)
