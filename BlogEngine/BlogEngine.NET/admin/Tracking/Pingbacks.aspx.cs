@@ -1,23 +1,28 @@
-﻿namespace Admin.Comments
+﻿namespace Admin.Tracking
 {
     using System.Collections;
     using System.Web.Services;
-
-    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     public partial class Pingbacks : System.Web.UI.Page
     {
+        /// <summary>
+        /// Number of comments in the list
+        /// </summary>
+        protected static int CommentCounter { get; set; }
+
         [WebMethod]
-        public static IEnumerable LoadComments(int PageSize, int Page)
+        public static IEnumerable LoadComments(int pageSize, int page)
         {
-            return JsonComments.GetComments(CommentType.Pingback, PageSize, Page);
+            var commentList = JsonComments.GetComments(CommentType.Pingback, pageSize, page);
+            CommentCounter = commentList.Count;
+            return commentList;
         }
 
         [WebMethod]
-        public static string LoadPager(int PageSize, int Page)
+        public static string LoadPager(int pageSize, int page)
         {
-            return JsonComments.GetPager(PageSize, Page, "Pingbacks.aspx");
+            return JsonComments.GetPager(pageSize, page, "Pingbacks.aspx");
         }
     }
 }

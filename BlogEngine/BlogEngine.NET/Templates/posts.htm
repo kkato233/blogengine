@@ -1,13 +1,19 @@
-﻿<table id="Posts" class="beTable rounded" style="width:100%">
+﻿{#if $T.d.length == 0}
+<br />
+<div class="info">
+    You haven't written any posts so far. To write a new post use the link in the right side menu.
+</div>
+{#else}
+<table id="Posts" class="beTable rounded" style="width:100%">
     <thead>
         <tr>
-	        <th width="20"><input type="checkbox" id="selectall" onclick="toggleAllChecks(this)" /></th>
+            <th width="70" style="text-align:center;">Published</th>
             <th width="auto">Title</th>
             <th width="120">Author</th>
             <th width="120">Categories</th>
             <th width="120">Tags</th>
-            <th width="100">Comments</th>
-	        <th width="100">Date</th>
+	        <th width="100">Created on</th>
+            <th width="40"></th>
             <th width="60">&nbsp;</th>
 	        <th width="60">&nbsp;</th>
         </tr>
@@ -15,16 +21,17 @@
     <tbody>
         {#foreach $T.d as p}
         <tr id="{$T.p.Id}" class="{#cycle values=['','alt']}">
-            <td><input type="checkbox" class="chk"/></td>
-            <td><a href="Add_entry.aspx?id={$T.p.Id}">{$T.p.Title}</a></td>
+            <td style="text-align:center;"><span class="published-{$T.p.IsPublished}"></span></td>
+            <td><span>{$T.p.Title}</span></td>
             <td><span>{$T.p.Author}</span></td>
             <td><span>{$T.p.Categories}</span></td>
             <td><span>{$T.p.Tags}</span></td>
-            <td><span>{$T.p.Comments}</span></td>
             <td><span class="comment_date">{$T.p.Date}</span><span class="comment_time">{$T.p.Time}</span></td>
-            <td align="center"><a href="Add_entry.aspx?id={$T.p.Id}">Edit</a></td>
-            <td align="center"><a href="#" onclick="return DeletePost(this);">Delete</a></td>
+            <td><span class="comments">{$T.p.Comments}</span></td>
+            <td align="center"><a class="editAction" href="Add_entry.aspx?id={$T.p.Id}">Edit</a></td>
+            <td align="center"><a class="deleteAction" href="#" onclick="return DeletePost(this);">Delete</a></td>
         </tr>
         {#/for}
     </tbody>
 </table>
+{#/if}

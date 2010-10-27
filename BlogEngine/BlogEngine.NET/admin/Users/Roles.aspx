@@ -69,8 +69,8 @@
 		        <input type="text" id="txtUserName" class="txt200" />
 		        <span id="txtUserNameReq" class="req hidden">*</span>
 		        <br/><br/>
-		        <input type="submit" class="btn primary rounded" value="save" onclick="return AddRole();" />
-		        or <a href="#" onclick="closeOverlay();">cancel</a>
+		        <input type="submit" class="btn primary rounded" value="Save" onclick="return AddRole();" />
+		        or <a href="#" onclick="closeOverlay();">Cancel</a>
 	        </div>
             </div>
             <div id="Container"></div>

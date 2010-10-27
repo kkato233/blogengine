@@ -46,7 +46,7 @@
         /// <param name="pageSize">Page size</param>
         /// <param name="page">Page number</param>
         /// <returns>Json-friendly list of posts</returns>
-        public static List<JsonPost> GetPosts(int pageSize, int page, string postType)
+        public static List<JsonPost> GetPosts(int pageSize, int page, string postType, string  val)
         {
             var cntTo = page * pageSize;
             var cntFrom = cntTo - pageSize;
@@ -67,6 +67,18 @@
                         if (!p.IsPublished)
                             allPosts.Add(p);
                         break;
+                    case "Category":
+                        if(p.Categories.Contains(Category.GetCategory(new Guid(val))))
+                            allPosts.Add(p);
+                        break;
+                    case "Tag":
+                        if(p.Tags.Contains(val))
+                            allPosts.Add(p);
+                        break;
+                    case "Author":
+                        if(p.Author == val)
+                            allPosts.Add(p);
+                        break;
                     default:
                         allPosts.Add(p);
                         break;
@@ -83,19 +95,19 @@
                     continue;
                 }
 
-                string categories = x.Categories.Aggregate("", (current, c) => current + (c.Title + ","));
                 string tags = x.Tags.Aggregate("", (current, tag) => current + (tag + ","));
 
                 var jp = new JsonPost
                 {
                     Id = x.Id,
-                    Author = x.Author,
-                    Title = x.Title,
+                    Author = GetAuthor(x.Author),
+                    Title = string.Format("<a href=\"{0}\">{1}</a>", x.RelativeLink, x.Title),
                     Date = x.DateCreated.ToString("dd MMM yyyy"),
                     Time = x.DateCreated.ToString("t"),
-                    Categories = RemoveTrailingComma(categories),
-                    Tags = RemoveTrailingComma(tags),
-                    Comments = x.Comments.Count
+                    Categories = GetCategories(x.Categories),
+                    Tags = GetTags(x.Tags),
+                    Comments = x.Comments.Count,
+                    IsPublished = x.IsPublished
                 };
                 pagePosts.Add(jp);
             }
@@ -143,11 +155,36 @@
             return "<div id=\"ListPager\">" + prvLnk + pageLink + nxtLnk + "</div>";
         }
 
+        static string GetCategories(ICollection<Category> categories)
+        {
+            if (categories == null || categories.Count == 0)
+                return string.Empty;
+
+            var html = categories.Aggregate("", (current, cat) => current + string.Format("<a href='#' onclick=\"LoadPosts(1,'Category','{0}')\">{1}</a>,", cat.Id, cat.Title));
+            return html.Trim().Substring(0, html.Length - 1);
+        }
+
+        static string GetTags(ICollection<string> tags)
+        {
+            if (tags == null || tags.Count == 0)
+                return string.Empty;
+
+            var html = tags.Aggregate("", (current, tag) => current + string.Format("<a href='#' onclick=\"LoadPosts(1,'Tag','{0}')\">{0}</a>,", tag));
+            return html.Trim().Substring(0, html.Length - 1);
+        }
+
+        static string GetAuthor(string  author)
+        {
+            if (string.IsNullOrEmpty(author)) 
+                return string.Empty;
+            return string.Format("<a href='#' onclick=\"LoadPosts(1,'Author','{0}')\">{0}</a>", author);
+        }
+
         static string RemoveTrailingComma(string s)
         {
-            if (s.Trim().Length == 0) 
+            if (s.Trim().Length == 0)
                 return string.Empty;
-            
+
             return s.Trim().Substring(0, s.Length - 1);
         }
     }
