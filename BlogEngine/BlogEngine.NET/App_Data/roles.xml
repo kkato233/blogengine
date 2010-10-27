@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<roles>
+  <role>
+    <name>Administrators</name>
+    <users>
+      <user>Admin</user>
+    </users>
+    <rights>
+      <right>CreateComments</right>
+      <right>EditOwnPosts</right>
+    </rights>
+  </role>
+  <role>
+    <name>Editors</name>
+    <users>
+    </users>
+    <rights>
+      <right>CreateComments</right>
+      <right>EditOwnPosts</right>
+    </rights>
+  </role>
+</roles>
