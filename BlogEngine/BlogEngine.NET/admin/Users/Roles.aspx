@@ -8,6 +8,7 @@
             var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
             row += '<td class="editable">' + txtUser + '</td>';
             row += '<td align="center"><a href="#" class="editButton">Edit</a></td>';
+            row += '<td align="center"><a href="Rights?role=' + txtUser + '">Rights</a></td>';
             row += '<td align="center"><a href="#" class="deleteButton">Delete</a></td></tr>';
 
             if (txtUser.length == 0) {

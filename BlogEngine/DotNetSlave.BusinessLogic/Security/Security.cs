@@ -14,18 +14,12 @@ namespace BlogEngine.Core
     /// <summary>
     /// Class to provide a unified area of authentication/authorization checking.
     /// </summary>
-    public static class Security
+    public static partial class Security
     {
-
-        private static BaseSecurityProvider provider;
 
         static Security()
         {
-            // This should be retrieved from the web.config if possible.
-            provider = new DefaultSecurityProvider();
-
-            AnonymousUserRights = (RightFlags.None);
-
+            AnonymousUserRights = (Rights.None);
         }
 
         #region "Properties"
@@ -35,7 +29,7 @@ namespace BlogEngine.Core
         /// 
         /// This probably would work better as role.
         /// </summary>
-        public static RightFlags AnonymousUserRights
+        public static Rights AnonymousUserRights
         {
             get;
             set;
@@ -44,11 +38,16 @@ namespace BlogEngine.Core
         /// <summary>
         /// Gets the current user for the current HttpContext.
         /// </summary>
+        /// <remarks>
+        /// This should always return HttpContext.Current.User. That value and Thread.CurrentPrincipal can't be
+        /// guaranteed to always be the same value, as they can be set independently from one another. Looking
+        /// through the .Net source, the System.Web.Security.Roles class also returns the HttpContext's User.
+        /// </remarks>
         public static System.Security.Principal.IPrincipal CurrentUser
         {
             get
             {
-                return provider.CurrentUser;
+                return HttpContext.Current.User;
             }
         }
 
@@ -59,7 +58,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return provider.IsAuthenticated;
+                return Security.CurrentUser.Identity.IsAuthenticated;
             }
         }
 
@@ -70,7 +69,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return provider.IsAdministrator;
+                return (Security.IsAuthenticated && Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole));
             }
         }
 
@@ -80,7 +79,7 @@ namespace BlogEngine.Core
         /// <returns></returns>
         public static IEnumerable<Right> CurrentUserRights()
         {
-            return provider.CurrentUserRights;
+            return Right.GetRights(Security.GetCurrentUserRoles());
         }
 
         #endregion
@@ -92,7 +91,7 @@ namespace BlogEngine.Core
         /// Throws a SecurityException if the current user is not authorized with the given Rights.
         /// </summary>
         /// <param name="right"></param>
-        public static void DemandUserHasRight(RightFlags right)
+        public static void DemandUserHasRight(Rights right)
         {
             if (!IsAuthorizedTo(right))
             {
@@ -105,9 +104,32 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool IsAuthorizedTo(RightFlags right)
+        public static bool IsAuthorizedTo(Rights right)
         {
-            return provider.IsAuthorizedTo(right);
+            return Right.HasRight(right, Security.GetCurrentUserRoles());
+        }
+
+        #endregion
+
+        #region "Methods"
+
+        /// <summary>
+        /// Helper method that returns the correct roles based on authentication.
+        /// </summary>
+        /// <returns></returns>
+        private static string[] GetCurrentUserRoles()
+        {
+            if (!IsAuthenticated)
+            {
+                // This needs to be recreated each time, because it's possible 
+                // that the array can fall into the wrong hands and then someone
+                // could alter it. 
+                return new[] { BlogSettings.Instance.AnonymousRole };
+            }
+            else
+            {
+                return Roles.GetRolesForUser();
+            }
         }
 
         #endregion

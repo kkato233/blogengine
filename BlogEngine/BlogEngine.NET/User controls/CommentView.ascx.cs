@@ -236,7 +236,7 @@
         /// </param>
         public void RaiseCallbackEvent(string eventArgument)
         {
-            if (!BlogSettings.Instance.IsCommentsEnabled || !Security.IsAuthorizedTo(RightFlags.CreateComments))
+            if (!BlogSettings.Instance.IsCommentsEnabled || !Security.IsAuthorizedTo(Rights.CreateComments))
             {
                 return;
             }
@@ -383,7 +383,7 @@
                     sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", comment.Email);
                 }
 
-                if (Security.IsAuthorizedTo(RightFlags.ModerateComments))
+                if (Security.IsAuthorizedTo(Rights.ModerateComments))
                 {
                     const string ConfirmDelete = "Are you sure you want to delete the comment?";
                     sb.AppendFormat(
@@ -593,7 +593,7 @@
                     }
 
                     // Add unapproved comments
-                    if (Security.IsAuthorizedTo(RightFlags.ModerateComments))
+                    if (Security.IsAuthorizedTo(Rights.ModerateComments))
                     {
                         if (this.Post != null)
                         {
@@ -662,7 +662,7 @@
                     this.phTrckbacks.Visible = false;
                 }
 
-                if (BlogSettings.Instance.IsCommentsEnabled && Security.IsAuthorizedTo(RightFlags.CreateComments))
+                if (BlogSettings.Instance.IsCommentsEnabled && Security.IsAuthorizedTo(Rights.CreateComments))
                 {
                     if (this.Post != null &&
                         (!this.Post.HasCommentsEnabled ||
@@ -758,7 +758,7 @@
         {
             // Using this will throw a SecurityException if the user does not
             // have the given right.
-            Security.DemandUserHasRight(RightFlags.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments);
 
             foreach (var comment in
                 this.Post.NotApprovedComments.Where(
@@ -797,7 +797,7 @@
         /// </summary>
         private void DeleteComment()
         {
-            Security.DemandUserHasRight(RightFlags.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments);
 
             foreach (var comment in
                 this.Post.Comments.Where(comment => comment.Id == new Guid(this.Request.QueryString["deletecomment"])))
@@ -815,7 +815,7 @@
         /// </summary>
         private void DeleteCommentAndChildren()
         {
-            Security.DemandUserHasRight(RightFlags.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments);
 
             foreach (var comment in this.Post.Comments)
             {

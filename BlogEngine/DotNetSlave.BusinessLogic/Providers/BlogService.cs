@@ -22,14 +22,14 @@
         private static readonly object TheLock = new object();
 
         /// <summary>
-        /// The provider.
+        /// The provider. Don't access this directly. Access it through the property accessor.
         /// </summary>
-        private static BlogProvider provider;
+        private static BlogProvider _provider;
 
         /// <summary>
         /// The providers.
         /// </summary>
-        private static BlogProviderCollection providers;
+        private static BlogProviderCollection _providers;
 
         #endregion
 
@@ -43,7 +43,7 @@
             get
             {
                 LoadProviders();
-                return provider;
+                return _provider;
             }
         }
 
@@ -55,7 +55,7 @@
             get
             {
                 LoadProviders();
-                return providers;
+                return _providers;
             }
         }
 
@@ -71,8 +71,7 @@
         /// </param>
         public static void DeleteBlogRoll(BlogRollItem blogRoll)
         {
-            LoadProviders();
-            provider.DeleteBlogRollItem(blogRoll);
+            Provider.DeleteBlogRollItem(blogRoll);
         }
 
         /// <summary>
@@ -83,8 +82,7 @@
         /// </param>
         public static void DeleteCategory(Category category)
         {
-            LoadProviders();
-            provider.DeleteCategory(category);
+            Provider.DeleteCategory(category);
         }
 
         /// <summary>
@@ -95,8 +93,7 @@
         /// </param>
         public static void DeletePage(Page page)
         {
-            LoadProviders();
-            provider.DeletePage(page);
+            Provider.DeletePage(page);
         }
 
         /// <summary>
@@ -107,8 +104,7 @@
         /// </param>
         public static void DeletePost(Post post)
         {
-            LoadProviders();
-            provider.DeletePost(post);
+            Provider.DeletePost(post);
         }
 
         /// <summary>
@@ -119,8 +115,7 @@
         /// </param>
         public static void DeleteProfile(AuthorProfile profile)
         {
-            LoadProviders();
-            provider.DeleteProfile(profile);
+            Provider.DeleteProfile(profile);
         }
 
         /// <summary>
@@ -131,8 +126,7 @@
         /// </returns>
         public static List<BlogRollItem> FillBlogRolls()
         {
-            LoadProviders();
-            return provider.FillBlogRoll();
+            return Provider.FillBlogRoll();
         }
 
         /// <summary>
@@ -143,8 +137,7 @@
         /// </returns>
         public static List<Category> FillCategories()
         {
-            LoadProviders();
-            return provider.FillCategories();
+            return Provider.FillCategories();
         }
 
         /// <summary>
@@ -155,8 +148,7 @@
         /// </returns>
         public static List<Page> FillPages()
         {
-            LoadProviders();
-            return provider.FillPages();
+            return Provider.FillPages();
         }
 
         /// <summary>
@@ -167,8 +159,7 @@
         /// </returns>
         public static List<Post> FillPosts()
         {
-            LoadProviders();
-            return provider.FillPosts();
+            return Provider.FillPosts();
         }
 
         /// <summary>
@@ -179,8 +170,7 @@
         /// </returns>
         public static List<AuthorProfile> FillProfiles()
         {
-            LoadProviders();
-            return provider.FillProfiles();
+            return Provider.FillProfiles();
         }
 
         /// <summary>
@@ -191,8 +181,25 @@
         /// </returns>
         public static List<Referrer> FillReferrers()
         {
-            LoadProviders();
-            return provider.FillReferrers();
+            return Provider.FillReferrers();
+        }
+
+        /// <summary>
+        /// Returns a dictionary representing rights and the roles that allow them.
+        /// </summary>
+        /// <returns>
+        /// 
+        /// The key must be a string of the name of the Rights enum of the represented Right.
+        /// The value must be an IEnumerable of strings that includes only the role names of
+        /// roles the right represents.
+        /// 
+        /// Inheritors do not need to worry about verifying that the keys and values are valid.
+        /// This is handled in the Right class.
+        /// 
+        /// </returns>
+        public static IDictionary<string, IEnumerable<string>> FillRights()
+        {
+            return Provider.FillRights();
         }
 
         /// <summary>
@@ -201,8 +208,7 @@
         /// <returns>The storage location.</returns>
         public static string GetStorageLocation()
         {
-            LoadProviders();
-            return provider.StorageLocation();
+            return Provider.StorageLocation();
         }
 
         /// <summary>
@@ -213,8 +219,7 @@
         /// </param>
         public static void InsertBlogRoll(BlogRollItem blogRoll)
         {
-            LoadProviders();
-            provider.InsertBlogRollItem(blogRoll);
+            Provider.InsertBlogRollItem(blogRoll);
         }
 
         /// <summary>
@@ -225,8 +230,7 @@
         /// </param>
         public static void InsertCategory(Category category)
         {
-            LoadProviders();
-            provider.InsertCategory(category);
+            Provider.InsertCategory(category);
         }
 
         /// <summary>
@@ -237,8 +241,7 @@
         /// </param>
         public static void InsertPage(Page page)
         {
-            LoadProviders();
-            provider.InsertPage(page);
+            Provider.InsertPage(page);
         }
 
         /// <summary>
@@ -249,8 +252,7 @@
         /// </param>
         public static void InsertPost(Post post)
         {
-            LoadProviders();
-            provider.InsertPost(post);
+            Provider.InsertPost(post);
         }
 
         /// <summary>
@@ -261,8 +263,7 @@
         /// </param>
         public static void InsertProfile(AuthorProfile profile)
         {
-            LoadProviders();
-            provider.InsertProfile(profile);
+            Provider.InsertProfile(profile);
         }
 
         /// <summary>
@@ -273,8 +274,7 @@
         /// </param>
         public static void InsertReferrer(Referrer referrer)
         {
-            LoadProviders();
-            provider.InsertReferrer(referrer);
+            Provider.InsertReferrer(referrer);
         }
 
         /// <summary>
@@ -291,8 +291,7 @@
         /// </returns>
         public static object LoadFromDataStore(ExtensionType extensionType, string extensionId)
         {
-            LoadProviders();
-            return provider.LoadFromDataStore(extensionType, extensionId);
+            return Provider.LoadFromDataStore(extensionType, extensionId);
         }
 
         /// <summary>
@@ -301,8 +300,7 @@
         /// <returns>A StringCollection.</returns>
         public static StringCollection LoadPingServices()
         {
-            LoadProviders();
-            return provider.LoadPingServices();
+            return Provider.LoadPingServices();
         }
 
         /// <summary>
@@ -312,8 +310,7 @@
         /// <returns>A StringDictionary.</returns>
         public static StringDictionary LoadSettings()
         {
-            LoadProviders();
-            return provider.LoadSettings();
+            return Provider.LoadSettings();
         }
 
         /// <summary>
@@ -322,8 +319,7 @@
         /// <returns>A StringCollection.</returns>
         public static StringCollection LoadStopWords()
         {
-            LoadProviders();
-            return provider.LoadStopWords();
+            return Provider.LoadStopWords();
         }
 
         /// <summary>
@@ -337,8 +333,7 @@
         /// </param>
         public static void RemoveFromDataStore(ExtensionType extensionType, string extensionId)
         {
-            LoadProviders();
-            provider.RemoveFromDataStore(extensionType, extensionId);
+            Provider.RemoveFromDataStore(extensionType, extensionId);
         }
 
         /// <summary>
@@ -349,8 +344,18 @@
         /// </param>
         public static void SavePingServices(StringCollection services)
         {
-            LoadProviders();
-            provider.SavePingServices(services);
+            Provider.SavePingServices(services);
+        }
+
+        /// <summary>
+        /// Saves all of the current BlogEngine rights to the provider.
+        /// </summary>
+        public static void SaveRights()
+        {
+            Provider.SaveRights(Right.GetAllRights());
+
+            // This needs to be called after rights are changed.
+            Right.RefreshAllRights();
         }
 
         /// <summary>
@@ -361,8 +366,7 @@
         /// </param>
         public static void SaveSettings(StringDictionary settings)
         {
-            LoadProviders();
-            provider.SaveSettings(settings);
+            Provider.SaveSettings(settings);
         }
 
         /// <summary>
@@ -379,8 +383,7 @@
         /// </param>
         public static void SaveToDataStore(ExtensionType extensionType, string extensionId, object settings)
         {
-            LoadProviders();
-            provider.SaveToDataStore(extensionType, extensionId, settings);
+            Provider.SaveToDataStore(extensionType, extensionId, settings);
         }
 
         /// <summary>
@@ -390,8 +393,7 @@
         /// <returns>A BlogRollItem.</returns>
         public static BlogRollItem SelectBlogRoll(Guid id)
         {
-            LoadProviders();
-            return provider.SelectBlogRollItem(id);
+            return Provider.SelectBlogRollItem(id);
         }
 
         /// <summary>
@@ -401,8 +403,7 @@
         /// <returns>A Category.</returns>
         public static Category SelectCategory(Guid id)
         {
-            LoadProviders();
-            return provider.SelectCategory(id);
+            return Provider.SelectCategory(id);
         }
 
         /// <summary>
@@ -412,8 +413,7 @@
         /// <returns>A Page object.</returns>
         public static Page SelectPage(Guid id)
         {
-            LoadProviders();
-            return provider.SelectPage(id);
+            return Provider.SelectPage(id);
         }
 
         /// <summary>
@@ -423,8 +423,7 @@
         /// <returns>A Post object.</returns>
         public static Post SelectPost(Guid id)
         {
-            LoadProviders();
-            return provider.SelectPost(id);
+            return Provider.SelectPost(id);
         }
 
         /// <summary>
@@ -434,8 +433,7 @@
         /// <returns>An AuthorProfile.</returns>
         public static AuthorProfile SelectProfile(string id)
         {
-            LoadProviders();
-            return provider.SelectProfile(id);
+            return Provider.SelectProfile(id);
         }
 
         /// <summary>
@@ -445,8 +443,7 @@
         /// <returns>A Referrer.</returns>
         public static Referrer SelectReferrer(Guid id)
         {
-            LoadProviders();
-            return provider.SelectReferrer(id);
+            return Provider.SelectReferrer(id);
         }
 
         /// <summary>
@@ -457,8 +454,7 @@
         /// </param>
         public static void UpdateBlogRoll(BlogRollItem blogRoll)
         {
-            LoadProviders();
-            provider.UpdateBlogRollItem(blogRoll);
+            Provider.UpdateBlogRollItem(blogRoll);
         }
 
         /// <summary>
@@ -469,8 +465,7 @@
         /// </param>
         public static void UpdateCategory(Category category)
         {
-            LoadProviders();
-            provider.UpdateCategory(category);
+            Provider.UpdateCategory(category);
         }
 
         /// <summary>
@@ -481,8 +476,7 @@
         /// </param>
         public static void UpdatePage(Page page)
         {
-            LoadProviders();
-            provider.UpdatePage(page);
+            Provider.UpdatePage(page);
         }
 
         /// <summary>
@@ -493,8 +487,7 @@
         /// </param>
         public static void UpdatePost(Post post)
         {
-            LoadProviders();
-            provider.UpdatePost(post);
+            Provider.UpdatePost(post);
         }
 
         /// <summary>
@@ -505,8 +498,7 @@
         /// </param>
         public static void UpdateProfile(AuthorProfile profile)
         {
-            LoadProviders();
-            provider.UpdateProfile(profile);
+            Provider.UpdateProfile(profile);
         }
 
         /// <summary>
@@ -517,8 +509,7 @@
         /// </param>
         public static void UpdateReferrer(Referrer referrer)
         {
-            LoadProviders();
-            provider.UpdateReferrer(referrer);
+            Provider.UpdateReferrer(referrer);
         }
 
         #endregion
@@ -531,23 +522,23 @@
         private static void LoadProviders()
         {
             // Avoid claiming lock if providers are already loaded
-            if (provider == null)
+            if (_provider == null)
             {
                 lock (TheLock)
                 {
                     // Do this again to make sure _provider is still null
-                    if (provider == null)
+                    if (_provider == null)
                     {
                         // Get a reference to the <blogProvider> section
                         var section = (BlogProviderSection)WebConfigurationManager.GetSection("BlogEngine/blogProvider");
 
                         // Load registered providers and point _provider
                         // to the default provider
-                        providers = new BlogProviderCollection();
-                        ProvidersHelper.InstantiateProviders(section.Providers, providers, typeof(BlogProvider));
-                        provider = providers[section.DefaultProvider];
+                        _providers = new BlogProviderCollection();
+                        ProvidersHelper.InstantiateProviders(section.Providers, _providers, typeof(BlogProvider));
+                        _provider = _providers[section.DefaultProvider];
 
-                        if (provider == null)
+                        if (_provider == null)
                         {
                             throw new ProviderException("Unable to load default BlogProvider");
                         }

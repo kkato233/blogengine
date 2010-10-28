@@ -112,6 +112,7 @@
         /// </param>
         public override void CreateRole(string roleName)
         {
+            // This needs to be fixed. This will always return false.
             if (this.roles.Contains(new Role(roleName)))
             {
                 return;
@@ -297,9 +298,18 @@
             // Now that we know a xml file exists we can call it.
             this.ReadRoleDataStore();
 
+
+            // Something tells me this check for must-exist roles should be taken out of this and be done with BlogServices so
+            // that it applies to all role providers, not just this one.
             if (!this.RoleExists(BlogSettings.Instance.AdministratorRole))
             {
-                this.AddUsersToRoles(this.userNames.ToArray(), this.defaultRolesToAdd);
+                this.AddUsersToRoles(this.userNames.ToArray(), new string[] { BlogSettings.Instance.AdministratorRole });
+            }
+
+            if (!this.RoleExists(BlogSettings.Instance.AnonymousRole))
+            {
+                // Users shouldn't actually be in the anonymous role, since the role is specifically for people who aren't users.
+                this.CreateRole(BlogSettings.Instance.AnonymousRole);
             }
 
             // Throw an exception if unrecognized attributes remain
@@ -389,8 +399,17 @@
         /// </param>
         public override bool RoleExists(string roleName)
         {
-            var currentRoles = new List<string>(this.GetAllRoles());
-            return currentRoles.Contains(roleName) ? true : false;
+            if (Utils.StringIsNullOrWhitespace(roleName))
+            {
+                throw new ArgumentNullException("roleName");
+            }
+            else
+            {
+                // Role names are not supposed to be case sensitive. This needs to be kept consistent with
+                // other RoleProvider classes.
+
+                return (this.GetAllRoles().Contains(roleName, StringComparer.OrdinalIgnoreCase));
+            }
         }
 
         /// <summary>
@@ -419,6 +438,10 @@
                     writer.WriteEndElement(); // closes role
                 }
             }
+
+            // This needs to be called in order to keep the Right class in sync.
+            Right.RefreshAllRights();
+
         }
 
         #endregion
@@ -516,19 +539,6 @@
                             {
                                 tempRole.Users.Add(userNode.InnerText);
                             }
-                        }
-
-                        var rightsNodes = roleNode.SelectSingleNode("rights/right");
-                        var rightstoSet = new List<Right>();
-
-                        if (rightsNodes != null)
-                        {
-                            foreach (XmlNode rightNode in rightsNodes)
-                            {
-                                var right = Right.GetRightByName(rightNode.InnerText);
-                                rightstoSet.Add(right);
-                            }
-                            tempRole.UpdateRights(rightstoSet);
                         }
 
                         this.roles.Add(tempRole);

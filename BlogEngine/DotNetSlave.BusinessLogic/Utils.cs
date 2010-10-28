@@ -211,6 +211,16 @@
         #region Public Methods
 
         /// <summary>
+        /// Converts an object to its JSON representation.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string ConvertToJson(object obj)
+        {
+            return new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(obj);
+        }
+
+        /// <summary>
         /// Resolves the script URL.
         /// </summary>
         /// <param name="url">

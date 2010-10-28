@@ -333,6 +333,21 @@
 
         #endregion
 
+        #region "AnonymousRole"
+
+        /// <summary>
+        /// The role that represents all non-authenticated users.
+        /// </summary>
+        public string AnonymousRole
+        {
+            get
+            {
+                return (ConfigurationManager.AppSettings["BlogEngine.AnonymousRole"] ?? "Anonymous");
+            }
+        }
+
+        #endregion
+
         #region SyndicationFormat
 
         /// <summary>

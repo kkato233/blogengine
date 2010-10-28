@@ -134,10 +134,10 @@
     <Compile Include="Ping\TrackbackMessage.cs" />
     <Compile Include="Providers\BlogProviderCollection.cs" />
     <Compile Include="Providers\DbConnectionHelper.cs" />
+    <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="RemoteFile.cs" />
-    <Compile Include="Security\BaseSecurityProvider.cs" />
-    <Compile Include="Security\DefaultSecurityProvider.cs" />
     <Compile Include="Security\Right.cs" />
+    <Compile Include="Security\Rights.cs" />
     <Compile Include="Security\Security.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
