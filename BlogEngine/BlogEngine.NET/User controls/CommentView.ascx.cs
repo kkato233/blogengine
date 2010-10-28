@@ -291,20 +291,20 @@
 
             var comment = new Comment
                 {
-                    Id = Guid.NewGuid(), 
-                    ParentId = replyToCommentId, 
-                    Author = this.Server.HtmlEncode(author), 
-                    Email = email, 
-                    Content = this.Server.HtmlEncode(content), 
-                    IP = this.Request.UserHostAddress, 
-                    Country = country, 
-                    DateCreated = DateTime.Now, 
-                    Parent = this.Post, 
-                    IsApproved = !BlogSettings.Instance.EnableCommentsModeration, 
+                    Id = Guid.NewGuid(),
+                    ParentId = replyToCommentId,
+                    Author = this.Server.HtmlEncode(author),
+                    Email = email,
+                    Content = this.Server.HtmlEncode(content),
+                    IP = this.Request.UserHostAddress,
+                    Country = country,
+                    DateCreated = DateTime.Now,
+                    Parent = this.Post,
+                    IsApproved = !BlogSettings.Instance.EnableCommentsModeration,
                     Avatar = avatar.Trim()
                 };
 
-            if (Security.IsAuthenticated  && BlogSettings.Instance.TrustAuthenticatedUsers)
+            if (Security.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
             {
                 comment.IsApproved = true;
             }
@@ -441,9 +441,9 @@
                         var code = (string)row["Code"];
                         var title = string.Format("[{0}][/{1}]", code, code);
                         sb.AppendFormat(
-                            "<a title=\"{0}\" href=\"javascript:void(BlogEngine.addBbCode('{1}'))\">{2}</a>", 
-                            title, 
-                            code, 
+                            "<a title=\"{0}\" href=\"javascript:void(BlogEngine.addBbCode('{1}'))\">{2}</a>",
+                            title,
+                            code,
                             code);
                     }
                 }
@@ -457,59 +457,6 @@
         }
 
         /// <summary>
-        /// Displays the Gravatar image that matches the specified email.
-        /// </summary>
-        /// <param name="email">
-        /// The email address.
-        /// </param>
-        /// <param name="name">
-        /// The name/title.
-        /// </param>
-        /// <param name="size">
-        /// The size int.
-        /// </param>
-        /// <returns>
-        /// The gravatar.
-        /// </returns>
-        protected string Gravatar(string email, string name, int size)
-        {
-            if (email.Contains("://"))
-            {
-                return
-                    string.Format(
-                        "<img class=\"thumb\" src=\"http://images.websnapr.com/?url={0}&amp;size=t\" alt=\"{1}\" />", 
-                        name, 
-                        email);
-            }
-
-            // http://www.artviper.net/screenshots/screener.php?&url={0}&h={1}&w={1}
-            byte[] result;
-            using (MD5 md5 = new MD5CryptoServiceProvider())
-            {
-                result = md5.ComputeHash(Encoding.ASCII.GetBytes(email));
-            }
-
-            var hash = new StringBuilder();
-            for (var i = 0; i < result.Length; i++)
-            {
-                hash.Append(result[i].ToString("x2"));
-            }
-
-            var image = new StringBuilder();
-            image.Append("<img src=\"");
-            image.Append("http://www.gravatar.com/avatar.php?");
-            image.AppendFormat("gravatar_id={0}", hash);
-            image.Append("&amp;rating=G");
-            image.AppendFormat("&amp;size={0}", size);
-            image.Append("&amp;default=");
-            image.Append(
-                this.Server.UrlEncode(
-                    string.Format("{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme)));
-            image.Append("\" alt=\"\" />");
-            return image.ToString();
-        }
-
-        /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
         /// </summary>
         /// <param name="e">
@@ -519,9 +466,6 @@
         {
             base.OnLoad(e);
 
-            this.NameInputId = string.Format("txtName{0}", DateTime.Now.Ticks);
-
-            this.EnableCaptchas();
 
             if (this.Post == null)
             {
@@ -529,26 +473,29 @@
                 return;
             }
 
+            this.NameInputId = string.Format("txtName{0}", DateTime.Now.Ticks);
+            this.EnableCaptchas();
+
             if (!this.Page.IsPostBack && !this.Page.IsCallback)
             {
-                if (Security.IsAuthenticated)
+                if (Security.IsAuthorizedTo(Rights.ModerateComments))
                 {
                     if (this.Request.QueryString["deletecomment"] != null)
                     {
                         this.DeleteComment();
                     }
 
-                    if (this.Request.QueryString["deletecommentandchildren"] != null)
+                    else if (this.Request.QueryString["deletecommentandchildren"] != null)
                     {
                         this.DeleteCommentAndChildren();
                     }
 
-                    if (!string.IsNullOrEmpty(this.Request.QueryString["approvecomment"]))
+                    else if (!string.IsNullOrEmpty(this.Request.QueryString["approvecomment"]))
                     {
                         this.ApproveComment();
                     }
 
-                    if (!string.IsNullOrEmpty(this.Request.QueryString["approveallcomments"]))
+                    else if (!string.IsNullOrEmpty(this.Request.QueryString["approveallcomments"]))
                     {
                         this.ApproveAllComments();
                     }
@@ -569,18 +516,38 @@
                 {
                     // old, non nested code
                     // Add approved Comments
-                    if (this.Post != null)
+
+                    foreach (var comment in
+                        this.Post.Comments.Where(
+                            comment => comment.Email != "pingback" && comment.Email != "trackback"))
                     {
-                        foreach (var comment in
-                            this.Post.Comments.Where(
-                                comment => comment.Email != "pingback" && comment.Email != "trackback"))
+                        if (comment.IsApproved)
                         {
-                            if (comment.IsApproved)
+                            this.CommentCounter++;
+                        }
+
+                        if (!comment.IsApproved && BlogSettings.Instance.EnableCommentsModeration)
+                        {
+                            continue;
+                        }
+
+                        var control = (CommentViewBase)this.LoadControl(path);
+                        control.Comment = comment;
+                        control.Post = this.Post;
+                        this.phComments.Controls.Add(control);
+                    }
+
+                    // Add unapproved comments
+                    if (Security.IsAuthorizedTo(Rights.ModerateComments))
+                    {
+                        foreach (var comment in this.Post.Comments)
+                        {
+                            if (comment.Email == "pingback" || comment.Email == "trackback")
                             {
-                                this.CommentCounter++;
+                                continue;
                             }
 
-                            if (!comment.IsApproved && BlogSettings.Instance.EnableCommentsModeration)
+                            if (comment.IsApproved)
                             {
                                 continue;
                             }
@@ -591,50 +558,22 @@
                             this.phComments.Controls.Add(control);
                         }
                     }
-
-                    // Add unapproved comments
-                    if (Security.IsAuthorizedTo(Rights.ModerateComments))
-                    {
-                        if (this.Post != null)
-                        {
-                            foreach (var comment in this.Post.Comments)
-                            {
-                                if (comment.Email == "pingback" || comment.Email == "trackback")
-                                {
-                                    continue;
-                                }
-
-                                if (comment.IsApproved)
-                                {
-                                    continue;
-                                }
-
-                                var control = (CommentViewBase)this.LoadControl(path);
-                                control.Comment = comment;
-                                control.Post = this.Post;
-                                this.phComments.Controls.Add(control);
-                            }
-                        }
-                    }
                 }
 
                 var pingbacks = new List<CommentViewBase>();
 
-                if (this.Post != null)
+                foreach (var comment in this.Post.Comments)
                 {
-                    foreach (var comment in this.Post.Comments)
+                    var control = (CommentViewBase)this.LoadControl(path);
+
+                    if (comment.Email != "pingback" && comment.Email != "trackback")
                     {
-                        var control = (CommentViewBase)this.LoadControl(path);
-
-                        if (comment.Email != "pingback" && comment.Email != "trackback")
-                        {
-                            continue;
-                        }
-
-                        control.Comment = comment;
-                        control.Post = this.Post;
-                        pingbacks.Add(control);
+                        continue;
                     }
+
+                    control.Comment = comment;
+                    control.Post = this.Post;
+                    pingbacks.Add(control);
                 }
 
                 if (pingbacks.Count > 0)
@@ -682,8 +621,6 @@
                 {
                     this.phAddComment.Visible = false;
                 }
-
-                // InititializeCaptcha();
             }
 
             this.Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
@@ -703,11 +640,13 @@
         /// </param>
         private void AddNestedComments(string path, IEnumerable<Comment> nestedComments, Control commentsPlaceHolder)
         {
+            bool enableCommentModeration = BlogSettings.Instance.EnableCommentsModeration;
+            bool isAuthenticated = Security.IsAuthenticated;
+
             foreach (var comment in nestedComments)
             {
-                var control = (CommentViewBase)this.LoadControl(path);
-                if ((!comment.IsApproved && BlogSettings.Instance.EnableCommentsModeration) &&
-                    (comment.IsApproved || !Security.IsAuthenticated))
+                if ((!comment.IsApproved && enableCommentModeration) &&
+                    (comment.IsApproved || !isAuthenticated))
                 {
                     continue;
                 }
@@ -717,6 +656,7 @@
                     continue;
                 }
 
+                var control = (CommentViewBase)this.LoadControl(path);
                 control.Comment = comment;
                 control.Post = this.Post;
 
@@ -744,6 +684,10 @@
         /// </summary>
         private void ApproveAllComments()
         {
+            // Using this will throw a SecurityException if the user does not
+            // have the given right.
+            Security.DemandUserHasRight(Rights.ModerateComments);
+
             this.Post.ApproveAllComments();
 
             var index = this.Request.RawUrl.IndexOf("?");
@@ -817,9 +761,11 @@
         {
             Security.DemandUserHasRight(Rights.ModerateComments);
 
+            var deletecommentandchildren = new Guid(this.Request.QueryString["deletecommentandchildren"]);
+
             foreach (var comment in this.Post.Comments)
             {
-                if (comment.Id != new Guid(this.Request.QueryString["deletecommentandchildren"]))
+                if (comment.Id != deletecommentandchildren)
                 {
                     continue;
                 }
@@ -962,8 +908,8 @@
         {
             this.imgFlag.ImageUrl = !string.IsNullOrEmpty(this.ddlCountry.SelectedValue)
                                         ? string.Format(
-                                            "{0}pics/flags/{1}.png", 
-                                            Utils.RelativeWebRoot, 
+                                            "{0}pics/flags/{1}.png",
+                                            Utils.RelativeWebRoot,
                                             this.ddlCountry.SelectedValue)
                                         : string.Format("{0}pics/pixel.png", Utils.RelativeWebRoot);
         }

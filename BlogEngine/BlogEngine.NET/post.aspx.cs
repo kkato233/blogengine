@@ -18,6 +18,11 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
     {
         base.OnInit(e);
 
+        if (!Security.IsAuthorizedTo(Rights.ViewPublicPosts))
+        {
+            Response.Redirect("~/");
+        }
+
         bool shouldThrow404 = false;
 
 

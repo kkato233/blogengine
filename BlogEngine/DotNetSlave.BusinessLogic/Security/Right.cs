@@ -133,9 +133,9 @@ namespace BlogEngine.Core
                 {
                     // This could probably be moved to web.config somewhere.
                     Right.rightsByFlag[Rights.CreateComments].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewComments].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewPosts].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewPages].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewPublicComments].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewPublicPosts].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewPublicPages].AddRole(anonymousRole);
                 }
 
             }

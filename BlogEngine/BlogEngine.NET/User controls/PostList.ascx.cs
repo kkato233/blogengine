@@ -57,6 +57,17 @@ namespace UserControls
 
         #region Methods
 
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+
+            if (!Security.IsAuthorizedTo(Rights.ViewPublicPosts))
+            {
+                this.Visible = false;
+            }
+
+        }
+
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
         /// </summary>
