@@ -25,7 +25,10 @@ namespace BlogEngine.Core
     /// Also, at the moment this doesn't nearly represent all the current possible actions. This is just a few
     /// test values to play with.
     /// 
-    /// I'd recommend using a common word pattern when used. Ie: Create/Edit/Delete/Publish as prefixes.
+    /// I'd recommend using a common word pattern when used. Ie: Create/Edit/Delete/Publish as prefixes. The names
+    /// should be very specific to what they allow in order to avoid confusion. For example, don't use a name like
+    /// "ViewPosts". Use something that also specifies the kinds of posts, like ViewPublicPosts, ViewPrivatePosts, or
+    /// ViewUnpublishedPosts.
     /// 
     /// </remarks>
     public enum Rights
@@ -44,7 +47,16 @@ namespace BlogEngine.Core
 
         #region "Comments"
 
-        ViewComments,
+        /// <summary>
+        /// A user is allowed to view comments on a post.
+        /// </summary>
+        ViewPublicComments,
+
+        /// <summary>
+        /// A user is allowed to view comments that have not been moderation yet.
+        /// </summary>
+        ViewUnmoderatedComments,
+
 
         /// <summary>
         /// A user is allowed to create and submit comments for posts or pages.
@@ -65,40 +77,130 @@ namespace BlogEngine.Core
 
         #region Posts
 
-        ViewPosts,
+        /// <summary>
+        /// A user is allowed to view posts that are both published and public.
+        /// </summary>
+        ViewPublicPosts,
 
+        /// <summary>
+        /// A user is allowed to view unpublished posts.
+        /// </summary>
+        ViewUnpublishedPosts,
+
+        /// <summary>
+        /// A user is allowed to view non-public posts.
+        /// </summary>
+        ViewPrivatePosts,
+
+        /// <summary>
+        /// A user can create new posts. 
+        /// </summary>
         CreateNewPosts,
 
+        /// <summary>
+        /// A user can edit their own posts. 
+        /// </summary>
         EditOwnPosts,
+
+        /// <summary>
+        /// A user can edit posts created by other users.
+        /// </summary>
         EditOtherUsersPosts,
 
+        /// <summary>
+        /// A user can delete their own posts.
+        /// </summary>
         DeleteOwnPosts,
+
+        /// <summary>
+        /// A user can delete posts created by other users.
+        /// </summary>
         DeleteOtherUsersPosts,
 
+        /// <summary>
+        /// A user can set whether or not their own posts are published.
+        /// </summary>
         PublishOwnPosts,
+
+        /// <summary>
+        /// A user can set whether or not another user's posts are published.
+        /// </summary>
         PublishOtherUsersPosts,
 
         #endregion
 
-        // Values pertaining to PAGES
-        ViewPages,
+        #region Pages
+        
+        /// <summary>
+        /// A user can view public, published pages.
+        /// </summary>
+        ViewPublicPages,
+
+        /// <summary>
+        /// A user can view unpublished pages.
+        /// </summary>
+        ViewUnpublishedPages,
+
+        /// <summary>
+        /// A user can create new pages.
+        /// </summary>
         CreateNewPages,
 
+        /// <summary>
+        /// A user can edit pages they've created.
+        /// </summary>
         EditOwnPages,
+
+        /// <summary>
+        /// A user can edit pages other users have created.
+        /// </summary>
         EditOtherUsersPages,
 
+        /// <summary>
+        /// A user can delete pages they've created.
+        /// </summary>
         DeleteOwnPages,
+
+        /// <summary>
+        /// A user can delete pages other users have created.
+        /// </summary>
         DeleteOtherUsersPages,
 
+        /// <summary>
+        /// A user can set whether or not their own pages are published.
+        /// </summary>
         PublishOwnPages,
+
+        /// <summary>
+        /// A user can set whether or not another user's pages are published.
+        /// </summary>
         PublishOtherUsersPages,
 
+        #endregion
 
-        // Roles
+        #region Roles
+
+        /// <summary>
+        /// A user can view roles.
+        /// </summary>
         ViewRoles,
+
+        /// <summary>
+        /// A user can create new roles.
+        /// </summary>
         CreateNewRoles,
+
+        /// <summary>
+        /// A user can edit existing roles.
+        /// </summary>
         EditRoles,
-        DeleteRoles,
+
+        /// <summary>
+        /// A user can delete existing roles.
+        /// </summary>
+        DeleteRoles
+
+        #endregion
     }
 
 
