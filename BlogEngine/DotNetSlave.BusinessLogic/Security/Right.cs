@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+
 
 namespace BlogEngine.Core
 {
     /// <summary>
-    /// A wrapper class for RightFlags enum values that allows for providing more information.
+    /// A wrapper class for Rights enum values that allows for providing more information.
     /// </summary>
+    /// <remarks>
+    /// 
+    /// This class needs to be kept in sync with Role creation/editing/deleting.
+    /// 
+    /// 
+    /// 
+    /// </remarks>
     public sealed class Right
     {
 
@@ -15,90 +24,155 @@ namespace BlogEngine.Core
 
         #region "Fields"
 
+        // These dictionaries would probably be better condensed into something else.
+
+        private static readonly object staticLockObj = new Object();
+
+        // One rightsByFlag is set it should not be changed ever.
+        private static readonly Dictionary<Rights, Right> rightsByFlag = new Dictionary<Rights, Right>();
         private static readonly Dictionary<string, Right> rightsByName = new Dictionary<string, Right>(StringComparer.OrdinalIgnoreCase);
-        private static readonly IEnumerable<RightFlags> flagValues;
-        private static readonly Dictionary<RightFlags, Right> flagDict = new Dictionary<RightFlags, Right>();
+        private static readonly Dictionary<string, HashSet<Right>> rightsByRole = new Dictionary<string, HashSet<Right>>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
         static Right()
         {
 
-            var flags = new List<RightFlags>();
-            var flagType = typeof(RightFlags);
+            // Initialize the various dictionaries to their starting state.
 
+            var flagType = typeof(Rights);
+            var adminRole = BlogEngine.Core.BlogSettings.Instance.AdministratorRole;
 
-            // Create a Right instance for each value in the RightFlags enum.
+            // Create a Right instance for each value in the Rights enum.
             foreach (var flag in Enum.GetValues(flagType))
             {
-                RightFlags curFlag = (RightFlags)flag;
+                Rights curFlag = (Rights)flag;
                 var flagName = Enum.GetName(flagType, curFlag);
-                var curRight = new Right(curFlag);
+                var curRight = new Right(curFlag, flagName);
 
                 // Use the Add function so if there are multiple flags with the same
                 // value they can be caught quickly at runtime.
-                flagDict.Add(curFlag, curRight);
+                rightsByFlag.Add(curFlag, curRight);
 
-                flags.Add(curFlag);
                 rightsByName.Add(flagName, curRight);
+
+                // This check is for autocreating the rights for the Administrator role.
+                if (curFlag != Rights.None)
+                {
+                    curRight.AddRole(adminRole);
+                }
+
             }
 
-            flagValues = flags;
+            RefreshAllRights();
+
         }
 
         #region "Methods"
 
-        ///// <summary>
-        ///// Returns an IEnumerable of Right objects based on the flags contained in the given value.
-        ///// </summary>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //public static IEnumerable<Right> GetRightsFromFlag(RightFlags value)
-        //{
-        //    // This entire method could probably be set up in a cacheable way.
-        //    // It may also be better off returning a readonly dictionary too.
-
-        //    var result = new List<Right>();
-
-        //    if (flagDict.ContainsKey(value))
-        //    {
-        //        // If it's in the dictionary, then it's only a single value, so there's
-        //        // no need to do any further processing.
-        //        result.Add(flagDict[value]);
-        //    }
-        //    else
-        //    {
-        //        foreach (var flag in flagValues)
-        //        {
-        //            if (FlagContainsValue(value, flag))
-        //            {
-        //                result.Add(flagDict[flag]);
-        //            }
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        ///// <summary>
-        ///// Gets whether or not a combined flag value contains a specific flag.
-        ///// </summary>
-        ///// <param name="flags"></param>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //public static bool FlagContainsValue(RightFlags flags, RightFlags value)
-        //{
-        //    var longFlags = Convert.ToUInt64(flags);
-        //    var longCheckFlag = Convert.ToUInt16(value);
-
-        //    return ((longFlags & longCheckFlag) == longCheckFlag);
-        //}
-
-        public static IEnumerable<Right> GetAllRights()
+        /// <summary>
+        /// Method that should be called any time Rights are changed and saved.
+        /// </summary>
+        internal static void RefreshAllRights()
         {
-            return flagDict.Values.ToList();
+
+            var flagType = typeof(Rights);
+
+            lock (staticLockObj)
+            {
+                rightsByRole.Clear();
+
+                var allRoles = new HashSet<string>(System.Web.Security.Roles.GetAllRoles(), StringComparer.OrdinalIgnoreCase);
+
+                foreach (var role in allRoles)
+                {
+                    var curRole = PrepareRoleName(role);
+                    rightsByRole.Add(curRole, new HashSet<Right>());
+                    allRoles.Add(curRole);
+                }
+
+                var adminRole = BlogSettings.Instance.AdministratorRole;
+                var anonymousRole = BlogSettings.Instance.AnonymousRole;
+
+                foreach (var right in GetAllRights())
+                {
+                    // Clear the existing roles so any newly-deleted
+                    // roles are removed from the list.
+                    right.ClearRoles();
+                    if (right.Flag != Rights.None)
+                    {
+                        right.AddRole(adminRole);
+                    }
+                }
+
+                foreach (var pair in BlogEngine.Core.Providers.BlogService.FillRights())
+                {
+                    // Ignore any values that are invalid. This is bound to happen
+                    // during updates if a value gets renamed or removed.
+                    if (Right.RightExists(pair.Key))
+                    {
+                        var key = GetRightByName(pair.Key);
+
+                        foreach (var role in pair.Value)
+                        {
+                            var curRole = PrepareRoleName(role);
+
+                            // Ignore any roles that are added that don't exist.
+                            if (allRoles.Contains(curRole))
+                            {
+                                key.AddRole(curRole);
+                                Right.rightsByRole[curRole].Add(key);
+                            }
+                        }
+                    }
+                }
+
+                // Check that the anonymous role is set up properly. If no rights
+                // are found, then the defaults need to be set.
+                if (!GetRights(anonymousRole).Any())
+                {
+                    // This could probably be moved to web.config somewhere.
+                    Right.rightsByFlag[Rights.CreateComments].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewComments].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewPosts].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewPages].AddRole(anonymousRole);
+                }
+
+            }
+
         }
 
+        /// <summary>
+        /// Call this method for verifying role names and then trimming the string.
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <returns></returns>
+        private static string PrepareRoleName(string roleName)
+        {
+            if (Utils.StringIsNullOrWhitespace(roleName))
+            {
+                throw new ArgumentNullException("roleName");
+            }
+            else
+            {
+                return roleName.Trim();
+            }
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of all of the Rights that exist on BlogEngine.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<Right> GetAllRights()
+        {
+            return new ReadOnlyCollection<Right>(Right.rightsByFlag.Values.ToList());
+        }
+
+        /// <summary>
+        /// Returns a Right instance based on its name.
+        /// </summary>
+        /// <param name="rightName"></param>
+        /// <returns></returns>
         public static Right GetRightByName(string rightName)
         {
             if (Utils.StringIsNullOrWhitespace(rightName))
@@ -119,11 +193,16 @@ namespace BlogEngine.Core
             }
         }
 
-        public static Right GetRightByFlag(RightFlags flag)
+        /// <summary>
+        /// Returns a Right instance based on the flag.
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+        public static Right GetRightByFlag(Rights flag)
         {
 
             Right right = null;
-            if (flagDict.TryGetValue(flag, out right))
+            if (rightsByFlag.TryGetValue(flag, out right))
             {
                 return right;
             }
@@ -134,100 +213,264 @@ namespace BlogEngine.Core
 
         }
 
+        private static IEnumerable<Right> GetRightsInternal(string roleName)
+        {
+            roleName = PrepareRoleName(roleName);
+            return rightsByRole[roleName];
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of Rights that are in the given role.
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public static IEnumerable<Right> GetRights(string roleName)
+        {
+            return GetRightsInternal(roleName).ToList().AsReadOnly();
+        }
+
+        /// <summary>
+        /// Returns an IEnumerable of Rights that are in all of the given roles.
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public static IEnumerable<Right> GetRights(IEnumerable<string> roles)
+        {
+            if (roles == null)
+            {
+                throw new ArgumentNullException("roles");
+            }
+            else
+            {
+                var rights = new List<Right>();
+
+                foreach (var role in roles)
+                {
+                    rights.AddRange(GetRightsInternal(role));
+                }
+
+                return rights.Distinct().ToList().AsReadOnly();
+            }
+        }
+
+        /// <summary>
+        /// Gets whether or not a Right exists within any of the given roles.
+        /// </summary>
+        /// <param name="right"></param>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public static bool HasRight(Rights right, IEnumerable<string> roles)
+        {
+            if (roles == null)
+            {
+                throw new ArgumentNullException("roles");
+            }
+            else if (!roles.Any())
+            {
+                return false;
+            }
+            else
+            {
+                var validRoles = GetRightByFlag(right).Roles;
+                if (roles.Count() == 1)
+                {
+                    // This is faster than intersecting, so this is
+                    // special cased.
+                    return validRoles.Contains(roles.First(), StringComparer.OrdinalIgnoreCase);
+                }
+                else
+                {
+                    return validRoles.Intersect(roles, StringComparer.OrdinalIgnoreCase).Any();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if a Right exists by the given name.
+        /// </summary>
+        /// <param name="rightName"></param>
+        /// <returns></returns>
+        public static bool RightExists(string rightName)
+        {
+            return rightsByName.ContainsKey(rightName);
+        }
+
         #endregion
 
         #endregion
 
         #region "Instance"
 
+        #region "Fields and Constants"
 
+        private readonly object instanceLockObj = new Object();
+
+        private readonly ReadOnlyCollection<string> _readOnlyRoles;
+        private readonly List<string> _rolesWithRight;
+
+
+        #endregion
+
+        #region "Constructor"
         /// <summary>
         /// Private constructor for creating a Right instance.
         /// </summary>
-        /// <param name="rightFlag"></param>
-        private Right(RightFlags rightFlag)
+        /// <param name="Right"></param>
+        /// <param name="RightEnumName"></param>
+        private Right(Rights Right, string RightEnumName)
         {
-            this._flag = rightFlag;
+            this._flag = Right;
+            this._name = RightEnumName;
+            this._rolesWithRight = new List<string>();
+            this._readOnlyRoles = new ReadOnlyCollection<string>(this._rolesWithRight);
+        }
+
+        #endregion
+
+        #region "Properties"
+
+        // These should use attributes to set up the basic part. Perhaps DisplayNameAttribute
+        // for getting a label key that can be translated appropriately. 
+
+        //public string ResourceLabelKey
+        //{
+        //    get
+        //    {
+        //        return this._resourceLabelKey;
+        //    }
+        //}
+        //private readonly string _resourceLabelKey;
+
+        public string DisplayName
+        {
+            get { return this.Name; }
+        }
+
+        public string Description
+        {
+            get { return string.Empty; }
         }
 
         /// <summary>
-        /// Gets the RightFlag value for this Right instance.
+        /// Gets the Right value for this Right instance.
         /// </summary>
-        public RightFlags Flag
+        public Rights Flag
         {
             get
             {
                 return this._flag;
             }
         }
-        private readonly RightFlags _flag;
+        private readonly Rights _flag;
+
+        /// <summary>
+        /// Gets the name of this right.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// This returns the string name of the Flag enum that this instance represents.
+        /// 
+        /// This value should be the one that's serialized to the provider's data store as
+        /// it's far less likely to change than the numerical value.
+        /// 
+        /// </remarks>
+        public string Name
+        {
+            get { return this._name; }
+        }
+        private readonly string _name;
+
+        /// <summary>
+        /// Gets the Roles that currently have this Right.
+        /// </summary>
+        /// <remarks>
+        /// This returns a read only wrapper around the internal roles list. The Roles list is not allowed
+        /// to be altered anywhere. Changes to the list need to go through the proper channels.
+        /// </remarks>
+        public IEnumerable<string> Roles
+        {
+            get { return this._readOnlyRoles; }
+        }
+
+
+        #endregion
+
+        #region "Methods"
+
+        /// <summary>
+        /// Adds a role to the list of roles that have this Right.
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <returns>True if the role doesn't already exist in the list of roles. Otherwise, false.</returns>
+        /// <remarks>
+        /// 
+        /// Use this method specifically to add roles to the internal list. This lets us keep track
+        /// of what's added to it.
+        /// 
+        /// </remarks>
+        public bool AddRole(string roleName)
+        {
+            roleName = PrepareRoleName(roleName);
+
+            lock (this.instanceLockObj)
+            {
+                if (!this.Roles.Contains(roleName, StringComparer.OrdinalIgnoreCase))
+                {
+                    this._rolesWithRight.Add(roleName);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a Role from the collection of roles that allow this Right.
+        /// </summary>
+        /// <param name="roleName"></param>
+        /// <returns>Returns true if the role was removed, false otherwise.</returns>
+        /// <remarks>
+        /// 
+        /// Use this method specifically to remove roles from the internal list. This lets us keep track
+        /// of what's removed from it.
+        /// 
+        /// </remarks>
+        public bool RemoveRole(string roleName)
+        {
+
+            roleName = PrepareRoleName(roleName);
+
+            if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new System.Security.SecurityException("Roles can not be removed from the administrative role");
+            }
+            else
+            {
+                lock (this.instanceLockObj)
+                {
+                    return this._rolesWithRight.Remove(roleName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears all the roles in the roles list. This is only meant to be used during the static RefreshAllRoles method.
+        /// </summary>
+        private void ClearRoles()
+        {
+            lock (this.instanceLockObj)
+            {
+                this._rolesWithRight.Clear();
+            }
+        }
+
+        #endregion
 
         #endregion
 
     }
 
-
-    /// <summary>
-    /// Enum that represents rights or permissions that are used through out BlogEngine.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// This was originally a Flag-based enum, but I decided to change that just because it would lead to really annoying
-    /// conflicts if new values are added down the line either by other users or as part of the core library.
-    /// 
-    /// Also, at the moment this doesn't nearly represent all the current possible actions. This is just a few
-    /// test values to play with.
-    /// 
-    /// I'd recommend using a common word pattern when used. Ie: Create/Edit/Delete/Publish as prefixes.
-    /// 
-    /// </remarks>
-    public enum RightFlags
-    {
-
-        /// <summary>
-        /// Represents a user that has no rights or permissions. This flag should not be used in combination with any other flag.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// A user is allowed to create and submit comments for posts or pages.
-        /// </summary>
-        CreateComments,
-
-        // Values pertaining to POSTS
-        CreateNewPosts,
-
-        EditOwnPosts,
-        EditOtherUsersPosts,
-
-        DeleteOwnPosts,
-        DeleteOtherUsersPosts,
-
-        PublishOwnPosts,
-        PublishOtherUsersPosts,
-
-
-        // Values pertaining to PAGES
-        CreateNewPages,
-
-        EditOwnPages,
-        EditOtherUsersPages,
-
-        DeleteOwnPages,
-        DeleteOtherUsersPages,
-
-        PublishOwnPages,
-        PublicOtherUsersPages,
-
-        /// <summary>
-        /// User can approve, delete, or mark comments as spam.
-        /// </summary>
-        ModerateComments,
-
-        // Roles
-        CreateNewRoles,
-        EditRoles,
-        DeleteRoles
-    }
 
 }

@@ -92,6 +92,21 @@
         public abstract List<Referrer> FillReferrers();
 
         /// <summary>
+        /// Returns a dictionary representing rights and the roles that allow them.
+        /// </summary>
+        /// <returns>
+        /// 
+        /// The key must be a string of the name of the Rights enum of the represented Right.
+        /// The value must be an IEnumerable of strings that includes only the role names of
+        /// roles the right represents.
+        /// 
+        /// Inheritors do not need to worry about verifying that the keys and values are valid.
+        /// This is handled in the Right class.
+        /// 
+        /// </returns>
+        public abstract IDictionary<string, IEnumerable<String>> FillRights();
+
+        /// <summary>
         /// Inserts a new BlogRoll into the data store specified by the provider.
         /// </summary>
         /// <param name="blogRollItem">
@@ -193,6 +208,12 @@
         /// The services.
         /// </param>
         public abstract void SavePingServices(StringCollection services);
+
+        /// <summary>
+        /// Saves all of the Rights and the roles that coorespond with them.
+        /// </summary>
+        /// <param name="rights"></param>
+        public abstract void SaveRights(IEnumerable<Right> rights);
 
         /// <summary>
         /// Saves the settings to the provider.

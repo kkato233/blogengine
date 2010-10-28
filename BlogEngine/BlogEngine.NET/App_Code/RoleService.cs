@@ -1,6 +1,8 @@
 ﻿namespace App_Code
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Script.Services;
     using System.Web.Security;
     using System.Web.Services;
@@ -14,14 +16,9 @@
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
-    public class RoleService : WebService
+    public sealed class RoleService : WebService
     {
         #region Constants and Fields
-
-        /// <summary>
-        ///     JSON object that will be return back to client
-        /// </summary>
-        private readonly JsonResponse response;
 
         #endregion
 
@@ -32,7 +29,6 @@
         /// </summary>
         public RoleService()
         {
-            this.response = new JsonResponse();
         }
 
         #endregion
@@ -51,53 +47,38 @@
         [WebMethod]
         public JsonResponse Add(string roleName)
         {
-            if (!this.IsAdmin())
+            if (!Security.IsAuthorizedTo(Rights.CreateNewRoles))
             {
-                this.response.Success = false;
-                this.response.Message = "Not authorized";
-                return this.response;
+                return GetNotAuthorized();
             }
-
-            if (string.IsNullOrEmpty(roleName))
+            else if (Utils.StringIsNullOrWhitespace(roleName))
             {
-                this.response.Success = false;
-                this.response.Message = "Role name is required field";
-                return this.response;
+                return new JsonResponse() { Message = "Role name is a required field." };
             }
-
-            var roles = Roles.GetAllRoles();
-            if (roles.GetUpperBound(0) > 0)
+            else if (Roles.RoleExists(roleName))
             {
-                for (var i = 0; i <= roles.GetUpperBound(0); i++)
+                return new JsonResponse() { Message = string.Format("Role \"{0}\" already exists", roleName) };
+            }
+            else
+            {
+                var response = new JsonResponse();
+
+                try
                 {
-                    if (roles[i].ToLowerInvariant() != roleName.ToLowerInvariant())
-                    {
-                        continue;
-                    }
+                    Roles.CreateRole(roleName);
+                    response.Success = true;
+                    response.Message = string.Format("Role \"{0}\" has been created", roleName);
 
-                    this.response.Success = false;
-                    this.response.Message = string.Format("Role \"{0}\" already exists", roleName);
-                    return this.response;
                 }
-            }
+                catch (Exception ex)
+                {
+                    Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
+                    response.Success = false;
+                    response.Message = string.Format("Could not create the role: {0}", roleName);
+                }
 
-            try
-            {
-                Roles.CreateRole(roleName);
+                return response;
             }
-            catch (Exception ex)
-            {
-                Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
-                this.response.Success = false;
-                this.response.Message = string.Format("Could not create the role: {0}", roleName);
-                return this.response;
-            }
-
-            this.response.Success = true;
-            this.response.Message = string.Format("Role \"{0}\" has been created", roleName);
-
-            // _response.Data = string.Format(row, roleName);
-            return this.response;
         }
 
         /// <summary>
@@ -112,35 +93,84 @@
         [WebMethod]
         public JsonResponse Delete(string id)
         {
-            if (!this.IsAdmin())
+            if (!Security.IsAuthorizedTo(Rights.DeleteRoles))
             {
-                this.response.Success = false;
-                this.response.Message = "Not authorized";
-                return this.response;
+                return GetNotAuthorized();
             }
-
-            if (string.IsNullOrEmpty(id))
+            else if (Utils.StringIsNullOrWhitespace(id))
             {
-                this.response.Success = false;
-                this.response.Message = "Role name is required field";
-                return this.response;
+                return new JsonResponse() { Message = "Role name is required field" };
             }
 
             try
             {
                 Roles.DeleteRole(id);
+                return new JsonResponse() { Success = true, Message = string.Format("Role \"{0}\" has been deleted", id) };
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
-                this.response.Success = false;
-                this.response.Message = string.Format("Could not delete the role: {0}", id);
-                return this.response;
+                return new JsonResponse() { Message = string.Format("Could not delete the role: {0}", id) };
+            }
+        }
+
+        /// <summary>
+        /// Saves the rights for a specific Role. 
+        /// </summary>
+        /// <param name="roleName">The name of the role whose rights are being updated.</param>
+        /// <param name="rightsCollection">A dictionary of rights that a role is allowed to have.</param>
+        /// <returns></returns>
+        [WebMethod]
+        public JsonResponse SaveRights(string roleName, Dictionary<string, bool> rightsCollection)
+        {
+            if (!Security.IsAuthorizedTo(Rights.EditRoles))
+            {
+                return new JsonResponse() { Message = "Not authorized" };
+            }
+            else if (Utils.StringIsNullOrWhitespace(roleName) || !Roles.RoleExists(roleName))
+            {
+                return new JsonResponse() { Message = "Invalid role name" };
+            }
+            else if (rightsCollection == null)
+            {
+                return new JsonResponse() { Message = "rightsCollection argument can not be null." };
+            }
+            else
+            {
+
+                // The rights collection can be empty, just not null. An empty array would indicate that a role is
+                // being updated to include no rights at all.
+                rightsCollection = new Dictionary<string, bool>(rightsCollection, StringComparer.OrdinalIgnoreCase);
+
+                // Validate the dictionary before doing any altering to Rights.
+                foreach (var right in rightsCollection)
+                {
+                    if (!Right.RightExists(right.Key))
+                    {
+                        return new JsonResponse() { Success = true, Message = String.Format("No such Right exists: {0}", right.Key) };
+                    }
+                    else if (right.Value == false)
+                    {
+                        return new JsonResponse() { Success = true, Message = "Do not pass back rights that have false values." };
+                    }
+                }
+
+                foreach (var right in Right.GetAllRights())
+                {
+                    if (rightsCollection.ContainsKey(right.Name))
+                    {
+                        right.AddRole(roleName);
+                    }
+                    else
+                    {
+                        right.RemoveRole(roleName);
+                    }
+                }
+
+                BlogEngine.Core.Providers.BlogService.SaveRights();
+                return new JsonResponse() { Success = true, Message = "Rights updated for role" };
             }
 
-            this.response.Success = true;
-            this.response.Message = string.Format("Role \"{0}\" has been deleted", id);
-            return this.response;
         }
 
         /// <summary>
@@ -161,59 +191,62 @@
         [WebMethod]
         public JsonResponse Edit(string id, string bg, string[] vals)
         {
+            if (!Security.IsAuthorizedTo(Rights.EditRoles))
+            {
+                return GetNotAuthorized();
+            }
+            else if (Utils.StringIsNullOrWhitespace(id))
+            {
+                return new JsonResponse() { Message = "id argument is null." };
+            }
+            else if (vals == null)
+            {
+                return new JsonResponse() { Message = "vals argument is null." };
+            }
+            else if (vals.Length == 0 || Utils.StringIsNullOrWhitespace(vals[0]))
+            {
+                return new JsonResponse() { Message = "Role name is required field." };
+            }
+
+
+            // Is this even being used? It looks like it was replaced with the roles template on client side.
             var ptrn = "<tr id=\"{0}\" bgcolor=\"#{1}\"><td><input type=\"checkbox\" class\"chk\"/></td>";
             ptrn +=
                 "<td class='editable'>{0}</td><td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"editButton\">edit</a></td>";
             ptrn +=
                 "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"deleteButton\">delete</a></td></tr>";
 
-            this.response.Success = false;
-            this.response.Data = string.Format(ptrn, vals[0], bg);
-
-            if (!this.IsAdmin())
-            {
-                this.response.Message = "Not authorized";
-                return this.response;
-            }
-
-            if (string.IsNullOrEmpty(vals[0]))
-            {
-                this.response.Message = "Role name is required field";
-                return this.response;
-            }
+            var response = new JsonResponse();
+            response.Data = string.Format(ptrn, vals[0], bg);
 
             try
             {
+                // What's this do exactly? 
                 Roles.DeleteRole(id);
                 Roles.CreateRole(vals[0]);
+               
+                response.Success = true;
+                response.Message = string.Format("Role updated from \"{0}\" to \"{1}\"", id, vals[0]);
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Roles.UpdateRole: {0}", ex.Message));
-                this.response.Message = string.Format("Could not update the role: {0}", vals[0]);
-                return this.response;
+                response.Message = string.Format("Could not update the role: {0}", vals[0]);
             }
 
-            this.response.Success = true;
-            this.response.Message = string.Format("Role updated from \"{0}\" to \"{1}\"", id, vals[0]);
-            return this.response;
+            return response;
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Determines whether this instance is admin.
-        /// </summary>
-        /// <returns>
-        ///     <c>true</c> if this instance is admin; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsAdmin()
+        private static JsonResponse GetNotAuthorized()
         {
-            return this.User.IsInRole(BlogSettings.Instance.AdministratorRole);
+            return new JsonResponse() { Success = false, Message = "Not authorized" };
         }
 
         #endregion
+
     }
 }

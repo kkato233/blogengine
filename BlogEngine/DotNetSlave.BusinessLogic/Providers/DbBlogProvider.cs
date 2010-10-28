@@ -38,7 +38,6 @@
 
         #endregion
 
-
         #region Public Methods
 
         /// <summary>
@@ -374,6 +373,11 @@
             }
 
             return referrers;
+        }
+
+        public override IDictionary<string, IEnumerable<string>> FillRights()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -825,6 +829,11 @@
                     }
                 }
             }
+        }
+
+        public override void SaveRights(IEnumerable<Right> rights)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
