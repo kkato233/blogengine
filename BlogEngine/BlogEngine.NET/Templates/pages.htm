@@ -1,0 +1,32 @@
+﻿{#if $T.d.length == 0}
+<div class="info">
+    You haven't written any pages so far. To write a new page use the link in the right side menu.
+</div>
+{#else}
+<table id="Pages" class="beTable rounded" style="width:100%">
+    <thead>
+        <tr>
+            <th width="70" style="text-align:center;">Published</th>
+            <th width="auto">Title</th>
+            <th width="auto">Parent</th>
+            <th width="100" style="text-align:center;">Show In List</th>
+	        <th width="100">Created on</th>
+            <th width="60">&nbsp;</th>
+	        <th width="60">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#foreach $T.d as p}
+        <tr id="{$T.p.Id}" class="{#cycle values=['','alt']}">
+            <td style="text-align:center;"><span class="published-{$T.p.IsPublished}"></span></td>
+            <td><a href="EditPage.aspx?id={$T.p.Id}">{$T.p.Title}</a></td>
+            <td><span>{$T.p.ParentTitle}</span></td>
+            <td style="text-align:center;"><span class="published-{$T.p.ShowInList}"></span></td>
+            <td><span class="comment_date">{$T.p.Date}</span><span class="comment_time">{$T.p.Time}</span></td>
+            <td align="center"><a class="editAction" href="EditPage.aspx?id={$T.p.Id}">Edit</a></td>
+            <td align="center">{#if $T.p.HasChildred == false}<a href="#" class="deleteAction" onclick="return DeletePage(this);">Delete</a>{#/if}</td>
+        </tr>
+        {#/for}
+    </tbody>
+</table>
+{#/if}
