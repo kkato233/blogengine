@@ -155,6 +155,26 @@
 
                 function closeOverlay() {
                     $.colorbox.close();
+                    return false;
+                }
+
+                function colorboxDialogSubmitClicked(validationGroup, panelId) {
+
+                    // For file/image uploads, colorbox moves the file upload and submit buttons
+                    // outside the form tag.  This prevents submitting from working.  Before
+                    // a submit can work, need to move the dialog box containing the controls
+                    // back inside the form tag.
+                    // First check to make sure validation passes before closing colorbox.
+
+                    if (typeof Page_ClientValidate !== 'undefined') {
+                        if (!Page_ClientValidate(validationGroup)) {
+                            return true;
+                        }
+                    }
+
+                    $.colorbox.close();
+                    $("form").append($("#" + panelId));
+                    return true;
                 }
             </script>
 
@@ -170,7 +190,7 @@
                         </li>
                         <li style="margin:0;">
                             <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="imageupload" CssClass="btn primary" OnClick="BtnUploadImageClick" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                                ValidationGroup="imageupload" CssClass="btn primary" OnClick="BtnUploadImageClick" OnClientClick="colorboxDialogSubmitClicked('imageupload', 'uploadImagePanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
                         </li>
                     </ul>
                 </div>
@@ -185,7 +205,7 @@
                         </li>
                         <li style="margin:0;">
                             <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="fileUpload" CssClass="btn primary" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                                ValidationGroup="fileUpload" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('fileUpload', 'uploadFilePanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
                         </li>
                     </ul>
                 </div>
