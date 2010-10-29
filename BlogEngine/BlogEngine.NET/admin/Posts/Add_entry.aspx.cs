@@ -34,6 +34,23 @@
         /// </summary>
         private string callback;
 
+        /// <summary>
+        /// URL of the current post
+        /// </summary>
+        protected string PostUrl
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(this.Request.QueryString["id"]) && this.Request.QueryString["id"].Length == 36)
+                {
+                    var id = new Guid(this.Request.QueryString["id"]);
+                    BlogEngine.Core.Post p = BlogEngine.Core.Post.GetPost(id);
+                    return p.RelativeLink;
+                }
+                return string.Empty;
+            }
+        }
+
         #endregion
 
         #region Implemented Interfaces
