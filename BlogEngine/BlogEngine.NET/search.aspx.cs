@@ -149,9 +149,16 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		int page = 1;
 
-		if (Request.QueryString["page"] != null)
+        string queryStringPage = Request.QueryString["page"];
+        if (!Utils.StringIsNullOrWhitespace(queryStringPage))
 		{
-			page = int.Parse(Request.QueryString["page"]);
+            int.TryParse(queryStringPage, out page);
+
+            // Negative numbers can be passed, throwing an ArgumentOutOfRange exception.
+            if (page < 1)
+            {
+                page = 1;
+            }
 		}
 
 		int start = PAGE_SIZE * (page - 1);
@@ -159,8 +166,10 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (start <= list.Count - 1)
 		{
 			int size = PAGE_SIZE;
-			if (start + size > list.Count)
-				size = list.Count - start;
+            if (start + size > list.Count)
+            {
+                size = list.Count - start;
+            }
 
 			rep.DataSource = list.GetRange(start, size);
 			rep.DataBind();
@@ -171,8 +180,10 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 
 	private void BindPaging(int results, int page)
 	{
-		if (results <= PAGE_SIZE)
-			return;
+        if (results <= PAGE_SIZE)
+        {
+            return;
+        }
 
 		decimal pages = Math.Ceiling((decimal)results / (decimal)PAGE_SIZE);
 
@@ -235,25 +246,15 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 		else
 		{
-			text = StripHtml(content);
-			if (text.Length > 200)
-				text = text.Substring(0, 200) + " ...";
+			text = Utils.StripHtml(content);
+            if (text.Length > 200)
+            {
+                text = text.Substring(0, 200) + " ...";
+            }
 			text = "\"" + text.Trim() + "\"";
 		}
 
 		return text;
-	}
-
-	private static Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
-	/// <summary>
-	/// Removes all HTML tags from a given string
-	/// </summary>
-	private static string StripHtml(string html)
-	{
-		if (string.IsNullOrEmpty(html))
-			return string.Empty;
-
-		return _Regex.Replace(html, string.Empty);
 	}
 
 	#endregion

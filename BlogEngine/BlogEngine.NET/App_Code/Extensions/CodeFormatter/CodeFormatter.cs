@@ -22,11 +22,6 @@ public class CodeFormatterExtension
     #region Constants and Fields
 
     /// <summary>
-    /// The regex.
-    /// </summary>
-    private static readonly Regex Aregex = new Regex("<[^>]*>", RegexOptions.Compiled);
-
-    /// <summary>
     /// The code regex.
     /// </summary>
     private static readonly Regex CodeRegex =
@@ -50,16 +45,6 @@ public class CodeFormatterExtension
     #endregion
 
     #region Methods
-
-    /// <summary>
-    /// Strips the HTML.
-    /// </summary>
-    /// <param name="html">The HTML string.</param>
-    /// <returns>The stripped HTML.</returns>
-    private static string StripHtml(string html)
-    {
-        return string.IsNullOrEmpty(html) ? string.Empty : Aregex.Replace(html, string.Empty);
-    }
 
     /// <summary>
     /// Codes the evaluator.
@@ -134,7 +119,7 @@ public class CodeFormatterExtension
                         LineNumbers = options.DisplayLineNumbers,
                         Alternate = options.AlternateLineNumbers
                     };
-                text = StripHtml(text).Trim();
+                text = Utils.StripHtml(text);
                 var code = htmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
                 return code.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
@@ -145,7 +130,7 @@ public class CodeFormatterExtension
                         Alternate = options.AlternateLineNumbers
                     };
                 text = text.Replace("<br />", "\r\n");
-                text = StripHtml(text).Trim();
+                text = Utils.StripHtml(text);
                 var xml = xmlf.FormatCode(HttpContext.Current.Server.HtmlDecode(text)).Trim();
                 return xml.Replace("\r\n", "<br />").Replace("\n", "<br />");
 

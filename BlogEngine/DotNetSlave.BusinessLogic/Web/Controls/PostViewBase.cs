@@ -39,19 +39,20 @@
         {
             get
             {
-                var body = this.Post.Content;
+                var post = this.Post;
+                var body = post.Content;
 
                 if (this.ShowExcerpt)
                 {
-                    var link = string.Format(" <a href=\"{0}\">[{1}]</a>", this.Post.RelativeLink, Utils.Translate("more"));
+                    var link = string.Format(" <a href=\"{0}\">[{1}]</a>", post.RelativeLink, Utils.Translate("more"));
 
-                    if (!string.IsNullOrEmpty(this.Post.Description))
+                    if (!string.IsNullOrEmpty(post.Description))
                     {
-                        body = this.Post.Description.Replace(Environment.NewLine, "<br />") + link;
+                        body = post.Description.Replace(Environment.NewLine, "<br />") + link;
                     }
                     else
                     {
-                        body = Utils.StripHtml(this.Post.Content);
+                        body = Utils.StripHtml(body);
                         if (body.Length > this.DescriptionCharacters)
                         {
                             body = string.Format("{0}...{1}", body.Substring(0, this.DescriptionCharacters), link);
@@ -60,7 +61,7 @@
                 }
 
                 var arg = new ServingEventArgs(body, this.Location, this.ContentBy);
-                Post.OnServing(this.Post, arg);
+                Post.OnServing(post, arg);
 
                 if (arg.Cancel)
                 {
@@ -114,18 +115,25 @@
         ///     Gets or sets the Post object that is displayed through the PostView.ascx control.
         /// </summary>
         /// <value>The Post object that has to be displayed.</value>
-        public virtual Post Post
-        {
-            get
-            {
-                return (Post)this.ViewState["Post"];
-            }
+        /// <remarks>
+        /// 
+        /// This was being stored to ViewState, though I can't see any reason why. Storing this
+        /// locally should improve performance.
+        /// 
+        /// </remarks>
+        public Post Post { get; set; }
+        //public virtual Post Post
+        //{
+        //    get
+        //    {
+        //        return (Post)this.ViewState["Post"];
+        //    }
 
-            set
-            {
-                this.ViewState["Post"] = value;
-            }
-        }
+        //    set
+        //    {
+        //        this.ViewState["Post"] = value;
+        //    }
+        //}
 
         /// <summary>
         ///     Gets or sets a value indicating whether or not to show the entire post or just the excerpt/description.
@@ -262,10 +270,16 @@
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-            if (!this.Post.IsVisible && !this.Page.User.Identity.IsAuthenticated)
+
+            if ((!this.Post.IsVisible && !Security.IsAuthorizedTo(Rights.ViewPrivatePosts)) ||
+                (!this.Post.IsPublished && !Security.IsAuthorizedTo(Rights.ViewUnpublishedPosts)))
             {
                 this.Visible = false;
             }
+            //if (!this.Post.IsVisible && !this.Page.User.Identity.IsAuthenticated)
+            //{
+            //    this.Visible = false;
+            //}
         }
 
         /// <summary>

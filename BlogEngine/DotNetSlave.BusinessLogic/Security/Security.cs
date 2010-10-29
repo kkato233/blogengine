@@ -36,6 +36,17 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
+        /// If the current user is authenticated, returns the current MembershipUser. If not, returns null. This is just a shortcut to Membership.GetUser().
+        /// </summary>
+        public static MembershipUser CurrentMembershipUser
+        {
+            get
+            {
+                return Membership.GetUser();
+            }
+        }
+
+        /// <summary>
         /// Gets the current user for the current HttpContext.
         /// </summary>
         /// <remarks>
@@ -94,6 +105,14 @@ namespace BlogEngine.Core
         public static void DemandUserHasRight(Rights right)
         {
             if (!IsAuthorizedTo(right))
+            {
+                throw new SecurityException("User doesn't have the right to perform this");
+            }
+        }
+
+        public static void DemandUserHasRight(AuthorizationCheck authCheck, params Rights[] rights)
+        {
+            if (!IsAuthorizedTo(authCheck, rights))
             {
                 throw new SecurityException("User doesn't have the right to perform this");
             }

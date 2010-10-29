@@ -106,7 +106,7 @@
             {
                 var codeAssemblies = Utils.CodeAssemblies();
                 return
-                    codeAssemblies.Cast<Assembly>().Select(a => a.GetType(className)).Where(t => t != null).Select(
+                    codeAssemblies.Select(a => a.GetType(className)).Where(t => t != null).Select(
                         t => (ICustomFilter)Activator.CreateInstance(t)).FirstOrDefault();
             }
             catch (Exception)
