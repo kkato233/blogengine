@@ -49,7 +49,10 @@ namespace Admin
                         c.Website = string.IsNullOrEmpty(website) ? null : new Uri(website);
                         c.Content = cont;
 
+                        // need to mark post as "dirty"
+                        p.DateModified = DateTime.Now;
                         p.Save();
+
                         return JsonComments.GetComment(gId);
                     }
                 }
@@ -59,9 +62,9 @@ namespace Admin
         }
 
         [WebMethod]
-        public static IEnumerable LoadPosts(int pageSize, int page, string  type, string val)
+        public static IEnumerable LoadPosts(int page, string  type, string filter, string title)
         {
-            return JsonPosts.GetPosts(pageSize, page, type, val);
+            return JsonPosts.GetPosts(page, type, filter, title);
         }
 
         [WebMethod]
@@ -71,9 +74,9 @@ namespace Admin
         }
 
         [WebMethod]
-        public static string LoadPostPager(int pageSize, int page, string type)
+        public static string LoadPostPager(int page)
         {
-            return JsonPosts.GetPager(pageSize, page, type);
+            return JsonPosts.GetPager(page);
         }
 
         [WebMethod]
