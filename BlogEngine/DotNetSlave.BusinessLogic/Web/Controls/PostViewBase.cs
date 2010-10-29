@@ -139,48 +139,68 @@
         {
             get
             {
-                if (this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) ||
-                    this.Page.User.Identity.Name.Equals(this.Post.Author, StringComparison.OrdinalIgnoreCase))
+                if (!Security.IsAuthenticated)
                 {
-                    var confirmDelete = string.Format(
-                        CultureInfo.InvariantCulture,
-                        Utils.Translate("areYouSure"),
-                        Utils.Translate("delete").ToLowerInvariant(),
-                        Utils.Translate("thePost"));
+                    return string.Empty;
+                }
+                else
+                {
+                    bool userOwnsPost = Security.CurrentUser.Identity.Name.Equals(this.Post.Author, StringComparison.OrdinalIgnoreCase);
+
+                    var postRelativeLink = this.Post.RelativeLink;
+
                     var sb = new StringBuilder();
 
-                    if (this.Post.NotApprovedComments.Count > 0 &&
-                        BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Disqus)
+                    if (Security.IsAuthorizedTo(Rights.ModerateComments))
+                    {
+                        if (this.Post.NotApprovedComments.Count > 0 &&
+                            BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Disqus)
+                        {
+                            sb.AppendFormat(
+                                CultureInfo.InvariantCulture,
+                                "<a href=\"{0}\">{1} ({2})</a> | ",
+                                postRelativeLink,
+                                Utils.Translate("unapprovedcomments"),
+                                this.Post.NotApprovedComments.Count);
+                            sb.AppendFormat(
+                                CultureInfo.InvariantCulture,
+                                "<a href=\"{0}\">{1}</a> | ",
+                                postRelativeLink + "?approveallcomments=true",
+                                Utils.Translate("approveallcomments"));
+                        }
+                    }
+
+                    if ((userOwnsPost && Security.IsAuthorizedTo(Rights.EditOwnPosts)) ||
+                        Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
                     {
                         sb.AppendFormat(
                             CultureInfo.InvariantCulture,
-                            "<a href=\"{0}\">{1} ({2})</a> | ",
-                            this.Post.RelativeLink,
-                            Utils.Translate("unapprovedcomments"),
-                            this.Post.NotApprovedComments.Count);
-                        sb.AppendFormat(
-                            CultureInfo.InvariantCulture,
                             "<a href=\"{0}\">{1}</a> | ",
-                            this.Post.RelativeLink + "?approveallcomments=true",
-                            Utils.Translate("approveallcomments"));
+                            Utils.AbsoluteWebRoot + "admin/Pages/Add_entry.aspx?id=" + this.Post.Id,
+                            Utils.Translate("edit"));
                     }
 
-                    sb.AppendFormat(
-                        CultureInfo.InvariantCulture,
-                        "<a href=\"{0}\">{1}</a> | ",
-                        Utils.AbsoluteWebRoot + "admin/Pages/Add_entry.aspx?id=" + this.Post.Id,
-                        Utils.Translate("edit"));
-                    sb.AppendFormat(
-                        CultureInfo.InvariantCulture,
-                        "<a href=\"javascript:void(0);\" onclick=\"if (confirm('{2}')) location.href='{0}?deletepost={1}'\">{3}</a> | ",
-                        this.Post.RelativeLink,
-                        this.Post.Id,
-                        confirmDelete,
-                        Utils.Translate("delete"));
+
+
+                    if ((userOwnsPost && Security.IsAuthorizedTo(Rights.DeleteOwnPosts)) ||
+                        Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts ))
+                    {
+                        var confirmDelete = string.Format(
+                              CultureInfo.InvariantCulture,
+                              Utils.Translate("areYouSure"),
+                              Utils.Translate("delete").ToLowerInvariant(),
+                              Utils.Translate("thePost"));
+                       
+                        sb.AppendFormat(
+                            CultureInfo.InvariantCulture,
+                            "<a href=\"#\" onclick=\"if (confirm('{2}')) location.href='{0}?deletepost={1}'\">{3}</a> | ",
+                            postRelativeLink,
+                            this.Post.Id,
+                            confirmDelete,
+                            Utils.Translate("delete"));
+                    }
                     return sb.ToString();
                 }
-
-                return string.Empty;
             }
         }
 
@@ -192,12 +212,11 @@
         {
             get
             {
-                if (!BlogSettings.Instance.EnableRating)
+                if (!BlogSettings.Instance.EnableRating || !Security.IsAuthorizedTo(AuthorizationCheck.HasAll, Rights.ViewRatingsOnPosts, Rights.SubmitRatingsOnPosts))
                 {
                     return string.Empty;
                 }
 
-                // string script = "<div id=\"rating_{0}\"></div><script type=\"text/javascript\">BlogEngine.showRating('{0}',{1},{2});</script>";
                 const string Script = "<div class=\"ratingcontainer\" style=\"visibility:hidden\">{0}|{1}|{2}</div>";
                 return string.Format(
                     Script,
@@ -264,7 +283,7 @@
         {
             base.OnLoad(e);
 
-         
+
             var bodyContent = (PlaceHolder)this.FindControl("BodyContent");
             if (bodyContent == null)
             {
