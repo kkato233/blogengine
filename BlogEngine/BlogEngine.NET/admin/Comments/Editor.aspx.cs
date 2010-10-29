@@ -149,12 +149,10 @@
                     c.Website = website;
                     c.Email = this.txtEmail.Text;
 
-                    // Need to mark post as "changed" for it to get saved. 
-                    var desc = p.Description;
-                    p.Description = string.Format("{0} ", desc ?? string.Empty);
-                    p.Description = desc;
-
+                    // need to mark post as "dirty"
+                    p.DateModified = DateTime.Now;
                     p.Save();
+
                     found = true;
                     break;
                 }
@@ -215,7 +213,10 @@
                         // now moderator can be set to admin role
                         c.ModeratedBy = HttpContext.Current.User.Identity.Name;
 
+                        // need to mark post as "dirty"
+                        p.DateModified = DateTime.Now;
                         p.Save();
+
                         found = true;
                         break;
                     }

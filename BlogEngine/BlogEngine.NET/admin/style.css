@@ -36,7 +36,7 @@ label.wide {float: left;display: block;}
 /* Content */
 /* ------------------------------*/
 .content-box-outer {clear:both; background:#fff; border-right:solid 1px #b5b5b5; border-bottom:solid 1px #b5b5b5;
-    min-width:980px;
+    min-width:980px; 
     -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; 
     -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px;
     -khtml-border-bottom-left-radius:5px; -khtml-border-bottom-right-radius:5px;
@@ -125,16 +125,16 @@ label.lbl { display:block; margin:0 0 5px 0;}
 #tagselector a.close { float:right; display:block; width:14px; height:14px; margin:1px; padding:0;
     background: transparent url("images/action-delete.png") no-repeat scroll center center;}
 .autosaveMsg { font-style:italic; color:#dcdcdc;}
-.editToolbar { margin:0 0 5px;}
+.editToolbar { margin:0 0 5px; overflow:hidden;}
 .editToolbar a { float:right; margin-left:10px;}
 
 /* Tables */
 /* ------------------------------*/
 .beTable { border-collapse:collapse; border: 1px solid #dcdcdc; border-top:solid 5px #c8c8c8; margin: 10px 0; width: 100%; 
     position:static;}
-.beTable th { padding: 7px 5px; background-color:#dcdcdc; text-align: left; }
-.beTable td { padding: 5px;	margin: 0; }
-.beTable tr.alt td { background-color:#f0f0f0; }
+.beTable th { padding: 10px 5px; background-color:#e5e5e5; text-align: left; }
+.beTable td { padding: 8px; margin: 0; min-height:30px; }
+.beTable tr.alt td { background-color:#f5f5f5; }
 
 .beTable .comments {background: transparent url("images/icon-comments.png") no-repeat scroll left center; padding-left:18px;}
 .beTable .published-true {background: transparent url("images/action-enable.png") no-repeat scroll left center; padding-left:16px;}
@@ -144,13 +144,13 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .beTable .rowTools li:hover .rowToolsMenu { display:block;}
 .beTable .rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
     border:solid 1px #dcdcdc; list-style:none; display:none; margin-right:20px; margin-top:1px;}
-.beTable .rowToolsMenu li {padding:2px;}
+.beTable .rowToolsMenu li {padding:2px; min-width:80px;}
 .beTable .rowToolsMenu a { display:block; padding:5px 10px 5px 24px; color:#7a7a7a; text-decoration:none;}
 .beTable .rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
 
 .tableToolBox { overflow:hidden;}
 .tableToolBox a.current { color:#555; text-decoration:underline;}
-
+#filteredby { margin-left:10px; font-weight:bold;}
 .Pager { float:right;}
 .Pager .prevLink {background: transparent url("images/link-prev.png") no-repeat scroll center center; padding:8px;}
 .Pager .nextLink {background: transparent url("images/link-next.png") no-repeat scroll center center; padding:8px;}
@@ -170,6 +170,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
     background: transparent url("images/action-settings.png") no-repeat scroll left center;}
 .image {background: transparent url("images/icon-image.png") no-repeat scroll left center; padding-left:18px;  }
 .file {background: transparent url("images/icon-file.png") no-repeat scroll left center;  padding-left:18px; }
+.view {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px; }
 
 .toolsAction { font-size:12px; font-weight:normal;
     border: 1px solid #dcdcdc; padding: 3px 9px; background: #ededed url( "images/gray-btn-bkg.png" ) repeat-x scroll 0 0; 
@@ -184,6 +185,8 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .approveAction {background: transparent url("images/action-enable-small.png") no-repeat scroll 5px center; padding-left:18px;
     font-size:12px;}
 .unapproveAction {background: transparent url("images/action-remove-small.png") no-repeat scroll 5px center; padding-left:18px;
+    font-size:12px;}
+.viewAction {background: transparent url("images/action-view-small.png") no-repeat scroll 5px center;  padding-left:18px;
     font-size:12px;}
 
 /* Sliding panels */
@@ -430,3 +433,7 @@ label.error {
     background: url('../pics/ajax-loader.gif') 0px 0px no-repeat;}
 
 .thumb { width: 60px }
+
+.comCountPending { padding: 0 2px; color: Yellow; }
+.comCountApproved { padding: 0 2px; color: Green; }
+.comCountSpam { padding: 0 2px; color: Red; }

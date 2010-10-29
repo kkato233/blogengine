@@ -27,7 +27,7 @@
     </thead>
     <tbody>
         {#foreach $T.d as cmt}
-        <tr id="{$T.cmt.Id}" class="{#cycle values=['','alt']}" style="position:relative;">
+        <tr id="{$T.cmt.Id}" class="{#cycle values=['','alt']}">
             <td><input type="checkbox" {#if $T.cmt.HasChildred} disabled {#/if} class="chk"/></td>
             <td>{$T.cmt.Avatar}</td>
             <td><span class="commenttitle">{$T.cmt.Title}</span>

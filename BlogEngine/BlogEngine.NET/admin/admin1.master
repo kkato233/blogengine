@@ -28,7 +28,7 @@
                     | <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
                 </div>                                   
             </div>
-            
+            <div class="wrapper">
             <div class="tabs toprounded">
                 <uc1:menu ID="Menu1" runat="server" />
             </div>
@@ -36,7 +36,7 @@
             <div class="content-box-outer"> 
                 <asp:ContentPlaceHolder ID="cphAdmin" runat="server" />                                                                                                 
             </div>        
-                                                  
+            </div>                                                  
             <div id="footer">
                 <form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" target="_blank" method="post" style="float:left;margin-left:10px">
                 <input type="hidden" name="cmd" value="_s-xclick" />
