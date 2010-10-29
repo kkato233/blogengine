@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rights>
+  <right name="None" />
+  <right name="ViewComments">
+    <role name="Administrators" />
+    <role name="Anonymous" />
+  </right>
+  <right name="CreateComments">
+    <role name="Administrators" />
+    <role name="Anonymous" />
+  </right>
+  <right name="ModerateComments">
+    <role name="Administrators" />
+  </right>
+  <right name="CreateNewAccounts">
+    <role name="Administrators" />
+  </right>
+  <right name="ViewPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="CreateNewPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="EditOwnPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="EditOtherUsersPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="DeleteOwnPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="DeleteOtherUsersPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="PublishOwnPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="PublishOtherUsersPosts">
+    <role name="Administrators" />
+  </right>
+  <right name="ViewPages">
+    <role name="Administrators" />
+    <role name="Anonymous" />
+  </right>
+  <right name="CreateNewPages">
+    <role name="Administrators" />
+  </right>
+  <right name="EditOwnPages">
+    <role name="Administrators" />
+  </right>
+  <right name="EditOtherUsersPages">
+    <role name="Administrators" />
+  </right>
+  <right name="DeleteOwnPages">
+    <role name="Administrators" />
+  </right>
+  <right name="DeleteOtherUsersPages">
+    <role name="Administrators" />
+  </right>
+  <right name="PublishOwnPages">
+    <role name="Administrators" />
+  </right>
+  <right name="PublishOtherUsersPages">
+    <role name="Administrators" />
+  </right>
+  <right name="ViewRoles">
+    <role name="Administrators" />
+  </right>
+  <right name="CreateNewRoles">
+    <role name="Administrators" />
+  </right>
+  <right name="EditRoles">
+    <role name="Administrators" />
+  </right>
+  <right name="DeleteRoles">
+    <role name="Administrators" />
+  </right>
+</rights>

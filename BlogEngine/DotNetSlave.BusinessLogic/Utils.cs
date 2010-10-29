@@ -1,9 +1,9 @@
 ﻿namespace BlogEngine.Core
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -17,10 +17,10 @@
     using System.Threading;
     using System.Web;
     using System.Web.Configuration;
-    using System.Xml;
+    using System.Web.Hosting;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
-    using System.Web.Hosting;
+    using System.Xml;
 
     using BlogEngine.Core.Web.Controls;
     using BlogEngine.Core.Web.Extensions;
@@ -433,13 +433,13 @@
         /// <returns>
         /// List of code assemblies
         /// </returns>
-        public static ArrayList CodeAssemblies()
+        public static IEnumerable<Assembly> CodeAssemblies()
         {
-            var codeAssemblies = new ArrayList();
+            var codeAssemblies = new List<Assembly>();
             CompilationSection s = null;
+            var assemblyName = "__code";
             try
             {
-                var assemblyName = "__code";
                 try
                 {
                     s = (CompilationSection)WebConfigurationManager.GetSection("system.web/compilation");
@@ -467,7 +467,7 @@
                     codeAssemblies.Add(Assembly.Load(assemblyName));
                 }
 
-                GetCompiledExtensions(codeAssemblies);
+                codeAssemblies.AddRange(GetCompiledExtensions());
             }
             catch (FileNotFoundException)
             {
@@ -647,13 +647,14 @@
         /// </returns>
         public static CultureInfo GetDefaultCulture()
         {
-            if (string.IsNullOrEmpty(BlogSettings.Instance.Culture) ||
-                BlogSettings.Instance.Culture.Equals("Auto", StringComparison.OrdinalIgnoreCase))
+            var settingsCulture = BlogSettings.Instance.Culture;
+            if (Utils.StringIsNullOrWhitespace(settingsCulture) ||
+                settingsCulture.Equals("Auto", StringComparison.OrdinalIgnoreCase))
             {
                 return CultureInfo.InstalledUICulture;
             }
 
-            return CultureInfo.CreateSpecificCulture(BlogSettings.Instance.Culture);
+            return CultureInfo.CreateSpecificCulture(settingsCulture);
         }
 
         /// <summary>
@@ -779,6 +780,31 @@
         }
 
 
+        private static readonly Regex emailRegex = new Regex(@"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+                                                + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+				                                            [0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+                                                + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+				                                            [0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                                                + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$");
+
+
+        /// <summary>
+        /// Validates an email address. Returns true if the string is a valid formatted email address.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public static bool IsEmailValid(string email)
+        {
+            // Null check needs to be had because RegEx
+            // doesn't accept null parameters.
+            if (!Utils.StringIsNullOrWhitespace(email))
+            {
+                return emailRegex.IsMatch(email);
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Run through all code assemblies and creates object
         ///     instance for types marked with extension attribute
@@ -786,16 +812,20 @@
         public static void LoadExtensions()
         {
             var codeAssemblies = CodeAssemblies();
+
             var sortedExtensions = new List<SortedExtension>();
 
             foreach (Assembly a in codeAssemblies)
             {
                 var types = a.GetTypes();
+                
+                Type extensionsAttribute = typeof(ExtensionAttribute);
+
                 sortedExtensions.AddRange(
                     from type in types
-                    let attributes = type.GetCustomAttributes(typeof(ExtensionAttribute), false)
+                    let attributes = type.GetCustomAttributes(extensionsAttribute, false)
                     from attribute in attributes
-                    where attribute.GetType().Name == "ExtensionAttribute"
+                    where (attribute.GetType() == extensionsAttribute)
                     let ext = (ExtensionAttribute)attribute
                     select new SortedExtension(ext.Priority, type.Name, type.FullName));
 
@@ -827,6 +857,16 @@
             {
                 OnLog(message, new EventArgs());
             }
+        }
+
+        /// <summary>
+        /// Sends a message to any subscribed log listeners.
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="ex"></param>
+        public static void Log(string methodName, Exception ex)
+        {
+            Log(String.Format("{0}: {1}", methodName, ex.Message));
         }
 
         /// <summary>
@@ -1031,7 +1071,7 @@
         /// </returns>
         public static string StripHtml(string html)
         {
-            return string.IsNullOrEmpty(html) ? string.Empty : RegexStripHtml.Replace(html, string.Empty);
+            return Utils.StringIsNullOrWhitespace(html) ? string.Empty : RegexStripHtml.Replace(html, string.Empty).Trim();
         }
 
         /// <summary>
@@ -1109,8 +1149,9 @@
         /// <param name="assemblies">
         /// List of code assemblies
         /// </param>
-        private static void GetCompiledExtensions(ArrayList assemblies)
+        private static IEnumerable<Assembly> GetCompiledExtensions()
         {
+            var assemblies = new List<Assembly>();
             var s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "bin");
             var fileEntries = Directory.GetFiles(s);
             foreach (var asm in from fileName in fileEntries
@@ -1125,6 +1166,8 @@
             {
                 assemblies.Add(asm);
             }
+
+            return assemblies;
         }
 
         /// <summary>

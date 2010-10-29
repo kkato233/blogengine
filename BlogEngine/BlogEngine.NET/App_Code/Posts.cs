@@ -17,47 +17,41 @@
     [ScriptService]
     public class Posts : WebService
     {
-        [WebMethod]
+        [Obsolete]
         public JsonResponse DeletePost(string id)
         {
-            JsonResponse response = new JsonResponse();
-            response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (Utils.StringIsNullOrWhitespace(id))
             {
-                response.Message = "Not authorized";
-                return response;
+                return new JsonResponse() { Message = "Invalid post id" };
             }
 
-            if (string.IsNullOrEmpty(id))
+            var post = Post.GetPost(new Guid(id));
+
+            if (!(Post.CurrentUserOwnsPost(post) && Security.IsAuthorizedTo(Rights.DeleteOwnPosts)) ||
+                (!Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts)))
             {
-                return response;
+                return new JsonResponse() { Message = "Not authorized." };
             }
-
-            try
+            else
             {
-                var tmp = new Post();
-
-                foreach (var post in Post.Posts)
+                try
                 {
-                    if (post.Id == new Guid(id))
-                    {
-                        tmp = post;
-                        break;
-                    }
-                }
-                Post.Posts.Remove(tmp);
-            }
-            catch (Exception ex)
-            {
-                Utils.Log(string.Format("Api.Posts.DeletePost: {0}", ex.Message));
-                response.Message = string.Format("Could not delete post: {0}", ex.Message);
-                return response;
-            }
+                    // I'm not sure this method actually does anything. It only removes it from the posts list,
+                    // but doesn't tell the provider to delete it.
+                    var tmp = Post.GetPost(new Guid(id));
+                    tmp.Delete();
+                    tmp.Save();
+                    return new JsonResponse() { Success = true, Message = "Post deleted" };
 
-            response.Success = true;
-            response.Message = "Post deleted";
-            return response;
+                }
+                catch (Exception ex)
+                {
+                    Utils.Log(string.Format("Api.Posts.DeletePost: {0}", ex.Message));
+                    return new JsonResponse() { Message = string.Format("Could not delete post: {0}", ex.Message) };
+                }
+
+            }
         }
 
         [WebMethod]

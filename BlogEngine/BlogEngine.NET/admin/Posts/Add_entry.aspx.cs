@@ -250,11 +250,16 @@
 
             // verifies if the current user is the author of the post and not and admin
             // it will redirect the user to the root of the blog.
-            if (post.Author != Thread.CurrentPrincipal.Identity.Name &&
-                !this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+
+            if (!Post.CurrentUserOwnsPost(post) || !Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
             {
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
+            //if (post.Author != Thread.CurrentPrincipal.Identity.Name &&
+            //    !this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            //{
+            //    this.Response.Redirect(Utils.RelativeWebRoot);
+            //}
 
             this.txtTitle.Text = post.Title;
             this.txtContent.Text = post.Content;
@@ -309,9 +314,10 @@
         /// </summary>
         private void BindUsers()
         {
+            var items = this.ddlAuthor.Items;
             foreach (MembershipUser user in Membership.GetAllUsers())
             {
-                this.ddlAuthor.Items.Add(user.UserName);
+                items.Add(user.UserName);
             }
         }
 
@@ -419,7 +425,32 @@
                 throw new InvalidOperationException("One or more validators are invalid.");
             }
 
-            var post = this.Request.QueryString["id"] != null ? Post.GetPost(new Guid(this.Request.QueryString["id"])) : new Post();
+
+
+            string postId = this.Request.QueryString["id"];
+            Post post = null;
+
+
+            // Security Rights validation
+
+            if (postId == null)
+            {
+                Security.DemandUserHasRight(Rights.CreateNewPosts);
+                post = new Post();
+            }
+            else
+            {
+                post = Post.GetPost(new Guid(postId));
+
+                if (Post.CurrentUserOwnsPost(post))
+                {
+                    Security.DemandUserHasRight(Rights.EditOwnPosts);
+                }
+                else
+                {
+                    Security.DemandUserHasRight(Rights.EditOtherUsersPosts);
+                }
+            }
 
             if (this.cbUseRaw.Checked)
             {

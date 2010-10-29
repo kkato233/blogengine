@@ -16,32 +16,27 @@ using System.Text.RegularExpressions;
 public partial class contact : BlogBasePage, ICallbackEventHandler
 {
 
-	private static readonly Regex _Regex = new Regex("<[^>]*>", RegexOptions.Compiled);
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
 
-	/// <summary>
-	/// Handles the Load event of the Page control.
-	/// </summary>
-	/// <param name="sender">The source of the event.</param>
-	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-	protected void Page_Load(object sender, EventArgs e)
-	{
-		ClientScript.GetCallbackEventReference(this, "arg", "callback", "context");
-		btnSend.Click += new EventHandler(btnSend_Click);
-		if (!Page.IsPostBack)
-		{
-			txtSubject.Text = Request.QueryString["subject"];
-			txtName.Text = Request.QueryString["name"];
-			txtEmail.Text = Request.QueryString["email"];
+        ClientScript.GetCallbackEventReference(this, "arg", "callback", "context");
+        btnSend.Click += new EventHandler(btnSend_Click);
+        if (!Page.IsPostBack)
+        {
+            txtSubject.Text = Request.QueryString["subject"];
+            txtName.Text = Request.QueryString["name"];
+            txtEmail.Text = Request.QueryString["email"];
 
-			GetCookie();
-			phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
-			InititializeCaptcha();
-			SetFocus();
-		}
+            GetCookie();
+            phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
+            InititializeCaptcha();
+            SetFocus();
+        }
 
-		Page.Title = Server.HtmlEncode(Resources.labels.contact);
-		base.AddMetaTag("description", _Regex.Replace(BlogSettings.Instance.ContactFormMessage, string.Empty));
-	}
+        Page.Title = Server.HtmlEncode(Resources.labels.contact);
+        base.AddMetaTag("description", Utils.StripHtml(BlogSettings.Instance.ContactFormMessage));
+    }
 
 	/// <summary>
 	/// Sets the focus on the first empty textbox.
@@ -128,12 +123,16 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 		}
 		catch (Exception ex)
 		{
-			if (User.Identity.IsAuthenticated)
+			if (Security.IsAuthorizedTo(Rights.ViewDetailedErrorMessages))
 			{
-				if (ex.InnerException != null)
-					lblStatus.Text = ex.InnerException.Message;
-				else
-					lblStatus.Text = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    lblStatus.Text = ex.InnerException.Message;
+                }
+                else
+                {
+                    lblStatus.Text = ex.Message;
+                }
 			}
 
 			return false;

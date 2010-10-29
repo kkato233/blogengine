@@ -44,6 +44,14 @@ namespace BlogEngine.Core
         /// </remarks>
         None = 0,
 
+        #region Misc
+
+        /// <summary>
+        /// A user is allowed to view exception messages.
+        /// </summary>
+        ViewDetailedErrorMessages,
+
+        #endregion
 
         #region "Comments"
 
@@ -70,11 +78,7 @@ namespace BlogEngine.Core
 
         #endregion
 
-        /// <summary>
-        /// A user is allowed to register/create a new account. 
-        /// </summary>
-        CreateNewAccounts,
-
+ 
         #region Posts
 
         /// <summary>
@@ -211,7 +215,36 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user can delete existing roles.
         /// </summary>
-        DeleteRoles
+        DeleteRoles,
+
+        #endregion
+
+        #region Users
+
+        /// <summary>
+        /// A user is allowed to register/create a new account. 
+        /// </summary>
+        CreateNewUsers,
+
+        /// <summary>
+        /// A user is allowed to delete their own account.
+        /// </summary>
+        DeleteUserSelf,
+
+        /// <summary>
+        /// A user is allowed to delete accounts they do not own.
+        /// </summary>
+        DeleteUsersOtherThanSelf,
+
+        /// <summary>
+        /// A user is allowed to edit their own account information.
+        /// </summary>
+        EditOwnUser,
+
+        /// <summary>
+        /// A user is allowed to edit the account information of other users.
+        /// </summary>
+        EditOtherUsers,
 
         #endregion
     }

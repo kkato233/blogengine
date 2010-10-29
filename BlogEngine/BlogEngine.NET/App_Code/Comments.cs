@@ -80,7 +80,7 @@
         {
             this.response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 this.response.Message = "Not authorized";
                 return this.response;
@@ -107,7 +107,7 @@
             }
             catch (Exception ex)
             {
-                Utils.Log(string.Format("Api.Comments.Reject: {0}", ex.Message));
+                Utils.Log("Api.Comments.Reject", ex);
                 this.response.Message = "Error rejecting comment";
                 return this.response;
             }
@@ -131,7 +131,7 @@
         {
             this.response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 this.response.Message = "Not authorized";
                 return this.response;
@@ -160,7 +160,7 @@
             }
             catch (Exception ex)
             {
-                Utils.Log(string.Format("Api.Comments.Reject: {0}", ex.Message));
+                Utils.Log("Api.Comments.Approve", ex);
                 this.response.Message = string.Format("Could not restore comment: {0}", vals[0]);
                 return this.response;
             }
@@ -184,7 +184,7 @@
         {
             this.response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 this.response.Message = "Not authorized";
                 return this.response;
@@ -214,7 +214,7 @@
             }
             catch (Exception ex)
             {
-                Utils.Log(string.Format("Api.Comments.Delete: {0}", ex.Message));
+                Utils.Log("Api.Comments.Delete", ex);
                 this.response.Message = string.Format("Could not delete comment: {0}", ex.Message);
                 return this.response;
             }
@@ -235,7 +235,7 @@
         {
             this.response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 this.response.Message = "Not authorized";
                 return this.response;
@@ -244,6 +244,9 @@
             try
             {
                 this.DeleteAllComments();
+                this.response.Success = true;
+                this.response.Message = "Comments deleted";
+                return this.response;
             }
             catch (Exception ex)
             {
@@ -252,9 +255,6 @@
                 return this.response;
             }
 
-            this.response.Success = true;
-            this.response.Message = "Comments deleted";
-            return this.response;
         }
 
         /// <summary>
@@ -281,6 +281,16 @@
         [WebMethod]
         public static JsonComment SaveComment(string id, string author, string email, string website, string cont)
         {
+
+            // There really needs to be validation here so people aren't just posting willy-nilly
+            // as anyone they want.
+
+            if (!Security.IsAuthorizedTo(Rights.CreateComments))
+            {
+                throw new System.Security.SecurityException("Can not create comment");
+            }
+
+
             var gId = new Guid(id);
             var jc = new JsonComment();
 

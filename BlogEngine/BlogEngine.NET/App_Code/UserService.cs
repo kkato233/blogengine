@@ -50,61 +50,58 @@
         [WebMethod]
         public JsonResponse Add(string user, string pwd, string email)
         {
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+
+            if (!Security.IsAuthorizedTo(Rights.CreateNewUsers))
             {
-                this.response.Success = false;
-                this.response.Message = "Not authorized";
-                return this.response;
+                return new JsonResponse() { Message = "Not authorized." };
+            }
+            else if (Utils.StringIsNullOrWhitespace(user))
+            {
+                return new JsonResponse() { Message = "User argument is invalid." };
+            }
+            else if (Utils.StringIsNullOrWhitespace(pwd))
+            {
+                return new JsonResponse() { Message = "Password argument is invalid." };
+            }
+            else if (Utils.StringIsNullOrWhitespace(email) || !Utils.IsEmailValid(email))
+            {
+                return new JsonResponse() { Message = "Email argument is invalid." };
             }
 
-            if (string.IsNullOrEmpty(user))
-            {
-                this.response.Success = false;
-                this.response.Message = "User name is required field";
-                return this.response;
-            }
+            user = user.Trim();
 
-            var checkUser = Membership.GetUser(user);
-            if (checkUser != null)
+            if (Membership.GetUser(user) != null)
             {
-                this.response.Success = false;
-                this.response.Message = string.Format("User \"{0}\" already exists", user);
-                return this.response;
+                return new JsonResponse() { Message = string.Format("User \"{0}\" already exists", user) };
             }
 
             try
             {
                 Membership.CreateUser(user, pwd, email);
+                return new JsonResponse() { Success = true, Message = string.Format("User \"{0}\" has been created", user) };
             }
             catch (Exception ex)
             {
-                Utils.Log(string.Format("Users.AddUser: {0}", ex.Message));
-                this.response.Success = false;
-                this.response.Message = string.Format("Could not create user: {0} : {1}", user, ex.Message);
-                return this.response;
+                Utils.Log("UserService.Add", ex);
+                return new JsonResponse() { Message = string.Format("Could not create user: {0} : {1}", user, ex.Message) };
             }
 
-            this.response.Success = true;
-            this.response.Message = string.Format("User \"{0}\" has been created", user);
-
-            // _response.Data = string.Format(row, roleName);
-            return this.response;
         }
 
         /// <summary>
         /// Deletes the specified id.
         /// </summary>
-        /// <param name="id">The user id.</param>
+        /// <param name="id">The username.</param>
         /// <returns>JSON Response</returns>
         [WebMethod]
         public JsonResponse Delete(string id)
         {
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+
+            if (!Security.IsAuthorizedTo(Rights.DeleteUsersOtherThanSelf))
             {
-                this.response.Success = false;
-                this.response.Message = "Not authorized";
-                return this.response;
+                return new JsonResponse() { Message = "Not authorized" };
             }
+
 
             if (string.IsNullOrEmpty(id))
             {
