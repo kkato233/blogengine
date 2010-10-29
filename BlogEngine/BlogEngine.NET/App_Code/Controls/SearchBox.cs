@@ -55,13 +55,13 @@ namespace App_Code.Controls
             sb.AppendLine("<div id=\"searchbox\">");
             sb.Append("<label for=\"searchfield\" style=\"display:none\">Search</label>");
             sb.AppendFormat(
-                "<input type=\"text\" value=\"{0}\" id=\"searchfield\" onkeypress=\"if(event.keyCode==13) return BlogEngine.search('{1}')\" onfocus=\"BlogEngine.searchClear('{2}')\" onblur=\"BlogEngine.searchClear('{2}')\" />", 
-                text, 
-                Utils.RelativeWebRoot, 
+                "<input type=\"text\" value=\"{0}\" id=\"searchfield\" onkeypress=\"if(event.keyCode==13) return BlogEngine.search('{1}')\" onfocus=\"BlogEngine.searchClear('{2}')\" onblur=\"BlogEngine.searchClear('{2}')\" />",
+                text,
+                Utils.RelativeWebRoot,
                 text.Replace("'", "\\'"));
             sb.AppendFormat(
-                "<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"BlogEngine.search('{1}');\" onkeypress=\"BlogEngine.search('{1}');\" />", 
-                BlogSettings.Instance.SearchButtonText, 
+                "<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"BlogEngine.search('{1}');\" onkeypress=\"BlogEngine.search('{1}');\" />",
+                BlogSettings.Instance.SearchButtonText,
                 Utils.RelativeWebRoot);
 
             if (BlogSettings.Instance.EnableCommentSearch)
