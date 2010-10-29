@@ -170,7 +170,7 @@ namespace BlogEngine.Core
         /// <returns></returns>
         public static bool IsAuthorizedTo(AuthorizationCheck authCheck, params Rights[] rights)
         {
-            return IsAuthorizedTo(authCheck, rights);
+            return IsAuthorizedTo(authCheck, rights.ToList());
         }
 
         #endregion
