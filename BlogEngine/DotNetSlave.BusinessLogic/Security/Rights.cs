@@ -178,6 +178,19 @@ namespace BlogEngine.Core
 
         #endregion
 
+        #region "Ratings"
+
+            /// <summary>
+            /// A user can view ratings on posts.
+            /// </summary>
+            ViewRatingsOnPosts,
+
+            /// <summary>
+            /// A user can submit ratings on posts.
+            /// </summary>
+            SubmitRatingsOnPosts,
+        #endregion
+
         #region Roles
 
         /// <summary>
