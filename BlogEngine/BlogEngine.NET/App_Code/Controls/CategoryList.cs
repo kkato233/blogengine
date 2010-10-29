@@ -23,10 +23,6 @@ namespace App_Code.Controls
     {
         #region Constants and Fields
 
-        /// <summary>
-        ///     The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
 
         /// <summary>
         ///     The html string.
@@ -113,16 +109,13 @@ namespace App_Code.Controls
             {
                 if (html == null)
                 {
-                    lock (SyncRoot)
+                    var ul = this.BindCategories();
+                    using (var sw = new StringWriter())
                     {
-                        if (html == null)
+                        using (var hw = new HtmlTextWriter(sw))
                         {
-                            var ul = this.BindCategories();
-                            using (var sw = new StringWriter())
-                            {
-                                ul.RenderControl(new HtmlTextWriter(sw));
-                                html = sw.ToString();
-                            }
+                            ul.RenderControl(hw);
+                            html = sw.ToString();
                         }
                     }
                 }
