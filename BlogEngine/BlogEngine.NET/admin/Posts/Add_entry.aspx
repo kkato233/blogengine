@@ -190,7 +190,7 @@
                         </li>
                         <li style="margin:0;">
                             <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="imageupload" CssClass="btn primary" OnClick="BtnUploadImageClick" OnClientClick="colorboxDialogSubmitClicked('imageupload', 'uploadImagePanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
+                                ValidationGroup="imageupload" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('imageupload', 'uploadImagePanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
                         </li>
                     </ul>
                 </div>
@@ -254,7 +254,15 @@
                            </li>
                         </ul>
                         <div class="action_buttons">
-                            <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePost()" />
+                            <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePost()" /> or 
+                            <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+                               { %>
+                            <a href="<%=PostUrl %>" title="Go to page">Go to post</a>
+                            <%}
+                               else
+                               {%>
+                            or <a href="Posts.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
+                            <%} %>
                             <span id="autoSaveLabel"></span>
                         </div>
                     </td>

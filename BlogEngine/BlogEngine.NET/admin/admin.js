@@ -116,20 +116,6 @@ function DeleteRow(obj) {
 
 //--------------	LOAD DATA VIEWS
 
-function LoadView() {
-   if(location.href.indexOf("Users/Roles.aspx") != -1) {
-      LoadRoles();
-   }
-
-   if(location.href.indexOf("Users/Users.aspx") != -1) {
-      LoadUsers();
-   }
-
-   if(location.href.indexOf("Users/Profile.aspx") != -1) {
-      LoadProfile();
-   }
-}
-
 function LoadComments(pg, srvs) {
    $.ajax({
       url: srvs + "/LoadComments",
@@ -170,6 +156,9 @@ function LoadRoles() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
+
+         $('.editButton').live("click", function () { return EditRow(this); });
+         $('.deleteButton').live("click", function () { return DeleteRow(this); });
       }
    });
 }
@@ -184,6 +173,9 @@ function LoadUsers() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
+
+         $('.editButton').live("click", function () { return EditRow(this); });
+         $('.deleteButton').live("click", function () { return DeleteRow(this); });
       }
    });
 }

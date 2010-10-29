@@ -40,6 +40,8 @@
             closeOverlay();
             return false;
         }
+
+        LoadRoles();
     </script>
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
     <script type="text/javascript">
