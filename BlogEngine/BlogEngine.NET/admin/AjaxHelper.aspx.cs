@@ -1,0 +1,145 @@
+﻿namespace Admin
+{
+    using System;
+    using System.Collections;
+    using System.Web.Services;
+    using System.Web;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using BlogEngine.Core;
+    using BlogEngine.Core.Json;
+
+    public partial class AjaxHelper : System.Web.UI.Page
+    {    
+
+        [WebMethod]
+        public static JsonComment GetComment(string id)
+        {
+            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            {
+                return null;
+            }
+            return JsonComments.GetComment(new Guid(id));
+        }
+
+        [WebMethod]
+        public static JsonComment SaveComment(string[] vals)
+        {
+            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            {
+                return null;
+            }
+            var gId = new Guid(vals[0]);
+            string author = vals[1];
+            string email = vals[2];
+            string website = vals[3];
+            string cont = vals[4];
+
+            foreach (Post p in Post.Posts.ToArray())
+            {
+                foreach (Comment c in p.Comments.ToArray())
+                {
+                    if (c.Id == gId)
+                    {
+                        c.Author = author;
+                        c.Email = email;
+                        c.Website = string.IsNullOrEmpty(website) ? null : new Uri(website);
+                        c.Content = cont;
+
+                        p.Save();
+                        return JsonComments.GetComment(gId);
+                    }
+                }
+            }
+
+            return new JsonComment();
+        }
+
+        [WebMethod]
+        public static IEnumerable LoadPosts(int pageSize, int page, string  type)
+        {
+            return JsonPosts.GetPosts(pageSize, page, type);
+        }
+
+        [WebMethod]
+        public static IEnumerable LoadPages(string type)
+        {
+            return JsonPages.GetPages(type);
+        }
+
+        [WebMethod]
+        public static string LoadPostPager(int pageSize, int page, string type)
+        {
+            return JsonPosts.GetPager(pageSize, page, type);
+        }
+
+        [WebMethod]
+        public static JsonResponse SavePage(
+            string id,
+            string content,
+            string title,
+            string description,
+            string keywords,
+            string slug,
+            bool isFrontPage,
+            bool showInList,
+            bool isPublished,
+            string parent)
+        {
+            var response = new JsonResponse { Success = false };
+            var settings = BlogSettings.Instance;
+
+            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            {
+                return null;
+            }
+
+            try
+            {
+                var page = string.IsNullOrEmpty(id) ? new BlogEngine.Core.Page() : BlogEngine.Core.Page.GetPage(new Guid(id));
+
+                page.Title = title;
+                page.Content = content;
+                page.Description = description;
+                page.Keywords = keywords;
+
+                if (isFrontPage)
+                {
+                    foreach (var otherPage in BlogEngine.Core.Page.Pages.Where(otherPage => otherPage.IsFrontPage))
+                    {
+                        otherPage.IsFrontPage = false;
+                        otherPage.Save();
+                    }
+                }
+
+                page.IsFrontPage = isFrontPage;
+                page.ShowInList = showInList;
+                page.IsPublished = isPublished;
+
+                if (!string.IsNullOrEmpty(slug))
+                {
+                    page.Slug = Utils.RemoveIllegalCharacters(slug.Trim());
+                }
+
+                if (parent == string.Format("-- {0} --", Resources.labels.noParent))
+                    page.Parent = Guid.Empty;
+                else
+                    page.Parent = new Guid(parent);
+
+                page.Save();
+            }
+            catch (Exception ex)
+            {
+                Utils.Log(string.Format("Admin.AjaxHelper.SavePage(): {0}", ex.Message));
+                response.Message = string.Format("Could not save page: {0}", ex.Message);
+                return response;
+            }
+
+            response.Success = true;
+            response.Message = "Page saved";
+            return response;
+        }
+
+    }
+}
