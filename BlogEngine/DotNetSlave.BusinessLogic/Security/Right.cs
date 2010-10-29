@@ -28,7 +28,15 @@ namespace BlogEngine.Core
 
         private static readonly object staticLockObj = new Object();
 
-        // One rightsByFlag is set it should not be changed ever.
+
+        private static readonly ReadOnlyCollection<Rights> rightFlagValues;
+        private static readonly ReadOnlyCollection<Right> allRightInstances;
+
+        // This is a static collection so that there's no need to constantly remake a new empty collection
+        // when a user has no rights.
+        private static readonly ReadOnlyCollection<Right> noRights = new ReadOnlyCollection<Right>(new List<Right>());
+
+        // Once rightsByFlag is set it should not be changed ever.
         private static readonly Dictionary<Rights, Right> rightsByFlag = new Dictionary<Rights, Right>();
         private static readonly Dictionary<string, Right> rightsByName = new Dictionary<string, Right>(StringComparer.OrdinalIgnoreCase);
         private static readonly Dictionary<string, HashSet<Right>> rightsByRole = new Dictionary<string, HashSet<Right>>(StringComparer.OrdinalIgnoreCase);
@@ -41,14 +49,20 @@ namespace BlogEngine.Core
             // Initialize the various dictionaries to their starting state.
 
             var flagType = typeof(Rights);
+            rightFlagValues = Enum.GetValues(flagType).Cast<Rights>().ToList().AsReadOnly();
+
             var adminRole = BlogEngine.Core.BlogSettings.Instance.AdministratorRole;
 
+            var allRights = new List<Right>();
+
             // Create a Right instance for each value in the Rights enum.
-            foreach (var flag in Enum.GetValues(flagType))
+            foreach (var flag in rightFlagValues)
             {
                 Rights curFlag = (Rights)flag;
                 var flagName = Enum.GetName(flagType, curFlag);
                 var curRight = new Right(curFlag, flagName);
+
+                allRights.Add(curRight);
 
                 // Use the Add function so if there are multiple flags with the same
                 // value they can be caught quickly at runtime.
@@ -63,6 +77,8 @@ namespace BlogEngine.Core
                 }
 
             }
+
+            allRightInstances = allRights.AsReadOnly();
 
             RefreshAllRights();
 
@@ -165,7 +181,7 @@ namespace BlogEngine.Core
         /// <returns></returns>
         public static IEnumerable<Right> GetAllRights()
         {
-            return new ReadOnlyCollection<Right>(Right.rightsByFlag.Values.ToList());
+            return Right.allRightInstances;
         }
 
         /// <summary>
@@ -240,6 +256,10 @@ namespace BlogEngine.Core
             {
                 throw new ArgumentNullException("roles");
             }
+            else if (!roles.Any())
+            {
+                return noRights;
+            }
             else
             {
                 var rights = new List<Right>();
@@ -258,7 +278,12 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="right"></param>
         /// <param name="roles"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// 
+        /// Use this method instead of GetRights().Contains() as it'll be
+        /// much faster than having to create a new collection of Right instances each time.
+        /// 
+        /// </returns>
         public static bool HasRight(Rights right, IEnumerable<string> roles)
         {
             if (roles == null)

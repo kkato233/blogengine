@@ -109,6 +109,70 @@ namespace BlogEngine.Core
             return Right.HasRight(right, Security.GetCurrentUserRoles());
         }
 
+        /// <summary>
+        /// Returns whether the current user passes authorization on the rights based on the given AuthorizationCheck.
+        /// </summary>
+        /// <param name="authCheck"></param>
+        /// <param name="rights"></param>
+        /// <returns></returns>
+        public static bool IsAuthorizedTo(AuthorizationCheck authCheck, IEnumerable<Rights> rights)
+        {
+            if (rights.Count() == 0)
+            {
+                // Always return false for this. If there's a mistake where authorization
+                // is being checked for on an empty collection, we don't want to return 
+                // true.
+                return false;
+            }
+            else
+            {
+                var roles = Security.GetCurrentUserRoles();
+
+                if (authCheck == AuthorizationCheck.HasAny)
+                {
+                    foreach (var right in rights)
+                    {
+                        if (Right.HasRight(right, roles))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+                else if (authCheck == AuthorizationCheck.HasAll)
+                {
+                    bool authCheckPassed = true;
+
+                    foreach (var right in rights)
+                    {
+                        if (!Right.HasRight(right, roles))
+                        {
+                            authCheckPassed = false;
+                            break;
+                        }
+                    }
+                    return authCheckPassed;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the current user passes authorization on the rights based on the given AuthorizationCheck.
+        /// </summary>
+        /// <param name="authCheck"></param>
+        /// <param name="rights"></param>
+        /// <returns></returns>
+        public static bool IsAuthorizedTo(AuthorizationCheck authCheck, params Rights[] rights)
+        {
+            return IsAuthorizedTo(authCheck, rights);
+        }
+
         #endregion
 
         #region "Methods"
@@ -134,4 +198,22 @@ namespace BlogEngine.Core
 
         #endregion
     }
+
+
+    /// <summary>
+    /// Enum for setting how rights should be checked for.
+    /// </summary>
+    public enum AuthorizationCheck
+    {
+        /// <summary>
+        /// A user will be considered authorized if they have any of the given Rights.
+        /// </summary>
+        HasAny,
+
+        /// <summary>
+        /// A user will be considered authorized if they have all of the given Rights.
+        /// </summary>
+        HasAll
+    }
+
 }
