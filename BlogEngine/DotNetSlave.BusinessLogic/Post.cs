@@ -622,6 +622,35 @@
         #region Post Public Methods
 
         /// <summary>
+        /// Gets whether or not the current user owns a given post.
+        /// </summary>
+        /// <param name="post"></param>
+        /// <returns></returns>
+        public static bool CurrentUserOwnsPost(Post post)
+        {
+            if (post == null)
+            {
+                throw new ArgumentNullException("post");
+            }
+            else
+            {
+                return Security.CurrentUser.Identity.Name.Equals(post.Author, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        /// <summary>
+        /// Gets whether or not the current user owns a given post.
+        /// </summary>
+        /// <param name="id">The post id</param>
+        /// <returns></returns>
+        public static bool CurrentUserOwnsPost(Guid id)
+        {
+            return CurrentUserOwnsPost(Post.GetPost(id));
+        }
+
+    
+
+        /// <summary>
         /// Returs a post based on the specified id.
         /// </summary>
         /// <param name="id">
@@ -634,23 +663,6 @@
         {
             return Posts.Find(p => p.Id == id);
         }
-
-        ///// <summary>
-        ///// Returns a post based on it's title.
-        ///// </summary>
-        // public static Post GetPostBySlug(string slug, DateTime date)
-        // {
-        // return Posts.Find(delegate(Post p)
-        // {
-        // if (date != DateTime.MinValue && (p.DateCreated.Year != date.Year || p.DateCreated.Month != date.Month))
-        // {
-        // if (p.DateCreated.Day != 1 && p.DateCreated.Day != date.Day)
-        // return false;
-        // }
-
-        // return slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase);
-        // });
-        // }
 
         /// <summary>
         /// Returns all posts written by the specified author.
