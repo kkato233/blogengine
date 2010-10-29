@@ -499,17 +499,81 @@ function DeleteAllSpam() {
 
 //--------------  POSTS AND PAGES
 
-function LoadPosts(pg, type, val) {
+// All, Draft or Published
+function ChangePostFilterType(type) {
+    $.cookie('postMainFilter', type, { expires: 7 });
+    $.cookie('postSecondaryFilter', null, { expires: 7 });
+    $.cookie('postSecondaryFilterId', null, { expires: 7 });
+    $.cookie('postSecondaryFilterTitle', null, { expires: 7 });
+    $.cookie('postCurrentPage', 1, { expires: 7 });
+    LoadPosts();
+}
+// Category, Tag or Author
+function ChangePostFilter(filter, id, title) {
+    $.cookie('postSecondaryFilter', filter, { expires: 7 });
+    $.cookie('postSecondaryFilterId', id, { expires: 7 });
+    $.cookie('postSecondaryFilterTitle', title, { expires: 7 });
+    $.cookie('postCurrentPage', 1, { expires: 7 });
+    LoadPosts();
+}
+
+function LoadPostsForPage(page) {
+    if(page == null || page == 0)
+        page = 1;
+
+    $.cookie('postCurrentPage', page, { expires: 7 });
+    LoadPosts();
+}
+
+function LoadPosts() {
+    if ($.cookie('postMainFilter') == null) {
+        $.cookie('postMainFilter', 'All', { expires: 7 });
+    }
+    if ($.cookie('postSecondaryFilter') == null) {
+        $.cookie('postSecondaryFilter', 'All', { expires: 7 });
+    }
+    if ($.cookie('postSecondaryFilterId') == null) {
+        $.cookie('postSecondaryFilterId', '', { expires: 7 });
+    }
+    if ($.cookie('postSecondaryFilterTitle') == null) {
+        $.cookie('postSecondaryFilterTitle', '', { expires: 7 });
+    }
+    if ($.cookie('postCurrentPage') == null) {
+        $.cookie('postCurrentPage', 1, { expires: 7 });
+    }
+    var ftr1 = $.cookie('postMainFilter');
+    var ftr2 = $.cookie('postSecondaryFilter');
+    var ftr2id = $.cookie('postSecondaryFilterId');
+    var ftr2title = $.cookie('postSecondaryFilterTitle');
+    var pg = $.cookie('postCurrentPage');
+    
     $.ajax({
         url: "../AjaxHelper.aspx/LoadPosts",
-        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "', 'val':'" + val + "'}",
+        data: "{'page':'" + pg + "' , 'type':'" + ftr1 + "', 'filter':'" + ftr2 + "', 'title': '" + ftr2id + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/posts.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
-            LoadPostsPager(pg, type);
+
+            LoadPostsPager(pg, ftr1);
+
+            var prefx = ftr1 + ' posts';
+            if (ftr2 == "Category") {
+                $("#filteredby").html(prefx + " in " + ftr2title + " category").show();
+                //$(".tableToolBox a").removeClass("current");
+            }
+            else if (ftr2 == "Tag") {
+                $("#filteredby").html(prefx + " tagged with " + ftr2id).show();
+                //$(".tableToolBox a").removeClass("current");
+            }
+            else if (ftr2 == "Author") {
+                $("#filteredby").html(prefx + " by author " + ftr2id).show();
+                //$(".tableToolBox a").removeClass("current");
+            }
+            else
+                $("#filteredby").hide();
         }
     });
     return false;
@@ -564,7 +628,7 @@ function DeletePost(obj) {
                     $(that).remove();
                 });
                 ShowStatus("success", rt.Message);
-                LoadPosts(currPage);
+                LoadPosts();
             }
             else {
                 ShowStatus("warning", rt.Message);
@@ -593,7 +657,7 @@ function DeletePage(obj) {
                     $(that).remove();
                 });
                 ShowStatus("success", rt.Message);
-                LoadPosts('All');
+                LoadPages('All');
             }
             else {
                 ShowStatus("warning", rt.Message);
