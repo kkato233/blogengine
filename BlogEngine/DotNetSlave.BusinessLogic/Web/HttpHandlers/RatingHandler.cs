@@ -40,31 +40,47 @@
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
-            var id = context.Request.QueryString["id"];
-            var rating = context.Request.QueryString["rating"];
-            int rate;
-            if (rating != null && int.TryParse(rating, out rate))
+
+            if (!BlogSettings.Instance.EnableRating || !Security.IsAuthorizedTo(Rights.SubmitRatingsOnPosts))
             {
-                if (id != null && id.Length == 36 && rate > 0 && rate < 6)
-                {
-                    var hasRated = HasRated(id);
-
-                    if (hasRated)
-                    {
-                        context.Response.Write(string.Format("{0}HASRATED", rate));
-                        context.Response.End();
-                    }
-
-                    var post = Post.GetPost(new Guid(id));
-                    post.Rate(rate);
-
-                    SetCookie(id, context);
-                    context.Response.Write(string.Format("{0}OK", rate));
-                    context.Response.End();
-                }
+                throw new System.Security.SecurityException();
             }
+            else
+            {
+                var rating = context.Request.QueryString["rating"];
+                int rate;
+                if (rating != null && int.TryParse(rating, out rate))
+                {
+                    var id = context.Request.QueryString["id"];
+                    if (id != null && id.Length == 36 && rate > 0 && rate < 6)
+                    {
+                        try
+                        {
+                            if (HasRated(id))
+                            {
+                                context.Response.Write(string.Format("{0}HASRATED", rate));
+                                context.Response.End();
+                            }
+                            else
+                            {
+                                var post = Post.GetPost(new Guid(id));
+                                post.Rate(rate);
 
-            context.Response.Write("FAIL");
+                                SetCookie(id, context);
+                                context.Response.Write(string.Format("{0}OK", rate));
+                                context.Response.End();
+                            }
+
+                        }
+                        catch(Exception)
+                        {
+                           
+                            // Something failed.
+                        }
+                    }
+                }
+                context.Response.Write("FAIL");
+            }
         }
 
         #endregion
@@ -82,13 +98,17 @@
         /// </returns>
         private static bool HasRated(string postId)
         {
-            if (HttpContext.Current.Request.Cookies["rating"] != null)
+            // This seems like a bad idea. Someone without cookies disabled
+            // they could repeatedly rate a post. Also, if someone rates
+            // a lot of posts, it's going to continue to increase the size
+            // of their rating cookie, increasing bandwidth.
+            //
+            // -rossisdead 10/28/2010
+            var ratingCookie = HttpContext.Current.Request.Cookies["rating"];
+
+            if (ratingCookie != null)
             {
-                var cookie = HttpContext.Current.Request.Cookies["rating"];
-                if (cookie != null)
-                {
-                    return cookie.Value.Contains(postId);
-                }
+                return ratingCookie.Value.Contains(postId);
             }
 
             return false;
