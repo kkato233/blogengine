@@ -171,7 +171,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
         </table>
 
         <div class="action_buttons">
-            <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePage()" />
+            <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePage()" /> or 
             <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
                { %>
             <a href="<%=PageUrl %>" title="Go to page">Go to page</a>

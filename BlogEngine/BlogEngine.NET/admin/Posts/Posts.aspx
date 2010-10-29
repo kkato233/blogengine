@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
-        LoadPosts(1, 'All', '');
+        LoadPosts(1, 'All', '', '');
         $(document).ready(function () {
             $(".tableToolBox a").click(function () {
                 $(".tableToolBox a").removeClass("current");
@@ -18,7 +18,10 @@
 		<div class="content-box-left">
             <h1>Posts</h1>
             <div class="tableToolBox">
-                Show : <a class="current" href="#" onclick="LoadPosts(1, 'All', '')">All</a> | <a href="#" onclick="LoadPosts(1, 'Draft', '')">Drafts</a> | <a href="#" onclick="LoadPosts(1, 'Published', '')">Published</a>
+                Show : <a class="current" href="#" onclick="ChangePostFilterType('All')">All</a> | 
+                <a href="#" onclick="ChangePostFilterType('Draft')">Drafts</a> | 
+                <a href="#" onclick="ChangePostFilterType('Published')">Published</a>
+                <span id="filteredby"></span>
                 <div class="Pager"></div>
             </div>
             <div id="Container"></div>

@@ -304,7 +304,10 @@
                     c.Website = new Uri(website);
                     c.Content = cont;
 
+                    // need to mark post as "dirty"
+                    p.DateModified = DateTime.Now;
                     p.Save();
+
                     return JsonComments.GetComment(gId);
                 }
             }
