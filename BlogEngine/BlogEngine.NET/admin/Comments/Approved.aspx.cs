@@ -1,24 +1,28 @@
 ﻿namespace Admin.Comments
 {
-    using System;
     using System.Collections;
     using System.Web.Services;
-
-    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     public partial class Approved : System.Web.UI.Page
     {
+        /// <summary>
+        /// Number of comments in the list
+        /// </summary>
+        protected static int CommentCounter { get; set; }
+
         [WebMethod]
-        public static IEnumerable LoadComments(int PageSize, int Page)
+        public static IEnumerable LoadComments(int pageSize, int page)
         {
-            return JsonComments.GetComments(CommentType.Approved, PageSize, Page);
+            var commentList = JsonComments.GetComments(CommentType.Approved, pageSize, page);
+            CommentCounter = commentList.Count;
+            return commentList;
         }
 
         [WebMethod]
-        public static string LoadPager(int PageSize, int Page)
+        public static string LoadPager(int pageSize, int page)
         {
-            return JsonComments.GetPager(PageSize, Page, "Approved.aspx");
+            return JsonComments.GetPager(pageSize, page, "Approved.aspx");
         }
     }
 }

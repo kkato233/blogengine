@@ -77,6 +77,8 @@
             });
             return false;
         }
+
+        LoadProfile();
     </script>
 	<div class="content-box-outer">
 		<div class="content-box-right">

@@ -64,6 +64,8 @@
             return false;
         }
 
+        LoadUsers();
+
     </script>
 
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
@@ -85,7 +87,7 @@
             </ul>
 		</div>
 		<div class="content-box-left">
-            <h2><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h2>
+            <h1><%=Resources.labels.users %><a href="#" class="addNew">Add new user</a></h1>
             <div style="display:none;">
             <div id="frmAddNew" class="overlaypanel" >
                 <h2>Add new user</h2>
@@ -115,8 +117,8 @@
                         </td>
                     </tr>
                 </table>
-				<input type="submit" class="btn primary rounded" value="save" onclick="return AddUser(this);" id="btnNewUser" />
-				or <a href="#" onclick="closeOverlay();">cancel</a>
+				<input type="submit" class="btn primary rounded" value="Save" onclick="return AddUser(this);" id="btnNewUser" />
+				or <a href="#" onclick="closeOverlay();">Cancel</a>
 			</div>
             </div>
             <div id="Container"></div>

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true"
-    CodeFile="Add_entry.aspx.cs" Inherits="Admin.Pages.AddEntry" ValidateRequest="False"
+    CodeFile="Add_entry.aspx.cs" Inherits="Admin.Posts.AddEntry" ValidateRequest="False"
     EnableSessionState="True" %>
 
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
@@ -9,7 +9,7 @@
 	<div class="content-box-outer">
 		<div class="content-box-full">
             <h1>Add/edit post</h1>
-           <div id="divDrafts" runat="server" visible="False" enableviewstate="False" style="margin-bottom: 10px">
+           <%--<div id="divDrafts" runat="server" visible="False" enableviewstate="False" style="margin-bottom: 10px">
                 <a id="aDrafts" runat="server" href="javascript:void(ToggleVisibility());" />
                 <ul id="ulDrafts" runat="server" style="display: none; list-style-type: circle" />
             </div>
@@ -20,8 +20,8 @@
                         element.style.display = "block";
                     else
                         element.style.display = "none";
-                }
-
+                }--%>
+        <script type="text/javascript">
                 function GetSlug() {
                     var title = document.getElementById('<%=txtTitle.ClientID %>').value;
                     WebForm_DoCallback('__Page', title, ApplySlug, 'slug', null, false)
@@ -83,6 +83,67 @@
                         panel.style.display = "none";
                     }
                 }
+                function SavePost() {
+                    $('.loader').show();
+
+                    var content = document.getElementById('<%=txtRawContent.ClientID %>') != null ? document.getElementById('<%=txtRawContent.ClientID %>').value : tinyMCE.activeEditor.getContent();
+
+                    var title = document.getElementById('<%=txtTitle.ClientID %>').value;
+                    var desc = document.getElementById('<%=txtDescription.ClientID %>').value;
+                    var slug = document.getElementById('<%=txtSlug.ClientID %>').value;
+                    var tags = document.getElementById('<%=txtTags.ClientID %>').value;
+                    
+                    var author = $("[id$='ddlAuthor'] option:selected").val();
+                    var isPublished = $("[id$='cbPublish']").is(':checked');
+                    var hasCommentsEnabled = $("[id$='cbEnableComments']").is(':checked');
+
+                    var cats = "";
+                    var checkedCats = $('.cblCategories input[@type=checkbox]:checked');
+                    if (checkedCats.length > 0) {
+                        checkedCats.each(function () {
+                            var jThis = $(this);
+                            cats += jThis.attr("id") + ",";
+                        });
+                    }
+
+                    var date = document.getElementById('<%=txtDate.ClientID %>').value;
+                    var time = document.getElementById('<%=txtTime.ClientID %>').value;
+
+                    var dto = {
+                        "id": Querystring('id'),
+                        "content": content,
+                        "title": title,
+                        "desc": desc,
+                        "slug": slug,
+                        "tags": tags,
+                        "author": author,
+                        "isPublished": isPublished,
+                        "hasCommentsEnabled": hasCommentsEnabled,
+                        "cats": cats,
+                        "date": date,
+                        "time": time
+                    };
+
+                    //alert(JSON.stringify(dto));
+
+                    $.ajax({
+                        url: "../AjaxHelper.aspx/SavePost",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(dto),
+                        success: function (result) {
+                            var rt = result.d;
+                            if (rt.Success)
+                                ShowStatus("success", rt.Message);
+                            else
+                                ShowStatus("warning", rt.Message);
+                        }
+                    });
+
+                    $('.loader').hide();
+                    return false;
+                }
             </script>
 
             <script type="text/javascript" src="../jquery.colorbox.js"></script>
@@ -94,10 +155,30 @@
 
                 function closeOverlay() {
                     $.colorbox.close();
+                    return false;
+                }
+
+                function colorboxDialogSubmitClicked(validationGroup, panelId) {
+
+                    // For file/image uploads, colorbox moves the file upload and submit buttons
+                    // outside the form tag.  This prevents submitting from working.  Before
+                    // a submit can work, need to move the dialog box containing the controls
+                    // back inside the form tag.
+                    // First check to make sure validation passes before closing colorbox.
+
+                    if (typeof Page_ClientValidate !== 'undefined') {
+                        if (!Page_ClientValidate(validationGroup)) {
+                            return true;
+                        }
+                    }
+
+                    $.colorbox.close();
+                    $("form").append($("#" + panelId));
+                    return true;
                 }
             </script>
 
-            <div style="display:none;">
+            <div runat="server" style="visibility:hidden;height:1px">
                 <div id="uploadImagePanel" class="overlaypanel">
                     <h2><%=Resources.labels.uploadImage %></h2>
                     <ul class="fl" style="margin:0;">
@@ -109,7 +190,7 @@
                         </li>
                         <li style="margin:0;">
                             <asp:Button runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="imageupload" CssClass="btn primary" /> or <a href="#" onclick="closeOverlay();">cancel</a>
+                                ValidationGroup="imageupload" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('imageupload', 'uploadImagePanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
                         </li>
                     </ul>
                 </div>
@@ -124,7 +205,7 @@
                         </li>
                         <li style="margin:0;">
                             <asp:Button runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
-                                ValidationGroup="fileUpload" CssClass="btn primary" /> or <a href="#" onclick="closeOverlay();">cancel</a>
+                                ValidationGroup="fileUpload" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('fileUpload', 'uploadFilePanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
                         </li>
                     </ul>
                 </div>
@@ -144,8 +225,8 @@
                                 <div class="editToolbar">
                                     <asp:CheckBox runat="server" ID="cbUseRaw" Text="<%$Resources:labels,useRawHtmlEditor %>"
                                         AutoPostBack="true" />
-                                    <a href="#" id="uploadImage">Insert image</a>
-                                    <a href="#" id="uploadFile">Upload file</a>
+                                    <a href="#" id="uploadImage" class="image">Insert image</a>
+                                    <a href="#" id="uploadFile" class="file">Attach file</a>
                                 </div>
                                 <Blog:TextEditor runat="server" id="txtContent" />
                                 <asp:TextBox runat="server" ID="txtRawContent" Width="98%" TextMode="multiLine"
@@ -173,7 +254,15 @@
                            </li>
                         </ul>
                         <div class="action_buttons">
-                            <asp:Button runat="server" ID="btnSave" CssClass="btn primary rounded" />
+                            <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePost()" /> or 
+                            <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+                               { %>
+                            <a href="<%=PostUrl %>" title="Go to page">Go to post</a>
+                            <%}
+                               else
+                               {%>
+                            or <a href="Posts.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
+                            <%} %>
                             <span id="autoSaveLabel"></span>
                         </div>
                     </td>
@@ -199,10 +288,10 @@
                             <li>
                                 <label class="lbl"><%=Resources.labels.categories %></label>
                                 <div class="rounded" style="overflow-y:auto; max-height:160px;border:solid 1px #dcdcdc; padding:5px; margin:0 0 5px;">
-                                    <asp:CheckBoxList runat="server" ID="cblCategories" CssClass="cblCategories" 
-                                        RepeatLayout="Flow" />
+                                    <span id="cblCategories" runat="server" class="cblCategories"></span>
                                 </div>
                                 <div style="">
+                                    <label for="<%=txtCategory.ClientID %>" style="margin-bottom:5px;">Quick add new category</label>
                                     <asp:TextBox runat="server" ID="txtCategory" ValidationGroup="category" Width="180" />
                                     <asp:Button runat="server" ID="btnCategory" Text="<%$ Resources:labels, add %>" ValidationGroup="category" CssClass="btn" style="min-width:0px; margin:0;" />
                                     <asp:CustomValidator runat="Server" ID="valExist" ValidationGroup="category" ControlToValidate="txtCategory"

@@ -46,8 +46,14 @@ namespace BlogEngine.Core.Json
         public string Tags { get; set; }
 
         /// <summary>
-        /// Comment count for the post
+        /// Comment counts for the post
         /// </summary>
-        public int Comments { get; set; }
+        public string Comments { get; set; }
+
+        /// <summary>
+        /// Gets or sets post status
+        /// </summary>
+        public bool IsPublished { get; set; }
+
     }
 }

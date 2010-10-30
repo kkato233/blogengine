@@ -15,13 +15,20 @@
 		</div>
 		<div class="content-box-left">
             <h1>Approved Comments</h1>
+            <div class="tableToolBox">
+                <div class="Pager"></div>
+            </div>
             <div id="Container"></div>
-            <div id="Pager"></div>
+            <div class="Pager"></div>
+            <%if (CommentCounter > 0)
+              {%>
             <div class="action_buttons">
                 <input type="submit" class="btn" value="Reject Selected" onclick="return ProcessSelected('Reject', 'Approved');" />&nbsp;
                 <input type="submit" class="btn" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Approved');" />&nbsp;
                 <span class="loader">&nbsp;</span>
             </div>
+            <%
+              }%>
 		</div>
 	</div>      
 </asp:Content>

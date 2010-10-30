@@ -55,24 +55,24 @@
                     url += x.AdminPage;
                 }
 
-                sb.AppendFormat("<a href='{0}'>{1}</a>", url, labels.edit);
+                sb.AppendFormat("<li><a class='editAction' href='{0}'>{1}</a></li>", url, labels.edit);
             }
             else
             {
                 if (x.Settings == null)
                 {
-                    sb.Append("&nbsp;");
+                    sb.Append("");
                 }
                 else
                 {
                     if (x.Settings.Count == 0 || (x.Settings.Count == 1 && x.Settings[0] == null) ||
                         x.ShowSettings == false)
                     {
-                        sb.Append("&nbsp;");
+                        sb.Append("");
                     }
                     else
                     {
-                        sb.AppendFormat("<a href='?ctrl=params&ext={0}'>{1}</a>", x.Name, labels.edit);
+                        sb.AppendFormat("<li><a class='editAction' href='?ctrl=params&ext={0}'>{1}</a></li>", x.Name, labels.edit);
                     }
                 }
             }
@@ -96,27 +96,46 @@
             if (x.Enabled)
             {
                 sb.AppendFormat(
-                    "<span class='extEnabled'><a href='?act=dis&ext={0}' title='{1}{2}' {3}>{4}</a></span>",
+                    "<a class='unapproveAction' href='?act=dis&ext={0}' title='{1}{2}' {3}>{4}</a>",
                     x.Name,
                     labels.clickToDisable,
                     x.Name,
                     jsonclick,
-                    "(Disable)");
+                    "Disable");
             }
             else
             {
                 sb.AppendFormat(
-                    "<span class='extDisabled'><a href='?act=enb&ext={0}' title='{1}{2}' {3}>{4}</a></span>",
+                    "<a class='approveAction' href='?act=enb&ext={0}' title='{1}{2}' {3}>{4}</a>",
                     x.Name,
                     labels.clickToEnable,
                     x.Name,
                     jsonclick,
-                    "(Enable)");
+                    "Enable");
             }
 
             return sb.ToString();
         }
 
+        public static string ShowStatus(string extensionName)
+        {
+            var jsonclick =
+                string.Format(
+                    "onclick=\"if (confirm('{0}')) {{ window.location.href = this.href }} return false;\"",
+                    labels.siteUnavailableConfirm);
+            var x = ExtensionManager.GetExtension(extensionName);
+            var sb = new StringBuilder();
+            if (x.Enabled)
+            {
+                sb.Append("<span class='extEnabled'></span>");
+            }
+            else
+            {
+                sb.Append("<span class='extDisabled'></span>");
+            }
+
+            return sb.ToString();
+        }
         /// <summary>
         /// The force restart.
         /// </summary>

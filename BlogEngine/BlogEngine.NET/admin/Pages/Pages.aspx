@@ -7,6 +7,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
         LoadPages('All');
+        $(document).ready(function () {
+            $(".tableToolBox a").click(function () {
+                $(".tableToolBox a").removeClass("current");
+                $(this).addClass("current");
+            });
+        });
     </script>
     <div class="content-box-outer">
 		<div class="content-box-right">
@@ -14,7 +20,9 @@
 		</div>
 		<div class="content-box-left">
             <h1><%=Resources.labels.pages %></h1>
-            Show | <a href="#" onclick="LoadPages('All')">All</a> | <a href="#" onclick="LoadPages('Draft')">Drafts</a> | <a href="#" onclick="LoadPages('Published')">Published</a>
+            <div class="tableToolBox">
+                Show : <a href="#" class="current" onclick="LoadPages('All')">All</a> | <a href="#" onclick="LoadPages('Draft')">Drafts</a> | <a href="#" onclick="LoadPages('Published')">Published</a>
+            </div>
             <div id="Container"></div>
         </div>
     </div>
