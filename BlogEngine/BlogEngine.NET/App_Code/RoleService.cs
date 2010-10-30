@@ -104,6 +104,7 @@
 
             try
             {
+                Right.OnRoleDeleting(id);
                 Roles.DeleteRole(id);
                 return new JsonResponse() { Success = true, Message = string.Format("Role \"{0}\" has been deleted", id) };
             }
@@ -208,20 +209,11 @@
                 return new JsonResponse() { Message = "Role name is required field." };
             }
 
-
-            // Is this even being used? It looks like it was replaced with the roles template on client side.
-            var ptrn = "<tr id=\"{0}\" bgcolor=\"#{1}\"><td><input type=\"checkbox\" class\"chk\"/></td>";
-            ptrn +=
-                "<td class='editable'>{0}</td><td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"editButton\">edit</a></td>";
-            ptrn +=
-                "<td align=\"center\" style=\"vertical-align:middle\"><a href=\"#\" class=\"deleteButton\">delete</a></td></tr>";
-
             var response = new JsonResponse();
-            response.Data = string.Format(ptrn, vals[0], bg);
 
             try
             {
-                // What's this do exactly? 
+                Right.OnRenamingRole(id, vals[0]);
                 Roles.DeleteRole(id);
                 Roles.CreateRole(vals[0]);
                

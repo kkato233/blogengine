@@ -181,10 +181,16 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Returns whether a role is a System role.
+        /// </summary>
+        /// <param name="roleName">The name of the role.</param>
+        /// <returns>true if the roleName is a system role, otherwiser false</returns>
         public static bool IsSystemRole(string roleName)
         {
             if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase) ||
-                roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase))
+                roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase) ||
+                roleName.Equals(BlogSettings.Instance.EditorsRole, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

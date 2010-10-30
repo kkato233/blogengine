@@ -104,6 +104,12 @@ namespace BlogEngine.Core
                 System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AnonymousRole);
             }
 
+            // Make sure the Editors role exists with the Role provider.
+            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.EditorsRole))
+            {
+                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.EditorsRole);
+            }
+
             RefreshAllRights();
 
         }
@@ -133,6 +139,7 @@ namespace BlogEngine.Core
 
                 var adminRole = BlogSettings.Instance.AdministratorRole;
                 var anonymousRole = BlogSettings.Instance.AnonymousRole;
+                var editorsRole = BlogSettings.Instance.EditorsRole;
 
                 foreach (var right in GetAllRights())
                 {
@@ -167,19 +174,97 @@ namespace BlogEngine.Core
                     }
                 }
 
+                // Note: To reset right/roles to the defaults, the data store can be
+                // cleared out (delete rights.xml or clear DB table).  Then these
+                // defaults will be setup.
+
+                bool defaultsAdded = false;
+
                 // Check that the anonymous role is set up properly. If no rights
                 // are found, then the defaults need to be set.
                 if (!GetRights(anonymousRole).Any())
                 {
-                    // This could probably be moved to web.config somewhere.
                     Right.rightsByFlag[Rights.CreateComments].AddRole(anonymousRole);
                     Right.rightsByFlag[Rights.ViewPublicComments].AddRole(anonymousRole);
                     Right.rightsByFlag[Rights.ViewPublicPosts].AddRole(anonymousRole);
                     Right.rightsByFlag[Rights.ViewPublicPages].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.ViewRatingsOnPosts].AddRole(anonymousRole);
+                    Right.rightsByFlag[Rights.SubmitRatingsOnPosts].AddRole(anonymousRole);
+
+                    defaultsAdded = true;
                 }
 
+                // Check that the editor role is set up properly. If no rights
+                // are found, then the defaults need to be set.
+                if (!GetRights(editorsRole).Any())
+                {
+                    Right.rightsByFlag[Rights.CreateComments].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewPublicComments].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewPublicPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewPublicPages].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewRatingsOnPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.SubmitRatingsOnPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewUnmoderatedComments].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ModerateComments].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewUnpublishedPages].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.ViewUnpublishedPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.DeleteOwnPages].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.DeleteOwnPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.PublishOwnPages].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.PublishOwnPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.CreateNewPages].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.CreateNewPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.EditOwnPages].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.EditOwnPosts].AddRole(editorsRole);
+                    Right.rightsByFlag[Rights.EditOwnUser].AddRole(editorsRole);
+
+                    defaultsAdded = true;
+                }
+
+                if (defaultsAdded)
+                {
+                    BlogEngine.Core.Providers.BlogService.SaveRights();
+                }
             }
 
+        }
+
+        /// <summary>
+        /// Handles updating Role name changes, so Role names tied to Rights stay in sync.
+        /// </summary>
+        /// <param name="oldname">The old Role name.</param>
+        /// <param name="newname">The new Role name.</param>
+        public static void OnRenamingRole(string oldname, string newname)
+        {
+            IEnumerable<Right> rightsWithRole = Right.GetRights(oldname);
+            if (rightsWithRole.Any())
+            {
+                foreach (Right right in rightsWithRole)
+                {
+                    right.RemoveRole(oldname);
+                    right.AddRole(newname);
+                }
+
+                BlogEngine.Core.Providers.BlogService.SaveRights();
+            }
+        }
+
+        /// <summary>
+        /// Handles removing Roles tied to Rights when a Role will be deleted.
+        /// </summary>
+        /// <param name="roleName"></param>
+        public static void OnRoleDeleting(string roleName)
+        {
+            IEnumerable<Right> rightsWithRole = Right.GetRights(roleName);
+            if (rightsWithRole.Any())
+            {
+                foreach (Right right in rightsWithRole)
+                {
+                    right.RemoveRole(roleName);
+                }
+
+                BlogEngine.Core.Providers.BlogService.SaveRights();
+            }
         }
 
         /// <summary>
