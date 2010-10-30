@@ -344,7 +344,8 @@ function EditComment(id) {
       }
    });
    return false;
-}
+
+}
 
 function SaveComment(obj) {
    var frm = document.forms.aspnetForm;
@@ -487,7 +488,8 @@ function DeleteAllSpam() {
    });
    $('.loader').hide();
    return false;
-}
+
+}
 
 //--------------  POSTS AND PAGES
 
@@ -694,7 +696,7 @@ function Querystring(key) {
       return "";
    }
    else {
-      return qs[1];
+      return decodeURIComponent(qs[1]);
    }
 }
 

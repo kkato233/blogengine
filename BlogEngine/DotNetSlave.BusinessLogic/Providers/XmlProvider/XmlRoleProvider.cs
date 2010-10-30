@@ -25,7 +25,7 @@
         /// <summary>
         /// The default roles to add.
         /// </summary>
-        private readonly string[] defaultRolesToAdd = new[] { BlogSettings.Instance.AdministratorRole };
+        private readonly string[] defaultRolesToAdd = new[] { BlogSettings.Instance.AdministratorRole, BlogSettings.Instance.AnonymousRole };
 
         /// <summary>
         /// The roles.
@@ -82,7 +82,7 @@
             var currentRoles = new List<string>(this.GetAllRoles());
             if (usernames.Length != 0 && roleNames.Length != 0)
             {
-                foreach (var rolename in roleNames.Where(rolename => !currentRoles.Contains(rolename)))
+                foreach (var rolename in roleNames.Where(rolename => !currentRoles.Contains(rolename) && !rolename.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase)))
                 {
                     this.roles.Add(new Role(rolename, new List<string>(usernames)));
                 }
@@ -136,7 +136,7 @@
         /// </param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            if (!roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
+            if (!Security.IsSystemRole(roleName))
             {
                 for (var i = 0; i < this.roles.Count; i++)
                 {
@@ -297,20 +297,6 @@
 
             // Now that we know a xml file exists we can call it.
             this.ReadRoleDataStore();
-
-
-            // Something tells me this check for must-exist roles should be taken out of this and be done with BlogServices so
-            // that it applies to all role providers, not just this one.
-            if (!this.RoleExists(BlogSettings.Instance.AdministratorRole))
-            {
-                this.AddUsersToRoles(this.userNames.ToArray(), new string[] { BlogSettings.Instance.AdministratorRole });
-            }
-
-            if (!this.RoleExists(BlogSettings.Instance.AnonymousRole))
-            {
-                // Users shouldn't actually be in the anonymous role, since the role is specifically for people who aren't users.
-                this.CreateRole(BlogSettings.Instance.AnonymousRole);
-            }
 
             // Throw an exception if unrecognized attributes remain
             if (config.Count > 0)

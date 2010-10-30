@@ -98,19 +98,7 @@
                     continue;
                 }
 
-                var jc = new JsonComment
-                {
-                    Id = c.Id,
-                    Email = c.Email,
-                    Author = c.Author,
-                    Website = c.Website == null ? "" : c.Website.ToString(),
-                    Title = c.Title,
-                    Teaser = c.Teaser,
-                    Ip = c.IP,
-                    Date = c.DateCreated.ToString("dd MMM yyyy"),
-                    Time = c.DateCreated.ToString("t")
-                };
-                pageComments.Add(jc);
+                pageComments.Add(CreateJsonCommentFromComment(c));
             }
 
             currentPage = page;
@@ -133,19 +121,7 @@
             return (from p in Post.Posts
                     from c in p.AllComments
                     where c.Id == id
-                    select new JsonComment
-                        {
-                            Id = c.Id,
-                            Email = c.Email,
-                            Author = c.Author,
-                            Title = c.Title,
-                            Teaser = c.Teaser,
-                            Website = c.Website == null ? string.Empty : c.Website.ToString(),
-                            Content = c.Content,
-                            Ip = c.IP,
-                            Date = c.DateCreated.ToString("dd MMM yyyy"),
-                            Time = c.DateCreated.ToString("t")
-                        }).FirstOrDefault();
+                    select CreateJsonCommentFromComment(c)).FirstOrDefault();
         }
 
         private static JsonComment CreateJsonCommentFromComment(Comment c)

@@ -116,7 +116,7 @@
                 Roles.RemoveUserFromRoles(id, Roles.GetAllRoles());
                 if (roles.GetLength(0) > 0)
                 {
-                    Roles.AddUserToRoles(id, roles);
+                    Roles.AddUsersToRoles(new string[] { id }, roles);
                 }
             }
             catch (Exception ex)

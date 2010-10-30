@@ -85,7 +85,6 @@
             <ul>
 			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
 			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
-			    <li><a href="Rights.aspx">Rights</a></li>
             </ul>
 		</div>
 		<div class="content-box-left">

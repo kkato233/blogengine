@@ -3,13 +3,6 @@
     <script type="text/javascript">
         function AddRole() {
             var txtUser = $('#txtUserName').val();
-            var rowCnt = $('#RoleService tr').length;
-            var bg = (rowCnt % 2 == 0) ? 'class=""' : 'class="alt"';
-            var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
-            row += '<td class="editable">' + txtUser + '</td>';
-            row += '<td align="center"><a href="#" class="editButton">Edit</a></td>';
-            row += '<td align="center"><a href="Rights?role=' + txtUser + '">Rights</a></td>';
-            row += '<td align="center"><a href="#" class="deleteButton">Delete</a></td></tr>';
 
             if (txtUser.length == 0) {
                 $('#txtUserNameReq').removeClass('hidden');
@@ -29,7 +22,7 @@
                     success: function (result) {
                         var rt = result.d;
                         if (rt.Success) {
-                            $('#RoleService').append(row);
+                            LoadRoles();
                             ShowStatus("success", rt.Message);
                         }
                         else {
@@ -60,7 +53,6 @@
             <ul>
 			    <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
 			    <li class="content-box-selected"><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
-			    <li><a href="Rights.aspx">Rights</a></li>
             </ul>
 		</div>
 		<div class="content-box-left">

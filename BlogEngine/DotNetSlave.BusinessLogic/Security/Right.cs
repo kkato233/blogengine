@@ -80,6 +80,30 @@ namespace BlogEngine.Core
 
             allRightInstances = allRights.AsReadOnly();
 
+            // Make sure the Administrator role exists with the Role provider.
+            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.AdministratorRole))
+            {
+                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AdministratorRole);
+
+                // if no one is in the admin role, and there is a user named "admin", add that user
+                // to the role.
+                if (System.Web.Security.Roles.GetUsersInRole(BlogSettings.Instance.AdministratorRole).Length == 0)
+                {
+                    System.Web.Security.MembershipUser membershipUser = System.Web.Security.Membership.GetUser("Admin");
+                    if (membershipUser != null)
+                    {
+                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogSettings.Instance.AdministratorRole });
+                    }
+                }
+            }
+
+            // Make sure the Anonymous role exists with the Role provider.
+            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.AnonymousRole))
+            {
+                // Users shouldn't actually be in the anonymous role, since the role is specifically for people who aren't users.
+                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AnonymousRole);
+            }
+
             RefreshAllRights();
 
         }
@@ -232,7 +256,10 @@ namespace BlogEngine.Core
         private static IEnumerable<Right> GetRightsInternal(string roleName)
         {
             roleName = PrepareRoleName(roleName);
-            return rightsByRole[roleName];
+            if (rightsByRole.ContainsKey(roleName))
+                return rightsByRole[roleName];
+            else
+                return new HashSet<Right>();
         }
 
         /// <summary>

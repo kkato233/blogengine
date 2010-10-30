@@ -181,6 +181,17 @@ namespace BlogEngine.Core
             }
         }
 
+        public static bool IsSystemRole(string roleName)
+        {
+            if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase) ||
+                roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns whether the current user passes authorization on the rights based on the given AuthorizationCheck.
         /// </summary>

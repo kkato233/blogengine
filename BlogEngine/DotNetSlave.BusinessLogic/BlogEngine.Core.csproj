@@ -129,6 +129,7 @@
     <Compile Include="Json\JsonResponse.cs" />
     <Compile Include="Json\JsonComments.cs" />
     <Compile Include="JavascriptMinifier.cs" />
+    <Compile Include="Json\JsonRole.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />

@@ -78,7 +78,6 @@
                     <%=Resources.labels.users %></a></li>
                 <li><a href="Roles.aspx" class="selected">
                     <%=Resources.labels.roles %></a></li>
-                <li class="content-box-selected"><a href="Rights.aspx">Rights</a></li>
             </ul>
         </div>
         <div class="content-box-left">
