@@ -7,14 +7,6 @@
             var txtPwd2 = $('#txtPassword2').val();
             var txtEmail = $('#txtEmail').val();
 
-            var rowCnt = $('#UserService tr').length;
-            var bg = (rowCnt % 2 == 0) ? 'class=""' : 'class="alt"';
-            var row = '<tr id="' + txtUser + '" ' + bg + '><td><input type="checkbox" name="chk"' + txtUser + ' class="chk"/></td>';
-            row += '<td>' + txtUser + '</td><td class="editable">' + txtEmail + '</td>';
-            row += '<td align="center"><a href="#" class="editButton">Edit</a></td>';
-            row += '<td align="center"><a href="#" class="deleteButton">Delete</a></td></tr>';
-            row += '<td align="center"><a href="Profile.aspx?id=' + txtUser + '">Profile</a></td>';
-
             $('#txtUserNameReq').addClass('hidden');
             $('#txtPasswordReq').addClass('hidden');
             $('#txtPasswordMatch').addClass('hidden');
@@ -51,7 +43,7 @@
                     success: function (result) {
                         var rt = result.d;
                         if (rt.Success) {
-                            $('#UserService').append(row);
+                            LoadUsers();
                             ShowStatus("success", rt.Message);
                         }
                         else {
@@ -83,7 +75,6 @@
             <ul>
 			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
 			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
-			    <li><a href="Rights.aspx">Rights</a></li>
             </ul>
 		</div>
 		<div class="content-box-left">

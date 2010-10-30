@@ -377,7 +377,47 @@
 
         public override IDictionary<string, IEnumerable<string>> FillRights()
         {
-            throw new NotImplementedException();
+            var rightsWithRoles = new Dictionary<string, IEnumerable<string>>();
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("SELECT RightName FROM {0}Rights ", this.tablePrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                rightsWithRoles.Add(rdr.GetString(0), new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+                            }
+                        }
+
+                        // Get Right Roles.
+                        cmd.CommandText = string.Format("SELECT RightName, Role FROM {0}RightRoles ", this.tablePrefix);
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                string rightName = rdr.GetString(0);
+                                string roleName = rdr.GetString(1);
+
+                                if (rightsWithRoles.ContainsKey(rightName))
+                                {
+                                    var roles = (HashSet<string>)rightsWithRoles[rightName];
+                                    if (!roles.Contains(roleName))
+                                    {
+                                        roles.Add(roleName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return rightsWithRoles;
         }
 
         /// <summary>
@@ -833,7 +873,46 @@
 
         public override void SaveRights(IEnumerable<Right> rights)
         {
-            throw new NotImplementedException();
+            if (rights == null)
+            {
+                throw new ArgumentNullException("rights");
+            }
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Rights", this.tablePrefix)))
+                    {
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = string.Format("DELETE FROM {0}RightRoles", this.tablePrefix);
+                        cmd.ExecuteNonQuery();
+
+                        foreach (var right in rights)
+                        {
+                            cmd.CommandText = string.Format("INSERT INTO {0}Rights (RightName) VALUES ({1}RightName)", this.tablePrefix, this.parmPrefix);
+
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("RightName"), right.Name));
+
+                            cmd.ExecuteNonQuery();
+
+                            foreach (var role in right.Roles)
+                            {
+                                cmd.CommandText = string.Format("INSERT INTO {0}RightRoles (RightName, Role) VALUES ({1}RightName, {1}Role)", this.tablePrefix, this.parmPrefix);
+
+                                cmd.Parameters.Clear();
+                                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("RightName"), right.Name));
+                                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("Role"), role));
+
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
 
         /// <summary>

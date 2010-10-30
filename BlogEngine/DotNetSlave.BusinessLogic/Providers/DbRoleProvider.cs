@@ -89,24 +89,30 @@
 
                             foreach (var role in roleNames)
                             {
-                                parms.Clear();
-                                cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
+                                if (!role.Equals(BlogSettings.Instance.AnonymousRole))
+                                {
+                                    parms.Clear();
+                                    cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
 
-                                parms.Add(conn.CreateParameter(FormatParamName("role"), role));
+                                    parms.Add(conn.CreateParameter(FormatParamName("role"), role));
 
-                                var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
+                                    var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
 
-                                cmd.CommandText = string.Format("INSERT INTO {0}UserRoles (UserID, RoleID) VALUES ({1}uID, {1}rID)", this.tablePrefix, this.parmPrefix);
+                                    cmd.CommandText = string.Format("INSERT INTO {0}UserRoles (UserID, RoleID) VALUES ({1}uID, {1}rID)", this.tablePrefix, this.parmPrefix);
 
-                                parms.Add(conn.CreateParameter(FormatParamName("uID"), userId));
-                                parms.Add(conn.CreateParameter(FormatParamName("rID"), roleId));
+                                    parms.Add(conn.CreateParameter(FormatParamName("uID"), userId));
+                                    parms.Add(conn.CreateParameter(FormatParamName("rID"), roleId));
 
-                                cmd.ExecuteNonQuery();
+                                    cmd.ExecuteNonQuery();
+                                }
                             }
                         }
                     }
                 }
             }
+
+            // This needs to be called in order to keep the Right class in sync.
+            Right.RefreshAllRights();
         }
 
         /// <summary>
@@ -126,6 +132,9 @@
                     }
                 }
             }
+
+            // This needs to be called in order to keep the Right class in sync.
+            Right.RefreshAllRights();
         }
 
         /// <summary>
@@ -137,7 +146,8 @@
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
             var success = false;
-            if (roleName != "Administrators")
+
+            if (!Security.IsSystemRole(roleName))
             {
                 using (var conn = this.CreateConnection())
                 {
@@ -152,6 +162,9 @@
                     }
                 }
             }
+
+            // This needs to be called in order to keep the Right class in sync.
+            Right.RefreshAllRights();
 
             return success;
         }
@@ -474,6 +487,9 @@
                     }
                 }
             }
+
+            // This needs to be called in order to keep the Right class in sync.
+            Right.RefreshAllRights();
         }
 
         /// <summary>
