@@ -78,17 +78,17 @@
         [WebMethod]
         public JsonResponse Reject(string[] vals)
         {
-            this.response.Success = false;
+            response.Success = false;
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                this.response.Message = "Not authorized";
-                return this.response;
+                response.Message = "Not authorized";
+                return response;
             }
 
             if (string.IsNullOrEmpty(vals[0]))
             {
-                return this.response;
+                return response;
             }
 
             try
@@ -108,13 +108,13 @@
             catch (Exception ex)
             {
                 Utils.Log("Api.Comments.Reject", ex);
-                this.response.Message = "Error rejecting comment";
-                return this.response;
+                response.Message = "Error rejecting comment";
+                return response;
             }
 
-            this.response.Success = true;
-            this.response.Message = "Selected comments rejected";
-            return this.response;
+            response.Success = true;
+            response.Message = "Selected comments rejected";
+            return response;
         }
 
         /// <summary>
@@ -133,41 +133,52 @@
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                this.response.Message = "Not authorized";
-                return this.response;
+                response.Message = "Not authorized";
+                return response;
             }
 
             if (string.IsNullOrEmpty(vals[0]))
             {
-                return this.response;
+                return response;
             }
 
             try
             {
-                var toapprove = from p in Post.Posts
-                                from c in p.Comments
-                                join t in vals on c.Id equals new Guid(t)
-                                select new { p, c };
+                //var toapprove = from p in Post.Posts
+                //                from c in p.Comments
+                //                join t in vals on c.Id equals new Guid(t)
+                //                select new { p, c };
 
-                foreach (var t in toapprove)
+                //foreach (var t in toapprove)
+                //{
+                //    CommentHandlers.AddIpToFilter(t.c.IP, false);
+                //    CommentHandlers.ReportMistake(t.c);
+
+                //    t.c.ModeratedBy = User.Identity.Name;
+                //    t.p.ApproveComment(t.c);
+                //}
+                foreach (var p in Post.Posts.ToArray())
                 {
-                    CommentHandlers.AddIpToFilter(t.c.IP, false);
-                    CommentHandlers.ReportMistake(t.c);
+                    foreach (var c in from c in p.Comments.ToArray() from t in vals where c.Id == new Guid(t) select c)
+                    {
+                        CommentHandlers.AddIpToFilter(c.IP, false);
+                        CommentHandlers.ReportMistake(c);
 
-                    t.c.ModeratedBy = this.User.Identity.Name;
-                    t.p.ApproveComment(t.c);
+                        c.ModeratedBy = this.User.Identity.Name;
+                        p.ApproveComment(c);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Utils.Log("Api.Comments.Approve", ex);
-                this.response.Message = string.Format("Could not restore comment: {0}", vals[0]);
-                return this.response;
+                response.Message = string.Format("Error approving comment: {0}", vals[0]);
+                return response;
             }
 
-            this.response.Success = true;
-            this.response.Message = "Selected comments restored";
-            return this.response;
+            response.Success = true;
+            response.Message = "Selected comments restored";
+            return response;
         }
 
         /// <summary>
@@ -182,17 +193,17 @@
         [WebMethod]
         public JsonResponse Delete(string[] vals)
         {
-            this.response.Success = false;
+            response.Success = false;
 
             if (Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                this.response.Message = "Not authorized";
-                return this.response;
+                response.Message = "Not authorized";
+                return response;
             }
 
             if (string.IsNullOrEmpty(vals[0]))
             {
-                return this.response;
+                return response;
             }
 
             try
@@ -209,19 +220,19 @@
 
                 foreach (var c in tmp)
                 {
-                    this.RemoveComment(c);
+                    RemoveComment(c);
                 }
             }
             catch (Exception ex)
             {
                 Utils.Log("Api.Comments.Delete", ex);
-                this.response.Message = string.Format("Could not delete comment: {0}", ex.Message);
-                return this.response;
+                response.Message = string.Format("Could not delete comment: {0}", ex.Message);
+                return response;
             }
 
-            this.response.Success = true;
-            this.response.Message = "Selected comments deleted";
-            return this.response;
+            response.Success = true;
+            response.Message = "Selected comments deleted";
+            return response;
         }
 
         /// <summary>
@@ -233,17 +244,17 @@
         [WebMethod]
         public JsonResponse DeleteAll()
         {
-            this.response.Success = false;
+            response.Success = false;
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                this.response.Message = "Not authorized";
-                return this.response;
+                response.Message = "Not authorized";
+                return response;
             }
 
             try
             {
-                this.DeleteAllComments();
+                DeleteAllComments();
                 this.response.Success = true;
                 this.response.Message = "Comments deleted";
                 return this.response;
@@ -251,8 +262,8 @@
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Api.Comments.DeleteAll: {0}", ex.Message));
-                this.response.Message = string.Format("Could not delete all comment: {0}", ex.Message);
-                return this.response;
+                response.Message = string.Format("Could not delete all comment: {0}", ex.Message);
+                return response;
             }
 
         }
@@ -303,7 +314,10 @@
                     c.Website = new Uri(website);
                     c.Content = cont;
 
+                    // need to mark post as "dirty"
+                    p.DateModified = DateTime.Now;
                     p.Save();
+
                     return JsonComments.GetComment(gId);
                 }
             }

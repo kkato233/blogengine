@@ -22,17 +22,21 @@
     </asp:TemplateField>
     <asp:TemplateField HeaderText="<%$Resources:labels,status %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
-           <%# StatusLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%>
+            <%# ShowStatus(DataBinder.Eval(Container.DataItem, "Name").ToString())%>
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:TemplateField HeaderText="<%$Resources:labels,source %>" HeaderStyle-HorizontalAlign="Left">
+    <asp:TemplateField HeaderText="Tools" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
-           <span><%# string.Format("<a href='?ctrl=editor&ext={0}'>{1}</a>", DataBinder.Eval(Container.DataItem, "Name"), Resources.labels.view)%></span>
-        </ItemTemplate>
-    </asp:TemplateField>
-    <asp:TemplateField HeaderText="<%$Resources:labels,settings %>" HeaderStyle-HorizontalAlign="Left">
-        <ItemTemplate>
-           <span><%# SettingsLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%></span>
+                <ul class="rowTools">
+                    <li>
+                        <a class="toolsAction" href="#"><span class="">Tools</span></a>
+                        <ul class="rowToolsMenu">
+                            <li><%# StatusLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%></li>
+                            <li><%# string.Format("<a class='viewAction' href='?ctrl=editor&ext={0}'>{1}</a>", DataBinder.Eval(Container.DataItem, "Name"), Resources.labels.view + " source")%></li>
+                            <%# SettingsLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%>
+                       </ul>
+                    </li>
+               </ul>
         </ItemTemplate>
     </asp:TemplateField>
     <asp:BoundField HeaderText="<%$Resources:labels,priority %>" DataField = "Priority" />

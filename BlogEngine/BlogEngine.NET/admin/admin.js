@@ -116,24 +116,10 @@ function DeleteRow(obj) {
 
 //--------------	LOAD DATA VIEWS
 
-function LoadView() {
-   if(location.href.indexOf("Users/Roles.aspx") != -1) {
-      LoadRoles();
-   }
-
-   if(location.href.indexOf("Users/Users.aspx") != -1) {
-      LoadUsers();
-   }
-
-   if(location.href.indexOf("Users/Profile.aspx") != -1) {
-      LoadProfile();
-   }
-}
-
 function LoadComments(pg, srvs) {
    $.ajax({
       url: srvs + "/LoadComments",
-      data: "{'PageSize':'" + pageSize + "', 'Page':'" + pg + "'}",
+      data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
@@ -149,12 +135,12 @@ function LoadComments(pg, srvs) {
 function LoadPager(pg, srvs) {
    $.ajax({
       url: srvs + "/LoadPager",
-      data: "{'PageSize':'" + pageSize + "', 'Page':'" + pg + "'}",
+      data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (msg) {
-         $('#Pager').html(msg.d);
+         $('.Pager').html(msg.d);
       }
    });
    return false;
@@ -170,6 +156,9 @@ function LoadRoles() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
+
+         $('.editButton').live("click", function () { return EditRow(this); });
+         $('.deleteButton').live("click", function () { return DeleteRow(this); });
       }
    });
 }
@@ -184,6 +173,9 @@ function LoadUsers() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
+
+         $('.editButton').live("click", function () { return EditRow(this); });
+         $('.deleteButton').live("click", function () { return DeleteRow(this); });
       }
    });
 }
@@ -352,7 +344,7 @@ function EditComment(id) {
       }
    });
    return false;
-}
+}
 
 function SaveComment(obj) {
    var frm = document.forms.aspnetForm;
@@ -395,6 +387,7 @@ function SaveComment(obj) {
       success: function (result) {
          oRow.setTemplateURL('../../Templates/commentrow.htm', null, { filter_data: false });
          oRow.processTemplate(result);
+         ShowStatus("success", "Updated");
       }
    });
 
@@ -406,7 +399,7 @@ function CancelEditComment(obj) {
     $(oRow).html(editingComment);
 }
 
-function DeleteComment(id) {
+function CommentAction(act, id) {
    var oRow = $("[id$='" + id + "']");
    var hRow = oRow.html();
 
@@ -417,34 +410,52 @@ function DeleteComment(id) {
    vals[0] = id;
    var dto = { "vals": vals };
    $.ajax({
-      url: "../../api/Comments.asmx/Delete",
-      data: JSON.stringify(dto),
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (result) {
-         var rt = result.d;
-         if(rt.Success) {
-            var com_cnt = $('#comment_counter').text();
-            var spm_cnt = $('#spam_counter').text();
-            var pbk_cnt = $('#pingback_counter').text();
-            var pnd_cnt = $('#pending_counter').text();
+       url: "../../api/Comments.asmx/" + act,
+       data: JSON.stringify(dto),
+       type: "POST",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       success: function (result) {
+           var rt = result.d;
+           if (rt.Success) {
+               var com_cnt = $('#comment_counter').text();
+               var spm_cnt = $('#spam_counter').text();
+               var pbk_cnt = $('#pingback_counter').text();
+               var pnd_cnt = $('#pending_counter').text();
 
-            if(location.href.indexOf('Comments\/Approved.aspx') > 0) { $('#comment_counter').text(parseInt(com_cnt, 10) - 1); }
-            if(location.href.indexOf('Comments\/Spam.aspx') > 0) { $('#spam_counter').text(parseInt(spm_cnt, 10) - 1); }
-            if(location.href.indexOf('Comments\/Pingback.aspx') > 0) { $('#pingback_counter').text(parseInt(pbk_cnt, 10) - 1); }
-            if(location.href.indexOf('Comments\/Pending.aspx') > 0) { $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1); }
+               if (act == "Delete") {
+                   if (location.href.indexOf('Comments\/Approved.aspx') > 0) { $('#comment_counter').text(parseInt(com_cnt, 10) - 1); }
+                   if (location.href.indexOf('Comments\/Spam.aspx') > 0) { $('#spam_counter').text(parseInt(spm_cnt, 10) - 1); }
+                   if (location.href.indexOf('Comments\/Pending.aspx') > 0) { $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1); }
+               }
+               if (act == "Approve") {
+                   $('#comment_counter').text(parseInt(com_cnt, 10) + 1);
+                   // can approve from pending or spam
+                   if (location.href.indexOf('Comments\/Pending.aspx') > 0)
+                       $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1);
+                   else
+                       $('#spam_counter').text(parseInt(spm_cnt, 10) - 1);
+               }
+               if (act == "Reject") {
+                   $('#spam_counter').text(parseInt(spm_cnt, 10) + 1);
+                   
+                   // can reject from pending or spam
+                   if (location.href.indexOf('Comments\/Pending.aspx') > 0)
+                       $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1);
+                   else
+                       $('#comment_counter').text(parseInt(com_cnt, 10) - 1);
+               }
 
-            $(oRow).fadeOut(500, function () {
-               $(oRow).remove();
-            });
-            ShowStatus("success", rt.Message);
-         }
-         else {
-            oRow.html(hRow);
-            ShowStatus("warning", rt.Message);
-         }
-      }
+               $(oRow).fadeOut(500, function () {
+                   $(oRow).remove();
+               });
+               ShowStatus("success", rt.Message);
+           }
+           else {
+               oRow.html(hRow);
+               ShowStatus("warning", rt.Message);
+           }
+       }
    });
    return false;
 }
@@ -480,17 +491,81 @@ function DeleteAllSpam() {
 
 //--------------  POSTS AND PAGES
 
-function LoadPosts(pg, type) {
+// All, Draft or Published
+function ChangePostFilterType(type) {
+    $.cookie('postMainFilter', type, { expires: 7 });
+    $.cookie('postSecondaryFilter', null, { expires: 7 });
+    $.cookie('postSecondaryFilterId', null, { expires: 7 });
+    $.cookie('postSecondaryFilterTitle', null, { expires: 7 });
+    $.cookie('postCurrentPage', 1, { expires: 7 });
+    LoadPosts();
+}
+// Category, Tag or Author
+function ChangePostFilter(filter, id, title) {
+    $.cookie('postSecondaryFilter', filter, { expires: 7 });
+    $.cookie('postSecondaryFilterId', id, { expires: 7 });
+    $.cookie('postSecondaryFilterTitle', title, { expires: 7 });
+    $.cookie('postCurrentPage', 1, { expires: 7 });
+    LoadPosts();
+}
+
+function LoadPostsForPage(page) {
+    if(page == null || page == 0)
+        page = 1;
+
+    $.cookie('postCurrentPage', page, { expires: 7 });
+    LoadPosts();
+}
+
+function LoadPosts() {
+    if ($.cookie('postMainFilter') == null) {
+        $.cookie('postMainFilter', 'All', { expires: 7 });
+    }
+    if ($.cookie('postSecondaryFilter') == null) {
+        $.cookie('postSecondaryFilter', 'All', { expires: 7 });
+    }
+    if ($.cookie('postSecondaryFilterId') == null) {
+        $.cookie('postSecondaryFilterId', '', { expires: 7 });
+    }
+    if ($.cookie('postSecondaryFilterTitle') == null) {
+        $.cookie('postSecondaryFilterTitle', '', { expires: 7 });
+    }
+    if ($.cookie('postCurrentPage') == null) {
+        $.cookie('postCurrentPage', 1, { expires: 7 });
+    }
+    var ftr1 = $.cookie('postMainFilter');
+    var ftr2 = $.cookie('postSecondaryFilter');
+    var ftr2id = $.cookie('postSecondaryFilterId');
+    var ftr2title = $.cookie('postSecondaryFilterTitle');
+    var pg = $.cookie('postCurrentPage');
+    
     $.ajax({
         url: "../AjaxHelper.aspx/LoadPosts",
-        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "'}",
+        data: "{'page':'" + pg + "' , 'type':'" + ftr1 + "', 'filter':'" + ftr2 + "', 'title': '" + ftr2id + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
             $('#Container').setTemplateURL('../../Templates/posts.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
-            LoadPostsPager(pg, type);
+
+            LoadPostsPager(pg, ftr1);
+
+            var prefx = ftr1 + ' posts';
+            if (ftr2 == "Category") {
+                $("#filteredby").html(prefx + " in " + ftr2title + " category").show();
+                //$(".tableToolBox a").removeClass("current");
+            }
+            else if (ftr2 == "Tag") {
+                $("#filteredby").html(prefx + " tagged with " + ftr2id).show();
+                //$(".tableToolBox a").removeClass("current");
+            }
+            else if (ftr2 == "Author") {
+                $("#filteredby").html(prefx + " by author " + ftr2id).show();
+                //$(".tableToolBox a").removeClass("current");
+            }
+            else
+                $("#filteredby").hide();
         }
     });
     return false;
@@ -519,7 +594,7 @@ function LoadPostsPager(pg, type) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            $('#Pager').html(msg.d);
+            $('.Pager').html(msg.d);
         }
     });
     return false;
@@ -545,7 +620,7 @@ function DeletePost(obj) {
                     $(that).remove();
                 });
                 ShowStatus("success", rt.Message);
-                LoadPosts(currPage);
+                LoadPosts();
             }
             else {
                 ShowStatus("warning", rt.Message);
@@ -574,7 +649,7 @@ function DeletePage(obj) {
                     $(that).remove();
                 });
                 ShowStatus("success", rt.Message);
-                LoadPosts('All');
+                LoadPages('All');
             }
             else {
                 ShowStatus("warning", rt.Message);

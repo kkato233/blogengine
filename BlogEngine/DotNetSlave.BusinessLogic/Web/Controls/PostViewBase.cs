@@ -184,7 +184,7 @@
                         sb.AppendFormat(
                             CultureInfo.InvariantCulture,
                             "<a href=\"{0}\">{1}</a> | ",
-                            Utils.AbsoluteWebRoot + "admin/Pages/Add_entry.aspx?id=" + this.Post.Id,
+                        Utils.AbsoluteWebRoot + "admin/Posts/Add_entry.aspx?id=" + this.Post.Id,
                             Utils.Translate("edit"));
                     }
 

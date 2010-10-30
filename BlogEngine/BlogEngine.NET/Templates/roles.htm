@@ -1,9 +1,13 @@
+{#if $T.d.length == 0}
+<div class="info">
+    You haven't defined any roles so far. To add a new role use the link in the top right corner of the page.
+</div>
+{#else}
 <table id="RoleService" class="beTable rounded">
   <thead>
     <tr>
 	  <th width="20"><input type="checkbox" name="chkAllRoles" onclick="toggleAllChecks(this)"/></th>
       <th width="auto">Roles</th>
-	  <th width="80">&nbsp;</th>
 	  <th width="80">&nbsp;</th>
 	  <th width="80">&nbsp;</th>
     </tr>
@@ -13,10 +17,10 @@
     <tr id="{$T.post.RoleName}" class="{#cycle values=['','alt']}">
 	  <td><input type="checkbox" name="chk"{$T.post.RoleName} class="chk"/></td>
       <td class="editable">{$T.post.RoleName}</td>
-	  <td align="center" style="vertical-align:middle"><a href="#" class="editButton">Edit</a></td>
-	  <td align="center" style="vertical-align:middle"><a href="Rights.aspx?role={$T.post.RoleName}">Rights</a></td>
-	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton">Delete</a></td>
+	  <td align="center" style="vertical-align:middle"><a href="#" class="editButton editAction">Edit</a></td>
+	  <td align="center" style="vertical-align:middle"><a href="#" class="deleteButton deleteAction">Delete</a></td>
     </tr>
     {#/for}
   </tbody>
 </table>
+{#/if}

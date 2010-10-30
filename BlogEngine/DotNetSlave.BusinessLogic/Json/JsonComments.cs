@@ -189,25 +189,31 @@
 
             var prvLnk = string.Empty;
             var nxtLnk = string.Empty;
-            const string LinkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadComments({1}, '{3}');\" alt=\"{2}\">{2}</a>";
+            var firstLnk = string.Empty;
+            var lastLnk = string.Empty;
+            const string LinkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadComments({1}, '{2}');\" class=\"{0}\"></a>";
 
             var pgs = Convert.ToDecimal(commCnt) / Convert.ToDecimal(pageSize);
             var p = pgs - (int)pgs;
             var lastPage = p > 0 ? (int)pgs + 1 : (int)pgs;
 
-            var pageLink = string.Format("<span>Page {0} of {1}</span>", currentPage, lastPage);
+            var currentScope = ((page * pageSize) - (pageSize - 1)).ToString() + " - " + (page * pageSize).ToString();
+
+            var pageLink = string.Format("<span>Showing {0} of {1}</span>", currentScope, commCnt);
 
             if (currentPage > 1)
             {
-                prvLnk = string.Format(LinkFormat, "prevLink", currentPage - 1, "&lt;&lt; ", srvs);
+                prvLnk = string.Format(LinkFormat, "prevLink", currentPage - 1, srvs);
+                firstLnk = string.Format(LinkFormat, "firstLink", 1, srvs);
             }
 
             if (page < lastPage)
             {
-                nxtLnk = string.Format(LinkFormat, "nextLink", currentPage + 1, " &gt;&gt;", srvs);
+                nxtLnk = string.Format(LinkFormat, "nextLink", currentPage + 1, srvs);
+                lastLnk = string.Format(LinkFormat, "lastLink", lastPage, srvs);
             }
 
-            return prvLnk + pageLink + nxtLnk;
+            return firstLnk + prvLnk + pageLink + nxtLnk + lastLnk;
         }
     }
 }
