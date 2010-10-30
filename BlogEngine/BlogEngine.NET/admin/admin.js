@@ -1,7 +1,7 @@
 ﻿
 var pageSize = 10;
 
-LoadView();
+//LoadView();
 
 $(document).ready(function () {
    $('.editButton').live("click", function () { return EditRow(this); });
@@ -57,21 +57,26 @@ function SaveChanges(obj, str) {
 
    var dto = { "id": id, "bg": bg, "vals": editVals };
    $.ajax({
-      type: "post",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      url: "../../api/" + srv + ".asmx/Edit",
-      data: JSON.stringify(dto),
-      success: function (result) {
-         var rt = result.d;
-         if(rt.Success) {
-            $(obj).parent().parent().parent().after(rt.Data).remove();
-            ShowStatus("success", rt.Message);
-         }
-         else {
-            ShowStatus("warning", rt.Message);
-         }
-      }
+       type: "post",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       url: "../../api/" + srv + ".asmx/Edit",
+       data: JSON.stringify(dto),
+       success: function (result) {
+           var rt = result.d;
+           if (rt.Success) {
+               $(obj).parent().parent().parent().after(rt.Data).remove();
+               // the admin page may define a OnAdminDataSaved() function.  if so,
+               // call that function so data loading takes place.
+               if (typeof OnAdminDataSaved !== 'undefined') {
+                   OnAdminDataSaved();
+               }
+               ShowStatus("success", rt.Message);
+           }
+           else {
+               ShowStatus("warning", rt.Message);
+           }
+       }
    });
 }
 
