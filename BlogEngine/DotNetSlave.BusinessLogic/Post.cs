@@ -648,7 +648,22 @@
             return CurrentUserOwnsPost(Post.GetPost(id));
         }
 
-    
+        /// <summary>
+        /// Gets whether the current user can delete this post.
+        /// </summary>
+        /// <returns></returns>
+        public bool CanUserDeletePost
+        {
+            get
+            {
+                if (CurrentUserOwnsPost(this) && Security.IsAuthorizedTo(Rights.DeleteOwnPosts))
+                    return true;
+                else if (!CurrentUserOwnsPost(this) && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts))
+                    return true;
+
+                return false;
+            }
+        }
 
         /// <summary>
         /// Returs a post based on the specified id.

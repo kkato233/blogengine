@@ -18,6 +18,7 @@
     public class Posts : WebService
     {
         [Obsolete]
+        [WebMethod]
         public JsonResponse DeletePost(string id)
         {
 
@@ -27,9 +28,12 @@
             }
 
             var post = Post.GetPost(new Guid(id));
+            if (post == null)
+            {
+                return new JsonResponse() { Message = "Invalid post id" };
+            }
 
-            if (!(Post.CurrentUserOwnsPost(post) && Security.IsAuthorizedTo(Rights.DeleteOwnPosts)) ||
-                (!Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts)))
+            if (!post.CanUserDeletePost)
             {
                 return new JsonResponse() { Message = "Not authorized." };
             }

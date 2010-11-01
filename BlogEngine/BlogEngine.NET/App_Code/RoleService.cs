@@ -158,13 +158,16 @@
 
                 foreach (var right in Right.GetAllRights())
                 {
-                    if (rightsCollection.ContainsKey(right.Name))
+                    if (right.Flag != Rights.None)
                     {
-                        right.AddRole(roleName);
-                    }
-                    else
-                    {
-                        right.RemoveRole(roleName);
+                        if (rightsCollection.ContainsKey(right.Name))
+                        {
+                            right.AddRole(roleName);
+                        }
+                        else
+                        {
+                            right.RemoveRole(roleName);
+                        }
                     }
                 }
 
