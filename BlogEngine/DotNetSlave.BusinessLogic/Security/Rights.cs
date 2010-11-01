@@ -49,6 +49,7 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user is allowed to view exception messages.
         /// </summary>
+        [RightDetails(Category = RightCategory.General)]
         ViewDetailedErrorMessages,
 
         #endregion
@@ -58,22 +59,25 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user is allowed to view comments on a post.
         /// </summary>
+        [RightDetails(Category = RightCategory.Comments)]
         ViewPublicComments,
 
         /// <summary>
         /// A user is allowed to view comments that have not been moderation yet.
         /// </summary>
+        [RightDetails(Category = RightCategory.Comments)]
         ViewUnmoderatedComments,
-
 
         /// <summary>
         /// A user is allowed to create and submit comments for posts or pages.
         /// </summary>
+        [RightDetails(Category = RightCategory.Comments)]
         CreateComments,
 
         /// <summary>
         /// User can approve, delete, or mark comments as spam.
         /// </summary>
+        [RightDetails(Category = RightCategory.Comments)]
         ModerateComments,
 
         #endregion
@@ -84,51 +88,61 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user is allowed to view posts that are both published and public.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         ViewPublicPosts,
 
         /// <summary>
         /// A user is allowed to view unpublished posts.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         ViewUnpublishedPosts,
 
         /// <summary>
         /// A user is allowed to view non-public posts.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         ViewPrivatePosts,
 
         /// <summary>
         /// A user can create new posts. 
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         CreateNewPosts,
 
         /// <summary>
         /// A user can edit their own posts. 
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         EditOwnPosts,
 
         /// <summary>
         /// A user can edit posts created by other users.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         EditOtherUsersPosts,
 
         /// <summary>
         /// A user can delete their own posts.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         DeleteOwnPosts,
 
         /// <summary>
         /// A user can delete posts created by other users.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         DeleteOtherUsersPosts,
 
         /// <summary>
         /// A user can set whether or not their own posts are published.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         PublishOwnPosts,
 
         /// <summary>
         /// A user can set whether or not another user's posts are published.
         /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
         PublishOtherUsersPosts,
 
         #endregion
@@ -138,61 +152,72 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user can view public, published pages.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         ViewPublicPages,
 
         /// <summary>
         /// A user can view unpublished pages.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         ViewUnpublishedPages,
 
         /// <summary>
         /// A user can create new pages.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         CreateNewPages,
 
         /// <summary>
         /// A user can edit pages they've created.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         EditOwnPages,
 
         /// <summary>
         /// A user can edit pages other users have created.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         EditOtherUsersPages,
 
         /// <summary>
         /// A user can delete pages they've created.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         DeleteOwnPages,
 
         /// <summary>
         /// A user can delete pages other users have created.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         DeleteOtherUsersPages,
 
         /// <summary>
         /// A user can set whether or not their own pages are published.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         PublishOwnPages,
 
         /// <summary>
         /// A user can set whether or not another user's pages are published.
         /// </summary>
+        [RightDetails(Category = RightCategory.Pages)]
         PublishOtherUsersPages,
 
         #endregion
 
         #region "Ratings"
 
-            /// <summary>
-            /// A user can view ratings on posts.
-            /// </summary>
-            ViewRatingsOnPosts,
+        /// <summary>
+        /// A user can view ratings on posts.
+        /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
+        ViewRatingsOnPosts,
 
-            /// <summary>
-            /// A user can submit ratings on posts.
-            /// </summary>
-            SubmitRatingsOnPosts,
+        /// <summary>
+        /// A user can submit ratings on posts.
+        /// </summary>
+        [RightDetails(Category = RightCategory.Posts)]
+        SubmitRatingsOnPosts,
         #endregion
 
         #region Roles
@@ -200,21 +225,25 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user can view roles.
         /// </summary>
+        [RightDetails(Category = RightCategory.Roles)]
         ViewRoles,
 
         /// <summary>
         /// A user can create new roles.
         /// </summary>
+        [RightDetails(Category = RightCategory.Roles)]
         CreateNewRoles,
 
         /// <summary>
         /// A user can edit existing roles.
         /// </summary>
+        [RightDetails(Category = RightCategory.Roles)]
         EditRoles,
 
         /// <summary>
         /// A user can delete existing roles.
         /// </summary>
+        [RightDetails(Category = RightCategory.Roles)]
         DeleteRoles,
 
         #endregion
@@ -224,26 +253,31 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user is allowed to register/create a new account. 
         /// </summary>
+        [RightDetails(Category = RightCategory.Users)]
         CreateNewUsers,
 
         /// <summary>
         /// A user is allowed to delete their own account.
         /// </summary>
+        [RightDetails(Category = RightCategory.Users)]
         DeleteUserSelf,
 
         /// <summary>
         /// A user is allowed to delete accounts they do not own.
         /// </summary>
+        [RightDetails(Category = RightCategory.Users)]
         DeleteUsersOtherThanSelf,
 
         /// <summary>
         /// A user is allowed to edit their own account information.
         /// </summary>
+        [RightDetails(Category = RightCategory.Users)]
         EditOwnUser,
 
         /// <summary>
         /// A user is allowed to edit the account information of other users.
         /// </summary>
+        [RightDetails(Category=RightCategory.Users)]
         EditOtherUsers,
 
         #endregion
@@ -256,6 +290,9 @@ namespace BlogEngine.Core
     [AttributeUsage(AttributeTargets.Field, AllowMultiple=false, Inherited=false)]
     public sealed class RightDetailsAttribute : Attribute
     {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public RightDetailsAttribute()
         {
 
@@ -266,7 +303,53 @@ namespace BlogEngine.Core
         public string DescriptionResourceLabelKey { get; set; }
         public string NameResourceLabelKey { get; set; }
 
+        /// <summary>
+        /// The category a Right is for.
+        /// </summary>
+        public RightCategory Category { get; set; }
+
         #endregion
 
+    }
+
+    /// <summary>
+    /// Categories for Rights.
+    /// </summary>
+    public enum RightCategory
+    {
+        /// <summary>
+        /// No category
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// General category
+        /// </summary>
+        General,
+
+        /// <summary>
+        /// Comments category
+        /// </summary>
+        Comments,
+
+        /// <summary>
+        /// Pages category
+        /// </summary>
+        Pages,
+
+        /// <summary>
+        /// Post category
+        /// </summary>
+        Posts,
+
+        /// <summary>
+        /// Users category
+        /// </summary>
+        Users,
+
+        /// <summary>
+        /// Roles
+        /// </summary>
+        Roles
     }
 }

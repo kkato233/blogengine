@@ -12,37 +12,60 @@
 
             var tempIdCount = 0;
 
-            for (var key in rights) {
+            for (var category in rights) {
+            
+                var catDiv = $("<div class=\"category\">");
+                var header = $("<h2>");
+                header.html(category);
 
-                tempIdCount += 1;
-                var checkBoxId = "rightCheck" + tempIdCount;
+                var catUl = $("<ul>");
+                catDiv.append(header);
+                catDiv.append(catUl);
 
-                var row = $("<div class=\"rightRow\">");
-                var checkBox = $("<input type=\"checkbox\" />");
-                checkBox.attr("id", checkBoxId);
+                for (var key in rights[category]) {
 
-                if (rights[key] === true) {
-                    checkBox.attr("checked", "checked");
+                    tempIdCount += 1;
+                    var checkBoxId = "rightCheck" + tempIdCount;
+
+                    var li = $("<li>");
+                    var checkBox = $("<input type=\"checkbox\" />");
+                    checkBox.attr("id", checkBoxId);
+                    if (role.toLowerCase() === "administrators") {
+                        checkBox.click(function() {
+                            if (!$(this).is(":checked")) {
+                                alert("Rights cannot be removed from the Administrators role.");
+                                return false;
+                            }
+                        });
+                    }
+
+                    if (rights[category][key] === true) {
+                        checkBox.attr("checked", "checked");
+                    }
+
+                    li.append(checkBox);
+                    li.append($("<label>").attr("for", checkBoxId).text(key));
+
+                    catUl.append(li);
+
+                    rightsControls[key] = {
+                        li : li,
+                        checkBox : checkBox
+                    };
                 }
 
-                row.append(checkBox);
-                row.append($("<label>").attr("for", checkBoxId).text(key));
-
-                $("#rightsHolder").append(row);
-
-                rightsControls[key] = {
-                    row : row,
-                    checkBox : checkBox
-                };
+                $("#rightsHolder").append(catDiv);
             }
         });
 
         function SaveRights() {
 
             var rightsToSave = {};
-            for (var key in rights) {
-                if (rightsControls[key].checkBox.attr("checked") === true) {
-                    rightsToSave[key] = true;
+            for (var category in rights) {
+                for (var key in rights[category]) {
+                    if (rightsControls[key].checkBox.attr("checked") === true) {
+                        rightsToSave[key] = true;
+                    }
                 }
             }
 

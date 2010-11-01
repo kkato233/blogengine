@@ -58,7 +58,6 @@
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
             cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
-            cbRequireLoginToViewPosts.Checked = BlogSettings.Instance.RequireLoginToViewPosts;
         }
 
         /// <summary>
@@ -158,8 +157,7 @@
 			string showPostNavigation,
 			string culture,
 			string timezone,
-			string enableSelfRegistration,
-			string requireLoginToViewPosts)
+			string enableSelfRegistration)
         {
             var response = new JsonResponse {Success = false};
 
@@ -191,7 +189,6 @@
 				BlogSettings.Instance.Culture = culture;
 				BlogSettings.Instance.Timezone = double.Parse(timezone);
 				BlogSettings.Instance.EnableSelfRegistration = bool.Parse(enableSelfRegistration);
-				BlogSettings.Instance.RequireLoginToViewPosts = bool.Parse(requireLoginToViewPosts);
 
                 BlogSettings.Instance.Save();
             }

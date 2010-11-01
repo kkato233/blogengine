@@ -393,8 +393,7 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnPreInit(EventArgs e)
         {
-            // blog set as private - redirect to login if not authenticated
-            if (!this.Page.User.Identity.IsAuthenticated && BlogSettings.Instance.RequireLoginToViewPosts)
+            if (!Security.IsAuthorizedTo(Rights.ViewPublicPosts))
             {
                 this.Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
             }
@@ -408,14 +407,8 @@
                 return;
             }
 
-            if (!this.Page.User.Identity.IsAuthenticated)
-            {
-                return;
-            }
-
             var post = Post.GetPost(new Guid(this.Request.QueryString["deletepost"]));
-            if (!this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) &&
-                this.Page.User.Identity.Name != post.Author)
+            if (post == null || !post.CanUserDeletePost)
             {
                 return;
             }

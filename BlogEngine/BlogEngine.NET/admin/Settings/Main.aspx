@@ -51,8 +51,7 @@
 				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
 				"culture": $("[id$='_ddlCulture']").val(),
 				"timezone": $("[id$='_txtTimeZone']").val(),
-				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked'),
-				"requireLoginToViewPosts": $("[id$='_cbRequireLoginToViewPosts']").attr('checked')
+				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked')
 			};
 			
             $.ajax({
@@ -167,11 +166,6 @@
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
                         <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbRequireLoginToViewPosts" />
-                        <label for="<%=cbRequireLoginToViewPosts.ClientID %>"><%=Resources.labels.onlyLoggedInCanView %></label>
                     </li>
                 </ul>
 

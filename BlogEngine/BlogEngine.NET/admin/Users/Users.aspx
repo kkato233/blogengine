@@ -56,6 +56,10 @@
             return false;
         }
 
+        function OnAdminDataSaved() {
+            LoadUsers();
+        }
+
         LoadUsers();
 
     </script>

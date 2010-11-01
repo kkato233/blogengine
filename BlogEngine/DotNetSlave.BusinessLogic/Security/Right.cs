@@ -581,7 +581,7 @@ namespace BlogEngine.Core
 
             if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
             {
-                throw new System.Security.SecurityException("Roles can not be removed from the administrative role");
+                throw new System.Security.SecurityException("Rights can not be removed from the administrative role");
             }
             else
             {

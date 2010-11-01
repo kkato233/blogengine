@@ -1,9 +1,10 @@
 ﻿namespace Admin.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Reflection;
     using BlogEngine.Core;
 
     public partial class Rights : System.Web.UI.Page
@@ -41,7 +42,33 @@
             }
             else
             {
-                var jsonDict = new Dictionary<string, bool>();
+                // outer key is Category (RightCategory)
+                // inner key is the Right name
+                var jsonDict = new Dictionary<string, Dictionary<string, bool>>();
+
+                // store the category for each Rights.
+                var rightCategories = new Dictionary<BlogEngine.Core.Rights, string>();
+
+                foreach (FieldInfo fi in typeof(BlogEngine.Core.Rights).GetFields(BindingFlags.Static | BindingFlags.GetField | BindingFlags.Public))
+                {
+                    BlogEngine.Core.Rights right = (BlogEngine.Core.Rights)fi.GetValue(null);
+                    if (right != BlogEngine.Core.Rights.None)
+                    {
+                        RightDetailsAttribute rightDetails = null;
+
+                        foreach (Attribute attrib in fi.GetCustomAttributes(true))
+                        {
+                            if (attrib is RightDetailsAttribute)
+                            {
+                                rightDetails = (RightDetailsAttribute)attrib;
+                                break;
+                            }
+                        }
+
+                        RightCategory category = rightDetails == null ? RightCategory.General : rightDetails.Category;
+                        rightCategories.Add(right, category.ToString());
+                    }
+                }
 
                 foreach (var right in BlogEngine.Core.Right.GetAllRights())
                 {
@@ -49,7 +76,17 @@
                     // don't render it out.
                     if (right.Flag != BlogEngine.Core.Rights.None)
                     {
-                        jsonDict.Add(right.Name, right.Roles.Contains(role));
+                        if (rightCategories.ContainsKey(right.Flag))
+                        {
+                            string categoryName = rightCategories[right.Flag];
+
+                            if (!jsonDict.ContainsKey(categoryName))
+                            {
+                                jsonDict.Add(categoryName, new Dictionary<string, bool>());
+                            }
+
+                            jsonDict[categoryName].Add(right.Name, right.Roles.Contains(role));
+                        }
                     }
                 }
 

@@ -14,7 +14,6 @@
   <descriptioncharacters>300</descriptioncharacters>
   <searchbuttontext>Search</searchbuttontext>
   <editorsrole>Editors</editorsrole>
-  <requirelogintoviewposts>False</requirelogintoviewposts>
   <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
   <enablecontactattachments>True</enablecontactattachments>
   <enableselfregistration>False</enableselfregistration>

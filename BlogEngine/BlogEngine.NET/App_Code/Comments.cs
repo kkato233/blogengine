@@ -195,7 +195,7 @@
         {
             response.Success = false;
 
-            if (Security.IsAuthorizedTo(Rights.ModerateComments))
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 response.Message = "Not authorized";
                 return response;
