@@ -35,6 +35,11 @@
                 <a href="Pages/Pages.aspx">Add new page</a>
             </div>
             <div class="dashbaordWidget rounded">
+                <h2>Trash</h2>
+                <a href="Trash.aspx">View All</a> &nbsp;&nbsp;
+                <a href="#" onclick="return ProcessTrash('Purge', 'All');">Clear</a>
+            </div>
+            <div class="dashbaordWidget rounded">
                 <h2>Recent comments</h2>
                 <p>Recent comments if moderation is off, or pending if it is on</p>
                 <a href="Comments/Approved.aspx">View all comments</a>

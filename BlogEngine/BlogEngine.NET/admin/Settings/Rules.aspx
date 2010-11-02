@@ -22,6 +22,7 @@
                             <asp:ListItem Text="5" />
                         </asp:DropDownList> 
                         <span><%=labels.authorApproved%></span> 
+                        <span class="insetHelp">To disable this rule, set to "0"</span>
                     </li>
                     <li>
                         <label class="lbl" for="<%=ddBlackListCount.ClientID %>"><%=labels.commentsBlacklist%></label>
@@ -33,6 +34,7 @@
                             <asp:ListItem Text="5" />
                         </asp:DropDownList> 
                         <span><%=labels.authorRejected%></span>
+                        <span class="insetHelp">To disable this rule, set to "0"</span>
                     </li>
                     <li>
                         <span class="filler"></span>

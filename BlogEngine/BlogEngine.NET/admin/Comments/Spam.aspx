@@ -20,16 +20,6 @@
             </div>
             <div id="Container"></div>
             <div class="Pager"></div>
-            <%if (CommentCounter > 0)
-              {%>
-            <div class="action_buttons">
-                <input type="submit" class="btn" value="Restore Selected" onclick="return ProcessSelected('Approve','Spam');" />&nbsp;
-		        <input type="submit" class="btn" value="Delete Selected" onclick="return ProcessSelected('Delete', 'Spam');" />&nbsp;
-                <input type="submit" class="btn" value="Delete All" onclick="return DeleteAllSpam();" />&nbsp;
-                <span class="loader">&nbsp;</span>
-            </div>
-            <%
-              }%>
 		</div>
 	</div>       
 </asp:Content>

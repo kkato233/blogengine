@@ -390,6 +390,9 @@
                               where c.Email.ToLowerInvariant() == comment.Email.ToLowerInvariant() || c.IP == comment.IP
                               select c)
             {
+                // disable for local testing
+                if (c.IP == "127.0.0.1") continue;
+
                 if (c.IsApproved)
                 {
                     whiteCnt++;

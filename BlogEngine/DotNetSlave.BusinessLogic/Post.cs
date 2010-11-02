@@ -140,6 +140,16 @@
         public static event EventHandler<EventArgs> CommentRemoved;
 
         /// <summary>
+        ///     Occurs when a comment has been purged.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentPurged;
+
+        /// <summary>
+        ///     Occurs when a comment has been restored.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentRestored;
+
+        /// <summary>
         ///     Occurs when a comment is updated.
         /// </summary>
         public static event EventHandler<EventArgs> CommentUpdated;
@@ -153,6 +163,16 @@
         ///     Occurs before comment is removed.
         /// </summary>
         public static event EventHandler<CancelEventArgs> RemovingComment;
+
+        /// <summary>
+        ///     Occurs before comment is purged.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> PurgingComment;
+
+        /// <summary>
+        ///     Occurs before comment is restored.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> RestoringComment;
 
         /// <summary>
         ///     Occurs when the post is being served to the output stream.
@@ -1029,9 +1049,49 @@
                 return;
             }
 
-            this.Comments.Remove(comment);
+            var comm = Comments.FirstOrDefault(c => c.Id.Equals(comment.Id));
+            if (comm == null)
+            {
+                return;
+            }
+
+            comm.IsDeleted = true;
             this.DataUpdate();
             this.OnCommentRemoved(comment);
+        }
+
+        public void PurgeComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnPurgingComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            this.Comments.Remove(comment);
+            this.DataUpdate();
+            this.OnCommentPurged(comment);
+        }
+
+        public void RestoreComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnRestoringComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            var comm = Comments.FirstOrDefault(c => c.Id.Equals(comment.Id));
+            if (comm == null)
+            {
+                return;
+            }
+
+            comm.IsDeleted = false;
+            this.DataUpdate();
+            this.OnCommentRestored(comment);
         }
 
         #endregion
@@ -1185,6 +1245,34 @@
         }
 
         /// <summary>
+        /// Called when [comment purged].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        protected virtual void OnCommentPurged(Comment comment)
+        {
+            if (CommentPurged != null)
+            {
+                CommentPurged(comment, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Called when [comment restored].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        protected virtual void OnCommentRestored(Comment comment)
+        {
+            if (CommentRestored != null)
+            {
+                CommentRestored(comment, new EventArgs());
+            }
+        }
+
+        /// <summary>
         /// Called when [comment updated].
         /// </summary>
         /// <param name="comment">
@@ -1226,6 +1314,40 @@
             if (RemovingComment != null)
             {
                 RemovingComment(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when [purging comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        protected virtual void OnPurgingComment(Comment comment, CancelEventArgs e)
+        {
+            if (PurgingComment != null)
+            {
+                PurgingComment(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when [restoring comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        protected virtual void OnRestoringComment(Comment comment, CancelEventArgs e)
+        {
+            if (RestoringComment != null)
+            {
+                RestoringComment(comment, e);
             }
         }
 

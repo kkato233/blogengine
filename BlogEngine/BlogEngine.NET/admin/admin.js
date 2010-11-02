@@ -1,8 +1,6 @@
 ﻿
 var pageSize = 10;
 
-//LoadView();
-
 $(document).ready(function () {
    $('.editButton').live("click", function () { return EditRow(this); });
    $('.deleteButton').live("click", function () { return DeleteRow(this); });
@@ -201,6 +199,70 @@ function LoadProfile() {
          $('#Container2').processTemplate(msg);
       }
    });
+}
+
+//--------------    TRASH
+
+function LoadTrash(pg) {
+    $('.loader').hide();
+    $.ajax({
+        url: "Trash.aspx/LoadTrash",
+        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../Templates/trash.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+            //LoadPager(pg, srvs);
+        }
+    });
+    return false;
+}
+
+function ProcessTrash(action, scope) {
+    $('#AjaxLoader').addClass('loader');
+    var vals = [];   
+    if (scope == 'Selected') {
+        var checked = $('#TrashTable input[@type=checkbox]:checked');
+        if (checked.length > 0) {
+            checked.each(function () {
+                var jThis = $(this);
+                if (jThis.attr("id") != "selectall") {
+                    var row = jThis.closest("tr");
+                    var id = row.attr("id");
+                    vals.push(id);
+                }
+            });
+        }
+    }
+    else if (scope == 'All') {
+        vals.push("All:All");
+    }
+    else {
+        vals.push(scope);
+    }
+
+    var dto = { "action": action, "vals": vals };
+    $.ajax({
+        url: "Trash.aspx/ProcessTrash",
+        data: JSON.stringify(dto),
+        type: "post",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                LoadTrash(1);
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    $('#AjaxLoader').removeClass('loader');
+    return false;
 }
 
 //--------------    COMMENTS
@@ -409,8 +471,8 @@ function CommentAction(act, id) {
    var oRow = $("[id$='" + id + "']");
    var hRow = oRow.html();
 
-   var loader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
-   oRow.html(loader);
+   var rowLoader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+   oRow.html(rowLoader);
 
    var vals = [];
    vals[0] = id;
