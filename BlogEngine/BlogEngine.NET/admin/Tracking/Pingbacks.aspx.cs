@@ -12,17 +12,17 @@
         protected static int CommentCounter { get; set; }
 
         [WebMethod]
-        public static IEnumerable LoadComments(int pageSize, int page)
+        public static IEnumerable LoadComments(int page)
         {
-            var commentList = JsonComments.GetComments(CommentType.Pingback, pageSize, page);
+            var commentList = JsonComments.GetComments(CommentType.Pingback, page);
             CommentCounter = commentList.Count;
             return commentList;
         }
 
         [WebMethod]
-        public static string LoadPager(int pageSize, int page)
+        public static string LoadPager(int page)
         {
-            return JsonComments.GetPager(pageSize, page, "Pingbacks.aspx");
+            return JsonComments.GetPager(page);
         }
     }
 }

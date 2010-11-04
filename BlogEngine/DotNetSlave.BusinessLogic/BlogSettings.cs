@@ -159,6 +159,15 @@
 
         #endregion
 
+        #region FeedAuthor
+
+        /// <summary>
+        /// RSS feed author
+        /// </summary>
+        public string FeedAuthor { get; set; }
+        
+        #endregion
+
         #region TimeStampPostLinks
 
         /// <summary>

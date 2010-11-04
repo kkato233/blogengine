@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
-        LoadPosts(1, 'All', '', '');
+        LoadPostsForPage(1);
         $(document).ready(function () {
             $(".tableToolBox a").click(function () {
                 $(".tableToolBox a").removeClass("current");

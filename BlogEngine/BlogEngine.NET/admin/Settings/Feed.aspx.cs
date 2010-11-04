@@ -35,6 +35,7 @@
             ddlSyndicationFormat.SelectedValue = BlogSettings.Instance.SyndicationFormat;
             txtPostsPerFeed.Text = BlogSettings.Instance.PostsPerFeed.ToString();
             txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
+            txtEmail.Text = BlogSettings.Instance.FeedAuthor;
             txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
 
             txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue
@@ -67,6 +68,7 @@
 			string syndicationFormat, 
 			string postsPerFeed,
 			string dublinCoreCreator,
+            string feedemail,
 			string dublinCoreLanguage,
 			string geocodingLatitude,
 			string geocodingLongitude,
@@ -87,6 +89,7 @@
 				BlogSettings.Instance.SyndicationFormat = syndicationFormat;
 				BlogSettings.Instance.PostsPerFeed = int.Parse(postsPerFeed, CultureInfo.InvariantCulture);
 				BlogSettings.Instance.AuthorName = dublinCoreCreator;
+                BlogSettings.Instance.FeedAuthor = feedemail;
 				BlogSettings.Instance.Language = dublinCoreLanguage;
 
 				float latitude;

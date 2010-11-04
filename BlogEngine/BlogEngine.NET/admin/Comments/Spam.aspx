@@ -6,7 +6,7 @@
     <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 
     <script type="text/javascript">
-        LoadComments(1, 'Spam.aspx');
+        LoadComments(1);
     </script>
 
 	<div class="content-box-outer">

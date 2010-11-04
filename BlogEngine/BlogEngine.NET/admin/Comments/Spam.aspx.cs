@@ -19,9 +19,6 @@
         /// <summary>
         /// Loads the comments.
         /// </summary>
-        /// <param name="pageSize">
-        /// Size of the page.
-        /// </param>
         /// <param name="page">
         /// The page number.
         /// </param>
@@ -29,9 +26,9 @@
         /// An enumerable of comments.
         /// </returns>
         [WebMethod]
-        public static IEnumerable LoadComments(int pageSize, int page)
+        public static IEnumerable LoadComments(int page)
         {
-            var commentList = JsonComments.GetComments(CommentType.Spam, pageSize, page);
+            var commentList = JsonComments.GetComments(CommentType.Spam, page);
             CommentCounter = commentList.Count;
             return commentList;
         }
@@ -39,9 +36,6 @@
         /// <summary>
         /// Loads the pager.
         /// </summary>
-        /// <param name="pageSize">
-        /// Size of the page.
-        /// </param>
         /// <param name="page">
         /// The page number.
         /// </param>
@@ -49,9 +43,9 @@
         /// The pager.
         /// </returns>
         [WebMethod]
-        public static string LoadPager(int pageSize, int page)
+        public static string LoadPager(int page)
         {
-            return JsonComments.GetPager(pageSize, page, "Spam.aspx");
+            return JsonComments.GetPager(page);
         }
     }
 }

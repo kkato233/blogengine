@@ -119,26 +119,39 @@ function DeleteRow(obj) {
 
 //--------------	LOAD DATA VIEWS
 
-function LoadComments(pg, srvs) {
+function LoadComments(page) {
+    var pg = 1;
+    if (page > 0) {
+        pg = page;
+    } else {
+        // page is 0 - we just deleted/approved etc. comment
+        // don't know what page we are on, just need to reload
+        pg = $.cookie('CommentPagerCurrentPage');
+    }
+    $.cookie('CommentPagerCurrentPage', pg, { expires: 7 });
+
+    var srvs = CommentPage();
    $.ajax({
       url: srvs + "/LoadComments",
-      data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
+      data: "{'page':'" + pg + "'}",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/comments.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
-         LoadPager(pg, srvs);
+         LoadPager();
       }
    });
    return false;
 }
 
-function LoadPager(pg, srvs) {
+function LoadPager() {
+    var srvs = CommentPage();
+    var pg = $.cookie('CommentPagerCurrentPage');
    $.ajax({
       url: srvs + "/LoadPager",
-      data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
+      data: "{'page':'" + pg + "'}",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
@@ -146,7 +159,14 @@ function LoadPager(pg, srvs) {
          $('.Pager').html(msg.d);
       }
    });
-   return false;
+   return false;}
+
+function CommentPage() {
+    var page = 'Approved.aspx';
+    if (location.href.indexOf('Comments\/Spam.aspx') > 0) { page = 'Spam.aspx'; }
+    if (location.href.indexOf('Comments\/Pending.aspx') > 0) { page = 'Pending.aspx'; }
+    if (location.href.indexOf('Tracking\/Pingbacks.aspx') > 0) { page = 'Pingbacks.aspx'; }
+    return page;
 }
 
 function LoadRoles() {
@@ -304,86 +324,88 @@ function ProcessSelected(action, page) {
 
       var dto = { "vals": vals };
       $.ajax({
-         url: srv,
-         data: JSON.stringify(dto),
-         type: "post",
-         contentType: "application/json; charset=utf-8",
-         dataType: "json",
-         success: function (result) {
+          url: srv,
+          data: JSON.stringify(dto),
+          type: "post",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (result) {
 
-            var rt = result.d;
-            if(rt.Success) {
+              var rt = result.d;
+              if (rt.Success) {
 
-               // Reference the counters so they don't need to be requeried
-               // by each checkbox.
-               var comment_counter = $('#comment_counter');
-               var spam_counter = $('#spam_counter');
-               var pingback_counter = $('#pingback_counter');
-               var pending_counter = $('#pending_counter');
-
-
-               // parse the current counts
-               // Change these values before setting it to the element's text.
-               var com_cnt = parseInt(comment_counter.text(),10);
-               var spm_cnt = parseInt(spam_counter.text(), 10);
-               var pbk_cnt = parseInt(pingback_counter.text(), 10);
-               var pnd_cnt = parseInt(pending_counter.text(), 10);
+                  // Reference the counters so they don't need to be requeried
+                  // by each checkbox.
+                  var comment_counter = $('#comment_counter');
+                  var spam_counter = $('#spam_counter');
+                  var pingback_counter = $('#pingback_counter');
+                  var pending_counter = $('#pending_counter');
 
 
-               $.each(commentsAndRows, function (index, value) {
+                  // parse the current counts
+                  // Change these values before setting it to the element's text.
+                  var com_cnt = parseInt(comment_counter.text(), 10);
+                  var spm_cnt = parseInt(spam_counter.text(), 10);
+                  var pbk_cnt = parseInt(pingback_counter.text(), 10);
+                  var pnd_cnt = parseInt(pending_counter.text(), 10);
 
-                  var row = value.row;
-                  row.fadeOut(500, function () {
-                     row.remove();
+
+                  $.each(commentsAndRows, function (index, value) {
+
+                      var row = value.row;
+                      row.fadeOut(500, function () {
+                          row.remove();
+                      });
+
+                      switch (action) {
+                          case "Reject":
+                              spm_cnt += 1;
+
+                              switch (page) {
+                                  case "Approved": (com_cnt -= 1); break;
+                                  case "Pending": pending_counter.text((pnd_cnt - 1)); break;
+                              }
+                              break;
+
+                          case "Approve":
+                              com_cnt += 1;
+
+                              switch (page) {
+                                  case "Pending": (pnd_cnt -= 1); break;
+                                  case "Spam": (spm_cnt -= 1); break;
+                              }
+                              break;
+
+                          case "Delete":
+                              switch (page) {
+                                  case "Approved": (com_cnt -= 1); break;
+                                  case "Spam": (spm_cnt -= 1); break;
+                                  case "Pingback": (pbk_cnt -= 1); break;
+                                  case "Pending": (pnd_cnt -= 1); break;
+                              }
+                              break;
+
+                          default:
+                              throw new Error("Unknown action: " + action);
+                      }
                   });
 
-                  switch(action) {
-                     case "Reject":
-                        spm_cnt += 1;
+                  spam_counter.text(spm_cnt);
+                  comment_counter.text(com_cnt);
+                  pending_counter.text(pnd_cnt);
+                  pingback_counter.text(pbk_cnt);
 
-                        switch(page) {
-                           case "Approved": (com_cnt -= 1); break;
-                           case "Pending": pending_counter.text((pnd_cnt - 1)); break;
-                        }
-                        break;
+                  LoadComments(0);
 
-                     case "Approve":
-                        com_cnt += 1;
+                  ShowStatus("success", "Updated");
+              }
+              else {
+                  ShowStatus("warning", rt.Message);
+              }
 
-                        switch(page) {
-                           case "Pending": (pnd_cnt -= 1); break;
-                           case "Spam": (spm_cnt -= 1); break;
-                        }
-                        break;
+              $('.loader').hide();
 
-                     case "Delete":
-                        switch(page) {
-                           case "Approved": (com_cnt -= 1); break;
-                           case "Spam": (spm_cnt -= 1); break;
-                           case "Pingback": (pbk_cnt -= 1); break;
-                           case "Pending": (pnd_cnt -= 1); break;
-                        }
-                        break;
-
-                     default:
-                        throw new Error("Unknown action: " + action);
-                  }
-               });
-
-               spam_counter.text(spm_cnt);
-               comment_counter.text(com_cnt);
-               pending_counter.text(pnd_cnt);
-               pingback_counter.text(pbk_cnt);
-
-               ShowStatus("success", "Updated");
-            }
-            else {
-               ShowStatus("warning", rt.Message);
-            }
-
-            $('.loader').hide();
-
-         }
+          }
       });
 
    }
@@ -506,7 +528,7 @@ function CommentAction(act, id) {
                }
                if (act == "Reject") {
                    $('#spam_counter').text(parseInt(spm_cnt, 10) + 1);
-                   
+
                    // can reject from pending or spam
                    if (location.href.indexOf('Comments\/Pending.aspx') > 0)
                        $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1);
@@ -517,6 +539,7 @@ function CommentAction(act, id) {
                $(oRow).fadeOut(500, function () {
                    $(oRow).remove();
                });
+               LoadComments(0);
                ShowStatus("success", rt.Message);
            }
            else {
@@ -531,27 +554,28 @@ function CommentAction(act, id) {
 function DeleteAllSpam() {
    $('.loader').show();
    $.ajax({
-      url: "../../api/Comments.asmx/DeleteAll",
-      data: "{ }",
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (result) {
-         var rt = result.d;
-         if(rt.Success) {
-            $('.chk').each(function () {
-               var that = $("[id$='" + $(this).closest("tr").attr("id") + "']");
-               $(that).fadeOut(500, function () {
-                  $(that).remove();
+       url: "../../api/Comments.asmx/DeleteAll",
+       data: "{ }",
+       type: "POST",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       success: function (result) {
+           var rt = result.d;
+           if (rt.Success) {
+               $('.chk').each(function () {
+                   var that = $("[id$='" + $(this).closest("tr").attr("id") + "']");
+                   $(that).fadeOut(500, function () {
+                       $(that).remove();
+                   });
+                   LoadComments(0);
+                   ShowStatus("success", rt.Message);
+                   $('#spam_counter').text('0');
                });
-               ShowStatus("success", rt.Message);
-               $('#spam_counter').text('0');
-            });
-         }
-         else {
-            ShowStatus("warning", rt.Message);
-         }
-      }
+           }
+           else {
+               ShowStatus("warning", rt.Message);
+           }
+       }
    });
    $('.loader').hide();
    return false;

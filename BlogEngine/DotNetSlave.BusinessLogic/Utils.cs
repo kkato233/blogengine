@@ -787,6 +787,24 @@
 				                                            [0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
                                                 + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$");
 
+        /// <summary>
+        /// Email address by user name
+        /// </summary>
+        /// <param name="userName">User name</param>
+        /// <returns>Email Address</returns>
+        public static string GetUserEmail(string userName)
+        {
+            int count;
+            var userCollection = System.Web.Security.Membership.Provider.GetAllUsers(0, 999, out count);
+            var users = userCollection.Cast<System.Web.Security.MembershipUser>().ToList();
+            var user = users.FirstOrDefault(u => u.UserName.Equals(userName));
+
+            if(user != null)
+            {
+                return user.Email;
+            }
+            return userName;
+        }
 
         /// <summary>
         /// Validates an email address. Returns true if the string is a valid formatted email address.

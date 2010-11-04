@@ -2,10 +2,8 @@
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server"> 
-    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-
     <script type="text/javascript">
-        LoadComments(1, 'Pingbacks.aspx');
+        LoadComments(1);
     </script>
      
 	<div class="content-box-outer">

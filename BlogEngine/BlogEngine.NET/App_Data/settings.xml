@@ -23,7 +23,7 @@
   <smtpusername>username</smtpusername>
   <disqusdevmode>False</disqusdevmode>
   <enablerating>True</enablerating>
-  <commentsperpage>20</commentsperpage>
+  <commentsperpage>10</commentsperpage>
   <iscommentsenabled>True</iscommentsenabled>
   <description>Short description of the blog</description>
   <moderationtype>Auto</moderationtype>
@@ -43,7 +43,7 @@
   <authorname>My name</authorname>
   <numberofrecentposts>10</numberofrecentposts>
   <culture>Auto</culture>
-  <enablecommentsmoderation>True</enablecommentsmoderation>
+  <enablereferrertracking>False</enablereferrertracking>
   <enablerelatedposts>True</enablerelatedposts>
   <smtpserverport>25</smtpserverport>
   <showlivepreview>True</showlivepreview>
@@ -65,7 +65,6 @@
   <geocodinglongitude>0</geocodinglongitude>
   <timezone>0</timezone>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
-  <enablereferrertracking>False</enablereferrertracking>
   <showpostnavigation>True</showpostnavigation>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <postsperpage>10</postsperpage>
@@ -82,8 +81,10 @@
   <commentblacklistcount>2</commentblacklistcount>
   <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
   <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <feedauthor />
   <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <smtppassword>password</smtppassword>
+  <enablecommentsmoderation>True</enablecommentsmoderation>
   <handlewwwsubdomain />
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <fileextension>.aspx</fileextension>

@@ -24,9 +24,14 @@
         private static readonly object SyncRoot = new object();
 
         /// <summary>
-        /// The _ pages.
+        /// The pages that not deleted.
         /// </summary>
         private static List<Page> pages;
+
+        /// <summary>
+        /// The deleted pages.
+        /// </summary>
+        private static List<Page> deletedpages;
 
         /// <summary>
         /// The _ content.
@@ -73,6 +78,11 @@
         /// </summary>
         private bool isPublished;
 
+        /// <summary>
+        /// The deleted.
+        /// </summary>
+        private bool isDeleted;
+
         #endregion
 
         #region Constructors and Destructors
@@ -101,7 +111,7 @@
         #region Properties
 
         /// <summary>
-        ///     Gets an unsorted list of all pages.
+        ///     Gets an unsorted list of all pages excluding deleted.
         /// </summary>
         public static List<Page> Pages
         {
@@ -113,13 +123,36 @@
                     {
                         if (pages == null)
                         {
-                            pages = BlogService.FillPages();
+                            pages = BlogService.FillPages().Where(p => p.IsDeleted == false).ToList();
                             pages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
                         }
                     }
                 }
 
                 return pages;
+            }
+        }
+
+        /// <summary>
+        ///     Gets an unsorted list of deleted pages.
+        /// </summary>
+        public static List<Page> DeletedPages
+        {
+            get
+            {
+                if (deletedpages == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (deletedpages == null)
+                        {
+                            deletedpages = BlogService.FillPages().Where(p => p.IsDeleted == true).ToList();
+                            deletedpages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
+                        }
+                    }
+                }
+
+                return deletedpages;
             }
         }
 
@@ -256,6 +289,22 @@
         }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether or not this page is deleted.
+        /// </summary>
+        public bool IsDeleted
+        {
+            get
+            {
+                return this.isDeleted;
+            }
+
+            set
+            {
+                base.SetValue("IsDeleted", value, ref this.isDeleted);
+            }
+        }
+
+        /// <summary>
         ///     Gets a relative-to-the-site-root path to the post.
         ///     Only for in-site use.
         /// </summary>
@@ -330,7 +379,7 @@
         {
             get
             {
-                return this.Authenticated || this.IsPublished;
+                return (this.Authenticated || this.IsPublished) && !this.IsDeleted;
             }
         }
 
@@ -342,7 +391,7 @@
         {
             get
             {
-                return this.IsPublished;
+                return this.IsPublished && !this.IsDeleted;
             }
         }
 
