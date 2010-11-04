@@ -55,22 +55,12 @@
 
             var trashList = new List<JsonTrash>();
 
-            foreach (var p in Post.Posts)
+            // comments
+            if (trashType == TrashType.All || trashType == TrashType.Comment)
             {
-                switch (trashType)
+                foreach (var p in Post.Posts)
                 {
-                    case TrashType.Comment:
-                        comments.AddRange(p.DeletedComments);
-                        break;
-                    case TrashType.Post:
-                        
-                        break;
-                    case TrashType.Page:
-                        
-                        break;
-                    default:
-                        comments.AddRange(p.DeletedComments);
-                        break;
+                    comments.AddRange(p.DeletedComments);
                 }
             }
 
@@ -89,9 +79,61 @@
                 }
             }
 
+            // posts
+            if (trashType == TrashType.All || trashType == TrashType.Post)
+            {
+                posts = (from x in Post.DeletedPosts orderby x.DateCreated descending select x).ToList();
+            }
+
+            if (posts.Count > 0)
+            {
+                foreach (var p in posts)
+                {
+                    JsonTrash t2 = new JsonTrash
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        ObjectType = "Post",
+                        Date = p.DateCreated.ToString("dd MMM yyyy"),
+                        Time = p.DateCreated.ToString("t")
+                    };
+
+                    trashList.Add(t2);
+                }
+            }
+
+            // pages
+            if (trashType == TrashType.All || trashType == TrashType.Page)
+            {
+                pages = (from x in Page.DeletedPages orderby x.DateCreated descending select x).ToList();
+            }
+
+            if (pages.Count > 0)
+            {
+                foreach (var p in pages)
+                {
+                    JsonTrash t3 = new JsonTrash
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        ObjectType = "Page",
+                        Date = p.DateCreated.ToString("dd MMM yyyy"),
+                        Time = p.DateCreated.ToString("t")
+                    };
+
+                    trashList.Add(t3);
+                }
+            }
+
             return trashList;
         }
 
+        /// <summary>
+        /// Processes recycle bin actions
+        /// </summary>
+        /// <param name="action">Action</param>
+        /// <param name="vals">Values</param>
+        /// <returns>Response</returns>
         public static JsonResponse Process(string action, string[] vals)
         {
             try
@@ -134,7 +176,7 @@
                 case "Comment":
                     foreach (var p in Post.Posts.ToArray())
                     {
-                        var cmnt = p.Comments.FirstOrDefault(c => c.Id == id);
+                        var cmnt = p.DeletedComments.FirstOrDefault(c => c.Id == id);
                         if (cmnt != null)
                         {
                             p.RestoreComment(cmnt);
@@ -143,8 +185,11 @@
                     }
                     break;
                 case "Post":
+                    var delPost = Post.DeletedPosts.Where(p => p.Id == id).FirstOrDefault();
+                    if (delPost != null) delPost.Restore();
                     break;
                 case "Page":
+                    
                     break;
                 default:
                     break;
@@ -158,7 +203,7 @@
                 case "Comment":
                     foreach (var p in Post.Posts.ToArray())
                     {
-                        var cmnt = p.Comments.FirstOrDefault(c => c.Id == id);
+                        var cmnt = p.DeletedComments.FirstOrDefault(c => c.Id == id);
                         if (cmnt != null)
                         {
                             p.PurgeComment(cmnt);
@@ -167,6 +212,8 @@
                     }
                     break;
                 case "Post":
+                    var delPost = Post.DeletedPosts.Where(p => p.Id == id).FirstOrDefault();
+                    if (delPost != null) delPost.Purge();
                     break;
                 case "Page":
                     break;
@@ -187,6 +234,10 @@
             }
 
             // remove deleted posts
+            foreach (var p in Post.DeletedPosts)
+            {
+                p.Purge();
+            }
 
             // remove deleted pages
         }

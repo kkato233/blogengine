@@ -31,9 +31,9 @@
         private readonly StateList<Category> categories;
 
         /// <summary>
-        /// The comments.
+        /// All comments, including deleted
         /// </summary>
-        private readonly List<Comment> comments;
+        private readonly List<Comment> allcomments;
 
         /// <summary>
         /// The notification emails.
@@ -49,6 +49,11 @@
         /// The posts.
         /// </summary>
         private static List<Post> posts;
+
+        /// <summary>
+        /// The deleted posts.
+        /// </summary>
+        private static List<Post> deletedposts;
 
         /// <summary>
         ///     The author.
@@ -81,6 +86,11 @@
         private bool isPublished;
 
         /// <summary>
+        ///     Whether the post is deleted.
+        /// </summary>
+        private bool isDeleted;
+
+        /// <summary>
         ///     The raters.
         /// </summary>
         private int raters;
@@ -111,7 +121,7 @@
         public Post()
         {
             this.Id = Guid.NewGuid();
-            this.comments = new List<Comment>();
+            this.allcomments = new List<Comment>();
             this.categories = new StateList<Category>();
             this.tags = new StateList<string>();
             this.notificationEmails = new StateList<string>();
@@ -189,7 +199,7 @@
         #region Post Properties
 
         /// <summary>
-        ///     Gets a sorted collection of all posts in the blog.
+        ///     Gets a sorted collection of all undeleted posts in the blog.
         ///     Sorted by date.
         /// </summary>
         public static List<Post> Posts
@@ -202,7 +212,7 @@
                     {
                         if (posts == null)
                         {
-                            posts = BlogService.FillPosts();
+                            posts = BlogService.FillPosts().Where(p => p.IsDeleted == false).ToList();
                             posts.TrimExcess();
                             AddRelations();
                         }
@@ -210,6 +220,29 @@
                 }
 
                 return posts;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a sorted collection of all deleted posts in the blog.
+        ///     Sorted by date.
+        /// </summary>
+        public static List<Post> DeletedPosts
+        {
+            get
+            {
+                if (deletedposts == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (deletedposts == null)
+                        {
+                            deletedposts = BlogService.FillPosts().Where(p => p.IsDeleted == true).ToList();
+                        }
+                    }
+                }
+
+                return deletedposts;
             }
         }
 
@@ -381,6 +414,22 @@
         }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether or not the post is deleted.
+        /// </summary>
+        public bool IsDeleted
+        {
+            get
+            {
+                return this.isDeleted;
+            }
+
+            set
+            {
+                base.SetValue("IsDeleted", value, ref this.isDeleted);
+            }
+        }
+
+        /// <summary>
         ///     Gets or sets the number of raters or the object.
         /// </summary>
         public int Raters
@@ -494,8 +543,9 @@
         {
             get
             {
-                return this.Authenticated ||
-                       (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone));
+                return (this.Authenticated ||
+                       (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))) && 
+                       this.IsDeleted == false;
             }
         }
 
@@ -506,7 +556,8 @@
         {
             get
             {
-                return this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
+                return (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone)) &&
+                        this.IsDeleted == false;
             }
         }
 
@@ -521,7 +572,7 @@
         {
             get
             {
-                return this.comments;
+                return this.AllComments.FindAll(c => !c.IsDeleted);
             }
         }
 
@@ -532,7 +583,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => !c.IsDeleted);
+                return this.allcomments;
             }
         }
 
@@ -547,11 +598,11 @@
             {
                 if (BlogSettings.Instance.EnableCommentsModeration)
                 {
-                    return this.comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                    return this.Comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsPingbackOrTrackback);
                 }
                 else
                 {
-                    return this.comments.FindAll(c => !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                    return this.Comments.FindAll(c => !c.IsSpam && !c.IsPingbackOrTrackback);
                 }
             }
         }
@@ -564,7 +615,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => !c.IsApproved && !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                return this.Comments.FindAll(c => !c.IsApproved && !c.IsSpam && !c.IsPingbackOrTrackback);
             }
         }
 
@@ -575,7 +626,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsDeleted && c.IsPingbackOrTrackback);
+                return this.Comments.FindAll(c => c.IsApproved && !c.IsSpam && c.IsPingbackOrTrackback);
             }
         }
 
@@ -586,7 +637,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => c.IsSpam && !c.IsDeleted);
+                return this.Comments.FindAll(c => c.IsSpam && !c.IsDeleted);
             }
         }
 
@@ -597,7 +648,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => c.IsDeleted);
+                return this.allcomments.FindAll(c => c.IsDeleted);
             }
         }
 
@@ -1060,6 +1111,10 @@
             this.OnCommentRemoved(comment);
         }
 
+        /// <summary>
+        /// Removes comment from the post
+        /// </summary>
+        /// <param name="comment">Comment</param>
         public void PurgeComment(Comment comment)
         {
             var e = new CancelEventArgs();
@@ -1069,11 +1124,15 @@
                 return;
             }
 
-            this.Comments.Remove(comment);
+            this.allcomments.Remove(comment);
             this.DataUpdate();
             this.OnCommentPurged(comment);
         }
 
+        /// <summary>
+        /// Restores comment from recycle bin
+        /// </summary>
+        /// <param name="comment">Comment</param>
         public void RestoreComment(Comment comment)
         {
             var e = new CancelEventArgs();
@@ -1083,7 +1142,7 @@
                 return;
             }
 
-            var comm = Comments.FirstOrDefault(c => c.Id.Equals(comment.Id));
+            var comm = allcomments.FirstOrDefault(c => c.Id.Equals(comment.Id));
             if (comm == null)
             {
                 return;
@@ -1146,15 +1205,49 @@
         /// </summary>
         protected override void DataDelete()
         {
+            this.IsDeleted = true;
+            DataUpdate();
+
+            // refresh posts list
+            posts = null;
+            deletedposts = null;
+        }
+
+        /// <summary>
+        /// Deletes the Post from the current BlogProvider.
+        /// </summary>
+        public void Purge()
+        {
             BlogService.DeletePost(this);
             if (!Posts.Contains(this))
             {
+                // refresh posts list
+                posts = null;
+                deletedposts = null;
+
                 return;
             }
 
             Posts.Remove(this);
             this.Dispose();
             AddRelations();
+
+            // refresh posts list
+            posts = null;
+            deletedposts = null;
+        }
+
+        /// <summary>
+        /// Restores the deleted posts.
+        /// </summary>
+        public void Restore()
+        {
+            this.IsDeleted = false;
+            DataUpdate();
+
+            // refresh posts list
+            posts = null;
+            deletedposts = null;
         }
 
         /// <summary>
@@ -1409,7 +1502,7 @@
             // temporary ID/Comment table
             var commentTable = new Hashtable();
 
-            foreach (var comment in this.comments)
+            foreach (var comment in this.Comments)
             {
                 // add to hashtable for lookup
                 commentTable.Add(comment.Id, comment);
