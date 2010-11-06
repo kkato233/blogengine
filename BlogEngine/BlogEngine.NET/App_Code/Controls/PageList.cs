@@ -20,11 +20,6 @@ namespace App_Code.Controls
         #region Constants and Fields
 
         /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
-        /// <summary>
         /// The html string.
         /// </summary>
         private static string html;
@@ -38,42 +33,27 @@ namespace App_Code.Controls
         /// </summary>
         static PageList()
         {
-            BlogEngine.Core.Page.Saved += (sender, args) => html = null;
+            BlogEngine.Core.Page.Saved += (sender, args) =>
+            {
+                RefreshCachedHtml();
+            };
+
+            RefreshCachedHtml();
         }
 
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///     Gets the rendered HTML in the private field and first
-        ///     updates it when a post has been saved (new or updated).
-        /// </summary>
-        private static string Html
+        private static void RefreshCachedHtml()
         {
-            get
-            {
-                if (html == null)
-                {
-                    lock (SyncRoot)
-                    {
-                        if (html == null || BlogEngine.Core.Page.Pages == null)
-                        {
-                            var ul = BindPages();
-                            using (var sw = new StringWriter())
-                            {
-                                ul.RenderControl(new HtmlTextWriter(sw));
-                                html = sw.ToString();
-                            }
-                        }
-                    }
-                }
+            html = string.Empty;
 
-                return html;
+            if (BlogEngine.Core.Page.Pages != null)
+            {
+                var ul = BindPages();
+                html = BlogEngine.Core.Utils.RenderControl(ul);
+              
             }
         }
-
         #endregion
+
 
         #region Public Methods
 
@@ -83,8 +63,8 @@ namespace App_Code.Controls
         /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.</param>
         public override void RenderControl(HtmlTextWriter writer)
         {
-            writer.Write(Html);
-            writer.Write(Environment.NewLine);
+            writer.Write(PageList.html);
+           // writer.Write(Environment.NewLine);
         }
 
         #endregion

@@ -30,11 +30,6 @@ namespace App_Code.Controls
         /// </summary>
         private static readonly List<Post> Posts = new List<Post>();
 
-        /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
         #endregion
 
         #region Constructors and Destructors
@@ -80,19 +75,12 @@ namespace App_Code.Controls
         /// </summary>
         private static void BuildPostList()
         {
-            lock (SyncRoot)
-            {
-                var number = BlogSettings.Instance.NumberOfRecentPosts;
-                if (number > Post.Posts.Count)
-                {
-                    number = Post.Posts.Count;
-                }
+            var number = Math.Min(BlogSettings.Instance.NumberOfRecentPosts, Post.Posts.Count);
 
-                Posts.Clear();
-                foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic).Take(number))
-                {
-                    Posts.Add(post);
-                }
+            Posts.Clear();
+            foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic).Take(number))
+            {
+                Posts.Add(post);
             }
         }
 

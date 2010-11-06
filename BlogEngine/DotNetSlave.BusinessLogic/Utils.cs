@@ -938,6 +938,30 @@
         }
 
         /// <summary>
+        /// Renders a control to a string.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        public static string RenderControl(System.Web.UI.Control control)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException("control");
+            }
+
+            using (var sWriter = new System.IO.StringWriter())
+            {
+                using (var hWriter = new System.Web.UI.HtmlTextWriter(sWriter))
+                {
+                    control.RenderControl(hWriter);
+                }
+
+                return sWriter.ToString();
+            }
+
+        }
+
+        /// <summary>
         /// Strips all illegal characters from the specified title.
         /// </summary>
         /// <param name="text">
