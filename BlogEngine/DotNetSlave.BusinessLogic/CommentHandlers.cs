@@ -134,16 +134,18 @@
         /// </param>
         public static void ReportMistake(Comment comment)
         {
+            if (!BlogSettings.Instance.CommentReportMistakes) { return; }
+
             var m = comment.ModeratedBy;
 
             var dt = customFilters.GetDataTable();
             var i = 0;
 
-            foreach (var fileterName in from DataRow row in dt.Rows select row[0].ToString())
+            foreach (var filterName in from DataRow row in dt.Rows select row[0].ToString())
             {
-                if (fileterName == m)
+                if (filterName == m)
                 {
-                    var customFilter = GetCustomFilter(fileterName);
+                    var customFilter = GetCustomFilter(filterName);
 
                     if (customFilter != null)
                     {

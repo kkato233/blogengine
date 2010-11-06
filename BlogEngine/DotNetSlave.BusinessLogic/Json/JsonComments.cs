@@ -59,9 +59,28 @@
         /// </returns>
         public static List<JsonComment> GetComments(CommentType commentType, int page)
         {
-            var PageSize = BlogSettings.Instance.CommentsPerPage;
-            var cntTo = page * PageSize;
-            var cntFrom = cntTo - PageSize;
+            return GetComments(commentType, BlogSettings.Instance.CommentsPerPage, page);
+        }
+
+        /// <summary>
+        /// List of comments based on type for a single page.
+        /// </summary>
+        /// <param name="commentType">
+        /// The comment type.
+        /// </param>
+        /// <param name="pageSize">
+        /// The number of comments per page.
+        /// </param>
+        /// <param name="page">
+        /// The current page.
+        /// </param>
+        /// <returns>
+        /// A list of JSON comments.
+        /// </returns>
+        public static List<JsonComment> GetComments(CommentType commentType, int pageSize, int page)
+        {
+            var cntTo = page * pageSize;
+            var cntFrom = cntTo - pageSize;
             var cnt = 0;
 
             var allComments = new List<Comment>();

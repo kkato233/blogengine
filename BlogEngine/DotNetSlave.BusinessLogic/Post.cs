@@ -968,7 +968,7 @@
                 return;
             }
 
-            this.Comments.Add(comment);
+            this.AllComments.Add(comment);
             this.DataUpdate();
             this.OnCommentAdded(comment);
 
@@ -1046,7 +1046,7 @@
         /// </param>
         public void ImportComment(Comment comment)
         {
-            this.Comments.Add(comment);
+            this.AllComments.Add(comment);
             this.DataUpdate();
         }
 
