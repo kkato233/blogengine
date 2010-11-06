@@ -764,6 +764,25 @@ function DeletePage(obj) {
 
 //--------------HELPERS AND MISC
 
+function colorboxDialogSubmitClicked(validationGroup, panelId) {
+
+    // For file/image uploads, colorbox moves the file upload and submit buttons
+    // outside the form tag.  This prevents submitting from working.  Before
+    // a submit can work, need to move the dialog box containing the controls
+    // back inside the form tag.
+    // First check to make sure validation passes before closing colorbox.
+
+    if (typeof Page_ClientValidate !== 'undefined') {
+        if (!Page_ClientValidate(validationGroup)) {
+            return true;
+        }
+    }
+
+    $.colorbox.close();
+    $("form").append($("#" + panelId));
+    return true;
+}
+
 function toggleAllChecks(o) {
    if($(o).attr('checked')) {
       $('.chk').not(':disabled').attr('checked', 'checked');
@@ -809,18 +828,21 @@ function ShowStatus(status, msg) {
    adminStatus.removeClass("success");
    adminStatus.addClass(status);
 
+   adminStatus.html('<a href="javascript:HideStatus()" class="closeStatus">close</a>' + msg);
+
    if(status == "success") {
-      adminStatus.html(msg);
-      adminStatus.fadeIn(1000, function () { }).delay(5000).fadeOut(1000, function () { });
+       adminStatus.fadeIn(1000);
+       window.setTimeout(function () {
+           $("[id$='AdminStatus']").fadeOut(1000);
+       }, 5000);
    }
    else {
-      adminStatus.html(msg + '<a href="javascript:HideStatus()" style="padding-left:20px; color:#444">close</a>');
       adminStatus.fadeIn(1000, function () { });
    }
 }
 
 function HideStatus() {
-   $("[id$='AdminStatus']").slideUp('slow', function () { });
+   $("[id$='AdminStatus']").slideUp('normal', function () { });
 }
 
 function Show(element) {

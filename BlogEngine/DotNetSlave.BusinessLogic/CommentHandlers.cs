@@ -375,7 +375,7 @@
         private static bool ModeratedByRule(Comment comment)
         {
             // trust authenticated users
-            if (Thread.CurrentPrincipal.Identity.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
+            if (Security.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
             {
                 comment.IsApproved = true;
                 comment.ModeratedBy = "Rule:authenticated";

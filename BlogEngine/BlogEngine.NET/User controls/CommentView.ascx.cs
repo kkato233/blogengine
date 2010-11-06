@@ -374,7 +374,6 @@
         /// </returns>
         protected string AdminLink(string id)
         {
-
             if (Security.IsAuthenticated)
             {
                 var sb = new StringBuilder();
@@ -395,26 +394,6 @@
                 }
                 return sb.ToString();
             }
-
-
-            // Previous code 
-
-            //if (this.Page.User.Identity.IsAuthenticated)
-            //{
-            //    var sb = new StringBuilder();
-            //    foreach (var comment in this.Post.Comments.Where(comment => comment.Id.ToString() == id))
-            //    {
-            //        sb.AppendFormat(" | <a href=\"mailto:{0}\">{0}</a>", comment.Email);
-            //    }
-
-            //    const string ConfirmDelete = "Are you sure you want to delete the comment?";
-            //    sb.AppendFormat(
-            //        " | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>", 
-            //        id, 
-            //        ConfirmDelete, 
-            //        "Delete");
-            //    return sb.ToString();
-            //}
 
             return string.Empty;
         }

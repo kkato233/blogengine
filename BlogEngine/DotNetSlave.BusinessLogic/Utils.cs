@@ -1029,9 +1029,21 @@
                 smtp.Send(message);
                 OnEmailSent(message);
             }
-            catch (SmtpException)
+            catch (Exception ex)
             {
                 OnEmailFailed(message);
+
+                StringBuilder sb = new StringBuilder("Error sending email in SendMailMessage: ");
+                Exception current = ex;
+
+                while (current != null)
+                {
+                    if (sb.Length > 0) { sb.Append(" "); }
+                    sb.Append(current.Message);
+                    current = current.InnerException;
+                }
+
+                Utils.Log(sb.ToString());
             }
             finally
             {

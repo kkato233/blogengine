@@ -1,4 +1,4 @@
-﻿<td><input type="checkbox" {#if $T.d.HasChildred} disabled {#/if} class="chk"/></td>
+﻿<td><input type="checkbox" {#if $T.d.HasChildren} disabled {#/if} class="chk"/></td>
 <td>{$T.d.Avatar}</td>
 <td><span class="commenttitle">{$T.d.Title}</span>
     {$T.d.Teaser}</td>
@@ -16,7 +16,7 @@
                 {#if window.location.href.indexOf('Approved.aspx') > 0}
                 <li><a class="unapproveAction" href="#" onclick="return CommentAction('Reject','{$T.d.Id}');">Unapprove</a></li>
                 {#/if}
-                <li>{#if $T.d.HasChildred == false}<a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.d.Id}');">Delete</a>{#/if}</li>
+                <li>{#if $T.d.HasChildren == false}<a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.d.Id}');">Delete</a>{#/if}</li>
             </ul>
         </li>
     </ul>

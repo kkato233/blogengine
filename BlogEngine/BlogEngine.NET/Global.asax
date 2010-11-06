@@ -51,16 +51,9 @@
         }
         context.Items["LastErrorDetails"] = sb.ToString();
         context.Response.StatusCode = 500;
-        Server.ClearError();
-
-        // Server.Transfer is prohibited during a page callback.
-        System.Web.UI.Page currentPage = context.CurrentHandler as System.Web.UI.Page;
-        if (currentPage != null && currentPage.IsCallback)
-        {
-            return;
-        }
         
-        context.Server.Transfer("~/error.aspx");
+        // Custom errors section defined in the Web.config, will rewrite (not redirect)
+        // this 500 error request to error.aspx.
     }
 
     /// <summary>

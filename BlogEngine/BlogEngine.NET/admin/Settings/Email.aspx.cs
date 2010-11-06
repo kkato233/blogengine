@@ -161,7 +161,17 @@ namespace admin.Settings
             }
             catch (Exception ex)
             {
-                response.Message = string.Format("Could not connect: {0}", ex.Message);
+                StringBuilder sb = new StringBuilder();
+                Exception current = ex;
+
+                while (current != null)
+                {
+                    if (sb.Length > 0) { sb.Append(" "); }
+                    sb.Append(current.Message);
+                    current = current.InnerException;
+                }
+
+                response.Message = string.Format("Could not connect: {0}", sb.ToString());
                 return response;
             }
 

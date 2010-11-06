@@ -92,6 +92,12 @@ namespace Admin.Pages
             }
             else
             {
+                if (!Security.IsAuthorizedTo(Rights.CreateNewPages))
+                {
+                    Response.Redirect(Utils.RelativeWebRoot);
+                    return;
+                }
+
                 this.BindParents(Guid.Empty);
             }
 
@@ -125,6 +131,13 @@ namespace Admin.Pages
         private void BindPage(Guid pageId)
         {
             var page = BlogEngine.Core.Page.GetPage(pageId);
+
+            if (page == null || !page.CanUserEdit)
+            {
+                Response.Redirect(Request.Path);
+                return;
+            }
+
             this.txtTitle.Text = page.Title;
             this.txtContent.Text = page.Content;
             this.txtDescription.Text = page.Description;
@@ -211,6 +224,11 @@ namespace Admin.Pages
             var page = BlogEngine.Core.Page.GetPage(pageId);
             if (page == null)
             {
+                return;
+            }
+            if (!page.CanUserDelete)
+            {
+                Response.Redirect(Utils.RelativeWebRoot);
                 return;
             }
 

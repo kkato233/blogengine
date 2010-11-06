@@ -28,7 +28,7 @@
     <tbody>
         {#foreach $T.d as cmt}
         <tr id="{$T.cmt.Id}" class="{#cycle values=['','alt']}">
-            <td><input type="checkbox" {#if $T.cmt.HasChildred} disabled {#/if} class="chk"/></td>
+            <td><input type="checkbox" {#if $T.cmt.HasChildren} disabled {#/if} class="chk"/></td>
             <td>{$T.cmt.Avatar}</td>
             <td><span class="commenttitle">{$T.cmt.Title}</span>
                 {$T.cmt.Teaser}</td>
@@ -43,10 +43,10 @@
                             {#if window.location.href.indexOf('Spam.aspx') > 0 || window.location.href.indexOf('Pending.aspx') > 0}
                             <li><a class="approveAction" href="#" onclick="return CommentAction('Approve','{$T.cmt.Id}');">Approve</a></li>
                             {#/if}
-                            {#if window.location.href.indexOf('Approved.aspx') > 0 && $T.cmt.HasChildred == false}
+                            {#if window.location.href.indexOf('Approved.aspx') > 0 && $T.cmt.HasChildren == false}
                             <li><a class="unapproveAction" href="#" onclick="return CommentAction('Reject','{$T.cmt.Id}');">Unapprove</a></li>
                             {#/if}
-                            {#if $T.cmt.HasChildred == false}
+                            {#if $T.cmt.HasChildren == false}
                             <li><a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.cmt.Id}');">Delete</a></li>
                             {#/if}
                        </ul>

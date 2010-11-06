@@ -97,14 +97,26 @@ namespace Admin
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
 
-            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (string.IsNullOrEmpty(id) && !Security.IsAuthorizedTo(Rights.CreateNewPosts))
             {
-                return null;
+                response.Message = "Not authorized to create new Posts.";
+                return response;
             }
 
             try
             {
                 var post = string.IsNullOrEmpty(id) ? new BlogEngine.Core.Post() : BlogEngine.Core.Post.GetPost(new Guid(id));
+                if (post == null)
+                {
+                    response.Message = "Post to Edit was not found.";
+                    return response;
+                }
+                else if (!string.IsNullOrEmpty(id) && !post.CanUserEdit)
+                {
+                    response.Message = "Not authorized to edit this Post.";
+                    return response;
+                }
+                
 
                 if (string.IsNullOrEmpty(content))
                 {
@@ -149,6 +161,7 @@ namespace Admin
                 }
                
                 post.Save();
+                response.Data = post.RelativeLink;
 
                 HttpContext.Current.Session.Remove("content");
                 HttpContext.Current.Session.Remove("title");
@@ -165,6 +178,7 @@ namespace Admin
 
             response.Success = true;
             response.Message = "Post saved";
+            
             return response;
         }
 
@@ -184,14 +198,26 @@ namespace Admin
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
 
-            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (string.IsNullOrEmpty(id) && !Security.IsAuthorizedTo(Rights.CreateNewPages))
             {
-                return null;
+                response.Message = "Not authorized to create new Pages.";
+                return response;
             }
 
             try
             {
                 var page = string.IsNullOrEmpty(id) ? new BlogEngine.Core.Page() : BlogEngine.Core.Page.GetPage(new Guid(id));
+
+                if (page == null)
+                {
+                    response.Message = "Page to Edit was not found.";
+                    return response;
+                }
+                else if (!string.IsNullOrEmpty(id) && !page.CanUserEdit)
+                {
+                    response.Message = "Not authorized to edit this Page.";
+                    return response;
+                }
 
                 page.Title = title;
                 page.Content = content;
@@ -222,6 +248,7 @@ namespace Admin
                     page.Parent = new Guid(parent);
 
                 page.Save();
+                response.Data = page.RelativeLink;
             }
             catch (Exception ex)
             {

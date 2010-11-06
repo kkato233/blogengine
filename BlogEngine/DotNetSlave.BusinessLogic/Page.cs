@@ -157,7 +157,7 @@
         }
 
         /// <summary>
-        ///     Gets the absolute link to the post.
+        ///     Gets the absolute link to the page.
         /// </summary>
         public Uri AbsoluteLink
         {
@@ -218,7 +218,7 @@
         /// <summary>
         /// Gets a value indicating whether the has child pages.
         /// </summary>
-        /// Does this post have child pages
+        /// Does this page have child pages
         public bool HasChildPages
         {
             get
@@ -230,7 +230,7 @@
         /// <summary>
         /// Gets a value indicating whether the has parent page.
         /// </summary>
-        /// Does this post have a parent page?
+        /// Does this page have a parent page?
         public bool HasParentPage
         {
             get
@@ -305,7 +305,7 @@
         }
 
         /// <summary>
-        ///     Gets a relative-to-the-site-root path to the post.
+        ///     Gets a relative-to-the-site-root path to the page.
         ///     Only for in-site use.
         /// </summary>
         public string RelativeLink
@@ -379,7 +379,14 @@
         {
             get
             {
-                return (this.Authenticated || this.IsPublished) && !this.IsDeleted;
+                if (this.isDeleted)
+                    return false;
+                else if (this.IsPublished)
+                    return true;
+                else if (Security.IsAuthorizedTo(Rights.ViewUnpublishedPages))
+                    return true;
+
+                return false;
             }
         }
 
@@ -403,6 +410,60 @@
             get
             {
                 return BlogSettings.Instance.AuthorName;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether or not the current user owns this page.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CurrentUserOwns
+        {
+            get
+            {
+                // Because we are not storing an author name for each page, and
+                // Author name (IPublishable.Author) is the name that comes from
+                // the feed settings, this is unreliable.  For now, consider all
+                // authenticated users to be owners.
+
+                return Security.IsAuthenticated;
+
+                // this is more ideal, if Author was stored.
+                //return Security.CurrentUser.Identity.Name.Equals(((IPublishable)this).Author, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can delete this page.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanUserDelete
+        {
+            get
+            {
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOwnPages))
+                    return true;
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPages))
+                    return true;
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can edit this page.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanUserEdit
+        {
+            get
+            {
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOwnPages))
+                    return true;
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOtherUsersPages))
+                    return true;
+
+                return false;
             }
         }
 

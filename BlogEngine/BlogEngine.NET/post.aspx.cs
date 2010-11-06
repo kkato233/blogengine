@@ -54,7 +54,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                         Response.End();
                     }
                 }
-                else if (!post.IsVisible && !Page.User.Identity.IsAuthenticated)
+                else if (!post.IsVisible)
                 {
                     shouldThrow404 = true;
                 }

@@ -123,7 +123,7 @@ namespace Admin.Pages
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            if (!Security.IsAuthenticated)
             {
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }

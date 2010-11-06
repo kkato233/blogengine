@@ -14,7 +14,7 @@
 
             for (var category in rights) {
             
-                var catDiv = $("<div class=\"dashbaordWidget rounded\">");
+                var catDiv = $("<div class=\"dashboardWidget rounded\">");
                 var header = $("<h2>");
                 header.html(category);
 

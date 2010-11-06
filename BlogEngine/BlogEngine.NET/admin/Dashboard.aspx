@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 	<div class="content-box-outer">
 		<div class="content-box-full">
-            <div class="dashbaordWidget rounded">
+            <div class="dashboardWidget rounded">
                 <h2>Statistics</h2>
                     <ul>
                         <li>
@@ -26,20 +26,20 @@
                         </li>
                     </ul>
             </div>
-            <div class="dashbaordWidget rounded">
+            <div class="dashboardWidget rounded">
                 <h2>Draft posts</h2>
                 <a href="Posts/Add_entry.aspx">Add new post</a>
             </div>
-            <div class="dashbaordWidget rounded">
+            <div class="dashboardWidget rounded">
                 <h2>Draft pages</h2>
                 <a href="Pages/Pages.aspx">Add new page</a>
             </div>
-            <div class="dashbaordWidget rounded">
+            <div class="dashboardWidget rounded">
                 <h2>Trash</h2>
                 <a href="Trash.aspx">View All</a> &nbsp;&nbsp;
                 <a href="#" onclick="return ProcessTrash('Purge', 'All');">Clear</a>
             </div>
-            <div class="dashbaordWidget rounded">
+            <div class="dashboardWidget rounded">
                 <h2>Recent comments</h2>
                 <p>Recent comments if moderation is off, or pending if it is on</p>
                 <a href="Comments/Approved.aspx">View all comments</a>
