@@ -36,11 +36,6 @@ namespace App_Code.Controls
         /// </summary>
         private const double CacheTimeoutInHours = 1;
 
-        /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
         #endregion
 
         #region Constructors and Destructors
@@ -83,8 +78,6 @@ namespace App_Code.Controls
         /// <returns>The posts per month.</returns>
         private static SortedDictionary<DateTime, int> GetPostsPerMonth()
         {
-            lock (SyncRoot)
-            {
                 var months = HttpRuntime.Cache[CacheKey] as SortedDictionary<DateTime, int>;
                 if (months == null)
                 {
@@ -108,7 +101,6 @@ namespace App_Code.Controls
                 }
 
                 return months;
-            }
         }
 
         /// <summary>
@@ -119,10 +111,7 @@ namespace App_Code.Controls
         private static void PostSaved(object sender, SavedEventArgs e)
         {
             // invalidate cache whenever a post is modified
-            lock (SyncRoot)
-            {
                 HttpRuntime.Cache.Remove(CacheKey);
-            }
         }
 
         /// <summary>
@@ -203,24 +192,6 @@ namespace App_Code.Controls
                 }
             }
         }
-
-        /*
-        /// <summary>
-        /// Sorts the categories.
-        /// </summary>
-        /// <param name="categories">The categories.</param>
-        /// <returns>A sorted dictionary of string keys and Guids.</returns>
-        private SortedDictionary<string, Guid> SortCategories(Dictionary<Guid, string> categories)
-        {
-            var dic = new SortedDictionary<string, Guid>();
-            foreach (var key in categories.Keys)
-            {
-                dic.Add(categories[key], key);
-            }
-
-            return dic;
-        }
-*/
 
         #endregion
     }

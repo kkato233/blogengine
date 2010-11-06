@@ -30,11 +30,6 @@ namespace App_Code.Controls
         /// </summary>
         private static readonly List<Comment> Comments = new List<Comment>();
 
-        /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
         #endregion
 
         #region Constructors and Destructors
@@ -81,9 +76,6 @@ namespace App_Code.Controls
         /// </summary>
         private static void BindComments()
         {
-            lock (SyncRoot)
-            {
-                Comments.Clear();
                 var comments = (from post in Post.Posts
                                 where post.IsVisible
                                 from comment in post.Comments
@@ -93,14 +85,12 @@ namespace App_Code.Controls
                 comments.Sort();
                 comments.Reverse();
 
+                RecentComments.Comments.Clear();
                 foreach (var comment in
                     comments.Where(comment => comment.Email != "pingback" && comment.Email != "trackback").Take(BlogSettings.Instance.NumberOfRecentComments))
                 {
                     Comments.Add(comment);
                 }
-
-                comments.Clear();
-            }
         }
 
         /// <summary>

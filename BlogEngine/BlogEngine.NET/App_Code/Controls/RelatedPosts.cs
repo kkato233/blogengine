@@ -29,11 +29,6 @@ namespace App_Code.Controls
         private static readonly Dictionary<Guid, string> Cache = new Dictionary<Guid, string>();
 
         /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
-        /// <summary>
         /// The description max length.
         /// </summary>
         private int descriptionMaxLength = 100;
@@ -141,19 +136,13 @@ namespace App_Code.Controls
 
             if (!Cache.ContainsKey(this.Item.Id))
             {
-                lock (SyncRoot)
+                var relatedPosts = Search.FindRelatedItems(this.Item);
+                if (relatedPosts.Count <= 1)
                 {
-                    if (!Cache.ContainsKey(this.Item.Id))
-                    {
-                        var relatedPosts = this.SearchForPosts();
-                        if (relatedPosts.Count <= 1)
-                        {
-                            return;
-                        }
-
-                        this.CreateList(relatedPosts);
-                    }
+                    return;
                 }
+
+                this.CreateList(relatedPosts);
             }
 
             writer.Write(Cache[this.Item.Id].Replace("+++", this.Headline));
@@ -237,16 +226,6 @@ namespace App_Code.Controls
             Cache.Add(this.Item.Id, sb.ToString());
         }
 
-        /// <summary>
-        /// The search for posts.
-        /// </summary>
-        /// <returns>
-        /// A list of publishable interface.
-        /// </returns>
-        private List<IPublishable> SearchForPosts()
-        {
-            return Search.FindRelatedItems(this.Item);
-        }
 
         #endregion
     }
