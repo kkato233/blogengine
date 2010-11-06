@@ -261,9 +261,9 @@
                             <%}
                                else
                                {%>
-                            or <a href="Posts.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
+                            <a href="Posts.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
                             <%} %>
-                            <span id="autoSaveLabel"></span>
+                            <span id="autoSaveLabel" style="display:none;"></span>
                         </div>
                     </td>
                     <td class="secondaryForm" style="padding:0; vertical-align:top;">

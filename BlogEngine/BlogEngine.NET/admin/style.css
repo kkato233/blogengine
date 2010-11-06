@@ -50,14 +50,20 @@ label.wide {float: left;display: block;}
        	background:#c6c6c6 url(images/bkg-dark.jpg) repeat scroll 0 0; padding:10px 0 0 0; min-width:980px;}
 .tabs ul { margin: 0 40px; padding:0; list-style: none;}
 .tabs li { float:left; display:block; margin:0 5px 0 0;}
-.tabs a {float: left; padding:10px 15px; text-decoration: none; text-transform: capitalize; color:#000; font-weight:bold;
+.tabs ul a {float: left; padding:10px 15px; text-decoration: none; text-transform: capitalize; color:#000; font-weight:bold;
     border-right:solid 1px transparent; border-left:solid 1px transparent; border-top:solid 1px transparent;
     border-top-left-radius:5px; border-top-right-radius:5px; color:#666;
     -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px;
     -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px;}
-.tabs a:hover, .tabs .current {color: #000;background: #fff url( "images/tab-bkg.png" ) repeat-x scroll left -1px;
+.tabs ul a:hover, .tabs .current {color: #000;background: #fff url( "images/tab-bkg.png" ) repeat-x scroll left -1px;
     border-right:solid 1px #9a9a9a; border-left:solid 1px #fff; border-top:solid 1px #fff;}
     
+ul#trash { float:right; margin-right:20px;}    
+#recyclebin { float:right; margin-right:20px;}
+#recyclebin a { width:22px; height:28px; float:right;}
+#recyclebin a.empty { background: transparent url(images/recyclebin.png) no-repeat scroll 0 0; }
+#recyclebin a.full { background: transparent url(images/recyclebin.png) no-repeat scroll -20px 0; }
+   
 /* Submenus */
 /* ------------------------------*/
 .content-box-right { width: 200px; float: right; min-height: 450px; margin:0 5px 0 0;
@@ -140,14 +146,6 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .beTable .published-true {background: transparent url("images/action-enable.png") no-repeat scroll left center; padding-left:16px;}
 .beTable .published-false {}
 
-.beTable .rowTools { margin:0; padding:0; list-style:none; }
-.beTable .rowTools li:hover .rowToolsMenu { display:block;}
-.beTable .rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
-    border:solid 1px #dcdcdc; list-style:none; display:none; margin-right:20px; margin-top:1px;}
-.beTable .rowToolsMenu li {padding:2px; min-width:80px;}
-.beTable .rowToolsMenu a { display:block; padding:5px 10px 5px 24px; color:#7a7a7a; text-decoration:none;}
-.beTable .rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
-
 .tableToolBox { overflow:hidden;}
 .tableToolBox a.current { color:#555; text-decoration:underline;}
 #filteredby { margin-left:10px; font-weight:bold;}
@@ -157,23 +155,15 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .Pager .firstLink {background: transparent url("images/link-first.png") no-repeat scroll center center; padding:8px;}
 .Pager .lastLink {background: transparent url("images/link-last.png") no-repeat scroll center center; padding:8px; }
 
+/* Tools dropdown menu */
 .tools {margin:0; padding:0; list-style:none;}
-.tools ul { display:none; width:100px; background:#fff; border:solid 1px #dcdcdc; margin:0; padding:0; list-style:none;
+.tools ul { display:none; width:100px; background:#fff; border:solid 1px #919191; margin:0; padding:0; list-style:none;
     position:absolute;}
 .tools ul li { display:block;}
 .tools li:hover ul { display:block;}
 
-/* Buttons with images */
-.addNew {float:right; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px;
-    background: transparent url("images/action-add.png") no-repeat scroll left center;  }
-.showSettings {float:right; font-size:13px; font-weight:normal; padding: 5px 10px 5px 18px; margin-left:20px;
-    background: transparent url("images/action-settings.png") no-repeat scroll left center;}
-.image {background: transparent url("images/icon-image.png") no-repeat scroll left center; padding-left:18px;  }
-.file {background: transparent url("images/icon-file.png") no-repeat scroll left center;  padding-left:18px; }
-.view {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px; }
-
 .toolsAction { font-size:12px; font-weight:normal;
-    border: 1px solid #dcdcdc; padding: 3px 9px; background: #ededed url( "images/gray-btn-bkg.png" ) repeat-x scroll 0 0; 
+    border: 1px solid #919191; padding: 3px 9px; background: #ededed url( "images/gray-btn-bkg.png" ) repeat-x scroll 0 0; 
     cursor: pointer;  -moz-border-radius:5px; -webkit-border-radius:5px; -khtml-border-radius: 5px; border-radius:5px;}
 .toolsAction span {background: transparent url("images/action-dropdown.png") no-repeat scroll right center;
     padding-right:16px; color:#7a7a7a; font-weight:normal; }
@@ -188,6 +178,29 @@ label.lbl { display:block; margin:0 0 5px 0;}
     font-size:12px;}
 .viewAction {background: transparent url("images/action-view-small.png") no-repeat scroll 5px center;  padding-left:18px;
     font-size:12px;}
+.rightsAction {background: transparent url("images/action-rights-small.png") no-repeat scroll 5px center;  padding-left:18px;
+    font-size:12px;}
+.profileAction {background: transparent url("images/action-profile-small.png") no-repeat scroll 5px center;  padding-left:18px;
+    font-size:12px;}
+    
+.beTable .rowTools { margin:0; padding:0; list-style:none; }
+.beTable .rowTools li:hover .rowToolsMenu { display:block;}
+.beTable .rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
+    border:solid 1px #919191; list-style:none; display:none; margin-right:20px; margin-top:1px;}
+.beTable .rowToolsMenu li {padding:2px; min-width:80px;}
+.beTable .rowToolsMenu a { display:block; padding:5px 10px 5px 24px; color:#7a7a7a; text-decoration:none;}
+.beTable .rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
+
+
+/* Buttons with images */
+.addNew {float:right; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px;
+    background: transparent url("images/action-add.png") no-repeat scroll left center;  }
+.showSettings {float:right; font-size:13px; font-weight:normal; padding: 5px 10px 5px 18px; margin-left:20px;
+    background: transparent url("images/action-settings.png") no-repeat scroll left center;}
+.image {background: transparent url("images/icon-image.png") no-repeat scroll left center; padding-left:18px;  }
+.file {background: transparent url("images/icon-file.png") no-repeat scroll left center;  padding-left:18px; }
+.view {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px; }
+
 
 /* Sliding panels */
 /* ------------------------------*/
@@ -434,6 +447,7 @@ label.error {
 
 .thumb { width: 60px }
 
-.comCountPending { padding: 0 2px; color: Yellow; }
-.comCountApproved { padding: 0 2px; color: Green; }
-.comCountSpam { padding: 0 2px; color: Red; }
+a.comCountPending { color: #ff8a00; margin:0 3px 0 0; }
+a.comCountApproved { color: #3c8e01; margin:0 3px 0 0; }
+a.comCountSpam { color: #d10000; margin:0 3px 0 0; }
+span.comNone {color: #aaa; margin:0 3px 0 0; cursor:default;}

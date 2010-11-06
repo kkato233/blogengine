@@ -2,6 +2,7 @@
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
+    <script type="text/javascript" src="../jquery.tipsy.js"></script>
     <script type="text/javascript">
         LoadPostsForPage(1);
         $(document).ready(function () {

@@ -43,12 +43,8 @@
         /// <param name="pageSize">Page size</param>
         /// <param name="page">Page number</param>
         /// <returns></returns>
-        public static List<JsonTrash> GetTrash(TrashType trashType, int pageSize, int page)
+        public static List<JsonTrash> GetTrash(TrashType trashType)
         {
-            var cntTo = page * pageSize;
-            var cntFrom = cntTo - pageSize;
-            var cnt = 0;
-
             var comments = new List<Comment>();
             var posts = new List<Post>();
             var pages = new List<Page>();
@@ -129,6 +125,21 @@
         }
 
         /// <summary>
+        /// If trash is empty.
+        /// </summary>
+        /// <returns>True if empty.</returns>
+        public static bool IsTrashEmpty()
+        {
+            foreach (var p in Post.Posts)
+            {
+                if(p.DeletedComments.Count > 0) return false;
+            }
+            if (Post.DeletedPosts.Count > 0) return false;
+            if (Page.DeletedPages.Count > 0) return false;
+            return true;
+        }
+
+        /// <summary>
         /// Processes recycle bin actions
         /// </summary>
         /// <param name="action">Action</param>
@@ -189,7 +200,8 @@
                     if (delPost != null) delPost.Restore();
                     break;
                 case "Page":
-                    
+                    var delPage = Page.DeletedPages.Where(pg => pg.Id == id).FirstOrDefault();
+                    if (delPage != null) delPage.Restore();
                     break;
                 default:
                     break;
@@ -216,6 +228,8 @@
                     if (delPost != null) delPost.Purge();
                     break;
                 case "Page":
+                    var delPage = Page.DeletedPages.Where(pg => pg.Id == id).FirstOrDefault();
+                    if (delPage != null) delPage.Purge();
                     break;
                 default:
                     break;
@@ -240,6 +254,10 @@
             }
 
             // remove deleted pages
+            foreach (var pg in Page.DeletedPages)
+            {
+                pg.Purge();
+            }
         }
 
     }

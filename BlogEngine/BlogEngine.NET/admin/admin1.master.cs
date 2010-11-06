@@ -114,6 +114,13 @@ namespace Admin
             base.OnInit(e);
         }
 
+        protected string RecycleClass()
+        {
+            if(BlogEngine.Core.Json.JsonTrashList.IsTrashEmpty())
+                return "empty";
+            return "full";
+        }
+
         #endregion
     }
 }

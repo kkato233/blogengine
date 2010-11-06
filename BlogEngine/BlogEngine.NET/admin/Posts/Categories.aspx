@@ -79,6 +79,11 @@
                             <asp:DropDownList ID="ddlParent" runat="server" />
                         </EditItemTemplate>
                     </asp:TemplateField>
+                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Posts">
+                        <ItemTemplate>
+                            ##
+                        </ItemTemplate>
+                    </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </div>

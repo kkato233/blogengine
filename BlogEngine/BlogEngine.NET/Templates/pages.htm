@@ -18,7 +18,7 @@
         {#foreach $T.d as p}
         <tr id="{$T.p.Id}" class="{#cycle values=['','alt']}">
             <td style="text-align:center;"><span class="published-{$T.p.IsPublished}"></span></td>
-            <td><a href="EditPage.aspx?id={$T.p.Id}">{$T.p.Title}</a></td>
+            <td>{$T.p.Title}</td>
             <td><span>{$T.p.ParentTitle}</span></td>
             <td style="text-align:center;"><span class="published-{$T.p.ShowInList}"></span></td>
             <td><span class="comment_date">{$T.p.Date}</span><span class="comment_time">{$T.p.Time}</span></td>

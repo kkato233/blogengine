@@ -199,9 +199,9 @@
             int pending, approved;
             int spam = comments.Count(c => c.IsSpam == true && c.IsDeleted == false);
 
-            string pLink = "<a href=\"{0}\" class=\"comCountPending\">{1}</a>";
-            string aLink = "<a href=\"{0}\" class=\"comCountApproved\">{1}</a>";
-            string sLink = "<a href=\"{0}\" class=\"comCountSpam\">{1}</a>";
+            string pLink = "<a href=\"{0}\" class=\"comCountPending tipsyhelp\" original-title=\"Pending comments\">({1})</a>";
+            string aLink = "<a href=\"{0}\" class=\"comCountApproved tipsyhelp\" original-title=\"Approved comments, visible to public\">{1}</a>";
+            string sLink = "<a href=\"{0}\" class=\"comCountSpam tipsyhelp\" original-title=\"Spam comments\">({1})</a>";
 
             sLink = spam > 0 ? string.Format(sLink, postUrl + "#comments", spam) : "";
 
@@ -211,14 +211,14 @@
                 approved = comments.Count(c => c.IsApproved == true && c.IsDeleted == false);
 
                 pLink = pending > 0 ? string.Format(pLink, postUrl + "#comment", pending) : "";
-                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "";
+                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "<span class=\"comNone tipsyhelp\" original-title=\"Approved comments, visible to public\">0</span>";
 
-                return pLink + aLink + sLink;
+                return aLink + pLink + sLink;
             }
             else
             {
                 approved = comments.Count(c => c.IsSpam == false);
-                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "";
+                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "<span class=\"comNone tipsyhelp\" original-title=\"Approved comments, visible to public\">0</span>";
                 return aLink + sLink;
             }
         }

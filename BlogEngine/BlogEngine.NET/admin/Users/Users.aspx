@@ -59,9 +59,6 @@
         function OnAdminDataSaved() {
             LoadUsers();
         }
-
-        LoadUsers();
-
     </script>
 
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
@@ -119,4 +116,7 @@
             <div id="Container"></div>
 		</div>
 	</div>
+    <script type="text/javascript">
+        LoadUsers();
+    </script>
 </asp:Content>

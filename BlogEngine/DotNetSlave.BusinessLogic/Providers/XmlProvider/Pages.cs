@@ -82,6 +82,7 @@
                 writer.WriteElementString("isfrontpage", page.IsFrontPage.ToString());
                 writer.WriteElementString("showinlist", page.ShowInList.ToString());
                 writer.WriteElementString("ispublished", page.IsPublished.ToString());
+                writer.WriteElementString("isdeleted", page.IsDeleted.ToString());
                 writer.WriteElementString(
                     "datecreated", 
                     page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString(
@@ -139,6 +140,11 @@
                 page.IsPublished = bool.Parse(doc.SelectSingleNode("page/ispublished").InnerText);
             }
 
+            if (doc.SelectSingleNode("page/isdeleted") != null)
+            {
+                page.IsDeleted = bool.Parse(doc.SelectSingleNode("page/isdeleted").InnerText);
+            }
+
             page.DateCreated = DateTime.Parse(
                 doc.SelectSingleNode("page/datecreated").InnerText, CultureInfo.InvariantCulture);
             page.DateModified = DateTime.Parse(
@@ -153,7 +159,7 @@
         /// <param name="page">The page to update.</param>
         public override void UpdatePage(Page page)
         {
-            this.InsertPage(page);
+            InsertPage(page);
         }
 
         #endregion
