@@ -159,7 +159,8 @@ function LoadPager() {
          $('.Pager').html(msg.d);
       }
    });
-   return false;}
+   return false;
+}
 
 function CommentPage() {
     var page = 'Approved.aspx';
