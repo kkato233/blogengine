@@ -4,13 +4,14 @@
     using System.Web;
     using System.Web.Security;
     using System.Web.UI;
+    using BlogEngine.Core;
 
     using Resources;
 
     /// <summary>
     /// The login.
     /// </summary>
-    public partial class Login : Page
+    public partial class Login : System.Web.UI.Page
     {
         #region Methods
 
@@ -40,7 +41,7 @@
                 return;
             }
 
-            if (!this.Page.IsPostBack || this.User.Identity.IsAuthenticated)
+            if (!this.Page.IsPostBack || Security.IsAuthenticated)
             {
                 return;
             }

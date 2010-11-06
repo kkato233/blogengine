@@ -165,7 +165,7 @@ namespace Controls
             get
             {
                 var settings = ExtensionManager.GetSettings("Recaptcha");
-                return !this.Page.User.Identity.IsAuthenticated ||
+                return !Security.IsAuthenticated ||
                        Convert.ToBoolean(settings.GetSingleValue("ShowForAuthenticatedUsers"));
             }
         }

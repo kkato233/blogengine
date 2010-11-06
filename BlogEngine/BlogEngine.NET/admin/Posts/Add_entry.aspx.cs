@@ -266,18 +266,10 @@
         {
             var post = Post.GetPost(postId);
 
-            // verifies if the current user is the author of the post and not and admin
-            // it will redirect the user to the root of the blog.
-
-            if (!Post.CurrentUserOwnsPost(post) || !Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
+            if (post == null || !post.CanUserEdit)
             {
-                Response.Redirect(Utils.RelativeWebRoot);
+                Response.Redirect(Request.Path);
             }
-            //if (post.Author != Thread.CurrentPrincipal.Identity.Name &&
-            //    !this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole))
-            //{
-            //    this.Response.Redirect(Utils.RelativeWebRoot);
-            //}
 
             txtTitle.Text = post.Title;
             txtContent.Text = post.Content;
@@ -438,7 +430,7 @@
             {
                 post = Post.GetPost(new Guid(postId));
 
-                if (Post.CurrentUserOwnsPost(post))
+                if (post.CurrentUserOwns)
                 {
                     Security.DemandUserHasRight(Rights.EditOwnPosts);
                 }

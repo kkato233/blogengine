@@ -19,8 +19,7 @@ public partial class error_occurred : BlogBasePage
     {
         string contextItemKey = "LastErrorDetails";
 
-        // Only display error details if the person is logged in.
-        if (Page.User.Identity.IsAuthenticated && HttpContext.Current.Items.Contains(contextItemKey))
+        if (Security.IsAuthorizedTo(Rights.ViewDetailedErrorMessages) && HttpContext.Current.Items.Contains(contextItemKey))
         { 
             string errorDetails = (string)HttpContext.Current.Items[contextItemKey];
 

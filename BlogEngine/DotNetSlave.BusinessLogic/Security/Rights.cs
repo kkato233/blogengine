@@ -100,8 +100,9 @@ namespace BlogEngine.Core
         /// <summary>
         /// A user is allowed to view non-public posts.
         /// </summary>
-        [RightDetails(Category = RightCategory.Posts)]
-        ViewPrivatePosts,
+        // 11/6/2010 - commented out, we don't currently have "private" posts, just unpublished.
+        //[RightDetails(Category = RightCategory.Posts)]
+        //ViewPrivatePosts,
 
         /// <summary>
         /// A user can create new posts. 

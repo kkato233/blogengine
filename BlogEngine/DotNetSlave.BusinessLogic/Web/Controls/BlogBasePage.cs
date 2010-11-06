@@ -408,7 +408,7 @@
             }
 
             var post = Post.GetPost(new Guid(this.Request.QueryString["deletepost"]));
-            if (post == null || !post.CanUserDeletePost)
+            if (post == null || !post.CanUserDelete)
             {
                 return;
             }

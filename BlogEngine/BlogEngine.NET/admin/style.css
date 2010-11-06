@@ -216,10 +216,11 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .info { color:#555; background-color: #ddeaff; background-image: url(images/status-info.png);border:solid 1px #8bb9ff; }
 .success { color: #555; background-color: #c6f7a5; background-image: url('images/status-success.png'); border:solid 1px #55b51d; }
 .warning { color: #555; background-color: #fcff9e; background-image: url('images/status-warning.png'); border:solid 1px #c99900; }
+.closeStatus { padding-left: 20px; color: #444; float: right; }
 
 /* Dashboard */
 /* ------------------------------*/
-.dashbaordWidget { border:solid 1px #dcdcdc; padding:20px; float:left; width:45%; margin:10px;}
+.dashboardWidget { border:solid 1px #dcdcdc; padding:20px; float:left; width:45%; margin:10px;}
 
 /* Footer  */
 /* ------------------------------*/

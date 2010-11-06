@@ -60,7 +60,9 @@
                     Time = x.DateCreated.ToString("t"),
                     ParentId = prId,
                     ParentTitle = prTtl,
-                    HasChildred = x.HasChildPages
+                    HasChildren = x.HasChildPages,
+                    CanUserDelete = x.CanUserDelete,
+                    CanUserEdit = x.CanUserEdit
                 };
                 jPages.Add(jp);
             }

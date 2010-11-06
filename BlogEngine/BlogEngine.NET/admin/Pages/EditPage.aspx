@@ -55,8 +55,13 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                 data: JSON.stringify(dto),
                 success: function (result) {
                     var rt = result.d;
-                    if (rt.Success)
-                        ShowStatus("success", rt.Message);
+                    if (rt.Success) {
+                        if (rt.Data) {
+                            window.location.href = rt.Data;
+                        } else {
+                            ShowStatus("success", rt.Message);
+                        }
+                    }
                     else
                         ShowStatus("warning", rt.Message);
                 }
@@ -91,7 +96,8 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                 </li>
                 <li style="margin:0;">
                     <asp:Button CssClass="btn primary" runat="server" ID="btnUploadImage" Text="<%$Resources:labels,upload %>"
-                        ValidationGroup="imageupload" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                        ValidationGroup="imageupload" OnClientClick="colorboxDialogSubmitClicked('imageupload', 'uploadImagePanel');" />
+                        or <a href="#" onclick="closeOverlay();">Cancel</a>
                 </li>
             </ul>
         </div>
@@ -106,7 +112,8 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                 </li>
                 <li style="margin:0;">
                     <asp:Button CssClass="btn primary" runat="server" ID="btnUploadFile" Text="<%$Resources:labels,upload %>"
-                        ValidationGroup="fileUpload" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                        ValidationGroup="fileUpload" OnClientClick="colorboxDialogSubmitClicked('fileUpload', 'uploadFilePanel');" />
+                        or <a href="#" onclick="closeOverlay();">Cancel</a>
                 </li>
             </ul>
         </div>

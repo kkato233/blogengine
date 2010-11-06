@@ -543,9 +543,14 @@
         {
             get
             {
-                return (this.Authenticated ||
-                       (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))) && 
-                       this.IsDeleted == false;
+                if (this.isDeleted)
+                    return false;
+                else if (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+                    return true;
+                else if (Security.IsAuthorizedTo(Rights.ViewUnpublishedPosts))
+                    return true;
+
+                return false;
             }
         }
 
@@ -693,43 +698,45 @@
         #region Post Public Methods
 
         /// <summary>
-        /// Gets whether or not the current user owns a given post.
+        /// Gets whether or not the current user owns this post.
         /// </summary>
-        /// <param name="post"></param>
         /// <returns></returns>
-        public static bool CurrentUserOwnsPost(Post post)
+        public override bool CurrentUserOwns
         {
-            if (post == null)
+            get
             {
-                throw new ArgumentNullException("post");
+                return Security.CurrentUser.Identity.Name.Equals(this.Author, StringComparison.OrdinalIgnoreCase);
             }
-            else
-            {
-                return Security.CurrentUser.Identity.Name.Equals(post.Author, StringComparison.OrdinalIgnoreCase);
-            }
-        }
-
-        /// <summary>
-        /// Gets whether or not the current user owns a given post.
-        /// </summary>
-        /// <param name="id">The post id</param>
-        /// <returns></returns>
-        public static bool CurrentUserOwnsPost(Guid id)
-        {
-            return CurrentUserOwnsPost(Post.GetPost(id));
         }
 
         /// <summary>
         /// Gets whether the current user can delete this post.
         /// </summary>
         /// <returns></returns>
-        public bool CanUserDeletePost
+        public override bool CanUserDelete
         {
             get
             {
-                if (CurrentUserOwnsPost(this) && Security.IsAuthorizedTo(Rights.DeleteOwnPosts))
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOwnPosts))
                     return true;
-                else if (!CurrentUserOwnsPost(this) && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts))
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts))
+                    return true;
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can edit this post.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanUserEdit
+        {
+            get
+            {
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOwnPosts))
+                    return true;
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
                     return true;
 
                 return false;

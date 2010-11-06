@@ -110,7 +110,9 @@
                     Categories = GetCategories(x.Categories),
                     Tags = GetTags(x.Tags),
                     Comments = GetComments(x.Comments, x.RelativeLink),
-                    IsPublished = x.IsPublished
+                    IsPublished = x.IsPublished,
+                    CanUserEdit = x.CanUserEdit,
+                    CanUserDelete = x.CanUserDelete
                 };
                 pagePosts.Add(jp);
             }

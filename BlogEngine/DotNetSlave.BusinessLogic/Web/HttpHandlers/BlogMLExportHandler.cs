@@ -44,7 +44,7 @@
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
-            if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            if (Security.IsAuthenticated)
             {
                 context.Response.ContentType = "text/xml";
                 context.Response.AppendHeader("Content-Disposition", "attachment; filename=BlogML.xml");
