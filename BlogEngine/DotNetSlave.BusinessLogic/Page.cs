@@ -503,8 +503,34 @@
         /// </summary>
         protected override void DataDelete()
         {
-            BlogService.DeletePage(this);
+            this.IsDeleted = true;
+            this.DateModified = DateTime.Now;
+            DataUpdate();
+           
             Pages.Remove(this);
+            DeletedPages.Add(this);
+        }
+
+        /// <summary>
+        /// Deletes the Page from the current BlogProvider.
+        /// </summary>
+        public void Purge()
+        {
+            BlogService.DeletePage(this);
+            DeletedPages.Remove(this);
+        }
+
+        /// <summary>
+        /// Restores the deleted page.
+        /// </summary>
+        public void Restore()
+        {
+            this.IsDeleted = false;
+            this.DateModified = DateTime.Now;
+            DataUpdate();
+            
+            DeletedPages.Remove(this);
+            Pages.Add(this);
         }
 
         /// <summary>

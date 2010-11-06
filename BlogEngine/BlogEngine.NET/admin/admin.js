@@ -223,18 +223,24 @@ function LoadProfile() {
 
 //--------------    TRASH
 
-function LoadTrash(pg) {
+function LoadTrash(obj) {
     $('.loader').hide();
+    var type = "All";
+
+    if (obj != null) {
+        $(".tableToolBox a").removeClass("current");
+        $(obj).addClass("current");
+        type = $(obj).attr("id");
+    }
     $.ajax({
         url: "Trash.aspx/LoadTrash",
-        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
+        data: "{'trashType':'" + type + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
             $('#Container').setTemplateURL('../Templates/trash.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
-            //LoadPager(pg, srvs);
         }
     });
     return false;
@@ -659,6 +665,9 @@ function LoadPosts() {
             }
             else
                 $("#filteredby").hide();
+
+            $(".tipsyhelp").tipsy({gravity: 's'});
+
         }
     });
     return false;

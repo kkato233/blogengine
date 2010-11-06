@@ -12,9 +12,24 @@
         protected static int TrashCounter { get; set; }
 
         [WebMethod]
-        public static IEnumerable LoadTrash(int pageSize, int page)
+        public static IEnumerable LoadTrash(string trashType)
         {
-            var trashList = JsonTrashList.GetTrash(TrashType.All, pageSize, page);
+            var tType = TrashType.All;
+            switch (trashType)
+            {
+                case "Post":
+                    tType = TrashType.Post;
+                    break;
+                case "Page":
+                    tType = TrashType.Page;
+                    break;
+                case "Comment":
+                    tType = TrashType.Comment;
+                    break;
+                default:
+                    break;
+            }
+            var trashList = JsonTrashList.GetTrash(tType);
             TrashCounter = trashList.Count;
             return trashList;
         }

@@ -14,7 +14,7 @@
 
             for (var category in rights) {
             
-                var catDiv = $("<div class=\"category\">");
+                var catDiv = $("<div class=\"dashbaordWidget rounded\">");
                 var header = $("<h2>");
                 header.html(category);
 
@@ -97,17 +97,16 @@
     <div class="content-box-outer">
         <div class="content-box-right">
             <ul>
-                <li><a href="Users.aspx">
-                    <%=Resources.labels.users %></a></li>
-                <li><a href="Roles.aspx" class="selected">
-                    <%=Resources.labels.roles %></a></li>
+                <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+                <li class="content-box-selected"><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
             </ul>
         </div>
         <div class="content-box-left">
             <h1>Editing Rights for Role <%=Server.HtmlEncode(this.RoleName) %></h1>
             <div id="rightsHolder"></div>
+            <div style="clear:both">&nbsp;</div>
             <input type="submit" class="btn primary rounded" value="save" onclick="return SaveRights();" />
-            or <a href="#" onclick="closeOverlay();">cancel</a>
+            or <a href="Roles.aspx"><%=Resources.labels.cancel %></a>
         </div>
     </div>
 </asp:Content>
