@@ -65,7 +65,60 @@
         /// </summary>
         /// <value>The current page.</value>
         protected static int CurrentPage { get; set; }
-        
+
+        /// <summary>
+        /// List of comments based on type for a single page.
+        /// </summary>
+        /// <param name="commentType">
+        /// The comment type.
+        /// </param>
+        /// <param name="pageSize">
+        /// The page size.
+        /// </param>
+        /// <param name="page">
+        /// The current page.
+        /// </param>
+        /// <returns>
+        /// A list of JSON comments.
+        /// </returns>
+        [WebMethod]
+        public List<JsonComment> GetComments(CommentType commentType, int pageSize, int page)
+        {
+            try
+            {
+                Rights right;
+                switch (commentType)
+                {
+                    case CommentType.Approved:
+                        right = Rights.ViewPublicComments;
+                        break;
+                    case CommentType.Pending:
+                        right = Rights.ViewUnmoderatedComments;
+                        break;
+                    case CommentType.Pingback:
+                        right = Rights.ViewPublicComments;
+                        break;
+                    case CommentType.Spam:
+                        right = Rights.ModerateComments;
+                        break;
+                    default:
+                        throw new Exception("Cannot determine comment type.");
+                }
+
+                if (!Security.IsAuthorizedTo(right))
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                return JsonComments.GetComments(commentType, pageSize, page);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Api.Comments.GetComments", ex);
+                throw new Exception("Error on Api.Comments.GetComments.  Check the log for more info.");
+            }
+        }
+
         /// <summary>
         /// Reject selected comments
         /// </summary>
