@@ -225,7 +225,7 @@
                                     <%=Resources.labels.extractFromTitle %></a>
                             </li>
                             <li>
-                                <asp:Label ID="Label3" CssClass="lbl" AssociatedControlID="txtDescription" runat="server" Text='Summary' />
+                                <asp:Label ID="Label3" CssClass="lbl" AssociatedControlID="txtDescription" runat="server" Text='Excerpt (optional)' />
                                 <asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50"
                                     Rows="3" Width="600" Height="80" />
                             </li>

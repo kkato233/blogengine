@@ -12,21 +12,17 @@ $(document).ready(function () {
 function EditRow(obj) {
    var row = $(obj).closest("tr");
    var revert = $(row).html();
-   var button = '<div><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></div>';
+   var button = '<td><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></td>';
 
    $('.editable', row).each(function () {
-      var _this = $(this);
-      var _thisHtml = _this.html();
-      var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
-      _this.after(txt).remove();
-  });
+       var _this = $(this);
+       var _thisHtml = _this.html();
+       var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
+       _this.after(txt).remove();
+   });
 
-  var delCel = $(row).find('.deleteButton').closest("td");
-  $(delCel).remove();
-
-  var editCel = $(row).find('.editButton').closest("td");
-  $(editCel).attr('colspan', '2');
-  $(row).find('.editButton').replaceWith(button);
+    // replace tools menu with save/cancel buttons
+    $(row).find('.rowTools').closest("td").replaceWith(button);
 
    var cancelButton = $('.cancelButton');
    var saveButton = $('.saveButton');
@@ -80,12 +76,7 @@ function SaveChanges(obj, str) {
 
 
 function CancelChanges(obj, str) {
-   var jObj = $(obj);
-   var row = jObj.closest("tr");
-   var id = row.attr("id");
-   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'fefefe' : 'fff';
-
-   jObj.parent().parent().parent().after('<tr id="' + id + '" bgcolor="#' + bg + '">' + str + '</tr>').remove();
+   $(obj).closest("tr").html(str);
    return false;
 }
 

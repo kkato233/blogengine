@@ -15,10 +15,10 @@
             for (var category in rights) {
             
                 var catDiv = $("<div class=\"dashboardWidget rounded\">");
-                var header = $("<h2>");
+                var header = $("<h2 style='border:none;'>");
                 header.html(category);
 
-                var catUl = $("<ul>");
+                var catUl = $("<ul class='fl'>");
                 catDiv.append(header);
                 catDiv.append(catUl);
 
