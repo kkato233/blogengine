@@ -31,7 +31,7 @@
             <div class="wrapper">
             <div class="tabs toprounded">
                 <uc1:menu ID="Menu1" runat="server" />
-                <div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx"></a></div>
+                <div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx">Recycle bin (<%=RecycleClass()%>)</a></div>
             </div>
             <div class="clear"></div>
             <div class="content-box-outer"> 

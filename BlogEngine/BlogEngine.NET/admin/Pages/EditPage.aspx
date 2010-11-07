@@ -146,7 +146,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                                 <%=Resources.labels.extractFromTitle %></a>
                         </li>
                         <li>
-                            <label class="lbl" for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label>
+                            <label class="lbl" for="<%=txtDescription.ClientID %>">Excerpt (optional)</label>
                             <asp:TextBox runat="server" ID="txtDescription" Width="600" TextMode="multiLine"
                                 Columns="50" Rows="4" />
                         </li>
