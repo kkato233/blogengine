@@ -139,6 +139,8 @@
     <Compile Include="Providers\DbConnectionHelper.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="RemoteFile.cs" />
+    <Compile Include="Security\CustomIdentity.cs" />
+    <Compile Include="Security\CustomPrincipal.cs" />
     <Compile Include="Security\Right.cs" />
     <Compile Include="Security\Rights.cs" />
     <Compile Include="Security\Security.cs" />

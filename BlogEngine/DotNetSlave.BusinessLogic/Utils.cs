@@ -19,6 +19,7 @@
     using System.Web.Configuration;
     using System.Web.Hosting;
     using System.Web.UI;
+    using System.Web.UI.WebControls;
     using System.Web.UI.HtmlControls;
     using System.Xml;
 
@@ -209,6 +210,29 @@
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Selects a listitem by value, case insensitively.
+        /// </summary>
+        /// <param name="control">The ListControl</param>
+        /// <param name="value">The value to select</param>
+        /// <returns>The ListItem found and selected</returns>
+        public static ListItem SelectListItemByValue(ListControl control, string value)
+        {
+            control.ClearSelection();
+            control.SelectedIndex = -1;
+
+            foreach (ListItem li in control.Items)
+            {
+                if (string.Equals(value, li.Value, StringComparison.OrdinalIgnoreCase))
+                {
+                    li.Selected = true;
+                    return li;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Converts an object to its JSON representation.

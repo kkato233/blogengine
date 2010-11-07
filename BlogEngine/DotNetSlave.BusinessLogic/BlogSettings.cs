@@ -573,6 +573,16 @@
 
         #endregion
 
+        #region SelfRegistrationInitialRole
+
+        /// <summary>
+        ///     Gets or sets the initial role assigned to users who self register.
+        /// </summary>
+        /// <value>The role name.</value>
+        public string SelfRegistrationInitialRole { get; set; }
+
+        #endregion
+
         #region RequireLoginToPostComment
 
         /// <summary>

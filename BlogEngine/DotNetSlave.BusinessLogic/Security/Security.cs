@@ -16,24 +16,11 @@ namespace BlogEngine.Core
     /// </summary>
     public static partial class Security
     {
-
         static Security()
         {
-            AnonymousUserRights = (Rights.None);
         }
 
         #region "Properties"
-
-        /// <summary>
-        /// Gets or sets the rights of anonymous, non-authenticated users.
-        /// 
-        /// This probably would work better as role.
-        /// </summary>
-        public static Rights AnonymousUserRights
-        {
-            get;
-            set;
-        }
 
         /// <summary>
         /// If the current user is authenticated, returns the current MembershipUser. If not, returns null. This is just a shortcut to Membership.GetUser().
