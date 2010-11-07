@@ -51,7 +51,8 @@
 				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
 				"culture": $("[id$='_ddlCulture']").val(),
 				"timezone": $("[id$='_txtTimeZone']").val(),
-				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked')
+				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked'),
+				"selfRegistrationInitialRole": $("[id$='_ddlSelfRegistrationInitialRole']").val()
 			};
 			
             $.ajax({
@@ -166,6 +167,12 @@
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
                         <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=ddlSelfRegistrationInitialRole.ClientID %>"><%=Resources.labels.selfRegistrationInitialRole%></label>
+                        <asp:DropDownList runat="Server" ID="ddlSelfRegistrationInitialRole" Style="text-transform: capitalize">
+                            <asp:ListItem Text="Select" />
+                        </asp:DropDownList>
                     </li>
                 </ul>
 

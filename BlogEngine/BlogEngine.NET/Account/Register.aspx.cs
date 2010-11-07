@@ -3,7 +3,7 @@
     using System;
     using System.Web.Security;
     using System.Web.UI.WebControls;
-
+    using System.Linq;
     using BlogEngine.Core;
 
     using Page = System.Web.UI.Page;
@@ -43,6 +43,15 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void RegisterUser_CreatedUser(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(BlogSettings.Instance.SelfRegistrationInitialRole))
+            {
+                string role = Roles.GetAllRoles().FirstOrDefault(r => r.Equals(BlogSettings.Instance.SelfRegistrationInitialRole, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrEmpty(role))
+                {
+                    Roles.AddUsersToRoles(new string[] { this.RegisterUser.UserName }, new string[] { role });
+                }
+            }
+
             FormsAuthentication.SetAuthCookie(this.RegisterUser.UserName, false /* createPersistentCookie */);
 
             var continueUrl = this.RegisterUser.ContinueDestinationPageUrl;
