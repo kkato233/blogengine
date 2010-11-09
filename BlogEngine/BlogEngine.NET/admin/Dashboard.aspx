@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Dashboard.aspx.cs" Inherits="admin_Dashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Dashboard.aspx.cs" Inherits="Admin.Dashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
 	<div class="content-box-outer">
@@ -28,11 +28,13 @@
             </div>
             <div class="dashboardWidget rounded">
                 <h2>Draft posts</h2>
+                <ul id="DraftPosts" runat="server" visible="false"></ul>
                 <a href="Posts/Add_entry.aspx">Add new post</a>
             </div>
             <div class="dashboardWidget rounded">
                 <h2>Draft pages</h2>
-                <a href="Pages/Pages.aspx">Add new page</a>
+                <ul id="DraftPages" runat="server" visible="false"></ul>
+                <a href="Pages/EditPage.aspx">Add new page</a>
             </div>
             <div class="dashboardWidget rounded">
                 <h2>Trash</h2>
@@ -44,8 +46,14 @@
                 <p>Recent comments if moderation is off, or pending if it is on</p>
                 <a href="Comments/Approved.aspx">View all comments</a>
             </div>
+
+            <div style="clear:both">&nbsp;</div>
+            
         </div>
+        
     </div>
+
+
 
 </asp:Content>
 

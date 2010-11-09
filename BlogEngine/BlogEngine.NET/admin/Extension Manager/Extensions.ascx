@@ -14,7 +14,12 @@
   <Columns>
     <asp:BoundField HeaderText="<%$Resources:labels,name %>" HeaderStyle-HorizontalAlign="Left" DataField = "Name" />  
     <asp:BoundField HeaderText="<%$Resources:labels,version %>" DataField = "Version" />
-    <asp:BoundField HeaderText="<%$Resources:labels,description %>" HeaderStyle-HorizontalAlign="Left" DataField = "Description" /> 
+   <%-- <asp:BoundField HeaderText="<%$Resources:labels,description %>" HeaderStyle-HorizontalAlign="Left" DataField = "Description" /> --%>
+    <asp:TemplateField HeaderText="<%$Resources:labels,description %>" HeaderStyle-HorizontalAlign="Left">
+        <ItemTemplate>
+           <span><%# HttpContext.Current.Server.HtmlDecode(DataBinder.Eval(Container.DataItem, "Description").ToString())%></span>
+        </ItemTemplate>
+    </asp:TemplateField>
     <asp:TemplateField HeaderText="<%$Resources:labels,author %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <span><%# HttpContext.Current.Server.HtmlDecode(DataBinder.Eval(Container.DataItem, "Author").ToString())%></span>
