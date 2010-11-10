@@ -116,7 +116,15 @@ namespace Admin
                     response.Message = "Not authorized to edit this Post.";
                     return response;
                 }
-                
+
+                if (!post.IsPublished && isPublished)
+                {
+                    if (!post.CanPublish(author))
+                    {
+                        response.Message = "Not authorized to publish this Post.";
+                        return response;
+                    }
+                }
 
                 if (string.IsNullOrEmpty(content))
                 {
@@ -217,6 +225,15 @@ namespace Admin
                 {
                     response.Message = "Not authorized to edit this Page.";
                     return response;
+                }
+
+                if (!page.IsPublished && isPublished)
+                {
+                    if (!page.CanPublish())
+                    {
+                        response.Message = "Not authorized to publish this Page.";
+                        return response;
+                    }
                 }
 
                 page.Title = title;

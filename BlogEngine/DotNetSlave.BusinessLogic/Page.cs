@@ -491,6 +491,26 @@
         #region Public Methods
 
         /// <summary>
+        /// Gets whether the current user can publish this page.
+        /// </summary>
+        /// <returns></returns>
+        public bool CanPublish()
+        {
+            bool isOwnPage = true; // author is not stored with a Page, so assuming the user is the author.
+
+            if (isOwnPage && !Security.IsAuthorizedTo(Rights.PublishOwnPages))
+            {
+                return false;
+            }
+            else if (!isOwnPage && !Security.IsAuthorizedTo(Rights.PublishOtherUsersPages))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Returns the front page if any is available.
         /// </summary>
         /// <returns>The front Page.</returns>

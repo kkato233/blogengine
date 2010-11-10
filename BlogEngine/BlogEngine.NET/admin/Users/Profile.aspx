@@ -35,6 +35,7 @@
             if (displayName.length == 0) {
                 $('#txtDispalayNameReq').removeClass('hidden');
                 $('#txtDispalayName').focus().select();
+                ShowStatus("warning", "Display Name is Required.");
                 return false;
             }
 

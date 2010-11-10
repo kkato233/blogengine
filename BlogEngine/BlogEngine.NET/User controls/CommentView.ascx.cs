@@ -483,12 +483,14 @@
                 var path = string.Format(
                     "{0}themes/{1}/CommentView.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
 
+                bool canViewUnpublishedPosts = Security.IsAuthorizedTo(AuthorizationCheck.HasAny, new[] { Rights.ViewUnmoderatedComments, Rights.ModerateComments });
+
                 if (this.NestingSupported)
                 {
                     // newer, nested comments
                     if (this.Post != null)
                     {
-                        this.AddNestedComments(path, this.Post.NestedComments, this.phComments);
+                        this.AddNestedComments(path, this.Post.NestedComments, this.phComments, canViewUnpublishedPosts);
                     }
                 }
                 else
@@ -517,7 +519,7 @@
                     }
 
                     // Add unapproved comments
-                    if (Security.IsAuthorizedTo(Rights.ModerateComments))
+                    if (canViewUnpublishedPosts)
                     {
                         foreach (var comment in this.Post.Comments)
                         {
@@ -617,15 +619,14 @@
         /// <param name="commentsPlaceHolder">
         /// The comments place holder.
         /// </param>
-        private void AddNestedComments(string path, IEnumerable<Comment> nestedComments, Control commentsPlaceHolder)
+        private void AddNestedComments(string path, IEnumerable<Comment> nestedComments, Control commentsPlaceHolder, bool canViewUnpublishedPosts)
         {
             bool enableCommentModeration = BlogSettings.Instance.EnableCommentsModeration;
-            bool isAuthenticated = Security.IsAuthenticated;
-
+            
             foreach (var comment in nestedComments)
             {
                 if ((!comment.IsApproved && enableCommentModeration) &&
-                    (comment.IsApproved || !isAuthenticated))
+                    (comment.IsApproved || !canViewUnpublishedPosts))
                 {
                     continue;
                 }
@@ -650,7 +651,7 @@
                     var subCommentsPlaceHolder = control.FindControl("phSubComments") as PlaceHolder;
                     if (subCommentsPlaceHolder != null)
                     {
-                        this.AddNestedComments(path, comment.Comments, subCommentsPlaceHolder);
+                        this.AddNestedComments(path, comment.Comments, subCommentsPlaceHolder, canViewUnpublishedPosts);
                     }
                 }
 

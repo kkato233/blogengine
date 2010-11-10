@@ -275,6 +275,14 @@
                 throw new MetaWeblogException("11", "User authentication failed");
             }
 
+            if (!page.IsPublished && publish)
+            {
+                if (!page.CanPublish())
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Page.");
+                }
+            }
+
             page.Title = mwaPage.title;
             page.Content = mwaPage.description;
             page.Keywords = mwaPage.mt_keywords;
@@ -319,8 +327,18 @@
             {
                 throw new MetaWeblogException("11", "User authentication failed");
             }
-            
-            post.Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
+
+            string author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
+
+            if (!post.IsPublished && publish)
+            {
+                if (!post.CanPublish(author))
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Post.");
+                }
+            }
+
+            post.Author = author;
             post.Title = sentPost.title;
             post.Content = sentPost.description;
             post.IsPublished = publish;
@@ -820,6 +838,15 @@
                     Description = string.Empty,
                     Keywords = mwaPage.mt_keywords
                 };
+
+            if (!page.IsPublished && publish)
+            {
+                if (!page.CanPublish())
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Page.");
+                }
+            }
+
             if (mwaPage.pageDate != new DateTime())
             {
                 page.DateCreated = mwaPage.pageDate;
@@ -860,15 +887,30 @@
         /// </returns>
         internal string NewPost(string blogId, string userName, string password, MWAPost sentPost, bool publish)
         {
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
+
+            string author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
+
             var post = new Post
                 {
-                    Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author,
+                    Author = author,
                     Title = sentPost.title,
                     Content = sentPost.description,
                     IsPublished = publish,
                     Slug = sentPost.slug,
                     Description = sentPost.excerpt
                 };
+
+            if (!post.IsPublished && publish)
+            {
+                if (!post.CanPublish(author))
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Post.");
+                }
+            }
 
             if (sentPost.commentPolicy != string.Empty)
             {

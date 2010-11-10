@@ -120,7 +120,7 @@
                             </asp:CheckBoxList>
                         </li>
                     </ul>
-                    <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary rounded" OnClientClick="closeOverlay();" /> 
+                    <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary rounded" OnClientClick="colorboxDialogSubmitClicked('addNew', 'addBlogroll');" /> 
                     or <a href="#" onclick="closeOverlay();">cancel</a>
 
                 </div>

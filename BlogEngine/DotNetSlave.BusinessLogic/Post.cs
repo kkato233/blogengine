@@ -543,7 +543,7 @@
         {
             get
             {
-                if (this.isDeleted)
+                if (this.IsDeleted)
                     return false;
                 else if (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
                     return true;
@@ -696,6 +696,27 @@
         #endregion
 
         #region Post Public Methods
+
+        /// <summary>
+        /// Gets whether the current user can publish this post.
+        /// </summary>
+        /// <param name="author">The author of the post without needing to assign it to the Author property.</param>
+        /// <returns></returns>
+        public bool CanPublish(string author)
+        {
+            bool isOwnPost = Security.CurrentUser.Identity.Name.Equals(author, StringComparison.OrdinalIgnoreCase);
+
+            if (isOwnPost && !Security.IsAuthorizedTo(Rights.PublishOwnPosts))
+            {
+                return false;
+            }
+            else if (!isOwnPost && !Security.IsAuthorizedTo(Rights.PublishOtherUsersPosts))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Gets whether or not the current user owns this post.

@@ -45,7 +45,7 @@
                             <asp:DropDownList ID="ddlNewParent" Width="200" runat="server" />
                         </li>
                     </ul>
-                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn primary" /> or <a href="#" onclick="closeOverlay();">cancel</a>
+                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('new', 'frmAddNew');" /> or <a href="#" onclick="closeOverlay();">cancel</a>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Posts">
                         <ItemTemplate>
-                            ##
+                            <%# ((BlogEngine.Core.Category)Container.DataItem).Posts.Count %>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
