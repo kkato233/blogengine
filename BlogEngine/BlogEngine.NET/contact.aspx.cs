@@ -30,8 +30,12 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 
             GetCookie();
             phAttachment.Visible = BlogSettings.Instance.EnableContactAttachments;
-            InititializeCaptcha();
             SetFocus();
+        }
+
+        if (!IsPostBack && !IsCallback)
+        {
+            recaptcha.UserUniqueIdentifier = hfCaptcha.Value = Guid.NewGuid().ToString();
         }
 
         Page.Title = Server.HtmlEncode(Resources.labels.contact);
@@ -179,43 +183,15 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 	#region CAPTCHA
 
 	/// <summary> 
-	/// Initializes the captcha and registers the JavaScript 
-	/// </summary> 
-	private void InititializeCaptcha()
-	{
-		if (ViewState[DateTime.Today.Ticks.ToString()] == null)
-		{
-			ViewState[DateTime.Today.Ticks.ToString()] = Guid.NewGuid().ToString();
-		}
-
-		System.Text.StringBuilder sb = new System.Text.StringBuilder();
-		sb.AppendLine("function SetCaptcha(){");
-		sb.AppendLine("var form = document.getElementById('" + Page.Form.ClientID + "');");
-		sb.AppendLine("var el = document.createElement('input');");
-		sb.AppendLine("el.type = 'hidden';");
-		sb.AppendLine("el.name = '" + DateTime.Today.Ticks + "';");
-		sb.AppendLine("el.value = '" + ViewState[DateTime.Today.Ticks.ToString()] + "';");
-		sb.AppendLine("form.appendChild(el);}");
-
-		Page.ClientScript.RegisterClientScriptBlock(GetType(), "captchascript", sb.ToString(), true);
-		Page.ClientScript.RegisterOnSubmitStatement(GetType(), "captchayo", "SetCaptcha()");
-	}
-
-	/// <summary> 
 	/// Gets whether or not the user is human 
 	/// </summary> 
-	private bool IsCaptchaValid
-	{
-		get
-		{
-			if (ViewState[DateTime.Today.Ticks.ToString()] != null)
-			{
-				return Request.Form[DateTime.Today.Ticks.ToString()] == ViewState[DateTime.Today.Ticks.ToString()].ToString();
-			}
-
-			return false;
-		}
-	}
+    private bool IsCaptchaValid
+    {
+        get
+        {
+            return recaptcha.IsValid;
+        }
+    }
 
 	#endregion
 
@@ -229,30 +205,43 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 		return _Callback;
 	}
 
-	public void RaiseCallbackEvent(string eventArgument)
-	{
-		string[] arg = eventArgument.Split(new string[] { "-||-" }, StringSplitOptions.RemoveEmptyEntries);
-		if (arg.Length == 4)
-		{
-			string name = arg[0];
-			string email = arg[1];
-			string subject = arg[2];
-			string message = arg[3];
-			
-			if (SendEmail(email, name, subject, message))
-			{
-				_Callback = BlogSettings.Instance.ContactThankMessage;
-			}
-			else
-			{
-				_Callback = "This form does not work at the moment. Sorry for the inconvenience.";
-			}
-		}
-		else
-		{
-			_Callback = "This form does not work at the moment. Sorry for the inconvenience.";
-		}
-	}
+    public void RaiseCallbackEvent(string eventArgument)
+    {
+        string[] arg = eventArgument.Split(new string[] { "-||-" }, StringSplitOptions.None);
+        if (arg.Length == 6)
+        {
+            string name = arg[0];
+            string email = arg[1];
+            string subject = arg[2];
+            string message = arg[3];
+
+            string recaptchaResponse = arg[4];
+            string recaptchaChallenge = arg[5];
+
+            recaptcha.UserUniqueIdentifier = hfCaptcha.Value;
+            if (recaptcha.RecaptchaEnabled && recaptcha.RecaptchaNecessary)
+            {
+                if (!recaptcha.ValidateAsync(recaptchaResponse, recaptchaChallenge))
+                {
+                    _Callback = "RecaptchaIncorrect";
+                    return;
+                }
+            }
+
+            if (SendEmail(email, name, subject, message))
+            {
+                _Callback = BlogSettings.Instance.ContactThankMessage;
+            }
+            else
+            {
+                _Callback = "This form does not work at the moment. Sorry for the inconvenience.";
+            }
+        }
+        else
+        {
+            _Callback = "This form does not work at the moment. Sorry for the inconvenience.";
+        }
+    }
 
 	#endregion
 
