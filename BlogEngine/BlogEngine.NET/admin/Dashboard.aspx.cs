@@ -66,7 +66,7 @@
                 if (!pg.IsPublished)
                 {
                     // add to page drafts
-                    DraftPages.InnerHtml += string.Format("<li><a href=\"{0}\">{1}</a>  [<a href=\"Pages/Add_entry.aspx?id={3}\">Edit</a>]  Saved: {2}</li>", pg.RelativeLink, pg.Title, pg.DateModified.ToShortDateString() + " at " + pg.DateModified.ToShortTimeString(), pg.Id);
+                    DraftPages.InnerHtml += string.Format("<li><a href=\"{0}\">{1}</a>  [<a href=\"Pages/EditPage.aspx?id={3}\">Edit</a>]  Saved: {2}</li>", pg.RelativeLink, pg.Title, pg.DateModified.ToShortDateString() + " at " + pg.DateModified.ToShortTimeString(), pg.Id);
                     DraftPages.Visible = true;
                 }
             }
