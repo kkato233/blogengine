@@ -33,6 +33,8 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+
             this.btnSave.Enabled = true;
             this.btnSave.OnClientClick = string.Format("return confirm('{0}');", labels.siteUnavailableConfirm);
             ExtensionName = Path.GetFileName(this.Request.QueryString["ext"]);

@@ -1,11 +1,18 @@
 ﻿namespace Admin.Tracking
 {
+    using System;
     using System.Collections;
     using System.Web.Services;
+    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     public partial class Pingbacks : System.Web.UI.Page
     {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
+
         /// <summary>
         /// Number of comments in the list
         /// </summary>

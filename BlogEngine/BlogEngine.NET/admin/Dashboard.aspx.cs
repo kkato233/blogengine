@@ -24,6 +24,8 @@
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+
             var postsLinq = from posts in BlogEngine.Core.Post.Posts where posts.IsPublished == true select posts.Id;
             PostsPublished = postsLinq.Count();
 
