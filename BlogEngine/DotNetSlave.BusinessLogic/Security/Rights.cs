@@ -52,6 +52,20 @@ namespace BlogEngine.Core
         [RightDetails(Category = RightCategory.General)]
         ViewDetailedErrorMessages,
 
+        /// <summary>
+        /// A user is allowed to access administration pages.
+        /// Typically, a blog where self-registration is allowed
+        /// would restrict this right from guest users.
+        /// </summary>
+        [RightDetails(Category = RightCategory.General)]
+        AccessAdminPages,
+
+        /// <summary>
+        /// A user is allowed to access admin settings pages.
+        /// </summary>
+        [RightDetails(Category = RightCategory.General)]
+        AccessAdminSettingsPages,
+
         #endregion
 
         #region "Comments"
@@ -246,6 +260,18 @@ namespace BlogEngine.Core
         /// </summary>
         [RightDetails(Category = RightCategory.Roles)]
         DeleteRoles,
+
+        /// <summary>
+        /// A user is allowed to edit their own roles.
+        /// </summary>
+        [RightDetails(Category = RightCategory.Roles)]
+        EditOwnRoles,
+
+        /// <summary>
+        /// A user is allowed to edit the roles of other users.
+        /// </summary>
+        [RightDetails(Category = RightCategory.Roles)]
+        EditOtherUsersRoles,
 
         #endregion
 

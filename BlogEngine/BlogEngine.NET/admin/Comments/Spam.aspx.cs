@@ -1,16 +1,23 @@
 ﻿namespace Admin.Comments
 {
+    using System;
     using System.Collections;
     using System.Web.Services;
     using System.Web.UI;
-
+    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     /// <summary>
     /// The spam settings.
     /// </summary>
-    public partial class Spam : Page
+    public partial class Spam : System.Web.UI.Page
     {
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
+
         /// <summary>
         /// Number of comments in the list
         /// </summary>

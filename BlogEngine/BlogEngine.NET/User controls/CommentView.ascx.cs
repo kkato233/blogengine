@@ -664,9 +664,7 @@
         /// </summary>
         private void ApproveAllComments()
         {
-            // Using this will throw a SecurityException if the user does not
-            // have the given right.
-            Security.DemandUserHasRight(Rights.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments, true);
 
             this.Post.ApproveAllComments();
 
@@ -680,9 +678,7 @@
         /// </summary>
         private void ApproveComment()
         {
-            // Using this will throw a SecurityException if the user does not
-            // have the given right.
-            Security.DemandUserHasRight(Rights.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments, true);
 
             foreach (var comment in
                 this.Post.NotApprovedComments.Where(
@@ -721,7 +717,7 @@
         /// </summary>
         private void DeleteComment()
         {
-            Security.DemandUserHasRight(Rights.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments, true);
 
             foreach (var comment in
                 this.Post.Comments.Where(comment => comment.Id == new Guid(this.Request.QueryString["deletecomment"])))
@@ -739,7 +735,7 @@
         /// </summary>
         private void DeleteCommentAndChildren()
         {
-            Security.DemandUserHasRight(Rights.ModerateComments);
+            Security.DemandUserHasRight(Rights.ModerateComments, true);
 
             var deletecommentandchildren = new Guid(this.Request.QueryString["deletecommentandchildren"]);
 

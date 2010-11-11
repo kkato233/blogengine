@@ -26,6 +26,10 @@ namespace Admin.Pages
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+
             this.BindSettings();
 
             this.btnSave.Click += this.BtnSaveClick;

@@ -1,11 +1,20 @@
 ﻿namespace Admin
 {
+    using System;
     using System.Collections;
     using System.Web.Services;
+    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     public partial class Trash : System.Web.UI.Page
     {
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
+
         /// <summary>
         /// Number of items in the list
         /// </summary>

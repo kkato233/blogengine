@@ -23,6 +23,10 @@ namespace admin.Settings
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+
             BindSettings();
 
             Page.MaintainScrollPositionOnPostBack = true;
@@ -73,7 +77,7 @@ namespace admin.Settings
         {
             var response = new JsonResponse {Success = false};
 
-            if (!Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
                 response.Message = "Not authorized";
                 return response;
@@ -118,7 +122,9 @@ namespace admin.Settings
         {
             var response = new JsonResponse { Success = false };
 
-            if (!Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+            StringBuilder errorMsg = new StringBuilder();
+
+            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
                 response.Message = "Not authorized";
                 return response;
@@ -146,37 +152,30 @@ namespace admin.Settings
                 body.Append("</div>");
                 mail.Body = body.ToString();
 
-                var smtp = new SmtpClient(smtpServer);
-
-                // don't send credentials if a server doesn't require it,
-                // linux smtp servers don't like that 
-                if (!string.IsNullOrEmpty(smtpUserName))
-                {
-                    smtp.Credentials = new NetworkCredential(smtpUserName, smtpPassword);
-                }
-
-                smtp.EnableSsl = bool.Parse(enableSsl);
-                smtp.Port = int.Parse(smtpServerPort, CultureInfo.InvariantCulture);
-                smtp.Send(mail);
+                string error = Utils.SendMailMessage(mail);
+                if (!string.IsNullOrEmpty(error))
+                    errorMsg.Append(error);
             }
             catch (Exception ex)
             {
-                StringBuilder sb = new StringBuilder();
                 Exception current = ex;
 
                 while (current != null)
                 {
-                    if (sb.Length > 0) { sb.Append(" "); }
-                    sb.Append(current.Message);
+                    if (errorMsg.Length > 0) { errorMsg.Append(" "); }
+                    errorMsg.Append(current.Message);
                     current = current.InnerException;
                 }
+            }
 
-                response.Message = string.Format("Could not connect: {0}", sb.ToString());
+            if (errorMsg.Length > 0)
+            {
+                response.Message = string.Format("Error: {0}", errorMsg.ToString());
                 return response;
             }
 
             response.Success = true;
-            response.Message = "Test successfull";
+            response.Message = "Test successful";
             return response;
         }
     }

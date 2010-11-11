@@ -119,6 +119,7 @@
         /// </param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
             MaintainScrollPositionOnPostBack = true;
 
             BindTags();
@@ -423,7 +424,7 @@
 
             if (postId == null)
             {
-                Security.DemandUserHasRight(Rights.CreateNewPosts);
+                Security.DemandUserHasRight(Rights.CreateNewPosts, true);
                 post = new Post();
             }
             else
@@ -432,11 +433,11 @@
 
                 if (post.CurrentUserOwns)
                 {
-                    Security.DemandUserHasRight(Rights.EditOwnPosts);
+                    Security.DemandUserHasRight(Rights.EditOwnPosts, true);
                 }
                 else
                 {
-                    Security.DemandUserHasRight(Rights.EditOtherUsersPosts);
+                    Security.DemandUserHasRight(Rights.EditOtherUsersPosts, true);
                 }
             }
         }

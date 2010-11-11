@@ -200,7 +200,7 @@ namespace App_Code.Controls
 
             writer.Write("</div>");
 
-            if (!Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
                 return;
             }

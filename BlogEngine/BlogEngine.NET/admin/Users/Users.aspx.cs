@@ -1,5 +1,7 @@
 ﻿namespace Admin.Users
 {
+    using System;
+    using BlogEngine.Core;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Security;
@@ -11,6 +13,11 @@
     public partial class Users : System.Web.UI.Page
     {
         #region Public Methods
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
 
         /// <summary>
         /// Gets the users.

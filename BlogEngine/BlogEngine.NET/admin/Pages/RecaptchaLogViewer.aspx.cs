@@ -123,10 +123,7 @@ namespace Admin.Pages
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            if (!Security.IsAuthenticated)
-            {
-                this.Response.Redirect(Utils.RelativeWebRoot);
-            }
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
 
             this.BindGrid();
 

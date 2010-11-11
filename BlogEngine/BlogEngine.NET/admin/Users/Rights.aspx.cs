@@ -20,8 +20,9 @@
         {
             base.OnInit(e);
 
-            // Immediately throws a security exception if user doesn't have this right.
-            Security.DemandUserHasRight(BlogEngine.Core.Rights.EditRoles);
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.EditRoles);
 
             this.roleName = this.Request.QueryString["role"];
 

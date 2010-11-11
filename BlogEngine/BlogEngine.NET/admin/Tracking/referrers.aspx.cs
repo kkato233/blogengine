@@ -34,6 +34,8 @@ namespace Admin.Tracking
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+
             infoPanel.Visible = false;
             if (BlogSettings.Instance.EnableReferrerTracking)
             {
@@ -226,7 +228,7 @@ namespace Admin.Tracking
         {
             var response = new JsonResponse { Success = false };
 
-            if (!Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.AccessAdminSettingsPages))
             {
                 response.Message = "Not authorized";
                 return response;
