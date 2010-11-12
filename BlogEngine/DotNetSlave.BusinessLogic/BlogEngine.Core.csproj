@@ -130,6 +130,8 @@
     <Compile Include="Json\JsonComments.cs" />
     <Compile Include="JavascriptMinifier.cs" />
     <Compile Include="Json\JsonRole.cs" />
+    <Compile Include="Json\JsonTrash.cs" />
+    <Compile Include="Json\JsonTrashList.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />
@@ -137,6 +139,8 @@
     <Compile Include="Providers\DbConnectionHelper.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="RemoteFile.cs" />
+    <Compile Include="Security\CustomIdentity.cs" />
+    <Compile Include="Security\CustomPrincipal.cs" />
     <Compile Include="Security\Right.cs" />
     <Compile Include="Security\Rights.cs" />
     <Compile Include="Security\Security.cs" />

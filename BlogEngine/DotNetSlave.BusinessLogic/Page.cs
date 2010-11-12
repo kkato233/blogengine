@@ -24,9 +24,14 @@
         private static readonly object SyncRoot = new object();
 
         /// <summary>
-        /// The _ pages.
+        /// The pages that not deleted.
         /// </summary>
         private static List<Page> pages;
+
+        /// <summary>
+        /// The deleted pages.
+        /// </summary>
+        private static List<Page> deletedpages;
 
         /// <summary>
         /// The _ content.
@@ -73,6 +78,11 @@
         /// </summary>
         private bool isPublished;
 
+        /// <summary>
+        /// The deleted.
+        /// </summary>
+        private bool isDeleted;
+
         #endregion
 
         #region Constructors and Destructors
@@ -101,7 +111,7 @@
         #region Properties
 
         /// <summary>
-        ///     Gets an unsorted list of all pages.
+        ///     Gets an unsorted list of all pages excluding deleted.
         /// </summary>
         public static List<Page> Pages
         {
@@ -113,7 +123,7 @@
                     {
                         if (pages == null)
                         {
-                            pages = BlogService.FillPages();
+                            pages = BlogService.FillPages().Where(p => p.IsDeleted == false).ToList();
                             pages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
                         }
                     }
@@ -124,7 +134,30 @@
         }
 
         /// <summary>
-        ///     Gets the absolute link to the post.
+        ///     Gets an unsorted list of deleted pages.
+        /// </summary>
+        public static List<Page> DeletedPages
+        {
+            get
+            {
+                if (deletedpages == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (deletedpages == null)
+                        {
+                            deletedpages = BlogService.FillPages().Where(p => p.IsDeleted == true).ToList();
+                            deletedpages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
+                        }
+                    }
+                }
+
+                return deletedpages;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the absolute link to the page.
         /// </summary>
         public Uri AbsoluteLink
         {
@@ -185,7 +218,7 @@
         /// <summary>
         /// Gets a value indicating whether the has child pages.
         /// </summary>
-        /// Does this post have child pages
+        /// Does this page have child pages
         public bool HasChildPages
         {
             get
@@ -197,7 +230,7 @@
         /// <summary>
         /// Gets a value indicating whether the has parent page.
         /// </summary>
-        /// Does this post have a parent page?
+        /// Does this page have a parent page?
         public bool HasParentPage
         {
             get
@@ -256,7 +289,23 @@
         }
 
         /// <summary>
-        ///     Gets a relative-to-the-site-root path to the post.
+        ///     Gets or sets a value indicating whether or not this page is deleted.
+        /// </summary>
+        public bool IsDeleted
+        {
+            get
+            {
+                return this.isDeleted;
+            }
+
+            set
+            {
+                base.SetValue("IsDeleted", value, ref this.isDeleted);
+            }
+        }
+
+        /// <summary>
+        ///     Gets a relative-to-the-site-root path to the page.
         ///     Only for in-site use.
         /// </summary>
         public string RelativeLink
@@ -330,7 +379,14 @@
         {
             get
             {
-                return this.Authenticated || this.IsPublished;
+                if (this.isDeleted)
+                    return false;
+                else if (this.IsPublished)
+                    return true;
+                else if (Security.IsAuthorizedTo(Rights.ViewUnpublishedPages))
+                    return true;
+
+                return false;
             }
         }
 
@@ -342,7 +398,7 @@
         {
             get
             {
-                return this.IsPublished;
+                return this.IsPublished && !this.IsDeleted;
             }
         }
 
@@ -354,6 +410,60 @@
             get
             {
                 return BlogSettings.Instance.AuthorName;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether or not the current user owns this page.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CurrentUserOwns
+        {
+            get
+            {
+                // Because we are not storing an author name for each page, and
+                // Author name (IPublishable.Author) is the name that comes from
+                // the feed settings, this is unreliable.  For now, consider all
+                // authenticated users to be owners.
+
+                return Security.IsAuthenticated;
+
+                // this is more ideal, if Author was stored.
+                //return Security.CurrentUser.Identity.Name.Equals(((IPublishable)this).Author, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can delete this page.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanUserDelete
+        {
+            get
+            {
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOwnPages))
+                    return true;
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPages))
+                    return true;
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can edit this page.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanUserEdit
+        {
+            get
+            {
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOwnPages))
+                    return true;
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOtherUsersPages))
+                    return true;
+
+                return false;
             }
         }
 
@@ -379,6 +489,26 @@
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Gets whether the current user can publish this page.
+        /// </summary>
+        /// <returns></returns>
+        public bool CanPublish()
+        {
+            bool isOwnPage = true; // author is not stored with a Page, so assuming the user is the author.
+
+            if (isOwnPage && !Security.IsAuthorizedTo(Rights.PublishOwnPages))
+            {
+                return false;
+            }
+            else if (!isOwnPage && !Security.IsAuthorizedTo(Rights.PublishOtherUsersPages))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Returns the front page if any is available.
@@ -454,8 +584,34 @@
         /// </summary>
         protected override void DataDelete()
         {
-            BlogService.DeletePage(this);
+            this.IsDeleted = true;
+            this.DateModified = DateTime.Now;
+            DataUpdate();
+           
             Pages.Remove(this);
+            DeletedPages.Add(this);
+        }
+
+        /// <summary>
+        /// Deletes the Page from the current BlogProvider.
+        /// </summary>
+        public void Purge()
+        {
+            BlogService.DeletePage(this);
+            DeletedPages.Remove(this);
+        }
+
+        /// <summary>
+        /// Restores the deleted page.
+        /// </summary>
+        public void Restore()
+        {
+            this.IsDeleted = false;
+            this.DateModified = DateTime.Now;
+            DataUpdate();
+            
+            DeletedPages.Remove(this);
+            Pages.Add(this);
         }
 
         /// <summary>

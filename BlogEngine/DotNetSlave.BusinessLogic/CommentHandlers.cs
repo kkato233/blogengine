@@ -134,16 +134,18 @@
         /// </param>
         public static void ReportMistake(Comment comment)
         {
+            if (!BlogSettings.Instance.CommentReportMistakes) { return; }
+
             var m = comment.ModeratedBy;
 
             var dt = customFilters.GetDataTable();
             var i = 0;
 
-            foreach (var fileterName in from DataRow row in dt.Rows select row[0].ToString())
+            foreach (var filterName in from DataRow row in dt.Rows select row[0].ToString())
             {
-                if (fileterName == m)
+                if (filterName == m)
                 {
-                    var customFilter = GetCustomFilter(fileterName);
+                    var customFilter = GetCustomFilter(filterName);
 
                     if (customFilter != null)
                     {
@@ -373,7 +375,7 @@
         private static bool ModeratedByRule(Comment comment)
         {
             // trust authenticated users
-            if (Thread.CurrentPrincipal.Identity.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
+            if (Security.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
             {
                 comment.IsApproved = true;
                 comment.ModeratedBy = "Rule:authenticated";
@@ -390,6 +392,9 @@
                               where c.Email.ToLowerInvariant() == comment.Email.ToLowerInvariant() || c.IP == comment.IP
                               select c)
             {
+                // disable for local testing
+                if (c.IP == "127.0.0.1") continue;
+
                 if (c.IsApproved)
                 {
                     whiteCnt++;

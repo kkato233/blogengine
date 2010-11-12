@@ -109,12 +109,17 @@ public partial class page : BlogBasePage
     /// </param>
     private void DeletePage(Guid id)
     {
-        if (!Thread.CurrentPrincipal.Identity.IsAuthenticated)
+        var page = BlogEngine.Core.Page.GetPage(id);
+        if (page == null)
         {
             return;
         }
+        if (!page.CanUserDelete)
+        {
+            Response.Redirect(Utils.RelativeWebRoot);
+            return;
+        }
 
-        var page = BlogEngine.Core.Page.GetPage(id);
         page.Delete();
         page.Save();
         this.Response.Redirect("~/", true);
@@ -135,24 +140,41 @@ public partial class page : BlogBasePage
     {
         get
         {
-            if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+            if (!Security.IsAuthenticated)
             {
-                var sb = new StringBuilder();
-                sb.AppendLine("<div id=\"admin\">");
+                return string.Empty;
+            }
+
+            var sb = new StringBuilder();
+
+            if (this.Page.CanUserEdit)
+            {
+                if (sb.Length > 0) { sb.Append(" | "); }
+
                 sb.AppendFormat(
-                    "<a href=\"{0}admin/Pages/Pages.aspx?id={1}\">{2}</a> | ",
+                    "<a href=\"{0}admin/Pages/EditPage.aspx?id={1}\">{2}</a>",
                     Utils.RelativeWebRoot,
                     this.Page.Id,
                     labels.edit);
+            }
+
+            if (this.Page.CanUserDelete)
+            {
+                if (sb.Length > 0) { sb.Append(" | "); }
+
                 sb.AppendFormat(
                     "<a href=\"javascript:void(0);\" onclick=\"if (confirm('Are you sure you want to delete the page?')) location.href='?deletepage={0}'\">{1}</a>",
                     this.Page.Id,
                     labels.delete);
-                sb.AppendLine("</div>");
-                return sb.ToString();
             }
 
-            return string.Empty;
+            if (sb.Length > 0)
+            {
+                sb.Insert(0, "<div id=\"admin\">");
+                sb.Append("</div>");
+            }
+
+            return sb.ToString();
         }
     }
 

@@ -21,7 +21,6 @@
         [WebMethod]
         public JsonResponse DeletePost(string id)
         {
-
             if (Utils.StringIsNullOrWhitespace(id))
             {
                 return new JsonResponse() { Message = "Invalid post id" };
@@ -33,7 +32,7 @@
                 return new JsonResponse() { Message = "Invalid post id" };
             }
 
-            if (!post.CanUserDeletePost)
+            if (!post.CanUserDelete)
             {
                 return new JsonResponse() { Message = "Not authorized." };
             }
@@ -41,11 +40,8 @@
             {
                 try
                 {
-                    // I'm not sure this method actually does anything. It only removes it from the posts list,
-                    // but doesn't tell the provider to delete it.
-                    var tmp = Post.GetPost(new Guid(id));
-                    tmp.Delete();
-                    tmp.Save();
+                    post.Delete();
+                    post.Save();
                     return new JsonResponse() { Success = true, Message = "Post deleted" };
 
                 }
@@ -64,27 +60,25 @@
             JsonResponse response = new JsonResponse();
             response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
-            {
-                response.Message = "Not authorized";
-                return response;
-            }
-
             if (string.IsNullOrEmpty(id))
             {
                 response.Message = "Page id is required";
                 return response;
             }
 
+            var page = Post.GetPost(new Guid(id));
+            if (page == null)
+            {
+                return new JsonResponse() { Message = "Invalid page id" };
+            }
+
+            if (!page.CanUserDelete)
+            {
+                return new JsonResponse() { Message = "Not authorized." };
+            }
+
             try
             {
-                var page = BlogEngine.Core.Page.GetPage(new Guid(id));
-                if (page == null)
-                {
-                    response.Message = "Error getting page object";
-                    return response;
-                }
-
                 page.Delete();
                 page.Save();
             }

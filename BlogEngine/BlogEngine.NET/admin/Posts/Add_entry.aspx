@@ -134,8 +134,13 @@
                         data: JSON.stringify(dto),
                         success: function (result) {
                             var rt = result.d;
-                            if (rt.Success)
-                                ShowStatus("success", rt.Message);
+                            if (rt.Success) {
+                                if (rt.Data) {
+                                    window.location.href = rt.Data;
+                                } else {
+                                    ShowStatus("success", rt.Message);
+                                }
+                            }
                             else
                                 ShowStatus("warning", rt.Message);
                         }
@@ -156,25 +161,6 @@
                 function closeOverlay() {
                     $.colorbox.close();
                     return false;
-                }
-
-                function colorboxDialogSubmitClicked(validationGroup, panelId) {
-
-                    // For file/image uploads, colorbox moves the file upload and submit buttons
-                    // outside the form tag.  This prevents submitting from working.  Before
-                    // a submit can work, need to move the dialog box containing the controls
-                    // back inside the form tag.
-                    // First check to make sure validation passes before closing colorbox.
-
-                    if (typeof Page_ClientValidate !== 'undefined') {
-                        if (!Page_ClientValidate(validationGroup)) {
-                            return true;
-                        }
-                    }
-
-                    $.colorbox.close();
-                    $("form").append($("#" + panelId));
-                    return true;
                 }
             </script>
 
@@ -239,7 +225,7 @@
                                     <%=Resources.labels.extractFromTitle %></a>
                             </li>
                             <li>
-                                <asp:Label ID="Label3" CssClass="lbl" AssociatedControlID="txtDescription" runat="server" Text='Summary' />
+                                <asp:Label ID="Label3" CssClass="lbl" AssociatedControlID="txtDescription" runat="server" Text='Excerpt (optional)' />
                                 <asp:TextBox runat="server" ID="txtDescription" TextMode="multiLine" Columns="50"
                                     Rows="3" Width="600" Height="80" />
                             </li>
@@ -261,9 +247,9 @@
                             <%}
                                else
                                {%>
-                            or <a href="Posts.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
+                            <a href="Posts.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
                             <%} %>
-                            <span id="autoSaveLabel"></span>
+                            <span id="autoSaveLabel" style="display:none;"></span>
                         </div>
                     </td>
                     <td class="secondaryForm" style="padding:0; vertical-align:top;">

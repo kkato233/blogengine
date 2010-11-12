@@ -7,6 +7,7 @@
 namespace Widgets.Administration
 {
     using App_Code.Controls;
+    using BlogEngine.Core;
 
     /// <summary>
     /// The widget.
@@ -52,7 +53,7 @@ namespace Widgets.Administration
         /// </summary>
         public override void LoadWidget()
         {
-            this.Visible = this.Page.User.Identity.IsAuthenticated;
+            this.Visible = Security.IsAuthenticated;
         }
 
         #endregion

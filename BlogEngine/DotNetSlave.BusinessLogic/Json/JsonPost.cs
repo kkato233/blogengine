@@ -55,5 +55,14 @@ namespace BlogEngine.Core.Json
         /// </summary>
         public bool IsPublished { get; set; }
 
+        /// <summary>
+        /// If the current user can delete this page.
+        /// </summary>
+        public bool CanUserDelete { get; set; }
+
+        /// <summary>
+        /// If the current user can edit this page.
+        /// </summary>
+        public bool CanUserEdit { get; set; }
     }
 }

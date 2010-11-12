@@ -10,6 +10,8 @@
     using Resources;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using System.Web.Security;
+    using System.Linq;
     using Page = System.Web.UI.Page;
 
     public partial class Main : Page
@@ -20,14 +22,26 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+
             BindThemes();
             BindCultures();
+            BindRoles();
             BindSettings();
 
             Page.MaintainScrollPositionOnPostBack = true;
             Page.Title = labels.settings;
 
             base.OnInit(e);
+        }
+
+        private void BindRoles()
+        {
+            ddlSelfRegistrationInitialRole.AppendDataBoundItems = true;
+            ddlSelfRegistrationInitialRole.DataSource = Roles.GetAllRoles().Where(r => !r.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase));
+            ddlSelfRegistrationInitialRole.DataBind();
         }
 
         /// <summary>
@@ -58,6 +72,7 @@
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
             cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
+            Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
         }
 
         /// <summary>
@@ -138,6 +153,7 @@
         /// <param name="timezone">Time zone</param>
         /// <param name="enableSelfRegistration">Enable self registration</param>
         /// <param name="requireLoginToViewPosts">Require login to view posts</param>
+        /// <param name="selfRegistrationInitialRole">Self registration initial role</param>
         /// <returns></returns>
         [WebMethod]
         public static JsonResponse Save(string name, 
@@ -157,11 +173,12 @@
 			string showPostNavigation,
 			string culture,
 			string timezone,
-			string enableSelfRegistration)
+			string enableSelfRegistration,
+            string selfRegistrationInitialRole)
         {
             var response = new JsonResponse {Success = false};
 
-            if (!Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
                 response.Message = "Not authorized";
                 return response;
@@ -189,6 +206,7 @@
 				BlogSettings.Instance.Culture = culture;
 				BlogSettings.Instance.Timezone = double.Parse(timezone);
 				BlogSettings.Instance.EnableSelfRegistration = bool.Parse(enableSelfRegistration);
+                BlogSettings.Instance.SelfRegistrationInitialRole = selfRegistrationInitialRole;
 
                 BlogSettings.Instance.Save();
             }

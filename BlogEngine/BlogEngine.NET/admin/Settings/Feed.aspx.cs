@@ -17,6 +17,10 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+
             BindSettings();
 
             Page.MaintainScrollPositionOnPostBack = true;
@@ -35,6 +39,7 @@
             ddlSyndicationFormat.SelectedValue = BlogSettings.Instance.SyndicationFormat;
             txtPostsPerFeed.Text = BlogSettings.Instance.PostsPerFeed.ToString();
             txtDublinCoreCreator.Text = BlogSettings.Instance.AuthorName;
+            txtEmail.Text = BlogSettings.Instance.FeedAuthor;
             txtDublinCoreLanguage.Text = BlogSettings.Instance.Language;
 
             txtGeocodingLatitude.Text = BlogSettings.Instance.GeocodingLatitude != Single.MinValue
@@ -67,6 +72,7 @@
 			string syndicationFormat, 
 			string postsPerFeed,
 			string dublinCoreCreator,
+            string feedemail,
 			string dublinCoreLanguage,
 			string geocodingLatitude,
 			string geocodingLongitude,
@@ -76,7 +82,7 @@
         {
             var response = new JsonResponse {Success = false};
 
-            if (!Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
             {
                 response.Message = "Not authorized";
                 return response;
@@ -87,6 +93,7 @@
 				BlogSettings.Instance.SyndicationFormat = syndicationFormat;
 				BlogSettings.Instance.PostsPerFeed = int.Parse(postsPerFeed, CultureInfo.InvariantCulture);
 				BlogSettings.Instance.AuthorName = dublinCoreCreator;
+                BlogSettings.Instance.FeedAuthor = feedemail;
 				BlogSettings.Instance.Language = dublinCoreLanguage;
 
 				float latitude;

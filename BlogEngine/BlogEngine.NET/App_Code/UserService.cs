@@ -96,18 +96,22 @@
         [WebMethod]
         public JsonResponse Delete(string id)
         {
-
-            if (!Security.IsAuthorizedTo(Rights.DeleteUsersOtherThanSelf))
-            {
-                return new JsonResponse() { Message = "Not authorized" };
-            }
-
-
             if (string.IsNullOrEmpty(id))
             {
                 this.response.Success = false;
                 this.response.Message = "User name is required field";
                 return this.response;
+            }
+
+            bool isSelf = id.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
+
+            if (isSelf && !Security.IsAuthorizedTo(Rights.DeleteUserSelf))
+            {
+                return new JsonResponse() { Message = "Not authorized" };
+            }
+            else if (!isSelf && !Security.IsAuthorizedTo(Rights.DeleteUsersOtherThanSelf))
+            {
+                return new JsonResponse() { Message = "Not authorized" };
             }
 
             try
@@ -141,11 +145,7 @@
             {
                 this.response.Success = false;
 
-                if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
-                {
-                    this.response.Message = "Not authorized";
-                    return this.response;
-                }
+                bool isSelf = id.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
 
                 if (string.IsNullOrEmpty(vals[0]))
                 {
@@ -158,6 +158,17 @@
                         u => u.Email.ToLowerInvariant() == vals[0].ToLowerInvariant()))
                 {
                     this.response.Message = "User with this email already exists";
+                    return this.response;
+                }
+
+                if (isSelf && !Security.IsAuthorizedTo(Rights.EditOwnUser))
+                {
+                    this.response.Message = "Not authorized";
+                    return this.response;
+                }
+                else if (!isSelf && !Security.IsAuthorizedTo(Rights.EditOtherUsers))
+                {
+                    this.response.Message = "Not authorized";
                     return this.response;
                 }
 

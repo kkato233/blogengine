@@ -39,8 +39,6 @@
         function OnAdminDataSaved() {
             LoadRoles();
         }
-
-        LoadRoles();
     </script>
     <script type="text/javascript" src="../jquery.colorbox.js"></script>
     <script type="text/javascript">
@@ -76,4 +74,7 @@
             <div id="Container"></div>
 		</div>
 	</div>
+        <script type="text/javascript">
+            LoadRoles();
+    </script>
 </asp:Content>

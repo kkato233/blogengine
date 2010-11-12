@@ -1,5 +1,6 @@
 ﻿namespace Admin.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Services;
@@ -15,6 +16,11 @@
     {
         #region Public Methods
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
+
         /// <summary>
         /// Gets the roles.
         /// </summary>
@@ -22,6 +28,9 @@
         [WebMethod]
         public static List<JsonRole> GetRoles()
         {
+            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewRoles))
+                return new List<JsonRole>();
+
             var roles = new List<JsonRole>();
             roles.AddRange(System.Web.Security.Roles.GetAllRoles().Select(r => new JsonRole { RoleName = r, IsSystemRole = Security.IsSystemRole(r) }));
             roles.Sort((r1, r2) => string.Compare(r1.RoleName, r2.RoleName));

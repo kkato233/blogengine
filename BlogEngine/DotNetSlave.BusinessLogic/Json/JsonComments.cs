@@ -38,7 +38,7 @@
         /// <summary>
         /// The current page.
         /// </summary>
-        private static int currentPage = 1;
+        private static int currentPage = 1;    
 
         /// <summary>
         /// The comm cnt.
@@ -51,8 +51,25 @@
         /// <param name="commentType">
         /// The comment type.
         /// </param>
+        /// <param name="page">
+        /// The current page.
+        /// </param>
+        /// <returns>
+        /// A list of JSON comments.
+        /// </returns>
+        public static List<JsonComment> GetComments(CommentType commentType, int page)
+        {
+            return GetComments(commentType, BlogSettings.Instance.CommentsPerPage, page);
+        }
+
+        /// <summary>
+        /// List of comments based on type for a single page.
+        /// </summary>
+        /// <param name="commentType">
+        /// The comment type.
+        /// </param>
         /// <param name="pageSize">
-        /// The page size.
+        /// The number of comments per page.
         /// </param>
         /// <param name="page">
         /// The current page.
@@ -90,6 +107,21 @@
 
             allComments.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
 
+            // TODO: find a way to better handle deleting last comment on the last page
+            // below is not working properly; after moving to the next page and deleting
+            // another comment there, things get nasty
+            if (allComments.Count > 0 && allComments.Count == cntFrom && page > 1)
+            {
+                // removed last comment(s) on the page
+                // need to shift one page back
+
+                //var context = System.Web.HttpContext.Current;
+                //if (context.Request.Cookies["CommentPagerCurrentPage"] != null)
+                //    context.Request.Cookies["CommentPagerCurrentPage"].Value = (page - 1).ToString();
+
+                //return GetComments(commentType, page - 1);
+            }
+
             foreach (var c in allComments)
             {
                 cnt++;
@@ -126,27 +158,26 @@
 
         private static JsonComment CreateJsonCommentFromComment(Comment c)
         {
-            JsonComment jc = new JsonComment();
-            jc.Id = c.Id;
-            jc.Email = c.Email;
-            jc.Author = c.Author;
-            jc.Title = c.Title;
-            jc.Teaser = c.Teaser;
-            jc.Website = c.Website == null ? "" : c.Website.ToString();
-            jc.AuthorAvatar = c.Avatar;
-            jc.Content = c.Content;
-            jc.Ip = c.IP;
-            jc.Date = c.DateCreated.ToString("dd MMM yyyy");
-            jc.Time = c.DateCreated.ToString("t");
+            var jc = new JsonComment
+                {
+                    Id = c.Id,
+                    Email = c.Email,
+                    Author = c.Author,
+                    Title = c.Title,
+                    Teaser = c.Teaser,
+                    Website = c.Website == null ? "" : c.Website.ToString(),
+                    AuthorAvatar = c.Avatar,
+                    Content = c.Content,
+                    Ip = c.IP,
+                    Date = c.DateCreated.ToString("dd MMM yyyy"),
+                    Time = c.DateCreated.ToString("t")
+                };
             return jc;
         }
 
         /// <summary>
         /// Builds pager control for comments page
         /// </summary>
-        /// <param name="pageSize">
-        /// Page size.
-        /// </param>
         /// <param name="page">
         /// Current page
         /// </param>
@@ -156,7 +187,7 @@
         /// <returns>
         /// HTML with next and previous buttons
         /// </returns>
-        public static string GetPager(int pageSize, int page, string srvs)
+        public static string GetPager(int page)
         {
             if (commCnt == 0)
             {
@@ -167,26 +198,45 @@
             var nxtLnk = string.Empty;
             var firstLnk = string.Empty;
             var lastLnk = string.Empty;
-            const string LinkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadComments({1}, '{2}');\" class=\"{0}\"></a>";
 
-            var pgs = Convert.ToDecimal(commCnt) / Convert.ToDecimal(pageSize);
+            const string linkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadComments({1});\" class=\"{0}\"></a>";
+
+            var PageSize = BlogSettings.Instance.CommentsPerPage;
+            var pgs = Convert.ToDecimal(commCnt) / Convert.ToDecimal(PageSize);
             var p = pgs - (int)pgs;
             var lastPage = p > 0 ? (int)pgs + 1 : (int)pgs;
 
-            var currentScope = ((page * pageSize) - (pageSize - 1)).ToString() + " - " + (page * pageSize).ToString();
+            var cntFrom = ((page * PageSize) - (PageSize - 1));
+            var cntTo = (page * PageSize);
+            
+            // adjust for the last (or single) page
+            if (commCnt < cntTo) cntTo = commCnt;
+
+            // when last comment on the last page deleted
+            // this will reset "from" counter
+            if (cntFrom > cntTo) cntFrom = cntFrom - PageSize;
+
+            if (commCnt > 0 && commCnt == cntFrom && page > 1)
+            {
+                // removed last comment(s) on the page
+                // need to shift one page back
+                //return GetPager(page - 1);
+            }
+
+            var currentScope = cntFrom + " - " + cntTo;
 
             var pageLink = string.Format("<span>Showing {0} of {1}</span>", currentScope, commCnt);
 
             if (currentPage > 1)
             {
-                prvLnk = string.Format(LinkFormat, "prevLink", currentPage - 1, srvs);
-                firstLnk = string.Format(LinkFormat, "firstLink", 1, srvs);
+                prvLnk = string.Format(linkFormat, "prevLink", currentPage - 1);
+                firstLnk = string.Format(linkFormat, "firstLink", 1);
             }
 
             if (page < lastPage)
             {
-                nxtLnk = string.Format(LinkFormat, "nextLink", currentPage + 1, srvs);
-                lastLnk = string.Format(LinkFormat, "lastLink", lastPage, srvs);
+                nxtLnk = string.Format(linkFormat, "nextLink", currentPage + 1);
+                lastLnk = string.Format(linkFormat, "lastLink", lastPage);
             }
 
             return firstLnk + prvLnk + pageLink + nxtLnk + lastLnk;

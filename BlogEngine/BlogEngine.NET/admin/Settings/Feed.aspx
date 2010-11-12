@@ -34,6 +34,7 @@
 				"syndicationFormat": $("[id$='_ddlSyndicationFormat']").val(),
 				"postsPerFeed": $("[id$='_txtPostsPerFeed']").val(),
 				"dublinCoreCreator": $("[id$='_txtDublinCoreCreator']").val(),
+				"feedemail": $("[id$='_txtEmail']").val(),
 				"dublinCoreLanguage": $("[id$='_txtDublinCoreLanguage']").val(),
 				"geocodingLatitude": $("[id$='_txtGeocodingLatitude']").val(),
 				"geocodingLongitude": $("[id$='_txtGeocodingLongitude']").val(),
@@ -72,6 +73,11 @@
                     <li>
                         <label class="lbl" for="<%=txtDublinCoreCreator.ClientID %>"><%=Resources.labels.author %></label>
                         <asp:TextBox runat="server" ID="txtDublinCoreCreator" Width="300" />
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %></label>
+                        <asp:TextBox runat="server" ID="txtEmail" Width="300" CssClass="email" />
+                        <span class="belowHelp">Feed authors's emal address (optional)</span>
                     </li>
                     <li>
                         <label class="lbl" for="<%=txtBlogChannelBLink.ClientID %>"><%=Resources.labels.endorsment %></label>

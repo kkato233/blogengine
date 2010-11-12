@@ -38,7 +38,7 @@
       
       <p id="footer">
         Powered by <a href="http://www.dotnetblogengine.net">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %><br />
-        Theme by <a href="http://blog.madskristensen.dk">Mads Kristensen</a>
+        Theme by <a href="http://madskristensen.net">Mads Kristensen</a>
       </p>
     </div>
 

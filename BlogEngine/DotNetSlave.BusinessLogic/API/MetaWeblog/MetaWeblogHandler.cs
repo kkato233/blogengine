@@ -44,9 +44,18 @@
             {
                 var rootUrl = Utils.AbsoluteWebRoot.ToString();
                     
-                    // context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("metaweblog.axd"));
+                // context.Request.Url.ToString().Substring(0, context.Request.Url.ToString().IndexOf("metaweblog.axd"));
                 var input = new XMLRPCRequest(context);
                 var output = new XMLRPCResponse(input.MethodName);
+
+                PopulateUserCredentials(input);
+
+                // After user credentials have been set, we can use the normal Security
+                // class to authorize individual requests.
+                if (!Security.IsAuthenticated)
+                {
+                    throw new MetaWeblogException("11", "User authentication failed");
+                }
 
                 switch (input.MethodName)
                 {
@@ -134,6 +143,21 @@
 
         #region Methods
 
+        private bool PopulateUserCredentials(XMLRPCRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.UserName) || string.IsNullOrEmpty(request.Password)) { return false; }
+
+            CustomIdentity identity = new CustomIdentity(request.UserName, request.Password);
+            if (!identity.IsAuthenticated) { return false; }
+
+            CustomPrincipal principal = new CustomPrincipal(identity);
+
+            // Make the custom principal be the user for the rest of this request.
+            HttpContext.Current.User = principal;
+
+            return true;
+        }
+
         /// <summary>
         /// Deletes the page.
         /// </summary>
@@ -156,10 +180,13 @@
         /// </exception>
         internal bool DeletePage(string blogId, string pageId, string userName, string password)
         {
-            ValidateRequest(userName, password);
             try
             {
                 var page = Page.GetPage(new Guid(pageId));
+                if (!page.CanUserDelete)
+                {
+                    throw new MetaWeblogException("11", "User authentication failed");
+                }
                 page.Delete();
                 page.Save(userName, password);
             }
@@ -194,10 +221,15 @@
         /// </returns>
         internal bool DeletePost(string appKey, string postId, string userName, string password, bool publish)
         {
-            ValidateRequest(userName, password);
             try
             {
                 var post = Post.GetPost(new Guid(postId));
+
+                if (!post.CanUserDelete)
+                {
+                    throw new MetaWeblogException("11", "User authentication failed");
+                }
+
                 post.Delete();
                 post.Save(userName, password);
             }
@@ -236,9 +268,20 @@
         internal bool EditPage(
             string blogId, string pageId, string userName, string password, MWAPage mwaPage, bool publish)
         {
-            ValidateRequest(userName, password);
-
             var page = Page.GetPage(new Guid(pageId));
+
+            if (!page.CanUserEdit)
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
+
+            if (!page.IsPublished && publish)
+            {
+                if (!page.CanPublish())
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Page.");
+                }
+            }
 
             page.Title = mwaPage.title;
             page.Content = mwaPage.description;
@@ -278,11 +321,24 @@
         /// </returns>
         internal bool EditPost(string postId, string userName, string password, MWAPost sentPost, bool publish)
         {
-            ValidateRequest(userName, password);
-
             var post = Post.GetPost(new Guid(postId));
 
-            post.Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
+            if (!post.CanUserEdit)
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
+
+            string author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
+
+            if (!post.IsPublished && publish)
+            {
+                if (!post.CanPublish(author))
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Post.");
+                }
+            }
+
+            post.Author = author;
             post.Title = sentPost.title;
             post.Content = sentPost.description;
             post.IsPublished = publish;
@@ -346,11 +402,9 @@
         /// </returns>
         internal List<MWAAuthor> GetAuthors(string blogId, string userName, string password)
         {
-            ValidateRequest(userName, password);
-
             var authors = new List<MWAAuthor>();
 
-            if (Roles.IsUserInRole(userName, BlogSettings.Instance.AdministratorRole))
+            if (Security.IsAuthorizedTo(Rights.EditOtherUsers))
             {
                 int total;
                 
@@ -370,7 +424,7 @@
             }
             else
             {
-                // If not admin, just add that user to the options.
+                // If not able to administer others, just add that user to the options.
                 var single = Membership.GetUser(userName);
                 if (single != null)
                 {
@@ -409,7 +463,8 @@
         /// </returns>
         internal List<MWACategory> GetCategories(string blogId, string userName, string password, string rootUrl)
         {
-            ValidateRequest(userName, password);
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+                return new List<MWACategory>();
 
             return Category.Categories.Select(cat => new MWACategory
                 {
@@ -428,7 +483,8 @@
         {
             var keywords = new List<string>();
 
-            ValidateRequest(userName, password);
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+                return keywords;
 
             foreach (var tag in
                 Post.Posts.Where(post => post.IsVisible).SelectMany(post => post.Tags.Where(tag => !keywords.Contains(tag))))
@@ -461,10 +517,13 @@
         /// </returns>
         internal MWAPage GetPage(string blogId, string pageId, string userName, string password)
         {
-            ValidateRequest(userName, password);
-
             var sendPage = new MWAPage();
             var page = Page.GetPage(new Guid(pageId));
+
+            if (!page.IsVisible)
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
 
             sendPage.pageID = page.Id.ToString();
             sendPage.title = page.Title;
@@ -495,9 +554,7 @@
         /// </returns>
         internal List<MWAPage> GetPages(string blogId, string userName, string password)
         {
-            ValidateRequest(userName, password);
-
-            return Page.Pages.Select(page => new MWAPage
+            return Page.Pages.Where(p => p.IsVisible).Select(page => new MWAPage
                 {
                     pageID = page.Id.ToString(), title = page.Title, description = page.Content, mt_keywords = page.Keywords, pageDate = page.DateCreated, link = page.AbsoluteLink.AbsoluteUri, mt_convert_breaks = "__default__", pageParentID = page.Parent.ToString()
                 }).ToList();
@@ -520,10 +577,13 @@
         /// </returns>
         internal MWAPost GetPost(string postId, string userName, string password)
         {
-            ValidateRequest(userName, password);
-
             var sendPost = new MWAPost();
             var post = Post.GetPost(new Guid(postId));
+
+            if (!post.IsVisible)
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
 
             sendPost.postID = post.Id.ToString();
             sendPost.postDate = post.DateCreated;
@@ -566,10 +626,8 @@
         /// </returns>
         internal List<MWAPost> GetRecentPosts(string blogId, string userName, string password, int numberOfPosts)
         {
-            ValidateRequest(userName, password);
-
             var sendPosts = new List<MWAPost>();
-            var posts = Post.Posts;
+            var posts = Post.Posts.Where(p => p.IsVisible).ToList();
 
             // Set End Point
             var stop = numberOfPosts;
@@ -629,8 +687,6 @@
         {
             var blogs = new List<MWABlogInfo>();
 
-            ValidateRequest(userName, password);
-
             var temp = new MWABlogInfo { url = rootUrl, blogID = "1000", blogName = BlogSettings.Instance.Name };
             blogs.Add(temp);
 
@@ -661,7 +717,18 @@
         internal MWAMediaInfo NewMediaObject(
             string blogId, string userName, string password, MWAMediaObject mediaObject, HttpContext request)
         {
-            ValidateRequest(userName, password);
+            if (!Security.IsAuthorizedTo(AuthorizationCheck.HasAny, new Rights[]
+                {
+                    Rights.CreateNewPosts,
+                    Rights.CreateNewPages,
+                    Rights.EditOwnPosts,
+                    Rights.EditOwnPages,
+                    Rights.EditOtherUsersPosts,
+                    Rights.EditOtherUsersPages
+                }))
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }    
 
             var mediaInfo = new MWAMediaInfo();
 
@@ -759,7 +826,10 @@
         /// <returns>The new page.</returns>
         internal string NewPage(string blogId, string userName, string password, MWAPage mwaPage, bool publish)
         {
-            ValidateRequest(userName, password);
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPages))
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
 
             var page = new Page
                 {
@@ -768,6 +838,15 @@
                     Description = string.Empty,
                     Keywords = mwaPage.mt_keywords
                 };
+
+            if (!page.IsPublished && publish)
+            {
+                if (!page.CanPublish())
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Page.");
+                }
+            }
+
             if (mwaPage.pageDate != new DateTime())
             {
                 page.DateCreated = mwaPage.pageDate;
@@ -808,17 +887,30 @@
         /// </returns>
         internal string NewPost(string blogId, string userName, string password, MWAPost sentPost, bool publish)
         {
-            ValidateRequest(userName, password);
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+            {
+                throw new MetaWeblogException("11", "User authentication failed");
+            }
+
+            string author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author;
 
             var post = new Post
                 {
-                    Author = String.IsNullOrEmpty(sentPost.author) ? userName : sentPost.author,
+                    Author = author,
                     Title = sentPost.title,
                     Content = sentPost.description,
                     IsPublished = publish,
                     Slug = sentPost.slug,
                     Description = sentPost.excerpt
                 };
+
+            if (!post.IsPublished && publish)
+            {
+                if (!post.CanPublish(author))
+                {
+                    throw new MetaWeblogException("11", "Not authorized to publish this Post.");
+                }
+            }
 
             if (sentPost.commentPolicy != string.Empty)
             {
@@ -883,19 +975,6 @@
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Checks username and password.  Throws error if validation fails.
-        /// </summary>
-        /// <param name="userName">Name of the user.</param>
-        /// <param name="password">The password.</param>
-        private static void ValidateRequest(string userName, string password)
-        {
-            if (!Membership.ValidateUser(userName, password))
-            {
-                throw new MetaWeblogException("11", "User authentication failed");
-            }
         }
 
         #endregion

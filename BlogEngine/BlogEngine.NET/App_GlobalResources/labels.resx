@@ -1249,4 +1249,7 @@
   <data name="maximumRemoteFileSizeDescription" xml:space="preserve">
     <value>The maximum size in bytes of a remote file the server can download. Set to 0 for unlimited.</value>
   </data>
+  <data name="selfRegistrationInitialRole" xml:space="preserve">
+    <value>Initial Role for Self Registration</value>
+  </data>
 </root>

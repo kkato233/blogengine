@@ -50,7 +50,7 @@
         /// <summary>
         ///     Gets a value indicating whether this comment has nested comments
         /// </summary>
-        public bool HasChildred
+        public bool HasChildren
         {
             get
             {

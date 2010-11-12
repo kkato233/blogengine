@@ -25,53 +25,6 @@ namespace App_Code.Controls
     /// </summary>
     public class SearchBox : Control
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
-        /// <summary>
-        /// The html string.
-        /// </summary>
-        private static string html;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes static members of the <see cref="SearchBox"/> class.
-        /// </summary>
-        static SearchBox()
-        {
-            BlogSettings.Changed += (sender, args) => html = null;
-
-            // Post.Saved += delegate { _Html = null; };
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///     Gets the HTML to render.
-        /// </summary>
-        private string Html
-        {
-            get
-            {
-                lock (SyncRoot)
-                {
-                    this.BuildHtml();
-                }
-
-                return html;
-            }
-        }
-
-        #endregion
 
         #region Public Methods
 
@@ -83,7 +36,7 @@ namespace App_Code.Controls
         /// </param>
         public override void RenderControl(HtmlTextWriter writer)
         {
-            writer.Write(this.Html);
+            writer.Write(this.BuildHtml());
         }
 
         #endregion
@@ -93,7 +46,7 @@ namespace App_Code.Controls
         /// <summary>
         /// The build html.
         /// </summary>
-        private void BuildHtml()
+        private string BuildHtml()
         {
             var text = this.Context.Request.QueryString["q"] != null
                            ? HttpUtility.HtmlEncode(this.Context.Request.QueryString["q"])
@@ -102,13 +55,13 @@ namespace App_Code.Controls
             sb.AppendLine("<div id=\"searchbox\">");
             sb.Append("<label for=\"searchfield\" style=\"display:none\">Search</label>");
             sb.AppendFormat(
-                "<input type=\"text\" value=\"{0}\" id=\"searchfield\" onkeypress=\"if(event.keyCode==13) return BlogEngine.search('{1}')\" onfocus=\"BlogEngine.searchClear('{2}')\" onblur=\"BlogEngine.searchClear('{2}')\" />", 
-                text, 
-                Utils.RelativeWebRoot, 
+                "<input type=\"text\" value=\"{0}\" id=\"searchfield\" onkeypress=\"if(event.keyCode==13) return BlogEngine.search('{1}')\" onfocus=\"BlogEngine.searchClear('{2}')\" onblur=\"BlogEngine.searchClear('{2}')\" />",
+                text,
+                Utils.RelativeWebRoot,
                 text.Replace("'", "\\'"));
             sb.AppendFormat(
-                "<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"BlogEngine.search('{1}');\" onkeypress=\"BlogEngine.search('{1}');\" />", 
-                BlogSettings.Instance.SearchButtonText, 
+                "<input type=\"button\" value=\"{0}\" id=\"searchbutton\" onclick=\"BlogEngine.search('{1}');\" onkeypress=\"BlogEngine.search('{1}');\" />",
+                BlogSettings.Instance.SearchButtonText,
                 Utils.RelativeWebRoot);
 
             if (BlogSettings.Instance.EnableCommentSearch)
@@ -123,7 +76,7 @@ namespace App_Code.Controls
             }
 
             sb.AppendLine("</div>");
-            html = sb.ToString();
+            return sb.ToString();
         }
 
         #endregion

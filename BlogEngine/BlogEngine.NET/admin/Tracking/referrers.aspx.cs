@@ -11,8 +11,11 @@ namespace Admin.Tracking
     using System.Data;
     using System.Linq;
     using System.Web.UI.WebControls;
+    using System.Web.Services;
+    using System.Threading;
 
     using BlogEngine.Core;
+    using BlogEngine.Core.Json;
 
     using Resources;
 
@@ -31,6 +34,8 @@ namespace Admin.Tracking
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+
             infoPanel.Visible = false;
             if (BlogSettings.Instance.EnableReferrerTracking)
             {
@@ -40,17 +45,16 @@ namespace Admin.Tracking
             else
             {
                 this.ddlDays.Enabled = false;
+                infoPanel.InnerText = "Referrers disabled. If you want to enable referrer tracking open settings from the link in the top right corner of the page.";
                 infoPanel.Visible = true;
+                referrersPanel.Visible = false;
+                possibleSmapPanel.Visible = false;
             }
 
             this.txtNumberOfDays.Text = BlogSettings.Instance.NumberOfReferrerDays.ToString();
             this.cbEnableReferrers.Checked = BlogSettings.Instance.EnableReferrerTracking;
 
-            this.btnSave.Click += this.BtnSaveClick;
-            this.btnSaveTop.Click += this.BtnSaveClick;
-
             this.ddlDays.SelectedIndexChanged += this.DdlDaysSelectedIndexChanged;
-            this.cbEnableReferrers.CheckedChanged += this.CbEnableReferrersCheckedChanged;
             this.Page.Title = labels.referrers;
 
             base.OnInit(e);
@@ -81,6 +85,10 @@ namespace Admin.Tracking
         {
             if (!(this.ddlDays.SelectedIndex >= 0 & Referrer.Referrers.Count > 0))
             {
+                infoPanel.InnerText = "There are no referrers.";
+                infoPanel.Visible = true;
+                referrersPanel.Visible = false;
+                possibleSmapPanel.Visible = false;
                 return;
             }
 
@@ -118,11 +126,6 @@ namespace Admin.Tracking
 
             BindTable(table, this.grid);
             BindTable(spamTable, this.spamGrid);
-
-            if (table.Rows.Count < 1)
-            {
-                infoPanel.Visible = true;
-            }
         }
 
         /// <summary>
@@ -219,26 +222,33 @@ namespace Admin.Tracking
             tableRow["hits"] = refer.Count;
         }
 
-        /// <summary>
-        /// Handles the Click event of the btnSave control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data.
-        /// </param>
-        private void BtnSaveClick(object sender, EventArgs e)
-        {
-            int days;
-            if (int.TryParse(this.txtNumberOfDays.Text, out days))
-            {
-                BlogSettings.Instance.NumberOfReferrerDays = days;
 
-                BlogSettings.Instance.Save();
+        [WebMethod]
+        public static JsonResponse Save(string enable, string days)
+        {
+            var response = new JsonResponse { Success = false };
+
+            if (!Security.IsAuthorizedTo(Rights.AccessAdminSettingsPages))
+            {
+                response.Message = "Not authorized";
+                return response;
             }
 
-            this.Response.Redirect(this.Request.RawUrl, true);
+            try
+            {
+                BlogSettings.Instance.EnableReferrerTracking = bool.Parse(enable);
+                BlogSettings.Instance.NumberOfReferrerDays = int.Parse(days);
+                BlogSettings.Instance.Save();
+                response.Success = true;
+                response.Message = string.Format("Settings saved");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Utils.Log(string.Format("admin.Tracking.referrers.Save(): {0}", ex.Message));
+                response.Message = string.Format("Could not save settings: {0}", ex.Message);
+                return response;
+            }
         }
 
         /// <summary>

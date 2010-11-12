@@ -200,10 +200,7 @@
         /// </summary>
         protected virtual HashSet<string> ChangedProperties
         {
-            get
-            {
-                return this.changedProperties;
-            }
+            get { return this.changedProperties; }
         }
 
         /// <summary>
@@ -214,10 +211,34 @@
         /// </value>
         protected bool Authenticated
         {
-            get
-            {
-                return Thread.CurrentPrincipal.Identity.IsAuthenticated;
-            }
+            get { return Security.IsAuthenticated; }
+        }
+
+        /// <summary>
+        /// Gets whether or not the current user owns this object.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool CurrentUserOwns
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can delete this object.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool CanUserDelete
+        {
+            get { return Security.IsAdministrator; }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can edit this object.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool CanUserEdit
+        {
+            get { return Security.IsAdministrator; }
         }
 
         /// <summary>

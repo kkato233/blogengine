@@ -23,7 +23,7 @@
                     <span><%=BlogSettings.Instance.Name %> Admin</span>
                 </div>                                  
                 <div class="toolbox">
-                    Welcome <%= AdminProfile() == null ? Page.User.Identity.Name : AdminProfile().DisplayName %>
+                    Welcome <%= UserProfile() == null ? Page.User.Identity.Name : UserProfile().DisplayName %>
                     | <a href="<%=Utils.RelativeWebRoot %>admin/Users/Profile.aspx?id=<%=Page.User.Identity.Name %>"><%=Resources.labels.myProfile %></a>
                     | <a href="<%=Utils.RelativeWebRoot %>"><%=Resources.labels.goToFrontPage %></a>
                     | <asp:LoginStatus ID="LoginStatus1" runat="server" SkinID="adminLoginStatus"  />
@@ -32,6 +32,7 @@
             
             <div class="tabs toprounded">
                 <uc1:menu ID="Menu1" runat="server" />
+                <asp:PlaceHolder ID="phRecycleBin" runat="server"><div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx">Recycle bin (<%=RecycleClass()%>)</a></div></asp:PlaceHolder>
             </div>
             <div class="clear"></div>
             <div>  

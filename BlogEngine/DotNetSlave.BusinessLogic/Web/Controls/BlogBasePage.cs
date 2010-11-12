@@ -393,7 +393,25 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnPreInit(EventArgs e)
         {
-            if (!Security.IsAuthorizedTo(Rights.ViewPublicPosts))
+            bool allowViewing = false;
+
+            // - To prevent authenticated users from accessing the site, you would assign
+            //   that user to a role that does not have the right to ViewPublicPosts.
+            // - To prevent unauthenticated users from accessing the site, remove
+            //   the ViewPublicPosts from the Anonymous role.
+            // - If the user is authenticated, but hasn't been assigned to any roles, allow
+            //   them to access the site.
+            // - Even though we allow authenticated users without any roles to access the
+            //   site, the user will still usually not be able to view any published posts.
+            //   It is ideal that all users are assigned to a role, even if that role has
+            //   minimal rights such as ViewPublicPosts.
+
+            if (Security.IsAuthorizedTo(Rights.ViewPublicPosts))
+                allowViewing = true;
+            else if (Security.IsAuthenticated && Security.GetCurrentUserRoles().Length == 0)
+                allowViewing = true;
+
+            if (!allowViewing)
             {
                 this.Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
             }
@@ -408,7 +426,7 @@
             }
 
             var post = Post.GetPost(new Guid(this.Request.QueryString["deletepost"]));
-            if (post == null || !post.CanUserDeletePost)
+            if (post == null || !post.CanUserDelete)
             {
                 return;
             }

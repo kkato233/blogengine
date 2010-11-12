@@ -153,8 +153,6 @@
                 }
                 else
                 {
-                    bool userOwnsPost = Security.CurrentUser.Identity.Name.Equals(this.Post.Author, StringComparison.OrdinalIgnoreCase);
-
                     var postRelativeLink = this.Post.RelativeLink;
 
                     var sb = new StringBuilder();
@@ -178,8 +176,7 @@
                         }
                     }
 
-                    if ((userOwnsPost && Security.IsAuthorizedTo(Rights.EditOwnPosts)) ||
-                        Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
+                    if (this.Post.CanUserEdit)
                     {
                         sb.AppendFormat(
                             CultureInfo.InvariantCulture,
@@ -188,10 +185,7 @@
                             Utils.Translate("edit"));
                     }
 
-
-
-                    if ((userOwnsPost && Security.IsAuthorizedTo(Rights.DeleteOwnPosts)) ||
-                        Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts ))
+                    if (this.Post.CanUserDelete)
                     {
                         var confirmDelete = string.Format(
                               CultureInfo.InvariantCulture,
@@ -271,15 +265,10 @@
         {
             base.OnInit(e);
 
-            if ((!this.Post.IsVisible && !Security.IsAuthorizedTo(Rights.ViewPrivatePosts)) ||
-                (!this.Post.IsPublished && !Security.IsAuthorizedTo(Rights.ViewUnpublishedPosts)))
+            if (!this.Post.IsVisible)
             {
                 this.Visible = false;
             }
-            //if (!this.Post.IsVisible && !this.Page.User.Identity.IsAuthenticated)
-            //{
-            //    this.Visible = false;
-            //}
         }
 
         /// <summary>

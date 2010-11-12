@@ -307,6 +307,7 @@ div.post .footer {
 	border-top: 1px dashed silver;
 	padding-top: 4px;
 	padding-bottom: 2px;
+	clear: both;
 }
 
 div.post .bottom {

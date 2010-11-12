@@ -8,9 +8,7 @@
     <tr>
 	  <th width="20"><input type="checkbox" name="chkAllRoles" onclick="toggleAllChecks(this)"/></th>
       <th width="auto">Roles</th>
-	  <th width="80">&nbsp;</th>
-      <th width="80">&nbsp;</th>
-	  <th width="80">&nbsp;</th>
+	  <th width="120">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
@@ -18,9 +16,18 @@
     <tr id="{$T.post.RoleName}" class="{#cycle values=['','alt']}">
 	  <td><input type="checkbox" name="chk"{$T.post.RoleName} class="chk"/></td>
       <td class="editable">{$T.post.RoleName}</td>
-	  <td align="center" style="vertical-align:middle">{#if !$T.post.IsSystemRole} <a href="#" class="editButton editAction">Edit</a> {#/if}</td>
-	  <td align="center" style="vertical-align:middle">{#if !$T.post.IsSystemRole} <a href="#" class="deleteButton deleteAction">Delete</a> {#/if}</td>
-      <td align="center" style="vertical-align:middle"><a href="Rights.aspx?role={$T.post.RoleName}" class="editAction">Rights</a></td>
+      <td>
+            <ul class="rowTools">
+                <li>
+                    <a class="toolsAction" href="#"><span class="">Tools</span></a>
+                    <ul class="rowToolsMenu">
+                        {#if !$T.post.IsSystemRole}<li><a href="#" class="editButton editAction">Edit</a></li>{#/if}
+                        {#if !$T.post.IsSystemRole}<li><a href="#" class="deleteButton deleteAction">Delete</a></li>{#/if}
+                        <li><a href="Rights.aspx?role={$T.post.RoleName}" class="rightsAction">Rights</a></li>
+                    </ul>
+                </li>
+            </ul>
+      </td>
     </tr>
     {#/for}
   </tbody>

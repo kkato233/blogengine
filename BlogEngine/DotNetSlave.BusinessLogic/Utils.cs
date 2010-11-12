@@ -19,6 +19,7 @@
     using System.Web.Configuration;
     using System.Web.Hosting;
     using System.Web.UI;
+    using System.Web.UI.WebControls;
     using System.Web.UI.HtmlControls;
     using System.Xml;
 
@@ -209,6 +210,29 @@
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Selects a listitem by value, case insensitively.
+        /// </summary>
+        /// <param name="control">The ListControl</param>
+        /// <param name="value">The value to select</param>
+        /// <returns>The ListItem found and selected</returns>
+        public static ListItem SelectListItemByValue(ListControl control, string value)
+        {
+            control.ClearSelection();
+            control.SelectedIndex = -1;
+
+            foreach (ListItem li in control.Items)
+            {
+                if (string.Equals(value, li.Value, StringComparison.OrdinalIgnoreCase))
+                {
+                    li.Selected = true;
+                    return li;
+                }
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Converts an object to its JSON representation.
@@ -787,6 +811,24 @@
 				                                            [0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
                                                 + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$");
 
+        /// <summary>
+        /// Email address by user name
+        /// </summary>
+        /// <param name="userName">User name</param>
+        /// <returns>Email Address</returns>
+        public static string GetUserEmail(string userName)
+        {
+            int count;
+            var userCollection = System.Web.Security.Membership.Provider.GetAllUsers(0, 999, out count);
+            var users = userCollection.Cast<System.Web.Security.MembershipUser>().ToList();
+            var user = users.FirstOrDefault(u => u.UserName.Equals(userName));
+
+            if(user != null)
+            {
+                return user.Email;
+            }
+            return userName;
+        }
 
         /// <summary>
         /// Validates an email address. Returns true if the string is a valid formatted email address.
@@ -920,6 +962,30 @@
         }
 
         /// <summary>
+        /// Renders a control to a string.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
+        public static string RenderControl(System.Web.UI.Control control)
+        {
+            if (control == null)
+            {
+                throw new ArgumentNullException("control");
+            }
+
+            using (var sWriter = new System.IO.StringWriter())
+            {
+                using (var hWriter = new System.Web.UI.HtmlTextWriter(sWriter))
+                {
+                    control.RenderControl(hWriter);
+                }
+
+                return sWriter.ToString();
+            }
+
+        }
+
+        /// <summary>
         /// Strips all illegal characters from the specified title.
         /// </summary>
         /// <param name="text">
@@ -961,12 +1027,17 @@
         /// <param name="message">
         /// The message.
         /// </param>
-        public static void SendMailMessage(MailMessage message)
+        /// <returns>
+        /// Error message, if any.
+        /// </returns>
+        public static string SendMailMessage(MailMessage message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
+
+            StringBuilder errorMsg = new StringBuilder();
 
             try
             {
@@ -987,15 +1058,29 @@
                 smtp.Send(message);
                 OnEmailSent(message);
             }
-            catch (SmtpException)
+            catch (Exception ex)
             {
                 OnEmailFailed(message);
+
+                errorMsg.Append("Error sending email in SendMailMessage: ");
+                Exception current = ex;
+
+                while (current != null)
+                {
+                    if (errorMsg.Length > 0) { errorMsg.Append(" "); }
+                    errorMsg.Append(current.Message);
+                    current = current.InnerException;
+                }
+
+                Utils.Log(errorMsg.ToString());
             }
             finally
             {
                 // Remove the pointer to the message object so the GC can close the thread.
                 message.Dispose();
             }
+
+            return errorMsg.ToString();
         }
 
         /// <summary>
