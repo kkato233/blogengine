@@ -16,24 +16,11 @@ namespace BlogEngine.Core
     /// </summary>
     public static partial class Security
     {
-
         static Security()
         {
-            AnonymousUserRights = (Rights.None);
         }
 
         #region "Properties"
-
-        /// <summary>
-        /// Gets or sets the rights of anonymous, non-authenticated users.
-        /// 
-        /// This probably would work better as role.
-        /// </summary>
-        public static Rights AnonymousUserRights
-        {
-            get;
-            set;
-        }
 
         /// <summary>
         /// If the current user is authenticated, returns the current MembershipUser. If not, returns null. This is just a shortcut to Membership.GetUser().
@@ -97,25 +84,49 @@ namespace BlogEngine.Core
 
         #region "Public Methods"
 
-
         /// <summary>
-        /// Throws a SecurityException if the current user is not authorized with the given Rights.
+        /// If the current user does not have the requested right, either redirects to the login page,
+        /// or throws a SecurityException.
         /// </summary>
         /// <param name="right"></param>
-        public static void DemandUserHasRight(Rights right)
+        /// <param name="redirectToLoginPage">
+        /// If true and user does not have rights, redirects to the login page.
+        /// If false and user does not have rights, throws a security exception.
+        /// </param>
+        public static void DemandUserHasRight(Rights right, bool redirectToLoginPage)
         {
-            if (!IsAuthorizedTo(right))
-            {
-                throw new SecurityException("User doesn't have the right to perform this");
-            }
+            DemandUserHasRight(AuthorizationCheck.HasAny, redirectToLoginPage, new[] { right });
         }
 
-        public static void DemandUserHasRight(AuthorizationCheck authCheck, params Rights[] rights)
+        /// <summary>
+        /// If the current user does not have the requested rights, either redirects to the login page,
+        /// or throws a SecurityException.
+        /// </summary>
+        /// <param name="authCheck"></param>
+        /// <param name="redirectToLoginPage">
+        /// If true and user does not have rights, redirects to the login page.
+        /// If false and user does not have rights, throws a security exception.
+        /// </param>
+        /// <param name="rights"></param>
+        public static void DemandUserHasRight(AuthorizationCheck authCheck, bool redirectToLoginPage, params Rights[] rights)
         {
             if (!IsAuthorizedTo(authCheck, rights))
             {
-                throw new SecurityException("User doesn't have the right to perform this");
+                if (redirectToLoginPage)
+                {
+                    RedirectToLoginForCurrentUrl();
+                }
+                else
+                {
+                    throw new SecurityException("User doesn't have the right to perform this");
+                }
             }
+        }
+
+        public static void RedirectToLoginForCurrentUrl()
+        {
+            HttpContext context = HttpContext.Current;
+            context.Response.Redirect(string.Format("~/Account/Login.aspx?ReturnURL={0}", HttpUtility.UrlEncode(context.Request.RawUrl)));
         }
 
         /// <summary>
@@ -217,7 +228,7 @@ namespace BlogEngine.Core
         /// Helper method that returns the correct roles based on authentication.
         /// </summary>
         /// <returns></returns>
-        private static string[] GetCurrentUserRoles()
+        public static string[] GetCurrentUserRoles()
         {
             if (!IsAuthenticated)
             {

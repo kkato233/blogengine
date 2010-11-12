@@ -1,8 +1,6 @@
 ﻿
 var pageSize = 10;
 
-//LoadView();
-
 $(document).ready(function () {
    $('.editButton').live("click", function () { return EditRow(this); });
    $('.deleteButton').live("click", function () { return DeleteRow(this); });
@@ -14,21 +12,17 @@ $(document).ready(function () {
 function EditRow(obj) {
    var row = $(obj).closest("tr");
    var revert = $(row).html();
-   var button = '<div><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></div>';
+   var button = '<td><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></td>';
 
    $('.editable', row).each(function () {
-      var _this = $(this);
-      var _thisHtml = _this.html();
-      var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
-      _this.after(txt).remove();
-  });
+       var _this = $(this);
+       var _thisHtml = _this.html();
+       var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
+       _this.after(txt).remove();
+   });
 
-  var delCel = $(row).find('.deleteButton').closest("td");
-  $(delCel).remove();
-
-  var editCel = $(row).find('.editButton').closest("td");
-  $(editCel).attr('colspan', '2');
-  $(row).find('.editButton').replaceWith(button);
+    // replace tools menu with save/cancel buttons
+    $(row).find('.rowTools').closest("td").replaceWith(button);
 
    var cancelButton = $('.cancelButton');
    var saveButton = $('.saveButton');
@@ -82,12 +76,7 @@ function SaveChanges(obj, str) {
 
 
 function CancelChanges(obj, str) {
-   var jObj = $(obj);
-   var row = jObj.closest("tr");
-   var id = row.attr("id");
-   var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'fefefe' : 'fff';
-
-   jObj.parent().parent().parent().after('<tr id="' + id + '" bgcolor="#' + bg + '">' + str + '</tr>').remove();
+   $(obj).closest("tr").html(str);
    return false;
 }
 
@@ -121,26 +110,39 @@ function DeleteRow(obj) {
 
 //--------------	LOAD DATA VIEWS
 
-function LoadComments(pg, srvs) {
+function LoadComments(page) {
+    var pg = 1;
+    if (page > 0) {
+        pg = page;
+    } else {
+        // page is 0 - we just deleted/approved etc. comment
+        // don't know what page we are on, just need to reload
+        pg = $.cookie('CommentPagerCurrentPage');
+    }
+    $.cookie('CommentPagerCurrentPage', pg, { expires: 7 });
+
+    var srvs = CommentPage();
    $.ajax({
       url: srvs + "/LoadComments",
-      data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
+      data: "{'page':'" + pg + "'}",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/comments.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
-         LoadPager(pg, srvs);
+         LoadPager();
       }
    });
    return false;
 }
 
-function LoadPager(pg, srvs) {
+function LoadPager() {
+    var srvs = CommentPage();
+    var pg = $.cookie('CommentPagerCurrentPage');
    $.ajax({
       url: srvs + "/LoadPager",
-      data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "'}",
+      data: "{'page':'" + pg + "'}",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
@@ -149,6 +151,14 @@ function LoadPager(pg, srvs) {
       }
    });
    return false;
+}
+
+function CommentPage() {
+    var page = 'Approved.aspx';
+    if (location.href.indexOf('Comments\/Spam.aspx') > 0) { page = 'Spam.aspx'; }
+    if (location.href.indexOf('Comments\/Pending.aspx') > 0) { page = 'Pending.aspx'; }
+    if (location.href.indexOf('Tracking\/Pingbacks.aspx') > 0) { page = 'Pingbacks.aspx'; }
+    return page;
 }
 
 function LoadRoles() {
@@ -203,6 +213,76 @@ function LoadProfile() {
    });
 }
 
+//--------------    TRASH
+
+function LoadTrash(obj) {
+    $('.loader').hide();
+    var type = "All";
+
+    if (obj != null) {
+        $(".tableToolBox a").removeClass("current");
+        $(obj).addClass("current");
+        type = $(obj).attr("id");
+    }
+    $.ajax({
+        url: "Trash.aspx/LoadTrash",
+        data: "{'trashType':'" + type + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../Templates/trash.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+        }
+    });
+    return false;
+}
+
+function ProcessTrash(action, scope) {
+    $('#AjaxLoader').addClass('loader');
+    var vals = [];   
+    if (scope == 'Selected') {
+        var checked = $('#TrashTable input[@type=checkbox]:checked');
+        if (checked.length > 0) {
+            checked.each(function () {
+                var jThis = $(this);
+                if (jThis.attr("id") != "selectall") {
+                    var row = jThis.closest("tr");
+                    var id = row.attr("id");
+                    vals.push(id);
+                }
+            });
+        }
+    }
+    else if (scope == 'All') {
+        vals.push("All:All");
+    }
+    else {
+        vals.push(scope);
+    }
+
+    var dto = { "action": action, "vals": vals };
+    $.ajax({
+        url: "Trash.aspx/ProcessTrash",
+        data: JSON.stringify(dto),
+        type: "post",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                LoadTrash(1);
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    $('#AjaxLoader').removeClass('loader');
+    return false;
+}
+
 //--------------    COMMENTS
 
 var rowLoading = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
@@ -242,86 +322,88 @@ function ProcessSelected(action, page) {
 
       var dto = { "vals": vals };
       $.ajax({
-         url: srv,
-         data: JSON.stringify(dto),
-         type: "post",
-         contentType: "application/json; charset=utf-8",
-         dataType: "json",
-         success: function (result) {
+          url: srv,
+          data: JSON.stringify(dto),
+          type: "post",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (result) {
 
-            var rt = result.d;
-            if(rt.Success) {
+              var rt = result.d;
+              if (rt.Success) {
 
-               // Reference the counters so they don't need to be requeried
-               // by each checkbox.
-               var comment_counter = $('#comment_counter');
-               var spam_counter = $('#spam_counter');
-               var pingback_counter = $('#pingback_counter');
-               var pending_counter = $('#pending_counter');
-
-
-               // parse the current counts
-               // Change these values before setting it to the element's text.
-               var com_cnt = parseInt(comment_counter.text(),10);
-               var spm_cnt = parseInt(spam_counter.text(), 10);
-               var pbk_cnt = parseInt(pingback_counter.text(), 10);
-               var pnd_cnt = parseInt(pending_counter.text(), 10);
+                  // Reference the counters so they don't need to be requeried
+                  // by each checkbox.
+                  var comment_counter = $('#comment_counter');
+                  var spam_counter = $('#spam_counter');
+                  var pingback_counter = $('#pingback_counter');
+                  var pending_counter = $('#pending_counter');
 
 
-               $.each(commentsAndRows, function (index, value) {
+                  // parse the current counts
+                  // Change these values before setting it to the element's text.
+                  var com_cnt = parseInt(comment_counter.text(), 10);
+                  var spm_cnt = parseInt(spam_counter.text(), 10);
+                  var pbk_cnt = parseInt(pingback_counter.text(), 10);
+                  var pnd_cnt = parseInt(pending_counter.text(), 10);
 
-                  var row = value.row;
-                  row.fadeOut(500, function () {
-                     row.remove();
+
+                  $.each(commentsAndRows, function (index, value) {
+
+                      var row = value.row;
+                      row.fadeOut(500, function () {
+                          row.remove();
+                      });
+
+                      switch (action) {
+                          case "Reject":
+                              spm_cnt += 1;
+
+                              switch (page) {
+                                  case "Approved": (com_cnt -= 1); break;
+                                  case "Pending": pending_counter.text((pnd_cnt - 1)); break;
+                              }
+                              break;
+
+                          case "Approve":
+                              com_cnt += 1;
+
+                              switch (page) {
+                                  case "Pending": (pnd_cnt -= 1); break;
+                                  case "Spam": (spm_cnt -= 1); break;
+                              }
+                              break;
+
+                          case "Delete":
+                              switch (page) {
+                                  case "Approved": (com_cnt -= 1); break;
+                                  case "Spam": (spm_cnt -= 1); break;
+                                  case "Pingback": (pbk_cnt -= 1); break;
+                                  case "Pending": (pnd_cnt -= 1); break;
+                              }
+                              break;
+
+                          default:
+                              throw new Error("Unknown action: " + action);
+                      }
                   });
 
-                  switch(action) {
-                     case "Reject":
-                        spm_cnt += 1;
+                  spam_counter.text(spm_cnt);
+                  comment_counter.text(com_cnt);
+                  pending_counter.text(pnd_cnt);
+                  pingback_counter.text(pbk_cnt);
 
-                        switch(page) {
-                           case "Approved": (com_cnt -= 1); break;
-                           case "Pending": pending_counter.text((pnd_cnt - 1)); break;
-                        }
-                        break;
+                  LoadComments(0);
 
-                     case "Approve":
-                        com_cnt += 1;
+                  ShowStatus("success", "Updated");
+              }
+              else {
+                  ShowStatus("warning", rt.Message);
+              }
 
-                        switch(page) {
-                           case "Pending": (pnd_cnt -= 1); break;
-                           case "Spam": (spm_cnt -= 1); break;
-                        }
-                        break;
+              $('.loader').hide();
 
-                     case "Delete":
-                        switch(page) {
-                           case "Approved": (com_cnt -= 1); break;
-                           case "Spam": (spm_cnt -= 1); break;
-                           case "Pingback": (pbk_cnt -= 1); break;
-                           case "Pending": (pnd_cnt -= 1); break;
-                        }
-                        break;
-
-                     default:
-                        throw new Error("Unknown action: " + action);
-                  }
-               });
-
-               spam_counter.text(spm_cnt);
-               comment_counter.text(com_cnt);
-               pending_counter.text(pnd_cnt);
-               pingback_counter.text(pbk_cnt);
-
-               ShowStatus("success", "Updated");
-            }
-            else {
-               ShowStatus("warning", rt.Message);
-            }
-
-            $('.loader').hide();
-
-         }
+          }
       });
 
    }
@@ -409,8 +491,8 @@ function CommentAction(act, id) {
    var oRow = $("[id$='" + id + "']");
    var hRow = oRow.html();
 
-   var loader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
-   oRow.html(loader);
+   var rowLoader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+   oRow.html(rowLoader);
 
    var vals = [];
    vals[0] = id;
@@ -444,7 +526,7 @@ function CommentAction(act, id) {
                }
                if (act == "Reject") {
                    $('#spam_counter').text(parseInt(spm_cnt, 10) + 1);
-                   
+
                    // can reject from pending or spam
                    if (location.href.indexOf('Comments\/Pending.aspx') > 0)
                        $('#pending_counter').text(parseInt(pnd_cnt, 10) - 1);
@@ -455,6 +537,7 @@ function CommentAction(act, id) {
                $(oRow).fadeOut(500, function () {
                    $(oRow).remove();
                });
+               LoadComments(0);
                ShowStatus("success", rt.Message);
            }
            else {
@@ -469,27 +552,28 @@ function CommentAction(act, id) {
 function DeleteAllSpam() {
    $('.loader').show();
    $.ajax({
-      url: "../../api/Comments.asmx/DeleteAll",
-      data: "{ }",
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (result) {
-         var rt = result.d;
-         if(rt.Success) {
-            $('.chk').each(function () {
-               var that = $("[id$='" + $(this).closest("tr").attr("id") + "']");
-               $(that).fadeOut(500, function () {
-                  $(that).remove();
+       url: "../../api/Comments.asmx/DeleteAll",
+       data: "{ }",
+       type: "POST",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       success: function (result) {
+           var rt = result.d;
+           if (rt.Success) {
+               $('.chk').each(function () {
+                   var that = $("[id$='" + $(this).closest("tr").attr("id") + "']");
+                   $(that).fadeOut(500, function () {
+                       $(that).remove();
+                   });
+                   LoadComments(0);
+                   ShowStatus("success", rt.Message);
+                   $('#spam_counter').text('0');
                });
-               ShowStatus("success", rt.Message);
-               $('#spam_counter').text('0');
-            });
-         }
-         else {
-            ShowStatus("warning", rt.Message);
-         }
-      }
+           }
+           else {
+               ShowStatus("warning", rt.Message);
+           }
+       }
    });
    $('.loader').hide();
    return false;
@@ -573,6 +657,9 @@ function LoadPosts() {
             }
             else
                 $("#filteredby").hide();
+
+            $(".tipsyhelp").tipsy({gravity: 's'});
+
         }
     });
     return false;
@@ -668,6 +755,25 @@ function DeletePage(obj) {
 
 //--------------HELPERS AND MISC
 
+function colorboxDialogSubmitClicked(validationGroup, panelId) {
+
+    // For file/image uploads, colorbox moves the file upload and submit buttons
+    // outside the form tag.  This prevents submitting from working.  Before
+    // a submit can work, need to move the dialog box containing the controls
+    // back inside the form tag.
+    // First check to make sure validation passes before closing colorbox.
+
+    if (typeof Page_ClientValidate !== 'undefined') {
+        if (!Page_ClientValidate(validationGroup)) {
+            return true;
+        }
+    }
+
+    $.colorbox.close();
+    $("form").append($("#" + panelId));
+    return true;
+}
+
 function toggleAllChecks(o) {
    if($(o).attr('checked')) {
       $('.chk').not(':disabled').attr('checked', 'checked');
@@ -713,18 +819,21 @@ function ShowStatus(status, msg) {
    adminStatus.removeClass("success");
    adminStatus.addClass(status);
 
+   adminStatus.html('<a href="javascript:HideStatus()" class="closeStatus">close</a>' + msg);
+
    if(status == "success") {
-      adminStatus.html(msg);
-      adminStatus.fadeIn(1000, function () { }).delay(5000).fadeOut(1000, function () { });
+       adminStatus.fadeIn(1000);
+       window.setTimeout(function () {
+           $("[id$='AdminStatus']").fadeOut(1000);
+       }, 5000);
    }
    else {
-      adminStatus.html(msg + '<a href="javascript:HideStatus()" style="padding-left:20px; color:#444">close</a>');
       adminStatus.fadeIn(1000, function () { });
    }
 }
 
 function HideStatus() {
-   $("[id$='AdminStatus']").slideUp('slow', function () { });
+   $("[id$='AdminStatus']").slideUp('normal', function () { });
 }
 
 function Show(element) {

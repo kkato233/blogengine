@@ -99,6 +99,7 @@
                 writer.WriteElementString("description", post.Description);
                 writer.WriteElementString("content", post.Content);
                 writer.WriteElementString("ispublished", post.IsPublished.ToString());
+                writer.WriteElementString("isdeleted", post.IsDeleted.ToString());
                 writer.WriteElementString("iscommentsenabled", post.HasCommentsEnabled.ToString());
                 writer.WriteElementString(
                     "pubDate", 
@@ -123,7 +124,7 @@
 
                 // comments
                 writer.WriteStartElement("comments");
-                foreach (var comment in post.Comments)
+                foreach (var comment in post.AllComments)
                 {
                     writer.WriteStartElement("comment");
                     writer.WriteAttributeString("id", comment.Id.ToString());
@@ -235,6 +236,11 @@
                 post.IsPublished = bool.Parse(doc.SelectSingleNode("post/ispublished").InnerText);
             }
 
+            if (doc.SelectSingleNode("post/isdeleted") != null)
+            {
+                post.IsDeleted = bool.Parse(doc.SelectSingleNode("post/isdeleted").InnerText);
+            }
+
             if (doc.SelectSingleNode("post/iscommentsenabled") != null)
             {
                 post.HasCommentsEnabled = bool.Parse(doc.SelectSingleNode("post/iscommentsenabled").InnerText);
@@ -320,10 +326,10 @@
                 comment.DateCreated = DateTime.Parse(
                     node.SelectSingleNode("date").InnerText, CultureInfo.InvariantCulture);
 
-                post.Comments.Add(comment);
+                post.AllComments.Add(comment);
             }
 
-            post.Comments.Sort();
+            post.AllComments.Sort();
 
             // categories
             foreach (var cat in from XmlNode node in doc.SelectNodes("post/categories/category")

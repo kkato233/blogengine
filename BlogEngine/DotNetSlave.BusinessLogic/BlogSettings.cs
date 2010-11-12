@@ -159,6 +159,15 @@
 
         #endregion
 
+        #region FeedAuthor
+
+        /// <summary>
+        /// RSS feed author
+        /// </summary>
+        public string FeedAuthor { get; set; }
+        
+        #endregion
+
         #region TimeStampPostLinks
 
         /// <summary>
@@ -561,6 +570,16 @@
         /// </summary>
         /// <value><c>true</c> if [enable self registration]; otherwise, <c>false</c>.</value>
         public bool EnableSelfRegistration { get; set; }
+
+        #endregion
+
+        #region SelfRegistrationInitialRole
+
+        /// <summary>
+        ///     Gets or sets the initial role assigned to users who self register.
+        /// </summary>
+        /// <value>The role name.</value>
+        public string SelfRegistrationInitialRole { get; set; }
 
         #endregion
 

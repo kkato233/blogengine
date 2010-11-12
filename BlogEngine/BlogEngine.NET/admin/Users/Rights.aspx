@@ -14,11 +14,11 @@
 
             for (var category in rights) {
             
-                var catDiv = $("<div class=\"category\">");
-                var header = $("<h2>");
+                var catDiv = $("<div class=\"dashboardWidget rounded\">");
+                var header = $("<h2 style='border:none;'>");
                 header.html(category);
 
-                var catUl = $("<ul>");
+                var catUl = $("<ul class='fl'>");
                 catDiv.append(header);
                 catDiv.append(catUl);
 
@@ -94,20 +94,26 @@
             return false;
         }
     </script>
+    <script src="../jquery.masonry.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#rightsHolder').masonry({ singleMode: true, itemSelector: '.dashboardWidget' });
+        });
+    </script>
+
     <div class="content-box-outer">
         <div class="content-box-right">
             <ul>
-                <li><a href="Users.aspx">
-                    <%=Resources.labels.users %></a></li>
-                <li><a href="Roles.aspx" class="selected">
-                    <%=Resources.labels.roles %></a></li>
+                <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+                <li class="content-box-selected"><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
             </ul>
         </div>
         <div class="content-box-left">
             <h1>Editing Rights for Role <%=Server.HtmlEncode(this.RoleName) %></h1>
             <div id="rightsHolder"></div>
+            <div style="clear:both">&nbsp;</div>
             <input type="submit" class="btn primary rounded" value="save" onclick="return SaveRights();" />
-            or <a href="#" onclick="closeOverlay();">cancel</a>
+            or <a href="Roles.aspx"><%=Resources.labels.cancel %></a>
         </div>
     </div>
 </asp:Content>

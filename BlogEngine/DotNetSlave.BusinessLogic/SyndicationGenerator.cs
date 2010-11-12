@@ -693,7 +693,10 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             // Write optional channel item elements
             // ------------------------------------------------------------
-            writer.WriteElementString("author", publishable.Author);
+            if (!string.IsNullOrEmpty(BlogSettings.Instance.FeedAuthor))
+            {
+                writer.WriteElementString("author", BlogSettings.Instance.FeedAuthor);
+            }
             if (post != null)
             {
                 writer.WriteElementString(

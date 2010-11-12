@@ -32,7 +32,7 @@
                 <h1>Search</h1>
                 <blog:SearchBox runat="server" />
                 
-                 <% if (Page.User.Identity.IsAuthenticated){ %>
+                 <% if (Security.IsAuthenticated){ %>
                 <h1>Administration</h1>
                 <uc1:menu ID="Menu1" runat="server" />
                 <%} %>

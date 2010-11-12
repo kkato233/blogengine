@@ -29,11 +29,6 @@ namespace App_Code.Controls
         private const string Link = "<a href=\"{0}\" class=\"{1}\" title=\"{2}\">{3}</a> ";
 
         /// <summary>
-        /// The sync root.
-        /// </summary>
-        private static readonly object SyncRoot = new object();
-
-        /// <summary>
         /// The weighted list.
         /// </summary>
         private static Dictionary<string, string> weightedList;
@@ -47,18 +42,6 @@ namespace App_Code.Controls
         /// The tag cloud size.
         /// </summary>
         private int tagCloudSize = -1;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes static members of the <see cref="TagCloud"/> class.
-        /// </summary>
-        static TagCloud()
-        {
-            Post.Saved += (sender, args) => weightedList = null;
-        }
 
         #endregion
 
@@ -105,14 +88,8 @@ namespace App_Code.Controls
             {
                 if (weightedList == null)
                 {
-                    lock (SyncRoot)
-                    {
-                        if (weightedList == null)
-                        {
-                            weightedList = new Dictionary<string, string>();
-                            this.SortList();
-                        }
-                    }
+                    weightedList = new Dictionary<string, string>();
+                    this.SortList();
                 }
 
                 return weightedList;

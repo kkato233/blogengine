@@ -50,6 +50,16 @@
         /// <summary>
         /// If has child pages
         /// </summary>
-        public bool HasChildred { get; set; }
+        public bool HasChildren { get; set; }
+
+        /// <summary>
+        /// If the current user can delete this page.
+        /// </summary>
+        public bool CanUserDelete { get; set; }
+
+        /// <summary>
+        /// If the current user can edit this page.
+        /// </summary>
+        public bool CanUserEdit { get; set; }
     }
 }

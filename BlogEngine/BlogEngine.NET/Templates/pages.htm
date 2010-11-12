@@ -18,7 +18,7 @@
         {#foreach $T.d as p}
         <tr id="{$T.p.Id}" class="{#cycle values=['','alt']}">
             <td style="text-align:center;"><span class="published-{$T.p.IsPublished}"></span></td>
-            <td><a href="EditPage.aspx?id={$T.p.Id}">{$T.p.Title}</a></td>
+            <td>{$T.p.Title}</td>
             <td><span>{$T.p.ParentTitle}</span></td>
             <td style="text-align:center;"><span class="published-{$T.p.ShowInList}"></span></td>
             <td><span class="comment_date">{$T.p.Date}</span><span class="comment_time">{$T.p.Time}</span></td>
@@ -27,8 +27,8 @@
                     <li>
                         <a class="toolsAction" href="#"><span class="">Tools</span></a>
                         <ul class="rowToolsMenu">
-                            <li><a class="editAction" href="EditPage.aspx?id={$T.p.Id}">Edit</a></li>
-                            {#if $T.p.HasChildred == false}<li><a href="#" class="deleteAction" onclick="return DeletePage(this);">Delete</a></li>{#/if}
+                            {#if $T.p.CanUserEdit}<li><a class="editAction" href="EditPage.aspx?id={$T.p.Id}">Edit</a></li>{#/if}
+                            {#if $T.p.HasChildren == false && $T.p.CanUserDelete}<li><a href="#" class="deleteAction" onclick="return DeletePage(this);">Delete</a></li>{#/if}
                        </ul>
                     </li>
                </ul>

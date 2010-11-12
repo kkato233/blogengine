@@ -6,7 +6,7 @@ namespace Controls
     using System;
     using System.Web.UI;
     using System.Web.UI.WebControls;
-
+    using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
 
     using SimpleCaptcha;
@@ -103,7 +103,7 @@ namespace Controls
             get
             {
                 var settings = ExtensionManager.GetSettings("SimpleCaptcha");
-                return !this.Page.User.Identity.IsAuthenticated ||
+                return !Security.IsAuthenticated ||
                        Convert.ToBoolean(settings.GetSingleValue("ShowForAuthenticatedUsers"));
             }
         }

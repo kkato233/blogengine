@@ -4,6 +4,13 @@
   <right name="ViewDetailedErrorMessages">
     <role name="Administrators" />
   </right>
+  <right name="AccessAdminPages">
+    <role name="Administrators" />
+    <role name="Editors" />
+  </right>
+  <right name="AccessAdminSettingsPages">
+    <role name="Administrators" />
+  </right>
   <right name="ViewPublicComments">
     <role name="Administrators" />
     <role name="Anonymous" />
@@ -30,9 +37,6 @@
   <right name="ViewUnpublishedPosts">
     <role name="Administrators" />
     <role name="Editors" />
-  </right>
-  <right name="ViewPrivatePosts">
-    <role name="Administrators" />
   </right>
   <right name="CreateNewPosts">
     <role name="Administrators" />
@@ -113,6 +117,12 @@
     <role name="Administrators" />
   </right>
   <right name="DeleteRoles">
+    <role name="Administrators" />
+  </right>
+  <right name="EditOwnRoles">
+    <role name="Administrators" />
+  </right>
+  <right name="EditOtherUsersRoles">
     <role name="Administrators" />
   </right>
   <right name="CreateNewUsers">

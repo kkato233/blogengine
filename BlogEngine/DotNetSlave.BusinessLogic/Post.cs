@@ -31,9 +31,9 @@
         private readonly StateList<Category> categories;
 
         /// <summary>
-        /// The comments.
+        /// All comments, including deleted
         /// </summary>
-        private readonly List<Comment> comments;
+        private readonly List<Comment> allcomments;
 
         /// <summary>
         /// The notification emails.
@@ -49,6 +49,11 @@
         /// The posts.
         /// </summary>
         private static List<Post> posts;
+
+        /// <summary>
+        /// The deleted posts.
+        /// </summary>
+        private static List<Post> deletedposts;
 
         /// <summary>
         ///     The author.
@@ -81,6 +86,11 @@
         private bool isPublished;
 
         /// <summary>
+        ///     Whether the post is deleted.
+        /// </summary>
+        private bool isDeleted;
+
+        /// <summary>
         ///     The raters.
         /// </summary>
         private int raters;
@@ -111,7 +121,7 @@
         public Post()
         {
             this.Id = Guid.NewGuid();
-            this.comments = new List<Comment>();
+            this.allcomments = new List<Comment>();
             this.categories = new StateList<Category>();
             this.tags = new StateList<string>();
             this.notificationEmails = new StateList<string>();
@@ -140,6 +150,16 @@
         public static event EventHandler<EventArgs> CommentRemoved;
 
         /// <summary>
+        ///     Occurs when a comment has been purged.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentPurged;
+
+        /// <summary>
+        ///     Occurs when a comment has been restored.
+        /// </summary>
+        public static event EventHandler<EventArgs> CommentRestored;
+
+        /// <summary>
         ///     Occurs when a comment is updated.
         /// </summary>
         public static event EventHandler<EventArgs> CommentUpdated;
@@ -153,6 +173,16 @@
         ///     Occurs before comment is removed.
         /// </summary>
         public static event EventHandler<CancelEventArgs> RemovingComment;
+
+        /// <summary>
+        ///     Occurs before comment is purged.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> PurgingComment;
+
+        /// <summary>
+        ///     Occurs before comment is restored.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> RestoringComment;
 
         /// <summary>
         ///     Occurs when the post is being served to the output stream.
@@ -169,7 +199,7 @@
         #region Post Properties
 
         /// <summary>
-        ///     Gets a sorted collection of all posts in the blog.
+        ///     Gets a sorted collection of all undeleted posts in the blog.
         ///     Sorted by date.
         /// </summary>
         public static List<Post> Posts
@@ -182,7 +212,7 @@
                     {
                         if (posts == null)
                         {
-                            posts = BlogService.FillPosts();
+                            posts = BlogService.FillPosts().Where(p => p.IsDeleted == false).ToList();
                             posts.TrimExcess();
                             AddRelations();
                         }
@@ -190,6 +220,29 @@
                 }
 
                 return posts;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a sorted collection of all deleted posts in the blog.
+        ///     Sorted by date.
+        /// </summary>
+        public static List<Post> DeletedPosts
+        {
+            get
+            {
+                if (deletedposts == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (deletedposts == null)
+                        {
+                            deletedposts = BlogService.FillPosts().Where(p => p.IsDeleted == true).ToList();
+                        }
+                    }
+                }
+
+                return deletedposts;
             }
         }
 
@@ -361,6 +414,22 @@
         }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether or not the post is deleted.
+        /// </summary>
+        public bool IsDeleted
+        {
+            get
+            {
+                return this.isDeleted;
+            }
+
+            set
+            {
+                base.SetValue("IsDeleted", value, ref this.isDeleted);
+            }
+        }
+
+        /// <summary>
         ///     Gets or sets the number of raters or the object.
         /// </summary>
         public int Raters
@@ -474,8 +543,14 @@
         {
             get
             {
-                return this.Authenticated ||
-                       (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone));
+                if (this.IsDeleted)
+                    return false;
+                else if (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone))
+                    return true;
+                else if (Security.IsAuthorizedTo(Rights.ViewUnpublishedPosts))
+                    return true;
+
+                return false;
             }
         }
 
@@ -486,7 +561,8 @@
         {
             get
             {
-                return this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone);
+                return (this.IsPublished && this.DateCreated <= DateTime.Now.AddHours(BlogSettings.Instance.Timezone)) &&
+                        this.IsDeleted == false;
             }
         }
 
@@ -501,7 +577,7 @@
         {
             get
             {
-                return this.comments;
+                return this.AllComments.FindAll(c => !c.IsDeleted);
             }
         }
 
@@ -512,7 +588,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => !c.IsDeleted);
+                return this.allcomments;
             }
         }
 
@@ -527,11 +603,11 @@
             {
                 if (BlogSettings.Instance.EnableCommentsModeration)
                 {
-                    return this.comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                    return this.Comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsPingbackOrTrackback);
                 }
                 else
                 {
-                    return this.comments.FindAll(c => !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                    return this.Comments.FindAll(c => !c.IsSpam && !c.IsPingbackOrTrackback);
                 }
             }
         }
@@ -544,7 +620,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => !c.IsApproved && !c.IsSpam && !c.IsDeleted && !c.IsPingbackOrTrackback);
+                return this.Comments.FindAll(c => !c.IsApproved && !c.IsSpam && !c.IsPingbackOrTrackback);
             }
         }
 
@@ -555,7 +631,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => c.IsApproved && !c.IsSpam && !c.IsDeleted && c.IsPingbackOrTrackback);
+                return this.Comments.FindAll(c => c.IsApproved && !c.IsSpam && c.IsPingbackOrTrackback);
             }
         }
 
@@ -566,7 +642,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => c.IsSpam && !c.IsDeleted);
+                return this.Comments.FindAll(c => c.IsSpam && !c.IsDeleted);
             }
         }
 
@@ -577,7 +653,7 @@
         {
             get
             {
-                return this.comments.FindAll(c => c.IsDeleted);
+                return this.allcomments.FindAll(c => c.IsDeleted);
             }
         }
 
@@ -622,43 +698,66 @@
         #region Post Public Methods
 
         /// <summary>
-        /// Gets whether or not the current user owns a given post.
+        /// Gets whether the current user can publish this post.
         /// </summary>
-        /// <param name="post"></param>
+        /// <param name="author">The author of the post without needing to assign it to the Author property.</param>
         /// <returns></returns>
-        public static bool CurrentUserOwnsPost(Post post)
+        public bool CanPublish(string author)
         {
-            if (post == null)
+            bool isOwnPost = Security.CurrentUser.Identity.Name.Equals(author, StringComparison.OrdinalIgnoreCase);
+
+            if (isOwnPost && !Security.IsAuthorizedTo(Rights.PublishOwnPosts))
             {
-                throw new ArgumentNullException("post");
+                return false;
             }
-            else
+            else if (!isOwnPost && !Security.IsAuthorizedTo(Rights.PublishOtherUsersPosts))
             {
-                return Security.CurrentUser.Identity.Name.Equals(post.Author, StringComparison.OrdinalIgnoreCase);
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
-        /// Gets whether or not the current user owns a given post.
+        /// Gets whether or not the current user owns this post.
         /// </summary>
-        /// <param name="id">The post id</param>
         /// <returns></returns>
-        public static bool CurrentUserOwnsPost(Guid id)
+        public override bool CurrentUserOwns
         {
-            return CurrentUserOwnsPost(Post.GetPost(id));
+            get
+            {
+                return Security.CurrentUser.Identity.Name.Equals(this.Author, StringComparison.OrdinalIgnoreCase);
+            }
         }
 
         /// <summary>
         /// Gets whether the current user can delete this post.
         /// </summary>
         /// <returns></returns>
-        public bool CanUserDeletePost
+        public override bool CanUserDelete
         {
             get
             {
-                if (CurrentUserOwnsPost(this) && Security.IsAuthorizedTo(Rights.DeleteOwnPosts))
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOwnPosts))
                     return true;
-                else if (!CurrentUserOwnsPost(this) && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts))
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPosts))
+                    return true;
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the current user can edit this post.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanUserEdit
+        {
+            get
+            {
+                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOwnPosts))
+                    return true;
+                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
                     return true;
 
                 return false;
@@ -897,7 +996,7 @@
                 return;
             }
 
-            this.Comments.Add(comment);
+            this.AllComments.Add(comment);
             this.DataUpdate();
             this.OnCommentAdded(comment);
 
@@ -975,7 +1074,7 @@
         /// </param>
         public void ImportComment(Comment comment)
         {
-            this.Comments.Add(comment);
+            this.AllComments.Add(comment);
             this.DataUpdate();
         }
 
@@ -1029,9 +1128,57 @@
                 return;
             }
 
-            this.Comments.Remove(comment);
+            var comm = Comments.FirstOrDefault(c => c.Id.Equals(comment.Id));
+            if (comm == null)
+            {
+                return;
+            }
+
+            comm.IsDeleted = true;
             this.DataUpdate();
             this.OnCommentRemoved(comment);
+        }
+
+        /// <summary>
+        /// Removes comment from the post
+        /// </summary>
+        /// <param name="comment">Comment</param>
+        public void PurgeComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnPurgingComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            this.allcomments.Remove(comment);
+            this.DataUpdate();
+            this.OnCommentPurged(comment);
+        }
+
+        /// <summary>
+        /// Restores comment from recycle bin
+        /// </summary>
+        /// <param name="comment">Comment</param>
+        public void RestoreComment(Comment comment)
+        {
+            var e = new CancelEventArgs();
+            this.OnRestoringComment(comment, e);
+            if (e.Cancel)
+            {
+                return;
+            }
+
+            var comm = allcomments.FirstOrDefault(c => c.Id.Equals(comment.Id));
+            if (comm == null)
+            {
+                return;
+            }
+
+            comm.IsDeleted = false;
+            this.DataUpdate();
+            this.OnCommentRestored(comment);
         }
 
         #endregion
@@ -1086,15 +1233,49 @@
         /// </summary>
         protected override void DataDelete()
         {
+            this.IsDeleted = true;
+            DataUpdate();
+
+            // refresh posts list
+            posts = null;
+            deletedposts = null;
+        }
+
+        /// <summary>
+        /// Deletes the Post from the current BlogProvider.
+        /// </summary>
+        public void Purge()
+        {
             BlogService.DeletePost(this);
             if (!Posts.Contains(this))
             {
+                // refresh posts list
+                posts = null;
+                deletedposts = null;
+
                 return;
             }
 
             Posts.Remove(this);
             this.Dispose();
             AddRelations();
+
+            // refresh posts list
+            posts = null;
+            deletedposts = null;
+        }
+
+        /// <summary>
+        /// Restores the deleted posts.
+        /// </summary>
+        public void Restore()
+        {
+            this.IsDeleted = false;
+            DataUpdate();
+
+            // refresh posts list
+            posts = null;
+            deletedposts = null;
         }
 
         /// <summary>
@@ -1185,6 +1366,34 @@
         }
 
         /// <summary>
+        /// Called when [comment purged].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        protected virtual void OnCommentPurged(Comment comment)
+        {
+            if (CommentPurged != null)
+            {
+                CommentPurged(comment, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// Called when [comment restored].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        protected virtual void OnCommentRestored(Comment comment)
+        {
+            if (CommentRestored != null)
+            {
+                CommentRestored(comment, new EventArgs());
+            }
+        }
+
+        /// <summary>
         /// Called when [comment updated].
         /// </summary>
         /// <param name="comment">
@@ -1226,6 +1435,40 @@
             if (RemovingComment != null)
             {
                 RemovingComment(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when [purging comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        protected virtual void OnPurgingComment(Comment comment, CancelEventArgs e)
+        {
+            if (PurgingComment != null)
+            {
+                PurgingComment(comment, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when [restoring comment].
+        /// </summary>
+        /// <param name="comment">
+        /// The comment.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        protected virtual void OnRestoringComment(Comment comment, CancelEventArgs e)
+        {
+            if (RestoringComment != null)
+            {
+                RestoringComment(comment, e);
             }
         }
 
@@ -1287,7 +1530,7 @@
             // temporary ID/Comment table
             var commentTable = new Hashtable();
 
-            foreach (var comment in this.comments)
+            foreach (var comment in this.Comments)
             {
                 // add to hashtable for lookup
                 commentTable.Add(comment.Id, comment);

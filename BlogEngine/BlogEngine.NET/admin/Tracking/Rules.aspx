@@ -66,6 +66,7 @@
         /// </param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
             this.BtnDelete.OnClientClick = string.Format("return confirm('{0}');", labels.deleteConfirm);
 
             id = HttpContext.Current.Request.QueryString["id"];

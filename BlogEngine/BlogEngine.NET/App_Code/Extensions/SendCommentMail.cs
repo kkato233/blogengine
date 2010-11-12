@@ -39,13 +39,16 @@ public class SendCommentMail
     /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
     private static void PostCommentAdded(object sender, EventArgs e)
     {
-        var post = (Post)((Comment)sender).Parent;
-        if (post == null || !BlogSettings.Instance.SendMailOnComment || Thread.CurrentPrincipal.Identity.IsAuthenticated)
+        if (!BlogSettings.Instance.SendMailOnComment) { return; }
+
+        var comment = (Comment)sender;
+        if (comment == null) { return; }
+
+        var post = comment.Parent as Post;
+        if (post == null || post.CurrentUserOwns)
         {
             return;
         }
-
-        var comment = post.Comments[post.Comments.Count - 1];
 
         // Do not send email if comment not approved
         if (!comment.IsApproved)

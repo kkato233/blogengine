@@ -198,6 +198,7 @@ namespace BlogEngine.Core
                 // are found, then the defaults need to be set.
                 if (!GetRights(editorsRole).Any())
                 {
+                    Right.rightsByFlag[Rights.AccessAdminPages].AddRole(editorsRole);
                     Right.rightsByFlag[Rights.CreateComments].AddRole(editorsRole);
                     Right.rightsByFlag[Rights.ViewPublicComments].AddRole(editorsRole);
                     Right.rightsByFlag[Rights.ViewPublicPosts].AddRole(editorsRole);

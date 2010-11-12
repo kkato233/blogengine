@@ -33,8 +33,7 @@
         /// The current page.
         /// </summary>
         private static int currentPage = 1;
-        private static int pSize = BlogSettings.Instance.PostsPerPage;
-
+        
         /// <summary>
         /// The comm cnt.
         /// </summary>
@@ -50,6 +49,7 @@
         /// <returns>List of posts</returns>
         public static List<JsonPost> GetPosts(int page, string postType, string filter, string title)
         {
+            var pSize = BlogSettings.Instance.PostsPerPage;
             var cntTo = page * pSize;
             var cntFrom = cntTo - pSize;
             var cnt = 0;
@@ -110,7 +110,9 @@
                     Categories = GetCategories(x.Categories),
                     Tags = GetTags(x.Tags),
                     Comments = GetComments(x.Comments, x.RelativeLink),
-                    IsPublished = x.IsPublished
+                    IsPublished = x.IsPublished,
+                    CanUserEdit = x.CanUserEdit,
+                    CanUserDelete = x.CanUserDelete
                 };
                 pagePosts.Add(jp);
             }
@@ -140,6 +142,7 @@
             var lastLnk = string.Empty;
             const string linkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadPostsForPage('{1}');\" class=\"{0}\"></a>";
 
+            var pSize = BlogSettings.Instance.PostsPerPage;
             var pgs = Convert.ToDecimal(postCnt) / Convert.ToDecimal(pSize);
             var p = pgs - (int)pgs;
             var lastPage = p > 0 ? (int)pgs + 1 : (int)pgs;
@@ -196,28 +199,28 @@
         static string GetComments(ICollection<Comment> comments, string postUrl)
         {
             int pending, approved;
-            int spam = comments.Count(c => c.IsSpam == true);
+            int spam = comments.Count(c => c.IsSpam == true && c.IsDeleted == false);
 
-            string pLink = "<a href=\"{0}\" class=\"comCountPending\">{1}</a>";
-            string aLink = "<a href=\"{0}\" class=\"comCountApproved\">{1}</a>";
-            string sLink = "<a href=\"{0}\" class=\"comCountSpam\">{1}</a>";
+            string pLink = "<a href=\"{0}\" class=\"comCountPending tipsyhelp\" original-title=\"Pending comments\">({1})</a>";
+            string aLink = "<a href=\"{0}\" class=\"comCountApproved tipsyhelp\" original-title=\"Approved comments, visible to public\">{1}</a>";
+            string sLink = "<a href=\"{0}\" class=\"comCountSpam tipsyhelp\" original-title=\"Spam comments\">({1})</a>";
 
             sLink = spam > 0 ? string.Format(sLink, postUrl + "#comments", spam) : "";
 
             if (BlogSettings.Instance.EnableCommentsModeration)
             {
-                pending = comments.Count(c => (c.IsApproved == false && c.IsSpam == false));
-                approved = comments.Count(c => c.IsApproved == true);
+                pending = comments.Count(c => (c.IsApproved == false && c.IsSpam == false && c.IsDeleted == false));
+                approved = comments.Count(c => c.IsApproved == true && c.IsDeleted == false);
 
                 pLink = pending > 0 ? string.Format(pLink, postUrl + "#comment", pending) : "";
-                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "";
+                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "<span class=\"comNone tipsyhelp\" original-title=\"Approved comments, visible to public\">0</span>";
 
-                return pLink + aLink + sLink;
+                return aLink + pLink + sLink;
             }
             else
             {
                 approved = comments.Count(c => c.IsSpam == false);
-                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "";
+                aLink = approved > 0 ? string.Format(aLink, postUrl + "#comment", approved) : "<span class=\"comNone tipsyhelp\" original-title=\"Approved comments, visible to public\">0</span>";
                 return aLink + sLink;
             }
         }
