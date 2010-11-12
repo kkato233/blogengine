@@ -35,6 +35,7 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 
         if (!IsPostBack && !IsCallback)
         {
+            recaptcha.Visible = UseCaptcha;
             recaptcha.UserUniqueIdentifier = hfCaptcha.Value = Guid.NewGuid().ToString();
         }
 
@@ -72,13 +73,20 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	private void btnSend_Click(object sender, EventArgs e)
 	{
-		if (IsCaptchaValid && Page.IsValid && txtAttachment.HasFile)
+		if (Page.IsValid && txtAttachment.HasFile)
 		{
-			bool success = SendEmail(txtEmail.Text, txtName.Text, txtSubject.Text, txtMessage.Text);
-			divForm.Visible = !success;
-			lblStatus.Visible = !success;
-			divThank.Visible = success;
-			SetCookie();
+            if (!UseCaptcha || IsCaptchaValid)
+            {
+                bool success = SendEmail(txtEmail.Text, txtName.Text, txtSubject.Text, txtMessage.Text);
+                divForm.Visible = !success;
+                lblStatus.Visible = !success;
+                divThank.Visible = success;
+                SetCookie();
+            }
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "captcha-incorrect", " displayIncorrectCaptchaMessage(); ", true);
+            }
 		}
 	}
 
@@ -189,7 +197,19 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
     {
         get
         {
+            recaptcha.Validate();
             return recaptcha.IsValid;
+        }
+    }
+
+    private bool UseCaptcha
+    {
+        get
+        {
+            return
+                BlogSettings.Instance.EnableRecaptchaOnContactForm &&
+                recaptcha.RecaptchaEnabled &&
+                recaptcha.RecaptchaNecessary;
         }
     }
 
@@ -219,7 +239,7 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
             string recaptchaChallenge = arg[5];
 
             recaptcha.UserUniqueIdentifier = hfCaptcha.Value;
-            if (recaptcha.RecaptchaEnabled && recaptcha.RecaptchaNecessary)
+            if (UseCaptcha)
             {
                 if (!recaptcha.ValidateAsync(recaptchaResponse, recaptchaChallenge))
                 {

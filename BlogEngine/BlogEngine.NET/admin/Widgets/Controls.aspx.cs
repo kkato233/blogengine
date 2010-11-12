@@ -58,6 +58,7 @@ namespace Admin.Pages
             this.txtThankMessage.Text = BlogSettings.Instance.ContactThankMessage;
             this.txtFormMessage.Text = BlogSettings.Instance.ContactFormMessage;
             this.cbEnableAttachments.Checked = BlogSettings.Instance.EnableContactAttachments;
+            this.cbEnableRecaptcha.Checked = BlogSettings.Instance.EnableRecaptchaOnContactForm;
         }
 
         /// <summary>
@@ -82,6 +83,7 @@ namespace Admin.Pages
             BlogSettings.Instance.ContactFormMessage = this.txtFormMessage.Text;
             BlogSettings.Instance.ContactThankMessage = this.txtThankMessage.Text;
             BlogSettings.Instance.EnableContactAttachments = this.cbEnableAttachments.Checked;
+            BlogSettings.Instance.EnableRecaptchaOnContactForm = this.cbEnableRecaptcha.Checked;
 
             BlogSettings.Instance.Save();
         }

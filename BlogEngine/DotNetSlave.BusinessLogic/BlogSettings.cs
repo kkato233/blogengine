@@ -1098,6 +1098,15 @@
 
         #endregion
 
+        #region EnableRecaptchaOnContactForm
+
+        /// <summary>
+        ///     Gets or sets whether or not to use Recaptcha on the contact form.
+        /// </summary>
+        public bool EnableRecaptchaOnContactForm { get; set; }
+
+        #endregion
+
         /// <summary>
         /// Gets or sets whether this application's handlers should be able to download and cache files hosted on other servers.
         /// </summary>

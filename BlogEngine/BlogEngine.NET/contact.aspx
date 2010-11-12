@@ -77,7 +77,7 @@
     function endSendMessage(arg, context) {
 
         if (arg == "RecaptchaIncorrect") {
-            if (document.getElementById("spnCaptchaIncorrect")) document.getElementById("spnCaptchaIncorrect").style.display = "";
+            displayIncorrectCaptchaMessage();
             BlogEngine.$('<%=btnSend.ClientID %>').disabled = false;
 
             if (document.getElementById('recaptcha_response_field')) {
@@ -94,6 +94,10 @@
             form.style.display = 'none';
             thanks.innerHTML = arg;
         }
+    }
+
+    function displayIncorrectCaptchaMessage() {
+        if (document.getElementById("spnCaptchaIncorrect")) document.getElementById("spnCaptchaIncorrect").style.display = "";
     }
 
     function onSendError(err, context) {
