@@ -1252,4 +1252,10 @@
   <data name="selfRegistrationInitialRole" xml:space="preserve">
     <value>Initial Role for Self Registration</value>
   </data>
+  <data name="enableRecaptcha" xml:space="preserve">
+    <value>Enable Recaptcha</value>
+  </data>
+  <data name="recaptchaConfigureReminder" xml:space="preserve">
+    <value>Make sure the Recaptcha extension is enabled and properly configured.</value>
+  </data>
 </root>
