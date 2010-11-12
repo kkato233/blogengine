@@ -31,8 +31,9 @@ namespace Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+            Security.DemandUserHasRight(Rights.AccessAdminPages, true);
 
+            var postsLinq = from posts in Post.Posts where posts.IsPublished == true select posts.Id;
             PostsPublished = postsLinq.Count();
 
             PagesCount = BlogEngine.Core.Page.Pages.Count();
