@@ -1027,12 +1027,17 @@
         /// <param name="message">
         /// The message.
         /// </param>
-        public static void SendMailMessage(MailMessage message)
+        /// <returns>
+        /// Error message, if any.
+        /// </returns>
+        public static string SendMailMessage(MailMessage message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
+
+            StringBuilder errorMsg = new StringBuilder();
 
             try
             {
@@ -1057,23 +1062,25 @@
             {
                 OnEmailFailed(message);
 
-                StringBuilder sb = new StringBuilder("Error sending email in SendMailMessage: ");
+                errorMsg.Append("Error sending email in SendMailMessage: ");
                 Exception current = ex;
 
                 while (current != null)
                 {
-                    if (sb.Length > 0) { sb.Append(" "); }
-                    sb.Append(current.Message);
+                    if (errorMsg.Length > 0) { errorMsg.Append(" "); }
+                    errorMsg.Append(current.Message);
                     current = current.InnerException;
                 }
 
-                Utils.Log(sb.ToString());
+                Utils.Log(errorMsg.ToString());
             }
             finally
             {
                 // Remove the pointer to the message object so the GC can close the thread.
                 message.Dispose();
             }
+
+            return errorMsg.ToString();
         }
 
         /// <summary>

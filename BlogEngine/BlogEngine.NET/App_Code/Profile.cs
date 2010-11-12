@@ -51,15 +51,22 @@
         {
             this.response.Success = false;
 
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (string.IsNullOrEmpty(vals[0]))
+            {
+                this.response.Message = "Display name is required field";
+                return this.response;
+            }
+
+            bool isSelf = id.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
+
+            if (isSelf && !Security.IsAuthorizedTo(Rights.EditOwnUser))
             {
                 this.response.Message = "Not authorized";
                 return this.response;
             }
-
-            if (string.IsNullOrEmpty(vals[0]))
+            else if (!isSelf && !Security.IsAuthorizedTo(Rights.EditOtherUsers))
             {
-                this.response.Message = "Display name is required field";
+                this.response.Message = "Not authorized";
                 return this.response;
             }
 
@@ -112,11 +119,20 @@
 
                 pf.Save();
 
-                // remove all user roles and add only checked
-                Roles.RemoveUserFromRoles(id, Roles.GetAllRoles());
-                if (roles.GetLength(0) > 0)
+                bool saveRoles = false;
+                if (isSelf && Security.IsAuthorizedTo(Rights.EditOwnRoles))
+                    saveRoles = true;
+                else if (!isSelf && Security.IsAuthorizedTo(Rights.EditOtherUsersRoles))
+                    saveRoles = true;
+
+                if (saveRoles)
                 {
-                    Roles.AddUsersToRoles(new string[] { id }, roles);
+                    // remove all user roles and add only checked
+                    Roles.RemoveUserFromRoles(id, Roles.GetAllRoles());
+                    if (roles.GetLength(0) > 0)
+                    {
+                        Roles.AddUsersToRoles(new string[] { id }, roles);
+                    }
                 }
             }
             catch (Exception ex)

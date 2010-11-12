@@ -47,7 +47,7 @@ namespace App_Code.Controls
         {
             get
             {
-                if (Thread.CurrentPrincipal.IsInRole(BlogSettings.Instance.AdministratorRole))
+                if (Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
                 {
                     if (this.Widget != null)
                     {

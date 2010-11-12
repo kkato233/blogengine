@@ -10,6 +10,10 @@
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+
             if (!IsPostBack)
             {
                 BindSettings();

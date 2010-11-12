@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Web.UI;
     using System.Web.UI.WebControls;
-
+    using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
 
     using Resources;
@@ -61,6 +61,8 @@
         /// </param>
         protected void Page_Load(object sender, EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+
             this.SettingName = this.ID;
             this.Settings = ExtensionManager.GetSettings(this.SettingName);
 

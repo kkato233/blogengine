@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Web.Services;
-
+    using System.Web.Security;
     using BlogEngine.Core;
 
     /// <summary>
@@ -16,7 +16,12 @@
         /// <summary>
         /// The id string.
         /// </summary>
-        private static string theId = string.Empty;
+        private string theId = string.Empty;
+
+        /// <summary>
+        /// The membership user for the id.
+        /// </summary>
+        private MembershipUser MembershipUser;
 
         #endregion
 
@@ -25,7 +30,7 @@
         /// <summary>
         /// Gets RolesList.
         /// </summary>
-        protected static string RolesList
+        protected string RolesList
         {
             get
             {
@@ -83,10 +88,41 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            // Rights.AccessAdminPages isn't needed here.  If self-registration is turned
+            // on, we will allow a user who cannot AccessAdminPages to edit their profile.
+            if (!Security.IsAuthenticated)
+            {
+                Security.RedirectToLoginForCurrentUrl();
+                return;
+            }
+
             if (!string.IsNullOrEmpty(this.Request.QueryString["id"]))
             {
                 theId = this.Request.QueryString["id"];
+                MembershipUser = Membership.GetUser(theId);
             }
+
+            if (MembershipUser == null)
+            {
+                Response.Redirect("Users.aspx");
+                return;
+            }
+
+            bool canEditRoles = false;
+            bool membershipUserIsSelf = MembershipUser.UserName.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
+
+            if (membershipUserIsSelf)
+                Security.DemandUserHasRight(BlogEngine.Core.Rights.EditOwnUser, true);
+            else
+                Security.DemandUserHasRight(BlogEngine.Core.Rights.EditOtherUsers, true);
+
+            if (membershipUserIsSelf && Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnRoles))
+                canEditRoles = true;
+            else if (!membershipUserIsSelf && Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersRoles))
+                canEditRoles = true;
+
+            phRoles.Visible = canEditRoles;
+            phRightContentBox.Visible = Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages);
 
             base.OnInit(e);
         }

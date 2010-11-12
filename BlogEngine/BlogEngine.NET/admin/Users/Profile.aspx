@@ -82,18 +82,22 @@
         LoadProfile();
     </script>
 	<div class="content-box-outer">
-		<div class="content-box-right">
-            <ul>
-			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
-			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
-            </ul>
-		</div>
+        <asp:PlaceHolder ID="phRightContentBox" runat="server">
+		    <div class="content-box-right">
+                <ul>
+			        <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
+			        <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+                </ul>
+		    </div>
+        </asp:PlaceHolder>
 		<div class="content-box-left">
             <h1 style="border:none;"><%=Resources.labels.profile %> : <%=Request.QueryString["id"] %></h1>
             <div id="Container"></div>
 
-            <h2>Roles</h2>
-            <div id="rolelist" style="margin:0 0 20px;"><%=RolesList%></div>
+            <asp:PlaceHolder ID="phRoles" runat="server">
+                <h2>Roles</h2>
+                <div id="rolelist" style="margin:0 0 20px;"><%=RolesList%></div>
+            </asp:PlaceHolder>
 
             <div id="Container2"></div>
             <div class="action_buttons">

@@ -1,11 +1,19 @@
 ﻿namespace Admin.Comments
 {
+    using System;
     using System.Collections;
     using System.Web.Services;
+    using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
     public partial class Approved : System.Web.UI.Page
     {
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
+
         /// <summary>
         /// Number of comments in the list
         /// </summary>
