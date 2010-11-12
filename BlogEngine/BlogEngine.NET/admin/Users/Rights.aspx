@@ -94,6 +94,13 @@
             return false;
         }
     </script>
+    <script src="../jquery.masonry.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#rightsHolder').masonry({ singleMode: true, itemSelector: '.dashboardWidget' });
+        });
+    </script>
+
     <div class="content-box-outer">
         <div class="content-box-right">
             <ul>

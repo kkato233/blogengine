@@ -43,6 +43,7 @@ label.wide {float: left;display: block;}
     border-bottom-left-radius:5px;border-bottom-right-radius:5px;}
 .content-box-left { width: auto; height: auto; margin-right: 200px; padding: 40px; min-height: 450px; position:relative; }
 .content-box-full { width: auto; height: auto; padding: 40px; min-height: 450px; }
+.content-widgets-box-full { width: auto; height: auto; padding: 20px; min-height: 450px; }
 
 /* Tabs */
 /* ------------------------------*/
@@ -60,9 +61,9 @@ label.wide {float: left;display: block;}
     border-right:solid 1px #9a9a9a; border-left:solid 1px #fff; border-top:solid 1px #fff;}
     
 ul#trash { float:right; margin-right:20px;}    
-#recyclebin { float:right; padding:10px 0; background:#aaa url(images/bkg-dark2.jpg) repeat scroll 0 0; width:205px; height:45px;
+#recyclebin { float:right; padding:10px 0; /*background:#aaa url(images/bkg-dark2.jpg) repeat scroll 0 0;*/ width:205px; height:45px;
               border-top-right-radius:5px;-webkit-border-top-right-radius:5px;-moz-border-radius-topright:5px;}
-#recyclebin a { float:left; padding:10px 0 10px 25px; margin:0 40px 0 20px; color:#000; }
+#recyclebin a { float:right; padding:15px 0 15px 22px; margin:0 40px 0 20px; color:#000; }
 #recyclebin a.empty { background: transparent url(images/recyclebin.png) no-repeat scroll left 0; }
 #recyclebin a.full { background: transparent url(images/recyclebin.png) no-repeat scroll left -40px; }
    
@@ -170,19 +171,21 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .toolsAction span {background: transparent url("images/action-dropdown.png") no-repeat scroll right center;
     padding-right:16px; color:#7a7a7a; font-weight:normal; }
 .toolsAction:hover { text-decoration:none;}    
-.editAction {background: transparent url("images/action-edit-small.png") no-repeat scroll 5px center; padding-left:18px;
+.editAction {background: transparent url("images/action-edit-small.png") no-repeat scroll left center; padding-left:18px;
     font-size:12px;}
-.deleteAction {background: transparent url("images/action-delete-small.png") no-repeat scroll 5px center; padding-left:18px;
+.deleteAction {background: transparent url("images/action-delete-small.png") no-repeat scroll left center; padding-left:18px;
     font-size:12px;}
-.approveAction {background: transparent url("images/action-enable-small.png") no-repeat scroll 5px center; padding-left:18px;
+.approveAction {background: transparent url("images/action-enable-small.png") no-repeat scroll left center; padding-left:18px;
     font-size:12px;}
-.unapproveAction {background: transparent url("images/action-remove-small.png") no-repeat scroll 5px center; padding-left:18px;
+.unapproveAction {background: transparent url("images/action-remove-small.png") no-repeat scroll left center; padding-left:18px;
     font-size:12px;}
-.viewAction {background: transparent url("images/action-view-small.png") no-repeat scroll 5px center;  padding-left:18px;
+.viewAction {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
-.rightsAction {background: transparent url("images/action-rights-small.png") no-repeat scroll 5px center;  padding-left:18px;
+.rightsAction {background: transparent url("images/action-rights-small.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
-.profileAction {background: transparent url("images/action-profile-small.png") no-repeat scroll 5px center;  padding-left:18px;
+.profileAction {background: transparent url("images/action-profile-small.png") no-repeat scroll left center;  padding-left:18px;
+    font-size:12px;}
+.newAction {background: transparent url("images/action-add.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
     
 .beTable .rowTools { margin:0; padding:0; list-style:none; }
@@ -190,7 +193,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .beTable .rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
     border:solid 1px #919191; list-style:none; display:none; margin-right:20px; margin-top:1px;}
 .beTable .rowToolsMenu li {padding:2px; min-width:80px;}
-.beTable .rowToolsMenu a { display:block; padding:5px 10px 5px 24px; color:#7a7a7a; text-decoration:none;}
+.beTable .rowToolsMenu a { display:block; padding:5px 10px 5px 18px; color:#7a7a7a; text-decoration:none;}
 .beTable .rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
 
 
@@ -222,7 +225,18 @@ label.lbl { display:block; margin:0 0 5px 0;}
 
 /* Dashboard */
 /* ------------------------------*/
-.dashboardWidget { border:solid 1px #dcdcdc; padding:20px; float:left; width:45%; margin:10px;}
+#stats, #widgets { float:left;}
+.dashboardWidget { float:left; width:49%; }
+.dashboardWidget > div, .dashboardStats > div { border:solid 1px #dcdcdc; margin:20px; padding:20px;}
+.dashboardWidget ul { list-style:none; margin:0; padding:0; }
+.dashboardWidget li { margin:0 0 5px;}
+.dashboardWidget .meta { display:inline; font-size:12px; color:#aaa; margin-left:5px;}
+.dashboardWidget a { font-size:13px;}
+
+.dashboardStats ul { list-style:none; margin:0; padding:0; overflow:hidden; }
+.dashboardStats li { margin:0 0 10px; padding:0 0 10px; border-bottom:solid 1px #dcdcdc; overflow:hidden; }
+.dashboardStats li:last-child { border:none; }
+.dashboardStats .endline { float:right; margin-left:10px;}
 
 /* Footer  */
 /* ------------------------------*/

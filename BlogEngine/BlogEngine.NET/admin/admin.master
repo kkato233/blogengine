@@ -7,6 +7,7 @@
     <title>BlogEngine.NET Admin</title>
     <link rel="stylesheet" href="style.css" type="text/css" />
     <link rel="stylesheet" href="colorbox.css" type="text/css" />
+    <link rel="stylesheet" href="tipsy.css" type="text/css" />
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
@@ -31,7 +32,7 @@
             
             <div class="tabs toprounded">
                 <uc1:menu ID="Menu1" runat="server" />
-                <div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx">Recycle bin (<%=RecycleClass()%>)</a></div>
+                <div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx"></a></div>
             </div>
             <div class="clear"></div>
             <div>  
