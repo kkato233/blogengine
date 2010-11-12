@@ -46,21 +46,21 @@ namespace Admin
         #region Methods
 
         /// <summary>
-        /// Gets the admin photo.
+        /// Gets the current user's photo.
         /// </summary>
         /// <returns>
-        /// The admin photo.
+        /// The user photo.
         /// </returns>
-        protected string AdminPhoto()
+        protected string UserPhoto()
         {
             var src = string.Format("{0}admin/images/no_avatar.png", Utils.AbsoluteWebRoot);
             var email = (string)null;
-            var adminName = string.Empty;
-            var ap = this.AdminProfile();
+            var userName = string.Empty;
+            var ap = this.UserProfile();
 
             if (ap != null)
             {
-                adminName = ap.DisplayName;
+                userName = ap.DisplayName;
                 if (string.IsNullOrEmpty(ap.PhotoUrl))
                 {
                     if (!string.IsNullOrEmpty(ap.EmailAddress) && BlogSettings.Instance.Avatar != "none")
@@ -75,20 +75,20 @@ namespace Admin
                 }
             }
 
-            return Avatar.GetAvatarImageTag(28, email, null, src, adminName);
+            return Avatar.GetAvatarImageTag(28, email, null, src, userName);
         }
 
         /// <summary>
-        /// Gets the admin profile.
+        /// Gets the current user's profile.
         /// </summary>
         /// <returns>
         /// An Author Profile.
         /// </returns>
-        protected AuthorProfile AdminProfile()
+        protected AuthorProfile UserProfile()
         {
             try
             {
-                return AuthorProfile.GetProfile(Thread.CurrentPrincipal.Identity.Name);
+                return AuthorProfile.GetProfile(Security.CurrentUser.Identity.Name);
             }
             catch (Exception e)
             {
@@ -107,6 +107,8 @@ namespace Admin
             {
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
+
+            phRecycleBin.Visible = Security.IsAuthorizedTo(Rights.AccessAdminPages);
 
             Utils.AddFolderJavaScripts(this.Page, "Scripts", false);
             Utils.AddJavaScriptInclude(this.Page, string.Format("{0}admin/admin.js", Utils.RelativeWebRoot), false, false);

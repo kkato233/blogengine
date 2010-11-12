@@ -16,6 +16,10 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
+                BlogEngine.Core.Rights.AccessAdminPages,
+                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+
             BindSettings();
 
             Page.MaintainScrollPositionOnPostBack = true;
@@ -87,7 +91,7 @@
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
 
-            if (!Thread.CurrentPrincipal.IsInRole(settings.AdministratorRole))
+            if (!Security.CurrentUser.IsInRole(settings.AdministratorRole))
             {
                 response.Message = "Not authorized";
                 return response;

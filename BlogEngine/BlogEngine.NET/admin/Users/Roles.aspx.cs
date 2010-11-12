@@ -1,5 +1,6 @@
 ﻿namespace Admin.Users
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Services;
@@ -14,6 +15,11 @@
     public partial class Roles : Page
     {
         #region Public Methods
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        }
 
         /// <summary>
         /// Gets the roles.

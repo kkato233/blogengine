@@ -3,13 +3,13 @@
     using System;
     using System.Linq;
     using System.Web.UI;
-
+    using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
 
     /// <summary>
     /// The user_controls_xdashboard_ default.
     /// </summary>
-    public partial class Default : Page
+    public partial class Default : System.Web.UI.Page
     {
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
@@ -17,6 +17,7 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
+            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
             UserControl uc;
 
             switch (this.Request.QueryString["ctrl"])
