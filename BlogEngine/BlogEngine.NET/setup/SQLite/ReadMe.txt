@@ -1,10 +1,10 @@
-Running BlogEngine.NET 1.6 using SQLite:
+Running BlogEngine.NET 2.0 using SQLite:
 
 If you wish to use SQLite to store all your blog data, this is the guide for you.
 Included in this folder is a default SQLite database, that you can use to get you 
 started with your blog.  In addition, you will find a sample web.config file with
 the needed changes to use SQLite and an upgrade scripts for current SQLite users 
-who wish to upgrade from 1.4.5 or 1.5.
+who wish to upgrade from 1.4.5, 1.5 or 1.6.
 
 Instructions for new setup:
 
@@ -19,6 +19,18 @@ you have a backup.)
 6. Login with the username Admin and password admin.  Change the password.  Note: This 
 data is case sensitive.
 
+Upgrading from 1.6
+
+1. If you don't already have SQLite Admin tool installed, you'll need to get one. SQLite
+Admin has worked great for me.  (http://sqliteadmin.orbmu2k.de/)
+2. Open your BlogEngine.s3db database.  (You will likely need to copy your BlogEngine.s3db
+file from your web server, perform the update, and copy it back out after these changes
+depending on your setup.)
+3. Execute the upgrade script for 1.6 to 2.0 against the database.
+4. The web.config file has changed in 2.0.  It will likely be easiest to start
+with the sample web.config file as described above, but if you have other changes in it, 
+you'll need to merge them.
+
 Upgrading from 1.5
 
 1. If you don't already have SQLite Admin tool installed, you'll need to get one. SQLite
@@ -26,7 +38,7 @@ Admin has worked great for me.  (http://sqliteadmin.orbmu2k.de/)
 2. Open your BlogEngine.s3db database.  (You will likely need to copy your BlogEngine.s3db
 file from your web server, perform the update, and copy it back out after these changes
 depending on your setup.)
-3. Execute the upgrade script for 1.5 to 1.6  against the database.
+3. Execute the upgrade script for 1.5 to 1.6 against the database.
 4. You will need to manually edit the be_PostComments table.  Change the field 
 "ParentCommentID" to have the field constraint of NOT NULL.
 5. The web.config file has changed in 1.6.0.  It will likely be easiest to start

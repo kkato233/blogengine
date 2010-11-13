@@ -43,7 +43,7 @@ namespace Admin
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            if (!this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.ManageWidgets))
             {
                 this.Response.StatusCode = 403;
                 this.Response.Clear();

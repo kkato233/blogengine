@@ -1,15 +1,15 @@
 
 
-ALTER TABLE [dbo].[be_PostComment] ADD IsSpam bit NULL
+ALTER TABLE [dbo].[be_PostComment] ADD IsSpam bit NOT NULL DEFAULT 0
 GO
 
-ALTER TABLE [dbo].[be_PostComment] ADD IsDeleted bit NULL
+ALTER TABLE [dbo].[be_PostComment] ADD IsDeleted bit NOT NULL DEFAULT 0
 GO
 
-ALTER TABLE [dbo].[be_Posts] ADD IsDeleted bit NULL
+ALTER TABLE [dbo].[be_Posts] ADD IsDeleted bit NOT NULL DEFAULT 0
 GO
 
-ALTER TABLE [dbo].[be_Pages] ADD IsDeleted bit NULL
+ALTER TABLE [dbo].[be_Pages] ADD IsDeleted bit NOT NULL DEFAULT 0
 GO
 
 CREATE TABLE [dbo].[be_Rights](

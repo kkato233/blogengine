@@ -141,18 +141,19 @@
 
                 // The rights collection can be empty, just not null. An empty array would indicate that a role is
                 // being updated to include no rights at all.
-                rightsCollection = new Dictionary<string, bool>(rightsCollection, StringComparer.OrdinalIgnoreCase);
+                // Remove spaces from each key (i.e. so "Edit Own User" becomes EditOwnUser).
+                rightsCollection = rightsCollection.ToDictionary(r => r.Key.Replace(" ", string.Empty), r => r.Value, StringComparer.OrdinalIgnoreCase);
 
                 // Validate the dictionary before doing any altering to Rights.
                 foreach (var right in rightsCollection)
                 {
                     if (!Right.RightExists(right.Key))
                     {
-                        return new JsonResponse() { Success = true, Message = String.Format("No such Right exists: {0}", right.Key) };
+                        return new JsonResponse() { Success = false, Message = String.Format("No such Right exists: {0}", right.Key) };
                     }
                     else if (right.Value == false)
                     {
-                        return new JsonResponse() { Success = true, Message = "Do not pass back rights that have false values." };
+                        return new JsonResponse() { Success = false, Message = "Do not pass back rights that have false values." };
                     }
                 }
 
@@ -228,6 +229,66 @@
                 Utils.Log(string.Format("Roles.UpdateRole: {0}", ex.Message));
                 response.Message = string.Format("Could not update the role: {0}", vals[0]);
             }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Returns the default rights for the role.
+        /// </summary>
+        /// <param name="roleName">The roleName.</param>
+        /// <returns>
+        /// JSON Response containing delimited default rights.
+        /// </returns>
+        [WebMethod]
+        public JsonResponse GetDefaultRoleRights(string roleName)
+        {
+            if (!Security.IsAuthorizedTo(Rights.EditRoles))
+            {
+                return GetNotAuthorized();
+            }
+            else if (Utils.StringIsNullOrWhitespace(roleName))
+            {
+                return new JsonResponse() { Message = "roleName argument is null." };
+            }
+
+            List<Rights> defaultRights = Right.GetDefaultRights(roleName);
+
+            var response = new JsonResponse()
+            {
+                Success = true,
+                Data = string.Join("|", defaultRights.Select(r => Utils.FormatIdentifierForDisplay(r.ToString())).ToArray())
+            };
+
+            return response;
+        }
+
+        /// <summary>
+        /// Returns the rights for the role.
+        /// </summary>
+        /// <param name="roleName">The roleName.</param>
+        /// <returns>
+        /// JSON Response containing delimited rights.
+        /// </returns>
+        [WebMethod]
+        public JsonResponse GetRoleRights(string roleName)
+        {
+            if (!Security.IsAuthorizedTo(Rights.EditRoles))
+            {
+                return GetNotAuthorized();
+            }
+            else if (Utils.StringIsNullOrWhitespace(roleName))
+            {
+                return new JsonResponse() { Message = "roleName argument is null." };
+            }
+
+            IEnumerable<Right> roleRights = Right.GetRights(roleName);
+
+            var response = new JsonResponse()
+            {
+                Success = true,
+                Data = string.Join("|", roleRights.Select(r => r.DisplayName).ToArray())
+            };
 
             return response;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-
+using System.Text.RegularExpressions;
 
 namespace BlogEngine.Core
 {
@@ -184,12 +184,11 @@ namespace BlogEngine.Core
                 // are found, then the defaults need to be set.
                 if (!GetRights(anonymousRole).Any())
                 {
-                    Right.rightsByFlag[Rights.CreateComments].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewPublicComments].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewPublicPosts].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewPublicPages].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.ViewRatingsOnPosts].AddRole(anonymousRole);
-                    Right.rightsByFlag[Rights.SubmitRatingsOnPosts].AddRole(anonymousRole);
+                    List<Rights> defaultRoleRights = GetDefaultRights(anonymousRole);
+                    foreach (Rights rights in defaultRoleRights)
+                    {
+                        Right.rightsByFlag[rights].AddRole(anonymousRole);
+                    }
 
                     defaultsAdded = true;
                 }
@@ -198,26 +197,11 @@ namespace BlogEngine.Core
                 // are found, then the defaults need to be set.
                 if (!GetRights(editorsRole).Any())
                 {
-                    Right.rightsByFlag[Rights.AccessAdminPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.CreateComments].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewPublicComments].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewPublicPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewPublicPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewRatingsOnPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.SubmitRatingsOnPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewUnmoderatedComments].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ModerateComments].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewUnpublishedPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.ViewUnpublishedPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.DeleteOwnPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.DeleteOwnPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.PublishOwnPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.PublishOwnPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.CreateNewPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.CreateNewPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.EditOwnPages].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.EditOwnPosts].AddRole(editorsRole);
-                    Right.rightsByFlag[Rights.EditOwnUser].AddRole(editorsRole);
+                    List<Rights> defaultRoleRights = GetDefaultRights(editorsRole);
+                    foreach (Rights rights in defaultRoleRights)
+                    {
+                        Right.rightsByFlag[rights].AddRole(editorsRole);
+                    }
 
                     defaultsAdded = true;
                 }
@@ -228,6 +212,52 @@ namespace BlogEngine.Core
                 }
             }
 
+        }
+
+        public static List<Rights> GetDefaultRights(string roleName)
+        {
+            if (string.IsNullOrEmpty(roleName)) { return new List<Rights>(); }
+
+            if (roleName.Equals(BlogSettings.Instance.EditorsRole, StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<Rights>()
+                {
+                    Rights.AccessAdminPages,
+                    Rights.CreateComments,
+                    Rights.ViewPublicComments,
+                    Rights.ViewPublicPosts,
+                    Rights.ViewPublicPages,
+                    Rights.ViewRatingsOnPosts,
+                    Rights.SubmitRatingsOnPosts,
+                    Rights.ViewUnmoderatedComments,
+                    Rights.ModerateComments,
+                    Rights.ViewUnpublishedPages,
+                    Rights.ViewUnpublishedPosts,
+                    Rights.DeleteOwnPages,
+                    Rights.DeleteOwnPosts,
+                    Rights.PublishOwnPages,
+                    Rights.PublishOwnPosts,
+                    Rights.CreateNewPages,
+                    Rights.CreateNewPosts,
+                    Rights.EditOwnPages,
+                    Rights.EditOwnPosts,
+                    Rights.EditOwnUser
+                };
+            }
+            else if (roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase))
+            {
+                return new List<Rights>()
+                {
+                    Rights.CreateComments,
+                    Rights.ViewPublicComments,
+                    Rights.ViewPublicPosts,
+                    Rights.ViewPublicPages,
+                    Rights.ViewRatingsOnPosts,
+                    Rights.SubmitRatingsOnPosts
+                };
+            }
+
+            return new List<Rights>();
         }
 
         /// <summary>
@@ -334,7 +364,7 @@ namespace BlogEngine.Core
             }
             else
             {
-                throw new KeyNotFoundException("Unable to find a cooresponding right for the given flag");
+                throw new KeyNotFoundException("Unable to find a corresponding right for the given flag");
             }
 
         }
@@ -481,7 +511,7 @@ namespace BlogEngine.Core
 
         public string DisplayName
         {
-            get { return this.Name; }
+            get { return Utils.FormatIdentifierForDisplay(this.Name); }
         }
 
         public string Description

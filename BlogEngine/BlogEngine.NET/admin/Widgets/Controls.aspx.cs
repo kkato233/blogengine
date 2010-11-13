@@ -8,9 +8,8 @@ namespace Admin.Pages
 {
     using System;
     using System.Globalization;
-
     using BlogEngine.Core;
-
+    using App_Code;
     using Resources;
 
     /// <summary>
@@ -26,9 +25,7 @@ namespace Admin.Pages
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             this.BindSettings();
 
@@ -58,6 +55,7 @@ namespace Admin.Pages
             this.txtThankMessage.Text = BlogSettings.Instance.ContactThankMessage;
             this.txtFormMessage.Text = BlogSettings.Instance.ContactFormMessage;
             this.cbEnableAttachments.Checked = BlogSettings.Instance.EnableContactAttachments;
+            this.cbEnableRecaptcha.Checked = BlogSettings.Instance.EnableRecaptchaOnContactForm;
         }
 
         /// <summary>
@@ -82,6 +80,7 @@ namespace Admin.Pages
             BlogSettings.Instance.ContactFormMessage = this.txtFormMessage.Text;
             BlogSettings.Instance.ContactThankMessage = this.txtThankMessage.Text;
             BlogSettings.Instance.EnableContactAttachments = this.cbEnableAttachments.Checked;
+            BlogSettings.Instance.EnableRecaptchaOnContactForm = this.cbEnableRecaptcha.Checked;
 
             BlogSettings.Instance.Save();
         }

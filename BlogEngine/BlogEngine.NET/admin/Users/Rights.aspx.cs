@@ -33,6 +33,17 @@
 
         }
 
+        protected string RolesForLoading
+        {
+            get
+            {
+                var ret = string.Empty;
+                const string Ptrn = "<li class=\"role\"><a href=\"#\" onclick=\"return setRoleRights('{0}',this)\">{0} role</a></li>";
+                var allRoles = System.Web.Security.Roles.GetAllRoles().Where(r => !r.Equals(this.roleName, StringComparison.OrdinalIgnoreCase));
+                return allRoles.Aggregate(ret, (current, r) => current + string.Format(Ptrn, r, string.Empty));
+            }
+        }
+
         protected string GetRightsJson()
         {
             var role = this.roleName;
@@ -86,7 +97,7 @@
                                 jsonDict.Add(categoryName, new Dictionary<string, bool>());
                             }
 
-                            jsonDict[categoryName].Add(right.Name, right.Roles.Contains(role));
+                            jsonDict[categoryName].Add(right.DisplayName, right.Roles.Contains(role));
                         }
                     }
                 }
