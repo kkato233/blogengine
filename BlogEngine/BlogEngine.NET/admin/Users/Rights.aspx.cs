@@ -86,7 +86,7 @@
                                 jsonDict.Add(categoryName, new Dictionary<string, bool>());
                             }
 
-                            jsonDict[categoryName].Add(right.Name, right.Roles.Contains(role));
+                            jsonDict[categoryName].Add(right.DisplayName, right.Roles.Contains(role));
                         }
                     }
                 }

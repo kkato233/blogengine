@@ -188,13 +188,16 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .newAction {background: transparent url("images/action-add.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
     
-.beTable .rowTools { margin:0; padding:0; list-style:none; }
-.beTable .rowTools li:hover .rowToolsMenu { display:block;}
-.beTable .rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
+.rowTools { margin:0; padding:0; list-style:none; }
+.rowTools li { position: relative; }
+.rowTools li:hover .rowToolsMenu { display:block;}
+.rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
     border:solid 1px #919191; list-style:none; display:none; margin-right:20px; margin-top:1px;}
-.beTable .rowToolsMenu li {padding:2px; min-width:80px;}
-.beTable .rowToolsMenu a { display:block; padding:5px 10px 5px 18px; color:#7a7a7a; text-decoration:none;}
-.beTable .rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
+.rowToolsMenu li {padding:2px; min-width:80px;}
+.rowToolsMenu a { display:block; padding:5px 10px 5px 18px; color:#7a7a7a; text-decoration:none;}
+.rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
+.topRightTools { position: absolute; right: 5em; z-index: 999; }
+.topRightTools li { white-space: nowrap; }
 
 
 /* Buttons with images */
