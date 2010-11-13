@@ -1258,4 +1258,10 @@
   <data name="recaptchaConfigureReminder" xml:space="preserve">
     <value>Make sure the Recaptcha extension is enabled and properly configured.</value>
   </data>
+  <data name="whitelistIpOnCommentApproval" xml:space="preserve">
+    <value>Automatically add IP Address of Comments you Approve to the white list.</value>
+  </data>
+  <data name="blacklistIpOnCommentRejection" xml:space="preserve">
+    <value>Automatically add IP Address of Comments you Reject to the black list.</value>
+  </data>
 </root>

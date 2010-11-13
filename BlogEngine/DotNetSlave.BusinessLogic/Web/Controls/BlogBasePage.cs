@@ -375,7 +375,7 @@
                 this.AddTrackingScript();
             }
 
-            if (this.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (Security.IsAuthorizedTo(Rights.ManageWidgets))
             {
                 Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, false, true);
             }

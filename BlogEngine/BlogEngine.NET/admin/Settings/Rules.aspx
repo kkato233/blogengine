@@ -25,6 +25,11 @@
                         <span class="insetHelp">To disable this rule, set to "0"</span>
                     </li>
                     <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbAddIpToWhitelistFilterOnApproval" />
+                        <label for="<%=cbAddIpToWhitelistFilterOnApproval.ClientID %>"><%=labels.whitelistIpOnCommentApproval%></label>
+                    </li>
+                    <li>
                         <label class="lbl" for="<%=ddBlackListCount.ClientID %>"><%=labels.commentsBlacklist%></label>
                         <asp:DropDownList runat="server" ID="ddBlackListCount">
                             <asp:ListItem Text="0" />
@@ -47,6 +52,11 @@
                         <asp:CheckBox runat="server" ID="cbBlockOnDelete" />
                         <label for="<%=cbBlockOnDelete.ClientID %>"><%=labels.commentsBlockOnDelete%></label>
                         <span class="insetHelp"><%=labels.authorBlocked%></span>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbAddIpToBlacklistFilterOnRejection" />
+                        <label for="<%=cbAddIpToBlacklistFilterOnRejection.ClientID %>"><%=labels.blacklistIpOnCommentRejection%></label>
                     </li>
                 </ul>
 

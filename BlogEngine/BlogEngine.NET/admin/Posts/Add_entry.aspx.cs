@@ -155,7 +155,7 @@
                 BindBookmarklet();
             }
 
-            if (!Page.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.EditOtherUsers))
             {
                 ddlAuthor.Enabled = false;
             }

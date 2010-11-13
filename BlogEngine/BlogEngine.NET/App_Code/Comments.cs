@@ -150,10 +150,14 @@
                 {
                     foreach (var c in from c in p.Comments.ToArray() from t in vals where c.Id == new Guid(t) select c)
                     {
-                        CommentHandlers.AddIpToFilter(c.IP, true);
+                        if (BlogSettings.Instance.AddIpToBlacklistFilterOnRejection)
+                        {
+                            CommentHandlers.AddIpToFilter(c.IP, true);
+                        }
+
                         CommentHandlers.ReportMistake(c);
 
-                        c.ModeratedBy = this.User.Identity.Name;
+                        c.ModeratedBy = Security.CurrentUser.Identity.Name;
                         p.DisapproveComment(c);
                     }
                 }
@@ -197,27 +201,18 @@
 
             try
             {
-                //var toapprove = from p in Post.Posts
-                //                from c in p.Comments
-                //                join t in vals on c.Id equals new Guid(t)
-                //                select new { p, c };
-
-                //foreach (var t in toapprove)
-                //{
-                //    CommentHandlers.AddIpToFilter(t.c.IP, false);
-                //    CommentHandlers.ReportMistake(t.c);
-
-                //    t.c.ModeratedBy = User.Identity.Name;
-                //    t.p.ApproveComment(t.c);
-                //}
                 foreach (var p in Post.Posts.ToArray())
                 {
                     foreach (var c in from c in p.Comments.ToArray() from t in vals where c.Id == new Guid(t) select c)
                     {
-                        CommentHandlers.AddIpToFilter(c.IP, false);
+                        if (BlogSettings.Instance.AddIpToWhitelistFilterOnApproval)
+                        {
+                            CommentHandlers.AddIpToFilter(c.IP, false);
+                        }
+
                         CommentHandlers.ReportMistake(c);
 
-                        c.ModeratedBy = this.User.Identity.Name;
+                        c.ModeratedBy = Security.CurrentUser.Identity.Name;
                         p.ApproveComment(c);
                     }
                 }

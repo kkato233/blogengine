@@ -12,6 +12,7 @@
     using BlogEngine.Core.Json;
     using System.Web.Security;
     using System.Linq;
+    using App_Code;
     using Page = System.Web.UI.Page;
 
     public partial class Main : Page
@@ -22,9 +23,7 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             BindThemes();
             BindCultures();
@@ -178,7 +177,7 @@
         {
             var response = new JsonResponse {Success = false};
 
-            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
                 response.Message = "Not authorized";
                 return response;

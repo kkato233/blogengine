@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using BlogEngine.Core.Providers;
+using App_Code;
 
 #endregion
 
@@ -22,9 +23,7 @@ public partial class admin_Pages_PingServices : System.Web.UI.Page
     /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-            BlogEngine.Core.Rights.AccessAdminPages,
-            BlogEngine.Core.Rights.AccessAdminSettingsPages);
+        WebUtils.CheckRightsForAdminSettingsPage(false);
 
         if (!Page.IsPostBack)
         {

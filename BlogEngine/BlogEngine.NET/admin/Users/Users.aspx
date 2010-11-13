@@ -12,6 +12,13 @@
             $('#txtPasswordMatch').addClass('hidden');
             $('#txtEmailReq').addClass('hidden');
 
+            var roles = new Array();
+            var cnt = 0;
+            $.each($('.chkRole:checked'), function (i, v) {
+                roles[cnt] = v.id;
+                cnt++;
+            });
+
             if (txtUser.length == 0) {
                 $('#txtUserNameReq').removeClass('hidden');
                 $('#txtUserName').focus().select();
@@ -33,7 +40,7 @@
                 return false;
             }
             else {
-                var dto = { "user": txtUser, "pwd": txtPwd, "email": txtEmail };
+                var dto = { "user": txtUser, "pwd": txtPwd, "email": txtEmail, "roles": roles };
                 $.ajax({
                     url: "../../api/UserService.asmx/Add",
                     data: JSON.stringify(dto),
@@ -109,6 +116,10 @@
                         </td>
                     </tr>
                 </table>
+                <asp:PlaceHolder ID="phNewUserRoles" runat="server">
+                    <h2>New user Roles</h2>
+                    <div id="rolelist" style="margin:0 0 20px;"><%=RolesList%></div>
+                </asp:PlaceHolder>
 				<input type="submit" class="btn primary rounded" value="Save" onclick="return AddUser(this);" id="btnNewUser" />
 				or <a href="#" onclick="closeOverlay();">Cancel</a>
 			</div>

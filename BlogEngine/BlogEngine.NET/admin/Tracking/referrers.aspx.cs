@@ -13,7 +13,7 @@ namespace Admin.Tracking
     using System.Web.UI.WebControls;
     using System.Web.Services;
     using System.Threading;
-
+    using App_Code;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
 
@@ -34,7 +34,7 @@ namespace Admin.Tracking
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             infoPanel.Visible = false;
             if (BlogSettings.Instance.EnableReferrerTracking)
@@ -228,7 +228,7 @@ namespace Admin.Tracking
         {
             var response = new JsonResponse { Success = false };
 
-            if (!Security.IsAuthorizedTo(Rights.AccessAdminSettingsPages))
+            if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
                 response.Message = "Not authorized";
                 return response;

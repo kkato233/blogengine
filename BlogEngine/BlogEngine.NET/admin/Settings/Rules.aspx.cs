@@ -5,6 +5,7 @@
     using System.Web.UI.WebControls;
     using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
+    using App_Code;
 
     public partial class Rules : System.Web.UI.Page
     {
@@ -18,9 +19,7 @@
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             _filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
             _customFilters = ExtensionManager.GetSettings("MetaExtension", "BeCustomFilters");
@@ -49,6 +48,8 @@
             ddWhiteListCount.SelectedValue = BlogSettings.Instance.CommentWhiteListCount.ToString();
             ddBlackListCount.SelectedValue = BlogSettings.Instance.CommentBlackListCount.ToString();
             cbReportMistakes.Checked = BlogSettings.Instance.CommentReportMistakes;
+            cbAddIpToWhitelistFilterOnApproval.Checked = BlogSettings.Instance.AddIpToWhitelistFilterOnApproval;
+            cbAddIpToBlacklistFilterOnRejection.Checked = BlogSettings.Instance.AddIpToBlacklistFilterOnRejection;
         }
 
         protected void BindCustomFilters()
@@ -98,6 +99,10 @@
             BlogSettings.Instance.CommentBlackListCount = int.Parse(ddBlackListCount.SelectedValue);
 
             BlogSettings.Instance.CommentReportMistakes = cbReportMistakes.Checked;
+
+            BlogSettings.Instance.AddIpToWhitelistFilterOnApproval = cbAddIpToWhitelistFilterOnApproval.Checked;
+            BlogSettings.Instance.AddIpToBlacklistFilterOnRejection = cbAddIpToBlacklistFilterOnRejection.Checked;
+
             //-----------------------------------------------------------------------
             //  Persist settings
             //-----------------------------------------------------------------------
