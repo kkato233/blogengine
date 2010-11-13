@@ -18,7 +18,7 @@ namespace Admin
         [WebMethod]
         public static JsonComment GetComment(string id)
         {
-            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 return null;
             }
@@ -28,7 +28,7 @@ namespace Admin
         [WebMethod]
         public static JsonComment SaveComment(string[] vals)
         {
-            if (!HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
                 return null;
             }

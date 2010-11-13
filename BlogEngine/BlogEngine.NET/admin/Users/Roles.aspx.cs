@@ -42,18 +42,6 @@
 
         #region Methods
 
-/*
-        /// <summary>
-        /// Determines whether this instance is admin.
-        /// </summary>
-        /// <returns>
-        ///     <c>true</c> if this instance is admin; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsAdmin()
-        {
-            return this.User.IsInRole(BlogSettings.Instance.AdministratorRole);
-        }
-*/
 
         #endregion
     }

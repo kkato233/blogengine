@@ -5,14 +5,13 @@
     using System.Web.UI.WebControls;
     using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
+    using App_Code;
 
     public partial class Settings : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             if (!IsPostBack)
             {

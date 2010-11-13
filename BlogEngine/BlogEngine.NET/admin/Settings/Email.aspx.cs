@@ -13,6 +13,7 @@ namespace admin.Settings
     using System.Net.Mail;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using App_Code;
     using Page = System.Web.UI.Page;
 
     public partial class Email : Page
@@ -23,9 +24,7 @@ namespace admin.Settings
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             BindSettings();
 
@@ -77,7 +76,7 @@ namespace admin.Settings
         {
             var response = new JsonResponse {Success = false};
 
-            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
                 response.Message = "Not authorized";
                 return response;
@@ -124,7 +123,7 @@ namespace admin.Settings
 
             StringBuilder errorMsg = new StringBuilder();
 
-            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
                 response.Message = "Not authorized";
                 return response;

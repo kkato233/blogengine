@@ -78,6 +78,11 @@
                     <asp:CheckBox runat="Server" ID="cbEnableAttachments" />
                     <asp:Label runat="server" AssociatedControlID="cbEnableAttachments" Text='<%$ Code: Resources.labels.enableAttachments %>' />
                 </li>
+                <li>
+                    <asp:CheckBox runat="Server" ID="cbEnableRecaptcha" />
+                    <asp:Label runat="server" AssociatedControlID="cbEnableRecaptcha" Text='<%$ Code: Resources.labels.enableRecaptcha %>' />
+                    <span class="belowHelp"><%=Resources.labels.recaptchaConfigureReminder%></span>
+                </li>
             </ul>
             <div class="action_buttons">
                 <asp:Button runat="server" ID="btnSave" CssClass="btn primary rounded" />

@@ -140,7 +140,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (post.Next == null)
 			return null;
 
-		if (post.Next.IsVisible || Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Next.Author)
+		if (post.Next.IsVisible)
 			return post.Next;
 
 		return GetNextPost(post.Next);
@@ -154,7 +154,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 		if (post.Previous == null)
 			return null;
 
-		if (post.Previous.IsVisible || Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) || Page.User.Identity.Name == post.Previous.Author)
+		if (post.Previous.IsVisible)
 			return post.Previous;
 
 		return GetPrevPost(post.Previous);

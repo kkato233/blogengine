@@ -476,9 +476,9 @@
 
             foreach (DataRowView row in dt.DefaultView)
             {
-                var fileterName = row[0].ToString();
+                var filterName = row[0].ToString();
 
-                var customFilter = GetCustomFilter(fileterName);
+                var customFilter = GetCustomFilter(filterName);
 
                 if (customFilter == null || !customFilter.Initialize())
                 {
@@ -486,15 +486,15 @@
                 }
 
                 // caught spam!
-                if(customFilter.Check(comment))
+                if (customFilter.Check(comment))
                 {
                     comment.IsSpam = true;
-                    comment.ModeratedBy = fileterName;
+                    comment.ModeratedBy = filterName;
 
                     Utils.Log(
-                    string.Format("Custom filter [{0}] - found spam; comment id: {1}", fileterName, comment.Id));
+                    string.Format("Custom filter [{0}] - found spam; comment id: {1}", filterName, comment.Id));
 
-                    UpdateCustomFilter(fileterName, false);
+                    UpdateCustomFilter(filterName, false);
 
                     // the custom filter tells no further
                     // validation needed. don't call others
@@ -502,7 +502,11 @@
                     {
                         break;
                     }
-                }              
+                }
+                else
+                {
+                    UpdateCustomFilter(filterName, true);
+                }
             }
         }
 
@@ -520,9 +524,9 @@
             var dt = customFilters.GetDataTable();
             var i = 0;
 
-            foreach (var fileterName in dt.Rows.Cast<DataRow>().Select(row => row[0].ToString()))
+            foreach (var filterName in dt.Rows.Cast<DataRow>().Select(row => row[0].ToString()))
             {
-                if (fileterName == filter)
+                if (filterName == filter)
                 {
                     var total = int.Parse(customFilters.Parameters[2].Values[i]);
                     var spam = int.Parse(customFilters.Parameters[3].Values[i]);

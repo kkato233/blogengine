@@ -243,6 +243,28 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Impersonates a user for the duration of the HTTP request.
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <param name="password">The password</param>
+        /// <returns>True if the credentials are correct and impersonation succeeds</returns>
+        public static bool ImpersonateUser(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return false;
+
+            CustomIdentity identity = new CustomIdentity(username, password);
+            if (!identity.IsAuthenticated) { return false; }
+
+            CustomPrincipal principal = new CustomPrincipal(identity);
+
+            // Make the custom principal be the user for the rest of this request.
+            HttpContext.Current.User = principal;
+
+            return true;
+        }
+
         #endregion
     }
 

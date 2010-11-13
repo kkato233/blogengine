@@ -88,8 +88,7 @@
         {
             get
             {
-                if (this.Page.User.IsInRole(BlogSettings.Instance.AdministratorRole) ||
-                    this.Page.User.Identity.Name.Equals(this.Post.Author))
+                if (Security.IsAuthorizedTo(Rights.ModerateComments))
                 {
                     var sb = new StringBuilder();
                     sb.AppendFormat(" | <a class=\"email\" href=\"mailto:{0}\">{0}</a>", this.Comment.Email);

@@ -66,6 +66,12 @@ namespace BlogEngine.Core
         [RightDetails(Category = RightCategory.General)]
         AccessAdminSettingsPages,
 
+        /// <summary>
+        /// A user is allowed to manage widgets.
+        /// </summary>
+        [RightDetails(Category = RightCategory.General)]
+        ManageWidgets,
+
         #endregion
 
         #region "Comments"

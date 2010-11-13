@@ -59,9 +59,15 @@
         public void AddComment(
             string postId, string author, string email, string website, string description, DateTime date)
         {
-            if (!this.IsAuthenticated())
+            Security.ImpersonateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
+
+            if (!Security.IsAuthenticated)
             {
                 throw new InvalidOperationException("Wrong credentials");
+            }
+            else if (!Security.IsAuthorizedTo(Rights.CreateComments))
+            {
+                throw new InvalidOperationException("Insufficient rights to create a comment");
             }
 
             // Post post = Post.GetPost(new Guid(postID));
@@ -111,9 +117,15 @@
         [WebMethod]
         public string AddPost(ImportPost import, string previousUrl, bool removeDuplicate)
         {
-            if (!this.IsAuthenticated())
+            Security.ImpersonateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
+
+            if (!Security.IsAuthenticated)
             {
                 throw new InvalidOperationException("Wrong credentials");
+            }
+            else if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+            {
+                throw new InvalidOperationException("Insufficient rights to create a new post");
             }
 
             if (removeDuplicate && !Post.IsTitleUnique(import.Title))
@@ -206,9 +218,15 @@
         [WebMethod]
         public void ForceReload()
         {
-            if (!this.IsAuthenticated())
+            Security.ImpersonateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
+            
+            if (!Security.IsAuthenticated)
             {
                 throw new InvalidOperationException("Wrong credentials");
+            }
+            else if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+            {
+                throw new InvalidOperationException("Insufficient rights to reload posts");
             }
 
             Post.Reload();
@@ -317,17 +335,6 @@
             {
                 // var test = ex.Message;
             }
-        }
-
-        /// <summary>
-        /// Determines whether this instance is authenticated.
-        /// </summary>
-        /// <returns>
-        /// <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsAuthenticated()
-        {
-            return Membership.ValidateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
         }
 
         #endregion
