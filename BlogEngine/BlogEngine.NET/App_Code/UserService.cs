@@ -46,9 +46,10 @@
         /// <param name="user">The user to add.</param>
         /// <param name="pwd">The password to add.</param>
         /// <param name="email">The email to add.</param>
+        /// <param name="roles">Roles for new user</param>
         /// <returns>JSON Response.</returns>
         [WebMethod]
-        public JsonResponse Add(string user, string pwd, string email)
+        public JsonResponse Add(string user, string pwd, string email, string[] roles)
         {
 
             if (!Security.IsAuthorizedTo(Rights.CreateNewUsers))
@@ -78,6 +79,17 @@
             try
             {
                 Membership.CreateUser(user, pwd, email);
+
+                if (Security.IsAuthorizedTo(Rights.EditOtherUsersRoles))
+                {
+                    // remove all user roles and add only checked
+                    Roles.RemoveUserFromRoles(user, Roles.GetAllRoles());
+                    if (roles.GetLength(0) > 0)
+                    {
+                        Roles.AddUsersToRoles(new string[] { user }, roles);
+                    }
+                }
+
                 return new JsonResponse() { Success = true, Message = string.Format("User \"{0}\" has been created", user) };
             }
             catch (Exception ex)

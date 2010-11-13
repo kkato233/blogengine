@@ -7,6 +7,7 @@
     using Resources;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using App_Code;
     using Page = System.Web.UI.Page;
 
     public partial class Feed : Page
@@ -17,9 +18,7 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             BindSettings();
 
@@ -82,7 +81,7 @@
         {
             var response = new JsonResponse {Success = false};
 
-            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
                 response.Message = "Not authorized";
                 return response;

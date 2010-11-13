@@ -6,6 +6,7 @@ using System.Xml;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
+using App_Code;
 
 #endregion
 
@@ -13,9 +14,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-            BlogEngine.Core.Rights.AccessAdminPages,
-            BlogEngine.Core.Rights.AccessAdminSettingsPages);
+        WebUtils.CheckRightsForAdminSettingsPage(false);
 
         if (!Page.IsPostBack)
         {

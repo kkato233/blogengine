@@ -94,15 +94,23 @@
             return false;
         }
 
-        function setDefaultRoleRights(roleName) {
+        function setRoleRights(roleName, link) {
+            return getAndLoadRoleRights(roleName, "GetRoleRights", $(link).html());
+        }
+
+        function setDefaultRoleRights(roleName, link) {
+            return getAndLoadRoleRights(roleName, "GetDefaultRoleRights", $(link).html());
+        }
+
+        function getAndLoadRoleRights(roleName, serviceName, roleDescription) {
 
             if (!roleName) {
-                ShowStatus('warning', 'Missing role name to retrieve default rights for.');
+                ShowStatus('warning', 'Missing role name to retrieve rights for.');
                 return false;
             }
 
             $.ajax({
-                url: "../../api/RoleService.asmx/GetDefaultRoleRights",
+                url: "../../api/RoleService.asmx/" + serviceName,
                 data: JSON.stringify({ roleName: roleName }),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -111,7 +119,7 @@
                     var rt = result.d;
                     if(rt.Success) {
                         if (!rt.Data) {
-                            ShowStatus('warning', 'The "' + roleName + '" role does not have any default rights.');
+                            ShowStatus('warning', 'There are no rights defined for the "' + roleDescription + '".');
                             return false;
                         }
                         var defaultRights = rt.Data.split('|');
@@ -126,7 +134,7 @@
                             }
                         }
 
-                        ShowStatus("success", 'Checkboxes adjusted to match the default rights for the "<b>' + roleName + '</b>" role.  Changes have not been saved.');
+                        ShowStatus("success", 'Checkboxes adjusted to match the rights for the "<b>' + roleDescription + '</b>".  Changes have not been saved.');
                     }
                     else {
                         ShowStatus("warning", rt.Message);
@@ -161,10 +169,11 @@
             <div class="topRightTools">
                 <ul class="rowTools">
                     <li>
-                        <a href="#" class="toolsAction"><span class="">Load Default Rights for</span></a>
+                        <a href="#" class="toolsAction"><span class="">Copy Rights From</span></a>
                         <ul class="rowToolsMenu assignDefaultRoles">
-                            <li><a href="#" onclick="return setDefaultRoleRights('Anonymous')">Anonymous role</a></li>
-                            <li><a href="#" onclick="return setDefaultRoleRights('Editors')">Editors role</a></li>
+                            <%= RolesForLoading %>
+                            <li style="border-top:1px solid #ccc;"><a href="#" onclick="return setDefaultRoleRights('Anonymous',this)">default Anonymous role</a></li>
+                            <li><a href="#" onclick="return setDefaultRoleRights('Editors',this)">default Editors role</a></li>
                         </ul>
                     </li>
                 </ul>

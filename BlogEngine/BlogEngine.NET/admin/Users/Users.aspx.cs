@@ -17,6 +17,8 @@
         protected void Page_Load(object sender, EventArgs e)
         {
             Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+
+            phNewUserRoles.Visible = Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersRoles);
         }
 
         /// <summary>
@@ -33,6 +35,24 @@
             users.Sort((u1, u2) => string.Compare(u1.UserName, u2.UserName));
 
             return users;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets RolesList.
+        /// </summary>
+        protected string RolesList
+        {
+            get
+            {
+                var ret = string.Empty;
+                const string Ptrn = "<input type=\"checkbox\" id=\"{0}\" class=\"chkRole\" /><span class=\"lbl\">{0}</span>";
+                var allRoles = System.Web.Security.Roles.GetAllRoles().Where(r => !r.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase));
+                return allRoles.Aggregate(ret, (current, r) => current + string.Format(Ptrn, r, string.Empty));
+            }
         }
 
         #endregion

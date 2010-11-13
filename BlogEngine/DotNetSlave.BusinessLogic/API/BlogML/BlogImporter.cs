@@ -203,7 +203,7 @@
         /// </returns>
         private static bool IsAuthenticated()
         {
-            return HttpContext.Current.User.IsInRole(BlogSettings.Instance.AdministratorRole);
+            return Security.IsAdministrator;
         }
 
         #endregion

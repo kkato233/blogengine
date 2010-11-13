@@ -858,6 +858,24 @@
 
         #endregion
 
+        #region AddIpToWhitelistFilterOnApproval
+
+        ///<summary>
+        ///    Automatically add IP address to white list filter when comment is approved.
+        ///</summary>
+        public bool AddIpToWhitelistFilterOnApproval { get; set; }
+
+        #endregion
+
+        #region AddIpToBlacklistFilterOnRejection
+
+        ///<summary>
+        ///    Automatically add IP address to black list filter when comment is rejected.
+        ///</summary>
+        public bool AddIpToBlacklistFilterOnRejection { get; set; }
+
+        #endregion
+
         #region Comments per page
 
         /// <summary>

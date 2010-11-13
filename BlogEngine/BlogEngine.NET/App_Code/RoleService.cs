@@ -262,6 +262,37 @@
 
             return response;
         }
+
+        /// <summary>
+        /// Returns the rights for the role.
+        /// </summary>
+        /// <param name="roleName">The roleName.</param>
+        /// <returns>
+        /// JSON Response containing delimited rights.
+        /// </returns>
+        [WebMethod]
+        public JsonResponse GetRoleRights(string roleName)
+        {
+            if (!Security.IsAuthorizedTo(Rights.EditRoles))
+            {
+                return GetNotAuthorized();
+            }
+            else if (Utils.StringIsNullOrWhitespace(roleName))
+            {
+                return new JsonResponse() { Message = "roleName argument is null." };
+            }
+
+            IEnumerable<Right> roleRights = Right.GetRights(roleName);
+
+            var response = new JsonResponse()
+            {
+                Success = true,
+                Data = string.Join("|", roleRights.Select(r => r.DisplayName).ToArray())
+            };
+
+            return response;
+        }
+
         #endregion
 
         #region Methods

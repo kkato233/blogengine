@@ -204,17 +204,6 @@
         }
 
         /// <summary>
-        ///     Gets a value indicating whether the current user is authenticated.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is authenticated; otherwise, <c>false</c>.
-        /// </value>
-        protected bool Authenticated
-        {
-            get { return Security.IsAuthenticated; }
-        }
-
-        /// <summary>
         /// Gets whether or not the current user owns this object.
         /// </summary>
         /// <returns></returns>
@@ -370,30 +359,11 @@
         /// <returns>The SaveAction.</returns>
         public virtual SaveAction Save()
         {
-            return this.Save(string.Empty, string.Empty);
-        }
-
-        /// <summary>
-        /// Saves the object to the data store (inserts, updates or deletes).
-        /// </summary>
-        /// <param name="userName">
-        /// The user Name.
-        /// </param>
-        /// <param name="password">
-        /// The password.
-        /// </param>
-        /// <returns>
-        /// The SaveAction.
-        /// </returns>
-        public virtual SaveAction Save(string userName, string password)
-        {
-            var validated = userName != string.Empty && Membership.ValidateUser(userName, password);
-
-            if (this.Deleted && !(this.Authenticated || validated))
+            if (this.Deleted && !this.CanUserDelete)
             {
                 throw new SecurityException("You are not authorized to delete the object");
             }
-
+            
             if (!this.Valid && !this.Deleted)
             {
                 throw new InvalidOperationException(this.ValidationMessage);

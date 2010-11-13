@@ -1,3 +1,22 @@
+
+******************************************************************
+Discontinuation of VistaDB Support Notice
+******************************************************************
+
+As of BlogEngine.NET 2.0, BlogEngine.NET is no longer supporting VistaDB.  
+
+The files in this VistaDB setup folder are for BlogEngine.NET version 1.6.  You may 
+continue to use VistaDB for future versions of BlogEngine.NET by updating your VistaDB 
+database to match the latest BlogEngine.NET database schema.  The other database folders 
+(e.g. SQLServer, MySQL) contain upgrade scripts for upgrading from BlogEngine.NET 1.6 to 
+newer versions.  These upgrade scripts will let you know what changes you need to make in 
+your own VistaDB database to keep it current with the latest version of BlogEngine.NET.
+
+
+
+******************************************************************
+******************************************************************
+
 Running BlogEngine.NET 1.6 using VistaDB:
 
 If you wish to use VistaDB (or VistaDB Express) to store all your blog data, this is 

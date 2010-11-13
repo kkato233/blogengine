@@ -48,7 +48,7 @@
                 var input = new XMLRPCRequest(context);
                 var output = new XMLRPCResponse(input.MethodName);
 
-                PopulateUserCredentials(input);
+                Security.ImpersonateUser(input.UserName, input.Password);
 
                 // After user credentials have been set, we can use the normal Security
                 // class to authorize individual requests.
@@ -143,21 +143,6 @@
 
         #region Methods
 
-        private bool PopulateUserCredentials(XMLRPCRequest request)
-        {
-            if (request == null || string.IsNullOrEmpty(request.UserName) || string.IsNullOrEmpty(request.Password)) { return false; }
-
-            CustomIdentity identity = new CustomIdentity(request.UserName, request.Password);
-            if (!identity.IsAuthenticated) { return false; }
-
-            CustomPrincipal principal = new CustomPrincipal(identity);
-
-            // Make the custom principal be the user for the rest of this request.
-            HttpContext.Current.User = principal;
-
-            return true;
-        }
-
         /// <summary>
         /// Deletes the page.
         /// </summary>
@@ -188,7 +173,7 @@
                     throw new MetaWeblogException("11", "User authentication failed");
                 }
                 page.Delete();
-                page.Save(userName, password);
+                page.Save();
             }
             catch (Exception ex)
             {
@@ -231,7 +216,7 @@
                 }
 
                 post.Delete();
-                post.Save(userName, password);
+                post.Save();
             }
             catch (Exception ex)
             {

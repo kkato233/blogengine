@@ -15,6 +15,7 @@
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
     using BlogEngine.Core.API.BlogML;
+    using App_Code;
 
     using Page = System.Web.UI.Page;
 
@@ -26,9 +27,7 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(AuthorizationCheck.HasAll, true,
-                BlogEngine.Core.Rights.AccessAdminPages,
-                BlogEngine.Core.Rights.AccessAdminSettingsPages);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
 
             this.BindSettings();
 
@@ -65,7 +64,7 @@
             JsonResponse response = new JsonResponse();
             response.Success = false;
 
-            if (!Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole))
+            if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
                 response.Message = "Not authorized";
                 return response;
