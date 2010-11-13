@@ -204,6 +204,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
     background: transparent url("images/action-settings.png") no-repeat scroll left center;}
 .image {background: transparent url("images/icon-image.png") no-repeat scroll left center; padding-left:18px;  }
 .file {background: transparent url("images/icon-file.png") no-repeat scroll left center;  padding-left:18px; }
+.video {background: transparent url("images/icon-video.png") no-repeat scroll left center;  padding-left:18px; }
 .view {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px; }
 
 
@@ -227,16 +228,20 @@ label.lbl { display:block; margin:0 0 5px 0;}
 /* ------------------------------*/
 #stats, #widgets { float:left;}
 .dashboardWidget { float:left; width:49%; }
-.dashboardWidget > div, .dashboardStats > div { border:solid 1px #dcdcdc; margin:20px; padding:20px;}
+.dashboardWidget > div, .dashboardStats > div { border:solid 1px #B5B5B5; margin:20px; padding:20px; 
+    background: url("images/tab-bkg.png") repeat-x scroll left 0px #FFFFFF;}
 .dashboardWidget ul { list-style:none; margin:0; padding:0; }
 .dashboardWidget li { margin:0 0 5px;}
-.dashboardWidget .meta { display:inline; font-size:12px; color:#aaa; margin-left:5px;}
+.dashboardWidget .meta { display:block; font-size:12px; color:#aaa; margin-left:20px;}
 .dashboardWidget a { font-size:13px;}
 
 .dashboardStats ul { list-style:none; margin:0; padding:0; overflow:hidden; }
 .dashboardStats li { margin:0 0 10px; padding:0 0 10px; border-bottom:solid 1px #dcdcdc; overflow:hidden; }
 .dashboardStats li:last-child { border:none; }
 .dashboardStats .endline { float:right; margin-left:10px;}
+.dashboardWidget .teaser { font-size:12px; color:#b5b5b5; display:block; margin:0 0 10px;}
+
+.dashboardWidget .comment_auth { font-weight:normal;}
 
 /* Footer  */
 /* ------------------------------*/

@@ -9,30 +9,32 @@ $(document).ready(function () {
 
 //-------------		EDITING
 
-function EditRow(obj) {
-   var row = $(obj).closest("tr");
-   var revert = $(row).html();
-   var button = '<td><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></td>';
+function EditRow(obj) {
+    var row = $(obj).closest("tr");
+    var revert = $(row).html();
+    
+    if (revert != null) {        
+        var button = '<td><input type="button" value="Save" class="saveButton btn" /> <a href="#" class="cancelButton">Cancel</a></td>';
 
-   $('.editable', row).each(function () {
-       var _this = $(this);
-       var _thisHtml = _this.html();
-       var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
-       _this.after(txt).remove();
-   });
+        $('.editable', row).each(function () {
+            var _this = $(this);
+            var _thisHtml = _this.html();
+            var txt = '<td><input id="' + _thisHtml + '" type=\"text\" class=\"txt200\" value=\"' + _thisHtml + '"/></td>';
+            _this.after(txt).remove();
+        });
 
-    // replace tools menu with save/cancel buttons
-    $(row).find('.rowTools').closest("td").replaceWith(button);
+        // replace tools menu with save/cancel buttons
+        $(row).find('.rowTools').closest("td").replaceWith(button);
 
-   var cancelButton = $('.cancelButton');
-   var saveButton = $('.saveButton');
+        var cancelButton = $('.cancelButton');
+        var saveButton = $('.saveButton');
 
-   cancelButton.unbind('click');
-   saveButton.unbind('click');
+        cancelButton.unbind('click');
+        saveButton.unbind('click');
 
-   cancelButton.bind("click", function () { CancelChanges(this, revert); });
-   saveButton.bind("click", function () { SaveChanges(this, revert); });
-
+        cancelButton.bind("click", function () { CancelChanges(this, revert); });
+        saveButton.bind("click", function () { SaveChanges(this, revert); });
+    }
    return false;
 }
 

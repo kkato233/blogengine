@@ -57,8 +57,8 @@
                             Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
                     </li>
                 </ul>
-                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="btn primary rounded" /> 
-                or <a href="#" onclick="closeOverlay();">cancel</a>
+                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="btn primary" Text="Save settings" /> 
+                or <a href="#" onclick="closeOverlay();">Cancel</a>
             </div>
             </div>
 
@@ -120,7 +120,7 @@
                             </asp:CheckBoxList>
                         </li>
                     </ul>
-                    <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary rounded" OnClientClick="colorboxDialogSubmitClicked('addNew', 'addBlogroll');" /> 
+                    <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('addNew', 'addBlogroll');" Text="Add blog" /> 
                     or <a href="#" onclick="closeOverlay();">cancel</a>
 
                 </div>
@@ -149,7 +149,7 @@
                             <asp:Literal ID="Literal1" runat="server" Text='<%# Eval("Description") %>'></asp:Literal>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:CommandField ShowDeleteButton="True" />
+                    <asp:CommandField ShowDeleteButton="True" ControlStyle-CssClass="deleteAction" />
                     <asp:TemplateField ControlStyle-BackColor="Transparent">
                         <ItemTemplate>
                             <asp:ImageButton ID="ibMoveUp" ImageUrl="~/admin/images/action-up.png" runat="server"

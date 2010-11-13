@@ -50,7 +50,7 @@
                 </ul>
 
              <div class="action_buttons">
-                <input type="submit" class="btn primary rounded" value="Save" onclick="return SaveSettings();" />
+                <input type="submit" class="btn primary" value="Save settings" onclick="return SaveSettings();" />
             </div>
         </div>
     </div>

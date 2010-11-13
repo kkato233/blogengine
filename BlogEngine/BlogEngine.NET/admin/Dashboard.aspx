@@ -47,13 +47,13 @@
                 <div class="dashboardWidget">
                     <div class="rounded">
                         <h2>Draft posts <a class="addNew" href="Posts/Add_entry.aspx">Write new post</a></h2>
-                        <ul id="DraftPosts" runat="server" visible="false"></ul>
+                        <ul id="DraftPosts" runat="server"></ul>
                     </div>
                 </div>
                 <div class="dashboardWidget rounded">
                     <div class="rounded">
                         <h2>Draft pages <a class="addNew" href="Pages/EditPage.aspx">Add new page</a></h2>
-                        <ul id="DraftPages" runat="server" visible="false"></ul>
+                        <ul id="DraftPages" runat="server"></ul>
                     </div>
                 </div>
                 <div class="dashboardWidget rounded">

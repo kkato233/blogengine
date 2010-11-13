@@ -86,7 +86,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
 
     <div style="display:none;">
         <div id="uploadImagePanel" class="overlaypanel">
-            <h2><%=Resources.labels.uploadImage %></h2>
+            <h2>Insert image</h2>
             <ul class="fl" style="margin:0;">
                 <li>
                     <label class="lbl"><%=Resources.labels.uploadImage %></label>
@@ -102,7 +102,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
             </ul>
         </div>
         <div id="uploadFilePanel" class="overlaypanel">
-            <h2><%=Resources.labels.uploadFile%></h2>
+            <h2>Attach file</h2>
             <ul class="fl" style="margin:0;">
                 <li>
                     <label class="lbl"><%=Resources.labels.uploadFile %></label>
@@ -136,6 +136,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                             <li>
                                 <div class="editToolbar">
                                     <a href="#" id="uploadImage" class="image">Insert image</a>
+                                    <a href="#" id="uploadVideo" class="video">Insert video</a>
                                     <a href="#" id="uploadFile" class="file">Attach file</a>
                                 </div>
                                 <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
@@ -179,14 +180,14 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
             </table>
 
             <div class="action_buttons">
-                <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePage()" /> or 
+                <input type="button" id="btnSave" value="Save page" class="btn primary" onclick="return SavePage()" /> or 
                 <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
                    { %>
                 <a href="<%=PageUrl %>" title="Go to page">Go to page</a>
                 <%}
                    else
                    {%>
-                or <a href="Pages.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
+                <a href="Pages.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
                 <%} %>
             </div>
         </div>

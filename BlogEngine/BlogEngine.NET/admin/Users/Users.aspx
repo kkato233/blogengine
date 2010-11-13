@@ -109,7 +109,7 @@
                         </td>
                     </tr>
                 </table>
-				<input type="submit" class="btn primary rounded" value="Save" onclick="return AddUser(this);" id="btnNewUser" />
+				<input type="submit" class="btn primary rounded" onclick="return AddUser(this);" id="btnNewUser" value="Add user" />
 				or <a href="#" onclick="closeOverlay();">Cancel</a>
 			</div>
             </div>

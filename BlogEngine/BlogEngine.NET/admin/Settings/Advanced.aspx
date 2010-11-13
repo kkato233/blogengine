@@ -141,7 +141,7 @@
                     </li>
                 </ul>
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="btn primary rounded" value="Save" />
+                <input type="submit" id="btnSave" class="btn primary rounded" value="Save settings" />
             </div>
 		</div>
 	</div>       

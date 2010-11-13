@@ -192,7 +192,7 @@
             </div>
 
             <div class="action_buttons">
-                <asp:Button runat="server" class="btn primary rounded" ID="btnSave" />
+                <asp:Button runat="server" class="btn primary" ID="btnSave" Text="Save settings" />
                 <span class="loader">&nbsp;</span>
             </div>
             

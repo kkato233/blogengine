@@ -88,6 +88,16 @@ namespace Admin
                     DraftPages.Visible = true;
                 }
             }
+
+            if (DraftPostCount == 0)
+            {
+                DraftPosts.InnerHtml = "You don't have any draft posts.";
+            }
+            if (DraftPageCount == 0)
+            {
+                DraftPages.InnerHtml = "You don't have any draft pages.";
+            }
+
         }
 
         protected string GetCommentsList()
@@ -99,8 +109,8 @@ namespace Admin
             if (BlogSettings.Instance.EnableCommentsModeration)
             {
                 jsonComments = JsonComments.GetComments(CommentType.Pending, 10, 1);
-                commentHeader = "<h2>Pending comments</h2>";
-                commentFooter += "<a class=\"viewAction\" href=\"Comments/Pending.aspx\">View pending comments</a>";
+                commentHeader = "<h2>Recent pending comments</h2>";
+                commentFooter += "<a class=\"viewAction\" href=\"Comments/Pending.aspx\">View all pending comments</a>";
             }
             else
             {
@@ -112,7 +122,7 @@ namespace Admin
             if(jsonComments.Count > 0)
             {
                 commentList += "<ul>";
-                commentList = jsonComments.Aggregate(commentList, (current, jc) => current + string.Format("<li>{0}</li>", jc.Title));
+                commentList = jsonComments.Aggregate(commentList, (current, jc) => current + string.Format("<li>{0}<span class='teaser'>{1}</span></li>", jc.Title, jc.Teaser));
                 commentList += "</ul>";
                 commentList += commentFooter;
             }

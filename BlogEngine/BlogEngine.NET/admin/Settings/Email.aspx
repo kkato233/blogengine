@@ -124,8 +124,8 @@
                     </li>
                 </ul>
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="btn primary rounded" value="Save" />
-                <input type="submit" class="btn" value="<%=Resources.labels.testEmailSettings %>" onclick="return TestEmail();" />
+                <input type="submit" id="btnSave" class="btn primary" value="Save settings" />
+                <input type="submit" class="btn" value="Test E-mail account" onclick="return TestEmail();" />
                 <asp:Label runat="Server" ID="lbSmtpStatus" />
             </div>
         </div>

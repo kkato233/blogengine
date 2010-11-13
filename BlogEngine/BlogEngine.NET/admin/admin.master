@@ -32,7 +32,7 @@
             
             <div class="tabs toprounded">
                 <uc1:menu ID="Menu1" runat="server" />
-                <asp:PlaceHolder ID="phRecycleBin" runat="server"><div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx">Recycle bin (<%=RecycleClass()%>)</a></div></asp:PlaceHolder>
+                <asp:PlaceHolder ID="phRecycleBin" runat="server"><div id="recyclebin"><a class="<%=RecycleClass()%>" href="<%=Utils.RelativeWebRoot %>admin/Trash.aspx"></a></div></asp:PlaceHolder>
             </div>
             <div class="clear"></div>
             <div>  

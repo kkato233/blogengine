@@ -166,7 +166,7 @@
 
             <div runat="server" style="visibility:hidden;height:1px">
                 <div id="uploadImagePanel" class="overlaypanel">
-                    <h2><%=Resources.labels.uploadImage %></h2>
+                    <h2>Insert image</h2>
                     <ul class="fl" style="margin:0;">
                         <li>
                             <asp:Label ID="lblFileUpload" CssClass="lbl" AssociatedControlID="txtUploadImage" runat="server" Text='Choose image you wish to upload' />
@@ -181,7 +181,7 @@
                     </ul>
                 </div>
                 <div id="uploadFilePanel" class="overlaypanel">
-                    <h2><%=Resources.labels.uploadFile%></h2>
+                    <h2>Attach file</h2>
                     <ul class="fl" style="margin:0;">
                         <li>
                             <asp:Label ID="Label1" CssClass="lbl" AssociatedControlID="txtUploadFile" runat="server" Text='Choose image you wish to upload' />
@@ -212,6 +212,7 @@
                                     <asp:CheckBox runat="server" ID="cbUseRaw" Text="<%$Resources:labels,useRawHtmlEditor %>"
                                         AutoPostBack="true" />
                                     <a href="#" id="uploadImage" class="image">Insert image</a>
+                                    <a href="#" id="uploadVideo" class="video">Insert video</a>
                                     <a href="#" id="uploadFile" class="file">Attach file</a>
                                 </div>
                                 <Blog:TextEditor runat="server" id="txtContent" />
@@ -240,7 +241,7 @@
                            </li>
                         </ul>
                         <div class="action_buttons">
-                            <input type="button" id="btnSave" value="<%=Resources.labels.save %>" class="btn primary rounded" onclick="return SavePost()" /> or 
+                            <input type="button" id="btnSave" value="Save post" class="btn primary rounded" onclick="return SavePost()" /> or 
                             <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
                                { %>
                             <a href="<%=PostUrl %>" title="Go to page">Go to post</a>

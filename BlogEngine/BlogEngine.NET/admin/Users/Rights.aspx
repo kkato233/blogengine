@@ -112,7 +112,7 @@
             <h1>Editing Rights for Role <%=Server.HtmlEncode(this.RoleName) %></h1>
             <div id="rightsHolder"></div>
             <div style="clear:both">&nbsp;</div>
-            <input type="submit" class="btn primary rounded" value="save" onclick="return SaveRights();" />
+            <input type="submit" class="btn primary rounded" value="Save rights" onclick="return SaveRights();" />
             or <a href="Roles.aspx"><%=Resources.labels.cancel %></a>
         </div>
     </div>

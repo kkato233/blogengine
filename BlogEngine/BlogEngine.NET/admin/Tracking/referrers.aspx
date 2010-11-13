@@ -64,6 +64,7 @@
                     </li>
                     <li>
                         <input type="submit" class="btn primary rounded" value="<%=Resources.labels.saveSettings %>" onclick="return SaveSettings();" />
+                         or <a href="#" onclick="closeOverlay();">Cancel</a>
                     </li>
                 </ul>
             </div>

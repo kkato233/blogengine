@@ -6,7 +6,7 @@
         <siteMapNode url="~/admin/Comments/Approved.aspx" title="comments"  description=""  roles="administrators"/>
         <siteMapNode url="~/admin/Pages/Pages.aspx" title="pages"  description=""  roles="administrators, editors"/>
         <siteMapNode url="~/admin/Tracking/Pingbacks.aspx" title="tracking"  description=""  roles="administrators, editors"/>
-        <siteMapNode url="~/admin/Widgets/Blogroll.aspx" title="widgets"  description=""  roles="administrators, editors"/>
+        <siteMapNode url="~/admin/Widgets/Blogroll.aspx" title="controls"  description=""  roles="administrators, editors"/>
         <siteMapNode url="~/admin/Extension Manager/default.aspx" title="Extensions"  description=""  roles="administrators"/>
         <siteMapNode url="~/admin/Users/Users.aspx" title="users"  description=""  roles="administrators"/>
         <siteMapNode url="~/admin/Settings/Main.aspx" title="settings"  description=""  roles="administrators"/>
