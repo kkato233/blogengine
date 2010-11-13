@@ -15,7 +15,7 @@
             for (var category in rights) {
             
                 var catDiv = $("<div class=\"dashboardWidget rounded\">");
-                var header = $("<h2 style='border:none;'>");
+                var header = $("<h2 style='border:none;' />");
                 header.html(category);
 
                 var catUl = $("<ul class='fl'>");
@@ -93,12 +93,60 @@
 
             return false;
         }
+
+        function setDefaultRoleRights(roleName) {
+
+            if (!roleName) {
+                ShowStatus('warning', 'Missing role name to retrieve default rights for.');
+                return false;
+            }
+
+            $.ajax({
+                url: "../../api/RoleService.asmx/GetDefaultRoleRights",
+                data: JSON.stringify({ roleName: roleName }),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var rt = result.d;
+                    if(rt.Success) {
+                        if (!rt.Data) {
+                            ShowStatus('warning', 'The "' + roleName + '" role does not have any default rights.');
+                            return false;
+                        }
+                        var defaultRights = rt.Data.split('|');
+
+                        for (var category in rights) {
+                            for (var key in rights[category]) {
+                                if ($.inArray(key, defaultRights) !== -1) {
+                                    rightsControls[key].checkBox.attr('checked', 'checked');
+                                } else {
+                                    rightsControls[key].checkBox.removeAttr('checked');
+                                }
+                            }
+                        }
+
+                        ShowStatus("success", 'Checkboxes adjusted to match the default rights for the "<b>' + roleName + '</b>" role.  Changes have not been saved.');
+                    }
+                    else {
+                        ShowStatus("warning", rt.Message);
+                    }
+                }
+            });
+
+            return false;
+        }
     </script>
     <script src="../jquery.masonry.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#rightsHolder').masonry({ singleMode: true, itemSelector: '.dashboardWidget' });
+            $("a.toolsAction").click(function () { return false; });
+            if (role.toLowerCase() === "administrators") {
+                $("ul.assignDefaultRoles").empty();
+            }
         });
+        
     </script>
 
     <div class="content-box-outer">
@@ -109,6 +157,19 @@
             </ul>
         </div>
         <div class="content-box-left">
+            
+            <div class="topRightTools">
+                <ul class="rowTools">
+                    <li>
+                        <a href="#" class="toolsAction"><span class="">Load Default Rights for</span></a>
+                        <ul class="rowToolsMenu assignDefaultRoles">
+                            <li><a href="#" onclick="return setDefaultRoleRights('Anonymous')">Anonymous role</a></li>
+                            <li><a href="#" onclick="return setDefaultRoleRights('Editors')">Editors role</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
             <h1>Editing Rights for Role <%=Server.HtmlEncode(this.RoleName) %></h1>
             <div id="rightsHolder"></div>
             <div style="clear:both">&nbsp;</div>
