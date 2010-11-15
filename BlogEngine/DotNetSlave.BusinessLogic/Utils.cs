@@ -591,7 +591,7 @@
         }
 
         /// <summary>
-        /// Extract file name from given phisical server path
+        /// Extract file name from given physical server path
         /// </summary>
         /// <param name="path">
         /// The Server path.
@@ -601,12 +601,7 @@
         /// </returns>
         public static string ExtractFileNameFromPath(string path)
         {
-            if (String.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException("path");
-            }
-
-            return path.Substring(path.LastIndexOf("\\")).Replace("\\", string.Empty);
+            return Path.GetFileName(path);
         }
 
         /// <summary>
