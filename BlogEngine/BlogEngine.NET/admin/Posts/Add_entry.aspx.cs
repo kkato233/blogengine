@@ -172,6 +172,7 @@
             btnCategory.Click += BtnCategoryClick;
             btnUploadFile.Click += BtnUploadFileClick;
             btnUploadImage.Click += BtnUploadImageClick;
+			btnUploadVideo.Click += BtnUploadVideoClick;
             valExist.ServerValidate += ValExistServerValidate;
             cbUseRaw.CheckedChanged += CbUseRawCheckedChanged;
 
@@ -484,6 +485,32 @@
             txtContent.Text += img;
             txtRawContent.Text += img;
         }
+
+		/// <summary>
+		/// Handles the Click event of the btnUploadImage control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		protected void BtnUploadVideoClick(object sender, EventArgs e) {
+			
+			// default media folder
+			var mediaFolder = "media";
+
+			// get the mediaplayer extension and use it's folder
+			var mediaPlayerExtension = BlogEngine.Core.Web.Extensions.ExtensionManager.GetExtension("MediaElementPlayer");
+			mediaFolder = mediaPlayerExtension.Settings[0].GetSingleValue("folder");
+
+			var folder = "~/" + mediaFolder + "/";
+			var fileName = txtUploadVideo.FileName;
+
+			Upload(folder, txtUploadVideo, fileName);
+
+			var shortCode = "[video src=\"" + fileName + "\"]";
+
+			txtContent.Text += shortCode;
+			txtRawContent.Text += shortCode;
+		}
+
 
         /// <summary>
         /// Handles the CheckedChanged event of the cbUseRaw control.
