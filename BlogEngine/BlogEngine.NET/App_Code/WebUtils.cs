@@ -22,7 +22,7 @@
             if (checkOnly)
             {
                 return
-                    !Security.IsAuthorizedTo(AuthorizationCheck.HasAll,
+                    Security.IsAuthorizedTo(AuthorizationCheck.HasAll,
                         BlogEngine.Core.Rights.AccessAdminPages,
                         BlogEngine.Core.Rights.AccessAdminSettingsPages);
             }
