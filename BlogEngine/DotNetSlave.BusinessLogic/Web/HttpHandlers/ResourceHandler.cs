@@ -84,7 +84,15 @@
                 }
                 
                 Json.JsonCulture jc = new Json.JsonCulture(culture);
-                script = String.Format("BlogEngine.i18n = {0}", jc.ToJsonString());
+
+                // Although this handler is intended to output resource strings,
+                // also outputting other non-resource variables.
+
+                StringBuilder sb = new StringBuilder();
+                sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
+                sb.AppendFormat("BlogEngine.i18n = {0};", jc.ToJsonString());
+
+                script = sb.ToString();
                 HttpContext.Current.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
             }
 

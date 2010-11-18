@@ -106,12 +106,20 @@ namespace Admin
             widget.ShowTitle = widget.DisplayHeader;
             widget.LoadWidget();
 
+            // Load a widget container for this new widget.  This will return the WidgetContainer
+            // with the new widget in it.
+            var widgetContainer = WidgetContainer.GetWidgetContainer(widget);
+
+            // need to manually invoke the loading process, since the Loading process for this Http Request
+            // page lifecycle has already fired.
+            widgetContainer.ProcessLoad();
+
             this.Response.Clear();
             try
             {
                 using (var sw = new StringWriter())
                 {
-                    widget.RenderControl(new HtmlTextWriter(sw));
+                    widgetContainer.RenderControl(new HtmlTextWriter(sw));
 
                     // Using ? as a delimiter. ? is a safe delimiter because it cannot appear in a
                     // zonename because ? is one of the characters removed by Utils.RemoveIllegalCharacters().

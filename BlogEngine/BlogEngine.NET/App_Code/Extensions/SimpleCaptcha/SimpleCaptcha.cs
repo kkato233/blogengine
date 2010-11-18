@@ -1,7 +1,7 @@
 ﻿// Inspired by and interface heavily borrowed from Filip Stanek's ( http://www.bloodforge.com ) Recaptcha extension for blogengine.net
 // SimpleCaptcha created by Aaron Stannard (http://www.aaronstannard.com )
 
-namespace SimpleCaptcha
+namespace App_Code.Controls
 {
     using BlogEngine.Core.Web.Controls;
     using BlogEngine.Core.Web.Extensions;

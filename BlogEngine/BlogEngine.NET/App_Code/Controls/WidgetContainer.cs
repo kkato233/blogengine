@@ -7,10 +7,11 @@
 namespace App_Code.Controls
 {
     using System;
+    using System.IO;
     using System.Text;
     using System.Threading;
     using System.Web.UI;
-
+    using System.Web.Hosting;
     using BlogEngine.Core;
 
     using Resources;
@@ -78,6 +79,16 @@ namespace App_Code.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            ProcessLoad();
+        }
+
+        private bool _processedLoad;
+        /// <summary>
+        /// Manually run the Initialization process.
+        /// </summary>
+        public void ProcessLoad()
+        {
+            if (_processedLoad) { return; }
 
             // phWidgetBody is the control that the Widget control
             // gets added to.
@@ -90,11 +101,13 @@ namespace App_Code.Controls
             else
             {
                 var warn = new LiteralControl
-                    {
-                        Text = "Unable to find control with id \"phWidgetBody\" in theme's WidgetContainer." 
-                    };
+                {
+                    Text = "Unable to find control with id \"phWidgetBody\" in theme's WidgetContainer."
+                };
                 this.Controls.Add(warn);
             }
+
+            _processedLoad = true;
         }
 
         /// <summary>
@@ -107,6 +120,60 @@ namespace App_Code.Controls
 
             // Hide the container if the Widget is null or also not visible.
             this.Visible = (this.Widget != null) && this.Widget.Visible;
+        }
+
+        /// <summary>
+        /// Returns the virtual path of where a theme's widget container would expect to be located.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetThemeWidgetContainerVirtualPath()
+        {
+            return string.Format("~/themes/{0}/WidgetContainer.ascx", BlogSettings.Instance.Theme);
+        }
+
+        /// <summary>
+        /// Returns the file path of where a theme's widget container would expect to be located.
+        /// </summary>
+        public static string GetThemeWidgetContainerFilePath()
+        {
+            return HostingEnvironment.MapPath(GetThemeWidgetContainerVirtualPath());
+        }
+
+        /// <summary>
+        /// Returns whether the theme contains a widget container file.
+        /// </summary>
+        public static bool DoesThemeWidgetContainerExist()
+        {
+            // This is for compatibility with older themes that do not have a WidgetContainer control.
+            return File.Exists(GetThemeWidgetContainerFilePath());
+        }
+
+        /// <summary>
+        /// Loads the widget container (either the one located in the theme folder, or the default one if
+        /// a theme widget container is missing), and adds the Widget to the widget container.
+        /// </summary>
+        public static WidgetContainer GetWidgetContainer(
+            WidgetBase widgetControl, bool widgetContainerExists,
+            string widgetContainerVirtualPath)
+        {
+            // If a custom WidgetContainer can't be found, create a new DefaultWidgetContainer instance as it
+            // provides backwards compatibility with existing themes that may have depended on WidgetBase's
+            // old rendering method.
+            var widgetContainer = widgetContainerExists ? (WidgetContainer)widgetControl.Page.LoadControl(widgetContainerVirtualPath) : new DefaultWidgetContainer();
+
+            widgetContainer.Widget = widgetControl;
+
+            return widgetContainer;
+        }
+
+        /// <summary>
+        /// Loads the widget container (either the one located in the theme folder, or the default one if
+        /// a theme widget container is missing), and adds the Widget to the widget container.
+        /// </summary>
+        public static WidgetContainer GetWidgetContainer(
+            WidgetBase widgetControl)
+        {
+            return GetWidgetContainer(widgetControl, DoesThemeWidgetContainerExist(), GetThemeWidgetContainerVirtualPath());
         }
     }
 
