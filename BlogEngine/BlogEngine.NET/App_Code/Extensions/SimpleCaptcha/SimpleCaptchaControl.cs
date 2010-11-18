@@ -1,15 +1,13 @@
 ﻿// Inspired by and interface heavily borrowed from Filip Stanek's ( http://www.bloodforge.com ) Recaptcha extension for blogengine.net
 // SimpleCaptcha created by Aaron Stannard (http://www.aaronstannard.com )
 
-namespace Controls
+namespace App_Code.Controls
 {
     using System;
     using System.Web.UI;
     using System.Web.UI.WebControls;
     using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
-
-    using SimpleCaptcha;
 
     /// <summary>
     /// This is the IValidator control that gets embedded on the comment form if the SimpleCaptcha extension is enabled.

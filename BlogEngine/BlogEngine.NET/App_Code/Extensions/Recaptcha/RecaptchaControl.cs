@@ -17,7 +17,7 @@
 
 // Adapted for dotnetblogengine by Filip Stanek ( http://www.bloodforge.com )
 
-namespace Controls
+namespace App_Code.Controls
 {
     using System;
     using System.Web;
