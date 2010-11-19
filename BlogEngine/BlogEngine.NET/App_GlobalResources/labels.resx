@@ -1264,4 +1264,10 @@
   <data name="blacklistIpOnCommentRejection" xml:space="preserve">
     <value>Automatically add IP Address of Comments you Reject to the black list.</value>
   </data>
+  <data name="groupByYear" xml:space="preserve">
+    <value>Group by year</value>
+  </data>
+  <data name="recentDatesAtTop" xml:space="preserve">
+    <value>Recent dates at top</value>
+  </data>
 </root>
