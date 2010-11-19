@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 Author: John Dyer (http://johndyer.name/)
 Player: MediaElementJS (http://mediaelementjs.com/)
 */
