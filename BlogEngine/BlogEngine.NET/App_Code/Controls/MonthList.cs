@@ -234,6 +234,8 @@ namespace App_Code.Controls
 				foreach (KeyValuePair<DateTime, int> aIt in months)
 					RenderMonth(writer, aIt.Key, aIt.Value, true);
 			}
+
+			writer.RenderEndTag();
 		}
 
 		#endregion
