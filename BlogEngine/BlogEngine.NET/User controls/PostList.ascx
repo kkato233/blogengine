@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PostList.ascx.cs" EnableViewState="false" Inherits="UserControls.PostList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="PostList.ascx.cs" EnableViewState="false" Inherits="UserControls.PostList" %>
 <div runat="server" id="posts" class="posts" />
 
 <div id="postPaging" style="display: none">

@@ -1,4 +1,4 @@
-/* Author:      Joel Thoms (http://joel.net)
+﻿/* Author:      Joel Thoms (http://joel.net)
  * Copyright:   2006 Joel Thoms (http://joel.net)
  * About:       Akismet (http://akismet.com) .Net 2.0 API allow you to check
  *              Akismet's spam database to verify your comments and prevent spam.
