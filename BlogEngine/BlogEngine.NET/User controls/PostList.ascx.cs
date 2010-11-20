@@ -1,4 +1,4 @@
-namespace UserControls
+﻿namespace UserControls
 {
     using System;
     using System.Collections.Generic;
