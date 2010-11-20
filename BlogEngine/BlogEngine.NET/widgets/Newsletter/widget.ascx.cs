@@ -189,6 +189,12 @@ namespace Widgets.Newsletter
                 var file = File.OpenText(filePath);
                 body.Append(file.ReadToEnd());
             }
+            else            {                // if custom theme doesn't have email template                // use email template from standard theme                filePath = HostingEnvironment.MapPath("~/themes/Standard/newsletter.html");
+                if (filePath != null)
+                {
+                    var file = File.OpenText(filePath);
+                    body.Append(file.ReadToEnd());
+                }            }
 
             body = body.Replace("[TITLE]", post.Title);
             body = body.Replace("[LINK]", post.AbsoluteLink.AbsoluteUri);

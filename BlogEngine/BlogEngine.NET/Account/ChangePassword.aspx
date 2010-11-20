@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Change Password" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
     CodeFile="ChangePassword.aspx.cs" Inherits="Account.ChangePassword" %>
 
 <%@ MasterType VirtualPath="~/Account/Account.master" %>

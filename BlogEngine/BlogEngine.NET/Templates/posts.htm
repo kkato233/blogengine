@@ -21,7 +21,7 @@
         {#foreach $T.d as p}
         <tr id="{$T.p.Id}" class="{#cycle values=['','alt']}">
             <td style="text-align:center;"><span class="published-{$T.p.IsPublished}"></span></td>
-            <td><span title="Filter by author">{$T.p.Title}</span></td>
+            <td><span>{$T.p.Title}</span></td>
             <td><span>{$T.p.Author}</span></td>
             <td><span>{$T.p.Categories}</span></td>
             <td><span>{$T.p.Tags}</span></td>

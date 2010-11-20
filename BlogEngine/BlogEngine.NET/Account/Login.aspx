@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Log In" Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
     CodeFile="Login.aspx.cs" Inherits="Account.Login" %>
 
 <%@ MasterType VirtualPath="~/Account/Account.master" %>
@@ -9,7 +9,7 @@
         <LayoutTemplate>
             <div class="accountInfo">
                 <div class="login">
-                    <h2>Login</h2>
+                    <h1>Login</h1>
                     <div class="field">
                         <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName"><%=Resources.labels.userName %>:</asp:Label>
                         <div class="boxRound">

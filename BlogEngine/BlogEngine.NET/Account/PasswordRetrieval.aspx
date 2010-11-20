@@ -1,12 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Account/Account.master" AutoEventWireup="true"
+﻿<%@ Page Title="Password Retrieval" Language="C#" MasterPageFile="~/Account/Account.master" AutoEventWireup="true"
     CodeFile="PasswordRetrieval.aspx.cs" Inherits="Account.PasswordRetrieval" %>
 
 <%@ MasterType VirtualPath="~/Account/Account.master" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <h2>
-        <%=Resources.labels.passwordRetrieval %></h2>
+    <h1>
+        <%=Resources.labels.passwordRetrieval %></h1>
     <p>
         <%=Resources.labels.passwordRetrievalInstructionMessage %>
     </p>

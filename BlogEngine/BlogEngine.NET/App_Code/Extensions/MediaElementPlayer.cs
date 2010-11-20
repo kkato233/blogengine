@@ -96,7 +96,7 @@ public class MediaElementPlayer
 
     private void Post_Serving(object sender, ServingEventArgs e)
     {
-        if (e.Location == ServingLocation.PostList  || e.Location == ServingLocation.SinglePost || e.Location == ServingLocation.Feed) {
+        if (e.Location == ServingLocation.PostList  || e.Location == ServingLocation.SinglePost) {
 	
 			HttpContext context = HttpContext.Current;
 			_page = (Page)context.CurrentHandler;
