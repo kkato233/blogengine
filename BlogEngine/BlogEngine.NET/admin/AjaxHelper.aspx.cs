@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Specialized;
+using System.IO;
 
 namespace Admin
 {
@@ -71,6 +72,28 @@ namespace Admin
         public static IEnumerable LoadPages(string type)
         {
             return JsonPages.GetPages(type);
+        }
+
+        [WebMethod]
+        public static IEnumerable LoadTags(int page)
+        {
+            var tags = new List<JsonTag>();
+            foreach (var p in Post.Posts)
+            {
+                foreach (var t in p.Tags)
+                {
+                    var tg = tags.FirstOrDefault(tag => tag.TagName == t);
+                    if (tg == null)
+                    {
+                        tags.Add(new JsonTag {TagName = t, TagCount = 1});
+                    }
+                    else
+                    {
+                        tg.TagCount++;
+                    }
+                }
+            }
+            return from t in tags orderby t.TagName select t;
         }
 
         [WebMethod]
