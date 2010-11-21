@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Web.Script.Services;
     using System.Web.Services;
-
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using BlogEngine.Core.Web.Extensions;
 
     /// <summary>
     /// The comments.
@@ -381,21 +381,10 @@
         /// </param>
         protected void RemoveComment(Comment comment)
         {
-            // just as in DeleteAll, we can't use foreach/var
-            // to avoid "collection modified" error (sorry ReSharper...)
-            var found = false;
-            for (int i = 0; i < Post.Posts.Count; i++)
+            Post post = comment.Parent as Post;
+            if (post != null)
             {
-                for (int j = 0; j < Post.Posts[i].Comments.Count; j++)
-                {
-                    if (Post.Posts[i].Comments[j].Id == comment.Id)
-                    {
-                        Post.Posts[i].RemoveComment(Post.Posts[i].Comments[j]);
-                        found = true;
-                        break;
-                    }
-                }
-                if (found) { break; }
+                post.RemoveComment(comment);
             }
         }
 
@@ -426,7 +415,7 @@
                     // orphan comment with deleted parent
                     if (!comment.IsApproved && comment.Comments.Count == 0)
                     {
-                        Post.Posts[i].RemoveComment(comment);
+                        RemoveComment(comment);
                     }
                 }
             }

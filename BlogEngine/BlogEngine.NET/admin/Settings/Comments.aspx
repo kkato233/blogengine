@@ -57,11 +57,6 @@
                 </li>
                 <li>
                     <span class="filler"></span>
-                    <asp:CheckBox runat="server" ID="cbRequireLogin" />
-                    <label for="<%=cbRequireLogin.ClientID %>">Require Login To Post Comment</label>
-                </li>
-                <li>
-                    <span class="filler"></span>
                     <asp:CheckBox runat="server" ID="cbEnableCoComment" />
                     <label for="<%=cbEnableCoComment.ClientID %>"><%=labels.enableCoComments %></label>
                 </li>

@@ -33,15 +33,18 @@
         #region Public Methods
 
         /// <summary>
-        /// Add comment IP to white or black list
+        /// Add item to white or black list
         /// </summary>
-        /// <param name="ip">
-        /// Comment IP
+        /// <param name="subject">
+        /// Item subject.
+        /// </param>
+        /// <param name="value">
+        /// Item value.
         /// </param>
         /// <param name="isspam">
         /// True if comment is spam
         /// </param>
-        public static void AddIpToFilter(string ip, bool isspam)
+        public static void AddItemToFilter(string subject, string value, bool isspam)
         {
             var indx = 0;
             var match = false;
@@ -51,10 +54,11 @@
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    var subject = row["Subject"].ToString();
-                    var filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
+                    var rowSubject = row["Subject"].ToString();
+                    var filter = row["Filter"].ToString().Trim();
 
-                    if (subject == "IP" && filter == ip)
+                    if (rowSubject.Equals(subject, StringComparison.OrdinalIgnoreCase) &&
+                        filter.Equals(value, StringComparison.OrdinalIgnoreCase))
                     {
                         match = true;
                         break;
@@ -79,16 +83,45 @@
                 Utils.Log(log);
             }
 
-            // add ip to filters
+            // add value to filters
             var id = Guid.NewGuid().ToString();
             var action = isspam ? "Block" : "Allow";
             var blackWhiteList = isspam ? "Black" : "White";
-            var f = new[] { id, action, "IP", "Equals", ip };
+            var f = new[] { id, action, subject, "Equals", value };
 
             filters.AddValues(f);
             ExtensionManager.SaveSettings("MetaExtension", filters);
 
-            Utils.Log(string.Format("IP added to {0} list: {1}", blackWhiteList, ip));
+            Utils.Log(string.Format("{0} added to {1} list: {2}", subject, blackWhiteList, value));
+        }
+
+        /// <summary>
+        /// Add comment IP to white or black list
+        /// </summary>
+        /// <param name="ip">
+        /// Comment IP
+        /// </param>
+        /// <param name="isspam">
+        /// True if comment is spam
+        /// </param>
+        public static void AddIpToFilter(string ip, bool isspam)
+        {
+            AddItemToFilter("IP", ip, isspam);
+        }
+
+        /// <summary>
+        /// Add comment email address to white or black list
+        /// </summary>
+        /// <param name="email">
+        /// Email address.
+        /// </param>
+        /// <param name="isspam">
+        /// True if comment is spam
+        /// </param>
+        public static void AddEmailToFilter(string email, bool isspam)
+        {
+            if (string.IsNullOrEmpty(email) || !email.Contains("@")) { return; }
+            AddItemToFilter("Email", email, isspam);
         }
 
         /// <summary>
@@ -121,6 +154,7 @@
         public static void Listen()
         {
             Post.AddingComment += PostAddingComment;
+            Post.CommentRemoved += PostCommentRemoved; 
 
             InitFilters();
             InitCustomFilters();
@@ -460,6 +494,26 @@
                 {
                     RunCustomModerators(comment);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles the CommentRemoved event.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.
+        /// </param>
+        private static void PostCommentRemoved(object sender, EventArgs e)
+        {
+            var comment = (Comment)sender;
+            if (comment == null) { return; }
+
+            if (BlogSettings.Instance.BlockAuthorOnCommentDelete)
+            {
+                AddEmailToFilter(comment.Email, true);
             }
         }
 

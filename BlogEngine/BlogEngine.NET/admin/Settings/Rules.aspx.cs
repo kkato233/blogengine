@@ -48,6 +48,7 @@
             ddWhiteListCount.SelectedValue = BlogSettings.Instance.CommentWhiteListCount.ToString();
             ddBlackListCount.SelectedValue = BlogSettings.Instance.CommentBlackListCount.ToString();
             cbReportMistakes.Checked = BlogSettings.Instance.CommentReportMistakes;
+            cbBlockOnDelete.Checked = BlogSettings.Instance.BlockAuthorOnCommentDelete;
             cbAddIpToWhitelistFilterOnApproval.Checked = BlogSettings.Instance.AddIpToWhitelistFilterOnApproval;
             cbAddIpToBlacklistFilterOnRejection.Checked = BlogSettings.Instance.AddIpToBlacklistFilterOnRejection;
         }
@@ -99,7 +100,7 @@
             BlogSettings.Instance.CommentBlackListCount = int.Parse(ddBlackListCount.SelectedValue);
 
             BlogSettings.Instance.CommentReportMistakes = cbReportMistakes.Checked;
-
+            BlogSettings.Instance.BlockAuthorOnCommentDelete = cbBlockOnDelete.Checked;
             BlogSettings.Instance.AddIpToWhitelistFilterOnApproval = cbAddIpToWhitelistFilterOnApproval.Checked;
             BlogSettings.Instance.AddIpToBlacklistFilterOnRejection = cbAddIpToBlacklistFilterOnRejection.Checked;
 

@@ -9,7 +9,8 @@ $(document).ready(function () {
 
 //-------------		EDITING
 
-function EditRow(obj) {
+
+function EditRow(obj) {
     var row = $(obj).closest("tr");
     var revert = $(row).html();
     
@@ -320,93 +321,95 @@ function ProcessSelected(action, page) {
          }
       });
 
-      $('.loader').show();
+      if (vals.length > 0) {
+          $('.loader').show();
 
-      var dto = { "vals": vals };
-      $.ajax({
-          url: srv,
-          data: JSON.stringify(dto),
-          type: "post",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (result) {
+          var dto = { "vals": vals };
+          $.ajax({
+              url: srv,
+              data: JSON.stringify(dto),
+              type: "post",
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (result) {
 
-              var rt = result.d;
-              if (rt.Success) {
+                  var rt = result.d;
+                  if (rt.Success) {
 
-                  // Reference the counters so they don't need to be requeried
-                  // by each checkbox.
-                  var comment_counter = $('#comment_counter');
-                  var spam_counter = $('#spam_counter');
-                  var pingback_counter = $('#pingback_counter');
-                  var pending_counter = $('#pending_counter');
-
-
-                  // parse the current counts
-                  // Change these values before setting it to the element's text.
-                  var com_cnt = parseInt(comment_counter.text(), 10);
-                  var spm_cnt = parseInt(spam_counter.text(), 10);
-                  var pbk_cnt = parseInt(pingback_counter.text(), 10);
-                  var pnd_cnt = parseInt(pending_counter.text(), 10);
+                      // Reference the counters so they don't need to be requeried
+                      // by each checkbox.
+                      var comment_counter = $('#comment_counter');
+                      var spam_counter = $('#spam_counter');
+                      var pingback_counter = $('#pingback_counter');
+                      var pending_counter = $('#pending_counter');
 
 
-                  $.each(commentsAndRows, function (index, value) {
+                      // parse the current counts
+                      // Change these values before setting it to the element's text.
+                      var com_cnt = parseInt(comment_counter.text(), 10);
+                      var spm_cnt = parseInt(spam_counter.text(), 10);
+                      var pbk_cnt = parseInt(pingback_counter.text(), 10);
+                      var pnd_cnt = parseInt(pending_counter.text(), 10);
 
-                      var row = value.row;
-                      row.fadeOut(500, function () {
-                          row.remove();
+
+                      $.each(commentsAndRows, function (index, value) {
+
+                          var row = value.row;
+                          row.fadeOut(500, function () {
+                              row.remove();
+                          });
+
+                          switch (action) {
+                              case "Reject":
+                                  spm_cnt += 1;
+
+                                  switch (page) {
+                                      case "Approved": (com_cnt -= 1); break;
+                                      case "Pending": pending_counter.text((pnd_cnt - 1)); break;
+                                  }
+                                  break;
+
+                              case "Approve":
+                                  com_cnt += 1;
+
+                                  switch (page) {
+                                      case "Pending": (pnd_cnt -= 1); break;
+                                      case "Spam": (spm_cnt -= 1); break;
+                                  }
+                                  break;
+
+                              case "Delete":
+                                  switch (page) {
+                                      case "Approved": (com_cnt -= 1); break;
+                                      case "Spam": (spm_cnt -= 1); break;
+                                      case "Pingback": (pbk_cnt -= 1); break;
+                                      case "Pending": (pnd_cnt -= 1); break;
+                                  }
+                                  break;
+
+                              default:
+                                  throw new Error("Unknown action: " + action);
+                          }
                       });
 
-                      switch (action) {
-                          case "Reject":
-                              spm_cnt += 1;
+                      spam_counter.text(spm_cnt);
+                      comment_counter.text(com_cnt);
+                      pending_counter.text(pnd_cnt);
+                      pingback_counter.text(pbk_cnt);
 
-                              switch (page) {
-                                  case "Approved": (com_cnt -= 1); break;
-                                  case "Pending": pending_counter.text((pnd_cnt - 1)); break;
-                              }
-                              break;
+                      LoadComments(0);
 
-                          case "Approve":
-                              com_cnt += 1;
+                      ShowStatus("success", "Updated");
+                  }
+                  else {
+                      ShowStatus("warning", rt.Message);
+                  }
 
-                              switch (page) {
-                                  case "Pending": (pnd_cnt -= 1); break;
-                                  case "Spam": (spm_cnt -= 1); break;
-                              }
-                              break;
+                  $('.loader').hide();
 
-                          case "Delete":
-                              switch (page) {
-                                  case "Approved": (com_cnt -= 1); break;
-                                  case "Spam": (spm_cnt -= 1); break;
-                                  case "Pingback": (pbk_cnt -= 1); break;
-                                  case "Pending": (pnd_cnt -= 1); break;
-                              }
-                              break;
-
-                          default:
-                              throw new Error("Unknown action: " + action);
-                      }
-                  });
-
-                  spam_counter.text(spm_cnt);
-                  comment_counter.text(com_cnt);
-                  pending_counter.text(pnd_cnt);
-                  pingback_counter.text(pbk_cnt);
-
-                  LoadComments(0);
-
-                  ShowStatus("success", "Updated");
               }
-              else {
-                  ShowStatus("warning", rt.Message);
-              }
-
-              $('.loader').hide();
-
-          }
-      });
+          });
+      }
 
    }
 
