@@ -163,13 +163,7 @@ namespace App_Code.Controls
         private void SortList()
         {
             var dic = CreateRawList();
-            var max = 0;
-
-            var max1 = max;
-            foreach (var value in dic.Values.Where(value => value > max1))
-            {
-                max = value;
-            }
+            var max = dic.Values.Max();
 
             var currentTagCount = 0;
 
