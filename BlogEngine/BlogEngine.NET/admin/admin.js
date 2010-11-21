@@ -274,7 +274,7 @@ function ProcessTrash(action, scope) {
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
-                LoadTrash(1);
+                LoadTrash(null);
                 ShowStatus("success", rt.Message);
             }
             else {
