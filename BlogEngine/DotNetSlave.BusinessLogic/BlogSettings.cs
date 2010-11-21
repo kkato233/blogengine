@@ -583,16 +583,6 @@
 
         #endregion
 
-        #region RequireLoginToPostComment
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether or not to require user been logged in to post comment.
-        /// </summary>
-        /// <value><c>true</c> if [require login]; otherwise, <c>false</c>.</value>
-        public bool RequireLoginToPostComment { get; set; }
-
-        #endregion
-
         #region HandleWwwSubdomain
 
         /// <summary>
@@ -873,6 +863,15 @@
         ///    Automatically add IP address to black list filter when comment is rejected.
         ///</summary>
         public bool AddIpToBlacklistFilterOnRejection { get; set; }
+
+        #endregion
+
+        #region BlockAuthorOnCommentDelete
+
+        ///<summary>
+        ///    Automatically add author to Block list when comment is deleted.
+        ///</summary>
+        public bool BlockAuthorOnCommentDelete { get; set; }
 
         #endregion
 
