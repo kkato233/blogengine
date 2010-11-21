@@ -161,6 +161,7 @@ namespace App_Code.Controls
             // old rendering method.
             var widgetContainer = widgetContainerExists ? (WidgetContainer)widgetControl.Page.LoadControl(widgetContainerVirtualPath) : new DefaultWidgetContainer();
 
+            widgetContainer.ID = "widgetContainer" + widgetControl.ID;
             widgetContainer.Widget = widgetControl;
 
             return widgetContainer;

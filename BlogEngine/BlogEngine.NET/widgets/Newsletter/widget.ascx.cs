@@ -184,17 +184,27 @@ namespace Widgets.Newsletter
                 Path.Combine(Utils.AbsoluteWebRoot.AbsoluteUri, "themes"), BlogSettings.Instance.Theme);
             var filePath = string.Format("~/themes/{0}/newsletter.html", BlogSettings.Instance.Theme);
             filePath = HostingEnvironment.MapPath(filePath);
-            if (filePath != null)
+            if (File.Exists(filePath))
             {
-                var file = File.OpenText(filePath);
-                body.Append(file.ReadToEnd());
+                body.Append(File.ReadAllText(filePath));
             }
-            else            {                // if custom theme doesn't have email template                // use email template from standard theme                filePath = HostingEnvironment.MapPath("~/themes/Standard/newsletter.html");
-                if (filePath != null)
+            else
+            {
+                // if custom theme doesn't have email template
+                // use email template from standard theme
+                filePath = HostingEnvironment.MapPath("~/themes/Standard/newsletter.html");
+                if (File.Exists(filePath))
                 {
-                    var file = File.OpenText(filePath);
-                    body.Append(file.ReadToEnd());
-                }            }
+                    body.Append(File.ReadAllText(filePath));
+                }
+                else
+                {
+                    Utils.Log(
+                        "When sending newsletter, newsletter.html does not exist " +
+                        "in theme folder, and does not exist in the Standard theme " +
+                        "folder.");
+                }
+            }
 
             body = body.Replace("[TITLE]", post.Title);
             body = body.Replace("[LINK]", post.AbsoluteLink.AbsoluteUri);
