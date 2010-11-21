@@ -33,7 +33,7 @@
                             </li>
                             <li>
                                 <%=TagsCount%> Tag(s) 
-                                    <a class="viewAction endline" href="#">View all</a>
+                                    <a class="viewAction endline" href="Posts/Tags.aspx">View all</a>
                             </li>
                             <li>
                                 <%=UsersCount%> User(s) 

@@ -130,6 +130,7 @@
     <Compile Include="Json\JsonComments.cs" />
     <Compile Include="JavascriptMinifier.cs" />
     <Compile Include="Json\JsonRole.cs" />
+    <Compile Include="Json\JsonTag.cs" />
     <Compile Include="Json\JsonTrash.cs" />
     <Compile Include="Json\JsonTrashList.cs" />
     <Compile Include="Ping\Manager.cs" />
