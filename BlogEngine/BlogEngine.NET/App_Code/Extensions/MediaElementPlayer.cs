@@ -96,29 +96,32 @@ public class MediaElementPlayer
 
     private void Post_Serving(object sender, ServingEventArgs e)
     {
-        if (e.Location == ServingLocation.PostList  || e.Location == ServingLocation.SinglePost) {
+        if (e.Location == ServingLocation.PostList  || e.Location == ServingLocation.SinglePost || e.Location == ServingLocation.Feed) {
 	
-			HttpContext context = HttpContext.Current;
-			_page = (Page)context.CurrentHandler;
+			HttpContext context = HttpContext.Current;			
 	
 			string regex = @"(video|audio)";
-			List<ShortCode> shortCodes = GetShortCodes(e.Body, regex);
+			List<ShortCode> shortCodes = GetShortCodes(e.Body, regex, true);
 	
 			if (shortCodes.Count == 0)
 				return;
-				
-			AddHeader();
+							
 			ProcessMediaTags(e, shortCodes);
-			AddFooter();
 			
+			// this won't happen on feeds
+			if (context.CurrentHandler is Page) {
+				_page = (Page)context.CurrentHandler;
+				AddHeader();
+				AddFooter();
+			}
 		}
 	}
 	
 	private void AddHeader() {
 		string path = Utils.RelativeWebRoot + "Scripts/mediaelement/";
 		
-		AddJavaScript(path + "mediaelement.js");
-		AddJavaScript(path + "mediaelementplayer.js");
+		AddJavaScript(path + "mediaelement.min.js");
+		AddJavaScript(path + "mediaelementplayer.min.js");
 		AddStylesheet(path + "mediaelementplayer.min.css");
     }
     
@@ -189,11 +192,11 @@ jQuery(document).ready(function($) {
 			string preload = sc.GetAttributeValue("preload", "");
 
 			string code =
-				"<" + tagName + " class=\"mep\" controls=\"controls\"" + ((src != "") ? " src=\"" + path + src + "\"" : "") + ((poster != "") ? " poster=\"" + path + poster + "\"" : "") + ((w != "") ? " width=\"" + w + "\"" : "") + ((h != "") ? " height=\"" + h + "\"" : "") + ((autoplay != "") ? " autoplay=\"autoplay\"" : "") + ((preload != "") ? " preload=\"" + preload + "\"" : "") + ">" +
-					((mp4 != "") ? "<source src=\"" + path + mp4 + "\" type=\"video/mp4\" />" : "") +
-					((mp3 != "") ? "<source src=\"" + path + mp3 + "\" type=\"audio/mp3\" />" : "") +
-					((webm != "") ? "<source src=\"" + path + webm + "\" type=\"video/webm\" />" : "") +
-					((ogg != "") ? "<source src=\"" + path + ogg + "\" type=\"video/ogg\" />" : "") + 
+				"<" + tagName + " class=\"mep\" controls=\"controls\"" + ((src != "") ? " src=\"" + ((src.IndexOf("http") == 0) ? "" : path) + src + "\"" : "") + ((poster != "") ? " poster=\"" + ((poster.IndexOf("http") == 0) ? "" : path) + poster + "\"" : "") + ((w != "") ? " width=\"" + w + "\"" : "") + ((h != "") ? " height=\"" + h + "\"" : "") + ((autoplay != "") ? " autoplay=\"autoplay\"" : "") + ((preload != "") ? " preload=\"" + preload + "\"" : "") + ">" +
+					((mp4 != "") ? "<source src=\"" + ((mp4.IndexOf("http") == 0) ? "" : path) + mp4 + "\" type=\"video/mp4\" />" : "") +
+					((mp3 != "") ? "<source src=\"" +((mp3.IndexOf("http") == 0) ? "" : path) + mp3 + "\" type=\"audio/mp3\" />" : "") +
+					((webm != "") ? "<source src=\"" + ((webm.IndexOf("http") == 0) ? "" : path) + webm + "\" type=\"video/webm\" />" : "") +
+					((ogg != "") ? "<source src=\"" + ((ogg.IndexOf("http") == 0) ? "" : path) + ogg + "\" type=\"video/ogg\" />" : "") + 
 				
 				"</" + tagName + ">";		
 				
@@ -205,14 +208,22 @@ jQuery(document).ready(function($) {
 	
 	
 	public List<ShortCode> GetShortCodes(string input) {
-		return GetShortCodes(input, @"\w+");
+		return GetShortCodes(input, true);
+	}		
+	public List<ShortCode> GetShortCodes(string input, bool removeParagraphs) {
+		return GetShortCodes(input, @"\w+", removeParagraphs);
 	}
-	public List<ShortCode> GetShortCodes(string input, string regexMatchString) {
+	public List<ShortCode> GetShortCodes(string input, string regexMatchString, bool removeParagraphs) {
 
 		List<ShortCode> shortCodes = new List<ShortCode>();
 
 		// get the main tag [tag attr="value"]
-		MatchCollection matches = Regex.Matches(input, @"\[(?<tag>" + regexMatchString + @")(?<attrs>[^\]]+)\]");
+		string find = @"\[(?<tag>" + regexMatchString + @")(?<attrs>[^\]]+)\]";
+		if (removeParagraphs) {
+			find = @"(<p>[\s\n]?)+" + find + @"([\s\n]?</p>)+";
+		}
+				
+		MatchCollection matches = Regex.Matches(input, find);
 		
 		foreach (Match match in matches) {
 			
