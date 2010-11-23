@@ -38,8 +38,9 @@ public class MediaElementPlayer
     /// </summary>
     public MediaElementPlayer()
     {
-        Post.Serving += Post_Serving;
-         InitSettings();
+        Post.Serving += Publishable_Serving;
+        BlogEngine.Core.Page.Serving += Publishable_Serving;
+        InitSettings();
     }
     
     private void InitSettings() {
@@ -94,9 +95,9 @@ public class MediaElementPlayer
         _settings = ExtensionManager.InitSettings(_extensionName, initialSettings);        
     }
 
-    private void Post_Serving(object sender, ServingEventArgs e)
+    private void Publishable_Serving(object sender, ServingEventArgs e)
     {
-        if (e.Location == ServingLocation.PostList  || e.Location == ServingLocation.SinglePost || e.Location == ServingLocation.Feed) {
+        if (e.Location == ServingLocation.PostList || e.Location == ServingLocation.SinglePost || e.Location == ServingLocation.Feed || e.Location == ServingLocation.SinglePage) {
 	
 			HttpContext context = HttpContext.Current;			
 	

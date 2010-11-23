@@ -111,7 +111,7 @@
 
 				BlogSettings.Instance.Endorsement = blogChannelBLink;
 
-				if (alternateFeedUrl.Trim().Length > 0 && alternateFeedUrl.Contains("://"))
+				if (alternateFeedUrl.Trim().Length > 0 && !alternateFeedUrl.Contains("://"))
 				{
 					alternateFeedUrl = string.Format("http://{0}", alternateFeedUrl);
 				}

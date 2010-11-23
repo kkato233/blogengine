@@ -6,7 +6,7 @@
     <div runat="server" id="divText" />    
     <%=AdminLinks %>
     
-    <% if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+    <% if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus && BlogSettings.Instance.DisqusAddCommentsToPages)
        { %>
     <div id="disqus_box" runat="server">
     <div id="disqus_thread"></div>

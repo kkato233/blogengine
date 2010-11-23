@@ -76,6 +76,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
     <script type="text/javascript">
         $(document).ready(function () {
             $("#uploadImage").colorbox({ width: "550px", inline: true, href: "#uploadImagePanel" });
+            $("#uploadVideo").colorbox({ width: "550px", inline: true, href: "#uploadVideoPanel" });
             $("#uploadFile").colorbox({ width: "550px", inline: true, href: "#uploadFilePanel" });
         });
 
@@ -85,6 +86,21 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
     </script>
 
     <div style="display:none;">
+        <div id="uploadVideoPanel" class="overlaypanel">
+            <h2>Insert video</h2>
+            <ul class="fl" style="margin:0;">
+                <li>
+                    <asp:Label ID="lblVideoUpload" CssClass="lbl" AssociatedControlID="txtUploadVideo" runat="server" Text='Choose video (MP4, WMV, FLV, OGG, WebM) or audio (MP3) file you wish to upload ' />
+                    <asp:FileUpload runat="server" ID="txtUploadVideo" Width="400" size="50" ValidationGroup="imageupload" />
+                    <asp:RequiredFieldValidator ID="txtUploadVideoValidator" runat="Server" ControlToValidate="txtUploadVideo" ErrorMessage="<%$ Resources:labels, required %>"
+                        ValidationGroup="videoupload" />
+                </li>
+                <li style="margin:0;">
+                    <asp:Button runat="server" ID="btnUploadVideo" Text="<%$Resources:labels,upload %>"
+                        ValidationGroup="videoupload" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('videoupload', 'uploadVideoPanel');" /> or <a href="#" onclick="return closeOverlay();">Cancel</a>
+                </li>
+            </ul>
+        </div>
         <div id="uploadImagePanel" class="overlaypanel">
             <h2>Insert image</h2>
             <ul class="fl" style="margin:0;">

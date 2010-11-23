@@ -487,7 +487,7 @@
         }
 
 		/// <summary>
-		/// Handles the Click event of the btnUploadImage control.
+        /// Handles the Click event of the btnUploadVideo control.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>

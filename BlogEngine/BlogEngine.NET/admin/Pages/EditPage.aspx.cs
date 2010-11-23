@@ -104,6 +104,7 @@ namespace Admin.Pages
 
             this.btnUploadFile.Click += this.BtnUploadFileClick;
             this.btnUploadImage.Click += this.BtnUploadImageClick;
+            this.btnUploadVideo.Click += this.BtnUploadVideoClick;
             this.Page.Title = labels.pages;
 
             base.OnInit(e);
@@ -388,6 +389,31 @@ namespace Admin.Pages
                 path,
                 this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
             this.txtContent.Text += img;
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnUploadVideo control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        protected void BtnUploadVideoClick(object sender, EventArgs e)
+        {
+
+            // default media folder
+            var mediaFolder = "media";
+
+            // get the mediaplayer extension and use it's folder
+            var mediaPlayerExtension = BlogEngine.Core.Web.Extensions.ExtensionManager.GetExtension("MediaElementPlayer");
+            mediaFolder = mediaPlayerExtension.Settings[0].GetSingleValue("folder");
+
+            var folder = "~/" + mediaFolder + "/";
+            var fileName = txtUploadVideo.FileName;
+
+            Upload(folder, txtUploadVideo, fileName);
+
+            var shortCode = "[video src=\"" + fileName + "\"]";
+
+            txtContent.Text += shortCode;
         }
 
         #endregion

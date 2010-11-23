@@ -244,7 +244,10 @@
                     continue;
                 }
 
-                if (c.Attributes["href"].StartsWith("http://"))
+                // if a CSS filename has ".min.css" in it, it is probably an already
+                // minified CSS file -- skip these.
+                if (c.Attributes["href"].StartsWith("http://") ||
+                    c.Attributes["href"].IndexOf(".min.css", StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     continue;
                 }

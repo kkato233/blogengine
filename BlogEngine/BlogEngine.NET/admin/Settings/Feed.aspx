@@ -77,7 +77,7 @@
                     <li>
                         <label class="lbl" for="<%=txtEmail.ClientID %>"><%=Resources.labels.email %></label>
                         <asp:TextBox runat="server" ID="txtEmail" Width="300" CssClass="email" />
-                        <span class="belowHelp">Feed authors's emal address (optional)</span>
+                        <span class="belowHelp">Feed author's email address (optional)</span>
                     </li>
                     <li>
                         <label class="lbl" for="<%=txtBlogChannelBLink.ClientID %>"><%=Resources.labels.endorsment %></label>
