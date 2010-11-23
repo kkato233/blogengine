@@ -167,7 +167,7 @@
 
             <div runat="server" style="visibility:hidden;height:1px">
                 <div id="uploadVideoPanel" class="overlaypanel">
-                    <h2>Insert image</h2>
+                    <h2>Insert video</h2>
                     <ul class="fl" style="margin:0;">
                         <li>
                             <asp:Label ID="lblVideoUpload" CssClass="lbl" AssociatedControlID="txtUploadVideo" runat="server" Text='Choose video (MP4, WMV, FLV, OGG, WebM) or audio (MP3) file you wish to upload ' />
