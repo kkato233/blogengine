@@ -453,6 +453,7 @@
                 blackCnt >= BlogSettings.Instance.CommentBlackListCount)
             {
                 comment.IsSpam = true;
+                comment.IsApproved = false;
                 comment.ModeratedBy = "Rule:black list";
                 return true;
             }
@@ -543,6 +544,7 @@
                 if (customFilter.Check(comment))
                 {
                     comment.IsSpam = true;
+                    comment.IsApproved = false;
                     comment.ModeratedBy = filterName;
 
                     Utils.Log(
