@@ -631,6 +631,12 @@
                     continue;
                 }
 
+                // if comment is spam, only authorized can see it
+                if (comment.IsSpam && !canViewUnpublishedPosts)
+                {
+                    continue;
+                }
+
                 if (comment.Email == "pingback" || comment.Email == "trackback")
                 {
                     continue;

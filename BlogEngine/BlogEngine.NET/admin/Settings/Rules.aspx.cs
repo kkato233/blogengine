@@ -12,9 +12,16 @@
         static protected ExtensionSettings _filters;
         static protected ExtensionSettings _customFilters;
 
+        /// <summary>
+        /// Usually filter implemented as extension and can be turned
+        /// on and off. If it is not extension, defaulted to enabled.
+        /// </summary>
+        /// <param name="filter">Filter (extension) name</param>
+        /// <returns>True if enabled</returns>
         public bool CustomFilterEnabled(string filter)
         {
-            return ExtensionManager.ExtensionEnabled(filter);
+            var ext = ExtensionManager.GetExtension(filter);
+            return ext == null ? true : ext.Enabled;
         }
 
         protected void Page_Load(object sender, EventArgs e)
