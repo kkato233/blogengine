@@ -110,10 +110,8 @@
         {
             LoadExtensions();
             extensions.Sort((p1, p2) => String.Compare(p1.Name, p2.Name));
-
-            var val = !(extensions.Count(x => x.Name == extensionName && !x.Enabled) > 0);
-
-            return val;
+            var ext = GetExtension(extensionName); 
+            return ext == null ? false : ext.Enabled;
         }
 
         /// <summary>

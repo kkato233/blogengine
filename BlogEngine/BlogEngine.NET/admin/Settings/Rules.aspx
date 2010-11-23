@@ -163,7 +163,7 @@
                     <asp:BoundField DataField = "FullName" Visible="false" />
                     <asp:TemplateField HeaderText="<%$ Resources:labels, enabled%>" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="60">
                         <ItemTemplate>
-                            <asp:CheckBox ID="chkEnabled" Checked='<%# CustomFilterEnabled(DataBinder.Eval(Container.DataItem, "FullName").ToString()) %>' Enabled="false" runat="server"/>
+                            <asp:CheckBox ID="chkEnabled" Checked='<%# CustomFilterEnabled(DataBinder.Eval(Container.DataItem, "Name").ToString()) %>' Enabled="false" runat="server"/>
                         </ItemTemplate>
                     </asp:TemplateField>  
                     <asp:BoundField DataField = "FullName" HeaderText="<%$ Resources:labels, filterName %>" HeaderStyle-HorizontalAlign="Left" />
