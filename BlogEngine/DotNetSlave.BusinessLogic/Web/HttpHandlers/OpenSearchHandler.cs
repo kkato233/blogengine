@@ -82,8 +82,6 @@
             context.Response.Cache.SetValidUntilExpires(true);
             context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
             context.Response.Cache.SetETag(Guid.NewGuid().ToString());
-
-            BlogSettings.Changed += (sender, args) => context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
         }
 
         #endregion

@@ -18,14 +18,13 @@ using Page=System.Web.UI.Page;
 /// <summary>
 /// Adds a HTML5 video/audio player to posts with Flash/Silverlight fallbacks
 /// </summary>
-[Extension("HTML5 Video/Audio Player", "1.0", @"<a href=""http://johndyer.me/"">John Dyer</a>")]
+[Extension("HTML5 Video/Audio Player", "1.5", @"<a href=""http://johndyer.me/"">John Dyer</a>")]
 public class MediaElementPlayer
 {
 
     #region Private members
     private const string _extensionName = "MediaElementPlayer";
     static protected ExtensionSettings _settings;
-    private static Page _page;
     #endregion
 
     private const int _widthDefault = 480;
@@ -36,16 +35,17 @@ public class MediaElementPlayer
     /// <summary>
     /// Adds a Flash video player to the post.
     /// </summary>
-    public MediaElementPlayer()
+    static MediaElementPlayer()
     {
         Post.Serving += Publishable_Serving;
         BlogEngine.Core.Page.Serving += Publishable_Serving;
         InitSettings();
     }
     
-    private void InitSettings() {
+    private static void InitSettings()
+    {
 
-        ExtensionSettings initialSettings = new ExtensionSettings(GetType().Name);
+        ExtensionSettings initialSettings = new ExtensionSettings(_extensionName);
         initialSettings.Help = @"
 <p>Build on <a href=""http://mediaelement.js.com/"">MediaElement.js</a>, the HTML5 video/audio player.</p>
 
@@ -95,7 +95,7 @@ public class MediaElementPlayer
         _settings = ExtensionManager.InitSettings(_extensionName, initialSettings);        
     }
 
-    private void Publishable_Serving(object sender, ServingEventArgs e)
+    private static void Publishable_Serving(object sender, ServingEventArgs e)
     {
         if (e.Location == ServingLocation.PostList || e.Location == ServingLocation.SinglePost || e.Location == ServingLocation.Feed || e.Location == ServingLocation.SinglePage) {
 	
@@ -111,39 +111,41 @@ public class MediaElementPlayer
 			
 			// this won't happen on feeds
 			if (context.CurrentHandler is Page) {
-				_page = (Page)context.CurrentHandler;
-				AddHeader();
-				AddFooter();
+				Page page = (Page)context.CurrentHandler;
+				AddHeader(page);
+                AddFooter(page);
 			}
 		}
 	}
-	
-	private void AddHeader() {
+
+    private static void AddHeader(Page page)
+    {
 		string path = Utils.RelativeWebRoot + "Scripts/mediaelement/";
 		
-		AddJavaScript(path + "mediaelement.min.js");
-		AddJavaScript(path + "mediaelementplayer.min.js");
-		AddStylesheet(path + "mediaelementplayer.min.css");
+		AddJavaScript(path + "mediaelement.min.js", page);
+        AddJavaScript(path + "mediaelementplayer.min.js", page);
+        AddStylesheet(path + "mediaelementplayer.min.css", page);
     }
-    
-    private void AddJavaScript(string src)
+
+    private static void AddJavaScript(string src, Page page)
     {
         HtmlGenericControl script = new HtmlGenericControl("script");
         script.Attributes["type"] = "text/javascript";
         script.Attributes["src"] = src;
-        _page.Header.Controls.Add(script);
+        page.Header.Controls.Add(script);
     }
 
-    private void AddStylesheet(string href)
+    private static void AddStylesheet(string href, Page page)
     {
         HtmlLink css = new HtmlLink();
         css.Attributes["type"] = "text/css";
         css.Attributes["rel"] = "stylesheet";
         css.Attributes["href"] = href;
-        _page.Header.Controls.Add(css);
-    }    
+        page.Header.Controls.Add(css);
+    }
 
-	private void AddFooter() {
+    private static void AddFooter(Page page)
+    {
 
 		int width = 0;
 		int height = 0;		
@@ -159,12 +161,13 @@ jQuery(document).ready(function($) {
 	$('audio.mep, video.mep').mediaelementplayer({defaultVideoWidth:" + width.ToString() + ", defaultVideoHeight:" + height.ToString() + @"});
 });
 </script>	
-";	
-		_page.ClientScript.RegisterStartupScript(_page.GetType(), _extensionName, startupScript, false);
+";
+        page.ClientScript.RegisterStartupScript(page.GetType(), _extensionName, startupScript, false);
 	}
 
-	
-	private void ProcessMediaTags(ServingEventArgs e, List<ShortCode> shortCodes) {
+
+    private static void ProcessMediaTags(ServingEventArgs e, List<ShortCode> shortCodes)
+    {
 	
 		// path to media
 		string folder = _settings.GetSingleValue("folder");			
@@ -208,14 +211,16 @@ jQuery(document).ready(function($) {
 	
 	
 	
-	public List<ShortCode> GetShortCodes(string input) {
+	public static List<ShortCode> GetShortCodes(string input)
+    {
 		return GetShortCodes(input, true);
-	}		
-	public List<ShortCode> GetShortCodes(string input, bool removeParagraphs) {
+	}
+    public static List<ShortCode> GetShortCodes(string input, bool removeParagraphs)
+    {
 		return GetShortCodes(input, @"\w+", removeParagraphs);
 	}
-	public List<ShortCode> GetShortCodes(string input, string regexMatchString, bool removeParagraphs) {
-
+    public static List<ShortCode> GetShortCodes(string input, string regexMatchString, bool removeParagraphs)
+    {
 		List<ShortCode> shortCodes = new List<ShortCode>();
 
 		// get the main tag [tag attr="value"]
@@ -248,7 +253,8 @@ jQuery(document).ready(function($) {
 		return shortCodes;
 	}
 
-	public class ShortCode {
+    public class ShortCode
+    {
 
 		public ShortCode(): this("","") {
 		}
