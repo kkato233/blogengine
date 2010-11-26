@@ -1042,7 +1042,7 @@
             text = RemoveDiacritics(text);
             text = RemoveExtraHyphen(text);
 
-            return HttpUtility.UrlEncode(text).Replace("%", string.Empty);
+            return HttpUtility.HtmlEncode(text).Replace("%", string.Empty);
         }
 
         /// <summary>

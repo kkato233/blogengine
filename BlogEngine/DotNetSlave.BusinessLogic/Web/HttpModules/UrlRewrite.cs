@@ -137,7 +137,7 @@
             url = url.Substring(0, url.IndexOf(BlogSettings.Instance.FileExtension));
             var index = url.LastIndexOf("/") + 1;
             var title = url.Substring(index);
-            return context.Server.UrlEncode(title);
+            return context.Server.HtmlEncode(title);
         }
 
         /// <summary>
