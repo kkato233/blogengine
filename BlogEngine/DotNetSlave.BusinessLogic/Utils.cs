@@ -827,13 +827,8 @@
                 new LiteralControl(content.Substring(currentPosition, content.Length - currentPosition)));
         }
 
-
-        private static readonly Regex emailRegex = new Regex(@"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
-                                                + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
-				                                            [0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
-                                                + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
-				                                            [0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-                                                + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$");
+        private static readonly Regex emailRegex = new Regex(
+            @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Email address by user name
