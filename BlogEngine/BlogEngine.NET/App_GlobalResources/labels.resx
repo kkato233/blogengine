@@ -1265,7 +1265,6 @@
     <value>Automatically add IP Address of Comments you Reject to the black list.</value>
   </data>
   <data name="dashboard" xml:space="preserve">
-    <value>控制台</value>
-    <comment>Dashboard</comment>
+    <value>Dashboard</value>
   </data>
 </root>
