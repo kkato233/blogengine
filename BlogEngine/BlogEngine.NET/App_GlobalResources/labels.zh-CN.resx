@@ -543,7 +543,7 @@
     <comment>Posts per page</comment>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>篇文章</value>
+    <value>文章</value>
     <comment>Posts</comment>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
@@ -1569,5 +1569,81 @@
   <data name="themeCookieName" xml:space="preserve">
     <value>主题模板 Cookie 名</value>
     <comment>Theme cookie name</comment>
+  </data>
+  <data name="notifiedPublished" xml:space="preserve">
+    <value>当有新文章发表时通知我.</value>
+    <comment>Get notified when a new post is published.</comment>
+  </data>
+  <data name="pendingApproval" xml:space="preserve">
+    <value>评论将被管理员审核</value>
+    <comment>Comments will be pending administrator's approval</comment>
+  </data>
+  <data name="Referrers_BindTable_Total" xml:space="preserve">
+    <value>总计</value>
+    <comment>
+			Footer row text of first cell
+		</comment>
+  </data>
+  <data name="Configuration_OnInit_Please_specify_a_number" xml:space="preserve">
+    <value>请输入一个数</value>
+    <comment>
+			valDescChar Error Message
+		</comment>
+  </data>
+  <data name="Configuration_BtnTestSmtpClick_Test_successfull" xml:space="preserve">
+    <value>测试成功</value>
+    <comment>Smtp status text</comment>
+  </data>
+  <data name="allowRemoteFileDownloads" xml:space="preserve">
+    <value>允许远程文件下载</value>
+    <comment>Allow remote file downloads</comment>
+  </data>
+  <data name="allowRemoteFileDownloadsDescription" xml:space="preserve">
+    <value>允许服务器处理来自其他站点的下载、缓存、程序资源.</value>
+    <comment>Allow the server's handlers to download/cache/process resources from other websites.</comment>
+  </data>
+  <data name="remoteTimeout" xml:space="preserve">
+    <value>远程下载耗时上限</value>
+    <comment>Max remote download time</comment>
+  </data>
+  <data name="remoteTimeoutDescription" xml:space="preserve">
+    <value>服务器下载远程资源的最大时间限制（毫秒）. 不限请设定位 0. 默认值 30000.</value>
+    <comment>The maximum length of time(milliseconds) the server can spend downloading a remote resource. Set to 0 for unlimited. Default is 30000.</comment>
+  </data>
+  <data name="securitySettings" xml:space="preserve">
+    <value>安全设置</value>
+    <comment>Security Settings</comment>
+  </data>
+  <data name="maximumRemoteFileSize" xml:space="preserve">
+    <value>远程文件大小上限</value>
+    <comment>Max Remote File Size</comment>
+  </data>
+  <data name="maximumRemoteFileSizeDescription" xml:space="preserve">
+    <value>服务器下载远程文件的最大尺寸（字节）. 不限请设定位 0.</value>
+    <comment>The maximum size in bytes of a remote file the server can download. Set to 0 for unlimited.</comment>
+  </data>
+  <data name="selfRegistrationInitialRole" xml:space="preserve">
+    <value>自助注册的初始角色</value>
+    <comment>Initial Role for Self Registration</comment>
+  </data>
+  <data name="enableRecaptcha" xml:space="preserve">
+    <value>启用 Recaptcha</value>
+    <comment>Enable Recaptcha</comment>
+  </data>
+  <data name="recaptchaConfigureReminder" xml:space="preserve">
+    <value>请确保 Recaptcha 插件已呗启用并配置完整.</value>
+    <comment>Make sure the Recaptcha extension is enabled and properly configured.</comment>
+  </data>
+  <data name="whitelistIpOnCommentApproval" xml:space="preserve">
+    <value>自动将审核通过的评论IP地址加入白名单.</value>
+    <comment>Automatically add IP Address of Comments you Approve to the white list.</comment>
+  </data>
+  <data name="blacklistIpOnCommentRejection" xml:space="preserve">
+    <value>自动将拒绝通过的评论IP地址加入黑名单.</value>
+    <comment>Automatically add IP Address of Comments you Reject to the black list.</comment>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>控制台</value>
+    <comment>Dashboard</comment>
   </data>
 </root>
