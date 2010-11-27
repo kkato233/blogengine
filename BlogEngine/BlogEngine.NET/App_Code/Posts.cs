@@ -66,7 +66,7 @@
                 return response;
             }
 
-            var page = Post.GetPost(new Guid(id));
+            var page = Page.GetPage(new Guid(id));
             if (page == null)
             {
                 return new JsonResponse() { Message = "Invalid page id" };

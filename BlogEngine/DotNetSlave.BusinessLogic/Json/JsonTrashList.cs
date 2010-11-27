@@ -149,6 +149,8 @@
         {
             try
             {
+                string message = null;
+
                 foreach (var s in vals)
                 {
                     var ar = s.Split((":").ToCharArray());
@@ -156,23 +158,27 @@
                     if (action == "Purge" && ar[0] == "All" && ar[1] == "All")
                     {
                         PurgeAll();
-                        return new JsonResponse { Success = true, Message = "Trash is empty!" };
+                        message = "Trash is empty!";
                     }
                     else
                     {
                         if (action == "Purge")
                         {
                             Purge(ar[0], new Guid(ar[1]));
-                            return new JsonResponse { Success = true, Message = "Item(s) purged" };
+                            message = "Item(s) purged";
                         }
                         else if (action == "Restore")
                         {
                             Restore(ar[0], new Guid(ar[1]));
-                            return new JsonResponse { Success = true, Message = "Item(s) restored" };
+                            message = "Item(s) restored";
                         }
                     }
                 }
-                return new JsonResponse { Success = true, Message = "Nothing to process" };
+
+                if (string.IsNullOrEmpty(message))
+                    return new JsonResponse { Success = true, Message = "Nothing to process" };
+                else
+                    return new JsonResponse { Success = true, Message = message };
             }
             catch (Exception ex)
             {
@@ -248,13 +254,13 @@
             }
 
             // remove deleted posts
-            foreach (var p in Post.DeletedPosts)
+            foreach (var p in Post.DeletedPosts.ToArray())
             {
                 p.Purge();
             }
 
             // remove deleted pages
-            foreach (var pg in Page.DeletedPages)
+            foreach (var pg in Page.DeletedPages.ToArray())
             {
                 pg.Purge();
             }
