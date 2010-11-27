@@ -828,7 +828,7 @@
         }
 
         private static readonly Regex emailRegex = new Regex(
-            @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", RegexOptions.IgnoreCase);
+            @"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Email address by user name
@@ -860,7 +860,7 @@
             // doesn't accept null parameters.
             if (!Utils.StringIsNullOrWhitespace(email))
             {
-                return emailRegex.IsMatch(email);
+                return emailRegex.IsMatch(email.Trim());
             }
 
             return false;
