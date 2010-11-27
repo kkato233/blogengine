@@ -51,7 +51,6 @@
         [WebMethod]
         public JsonResponse Add(string user, string pwd, string email, string[] roles)
         {
-
             if (!Security.IsAuthorizedTo(Rights.CreateNewUsers))
             {
                 return new JsonResponse() { Message = "Not authorized." };
@@ -70,6 +69,8 @@
             }
 
             user = user.Trim();
+            email = email.Trim();
+            pwd = pwd.Trim();
 
             if (Membership.GetUser(user) != null)
             {
