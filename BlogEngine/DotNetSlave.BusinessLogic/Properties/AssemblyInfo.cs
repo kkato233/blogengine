@@ -20,4 +20,4 @@ using System.Security.Permissions;
 [assembly: ComVisible(false)]
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: PermissionSet(SecurityAction.RequestMinimum, Name = "Nothing")]
-[assembly: AssemblyVersion("2.0.0.6")]
+[assembly: AssemblyVersion("2.0.0.7")]

@@ -184,7 +184,7 @@ namespace Widgets.RecentPosts
 
                 if (post.Raters == 0)
                 {
-                    rating = labels.notRatedYet;
+                    rate = string.Format("<span>{0}</span>", labels.notRatedYet);
                 }
 
                 sb.AppendFormat(LinkFormat, post.RelativeLink, HttpUtility.HtmlEncode(post.Title), comments, rate);

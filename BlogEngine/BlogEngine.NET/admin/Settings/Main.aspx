@@ -4,11 +4,33 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server"> 
     <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
     <script type="text/javascript">
+
+        var oShowDescChkBox;
+        var oShowDescTagCatChkBox;
+        var oDescCharContainer;
+        var oDescCharTagCatContainer;
+
+        function syncCharCountBox(oChkBox,oCharContainer) {
+
+            var isChecked = oChkBox.is(":checked");
+            if (isChecked) {
+                oCharContainer.show();
+            } else {
+                oCharContainer.hide();
+            }
+
+        }
+
         $(document).ready(function () {
             var frm = document.forms.aspnetForm;
             $(frm).validate({
                 onsubmit: false
             });
+
+            oShowDescChkBox = $("#<%=cbShowDescriptionInPostList.ClientID %>");
+            oShowDescTagCatChkBox = $("#<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>");
+            oDescCharContainer = $("#DescriptionCharacters");
+            oDescCharTagCatContainer = $("#DescriptionCharactersForPostsByTagOrCategory");
 
             $("#btnSave").click(function (evt) {
                 if ($(frm).valid())
@@ -17,13 +39,16 @@
                 evt.preventDefault();
             });
 
-            $("#<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>").change(function () {
-                $("#DescriptionCharactersForPostsByTagOrCategory").toggle();
+            oShowDescTagCatChkBox.change(function () {
+                syncCharCountBox(oShowDescTagCatChkBox, oDescCharTagCatContainer);
             });
 
-            $("#<%=cbShowDescriptionInPostList.ClientID %>").change(function () {
-                $("#DescriptionCharacters").toggle();
+            oShowDescChkBox.change(function () {
+                syncCharCountBox(oShowDescChkBox, oDescCharContainer);
             });
+
+            syncCharCountBox(oShowDescChkBox, oDescCharContainer);
+            syncCharCountBox(oShowDescTagCatChkBox, oDescCharTagCatContainer);
 
         });
         function PreviewTheme() {
@@ -43,10 +68,10 @@
 				"useBlogNameInPageTitles": $("[id$='_cbUseBlogNameInPageTitles']").attr('checked'),
 				"enableRelatedPosts": $("[id$='_cbShowRelatedPosts']").attr('checked'),
 				"enableRating": $("[id$='_cbEnableRating']").attr('checked'),
-				"showDescriptionInPostList": $("[id$='_cbShowDescriptionInPostList']").attr('checked'),
-				"descriptionCharacters": $("[id$='_txtDescriptionCharacters']").val(),
-				"showDescriptionInPostListForPostsByTagOrCategory": $("[id$='_cbShowDescriptionInPostListForPostsByTagOrCategory']").attr('checked'),
-				"descriptionCharactersForPostsByTagOrCategory": $("[id$='_txtDescriptionCharactersForPostsByTagOrCategory']").val(),
+				"showDescriptionInPostList": oShowDescChkBox.attr('checked'),
+				"descriptionCharacters": $("input", oDescCharContainer).val(),
+				"showDescriptionInPostListForPostsByTagOrCategory": oShowDescTagCatChkBox.attr('checked'),
+				"descriptionCharactersForPostsByTagOrCategory": $("input", oDescCharTagCatContainer).val(),
 				"timeStampPostLinks": $("[id$='_cbTimeStampPostLinks']").attr('checked'),
 				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
 				"culture": $("[id$='_ddlCulture']").val(),
