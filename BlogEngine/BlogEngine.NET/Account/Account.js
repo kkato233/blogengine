@@ -18,11 +18,11 @@ function Hide(element) {
 
 function ValidatePasswordRetrieval() {
     if ($("[id$='txtEmail']").val().length == 0) {
-        ShowStatus('warning', 'Email is required');
+        ShowStatus('warning', EMAILISREQUIRED);
         return false;
     }
     if (ValidateEmail($("[id$='txtEmail']").val()) == false) {
-        ShowStatus('warning', 'Email is invalid');
+        ShowStatus('warning', EMAILISINVALID);
         return false;
     }
     return true;
@@ -30,11 +30,11 @@ function ValidatePasswordRetrieval() {
 
 function ValidateLogin() {
     if ($("[id$='UserName']").val().length == 0) {
-        ShowStatus('warning', 'User name is required');
+        ShowStatus('warning', USERNAMEISREQUIRED);
         return false;
     }
     if ($("[id$='Password']").val().length == 0) {
-        ShowStatus('warning', 'Password is required');
+        ShowStatus('warning', PASSWORDISREQURIED);
         return false;
     }
     return true;
@@ -42,11 +42,11 @@ function ValidateLogin() {
 
 function ValidateChangePassword() {    
     if ($("[id$='CurrentPassword']").val().length == 0) {
-        ShowStatus('warning', 'Old password is required');
+        ShowStatus('warning', OLDPASSWORDISREQUIRED);
         return false;
     }
     if ($("[id$='NewPassword']").val().length == 0) {
-        ShowStatus('warning', 'New password is required');
+        ShowStatus('warning', NEWPASSWORDISREQUIRED);
         return false;
     }
     var minReq = $("[id$='_hdnPassLength']").val();
@@ -57,11 +57,11 @@ function ValidateChangePassword() {
         return false;
     }
     if ($("[id$='ConfirmNewPassword']").val().length == 0) {
-        ShowStatus('warning', 'Confirm password is required');
+        ShowStatus('warning', CONFIRMPASSWORDISREQUIRED);
         return false;
     }
     if ($("[id$='NewPassword']").val() != $("[id$='ConfirmNewPassword']").val()) {
-        ShowStatus('warning', 'New and confirm passwords do not match');
+        ShowStatus('warning', NEWANDCONFIRMPASSWORDMISMATCH);
         return false;
     }   
     return true;
@@ -69,19 +69,19 @@ function ValidateChangePassword() {
 
 function ValidateNewUser() {
     if ($("[id$='UserName']").val().length == 0) {
-        ShowStatus('warning', 'User name is required');
+        ShowStatus('warning', USERNAMEISREQUIRED);
         return false;
     }
     if ($("[id$='Email']").val().length == 0) {
-        ShowStatus('warning', 'Email is required');
+        ShowStatus('warning', EMAILISREQUIRED);
         return false;
     }
     if (ValidateEmail($("[id$='Email']").val()) == false) {
-        ShowStatus('warning', 'Email is invalid');
+        ShowStatus('warning', EMAILISINVALID);
         return false;
     }
     if ($("[id$='Password']").val().length == 0) {
-        ShowStatus('warning', 'Password is required');
+        ShowStatus('warning', PASSWORDISREQURIED);
         return false;
     }
     var minReq = $("[id$='_hdnPassLength']").val();
@@ -92,11 +92,11 @@ function ValidateNewUser() {
         return false;
     }
     if ($("[id$='ConfirmPassword']").val().length == 0) {
-        ShowStatus('warning', 'Confirm password is required');
+        ShowStatus('warning', CONFIRMPASSWORDISREQUIRED);
         return false;
     }
     if ($("[id$='Password']").val() != $("[id$='ConfirmPassword']").val()) {
-        ShowStatus('warning', 'Password and confirm password do not match');
+        ShowStatus('warning', PASSWORDANDCONFIRMPASSWORDMISMATCH);
         return false;
     }
     return true;
