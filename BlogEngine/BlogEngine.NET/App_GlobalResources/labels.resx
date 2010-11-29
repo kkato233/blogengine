@@ -1264,4 +1264,34 @@
   <data name="blacklistIpOnCommentRejection" xml:space="preserve">
     <value>Automatically add IP Address of Comments you Reject to the black list.</value>
   </data>
+  <data name="confirmPasswordIsRequired" xml:space="preserve">
+    <value>Confirm password is required</value>
+  </data>
+  <data name="emailIsInvalid" xml:space="preserve">
+    <value>Email is invalid</value>
+  </data>
+  <data name="emailIsRequired" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="minPassLengthInChars" xml:space="preserve">
+    <value>Minimum passwrod length is {0} characters</value>
+  </data>
+  <data name="newAndConfirmPasswordMismatch" xml:space="preserve">
+    <value>New and confirm passwords do not match</value>
+  </data>
+  <data name="newPasswordIsRequired" xml:space="preserve">
+    <value>New password is required</value>
+  </data>
+  <data name="oldPasswordIsRequired" xml:space="preserve">
+    <value>Old password is required</value>
+  </data>
+  <data name="passwordAndConfirmPasswordMismatch" xml:space="preserve">
+    <value>Password and confirm password do not match</value>
+  </data>
+  <data name="passwordIsRequried" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="userNameIsRequired" xml:space="preserve">
+    <value>User name is required</value>
+  </data>
 </root>
