@@ -133,7 +133,7 @@ namespace App_Code.Controls
 
                 if (post.Raters == 0)
                 {
-                    rating = labels.notRatedYet;
+                    rate = string.Format("<span>{0}</span>", labels.notRatedYet);
                 }
 
                 sb.AppendFormat(Link, post.RelativeLink, HttpUtility.HtmlEncode(post.Title), comments, rate);
