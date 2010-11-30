@@ -18,11 +18,11 @@ function Hide(element) {
 
 function ValidatePasswordRetrieval() {
     if ($("[id$='txtEmail']").val().length == 0) {
-        ShowStatus('warning', EMAILISREQUIRED);
+        ShowStatus('warning', accountResources.emailIsRequired);
         return false;
     }
     if (ValidateEmail($("[id$='txtEmail']").val()) == false) {
-        ShowStatus('warning', EMAILISINVALID);
+        ShowStatus('warning', accountResources.emailIsInvalid);
         return false;
     }
     return true;
@@ -30,11 +30,11 @@ function ValidatePasswordRetrieval() {
 
 function ValidateLogin() {
     if ($("[id$='UserName']").val().length == 0) {
-        ShowStatus('warning', USERNAMEISREQUIRED);
+        ShowStatus('warning', accountResources.userNameIsRequired);
         return false;
     }
     if ($("[id$='Password']").val().length == 0) {
-        ShowStatus('warning', PASSWORDISREQURIED);
+        ShowStatus('warning', accountResources.passwordIsRequried);
         return false;
     }
     return true;
@@ -42,26 +42,26 @@ function ValidateLogin() {
 
 function ValidateChangePassword() {    
     if ($("[id$='CurrentPassword']").val().length == 0) {
-        ShowStatus('warning', OLDPASSWORDISREQUIRED);
+        ShowStatus('warning', accountResources.oldPasswordIsRequired);
         return false;
     }
     if ($("[id$='NewPassword']").val().length == 0) {
-        ShowStatus('warning', NEWPASSWORDISREQUIRED);
+        ShowStatus('warning', accountResources.newPasswordIsRequired);
         return false;
     }
     var minReq = $("[id$='_hdnPassLength']").val();
     var minPass = $("[id$='NewPassword']").val().length;
 
     if (minPass < minReq) {
-        ShowStatus('warning', 'Minimum passwrod length is ' + minReq + ' characters');
+        ShowStatus('warning', 'Minimum password length is ' + minReq + ' characters');
         return false;
     }
     if ($("[id$='ConfirmNewPassword']").val().length == 0) {
-        ShowStatus('warning', CONFIRMPASSWORDISREQUIRED);
+        ShowStatus('warning', accountResources.confirmPasswordIsRequired);
         return false;
     }
     if ($("[id$='NewPassword']").val() != $("[id$='ConfirmNewPassword']").val()) {
-        ShowStatus('warning', NEWANDCONFIRMPASSWORDMISMATCH);
+        ShowStatus('warning', accountResources.newAndConfirmPasswordMismatch);
         return false;
     }   
     return true;
@@ -69,34 +69,34 @@ function ValidateChangePassword() {
 
 function ValidateNewUser() {
     if ($("[id$='UserName']").val().length == 0) {
-        ShowStatus('warning', USERNAMEISREQUIRED);
+        ShowStatus('warning', accountResources.userNameIsRequired);
         return false;
     }
     if ($("[id$='Email']").val().length == 0) {
-        ShowStatus('warning', EMAILISREQUIRED);
+        ShowStatus('warning', accountResources.emailIsRequired);
         return false;
     }
     if (ValidateEmail($("[id$='Email']").val()) == false) {
-        ShowStatus('warning', EMAILISINVALID);
+        ShowStatus('warning', accountResources.emailIsInvalid);
         return false;
     }
     if ($("[id$='Password']").val().length == 0) {
-        ShowStatus('warning', PASSWORDISREQURIED);
+        ShowStatus('warning', accountResources.passwordIsRequried);
         return false;
     }
     var minReq = $("[id$='_hdnPassLength']").val();
     var minPass = $("[id$='Password']").val().length;
 
     if (minPass < minReq) {
-        ShowStatus('warning', 'Minimum passwrod length is ' + minReq + ' characters');
+        ShowStatus('warning', accountResources.minimumPasswordLengthCharacterCount.replace('{0}', minReq));
         return false;
     }
     if ($("[id$='ConfirmPassword']").val().length == 0) {
-        ShowStatus('warning', CONFIRMPASSWORDISREQUIRED);
+        ShowStatus('warning', accountResources.confirmPasswordIsRequired);
         return false;
     }
     if ($("[id$='Password']").val() != $("[id$='ConfirmPassword']").val()) {
-        ShowStatus('warning', PASSWORDANDCONFIRMPASSWORDMISMATCH);
+        ShowStatus('warning', accountResources.passwordAndConfirmPasswordIsMatch);
         return false;
     }
     return true;

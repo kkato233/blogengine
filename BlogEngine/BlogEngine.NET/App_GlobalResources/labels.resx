@@ -1300,6 +1300,12 @@
   <data name="passwordIsRequried" xml:space="preserve">
     <value>Password is required</value>
   </data>
+  <data name="passwordAndConfirmPasswordIsMatch" xml:space="preserve">
+    <value>New and confirm passwords do not match</value>
+  </data>
+  <data name="minimumPasswordLengthCharacterCount" xml:space="preserve">
+    <value>Minimum password length is {0} characters</value>
+  </data>
   <data name="userNameIsRequired" xml:space="preserve">
     <value>User name is required</value>
   </data>
