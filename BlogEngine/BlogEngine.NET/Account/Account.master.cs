@@ -86,7 +86,7 @@
                 "oldPasswordIsRequired",
                 "newPasswordIsRequired",
                 "passwordAndConfirmPasswordIsMatch",
-                "minimumPasswordLengthCharacterCount"
+                "minPassLengthInChars"
             };
 
             Utils.AddFolderJavaScripts(this.Page, "Scripts", true);
