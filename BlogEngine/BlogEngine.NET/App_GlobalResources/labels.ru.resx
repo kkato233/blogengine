@@ -571,4 +571,25 @@
   <data name="youAlreadyRated" xml:space="preserve">
     <value>Вы уже оценивали эту запись</value>
   </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Панель Наблюдения</value>
+  </data>
+  <data name="extensions" xml:space="preserve">
+    <value>Расширения</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="logoff" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="myProfile" xml:space="preserve">
+    <value>Мой Профиль</value>
+  </data>
+  <data name="tracking" xml:space="preserve">
+    <value>Трекинг</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>Привет</value>
+  </data>
 </root>

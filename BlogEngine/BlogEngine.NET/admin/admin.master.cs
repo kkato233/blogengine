@@ -108,6 +108,9 @@ namespace Admin
                 this.Response.Redirect(Utils.RelativeWebRoot);
             }
 
+            LoginStatus1.LoginText = Resources.labels.login;
+            LoginStatus1.LogoutText = Resources.labels.logoff;
+
             phRecycleBin.Visible = Security.IsAuthorizedTo(Rights.AccessAdminPages);
 
             Utils.AddFolderJavaScripts(this.Page, "Scripts", false);
