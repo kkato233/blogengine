@@ -6,50 +6,61 @@
 
 namespace Widgets.MonthList
 {
-    using App_Code.Controls;
+	using System.Collections.Specialized;
+	using App_Code.Controls;
 
-    /// <summary>
-    /// The widget.
-    /// </summary>
-    public partial class Widget : WidgetBase
-    {
-        #region Properties
+	/// <summary>
+	/// The widget.
+	/// </summary>
+	public partial class Widget : WidgetBase
+	{
+		#region Properties
 
-        /// <summary>
-        /// Gets a value indicating whether IsEditable.
-        /// </summary>
-        public override bool IsEditable
-        {
-            get
-            {
-                return false;
-            }
-        }
+		/// <summary>
+		/// Gets a value indicating whether the Widget is editable.
+		/// </summary>
+		public override bool IsEditable
+		{
+			get { return true; }
+		}
 
-        /// <summary>
-        /// Gets Name.
-        /// </summary>
-        public override string Name
-        {
-            get
-            {
-                return "Month List";
-            }
-        }
+		/// <summary>
+		/// Gets the Widget name.
+		/// </summary>
+		public override string Name
+		{
+			get { return "Month List"; }
+		}
 
-        #endregion
+		#endregion
 
-        #region Public Methods
+		#region Public Methods
 
-        /// <summary>
-        /// This method works as a substitute for Page_Load. You should use this method for
-        /// data binding etc. instead of Page_Load.
-        /// </summary>
-        public override void LoadWidget()
-        {
-            // No action
-        }
+		/// <summary>
+		/// This method works as a substitute for Page_Load. You should use this method for
+		/// data binding etc. instead of Page_Load.
+		/// </summary>
+		public override void LoadWidget()
+		{
+			StringDictionary settings = GetSettings();
 
-        #endregion
-    }
+			if (settings.ContainsKey("groupbyyear"))
+			{
+				bool aGroupByYear = true;
+
+				if (bool.TryParse(settings["groupbyyear"], out aGroupByYear))
+					ctlMonthList.GroupByYear = aGroupByYear;
+			}
+
+			if (settings.ContainsKey("recentdatesattop"))
+			{
+				bool aRecentDatesAtTop = false;
+
+				if (bool.TryParse(settings["recentdatesattop"], out aRecentDatesAtTop))
+					ctlMonthList.RecentDatesAtTop = aRecentDatesAtTop;
+			}
+		}
+
+		#endregion
+	}
 }
