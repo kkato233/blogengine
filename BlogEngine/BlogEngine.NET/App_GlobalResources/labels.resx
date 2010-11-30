@@ -1264,6 +1264,15 @@
   <data name="blacklistIpOnCommentRejection" xml:space="preserve">
     <value>Automatically add IP Address of Comments you Reject to the black list.</value>
   </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="groupByYear" xml:space="preserve">
+    <value>Group by year</value>
+  </data>
+  <data name="recentDatesAtTop" xml:space="preserve">
+    <value>Recent dates at top</value>
+  </data>
   <data name="confirmPasswordIsRequired" xml:space="preserve">
     <value>Confirm password is required</value>
   </data>
@@ -1293,5 +1302,11 @@
   </data>
   <data name="userNameIsRequired" xml:space="preserve">
     <value>User name is required</value>
+  </data>
+    <data name="tracking" xml:space="preserve">
+    <value>Tracking</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>Welcome</value>
   </data>
 </root>
