@@ -88,7 +88,7 @@ function ValidateNewUser() {
     var minPass = $("[id$='Password']").val().length;
 
     if (minPass < minReq) {
-        ShowStatus('warning', accountResources.minimumPasswordLengthCharacterCount.replace('{0}', minReq));
+        ShowStatus('warning', accountResources.minPassLengthInChars.replace('{0}', minReq));
         return false;
     }
     if ($("[id$='ConfirmPassword']").val().length == 0) {
