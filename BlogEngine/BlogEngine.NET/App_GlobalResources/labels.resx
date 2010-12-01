@@ -1312,4 +1312,43 @@
   <data name="welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>
+  <data name="addNewPage" xml:space="preserve">
+    <value>Add new page</value>
+  </data>
+  <data name="admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="draftPages" xml:space="preserve">
+    <value>Draft pages</value>
+  </data>
+  <data name="draftPosts" xml:space="preserve">
+    <value>Draft posts</value>
+  </data>
+  <data name="emptyTrash" xml:space="preserve">
+    <value>Empty trash</value>
+  </data>
+  <data name="recentPendingComments" xml:space="preserve">
+    <value>Recent pending comments</value>
+  </data>
+  <data name="stats" xml:space="preserve">
+    <value>Stats</value>
+  </data>
+  <data name="trash" xml:space="preserve">
+    <value>Trash</value>
+  </data>
+  <data name="unapproved" xml:space="preserve">
+    <value>Unapproved</value>
+  </data>
+  <data name="viewAll" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="writeNewPost" xml:space="preserve">
+    <value>Write new post</value>
+  </data>
+  <data name="youDontHaveAnyDraftPages" xml:space="preserve">
+    <value>You don't have any draft pages.</value>
+  </data>
+  <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
+    <value>You don't have any draft posts.</value>
+  </data>
 </root>

@@ -592,4 +592,55 @@
   <data name="welcome" xml:space="preserve">
     <value>Привет</value>
   </data>
+  <data name="addNewPage" xml:space="preserve">
+    <value>Новая страница</value>
+  </data>
+  <data name="admin" xml:space="preserve">
+    <value>Администрация</value>
+  </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Изменить Пароль</value>
+  </data>
+  <data name="draftPages" xml:space="preserve">
+    <value>Черновики страниц</value>
+  </data>
+  <data name="draftPosts" xml:space="preserve">
+    <value>Черновики записей</value>
+  </data>
+  <data name="emptyTrash" xml:space="preserve">
+    <value>Выбросить весь мусор</value>
+  </data>
+  <data name="makeDonation" xml:space="preserve">
+    <value>Поддержать Проект</value>
+  </data>
+  <data name="recentPendingComments" xml:space="preserve">
+    <value>Последние неутверждённые комментарии</value>
+  </data>
+  <data name="spam" xml:space="preserve">
+    <value>Спам</value>
+  </data>
+  <data name="stats" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="tags" xml:space="preserve">
+    <value>Метки</value>
+  </data>
+  <data name="trash" xml:space="preserve">
+    <value>Мусор</value>
+  </data>
+  <data name="unapproved" xml:space="preserve">
+    <value>Неутверждённые</value>
+  </data>
+  <data name="viewAll" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="writeNewPost" xml:space="preserve">
+    <value>Новая запись</value>
+  </data>
+  <data name="youDontHaveAnyDraftPages" xml:space="preserve">
+    <value>Черновых страниц нет.</value>
+  </data>
+  <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
+    <value>Черновых записей нет.</value>
+  </data>
 </root>

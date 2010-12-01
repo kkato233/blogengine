@@ -282,7 +282,7 @@ namespace Admin
                     page.Slug = Utils.RemoveIllegalCharacters(slug.Trim());
                 }
 
-                if (parent == string.Format("-- {0} --", Resources.labels.noParent))
+                if(string.IsNullOrEmpty(parent) || (parent.StartsWith("-- ") && parent.EndsWith(" --")))
                     page.Parent = Guid.Empty;
                 else
                     page.Parent = new Guid(parent);
