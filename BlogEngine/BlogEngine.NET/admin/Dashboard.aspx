@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Dashboard.aspx.cs" Inherits="Admin.Dashboard" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
     <script src="jquery.masonry.min.js" type="text/javascript"></script>
@@ -12,32 +13,32 @@
             <div id="stats" style="width:20%;">
                 <div class="dashboardStats">
                     <div class="rounded">
-                        <h2>Stats</h2>
+                        <h2><%=Resources.labels.stats %></h2>
                         <ul>
                             <li>
-                                <%=PostsPublished%> Post(s)<a class="viewAction endline" href="Posts/Posts.aspx">View all</a><br />
-                                <%=DraftPostCount%> draft posts
+                                <%=PostsPublished%> <%=Resources.labels.posts %><a class="viewAction endline" href="Posts/Posts.aspx"><%=Resources.labels.viewAll %></a><br />
+                                <%=DraftPostCount%> <%=Resources.labels.draftPosts %>
                             </li>
                             <li>
-                                <%=PagesCount%> Page(s)<a class="viewAction endline" href="Pages/Pages.aspx">View all</a><br />
-                                <%=DraftPageCount%> draft pages
+                                <%=PagesCount%> <%=Resources.labels.pages %><a class="viewAction endline" href="Pages/Pages.aspx"><%=Resources.labels.viewAll %></a><br />
+                                <%=DraftPageCount%> <%=Resources.labels.draftPages %>
                             </li>
                             <li>
-                                <%=CommentsAll%> Comment(s) <a class="viewAction endline" href="Comments/Approved.aspx">View all</a><br />
-                                <%=CommentsUnapproved%> unapproved <a class="viewAction endline" href="Comments/Pending.aspx" >View all</a><br />
-                                <%=CommentsSpam%> spam <a class="viewAction endline" href="Comments/Spam.aspx">View all</a>
+                                <%=CommentsAll%> <%=Resources.labels.comments %> <a class="viewAction endline" href="Comments/Approved.aspx"><%=Resources.labels.viewAll %></a><br />
+                                <%=CommentsUnapproved%> <%=Resources.labels.unapproved %> <a class="viewAction endline" href="Comments/Pending.aspx" ><%=Resources.labels.viewAll %></a><br />
+                                <%=CommentsSpam%> <%=Resources.labels.spam %> <a class="viewAction endline" href="Comments/Spam.aspx"><%=Resources.labels.viewAll %></a>
                             </li>
                             <li>
-                                <%=CategoriesCount%> Categorie(s)
-                                    <a class="viewAction endline" href="Posts/Categories.aspx">View all</a>
+                                <%=CategoriesCount%> <%=Resources.labels.categories %>
+                                    <a class="viewAction endline" href="Posts/Categories.aspx"><%=Resources.labels.viewAll %></a>
                             </li>
                             <li>
-                                <%=TagsCount%> Tag(s) 
-                                    <a class="viewAction endline" href="Posts/Tags.aspx">View all</a>
+                                <%=TagsCount%> <%=Resources.labels.tags %> 
+                                    <a class="viewAction endline" href="Posts/Tags.aspx"><%=Resources.labels.viewAll %></a>
                             </li>
                             <li>
-                                <%=UsersCount%> User(s) 
-                                    <a class="viewAction endline" href="Users/Users.aspx">View all</a>
+                                <%=UsersCount%> <%=Resources.labels.users %>
+                                    <a class="viewAction endline" href="Users/Users.aspx"><%=Resources.labels.viewAll %></a>
                             </li>
                         </ul>
                     </div>
@@ -46,21 +47,21 @@
             <div id="widgets" style="width:80%;">
                 <div class="dashboardWidget">
                     <div class="rounded">
-                        <h2>Draft posts <a class="addNew" href="Posts/Add_entry.aspx">Write new post</a></h2>
+                        <h2><%=Resources.labels.draftPosts %> <a class="addNew" href="Posts/Add_entry.aspx"><%=Resources.labels.writeNewPost %></a></h2>
                         <ul id="DraftPosts" runat="server"></ul>
                     </div>
                 </div>
                 <div class="dashboardWidget rounded">
                     <div class="rounded">
-                        <h2>Draft pages <a class="addNew" href="Pages/EditPage.aspx">Add new page</a></h2>
+                        <h2><%=Resources.labels.draftPages %> <a class="addNew" href="Pages/EditPage.aspx"><%=Resources.labels.addNewPage %></a></h2>
                         <ul id="DraftPages" runat="server"></ul>
                     </div>
                 </div>
                 <div class="dashboardWidget rounded">
                     <div class="rounded">
-                        <h2>Trash</h2>
-                        <a class="viewAction" href="Trash.aspx">View All</a> &nbsp;&nbsp;
-                        <a class="deleteAction" href="#" onclick="return ProcessTrash('Purge', 'All');">Empty trash</a>
+                        <h2><%=Resources.labels.trash %></h2>
+                        <a class="viewAction" href="Trash.aspx"><%=Resources.labels.viewAll %></a> &nbsp;&nbsp;
+                        <a class="deleteAction" href="#" onclick="return ProcessTrash('Purge', 'All');"><%=Resources.labels.emptyTrash %></a>
                     </div>
                 </div>
                 <div class="dashboardWidget rounded">

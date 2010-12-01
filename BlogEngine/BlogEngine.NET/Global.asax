@@ -1,13 +1,6 @@
 <%@ Application Language="C#" %>
-<%@ Import Namespace="System.Xml" %>
-<%@ Import Namespace="System.Web.Configuration" %>
 <%@ Import Namespace="System.Threading" %>
 <%@ Import Namespace="System.Globalization" %>
-<%@ Import Namespace="System.Collections.Generic" %>
-<%@ Import Namespace="System.Reflection" %>
-<%@ Import Namespace="BlogEngine.Core" %>
-<%@ Import Namespace="BlogEngine.Core.Web.Controls" %>
-<%@ Import Namespace="BlogEngine.Core.Web" %>
 
 <script RunAt="server">
   
@@ -24,7 +17,7 @@
         {
             return;
         }
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
         try
         {
@@ -84,7 +77,7 @@
     void Application_PreRequestHandlerExecute(object sender, EventArgs e)
     {
         var culture = BlogSettings.Instance.Culture;
-        if (!string.IsNullOrEmpty(culture) && culture.Equals("Auto"))
+        if (!string.IsNullOrEmpty(culture) && !culture.Equals("Auto"))
         {
             CultureInfo defaultCulture = Utils.GetDefaultCulture();
             Thread.CurrentThread.CurrentUICulture = defaultCulture;

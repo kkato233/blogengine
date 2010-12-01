@@ -91,11 +91,11 @@ namespace Admin
 
             if (DraftPostCount == 0)
             {
-                DraftPosts.InnerHtml = "You don't have any draft posts.";
+                DraftPosts.InnerHtml = Resources.labels.youDontHaveAnyDraftPosts;
             }
             if (DraftPageCount == 0)
             {
-                DraftPages.InnerHtml = "You don't have any draft pages.";
+                DraftPages.InnerHtml = Resources.labels.youDontHaveAnyDraftPages;
             }
 
         }
@@ -109,12 +109,12 @@ namespace Admin
             if (BlogSettings.Instance.EnableCommentsModeration)
             {
                 jsonComments = JsonComments.GetComments(CommentType.Pending, 10, 1);
-                commentHeader = "<h2>Recent pending comments</h2>";
+                commentHeader = "<h2>" + Resources.labels.recentPendingComments + "</h2>";
                 commentFooter += "<a class=\"viewAction\" href=\"Comments/Pending.aspx\">View all pending comments</a>";
             }
             else
             {
-                commentHeader = "<h2>Recent comments</h2>";
+                commentHeader = "<h2>" + Resources.labels.recentComments + "</h2>";
                 jsonComments = JsonComments.GetComments(CommentType.Approved, 10, 1);
                 commentFooter += "<a class=\"viewAction\" href=\"Comments/Approved.aspx\">View all comments</a>";
             }
