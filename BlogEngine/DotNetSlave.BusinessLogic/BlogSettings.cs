@@ -41,6 +41,11 @@
         private int numberOfRecentPosts = 10;
 
         /// <summary>
+        ///     The number of comments per page.
+        /// </summary>
+        private int commentsPerPage = 10;
+
+        /// <summary>
         ///     The enable http compression.
         /// </summary>
         private bool enableHttpCompression;
@@ -878,9 +883,13 @@
         #region Comments per page
 
         /// <summary>
-        ///     Number of comments per page displayed in the comments asmin section
+        ///     Number of comments per page displayed in the comments admin section
         /// </summary>
-        public int CommentsPerPage { get; set; }
+        public int CommentsPerPage
+        {
+            get { return commentsPerPage; }
+            set { commentsPerPage = value; }
+        }
 
         #endregion
 
