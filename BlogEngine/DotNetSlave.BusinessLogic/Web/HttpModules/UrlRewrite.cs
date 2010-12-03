@@ -255,7 +255,7 @@
 
             var haveDate = ExtractDate(context, out year, out month, out day);
             var slug = ExtractTitle(context, url);
-            
+
             // Allow for Year/Month only dates in URL (in this case, day == 0), as well as Year/Month/Day dates.
             // first make sure the Year and Month match.
             // if a day is also available, make sure the Day matches.
@@ -295,7 +295,7 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
-            if (!url.Contains(BlogSettings.Instance.FileExtension.ToUpperInvariant()) || url.Contains("ERROR404.ASPX"))
+            if (!path.Contains(BlogSettings.Instance.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
             {
                 return;
             }
