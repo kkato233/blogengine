@@ -50,8 +50,17 @@ public class SendCommentMail
             return;
         }
 
-        // Do not send email if comment not approved
-        if (!comment.IsApproved)
+        // If moderation is on, send the email if the comment hasn't been moderated (so
+        // the blog owner can determine if the comment should be approved/rejected).
+        if (BlogSettings.Instance.EnableCommentsModeration &&
+            !Utils.StringIsNullOrWhitespace(comment.ModeratedBy))
+        {
+            return;
+        }
+        else if (
+        // If moderation is off, send the email only if it's been approved.
+            !BlogSettings.Instance.EnableCommentsModeration &&
+            !comment.IsApproved)
         {
             return;
         }
