@@ -53,7 +53,7 @@
 
             if (string.IsNullOrEmpty(vals[0]))
             {
-                this.response.Message = "Display name is required field";
+                this.response.Message = Resources.labels.displayNameIsRequired;
                 return this.response;
             }
 
@@ -61,12 +61,12 @@
 
             if (isSelf && !Security.IsAuthorizedTo(Rights.EditOwnUser))
             {
-                this.response.Message = "Not authorized";
+                this.response.Message = Resources.labels.notAuthorized;
                 return this.response;
             }
             else if (!isSelf && !Security.IsAuthorizedTo(Rights.EditOtherUsers))
             {
-                this.response.Message = "Not authorized";
+                this.response.Message = Resources.labels.notAuthorized;
                 return this.response;
             }
 
@@ -138,12 +138,12 @@
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Profile.Edit: {0}", ex.Message));
-                this.response.Message = string.Format("Could not update the profile: {0}", vals[0]);
+                this.response.Message = string.Format(Resources.labels.couldNotUpdateProfile, vals[0]);
                 return this.response;
             }
 
             this.response.Success = true;
-            this.response.Message = string.Format("Profile {0} updated", vals[0]);
+            this.response.Message = string.Format(Resources.labels.profileUpdated, vals[0]);
             return this.response;
         }
 
