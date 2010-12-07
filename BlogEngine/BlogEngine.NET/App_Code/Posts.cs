@@ -23,18 +23,18 @@
         {
             if (Utils.StringIsNullOrWhitespace(id))
             {
-                return new JsonResponse() { Message = "Invalid post id" };
+                return new JsonResponse() { Message = Resources.labels.invalidPostId };
             }
 
             var post = Post.GetPost(new Guid(id));
             if (post == null)
             {
-                return new JsonResponse() { Message = "Invalid post id" };
+                return new JsonResponse() { Message = Resources.labels.invalidPostId };
             }
 
             if (!post.CanUserDelete)
             {
-                return new JsonResponse() { Message = "Not authorized." };
+                return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
             else
             {
@@ -42,13 +42,13 @@
                 {
                     post.Delete();
                     post.Save();
-                    return new JsonResponse() { Success = true, Message = "Post deleted" };
+                    return new JsonResponse() { Success = true, Message = Resources.labels.postDeleted };
 
                 }
                 catch (Exception ex)
                 {
                     Utils.Log(string.Format("Api.Posts.DeletePost: {0}", ex.Message));
-                    return new JsonResponse() { Message = string.Format("Could not delete post: {0}", ex.Message) };
+                    return new JsonResponse() { Message = string.Format(Resources.labels.couldNotDeletePost, ex.Message) };
                 }
 
             }
@@ -62,19 +62,19 @@
 
             if (string.IsNullOrEmpty(id))
             {
-                response.Message = "Page id is required";
+                response.Message = Resources.labels.pageIdRequired;
                 return response;
             }
 
             var page = Page.GetPage(new Guid(id));
             if (page == null)
             {
-                return new JsonResponse() { Message = "Invalid page id" };
+                return new JsonResponse() { Message = Resources.labels.invalidPageId };
             }
 
             if (!page.CanUserDelete)
             {
-                return new JsonResponse() { Message = "Not authorized." };
+                return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
 
             try
@@ -85,12 +85,12 @@
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Api.Posts.DeletePage: {0}", ex.Message));
-                response.Message = string.Format("Could not delete page: {0}", ex.Message);
+                response.Message = string.Format(Resources.labels.couldNotDeletePage, ex.Message);
                 return response;
             }
 
             response.Success = true;
-            response.Message = "Page deleted";
+            response.Message = Resources.labels.pageDeleted;
             return response;
         }
 

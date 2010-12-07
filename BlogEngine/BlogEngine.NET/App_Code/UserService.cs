@@ -53,19 +53,19 @@
         {
             if (!Security.IsAuthorizedTo(Rights.CreateNewUsers))
             {
-                return new JsonResponse() { Message = "Not authorized." };
+                return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
             else if (Utils.StringIsNullOrWhitespace(user))
             {
-                return new JsonResponse() { Message = "User argument is invalid." };
+                return new JsonResponse() { Message = Resources.labels.userArgumentInvalid };
             }
             else if (Utils.StringIsNullOrWhitespace(pwd))
             {
-                return new JsonResponse() { Message = "Password argument is invalid." };
+                return new JsonResponse() { Message = Resources.labels.passwordArgumentInvalid };
             }
             else if (Utils.StringIsNullOrWhitespace(email) || !Utils.IsEmailValid(email))
             {
-                return new JsonResponse() { Message = "Email argument is invalid." };
+                return new JsonResponse() { Message = Resources.labels.emailArgumentInvalid };
             }
 
             user = user.Trim();
@@ -74,7 +74,7 @@
 
             if (Membership.GetUser(user) != null)
             {
-                return new JsonResponse() { Message = string.Format("User \"{0}\" already exists", user) };
+                return new JsonResponse() { Message = string.Format(Resources.labels.userAlreadyExists, user) };
             }
 
             try
@@ -91,12 +91,12 @@
                     }
                 }
 
-                return new JsonResponse() { Success = true, Message = string.Format("User \"{0}\" has been created", user) };
+                return new JsonResponse() { Success = true, Message = string.Format(Resources.labels.userHasBeenCreated, user) };
             }
             catch (Exception ex)
             {
-                Utils.Log("UserService.Add", ex);
-                return new JsonResponse() { Message = string.Format("Could not create user: {0} : {1}", user, ex.Message) };
+                Utils.Log("UserService.Add: ", ex);
+                return new JsonResponse() { Message = string.Format(Resources.labels.couldNotCreateUser, user, ex.Message) };
             }
 
         }
@@ -112,7 +112,7 @@
             if (string.IsNullOrEmpty(id))
             {
                 this.response.Success = false;
-                this.response.Message = "User name is required field";
+                this.response.Message = Resources.labels.userNameIsRequired;
                 return this.response;
             }
 
@@ -120,11 +120,11 @@
 
             if (isSelf && !Security.IsAuthorizedTo(Rights.DeleteUserSelf))
             {
-                return new JsonResponse() { Message = "Not authorized" };
+                return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
             else if (!isSelf && !Security.IsAuthorizedTo(Rights.DeleteUsersOtherThanSelf))
             {
-                return new JsonResponse() { Message = "Not authorized" };
+                return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
 
             try
@@ -135,12 +135,12 @@
             {
                 Utils.Log(string.Format("Users.Delete : {0}", ex.Message));
                 this.response.Success = false;
-                this.response.Message = string.Format("Could not delete user : {0}", id);
+                this.response.Message = string.Format(Resources.labels.couldNotDeleteUser, id);
                 return this.response;
             }
 
             this.response.Success = true;
-            this.response.Message = string.Format("User \"{0}\" has been deleted", id);
+            this.response.Message = string.Format(Resources.labels.userHasBeenDeleted, id);
             return this.response;
         }
 
@@ -162,7 +162,7 @@
 
                 if (string.IsNullOrEmpty(vals[0]))
                 {
-                    this.response.Message = "Email is required field";
+                    this.response.Message = Resources.labels.emailIsRequired;
                     return this.response;
                 }
 
@@ -170,18 +170,18 @@
                     Membership.GetAllUsers().Cast<MembershipUser>().Any(
                         u => u.Email.ToLowerInvariant() == vals[0].ToLowerInvariant()))
                 {
-                    this.response.Message = "User with this email already exists";
+                    this.response.Message = Resources.labels.userWithEmailExists;
                     return this.response;
                 }
 
                 if (isSelf && !Security.IsAuthorizedTo(Rights.EditOwnUser))
                 {
-                    this.response.Message = "Not authorized";
+                    this.response.Message = Resources.labels.notAuthorized;
                     return this.response;
                 }
                 else if (!isSelf && !Security.IsAuthorizedTo(Rights.EditOtherUsers))
                 {
-                    this.response.Message = "Not authorized";
+                    this.response.Message = Resources.labels.notAuthorized;
                     return this.response;
                 }
 
@@ -193,13 +193,13 @@
                 }
 
                 this.response.Success = true;
-                this.response.Message = string.Format("User \"{0}\" updated", id);
+                this.response.Message = string.Format(Resources.labels.userUpdated, id);
                 return this.response;
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("UserService.Update: {0}", ex.Message));
-                this.response.Message = string.Format("Could not update user: {0}", id);
+                this.response.Message = string.Format(Resources.labels.couldNotUpdateUser, id);
                 return this.response;
             }
         }

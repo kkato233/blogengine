@@ -135,7 +135,7 @@
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                response.Message = "Not authorized";
+                response.Message = Resources.labels.notAuthorized;
                 return response;
             }
 
@@ -165,12 +165,12 @@
             catch (Exception ex)
             {
                 Utils.Log("Api.Comments.Reject", ex);
-                response.Message = "Error rejecting comment";
+                response.Message = Resources.labels.errorRejectingComment;
                 return response;
             }
 
             response.Success = true;
-            response.Message = "Selected comments rejected";
+            response.Message = Resources.labels.selectedCommentRejectd;
             return response;
         }
 
@@ -190,7 +190,7 @@
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                response.Message = "Not authorized";
+                response.Message = Resources.labels.notAuthorized;
                 return response;
             }
 
@@ -220,12 +220,12 @@
             catch (Exception ex)
             {
                 Utils.Log("Api.Comments.Approve", ex);
-                response.Message = string.Format("Error approving comment: {0}", vals[0]);
+                response.Message = string.Format(Resources.labels.errorApprovingComment, vals[0]);
                 return response;
             }
 
             response.Success = true;
-            response.Message = "Selected comments restored";
+            response.Message = Resources.labels.selectedCommentRestored;
             return response;
         }
 
@@ -245,7 +245,7 @@
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                response.Message = "Not authorized";
+                response.Message = Resources.labels.notAuthorized;
                 return response;
             }
 
@@ -274,12 +274,12 @@
             catch (Exception ex)
             {
                 Utils.Log("Api.Comments.Delete", ex);
-                response.Message = string.Format("Could not delete comment: {0}", ex.Message);
+                response.Message = string.Format(Resources.labels.couldNotDeleteComment, ex.Message);
                 return response;
             }
 
             response.Success = true;
-            response.Message = "Selected comments deleted";
+            response.Message = Resources.labels.selectedCommentDeleted;
             return response;
         }
 
@@ -296,7 +296,7 @@
 
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
             {
-                response.Message = "Not authorized";
+                response.Message = Resources.labels.notAuthorized;
                 return response;
             }
 
@@ -304,13 +304,13 @@
             {
                 DeleteAllComments();
                 this.response.Success = true;
-                this.response.Message = "Comments deleted";
+                this.response.Message = Resources.labels.commentsDeleted;
                 return this.response;
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Api.Comments.DeleteAll: {0}", ex.Message));
-                response.Message = string.Format("Could not delete all comment: {0}", ex.Message);
+                response.Message = string.Format(Resources.labels.couldNotDeleteComments, ex.Message);
                 return response;
             }
 

@@ -36,19 +36,19 @@ namespace App_Code
         {
             if (!Security.IsAuthorizedTo(Rights.EditRoles))
             {
-                return new JsonResponse { Success = false, Message = "Not authorized" };
+                return new JsonResponse { Success = false, Message = Resources.labels.notAuthorized };
             }
             if (Utils.StringIsNullOrWhitespace(id))
             {
-                return new JsonResponse { Message = "id argument is null." };
+                return new JsonResponse { Message = Resources.labels.idArgumentNull };
             }
             if (vals == null)
             {
-                return new JsonResponse { Message = "vals argument is null." };
+                return new JsonResponse { Message = Resources.labels.valsArgumentNull };
             }
             if (vals.Length == 0 || Utils.StringIsNullOrWhitespace(vals[0]))
             {
-                return new JsonResponse { Message = "Tag is required field." };
+                return new JsonResponse { Message = Resources.labels.tagIsRequired };
             }
 
             var response = new JsonResponse();
@@ -66,12 +66,12 @@ namespace App_Code
                     }
                 }
                 response.Success = true;
-                response.Message = string.Format("Tag updated from \"{0}\" to \"{1}\"", id, vals[0]);
+                response.Message = string.Format(Resources.labels.tagChangedFromTo, id, vals[0]);
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Tags.Update: {0}", ex.Message));
-                response.Message = string.Format("Could not update the tag: {0}", vals[0]);
+                response.Message = string.Format(Resources.labels.couldNotUpdateTag, vals[0]);
             }
 
             return response;
@@ -87,7 +87,7 @@ namespace App_Code
         {
             if (!Security.IsAuthorizedTo(Rights.DeleteRoles))
             {
-                return new JsonResponse { Success = false, Message = "Not authorized" };
+                return new JsonResponse { Success = false, Message = Resources.labels.notAuthorized };
             }
             if (Utils.StringIsNullOrWhitespace(id))
             {
@@ -106,12 +106,12 @@ namespace App_Code
                         p.Save();
                     }
                 }
-                return new JsonResponse { Success = true, Message = string.Format("Tag \"{0}\" has been deleted", id) };
+                return new JsonResponse { Success = true, Message = string.Format(Resources.labels.tagHasBeenDeleted, id) };
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Tags.Delete: {0}", ex.Message));
-                return new JsonResponse { Message = string.Format("Could not delete the tag: {0}", id) };
+                return new JsonResponse { Message = string.Format(Resources.labels.couldNotDeleteTag, id) };
             }
         }
 

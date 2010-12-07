@@ -53,11 +53,11 @@
             }
             else if (Utils.StringIsNullOrWhitespace(roleName))
             {
-                return new JsonResponse() { Message = "Role name is a required field." };
+                return new JsonResponse() { Message = Resources.labels.roleNameIsRequired };
             }
             else if (Roles.RoleExists(roleName))
             {
-                return new JsonResponse() { Message = string.Format("Role \"{0}\" already exists", roleName) };
+                return new JsonResponse() { Message = string.Format(Resources.labels.roleAlreadyExists, roleName) };
             }
             else
             {
@@ -67,14 +67,14 @@
                 {
                     Roles.CreateRole(roleName);
                     response.Success = true;
-                    response.Message = string.Format("Role \"{0}\" has been created", roleName);
+                    response.Message = string.Format(Resources.labels.roleHasBeenCreated, roleName);
 
                 }
                 catch (Exception ex)
                 {
                     Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
                     response.Success = false;
-                    response.Message = string.Format("Could not create the role: {0}", roleName);
+                    response.Message = string.Format(Resources.labels.couldNotCreateRole, roleName);
                 }
 
                 return response;
@@ -99,19 +99,19 @@
             }
             else if (Utils.StringIsNullOrWhitespace(id))
             {
-                return new JsonResponse() { Message = "Role name is required field" };
+                return new JsonResponse() { Message = Resources.labels.roleNameIsRequired };
             }
 
             try
             {
                 Right.OnRoleDeleting(id);
                 Roles.DeleteRole(id);
-                return new JsonResponse() { Success = true, Message = string.Format("Role \"{0}\" has been deleted", id) };
+                return new JsonResponse() { Success = true, Message = string.Format(Resources.labels.roleHasBeenDeleted, id) };
             }
             catch (Exception ex)
             {
-                Utils.Log(string.Format("Roles.AddRole: {0}", ex.Message));
-                return new JsonResponse() { Message = string.Format("Could not delete the role: {0}", id) };
+                Utils.Log(string.Format("Roles.DeleteRole: {0}", ex.Message));
+                return new JsonResponse() { Message = string.Format(Resources.labels.couldNotDeleteRole, id) };
             }
         }
 
@@ -126,15 +126,15 @@
         {
             if (!Security.IsAuthorizedTo(Rights.EditRoles))
             {
-                return new JsonResponse() { Message = "Not authorized" };
+                return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
             else if (Utils.StringIsNullOrWhitespace(roleName) || !Roles.RoleExists(roleName))
             {
-                return new JsonResponse() { Message = "Invalid role name" };
+                return new JsonResponse() { Message = Resources.labels.invalidRoleName };
             }
             else if (rightsCollection == null)
             {
-                return new JsonResponse() { Message = "rightsCollection argument can not be null." };
+                return new JsonResponse() { Message = Resources.labels.rightsCanNotBeNull };
             }
             else
             {
@@ -149,11 +149,11 @@
                 {
                     if (!Right.RightExists(right.Key))
                     {
-                        return new JsonResponse() { Success = false, Message = String.Format("No such Right exists: {0}", right.Key) };
+                        return new JsonResponse() { Success = false, Message = String.Format(Resources.labels.noRightExists, right.Key) };
                     }
                     else if (right.Value == false)
                     {
-                        return new JsonResponse() { Success = false, Message = "Do not pass back rights that have false values." };
+                        return new JsonResponse() { Success = false, Message = Resources.labels.doNotPassRightsWithFalseValue };
                     }
                 }
 
@@ -173,7 +173,7 @@
                 }
 
                 BlogEngine.Core.Providers.BlogService.SaveRights();
-                return new JsonResponse() { Success = true, Message = "Rights updated for role" };
+                return new JsonResponse() { Success = true, Message = string.Format(Resources.labels.rightsUpdatedForRole, roleName) };
             }
 
         }
@@ -202,15 +202,15 @@
             }
             else if (Utils.StringIsNullOrWhitespace(id))
             {
-                return new JsonResponse() { Message = "id argument is null." };
+                return new JsonResponse() { Message = Resources.labels.idArgumentNull };
             }
             else if (vals == null)
             {
-                return new JsonResponse() { Message = "vals argument is null." };
+                return new JsonResponse() { Message = Resources.labels.valsArgumentNull };
             }
             else if (vals.Length == 0 || Utils.StringIsNullOrWhitespace(vals[0]))
             {
-                return new JsonResponse() { Message = "Role name is required field." };
+                return new JsonResponse() { Message = Resources.labels.roleNameIsRequired };
             }
 
             var response = new JsonResponse();
@@ -222,12 +222,12 @@
                 Roles.CreateRole(vals[0]);
                
                 response.Success = true;
-                response.Message = string.Format("Role updated from \"{0}\" to \"{1}\"", id, vals[0]);
+                response.Message = string.Format(Resources.labels.roleUpdatedFromTo, id, vals[0]);
             }
             catch (Exception ex)
             {
                 Utils.Log(string.Format("Roles.UpdateRole: {0}", ex.Message));
-                response.Message = string.Format("Could not update the role: {0}", vals[0]);
+                response.Message = string.Format(Resources.labels.couldNotUpdateRole, vals[0]);
             }
 
             return response;
@@ -249,7 +249,7 @@
             }
             else if (Utils.StringIsNullOrWhitespace(roleName))
             {
-                return new JsonResponse() { Message = "roleName argument is null." };
+                return new JsonResponse() { Message = Resources.labels.roleNameArgumentNull };
             }
 
             List<Rights> defaultRights = Right.GetDefaultRights(roleName);
@@ -279,7 +279,7 @@
             }
             else if (Utils.StringIsNullOrWhitespace(roleName))
             {
-                return new JsonResponse() { Message = "roleName argument is null." };
+                return new JsonResponse() { Message = Resources.labels.roleNameArgumentNull };
             }
 
             IEnumerable<Right> roleRights = Right.GetRights(roleName);
@@ -299,7 +299,7 @@
 
         private static JsonResponse GetNotAuthorized()
         {
-            return new JsonResponse() { Success = false, Message = "Not authorized" };
+            return new JsonResponse() { Success = false, Message = Resources.labels.notAuthorized };
         }
 
         #endregion
