@@ -170,7 +170,7 @@
             }
 
             response.Success = true;
-            response.Message = Resources.labels.selectedCommentRejectd;
+            response.Message = Resources.labels.selectedCommentRejected;
             return response;
         }
 

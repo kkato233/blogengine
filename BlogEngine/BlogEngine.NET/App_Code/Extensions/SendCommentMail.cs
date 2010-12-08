@@ -137,6 +137,8 @@ public class SendCommentMail
         sb.Append("</div>");
         sb.Append("</div>");
 
+        mail.Body = sb.ToString();
+
         Utils.SendMailMessageAsync(mail);
     }
 

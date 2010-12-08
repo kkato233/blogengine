@@ -53,7 +53,7 @@
                     else
                     {
                         body = Utils.StripHtml(body);
-                        if (body.Length > this.DescriptionCharacters)
+                        if (body.Length > this.DescriptionCharacters && this.DescriptionCharacters > 0)
                         {
                             body = string.Format("{0}...{1}", body.Substring(0, this.DescriptionCharacters), link);
                         }
@@ -99,7 +99,30 @@
         /// <summary>
         ///     Gets or sets a value indicating how many characters should be shown of the description.
         /// </summary>
-        public int DescriptionCharacters { get; set; }
+        public int DescriptionCharacters 
+        { 
+            get 
+            {
+                int chars = 0;
+                string url = HttpContext.Current.Request.RawUrl.ToUpperInvariant();
+
+                if (url.Contains("/CATEGORY/") || url.Contains("?TAG=/"))
+                {
+                    if (BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory)
+                    {
+                        return BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory;
+                    }
+                }
+                else
+                {
+                    if (BlogSettings.Instance.ShowDescriptionInPostList)
+                    {
+                        return BlogSettings.Instance.DescriptionCharacters;
+                    }
+                }
+                return chars;
+            }
+        }
 
         /// <summary>
         ///     Gets or sets the index of the post in a list of posts displayed

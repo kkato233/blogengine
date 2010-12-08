@@ -149,7 +149,7 @@
                         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
                         <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
                         <div class="insetForm" id="DescriptionCharacters" style=" display:none;">
-                            <label for="<%=txtDescriptionCharacters.ClientID %>"><%=Resources.labels.numberOfCharacters %></label>
+                            <label class="lbl" for="<%=txtDescriptionCharacters.ClientID %>"><%=Resources.labels.numberOfCharacters %></label>
                             <asp:TextBox runat="server" ID="txtDescriptionCharacters" Width="40" CssClass="number" />      
                         </div>
                     </li>
@@ -158,7 +158,7 @@
                         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostListForPostsByTagOrCategory" />
                         <label for="<%=cbShowDescriptionInPostListForPostsByTagOrCategory.ClientID %>"><%=Resources.labels.showDescriptionInPostListForPostsByTagOrCategory %></label>
                         <div class="insetForm" id="DescriptionCharactersForPostsByTagOrCategory" style=" display:none;">
-                            <label for="<%=txtDescriptionCharactersForPostsByTagOrCategory.ClientID %>" style="float: none; position: relative; top: -2px;"><%=Resources.labels.numberOfCharacters %></label>
+                            <label class="lbl" for="<%=txtDescriptionCharactersForPostsByTagOrCategory.ClientID %>" ><%=Resources.labels.numberOfCharacters %></label>
                             <asp:TextBox runat="server" ID="txtDescriptionCharactersForPostsByTagOrCategory" Width="40" CssClass="number" />
                         </div>
                     </li>
