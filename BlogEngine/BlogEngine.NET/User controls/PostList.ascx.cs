@@ -130,7 +130,7 @@
                 }
 
                 var postView = (PostViewBase)this.LoadControl(path);
-                postView.ShowExcerpt = BlogSettings.Instance.ShowDescriptionInPostList;
+                postView.ShowExcerpt = ShowExcerpt();
                 postView.Post = post;
                 postView.ID = post.Id.ToString().Replace("-", string.Empty);
                 postView.Location = ServingLocation.PostList;
@@ -198,6 +198,20 @@
             {
                 ((BlogBasePage)this.Page).AddGenericLink("prev", "Previous page", string.Format(url, page + 2));
             }
+        }
+
+        /// <summary>
+        /// Whether or not to show the entire post or just the excerpt/description
+        /// in the post list 
+        /// </summary>
+        /// <returns></returns>
+        private bool ShowExcerpt()
+        {
+            string url = this.Request.RawUrl.ToUpperInvariant();
+            bool tagOrCategory = url.Contains("/CATEGORY/") || url.Contains("?TAG=/");
+
+            return BlogSettings.Instance.ShowDescriptionInPostList ||
+                (BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory && tagOrCategory);
         }
 
         #endregion
