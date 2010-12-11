@@ -59,11 +59,11 @@ namespace App_Code.Controls
 
             if (Page.User.Identity.IsAuthenticated)
             {
-                AddMenuItem(ul, Resources.labels.logoff, "~/Account/Login.aspx?logoff");
+                AddMenuItem(ul, Resources.labels.logoff, "~/Account/login.aspx?logoff");
             }
             else
             {
-                AddMenuItem(ul, Resources.labels.login, "~/Account/Login.aspx");
+                AddMenuItem(ul, Resources.labels.login, "~/Account/login.aspx");
             }
 
             return ul;

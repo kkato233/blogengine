@@ -1,7 +1,7 @@
-﻿<%@ Page Title="Password Retrieval" Language="C#" MasterPageFile="~/Account/Account.master" AutoEventWireup="true"
-    CodeFile="PasswordRetrieval.aspx.cs" Inherits="Account.PasswordRetrieval" %>
+﻿<%@ Page Title="Password Retrieval" Language="C#" MasterPageFile="~/Account/account.master" AutoEventWireup="true"
+    CodeFile="password-retrieval.aspx.cs" Inherits="Account.PasswordRetrieval" %>
 
-<%@ MasterType VirtualPath="~/Account/Account.master" %>
+<%@ MasterType VirtualPath="~/Account/account.master" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -23,7 +23,7 @@
                     OnClick="LoginButton_Click" OnClientClick="return ValidatePasswordRetrieval()" />
                 <span>
                     <%=Resources.labels.or %>
-                    <a runat="server" href="~/Account/Login.aspx">
+                    <a runat="server" href="~/Account/login.aspx">
                         <%=Resources.labels.cancel %></a></span> </p>
         </div>
     </div>

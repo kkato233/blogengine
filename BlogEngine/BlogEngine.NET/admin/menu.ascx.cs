@@ -155,7 +155,7 @@ namespace Admin
                     labels.myProfile, string.Format("{0}admin/Users/Profile.aspx?id={1}", Utils.RelativeWebRoot, HttpUtility.UrlEncode(Security.CurrentUser.Identity.Name)));
 
                 this.AddItem(
-                    labels.changePassword, string.Format("{0}Account/ChangePassword.aspx", Utils.RelativeWebRoot));
+                    labels.changePassword, string.Format("{0}Account/change-password.aspx", Utils.RelativeWebRoot));
             }
         }
 
