@@ -12,11 +12,11 @@ public partial class StandardSite : System.Web.UI.MasterPage
 		{
             aUser.InnerText = "Welcome " + Page.User.Identity.Name + "!";
 			aLogin.InnerText = Resources.labels.logoff;
-			aLogin.HRef = Utils.RelativeWebRoot + "Account/Login.aspx?logoff";
+			aLogin.HRef = Utils.RelativeWebRoot + "Account/login.aspx?logoff";
 		}
 		else
 		{
-			aLogin.HRef = Utils.RelativeWebRoot + "Account/Login.aspx";
+			aLogin.HRef = Utils.RelativeWebRoot + "Account/login.aspx";
 			aLogin.InnerText = Resources.labels.login;
 		}
   }

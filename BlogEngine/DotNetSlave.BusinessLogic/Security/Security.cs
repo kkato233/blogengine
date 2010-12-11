@@ -126,7 +126,7 @@ namespace BlogEngine.Core
         public static void RedirectToLoginForCurrentUrl()
         {
             HttpContext context = HttpContext.Current;
-            context.Response.Redirect(string.Format("~/Account/Login.aspx?ReturnURL={0}", HttpUtility.UrlEncode(context.Request.RawUrl)));
+            context.Response.Redirect(string.Format("~/Account/login.aspx?ReturnURL={0}", HttpUtility.UrlEncode(context.Request.RawUrl)));
         }
 
         /// <summary>

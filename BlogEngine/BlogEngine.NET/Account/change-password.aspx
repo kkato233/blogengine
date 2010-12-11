@@ -1,7 +1,7 @@
-﻿<%@ Page Language="C#" MasterPageFile="Account.master" AutoEventWireup="true"
-    CodeFile="ChangePassword.aspx.cs" Inherits="Account.ChangePassword" %>
+﻿<%@ Page Language="C#" MasterPageFile="account.master" AutoEventWireup="true"
+    CodeFile="change-password.aspx.cs" Inherits="Account.ChangePassword" %>
 
-<%@ MasterType VirtualPath="~/Account/Account.master" %>
+<%@ MasterType VirtualPath="~/Account/account.master" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -11,7 +11,7 @@
         <%=String.Format(Resources.labels.requiredPasswordLength,Membership.MinRequiredPasswordLength) %>
     </p>
     <asp:ChangePassword ID="ChangeUserPassword" runat="server" CancelDestinationPageUrl="~/"
-        EnableViewState="false" RenderOuterTable="false" SuccessPageUrl="ChangePasswordSuccess.aspx">
+        EnableViewState="false" RenderOuterTable="false" SuccessPageUrl="change-password-success.aspx">
         <ChangePasswordTemplate>
             <div class="accountInfo">
                 <div class="login">
