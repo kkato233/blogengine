@@ -43,7 +43,7 @@ public partial class admin_Pages_blogroll : System.Web.UI.Page
 
     private void btnSave_Click(object sender, EventArgs e)
     {
-        Page.Validate();  // manually invoke validation to be sure it fires.
+        Page.Validate("addNew");  // manually invoke validation to be sure it fires.
         if (!Page.IsValid)
             return;
 
