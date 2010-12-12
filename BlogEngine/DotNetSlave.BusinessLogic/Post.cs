@@ -1106,9 +1106,8 @@
             this.Comments[inx].IsSpam = comment.IsSpam;
             this.Comments[inx].IsDeleted = comment.IsDeleted;
 
+            // need to mark post as "dirty"
             this.DateModified = DateTime.Now;
-            this.DataUpdate();
-
             this.DataUpdate();
             this.OnCommentUpdated(comment);
         }
