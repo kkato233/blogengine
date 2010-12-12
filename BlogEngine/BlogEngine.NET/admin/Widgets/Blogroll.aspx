@@ -46,6 +46,7 @@
                     <li style="float:left; margin:0 20px 0 0;">
                         <asp:Label runat="server" AssociatedControlID="txtMaxLength" CssClass="lbl" Text='<%$ Code: Resources.labels.maxLengthOfItems %>' />
                         <asp:TextBox runat="server" ID="txtMaxLength" MaxLength="3" Width="50" />
+                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtMaxLength" Display="Dynamic" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,required %>"></asp:RequiredFieldValidator>
                         <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtMaxLength" Display="Dynamic"
                             Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
                     </li>
@@ -53,11 +54,12 @@
                         <asp:Label runat="server" AssociatedControlID="txtUpdateFrequency" CssClass="lbl"
                             Text='<%$ Code: Resources.labels.updateFrequenzy %>' />
                         <asp:TextBox runat="server" ID="txtUpdateFrequency" MaxLength="3" Width="50" />
+                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUpdateFrequency" Display="Dynamic" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,required %>"></asp:RequiredFieldValidator>
                         <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtUpdateFrequency"  Display="Dynamic"
                             Operator="dataTypeCheck" Type="integer" ValidationGroup="settings" ErrorMessage="<%$Resources:labels,noValidNumber %>" />
                     </li>
                 </ul>
-                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="btn primary" Text="Save settings" /> 
+                <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="btn primary" Text="Save settings" OnClientClick="colorboxDialogSubmitClicked('settings', 'blogrollSettings');" /> 
                 or <a href="#" onclick="closeOverlay();">Cancel</a>
             </div>
             </div>
