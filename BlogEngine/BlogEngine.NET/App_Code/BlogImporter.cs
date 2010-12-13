@@ -7,7 +7,6 @@
     using System.Linq;
     using System.Net;
     using System.Web.Script.Services;
-    using System.Web.Security;
     using System.Web.Services;
     using System.Web.Services.Protocols;
 
@@ -59,13 +58,13 @@
         public void AddComment(
             string postId, string author, string email, string website, string description, DateTime date)
         {
-            Security.ImpersonateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
+            Security.ImpersonateUser(AuthenticationHeader.Username, AuthenticationHeader.Password);
 
             if (!Security.IsAuthenticated)
             {
                 throw new InvalidOperationException("Wrong credentials");
             }
-            else if (!Security.IsAuthorizedTo(Rights.CreateComments))
+            if (!Security.IsAuthorizedTo(Rights.CreateComments))
             {
                 throw new InvalidOperationException("Insufficient rights to create a comment");
             }
@@ -117,13 +116,13 @@
         [WebMethod]
         public string AddPost(ImportPost import, string previousUrl, bool removeDuplicate)
         {
-            Security.ImpersonateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
+            Security.ImpersonateUser(AuthenticationHeader.Username, AuthenticationHeader.Password);
 
             if (!Security.IsAuthenticated)
             {
                 throw new InvalidOperationException("Wrong credentials");
             }
-            else if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
             {
                 throw new InvalidOperationException("Insufficient rights to create a new post");
             }
@@ -218,13 +217,13 @@
         [WebMethod]
         public void ForceReload()
         {
-            Security.ImpersonateUser(this.AuthenticationHeader.Username, this.AuthenticationHeader.Password);
+            Security.ImpersonateUser(AuthenticationHeader.Username, AuthenticationHeader.Password);
             
             if (!Security.IsAuthenticated)
             {
                 throw new InvalidOperationException("Wrong credentials");
             }
-            else if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+            if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
             {
                 throw new InvalidOperationException("Insufficient rights to reload posts");
             }
@@ -251,8 +250,15 @@
             bool response;
             try
             {
+                Security.ImpersonateUser(AuthenticationHeader.Username, AuthenticationHeader.Password);
+
+                if (!Security.IsAuthenticated)
+                {
+                    throw new InvalidOperationException("Wrong credentials");
+                }
+
                 var rootPath = string.Format("{0}files/", BlogSettings.Instance.StorageLocation);
-                var serverPath = this.Server.MapPath(rootPath);
+                var serverPath = Server.MapPath(rootPath);
                 var saveFolder = serverPath;
                 var fileName = destination;
 
@@ -283,9 +289,10 @@
 
                 response = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // The file probably didn't exist. No action needed.
+                Utils.Log("BlogImporter.GetFile(): " + ex.Message);
                 response = false;
             }
 
@@ -331,9 +338,9 @@
                     post.Categories.Add(newCat);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // var test = ex.Message;
+                Utils.Log("BlogImporter.AddCategories(): " + ex.Message);
             }
         }
 
