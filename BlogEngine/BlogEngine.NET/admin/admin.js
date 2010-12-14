@@ -216,6 +216,20 @@ function LoadProfile() {
    });
 }
 
+function LoadCustomFilters() {
+    $.ajax({
+        url: "Rules.aspx/GetCustomFilters",
+        data: { },
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/customfilters.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+        }
+    });
+}
+
 //--------------    TRASH
 
 function LoadTrash(obj) {

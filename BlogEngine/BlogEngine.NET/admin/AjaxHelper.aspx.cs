@@ -1,7 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.IO;
-
-namespace Admin
+﻿namespace Admin
 {
     using System;
     using System.Collections;
@@ -302,5 +299,14 @@ namespace Admin
             return response;
         }
 
+        [WebMethod]
+        public static JsonResponse ResetCounters(string filterName)
+        {
+            if (!Security.IsAuthorizedTo(Rights.AccessAdminSettingsPages))
+            {
+                return new JsonResponse { Success = false, Message = Resources.labels.notAuthorized };
+            }
+            return JsonCustomFilterList.ResetCounters(filterName);
+        }
     }
 }
