@@ -122,6 +122,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Json\JsonComment.cs" />
     <Compile Include="Json\JsonCulture.cs" />
+    <Compile Include="Json\JsonCustomFilter.cs" />
+    <Compile Include="Json\JsonCustomFilterList.cs" />
     <Compile Include="Json\JsonPage.cs" />
     <Compile Include="Json\JsonPages.cs" />
     <Compile Include="Json\JsonPost.cs" />

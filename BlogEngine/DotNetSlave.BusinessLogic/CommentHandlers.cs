@@ -168,10 +168,7 @@
         /// </param>
         public static void ReportMistake(Comment comment)
         {
-            if (!BlogSettings.Instance.CommentReportMistakes) { return; }
-
             var m = comment.ModeratedBy;
-
             var dt = customFilters.GetDataTable();
             var i = 0;
 
@@ -186,15 +183,15 @@
                         var mistakes = int.Parse(customFilters.Parameters[4].Values[i]);
                         customFilters.Parameters[4].Values[i] = (mistakes + 1).ToString();
 
-                        customFilter.Report(comment);
+                        ExtensionManager.SaveSettings("MetaExtension", customFilters);
+
+                        if (BlogSettings.Instance.CommentReportMistakes)
+                            customFilter.Report(comment);
                     }
                     break;
                 }
-
                 i++;
             }
-
-            ExtensionManager.SaveSettings("MetaExtension", customFilters);
         }
 
         #endregion
@@ -236,9 +233,9 @@
                 if (!customFilters.IsKeyValueExists(type.FullName))
                 {
                     customFilters.AddValues(new[] { type.FullName, type.Name, "0", "0", "0", "0" });
+                    ExtensionManager.SaveSettings("MetaExtension", customFilters);
                 }
             }
-            ExtensionManager.SaveSettings("MetaExtension", customFilters);
         }
 
         /// <summary>
@@ -389,6 +386,12 @@
                     }
 
                     comment.IsApproved = action != "Block";
+
+                    // if filter out, set as spam
+                    // so that no need to moderate
+                    if (!comment.IsApproved)
+                        comment.IsSpam = true;
+
                     comment.ModeratedBy = "Filter";
                     return true;
                 }
@@ -426,8 +429,12 @@
                               where c.Email.ToLowerInvariant() == comment.Email.ToLowerInvariant() || c.IP == comment.IP
                               select c)
             {
+                
+#if DEBUG
                 // disable for local testing
                 if (c.IP == "127.0.0.1") continue;
+#endif
+                
 
                 if (c.IsApproved)
                 {
@@ -527,12 +534,11 @@
         private static void RunCustomModerators(Comment comment)
         {
             var dt = customFilters.GetDataTable();
-            dt.DefaultView.Sort = "Priority";
+            dt.DefaultView.Sort = "Name";
 
             foreach (DataRowView row in dt.DefaultView)
             {
                 var filterName = row[0].ToString();
-
                 var customFilter = GetCustomFilter(filterName);
 
                 if (customFilter == null || !customFilter.Initialize())
@@ -540,9 +546,9 @@
                     continue;
                 }
 
-                // caught spam!
                 if (customFilter.Check(comment))
                 {
+                    // caught spam!
                     comment.IsSpam = true;
                     comment.IsApproved = false;
                     comment.ModeratedBy = filterName;
@@ -551,13 +557,7 @@
                     string.Format("Custom filter [{0}] - found spam; comment id: {1}", filterName, comment.Id));
 
                     UpdateCustomFilter(filterName, false);
-
-                    // the custom filter tells no further
-                    // validation needed. don't call others
-                    if (!customFilter.FallThrough)
-                    {
-                        break;
-                    }
+                    break;
                 }
                 else
                 {
