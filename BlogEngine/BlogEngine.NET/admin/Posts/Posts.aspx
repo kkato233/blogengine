@@ -17,11 +17,11 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1>Posts</h1>
+            <h1><%=Resources.labels.posts %></h1>
             <div class="tableToolBox">
-                Show : <a class="current" href="#" onclick="ChangePostFilterType('All')">All</a> | 
-                <a href="#" onclick="ChangePostFilterType('Draft')">Drafts</a> | 
-                <a href="#" onclick="ChangePostFilterType('Published')">Published</a>
+                <%=Resources.labels.show %>: <a class="current" href="#" onclick="ChangePostFilterType('All')"><%=Resources.labels.all %></a> | 
+                <a href="#" onclick="ChangePostFilterType('Draft')"><%=Resources.labels.draftPosts %></a> | 
+                <a href="#" onclick="ChangePostFilterType('Published')"><%=Resources.labels.published %></a>
                 <span id="filteredby"></span>
                 <div class="Pager"></div>
             </div>
