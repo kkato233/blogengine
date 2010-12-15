@@ -1504,4 +1504,58 @@
   <data name="valsArgumentNull" xml:space="preserve">
     <value>vals argument is null.</value>
   </data>
+  <data name="addEditPost" xml:space="preserve">
+    <value>Add/edit post</value>
+  </data>
+  <data name="addNewCategory" xml:space="preserve">
+    <value>Add new category</value>
+  </data>
+  <data name="insertImage" xml:space="preserve">
+    <value>Insert image</value>
+  </data>
+  <data name="insertVideo" xml:space="preserve">
+    <value>Insert video</value>
+  </data>
+  <data name="published" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="automatically" xml:space="preserve">
+    <value>Automatically</value>
+  </data>
+  <data name="chooseFromExistingTags" xml:space="preserve">
+    <value>Choose from existing tags</value>
+  </data>
+  <data name="clickTag" xml:space="preserve">
+    <value>Click a tag:</value>
+  </data>
+  <data name="editPage" xml:space="preserve">
+    <value>Edit page</value>
+  </data>
+  <data name="excerpt" xml:space="preserve">
+    <value>Excerpt (optional)</value>
+  </data>
+  <data name="goToPage" xml:space="preserve">
+    <value>Go to page</value>
+  </data>
+  <data name="goToPost" xml:space="preserve">
+    <value>Go to post</value>
+  </data>
+  <data name="manually" xml:space="preserve">
+    <value>Manually</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="quickAddNewCategory" xml:space="preserve">
+    <value>Quick add new category</value>
+  </data>
+  <data name="setPublishDate" xml:space="preserve">
+    <value>Set publish date</value>
+  </data>
+  <data name="uploadVideo" xml:space="preserve">
+    <value>Choose video (MP4, WMV, FLV, OGG, WebM) or audio (MP3) file you wish to upload</value>
+  </data>
 </root>

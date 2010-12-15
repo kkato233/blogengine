@@ -34,7 +34,7 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1>Tags</h1>
+            <h1><%=Resources.labels.tags %></h1>
             <div class="tableToolBox">
                 <div class="Pager"></div>
             </div>

@@ -482,7 +482,7 @@
     <value>Отправлять комментарии на e-mail</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>Теги разделяются запятой</value>
+    <value>Метки разделяются запятой</value>
   </data>
   <data name="settings" xml:space="preserve">
     <value>Настройки</value>
@@ -642,5 +642,83 @@
   </data>
   <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
     <value>Черновых записей нет.</value>
+  </data>
+  <data name="addEditPost" xml:space="preserve">
+    <value>Создать/редактировать запись</value>
+  </data>
+  <data name="addNewCategory" xml:space="preserve">
+    <value>Создать Категорию</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Всё</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>отменить</value>
+  </data>
+  <data name="insertImage" xml:space="preserve">
+    <value>Вложить картинку</value>
+  </data>
+  <data name="insertVideo" xml:space="preserve">
+    <value>Вложить видео</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>или</value>
+  </data>
+  <data name="parent" xml:space="preserve">
+    <value>Родитель</value>
+  </data>
+  <data name="published" xml:space="preserve">
+    <value>Опубликованное</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="useRawHtmlEditor" xml:space="preserve">
+    <value>Использовать упрощённый HTML редактор</value>
+  </data>
+  <data name="automatically" xml:space="preserve">
+    <value>Автоматически</value>
+  </data>
+  <data name="chooseFromExistingTags" xml:space="preserve">
+    <value>Выбери из существующих меток</value>
+  </data>
+  <data name="clickTag" xml:space="preserve">
+    <value>Выбери метку:</value>
+  </data>
+  <data name="editPage" xml:space="preserve">
+    <value>Редактировать страницу</value>
+  </data>
+  <data name="excerpt" xml:space="preserve">
+    <value>Отрывок (необязательно)</value>
+  </data>
+  <data name="extractFromTitle" xml:space="preserve">
+    <value>Извлечь из заголовка</value>
+  </data>
+  <data name="goToPage" xml:space="preserve">
+    <value>Перейти к странице</value>
+  </data>
+  <data name="goToPost" xml:space="preserve">
+    <value>Перейти к записи</value>
+  </data>
+  <data name="manually" xml:space="preserve">
+    <value>Вручную</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Варианты</value>
+  </data>
+  <data name="quickAddNewCategory" xml:space="preserve">
+    <value>Добавить новую категорию</value>
+  </data>
+  <data name="setPublishDate" xml:space="preserve">
+    <value>Установить дату публикации</value>
+  </data>
+  <data name="slug" xml:space="preserve">
+    <value>Слаг (отрывок для URL, необязательно)</value>
+  </data>
+  <data name="upload" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="uploadVideo" xml:space="preserve">
+    <value>Выбери видео (MP4, WMV, FLV, OGG, WebM) или аудио (MP3) файл</value>
   </data>
 </root>
