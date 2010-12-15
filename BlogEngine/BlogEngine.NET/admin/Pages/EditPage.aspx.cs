@@ -17,6 +17,7 @@ namespace Admin.Pages
     using Resources;
 
     using Page = System.Web.UI.Page;
+    using App_Code;
 
     public partial class EditPage : Page, ICallbackEventHandler
     {
@@ -76,7 +77,7 @@ namespace Admin.Pages
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+            WebUtils.CheckRightsForAdminPagesPages(false);
             this.MaintainScrollPositionOnPostBack = true;
 
             if (!String.IsNullOrEmpty(this.Request.QueryString["id"]) && this.Request.QueryString["id"].Length == 36)

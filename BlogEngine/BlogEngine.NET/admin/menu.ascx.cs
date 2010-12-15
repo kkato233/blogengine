@@ -85,9 +85,6 @@ namespace Admin
             var sitemap = SiteMap.Providers["SecuritySiteMap"];
             if (sitemap != null)
             {
-                bool canAccessAdminPages = Security.IsAuthorizedTo(Rights.AccessAdminPages);
-                bool canAccessAdminSettingsPages = Security.IsAuthorizedTo(Rights.AccessAdminSettingsPages);
-
                 var root = sitemap.RootNode;
                 if (root != null)
                 {
@@ -99,27 +96,6 @@ namespace Admin
                                     this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") ||
                                     (!adminNode.Url.Contains("xmanager") && !adminNode.Url.Contains("PingServices"))))
                     {
-                        // Exclude admin pages if the user does not have
-                        // the AccessAdminPages right.  This would typically be
-                        // users who registered thru self-registration.
-
-                        if (!canAccessAdminPages &&
-                            adminNode.Url.IndexOf("/admin/", StringComparison.OrdinalIgnoreCase) != -1)
-                        {
-                            continue;
-                        }
-
-                        // Roles such as an Editor can access the admin pages, but (by default)
-                        // is not allowed to access the Settings related pages.
-
-                        if (!canAccessAdminSettingsPages)
-                        {
-                            if (adminNode.Url.IndexOf("/admin/widgets/", StringComparison.OrdinalIgnoreCase) != -1 ||
-                                adminNode.Url.IndexOf("/admin/settings/", StringComparison.OrdinalIgnoreCase) != -1)
-                            {
-                                continue;
-                            }
-                        }
 
                         var a = new HtmlAnchor
                             {

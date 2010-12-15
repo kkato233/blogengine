@@ -18,11 +18,6 @@
         /// </summary>
         private string theId = string.Empty;
 
-        /// <summary>
-        /// The membership user for the id.
-        /// </summary>
-        private MembershipUser MembershipUser;
-
         #endregion
 
         #region Properties
@@ -57,7 +52,13 @@
         [WebMethod]
         public static AuthorProfile GetProfile(string id)
         {
-            var pf = AuthorProfile.GetProfile(id) ?? new AuthorProfile
+            if (!Utils.StringIsNullOrWhitespace(id))
+            { 
+                bool canEditRoles;
+                if (!CanUserEditProfile(id, out canEditRoles))
+                    return null;
+
+                return AuthorProfile.GetProfile(id) ?? new AuthorProfile()
                 {
                     DisplayName = string.Empty,
                     FirstName = string.Empty,
@@ -74,13 +75,38 @@
                     Country = string.Empty,
                     AboutMe = string.Empty
                 };
+            }
 
-            return pf;
+            return null;
         }
 
         #endregion
 
         #region Methods
+
+        private static bool CanUserEditProfile(string id, out bool canEditRoles)
+        {
+            canEditRoles = false;
+
+            if (Utils.StringIsNullOrWhitespace(id))
+                return false;
+
+            MembershipUser user = Membership.GetUser(id);
+            if (user == null)
+                return false;
+
+            bool membershipUserIsSelf = user.UserName.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
+
+            if (membershipUserIsSelf && Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnRoles))
+                canEditRoles = true;
+            else if (!membershipUserIsSelf && Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersRoles))
+                canEditRoles = true;
+
+            if (membershipUserIsSelf)
+                return Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnUser);
+            else
+                return Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsers);
+        }
 
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
@@ -96,30 +122,12 @@
                 return;
             }
 
-            if (!string.IsNullOrEmpty(this.Request.QueryString["id"]))
-            {
-                theId = this.Request.QueryString["id"];
-                MembershipUser = Membership.GetUser(theId);
-            }
-
-            if (MembershipUser == null)
+            bool canEditRoles = false;
+            if (!CanUserEditProfile(Request.QueryString["id"], out canEditRoles))
             {
                 Response.Redirect("Users.aspx");
                 return;
             }
-
-            bool canEditRoles = false;
-            bool membershipUserIsSelf = MembershipUser.UserName.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
-
-            if (membershipUserIsSelf)
-                Security.DemandUserHasRight(BlogEngine.Core.Rights.EditOwnUser, true);
-            else
-                Security.DemandUserHasRight(BlogEngine.Core.Rights.EditOtherUsers, true);
-
-            if (membershipUserIsSelf && Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnRoles))
-                canEditRoles = true;
-            else if (!membershipUserIsSelf && Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersRoles))
-                canEditRoles = true;
 
             phRoles.Visible = canEditRoles;
             phRightContentBox.Visible = Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages);

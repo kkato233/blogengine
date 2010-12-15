@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
+using App_Code;
 
 #endregion
 
@@ -19,7 +20,7 @@ public partial class admin_Pages_Categories : System.Web.UI.Page
 	/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 	protected void Page_Load(object sender, EventArgs e)
 	{
-        Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+        WebUtils.CheckRightsForAdminPostPages(false);
 
 		if (!Page.IsPostBack)
 		{   

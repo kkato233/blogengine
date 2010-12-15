@@ -147,6 +147,7 @@
     <Compile Include="Security\Right.cs" />
     <Compile Include="Security\Rights.cs" />
     <Compile Include="Security\Security.cs" />
+    <Compile Include="Security\SecuritySiteMapProvider.cs" />
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
     <Compile Include="SavedEventArgs.cs" />

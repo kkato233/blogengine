@@ -17,7 +17,7 @@ namespace App_Code
     {
 
         /// <summary>
-        /// Edits a role.
+        /// Edits a tag.
         /// </summary>
         /// <param name="id">
         /// The row id.
@@ -34,7 +34,7 @@ namespace App_Code
         [WebMethod]
         public JsonResponse Edit(string id, string bg, string[] vals)
         {
-            if (!Security.IsAuthorizedTo(Rights.EditRoles))
+            if (!WebUtils.CheckRightsForAdminPostPages(true))
             {
                 return new JsonResponse { Success = false, Message = Resources.labels.notAuthorized };
             }
@@ -85,13 +85,13 @@ namespace App_Code
         [WebMethod]
         public JsonResponse Delete(string id)
         {
-            if (!Security.IsAuthorizedTo(Rights.DeleteRoles))
+            if (!WebUtils.CheckRightsForAdminPostPages(true))
             {
                 return new JsonResponse { Success = false, Message = Resources.labels.notAuthorized };
             }
             if (Utils.StringIsNullOrWhitespace(id))
             {
-                return new JsonResponse { Message = "Role name is required field" };
+                return new JsonResponse { Message = "Tag is required field" };
             }
 
             try

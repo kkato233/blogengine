@@ -16,6 +16,7 @@
     using Resources;
 
     using Page = System.Web.UI.Page;
+    using App_Code;
 
     /// <summary>
     /// The AddEntry.
@@ -119,7 +120,7 @@
         /// </param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
+            WebUtils.CheckRightsForAdminPostPages(false);
             MaintainScrollPositionOnPostBack = true;
 
             BindTags();
@@ -155,7 +156,7 @@
                 BindBookmarklet();
             }
 
-            if (!Security.IsAuthorizedTo(Rights.EditOtherUsers))
+            if (!Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
             {
                 ddlAuthor.Enabled = false;
             }

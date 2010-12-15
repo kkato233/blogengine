@@ -211,6 +211,25 @@
 
         #region Public Methods
 
+        /// <summary>
+        /// Parse the string representation of an enum field to a strongly typed enum value.
+        /// </summary>
+        public static T ParseEnum<T>(string value, T defaultValue) where T : struct, IConvertible
+        {
+            if (!typeof(T).IsEnum)
+                throw new ArgumentException("T must be an enumerated type");
+
+            if (string.IsNullOrEmpty(value))
+                return defaultValue;
+
+            foreach (T item in Enum.GetValues(typeof(T)))
+            {
+                if (item.ToString().Equals(value, StringComparison.OrdinalIgnoreCase))
+                    return item;
+            }
+            return defaultValue;
+        }
+
         private static Regex _identifierForDisplayRgx = new Regex(
             @"  (?<=[A-Z])(?=[A-Z][a-z])    # UC before me, UC lc after me
              |  (?<=[^A-Z])(?=[A-Z])        # Not UC before me, UC after me

@@ -9,27 +9,23 @@
 
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using App_Code;
 
     public partial class AjaxHelper : System.Web.UI.Page
     {    
-
         [WebMethod]
         public static JsonComment GetComment(string id)
         {
-            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
-            {
-                return null;
-            }
+            WebUtils.CheckRightsForAdminCommentsPages(false);
+
             return JsonComments.GetComment(new Guid(id));
         }
 
         [WebMethod]
         public static JsonComment SaveComment(string[] vals)
         {
-            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
-            {
-                return null;
-            }
+            WebUtils.CheckRightsForAdminCommentsPages(false);
+
             var gId = new Guid(vals[0]);
             string author = vals[1];
             string email = vals[2];
@@ -62,18 +58,24 @@
         [WebMethod]
         public static IEnumerable LoadPosts(int page, string  type, string filter, string title)
         {
+            WebUtils.CheckRightsForAdminPostPages(false);
+
             return JsonPosts.GetPosts(page, type, filter, title);
         }
 
         [WebMethod]
         public static IEnumerable LoadPages(string type)
         {
+            WebUtils.CheckRightsForAdminPagesPages(false);
+
             return JsonPages.GetPages(type);
         }
 
         [WebMethod]
         public static IEnumerable LoadTags(int page)
         {
+            WebUtils.CheckRightsForAdminPostPages(false);
+
             var tags = new List<JsonTag>();
             foreach (var p in Post.Posts)
             {
@@ -96,6 +98,8 @@
         [WebMethod]
         public static string LoadPostPager(int page)
         {
+            WebUtils.CheckRightsForAdminPostPages(false);
+
             return JsonPosts.GetPager(page);
         }
 
@@ -114,6 +118,8 @@
             string date,
             string time)
         {
+            WebUtils.CheckRightsForAdminPostPages(false);
+
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
 
@@ -223,6 +229,8 @@
             bool isPublished,
             string parent)
         {
+            WebUtils.CheckRightsForAdminPagesPages(false);
+
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
 
