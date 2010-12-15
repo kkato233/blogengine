@@ -19,11 +19,11 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1><%=Resources.labels.categories %><a href="#" class="addNew">Add new category</a></h1>
+            <h1><%=Resources.labels.categories %><a href="#" class="addNew"><%=Resources.labels.addNewCategory %></a></h1>
             
             <div style="display:none;">
                 <div id="frmAddNew" class="overlaypanel" >
-                    <h2>Add new category</h2>
+                    <h2><%=Resources.labels.addNewCategory %></h2>
                     <ul class="fl">
                         <li>
                             <asp:Label ID="lblNewCategory" runat="server" AssociatedControlID="txtNewCategory"
@@ -45,7 +45,7 @@
                             <asp:DropDownList ID="ddlNewParent" Width="200" runat="server" />
                         </li>
                     </ul>
-                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('new', 'frmAddNew');" Text="Add category" /> or <a href="#" onclick="closeOverlay();">Cancel</a>
+                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('new', 'frmAddNew');" Text="<%$Resources:labels, addNewCategory %>" /> <a href="#" onclick="closeOverlay();"><%=Resources.labels.or %> <%=Resources.labels.cancel %></a>
                 </div>
             </div>
 
@@ -71,7 +71,7 @@
                             <asp:TextBox runat="server" MaxLength="255" ID="txtDescription" Text='<%# Eval("description") %>' />
                         </EditItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Parent">
+                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="<%$ Resources:labels, parent %>">
                         <ItemTemplate>
                             <%# GetParentTitle(Container.DataItem) %>
                         </ItemTemplate>
@@ -79,7 +79,7 @@
                             <asp:DropDownList ID="ddlParent" runat="server" />
                         </EditItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Posts">
+                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="<%$ Resources:labels, posts %>">
                         <ItemTemplate>
                             <%# ((BlogEngine.Core.Category)Container.DataItem).Posts.Count %>
                         </ItemTemplate>
