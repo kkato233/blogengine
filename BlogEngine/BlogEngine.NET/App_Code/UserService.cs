@@ -83,8 +83,6 @@
 
                 if (Security.IsAuthorizedTo(Rights.EditOtherUsersRoles))
                 {
-                    // remove all user roles and add only checked
-                    Roles.RemoveUserFromRoles(user, Roles.GetAllRoles());
                     if (roles.GetLength(0) > 0)
                     {
                         Roles.AddUsersToRoles(new string[] { user }, roles);

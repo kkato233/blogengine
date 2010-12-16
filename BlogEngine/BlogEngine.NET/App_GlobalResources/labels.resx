@@ -1558,4 +1558,7 @@
   <data name="uploadVideo" xml:space="preserve">
     <value>Choose video (MP4, WMV, FLV, OGG, WebM) or audio (MP3) file you wish to upload</value>
   </data>
+  <data name="enablePasswordReset" xml:space="preserve">
+    <value>Enable Password Resets</value>
+  </data>
 </root>

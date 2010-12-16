@@ -76,6 +76,7 @@
 				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
 				"culture": $("[id$='_ddlCulture']").val(),
 				"timezone": $("[id$='_txtTimeZone']").val(),
+				"enablePasswordReset": $("[id$='cbEnablePasswordReset']").attr('checked'),
 				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked'),
 				"selfRegistrationInitialRole": $("[id$='_ddlSelfRegistrationInitialRole']").val()
 			};
@@ -187,6 +188,11 @@
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" />
                         <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnablePasswordReset" />
+                        <label for="<%=cbEnablePasswordReset.ClientID %>"><%=Resources.labels.enablePasswordReset %></label>
                     </li>
                     <li>
                         <span class="filler"></span>

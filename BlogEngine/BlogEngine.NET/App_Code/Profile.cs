@@ -128,7 +128,12 @@
                 if (saveRoles)
                 {
                     // remove all user roles and add only checked
-                    Roles.RemoveUserFromRoles(id, Roles.GetAllRoles());
+                    string[] currentRoles = Roles.GetRolesForUser(id);
+                    if (currentRoles.Length > 0)
+                    {
+                        Roles.RemoveUserFromRoles(id, currentRoles);
+                    }
+                    
                     if (roles.GetLength(0) > 0)
                     {
                         Roles.AddUsersToRoles(new string[] { id }, roles);
