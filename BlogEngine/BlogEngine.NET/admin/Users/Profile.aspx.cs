@@ -129,6 +129,8 @@
                 return;
             }
 
+            this.theId = Request.QueryString["id"];
+
             phRoles.Visible = canEditRoles;
             phRightContentBox.Visible = Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages);
 

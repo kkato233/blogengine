@@ -51,6 +51,11 @@
         private bool enableHttpCompression;
 
         /// <summary>
+        ///     Whether passwords can be reset.
+        /// </summary>
+        private bool enablePasswordResets = true;
+
+        /// <summary>
         /// The timeout in milliseconds for a remote download. Default is 30 seconds.
         /// </summary>
         private int remoteDownloadTimeout = defaultRemoteDownloadTimeout;
@@ -565,6 +570,20 @@
         /// </summary>
         /// <value><c>true</c> if [show post navigation]; otherwise, <c>false</c>.</value>
         public bool ShowPostNavigation { get; set; }
+
+        #endregion
+
+        #region EnablePasswordReset
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether or not to enable password resets.
+        /// </summary>
+        /// <value><c>true</c> if [enable self registration]; otherwise, <c>false</c>.</value>
+        public bool EnablePasswordReset
+        {
+            get { return enablePasswordResets; }
+            set { enablePasswordResets = value; }
+        }
 
         #endregion
 

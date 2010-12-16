@@ -70,6 +70,7 @@
             ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
+            cbEnablePasswordReset.Checked = BlogSettings.Instance.EnablePasswordReset;
             cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
             Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
         }
@@ -150,6 +151,7 @@
         /// <param name="showPostNavigation">Show post navigation</param>
         /// <param name="culture">Culture</param>
         /// <param name="timezone">Time zone</param>
+        /// <param name="enablePasswordReset">Enable password resets</param>
         /// <param name="enableSelfRegistration">Enable self registration</param>
         /// <param name="requireLoginToViewPosts">Require login to view posts</param>
         /// <param name="selfRegistrationInitialRole">Self registration initial role</param>
@@ -172,6 +174,7 @@
 			string showPostNavigation,
 			string culture,
 			string timezone,
+            string enablePasswordReset,
 			string enableSelfRegistration,
             string selfRegistrationInitialRole)
         {
@@ -204,6 +207,7 @@
 				BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
 				BlogSettings.Instance.Culture = culture;
 				BlogSettings.Instance.Timezone = double.Parse(timezone);
+                BlogSettings.Instance.EnablePasswordReset = bool.Parse(enablePasswordReset);
 				BlogSettings.Instance.EnableSelfRegistration = bool.Parse(enableSelfRegistration);
                 BlogSettings.Instance.SelfRegistrationInitialRole = selfRegistrationInitialRole;
 

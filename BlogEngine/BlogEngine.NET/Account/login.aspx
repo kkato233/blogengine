@@ -28,10 +28,12 @@
                     </div>
                     <div class="submitButton">
                         <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Login" OnClientClick="return ValidateLogin();" />
-                        <span>
-                            <asp:HyperLink runat="server" ID="linkForgotPassword" NavigateUrl="~/Account/password-retrieval.aspx"
-                                Text="<%$ Resources:labels,forgotPassword %>" />
-                        </span>
+                        <asp:PlaceHolder ID="phResetPassword" runat="server">
+                            <span>
+                                <asp:HyperLink runat="server" ID="linkForgotPassword" NavigateUrl="~/Account/password-retrieval.aspx"
+                                    Text="<%$ Resources:labels,forgotPassword %>" />
+                            </span>
+                        </asp:PlaceHolder>
                     </div>
                 </div>
             </div>

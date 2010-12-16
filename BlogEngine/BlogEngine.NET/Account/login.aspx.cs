@@ -4,6 +4,7 @@
     using System.Web;
     using System.Web.Security;
     using System.Web.UI;
+    using System.Web.UI.WebControls;
     using BlogEngine.Core;
 
     using Resources;
@@ -25,6 +26,7 @@
             this.RegisterHyperLink.NavigateUrl = "register.aspx?ReturnUrl=" +
                                                  HttpUtility.UrlEncode(this.Request.QueryString["ReturnUrl"]);
             this.RegisterHyperLink.Text = labels.createNow;
+            ((PlaceHolder)LoginUser.FindControl("phResetPassword")).Visible = BlogSettings.Instance.EnablePasswordReset;
 
             if (this.Request.QueryString.ToString() == "logoff")
             {
