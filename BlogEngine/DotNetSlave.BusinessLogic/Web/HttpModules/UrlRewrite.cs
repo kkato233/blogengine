@@ -182,6 +182,26 @@
         }
 
         /// <summary>
+        /// Rewrites the tag.
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="url">The URL string.</param>
+        private static void RewriteTag(HttpContext context, string url)
+        {
+            var tag = ExtractTitle(context, url);
+
+            if (url.Contains("/FEED/"))
+            {
+                context.RewritePath(string.Format("syndication.axd?tag={0}{1}", tag, GetQueryString(context)), false);
+            }
+            else
+            {
+                context.RewritePath(
+                    string.Format("{0}?tag=/{1}{2}", Utils.RelativeWebRoot, tag, GetQueryString(context)), false);
+            }
+        }
+
+        /// <summary>
         /// The rewrite default.
         /// </summary>
         /// <param name="context">
@@ -317,6 +337,10 @@
             else if (url.Contains("/CATEGORY/"))
             {
                 RewriteCategory(context, url);
+            }
+            else if (url.Contains("/TAG/"))
+            {
+                RewriteTag(context, url);
             }
             else if (url.Contains("/PAGE/"))
             {

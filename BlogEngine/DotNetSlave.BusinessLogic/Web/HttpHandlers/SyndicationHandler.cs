@@ -124,6 +124,12 @@
                 return Post.GetPostsByCategory(categoryId).ConvertAll(ConvertToIPublishable);
             }
 
+            if (!string.IsNullOrEmpty(context.Request.QueryString["tag"]))
+            {
+                // All posts with the specified tag
+                return Post.GetPostsByTag(context.Request.QueryString["tag"].Trim()).ConvertAll(ConvertToIPublishable);
+            }
+
             if (!string.IsNullOrEmpty(context.Request.QueryString["author"]))
             {
                 // All posts by the specified author

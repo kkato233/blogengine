@@ -103,18 +103,18 @@ namespace BlogEngine.Core
         /// or throws a SecurityException.
         /// </summary>
         /// <param name="authCheck"></param>
-        /// <param name="redirectToLoginPage">
-        /// If true and user does not have rights, redirects to the login page.
+        /// <param name="redirectIfUnauthorized">
+        /// If true and user does not have rights, redirects to the login page or homepage.
         /// If false and user does not have rights, throws a security exception.
         /// </param>
         /// <param name="rights"></param>
-        public static void DemandUserHasRight(AuthorizationCheck authCheck, bool redirectToLoginPage, params Rights[] rights)
+        public static void DemandUserHasRight(AuthorizationCheck authCheck, bool redirectIfUnauthorized, params Rights[] rights)
         {
             if (!IsAuthorizedTo(authCheck, rights))
             {
-                if (redirectToLoginPage)
+                if (redirectIfUnauthorized)
                 {
-                    RedirectToLoginForCurrentUrl();
+                    RedirectForUnauthorizedRequest();
                 }
                 else
                 {
@@ -123,10 +123,23 @@ namespace BlogEngine.Core
             }
         }
 
-        public static void RedirectToLoginForCurrentUrl()
+        public static void RedirectForUnauthorizedRequest()
         {
             HttpContext context = HttpContext.Current;
-            context.Response.Redirect(string.Format("~/Account/login.aspx?ReturnURL={0}", HttpUtility.UrlEncode(context.Request.RawUrl)));
+            Uri referrer = context.Request.UrlReferrer;
+            bool isFromLoginPage = referrer != null && referrer.LocalPath.IndexOf("/Account/login.aspx", StringComparison.OrdinalIgnoreCase) != -1;
+
+            // If the user was just redirected from the login page to the current page,
+            // we will then redirect them to the homepage, rather than back to the
+            // login page to prevent confusion.
+            if (isFromLoginPage)
+            {
+                context.Response.Redirect(Utils.RelativeWebRoot);
+            }
+            else
+            {
+                context.Response.Redirect(string.Format("~/Account/login.aspx?ReturnURL={0}", HttpUtility.UrlPathEncode(context.Request.RawUrl)));
+            }
         }
 
         /// <summary>

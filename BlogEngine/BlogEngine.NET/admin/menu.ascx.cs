@@ -128,7 +128,7 @@ namespace Admin
             if (!this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
             {
                 this.AddItem(
-                    labels.myProfile, string.Format("{0}admin/Users/Profile.aspx?id={1}", Utils.RelativeWebRoot, HttpUtility.UrlEncode(Security.CurrentUser.Identity.Name)));
+                    labels.myProfile, string.Format("{0}admin/Users/Profile.aspx?id={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(Security.CurrentUser.Identity.Name)));
 
                 this.AddItem(
                     labels.changePassword, string.Format("{0}Account/change-password.aspx", Utils.RelativeWebRoot));

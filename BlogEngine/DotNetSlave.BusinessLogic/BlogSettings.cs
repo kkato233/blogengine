@@ -43,7 +43,7 @@
         /// <summary>
         ///     The number of comments per page.
         /// </summary>
-        private int commentsPerPage = 10;
+        private int commentsPerPage;
 
         /// <summary>
         ///     The enable http compression.
@@ -906,7 +906,7 @@
         /// </summary>
         public int CommentsPerPage
         {
-            get { return commentsPerPage; }
+            get { return Math.Max(commentsPerPage, 10); }
             set { commentsPerPage = value; }
         }
 
