@@ -118,7 +118,7 @@
             // on, we will allow a user who cannot AccessAdminPages to edit their profile.
             if (!Security.IsAuthenticated)
             {
-                Security.RedirectToLoginForCurrentUrl();
+                Security.RedirectForUnauthorizedRequest();
                 return;
             }
 

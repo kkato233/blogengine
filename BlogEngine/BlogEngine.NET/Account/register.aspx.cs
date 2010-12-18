@@ -29,10 +29,7 @@
             // navigate to register page, redirect to login
             if (!BlogSettings.Instance.EnableSelfRegistration)
             {
-                if (!Security.IsAuthenticated)
-                {
-                    this.Response.Redirect(string.Format("~/Account/login.aspx?ReturnUrl={0}", this.Request.QueryString["ReturnUrl"]));
-                }
+                Response.Redirect("~/Account/login.aspx");
             }
         }
 
