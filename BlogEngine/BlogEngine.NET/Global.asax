@@ -1,6 +1,7 @@
 <%@ Application Language="C#" %>
 <%@ Import Namespace="System.Threading" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <script RunAt="server">
   

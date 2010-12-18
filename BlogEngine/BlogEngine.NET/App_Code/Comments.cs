@@ -155,6 +155,8 @@
                             CommentHandlers.AddIpToFilter(c.IP, true);
                         }
 
+                        CommentHandlers.ReportMistake(c);
+
                         c.ModeratedBy = Security.CurrentUser.Identity.Name;
                         p.DisapproveComment(c);
                     }
