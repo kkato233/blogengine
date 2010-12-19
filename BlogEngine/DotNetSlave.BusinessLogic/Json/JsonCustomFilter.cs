@@ -40,12 +40,15 @@ namespace BlogEngine.Core.Json
             {
                 try
                 {
-                    double t = double.Parse(Spam.ToString());
-                    double m = double.Parse(Mistakes.ToString());
+                    if (this.Mistakes < 1 || this.Checked < 1)
+                        return "100";
 
-                    if (m == 0 || t == 0) return "100";
+                    if (this.Mistakes >= this.Checked)
+                        return "0";
 
-                    double a = 100 - (m / t * 100);
+                    var c = (double)this.Checked;
+                    var m = (double)this.Mistakes;
+                    double a = 100 - (100 / c * m);
 
                     return String.Format("{0:0.00}", a);
                 }
