@@ -331,9 +331,10 @@
                             cmd.ExecuteNonQuery();
                             success = true;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             success = false;
+                            throw;
                         }
                     }
                 }

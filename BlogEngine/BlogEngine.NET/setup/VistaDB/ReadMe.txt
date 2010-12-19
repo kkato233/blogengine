@@ -40,7 +40,8 @@ Instructions for new setup:
 or use the vbd4 extension if you are ising version 4.
 4. Rename VistaDBWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
-you have a backup.)
+you have a backup).  VistaDBWeb.Config is for a .NET 3.5 application pool.  If you will
+run BlogEngine.NET in a .NET 4.0 application pool, use VistaDB.NET_4.0_Web.Config instead.
 5. Edit your web.config.  Update the connection string and assemblies as needed to 
 match your file and version information. The web.config is setup for VistaDB Express 3.5 users.
 6. If you are using a non-express version, you will need a license file. Please read this post which covers 
