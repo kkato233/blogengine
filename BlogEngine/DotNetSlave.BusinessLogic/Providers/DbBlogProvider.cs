@@ -83,7 +83,15 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE CategoryID = {1}catid;DELETE FROM {0}Categories WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Categories WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -127,7 +135,39 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = {1}id;DELETE FROM {0}PostCategory WHERE PostID = {1}id;DELETE FROM {0}PostNotify WHERE PostID = {1}id;DELETE FROM {0}PostComment WHERE PostID = {1}id;DELETE FROM {0}Posts WHERE PostID = {1}id;", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Posts WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {

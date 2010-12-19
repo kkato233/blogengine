@@ -15,7 +15,8 @@ Instructions for new setup:
 3. Execute the Setup script against the database you want to add the BlogEngine data to.
 4. Rename SQLServerWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
-you have a backup.)
+you have a backup).  SQLServerWeb.Config is for a .NET 3.5 application pool.  If you will
+run BlogEngine.NET in a .NET 4.0 application pool, use SQLServer.NET_4.0_Web.Config instead.
 5. Update the BlogEngine connection string in the web.config.
 6. Surf out to your Blog and see the welcome post.
 7. Login with the username admin and password admin.  Change the password.

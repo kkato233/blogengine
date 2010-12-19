@@ -125,8 +125,15 @@
                 return new JsonResponse() { Message = Resources.labels.notAuthorized };
             }
 
+            string[] userRoles = Roles.GetRolesForUser(id);
+
             try
             {
+                if (userRoles.Length > 0)
+                {
+                    Roles.RemoveUsersFromRoles(new string[] { id }, userRoles);
+                }
+                
                 Membership.DeleteUser(id);
             }
             catch (Exception ex)

@@ -12,9 +12,10 @@ Instructions for new setup:
 
 1. Using the tool of your choice, execute the Setup script against the database you 
 want to add the BlogEngine data to.  This can be a new or existing database.
-2. Rename SQLServerWeb.Config to Web.config and copy it to your blog folder.  (This will
+2. Rename MySQLWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
-you have a backup.)'
+you have a backup).  MySQLWeb.Config is for a .NET 3.5 application pool.  If you will
+run BlogEngine.NET in a .NET 4.0 application pool, use MySQL.NET_4.0_Web.Config instead.
 3. Update the BlogEngine connection string in the web.config.
 4. Add the MySQL .NET Connector (6.2.2) to the bin folder. If a different version is used,
 please update the web.config to the correct version.

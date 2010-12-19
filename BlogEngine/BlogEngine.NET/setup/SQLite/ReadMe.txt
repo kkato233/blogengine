@@ -14,7 +14,8 @@ SQLite project. http://sourceforge.net/projects/sqlite-dotnet2/
 3. Copy BlogEngine.s3db from the SQLite folder to your App_Data folder.
 4. Rename SQLiteWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
-you have a backup.)
+you have a backup).  SQLiteWeb.Config is for a .NET 3.5 application pool.  If you will
+run BlogEngine.NET in a .NET 4.0 application pool, use SQLite.NET_4.0_Web.Config instead.
 5. Surf out to your Blog and see the welcome post.
 6. Login with the username Admin and password admin.  Change the password.  Note: This 
 data is case sensitive.

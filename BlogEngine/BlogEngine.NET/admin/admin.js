@@ -174,9 +174,6 @@ function LoadRoles() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
-
-         $('.editButton').live("click", function () { return EditRow(this); });
-         $('.deleteButton').live("click", function () { return DeleteRow(this); });
       }
    });
 }
@@ -191,9 +188,6 @@ function LoadUsers() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
-
-         $('.editButton').live("click", function () { return EditRow(this); });
-         $('.deleteButton').live("click", function () { return DeleteRow(this); });
       }
    });
 }
