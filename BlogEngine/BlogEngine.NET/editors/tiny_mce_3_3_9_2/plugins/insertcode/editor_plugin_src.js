@@ -8,7 +8,7 @@
 		init : function(ed, url) {
 			ed.addCommand('mceInsertCode', function() {
 				ed.windowManager.open({
-					file : url + '/dialog.htm',
+					file : url + '/dialog.htm?v=2',
 					width : 480 + parseInt(ed.getLang('insertcode.delta_width', 0)),
 					height : 320 + parseInt(ed.getLang('insertcode.delta_height', 0)),
 					inline : 1

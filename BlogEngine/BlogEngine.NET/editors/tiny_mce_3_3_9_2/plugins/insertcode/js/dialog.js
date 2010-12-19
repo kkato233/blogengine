@@ -11,7 +11,7 @@ var InsertCodeDialog = {
     insert: function() {
         var s1 = '<pre class="brush: ';
         s1 += document.forms[0].ddLang.value;
-        s1 += ';">' + document.forms[0].txtCode.value.trim() + '</pre>';
+        s1 += ';">' + Encoder.htmlEncode(document.forms[0].txtCode.value.trim()) + '</pre>';
 
         tinyMCEPopup.editor.execCommand('mceInsertContent', false, s1);
         tinyMCEPopup.close();
