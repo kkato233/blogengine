@@ -309,17 +309,20 @@
                 comment.IsApproved = true;
             }
 
-            if (website.Trim().Length > 0)
+            if (BlogSettings.Instance.EnableWebsiteInComments)
             {
-                if (!website.ToLowerInvariant().Contains("://"))
+                if (website.Trim().Length > 0)
                 {
-                    website = string.Format("http://{0}", website);
-                }
+                    if (!website.ToLowerInvariant().Contains("://"))
+                    {
+                        website = string.Format("http://{0}", website);
+                    }
 
-                Uri url;
-                if (Uri.TryCreate(website, UriKind.Absolute, out url))
-                {
-                    comment.Website = url;
+                    Uri url;
+                    if (Uri.TryCreate(website, UriKind.Absolute, out url))
+                    {
+                        comment.Website = url;
+                    }
                 }
             }
 

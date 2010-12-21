@@ -776,6 +776,13 @@
 
         #endregion
 
+        #region EnableWebsiteInComments
+        /// <summary>
+        ///     Gets or sets a value indicating if display of the website of commenter is enabled
+        /// </summary>
+        public bool EnableWebsiteInComments { get; set; }
+        #endregion
+
         #region IsCoCommentEnabled
 
         /// <summary>

@@ -612,6 +612,12 @@
   <data name="showCountryChooserDescription" xml:space="preserve">
     <value>اگر انتخاب کننده کشور نمایش داده نشود هیچ پرچمی در کنار نظرات ظاهر نخواهد شد</value>
   </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Need Translation:Enable Website in Comments</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+  </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>فقط توضیحات ارسالها را نمایش بده</value>
   </data>

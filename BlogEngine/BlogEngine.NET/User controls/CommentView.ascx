@@ -41,10 +41,12 @@
 	  <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" />
 	  <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, enterValidEmail%>" Display="dynamic" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" /><br />
 
-	  <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website %></label>
+      <% if (BlogSettings.Instance.EnableWebsiteInComments){ %>
+	  <label for="<%=txtWebsite.ClientID %>"><%=Resources.labels.website%></label>
 	  <asp:TextBox runat="Server" ID="txtWebsite" TabIndex="4" ValidationGroup="AddComment" />
 	  <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="Server" ControlToValidate="txtWebsite" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?" ErrorMessage="<%$Resources:labels, enterValidUrl %>" Display="Dynamic" ValidationGroup="AddComment" /><br />
-	  
+	  <%} %>
+
 	  <% if(BlogSettings.Instance.EnableCountryInComments){ %>
 	  <label for="<%=ddlCountry.ClientID %>"><%=Resources.labels.country %></label>
 	  <asp:DropDownList runat="server" ID="ddlCountry" onchange="BlogEngine.setFlag(this.value)" TabIndex="5" EnableViewState="false" ValidationGroup="AddComment" />&nbsp;

@@ -494,6 +494,12 @@
     <value>Si le sélecteur de pays n'est pas affiché, aucun drapeau ne peut être affiché à coté des commentaires</value>
     <comment>If the country chooser isn't shown, no flag can be shown on each comment.</comment>
   </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Need Translation:Enable Website in Comments</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+  </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Montrer seulement la description des billets</value>
   </data>

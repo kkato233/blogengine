@@ -538,6 +538,12 @@
   <data name="showCountryChooserDescription" xml:space="preserve">
     <value>If the country chooser isn't shown, no flag can be shown on each comment.</value>
   </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Enable Website in Comments</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Choose whether to allow Website to be published in Comments</value>
+  </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Only show description of posts</value>
   </data>

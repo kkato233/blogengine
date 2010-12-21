@@ -849,6 +849,12 @@
 		<value>如果沒有選擇顯示國家，每個評論旁邊將不顯示國旗</value>
 		<comment>If the country chooser isn't shown, no flag can be shown on each comment.</comment>
 	</data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Need Translation:Enable Website in Comments</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+  </data>
 	<data name="showDescriptionInPostList" xml:space="preserve">
 		<value>僅顯示文章描述</value>
 		<comment>Only show description of posts</comment>

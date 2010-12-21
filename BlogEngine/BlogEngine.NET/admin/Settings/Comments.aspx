@@ -93,6 +93,12 @@
                 </li>
                 <li>
                     <span class="filler"></span>
+                    <asp:CheckBox runat="server" ID="cbEnableWebsiteInComments" />
+                    <label for="<%=cbEnableWebsiteInComments.ClientID %>"><%=labels.showEnableWebsiteInComments %></label>
+                    <span class="insetHelp">(<%=labels.showEnableWebsiteInCommentsDescription %>)</span>
+                </li>
+                <li>
+                    <span class="filler"></span>
                     <asp:CheckBox runat="server" ID="cbShowLivePreview" />
                     <label for="<%=cbShowLivePreview.ClientID %>"><%=labels.showLivePreview %></label>
                 </li>

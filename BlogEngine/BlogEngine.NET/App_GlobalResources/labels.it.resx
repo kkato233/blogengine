@@ -541,6 +541,12 @@
   <data name="showCountryChooserDescription" xml:space="preserve">
     <value>Se non è abilitata la scelta della lingua, nessuna bandiera può essere associata al singolo commento</value>
   </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Need Translation:Enable Website in Comments</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+  </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Visualizza solo la descrizione del post</value>
   </data>

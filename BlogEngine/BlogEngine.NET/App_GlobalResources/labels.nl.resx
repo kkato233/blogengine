@@ -493,6 +493,12 @@
   <data name="showCountryChooserDescription" xml:space="preserve">
     <value>Als de landkeuze niet getoond wordt, dan kan er geen vlag getoond worden bij de reacties.</value>
   </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Need Translation:Enable Website in Comments</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+  </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Toon alleen beschrijving van berichten</value>
   </data>
