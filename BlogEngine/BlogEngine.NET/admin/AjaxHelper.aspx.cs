@@ -130,7 +130,7 @@
             }
 
             try
-            {
+            {   
                 var post = string.IsNullOrEmpty(id) ? new BlogEngine.Core.Post() : BlogEngine.Core.Post.GetPost(new Guid(id));
                 if (post == null)
                 {
@@ -143,7 +143,9 @@
                     return response;
                 }
 
-                if (!post.IsPublished && isPublished)
+                bool isSwitchingToPublished = isPublished && (post.New || !post.IsPublished);
+
+                if (isSwitchingToPublished)
                 {
                     if (!post.CanPublish(author))
                     {
@@ -254,6 +256,8 @@
                     response.Message = "Not authorized to edit this Page.";
                     return response;
                 }
+
+                bool isSwitchingToPublished = isPublished && (page.New || !page.IsPublished);
 
                 if (!page.IsPublished && isPublished)
                 {
