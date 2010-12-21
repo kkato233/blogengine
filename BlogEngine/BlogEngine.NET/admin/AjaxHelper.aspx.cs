@@ -259,7 +259,7 @@
 
                 bool isSwitchingToPublished = isPublished && (page.New || !page.IsPublished);
 
-                if (!page.IsPublished && isPublished)
+                if (isSwitchingToPublished)
                 {
                     if (!page.CanPublish())
                     {
