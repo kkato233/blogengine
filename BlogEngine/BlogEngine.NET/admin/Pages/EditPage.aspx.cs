@@ -101,6 +101,7 @@ namespace Admin.Pages
                 }
 
                 this.BindParents(Guid.Empty);
+                this.cbPublished.Checked = Security.IsAuthorizedTo(Rights.PublishOwnPages);
             }
 
             this.btnUploadFile.Click += this.BtnUploadFileClick;

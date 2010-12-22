@@ -143,6 +143,7 @@
                 txtDate.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("yyyy-MM-dd");
                 txtTime.Text = DateTime.Now.AddHours(BlogSettings.Instance.Timezone).ToString("HH\\:mm");
                 cbEnableComments.Checked = BlogSettings.Instance.IsCommentsEnabled;
+                cbPublish.Checked = Security.IsAuthorizedTo(Rights.PublishOwnPosts);
                 if (Session["content"] != null)
                 {
                     txtContent.Text = Session["content"].ToString();
