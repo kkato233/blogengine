@@ -289,7 +289,7 @@
     <value>Включить рейтинги</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Фиксировать поле Referrer</value>
+    <value>Включить рефереры (ссылки)</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
     <value>Выделение запросов</value>
@@ -720,5 +720,56 @@
   </data>
   <data name="uploadVideo" xml:space="preserve">
     <value>Выбери видео (MP4, WMV, FLV, OGG, WebM) или аудио (MP3) файл</value>
+  </data>
+  <data name="addNewBlog" xml:space="preserve">
+    <value>Добавить новый блог</value>
+  </data>
+  <data name="approved" xml:space="preserve">
+    <value>Утверждённые</value>
+  </data>
+  <data name="approvedComments" xml:space="preserve">
+    <value>Утверждённые комментарии</value>
+  </data>
+  <data name="commonControls" xml:space="preserve">
+    <value>Общие елементы</value>
+  </data>
+  <data name="disable" xml:space="preserve">
+    <value>Выключить</value>
+  </data>
+  <data name="drafts" xml:space="preserve">
+    <value>Черновики</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>Включить</value>
+  </data>
+  <data name="enableRecaptcha" xml:space="preserve">
+    <value>Включить Recaptcha (анти-спам)</value>
+  </data>
+  <data name="numberOfDaysToKeep" xml:space="preserve">
+    <value>Сколько дней хранить</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Нерешённые</value>
+  </data>
+  <data name="pendingApproval" xml:space="preserve">
+    <value>Ожидающие решения</value>
+  </data>
+  <data name="pingbacksAndTrackbacks" xml:space="preserve">
+    <value>Пинги и трэкбэки</value>
+  </data>
+  <data name="priority" xml:space="preserve">
+    <value>Приоритет</value>
+  </data>
+  <data name="recaptchaConfigureReminder" xml:space="preserve">
+    <value>Необходимо также включить и настроить расширение</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="viewSource" xml:space="preserve">
+    <value>Исходник</value>
   </data>
 </root>

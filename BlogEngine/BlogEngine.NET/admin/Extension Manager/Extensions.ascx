@@ -1,5 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Extensions.ascx.cs" Inherits="Admin.ExtensionManager.UserControlsXmanagerExtensionsList" %>
-<asp:Literal ID="Literal1" runat="server" Text="<h1>Extensions</h1>" />
+
+
+<h1><%=Resources.labels.extensions %></h1>
 <div id="lblErrorMsg" style="padding:5px; color:Red;" runat="server"></div>
 
 <asp:GridView ID="gridExtensionsList" 
@@ -14,7 +16,6 @@
   <Columns>
     <asp:BoundField HeaderText="<%$Resources:labels,name %>" HeaderStyle-HorizontalAlign="Left" DataField = "Name" />  
     <asp:BoundField HeaderText="<%$Resources:labels,version %>" DataField = "Version" />
-   <%-- <asp:BoundField HeaderText="<%$Resources:labels,description %>" HeaderStyle-HorizontalAlign="Left" DataField = "Description" /> --%>
     <asp:TemplateField HeaderText="<%$Resources:labels,description %>" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
            <span><%# HttpContext.Current.Server.HtmlDecode(DataBinder.Eval(Container.DataItem, "Description").ToString())%></span>
@@ -30,14 +31,14 @@
             <%# ShowStatus(DataBinder.Eval(Container.DataItem, "Name").ToString())%>
         </ItemTemplate>
     </asp:TemplateField>
-    <asp:TemplateField HeaderText="Tools" HeaderStyle-HorizontalAlign="Left">
+    <asp:TemplateField HeaderText="" HeaderStyle-HorizontalAlign="Left">
         <ItemTemplate>
                 <ul class="rowTools">
                     <li>
                         <a class="toolsAction" href="#"><span class="">Tools</span></a>
                         <ul class="rowToolsMenu">
                             <li><%# StatusLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%></li>
-                            <li><%# string.Format("<a class='viewAction' href='?ctrl=editor&ext={0}'>{1}</a>", DataBinder.Eval(Container.DataItem, "Name"), Resources.labels.view + " source")%></li>
+                            <li><%# string.Format("<a class='viewAction' href='?ctrl=editor&ext={0}'>{1}</a>", DataBinder.Eval(Container.DataItem, "Name"), Resources.labels.viewSource)%></li>
                             <%# SettingsLink(DataBinder.Eval(Container.DataItem, "Name").ToString())%>
                        </ul>
                     </li>

@@ -101,7 +101,7 @@
                     labels.clickToDisable,
                     x.Name,
                     jsonclick,
-                    "Disable");
+                    labels.disable);
             }
             else
             {
@@ -111,7 +111,7 @@
                     labels.clickToEnable,
                     x.Name,
                     jsonclick,
-                    "Enable");
+                    labels.enable);
             }
 
             return sb.ToString();

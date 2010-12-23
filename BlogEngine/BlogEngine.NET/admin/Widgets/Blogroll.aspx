@@ -19,9 +19,9 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1>Blogroll
-            <a href="#" class="showSettings">Settings</a>
-            <a href="#" class="addNew">Add new blog</a></h1>
+            <h1><%=Resources.labels.blogroll %>
+            <a href="#" class="showSettings"><%=Resources.labels.settings %></a>
+            <a href="#" class="addNew"><%=Resources.labels.addNewBlog %></a></h1>
 
             <div style="display:none;">
             <div id="blogrollSettings" class="overlaypanel">
@@ -60,13 +60,13 @@
                     </li>
                 </ul>
                 <asp:Button runat="server" ID="btnSaveSettings" ValidationGroup="settings" CssClass="btn primary" Text="Save settings" OnClientClick="colorboxDialogSubmitClicked('settings', 'blogrollSettings');" /> 
-                or <a href="#" onclick="closeOverlay();">Cancel</a>
+                <%=Resources.labels.or %> <a href="#" onclick="closeOverlay();"><%=Resources.labels.cancel %></a>
             </div>
             </div>
 
             <div style="display:none;">
                 <div id="addBlogroll" class="overlaypanel">
-                    <h2><%=Resources.labels.add %> blog information</h2>
+                    <h2><%=Resources.labels.addNewBlog %></h2>
                     <ul class="fl">
                         <li>
                             <asp:Label runat="server" AssociatedControlID="txtTitle" CssClass="lbl" Text='<%$ Code: Resources.labels.title %>' />
@@ -123,7 +123,7 @@
                         </li>
                     </ul>
                     <asp:Button runat="server" ID="btnSave" ValidationGroup="addNew" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('addNew', 'addBlogroll');" Text="Add blog" /> 
-                    or <a href="#" onclick="closeOverlay();">cancel</a>
+                    <%=Resources.labels.or %> <a href="#" onclick="closeOverlay();"><%=Resources.labels.cancel %></a>
 
                 </div>
             </div>
@@ -151,7 +151,7 @@
                             <asp:Literal ID="Literal1" runat="server" Text='<%# Eval("Description") %>'></asp:Literal>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:CommandField ShowDeleteButton="True" ControlStyle-CssClass="deleteAction" />
+                    <asp:CommandField ShowDeleteButton="True" DeleteText="<%$Resources:labels, delete %>" ControlStyle-CssClass="deleteAction" />
                     <asp:TemplateField ControlStyle-BackColor="Transparent">
                         <ItemTemplate>
                             <asp:ImageButton ID="ibMoveUp" ImageUrl="~/admin/images/action-up.png" runat="server"
