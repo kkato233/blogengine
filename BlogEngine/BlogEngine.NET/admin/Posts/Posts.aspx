@@ -20,7 +20,7 @@
             <h1><%=Resources.labels.posts %></h1>
             <div class="tableToolBox">
                 <%=Resources.labels.show %>: <a class="current" href="#" onclick="ChangePostFilterType('All')"><%=Resources.labels.all %></a> | 
-                <a href="#" onclick="ChangePostFilterType('Draft')"><%=Resources.labels.draftPosts %></a> | 
+                <a href="#" onclick="ChangePostFilterType('Draft')"><%=Resources.labels.drafts %></a> | 
                 <a href="#" onclick="ChangePostFilterType('Published')"><%=Resources.labels.published %></a>
                 <span id="filteredby"></span>
                 <div class="Pager"></div>

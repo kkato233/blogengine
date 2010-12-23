@@ -1561,4 +1561,31 @@
   <data name="enablePasswordReset" xml:space="preserve">
     <value>Enable Password Resets</value>
   </data>
+  <data name="addNewBlog" xml:space="preserve">
+    <value>Add new blog</value>
+  </data>
+  <data name="approvedComments" xml:space="preserve">
+    <value>Approved Comments</value>
+  </data>
+  <data name="commonControls" xml:space="preserve">
+    <value>Common controls</value>
+  </data>
+  <data name="disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="drafts" xml:space="preserve">
+    <value>Drafts</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="pingbacksAndTrackbacks" xml:space="preserve">
+    <value>Pingbacks &amp;amp; Trackbacks</value>
+  </data>
+  <data name="viewSource" xml:space="preserve">
+    <value>View source</value>
+  </data>
 </root>
