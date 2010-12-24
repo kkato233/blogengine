@@ -15,6 +15,7 @@
                 success: function (msg) {
                     $('#Container').setTemplateURL('../../Templates/tags.htm', null, { filter_data: false });
                     $('#Container').processTemplate(msg);
+                    SaveOriginalIdValues('#Container tr', '.editable');
                 }
             });
             return false;

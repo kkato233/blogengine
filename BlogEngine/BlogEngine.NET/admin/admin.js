@@ -33,8 +33,8 @@ function EditRow(obj) {
         cancelButton.unbind('click');
         saveButton.unbind('click');
 
-        cancelButton.bind("click", function () { CancelChanges(this, revert); });
-        saveButton.bind("click", function () { SaveChanges(this, revert); });
+        cancelButton.bind("click", function () { return CancelChanges(this, revert); });
+        saveButton.bind("click", function () { return SaveChanges(this, revert); });
     }
    return false;
 }
@@ -43,7 +43,7 @@ function SaveChanges(obj, str) {
 
    var jQobj = $(obj);
    var row = jQobj.closest("tr");
-   var id = row.attr("id");
+   var id = row.data("originalValue");
    var srv = jQobj.closest("table").attr("id");
    var editVals = [];
    var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'fefefe' : 'fff';
@@ -75,6 +75,8 @@ function SaveChanges(obj, str) {
            }
        }
    });
+
+   return false;
 }
 
 
@@ -84,29 +86,32 @@ function CancelChanges(obj, str) {
 }
 
 function DeleteRow(obj) {
-   var id = $(obj).closest("tr").attr("id");
+   var row = $(obj).closest("tr")
+   var id = row.data("originalValue");
    var srv = $(obj).closest("table").attr("id");
-   var that = $("[id$='" + id + "']");
    var dto = { "id": id };
 
    $.ajax({
-      url: "../../api/" + srv + ".asmx/Delete",
-      data: JSON.stringify(dto),
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (result) {
-         var rt = result.d;
-         if(rt.Success) {
-            $(that).fadeOut(500, function () {
-               $(that).remove();
-            });
-            ShowStatus("success", rt.Message);
-         }
-         else {
-            ShowStatus("warning", rt.Message);
-         }
-      }
+       url: "../../api/" + srv + ".asmx/Delete",
+       data: JSON.stringify(dto),
+       type: "POST",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       success: function (result) {
+           var rt = result.d;
+           if (rt.Success) {
+               row.fadeOut(500, function () {
+                   var tbody = row.closest('tbody');
+                   row.remove();
+                   $('tr:odd', tbody).addClass('alt');
+                   $('tr:even', tbody).removeClass('alt');
+               });
+               ShowStatus("success", rt.Message);
+           }
+           else {
+               ShowStatus("warning", rt.Message);
+           }
+       }
    });
    return false;
 }
@@ -164,18 +169,26 @@ function CommentPage() {
     return page;
 }
 
+function SaveOriginalIdValues(containerSelector, originalValueSelector) {
+    $(containerSelector).each(function () {
+        var val = $(originalValueSelector, $(this)).html();
+        $(this).data("originalValue", val);
+    });
+}
+
 function LoadRoles() {
-   $.ajax({
-      url: "Roles.aspx/GetRoles",
-      data: "{ }",
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (msg) {
-         $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
-         $('#Container').processTemplate(msg);
-      }
-   });
+    $.ajax({
+        url: "Roles.aspx/GetRoles",
+        data: "{ }",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+            SaveOriginalIdValues('#Container tr', '.editable');
+        }
+    });
 }
 
 function LoadUsers() {
@@ -188,6 +201,7 @@ function LoadUsers() {
       success: function (msg) {
          $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
+         SaveOriginalIdValues('#Container tr', '.username');
       }
    });
 }
