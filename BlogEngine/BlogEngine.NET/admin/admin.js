@@ -43,7 +43,7 @@ function SaveChanges(obj, str) {
 
    var jQobj = $(obj);
    var row = jQobj.closest("tr");
-   var id = row.data("originalValue");
+   var id = row.data("recordId");
    var srv = jQobj.closest("table").attr("id");
    var editVals = [];
    var bg = ((row.prevAll().length + 1) % 2 === 0) ? 'fefefe' : 'fff';
@@ -87,7 +87,7 @@ function CancelChanges(obj, str) {
 
 function DeleteRow(obj) {
    var row = $(obj).closest("tr")
-   var id = row.data("originalValue");
+   var id = row.data("recordId");
    var srv = $(obj).closest("table").attr("id");
    var dto = { "id": id };
 
@@ -169,10 +169,10 @@ function CommentPage() {
     return page;
 }
 
-function SaveOriginalIdValues(containerSelector, originalValueSelector) {
+function SaveOriginalIdValues(containerSelector, recordIdSelector) {
     $(containerSelector).each(function () {
-        var val = $(originalValueSelector, $(this)).html();
-        $(this).data("originalValue", val);
+        var val = $(recordIdSelector, $(this)).html();
+        $(this).data("recordId", val);
     });
 }
 
