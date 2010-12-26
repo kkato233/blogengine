@@ -1,13 +1,9 @@
-﻿namespace admin.Settings
+﻿using System.Web.UI;
+
+namespace admin.Settings
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.IO;
-    using System.Web;
-    using System.Web.UI;
-    using System.Web.UI.WebControls;
-    using BlogEngine.Core;
     using BlogEngine.Core.API.BlogML;
     using App_Code;
 
@@ -25,7 +21,7 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void BtnBlogMlImportClick(object sender, EventArgs e)
         {
-            var fileName = this.txtUploadFile.FileName;
+            var fileName = txtUploadFile.FileName;
 
             if (string.IsNullOrEmpty(fileName))
             {
@@ -35,13 +31,21 @@
             {
                 var reader = new BlogReader();
 
-                var stm = this.txtUploadFile.FileContent;
+                var stm = txtUploadFile.FileContent;
                 var rdr = new StreamReader(stm);
                 reader.XmlData = rdr.ReadToEnd();
 
-                reader.Import();
+                string tmpl = "<script language=\"JavaScript\">ShowStatus('{0}', '{1}');</script>";
 
-                //this.Master.SetStatus(reader.Import() ? "success" : "warning", reader.Message);
+                if(reader.Import())
+                {
+                    tmpl = string.Format(tmpl, "success", "Import completed");
+                }else
+                {
+                    tmpl = string.Format(tmpl, "warning", "Import failed");
+                }
+
+                ClientScript.RegisterStartupScript(this.GetType(), "ImportDone", tmpl);
             }
         }
     }

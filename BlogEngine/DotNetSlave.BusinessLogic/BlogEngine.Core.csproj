@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="API\BlogML\BaseReader.cs" />
     <Compile Include="API\BlogML\BlogImporter.cs" />
+    <Compile Include="API\BlogML\BlogMLExtendedPost.cs" />
     <Compile Include="API\BlogML\BlogReader.cs" />
     <Compile Include="API\MetaWeblog\MetaWeblogException.cs" />
     <Compile Include="API\MetaWeblog\MetaWeblogHandler.cs" />
@@ -258,7 +259,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="API\BlogML\BlogML.cd" />
     <None Include="API\MetaWeblog\MetaWeblog.cd" />
     <None Include="BlogEngine.Core.cd" />
     <None Include="DataStore\DataStore.cd" />
