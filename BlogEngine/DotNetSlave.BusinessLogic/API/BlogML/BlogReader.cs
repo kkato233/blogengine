@@ -35,6 +35,11 @@
         #region Properties
 
         /// <summary>
+        /// imported posts counter
+        /// </summary>
+        public int PostCount { get; set; }
+
+        /// <summary>
         ///     Sets BlogML data uploaded and saved as string
         /// </summary>
         public string XmlData
@@ -93,7 +98,7 @@
 
                 LoadBlogPosts();
 
-                Message = string.Format("Success; Loaded {0} new posts", blog.Posts.Count);
+                Message = string.Format("Imported {0} new posts", PostCount);
             }
             catch (Exception ex)
             {
@@ -255,10 +260,12 @@
                 if (!string.IsNullOrEmpty(cat.ParentRef) && cat.ParentRef != "0")
                     c.Parent = new Guid(cat.ParentRef);
 
-                if(Category.GetCategory(c.Id) == null)
-                    c.Save();
-                
                 categoryLookup.Add(c);
+
+                if (Category.GetCategory(c.Id) == null)
+                {
+                    c.Save();
+                }
             }
         }
 
@@ -313,7 +320,15 @@
                             }
                         }
                     }
-                    bi.AddPost(extPost);
+
+                    if (!string.IsNullOrEmpty(bi.AddPost(extPost)))
+                    {
+                        PostCount++;
+                    }
+                    else
+                    {
+                        Utils.Log("Post '{0}' has been skipped" + extPost.BlogPost.Title);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -321,7 +336,7 @@
                 }
             }
             bi.ForceReload();
-            Utils.Log(string.Format("BlogReader.LoadBlogPosts: Completed importing {0} posts", blogsExtended.Count));
+            Utils.Log(string.Format("BlogReader.LoadBlogPosts: Completed importing {0} posts", PostCount));
         }
 
         #endregion
