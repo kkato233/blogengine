@@ -2,11 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.IO;
     using System.Text;
     using System.Xml;
+    using System.Linq;
+    using System.Globalization;
 
     using global::BlogML;
     using global::BlogML.Xml;
@@ -19,24 +19,16 @@
         #region Constants and Fields
 
         /// <summary>
-        ///     The blog tags.
-        /// </summary>
-        private readonly Dictionary<string, StringCollection> tags = new Dictionary<string, StringCollection>();
-
-        /// <summary>
         ///     The xml data.
         /// </summary>
         private string xmlData = string.Empty;
 
         /// <summary>
-        ///     The author lookup.
-        /// </summary>
-        private StringDictionary authorLookup;
-
-        /// <summary>
         ///     The category lookup.
         /// </summary>
-        private StringDictionary categoryLookup;
+        private List<Category> categoryLookup = new List<Category>();
+
+        private List<BlogMlExtendedPost> blogsExtended = new List<BlogMlExtendedPost>();
 
         #endregion
 
@@ -49,7 +41,7 @@
         {
             set
             {
-                this.xmlData = value;
+                xmlData = value;
             }
         }
 
@@ -78,68 +70,39 @@
         /// </returns>
         public override bool Import()
         {
-            var retVal = true;
-            this.Message = string.Empty;
-
+            Message = string.Empty;
             var blog = new BlogMLBlog();
-
-            this.LoadTags();
             try
             {
-                blog = BlogMLSerializer.Deserialize(this.XmlReader);
+                blog = BlogMLSerializer.Deserialize(XmlReader);
             }
             catch (Exception ex)
             {
-                retVal = false;
-                this.Message = string.Format("BlogReader.Import: BlogML could not load with 2.0 specs. {0}", ex.Message);
-                Utils.Log(this.Message);
+                Message = string.Format("BlogReader.Import: BlogML could not load with 2.0 specs. {0}", ex.Message);
+                Utils.Log(Message);
+                return false;
             }
 
-            // Setup Web Service Connection
-            var blogService = new BlogImporter();
-
-            // Load Categories in StringDictionary
-            this.categoryLookup = new StringDictionary();
-            foreach (var cat in blog.Categories)
+            try
             {
-                this.categoryLookup.Add(cat.ID, cat.Title);
-            }
+                LoadFromXmlDocument();
 
-            // Load Authors in StringDictionary
-            this.authorLookup = new StringDictionary();
-            foreach (var author in blog.Authors)
+                LoadBlogCategories(blog);
+
+                LoadBlogExtendedPosts(blog);
+
+                LoadBlogPosts();
+
+                Message = string.Format("Success; Loaded {0} new posts", blog.Posts.Count);
+            }
+            catch (Exception ex)
             {
-                this.authorLookup.Add(author.ID, author.Title);
+                Message = string.Format("BlogReader.Import: {0}", ex.Message);
+                Utils.Log(Message);
+                return false;
             }
 
-            // Load Posts & Pages (Categories are processed with Posts)
-            foreach (var post in blog.Posts)
-            {
-                try
-                {
-                    if (post.PostType == BlogPostTypes.Normal)
-                    {
-                        this.LoadBlogPost(blogService, post);
-                    }
-                    else
-                    {
-                        LoadBlogPage(blogService, post);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    retVal = false;
-                    this.Message = string.Format("BlogReader.Import: {0}", ex.Message);
-                    Utils.Log(this.Message);
-                }
-            }
-
-            this.Message = string.Format("Success; Loaded {0} new posts", blog.Posts.Count);
-
-            // When done, force blog to reload posts.
-            blogService.ForceReload();
-
-            return retVal;
+            return true;
         }
 
         #endregion
@@ -147,149 +110,218 @@
         #region Methods
 
         /// <summary>
-        /// Loads the blog page.
+        /// BlogML does not support tags - load directly fro XML
         /// </summary>
-        /// <param name="blog">
-        /// The blog importer.
-        /// </param>
-        /// <param name="post">
-        /// The BlogML post.
-        /// </param>
-        private static void LoadBlogPage(BlogImporter blog, BlogMLPost post)
-        {
-            // TODO: Load Pages?
-
-            // Nothing to test with yet
-        }
-
-        /// <summary>
-        /// Loads the blog post.
-        /// </summary>
-        /// <param name="blog">
-        /// The blog importer.
-        /// </param>
-        /// <param name="post">
-        /// The BlogML post.
-        /// </param>
-        private void LoadBlogPost(BlogImporter blog, BlogMLPost post)
-        {
-            var import = new BlogImporter.ImportPost
-                {
-                    Title = post.Title, 
-                    Author = this.Author == string.Empty ? this.authorLookup[post.Authors[0].Ref] : this.Author, 
-                    PostDate = post.DateCreated, 
-                    Description = post.Excerpt.UncodedText, 
-                    Publish = true, 
-                    Content = post.Content.UncodedText
-                };
-
-            // Categories
-            var categories = new Collection<string>();
-            if (post.Categories.Count > 0)
-            {
-                for (var i = 0; i < post.Categories.Count; i++)
-                {
-                    categories.Add(this.categoryLookup[post.Categories[i].Ref]);
-                }
-            }
-
-            import.Categories = categories;
-
-            // Tags
-            var postTags = this.tags[import.Title];
-            if (postTags != null)
-            {
-                import.Tags = new Collection<string>();
-
-                foreach (var s in postTags)
-                {
-                    import.Tags.Add(s);
-                }
-            }
-
-            // Save Post
-            var postId = blog.AddPost(import, post.PostUrl, this.RemoveDuplicates);
-
-            // Save Comments
-            foreach (BlogMLComment comment in post.Comments)
-            {
-                if (this.ApprovedCommentsOnly)
-                {
-                    if (comment.Approved)
-                    {
-                        blog.AddComment(
-                            postId,
-                            comment.UserName,
-                            comment.UserEMail,
-                            comment.UserUrl,
-                            comment.Content.UncodedText,
-                            comment.DateCreated,
-                            true);
-                    }
-                }
-                else
-                {
-                    blog.AddComment(
-                        postId,
-                        comment.UserName,
-                        comment.UserEMail,
-                        comment.UserUrl,
-                        comment.Content.UncodedText,
-                        comment.DateCreated);
-                }
-            }
-        }
-
-        /// <summary>
-        /// BlogML does not support tags, but BlogEngine exporter does.
-        ///     Grab tags for each post directly from XML instead of using BlogML object
-        /// </summary>
-        private void LoadTags()
+        private void LoadFromXmlDocument()
         {
             var doc = new XmlDocument();
-            var tagCollection = new StringCollection();
-
-            this.tags.Clear();
-            doc.Load(this.XmlReader);
-
+            doc.Load(XmlReader);
             var posts = doc.GetElementsByTagName("post");
 
             foreach (XmlNode post in posts)
             {
-                var title = string.Empty;
-                tagCollection.Clear();
+                var blogX = new BlogMlExtendedPost();
+
+                if(post.Attributes != null)
+                    blogX.PostUrl = post.Attributes["post-url"].Value;
 
                 if (post.ChildNodes.Count <= 0)
                 {
+                    blogsExtended.Add(blogX);
                     continue;
                 }
 
                 foreach (XmlNode child in post.ChildNodes)
                 {
-                    if (child.Name == "title")
+                    if (child.Name == "tags")
                     {
-                        title = child.InnerText;
-                    }
-
-                    if (child.Name != "tags")
-                    {
-                        continue;
-                    }
-
-                    foreach (XmlNode tag in child.ChildNodes)
-                    {
-                        if (tag.Attributes != null)
+                        foreach (XmlNode tag in child.ChildNodes)
                         {
-                            tagCollection.Add(tag.Attributes["ref"].Value);
+                            if (tag.Attributes != null)
+                            {
+                                if (blogX.Tags == null) blogX.Tags = new StateList<string>();
+                                blogX.Tags.Add(tag.Attributes["ref"].Value);
+                            }
                         }
                     }
-                }
 
-                if (tagCollection.Count > 0)
+                    if(child.Name == "comments")
+                        LoadBlogComments(blogX, child);
+
+                    if (child.Name == "trackbacks")
+                        LoadBlogTrackbacks(blogX, child);
+                }
+                blogsExtended.Add(blogX);
+            }
+        }
+
+        /// <summary>
+        /// Lost post comments from xml file
+        /// </summary>
+        /// <param name="blogX">extended blog</param>
+        /// <param name="child">comments xml node</param>
+        private static void LoadBlogComments(BlogMlExtendedPost blogX, XmlNode child)
+        {
+            foreach (XmlNode com in child.ChildNodes)
+            {
+                if(com.Attributes != null)
                 {
-                    this.tags.Add(title, tagCollection);
+                    var c = new Comment
+                                {
+                                    Id = new Guid(com.Attributes["id"].Value),
+                                    Author = com.Attributes["user-name"].Value,
+                                    Email = com.Attributes["user-email"].Value,
+                                    ParentId = new Guid(com.Attributes["parentid"].Value),
+                                    IP = com.Attributes["user-ip"].Value,
+                                    DateCreated = DateTime.ParseExact(com.Attributes["date-created"].Value,
+                                                                      "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
+                                };
+
+                    if(!string.IsNullOrEmpty(com.Attributes["user-url"].Value))
+                        c.Website = new Uri(com.Attributes["user-url"].Value);
+
+                    c.IsApproved = bool.Parse(com.Attributes["approved"].Value);
+
+                    foreach (XmlNode comNode in com.ChildNodes)
+                    {
+                        if(comNode.Name == "content")
+                        {
+                            c.Content = comNode.InnerText;
+                        }
+                    }
+                    if(blogX.Comments == null) blogX.Comments = new List<Comment>();
+                    blogX.Comments.Add(c);
                 }
             }
+        }
+
+        /// <summary>
+        /// Lost post trackbacks and pingbacks from xml file
+        /// </summary>
+        /// <param name="blogX">extended blog</param>
+        /// <param name="child">comments xml node</param>
+        private static void LoadBlogTrackbacks(BlogMlExtendedPost blogX, XmlNode child)
+        {
+            foreach (XmlNode com in child.ChildNodes)
+            {
+                if (com.Attributes != null)
+                {
+                    var c = new Comment
+                    {
+                        Id = new Guid(com.Attributes["id"].Value), 
+                        IP = "127.0.0.1",
+                        IsApproved = bool.Parse(com.Attributes["approved"].Value),
+                        DateCreated = DateTime.ParseExact(com.Attributes["date-created"].Value,
+                                                          "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
+                    };
+
+                    if (!string.IsNullOrEmpty(com.Attributes["url"].Value))
+                        c.Website = new Uri(com.Attributes["url"].Value);
+
+                    foreach (XmlNode comNode in com.ChildNodes)
+                    {
+                        if (comNode.Name == "title")
+                        {
+                            c.Content = comNode.InnerText;
+                        }
+                    }
+
+                    c.Email = c.Content.ToLowerInvariant().Contains("pingback") ? "pingback" : "trackback";
+                    c.Author = c.Email;
+
+                    if (blogX.Comments == null) blogX.Comments = new List<Comment>();
+                    blogX.Comments.Add(c);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Load blog categories
+        /// </summary>
+        /// <param name="blog">BlogML blog</param>
+        private void LoadBlogCategories(BlogMLBlog blog)
+        {
+            foreach (var cat in blog.Categories)
+            {
+                var c = new Category
+                {
+                    Id = new Guid(cat.ID),
+                    Title = cat.Title,
+                    Description = string.IsNullOrEmpty(cat.Description) ? "" : cat.Description,
+                    DateCreated = cat.DateCreated,
+                    DateModified = cat.DateModified
+                };
+
+                if (!string.IsNullOrEmpty(cat.ParentRef) && cat.ParentRef != "0")
+                    c.Parent = new Guid(cat.ParentRef);
+
+                if(Category.GetCategory(c.Id) == null)
+                    c.Save();
+                
+                categoryLookup.Add(c);
+            }
+        }
+
+        /// <summary>
+        /// extended post has all BlogML plus fields not supported
+        /// by BlogML like tags. here we assign BlogML post
+        /// to extended matching on post URL 
+        /// </summary>
+        /// <param name="blog">BlogML blog</param>
+        private void LoadBlogExtendedPosts(BlogMLBlog blog)
+        {
+            foreach (var post in blog.Posts)
+            {
+                if (post.PostType == BlogPostTypes.Normal)
+                {
+                    BlogMLPost p = post;
+                    blogsExtended.Where(b => b.PostUrl == p.PostUrl).FirstOrDefault().BlogPost = post;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the blog posts.
+        /// </summary>
+        private void LoadBlogPosts()
+        {
+            var bi = new BlogImporter();
+            Utils.Log("BlogReader.LoadBlogPosts: Start importing posts");
+
+            foreach (BlogMlExtendedPost extPost in blogsExtended)
+            {
+                try
+                {
+                    BlogMlExtendedPost post = extPost;
+
+                    if (extPost.BlogPost.Categories.Count > 0)
+                    {
+                        for (var i = 0; i < extPost.BlogPost.Categories.Count; i++)
+                        {
+                            int i2 = i;
+                            var cId = new Guid(post.BlogPost.Categories[i2].Ref);
+
+                            foreach (var category in categoryLookup)
+                            {
+                                if (category.Id == cId)
+                                {
+                                    if (extPost.Categories == null)
+                                        extPost.Categories = new StateList<Category>();
+
+                                    extPost.Categories.Add(category);
+                                }
+                            }
+                        }
+                    }
+                    bi.AddPost(extPost);
+                }
+                catch (Exception ex)
+                {
+                    Utils.Log("BlogReader.LoadBlogPosts: " + ex.Message);
+                }
+            }
+            bi.ForceReload();
+            Utils.Log(string.Format("BlogReader.LoadBlogPosts: Completed importing {0} posts", blogsExtended.Count));
         }
 
         #endregion
