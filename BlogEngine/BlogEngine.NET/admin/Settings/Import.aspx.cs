@@ -39,10 +39,10 @@ namespace admin.Settings
 
                 if(reader.Import())
                 {
-                    tmpl = string.Format(tmpl, "success", "Import completed");
+                    tmpl = string.Format(tmpl, "success", reader.Message);
                 }else
                 {
-                    tmpl = string.Format(tmpl, "warning", "Import failed");
+                    tmpl = string.Format(tmpl, "warning", reader.Message.Replace("'", "`").Replace("\"", "`").Replace(Environment.NewLine, " "));
                 }
 
                 ClientScript.RegisterStartupScript(this.GetType(), "ImportDone", tmpl);
