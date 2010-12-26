@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Import.aspx.cs" Inherits="admin.Settings.Import" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">    
 	<div class="content-box-outer">
