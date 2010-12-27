@@ -133,7 +133,7 @@
     <value>Панель управления</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>Расширенный</value>
+    <value>Продвинутые</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
     <value>Расширенные настройки</value>
@@ -771,5 +771,200 @@
   </data>
   <data name="viewSource" xml:space="preserve">
     <value>Исходник</value>
+  </data>
+  <data name="addCommentsToPages" xml:space="preserve">
+    <value>Разрешать комментарии на страницах</value>
+  </data>
+  <data name="addNewRole" xml:space="preserve">
+    <value>Создать роль</value>
+  </data>
+  <data name="addNewUser" xml:space="preserve">
+    <value>Создать пользователя</value>
+  </data>
+  <data name="addToPages" xml:space="preserve">
+    <value>В дополнение к записям, разрешить комментарии на страницах</value>
+  </data>
+  <data name="allowRemoteFileDownloads" xml:space="preserve">
+    <value>Разрешить загрузку удалённых файлов</value>
+  </data>
+  <data name="allowRemoteFileDownloadsDescription" xml:space="preserve">
+    <value>Разрешить серверу загружать/обрабатывать/кэшировть ресурсы с других сайтов</value>
+  </data>
+  <data name="appearance" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="commentSettings" xml:space="preserve">
+    <value>Настройки комментариев</value>
+  </data>
+  <data name="commentsPerPage" xml:space="preserve">
+    <value>Комментариев на странице</value>
+  </data>
+  <data name="compressWebResource" xml:space="preserve">
+    <value>Сжать WebResource.axd</value>
+  </data>
+  <data name="compressWebResourceDescription" xml:space="preserve">
+    <value>Может нарушить работу нестандартных приложений</value>
+  </data>
+  <data name="confirmPassword" xml:space="preserve">
+    <value>Подтвердить пароль</value>
+  </data>
+  <data name="copyRightsFrom" xml:space="preserve">
+    <value>Скопировать права у...</value>
+  </data>
+  <data name="customCode" xml:space="preserve">
+    <value>Дополнительный код</value>
+  </data>
+  <data name="defaultAnonymousRole" xml:space="preserve">
+    <value>Стандартная роль Аноним</value>
+  </data>
+  <data name="defaultEditorsRole" xml:space="preserve">
+    <value>Стандартная роль Редактор</value>
+  </data>
+  <data name="developmentMode" xml:space="preserve">
+    <value>Режим разработки</value>
+  </data>
+  <data name="developmentModeCheckboxMessage" xml:space="preserve">
+    <value>Используется для локального тестирования</value>
+  </data>
+  <data name="disqusSettings" xml:space="preserve">
+    <value>Настройки Disqus</value>
+  </data>
+  <data name="disqusShortName" xml:space="preserve">
+    <value>Сокращённое название вашего сайта в Disqus</value>
+  </data>
+  <data name="disqusSignupMessage" xml:space="preserve">
+    <value>Для того чтобы использовать Disqus вместо встроенной системы комментариев, нужно сначала зарегистрироваться на &lt;a href="http://www.disqus.com"&gt;disqus.com&lt;/a&gt;</value>
+  </data>
+  <data name="editingRightsForRole" xml:space="preserve">
+    <value>Редактирование прав для роли</value>
+  </data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>Разрешить вложенные комментарии</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>Тема должна поддерживать вкладыши</value>
+  </data>
+  <data name="enableEnclosures" xml:space="preserve">
+    <value>Включить Enclosure (поддержка подкастинка)</value>
+  </data>
+  <data name="enableErrorLogging" xml:space="preserve">
+    <value>Включить регистрацию ошибок</value>
+  </data>
+  <data name="enableErrorLoggingDescription" xml:space="preserve">
+    <value>Ошибки будут отправляться всем зарегистрированным приложениям</value>
+  </data>
+  <data name="enablePasswordReset" xml:space="preserve">
+    <value>Включить возможность восстановления пароля</value>
+  </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Включить пингбэки</value>
+  </data>
+  <data name="enableSelfRegistration" xml:space="preserve">
+    <value>Включить возможность самостоятельной регистрации</value>
+  </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Включить трэкбэки</value>
+  </data>
+  <data name="feed" xml:space="preserve">
+    <value>Синдикация</value>
+  </data>
+  <data name="filters" xml:space="preserve">
+    <value>Фильтры</value>
+  </data>
+  <data name="findPosition" xml:space="preserve">
+    <value>Определить координаты</value>
+  </data>
+  <data name="maximumRemoteFileSize" xml:space="preserve">
+    <value>Максимальный размер загружаемого файла</value>
+  </data>
+  <data name="maximumRemoteFileSizeDescription" xml:space="preserve">
+    <value>Максимальный размер файла в байтах для загрузки. 0 значит без ограничений.</value>
+  </data>
+  <data name="mobileTheme" xml:space="preserve">
+    <value>Мобильная тема</value>
+  </data>
+  <data name="newUserRoles" xml:space="preserve">
+    <value>Роли нового пользователя</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>Количество букв</value>
+  </data>
+  <data name="otherSettings" xml:space="preserve">
+    <value>Дополнительные настройки</value>
+  </data>
+  <data name="passwordAndConfirmPasswordMismatch" xml:space="preserve">
+    <value>Пароли не совпадают</value>
+  </data>
+  <data name="pingService" xml:space="preserve">
+    <value>Ping-сервисы</value>
+  </data>
+  <data name="profile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="receive" xml:space="preserve">
+    <value>Получать</value>
+  </data>
+  <data name="remoteTimeout" xml:space="preserve">
+    <value>Максимальное время на удалённый вызов</value>
+  </data>
+  <data name="remoteTimeoutDescription" xml:space="preserve">
+    <value>Время в миллисекундах на ожидание загрузки удалённого ресурса (изображения, скрипта и т.д.)</value>
+  </data>
+  <data name="requireSslForMetaWeblogApi" xml:space="preserve">
+    <value>Требовать SSL для MetaWeblog API</value>
+  </data>
+  <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
+    <value>Работать с MetaWeblog API только через безопасный SSL протокол</value>
+  </data>
+  <data name="roles" xml:space="preserve">
+    <value>Роли</value>
+  </data>
+  <data name="rules" xml:space="preserve">
+    <value>Правила</value>
+  </data>
+  <data name="securitySettings" xml:space="preserve">
+    <value>Настройки безопасности</value>
+  </data>
+  <data name="selfRegistrationInitialRole" xml:space="preserve">
+    <value>Роль используемая для самостоятельной регистрации</value>
+  </data>
+  <data name="send" xml:space="preserve">
+    <value>Отправлять</value>
+  </data>
+  <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
+    <value>Краткое описание только для списков по категориям и меткам</value>
+  </data>
+  <data name="showPingBacks" xml:space="preserve">
+    <value>Показывать пингбэки и трэкбэки</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Показывать линки к предыдущей/следующей записи в списке</value>
+  </data>
+  <data name="smtpServer" xml:space="preserve">
+    <value>SMTP сервер</value>
+  </data>
+  <data name="testEmailSettings" xml:space="preserve">
+    <value>Проверить настройки</value>
+  </data>
+  <data name="themeCookieName" xml:space="preserve">
+    <value>Имя переменной для темы</value>
+  </data>
+  <data name="trackingScript" xml:space="preserve">
+    <value>Добавить код в конец HTML страницы</value>
+  </data>
+  <data name="turnDisqusOnOff" xml:space="preserve">
+    <value> Включить или выключить Disqus</value>
+  </data>
+  <data name="useBlogNameInPageTitles" xml:space="preserve">
+    <value>Использовать имя блога в титулах страниц</value>
+  </data>
+  <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
+    <value>Добавлять имя блога в начало титула страницы</value>
+  </data>
+  <data name="useDisqusAsCommentProvider" xml:space="preserve">
+    <value>Использовать Disqus как систему для комментариев</value>
   </data>
 </root>

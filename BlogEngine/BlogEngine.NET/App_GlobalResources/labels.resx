@@ -1588,4 +1588,46 @@
   <data name="viewSource" xml:space="preserve">
     <value>View source</value>
   </data>
+  <data name="addNewUser" xml:space="preserve">
+    <value>Add new user</value>
+  </data>
+  <data name="appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="commentSettings" xml:space="preserve">
+    <value>Comment settings</value>
+  </data>
+  <data name="copyRightsFrom" xml:space="preserve">
+    <value>Copy Rights From</value>
+  </data>
+  <data name="customCode" xml:space="preserve">
+    <value>Custom code</value>
+  </data>
+  <data name="defaultAnonymousRole" xml:space="preserve">
+    <value>default Anonymous role</value>
+  </data>
+  <data name="defaultEditorsRole" xml:space="preserve">
+    <value>default Editors role</value>
+  </data>
+  <data name="editingRightsForRole" xml:space="preserve">
+    <value>Editing Rights for Role</value>
+  </data>
+  <data name="feed" xml:space="preserve">
+    <value>Feed</value>
+  </data>
+  <data name="newUserRoles" xml:space="preserve">
+    <value>New user Roles</value>
+  </data>
+  <data name="otherSettings" xml:space="preserve">
+    <value>Other settings</value>
+  </data>
+  <data name="smtpServer" xml:space="preserve">
+    <value>SMTP server</value>
+  </data>
+  <data name="turnDisqusOnOff" xml:space="preserve">
+    <value>Turn Disqus on or off</value>
+  </data>
+  <data name="useDisqusAsCommentProvider" xml:space="preserve">
+    <value>Use Disqus as a comment provider</value>
+  </data>
 </root>
