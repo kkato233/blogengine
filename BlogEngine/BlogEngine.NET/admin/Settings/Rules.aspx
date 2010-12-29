@@ -46,7 +46,7 @@
                         <asp:ListItem Text="5" />
                     </asp:DropDownList> 
                     <span><%=labels.authorApproved%></span> 
-                    <span class="insetHelp">To disable this rule, set to "0"</span>
+                    <span class="insetHelp"><%=labels.toDisableSetTo0 %></span>
                 </li>
                 <li>
                     <span class="filler"></span>
@@ -63,7 +63,7 @@
                         <asp:ListItem Text="5" />
                     </asp:DropDownList> 
                     <span><%=labels.authorRejected%></span>
-                    <span class="insetHelp">To disable this rule, set to "0"</span>
+                    <span class="insetHelp"><%=labels.toDisableSetTo0 %></span>
                 </li>
                 <li>
                     <span class="filler"></span>
@@ -168,7 +168,7 @@
                         <PagerStyle HorizontalAlign="Center"/>
                 </asp:GridView>
             </div>
-            <h2>Anti-spam Services</h2>
+            <h2><%=labels.antiSpamServices %></h2>
 
             <div id="Container"></div>
         
