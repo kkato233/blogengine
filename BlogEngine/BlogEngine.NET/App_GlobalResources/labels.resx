@@ -1630,4 +1630,28 @@
   <data name="useDisqusAsCommentProvider" xml:space="preserve">
     <value>Use Disqus as a comment provider</value>
   </data>
+  <data name="antiSpamServices" xml:space="preserve">
+    <value>Anti-spam Services</value>
+  </data>
+  <data name="exportIntoBlogML" xml:space="preserve">
+    <value>Export your blog's content into XML file (BlogML)</value>
+  </data>
+  <data name="importFromFile" xml:space="preserve">
+    <value>Import from file</value>
+  </data>
+  <data name="importWithClickOnce" xml:space="preserve">
+    <value>Import with click-once</value>
+  </data>
+  <data name="pingServiceUrl" xml:space="preserve">
+    <value>Ping service URL</value>
+  </data>
+  <data name="runClickOnceApplicationToImport" xml:space="preserve">
+    <value>Run click-once application to import content saved as BlogML or RSS 2.0 into your blog. &lt;i&gt;Internet Explorer only.&lt;/i&gt;</value>
+  </data>
+  <data name="selectSavedBlogMlFle" xml:space="preserve">
+    <value>Select saved BlogML file and import it into your blog. Any browser, BlogML only.</value>
+  </data>
+  <data name="toDisableSetTo0" xml:space="preserve">
+    <value>To disable, set to "0"</value>
+  </data>
 </root>
