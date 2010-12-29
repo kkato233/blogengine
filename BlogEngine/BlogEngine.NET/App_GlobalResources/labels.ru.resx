@@ -967,4 +967,64 @@
   <data name="useDisqusAsCommentProvider" xml:space="preserve">
     <value>Использовать Disqus как систему для комментариев</value>
   </data>
+  <data name="addFilter" xml:space="preserve">
+    <value>Добавить фильтер</value>
+  </data>
+  <data name="addToWhiteList" xml:space="preserve">
+    <value>Добавить в рекомендательный список если по крайне мере</value>
+  </data>
+  <data name="alwaysTrust" xml:space="preserve">
+    <value>Если пользователь авторизирован, автоматически утвержадать комментарии</value>
+  </data>
+  <data name="antiSpamServices" xml:space="preserve">
+    <value>Анти-спам сервисы</value>
+  </data>
+  <data name="authorApproved" xml:space="preserve">
+    <value>коментариев автора были утверждены</value>
+  </data>
+  <data name="authorBlocked" xml:space="preserve">
+    <value>Авторы удалённых комментариев автоматически попадают в чёрный список</value>
+  </data>
+  <data name="authorRejected" xml:space="preserve">
+    <value>оментариев автора были отвергнуты</value>
+  </data>
+  <data name="blacklistIpOnCommentRejection" xml:space="preserve">
+    <value>Автоматически заносить IP адреса отклонённых комментариев в чёрный список</value>
+  </data>
+  <data name="commentsBlacklist" xml:space="preserve">
+    <value>Записать в чёрный список если по крайне мере</value>
+  </data>
+  <data name="commentsBlockOnDelete" xml:space="preserve">
+    <value>Блокировать авторов удалённых комментариев</value>
+  </data>
+  <data name="exportIntoBlogML" xml:space="preserve">
+    <value>Экспортировать содержание блога в XML (BlogML) файл.</value>
+  </data>
+  <data name="importFromFile" xml:space="preserve">
+    <value>Импортировать файл</value>
+  </data>
+  <data name="importWithClickOnce" xml:space="preserve">
+    <value>Использовать click-once</value>
+  </data>
+  <data name="pingServiceUrl" xml:space="preserve">
+    <value>URL адрес пинг-сервиса</value>
+  </data>
+  <data name="reportMistakesToService" xml:space="preserve">
+    <value>Сообщать об ошибках</value>
+  </data>
+  <data name="runClickOnceApplicationToImport" xml:space="preserve">
+    <value>Загрузить и использовать специальную программу (click-once) для импорта. Работает только с Internet Explorer.</value>
+  </data>
+  <data name="selectSavedBlogMlFle" xml:space="preserve">
+    <value>Выбрать сохранённый BlogML файл и импортировать его содержание в блог.</value>
+  </data>
+  <data name="toDisableSetTo0" xml:space="preserve">
+    <value>Чтобы отключить, установить на ноль</value>
+  </data>
+  <data name="trustAuthenticated" xml:space="preserve">
+    <value>Доверять авторизированным пользователям</value>
+  </data>
+  <data name="whitelistIpOnCommentApproval" xml:space="preserve">
+    <value>Автоматически добавлять IP авторов утверждённых комментариев в рекомендательный список</value>
+  </data>
 </root>
