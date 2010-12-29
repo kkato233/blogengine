@@ -9,7 +9,7 @@
         <LayoutTemplate>
             <div class="accountInfo">
                 <div class="login">
-                    <h1>Login</h1>
+                    <h1><asp:Label runat="server" ID="lblTitle" Text="<%$Resources:labels,login %>"></asp:Label></h1>
                     <div class="field">
                         <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName"><%=Resources.labels.userName %>:</asp:Label>
                         <div class="boxRound">
@@ -27,7 +27,7 @@
                         <asp:Label ID="RememberMeLabel" runat="server" AssociatedControlID="RememberMe" CssClass="inline"><%=Resources.labels.rememberMe %></asp:Label>
                     </div>
                     <div class="submitButton">
-                        <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Login" OnClientClick="return ValidateLogin();" />
+                        <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="<%$Resources:labels,login %>" OnClientClick="return ValidateLogin();" />
                         <asp:PlaceHolder ID="phResetPassword" runat="server">
                             <span>
                                 <asp:HyperLink runat="server" ID="linkForgotPassword" NavigateUrl="~/Account/password-retrieval.aspx"
