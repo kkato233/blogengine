@@ -54,7 +54,7 @@
                     }
                 });
             }
-            $.colorbox.close();
+            closeOverlay();
             return false;
         }
 
