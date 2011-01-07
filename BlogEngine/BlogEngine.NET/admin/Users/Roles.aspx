@@ -47,6 +47,7 @@
         });
 
         function closeOverlay() {
+            $('#txtUserName').val('');
             $('#txtUserNameReq').addClass('hidden');
             $.colorbox.close();
         }
