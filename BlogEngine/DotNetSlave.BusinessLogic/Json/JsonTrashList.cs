@@ -165,12 +165,12 @@
                         if (action == "Purge")
                         {
                             Purge(ar[0], new Guid(ar[1]));
-                            message = "Item(s) purged";
+                            message = string.Format("Item{0} purged",(vals.Length > 1) ? "s" : "");
                         }
                         else if (action == "Restore")
                         {
                             Restore(ar[0], new Guid(ar[1]));
-                            message = "Item(s) restored";
+                            message = string.Format("Item{0} restored", (vals.Length > 1) ? "s" : "");
                         }
                     }
                 }
