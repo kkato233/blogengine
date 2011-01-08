@@ -25,7 +25,7 @@
         /// <summary>
         ///     The extensions.
         /// </summary>
-        private static List<ManagedExtension> extensions = new List<ManagedExtension>();
+		private static Dictionary<string, ManagedExtension> extensions = new Dictionary<string, ManagedExtension>();
 
         /// <summary>
         ///     The new extensions.
@@ -40,12 +40,9 @@
         ///     Gets a collection of extensions
         /// </summary>
         [XmlElement]
-        public static List<ManagedExtension> Extensions
+		public static Dictionary<string, ManagedExtension> Extensions
         {
-            get
-            {
-                return extensions;
-            }
+            get { return extensions; }
         }
 
         /// <summary>
@@ -70,11 +67,11 @@
         /// </param>
         public static void ChangeStatus(string extension, bool enabled)
         {
-            foreach (var x in extensions.Where(x => x.Name == extension))
+            foreach (var x in extensions.Where(x => x.Key == extension))
             {
-                x.Enabled = enabled;
-                var xs = new DataStore.ExtensionSettings(x.Name);
-                xs.SaveSettings(x);
+                x.Value.Enabled = enabled;
+                var xs = new DataStore.ExtensionSettings(x.Key);
+                xs.SaveSettings(x.Value);
                 SaveToCache();
 
                 var configPath = string.Format("{0}Web.Config", HostingEnvironment.ApplicationPhysicalPath);
@@ -94,7 +91,7 @@
         /// </returns>
         public static bool Contains(Type type)
         {
-            return extensions.Any(extension => extension.Name == type.Name);
+            return extensions.Any(extension => extension.Key == type.Name);
         }
 
         /// <summary>
@@ -109,9 +106,8 @@
         public static bool ExtensionEnabled(string extensionName)
         {
             LoadExtensions();
-            extensions.Sort((p1, p2) => String.Compare(p1.Name, p2.Name));
-            var ext = GetExtension(extensionName); 
-            return ext == null ? false : ext.Enabled;
+            ManagedExtension extension = GetExtension(extensionName);
+            return extension == null ? false : extension.Enabled;
         }
 
         /// <summary>
@@ -125,7 +121,9 @@
         /// </returns>
         public static ManagedExtension GetExtension(string extensionName)
         {
-            return extensions.FirstOrDefault(x => x.Name == extensionName);
+            ManagedExtension extension;
+            extensions.TryGetValue(extensionName, out extension);
+            return extension;
         }
 
         /// <summary>
@@ -139,9 +137,8 @@
         /// </returns>
         public static ExtensionSettings GetSettings(string extensionName)
         {
-            return
-                extensions.SelectMany(
-                    x => x.Settings.Where(setting => setting != null && setting.Name == extensionName)).FirstOrDefault();
+			return extensions.SelectMany(
+				x => x.Value.Settings.Where(setting => setting != null && setting.Name == extensionName)).FirstOrDefault();
         }
 
         /// <summary>
@@ -158,9 +155,12 @@
         /// </returns>
         public static ExtensionSettings GetSettings(string extensionName, string settingName)
         {
-            return
-                extensions.Where(x => x.Name == extensionName).SelectMany(
-                    x => x.Settings.Where(setting => setting != null && setting.Name == settingName)).FirstOrDefault();
+            ManagedExtension extension = GetExtension(extensionName);
+            if (extension == null)
+                return null;
+
+        	return extension.Settings.Where(setting => setting != null && setting.Name == settingName).
+        			FirstOrDefault();
         }
 
         /// <summary>
@@ -193,10 +193,10 @@
         /// </returns>
         public static bool ImportSettings(string extensionName, ExtensionSettings settings)
         {
-            var ext = extensions.FirstOrDefault(x => x.Name == extensionName && !x.Initialized(settings));
-            if (ext != null)
+            var ext = extensions.FirstOrDefault(x => x.Key == extensionName && !x.Value.Initialized(settings));
+            if (ext.Value != null)
             {
-                ext.InitializeSettings(settings);
+                ext.Value.InitializeSettings(settings);
             }
 
             SaveToCache();
@@ -255,10 +255,10 @@
         /// </param>
         public static void SaveSettings(string extensionName, ExtensionSettings settings)
         {
-            var ext = extensions.FirstOrDefault(x => x.Name == extensionName);
-            if (ext != null)
+            var ext = extensions.FirstOrDefault(x => x.Key == extensionName);
+            if (ext.Value != null)
             {
-                ext.SaveSettings(settings);
+                ext.Value.SaveSettings(settings);
             }
 
             Save();
@@ -275,8 +275,8 @@
         {
             foreach (var ext in extensions)
             {
-                var xs = new DataStore.ExtensionSettings(ext.Name);
-                xs.SaveSettings(ext);
+                var xs = new DataStore.ExtensionSettings(ext.Key);
+                xs.SaveSettings(ext.Value);
             }
 
             return true;
@@ -310,13 +310,13 @@
         /// </param>
         public static void SetAdminPage(string extension, string url)
         {
-            var x = extensions.FirstOrDefault(ext => ext.Name == extension);
-            if (x == null)
+            var x = extensions.FirstOrDefault(ext => ext.Key == extension);
+            if (x.Value == null)
             {
                 return;
             }
 
-            x.AdminPage = url;
+            x.Value.AdminPage = url;
             SaveToStorage();
             SaveToCache();
         }
@@ -352,13 +352,13 @@
         /// </param>
         public static void ShowSettings(string extensionName, bool flag)
         {
-            var extension = extensions.FirstOrDefault(ext => ext.Name == extensionName);
-            if (extension == null)
+            var extension = extensions.FirstOrDefault(ext => ext.Key == extensionName);
+            if (extension.Value == null)
             {
                 return;
             }
 
-            extension.ShowSettings = flag;
+            extension.Value.ShowSettings = flag;
             Save();
         }
 
@@ -430,7 +430,7 @@
         private static void LoadExtensions()
         {
             if (HttpRuntime.Cache["Extensions"] != null &&
-                ((List<ManagedExtension>)HttpRuntime.Cache["Extensions"]).Count != 0)
+                ((Dictionary<string, ManagedExtension>)HttpRuntime.Cache["Extensions"]).Count != 0)
             {
                 return;
             }
@@ -440,13 +440,13 @@
             var meta = DataStoreExtension("MetaExtension");
             if (meta == null)
             {
-                extensions.Add(new ManagedExtension("MetaExtension", "1.0", "Meta extension", "BlogEngine.net"));
+                extensions.Add("MetaExtension", new ManagedExtension("MetaExtension", "1.0", "Meta extension", "BlogEngine.net"));
             }
             else
             {
-                if (!extensions.Contains(meta))
+				if (!extensions.ContainsKey("MetaExtension"))
                 {
-                    extensions.Add(meta);
+                    extensions.Add("MetaExtension", meta);
                 }
             }
 
@@ -482,8 +482,8 @@
                                     x.Priority = xa.Priority;
                                 }
                             }
-
-                            extensions.Add(x);
+							if (!extensions.ContainsKey(x.Name))
+								extensions.Add(x.Name, x);
                         }
                         catch (Exception e)
                         {

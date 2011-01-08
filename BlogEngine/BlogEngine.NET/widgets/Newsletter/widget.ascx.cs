@@ -20,6 +20,7 @@ namespace Widgets.Newsletter
 
     using BlogEngine.Core;
     using BlogEngine.Core.Providers;
+    using System.Collections.Specialized;
 
     /// <summary>
     /// The widget.
@@ -43,6 +44,16 @@ namespace Widgets.Newsletter
         /// </summary>
         private string callback;
 
+        /// <summary>
+        ///     Whether emails are sent for posts.
+        /// </summary>
+        private const bool SendEmailsForPosts = true;
+
+        /// <summary>
+        ///     Whether emails are sent for pages.
+        /// </summary>
+        private const bool SendEmailsForPages = false;
+
         #endregion
 
         #region Constructors and Destructors
@@ -52,8 +63,10 @@ namespace Widgets.Newsletter
         /// </summary>
         static Widget()
         {
-            Post.Saved += PostSaved;
-            Post.Saving += PostSaving;
+            Post.Saved += PublishableSaved;
+            Post.Saving += PublishableSaving;
+            BlogEngine.Core.Page.Saved += PublishableSaved;
+            BlogEngine.Core.Page.Saving += PublishableSaving;
         }
 
         #endregion
@@ -132,18 +145,18 @@ namespace Widgets.Newsletter
         /// <summary>
         /// Creates the email.
         /// </summary>
-        /// <param name="post">
-        /// The post to mail.
+        /// <param name="publishable">
+        /// The publishable to mail.
         /// </param>
         /// <returns>
         /// The email.
         /// </returns>
-        private static MailMessage CreateEmail(Post post)
+        private static MailMessage CreateEmail(IPublishable publishable)
         {
             var mail = new MailMessage
                 {
-                    Subject = post.Title, 
-                    Body = FormatBodyMail(post), 
+                    Subject = publishable.Title,
+                    Body = FormatBodyMail(publishable), 
                     From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name)
                 };
             return mail;
@@ -171,13 +184,13 @@ namespace Widgets.Newsletter
         ///     [WebRoot]
         ///     [httpBase]
         /// </summary>
-        /// <param name="post">
-        /// The post to format.
+        /// <param name="publishable">
+        /// The publishable to format.
         /// </param>
         /// <returns>
         /// The format body mail.
         /// </returns>
-        private static string FormatBodyMail(Post post)
+        private static string FormatBodyMail(IPublishable publishable)
         {
             var body = new StringBuilder();
             var urlbase = Path.Combine(
@@ -206,9 +219,9 @@ namespace Widgets.Newsletter
                 }
             }
 
-            body = body.Replace("[TITLE]", post.Title);
-            body = body.Replace("[LINK]", post.AbsoluteLink.AbsoluteUri);
-            body = body.Replace("[LINK_DESCRIPTION]", post.Description);
+            body = body.Replace("[TITLE]", publishable.Title);
+            body = body.Replace("[LINK]", publishable.AbsoluteLink.AbsoluteUri);
+            body = body.Replace("[LINK_DESCRIPTION]", publishable.Description);
             body = body.Replace("[WebRoot]", Utils.AbsoluteWebRoot.AbsoluteUri);
             body = body.Replace("[httpBase]", urlbase);
             return body.ToString();
@@ -241,17 +254,17 @@ namespace Widgets.Newsletter
         /// <summary>
         /// Gets the send send newsletter emails.
         /// </summary>
-        /// <param name="postId">
-        /// The post id.
+        /// <param name="publishableId">
+        /// The publishableId id.
         /// </param>
         /// <returns>
         /// Whether send newsletter emails.
         /// </returns>
-        private static bool GetSendSendNewsletterEmails(Guid postId)
+        private static bool GetSendSendNewsletterEmails(Guid publishableId)
         {
             var data = GetSendNewslettersContextData();
 
-            return data.ContainsKey(postId) && data[postId];
+            return data.ContainsKey(publishableId) && data[publishableId];
         }
 
         /// <summary>
@@ -280,7 +293,7 @@ namespace Widgets.Newsletter
         }
 
         /// <summary>
-        /// Handles the Saved event of the Post control.
+        /// Handles the Saved event of the Publishable.
         /// </summary>
         /// <param name="sender">
         /// The source of the event.
@@ -288,11 +301,11 @@ namespace Widgets.Newsletter
         /// <param name="e">
         /// The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.
         /// </param>
-        private static void PostSaved(object sender, SavedEventArgs e)
+        private static void PublishableSaved(object sender, SavedEventArgs e)
         {
-            var post = (Post)sender;
+            var publishable = (IPublishable)sender;
 
-            if (!GetSendSendNewsletterEmails(post.Id))
+            if (!GetSendSendNewsletterEmails(publishable.Id))
             {
                 return;
             }
@@ -306,14 +319,14 @@ namespace Widgets.Newsletter
 
             foreach (XmlNode node in emails)
             {
-                var mail = CreateEmail(post);
+                var mail = CreateEmail(publishable);
                 mail.To.Add(node.InnerText);
                 Utils.SendMailMessageAsync(mail);
             }
         }
 
         /// <summary>
-        /// Handles the Saving event of the Post control.
+        /// Handles the Saving event of the Publishable.
         /// </summary>
         /// <param name="sender">
         /// The source of the event.
@@ -321,27 +334,43 @@ namespace Widgets.Newsletter
         /// <param name="e">
         /// The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.
         /// </param>
-        private static void PostSaving(object sender, SavedEventArgs e)
+        private static void PublishableSaving(object sender, SavedEventArgs e)
         {
-            // Set SendNewsletterEmails to true whenever a post is changing from an unpublished
-            // state to a published state.  To check the published state of this Post before
-            // it was changed, it's necessary to retrieve the post from the datastore since the
-            // post in memory (via Post.GetPost()) will already have the updated values about
-            // to be saved.
-            var post = (Post)sender;
+            // Set SendNewsletterEmails to true whenever a publishable is changing from an unpublished
+            // state to a published state.  To check the published state of this publishable before
+            // it was changed, it's necessary to retrieve the publishable from the datastore since the
+            // publishable in memory (via Post.GetPost() or Page.GetPage()) will already have the
+            // updated values about to be saved.
 
-            SetSendNewsletterEmails(post.Id, false); // default to not sending
+            var publishable = (IPublishable)sender;
 
-            if (e.Action == SaveAction.Insert && post.IsVisibleToPublic)
+            SetSendNewsletterEmails(publishable.Id, false); // default to not sending
+
+            if (publishable is Post && !SendEmailsForPosts)
+                return;
+            else if (publishable is BlogEngine.Core.Page && !SendEmailsForPages)
+                return;
+
+            if (e.Action == SaveAction.Insert && publishable.IsVisibleToPublic)
             {
-                SetSendNewsletterEmails(post.Id, true);
+                SetSendNewsletterEmails(publishable.Id, true);
             }
-            else if (e.Action == SaveAction.Update && post.IsVisibleToPublic)
+            else if (e.Action == SaveAction.Update && publishable.IsVisibleToPublic)
             {
-                var preUpdatePost = BlogService.SelectPost(post.Id);
-                if (preUpdatePost != null && !preUpdatePost.IsVisibleToPublic)
+                var preUpdatePublishable = (IPublishable)null;
+
+                if (publishable is Post)
+                    preUpdatePublishable = (IPublishable)BlogService.SelectPost(publishable.Id);
+                else
+                    preUpdatePublishable = (IPublishable)BlogService.SelectPage(publishable.Id);
+
+                if (preUpdatePublishable != null && !preUpdatePublishable.IsVisibleToPublic)
                 {
-                    SetSendNewsletterEmails(post.Id, true);
+                    // Note, use publishable.Id below instead of preUpdatePublishable.Id because
+                    // when directly calling BlogService.SelectPage or BlogService.SelectPost,
+                    // the Guid ID is not set, and so will be a random, non-matching Guid ID.
+
+                    SetSendNewsletterEmails(publishable.Id, true);
                 }
             }
         }
@@ -384,6 +413,9 @@ namespace Widgets.Newsletter
         {
             try
             {
+                if (!Utils.IsEmailValid(email)) { return; }
+                email = email.Trim();
+
                 LoadEmails();
 
                 if (!DoesEmailExist(email))
