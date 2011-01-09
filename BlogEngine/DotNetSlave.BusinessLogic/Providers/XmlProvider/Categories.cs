@@ -101,6 +101,7 @@
         {
             var categories = Category.Categories;
             categories.Add(category);
+            categories.Sort();
 
             this.WriteToFile();
         }
@@ -134,6 +135,7 @@
             var categories = Category.Categories;
             categories.Remove(category);
             categories.Add(category);
+            categories.Sort();
 
             this.WriteToFile();
         }
