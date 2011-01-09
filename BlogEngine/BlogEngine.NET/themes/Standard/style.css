@@ -189,27 +189,12 @@ div.widget h4{
 	letter-spacing: 1px;
 }
 
-div.widget a.edit, div.widget a.move{
+div.widget a.edit, div.widget a.move, div.widget a.delete{
 	font-size: 85%;
 	font-weight: normal;
 	float: right;
 	z-index: 1;
-	margin-left: 5px;
-}
-
-div.widget a.delete{
-	font-weight: bold;
-	color: #999999;
-	float: right;
-	margin-left: 5px;
-	position: relative;
-	top: -3px;
-	z-index: 1;
-	text-decoration: none;
-}
-
-div.widget a.delete:hover{
-	color: black;
+	margin-left: 2px;
 }
 
 .widgetzone .widget ul {
@@ -234,8 +219,12 @@ div.widget a.delete:hover{
 }
 
 .widgetzone div#moveWidgetToContainer {
-	text-align: right;
-	margin: 3px;
+	display:block;
+	margin: 5px;
+}
+
+#moveWidgetTo {
+    margin-bottom: 5px;
 }
 
 /*----------------------------
