@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Comments.aspx.cs" Inherits="Admin.Comments.Settings" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Comments.aspx.cs" Inherits="admin.Comments.Settings" %>
 <%@ Import Namespace="Resources"%>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
@@ -133,7 +133,7 @@
             <div class="clear"></div>
     
             <div class="action_buttons">
-                <asp:Button runat="server" class="btn primary" ID="btnSave" Text="<%=Resources.labels.saveSettings %>" />&nbsp;
+                <asp:Button runat="server" class="btn primary" ID="btnSave" Text="<%$Resources:labels, saveSettings %>" />&nbsp;
                 <span class="loader">&nbsp;</span>
             </div>
             

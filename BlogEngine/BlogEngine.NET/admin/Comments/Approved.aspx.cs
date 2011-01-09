@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using System.Web.Services;
-    using BlogEngine.Core;
     using BlogEngine.Core.Json;
     using App_Code;
 

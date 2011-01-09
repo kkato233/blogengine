@@ -1,6 +1,4 @@
-﻿using System.Web.UI;
-
-namespace admin.Settings
+﻿namespace admin.Settings
 {
     using System;
     using System.IO;
