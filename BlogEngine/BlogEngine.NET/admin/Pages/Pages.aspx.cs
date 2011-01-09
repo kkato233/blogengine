@@ -7,14 +7,6 @@
 namespace Admin.Pages
 {
     using System;
-    using System.IO;
-    using System.Linq;
-    using System.Web.UI;
-    using System.Web.UI.HtmlControls;
-    using System.Web.UI.WebControls;
-
-    using BlogEngine.Core;
-
     using Resources;
 
     using Page = System.Web.UI.Page;
@@ -34,9 +26,9 @@ namespace Admin.Pages
         protected override void OnInit(EventArgs e)
         {
             WebUtils.CheckRightsForAdminPagesPages(false);
-            this.MaintainScrollPositionOnPostBack = true;
+            MaintainScrollPositionOnPostBack = true;
           
-            this.Page.Title = labels.pages;
+            Page.Title = labels.pages;
 
             base.OnInit(e);
         }

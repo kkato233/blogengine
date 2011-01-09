@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true"
-    CodeFile="PingServices.aspx.cs" Inherits="admin_Pages_PingServices" Title="Ping services" %>
+    CodeFile="PingServices.aspx.cs" Inherits="admin.Settings.PingServices" Title="Ping services" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
