@@ -7,11 +7,6 @@
             var txtPwd2 = $('#txtPassword2').val();
             var txtEmail = $('#txtEmail').val();
 
-            $('#txtUserNameReq').addClass('hidden');
-            $('#txtPasswordReq').addClass('hidden');
-            $('#txtPasswordMatch').addClass('hidden');
-            $('#txtEmailReq').addClass('hidden');
-
             var roles = new Array();
             var cnt = 0;
             $.each($('.chkRole:checked'), function (i, v) {
@@ -59,7 +54,7 @@
                     }
                 });
             }
-            $.colorbox.close();
+            closeOverlay();
             return false;
         }
 
@@ -75,6 +70,16 @@
         });
 
         function closeOverlay() {
+            $('#txtUserNameReq').addClass('hidden');
+            $('#txtPasswordReq').addClass('hidden');
+            $('#txtPasswordMatch').addClass('hidden');
+            $('#txtEmailReq').addClass('hidden');
+
+            $('#txtUserName').val('');
+            $('#txtPassword').val('');
+            $('#txtPassword2').val('');
+            $('#txtEmail').val('');
+
             $.colorbox.close();
         }
     </script>
@@ -122,6 +127,7 @@
                 </asp:PlaceHolder>
 				<input type="submit" class="btn primary rounded" value="<%=Resources.labels.save %>" onclick="return AddUser(this);" id="btnNewUser" />
 				<%=Resources.labels.or %> <a href="#" onclick="closeOverlay();"><%=Resources.labels.cancel %></a>
+                <br /><br />
 			</div>
             </div>
             <div id="Container"></div>

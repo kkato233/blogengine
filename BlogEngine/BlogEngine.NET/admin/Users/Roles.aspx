@@ -11,7 +11,7 @@
                 return false;
             }
             else {
-                $('#txtUserNameReq').addClass('hidden');
+                //$('#txtUserNameReq').addClass('hidden'); //moved to closeOverlay
                 var dto = { "roleName": txtUser };
 
                 $.ajax({
@@ -47,6 +47,8 @@
         });
 
         function closeOverlay() {
+            $('#txtUserName').val('');
+            $('#txtUserNameReq').addClass('hidden');
             $.colorbox.close();
         }
     </script>
@@ -69,6 +71,7 @@
 		        <br/><br/>
 		        <input type="submit" class="btn primary rounded" value="<%=Resources.labels.save %>" onclick="return AddRole();" />
 		        <%=Resources.labels.or %> <a href="#" onclick="closeOverlay();"><%=Resources.labels.cancel %></a>
+                <br/><br/>
 	        </div>
             </div>
             <div id="Container"></div>

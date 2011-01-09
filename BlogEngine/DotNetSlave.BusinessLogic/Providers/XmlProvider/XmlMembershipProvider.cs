@@ -10,6 +10,7 @@
     using System.Web;
     using System.Web.Hosting;
     using System.Web.Security;
+    using System.Web.Configuration;
     using System.Xml;
 
     /// <summary>
@@ -579,7 +580,7 @@
 
             if (String.IsNullOrEmpty(path))
             {
-                path = BlogSettings.Instance.StorageLocation + "users.xml";
+                path = String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"] + "users.xml";
             }
 
             if (!VirtualPathUtility.IsAppRelative(path))
