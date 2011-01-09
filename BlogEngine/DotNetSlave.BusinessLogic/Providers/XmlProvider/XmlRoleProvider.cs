@@ -14,6 +14,7 @@
     using System.Web.Security;
     using System.Web.Configuration;
     using System.Xml;
+    using System.IO;
 
 
     /// <summary>
@@ -270,7 +271,7 @@
 
             if (String.IsNullOrEmpty(path))
             {
-                path = String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"] + "roles.xml";
+                path = Path.Combine(String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"], "roles.xml");
             }
 
             if (!VirtualPathUtility.IsAppRelative(path))
