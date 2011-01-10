@@ -564,6 +564,7 @@
         {
             var categories = Category.Categories;
             categories.Add(category);
+            categories.Sort();
 
             using (var conn = this.CreateConnection())
             {
@@ -1551,6 +1552,7 @@
             var categories = Category.Categories;
             categories.Remove(category);
             categories.Add(category);
+            categories.Sort();
 
             using (var conn = this.CreateConnection())
             {
