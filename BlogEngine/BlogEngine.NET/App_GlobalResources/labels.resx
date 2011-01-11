@@ -1654,4 +1654,7 @@
   <data name="toDisableSetTo0" xml:space="preserve">
     <value>To disable, set to "0"</value>
   </data>
+  <data name="cannotDeleteLastAdmin" xml:space="preserve">
+    <value>You cannot delete the last user with rights to create or edit users. Grant these rights to another user first before deleting this user.</value>
+  </data>
 </root>
