@@ -55,7 +55,7 @@ namespace Admin
                 if (!p.IsPublished)
                 {
                     // add to post drafts
-                    DraftPosts.InnerHtml += string.Format("<li><a class='editAction' href=\"Posts/Add_entry.aspx?id={2}\">{0}</a><span class='meta'>Saved: {1} by {3}<span></li>", p.Title, p.DateModified.ToShortDateString() + " at " + p.DateModified.ToShortTimeString(), p.Id, p.Author);
+                    DraftPosts.InnerHtml += string.Format("<li><a class='editAction' href=\"Posts/Add_entry.aspx?id={2}\">{0}</a><span class='meta'>Saved: {1} by {3}<span></li>", Context.Server.HtmlEncode(p.Title), p.DateModified.ToShortDateString() + " at " + p.DateModified.ToShortTimeString(), p.Id, p.Author);
                     DraftPosts.Visible = true;
                     DraftPostCount ++;
                 }
