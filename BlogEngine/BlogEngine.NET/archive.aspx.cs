@@ -115,7 +115,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	private static HtmlGenericControl CreateRowHeader(Category cat, string name, int count)
 	{
 		HtmlGenericControl h2 = new HtmlGenericControl("h2");
-		h2.Attributes["id"] = Utils.RemoveIllegalCharacters(name);
+		h2.Attributes["id"] = "cat-" + Utils.RemoveIllegalCharacters(name);
 
         if (cat != null)
 		{

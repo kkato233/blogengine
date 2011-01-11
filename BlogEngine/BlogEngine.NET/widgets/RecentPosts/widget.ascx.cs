@@ -181,8 +181,7 @@ namespace Widgets.RecentPosts
                 {
                     rate = null;
                 }
-
-                if (post.Raters == 0)
+                else if (post.Raters == 0)
                 {
                     rate = string.Format("<span>{0}</span>", labels.notRatedYet);
                 }

@@ -172,9 +172,12 @@
             var dt = customFilters.GetDataTable();
             var i = 0;
 
+            // rejecting auto-approved comment; all made mistake letting it through
+            bool spamMissedByAll = comment.IsApproved && comment.ModeratedBy == "Auto";
+
             foreach (var filterName in from DataRow row in dt.Rows select row[0].ToString())
             {
-                if (filterName == m)
+                if (filterName == m || spamMissedByAll)
                 {
                     var customFilter = GetCustomFilter(filterName);
 
@@ -188,7 +191,7 @@
                         if (BlogSettings.Instance.CommentReportMistakes)
                             customFilter.Report(comment);
                     }
-                    break;
+                    if (!spamMissedByAll) break;
                 }
                 i++;
             }

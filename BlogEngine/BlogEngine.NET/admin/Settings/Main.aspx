@@ -146,7 +146,7 @@
                         <asp:TextBox runat="server" ID="txtPostsPerPage" Width="50" MaxLength="4" CssClass="required number" />
                     </li>
                     <li>
-                        <label class="lbl">Appearance</label>
+                        <label class="lbl"><%=Resources.labels.appearance %></label>
                         <asp:CheckBox runat="server" ID="cbShowDescriptionInPostList" />
                         <label for="<%=cbShowDescriptionInPostList.ClientID %>"><%=Resources.labels.showDescriptionInPostList %></label>
                         <div class="insetForm" id="DescriptionCharacters" style=" display:none;">
@@ -174,7 +174,7 @@
                         <label for="<%=cbShowPostNavigation.ClientID %>"><%=Resources.labels.showPostNavigation %></label>
                     </li>
                     <li>
-                        <label class="lbl">Other settings</label>
+                        <label class="lbl"><%=Resources.labels.otherSettings %></label>
                         <asp:CheckBox runat="server" ID="cbUseBlogNameInPageTitles" />
                         <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
                         <span class="insetHelp">(<%=Resources.labels.useBlogNameInPageTitlesDescription%>)</span>
@@ -208,7 +208,7 @@
                 </ul>
 
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="btn primary" value="Save settings" />
+                <input type="submit" id="btnSave" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
             </div>
 		</div>
 	</div>    

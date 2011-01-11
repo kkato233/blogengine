@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true"
-    ValidateRequest="False" CodeFile="Categories.aspx.cs" Inherits="admin_Pages_Categories" %>
+    ValidateRequest="False" CodeFile="Categories.aspx.cs" Inherits="Admin.Posts.Categories" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
@@ -45,7 +45,7 @@
                             <asp:DropDownList ID="ddlNewParent" Width="200" runat="server" />
                         </li>
                     </ul>
-                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('new', 'frmAddNew');" Text="<%$Resources:labels, addNewCategory %>" /> <a href="#" onclick="closeOverlay();"><%=Resources.labels.or %> <%=Resources.labels.cancel %></a>
+                    <asp:Button runat="server" ID="btnAdd" ValidationGroup="new" CssClass="btn primary" OnClientClick="colorboxDialogSubmitClicked('new', 'frmAddNew');" Text="<%$Resources:labels, addNewCategory %>" /> <%=Resources.labels.or %> <a href="#" onclick="closeOverlay();"> <%=Resources.labels.cancel %></a>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="<%$ Resources:labels, posts %>">
                         <ItemTemplate>
-                            <%# ((BlogEngine.Core.Category)Container.DataItem).Posts.Count %>
+                            <%# ((Category)Container.DataItem).Posts.Count %>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

@@ -95,7 +95,7 @@
             <div id="Container"></div>
 
             <asp:PlaceHolder ID="phRoles" runat="server">
-                <h2>Roles</h2>
+                <h2><%=Resources.labels.roles %></h2>
                 <div id="rolelist" style="margin:0 0 20px;"><%=RolesList%></div>
             </asp:PlaceHolder>
 

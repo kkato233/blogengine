@@ -26,8 +26,8 @@
                     var extname = this.Request.QueryString["ext"];
 
                     foreach (var setting in from x in ExtensionManager.Extensions
-                                            where x.Name == extname
-                                            from setting in x.Settings
+                                            where x.Key == extname
+                                            from setting in x.Value.Settings
                                             where !string.IsNullOrEmpty(setting.Name) && !setting.Hidden
                                             select setting)
                     {

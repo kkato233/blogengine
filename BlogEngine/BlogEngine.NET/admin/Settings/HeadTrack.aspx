@@ -50,7 +50,7 @@
                 </ul>
 
              <div class="action_buttons">
-                <input type="submit" class="btn primary" value="Save settings" onclick="return SaveSettings();" />
+                <input type="submit" class="btn primary" value="<%=Resources.labels.saveSettings %>" onclick="return SaveSettings();" />
             </div>
         </div>
     </div>

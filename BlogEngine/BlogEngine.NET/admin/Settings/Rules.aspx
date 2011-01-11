@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Rules.aspx.cs" Inherits="Admin.Settings.Rules" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Rules.aspx.cs" Inherits="admin.Settings.Rules" %>
 <%@ Import Namespace="Resources"%>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
@@ -46,7 +46,7 @@
                         <asp:ListItem Text="5" />
                     </asp:DropDownList> 
                     <span><%=labels.authorApproved%></span> 
-                    <span class="insetHelp">To disable this rule, set to "0"</span>
+                    <span class="insetHelp"><%=labels.toDisableSetTo0 %></span>
                 </li>
                 <li>
                     <span class="filler"></span>
@@ -63,7 +63,7 @@
                         <asp:ListItem Text="5" />
                     </asp:DropDownList> 
                     <span><%=labels.authorRejected%></span>
-                    <span class="insetHelp">To disable this rule, set to "0"</span>
+                    <span class="insetHelp"><%=labels.toDisableSetTo0 %></span>
                 </li>
                 <li>
                     <span class="filler"></span>
@@ -160,7 +160,7 @@
                         
                         <asp:TemplateField ShowHeader="False" ItemStyle-VerticalAlign="middle" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="25">
                             <ItemTemplate>
-                                <asp:ImageButton ID="btnDelete" runat="server" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/action-delete.png" OnClick="btnDelete_Click" CommandName="btnDelete" AlternateText="<%=labels.delete%>" />
+                                <asp:ImageButton ID="btnDelete" runat="server" ImageAlign="middle" CausesValidation="false" ImageUrl="~/admin/images/action-delete.png" OnClick="btnDelete_Click" CommandName="btnDelete" AlternateText="<%$ Resources:labels, delete%>" />
                             </ItemTemplate>
                         </asp:TemplateField>
                         </Columns>
@@ -168,7 +168,7 @@
                         <PagerStyle HorizontalAlign="Center"/>
                 </asp:GridView>
             </div>
-            <h2>Anti-spam Services</h2>
+            <h2><%=labels.antiSpamServices %></h2>
 
             <div id="Container"></div>
         

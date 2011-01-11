@@ -169,21 +169,21 @@
             <div class="topRightTools">
                 <ul class="rowTools">
                     <li>
-                        <a href="#" class="toolsAction"><span class="">Copy Rights From</span></a>
+                        <a href="#" class="toolsAction"><span class=""><%=Resources.labels.copyRightsFrom %></span></a>
                         <ul class="rowToolsMenu assignDefaultRoles">
                             <%= RolesForLoading %>
-                            <li style="border-top:1px solid #ccc;"><a href="#" onclick="return setDefaultRoleRights('Anonymous',this)">default Anonymous role</a></li>
-                            <li><a href="#" onclick="return setDefaultRoleRights('Editors',this)">default Editors role</a></li>
+                            <li style="border-top:1px solid #ccc;"><a href="#" onclick="return setDefaultRoleRights('Anonymous',this)"><%=Resources.labels.defaultAnonymousRole %></a></li>
+                            <li><a href="#" onclick="return setDefaultRoleRights('Editors',this)"><%=Resources.labels.defaultEditorsRole %></a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
 
-            <h1>Editing Rights for Role <%=Server.HtmlEncode(this.RoleName) %></h1>
+            <h1><%=Resources.labels.editingRightsForRole %> <%=Server.HtmlEncode(this.RoleName) %></h1>
             <div id="rightsHolder"></div>
             <div style="clear:both">&nbsp;</div>
-            <input type="submit" class="btn primary rounded" value="Save rights" onclick="return SaveRights();" />
-            or <a href="Roles.aspx"><%=Resources.labels.cancel %></a>
+            <input type="submit" class="btn primary rounded" value="<%=Resources.labels.save %>" onclick="return SaveRights();" />
+            <%=Resources.labels.or %> <a href="Roles.aspx"><%=Resources.labels.cancel %></a>
         </div>
     </div>
 </asp:Content>

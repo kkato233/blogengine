@@ -196,6 +196,12 @@
                 col.Add("Bangladesh");
             }
 
+            if (!dic.ContainsValue("bm"))
+            {
+                dic.Add("Bermuda", "bm");
+                col.Add("Bermuda");
+            }
+
             col.Sort();
 
             this.ddlCountry.Items.Add(new ListItem("[Not specified]", string.Empty));

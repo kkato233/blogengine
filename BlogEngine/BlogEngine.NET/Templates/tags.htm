@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     {#foreach $T.d as post}
-    <tr id="{$T.post.TagName}" class="{#cycle values=['','alt']}">
+    <tr class="{#cycle values=['','alt']}">
       <td class="editable">{$T.post.TagName}</td>
       <td><a href="../../?tag=/{$T.post.TagName}">View</a></td>    
       <td>{$T.post.TagCount}</td>

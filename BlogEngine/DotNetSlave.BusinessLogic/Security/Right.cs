@@ -119,7 +119,7 @@ namespace BlogEngine.Core
         /// <summary>
         /// Method that should be called any time Rights are changed and saved.
         /// </summary>
-        internal static void RefreshAllRights()
+        public static void RefreshAllRights()
         {
 
             var flagType = typeof(Rights);

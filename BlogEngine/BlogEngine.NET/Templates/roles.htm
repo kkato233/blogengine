@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     {#foreach $T.d as post}
-    <tr id="{$T.post.RoleName}" class="{#cycle values=['','alt']}">
+    <tr class="{#cycle values=['','alt']}">
 	  <td><input type="checkbox" name="chk"{$T.post.RoleName} class="chk"/></td>
       <td class="editable">{$T.post.RoleName}</td>
       <td>
