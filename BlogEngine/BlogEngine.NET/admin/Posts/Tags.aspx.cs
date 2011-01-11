@@ -1,7 +1,6 @@
 ﻿namespace Admin.Posts
 {
     using System;
-    using BlogEngine.Core;
     using App_Code;
 
     public partial class Tags : System.Web.UI.Page

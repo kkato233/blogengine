@@ -6,7 +6,6 @@
     using System.Web.UI.WebControls;
     using System.Globalization;
     using System.Web.Services;
-    using System.Threading;
     using Resources;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
@@ -153,7 +152,6 @@
         /// <param name="timezone">Time zone</param>
         /// <param name="enablePasswordReset">Enable password resets</param>
         /// <param name="enableSelfRegistration">Enable self registration</param>
-        /// <param name="requireLoginToViewPosts">Require login to view posts</param>
         /// <param name="selfRegistrationInitialRole">Self registration initial role</param>
         /// <returns></returns>
         [WebMethod]

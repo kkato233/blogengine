@@ -12,7 +12,9 @@
     using System.Web;
     using System.Web.Hosting;
     using System.Web.Security;
+    using System.Web.Configuration;
     using System.Xml;
+    using System.IO;
 
 
     /// <summary>
@@ -245,7 +247,6 @@
         /// </exception>
         public override void Initialize(string name, NameValueCollection config)
         {
-            this.ReadMembershipDataStore();
             if (config == null)
             {
                 throw new ArgumentNullException("config");
@@ -270,7 +271,7 @@
 
             if (String.IsNullOrEmpty(path))
             {
-                path = string.Format("{0}roles.xml", BlogSettings.Instance.StorageLocation);
+                path = Path.Combine(String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"], "roles.xml");
             }
 
             if (!VirtualPathUtility.IsAppRelative(path))
@@ -290,6 +291,7 @@
             var permission = new FileIOPermission(FileIOPermissionAccess.Write, this.xmlFileName);
             permission.Demand();
 
+            this.ReadMembershipDataStore();
             if (!File.Exists(this.xmlFileName))
             {
                 this.AddUsersToRoles(this.userNames.ToArray(), this.defaultRolesToAdd);
@@ -463,36 +465,11 @@
         /// </summary>
         private void ReadMembershipDataStore()
         {
-            var fullyQualifiedPath =
-                VirtualPathUtility.Combine(
-                    VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath),
-                    BlogSettings.Instance.StorageLocation + "users.xml");
+            this.userNames = new List<string>();
 
-            lock (this)
+            foreach (MembershipUser user in Membership.GetAllUsers())
             {
-                if (this.userNames != null)
-                {
-                    return;
-                }
-
-                this.userNames = new List<string>();
-                var doc = new XmlDocument();
-                if (fullyQualifiedPath != null)
-                {
-                    var thepath = HostingEnvironment.MapPath(fullyQualifiedPath);
-                    if (thepath != null)
-                    {
-                        doc.Load(thepath);
-                    }
-                }
-
-                var nodes = doc.GetElementsByTagName("User");
-
-                foreach (var userName in
-                    nodes.Cast<XmlNode>().Select(node => node["UserName"]).Where(userName => userName != null))
-                {
-                    this.userNames.Add(userName.InnerText);
-                }
+                this.userNames.Add(user.UserName);
             }
         }
 

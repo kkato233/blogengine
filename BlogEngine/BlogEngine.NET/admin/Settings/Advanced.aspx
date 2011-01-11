@@ -85,7 +85,7 @@
                             </asp:RadioButtonList>
                     </li>
                     <li>
-                        <label class="lbl">Other settings</label>
+                        <label class="lbl"><%=Resources.labels.otherSettings %></label>
                         <asp:CheckBox runat="server" ID="cbEnableCompression" />
                         <label for="<%=cbEnableCompression.ClientID %>"><%=Resources.labels.enableHttpCompression %></label>
                         <span class="insetHelp">(<%=Resources.labels.enableHttpCompressionDescription %>)</span>
@@ -141,7 +141,7 @@
                     </li>
                 </ul>
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="btn primary rounded" value="Save settings" />
+                <input type="submit" id="btnSave" class="btn primary rounded" value="<%=Resources.labels.saveSettings %>" />
             </div>
 		</div>
 	</div>       

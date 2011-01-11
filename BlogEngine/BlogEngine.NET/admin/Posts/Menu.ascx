@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="admin.Settings.Menu" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Menu.ascx.cs" Inherits="Admin.Posts.Menu" %>
 <ul>
     <li <%=Current("Add_entry.aspx")%>><a href="Add_entry.aspx" class="new"><%=Resources.labels.writeNewPost %></a></li>
     <li <%=Current("Posts.aspx")%>><a href="Posts.aspx"><%=Resources.labels.posts %></a></li>

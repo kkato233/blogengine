@@ -101,7 +101,7 @@
                     labels.clickToDisable,
                     x.Name,
                     jsonclick,
-                    "Disable");
+                    labels.disable);
             }
             else
             {
@@ -111,7 +111,7 @@
                     labels.clickToEnable,
                     x.Name,
                     jsonclick,
-                    "Enable");
+                    labels.enable);
             }
 
             return sb.ToString();
@@ -199,12 +199,12 @@
                 this.ChangeStatus(act, ext);
             }
 
-            var extensions = ExtensionManager.Extensions.Where(x => x.Name != "MetaExtension").ToList();
+            var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
 
             // remove system meta extension from the list
             // extensions.Remove(extensions.Find(delegate(ManagedExtension x) { return x.Name == "MetaExtension"; }));
             extensions.Sort(
-                (e1, e2) => e1.Priority == e2.Priority ? string.CompareOrdinal(e1.Name, e2.Name) : e1.Priority.CompareTo(e2.Priority));
+				(e1, e2) => e1.Value.Priority == e2.Value.Priority ? string.CompareOrdinal(e1.Key, e2.Key) : e1.Value.Priority.CompareTo(e2.Value.Priority));
 
             this.gridExtensionsList.DataSource = extensions;
             this.gridExtensionsList.DataBind();

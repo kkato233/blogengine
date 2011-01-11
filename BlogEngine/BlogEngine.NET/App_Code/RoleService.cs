@@ -218,8 +218,22 @@
             try
             {
                 Right.OnRenamingRole(id, vals[0]);
+
+                string[] usersInRole = Roles.GetUsersInRole(id);
+                if (usersInRole.Length > 0)
+                {
+                    Roles.RemoveUsersFromRoles(usersInRole, new string[] { id });
+                }
+
                 Roles.DeleteRole(id);
                 Roles.CreateRole(vals[0]);
+
+                if (usersInRole.Length > 0)
+                {
+                    Roles.AddUsersToRoles(usersInRole, new string[] { vals[0] });
+                }
+
+                Right.RefreshAllRights();
                
                 response.Success = true;
                 response.Message = string.Format(Resources.labels.roleUpdatedFromTo, id, vals[0]);

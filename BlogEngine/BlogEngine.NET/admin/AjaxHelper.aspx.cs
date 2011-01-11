@@ -130,7 +130,7 @@
             }
 
             try
-            {
+            {   
                 var post = string.IsNullOrEmpty(id) ? new BlogEngine.Core.Post() : BlogEngine.Core.Post.GetPost(new Guid(id));
                 if (post == null)
                 {
@@ -143,7 +143,9 @@
                     return response;
                 }
 
-                if (!post.IsPublished && isPublished)
+                bool isSwitchingToPublished = isPublished && (post.New || !post.IsPublished);
+
+                if (isSwitchingToPublished)
                 {
                     if (!post.CanPublish(author))
                     {
@@ -195,7 +197,13 @@
                 }
                
                 post.Save();
-                response.Data = post.RelativeLink;
+
+                // If this is an unpublished post and the user does not have rights to
+                // view unpublished posts, then redirect to the Posts list.
+                if (post.IsVisible)
+                    response.Data = post.RelativeLink;
+                else
+                    response.Data = string.Format("{0}admin/Posts/Posts.aspx", Utils.RelativeWebRoot);
 
                 HttpContext.Current.Session.Remove("content");
                 HttpContext.Current.Session.Remove("title");
@@ -255,7 +263,9 @@
                     return response;
                 }
 
-                if (!page.IsPublished && isPublished)
+                bool isSwitchingToPublished = isPublished && (page.New || !page.IsPublished);
+
+                if (isSwitchingToPublished)
                 {
                     if (!page.CanPublish())
                     {
@@ -293,7 +303,14 @@
                     page.Parent = new Guid(parent);
 
                 page.Save();
-                response.Data = page.RelativeLink;
+
+                // If this is an unpublished page and the user does not have rights to
+                // view unpublished pages, then redirect to the Pages list.
+                if (page.IsVisible)
+                    response.Data = page.RelativeLink;
+                else
+                    response.Data = string.Format("{0}admin/Pages/Pages.aspx", Utils.RelativeWebRoot);
+
             }
             catch (Exception ex)
             {

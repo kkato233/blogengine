@@ -6,7 +6,7 @@
     </h2>
     <div style="padding: 25px 0">
         <div id="ChangePwd" class="success">
-            <%=Resources.labels.passwordChangeSuccess %> <a href="javascript:Hide('ChangePwd')" style="width:20px;float:right">X</a>
+            <%=Resources.labels.passwordChangeSuccess %> <a href="" onclick="return Hide('ChangePwd')" style="width:20px;float:right">X</a>
         </div>
     </div>
 </asp:Content>

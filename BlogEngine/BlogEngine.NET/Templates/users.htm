@@ -14,9 +14,9 @@
   </thead>
   <tbody>
     {#foreach $T.d as post}
-	<tr id="{$T.post.UserName}" class="{#cycle values=['','alt']}">
+	<tr class="{#cycle values=['','alt']}">
 	  <td><input type="checkbox" name="chk"{$T.post.UserName} class="chk"/></td>
-      <td>{$T.post.UserName}</td>
+      <td class="username">{$T.post.UserName}</td>
       <td class="editable">{$T.post.Email}</td>
       <td>
             <ul class="rowTools">

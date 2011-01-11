@@ -824,7 +824,7 @@
                     Keywords = mwaPage.mt_keywords
                 };
 
-            if (!page.IsPublished && publish)
+            if (publish)
             {
                 if (!page.CanPublish())
                 {
@@ -889,7 +889,7 @@
                     Description = sentPost.excerpt
                 };
 
-            if (!post.IsPublished && publish)
+            if (publish)
             {
                 if (!post.CanPublish(author))
                 {

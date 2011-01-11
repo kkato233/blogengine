@@ -11,8 +11,9 @@
     <asp:PlaceHolder ID="phAddForm" runat="server"></asp:PlaceHolder>
 </div>
 
-<asp:Button runat="server" ID="btnAdd" ValidationGroup="new" />
-<br /><hr />
+<div style="margin: 10px 0; padding-bottom: 10px; border-bottom: 1px solid #ccc; display:block">
+    <asp:Button CssClass="btn primary" runat="server" ID="btnAdd" ValidationGroup="new" /> <%=Resources.labels.or %> <a href="default.aspx"><%=Resources.labels.cancel %></a>
+</div>
 
 <asp:GridView ID="grid"  
         runat="server"  

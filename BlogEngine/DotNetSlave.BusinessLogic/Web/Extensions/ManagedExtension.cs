@@ -107,14 +107,8 @@
         {
             get
             {
-                if (this.settings != null)
-                {
-                    this.settings.Sort((s1, s2) => string.Compare(s1.Index.ToString(), s2.Index.ToString()));
-                }
-
                 return this.settings;
             }
-
             set
             {
                 this.settings = value;
@@ -194,6 +188,7 @@
             }
 
             this.settings.Add(extensionSettings);
+			this.settings.Sort((s1, s2) => string.Compare(s1.Index.ToString(), s2.Index.ToString()));
         }
 
         #endregion

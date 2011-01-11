@@ -14,7 +14,7 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1>Pending Approval</h1>
+            <h1><%=Resources.labels.pendingApproval %></h1>
             <div class="tableToolBox">
                 <div class="Pager"></div>
             </div>

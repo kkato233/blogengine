@@ -190,6 +190,8 @@ namespace App_Code.Controls
         /// </param>
         protected override void RenderContents(HtmlTextWriter output)
         {
+            output.RenderBeginTag(HtmlTextWriterTag.Br);
+            output.RenderEndTag();
             output.AddAttribute(HtmlTextWriterAttribute.For, SimpleCaptchaAnswerField);
             output.RenderBeginTag(HtmlTextWriterTag.Label);
             output.Write(this.simpleCaptchaLabel);
@@ -208,6 +210,8 @@ namespace App_Code.Controls
             output.AddStyleAttribute(HtmlTextWriterStyle.Color, "Red");
             output.RenderBeginTag(HtmlTextWriterTag.Span);
             output.WriteLine(this.ErrorMessage);
+            output.RenderEndTag();
+            output.RenderBeginTag(HtmlTextWriterTag.Br);
             output.RenderEndTag();
         }
 

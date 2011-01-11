@@ -58,7 +58,7 @@
                 {
                     var sqlQuery = string.Format("DELETE FROM {0}BlogRollItems WHERE BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
 
-                    using (var cmd = conn.CreateCommand())
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogRollId"), blogRollItem.Id.ToString()));
 
@@ -564,6 +564,7 @@
         {
             var categories = Category.Categories;
             categories.Add(category);
+            categories.Sort();
 
             using (var conn = this.CreateConnection())
             {
@@ -1551,6 +1552,7 @@
             var categories = Category.Categories;
             categories.Remove(category);
             categories.Add(category);
+            categories.Sort();
 
             using (var conn = this.CreateConnection())
             {

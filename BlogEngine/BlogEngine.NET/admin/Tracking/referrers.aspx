@@ -48,11 +48,11 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
         <div class="content-box-left">
-            <h1>Referrers<a href="#" class="showSettings">Settings</a></h1>
+            <h1><%=Resources.labels.referrers %><a href="#" class="showSettings"><%=Resources.labels.settings %></a></h1>
 
             <div style="display:none;">
             <div id="settings" class="overlaypanel">
-                <h2>Settings</h2>
+                <h2><%=Resources.labels.settings %></h2>
                 <ul class="fl" style="margin:0;">
                     <li>
                         <asp:CheckBox runat="Server" ID="cbEnableReferrers" />
@@ -64,7 +64,7 @@
                     </li>
                     <li>
                         <input type="submit" class="btn primary rounded" value="<%=Resources.labels.saveSettings %>" onclick="return SaveSettings();" />
-                         or <a href="#" onclick="closeOverlay();">Cancel</a>
+                         <%=Resources.labels.or %> <a href="#" onclick="closeOverlay();"><%=Resources.labels.cancel %></a>
                     </li>
                 </ul>
             </div>

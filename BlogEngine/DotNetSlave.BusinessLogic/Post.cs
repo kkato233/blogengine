@@ -1066,7 +1066,7 @@
         }
 
         /// <summary>
-        /// Imports a comment to comment collection and saves.  Does not
+        /// Imports a comment to comment collection.  Does not
         ///     notify user or run extension events.
         /// </summary>
         /// <param name="comment">
@@ -1075,7 +1075,6 @@
         public void ImportComment(Comment comment)
         {
             this.AllComments.Add(comment);
-            this.DataUpdate();
         }
 
         /// <summary>
