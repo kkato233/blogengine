@@ -538,12 +538,19 @@
 
                     codeAssemblies.Add(Assembly.Load(assemblyName));
                 }
-
-                codeAssemblies.AddRange(GetCompiledExtensions());
             }
             catch (FileNotFoundException)
             {
                 /*ignore - code directory has no files*/
+            }
+
+            try
+            {
+                codeAssemblies.AddRange(GetCompiledExtensions());
+            }
+            catch (Exception ex)
+            {
+                Log("Error loading compiled assemblies: " + ex.Message);
             }
 
             return codeAssemblies;
@@ -1284,7 +1291,6 @@
                                 let attr = asm.GetCustomAttributes(typeof(AssemblyConfigurationAttribute), false)
                                 where attr.Length > 0
                                 let aca = (AssemblyConfigurationAttribute)attr[0]
-                                where aca != null && aca.Configuration == "BlogEngineExtension"
                                 select asm)
             {
                 assemblies.Add(asm);
