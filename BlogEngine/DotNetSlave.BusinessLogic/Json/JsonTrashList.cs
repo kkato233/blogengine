@@ -88,7 +88,7 @@
                     JsonTrash t2 = new JsonTrash
                     {
                         Id = p.Id,
-                        Title = p.Title,
+                        Title = System.Web.HttpContext.Current.Server.HtmlEncode(p.Title),
                         ObjectType = "Post",
                         Date = p.DateCreated.ToString("dd MMM yyyy"),
                         Time = p.DateCreated.ToString("t")
@@ -111,7 +111,7 @@
                     JsonTrash t3 = new JsonTrash
                     {
                         Id = p.Id,
-                        Title = p.Title,
+                        Title = System.Web.HttpContext.Current.Server.HtmlEncode(p.Title),
                         ObjectType = "Page",
                         Date = p.DateCreated.ToString("dd MMM yyyy"),
                         Time = p.DateCreated.ToString("t")
