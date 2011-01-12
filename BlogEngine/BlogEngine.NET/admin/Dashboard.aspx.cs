@@ -84,7 +84,7 @@ namespace Admin
                 if (!pg.IsPublished)
                 {
                     // add to page drafts
-                    DraftPages.InnerHtml += string.Format("<li><a class='editAction' href=\"Pages/EditPage.aspx?id={2}\">{0}</a><span class='meta'>Saved: {1}</span></li>", pg.Title, pg.DateModified.ToShortDateString() + " at " + pg.DateModified.ToShortTimeString(), pg.Id);
+                    DraftPages.InnerHtml += string.Format("<li><a class='editAction' href=\"Pages/EditPage.aspx?id={2}\">{0}</a><span class='meta'>Saved: {1}</span></li>", Context.Server.HtmlEncode(pg.Title), pg.DateModified.ToShortDateString() + " at " + pg.DateModified.ToShortTimeString(), pg.Id);
                     DraftPages.Visible = true;
                 }
             }

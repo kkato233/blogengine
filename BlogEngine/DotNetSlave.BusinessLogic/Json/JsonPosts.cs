@@ -104,7 +104,7 @@
                 {
                     Id = x.Id,
                     Author = GetAuthor(x.Author),
-                    Title = string.Format("<a href=\"{0}\">{1}</a>", x.RelativeLink, x.Title),
+                    Title = string.Format("<a href=\"{0}\">{1}</a>", x.RelativeLink, System.Web.HttpContext.Current.Server.HtmlEncode(x.Title)),
                     Date = x.DateCreated.ToString("dd MMM yyyy"),
                     Time = x.DateCreated.ToString("t"),
                     Categories = GetCategories(x.Categories),
