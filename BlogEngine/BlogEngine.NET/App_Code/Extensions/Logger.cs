@@ -52,7 +52,7 @@
                 return fileName;
             }
 
-            fileName = HostingEnvironment.MapPath(Path.Combine(BlogSettings.Instance.StorageLocation, "logger.txt"));
+            fileName = HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, "logger.txt"));
             return fileName;
         }
 

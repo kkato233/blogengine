@@ -27,7 +27,7 @@
         /// <summary>
         /// The default roles to add.
         /// </summary>
-        private readonly string[] defaultRolesToAdd = new[] { BlogSettings.Instance.AdministratorRole, BlogSettings.Instance.AnonymousRole };
+        private readonly string[] defaultRolesToAdd = new[] { BlogConfig.AdministratorRole, BlogConfig.AnonymousRole };
 
         /// <summary>
         /// The roles.
@@ -84,7 +84,7 @@
             var currentRoles = new List<string>(this.GetAllRoles());
             if (usernames.Length != 0 && roleNames.Length != 0)
             {
-                foreach (var rolename in roleNames.Where(rolename => !currentRoles.Contains(rolename) && !rolename.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase)))
+                foreach (var rolename in roleNames.Where(rolename => !currentRoles.Contains(rolename) && !rolename.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase)))
                 {
                     this.roles.Add(new Role(rolename, new List<string>(usernames)));
                 }
@@ -138,7 +138,7 @@
         /// </param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            if (!Security.IsSystemRole(roleName))
+            if (BlogConfig.IsSystemRole(roleName))
             {
                 for (var i = 0; i < this.roles.Count; i++)
                 {
@@ -271,7 +271,7 @@
 
             if (String.IsNullOrEmpty(path))
             {
-                path = Path.Combine(String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"], "roles.xml");
+                path = Path.Combine(BlogConfig.StorageLocation, "roles.xml");
             }
 
             if (!VirtualPathUtility.IsAppRelative(path))
@@ -354,7 +354,7 @@
                     foreach (var user in usernames)
                     {
                         if (role.Name.Equals(
-                            BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
+                            BlogConfig.AdministratorRole, StringComparison.OrdinalIgnoreCase))
                         {
                             if (role.Users.Count != 1)
                             {

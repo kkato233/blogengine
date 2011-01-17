@@ -581,7 +581,7 @@
 
             if (String.IsNullOrEmpty(path))
             {
-                path = Path.Combine(String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"], "users.xml");
+                path = Path.Combine(BlogConfig.StorageLocation, "users.xml");
             }
 
             if (!VirtualPathUtility.IsAppRelative(path))

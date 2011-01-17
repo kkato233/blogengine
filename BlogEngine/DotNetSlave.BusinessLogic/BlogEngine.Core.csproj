@@ -108,6 +108,7 @@
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Avatar.cs" />
+    <Compile Include="BlogConfig.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Compilation\BaseServerObjectExpressionBuilder.cs" />
     <Compile Include="Compilation\CodeExpressionBuilder.cs" />
