@@ -119,15 +119,15 @@ namespace BlogEngine.Core.Providers
                 case ExtensionType.Extension:
                     return
                         HostingEnvironment.MapPath(
-                            Path.Combine(BlogSettings.Instance.StorageLocation, @"datastore\extensions\"));
+                            Path.Combine(BlogConfig.StorageLocation, @"datastore\extensions\"));
                 case ExtensionType.Widget:
                     return
                         HostingEnvironment.MapPath(
-                            Path.Combine(BlogSettings.Instance.StorageLocation, @"datastore\widgets\"));
+                            Path.Combine(BlogConfig.StorageLocation, @"datastore\widgets\"));
                 case ExtensionType.Theme:
                     return
                         HostingEnvironment.MapPath(
-                            Path.Combine(BlogSettings.Instance.StorageLocation, @"datastore\themes\"));
+                            Path.Combine(BlogConfig.StorageLocation, @"datastore\themes\"));
             }
 
             return string.Empty;

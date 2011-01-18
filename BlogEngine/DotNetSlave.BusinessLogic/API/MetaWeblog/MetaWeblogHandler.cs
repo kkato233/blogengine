@@ -717,7 +717,7 @@
 
             var mediaInfo = new MWAMediaInfo();
 
-            var rootPath = string.Format("{0}files/", BlogSettings.Instance.StorageLocation);
+            var rootPath = string.Format("{0}files/", BlogConfig.StorageLocation);
             var serverPath = request.Server.MapPath(rootPath);
             var saveFolder = serverPath;
             var fileName = mediaObject.name;
