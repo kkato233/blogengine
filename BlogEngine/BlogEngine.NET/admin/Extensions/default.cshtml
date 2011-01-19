@@ -1,24 +1,19 @@
-﻿@using BlogEngine.Core
-@using BlogEngine.Core.Web.Extensions
+﻿@{
+    Page.Title = Resources.labels.extensions;
+    Layout = "../_Layout.cshtml";
+}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link href="@Href("~/admin/style.css")" rel="stylesheet" type="text/css" /> 
-        <script src="@Href("~/Scripts/jquery.js")" type="text/javascript"></script>
-        <script src="@Href("~/admin/admin.js")" type="text/javascript"></script>
-        <title></title>
-    </head>
-    <body>
-        <h1>Extensions</h1>
-        <ul id="ulExtensions">
-        @foreach (KeyValuePair<string, ManagedExtension> ext in ExtensionManager.Extensions)
-        {
-            <li>@ext.Key</li>
-        }
-        </ul>
-        <div>
-            <a href="#" onclick="return Toggle('ulExtensions');">Toggle</a>
-        </div>
-    </body>
-</html>
+@section head {
+    
+}
+
+<h1>Extensions</h1>
+<ul id="ulExtensions">
+@foreach (KeyValuePair<string, BlogEngine.Core.Web.Extensions.ManagedExtension> ext in BlogEngine.Core.Web.Extensions.ExtensionManager.Extensions)
+{
+    <li>@ext.Key</li>
+}
+</ul>
+<div>
+    <a href="#" onclick="return Toggle('ulExtensions');">Toggle</a>
+</div>
