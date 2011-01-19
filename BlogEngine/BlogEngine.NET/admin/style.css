@@ -152,11 +152,12 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .tableToolBox { overflow:hidden;}
 .tableToolBox a.current { color:#555; text-decoration:underline;}
 #filteredby { margin-left:10px; font-weight:bold;}
-.Pager { float:right;}
+.Pager { float: right; margin-top: 4px;}
 .Pager .prevLink {background: transparent url("images/link-prev.png") no-repeat scroll center center; padding:8px;}
 .Pager .nextLink {background: transparent url("images/link-next.png") no-repeat scroll center center; padding:8px;}
 .Pager .firstLink {background: transparent url("images/link-first.png") no-repeat scroll center center; padding:8px;}
 .Pager .lastLink {background: transparent url("images/link-last.png") no-repeat scroll center center; padding:8px; }
+.PageSize { float: right; margin: 0 6px 0 auto; }
 
 /* Tools dropdown menu */
 .tools {margin:0; padding:0; list-style:none;}
