@@ -1293,7 +1293,17 @@
                                 let aca = (AssemblyConfigurationAttribute)attr[0]
                                 select asm)
             {
-                assemblies.Add(asm);
+                try
+                {
+                    // check if assembly can be loaded
+                    // before adding to collection
+                    asm.GetTypes();
+                    assemblies.Add(asm);
+                }
+                catch (Exception ex)
+                {
+                    Log(string.Format("Error loading compiled extensions from assembly {0}: {1}", asm.FullName, ex.Message));
+                }
             }
 
             return assemblies;
