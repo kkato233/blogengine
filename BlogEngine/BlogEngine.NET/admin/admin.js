@@ -1,6 +1,4 @@
 ﻿
-var pageSize = 10;
-
 $(document).ready(function () {
    $('.editButton').live("click", function () { return EditRow(this); });
    $('.deleteButton').live("click", function () { return DeleteRow(this); });
@@ -609,6 +607,13 @@ function DeleteAllSpam() {
 
 //--------------  POSTS AND PAGES
 
+function ChangePostPageSize(select) {
+    var pageSize = $(select).val();
+    $.cookie('postPageSize', pageSize, { expires: 7 });
+    LoadPosts();
+    return false;
+}
+
 // All, Draft or Published
 function ChangePostFilterType(type) {
     $.cookie('postMainFilter', type, { expires: 7 });
@@ -617,6 +622,7 @@ function ChangePostFilterType(type) {
     $.cookie('postSecondaryFilterTitle', null, { expires: 7 });
     $.cookie('postCurrentPage', 1, { expires: 7 });
     LoadPosts();
+    return false;
 }
 // Category, Tag or Author
 function ChangePostFilter(filter, id, title) {
@@ -633,6 +639,7 @@ function LoadPostsForPage(page) {
 
     $.cookie('postCurrentPage', page, { expires: 7 });
     LoadPosts();
+    return false;
 }
 
 function LoadPosts() {
@@ -651,15 +658,23 @@ function LoadPosts() {
     if ($.cookie('postCurrentPage') == null) {
         $.cookie('postCurrentPage', 1, { expires: 7 });
     }
+    if ($.cookie('postPageSize') == null) {
+        $.cookie('postPageSize', $("#pageSizeTop").val(), { expires: 7 });
+    }
     var ftr1 = $.cookie('postMainFilter');
     var ftr2 = $.cookie('postSecondaryFilter');
     var ftr2id = $.cookie('postSecondaryFilterId');
     var ftr2title = $.cookie('postSecondaryFilterTitle');
     var pg = $.cookie('postCurrentPage');
-    
+    var pageSize = $.cookie('postPageSize');
+
+    // sync both dropdown lists.
+    $("#pageSizeTop").val(pageSize);
+    $("#pageSizeBottom").val(pageSize);
+
     $.ajax({
         url: "../AjaxHelper.aspx/LoadPosts",
-        data: "{'page':'" + pg + "' , 'type':'" + ftr1 + "', 'filter':'" + ftr2 + "', 'title': '" + ftr2id + "'}",
+        data: "{'page':'" + pg + "' , 'type':'" + ftr1 + "', 'filter':'" + ftr2 + "', 'title': '" + ftr2id + "', pageSize: '" + pageSize + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -667,7 +682,7 @@ function LoadPosts() {
             $('#Container').setTemplateURL('../../Templates/posts.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
 
-            LoadPostsPager(pg, ftr1);
+            LoadPostsPager(pg, pageSize, ftr1);
 
             var prefx = ftr1 + ' posts';
             if (ftr2 == "Category") {
@@ -707,7 +722,7 @@ function LoadPages(type) {
     return false;
 }
 
-function LoadPostsPager(pg, type) {
+function LoadPostsPager(pg, pageSize, type) {
     $.ajax({
         url: "../AjaxHelper.aspx/LoadPostPager",
         data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "'}",

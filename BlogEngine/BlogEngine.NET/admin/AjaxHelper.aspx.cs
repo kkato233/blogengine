@@ -56,11 +56,11 @@
         }
 
         [WebMethod]
-        public static IEnumerable LoadPosts(int page, string  type, string filter, string title)
+        public static IEnumerable LoadPosts(int page, string  type, string filter, string title, int pageSize)
         {
             WebUtils.CheckRightsForAdminPostPages(false);
 
-            return JsonPosts.GetPosts(page, type, filter, title);
+            return JsonPosts.GetPosts(page, pageSize, type, filter, title);
         }
 
         [WebMethod]
@@ -96,11 +96,11 @@
         }
 
         [WebMethod]
-        public static string LoadPostPager(int page)
+        public static string LoadPostPager(int page, int pageSize, string type)
         {
             WebUtils.CheckRightsForAdminPostPages(false);
 
-            return JsonPosts.GetPager(page);
+            return JsonPosts.GetPager(page, pageSize);
         }
 
         [WebMethod]
