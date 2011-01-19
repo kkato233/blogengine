@@ -610,6 +610,7 @@ function DeleteAllSpam() {
 function ChangePostPageSize(select) {
     var pageSize = $(select).val();
     $.cookie('postPageSize', pageSize, { expires: 7 });
+    $.cookie('postCurrentPage', 1, { expires: 7 });
     LoadPosts();
     return false;
 }
