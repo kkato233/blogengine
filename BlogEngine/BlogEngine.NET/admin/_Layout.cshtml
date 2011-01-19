@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>@Page.Title</title>
+        <link href="@Href("~/admin/style.css")" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="@Href("~/admin/colorbox.css")" type="text/css" />
+        <link rel="stylesheet" href="@Href("~/admin/tipsy.css")" type="text/css" />
+        <link rel="shortcut icon" href="@Href("~/pics/blogengine.ico")" type="image/x-icon" />
+        <script src="@Href("~/Scripts/jquery.js")" type="text/javascript"></script>
+        <script src="@Href("~/admin/admin.js")" type="text/javascript"></script>
+        @RenderSection("head", required: false)
+    </head>
+    <body>
+        <div class="page">
+            <form id="form1">
+
+                <div id="StatusBox">
+                    <div id="AdminStatus" runat="server"></div>
+                </div>
+
+                <div class="header">
+                    <div class="be-logo">
+                        <span>@BlogEngine.Core.BlogSettings.Instance.Name @Resources.labels.admin </span>
+                    </div>                                  
+                    <div class="toolbox">
+                        @Resources.labels.welcome xx
+                        | <a href="Users/Profile.aspx?id=myname">@Resources.labels.myProfile</a>
+                        | <a href="@BlogEngine.Core.Utils.RelativeWebRoot">@Resources.labels.goToFrontPage</a>
+                        | <span>login</span>
+                    </div>                                 
+                </div>
+
+                <div class="tabs toprounded">
+                    <ul id="ctl00_Menu1_ulMenu" class="toprounded">
+                        <li><a href="/BlogEngine.NET/admin/Dashboard.aspx" class="current"><span>Dashboard</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Posts/Posts.aspx"><span>Posts</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Comments/Approved.aspx"><span>Comments</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Pages/Pages.aspx"><span>Pages</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Tracking/Pingbacks.aspx"><span>Tracking</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Widgets/Blogroll.aspx"><span>Controls</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Extension Manager/default.aspx"><span>Extensions</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Users/Users.aspx"><span>Users</span></a></li>
+                        <li><a href="/BlogEngine.NET/admin/Settings/Main.aspx"><span>Settings</span></a></li>
+                    </ul>
+                    <div id="recyclebin"><a class="empty" href="/BlogEngine.NET/admin/Trash.aspx"></a></div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="content-box-outer">
+		            <div class="content-widgets-box-full">
+                        <div>
+                            @RenderBody()
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+               
+                <div class="clear"></div>
+                <div id="footer">
+                    <a href="http://dotnetblogengine.net">BlogEngine.NET @BlogEngine.Core.BlogSettings.Instance.Version()</a> | 
+                    <a id="donate" runat="server" href="~/admin/Donate.aspx" alt="Donate" target="_new">@Resources.labels.makeDonation</a>          
+                </div>
+
+            </form>
+        </div>
+    </body>
+</html>
