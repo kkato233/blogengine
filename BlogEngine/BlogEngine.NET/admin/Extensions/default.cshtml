@@ -25,15 +25,15 @@
             {
                 if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
                 {
-                    <li><a href="@Href("~/admin/Extension%20Manager/default.aspx?ctrl=params&ext=")@x.Name">@x.Name</a></li>
+                    <li><a href="@Href("~/admin/Extensions/Settings.aspx?ext=")@x.Name">@x.Name</a></li>
                 }
             }
         </ul>
 	</div>
 	<div class="content-box-left">
-        <h1>@Resources.labels.extensions</h1>
+        
         <div>@RazorHelpers.ExtensionList(true)</div>
-        <h2>Disabled Extensions</h2>
+        
         <div>@RazorHelpers.ExtensionList(false)</div>
 	</div>
 </div>

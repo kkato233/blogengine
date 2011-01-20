@@ -13,6 +13,9 @@
 @helper ExtensionList(bool isenabled)
     {
     var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
+    var tableId = "tblEnabledExtensions";
+    var onClick = "$(this).text($(this).text() == 'Show' ? 'Hide' : 'Show'); $.cookie('ToggleDisabledExtensions', '{0}', [x]); return {1}('tblDisabledExtensions');";
+    var disabledDisplay = "";
 
     extensions.Sort(
         (e1, e2) => e1.Value.Priority == e2.Value.Priority ? string.CompareOrdinal(e1.Key, e2.Key) : e1.Value.Priority.CompareTo(e2.Value.Priority));
@@ -26,9 +29,43 @@
         {
             manExtensions.Add(oExt);
         }
-    } 
+    }
+
+    if(isenabled)
+    {
+        <h1>@Resources.labels.extensions (@manExtensions.Count)</h1>
+    }
+    else
+    {
+        @* show/hide disabled extensions *@
+        var ShowHide = "Hide";
+        if (Request.Cookies["ToggleDisabledExtensions"] == null)
+        {
+            var cookie = new HttpCookie("ToggleDisabledExtensions", "Hide") { Expires = DateTime.Now.AddMonths(1) };
+            Response.Cookies.Add(cookie);
+            onClick = string.Format(onClick, "Hide", "Hide");
+        }
+        else
+        {
+            ShowHide = Request.Cookies["ToggleDisabledExtensions"].Value;
+
+            if (ShowHide == "Show")
+            {
+                onClick = string.Format(onClick, "Hide", "Show");
+                disabledDisplay = "display: none";
+            }
+            else
+            {
+                onClick = string.Format(onClick, "Show", "Hide");
+            }
+        }
+        onClick = onClick.Replace("[x]", "{ expires: 30 }");
+        tableId = "tblDisabledExtensions";
+        <h2 style="margin-top:20px">Disabled Extensions (@manExtensions.Count) <a href="#" id="DisabledToggle" onclick="@Html.Raw(@onClick)" class="toggle">@ShowHide</a></h2>
+    }
     
-    <table id="UserService" class="beTable rounded">
+        
+    <table id="@tableId" class="beTable rounded" style="@disabledDisplay">
         <thead>
         <tr>
             <th width="150">Name</th>
