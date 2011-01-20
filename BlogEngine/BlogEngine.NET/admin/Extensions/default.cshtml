@@ -3,17 +3,25 @@
     Layout = "../_Layout.cshtml";
 }
 
-@section head {
-    
-}
-
-<h1>Extensions</h1>
-<ul id="ulExtensions">
-@foreach (KeyValuePair<string, BlogEngine.Core.Web.Extensions.ManagedExtension> ext in BlogEngine.Core.Web.Extensions.ExtensionManager.Extensions)
-{
-    <li>@ext.Key</li>
-}
-</ul>
-<div>
-    <a href="#" onclick="return Toggle('ulExtensions');">Toggle</a>
+<div class="content-box-outer">
+	<div class="content-box-right">
+        <ul>
+			<li class="content-box-selected"><a href="@Href("~/admin/Users.aspx")">@Resources.labels.users</a></li>
+			<li><a href="@Href("~/admin/Users/Roles.aspx")" class="selected">@Resources.labels.roles</a></li>
+        </ul>
+	</div>
+	<div class="content-box-left">
+        <h1>@Resources.labels.users</h1>
+        <div>
+            <ul id="ulExtensions">
+            @foreach (KeyValuePair<string, BlogEngine.Core.Web.Extensions.ManagedExtension> ext in BlogEngine.Core.Web.Extensions.ExtensionManager.Extensions)
+            {
+                <li>@ext.Key</li>
+            }
+            </ul>
+            <div>
+                <a href="#" onclick="return Toggle('ulExtensions');">Toggle</a>
+            </div>
+        </div>
+	</div>
 </div>
