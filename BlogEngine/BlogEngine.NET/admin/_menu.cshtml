@@ -17,22 +17,12 @@
                             this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") ||
                             (!adminNode.Url.Contains("xmanager") && !adminNode.Url.Contains("PingServices"))))
             {
-
                 var cls = "";
 
                 if (this.Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
                 {
                     cls = "current";
                 }
-
-                // if "page" has its own subfolder (comments, extensions) should 
-                // select parent tab when navigating through child tabs
-                //if (adminNode.Url.IndexOf("/admin/pagesxx/", StringComparison.OrdinalIgnoreCase) == -1 &&
-                //    SubUrl(this.Request.RawUrl) == SubUrl(adminNode.Url))
-                //{
-                //    cls = "current";
-                //}
-
                 <li><a href="@adminNode.Url" class="@cls"><span>@Utils.Translate(adminNode.Title, adminNode.Title)</span></a></li>
             }
         }
