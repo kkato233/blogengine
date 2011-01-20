@@ -1,27 +1,85 @@
-﻿@{
+﻿@using BlogEngine.Core
+@using BlogEngine.Core.Web.Extensions
+
+@{ 
     Page.Title = Resources.labels.extensions;
     Layout = "../_Layout.cshtml";
+    int cnt = 0;
+
+    var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
+
+    extensions.Sort(
+        (e1, e2) => e1.Value.Priority == e2.Value.Priority ? string.CompareOrdinal(e1.Key, e2.Key) : e1.Value.Priority.CompareTo(e2.Value.Priority));
+    
+    List<ManagedExtension> manExtensions = new List<ManagedExtension>();
+
+    foreach (KeyValuePair<string, ManagedExtension> ext in extensions)
+    {
+        var oExt = ExtensionManager.GetExtension(@ext.Key);
+        manExtensions.Add(oExt);
+    } 
 }
 
 <div class="content-box-outer">
 	<div class="content-box-right">
         <ul>
-			<li class="content-box-selected"><a href="@Href("~/admin/Users.aspx")">@Resources.labels.users</a></li>
-			<li><a href="@Href("~/admin/Users/Roles.aspx")" class="selected">@Resources.labels.roles</a></li>
+            @foreach (var x in manExtensions)
+            {
+                if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
+                {
+                    <li><a href="@Href("~/admin/Extension%20Manager/default.aspx?ctrl=params&ext=")@x.Name">@x.Name</a></li>
+                }
+            }
         </ul>
 	</div>
 	<div class="content-box-left">
-        <h1>@Resources.labels.users</h1>
+        <h1>@Resources.labels.extensions</h1>
         <div>
-            <ul id="ulExtensions">
-            @foreach (KeyValuePair<string, BlogEngine.Core.Web.Extensions.ManagedExtension> ext in BlogEngine.Core.Web.Extensions.ExtensionManager.Extensions)
-            {
-                <li>@ext.Key</li>
-            }
-            </ul>
-            <div>
-                <a href="#" onclick="return Toggle('ulExtensions');">Toggle</a>
-            </div>
+            
+            <table id="UserService" class="beTable rounded">
+              <thead>
+                <tr>
+                  <th width="150">Name</th>
+                  <th width="60">Version</th>
+	              <th width="auto">Description</th>
+                  <th width="150">Author</th>
+                  <th width="60">Priority</th>
+                  <th width="20">&nbsp;</th>
+                  <th width="20">&nbsp;</th>
+	              <th width="100">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach (var x in manExtensions)
+                {
+                <tr class="">
+                  <td>@x.Name</td>
+                  <td>@x.Version</td>
+                  <td>@Html.Raw(x.Description)</td>
+                  <td>@Html.Raw(x.Author)</td>
+                  <td>@x.Priority</td>
+                  <td align="center" valign="middle" style="width:20px;">
+                    <input type="image" name="ctl00$cphAdmin$ctl00$gridExtensionsList$ctl03$btnPriorityUp" id="ctl00_cphAdmin_ctl00_gridExtensionsList_ctl03_btnPriorityUp" src="../images/action-up.png" alt="Up" align="middle" style="border-width:0px;" />
+                  </td>
+                  <td align="center" valign="middle" style="width:20px;">
+                    <input type="image" name="ctl00$cphAdmin$ctl00$gridExtensionsList$ctl03$btnPriorityDwn" id="ctl00_cphAdmin_ctl00_gridExtensionsList_ctl03_btnPriorityDwn" src="../images/action-down.png" align="middle" style="border-width:0px;" />
+                  </td>
+                  <td>
+                    <ul class="rowTools">
+                        <li>
+                            <a class="toolsAction" href="#"><span class="">Tools</span></a>
+                            <ul class="rowToolsMenu">
+                                <li><a href="#" class="editButton editAction">Edit</a></li>
+                                <li><a href="#" class="deleteButton deleteAction">Delete</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                  </td>
+                </tr>
+                }        
+              </tbody>
+            </table>
+
         </div>
 	</div>
 </div>
