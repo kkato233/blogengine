@@ -211,6 +211,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .video {background: transparent url("images/icon-video.png") no-repeat scroll left center;  padding-left:18px; }
 .view {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px; }
 
+.toggle {float:right; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px; }
 
 /* Sliding panels */
 /* ------------------------------*/
