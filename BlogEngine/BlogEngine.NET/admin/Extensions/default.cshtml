@@ -18,6 +18,20 @@
     } 
 }
 
+<script type="text/javascript" src="../jquery.colorbox.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".changePriority").colorbox({ width: "300px", inline: true, href: "#frmPriority" });
+    });
+
+    function closeOverlay() {
+        $('#txtPriority').val('');
+        $('#txtPriorityReq').addClass('hidden');
+        $.colorbox.close();
+        return false;
+    }
+</script>
+
 <div class="content-box-outer">
 	<div class="content-box-right">
         <ul>
@@ -31,9 +45,20 @@
         </ul>
 	</div>
 	<div class="content-box-left">
-        
+        <div  style="display:none;">
+            <div id="frmPriority" class="overlaypanel">
+                <h2>Change Priority</h2>
+		        <label for="txtPriority" class="lbl">@Resources.labels.priority</label>
+		        <input type="text" id="txtPriority" class="txt200" />
+		        <span id="txtPriorityReq" class="req hidden">*</span>
+		        <br/><br/>
+		        <input type="submit" class="btn primary rounded" value="@Resources.labels.save" onclick="return ChangePriority();" />
+		        @Resources.labels.or <a href="" onclick="return closeOverlay();">@Resources.labels.cancel</a>
+                <br/><br/>
+	        </div>
+        </div>
+
         <div>@RazorHelpers.ExtensionList(true)</div>
-        
         <div>@RazorHelpers.ExtensionList(false)</div>
 	</div>
 </div>
