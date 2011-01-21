@@ -1,0 +1,14 @@
+﻿@{
+   if(Request.QueryString["ext"] != null && Request.QueryString["act"] != null)
+   {
+       var ext = Request.QueryString["ext"];
+       var act = bool.Parse(Request.QueryString["act"]);
+       
+       if(!string.IsNullOrEmpty(ext))
+       {
+           BlogEngine.Core.Web.Extensions.ExtensionManager.ChangeStatus(ext, act);
+
+           Response.Redirect("default.cshtml");    
+       }    
+   } 
+}

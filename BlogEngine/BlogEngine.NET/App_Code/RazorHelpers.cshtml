@@ -14,9 +14,9 @@
     {
     var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
     var tableId = "tblEnabledExtensions";
-    var onClick = "$(this).text($(this).text() == 'Show' ? 'Hide' : 'Show'); $.cookie('ToggleDisabledExtensions', '{0}', [x]); return {1}('tblDisabledExtensions');";
+    var onClick = "$(this).text($(this).text() == 'Show' ? 'Hide' : 'Show'); $.cookie('ToggleDisabledExtensions', $(this).text(), { expires: 30 }); return Toggle('tblDisabledExtensions');";
     var disabledDisplay = "";
-
+    
     extensions.Sort(
         (e1, e2) => e1.Value.Priority == e2.Value.Priority ? string.CompareOrdinal(e1.Key, e2.Key) : e1.Value.Priority.CompareTo(e2.Value.Priority));
 
@@ -43,7 +43,6 @@
         {
             var cookie = new HttpCookie("ToggleDisabledExtensions", "Hide") { Expires = DateTime.Now.AddMonths(1) };
             Response.Cookies.Add(cookie);
-            onClick = string.Format(onClick, "Hide", "Hide");
         }
         else
         {
@@ -51,12 +50,7 @@
 
             if (ShowHide == "Show")
             {
-                onClick = string.Format(onClick, "Hide", "Show");
                 disabledDisplay = "display: none";
-            }
-            else
-            {
-                onClick = string.Format(onClick, "Show", "Hide");
             }
         }
         onClick = onClick.Replace("[x]", "{ expires: 30 }");
@@ -87,6 +81,8 @@
                 cnt++;
                 cls = (cnt % 2 == 0) ? "alt" : "";
                 var enabled = @x.Enabled ? @Resources.labels.disable : @Resources.labels.enable;
+                var statusLink = Utils.RelativeWebRoot + "admin/Extensions/SetStatus.cshtml?ext={0}&act={1}";
+                statusLink = string.Format(statusLink, x.Name, !x.Enabled);
                         
                 <tr class="@cls">
                     <td>@x.Name</td>
@@ -98,7 +94,7 @@
                         <li>
                             <a class="toolsAction" href="#"><span class="">Tools</span></a>
                             <ul class="rowToolsMenu">
-                                <li><a href="#" class="unapproveButton unapproveAction">@enabled</a></li>
+                                <li><a href="@statusLink" class="unapproveButton unapproveAction">@enabled</a></li>
                                 <li><a href="#" class="viewButton viewAction">View</a></li>
                             </ul>
                         </li>
@@ -106,7 +102,7 @@
                     </td>
                     <td>@x.Priority</td>
                     <td align="center" valign="middle" style="width:20px;">
-                    <input type="image" name="ctl00$cphAdmin$ctl00$gridExtensionsList$ctl03$btnPriorityUp" id="ctl00_cphAdmin_ctl00_gridExtensionsList_ctl03_btnPriorityUp" src="../images/action-up.png" alt="Up" align="middle" style="border-width:0px;" />
+                    <input type="image" name="@x.Name" id="@x.Name" src="../images/action-up.png" alt="Up" align="middle" style="border-width:0px;" />
                     </td>
                     <td align="center" valign="middle" style="width:20px;">
                     <input type="image" name="ctl00$cphAdmin$ctl00$gridExtensionsList$ctl03$btnPriorityDwn" id="ctl00_cphAdmin_ctl00_gridExtensionsList_ctl03_btnPriorityDwn" src="../images/action-down.png" align="middle" style="border-width:0px;" />
