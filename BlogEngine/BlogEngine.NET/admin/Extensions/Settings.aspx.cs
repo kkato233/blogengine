@@ -3,12 +3,16 @@
     using System;
     using System.Linq;
     using System.Collections.Generic;
-    using System.Web.UI;
     using BlogEngine.Core;
     using BlogEngine.Core.Web.Extensions;
 
     public partial class Settings : System.Web.UI.Page
     {
+        /// <summary>
+        /// Gets or sets enabled/disabled link in the H1 header
+        /// </summary>
+        protected string EnabledLink { get; set; }
+
         protected List<ManagedExtension> ExtensionList()
         {
             var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
@@ -31,10 +35,24 @@
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnInit(EventArgs e)
         {
-            Security.DemandUserHasRight(BlogEngine.Core.Rights.AccessAdminPages, true);
-            UserControl uc;
+            Security.DemandUserHasRight(Rights.AccessAdminPages, true);
 
-            var extname = this.Request.QueryString["ext"];
+            var extname = Request.QueryString["ext"];
+
+            var enb = Request.QueryString["enb"];
+            if (!string.IsNullOrEmpty(enb))
+            {
+                if (bool.Parse(enb))
+                {
+                    EnabledLink = "<a class=\"extEnabled\" href=\"SetStatus.cshtml?ext={0}&act=false\">Enabled: click to disable</a>";
+                }
+                else
+                {
+                    EnabledLink = "<a class=\"extDisabled\" href=\"SetStatus.cshtml?ext={0}&act=true\">Disabled: click to enable</a>";
+                }
+
+                EnabledLink = string.Format(EnabledLink, extname);
+            }
 
             foreach (var setting in from x in ExtensionManager.Extensions
                                     where x.Key == extname
@@ -42,9 +60,9 @@
                                     where !string.IsNullOrEmpty(setting.Name) && !setting.Hidden
                                     select setting)
             {
-                uc = (UserControl)this.Page.LoadControl("Settings.ascx");
+                var uc = (UserControlSettings)Page.LoadControl("Settings.ascx");
                 uc.ID = setting.Name;
-                this.ucPlaceHolder.Controls.Add(uc);
+                ucPlaceHolder.Controls.Add(uc);
             }
 
             base.OnInit(e);

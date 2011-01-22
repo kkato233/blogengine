@@ -1,7 +1,7 @@
 ﻿@using BlogEngine.Core
 @using BlogEngine.Core.Web.Extensions
 
-@helper ExtensionList(bool isenabled)
+@helper GetTable(bool isenabled)
     {
     var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
     var tableId = "tblEnabledExtensions";
