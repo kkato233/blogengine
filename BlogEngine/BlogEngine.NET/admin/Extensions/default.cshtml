@@ -37,9 +37,11 @@
         <ul>
             @foreach (var x in manExtensions)
             {
+                var lnk = string.Format("~/admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled);
+                
                 if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
                 {
-                    <li><a href="@Href("~/admin/Extensions/Settings.aspx?ext=")@x.Name">@x.Name</a></li>
+                    <li><a href="@Href(lnk)">@x.Name</a></li>
                 }
             }
         </ul>
@@ -58,7 +60,7 @@
 	        </div>
         </div>
 
-        <div>@RazorHelpers.ExtensionList(true)</div>
-        <div>@RazorHelpers.ExtensionList(false)</div>
+        <div>@AdminExtensionsHelper.GetTable(true)</div>
+        <div>@AdminExtensionsHelper.GetTable(false)</div>
 	</div>
 </div>
