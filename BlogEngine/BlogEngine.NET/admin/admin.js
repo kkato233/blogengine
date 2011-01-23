@@ -796,6 +796,28 @@ function DeletePage(obj) {
     return false;
 }
 
+function ChangePriority() {
+    var dto = { "priority": $('#txtPriority').val(), "ext": $('#hdnExtensionName').val() };
+    $.ajax({
+        url: "../AjaxHelper.aspx/ChangePriority",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var rt = result.d;
+            if (rt == true) {
+                window.location.reload();
+            }
+            else {
+                closeOverlay();
+                ShowStatus("warning", "Error changing priority");
+            }
+        }
+    });
+    return false;
+}
+
 //--------------HELPERS AND MISC
 
 function colorboxDialogSubmitClicked(validationGroup, panelId) {

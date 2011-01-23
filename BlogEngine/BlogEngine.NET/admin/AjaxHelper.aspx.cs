@@ -1,4 +1,6 @@
-﻿namespace Admin
+﻿using BlogEngine.Core.Web.Extensions;
+
+namespace Admin
 {
     using System;
     using System.Collections;
@@ -332,6 +334,26 @@
                 return new JsonResponse { Success = false, Message = Resources.labels.notAuthorized };
             }
             return JsonCustomFilterList.ResetCounters(filterName);
+        }
+
+        [WebMethod]
+        public static bool ChangePriority(int priority, string  ext)
+        {
+            try
+            {
+                var x = ExtensionManager.GetExtension(ext);
+                if (x != null)
+                {
+                    x.Priority = priority;
+                    ExtensionManager.SaveToStorage(x);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error changing priority: " + ex.Message);
+            }
+            return false;
         }
     }
 }
