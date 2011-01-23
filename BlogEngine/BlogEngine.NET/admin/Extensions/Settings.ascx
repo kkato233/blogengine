@@ -12,7 +12,7 @@
 </div>
 
 <div style="margin: 10px 0; padding-bottom: 10px; border-bottom: 1px solid #ccc; display:block">
-    <asp:Button CssClass="btn primary" runat="server" ID="btnAdd" ValidationGroup="new" /> <%=Resources.labels.or %> <a href="default.aspx"><%=Resources.labels.cancel %></a>
+    <asp:Button CssClass="btn primary" runat="server" ID="btnAdd" ValidationGroup="new" /> <%=Resources.labels.or %> <a href="default.cshtml"><%=Resources.labels.cancel %></a>
 </div>
 
 <asp:GridView ID="grid"  
