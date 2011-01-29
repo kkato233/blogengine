@@ -211,6 +211,13 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .video {background: transparent url("images/icon-video.png") no-repeat scroll left center;  padding-left:18px; }
 .view {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px; }
 
+.extEnabled {float:right; z-index: 999; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px;
+    background: transparent url("images/action-enable.png") no-repeat scroll left center;  }
+.extDisabled {float:right; z-index: 999; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px;
+    background: transparent url("images/action-remove.png") no-repeat scroll left center;  }
+.extEdit {float:right; z-index: 999; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px;
+    background: transparent url("images/action-edit-small.png") no-repeat scroll left center;  }
+.toggle {float:right; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px; }
 
 /* Sliding panels */
 /* ------------------------------*/
