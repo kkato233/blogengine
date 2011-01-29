@@ -60,51 +60,51 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0"/>
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string"/>
-							<xsd:attribute name="type" type="xsd:string"/>
-							<xsd:attribute name="mimetype" type="xsd:string"/>
-							<xsd:attribute ref="xml:space"/>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string"/>
-							<xsd:attribute name="name" type="xsd:string"/>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-							<xsd:attribute ref="xml:space"/>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required"/>
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -118,1540 +118,1540 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>新增</value>
+    <value>Lisa</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>新增文章</value>
+    <value>Lisa üksus</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>新增評論</value>
+    <value>Lisa kommentaar</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>在HTML頁首增加自訂標簽</value>
+    <value>Lisa oma kood HTML päisesse</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>控制面板</value>
+    <value>Seadistused</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>進階</value>
+    <value>Täpsemalt</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>進階設定</value>
+    <value>Täpsemad muudatused</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>輪替 Feed URL</value>
+    <value>Alternatiivne uudisvoo URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>核可</value>
+    <value>Kinnita</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>核可所有評論</value>
+    <value>Kinnita kõik kommentaarid</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>文章彙整</value>
+    <value>Arhiiv</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>你確定要 {0} {1}?</value>
+    <value>Kas Sa kindlasti soovid {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>新增附件</value>
+    <value>Lisa fail</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>作者</value>
+    <value>Autor</value>
   </data>
   <data name="avatars" xml:space="preserve">
-    <value>頭像</value>
+    <value>Avatarid</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>基本</value>
+    <value>Peamine</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>成為第一個評分者吧</value>
+    <value>Hinda seda postitust esimesena</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET 使用 &lt;a href="http://blogml.codeplex.com/" target="_blank"&gt;BlogML&lt;/a&gt; 作為匯出格式. 匯入同時支援 BlogML 和 RSS.</value>
+    <value>BlogEngine.NET kasutab &lt;a href="http://blogml.codeplex.com/" target="_blank"&gt;BlogML&lt;/a&gt; vormingut eksportimiseks. Importimisel on toetatud nii BlogML kui ka RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
-    <value>部落格聯播</value>
+    <value>Blogirull</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>按鈕名稱</value>
+    <value>Nupu tekst</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>類別</value>
+    <value>Kategooriad</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>分類</value>
+    <value>Kategooria</value>
   </data>
   <data name="changePassword" xml:space="preserve">
-    <value>變更密碼</value>
+    <value>Muuda parooli</value>
   </data>
   <data name="chooseOtherName" xml:space="preserve">
-    <value>請選擇另一個名字</value>
+    <value>Vali mõni teine nimi</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>之後關閉評論</value>
+    <value>Sulge kommentaarid peale</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>評論</value>
+    <value>Kommentaar</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>評論標籤文字</value>
+    <value>Kommentaari pealkirja tekst</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>評論</value>
+    <value>Kommentaarid</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>不允許評論</value>
+    <value>Kommenteerimine on suletud</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>您的評論已保存,感謝您的回應。</value>
+    <value>Kommentaar on salvestatud. Täname tagasiside eest.</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>聯絡</value>
+    <value>Kontakt</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>聯絡表單</value>
+    <value>Kontakt</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>基本設定</value>
+    <value>Seaded</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>國家</value>
+    <value>Riik</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>建立新使用者</value>
+    <value>Loo uus kasutaja</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>目前評分 {0}, 共有 {1} 人參與</value>
+    <value>Hinnatud {0}  {1} kasutaja poolt</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>日期</value>
+    <value>Kuupäev</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>預設Feed輸出</value>
+    <value>vaikimisi feed väljund</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>搜尋欄預設顯示的文字</value>
+    <value>Otsingukastis kuvatav tekst</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>刪除</value>
+    <value>Kustuta</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>描述</value>
+    <value>Kirjeldus</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>顯示評論</value>
+    <value>Kuva kommentaarid</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>顯示評分</value>
+    <value>Hinnang</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>編輯</value>
+    <value>Muuda</value>
   </data>
   <data name="email" xml:space="preserve">
     <value>E-mail</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>E-mail 地址</value>
+    <value>E-mail aadress</value>
   </data>
   <data name="emailSubjectPrefix" xml:space="preserve">
-    <value>主旨前置詞</value>
+    <value>Meili teema algus</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>允許附件</value>
+    <value>Luba manused</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>允許共同評論</value>
+    <value>Luba alamkommentaarid</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>允許評論</value>
+    <value>Luba kommenteerimine</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>如果評論未啟用,任何人都不能對任何內容發表評論。</value>
+    <value>Kui kommentaarid pole lubatud, ei saa keegi lisada kommentaare</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>允許搜尋評論</value>
+    <value>Luba otsing kommentaaridest</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>管理評論</value>
+    <value>Modereeri kommentaare</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>啟用頭像</value>
+    <value>Luba Gravatarid</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>啟用HTTP壓縮</value>
+    <value>Luba HTTP kompressioon</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>可使頁面下載更快(推薦). 更改此選項將會重啟網站.</value>
+    <value>Teeb lehe laadimise kiiremaks (soovituslik). Selle muutmine teeb veebile taaskäivituse.</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>啟用開放搜尋</value>
+    <value>Luba OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>給新瀏覽者增加搜尋特性(推薦)</value>
+    <value>Lisab otsingufunktsionaalsuse kõikidele uuematele brauseritele (soovituslik).</value>
   </data>
   <data name="enablePingbacks" xml:space="preserve">
-    <value>啟用 Pingback</value>
+    <value>Luba tagasisdestamine (pingbacks)</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>允許評分</value>
+    <value>Luba hinnangute andmine postitustele</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>啟用引用追蹤</value>
+    <value>Luba tagasiside kogumine</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>啟用搜尋重點顯示</value>
+    <value>Luba otsingu esiletõstmine</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>重點顯示頁面上的搜尋文字</value>
+    <value>Värvi otsisõnad lehel vastavalt tulemusele.</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>啟用SSL</value>
+    <value>Luba SSL</value>
   </data>
   <data name="enableTrackbacks" xml:space="preserve">
-    <value>啟用 Trackback</value>
+    <value>Luba trackbacks</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>核可(bLink)</value>
+    <value>Endorsement (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>強制</value>
+    <value>Kohustuslik</value>
   </data>
   <data name="enterValidEmail" xml:space="preserve">
-    <value>請輸入正確的 E-mail</value>
+    <value>Sisesta palun korrektne e-mail</value>
   </data>
   <data name="enterValidUrl" xml:space="preserve">
-    <value>請輸入正確的網址</value>
+    <value>Sisesta palun korrektne URL</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>匯出</value>
+    <value>Export</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>表單訊息</value>
+    <value>Tagasiside sõnum</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>回到首頁</value>
+    <value>Mine esilehele</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>WWW子網域政策</value>
+    <value>www subdomain policy</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>首頁</value>
+    <value>Kodu</value>
     <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML頁首區域</value>
+    <value>HTML päis</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>忽略</value>
+    <value>Ignoreeri</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>匯入</value>
+    <value>Import</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>是否為首頁</value>
+    <value>Kuvatakse esilehel</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>關鍵字</value>
+    <value>Märksõnad</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>選擇語言</value>
+    <value>Vali keel</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>語言代碼</value>
+    <value>Keele kood</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>緯度</value>
+    <value>Latitude</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>即時預覽</value>
+    <value>Eelvaade</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>經度</value>
+    <value>Longtitude</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>項目允許的長度</value>
+    <value>Suurim pikkus elemtidel</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>訊息</value>
+    <value>Sõnum</value>
   </data>
   <data name="mobileTheme" xml:space="preserve">
-    <value>行動裝置佈景主題</value>
+    <value>Mobiili teema</value>
   </data>
   <data name="themeCookieName" xml:space="preserve">
-    <value>主題 Cookie名稱</value>
+    <value>Teema küpsise nimi</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>更多...</value>
+    <value>Veel</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>名字</value>
+    <value>Nimi</value>
   </data>
   <data name="nextPost" xml:space="preserve">
-    <value>下一篇文章</value>
+    <value>Järgmine postitus</value>
   </data>
   <data name="nextPosts" xml:space="preserve">
-    <value>以後的文章</value>
+    <value>Uuemad postitused</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>不顯示</value>
+    <value>Puudub</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>沒有上層</value>
+    <value>Pole vanemat</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>有評論時通知我</value>
+    <value>Teavita mind kommentaaride lisandumisest</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>尚未有評分</value>
+    <value>Pole veel hinnatud</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>評論數量</value>
+    <value>Kommentaare</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value>顯示文章數量</value>
+    <value># niimitu elementi</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>文章數量</value>
+    <value>Postituste arv</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>頁面</value>
+    <value>Leht</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>新增頁面</value>
+    <value>Lehed</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>密碼</value>
+    <value>Parool</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>通訊埠號碼</value>
+    <value>Pordi number</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>Port 25為預設通訊埠</value>
+    <value>Port 25 on tavapärane</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>可能為垃圾</value>
+    <value>Võimalik spämm</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>文章</value>
+    <value>Post</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>每頁文章數</value>
+    <value>Postitusi lehel</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>文章</value>
+    <value>Postitused</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Feed中顯示的項目</value>
+    <value>Mitu üksust uudisvoos kuvatakse</value>
   </data>
   <data name="previousPost" xml:space="preserve">
-    <value>上一篇文章</value>
+    <value>Eelmine postitus</value>
   </data>
   <data name="previousPosts" xml:space="preserve">
-    <value>以前的文章</value>
+    <value>Vanemad postitused</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>發表</value>
+    <value>Avalda</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>個評分者</value>
+    <value>Hindajad</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>排行</value>
+    <value>Hindamine</value>
   </data>
   <data name="receive" xml:space="preserve">
-    <value>接收</value>
+    <value>Võta vastu</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>最新評論</value>
+    <value>Hiljutised kommentaarid</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>最新文章</value>
+    <value>Hiljutised postitused</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>引用</value>
+    <value>Tagasilinkija</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>管理引用</value>
+    <value>Tagasilinkijad</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>相關文章</value>
+    <value>Seotud postitused</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>移除</value>
+    <value>Eemalda</value>
   </data>
   <data name="required" xml:space="preserve">
-    <value>必填</value>
+    <value>Nõutud</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>儲存</value>
+    <value>Salvesta</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>儲存評論</value>
+    <value>Salvesta kommentaar</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>儲存頁面</value>
+    <value>Salvesta leht</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>儲存文章</value>
+    <value>Salvesta postitus</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>儲存設定</value>
+    <value>Salvesta häälestused</value>
   </data>
   <data name="savingTheComment" xml:space="preserve">
-    <value>正在儲存評論...</value>
+    <value>Kommentaari salvestamine...</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>搜尋</value>
+    <value>Otsi</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>搜尋區域</value>
+    <value>Otsinguväli</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>搜尋區域文字</value>
+    <value>Sõna otsingukastis</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>搜尋結果：</value>
+    <value>Otsi tulemusi</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>選擇日期</value>
+    <value>Vali päev</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>選擇上層目錄</value>
+    <value>Vali vanem</value>
   </data>
   <data name="send" xml:space="preserve">
-    <value>發送</value>
+    <value>Saada</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>發送評論Email</value>
+    <value>Saada kommentaari e-mail</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>使用逗號(,)區隔單一標籤</value>
+    <value>Eralda sildid omavahel komaga</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>進階設定</value>
+    <value>Häälestused</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>顯示國家</value>
+    <value>Näita riigi valija</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>如果設定不顯示國家，評論將不會顯示國旗</value>
+    <value>Kui riigi valimine pole lubatud, ei näidata ka riigilippe kommenteerijate juures</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>僅顯示文章敘述</value>
+    <value>Näita ainult osa postitusest</value>
   </data>
   <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
-    <value>使用'標籤'或'類別'列表結果時僅顯示文章敘述</value>
+    <value>Näita ainult osa postitusest kui on kasutusel Siltide või Kategooriate järgi kuvamine</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>顯示線上列表</value>
+    <value>Kuva nimekirjas</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>即時預覽</value>
+    <value>Näita eelvaadet</value>
   </data>
   <data name="showPostNavigation" xml:space="preserve">
-    <value>顯示文章導覽連結</value>
+    <value>Kuva postituse navigeerimise lingid</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>顯示相關文章</value>
+    <value>Kuva seotud postitused</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>主題</value>
+    <value>Teema</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>訂閱</value>
+    <value>Liitu</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>感謝您的參與</value>
+    <value>Tänan sõnumi eest.</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>評論</value>
+    <value>kommentaar</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>佈景主題</value>
+    <value>Teema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>文章</value>
+    <value>postitus</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>尚有{0}篇文章未發表</value>
+    <value>Siin on {0} avaldamata postitust</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>在URL中顯示日期</value>
+    <value>Lisa kuupäev postituse linkidele</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>保存時區</value>
+    <value>Serveri ajatsooni vahe</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>標題</value>
+    <value>Pealkiri</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>壓縮樣式表</value>
+    <value>Vähenda stiilifaili mahtu</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>在程式運行時自動去除樣式表中空白處，以降低樣式表文件大小</value>
+    <value>Kõikidest stiilifailidest eemaldatakse tühikud.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>未核可評論</value>
+    <value>Kinnitamata kommentaarid</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>更新頻率(分鐘)</value>
+    <value>Uuendamise sagedus (minutites)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>上傳文件</value>
+    <value>La fail üles</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>上傳圖片</value>
+    <value>Lae pilt üles</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>用戶名稱</value>
+    <value>Kasutajanimi</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>管理用戶</value>
+    <value>Kasutajad</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>網站</value>
+    <value>Veebileht</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>您的Email將用於顯示 {0} 頭像</value>
+    <value>Kuvab sinu {0} pildi</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>說</value>
+    <value>vastab</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>您已經對該文章評分</value>
+    <value>Sa oled seda juba hinnanud</value>
   </data>
   <data name="userProfiles" xml:space="preserve">
-    <value>使用者個人資料</value>
+    <value>Kasutaja profiil(id)</value>
   </data>
   <data name="view" xml:space="preserve">
-    <value>檢視</value>
+    <value>Vaata</value>
   </data>
   <data name="firstName" xml:space="preserve">
-    <value>名字</value>
+    <value>Eesnimi</value>
   </data>
   <data name="aboutMe" xml:space="preserve">
-    <value>關於我</value>
+    <value>Minust</value>
   </data>
   <data name="birthday" xml:space="preserve">
-    <value>生日</value>
+    <value>Sünnipäev</value>
   </data>
   <data name="cityTown" xml:space="preserve">
-    <value>縣市</value>
+    <value>Linn</value>
   </data>
   <data name="displayName" xml:space="preserve">
-    <value>顯示名稱</value>
+    <value>Nimi</value>
   </data>
   <data name="fullName" xml:space="preserve">
-    <value>全名</value>
+    <value>Täisnimi</value>
   </data>
   <data name="gender" xml:space="preserve">
-    <value>性別</value>
+    <value>Sugu</value>
   </data>
   <data name="industry" xml:space="preserve">
-    <value>行業</value>
+    <value>Tegevusala</value>
   </data>
   <data name="interests" xml:space="preserve">
-    <value>興趣</value>
+    <value>Huvialad</value>
   </data>
   <data name="isPrivate" xml:space="preserve">
-    <value>確認為私密內容</value>
+    <value>Isiklik</value>
   </data>
   <data name="lastName" xml:space="preserve">
-    <value>姓氏</value>
+    <value>Perenimi</value>
   </data>
   <data name="occupation" xml:space="preserve">
-    <value>職業</value>
+    <value>Hõivamine</value>
   </data>
   <data name="photoURL" xml:space="preserve">
-    <value>相片網址</value>
+    <value>Foto URL</value>
   </data>
   <data name="regionState" xml:space="preserve">
-    <value>國家/地區</value>
+    <value>Osariik/Regioon</value>
   </data>
   <data name="saveProfile" xml:space="preserve">
-    <value>儲存個人資料</value>
+    <value>Salvesta profiil</value>
   </data>
   <data name="switchUserProfile" xml:space="preserve">
-    <value>切換到使用者個人資料</value>
+    <value>Mine kasutaja profiililehele</value>
   </data>
   <data name="company" xml:space="preserve">
-    <value>所屬公司</value>
+    <value>Ettevõte</value>
   </data>
   <data name="middleName" xml:space="preserve">
-    <value>(免填)</value>
+    <value>Keskmine nimi</value>
   </data>
   <data name="phoneFax" xml:space="preserve">
-    <value>傳真號碼</value>
+    <value>Fax</value>
   </data>
   <data name="phoneMain" xml:space="preserve">
-    <value>電話號碼</value>
+    <value>Telefon</value>
   </data>
   <data name="phoneMobile" xml:space="preserve">
-    <value>手機號碼</value>
+    <value>Mobiil</value>
   </data>
   <data name="profile" xml:space="preserve">
-    <value>個人資料</value>
+    <value>Profiil</value>
   </data>
   <data name="calendar" xml:space="preserve">
-    <value>月曆</value>
+    <value>Kalender</value>
   </data>
   <data name="commentWaitingModeration" xml:space="preserve">
-    <value>感謝您的回覆,此評論等待處理</value>
+    <value>Täname tagasiside eest. Kommentaar ootab modereerimist</value>
   </data>
   <data name="requireSslForMetaWeblogApi" xml:space="preserve">
-    <value>MetaWeblog API必須使用SSL</value>
+    <value>Nõutud on SSL MetaWeblog API jaoks</value>
   </data>
   <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
-    <value>與MetaWeblog API連線時強制使用SSL</value>
+    <value>Luba MetaWeblog API kasutamist ainult üle SSL ühenduse</value>
   </data>
   <data name="compressWebResource" xml:space="preserve">
-    <value>壓縮 WebResource.axd</value>
+    <value>Kompresseeri WebResource.axd</value>
   </data>
   <data name="compressWebResourceDescription" xml:space="preserve">
-    <value>這項決定有可能引起外掛故障</value>
+    <value>See võib kahjustada kolmanda osapoole komponentide tööd</value>
   </data>
   <data name="useBlogNameInPageTitles" xml:space="preserve">
-    <value>在網頁標題加入部落格名稱</value>
+    <value>Kasuta blogi nime lehtede päises</value>
   </data>
   <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
-    <value>將網頁標題中的部落格名稱置於後方</value>
+    <value>Blogi nimi pannakse lehe päisesse</value>
   </data>
   <data name="uncategorized" xml:space="preserve">
-    <value>未分類</value>
+    <value>Katgooriata</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Tühista</value>
   </data>
   <data name="filter" xml:space="preserve">
-    <value>過濾器</value>
+    <value>Filter</value>
   </data>
   <data name="filterByApml" xml:space="preserve">
-    <value>使用APML過濾</value>
+    <value>Filter by APML</value>
   </data>
   <data name="filterByApmlDescription" xml:space="preserve">
-    <value>請輸入您網站或是您APML文件的網址</value>
+    <value>Sisesta oma veebilehe URL või APML aadress</value>
   </data>
   <data name="login" xml:space="preserve">
-    <value>登入</value>
+    <value>Logi sisse</value>
   </data>
   <data name="logoff" xml:space="preserve">
-    <value>登出</value>
+    <value>Logi välja</value>
   </data>
   <data name="useRawHtmlEditor" xml:space="preserve">
-    <value>使用HTML原始碼編輯器</value>
+    <value>Kasuta puhast HTML redigeerijat</value>
   </data>
   <data name="enableCommentNesting" xml:space="preserve">
-    <value>啟用巢狀評論</value>
+    <value>Luba seotud kommentaarid</value>
   </data>
   <data name="enableCommentNestingDescription" xml:space="preserve">
-    <value>僅佈景主題支援時有效</value>
+    <value>See töötab vaid juhul teemapakett seda toetab</value>
   </data>
   <data name="replyTo" xml:space="preserve">
-    <value>回覆至</value>
+    <value>Vastates</value>
   </data>
   <data name="replyToBase" xml:space="preserve">
-    <value>原始</value>
+    <value>algupärane postitus</value>
   </data>
   <data name="replyToThis" xml:space="preserve">
-    <value>回覆此人</value>
+    <value>Vasta</value>
   </data>
   <data name="deleteKeepReplies" xml:space="preserve">
-    <value>刪除此評論，但保留其回覆評論</value>
+    <value>Kustuta see kuid jäta vastused alles</value>
   </data>
   <data name="deletePlusReplies" xml:space="preserve">
-    <value>刪除此評論及其所有回覆評論</value>
+    <value>Kustuta koos vastustega</value>
   </data>
   <data name="cancelReply" xml:space="preserve">
-    <value>取消回覆該評論</value>
+    <value>Tühista kommentaarile vastamine</value>
   </data>
   <data name="numberOfCharacters" xml:space="preserve">
-    <value>字數</value>
+    <value>Tähemärke</value>
   </data>
   <data name="ratingHasBeenRegistered" xml:space="preserve">
-    <value>您的評分已記錄,感謝您!</value>
+    <value>Sinu hinnang on salvestatud. Täname!</value>
   </data>
   <data name="rateThisXStars" xml:space="preserve">
-    <value>給他{0}分!</value>
+    <value>Hinda seda {0} tärniga{1} 5-st</value>
   </data>
   <data name="move" xml:space="preserve">
-    <value>移動</value>
+    <value>Liiguta</value>
   </data>
   <data name="moveWidgetTo" xml:space="preserve">
-    <value>移動Widget到</value>
+    <value>Liiguta Widget ...</value>
   </data>
   <data name="link" xml:space="preserve">
-    <value>連結</value>
+    <value>Link</value>
   </data>
   <data name="numberOfDaysToKeep" xml:space="preserve">
-    <value>保存天數</value>
+    <value>Hoida niimitu päeva</value>
   </data>
   <data name="profiles" xml:space="preserve">
-    <value>個人資料</value>
+    <value>Profiilid</value>
   </data>
   <data name="enableErrorLogging" xml:space="preserve">
-    <value>啟用錯誤紀錄</value>
+    <value>Lubatud veateadete logimine</value>
   </data>
   <data name="enableErrorLoggingDescription" xml:space="preserve">
-    <value>未經處理的錯誤將被記錄至外掛或模組以便訂閱日誌提示</value>
+    <value>Unhandled errors will be logged to any extension/component subscribed to log notifications.</value>
   </data>
   <data name="commentNotificationUnsubscriptionHeader" xml:space="preserve">
-    <value>評論通知訂閱</value>
+    <value>Kommentaaride teavituste tellimine</value>
   </data>
   <data name="commentNotificationUnsubscriptionText" xml:space="preserve">
-    <value>您已經取消Email訂閱，未來您將不會再收到有關這篇文章的評論的消息</value>
+    <value>Sulle ei saabu enam teavitusd kommentaaride lisandumisest selle postituse juures.</value>
   </data>
   <data name="commentNotificationUnsubscribe" xml:space="preserve">
-    <value>您已經取消此文章評論的Email訂閱</value>
+    <value>Eemalda ennast edasisest kommentaaride teavitusest</value>
   </data>
   <data name="accuracy" xml:space="preserve">
-    <value>準確度</value>
+    <value>Täpsus</value>
   </data>
   <data name="addFilter" xml:space="preserve">
-    <value>新增過濾器</value>
+    <value>Lisa filter</value>
   </data>
   <data name="addToWhiteList" xml:space="preserve">
-    <value>新增到白名單，如果:</value>
+    <value>Lisa valgesse listi kui vähemalt</value>
   </data>
   <data name="allow" xml:space="preserve">
-    <value>允許</value>
+    <value>Luba</value>
   </data>
   <data name="alwaysTrust" xml:space="preserve">
-    <value>永遠信任通過驗證的使用者</value>
+    <value>Usalda alati autenditud kasutajaid</value>
   </data>
   <data name="approved" xml:space="preserve">
-    <value>已核可</value>
+    <value>Kinnitatud</value>
   </data>
   <data name="authorApproved" xml:space="preserve">
-    <value>篇該作者已被核可的評論</value>
+    <value>selle autori kommentaari on kinnitatud</value>
   </data>
   <data name="authorBlocked" xml:space="preserve">
-    <value>刪除評論時，永久封鎖該作者</value>
+    <value>Peale kommentaari kustutamist blokeeri ka autor</value>
   </data>
   <data name="authorRejected" xml:space="preserve">
-    <value>篇該作者已被拒絕的評論</value>
+    <value>selle autori kommentaari on tagasi lükatud</value>
   </data>
   <data name="block" xml:space="preserve">
-    <value>封鎖</value>
+    <value>Blokeeri</value>
   </data>
   <data name="cheked" xml:space="preserve">
-    <value>已檢查</value>
+    <value>Valitud</value>
   </data>
   <data name="commentsApprovedByAdmin" xml:space="preserve">
-    <value>手動 - 只有經管理員核可的評論才會出現在部落格中</value>
+    <value>Manuaalne - kommentaar muutub nähtavaks peale kinnitamist</value>
   </data>
   <data name="commentsAuto" xml:space="preserve">
-    <value>自動 - 使用規則與過濾器檢查是否為垃圾留言</value>
+    <value>Automaatne - reeglid ja filtrid otsustavad kas kommentaar kuulub spami alla</value>
   </data>
   <data name="commentsBlacklist" xml:space="preserve">
-    <value>新增到黑名單，如果:</value>
+    <value>Lisa musta listi kui vähemalt</value>
   </data>
   <data name="commentsBlockOnDelete" xml:space="preserve">
-    <value>刪除評論同時封鎖</value>
+    <value>Kustutamisel blokeeri</value>
   </data>
   <data name="commentsPerPage" xml:space="preserve">
-    <value>單頁評論數</value>
+    <value>Kommentaare lehel</value>
   </data>
   <data name="commentsUnmodApproved" xml:space="preserve">
-    <value>自動核可評論</value>
+    <value>Kõik kommentaarid on automaatselt avalikud kui ei modereerita</value>
   </data>
   <data name="confirmResetCounters" xml:space="preserve">
-    <value>你確定要重設所有計數器為"0"?</value>
+    <value>Kas tõesti soovid loendureid alustada `0-st?</value>
   </data>
   <data name="contains" xml:space="preserve">
-    <value>包含</value>
+    <value>Sisaldab</value>
   </data>
   <data name="days" xml:space="preserve">
-    <value>天</value>
+    <value>päeva</value>
   </data>
   <data name="down" xml:space="preserve">
-    <value>下</value>
+    <value>Alla</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>啟用</value>
+    <value>Lubatud</value>
   </data>
   <data name="eqls" xml:space="preserve">
-    <value>完全吻合</value>
+    <value>Võrdub</value>
   </data>
   <data name="filterName" xml:space="preserve">
-    <value>過濾器名稱</value>
+    <value>Filtri nimi</value>
   </data>
   <data name="filters" xml:space="preserve">
-    <value>過濾器</value>
+    <value>Filtrid</value>
   </data>
   <data name="ip" xml:space="preserve">
     <value>IP</value>
   </data>
   <data name="mistakes" xml:space="preserve">
-    <value>誤判</value>
+    <value>Vead</value>
   </data>
   <data name="moderation" xml:space="preserve">
-    <value>管理</value>
+    <value>Modereerimine</value>
   </data>
   <data name="priority" xml:space="preserve">
-    <value>優先程度</value>
+    <value>Prioriteet</value>
   </data>
   <data name="reportMistakesToService" xml:space="preserve">
-    <value>向服務提供者回報誤判案例</value>
+    <value>Raporteeri teenusele vigadest</value>
   </data>
   <data name="resetCounters" xml:space="preserve">
-    <value>重設計數器</value>
+    <value>Nulli loendurid</value>
   </data>
   <data name="rules" xml:space="preserve">
-    <value>規則</value>
+    <value>Reeglid</value>
   </data>
   <data name="spam" xml:space="preserve">
-    <value>垃圾</value>
+    <value>Spämm</value>
   </data>
   <data name="trustAuthenticated" xml:space="preserve">
-    <value>信任通過驗證的作者</value>
+    <value>Usalda autenditud kasutajaid</value>
   </data>
   <data name="up" xml:space="preserve">
-    <value>上</value>
+    <value>Üles</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>全部</value>
+    <value>Kõik</value>
   </data>
   <data name="clear" xml:space="preserve">
-    <value>空的</value>
+    <value>Kustuta</value>
   </data>
   <data name="moderator" xml:space="preserve">
-    <value>管理者</value>
+    <value>Moderaator</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>選擇</value>
+    <value>Vali</value>
   </data>
   <data name="reject" xml:space="preserve">
-    <value>拒絕</value>
+    <value>Lükka tagasi</value>
   </data>
   <data name="restore" xml:space="preserve">
-    <value>復原</value>
+    <value>Taasta</value>
   </data>
   <data name="selectedComments" xml:space="preserve">
-    <value>選擇評論</value>
+    <value>valitud kommentaarid</value>
   </data>
   <data name="editor" xml:space="preserve">
-    <value>編輯器</value>
+    <value>Muutja</value>
   </data>
   <data name="total" xml:space="preserve">
-    <value>總計</value>
+    <value>Kokku</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>更新</value>
+    <value>Uuenda</value>
   </data>
   <data name="widget" xml:space="preserve">
     <value>Widget</value>
   </data>
   <data name="configuration" xml:space="preserve">
-    <value>設定</value>
+    <value>Konfiguratsioon</value>
   </data>
   <data name="inbox" xml:space="preserve">
-    <value>Inbox</value>
+    <value>Sisendkast</value>
   </data>
   <data name="manual" xml:space="preserve">
-    <value>手動</value>
+    <value>Manuaalne</value>
   </data>
   <data name="unmoderated" xml:space="preserve">
-    <value>未經管理</value>
+    <value>Modereerimata</value>
   </data>
   <data name="action" xml:space="preserve">
-    <value>動作</value>
+    <value>Tegevus</value>
   </data>
   <data name="automoderation" xml:space="preserve">
-    <value>自動審核</value>
+    <value>Automaatne modereerimine</value>
   </data>
   <data name="custom" xml:space="preserve">
-    <value>自訂</value>
+    <value>Kohandatud</value>
   </data>
   <data name="extensions" xml:space="preserve">
-    <value>外掛模組</value>
+    <value>Laiendused</value>
   </data>
   <data name="showPingBacks" xml:space="preserve">
-    <value>顯示 pingbacks 與 trackbacks</value>
+    <value>Kuva pingbacks ja trackbacks</value>
   </data>
   <data name="register" xml:space="preserve">
-    <value>註冊</value>
+    <value>Registreeri</value>
   </data>
   <data name="addCommentsToPages" xml:space="preserve">
-    <value>為頁面新增評論</value>
+    <value>Lisa kommentaarid lehtedele</value>
   </data>
   <data name="addToPages" xml:space="preserve">
-    <value>新增至頁面(還有文章)</value>
+    <value>Lisa lehtedele (in addition to posts)</value>
   </data>
   <data name="alreadyHaveAccount" xml:space="preserve">
-    <value>已經有帳號了?</value>
+    <value>Omad juba kasutajatunnust?</value>
   </data>
   <data name="applyChanges" xml:space="preserve">
-    <value>套用變更</value>
+    <value>Salvesta muudatused</value>
   </data>
   <data name="clickToDisable" xml:space="preserve">
-    <value>點擊以關閉</value>
+    <value>Keelamiseks vajuta</value>
   </data>
   <data name="clickToEnable" xml:space="preserve">
-    <value>點擊以啟用</value>
+    <value>Lubamiseks vajuta</value>
   </data>
   <data name="commentsWhere" xml:space="preserve">
-    <value>comments where</value>
+    <value>kommentaarid kus</value>
   </data>
   <data name="confirmNewPassword" xml:space="preserve">
-    <value>確認新密碼</value>
+    <value>Kinnita uus parool</value>
   </data>
   <data name="confirmPassword" xml:space="preserve">
-    <value>確認密碼</value>
+    <value>Kinnita parool</value>
   </data>
   <data name="createAccount" xml:space="preserve">
-    <value>建立新帳號</value>
+    <value>Loo kasutaja</value>
   </data>
   <data name="createNow" xml:space="preserve">
-    <value>立刻建立!</value>
+    <value>Loo nüüd!</value>
   </data>
   <data name="createUser" xml:space="preserve">
-    <value>建立使用者</value>
+    <value>Loo kasutaja</value>
   </data>
   <data name="deleteConfirm" xml:space="preserve">
-    <value>你確定要刪除這篇評論?</value>
+    <value>Kas soovid seda kommentaari kustutada?</value>
   </data>
   <data name="developmentMode" xml:space="preserve">
-    <value>開發模式</value>
+    <value>Arenduse vaade</value>
   </data>
   <data name="developmentModeCheckboxMessage" xml:space="preserve">
-    <value>如果你想以Local模式測試disqus請勾選此選項</value>
+    <value>Määra see kui soovid discus teenust lokaalselt testida.</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>已關閉</value>
+    <value>Keelatud</value>
   </data>
   <data name="disqusSettings" xml:space="preserve">
-    <value>Disqus設定</value>
+    <value>Diskussiooni häälestus</value>
   </data>
   <data name="disqusShortName" xml:space="preserve">
-    <value>Disqus網站簡稱</value>
+    <value>Disqus Veebilehe Lühike Nimi</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>要使用Disqus作為你的評論管理器之前，你必須先在&lt;a href="http://disqus.com" target="_new"&gt;Disqus&lt;/a&gt;創立帳號&lt;br /&gt;
-            簡稱將用來識別你的網站(簡稱在進階設定>基本找的到)</value>
+    <value>Et kasutada Disqus-teenust kommenteerimise juures, on kõigepealt vaja kasutajatunnus luua &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+            Lühike nimi on kasutusel sinu veebilehe identifitseerimisel Disqus-teenuses (Veebilehe nimi põhilises seadistuses).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">
-    <value>還沒有帳號?</value>
+    <value>Sul pole veel kasutajatunnust?</value>
   </data>
   <data name="forgotPassword" xml:space="preserve">
-    <value>忘記密碼?</value>
+    <value>Unustasid oma parooli?</value>
   </data>
   <data name="isAlreadyExists" xml:space="preserve">
-    <value>已經存在</value>
+    <value>juba eksisteerib</value>
   </data>
   <data name="isRequiredField" xml:space="preserve">
-    <value>是必填的欄位</value>
+    <value>on nõutud väli</value>
   </data>
   <data name="loginNow" xml:space="preserve">
-    <value>立即登入!</value>
+    <value>Login praegu!</value>
   </data>
   <data name="makeDonation" xml:space="preserve">
-    <value>捐助我們</value>
+    <value>Toeta</value>
   </data>
   <data name="moderatedByDisqus" xml:space="preserve">
-    <value>由Disqus管理</value>
+    <value>Modereeritud Disqus-teenuse poolt.</value>
   </data>
   <data name="myProfile" xml:space="preserve">
-    <value>我的個人資料</value>
+    <value>Minu profiil</value>
   </data>
   <data name="never" xml:space="preserve">
-    <value>永不</value>
+    <value>Mitte kunagi</value>
   </data>
   <data name="newPassword" xml:space="preserve">
-    <value>新密碼</value>
+    <value>Uus parool</value>
   </data>
   <data name="oldPassword" xml:space="preserve">
-    <value>舊密碼</value>
+    <value>Eelmine parool</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>或</value>
+    <value>või</value>
   </data>
   <data name="passwordChangeSuccess" xml:space="preserve">
-    <value>您的密碼已成功變更</value>
+    <value>Sinu parool on edukatl vahetatud.</value>
   </data>
   <data name="passwordMinimumCharacters" xml:space="preserve">
-    <value>密碼 (最少 {0} 字元)</value>
+    <value>Parool (min {0} tähemärki)</value>
   </data>
   <data name="passwordRetrieval" xml:space="preserve">
-    <value>取回密碼</value>
+    <value>Password Retrieval</value>
   </data>
   <data name="passwordRetrievalInstructionMessage" xml:space="preserve">
-    <value>在上面的欄位輸入你的Email，以便將你的密碼寄給你</value>
+    <value>Sisesta oma e-maili aadress kuhu saadetakse sulle parool.</value>
   </data>
   <data name="rememberMe" xml:space="preserve">
-    <value>保持登入狀態</value>
+    <value>Hoia mind sisselogituna</value>
   </data>
   <data name="requiredPasswordLength" xml:space="preserve">
-    <value>新密碼至少需要 {0} 字元</value>
+    <value>Uus parool peab olema vähemalt {0} tähemärgi pikkune.</value>
   </data>
   <data name="returnToBlog" xml:space="preserve">
-    <value>回到部落格</value>
+    <value>Tagasi blogisse</value>
   </data>
   <data name="siteUnavailableConfirm" xml:space="preserve">
-    <value>網站將會有幾秒鐘無法存取\n你確定要繼續?</value>
+    <value>Veebileht pole minuti jooksul kättesaadav.\nKas tõesti soovid jätkata?</value>
   </data>
   <data name="source" xml:space="preserve">
-    <value>原始碼</value>
+    <value>Algne kood</value>
   </data>
   <data name="sourceViewer" xml:space="preserve">
-    <value>原始碼檢視器</value>
+    <value>Algse koodi vaatamine</value>
   </data>
   <data name="status" xml:space="preserve">
-    <value>狀態</value>
+    <value>Staatus</value>
   </data>
   <data name="theValuesSaved" xml:space="preserve">
-    <value>資料已經保存</value>
+    <value>Väärtused on salvestatud</value>
   </data>
   <data name="version" xml:space="preserve">
-    <value>版本</value>
+    <value>Versioon</value>
   </data>
   <data name="addNewRole" xml:space="preserve">
-    <value>新增新角色</value>
+    <value>Lisa uus roll</value>
   </data>
   <data name="areYouSureDeleteRow" xml:space="preserve">
-    <value>你確定要刪除這一行?</value>
+    <value>Kas soovid seda praegu kustutada?</value>
   </data>
   <data name="categoryAlreadyExists" xml:space="preserve">
-    <value>類別已經存在了</value>
+    <value>Kategooria juba eksisteerib</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>關閉</value>
+    <value>Sulge</value>
   </data>
   <data name="createRole" xml:space="preserve">
-    <value>建立角色</value>
+    <value>Loo roll</value>
   </data>
   <data name="download" xml:space="preserve">
-    <value>下載</value>
+    <value>Lae alla</value>
   </data>
   <data name="enableEnclosures" xml:space="preserve">
-    <value>啟用附件</value>
+    <value>Luba lisad (Enclosures)</value>
   </data>
   <data name="enableSelfRegistration" xml:space="preserve">
-    <value>開放註冊</value>
+    <value>Luba kasutajaks registreerumine</value>
   </data>
   <data name="enterDate" xml:space="preserve">
-    <value>請輸入日期 (yyyy-mm-dd hh:mm)</value>
+    <value>Sisesta palun kuupäev (yyyy-mm-dd hh:mm)</value>
   </data>
   <data name="enterTitle" xml:space="preserve">
-    <value>請輸入標題</value>
+    <value>Sisesta palun pealkiri</value>
   </data>
   <data name="enterValidDate" xml:space="preserve">
-    <value>請輸入正確的日期 (yyyy-mm-dd hh:mm)</value>
+    <value>Sisesta palun korrektne kuupäev (yyyy-mm-dd hh:mm)</value>
   </data>
   <data name="enterValidName" xml:space="preserve">
-    <value>請輸入正確的名稱</value>
+    <value>Sisesta palun korrektne nimi</value>
   </data>
   <data name="enterValidNumber" xml:space="preserve">
-    <value>請輸入正確的號碼</value>
+    <value>Sissesta palun korrektne number</value>
   </data>
   <data name="enterValidNumberPositiveNegative" xml:space="preserve">
-    <value>請列舉正確的號碼 (正數或負數)</value>
+    <value>Sisesta palun korrektne number (positiivne või negatiivne)</value>
   </data>
   <data name="extractFromTitle" xml:space="preserve">
-    <value>從標題自動產生</value>
+    <value>Kasuta pealkirja</value>
   </data>
   <data name="findPosition" xml:space="preserve">
-    <value>偵測位置</value>
+    <value>Leia positsioon</value>
   </data>
   <data name="importFromBlogML" xml:space="preserve">
-    <value>從BlogML匯入</value>
+    <value>Import BlogML-st</value>
   </data>
   <data name="invalid" xml:space="preserve">
-    <value>不正確</value>
+    <value>Kehtetu</value>
   </data>
   <data name="noValidNumber" xml:space="preserve">
-    <value>不正確的號碼</value>
+    <value>Pole korrektne number</value>
   </data>
   <data name="onlyLoggedInCanView" xml:space="preserve">
-    <value>登入後才能檢視文章 (私密部落格)</value>
+    <value>Ainult sisseloginud kasutajad näevad postitusi (personaalne blogi).</value>
   </data>
   <data name="parent" xml:space="preserve">
-    <value>上層</value>
+    <value>Vanem</value>
   </data>
   <data name="pingService" xml:space="preserve">
-    <value>Ping 服務</value>
+    <value>Ping Services</value>
   </data>
   <data name="preview" xml:space="preserve">
-    <value>預覽</value>
+    <value>Eelvaade</value>
   </data>
   <data name="roles" xml:space="preserve">
-    <value>角色</value>
+    <value>Rollid</value>
   </data>
   <data name="showSelector" xml:space="preserve">
-    <value>Show selector</value>
+    <value>Kuva valija</value>
   </data>
   <data name="slug" xml:space="preserve">
-    <value>文章URL (選填)</value>
+    <value>Aadress (valikuline)</value>
   </data>
   <data name="specifyPingService" xml:space="preserve">
-    <value>請列舉一個ping服務</value>
+    <value>Pane ping-teenuse osutaja nimi</value>
   </data>
   <data name="tags" xml:space="preserve">
-    <value>標籤</value>
+    <value>Sildid</value>
   </data>
   <data name="testEmailSettings" xml:space="preserve">
-    <value>測試 Email 設定</value>
+    <value>Testi e-maili häälestust</value>
   </data>
   <data name="trackingScript" xml:space="preserve">
-    <value>追蹤Script</value>
+    <value>Analüüsi Script jalusesse</value>
   </data>
   <data name="trackingScriptDescription" xml:space="preserve">
-    <value>訪客追蹤Script&lt;br /&gt;&lt;br /&gt;統計網站提供給你的JavaScript碼&lt;br /&gt;&lt;br /&gt;
-          將會被加到每一頁的底部(並記得使用&amp;lt;script&amp;gt;標籤夾注)</value>
+    <value>Külastaja tracking script&lt;br /&gt;&lt;br /&gt;JavaScript kood Google Analytics või mõnest teisest kohast.&lt;br /&gt;&lt;br /&gt;
+          Lisatakse iga lehe jalusesse kui teemapakett seda toetab.&lt;br /&gt;&lt;br /&gt;(pea meeles et lisada ka &amp;lt;script&amp;gt; märgid)</value>
   </data>
   <data name="upload" xml:space="preserve">
-    <value>上傳</value>
+    <value>Lae üles</value>
   </data>
   <data name="usernameAlreadyTaken" xml:space="preserve">
-    <value>用戶名稱已經存在</value>
+    <value>Kasutajanimi on juba võetud</value>
   </data>
   <data name="notifiedPublished" xml:space="preserve">
-    <value>有新文章發表時通知我</value>
+    <value>Teavita mind postituste lisandumisest.</value>
   </data>
   <data name="pendingApproval" xml:space="preserve">
-    <value>評論將等待管理員審核</value>
+    <value>Kommentaarid ootavad moderaatori läbivaatust</value>
   </data>
   <data name="Referrers_BindTable_Total" xml:space="preserve">
-    <value>全部</value>
+    <value>Kokku</value>
     <comment>
 			Footer row text of first cell
 		</comment>
   </data>
   <data name="Configuration_OnInit_Please_specify_a_number" xml:space="preserve">
-    <value>請列舉一個號碼</value>
+    <value>Palun pane number</value>
     <comment>
 			valDescChar Error Message
 		</comment>
   </data>
   <data name="Configuration_BtnTestSmtpClick_Test_successfull" xml:space="preserve">
-    <value>郵件發送測試成功</value>
+    <value>Test õnnestunud</value>
     <comment>Smtp status text</comment>
   </data>
   <data name="allowRemoteFileDownloads" xml:space="preserve">
-    <value>允許從遠端下載檔案</value>
+    <value>Luba eemalt failide allalaadimist</value>
   </data>
   <data name="allowRemoteFileDownloadsDescription" xml:space="preserve">
-    <value>允許伺服器到別的網站 下載/快取/處理 資料來源</value>
+    <value>Luba serveril alla laadida/hoida/protsessida andmeid teistelt veebilehtedelt.</value>
   </data>
   <data name="remoteTimeout" xml:space="preserve">
-    <value>最大遠端下載時間(單位:毫秒)</value>
+    <value>Maksimaalne eemalt laadimise aeg</value>
   </data>
   <data name="remoteTimeoutDescription" xml:space="preserve">
-    <value>伺服器下載遠端資源能花費的最大時限(數值設0為不限制，預設值為30000)</value>
+    <value>Maksimaalne aeg(millisekundid) mida server võib kasutada allalaadimiseks. Piiramatuks määramiseks pane0. Vaikimisi on 30000.</value>
   </data>
   <data name="securitySettings" xml:space="preserve">
-    <value>安全性設定</value>
+    <value>Turvalisuse häälestused</value>
   </data>
   <data name="maximumRemoteFileSize" xml:space="preserve">
-    <value>遠端檔案大小限制(單位:位元組)</value>
+    <value>Maksimaalne kaugelt laetava faili suurus</value>
   </data>
   <data name="maximumRemoteFileSizeDescription" xml:space="preserve">
-    <value>伺服器下載遠端檔案的大小限制(數值設0為不限制)</value>
+    <value>Maksimaalne faili suurus mis on lubatud serveril alla laadida. Piiramatuks väärtuseks pane 0.</value>
   </data>
   <data name="selfRegistrationInitialRole" xml:space="preserve">
-    <value>註冊後預設的角色</value>
+    <value>Vaikimisi roll registreerumisel</value>
   </data>
   <data name="enableRecaptcha" xml:space="preserve">
-    <value>啟用reCAPTCHA驗證碼</value>
+    <value>Luba Recaptcha</value>
   </data>
   <data name="recaptchaConfigureReminder" xml:space="preserve">
-    <value>確定reCAPTCHA模組已經啟用且正確設定</value>
+    <value>Ole kindel et ReCaptcha on lubatud ja häälestatud.</value>
   </data>
   <data name="whitelistIpOnCommentApproval" xml:space="preserve">
-    <value>自動新增你核可的評論所使用的IP至白名單</value>
+    <value>Lisab kinnitatud kommentaaride IP-aadressid automaatselt valgesse listi.</value>
   </data>
   <data name="blacklistIpOnCommentRejection" xml:space="preserve">
-    <value>自動新增你拒絕的評論所使用的IP至黑名單</value>
+    <value>Lisa tagasilükatud kommentaari IP aadress musta listi</value>
   </data>
   <data name="dashboard" xml:space="preserve">
-    <value>總覽</value>
+    <value>Esipaneel</value>
   </data>
   <data name="groupByYear" xml:space="preserve">
-    <value>Group by year</value>
+    <value>Grupeeri aastate järgi</value>
   </data>
   <data name="recentDatesAtTop" xml:space="preserve">
-    <value>Recent dates at top</value>
+    <value>Hilisemad kuupäevad on üleval</value>
   </data>
   <data name="confirmPasswordIsRequired" xml:space="preserve">
-    <value>確認密碼為必填選項</value>
+    <value>Parooli kinnitamine on nõutud</value>
   </data>
   <data name="emailIsInvalid" xml:space="preserve">
-    <value>Email不正確</value>
+    <value>Email pole korrektne</value>
   </data>
   <data name="emailIsRequired" xml:space="preserve">
-    <value>Email為必填選項</value>
+    <value>Email on nõutud</value>
   </data>
   <data name="minPassLengthInChars" xml:space="preserve">
-    <value>密碼至少為 {0} 字元</value>
+    <value>Lühim parooli pikkus on {0} tähemärki</value>
   </data>
   <data name="newAndConfirmPasswordMismatch" xml:space="preserve">
-    <value>兩次輸入的密碼不吻合</value>
+    <value>Sisestatud paroolid ei ole sarnased</value>
   </data>
   <data name="newPasswordIsRequired" xml:space="preserve">
-    <value>新密碼為必填選項</value>
+    <value>Uus parool on nõutud</value>
   </data>
   <data name="oldPasswordIsRequired" xml:space="preserve">
-    <value>舊密碼為必填選項</value>
+    <value>Eelmine parool on nõutud</value>
   </data>
   <data name="passwordAndConfirmPasswordMismatch" xml:space="preserve">
-    <value>兩次輸入的密碼不吻合</value>
+    <value>Sisestatud paroolid ei ole sarnased</value>
   </data>
   <data name="passwordIsRequried" xml:space="preserve">
-    <value>密碼為必填選項</value>
+    <value>Parool on vajalik</value>
   </data>
   <data name="passwordAndConfirmPasswordIsMatch" xml:space="preserve">
-    <value>密碼相符</value>
+    <value>Sisestatud paroolid ei ole sarnased</value>
   </data>
   <data name="userNameIsRequired" xml:space="preserve">
-    <value>用戶名稱為必填選項</value>
+    <value>Kasutajanimi on nõutud</value>
   </data>
   <data name="tracking" xml:space="preserve">
-    <value>Tracking</value>
+    <value>Analüüs</value>
   </data>
   <data name="welcome" xml:space="preserve">
-    <value>歡迎</value>
+    <value>Tere tulemast</value>
   </data>
   <data name="addNewPage" xml:space="preserve">
-    <value>新增頁面</value>
+    <value>Lisa uus leht</value>
   </data>
   <data name="admin" xml:space="preserve">
-    <value>管理面板</value>
+    <value>Admin</value>
   </data>
   <data name="draftPages" xml:space="preserve">
-    <value>頁面草稿</value>
+    <value>Avaldamata lehed</value>
   </data>
   <data name="draftPosts" xml:space="preserve">
-    <value>文章草稿</value>
+    <value>Avaldamata postitused</value>
   </data>
   <data name="emptyTrash" xml:space="preserve">
-    <value>清空垃圾桶</value>
+    <value>Tühjenda prügikast</value>
   </data>
   <data name="recentPendingComments" xml:space="preserve">
-    <value>目前等待審核的評論</value>
+    <value>Hiljuti sisestatud nin ootle olevad kommentaarid</value>
   </data>
   <data name="stats" xml:space="preserve">
-    <value>統計</value>
+    <value>Statistika</value>
   </data>
   <data name="trash" xml:space="preserve">
-    <value>垃圾</value>
+    <value>Prügikast</value>
   </data>
   <data name="unapproved" xml:space="preserve">
-    <value>未審核</value>
+    <value>Kinnitamata</value>
   </data>
   <data name="viewAll" xml:space="preserve">
-    <value>檢視全部</value>
+    <value>Vaata kõiki</value>
   </data>
   <data name="writeNewPost" xml:space="preserve">
-    <value>撰寫新文章</value>
+    <value>Lisa uus postitus</value>
   </data>
   <data name="youDontHaveAnyDraftPages" xml:space="preserve">
-    <value>沒有草稿頁面</value>
+    <value>Sul pole ühtegi avaldamata lehte.</value>
   </data>
   <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
-    <value>沒有草稿文章</value>
+    <value>Sul pole ühtegi avaldamata postitust.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
-    <value>未經授權</value>
+    <value>Pole autoriseeritud</value>
   </data>
   <data name="userAlreadyExists" xml:space="preserve">
-    <value>使用者 "{0}" 已經存在</value>
+    <value>Kasutaja "{0}" juba eksisteerib.</value>
   </data>
   <data name="commentsDeleted" xml:space="preserve">
-    <value>評論已經被刪除</value>
+    <value>Kommentaarid kustutatud</value>
   </data>
   <data name="couldNotCreateRole" xml:space="preserve">
-    <value>無法建立角色: {0}</value>
+    <value>Ei saa teha rolli: {0}</value>
   </data>
   <data name="couldNotCreateUser" xml:space="preserve">
-    <value>無法建立使用者: {0} : {1}</value>
+    <value>Ei saa teha kasutajat: {0} : {1}</value>
   </data>
   <data name="couldNotDeleteComment" xml:space="preserve">
-    <value>無法刪除評論: {0}</value>
+    <value>Ei saa kustutada kommentaari: {0}</value>
   </data>
   <data name="couldNotDeleteComments" xml:space="preserve">
-    <value>無法刪除所有評論: {0}</value>
+    <value>Ei saa kustutada kõiki kommentaare: {0}</value>
   </data>
   <data name="couldNotDeletePage" xml:space="preserve">
-    <value>無法刪除頁面: {0}</value>
+    <value>Ei saa kustutada lehte: {0}</value>
   </data>
   <data name="couldNotDeletePost" xml:space="preserve">
-    <value>無法刪除文章: {0}</value>
+    <value>Ei saa kustutada postitust: {0}</value>
   </data>
   <data name="couldNotDeleteRole" xml:space="preserve">
-    <value>無法刪除角色: {0}</value>
+    <value>Ei saa kustutada rolli {0}</value>
   </data>
   <data name="couldNotDeleteTag" xml:space="preserve">
-    <value>無法刪除標籤: {0}</value>
+    <value>Ei saa kustutada silti: {0}</value>
   </data>
   <data name="couldNotDeleteUser" xml:space="preserve">
-    <value>無法刪除使用者: {0}</value>
+    <value>Ei saa kustutada kasutajat: {0}</value>
   </data>
   <data name="couldNotUpdateProfile" xml:space="preserve">
-    <value>無法更新個人資料: {0}</value>
+    <value>Ei saa uuendada profiili: {0}</value>
   </data>
   <data name="couldNotUpdateRole" xml:space="preserve">
-    <value>無法更新角色: {0}</value>
+    <value>Ei saa uuendada rolli {0}</value>
   </data>
   <data name="couldNotUpdateTag" xml:space="preserve">
-    <value>無法更新標籤: {0}</value>
+    <value>Ei saa uuendada silti: {0}</value>
   </data>
   <data name="couldNotUpdateUser" xml:space="preserve">
-    <value>無法更新使用者: {0}</value>
+    <value>Ei saa uuendada kasutajat: {0}</value>
   </data>
   <data name="displayNameIsRequired" xml:space="preserve">
-    <value>顯示名稱為必填欄位</value>
+    <value>Nimi on nõutud väli</value>
   </data>
   <data name="doNotPassRightsWithFalseValue" xml:space="preserve">
     <value>Do not pass back rights that have false values.</value>
   </data>
   <data name="emailArgumentInvalid" xml:space="preserve">
-    <value>Email argument is invalid.</value>
+    <value>Email pole korrektne.</value>
   </data>
   <data name="errorApprovingComment" xml:space="preserve">
-    <value>核可評論時發生錯誤: {0}</value>
+    <value>Viga kommentari kinnitamisel: {0}</value>
   </data>
   <data name="errorRejectingComment" xml:space="preserve">
-    <value>拒絕評論時發生錯誤</value>
+    <value>Viga kommentaari tagasilükkamisel</value>
   </data>
   <data name="idArgumentNull" xml:space="preserve">
-    <value>id argument is null.</value>
+    <value>id argument on null.</value>
   </data>
   <data name="invalidPageId" xml:space="preserve">
-    <value>不正確的頁面ID</value>
+    <value>Kehtetu lehe id</value>
   </data>
   <data name="invalidPostId" xml:space="preserve">
-    <value>不正確的文章ID</value>
+    <value>Kehtetu postituse id</value>
   </data>
   <data name="invalidRoleName" xml:space="preserve">
-    <value>不正確的角色名稱</value>
+    <value>Kehtetu rolli nimi</value>
   </data>
   <data name="noRightExists" xml:space="preserve">
-    <value>權限不存在: {0}</value>
+    <value>Sellist õigust ei eksisteeri: {0}</value>
   </data>
   <data name="pageDeleted" xml:space="preserve">
-    <value>頁面已被刪除</value>
+    <value>Leht kustutatud</value>
   </data>
   <data name="pageIdRequired" xml:space="preserve">
-    <value>頁面ID為必須項目</value>
+    <value>Lehe id on vajalik</value>
   </data>
   <data name="passwordArgumentInvalid" xml:space="preserve">
     <value>Password argument is invalid.</value>
   </data>
   <data name="postDeleted" xml:space="preserve">
-    <value>文章已被刪除</value>
+    <value>Postitus kustutatud</value>
   </data>
   <data name="profileUpdated" xml:space="preserve">
-    <value>{0} 個人資料已更新</value>
+    <value>Profiil {0} uuendatud</value>
   </data>
   <data name="rightsCanNotBeNull" xml:space="preserve">
-    <value>Rights Collection argument can not be null.</value>
+    <value>Õiguste kollektsiooni parameeter ei saa olla null.</value>
   </data>
   <data name="rightsUpdatedForRole" xml:space="preserve">
-    <value>"{0}" 角色權限已更新</value>
+    <value>Üigus muudetud rollil "{0}"</value>
   </data>
   <data name="roleAlreadyExists" xml:space="preserve">
-    <value>角色 "{0}" 已經存在</value>
+    <value>Roll "{0}" juba eksisteerib</value>
   </data>
   <data name="roleHasBeenCreated" xml:space="preserve">
-    <value>角色 "{0}" 成功建立</value>
+    <value>Roll "{0}" loodud</value>
   </data>
   <data name="roleHasBeenDeleted" xml:space="preserve">
-    <value>角色 "{0}" 成功刪除</value>
+    <value>Roll "{0}" on kustutatud</value>
   </data>
   <data name="roleNameArgumentNull" xml:space="preserve">
-    <value>roleName argument is null.</value>
+    <value>rollinime parameeter on null.</value>
   </data>
   <data name="roleNameIsRequired" xml:space="preserve">
-    <value>角色名稱為必填欄位</value>
+    <value>Rolli nimi on nõutud väli</value>
   </data>
   <data name="roleUpdatedFromTo" xml:space="preserve">
-    <value>角色已從 "{0}" 更新至 "{1}"</value>
+    <value>Roll on uuendatud "{0}" - "{1}"</value>
   </data>
   <data name="selectedCommentDeleted" xml:space="preserve">
-    <value>選擇的評論已被刪除</value>
+    <value>Valitud kommentaarid on kustutatud</value>
   </data>
   <data name="selectedCommentRejected" xml:space="preserve">
-    <value>選擇的評論已被拒絕</value>
+    <value>Valitud kommentaarid on tagasi lükatud</value>
   </data>
   <data name="selectedCommentRestored" xml:space="preserve">
-    <value>選擇的評論已被復原</value>
+    <value>Valitud kommentaarid on ennistatud</value>
   </data>
   <data name="tagChangedFromTo" xml:space="preserve">
-    <value>標籤從 "{0}" 更新至 "{1}"</value>
+    <value>Silt on muudetud "{0}" - "{1}"</value>
   </data>
   <data name="tagHasBeenDeleted" xml:space="preserve">
-    <value>標籤 "{0}" 已被刪除</value>
+    <value>Silt "{0}" on kustutatud</value>
   </data>
   <data name="tagIsRequired" xml:space="preserve">
-    <value>標籤為必填欄位</value>
+    <value>Silt on nõutud väli.</value>
   </data>
   <data name="userArgumentInvalid" xml:space="preserve">
-    <value>User argument is invalid.</value>
+    <value>Kasutaja sisestatud väärtus on vigane.</value>
   </data>
   <data name="userHasBeenCreated" xml:space="preserve">
-    <value>使用者 "{0}" 成功建立</value>
+    <value>Kasutaja "{0}" on loodud</value>
   </data>
   <data name="userHasBeenDeleted" xml:space="preserve">
-    <value>使用者 "{0}" 成功刪除</value>
+    <value>Kasutaja "{0}" on kustutatud</value>
   </data>
   <data name="userUpdated" xml:space="preserve">
-    <value>使用者 "{0}" 已更新</value>
+    <value>Kasutaja "{0}" uuendatud</value>
   </data>
   <data name="userWithEmailExists" xml:space="preserve">
-    <value>此Email已被使用</value>
+    <value>Selle e-maili aadressiga kasutaja juba eksisteerib</value>
   </data>
   <data name="valsArgumentNull" xml:space="preserve">
     <value>vals argument is null.</value>
   </data>
   <data name="addEditPost" xml:space="preserve">
-    <value>新增/編輯 文章</value>
+    <value>Lisa/muuda postitust</value>
   </data>
   <data name="addNewCategory" xml:space="preserve">
-    <value>新增類別</value>
+    <value>Lisa uus kategooria</value>
   </data>
   <data name="insertImage" xml:space="preserve">
-    <value>插入圖片</value>
+    <value>Lisa pilt</value>
   </data>
   <data name="insertVideo" xml:space="preserve">
-    <value>插入影片</value>
+    <value>Lisa video</value>
   </data>
   <data name="published" xml:space="preserve">
-    <value>已發表</value>
+    <value>Avaldatud</value>
   </data>
   <data name="show" xml:space="preserve">
-    <value>顯示方式</value>
+    <value>Näita</value>
   </data>
   <data name="automatically" xml:space="preserve">
-    <value>自動設定</value>
+    <value>Automaatselt</value>
   </data>
   <data name="chooseFromExistingTags" xml:space="preserve">
-    <value>從現有標籤中選擇</value>
+    <value>Vali olamsolevate siltide hulgast</value>
   </data>
   <data name="clickTag" xml:space="preserve">
-    <value>選擇標籤:</value>
+    <value>Vali silt:</value>
   </data>
   <data name="editPage" xml:space="preserve">
-    <value>編輯頁面</value>
+    <value>Muuda lehte</value>
   </data>
   <data name="excerpt" xml:space="preserve">
-    <value>簡介 (選填)</value>
+    <value>Lühikirjeldus (valikuline)</value>
   </data>
   <data name="goToPage" xml:space="preserve">
-    <value>回到頁面</value>
+    <value>Mine lehele</value>
   </data>
   <data name="goToPost" xml:space="preserve">
-    <value>回到文章</value>
+    <value>Mine postitusele</value>
   </data>
   <data name="manually" xml:space="preserve">
-    <value>手動設定</value>
+    <value>Manuaalselt</value>
   </data>
   <data name="options" xml:space="preserve">
-    <value>選項</value>
+    <value>Valikud</value>
   </data>
   <data name="quickAddNewCategory" xml:space="preserve">
-    <value>快速新增類別</value>
+    <value>Lisa uus kategooria</value>
   </data>
   <data name="setPublishDate" xml:space="preserve">
-    <value>設定發表日期</value>
+    <value>Määra avaldamise kuupäev</value>
   </data>
   <data name="uploadVideo" xml:space="preserve">
-    <value>選擇你想要上傳的影片 (MP4, WMV, FLV, OGG, WebM) 或 音樂 (MP3) 檔</value>
+    <value>Vali video (MP4, WMV, FLV, OGG, WebM) või heli (MP3) mida soovid üles laadida</value>
   </data>
   <data name="enablePasswordReset" xml:space="preserve">
-    <value>啟用密碼重設</value>
+    <value>Luba parooli lähtestamine</value>
   </data>
   <data name="addNewBlog" xml:space="preserve">
-    <value>新增新部落格</value>
+    <value>Lisa uus blogi</value>
   </data>
   <data name="approvedComments" xml:space="preserve">
-    <value>已核可的評論</value>
+    <value>Kinnitatud kommentaarid</value>
   </data>
   <data name="commonControls" xml:space="preserve">
-    <value>一般設定</value>
+    <value>Muu häälestus</value>
   </data>
   <data name="disable" xml:space="preserve">
-    <value>停用</value>
+    <value>Keela</value>
   </data>
   <data name="drafts" xml:space="preserve">
-    <value>草稿</value>
+    <value>Avaldamata</value>
   </data>
   <data name="enable" xml:space="preserve">
-    <value>啟用</value>
+    <value>Luba</value>
   </data>
   <data name="pending" xml:space="preserve">
-    <value>等待</value>
+    <value>Ootel</value>
   </data>
   <data name="pingbacksAndTrackbacks" xml:space="preserve">
     <value>Pingbacks &amp;amp; Trackbacks</value>
   </data>
   <data name="viewSource" xml:space="preserve">
-    <value>查看原始碼</value>
+    <value>Vaata sisu</value>
   </data>
   <data name="addNewUser" xml:space="preserve">
-    <value>新增使用者</value>
+    <value>Lisa uus kasutaja</value>
   </data>
   <data name="appearance" xml:space="preserve">
-    <value>外觀</value>
+    <value>Väljanägemine</value>
   </data>
   <data name="commentSettings" xml:space="preserve">
-    <value>評論設定</value>
+    <value>Kommentaaride häälestus</value>
   </data>
   <data name="copyRightsFrom" xml:space="preserve">
-    <value>複製權限</value>
+    <value>Kopeeri õigused</value>
   </data>
   <data name="customCode" xml:space="preserve">
-    <value>自訂HTML代碼</value>
+    <value>Oma kood</value>
   </data>
   <data name="defaultAnonymousRole" xml:space="preserve">
-    <value>預設Anonymous權限</value>
+    <value>vaikimisi Anonüümne roll</value>
   </data>
   <data name="defaultEditorsRole" xml:space="preserve">
-    <value>預設Editors權限</value>
+    <value>vaikimisi Muutja roll</value>
   </data>
   <data name="editingRightsForRole" xml:space="preserve">
-    <value>角色權限編輯:</value>
+    <value>Muutmise õigused rollile</value>
   </data>
   <data name="feed" xml:space="preserve">
     <value>Feed</value>
   </data>
   <data name="newUserRoles" xml:space="preserve">
-    <value>使用者角色</value>
+    <value>Uue kasutaja rollid</value>
   </data>
   <data name="otherSettings" xml:space="preserve">
-    <value>其他設定</value>
+    <value>Muu häälestus</value>
   </data>
   <data name="smtpServer" xml:space="preserve">
-    <value>SMTP 伺服器</value>
+    <value>SMTP server</value>
   </data>
   <data name="turnDisqusOnOff" xml:space="preserve">
-    <value>開啟或關閉Disqus</value>
+    <value>Disqus-teenuse sisse või välja lülitamine</value>
   </data>
   <data name="useDisqusAsCommentProvider" xml:space="preserve">
-    <value>使用Disqus作為評論提供者</value>
+    <value>Kasuta Disqus teenust kommentaaride haldamiseks</value>
   </data>
   <data name="antiSpamServices" xml:space="preserve">
-    <value>防垃圾服務</value>
+    <value>Spämmivastased teenused</value>
   </data>
   <data name="exportIntoBlogML" xml:space="preserve">
-    <value>匯出部落格內容成XML檔(BlogML)</value>
+    <value>Expordib Sinu blogi sisu XML vormingusse (BlogML)</value>
   </data>
   <data name="importFromFile" xml:space="preserve">
-    <value>從檔案匯入</value>
+    <value>Import failist</value>
   </data>
   <data name="importWithClickOnce" xml:space="preserve">
-    <value>一鍵匯入</value>
+    <value>Import click-once meetodil</value>
   </data>
   <data name="pingServiceUrl" xml:space="preserve">
-    <value>Ping 服務網址</value>
+    <value>Ping teenuse URL</value>
   </data>
   <data name="runClickOnceApplicationToImport" xml:space="preserve">
-    <value>一鍵匯入BlogML或RSS 2.0內容到部落格 &lt;i&gt;Internet Explorer only.&lt;/i&gt;</value>
+    <value>Käivita click-once rakendus, et importida sisu BlogML või RSS 2.0 vormingus sinu blogisse. &lt;i&gt;Töötab ainult Internet Exploreriga.&lt;/i&gt;</value>
   </data>
   <data name="selectSavedBlogMlFle" xml:space="preserve">
-    <value>選擇BlogML檔並匯入到部落格</value>
+    <value>Vali salvestatud BlogML fail ja impordi see oma blogisse. Kõik brauserid, BlogML vorming ainult.</value>
   </data>
   <data name="toDisableSetTo0" xml:space="preserve">
-    <value>設"0"為關閉</value>
+    <value>Keelamiseks vali "0"</value>
   </data>
 </root>
