@@ -280,12 +280,6 @@
         public abstract Referrer SelectReferrer(Guid id);
 
         /// <summary>
-        /// Gets the storage location.
-        /// </summary>
-        /// <returns>The storage location.</returns>
-        public abstract string StorageLocation();
-
-        /// <summary>
         /// Updates an existing BlogRoll in the data store specified by the provider.
         /// </summary>
         /// <param name="blogRollItem">

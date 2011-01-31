@@ -50,7 +50,7 @@
         /// </summary>
         static Category()
         {
-            Folder = HttpContext.Current.Server.MapPath(BlogSettings.Instance.StorageLocation);
+            Folder = HttpContext.Current.Server.MapPath(BlogConfig.StorageLocation);
         }
 
         /// <summary>

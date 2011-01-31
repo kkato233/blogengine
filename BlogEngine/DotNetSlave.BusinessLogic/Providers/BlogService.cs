@@ -203,15 +203,6 @@
         }
 
         /// <summary>
-        /// Gets the storage location.
-        /// </summary>
-        /// <returns>The storage location.</returns>
-        public static string GetStorageLocation()
-        {
-            return Provider.StorageLocation();
-        }
-
-        /// <summary>
         /// Persists a new BlogRoll in the current provider.
         /// </summary>
         /// <param name="blogRoll">

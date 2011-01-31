@@ -414,7 +414,7 @@
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
-            var folder = BlogSettings.Instance.StorageLocation + "files" + Path.DirectorySeparatorChar;
+            var folder = BlogConfig.StorageLocation + "files" + Path.DirectorySeparatorChar;
             var fileName = txtUploadFile.FileName;
             Upload(folder + relativeFolder, txtUploadFile, fileName);
 
@@ -435,7 +435,7 @@
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
-            var folder = string.Format("{0}files{1}", BlogSettings.Instance.StorageLocation, Path.DirectorySeparatorChar);
+            var folder = string.Format("{0}files{1}", BlogConfig.StorageLocation, Path.DirectorySeparatorChar);
             var fileName = txtUploadImage.FileName;
             Upload(folder + relativeFolder, txtUploadImage, fileName);
 
