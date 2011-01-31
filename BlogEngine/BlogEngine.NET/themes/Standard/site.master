@@ -9,6 +9,8 @@
 </head>
 <body>
 
+  <form runat="Server" class="body">
+    
   <div id="header">
     <p><a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a></p>
     <span><%=BlogSettings.Instance.Description %></span>
@@ -26,11 +28,15 @@
       <li><a href="<%=Utils.AbsoluteWebRoot %>contact.aspx"><%=Resources.labels.contact %></a></li>
       <li><a href="<%=Utils.FeedUrl %>" class="feed"><img src="<%=Utils.AbsoluteWebRoot %>pics/rssButton.png" alt="Feed" /><%=Resources.labels.subscribe %></a></li>
       <li><a href="javascript:void(BlogEngine.filterByAPML())" class="apmlfilter"><%=Resources.labels.filterByApml %></a></li>
+      <% if (Utils.IsMobile)
+         { %>
+      <li><blog:MobileThemeSwitch runat="server" /></li>
+      <%
+         }
+      %>
     </ul>
   </div>
   
-  <form runat="Server" class="body">
-    
     <div id="content">
       <blog:SearchOnSearch runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
       <asp:ContentPlaceHolder ID="cphBody" runat="server" />

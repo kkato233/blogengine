@@ -54,6 +54,12 @@
                 <h1>Disclaimer</h1>
                 <p>The opinions expressed herein are my own personal opinions and do not represent my employer's view in anyway.</p>
                 <p>&copy; Copyright <%=DateTime.Now.Year %></p>--%>
+      <% if (Utils.IsMobile)
+         { %>
+       <p><blog:MobileThemeSwitch ID="MobileThemeSwitch1" runat="server" /></p>
+      <%
+         }
+      %>
                 <p><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></p>
               
             </div>
