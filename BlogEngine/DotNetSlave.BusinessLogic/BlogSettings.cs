@@ -447,6 +447,11 @@
                     {
                         return cookie.Value;
                     }
+
+                    if (Utils.ShouldForceMainTheme(request))
+                    {
+                        return this.configuredTheme;
+                    }
                 }
 
                 if (Utils.IsMobile && !string.IsNullOrEmpty(this.MobileTheme))
