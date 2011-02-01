@@ -303,16 +303,6 @@
 
         #endregion
 
-        #region StorageLocation
-
-        /// <summary>
-        ///     Gets or sets the default storage location for blog data.
-        /// </summary>
-        /// <value>The default storage location for blog data.</value>
-        public string StorageLocation { get; set; }
-
-        #endregion
-
         #region Enclosure support
 
         /// <summary>
@@ -456,6 +446,11 @@
                     if (cookie != null)
                     {
                         return cookie.Value;
+                    }
+
+                    if (Utils.ShouldForceMainTheme(request))
+                    {
+                        return this.configuredTheme;
                     }
                 }
 
@@ -1316,7 +1311,6 @@
 
             }
 
-            this.StorageLocation = BlogService.GetStorageLocation();
         }
 
         #endregion

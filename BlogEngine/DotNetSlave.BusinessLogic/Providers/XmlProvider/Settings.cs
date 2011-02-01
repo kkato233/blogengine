@@ -23,7 +23,7 @@
         /// <returns>A StringDictionary.</returns>
         public override StringDictionary LoadSettings()
         {
-            var filename = HttpContext.Current.Server.MapPath(string.Format("{0}settings.xml", this.StorageLocation()));
+            var filename = HttpContext.Current.Server.MapPath(string.Format("{0}settings.xml", BlogConfig.StorageLocation));
             var dic = new StringDictionary();
 
             var doc = new XmlDocument();
@@ -74,17 +74,6 @@
 
                 writer.WriteEndElement();
             }
-        }
-
-        /// <summary>
-        /// The storage location is to allow Blog Providers to use alternative storage locations that app_data root directory.
-        /// </summary>
-        /// <returns>
-        /// The storage location.
-        /// </returns>
-        public override string StorageLocation()
-        {
-            return String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"]) ? @"~/app_data/" : WebConfigurationManager.AppSettings["StorageLocation"];
         }
 
         #endregion
