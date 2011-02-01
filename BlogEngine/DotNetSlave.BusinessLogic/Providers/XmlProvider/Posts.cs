@@ -27,7 +27,7 @@
         {
             get
             {
-                var p = this.StorageLocation().Replace("~/", string.Empty);
+                var p = BlogConfig.StorageLocation.Replace("~/", string.Empty);
                 return Path.Combine(HttpRuntime.AppDomainAppPath, p);
             }
         }
