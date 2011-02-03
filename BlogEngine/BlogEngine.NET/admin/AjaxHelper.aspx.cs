@@ -1,6 +1,4 @@
-﻿using BlogEngine.Core.Web.Extensions;
-
-namespace Admin
+﻿namespace Admin
 {
     using System;
     using System.Collections;
@@ -8,9 +6,11 @@ namespace Admin
     using System.Web;
     using System.Collections.Generic;
     using System.Linq;
+    using System.IO;
 
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using BlogEngine.Core.Web.Extensions;
     using App_Code;
 
     public partial class AjaxHelper : System.Web.UI.Page
@@ -355,5 +355,25 @@ namespace Admin
             }
             return false;
         }
+
+        [WebMethod]
+        public static bool UpdateSourceCode(string sourceCode, string fileName)
+        {
+            try
+            {
+                using (var f = File.CreateText(fileName))
+                {
+                    f.Write(sourceCode);
+                    f.Close();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error saving source code: " + ex.Message);
+                return false;
+            }
+        }
+
     }
 }

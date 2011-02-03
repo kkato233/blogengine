@@ -51,15 +51,38 @@
     }
 
     function CancelEdit() {
-        $('#extensionViewer').fadeIn();
-        $('#extensionEditor').fadeOut();
-        $('#saveArea').fadeOut();
+        CloseEditor();
         return false;
     }
 
     function BtnSaveClick() {
-        alert('Not implemented');
+        var dto = { "sourceCode": $('#txtSourceCode').val(), "fileName": $('#hdnFileName').val() };
+        $.ajax({
+            url: "../AjaxHelper.aspx/UpdateSourceCode",
+            data: JSON.stringify(dto),
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var rt = result.d;
+                if (rt == true) {
+                    ShowStatus("success", "Source code updated");
+                    window.location.reload();
+                }
+                else {
+                    ShowStatus("warning", "Error saving source code");
+                }
+            }
+        });
+        
+        CloseEditor();
         return false;
+    }
+
+    function CloseEditor() {
+        $('#extensionViewer').fadeIn();
+        $('#extensionEditor').fadeOut();
+        $('#saveArea').fadeOut();
     }
 </script>
 
@@ -83,4 +106,5 @@
             @Resources.labels.or <a href="" onclick="return CancelEdit();">@Resources.labels.cancel</a>
         </div>
 	</div>
+    <input type="text" id="hdnFileName" value="@fileName" style="display:none" />
 </div>
