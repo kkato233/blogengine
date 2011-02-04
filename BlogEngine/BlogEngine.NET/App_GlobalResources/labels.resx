@@ -1663,4 +1663,10 @@
   <data name="cannotDeleteLastAdmin" xml:space="preserve">
     <value>You cannot delete the last user with rights to create or edit users. Grant these rights to another user first before deleting this user.</value>
   </data>
+  <data name="forceMainTheme" xml:space="preserve">
+    <value>Regular Site</value>
+  </data>
+  <data name="allowMobileTheme" xml:space="preserve">
+    <value>Mobile Site</value>
+  </data>
 </root>

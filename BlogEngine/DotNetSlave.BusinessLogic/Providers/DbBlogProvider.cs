@@ -1502,19 +1502,6 @@
         }
 
         /// <summary>
-        /// Storage location on web server
-        /// </summary>
-        /// <returns>
-        /// string with virtual path to storage
-        /// </returns>
-        public override string StorageLocation()
-        {
-            return String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"])
-                       ? @"~/app_data/"
-                       : WebConfigurationManager.AppSettings["StorageLocation"];
-        }
-
-        /// <summary>
         /// Saves an existing BlogRoll to the database
         /// </summary>
         /// <param name="blogRollItem">

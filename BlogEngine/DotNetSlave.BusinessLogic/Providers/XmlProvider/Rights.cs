@@ -26,7 +26,7 @@
         /// <returns></returns>
         public override IDictionary<string, IEnumerable<string>> FillRights()
         {
-            var path = string.Format("{0}rights.xml", BlogSettings.Instance.StorageLocation);
+            var path = string.Format("{0}rights.xml", BlogConfig.StorageLocation);
 
             if (!VirtualPathUtility.IsAppRelative(path))
             {
