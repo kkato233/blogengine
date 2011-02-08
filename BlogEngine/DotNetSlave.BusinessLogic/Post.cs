@@ -469,7 +469,7 @@
         {
             get
             {
-                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogSettings.Instance.FileExtension;
+                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogConfig.FileExtension;
 
                 return BlogSettings.Instance.TimeStampPostLinks
                            ? string.Format(

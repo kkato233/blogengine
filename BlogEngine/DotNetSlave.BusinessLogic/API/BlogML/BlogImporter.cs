@@ -84,7 +84,7 @@ namespace BlogEngine.Core.API.BlogML
         /// <returns></returns>
         static string PostUrl(string slug, DateTime dateCreated)
         {
-            var theslug = Utils.RemoveIllegalCharacters(slug) + BlogSettings.Instance.FileExtension;
+            var theslug = Utils.RemoveIllegalCharacters(slug) + BlogConfig.FileExtension;
 
             return BlogSettings.Instance.TimeStampPostLinks
                        ? string.Format(
