@@ -56,7 +56,8 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                 }
                 else if (!post.IsVisible)
                 {
-                    shouldThrow404 = true;
+                    Response.Redirect(Utils.RelativeWebRoot + "default.aspx", true);
+                    //shouldThrow404 = true;
                 }
                 else
                 {
