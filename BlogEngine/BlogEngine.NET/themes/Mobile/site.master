@@ -21,6 +21,12 @@
       <a href="<%=Utils.RelativeWebRoot%>archive.aspx">Archive</a> |
       <a href="<%=Utils.RelativeWebRoot%>contact.aspx">Contact</a> |
       <a href="<%=Utils.FeedUrl %>">Feed</a> 
+      <% if (Utils.IsMobile)
+         { %>
+       | <blog:MobileThemeSwitch runat="server" />
+      <%
+         }
+      %>
     </div>
 	  
     <div id="content">

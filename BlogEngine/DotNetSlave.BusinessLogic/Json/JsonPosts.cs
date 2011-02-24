@@ -43,15 +43,16 @@
         /// Gets post list based on selection for current page
         /// </summary>
         /// <param name="page">Current page</param>
+        /// <param name="pageSize">Page Size</param>
         /// <param name="postType">Selected post type: draft, published or all</param>
         /// <param name="filter">Secondary filter: category, tag, author or all</param>
         /// <param name="title">Value selected in secondary filter</param>
         /// <returns>List of posts</returns>
-        public static List<JsonPost> GetPosts(int page, string postType, string filter, string title)
+        public static List<JsonPost> GetPosts(int page, int pageSize, string postType, string filter, string title)
         {
-            var pSize = BlogSettings.Instance.PostsPerPage;
-            var cntTo = page * pSize;
-            var cntFrom = cntTo - pSize;
+            pageSize = Math.Max(pageSize, 1);
+            var cntTo = page * pageSize;
+            var cntFrom = cntTo - pageSize;
             var cnt = 0;
 
             var allPosts = new List<Post>();
@@ -127,8 +128,9 @@
         /// Builds pager control for posts page
         /// </summary>
         /// <param name="page">Current Page Number</param>
+        /// <param name="pageSize">Page Size</param>
         /// <returns></returns>
-        public static string GetPager(int page)
+        public static string GetPager(int page, int pageSize)
         {
             if (postCnt == 0)
             {
@@ -142,15 +144,15 @@
             var lastLnk = string.Empty;
             const string linkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadPostsForPage('{1}');\" class=\"{0}\"></a>";
 
-            var pSize = BlogSettings.Instance.PostsPerPage;
-            var pgs = Convert.ToDecimal(postCnt) / Convert.ToDecimal(pSize);
+            pageSize = Math.Max(pageSize, 1);
+            var pgs = Convert.ToDecimal(postCnt) / Convert.ToDecimal(pageSize);
             var p = pgs - (int)pgs;
             var lastPage = p > 0 ? (int)pgs + 1 : (int)pgs;
 
-            var postTo = page * pSize;
+            var postTo = page * pageSize;
             if (postTo > postCnt) postTo = postCnt;
 
-            var currentScope = ((page * pSize) - (pSize - 1)).ToString() + " - " + postTo.ToString();
+            var currentScope = ((page * pageSize) - (pageSize - 1)).ToString() + " - " + postTo.ToString();
 
             var pageLink = string.Format("Showing <span id=\"PagerCurrentPage\">{0}</span> of {1}", currentScope, postCnt);
 

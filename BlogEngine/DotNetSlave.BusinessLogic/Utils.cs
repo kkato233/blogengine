@@ -34,6 +34,11 @@
         #region Constants and Fields
 
         /// <summary>
+        /// The cookie name for forcing the main theme on a mobile device.
+        /// </summary>
+        public const String ForceMainThemeCookieName = "forceMainTheme";
+
+        /// <summary>
         /// The pattern.
         /// </summary>
         private const string Pattern = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
@@ -210,6 +215,37 @@
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Returns whether the main theme should be forced for the current mobile device.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns>
+        /// A <see cref="Boolean"/> instance.
+        /// </returns>
+        public static Boolean ShouldForceMainTheme(HttpRequest request)
+        {
+            var forceMainThemeCookie = request.Cookies[ForceMainThemeCookieName];
+
+            if (forceMainThemeCookie == null)
+            {
+                return false;
+            }
+
+            if (String.IsNullOrEmpty(forceMainThemeCookie.Value))
+            {
+                return false;
+            }
+
+            Boolean forceMainTheme;
+
+            if (Boolean.TryParse(forceMainThemeCookie.Value, out forceMainTheme))
+            {
+                return forceMainTheme;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Parse the string representation of an enum field to a strongly typed enum value.

@@ -118,1540 +118,1540 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
-    <value>추가</value>
+    <value>Lisa</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>블로그 작성</value>
+    <value>Lisa üksus</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>답글 작성</value>
+    <value>Lisa kommentaar</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>HTML head 영역에 사용자 정의 코드 추가</value>
+    <value>Lisa oma kood HTML päisesse</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>관리 패널</value>
+    <value>Seadistused</value>
   </data>
   <data name="advanced" xml:space="preserve">
-    <value>고급</value>
+    <value>Täpsemalt</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>고급 설정</value>
+    <value>Täpsemad muudatused</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>대체 Feed URL</value>
+    <value>Alternatiivne uudisvoo URL</value>
   </data>
   <data name="approve" xml:space="preserve">
-    <value>승인</value>
+    <value>Kinnita</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>모든 답글에 승인</value>
+    <value>Kinnita kõik kommentaarid</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>보관</value>
+    <value>Arhiiv</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
-    <value>당신이 {1} 을/를 {0} 하기를 원하는게 확실합니까?</value>
+    <value>Kas Sa kindlasti soovid {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>파일 첨부</value>
+    <value>Lisa fail</value>
   </data>
   <data name="author" xml:space="preserve">
-    <value>저자</value>
+    <value>Autor</value>
   </data>
   <data name="avatars" xml:space="preserve">
-    <value>아바타</value>
+    <value>Avatarid</value>
   </data>
   <data name="basic" xml:space="preserve">
-    <value>기본</value>
+    <value>Peamine</value>
   </data>
   <data name="beTheFirstToRate" xml:space="preserve">
-    <value>이 글의 첫번째 추천인이 되세요</value>
+    <value>Hinda seda postitust esimesena</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEnginge.Net 은 내보내기시 &lt;a href="http://blogml.codeplex.com/" target="_blank"&gt;BlogML&lt;/a&gt; 을 포맷으로 사용합니다. 가져오기는 BlogML 과 RSS 모두 지원합니다. </value>
+    <value>BlogEngine.NET kasutab &lt;a href="http://blogml.codeplex.com/" target="_blank"&gt;BlogML&lt;/a&gt; vormingut eksportimiseks. Importimisel on toetatud nii BlogML kui ka RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
-    <value>추천 블로그</value>
+    <value>Blogirull</value>
   </data>
   <data name="buttonText" xml:space="preserve">
-    <value>버튼 텍스트</value>
+    <value>Nupu tekst</value>
   </data>
   <data name="categories" xml:space="preserve">
-    <value>전체 카테고리</value>
+    <value>Kategooriad</value>
   </data>
   <data name="category" xml:space="preserve">
-    <value>카테고리</value>
+    <value>Kategooria</value>
   </data>
   <data name="changePassword" xml:space="preserve">
-    <value>패스워드 변경</value>
+    <value>Muuda parooli</value>
   </data>
   <data name="chooseOtherName" xml:space="preserve">
-    <value>다른 이름을 선택하세요</value>
+    <value>Vali mõni teine nimi</value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>몇일 이후 답글 비활성화하기</value>
+    <value>Sulge kommentaarid peale</value>
   </data>
   <data name="comment" xml:space="preserve">
-    <value>답글</value>
+    <value>Kommentaar</value>
   </data>
   <data name="commentLabelText" xml:space="preserve">
-    <value>답글 텍스트</value>
+    <value>Kommentaari pealkirja tekst</value>
   </data>
   <data name="comments" xml:space="preserve">
-    <value>전체 답글</value>
+    <value>Kommentaarid</value>
   </data>
   <data name="commentsAreClosed" xml:space="preserve">
-    <value>답글 기능이 비활성화되어 있습니다</value>
+    <value>Kommenteerimine on suletud</value>
   </data>
   <data name="commentWasSaved" xml:space="preserve">
-    <value>답글 저장되었습니다. 답변에 감사드립니다</value>
+    <value>Kommentaar on salvestatud. Täname tagasiside eest.</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>연락처</value>
+    <value>Kontakt</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>연락처 양식</value>
+    <value>Kontakt</value>
   </data>
   <data name="controls" xml:space="preserve">
-    <value>제어</value>
+    <value>Seaded</value>
   </data>
   <data name="country" xml:space="preserve">
-    <value>국가</value>
+    <value>Riik</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>사용자 추가</value>
+    <value>Loo uus kasutaja</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>현재 {1} 명이 추천에 참여했습니다. 전체: {0}</value>
+    <value>Hinnatud {0}  {1} kasutaja poolt</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>날짜</value>
+    <value>Kuupäev</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>기본 feed 출력</value>
+    <value>vaikimisi feed väljund</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>기본 텍스트는 검색 텍스트 박스에 보여집니다.</value>
+    <value>Otsingukastis kuvatav tekst</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>삭제</value>
+    <value>Kustuta</value>
   </data>
   <data name="description" xml:space="preserve">
-    <value>상세 설명</value>
+    <value>Kirjeldus</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>답글 보기</value>
+    <value>Kuva kommentaarid</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>추천 보기</value>
+    <value>Hinnang</value>
   </data>
   <data name="edit" xml:space="preserve">
-    <value>수정</value>
+    <value>Muuda</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>이메일</value>
+    <value>E-mail</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>이메일 주소</value>
+    <value>E-mail aadress</value>
   </data>
   <data name="emailSubjectPrefix" xml:space="preserve">
-    <value>제목 접두사</value>
+    <value>Meili teema algus</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>첨부 기능 활성화</value>
+    <value>Luba manused</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
-    <value>coComments 활성화</value>
+    <value>Luba alamkommentaarid</value>
   </data>
   <data name="enableComments" xml:space="preserve">
-    <value>답글 활성화</value>
+    <value>Luba kommenteerimine</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>만일 답글 기능이 비활성화되어 있다면, 답글을 작성할 수 없습니다.</value>
+    <value>Kui kommentaarid pole lubatud, ei saa keegi lisada kommentaare</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>답글 검색 활성화</value>
+    <value>Luba otsing kommentaaridest</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>답글 승인 기능 활성화</value>
+    <value>Modereeri kommentaare</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
-    <value>그라바타 활성화</value>
+    <value>Luba Gravatarid</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>HTTP 압축 활성화</value>
+    <value>Luba HTTP kompressioon</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
-    <value>빠른 페이지 로딩 활성화 (추천). 이 설정은 웹 사이트를 다시 시작합니다.</value>
+    <value>Teeb lehe laadimise kiiremaks (soovituslik). Selle muutmine teeb veebile taaskäivituse.</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>오픈 검색 활성화</value>
+    <value>Luba OpenSearch</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>모든 브라우저에 검색 기능 활성화 (추천).</value>
+    <value>Lisab otsingufunktsionaalsuse kõikidele uuematele brauseritele (soovituslik).</value>
   </data>
   <data name="enablePingbacks" xml:space="preserve">
-    <value>Pingback 활성화</value>
+    <value>Luba tagasisdestamine (pingbacks)</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>글 추천 활성화</value>
+    <value>Luba hinnangute andmine postitustele</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>참조자 트랙킹 활성화</value>
+    <value>Luba tagasiside kogumine</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>검색 강조 활성화</value>
+    <value>Luba otsingu esiletõstmine</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
-    <value>페이지에 검색 단어 강조 활성화</value>
+    <value>Värvi otsisõnad lehel vastavalt tulemusele.</value>
   </data>
   <data name="enableSsl" xml:space="preserve">
-    <value>SSL 활성화</value>
+    <value>Luba SSL</value>
   </data>
   <data name="enableTrackbacks" xml:space="preserve">
-    <value>Trackback 활성화</value>
+    <value>Luba trackbacks</value>
   </data>
   <data name="endorsment" xml:space="preserve">
-    <value>서명 (bLink)</value>
+    <value>Endorsement (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>강화</value>
+    <value>Kohustuslik</value>
   </data>
   <data name="enterValidEmail" xml:space="preserve">
-    <value>올바른 e-mail 을 입력하세요</value>
+    <value>Sisesta palun korrektne e-mail</value>
   </data>
   <data name="enterValidUrl" xml:space="preserve">
-    <value>올바른 URL 을 입력하세요</value>
+    <value>Sisesta palun korrektne URL</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>내보내기</value>
+    <value>Export</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>양식 메시지</value>
+    <value>Tagasiside sõnum</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>홈으로 이동하기</value>
+    <value>Mine esilehele</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
-    <value>www 서브 도메인 정책</value>
+    <value>www subdomain policy</value>
   </data>
   <data name="home" xml:space="preserve">
-    <value>홈</value>
+    <value>Kodu</value>
     <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>HTML head 영역</value>
+    <value>HTML päis</value>
   </data>
   <data name="ignore" xml:space="preserve">
-    <value>무시</value>
+    <value>Ignoreeri</value>
   </data>
   <data name="import" xml:space="preserve">
-    <value>가져오기</value>
+    <value>Import</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>홈 페이지 여부</value>
+    <value>Kuvatakse esilehel</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>키워드</value>
+    <value>Märksõnad</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>언어 선택</value>
+    <value>Vali keel</value>
   </data>
   <data name="languageCode" xml:space="preserve">
-    <value>언어코드</value>
+    <value>Keele kood</value>
   </data>
   <data name="latitude" xml:space="preserve">
-    <value>위도</value>
+    <value>Latitude</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>실시간 프리뷰</value>
+    <value>Eelvaade</value>
   </data>
   <data name="longtitude" xml:space="preserve">
-    <value>경도</value>
+    <value>Longtitude</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>아이템 최대 크기</value>
+    <value>Suurim pikkus elemtidel</value>
   </data>
   <data name="message" xml:space="preserve">
-    <value>메시지</value>
+    <value>Sõnum</value>
   </data>
   <data name="mobileTheme" xml:space="preserve">
-    <value>Mobile 테마</value>
+    <value>Mobiili teema</value>
   </data>
   <data name="themeCookieName" xml:space="preserve">
-    <value>테마 쿠키 이름</value>
+    <value>Teema küpsise nimi</value>
   </data>
   <data name="more" xml:space="preserve">
-    <value>상세</value>
+    <value>Veel</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>이름</value>
+    <value>Nimi</value>
   </data>
   <data name="nextPost" xml:space="preserve">
-    <value>다음 글</value>
+    <value>Järgmine postitus</value>
   </data>
   <data name="nextPosts" xml:space="preserve">
-    <value>다음 글들</value>
+    <value>Uuemad postitused</value>
   </data>
   <data name="none" xml:space="preserve">
-    <value>보여주지 않음</value>
+    <value>Puudub</value>
   </data>
   <data name="noParent" xml:space="preserve">
-    <value>부모 없음</value>
+    <value>Pole vanemat</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>답글이 추가될때 나에게 알림</value>
+    <value>Teavita mind kommentaaride lisandumisest</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>아직 추천되지 않음</value>
+    <value>Pole veel hinnatud</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
-    <value>답글의 개수</value>
+    <value>Kommentaare</value>
   </data>
   <data name="numberOfDisplayedItems" xml:space="preserve">
-    <value>보여진 개수 #</value>
+    <value># niimitu elementi</value>
   </data>
   <data name="numberOfPosts" xml:space="preserve">
-    <value>작성된 블로그 수</value>
+    <value>Postituste arv</value>
   </data>
   <data name="page" xml:space="preserve">
-    <value>페이지</value>
+    <value>Leht</value>
   </data>
   <data name="pages" xml:space="preserve">
-    <value>모든 페이지</value>
+    <value>Lehed</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>비밀번호</value>
+    <value>Parool</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>포트</value>
+    <value>Pordi number</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
-    <value>포트번호 25 는 표준입니다.</value>
+    <value>Port 25 on tavapärane</value>
   </data>
   <data name="possibleSpam" xml:space="preserve">
-    <value>스팸일수도 있음</value>
+    <value>Võimalik spämm</value>
   </data>
   <data name="post" xml:space="preserve">
-    <value>작성</value>
+    <value>Post</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>페이지 당 작성글 수</value>
+    <value>Postitusi lehel</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>전체 작성글</value>
+    <value>Postitused</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Feed 에 보여지는 아이템들</value>
+    <value>Mitu üksust uudisvoos kuvatakse</value>
   </data>
   <data name="previousPost" xml:space="preserve">
-    <value>이전 글</value>
+    <value>Eelmine postitus</value>
   </data>
   <data name="previousPosts" xml:space="preserve">
-    <value>이전 글들</value>
+    <value>Vanemad postitused</value>
   </data>
   <data name="publish" xml:space="preserve">
-    <value>게시</value>
+    <value>Avalda</value>
   </data>
   <data name="raters" xml:space="preserve">
-    <value>추천자들</value>
+    <value>Hindajad</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>추천</value>
+    <value>Hindamine</value>
   </data>
   <data name="receive" xml:space="preserve">
-    <value>받기</value>
+    <value>Võta vastu</value>
   </data>
   <data name="recentComments" xml:space="preserve">
-    <value>최근 답글</value>
+    <value>Hiljutised kommentaarid</value>
   </data>
   <data name="recentPosts" xml:space="preserve">
-    <value>최근 작성글</value>
+    <value>Hiljutised postitused</value>
   </data>
   <data name="referrer" xml:space="preserve">
-    <value>참조자</value>
+    <value>Tagasilinkija</value>
   </data>
   <data name="referrers" xml:space="preserve">
-    <value>모든 참조자</value>
+    <value>Tagasilinkijad</value>
   </data>
   <data name="relatedPosts" xml:space="preserve">
-    <value>관계된 작성글</value>
+    <value>Seotud postitused</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>제거</value>
+    <value>Eemalda</value>
   </data>
   <data name="required" xml:space="preserve">
-    <value>필요</value>
+    <value>Nõutud</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>저장</value>
+    <value>Salvesta</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>답글 저장</value>
+    <value>Salvesta kommentaar</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>페이지 저장</value>
+    <value>Salvesta leht</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>글 저장</value>
+    <value>Salvesta postitus</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>설정 저장</value>
+    <value>Salvesta häälestused</value>
   </data>
   <data name="savingTheComment" xml:space="preserve">
-    <value>답글을 저장하고 있습니다...</value>
+    <value>Kommentaari salvestamine...</value>
   </data>
   <data name="search" xml:space="preserve">
-    <value>검색</value>
+    <value>Otsi</value>
   </data>
   <data name="searchField" xml:space="preserve">
-    <value>검색 필드</value>
+    <value>Otsinguväli</value>
   </data>
   <data name="searchFieldText" xml:space="preserve">
-    <value>검색 필드 텍스트</value>
+    <value>Sõna otsingukastis</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>에 대한 검색 결과</value>
+    <value>Otsi tulemusi</value>
   </data>
   <data name="selectDay" xml:space="preserve">
-    <value>날짜 선택</value>
+    <value>Vali päev</value>
   </data>
   <data name="selectParent" xml:space="preserve">
-    <value>부모 선택하기</value>
+    <value>Vali vanem</value>
   </data>
   <data name="send" xml:space="preserve">
-    <value>보내기</value>
+    <value>Saada</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>답글 이메일 발송</value>
+    <value>Saada kommentaari e-mail</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
-    <value>각각의 태그를 콤마로 분리</value>
+    <value>Eralda sildid omavahel komaga</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value>설정</value>
+    <value>Häälestused</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>나라 선택 보여주기</value>
+    <value>Näita riigi valija</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>나라 선택이 안 보일 경우, 각 답글에 플래그가 보여지지 않게 됩니다.</value>
+    <value>Kui riigi valimine pole lubatud, ei näidata ka riigilippe kommenteerijate juures</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>작성된 글에 상세 설명만 보여주기</value>
+    <value>Näita ainult osa postitusest</value>
   </data>
   <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
-    <value>태그와 카테고리로 목록이 보여질때 글의 설명만 보여주기</value>
+    <value>Näita ainult osa postitusest kui on kasutusel Siltide või Kategooriate järgi kuvamine</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>리스트에 보여주기</value>
+    <value>Kuva nimekirjas</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>실시간 프리뷰 보여주기</value>
+    <value>Näita eelvaadet</value>
   </data>
   <data name="showPostNavigation" xml:space="preserve">
-    <value>글 네비게이션 링크 보여주기</value>
+    <value>Kuva postituse navigeerimise lingid</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>관계된 작성글 보여주기</value>
+    <value>Kuva seotud postitused</value>
   </data>
   <data name="subject" xml:space="preserve">
-    <value>주제</value>
+    <value>Teema</value>
   </data>
   <data name="subscribe" xml:space="preserve">
-    <value>구독</value>
+    <value>Liitu</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>감사합니다</value>
+    <value>Tänan sõnumi eest.</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>특정 답글</value>
+    <value>kommentaar</value>
   </data>
   <data name="theme" xml:space="preserve">
-    <value>테마</value>
+    <value>Teema</value>
   </data>
   <data name="thePost" xml:space="preserve">
-    <value>특정 작성글</value>
+    <value>postitus</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>{0} 개의 게시되지 않은 작성글이 있습니다.</value>
+    <value>Siin on {0} avaldamata postitust</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>작성글 링크에 날짜 추가</value>
+    <value>Lisa kuupäev postituse linkidele</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>표준시간대</value>
+    <value>Serveri ajatsooni vahe</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>제목</value>
+    <value>Pealkiri</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
-    <value>스타일시트 정리</value>
+    <value>Vähenda stiilifaili mahtu</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>런타임시 공백제거로 테마의 시타일시트를 작게합니다.</value>
+    <value>Kõikidest stiilifailidest eemaldatakse tühikud.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>미승인 답글</value>
+    <value>Kinnitamata kommentaarid</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>업데이트 빈도 (분)</value>
+    <value>Uuendamise sagedus (minutites)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>파일 업로드</value>
+    <value>La fail üles</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>이미지 업로드</value>
+    <value>Lae pilt üles</value>
   </data>
   <data name="userName" xml:space="preserve">
-    <value>사용자 이름</value>
+    <value>Kasutajanimi</value>
   </data>
   <data name="users" xml:space="preserve">
-    <value>전체 사용자</value>
+    <value>Kasutajad</value>
   </data>
   <data name="website" xml:space="preserve">
-    <value>웹사이트</value>
+    <value>Veebileht</value>
   </data>
   <data name="willShowGravatar" xml:space="preserve">
-    <value>당신의 {0} 아이콘을 보여줄 것입니다.</value>
+    <value>Kuvab sinu {0} pildi</value>
   </data>
   <data name="wrote" xml:space="preserve">
-    <value>작성함</value>
+    <value>vastab</value>
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
-    <value>이미 추천하였습니다.</value>
+    <value>Sa oled seda juba hinnanud</value>
   </data>
   <data name="userProfiles" xml:space="preserve">
-    <value>사용자 프로필(들)</value>
+    <value>Kasutaja profiil(id)</value>
   </data>
   <data name="view" xml:space="preserve">
-    <value>보기</value>
+    <value>Vaata</value>
   </data>
   <data name="firstName" xml:space="preserve">
-    <value>이름</value>
+    <value>Eesnimi</value>
   </data>
   <data name="aboutMe" xml:space="preserve">
-    <value>나에 대해서</value>
+    <value>Minust</value>
   </data>
   <data name="birthday" xml:space="preserve">
-    <value>생일</value>
+    <value>Sünnipäev</value>
   </data>
   <data name="cityTown" xml:space="preserve">
-    <value>시/읍</value>
+    <value>Linn</value>
   </data>
   <data name="displayName" xml:space="preserve">
-    <value>표시이름</value>
+    <value>Nimi</value>
   </data>
   <data name="fullName" xml:space="preserve">
-    <value>전체 이름</value>
+    <value>Täisnimi</value>
   </data>
   <data name="gender" xml:space="preserve">
-    <value>성</value>
+    <value>Sugu</value>
   </data>
   <data name="industry" xml:space="preserve">
-    <value>산업</value>
+    <value>Tegevusala</value>
   </data>
   <data name="interests" xml:space="preserve">
-    <value>관심</value>
+    <value>Huvialad</value>
   </data>
   <data name="isPrivate" xml:space="preserve">
-    <value>사적 여부</value>
+    <value>Isiklik</value>
   </data>
   <data name="lastName" xml:space="preserve">
-    <value>이름</value>
+    <value>Perenimi</value>
   </data>
   <data name="occupation" xml:space="preserve">
-    <value>직업</value>
+    <value>Hõivamine</value>
   </data>
   <data name="photoURL" xml:space="preserve">
-    <value>사진 URL</value>
+    <value>Foto URL</value>
   </data>
   <data name="regionState" xml:space="preserve">
-    <value>주/지역</value>
+    <value>Osariik/Regioon</value>
   </data>
   <data name="saveProfile" xml:space="preserve">
-    <value>프로필 저장</value>
+    <value>Salvesta profiil</value>
   </data>
   <data name="switchUserProfile" xml:space="preserve">
-    <value>사용자 프로필로 전환</value>
+    <value>Mine kasutaja profiililehele</value>
   </data>
   <data name="company" xml:space="preserve">
-    <value>회사</value>
+    <value>Ettevõte</value>
   </data>
   <data name="middleName" xml:space="preserve">
-    <value>중간 이름</value>
+    <value>Keskmine nimi</value>
   </data>
   <data name="phoneFax" xml:space="preserve">
-    <value>전화 Fax</value>
+    <value>Fax</value>
   </data>
   <data name="phoneMain" xml:space="preserve">
-    <value>주 전화</value>
+    <value>Telefon</value>
   </data>
   <data name="phoneMobile" xml:space="preserve">
-    <value>모바일 사진</value>
+    <value>Mobiil</value>
   </data>
   <data name="profile" xml:space="preserve">
-    <value>프로필</value>
+    <value>Profiil</value>
   </data>
   <data name="calendar" xml:space="preserve">
-    <value>달력</value>
+    <value>Kalender</value>
   </data>
   <data name="commentWaitingModeration" xml:space="preserve">
-    <value>답변에 감사합니다. 이 답글은 승인 대기중입니다.</value>
+    <value>Täname tagasiside eest. Kommentaar ootab modereerimist</value>
   </data>
   <data name="requireSslForMetaWeblogApi" xml:space="preserve">
-    <value>MetaWeblog API 는 SSL 이 필요합니다</value>
+    <value>Nõutud on SSL MetaWeblog API jaoks</value>
   </data>
   <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
-    <value>MetaWeblog API 로의 통신은 SSL 사용을 강요합니다</value>
+    <value>Luba MetaWeblog API kasutamist ainult üle SSL ühenduse</value>
   </data>
   <data name="compressWebResource" xml:space="preserve">
-    <value>WebResource.axd 압축</value>
+    <value>Kompresseeri WebResource.axd</value>
   </data>
   <data name="compressWebResourceDescription" xml:space="preserve">
-    <value>이 것은 제 3자의 기능을 고장낼수도 있습니다.</value>
+    <value>See võib kahjustada kolmanda osapoole komponentide tööd</value>
   </data>
   <data name="useBlogNameInPageTitles" xml:space="preserve">
-    <value>페이지 타이틀에 블로그 이름을 사용하세요</value>
+    <value>Kasuta blogi nime lehtede päises</value>
   </data>
   <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
-    <value>블로그 이름으로 페이지 타이틀을 고장하세요</value>
+    <value>Blogi nimi pannakse lehe päisesse</value>
   </data>
   <data name="uncategorized" xml:space="preserve">
-    <value>분류되지 않음</value>
+    <value>Katgooriata</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>취소</value>
+    <value>Tühista</value>
   </data>
   <data name="filter" xml:space="preserve">
-    <value>필터</value>
+    <value>Filter</value>
   </data>
   <data name="filterByApml" xml:space="preserve">
-    <value>APML 에 의해 필터</value>
+    <value>Filter by APML</value>
   </data>
   <data name="filterByApmlDescription" xml:space="preserve">
-    <value>당신의 웹 사이트 혹은 APML 문서에 URL 을 입력하세요</value>
+    <value>Sisesta oma veebilehe URL või APML aadress</value>
   </data>
   <data name="login" xml:space="preserve">
-    <value>로그인</value>
+    <value>Logi sisse</value>
   </data>
   <data name="logoff" xml:space="preserve">
-    <value>로그오프</value>
+    <value>Logi välja</value>
   </data>
   <data name="useRawHtmlEditor" xml:space="preserve">
-    <value>HTML 에디터 사용</value>
+    <value>Kasuta puhast HTML redigeerijat</value>
   </data>
   <data name="enableCommentNesting" xml:space="preserve">
-    <value>답변 형태의 답글 활성화</value>
+    <value>Luba seotud kommentaarid</value>
   </data>
   <data name="enableCommentNestingDescription" xml:space="preserve">
-    <value>이것은 테마에서 지원할때만 동작합니다.</value>
+    <value>See töötab vaid juhul teemapakett seda toetab</value>
   </data>
   <data name="replyTo" xml:space="preserve">
-    <value>답변 대상</value>
+    <value>Vastates</value>
   </data>
   <data name="replyToBase" xml:space="preserve">
-    <value>원글</value>
+    <value>algupärane postitus</value>
   </data>
   <data name="replyToThis" xml:space="preserve">
-    <value>답변</value>
+    <value>Vasta</value>
   </data>
   <data name="deleteKeepReplies" xml:space="preserve">
-    <value>이것을 삭제하지만 답변 계속 허용</value>
+    <value>Kustuta see kuid jäta vastused alles</value>
   </data>
   <data name="deletePlusReplies" xml:space="preserve">
-    <value>이것을 삭제하고 답변</value>
+    <value>Kustuta koos vastustega</value>
   </data>
   <data name="cancelReply" xml:space="preserve">
-    <value>답변 취소</value>
+    <value>Tühista kommentaarile vastamine</value>
   </data>
   <data name="numberOfCharacters" xml:space="preserve">
-    <value>문자 수</value>
+    <value>Tähemärke</value>
   </data>
   <data name="ratingHasBeenRegistered" xml:space="preserve">
-    <value>평가가 등록되었습니다. 감사합니다!</value>
+    <value>Sinu hinnang on salvestatud. Täname!</value>
   </data>
   <data name="rateThisXStars" xml:space="preserve">
-    <value>이 글을 5 중의 별{1} {0}로 추천하세요</value>
+    <value>Hinda seda {0} tärniga{1} 5-st</value>
   </data>
   <data name="move" xml:space="preserve">
-    <value>이동</value>
+    <value>Liiguta</value>
   </data>
   <data name="moveWidgetTo" xml:space="preserve">
-    <value>위젯 이동</value>
+    <value>Liiguta Widget ...</value>
   </data>
   <data name="link" xml:space="preserve">
-    <value>링크</value>
+    <value>Link</value>
   </data>
   <data name="numberOfDaysToKeep" xml:space="preserve">
-    <value>유지할 날짜 수</value>
+    <value>Hoida niimitu päeva</value>
   </data>
   <data name="profiles" xml:space="preserve">
-    <value>모든 프로필</value>
+    <value>Profiilid</value>
   </data>
   <data name="enableErrorLogging" xml:space="preserve">
-    <value>에러 로깅 활성화</value>
+    <value>Lubatud veateadete logimine</value>
   </data>
   <data name="enableErrorLoggingDescription" xml:space="preserve">
-    <value>처리되지 않은 에러는 로그 알림에 가입된 extension/component 에 기록하게 됩니다.</value>
+    <value>Unhandled errors will be logged to any extension/component subscribed to log notifications.</value>
   </data>
   <data name="commentNotificationUnsubscriptionHeader" xml:space="preserve">
-    <value>답글 알림 가입</value>
+    <value>Kommentaaride teavituste tellimine</value>
   </data>
   <data name="commentNotificationUnsubscriptionText" xml:space="preserve">
-    <value>이 글의 향후 답글에 대해서 email 알림이 가입되지 않았습니다.</value>
+    <value>Sulle ei saabu enam teavitusd kommentaaride lisandumisest selle postituse juures.</value>
   </data>
   <data name="commentNotificationUnsubscribe" xml:space="preserve">
-    <value>이 글에 대해서 향후 email 알림을 해약하세요.</value>
+    <value>Eemalda ennast edasisest kommentaaride teavitusest</value>
   </data>
   <data name="accuracy" xml:space="preserve">
-    <value>정확도</value>
+    <value>Täpsus</value>
   </data>
   <data name="addFilter" xml:space="preserve">
-    <value>필터 추가</value>
+    <value>Lisa filter</value>
   </data>
   <data name="addToWhiteList" xml:space="preserve">
-    <value>최소 우량 목록을 추가하세요</value>
+    <value>Lisa valgesse listi kui vähemalt</value>
   </data>
   <data name="allow" xml:space="preserve">
-    <value>허용</value>
+    <value>Luba</value>
   </data>
   <data name="alwaysTrust" xml:space="preserve">
-    <value>사용자가 인증되었으면 항상 신뢰</value>
+    <value>Usalda alati autenditud kasutajaid</value>
   </data>
   <data name="approved" xml:space="preserve">
-    <value>승인됨</value>
+    <value>Kinnitatud</value>
   </data>
   <data name="authorApproved" xml:space="preserve">
-    <value>이 작성자의 답글이 승인되었습니다</value>
+    <value>selle autori kommentaari on kinnitatud</value>
   </data>
   <data name="authorBlocked" xml:space="preserve">
-    <value>답글가 삭제되면 언제나 사용자 차단</value>
+    <value>Peale kommentaari kustutamist blokeeri ka autor</value>
   </data>
   <data name="authorRejected" xml:space="preserve">
-    <value>이 사용자가 작성한 답글이 거절되었습니다.</value>
+    <value>selle autori kommentaari on tagasi lükatud</value>
   </data>
   <data name="block" xml:space="preserve">
-    <value>차단</value>
+    <value>Blokeeri</value>
   </data>
   <data name="cheked" xml:space="preserve">
-    <value>선택됨</value>
+    <value>Valitud</value>
   </data>
   <data name="commentsApprovedByAdmin" xml:space="preserve">
-    <value>수동 - 관리자가 승인한 답글만 이 블로그에 보여지게 됩니다</value>
+    <value>Manuaalne - kommentaar muutub nähtavaks peale kinnitamist</value>
   </data>
   <data name="commentsAuto" xml:space="preserve">
-    <value>자동 - 규칙과 필터가 답글의 스팸 여부 결정</value>
+    <value>Automaatne - reeglid ja filtrid otsustavad kas kommentaar kuulub spami alla</value>
   </data>
   <data name="commentsBlacklist" xml:space="preserve">
-    <value>최소 블랙 리스트 작성</value>
+    <value>Lisa musta listi kui vähemalt</value>
   </data>
   <data name="commentsBlockOnDelete" xml:space="preserve">
-    <value>삭제 차단</value>
+    <value>Kustutamisel blokeeri</value>
   </data>
   <data name="commentsPerPage" xml:space="preserve">
-    <value>페이지당 답글</value>
+    <value>Kommentaare lehel</value>
   </data>
   <data name="commentsUnmodApproved" xml:space="preserve">
-    <value>승인여부가 비활성화 상태이면 모든 답글이 기본으로 승인됩니다</value>
+    <value>Kõik kommentaarid on automaatselt avalikud kui ei modereerita</value>
   </data>
   <data name="confirmResetCounters" xml:space="preserve">
-    <value>모든 카운터를 `0` 으로 설정하는 것을 확신하십니까?</value>
+    <value>Kas tõesti soovid loendureid alustada `0-st?</value>
   </data>
   <data name="contains" xml:space="preserve">
-    <value>포함</value>
+    <value>Sisaldab</value>
   </data>
   <data name="days" xml:space="preserve">
-    <value>일수</value>
+    <value>päeva</value>
   </data>
   <data name="down" xml:space="preserve">
-    <value>아래로</value>
+    <value>Alla</value>
   </data>
   <data name="enabled" xml:space="preserve">
-    <value>활성됨</value>
+    <value>Lubatud</value>
   </data>
   <data name="eqls" xml:space="preserve">
-    <value>동등</value>
+    <value>Võrdub</value>
   </data>
   <data name="filterName" xml:space="preserve">
-    <value>필터 이름</value>
+    <value>Filtri nimi</value>
   </data>
   <data name="filters" xml:space="preserve">
-    <value>필터들</value>
+    <value>Filtrid</value>
   </data>
   <data name="ip" xml:space="preserve">
     <value>IP</value>
   </data>
   <data name="mistakes" xml:space="preserve">
-    <value>실수</value>
+    <value>Vead</value>
   </data>
   <data name="moderation" xml:space="preserve">
-    <value>중재</value>
+    <value>Modereerimine</value>
   </data>
   <data name="priority" xml:space="preserve">
-    <value>우선순위</value>
+    <value>Prioriteet</value>
   </data>
   <data name="reportMistakesToService" xml:space="preserve">
-    <value>서비스에 실수를 보고</value>
+    <value>Raporteeri teenusele vigadest</value>
   </data>
   <data name="resetCounters" xml:space="preserve">
-    <value>카운터 재 설정</value>
+    <value>Nulli loendurid</value>
   </data>
   <data name="rules" xml:space="preserve">
-    <value>모든 규칙</value>
+    <value>Reeglid</value>
   </data>
   <data name="spam" xml:space="preserve">
-    <value>스팸</value>
+    <value>Spämm</value>
   </data>
   <data name="trustAuthenticated" xml:space="preserve">
-    <value>인증된 작성자들을 신뢰</value>
+    <value>Usalda autenditud kasutajaid</value>
   </data>
   <data name="up" xml:space="preserve">
-    <value>위로</value>
+    <value>Üles</value>
   </data>
   <data name="all" xml:space="preserve">
-    <value>모두</value>
+    <value>Kõik</value>
   </data>
   <data name="clear" xml:space="preserve">
-    <value>선택 취소</value>
+    <value>Kustuta</value>
   </data>
   <data name="moderator" xml:space="preserve">
-    <value>중재자</value>
+    <value>Moderaator</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>선택</value>
+    <value>Vali</value>
   </data>
   <data name="reject" xml:space="preserve">
-    <value>거절</value>
+    <value>Lükka tagasi</value>
   </data>
   <data name="restore" xml:space="preserve">
-    <value>복구</value>
+    <value>Taasta</value>
   </data>
   <data name="selectedComments" xml:space="preserve">
-    <value>선택된 답글</value>
+    <value>valitud kommentaarid</value>
   </data>
   <data name="editor" xml:space="preserve">
-    <value>수정자</value>
+    <value>Muutja</value>
   </data>
   <data name="total" xml:space="preserve">
-    <value>총</value>
+    <value>Kokku</value>
   </data>
   <data name="update" xml:space="preserve">
-    <value>갱신</value>
+    <value>Uuenda</value>
   </data>
   <data name="widget" xml:space="preserve">
-    <value>위젯</value>
+    <value>Widget</value>
   </data>
   <data name="configuration" xml:space="preserve">
-    <value>설정</value>
+    <value>Konfiguratsioon</value>
   </data>
   <data name="inbox" xml:space="preserve">
-    <value>받은 편지함</value>
+    <value>Sisendkast</value>
   </data>
   <data name="manual" xml:space="preserve">
-    <value>매뉴얼</value>
+    <value>Manuaalne</value>
   </data>
   <data name="unmoderated" xml:space="preserve">
-    <value>중재되지 않음</value>
+    <value>Modereerimata</value>
   </data>
   <data name="action" xml:space="preserve">
-    <value>작동</value>
+    <value>Tegevus</value>
   </data>
   <data name="automoderation" xml:space="preserve">
-    <value>자동 중재</value>
+    <value>Automaatne modereerimine</value>
   </data>
   <data name="custom" xml:space="preserve">
-    <value>별도</value>
+    <value>Kohandatud</value>
   </data>
   <data name="extensions" xml:space="preserve">
-    <value>확장 기능</value>
+    <value>Laiendused</value>
   </data>
   <data name="showPingBacks" xml:space="preserve">
-    <value>핑백과 트랙백 보기</value>
+    <value>Kuva pingbacks ja trackbacks</value>
   </data>
   <data name="register" xml:space="preserve">
-    <value>등록</value>
+    <value>Registreeri</value>
   </data>
   <data name="addCommentsToPages" xml:space="preserve">
-    <value>페이지에 답글 추가</value>
+    <value>Lisa kommentaarid lehtedele</value>
   </data>
   <data name="addToPages" xml:space="preserve">
-    <value>페이지에 추가(글)</value>
+    <value>Lisa lehtedele (in addition to posts)</value>
   </data>
   <data name="alreadyHaveAccount" xml:space="preserve">
-    <value>계정이 이미 있습니까?</value>
+    <value>Omad juba kasutajatunnust?</value>
   </data>
   <data name="applyChanges" xml:space="preserve">
-    <value>변경내용 적용</value>
+    <value>Salvesta muudatused</value>
   </data>
   <data name="clickToDisable" xml:space="preserve">
-    <value>비활성화를 위해 클릭</value>
+    <value>Keelamiseks vajuta</value>
   </data>
   <data name="clickToEnable" xml:space="preserve">
-    <value>활성화를 위해 클릭</value>
+    <value>Lubamiseks vajuta</value>
   </data>
   <data name="commentsWhere" xml:space="preserve">
-    <value>에 위치한 답글</value>
+    <value>kommentaarid kus</value>
   </data>
   <data name="confirmNewPassword" xml:space="preserve">
-    <value>새 비밀번호를 확인하세요</value>
+    <value>Kinnita uus parool</value>
   </data>
   <data name="confirmPassword" xml:space="preserve">
-    <value>비밀번호를 확인하세요</value>
+    <value>Kinnita parool</value>
   </data>
   <data name="createAccount" xml:space="preserve">
-    <value>계정 생성</value>
+    <value>Loo kasutaja</value>
   </data>
   <data name="createNow" xml:space="preserve">
-    <value>생성되었습니다!</value>
+    <value>Loo nüüd!</value>
   </data>
   <data name="createUser" xml:space="preserve">
-    <value>사용자 생성</value>
+    <value>Loo kasutaja</value>
   </data>
   <data name="deleteConfirm" xml:space="preserve">
-    <value>이 답글을 삭제하시겠습니까?</value>
+    <value>Kas soovid seda kommentaari kustutada?</value>
   </data>
   <data name="developmentMode" xml:space="preserve">
-    <value>개발 모드</value>
+    <value>Arenduse vaade</value>
   </data>
   <data name="developmentModeCheckboxMessage" xml:space="preserve">
-    <value>disqus 를 테스트할 때 여기를 체크하세요</value>
+    <value>Määra see kui soovid discus teenust lokaalselt testida.</value>
   </data>
   <data name="disabled" xml:space="preserve">
-    <value>비활성화됨</value>
+    <value>Keelatud</value>
   </data>
   <data name="disqusSettings" xml:space="preserve">
-    <value>Disqus 설정</value>
+    <value>Diskussiooni häälestus</value>
   </data>
   <data name="disqusShortName" xml:space="preserve">
-    <value>Disqus 웹사이트 축약이름</value>
+    <value>Disqus Veebilehe Lühike Nimi</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>답글관리자로 Disqus 을 사용하려면 &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;에 우선 등록하세요&lt;br /&gt;
-            축약 이름이 Disqus 웹사이트의 유니크한 구분자로 사용됩니다 (기본설정에 웹사이트 축약이름).</value>
+    <value>Et kasutada Disqus-teenust kommenteerimise juures, on kõigepealt vaja kasutajatunnus luua &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+            Lühike nimi on kasutusel sinu veebilehe identifitseerimisel Disqus-teenuses (Veebilehe nimi põhilises seadistuses).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">
-    <value>계정이 아직 없으세요?</value>
+    <value>Sul pole veel kasutajatunnust?</value>
   </data>
   <data name="forgotPassword" xml:space="preserve">
-    <value>비밀번호를 잊으셨나요?</value>
+    <value>Unustasid oma parooli?</value>
   </data>
   <data name="isAlreadyExists" xml:space="preserve">
-    <value>이미 존재합니다</value>
+    <value>juba eksisteerib</value>
   </data>
   <data name="isRequiredField" xml:space="preserve">
-    <value>필수 항목입니다</value>
+    <value>on nõutud väli</value>
   </data>
   <data name="loginNow" xml:space="preserve">
-    <value>로그인 되었습니다!</value>
+    <value>Login praegu!</value>
   </data>
   <data name="makeDonation" xml:space="preserve">
-    <value>기부하기</value>
+    <value>Toeta</value>
   </data>
   <data name="moderatedByDisqus" xml:space="preserve">
-    <value>Disqus 에 의해 중재.</value>
+    <value>Modereeritud Disqus-teenuse poolt.</value>
   </data>
   <data name="myProfile" xml:space="preserve">
-    <value>내 프로필</value>
+    <value>Minu profiil</value>
   </data>
   <data name="never" xml:space="preserve">
-    <value>없음</value>
+    <value>Mitte kunagi</value>
   </data>
   <data name="newPassword" xml:space="preserve">
-    <value>새 비밀번호</value>
+    <value>Uus parool</value>
   </data>
   <data name="oldPassword" xml:space="preserve">
-    <value>예전 비밀번호</value>
+    <value>Eelmine parool</value>
   </data>
   <data name="or" xml:space="preserve">
-    <value>또는 </value>
+    <value>või</value>
   </data>
   <data name="passwordChangeSuccess" xml:space="preserve">
-    <value>비밀번호가 성공적으로 변경되었습니다</value>
+    <value>Sinu parool on edukatl vahetatud.</value>
   </data>
   <data name="passwordMinimumCharacters" xml:space="preserve">
-    <value>비밀번호 (최소 {0}자)</value>
+    <value>Parool (min {0} tähemärki)</value>
   </data>
   <data name="passwordRetrieval" xml:space="preserve">
-    <value>비밀번호 복구</value>
+    <value>Password Retrieval</value>
   </data>
   <data name="passwordRetrievalInstructionMessage" xml:space="preserve">
-    <value>항목위에 이메일을 넣으세요. 비밀번호가 이메일로 곧 전송됩니다.</value>
+    <value>Sisesta oma e-maili aadress kuhu saadetakse sulle parool.</value>
   </data>
   <data name="rememberMe" xml:space="preserve">
-    <value>로그인 상태유지</value>
+    <value>Hoia mind sisselogituna</value>
   </data>
   <data name="requiredPasswordLength" xml:space="preserve">
-    <value>새 비밀번호는 최소 {0} 자 이상이어야 합니다</value>
+    <value>Uus parool peab olema vähemalt {0} tähemärgi pikkune.</value>
   </data>
   <data name="returnToBlog" xml:space="preserve">
-    <value>블로그로 돌아가기</value>
+    <value>Tagasi blogisse</value>
   </data>
   <data name="siteUnavailableConfirm" xml:space="preserve">
-    <value>웹사이트가 몇초동안 사용할 수 없습니다.\n계속하시겠습니까?</value>
+    <value>Veebileht pole minuti jooksul kättesaadav.\nKas tõesti soovid jätkata?</value>
   </data>
   <data name="source" xml:space="preserve">
-    <value>소스</value>
+    <value>Algne kood</value>
   </data>
   <data name="sourceViewer" xml:space="preserve">
-    <value>소스 뷰어</value>
+    <value>Algse koodi vaatamine</value>
   </data>
   <data name="status" xml:space="preserve">
-    <value>상태</value>
+    <value>Staatus</value>
   </data>
   <data name="theValuesSaved" xml:space="preserve">
-    <value>값이 저장되었습니다</value>
+    <value>Väärtused on salvestatud</value>
   </data>
   <data name="version" xml:space="preserve">
-    <value>버전</value>
+    <value>Versioon</value>
   </data>
   <data name="addNewRole" xml:space="preserve">
-    <value>새 역할 추가</value>
+    <value>Lisa uus roll</value>
   </data>
   <data name="areYouSureDeleteRow" xml:space="preserve">
-    <value>이 열을 삭제하시겠습니까?</value>
+    <value>Kas soovid seda praegu kustutada?</value>
   </data>
   <data name="categoryAlreadyExists" xml:space="preserve">
-    <value>카테고리가 이미 존재합니다</value>
+    <value>Kategooria juba eksisteerib</value>
   </data>
   <data name="close" xml:space="preserve">
-    <value>닫기</value>
+    <value>Sulge</value>
   </data>
   <data name="createRole" xml:space="preserve">
-    <value>역할 생성</value>
+    <value>Loo roll</value>
   </data>
   <data name="download" xml:space="preserve">
-    <value>다운로드</value>
+    <value>Lae alla</value>
   </data>
   <data name="enableEnclosures" xml:space="preserve">
-    <value>인클로저 활성화</value>
+    <value>Luba lisad (Enclosures)</value>
   </data>
   <data name="enableSelfRegistration" xml:space="preserve">
-    <value>자가 등록 활성화</value>
+    <value>Luba kasutajaks registreerumine</value>
   </data>
   <data name="enterDate" xml:space="preserve">
-    <value>날짜를 기입하세요 (yyyy-mm-dd hh:mm)</value>
+    <value>Sisesta palun kuupäev (yyyy-mm-dd hh:mm)</value>
   </data>
   <data name="enterTitle" xml:space="preserve">
-    <value>제목을 기입하세요</value>
+    <value>Sisesta palun pealkiri</value>
   </data>
   <data name="enterValidDate" xml:space="preserve">
-    <value>유효한 날짜를 기입하세요 (yyyy-mm-dd hh:mm)</value>
+    <value>Sisesta palun korrektne kuupäev (yyyy-mm-dd hh:mm)</value>
   </data>
   <data name="enterValidName" xml:space="preserve">
-    <value>유효한 이름을 기입하세요</value>
+    <value>Sisesta palun korrektne nimi</value>
   </data>
   <data name="enterValidNumber" xml:space="preserve">
-    <value>유효한 숫자를 기입하세요</value>
+    <value>Sissesta palun korrektne number</value>
   </data>
   <data name="enterValidNumberPositiveNegative" xml:space="preserve">
-    <value>유효한 숫자를 지정하세요 (양수 또는 음수)</value>
+    <value>Sisesta palun korrektne number (positiivne või negatiivne)</value>
   </data>
   <data name="extractFromTitle" xml:space="preserve">
-    <value>제목으로부터 추출</value>
+    <value>Kasuta pealkirja</value>
   </data>
   <data name="findPosition" xml:space="preserve">
-    <value>위치 검색</value>
+    <value>Leia positsioon</value>
   </data>
   <data name="importFromBlogML" xml:space="preserve">
-    <value>BlogML로부터 가져오기</value>
+    <value>Import BlogML-st</value>
   </data>
   <data name="invalid" xml:space="preserve">
-    <value>유효하지 않음</value>
+    <value>Kehtetu</value>
   </data>
   <data name="noValidNumber" xml:space="preserve">
-    <value>유효한 숫자가 아닙니다</value>
+    <value>Pole korrektne number</value>
   </data>
   <data name="onlyLoggedInCanView" xml:space="preserve">
-    <value>로그인된 사용자만 글을 볼 수 있습니다 (사적 블로그)</value>
+    <value>Ainult sisseloginud kasutajad näevad postitusi (personaalne blogi).</value>
   </data>
   <data name="parent" xml:space="preserve">
-    <value>부모</value>
+    <value>Vanem</value>
   </data>
   <data name="pingService" xml:space="preserve">
-    <value>핑 서비스</value>
+    <value>Ping Services</value>
   </data>
   <data name="preview" xml:space="preserve">
-    <value>미리보기</value>
+    <value>Eelvaade</value>
   </data>
   <data name="roles" xml:space="preserve">
-    <value>역할</value>
+    <value>Rollid</value>
   </data>
   <data name="showSelector" xml:space="preserve">
-    <value>셀렉터 보기</value>
+    <value>Kuva valija</value>
   </data>
   <data name="slug" xml:space="preserve">
-    <value>슬러그 (옵션)</value>
+    <value>Aadress (valikuline)</value>
   </data>
   <data name="specifyPingService" xml:space="preserve">
-    <value>핑서비스를 지정해주세요</value>
+    <value>Pane ping-teenuse osutaja nimi</value>
   </data>
   <data name="tags" xml:space="preserve">
-    <value>태그</value>
+    <value>Sildid</value>
   </data>
   <data name="testEmailSettings" xml:space="preserve">
-    <value>테스트 메일 설정</value>
+    <value>Testi e-maili häälestust</value>
   </data>
   <data name="trackingScript" xml:space="preserve">
-    <value>트래킹 스크립트</value>
+    <value>Analüüsi Script jalusesse</value>
   </data>
   <data name="trackingScriptDescription" xml:space="preserve">
-    <value>트래킹 스크립트 방문자&lt;br /&gt;&lt;br /&gt; i.e. Google 분석기의 자바스크립트 코드.&lt;br /&gt;&lt;br /&gt;
-          테마에 상관없이 각페이지 하단에 추가하시겠습니까.&lt;br /&gt;&lt;br /&gt;(&amp;lt;스크립트&amp;gt; tags 추가를 위해 기억)</value>
+    <value>Külastaja tracking script&lt;br /&gt;&lt;br /&gt;JavaScript kood Google Analytics või mõnest teisest kohast.&lt;br /&gt;&lt;br /&gt;
+          Lisatakse iga lehe jalusesse kui teemapakett seda toetab.&lt;br /&gt;&lt;br /&gt;(pea meeles et lisada ka &amp;lt;script&amp;gt; märgid)</value>
   </data>
   <data name="upload" xml:space="preserve">
-    <value>업로드</value>
+    <value>Lae üles</value>
   </data>
   <data name="usernameAlreadyTaken" xml:space="preserve">
-    <value>사용자이름이 이미 작성됨</value>
+    <value>Kasutajanimi on juba võetud</value>
   </data>
   <data name="notifiedPublished" xml:space="preserve">
-    <value>새로운 답글 추가될때 알림</value>
+    <value>Teavita mind postituste lisandumisest.</value>
   </data>
   <data name="pendingApproval" xml:space="preserve">
-    <value>답글이 관리자 승인을 대기중입니다</value>
+    <value>Kommentaarid ootavad moderaatori läbivaatust</value>
   </data>
   <data name="Referrers_BindTable_Total" xml:space="preserve">
-    <value>모든 라인</value>
+    <value>Kokku</value>
     <comment>
 			Footer row text of first cell
 		</comment>
   </data>
   <data name="Configuration_OnInit_Please_specify_a_number" xml:space="preserve">
-    <value>숫자를 지정하세요</value>
+    <value>Palun pane number</value>
     <comment>
 			valDescChar Error Message
 		</comment>
   </data>
   <data name="Configuration_BtnTestSmtpClick_Test_successfull" xml:space="preserve">
-    <value>성공적으로 테스트</value>
+    <value>Test õnnestunud</value>
     <comment>Smtp status text</comment>
   </data>
   <data name="allowRemoteFileDownloads" xml:space="preserve">
-    <value>원격 파일다운로드 허용</value>
+    <value>Luba eemalt failide allalaadimist</value>
   </data>
   <data name="allowRemoteFileDownloadsDescription" xml:space="preserve">
-    <value>서버가 다른 웹사이트의 다운로드/캐쉬/프로세스 자원 핸들링을 할 수 있도록 허용합니다. </value>
+    <value>Luba serveril alla laadida/hoida/protsessida andmeid teistelt veebilehtedelt.</value>
   </data>
   <data name="remoteTimeout" xml:space="preserve">
-    <value>원격 다운로드 시간 최대값</value>
+    <value>Maksimaalne eemalt laadimise aeg</value>
   </data>
   <data name="remoteTimeoutDescription" xml:space="preserve">
-    <value>서버가 원격소스를 다운로드할 최대 시간(milliseconds). 0은 무한정. 기본은 30000.</value>
+    <value>Maksimaalne aeg(millisekundid) mida server võib kasutada allalaadimiseks. Piiramatuks määramiseks pane0. Vaikimisi on 30000.</value>
   </data>
   <data name="securitySettings" xml:space="preserve">
-    <value>보안 설정</value>
+    <value>Turvalisuse häälestused</value>
   </data>
   <data name="maximumRemoteFileSize" xml:space="preserve">
-    <value>최대 원격 파일크기</value>
+    <value>Maksimaalne kaugelt laetava faili suurus</value>
   </data>
   <data name="maximumRemoteFileSizeDescription" xml:space="preserve">
-    <value>서버가 다운로드 할 수 있는 원격 파일의 바이트 최대값. 0 은 무제한.</value>
+    <value>Maksimaalne faili suurus mis on lubatud serveril alla laadida. Piiramatuks väärtuseks pane 0.</value>
   </data>
   <data name="selfRegistrationInitialRole" xml:space="preserve">
-    <value>자가 등록을 위한 초기 권한</value>
+    <value>Vaikimisi roll registreerumisel</value>
   </data>
   <data name="enableRecaptcha" xml:space="preserve">
-    <value>Recaptcha 활성화</value>
+    <value>Luba Recaptcha</value>
   </data>
   <data name="recaptchaConfigureReminder" xml:space="preserve">
-    <value>Recaptcha 확장기능을 활성화하고 적절히 설정되었는지 확인하세요.</value>
+    <value>Ole kindel et ReCaptcha on lubatud ja häälestatud.</value>
   </data>
   <data name="whitelistIpOnCommentApproval" xml:space="preserve">
-    <value>승인한 답글의 IP주소를 자동으로 화이트리스트에 추가</value>
+    <value>Lisab kinnitatud kommentaaride IP-aadressid automaatselt valgesse listi.</value>
   </data>
   <data name="blacklistIpOnCommentRejection" xml:space="preserve">
-    <value>거부한 답글의 IP주소를 자동으로 블랙리스트에 추가합니다.</value>
+    <value>Lisa tagasilükatud kommentaari IP aadress musta listi</value>
   </data>
   <data name="dashboard" xml:space="preserve">
-    <value>대시보드</value>
+    <value>Esipaneel</value>
   </data>
   <data name="groupByYear" xml:space="preserve">
-    <value>연도로 그룹화</value>
+    <value>Grupeeri aastate järgi</value>
   </data>
   <data name="recentDatesAtTop" xml:space="preserve">
-    <value>최근 날짜를 위로</value>
+    <value>Hilisemad kuupäevad on üleval</value>
   </data>
   <data name="confirmPasswordIsRequired" xml:space="preserve">
-    <value>비밀번호 확인은 필수 항목입니다</value>
+    <value>Parooli kinnitamine on nõutud</value>
   </data>
   <data name="emailIsInvalid" xml:space="preserve">
-    <value>이메일이 유효하지 않습니다</value>
+    <value>Email pole korrektne</value>
   </data>
   <data name="emailIsRequired" xml:space="preserve">
-    <value>이메일은 필수입니다</value>
+    <value>Email on nõutud</value>
   </data>
   <data name="minPassLengthInChars" xml:space="preserve">
-    <value>비밀번호 최소길이는 {0} 자입니다</value>
+    <value>Lühim parooli pikkus on {0} tähemärki</value>
   </data>
   <data name="newAndConfirmPasswordMismatch" xml:space="preserve">
-    <value>비밀번호와 확인 비밀번호가 일치하지 않습니다</value>
+    <value>Sisestatud paroolid ei ole sarnased</value>
   </data>
   <data name="newPasswordIsRequired" xml:space="preserve">
-    <value>새 비밀번호는 필수입니다</value>
+    <value>Uus parool on nõutud</value>
   </data>
   <data name="oldPasswordIsRequired" xml:space="preserve">
-    <value>예전 비밀번호는 필수입니다</value>
+    <value>Eelmine parool on nõutud</value>
   </data>
   <data name="passwordAndConfirmPasswordMismatch" xml:space="preserve">
-    <value>비밀번호와 확인비밀번호가 일치하지 않습니다</value>
+    <value>Sisestatud paroolid ei ole sarnased</value>
   </data>
   <data name="passwordIsRequried" xml:space="preserve">
-    <value>비밀번호는 필수입니다</value>
+    <value>Parool on vajalik</value>
   </data>
   <data name="passwordAndConfirmPasswordIsMatch" xml:space="preserve">
-    <value>새비밀번호와 확인비밀번호가 일치하지 않습니다</value>
+    <value>Sisestatud paroolid ei ole sarnased</value>
   </data>
   <data name="userNameIsRequired" xml:space="preserve">
-    <value>사용자 이름은 필수입니다</value>
+    <value>Kasutajanimi on nõutud</value>
   </data>
   <data name="tracking" xml:space="preserve">
-    <value>트래킹</value>
+    <value>Analüüs</value>
   </data>
   <data name="welcome" xml:space="preserve">
-    <value>환영합니다</value>
+    <value>Tere tulemast</value>
   </data>
   <data name="addNewPage" xml:space="preserve">
-    <value>새 페이지 추가</value>
+    <value>Lisa uus leht</value>
   </data>
   <data name="admin" xml:space="preserve">
-    <value>관리</value>
+    <value>Admin</value>
   </data>
   <data name="draftPages" xml:space="preserve">
-    <value>페이지 초안</value>
+    <value>Avaldamata lehed</value>
   </data>
   <data name="draftPosts" xml:space="preserve">
-    <value>글 초안</value>
+    <value>Avaldamata postitused</value>
   </data>
   <data name="emptyTrash" xml:space="preserve">
-    <value>휴지통 비우기</value>
+    <value>Tühjenda prügikast</value>
   </data>
   <data name="recentPendingComments" xml:space="preserve">
-    <value>최근 달린 답글</value>
+    <value>Hiljuti sisestatud nin ootle olevad kommentaarid</value>
   </data>
   <data name="stats" xml:space="preserve">
-    <value>통계</value>
+    <value>Statistika</value>
   </data>
   <data name="trash" xml:space="preserve">
-    <value>휴지통</value>
+    <value>Prügikast</value>
   </data>
   <data name="unapproved" xml:space="preserve">
-    <value>승인되지 않음</value>
+    <value>Kinnitamata</value>
   </data>
   <data name="viewAll" xml:space="preserve">
-    <value>모두 보기</value>
+    <value>Vaata kõiki</value>
   </data>
   <data name="writeNewPost" xml:space="preserve">
-    <value>새 글 작성</value>
+    <value>Lisa uus postitus</value>
   </data>
   <data name="youDontHaveAnyDraftPages" xml:space="preserve">
-    <value>드래프트 페이지가 없습니다.</value>
+    <value>Sul pole ühtegi avaldamata lehte.</value>
   </data>
   <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
-    <value>드래프트 글이 없습니다.</value>
+    <value>Sul pole ühtegi avaldamata postitust.</value>
   </data>
   <data name="notAuthorized" xml:space="preserve">
-    <value>인증되지 않음</value>
+    <value>Pole autoriseeritud</value>
   </data>
   <data name="userAlreadyExists" xml:space="preserve">
-    <value>사용자 "{0}" 이미 존재합니다.</value>
+    <value>Kasutaja "{0}" juba eksisteerib.</value>
   </data>
   <data name="commentsDeleted" xml:space="preserve">
-    <value>답글 삭제됨</value>
+    <value>Kommentaarid kustutatud</value>
   </data>
   <data name="couldNotCreateRole" xml:space="preserve">
-    <value>역할을 생성할 수 없습니다: {0}</value>
+    <value>Ei saa teha rolli: {0}</value>
   </data>
   <data name="couldNotCreateUser" xml:space="preserve">
-    <value>사용자를 생성할 수 없습니다: {0} : {1}</value>
+    <value>Ei saa teha kasutajat: {0} : {1}</value>
   </data>
   <data name="couldNotDeleteComment" xml:space="preserve">
-    <value>답글을 삭제할 수 없습니다: {0}</value>
+    <value>Ei saa kustutada kommentaari: {0}</value>
   </data>
   <data name="couldNotDeleteComments" xml:space="preserve">
-    <value>모든 답글을 삭제할 수 없습니다: {0}</value>
+    <value>Ei saa kustutada kõiki kommentaare: {0}</value>
   </data>
   <data name="couldNotDeletePage" xml:space="preserve">
-    <value>페이지를 삭제할 수 없습니다: {0}</value>
+    <value>Ei saa kustutada lehte: {0}</value>
   </data>
   <data name="couldNotDeletePost" xml:space="preserve">
-    <value>글을 삭제할 수 없습니다: {0}</value>
+    <value>Ei saa kustutada postitust: {0}</value>
   </data>
   <data name="couldNotDeleteRole" xml:space="preserve">
-    <value>역할을 삭제할 수 없습니다: {0}</value>
+    <value>Ei saa kustutada rolli {0}</value>
   </data>
   <data name="couldNotDeleteTag" xml:space="preserve">
-    <value>태그를 삭제할 수 없습니다: {0}</value>
+    <value>Ei saa kustutada silti: {0}</value>
   </data>
   <data name="couldNotDeleteUser" xml:space="preserve">
-    <value>사용자를 삭제할 수 없습니다 : {0}</value>
+    <value>Ei saa kustutada kasutajat: {0}</value>
   </data>
   <data name="couldNotUpdateProfile" xml:space="preserve">
-    <value>프로필을 업데이트할 수 없습니다: {0}</value>
+    <value>Ei saa uuendada profiili: {0}</value>
   </data>
   <data name="couldNotUpdateRole" xml:space="preserve">
-    <value>역할을 업데이트할 수 없습니다: {0}</value>
+    <value>Ei saa uuendada rolli {0}</value>
   </data>
   <data name="couldNotUpdateTag" xml:space="preserve">
-    <value>태그를 업데이트할 수 없습니다: {0}</value>
+    <value>Ei saa uuendada silti: {0}</value>
   </data>
   <data name="couldNotUpdateUser" xml:space="preserve">
-    <value>사용자를 업데이트할 수 없습니다: {0}</value>
+    <value>Ei saa uuendada kasutajat: {0}</value>
   </data>
   <data name="displayNameIsRequired" xml:space="preserve">
-    <value>표시이름은 필수항목입니다</value>
+    <value>Nimi on nõutud väli</value>
   </data>
   <data name="doNotPassRightsWithFalseValue" xml:space="preserve">
-    <value>false 값을 가진 권한을 설정하세요.</value>
+    <value>Do not pass back rights that have false values.</value>
   </data>
   <data name="emailArgumentInvalid" xml:space="preserve">
-    <value>이메일 값이 유효하지 않습니다</value>
+    <value>Email pole korrektne.</value>
   </data>
   <data name="errorApprovingComment" xml:space="preserve">
-    <value>답글 승인 에러: {0}</value>
+    <value>Viga kommentari kinnitamisel: {0}</value>
   </data>
   <data name="errorRejectingComment" xml:space="preserve">
-    <value>답글 거부 에러</value>
+    <value>Viga kommentaari tagasilükkamisel</value>
   </data>
   <data name="idArgumentNull" xml:space="preserve">
-    <value>아이디 값이 null 입니다.</value>
+    <value>id argument on null.</value>
   </data>
   <data name="invalidPageId" xml:space="preserve">
-    <value>유효하지 않은 페이지 아이디</value>
+    <value>Kehtetu lehe id</value>
   </data>
   <data name="invalidPostId" xml:space="preserve">
-    <value>유효하지 않은 글 아이디</value>
+    <value>Kehtetu postituse id</value>
   </data>
   <data name="invalidRoleName" xml:space="preserve">
-    <value>유효하지 않은 역할 이름</value>
+    <value>Kehtetu rolli nimi</value>
   </data>
   <data name="noRightExists" xml:space="preserve">
-    <value>그런 권한이 없습니다: {0}</value>
+    <value>Sellist õigust ei eksisteeri: {0}</value>
   </data>
   <data name="pageDeleted" xml:space="preserve">
-    <value>페이지 삭제됨</value>
+    <value>Leht kustutatud</value>
   </data>
   <data name="pageIdRequired" xml:space="preserve">
-    <value>페이지 아이디는 필수입니다</value>
+    <value>Lehe id on vajalik</value>
   </data>
   <data name="passwordArgumentInvalid" xml:space="preserve">
-    <value>비밀번호가 유효하지 않습니다.</value>
+    <value>Password argument is invalid.</value>
   </data>
   <data name="postDeleted" xml:space="preserve">
-    <value>글이 삭제됨</value>
+    <value>Postitus kustutatud</value>
   </data>
   <data name="profileUpdated" xml:space="preserve">
-    <value>프로필 {0} 업데이트됨</value>
+    <value>Profiil {0} uuendatud</value>
   </data>
   <data name="rightsCanNotBeNull" xml:space="preserve">
-    <value>권한 콜렉션이 null 입니다.</value>
+    <value>Õiguste kollektsiooni parameeter ei saa olla null.</value>
   </data>
   <data name="rightsUpdatedForRole" xml:space="preserve">
-    <value>역할 "{0}"을 위한 권한이 업데이트되었습니다 </value>
+    <value>Üigus muudetud rollil "{0}"</value>
   </data>
   <data name="roleAlreadyExists" xml:space="preserve">
-    <value>역할 "{0}" 이미 존재합니다</value>
+    <value>Roll "{0}" juba eksisteerib</value>
   </data>
   <data name="roleHasBeenCreated" xml:space="preserve">
-    <value>역할 "{0}" 생성되었습니다</value>
+    <value>Roll "{0}" loodud</value>
   </data>
   <data name="roleHasBeenDeleted" xml:space="preserve">
-    <value>역할 "{0}" 삭제되었습니다</value>
+    <value>Roll "{0}" on kustutatud</value>
   </data>
   <data name="roleNameArgumentNull" xml:space="preserve">
-    <value>역할이름이 null입니다.</value>
+    <value>rollinime parameeter on null.</value>
   </data>
   <data name="roleNameIsRequired" xml:space="preserve">
-    <value>역할이름은 필수항목입니다.</value>
+    <value>Rolli nimi on nõutud väli</value>
   </data>
   <data name="roleUpdatedFromTo" xml:space="preserve">
-    <value>역할이 "{0}" 에서 "{1}" 로 업데이트됨</value>
+    <value>Roll on uuendatud "{0}" - "{1}"</value>
   </data>
   <data name="selectedCommentDeleted" xml:space="preserve">
-    <value>선택된 답글 삭제</value>
+    <value>Valitud kommentaarid on kustutatud</value>
   </data>
   <data name="selectedCommentRejected" xml:space="preserve">
-    <value>선택된 답글 거부</value>
+    <value>Valitud kommentaarid on tagasi lükatud</value>
   </data>
   <data name="selectedCommentRestored" xml:space="preserve">
-    <value>선택된 답글 복구</value>
+    <value>Valitud kommentaarid on ennistatud</value>
   </data>
   <data name="tagChangedFromTo" xml:space="preserve">
-    <value>태그가 "{0}" 에서 "{1}" 로 업데이트됨</value>
+    <value>Silt on muudetud "{0}" - "{1}"</value>
   </data>
   <data name="tagHasBeenDeleted" xml:space="preserve">
-    <value>태그 "{0}" 가 삭제됨</value>
+    <value>Silt "{0}" on kustutatud</value>
   </data>
   <data name="tagIsRequired" xml:space="preserve">
-    <value>태그는 필수항목입니다</value>
+    <value>Silt on nõutud väli.</value>
   </data>
   <data name="userArgumentInvalid" xml:space="preserve">
-    <value>사용자가 유효하지 않습니다.</value>
+    <value>Kasutaja sisestatud väärtus on vigane.</value>
   </data>
   <data name="userHasBeenCreated" xml:space="preserve">
-    <value>사용자 "{0}" 생성됨</value>
+    <value>Kasutaja "{0}" on loodud</value>
   </data>
   <data name="userHasBeenDeleted" xml:space="preserve">
-    <value>사용자 "{0}" 삭제됨</value>
+    <value>Kasutaja "{0}" on kustutatud</value>
   </data>
   <data name="userUpdated" xml:space="preserve">
-    <value>사용자 "{0}" 업데이트됨</value>
+    <value>Kasutaja "{0}" uuendatud</value>
   </data>
   <data name="userWithEmailExists" xml:space="preserve">
-    <value>이 메일의 사용자가 이미 존재합니다</value>
+    <value>Selle e-maili aadressiga kasutaja juba eksisteerib</value>
   </data>
   <data name="valsArgumentNull" xml:space="preserve">
-    <value>값이 null입니다</value>
+    <value>vals argument is null.</value>
   </data>
   <data name="addEditPost" xml:space="preserve">
-    <value>글 추가/편집</value>
+    <value>Lisa/muuda postitust</value>
   </data>
   <data name="addNewCategory" xml:space="preserve">
-    <value>새 분류 추가</value>
+    <value>Lisa uus kategooria</value>
   </data>
   <data name="insertImage" xml:space="preserve">
-    <value>이미지 삽입</value>
+    <value>Lisa pilt</value>
   </data>
   <data name="insertVideo" xml:space="preserve">
-    <value>비디오 삽입</value>
+    <value>Lisa video</value>
   </data>
   <data name="published" xml:space="preserve">
-    <value>발행됨</value>
+    <value>Avaldatud</value>
   </data>
   <data name="show" xml:space="preserve">
-    <value>보기</value>
+    <value>Näita</value>
   </data>
   <data name="automatically" xml:space="preserve">
-    <value>자동으로</value>
+    <value>Automaatselt</value>
   </data>
   <data name="chooseFromExistingTags" xml:space="preserve">
-    <value>존재하는 태그로부터 선택</value>
+    <value>Vali olamsolevate siltide hulgast</value>
   </data>
   <data name="clickTag" xml:space="preserve">
-    <value>태그 클릭:</value>
+    <value>Vali silt:</value>
   </data>
   <data name="editPage" xml:space="preserve">
-    <value>페이지 편집</value>
+    <value>Muuda lehte</value>
   </data>
   <data name="excerpt" xml:space="preserve">
-    <value>발췌 (옵션)</value>
+    <value>Lühikirjeldus (valikuline)</value>
   </data>
   <data name="goToPage" xml:space="preserve">
-    <value>페이지로 가기</value>
+    <value>Mine lehele</value>
   </data>
   <data name="goToPost" xml:space="preserve">
-    <value>글로 가기</value>
+    <value>Mine postitusele</value>
   </data>
   <data name="manually" xml:space="preserve">
-    <value>수동으로</value>
+    <value>Manuaalselt</value>
   </data>
   <data name="options" xml:space="preserve">
-    <value>옵션</value>
+    <value>Valikud</value>
   </data>
   <data name="quickAddNewCategory" xml:space="preserve">
-    <value>새 분류 빠른추가</value>
+    <value>Lisa uus kategooria</value>
   </data>
   <data name="setPublishDate" xml:space="preserve">
-    <value>발행날짜 설정</value>
+    <value>Määra avaldamise kuupäev</value>
   </data>
   <data name="uploadVideo" xml:space="preserve">
-    <value>업로드할 비디오 (MP4, WMV, FLV, OGG, WebM) 나 오디오 (MP3) 파일선택</value>
+    <value>Vali video (MP4, WMV, FLV, OGG, WebM) või heli (MP3) mida soovid üles laadida</value>
   </data>
   <data name="enablePasswordReset" xml:space="preserve">
-    <value>비밀번호 리셋 활성화</value>
+    <value>Luba parooli lähtestamine</value>
   </data>
   <data name="addNewBlog" xml:space="preserve">
-    <value>새 블로그 추가</value>
+    <value>Lisa uus blogi</value>
   </data>
   <data name="approvedComments" xml:space="preserve">
-    <value>답글 승인</value>
+    <value>Kinnitatud kommentaarid</value>
   </data>
   <data name="commonControls" xml:space="preserve">
-    <value>일반 컨트롤</value>
+    <value>Muu häälestus</value>
   </data>
   <data name="disable" xml:space="preserve">
-    <value>비활성화</value>
+    <value>Keela</value>
   </data>
   <data name="drafts" xml:space="preserve">
-    <value>초안</value>
+    <value>Avaldamata</value>
   </data>
   <data name="enable" xml:space="preserve">
-    <value>활성화</value>
+    <value>Luba</value>
   </data>
   <data name="pending" xml:space="preserve">
-    <value>미결</value>
+    <value>Ootel</value>
   </data>
   <data name="pingbacksAndTrackbacks" xml:space="preserve">
-    <value>핑 백 &amp;amp; 트랙백</value>
+    <value>Pingbacks &amp;amp; Trackbacks</value>
   </data>
   <data name="viewSource" xml:space="preserve">
-    <value>소스 보기</value>
+    <value>Vaata sisu</value>
   </data>
   <data name="addNewUser" xml:space="preserve">
-    <value>사 사용자 추가</value>
+    <value>Lisa uus kasutaja</value>
   </data>
   <data name="appearance" xml:space="preserve">
-    <value>외관</value>
+    <value>Väljanägemine</value>
   </data>
   <data name="commentSettings" xml:space="preserve">
-    <value>답글 설정</value>
+    <value>Kommentaaride häälestus</value>
   </data>
   <data name="copyRightsFrom" xml:space="preserve">
-    <value>카피 라이트</value>
+    <value>Kopeeri õigused</value>
   </data>
   <data name="customCode" xml:space="preserve">
-    <value>커스텀 코드</value>
+    <value>Oma kood</value>
   </data>
   <data name="defaultAnonymousRole" xml:space="preserve">
-    <value>기본 익명 역할</value>
+    <value>vaikimisi Anonüümne roll</value>
   </data>
   <data name="defaultEditorsRole" xml:space="preserve">
-    <value>기본 편집자 역할</value>
+    <value>vaikimisi Muutja roll</value>
   </data>
   <data name="editingRightsForRole" xml:space="preserve">
-    <value>역할의 권한 편집</value>
+    <value>Muutmise õigused rollile</value>
   </data>
   <data name="feed" xml:space="preserve">
-    <value>피드</value>
+    <value>Feed</value>
   </data>
   <data name="newUserRoles" xml:space="preserve">
-    <value>새 사용자 역할</value>
+    <value>Uue kasutaja rollid</value>
   </data>
   <data name="otherSettings" xml:space="preserve">
-    <value>다른 설정</value>
+    <value>Muu häälestus</value>
   </data>
   <data name="smtpServer" xml:space="preserve">
-    <value>SMTP 서버</value>
+    <value>SMTP server</value>
   </data>
   <data name="turnDisqusOnOff" xml:space="preserve">
-    <value>Disqus을 끄거나 킴</value>
+    <value>Disqus-teenuse sisse või välja lülitamine</value>
   </data>
   <data name="useDisqusAsCommentProvider" xml:space="preserve">
-    <value>답글 공급자로 Disqus  사용</value>
+    <value>Kasuta Disqus teenust kommentaaride haldamiseks</value>
   </data>
   <data name="antiSpamServices" xml:space="preserve">
-    <value>안티 스팸 서비스</value>
+    <value>Spämmivastased teenused</value>
   </data>
   <data name="exportIntoBlogML" xml:space="preserve">
-    <value>블로그 컨텐츠를 XML 파일로 내보내기 (BlogML)</value>
+    <value>Expordib Sinu blogi sisu XML vormingusse (BlogML)</value>
   </data>
   <data name="importFromFile" xml:space="preserve">
-    <value>파일로부터 가져오기</value>
+    <value>Import failist</value>
   </data>
   <data name="importWithClickOnce" xml:space="preserve">
-    <value>click-once로 가져오기</value>
+    <value>Import click-once meetodil</value>
   </data>
   <data name="pingServiceUrl" xml:space="preserve">
-    <value>핑 서비스 URL</value>
+    <value>Ping teenuse URL</value>
   </data>
   <data name="runClickOnceApplicationToImport" xml:space="preserve">
-    <value>저장된 BlogML 또는 RSS 2.0 컨텐츠를 블로그로 가져오려면 click-once 어플리케이션을 실행하세요. &lt;i&gt;인터넷 익스플로러만 가능.&lt;/i&gt;</value>
+    <value>Käivita click-once rakendus, et importida sisu BlogML või RSS 2.0 vormingus sinu blogisse. &lt;i&gt;Töötab ainult Internet Exploreriga.&lt;/i&gt;</value>
   </data>
   <data name="selectSavedBlogMlFle" xml:space="preserve">
-    <value>저장된 BlogML 파일을 선택하고 블로그로 가져오세요. 어떤 브라우저든, BlogML 만 가능합니다.</value>
+    <value>Vali salvestatud BlogML fail ja impordi see oma blogisse. Kõik brauserid, BlogML vorming ainult.</value>
   </data>
   <data name="toDisableSetTo0" xml:space="preserve">
-    <value>비활성화하려면 "0"으로 설정</value>
+    <value>Keelamiseks vali "0"</value>
   </data>
 </root>
