@@ -121,22 +121,22 @@
     <value>Agregar</value>
   </data>
   <data name="add_Entry" xml:space="preserve">
-    <value>Agregar Publicación</value>
+    <value>Agregar publicación</value>
   </data>
   <data name="addComment" xml:space="preserve">
-    <value>Agregar Comentario</value>
+    <value>Agregar comentario</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Código a Agregar</value>
+    <value>Agregar código personalizado a la sección de 'head' del HTML </value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
-    <value>Panel de Control</value>
+    <value>Panel de control</value>
   </data>
   <data name="advanced" xml:space="preserve">
     <value>Avanzado</value>
   </data>
   <data name="advancedSettings" xml:space="preserve">
-    <value>Configuración Avanzada</value>
+    <value>Configuración avanzada</value>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
     <value>URL Alternativo</value>
@@ -145,7 +145,7 @@
     <value>Aprobar</value>
   </data>
   <data name="approveallcomments" xml:space="preserve">
-    <value>Aprobar Todos los Comentarios de esta Publicación</value>
+    <value>Aprobar todos los comentarios de esta publicación</value>
   </data>
   <data name="archive" xml:space="preserve">
     <value>Archivo</value>
@@ -154,7 +154,7 @@
     <value>¿Seguro que quiere {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Anexar Archivo</value>
+    <value>Adjuntar Archivo</value>
   </data>
   <data name="author" xml:space="preserve">
     <value>Autor</value>
@@ -169,7 +169,7 @@
     <value>Sea el primero en calificar esta publicación</value>
   </data>
   <data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET usa BlogML como formato de exportación. Para importar se aceptan los formatos BlogML y RSS.</value>
+    <value>BlogEngine.NET usa &lt;a href="http://blogml.codeplex.com/" target="_blank"&gt;BlogML&lt;/a&gt; como formato de exportación. Para importar se aceptan los formatos BlogML y RSS.</value>
   </data>
   <data name="blogroll" xml:space="preserve">
     <value>Lista de Blogs</value>
@@ -182,6 +182,12 @@
   </data>
   <data name="category" xml:space="preserve">
     <value>Categoría</value>
+  </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>Cambiar contraseña</value>
+  </data>
+  <data name="chooseOtherName" xml:space="preserve">
+    <value>Por favor escoja otro nombre </value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
     <value>Impida Comentarios a Partir De </value>
@@ -217,19 +223,19 @@
     <value>País</value>
   </data>
   <data name="createNewUser" xml:space="preserve">
-    <value>Crear Nuevo Usuario</value>
+    <value>Crear nuevo usuario</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Calificación Promedio {0} (de {1} persona(s))</value>
+    <value>Calificación promedio {0} (de {1} persona(s))</value>
   </data>
   <data name="date" xml:space="preserve">
     <value>Fecha</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Salida por Defecto</value>
+    <value>Salida por defecto</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
-    <value>Texto a Mostrar en la Casilla de Texto de Búsqueda</value>
+    <value>Texto a mostrar en la casilla de texto de Búsqueda</value>
   </data>
   <data name="delete" xml:space="preserve">
     <value>Borrar</value>
@@ -238,10 +244,10 @@
     <value>Descripción</value>
   </data>
   <data name="displayCommentsOnRecentPosts" xml:space="preserve">
-    <value>Mostrar Comentarios</value>
+    <value>Mostrar comentarios</value>
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
-    <value>Mostrar Calificación Promedio</value>
+    <value>Mostrar calificación promedio</value>
   </data>
   <data name="edit" xml:space="preserve">
     <value>Editar</value>
@@ -250,10 +256,13 @@
     <value>Correo Electrónico</value>
   </data>
   <data name="emailAddress" xml:space="preserve">
-    <value>Dirección de Correo Electrónico</value>
+    <value>Dirección de correo electrónico</value>
+  </data>
+  <data name="emailSubjectPrefix" xml:space="preserve">
+    <value>Prefijo en el Asunto</value>
   </data>
   <data name="enableAttachments" xml:space="preserve">
-    <value>Habilitar Inclusión de Archivos Anexos</value>
+    <value>Habilitar Archivos Adjuntos</value>
   </data>
   <data name="enableCoComments" xml:space="preserve">
     <value>Habilitar coCommentarios</value>
@@ -262,19 +271,19 @@
     <value>Habilitar Comentarios</value>
   </data>
   <data name="enableCommentsDescription" xml:space="preserve">
-    <value>Si no se habilitan los comentarios, nadie puede escribir comentarios en ninguna de las publicaciones.</value>
+    <value>Si los comentarios no están habilitados, nadie podrá escribir comentarios en ninguna publicación.</value>
   </data>
   <data name="enableCommentSearch" xml:space="preserve">
-    <value>Habilitar en Comentarios</value>
+    <value>Habilitar búsqueda en los comentarios</value>
   </data>
   <data name="enableCommentsModeration" xml:space="preserve">
-    <value>Moderar Comentarios</value>
+    <value>Moderar comentarios</value>
   </data>
   <data name="enableGravatars" xml:space="preserve">
     <value>Habilitar Gravatares</value>
   </data>
   <data name="enableHttpCompression" xml:space="preserve">
-    <value>Habilitar Compresión HTTP</value>
+    <value>Habilitar compresión HTTP</value>
   </data>
   <data name="enableHttpCompressionDescription" xml:space="preserve">
     <value>Hace que las páginas se cargen más rápido (recomendado).</value>
@@ -285,14 +294,17 @@
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Agrega la capacidad de búsqueda a los nevegadores nuevos (recomendado).</value>
   </data>
+  <data name="enablePingbacks" xml:space="preserve">
+    <value>Permitir pingbacks</value>
+  </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Permitir Calificación Publicaciones</value>
+    <value>Permitir la calificación publicaciones</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
-    <value>Habilitar el Control de Referentes</value>
+    <value>Habilitar el control de referentes</value>
   </data>
   <data name="enableSearchHighlight" xml:space="preserve">
-    <value>Habilitar el Resaltado de Textos en los Resultados de Búsquedas.</value>
+    <value>Habilitar el resaltado de texto en los resultados de búsquedas.</value>
   </data>
   <data name="enableSearchHighlightDescription" xml:space="preserve">
     <value>Colorea las palabras buscadas en la página.</value>
@@ -300,20 +312,29 @@
   <data name="enableSsl" xml:space="preserve">
     <value>Habilitar SSL</value>
   </data>
+  <data name="enableTrackbacks" xml:space="preserve">
+    <value>Habilitar trackbacks</value>
+  </data>
   <data name="endorsment" xml:space="preserve">
     <value>Endoso (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
     <value>Hacer Cumplir</value>
   </data>
+  <data name="enterValidEmail" xml:space="preserve">
+    <value>Por favor introduzca un una direccion de correo electrónico válida</value>
+  </data>
+  <data name="enterValidUrl" xml:space="preserve">
+    <value>Por favor introduzca una URL válida</value>
+  </data>
   <data name="export" xml:space="preserve">
     <value>Exportar</value>
   </data>
   <data name="formMessage" xml:space="preserve">
-    <value>Mensaje del Formulario</value>
+    <value>Mensaje del formulario</value>
   </data>
   <data name="goToFrontPage" xml:space="preserve">
-    <value>Ir a Página de Inicio</value>
+    <value>Ir a página de inicio</value>
   </data>
   <data name="handleWwwSubdomain" xml:space="preserve">
     <value>Política de subdominios www</value>
@@ -323,7 +344,7 @@
     <comment>As used for linking to the front-page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>Sección Encabezado de HTML</value>
+    <value>Sección encabezado de HTML</value>
   </data>
   <data name="ignore" xml:space="preserve">
     <value>Ignorar</value>
@@ -332,13 +353,13 @@
     <value>Importar</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
-    <value>Es la Página de Inicio</value>
+    <value>Es la página de inicio</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Palabras Clave</value>
+    <value>Palabras clave</value>
   </data>
   <data name="language" xml:space="preserve">
-    <value>Seleccione Lenguaje</value>
+    <value>Seleccione idioma</value>
   </data>
   <data name="languageCode" xml:space="preserve">
     <value>Código de Lenguaje</value>
@@ -347,16 +368,22 @@
     <value>Latitud</value>
   </data>
   <data name="livePreview" xml:space="preserve">
-    <value>Vista Previa</value>
+    <value>Vista previa</value>
   </data>
   <data name="longtitude" xml:space="preserve">
     <value>Longitud</value>
   </data>
   <data name="maxLengthOfItems" xml:space="preserve">
-    <value>Largo Máximo de los Elementos</value>
+    <value>Largo máximo de los elementos</value>
   </data>
   <data name="message" xml:space="preserve">
     <value>Mensaje</value>
+  </data>
+  <data name="mobileTheme" xml:space="preserve">
+    <value>Tema móvil</value>
+  </data>
+  <data name="themeCookieName" xml:space="preserve">
+    <value>Nombre de la cookie del tema</value>
   </data>
   <data name="monster" xml:space="preserve">
     <value>Monstruo</value>
@@ -367,6 +394,12 @@
   <data name="name" xml:space="preserve">
     <value>Nombre</value>
   </data>
+  <data name="nextPost" xml:space="preserve">
+    <value>Siguiente publicación</value>
+  </data>
+  <data name="nextPosts" xml:space="preserve">
+    <value>Siguientes publicaciones</value>
+  </data>
   <data name="none" xml:space="preserve">
     <value>No Mostrar</value>
   </data>
@@ -374,7 +407,7 @@
     <value>Independiente</value>
   </data>
   <data name="notifyOnNewComments" xml:space="preserve">
-    <value>Notificarme Cuando se Publiquen Nuevos Comentarios</value>
+    <value>Notificarme cuando se publiquen nuevos comentarios</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
     <value>Sin calificación hasta ahora.</value>
@@ -395,7 +428,7 @@
     <value>Páginas</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Clave de Acceso</value>
+    <value>Contraseña</value>
   </data>
   <data name="portNumber" xml:space="preserve">
     <value>Puerto número</value>
@@ -410,13 +443,19 @@
     <value>Publicar</value>
   </data>
   <data name="postPerPage" xml:space="preserve">
-    <value>Publicaciones por Página</value>
+    <value>Publicaciones por página</value>
   </data>
   <data name="posts" xml:space="preserve">
     <value>Publicaciones</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>No. de Elementos</value>
+    <value>No. de elementos mostrados</value>
+  </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Publicación anterior</value>
+  </data>
+  <data name="previousPosts" xml:space="preserve">
+    <value>Publicaciones anteriores</value>
   </data>
   <data name="publish" xml:space="preserve">
     <value>Publicar</value>
@@ -425,11 +464,14 @@
     <value>Calificadores</value>
   </data>
   <data name="rating" xml:space="preserve">
-    <value>Calificación Promedio</value>
+    <value>Calificación promedio</value>
+  </data>
+  <data name="receive" xml:space="preserve">
+    <value>Recibir</value>
   </data>
   <data name="recentComments" xml:space="preserve">
     <value>Comentarios recientes</value>
-  </data>
+  </data> 
   <data name="recentPosts" xml:space="preserve">
     <value>Publicaciones recientes</value>
   </data>
@@ -445,20 +487,26 @@
   <data name="remove" xml:space="preserve">
     <value>Eliminar</value>
   </data>
+  <data name="required" xml:space="preserve">
+    <value>Requerido</value>
+  </data>
   <data name="save" xml:space="preserve">
-    <value>Grabar</value>
+    <value>Guardar</value>
   </data>
   <data name="saveComment" xml:space="preserve">
-    <value>Grabar Comentario</value>
+    <value>Guardar comentario</value>
   </data>
   <data name="savePage" xml:space="preserve">
-    <value>Grabar Página</value>
+    <value>Guardar página</value>
   </data>
   <data name="savePost" xml:space="preserve">
-    <value>Grabar Publicación</value>
+    <value>Guardar publicación</value>
   </data>
   <data name="saveSettings" xml:space="preserve">
-    <value>Grabar Configuración</value>
+    <value>Guardar configuración</value>
+  </data>
+  <data name="savingTheComment" xml:space="preserve">
+    <value>Guardando la configuración...</value>
   </data>
   <data name="search" xml:space="preserve">
     <value>Buscar</value>
@@ -470,13 +518,16 @@
     <value>Texto de búsqueda</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>Resultados de buscar</value>
+    <value>Resultados de la búsqueda</value>
   </data>
   <data name="selectDay" xml:space="preserve">
     <value>Seleccione el día</value>
   </data>
   <data name="selectParent" xml:space="preserve">
     <value>Depende de</value>
+  </data>
+  <data name="send" xml:space="preserve">
+    <value>Enviar</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
     <value>Enviar correo electrónico de comentario</value>
@@ -488,28 +539,31 @@
     <value>Configuración</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Mostrar el Seleccionador de País</value>
+    <value>Mostrar el seleccionador de país</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Si no se muestra el Seleccionador de País, no se mostrarán las banderas en los comentarios.</value>
+    <value>Si no se muestra el seleccionador de país, no se mostrarán las banderas en los comentarios.</value>
   </data>
   <data name="showEnableWebsiteInComments" xml:space="preserve">
-    <value>Need Translation:Enable Website in Comments</value>
+    <value>Permitir Sitio Web en los comentarios</value>
   </data>
   <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
-    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+    <value>Permite escoger si permite publicar la Pagina Web en los comentarios</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Ver sólo descripción de public.</value>
+    <value>Sólamente mostrar descripción de las publicaciones</value>
+  </data>
+  <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
+    <value>Sólamente mostrar descripción de las publicaciones cuando se muestren por Etiqueta o Categoría</value>
   </data>
   <data name="showInList" xml:space="preserve">
     <value>Mostrar en la lista</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Mostrar Vista Previa</value>
+    <value>Mostrar vista previa</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Ver Publicaciones Relacionadas</value>
+    <value>Mostrar publicaciones relacionadas</value>
   </data>
   <data name="subject" xml:space="preserve">
     <value>Asunto</value>
@@ -518,10 +572,10 @@
     <value>Suscribirse</value>
   </data>
   <data name="thankYouMessage" xml:space="preserve">
-    <value>Gracias por su mensaje</value>
+    <value>Mensaje de agradecimiento</value>
   </data>
   <data name="theComment" xml:space="preserve">
-    <value>El comentario</value>
+    <value>el comentario</value>
   </data>
   <data name="theme" xml:space="preserve">
     <value>Tema</value>
@@ -530,13 +584,13 @@
     <value>la publicación</value>
   </data>
   <data name="thereAreXDrafts" xml:space="preserve">
-    <value>Hay {0} publicaciones pendientes de autorización(s)</value>
+    <value>Hay {0} entradas sin publicar</value>
   </data>
   <data name="timeStampPostLinks" xml:space="preserve">
-    <value>Agregar la Fecha a los Enlaces de las Publicaciones</value>
+    <value>Agregar la fecha a los enlaces de las publicaciones</value>
   </data>
   <data name="timezone" xml:space="preserve">
-    <value>Zona Horaria del Servidor</value>
+    <value>Zona Horaria del servidor</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Título</value>
@@ -545,19 +599,19 @@
     <value>Reducir Hojas de Estilo</value>
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
-    <value>Hace las Hojas de Estilo Más Pequeñas Removiendo los Espacios en Blanco en el Momento de Ejecución.</value>
+    <value>Hace las Hojas de Estilo más pequeñas eliminando los espacios en blanco en el momento de ejecución.</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>Comentarios No Aprobados</value>
+    <value>Comentarios sin aprobar</value>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
-    <value>Frecuencia de Actualización (Minutos)</value>
+    <value>Frecuencia de actualización (minutos)</value>
   </data>
   <data name="uploadFile" xml:space="preserve">
-    <value>Subir Archivo</value>
+    <value>Subir archivo</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Subir Imagen</value>
+    <value>Subir imagen</value>
   </data>
   <data name="userName" xml:space="preserve">
     <value>Nombre de Usuario</value>
@@ -578,6 +632,6 @@
     <value>Ud. ya calificó esta publicación</value>
   </data>
   <data name="notifiedPublished" xml:space="preserve">
-    <value>Reciba una notificación cuando un nuevo puesto se publica.</value>
+    <value>Reciba una notificación cuando haya una nueva publicación.</value>
   </data>
 </root>
