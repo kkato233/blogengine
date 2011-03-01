@@ -413,7 +413,7 @@
     <value>Publicaciones por Página</value>
   </data>
   <data name="posts" xml:space="preserve">
-    <value>Publicciones</value>
+    <value>Publicaciones</value>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
     <value>No. de Elementos</value>
