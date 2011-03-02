@@ -190,7 +190,7 @@
     <value>Por favor escoja otro nombre </value>
   </data>
   <data name="closeCommetsAfter" xml:space="preserve">
-    <value>Impida Comentarios a Partir De </value>
+    <value>No aceptar nuevos comentarios después de </value>
   </data>
   <data name="combine" xml:space="preserve">
     <value>Combinación</value>
@@ -289,7 +289,7 @@
     <value>Hace que las páginas se cargen más rápido (recomendado).</value>
   </data>
   <data name="enableOpenSearch" xml:space="preserve">
-    <value>Habilitar Búsqueda Abierta</value>
+    <value>Habilitar búsqueda abierta</value>
   </data>
   <data name="enableOpenSearchDescription" xml:space="preserve">
     <value>Agrega la capacidad de búsqueda a los nevegadores nuevos (recomendado).</value>
@@ -298,7 +298,7 @@
     <value>Permitir pingbacks</value>
   </data>
   <data name="enableRating" xml:space="preserve">
-    <value>Permitir la calificación publicaciones</value>
+    <value>Permitir que se califiquen las publicaciones</value>
   </data>
   <data name="enableReferrerTracking" xml:space="preserve">
     <value>Habilitar el control de referentes</value>
@@ -319,7 +319,7 @@
     <value>Endoso (bLink)</value>
   </data>
   <data name="enforce" xml:space="preserve">
-    <value>Hacer Cumplir</value>
+    <value>Hacer cumplir</value>
   </data>
   <data name="enterValidEmail" xml:space="preserve">
     <value>Por favor introduzca un una direccion de correo electrónico válida</value>
@@ -431,7 +431,7 @@
     <value>Contraseña</value>
   </data>
   <data name="portNumber" xml:space="preserve">
-    <value>Puerto número</value>
+    <value>Número de puerto</value>
   </data>
   <data name="portNumberDescription" xml:space="preserve">
     <value>El puerto 25 es el estándar</value>
@@ -530,7 +530,7 @@
     <value>Enviar</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Enviar correo electrónico de comentario</value>
+    <value>Enviar correos electrónicos con los comentario</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
     <value>Separe una etiqueta de otra con una coma</value>
@@ -710,7 +710,7 @@
     <value>Requiere SSL para la API de MetaWeblog</value>
   </data>
   <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
-    <value>Reenforzar el uso de SSLd cuando se este comunicando la API de MetaWeblog</value>
+    <value>Reenforzar el uso de SSL cuando se esté comunicando la API de MetaWeblog</value>
   </data>
   <data name="compressWebResource" xml:space="preserve">
     <value>Comprimir el archivo WebResource.axd</value>
@@ -830,13 +830,13 @@
     <value>Aprobado</value>
   </data>
   <data name="authorApproved" xml:space="preserve">
-    <value>los comentarios de este autor han sido aprobados</value>
+    <value> de los comentarios de este autor han sido aprobados</value>
   </data>
   <data name="authorBlocked" xml:space="preserve">
     <value>Si el comentario fue eliminado, siempre bloquear al autor</value>
   </data>
   <data name="authorRejected" xml:space="preserve">
-    <value>comentarios de este autor han sido rechazados</value>
+    <value>de los comentarios de este autor han sido rechazados</value>
   </data>
   <data name="block" xml:space="preserve">
     <value>Bloquear</value>
@@ -878,7 +878,7 @@
     <value>Habilitado</value>
   </data>
   <data name="eqls" xml:space="preserve">
-    <value>Iguala</value>
+    <value>Es exactamente</value>
   </data>
   <data name="filterName" xml:space="preserve">
     <value>Nombre del filtro</value>
@@ -1105,7 +1105,7 @@
     <value>Visor de Fuentes</value>
   </data>
   <data name="status" xml:space="preserve">
-    <value>Etatus</value>
+    <value>Estatus</value>
   </data>
   <data name="theValuesSaved" xml:space="preserve">
     <value>Los valores han sido guardados</value>
@@ -1203,7 +1203,7 @@
     <value>Probar configuración del correo</value>
   </data>
   <data name="trackingScript" xml:space="preserve">
-    <value>Script de rastreo</value>
+    <value>Script de rastreo (traking)</value>
   </data>
   <data name="trackingScriptDescription" xml:space="preserve">
     <value>Script de rastreo de visitantes&lt;br /&gt;&lt;br /&gt;El código JavaScript de i.e. Google Analytics.&lt;br /&gt;&lt;br /&gt;
@@ -1533,7 +1533,7 @@
     <value>Insertar video</value>
   </data>
   <data name="published" xml:space="preserve">
-    <value>Publicado</value>
+    <value>Publicados</value>
   </data>
   <data name="show" xml:space="preserve">
     <value>Mostrar</value>
@@ -1581,7 +1581,7 @@
     <value>Agregar nuevo blog</value>
   </data>
   <data name="approvedComments" xml:space="preserve">
-    <value>Comentarios aprovados</value>
+    <value>Comentarios aprobados</value>
   </data>
   <data name="commonControls" xml:space="preserve">
     <value>Controles comunes</value>
@@ -1641,7 +1641,7 @@
     <value>Servidor SMTP</value>
   </data>
   <data name="turnDisqusOnOff" xml:space="preserve">
-    <value>Apagar o prender Disqus</value>
+    <value>Apagar o enender Disqus</value>
   </data>
   <data name="useDisqusAsCommentProvider" xml:space="preserve">
     <value>Usar Disqus como provedor de comentarios</value>
@@ -1662,7 +1662,7 @@
     <value>URL del servicio Ping</value>
   </data>
   <data name="runClickOnceApplicationToImport" xml:space="preserve">
-    <value>Ejecutar aplicación click-once para importar  contenido  grabado como BlogML o RSS 2.0 a su blog. &lt;i&gt;Solo para Internet Explorer.&lt;/i&gt;</value>
+    <value>Ejecutar aplicación click-once para importar  contenido  grabado como BlogML o RSS 2.0 a su blog. &lt;i&gt;Sólo para Internet Explorer.&lt;/i&gt;</value>
   </data>
   <data name="selectSavedBlogMlFle" xml:space="preserve">
     <value>Seleccionar archivo BlogML guardado e importarlo a su blog. Cualquier navegador, sólo BlogML.</value>
@@ -1678,5 +1678,8 @@
   </data>
   <data name="allowMobileTheme" xml:space="preserve">
     <value>Sitio mobil</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>Mostrar los links de navegación</value>
   </data>
 </root>
