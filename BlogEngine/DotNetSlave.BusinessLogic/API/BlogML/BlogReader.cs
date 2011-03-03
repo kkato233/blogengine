@@ -114,6 +114,55 @@
 
         #region Methods
 
+        private Dictionary<string, Dictionary<string, Guid>> _substitueGuids;
+        private Guid GetGuid(string type, string value)
+        {
+            value = (value ?? string.Empty).Trim();
+
+            // Value might be a GUID, or it could be a simple integer.
+
+            if (!Utils.StringIsNullOrWhitespace(value) &&
+                value.Length == 36)
+            {
+                return new Guid(value);
+            }
+
+            // If we've already retrieved a Guid for a particular type/value, then
+            // return the same Guid.  This is in case the type/value is referenced by
+            // other objects, we would want to use the same Guid to keep the
+            // references correct.
+
+            if (_substitueGuids == null)
+            {
+                _substitueGuids = new Dictionary<string, Dictionary<string, Guid>>(StringComparer.OrdinalIgnoreCase);
+            }
+
+            if (!_substitueGuids.ContainsKey(type))
+                _substitueGuids.Add(type, new Dictionary<string, Guid>(StringComparer.OrdinalIgnoreCase));
+
+            if (!_substitueGuids[type].ContainsKey(value))
+                _substitueGuids[type].Add(value, Guid.NewGuid());
+
+            return _substitueGuids[type][value];
+        }
+
+        private T GetAttributeValue<T>(XmlAttribute attr)
+        {
+            if (attr == null)
+                return default(T);
+
+            return (T)Convert.ChangeType(attr.Value, typeof(T));
+        }
+
+        private Uri GetUri(string value)
+        {
+            Uri uri;
+            if (Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out uri))
+                return uri;
+
+            return null;
+        }
+
         /// <summary>
         /// BlogML does not support tags - load directly fro XML
         /// </summary>
@@ -127,8 +176,8 @@
             {
                 var blogX = new BlogMlExtendedPost();
 
-                if(post.Attributes != null)
-                    blogX.PostUrl = post.Attributes["post-url"].Value;
+                if (post.Attributes != null)
+                    blogX.PostUrl = GetAttributeValue<string>(post.Attributes["post-url"]);
 
                 if (post.ChildNodes.Count <= 0)
                 {
@@ -145,12 +194,12 @@
                             if (tag.Attributes != null)
                             {
                                 if (blogX.Tags == null) blogX.Tags = new StateList<string>();
-                                blogX.Tags.Add(tag.Attributes["ref"].Value);
+                                blogX.Tags.Add(GetAttributeValue<string>(tag.Attributes["ref"]));
                             }
                         }
                     }
 
-                    if(child.Name == "comments")
+                    if (child.Name == "comments")
                         LoadBlogComments(blogX, child);
 
                     if (child.Name == "trackbacks")
@@ -165,7 +214,7 @@
         /// </summary>
         /// <param name="blogX">extended blog</param>
         /// <param name="child">comments xml node</param>
-        private static void LoadBlogComments(BlogMlExtendedPost blogX, XmlNode child)
+        private void LoadBlogComments(BlogMlExtendedPost blogX, XmlNode child)
         {
             foreach (XmlNode com in child.ChildNodes)
             {
@@ -173,19 +222,19 @@
                 {
                     var c = new Comment
                                 {
-                                    Id = new Guid(com.Attributes["id"].Value),
-                                    Author = com.Attributes["user-name"].Value,
-                                    Email = com.Attributes["user-email"].Value,
-                                    ParentId = new Guid(com.Attributes["parentid"].Value),
-                                    IP = com.Attributes["user-ip"].Value,
+                                    Id = GetGuid("comment", GetAttributeValue<string>(com.Attributes["id"])),
+                                    Author = GetAttributeValue<string>(com.Attributes["user-name"]),
+                                    Email = GetAttributeValue<string>(com.Attributes["user-email"]),
+                                    ParentId = GetGuid("comment", GetAttributeValue<string>(com.Attributes["parentid"])),
+                                    IP = GetAttributeValue<string>(com.Attributes["user-ip"]),
                                     DateCreated = DateTime.ParseExact(com.Attributes["date-created"].Value,
                                                                       "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
                                 };
 
-                    if(!string.IsNullOrEmpty(com.Attributes["user-url"].Value))
-                        c.Website = new Uri(com.Attributes["user-url"].Value);
+                    if (!string.IsNullOrEmpty(GetAttributeValue<string>(com.Attributes["user-url"])))
+                        c.Website = GetUri(GetAttributeValue<string>(com.Attributes["user-url"]));
 
-                    c.IsApproved = bool.Parse(com.Attributes["approved"].Value);
+                    c.IsApproved = GetAttributeValue<bool>(com.Attributes["approved"]);
 
                     foreach (XmlNode comNode in com.ChildNodes)
                     {
@@ -205,7 +254,7 @@
         /// </summary>
         /// <param name="blogX">extended blog</param>
         /// <param name="child">comments xml node</param>
-        private static void LoadBlogTrackbacks(BlogMlExtendedPost blogX, XmlNode child)
+        private void LoadBlogTrackbacks(BlogMlExtendedPost blogX, XmlNode child)
         {
             foreach (XmlNode com in child.ChildNodes)
             {
@@ -213,15 +262,15 @@
                 {
                     var c = new Comment
                     {
-                        Id = new Guid(com.Attributes["id"].Value), 
+                        Id = GetGuid("comment", GetAttributeValue<string>(com.Attributes["id"])), 
                         IP = "127.0.0.1",
-                        IsApproved = bool.Parse(com.Attributes["approved"].Value),
+                        IsApproved = GetAttributeValue<bool>(com.Attributes["approved"]),
                         DateCreated = DateTime.ParseExact(com.Attributes["date-created"].Value,
                                                           "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
                     };
 
-                    if (!string.IsNullOrEmpty(com.Attributes["url"].Value))
-                        c.Website = new Uri(com.Attributes["url"].Value);
+                    if (!string.IsNullOrEmpty(GetAttributeValue<string>(com.Attributes["url"])))
+                        c.Website = GetUri(GetAttributeValue<string>(com.Attributes["url"]));
 
                     foreach (XmlNode comNode in com.ChildNodes)
                     {
@@ -250,7 +299,7 @@
             {
                 var c = new Category
                 {
-                    Id = new Guid(cat.ID),
+                    Id = GetGuid("category", cat.ID),
                     Title = cat.Title,
                     Description = string.IsNullOrEmpty(cat.Description) ? "" : cat.Description,
                     DateCreated = cat.DateCreated,
@@ -258,7 +307,7 @@
                 };
 
                 if (!string.IsNullOrEmpty(cat.ParentRef) && cat.ParentRef != "0")
-                    c.Parent = new Guid(cat.ParentRef);
+                    c.Parent = GetGuid("category", cat.ParentRef);
 
                 categoryLookup.Add(c);
 
@@ -306,7 +355,7 @@
                         for (var i = 0; i < extPost.BlogPost.Categories.Count; i++)
                         {
                             int i2 = i;
-                            var cId = new Guid(post.BlogPost.Categories[i2].Ref);
+                            var cId = GetGuid("category", post.BlogPost.Categories[i2].Ref);
 
                             foreach (var category in categoryLookup)
                             {
