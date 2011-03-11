@@ -154,6 +154,21 @@
             return (T)Convert.ChangeType(attr.Value, typeof(T));
         }
 
+        private DateTime GetDate(XmlAttribute attr)
+        { 
+            string value = GetAttributeValue<string>(attr);
+            DateTime defaultDate = DateTime.Now;
+
+            DateTime dt = defaultDate;
+            if (!Utils.StringIsNullOrWhitespace(value))
+            {
+                if (!DateTime.TryParseExact(value, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                    dt = defaultDate;
+            }
+
+            return dt;
+        }
+
         private Uri GetUri(string value)
         {
             Uri uri;
@@ -227,8 +242,7 @@
                                     Email = GetAttributeValue<string>(com.Attributes["user-email"]),
                                     ParentId = GetGuid("comment", GetAttributeValue<string>(com.Attributes["parentid"])),
                                     IP = GetAttributeValue<string>(com.Attributes["user-ip"]),
-                                    DateCreated = DateTime.ParseExact(com.Attributes["date-created"].Value,
-                                                                      "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
+                                    DateCreated = GetDate(com.Attributes["date-created"])
                                 };
 
                     if (!string.IsNullOrEmpty(GetAttributeValue<string>(com.Attributes["user-url"])))
@@ -265,8 +279,7 @@
                         Id = GetGuid("comment", GetAttributeValue<string>(com.Attributes["id"])), 
                         IP = "127.0.0.1",
                         IsApproved = GetAttributeValue<bool>(com.Attributes["approved"]),
-                        DateCreated = DateTime.ParseExact(com.Attributes["date-created"].Value,
-                                                          "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture)
+                        DateCreated = GetDate(com.Attributes["date-created"])
                     };
 
                     if (!string.IsNullOrEmpty(GetAttributeValue<string>(com.Attributes["url"])))
