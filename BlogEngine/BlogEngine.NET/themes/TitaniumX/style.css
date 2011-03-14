@@ -954,10 +954,13 @@ input[type="submit"], input[type="button"], input[type="file"] {
 	background:#FFFFFF;
 	border:1px solid #8E8D90;
 	padding:3px 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;	
 }
 input[type="submit"]:hover, input[type="button"]:hover {
-	color:#FFFFFF;
-	background:#8E8D90;
+	color:#000000;
+	background:#E3E7EB;
 	cursor:pointer;
 }
 #searchcomments {
