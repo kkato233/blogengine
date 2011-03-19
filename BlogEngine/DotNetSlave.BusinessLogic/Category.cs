@@ -160,7 +160,7 @@
                     "{0}category/feed/{1}{2}",
                     Utils.RelativeWebRoot,
                     Utils.RemoveIllegalCharacters(this.Title),
-                    BlogSettings.Instance.FileExtension);
+                    BlogConfig.FileExtension);
             }
         }
 
@@ -202,7 +202,7 @@
             get
             {
                 return Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(this.Title) +
-                       BlogSettings.Instance.FileExtension;
+                       BlogConfig.FileExtension;
             }
         }
 
