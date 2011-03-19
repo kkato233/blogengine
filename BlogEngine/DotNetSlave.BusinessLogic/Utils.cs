@@ -567,11 +567,7 @@
                 }
                 else
                 {
-                    if (!IsMono)
-                    {
-                        assemblyName = "App_Code";
-                    }
-
+                    assemblyName = "App_Code";
                     codeAssemblies.Add(Assembly.Load(assemblyName));
                 }
             }
