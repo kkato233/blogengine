@@ -18,11 +18,16 @@
                             (!adminNode.Url.Contains("xmanager") && !adminNode.Url.Contains("PingServices"))))
             {
                 var cls = "";
-
-                if (this.Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
+                var nodeUrl = adminNode.Url;
+                var nodeDir = adminNode.Url.Substring(0, adminNode.Url.LastIndexOf("/"));
+                
+                if (Request.RawUrl.IndexOf(nodeUrl, StringComparison.OrdinalIgnoreCase) != -1 ||
+                    (Request.RawUrl.IndexOf(nodeDir, StringComparison.OrdinalIgnoreCase) != -1) &&
+                    !nodeDir.EndsWith("/admin"))
                 {
                     cls = "current";
                 }
+                
                 <li><a href="@adminNode.Url" class="@cls"><span>@Utils.Translate(adminNode.Title, adminNode.Title)</span></a></li>
             }
         }
