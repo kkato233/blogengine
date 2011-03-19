@@ -1301,6 +1301,42 @@
                               : defaultValue);
         }
 
+        /// <summary>
+        /// Helper method to quickly check if directory or file is writable
+        /// </summary>
+        /// <param name="url">Phisical path</param>
+        /// <param name="file">Optional File name</param>
+        /// <returns>True if application can write file/directory</returns>
+        public static bool CanWrite(string url, string file = "")
+        {
+            var dir = HttpContext.Current.Server.MapPath(url);
+
+            if(dir !=null && Directory.Exists(dir))
+            {
+                if (string.IsNullOrEmpty(file)) 
+                    file = string.Format("test{0}.txt", DateTime.Now.ToString("ddmmhhssss"));
+
+                try
+                {
+                    var p = Path.Combine(dir, file);
+
+                    using (var fs = new FileStream(p, FileMode.Create))
+                    using (var sw = new StreamWriter(fs))
+                    {
+                        sw.WriteLine(@"test");
+                    }
+
+                    File.Delete(p);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         #region Methods
@@ -1312,9 +1348,6 @@
         ///     attributed set to "BlogEngineExtension" it will
         ///     be added to the list of code assemlies
         /// </summary>
-        /// <param name="assemblies">
-        /// List of code assemblies
-        /// </param>
         private static IEnumerable<Assembly> GetCompiledExtensions()
         {
             var assemblies = new List<Assembly>();

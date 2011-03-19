@@ -25,6 +25,12 @@
         }
     }
 
+    var editLink = "";   
+    if (Utils.CanWrite(Href("~/App_Code/Extensions")))
+    {
+        editLink = "<a class=\"extEdit\" onclick=\"return ShowEditor();\" href=\"#\">" + Resources.labels.edit + "</a>";
+    }
+
     var val = string.Format("Source for [{0}] not found", fileName);
     try
     {
@@ -89,7 +95,7 @@
 <div class="content-box-outer">
 
 	<div class="content-box-full">
-        <h1>@Resources.labels.sourceViewer: @extName <a class="extEdit" onclick="return ShowEditor();" href="#">@Resources.labels.edit</a></h1>
+        <h1>@Resources.labels.sourceViewer: @extName @Html.Raw(editLink)</h1>
         <div id="extensionViewer">
 <pre class="brush: c-sharp;">// @fileName
 
