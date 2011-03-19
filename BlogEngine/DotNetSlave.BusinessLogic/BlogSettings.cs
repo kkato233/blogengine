@@ -312,21 +312,6 @@
 
         #endregion
 
-        #region FileExtension
-
-        /// <summary>
-        ///     The  file extension used for aspx pages
-        /// </summary>
-        public string FileExtension
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["BlogEngine.FileExtension"] ?? ".aspx";
-            }
-        }
-
-        #endregion
-
         #region AdministratorRole
 
         /// <summary>

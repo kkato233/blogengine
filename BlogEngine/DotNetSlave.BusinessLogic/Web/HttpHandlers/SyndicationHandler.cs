@@ -51,6 +51,12 @@
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
+            if (!Security.IsAuthorizedTo(Rights.ViewPublicPosts))
+            {
+                context.Response.StatusCode = 401;
+                return;
+            }
+
             var title = RetrieveTitle(context);
             var format = RetrieveFormat(context);
             var list = GenerateItemList(context);

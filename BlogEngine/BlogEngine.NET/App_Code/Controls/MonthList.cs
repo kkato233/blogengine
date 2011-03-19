@@ -353,7 +353,7 @@ namespace App_Code.Controls
 					Utils.RelativeWebRoot,
 					theDate.Year,
 					theDate.ToString("MM"),
-					BlogSettings.Instance.FileExtension
+					BlogConfig.FileExtension
 				);
 				theWriter.AddAttribute("href", aHref);
 				theWriter.RenderBeginTag(HtmlTextWriterTag.A);
