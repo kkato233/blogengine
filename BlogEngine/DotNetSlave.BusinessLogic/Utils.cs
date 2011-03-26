@@ -340,7 +340,7 @@
         /// </returns>
         public static string ResolveScriptUrl(string url, bool minify)
         {
-            var minifyQuery = (minify ? "&minify=" : String.Empty);
+            var minifyQuery = (minify ? "&amp;minify=" : String.Empty);
             return string.Format("{0}js.axd?path={1}{2}", 
                                     Utils.RelativeWebRoot,
                                     HttpUtility.UrlEncode(url),
@@ -567,11 +567,7 @@
                 }
                 else
                 {
-                    if (!IsMono)
-                    {
-                        assemblyName = "App_Code";
-                    }
-
+                    assemblyName = "App_Code";
                     codeAssemblies.Add(Assembly.Load(assemblyName));
                 }
             }

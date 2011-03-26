@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-
-namespace BlogEngine.Core.API.BlogML
+﻿namespace BlogEngine.Core.API.BlogML
 {
     using System;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Blog Importer
@@ -32,6 +32,18 @@ namespace BlogEngine.Core.API.BlogML
                 p.Content = extPost.BlogPost.Content.UncodedText;
                 p.Description = extPost.BlogPost.Excerpt.UncodedText;
                 p.IsPublished = extPost.BlogPost.Approved;
+
+                if (!string.IsNullOrEmpty(extPost.PostUrl))
+                {
+                    // looking for a Slug with patterns such as:
+                    //    /some-slug.aspx
+                    //    /some-slug.html
+                    //    /some-slug
+                    //
+                    Match slugMatch = Regex.Match(extPost.PostUrl, @"/([^/\.]+)(?:$|\.[\w]{1,10}$)", RegexOptions.IgnoreCase);
+                    if (slugMatch.Success)
+                        p.Slug = slugMatch.Groups[1].Value.Trim();
+                }
 
                 if(extPost.BlogPost.Authors != null && extPost.BlogPost.Authors.Count > 0)
                     p.Author = extPost.BlogPost.Authors[0].Ref;
@@ -84,7 +96,7 @@ namespace BlogEngine.Core.API.BlogML
         /// <returns></returns>
         static string PostUrl(string slug, DateTime dateCreated)
         {
-            var theslug = Utils.RemoveIllegalCharacters(slug) + BlogSettings.Instance.FileExtension;
+            var theslug = Utils.RemoveIllegalCharacters(slug) + BlogConfig.FileExtension;
 
             return BlogSettings.Instance.TimeStampPostLinks
                        ? string.Format(

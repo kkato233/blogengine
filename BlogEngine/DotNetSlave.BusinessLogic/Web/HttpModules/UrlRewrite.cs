@@ -127,14 +127,14 @@
         private static string ExtractTitle(HttpContext context, string url)
         {
             url = url.ToLowerInvariant().Replace("---", "-");
-            if (url.Contains(BlogSettings.Instance.FileExtension) && url.EndsWith("/"))
+            if (url.Contains(BlogConfig.FileExtension) && url.EndsWith("/"))
             {
                 url = url.Substring(0, url.Length - 1);
                 context.Response.AppendHeader("location", url);
                 context.Response.StatusCode = 301;
             }
 
-            url = url.Substring(0, url.IndexOf(BlogSettings.Instance.FileExtension));
+            url = url.Substring(0, url.IndexOf(BlogConfig.FileExtension));
             var index = url.LastIndexOf("/") + 1;
             var title = url.Substring(index);
             return context.Server.HtmlEncode(title);
@@ -315,7 +315,7 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
-            if (!path.Contains(BlogSettings.Instance.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
+            if (!path.Contains(BlogConfig.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
             {
                 return;
             }
@@ -350,7 +350,7 @@
             {
                 context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.RelativeWebRoot), false);
             }
-            else if (url.Contains(string.Format("/DEFAULT{0}", BlogSettings.Instance.FileExtension.ToUpperInvariant())))
+            else if (url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant())))
             {
                 RewriteDefault(context);
             }
@@ -358,7 +358,7 @@
             {
                 var author = ExtractTitle(context, url);
                 context.RewritePath(
-                    string.Format("{0}default{1}?name={2}{3}", Utils.RelativeWebRoot, BlogSettings.Instance.FileExtension, author, GetQueryString(context)),
+                    string.Format("{0}default{1}?name={2}{3}", Utils.RelativeWebRoot, BlogConfig.FileExtension, author, GetQueryString(context)),
                     false);
             }
             else if (path.Contains("/BLOG.ASPX"))

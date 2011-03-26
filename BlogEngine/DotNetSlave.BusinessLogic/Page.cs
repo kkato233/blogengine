@@ -312,7 +312,7 @@
         {
             get
             {
-                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogSettings.Instance.FileExtension;
+                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogConfig.FileExtension;
                 return string.Format("{0}page/{1}", Utils.RelativeWebRoot, theslug);
             }
         }

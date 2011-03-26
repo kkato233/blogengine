@@ -154,7 +154,7 @@ namespace App_Code.Controls
 
                 var anc = new HtmlAnchor
                     {
-                        HRef = string.Format("{0}author/{1}{2}", Utils.RelativeWebRoot, user.UserName, BlogSettings.Instance.FileExtension),
+                        HRef = string.Format("{0}author/{1}{2}", Utils.RelativeWebRoot, user.UserName, BlogConfig.FileExtension),
                         InnerHtml = string.Format("{0} ({1})", user.UserName, postCount),
                         Title = string.Format("Author: {0}", user.UserName)
                     };
