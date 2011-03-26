@@ -1,4 +1,4 @@
-﻿namespace Admin.ExtensionManager
+﻿namespace Admin.Extensions
 {
     using System;
     using System.Collections.Specialized;
@@ -13,7 +13,7 @@
     /// <summary>
     /// The user_controls_xmanager_ parameters.
     /// </summary>
-    public partial class UserControlsXmanagerParameters : UserControl
+    public partial class UserControlSettings : UserControl
     {
         #region Private members
 
@@ -40,9 +40,9 @@
         public bool GenerateDeleteButton { get; set; }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref = "UserControlsXmanagerParameters" /> class.
+        ///     Initializes a new instance of the <see cref = "UserControlSettings" /> class.
         /// </summary>
-        public UserControlsXmanagerParameters()
+        public UserControlSettings()
         {
             this.GenerateDeleteButton = true;
             this.GenerateEditButton = true;

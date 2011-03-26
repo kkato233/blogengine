@@ -6,9 +6,11 @@
     using System.Web;
     using System.Collections.Generic;
     using System.Linq;
+    using System.IO;
 
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using BlogEngine.Core.Web.Extensions;
     using App_Code;
 
     public partial class AjaxHelper : System.Web.UI.Page
@@ -333,5 +335,45 @@
             }
             return JsonCustomFilterList.ResetCounters(filterName);
         }
+
+        [WebMethod]
+        public static bool ChangePriority(int priority, string  ext)
+        {
+            try
+            {
+                var x = ExtensionManager.GetExtension(ext);
+                if (x != null)
+                {
+                    x.Priority = priority;
+                    ExtensionManager.SaveToStorage(x);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error changing priority: " + ex.Message);
+            }
+            return false;
+        }
+
+        [WebMethod]
+        public static bool UpdateSourceCode(string sourceCode, string fileName)
+        {
+            try
+            {
+                using (var f = File.CreateText(fileName))
+                {
+                    f.Write(sourceCode);
+                    f.Close();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error saving source code: " + ex.Message);
+                return false;
+            }
+        }
+
     }
 }

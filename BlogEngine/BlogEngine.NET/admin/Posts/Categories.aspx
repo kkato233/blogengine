@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true"
     ValidateRequest="False" CodeFile="Categories.aspx.cs" Inherits="Admin.Posts.Categories" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
+<%@ Import Namespace="BlogEngine.Core"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript" src="../jquery.colorbox.js"></script>

@@ -1,5 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extension Manager/Settings.ascx.cs" Inherits="Admin.ExtensionManager.UserControlsXmanagerParameters" %>
-<h1><%=this.SettingName%></h1>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="~/admin/Extensions/Settings.ascx.cs" Inherits="Admin.Extensions.UserControlSettings" %>
+<h1><%=SettingName%></h1>
 <div id="ErrorMsg" runat="server" style="color:Red; padding:5px 0 5px 0; display:block;"></div>
 <div id="InfoMsg" runat="server" style="color:Green; padding:5px 0 5px 0; display:block;"></div>
 
@@ -12,7 +12,7 @@
 </div>
 
 <div style="margin: 10px 0; padding-bottom: 10px; border-bottom: 1px solid #ccc; display:block">
-    <asp:Button CssClass="btn primary" runat="server" ID="btnAdd" ValidationGroup="new" /> <%=Resources.labels.or %> <a href="default.aspx"><%=Resources.labels.cancel %></a>
+    <asp:Button CssClass="btn primary" runat="server" ID="btnAdd" ValidationGroup="new" /> <%=Resources.labels.or %> <a href="default.cshtml"><%=Resources.labels.cancel %></a>
 </div>
 
 <asp:GridView ID="grid"  
