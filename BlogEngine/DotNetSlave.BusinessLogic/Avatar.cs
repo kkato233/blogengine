@@ -97,9 +97,13 @@ namespace BlogEngine.Core
                     return new Avatar { Url = url, ImageTag = imageTag };
                 }
 
-                var uri =
+                var themeAvatar = HttpContext.Current.Server.MapPath(string.Format("{0}themes/{1}/noavatar.jpg", Utils.RelativeWebRoot, BlogSettings.Instance.Theme));
+
+                var uri = 
                     new Uri(
-                        string.Format("{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme));
+                        System.IO.File.Exists(themeAvatar) ? 
+                        string.Format("{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme) : 
+                        string.Format("{0}pics/noavatar.jpg", Utils.AbsoluteWebRoot));
 
                 imageTag = string.Format("<img src=\"{0}\" alt=\"{1}\" />", uri, description);
 
