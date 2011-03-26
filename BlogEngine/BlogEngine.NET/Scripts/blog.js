@@ -97,7 +97,7 @@ BlogEngine = {
 
         var author = BlogEngine.comments.nameBox.value;
         var email = BlogEngine.comments.emailBox.value;
-        var website = BlogEngine.comments.websiteBox.value;
+        var website = BlogEngine.comments.websiteBox ? BlogEngine.comments.websiteBox.value : "";
         var country = BlogEngine.comments.countryDropDown ? BlogEngine.comments.countryDropDown.value : "";
         var content = BlogEngine.comments.contentBox.value;
         var notify = BlogEngine.$("cbNotify").checked;
