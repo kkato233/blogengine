@@ -21,15 +21,26 @@
         #region Properties
 
         /// <summary>
-        ///     Gets _Folder.
+        ///     Gets the storage folder of the current blog instance.
         /// </summary>
         internal string Folder
         {
             get
             {
-                var p = BlogConfig.StorageLocation.Replace("~/", string.Empty);
-                return Path.Combine(HttpRuntime.AppDomainAppPath, p);
+                return GetFolder(Blog.CurrentInstance);
             }
+        }
+
+        /// <summary>
+        ///     Gets the storage folder for the blog.
+        /// </summary>
+        internal string GetFolder(Blog blog)
+        {
+            // if "blog" == null, this means it's the primary instance being asked for -- which
+            // is in the root of BlogConfig.StorageLocation.
+            string location = blog == null ? BlogConfig.StorageLocation : blog.StorageLocation;
+            var p = location.Replace("~/", string.Empty);
+            return Path.Combine(HttpRuntime.AppDomainAppPath, p);
         }
 
         #endregion
@@ -59,7 +70,7 @@
         /// </returns>
         public override List<Post> FillPosts()
         {
-            var folder = Category.Folder + "posts" + Path.DirectorySeparatorChar;
+            var folder = this.Folder + "posts" + Path.DirectorySeparatorChar;
             var posts = (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
                          select new FileInfo(file)
                          into info

@@ -73,7 +73,7 @@
 
                 try
                 {
-                    var folder = context.Server.MapPath(string.Format("{0}/files", BlogConfig.StorageLocation));
+                    var folder = context.Server.MapPath(string.Format("{0}/files", Blog.CurrentInstance.StorageLocation));
                     var info = new FileInfo(folder + Path.DirectorySeparatorChar + fileName);
 
                     if (info.Exists && info.Directory.FullName.StartsWith(folder, StringComparison.OrdinalIgnoreCase))

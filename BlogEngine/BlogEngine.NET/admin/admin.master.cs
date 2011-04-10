@@ -105,7 +105,8 @@ namespace Admin
         {
             if (!Security.IsAuthenticated)
             {
-                this.Response.Redirect(Utils.RelativeWebRoot);
+                Security.RedirectForUnauthorizedRequest();
+                return;
             }
 
             LoginStatus1.LoginText = Resources.labels.login;
@@ -114,7 +115,7 @@ namespace Admin
             phRecycleBin.Visible = Security.IsAuthorizedTo(Rights.AccessAdminPages);
 
             Utils.AddFolderJavaScripts(this.Page, "Scripts", false);
-            Utils.AddJavaScriptInclude(this.Page, string.Format("{0}admin/admin.js", Utils.RelativeWebRoot), false, false);
+            Utils.AddJavaScriptInclude(this.Page, string.Format("{0}admin/admin.js", Utils.ApplicationRelativeWebRoot), false, false);
 
             base.OnInit(e);
         }

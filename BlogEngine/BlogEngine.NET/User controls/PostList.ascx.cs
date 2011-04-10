@@ -119,7 +119,7 @@
 
             var query = this.Request.QueryString["theme"];
             var theme = !string.IsNullOrEmpty(query) ? query : BlogSettings.Instance.Theme;
-            var path = string.Format("{0}themes/{1}/PostView.ascx", Utils.RelativeWebRoot, theme);
+            var path = string.Format("{0}themes/{1}/PostView.ascx", Utils.ApplicationRelativeWebRoot, theme);
             var counter = 0;
 
             foreach (Post post in visiblePosts.GetRange(index, stop))

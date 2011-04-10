@@ -162,19 +162,24 @@
                 throw new SecurityException("No access");
             }
 
-            var path = HttpContext.Current.Server.MapPath(file);
-
-            if (File.Exists(path))
+            try
             {
-                string script;
-                using (var reader = new StreamReader(path))
+                var path = HttpContext.Current.Server.MapPath(file);
+                if (File.Exists(path))
                 {
-                    script = reader.ReadToEnd();
-                }
+                    string script;
+                    using (var reader = new StreamReader(path))
+                    {
+                        script = reader.ReadToEnd();
+                    }
 
-                script = ProcessScript(script, file, minify);
-                HttpContext.Current.Cache.Insert(cacheKey, script, new CacheDependency(path));
-                return script;
+                    script = ProcessScript(script, file, minify);
+                    HttpContext.Current.Cache.Insert(cacheKey, script, new CacheDependency(path));
+                    return script;
+                }
+            }
+            catch (Exception ex)
+            { 
             }
 
             return string.Empty;

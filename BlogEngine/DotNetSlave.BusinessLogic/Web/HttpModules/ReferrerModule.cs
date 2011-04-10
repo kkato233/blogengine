@@ -64,10 +64,7 @@
         /// </param>
         public void Init(HttpApplication context)
         {
-            if (BlogSettings.Instance.EnableReferrerTracking)
-            {
-                context.EndRequest += ContextBeginRequest;
-            }
+            context.EndRequest += ContextBeginRequest;
         }
 
         #endregion
@@ -209,6 +206,8 @@
         private static void ContextBeginRequest(object sender, EventArgs e)
         {
             var context = ((HttpApplication)sender).Context;
+            if (!BlogSettings.Instance.EnableReferrerTracking) { return; }
+
             if (!context.Request.Path.ToUpperInvariant().Contains(".ASPX"))
             {
                 return;

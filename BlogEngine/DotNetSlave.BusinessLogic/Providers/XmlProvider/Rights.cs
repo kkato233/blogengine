@@ -26,18 +26,13 @@
         /// <returns></returns>
         public override IDictionary<string, IEnumerable<string>> FillRights()
         {
-            var path = string.Format("{0}rights.xml", BlogConfig.StorageLocation);
+            var fullyQualifiedPath = string.Format("{0}rights.xml", this.Folder);
 
-            if (!VirtualPathUtility.IsAppRelative(path))
-            {
-                throw new ArgumentException("rights must be app-relative");
-            }
+            //var fullyQualifiedPath =
+            //    VirtualPathUtility.Combine(
+            //        VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), path);
 
-            var fullyQualifiedPath =
-                VirtualPathUtility.Combine(
-                    VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), path);
-
-            fullyQualifiedPath = HostingEnvironment.MapPath(fullyQualifiedPath);
+            //fullyQualifiedPath = HostingEnvironment.MapPath(fullyQualifiedPath);
 
             var rightsDict = new Dictionary<string, IEnumerable<string>>();
 

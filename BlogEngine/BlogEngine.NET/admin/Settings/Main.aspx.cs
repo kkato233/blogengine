@@ -79,7 +79,7 @@
         /// </summary>
         private void BindThemes()
         {
-            var path = Server.MapPath(string.Format("{0}themes/", Utils.RelativeWebRoot));
+            var path = Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
             foreach (var dic in Directory.GetDirectories(path))
             {
                 var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
@@ -118,7 +118,7 @@
             }
             else
             {
-                var path = Server.MapPath(string.Format("{0}App_GlobalResources/", Utils.RelativeWebRoot));
+                var path = Server.MapPath(string.Format("{0}App_GlobalResources/", Utils.ApplicationRelativeWebRoot));
                 foreach (var file in Directory.GetFiles(path, "labels.*.resx"))
                 {
                     var index = file.LastIndexOf(Path.DirectorySeparatorChar) + 1;

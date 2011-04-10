@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
+    using System.IO;
 
     /// <summary>
     /// Handles pretty URL's and redirects them to the permalinks.
@@ -175,7 +176,7 @@
                 else
                 {
                     context.RewritePath(
-                        string.Format("{0}default.aspx?id={1}{2}", Utils.RelativeWebRoot, cat.Id, GetQueryString(context)), false);
+                        string.Format("{0}default.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, cat.Id, GetQueryString(context)), false);
                     break;
                 }
             }
@@ -197,7 +198,7 @@
             else
             {
                 context.RewritePath(
-                    string.Format("{0}?tag=/{1}{2}", Utils.RelativeWebRoot, tag, GetQueryString(context)), false);
+                    string.Format("{0}?tag=/{1}{2}", Utils.ApplicationRelativeWebRoot, tag, GetQueryString(context)), false);
             }
         }
 
@@ -223,7 +224,7 @@
                 var month = match.Groups[2].Value;
                 var day = match.Groups[3].Value;
                 var date = string.Format("{0}-{1}-{2}", year, month, day);
-                context.RewritePath(string.Format("{0}default.aspx?date={1}{2}", Utils.RelativeWebRoot, date, page), false);
+                context.RewritePath(string.Format("{0}default.aspx?date={1}{2}", Utils.ApplicationRelativeWebRoot, date, page), false);
             }
             else if (YearMonthRegex.IsMatch(url))
             {
@@ -231,18 +232,22 @@
                 var year = match.Groups[1].Value;
                 var month = match.Groups[2].Value;
                 var path = string.Format("default.aspx?year={0}&month={1}", year, month);
-                context.RewritePath(Utils.RelativeWebRoot + path + page, false);
+                context.RewritePath(Utils.ApplicationRelativeWebRoot + path + page, false);
             }
             else if (YearRegex.IsMatch(url))
             {
                 var match = YearRegex.Match(url);
                 var year = match.Groups[1].Value;
                 var path = string.Format("default.aspx?year={0}", year);
-                context.RewritePath(Utils.RelativeWebRoot + path + page, false);
+                context.RewritePath(Utils.ApplicationRelativeWebRoot + path + page, false);
             }
             else
             {
-                context.RewritePath(url.Replace("Default.aspx", "default.aspx")); // fixes a casing oddity on Mono
+                string newUrl = url.Replace("Default.aspx", "default.aspx");  // fixes a casing oddity on Mono
+                int defaultStart = url.IndexOf("default.aspx");
+                newUrl = Utils.ApplicationRelativeWebRoot + url.Substring(defaultStart);
+
+                context.RewritePath(newUrl);
             }
         }
 
@@ -260,7 +265,7 @@
 
             if (page != null)
             {
-                context.RewritePath(string.Format("{0}page.aspx?id={1}{2}", Utils.RelativeWebRoot, page.Id, GetQueryString(context)), false);
+                context.RewritePath(string.Format("{0}page.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, page.Id, GetQueryString(context)), false);
             }
         }
 
@@ -293,7 +298,7 @@
             context.RewritePath(
                 url.Contains("/FEED/")
                     ? string.Format("syndication.axd?post={0}{1}", post.Id, GetQueryString(context))
-                    : string.Format("{0}post.aspx?id={1}{2}", Utils.RelativeWebRoot, post.Id, GetQueryString(context)),
+                    : string.Format("{0}post.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, post.Id, GetQueryString(context)),
                 false);
         }
 
@@ -315,10 +320,12 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
-            if (!path.Contains(BlogConfig.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
-            {
-                return;
-            }
+            Blog blogInstance = Blog.CurrentInstance;
+
+            //if (!path.Contains(BlogConfig.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
+            //{
+            //    return;
+            //}
 
             if (path == string.Format("{0}DEFAULT.ASPX", Utils.RelativeWebRoot.ToUpperInvariant()) &&
                 context.Request.QueryString.Count == 0)
@@ -348,7 +355,7 @@
             }
             else if (url.Contains("/CALENDAR/"))
             {
-                context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.RelativeWebRoot), false);
+                context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.ApplicationRelativeWebRoot), false);
             }
             else if (url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant())))
             {
@@ -358,12 +365,62 @@
             {
                 var author = ExtractTitle(context, url);
                 context.RewritePath(
-                    string.Format("{0}default{1}?name={2}{3}", Utils.RelativeWebRoot, BlogConfig.FileExtension, author, GetQueryString(context)),
+                    string.Format("{0}default{1}?name={2}{3}", Utils.ApplicationRelativeWebRoot, BlogConfig.FileExtension, author, GetQueryString(context)),
                     false);
             }
             else if (path.Contains("/BLOG.ASPX"))
             {
-                context.RewritePath(string.Format("{0}default.aspx?blog=true{1}", Utils.RelativeWebRoot, GetQueryString(context)));
+                context.RewritePath(string.Format("{0}default.aspx?blog=true{1}", Utils.ApplicationRelativeWebRoot, GetQueryString(context)));
+            }
+            else
+            {
+                // If this is blog instance that is in a virtual sub-folder, we will
+                // need to rewrite the path for URL to a physical file.  This includes
+                // requests such as the homepage (default.aspx), contact.aspx, archive.aspx,
+                // any of the admin pages, etc, etc.
+
+                if (blogInstance.IsSubfolderOfApplicationWebRoot &&
+                    VirtualPathUtility.AppendTrailingSlash(path).IndexOf(blogInstance.RelativeWebRoot, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    bool skipRewrite = false;
+                    string rewriteQs = string.Empty;
+                    string rewriteUrl = context.Request.RawUrl;
+
+                    int qsStart = rewriteUrl.IndexOf("?");
+                    if (qsStart != -1)  // remove querystring.
+                    {
+                        rewriteQs = rewriteUrl.Substring(qsStart);
+                        rewriteUrl = rewriteUrl.Substring(0, qsStart);
+                    }
+
+                    // Want to see if a specific page/file is being requested (something with a . (dot) in it).
+                    // Because Utils.ApplicationRelativeWebRoot may contain a . (dot) in it, pathAfterAppWebRoot
+                    // tells us if the actual path (after the AppWebRoot) contains a dot.
+                    string pathAfterAppWebRoot = rewriteUrl.Substring(Utils.ApplicationRelativeWebRoot.Length);
+
+                    if (!pathAfterAppWebRoot.Contains("."))
+                    {
+                        if (!rewriteUrl.EndsWith("/"))
+                            rewriteUrl += "/";
+
+                        rewriteUrl += "default.aspx";
+                    }
+                    else
+                    {
+                        if (Path.GetExtension(pathAfterAppWebRoot).ToUpperInvariant() == ".AXD")
+                            skipRewrite = true;
+                    }
+
+                    if (!skipRewrite)
+                    {
+                        // remove the subfolder portion.  so /subfolder/ becomes /.
+                        rewriteUrl = new Regex(Regex.Escape(blogInstance.RelativeWebRoot), RegexOptions.IgnoreCase).Replace(rewriteUrl, Utils.ApplicationRelativeWebRoot);
+
+                        context.RewritePath(rewriteUrl + rewriteQs, false);
+                    }
+
+                    return;
+                }
             }
         }
 

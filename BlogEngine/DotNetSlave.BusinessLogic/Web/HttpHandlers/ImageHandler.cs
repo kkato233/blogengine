@@ -72,7 +72,7 @@
                 OnServing(fileName);
                 try
                 {
-                    var folder = string.Format("{0}/files/", BlogConfig.StorageLocation);
+                    var folder = string.Format("{0}/files/", Blog.CurrentInstance.StorageLocation);
                     var fi = new FileInfo(context.Server.MapPath(folder) + fileName);
 
                     if (fi.Exists &&

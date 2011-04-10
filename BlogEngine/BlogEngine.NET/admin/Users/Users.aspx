@@ -37,11 +37,12 @@
             else {
                 var dto = { "user": txtUser, "pwd": txtPwd, "email": txtEmail, "roles": roles };
                 $.ajax({
-                    url: "../../api/UserService.asmx/Add",
+                    url: SiteVars.ApplicationRelativeWebRoot + "api/UserService.asmx/Add",
                     data: JSON.stringify(dto),
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    beforeSend: onAjaxBeforeSend,
                     success: function (result) {
                         var rt = result.d;
                         if (rt.Success) {

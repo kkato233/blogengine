@@ -85,6 +85,8 @@ namespace Admin
             var sitemap = SiteMap.Providers["SecuritySiteMap"];
             if (sitemap != null)
             {
+                string adminRootFolder = string.Format("{0}admin", Utils.RelativeWebRoot);
+
                 var root = sitemap.RootNode;
                 if (root != null)
                 {
@@ -99,7 +101,9 @@ namespace Admin
 
                         var a = new HtmlAnchor
                             {
-                                HRef = adminNode.Url, 
+                                // replace the RelativeWebRoot in adminNode.Url with the RelativeWebRoot of the current
+                                // blog instance.  So a URL like /admin/Dashboard.aspx becomes /blog/admin/Dashboard.aspx.
+                                HRef = Utils.RelativeWebRoot + adminNode.Url.Substring(Utils.ApplicationRelativeWebRoot.Length), 
                                 InnerHtml =
                                     string.Format("<span>{0}</span>", Utils.Translate(adminNode.Title, adminNode.Title))
                             };
@@ -112,7 +116,7 @@ namespace Admin
 
                         // if "page" has its own subfolder (comments, extensions) should 
                         // select parent tab when navigating through child tabs
-                        if (adminNode.Url.IndexOf("/admin/pagesxx/", StringComparison.OrdinalIgnoreCase) == -1 &&
+                        if (!SubUrl(this.Request.RawUrl).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&
                             SubUrl(this.Request.RawUrl) == SubUrl(adminNode.Url))
                         {
                             a.Attributes["class"] = "current";

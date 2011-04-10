@@ -60,9 +60,24 @@ namespace BlogEngine.Core
         {
             get
             {
-                return String.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"])
+                return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"])
                            ? @"~/app_data/"
                            : WebConfigurationManager.AppSettings["StorageLocation"];
+            }
+        }
+
+        #endregion
+
+        #region StorageLocation
+
+        /// <summary>
+        /// Gets name of the folder blog instances are stored in.
+        /// </summary>
+        public static string BlogInstancesFolderName
+        {
+            get
+            {
+                return WebConfigurationManager.AppSettings["BlogInstancesFolderName"] ?? "blogs";
             }
         }
 

@@ -28,7 +28,7 @@
         /// This should be created immediately instead of lazyloaded. It'll reduce the number of null checks that occur
         /// due to heavy reliance on calls to BlogSettings.Instance.
         /// </remarks>
-        private static readonly BlogSettings blogSettingsSingleton = new BlogSettings();
+        private static readonly Dictionary<Guid, BlogSettings> blogSettingsSingleton = new Dictionary<Guid, BlogSettings>();
 
         /// <summary>
         ///     The configured theme.
@@ -56,6 +56,11 @@
         private bool enablePasswordResets = true;
 
         /// <summary>
+        /// The sync root.
+        /// </summary>
+        private static readonly object SyncRoot = new object();
+
+        /// <summary>
         /// The timeout in milliseconds for a remote download. Default is 30 seconds.
         /// </summary>
         private int remoteDownloadTimeout = defaultRemoteDownloadTimeout;
@@ -79,8 +84,6 @@
 
         #endregion
 
-        #region Instance
-
         /// <summary>
         ///     Gets the singleton instance of the <see cref = "BlogSettings" /> class.
         /// </summary>
@@ -91,11 +94,30 @@
         {
             get
             {
-                return blogSettingsSingleton;
+                return GetInstanceSettings(Blog.CurrentInstance);
             }
         }
 
-        #endregion
+        public static BlogSettings GetInstanceSettings(Blog blog)
+        {
+            BlogSettings blogSettings;
+
+            if (!blogSettingsSingleton.TryGetValue(blog.Id, out blogSettings))
+            {
+                lock (SyncRoot)
+                {
+                    if (!blogSettingsSingleton.TryGetValue(blog.Id, out blogSettings))
+                    {
+                        // settings will be loaded in constructor.
+                        blogSettings = new BlogSettings();
+
+                        blogSettingsSingleton[blog.Id] = blogSettings;
+                    }
+                }
+            }
+
+            return blogSettings;
+        }
 
         #region Description
 
@@ -1258,8 +1280,6 @@
             // ------------------------------------------------------------
             var dic = BlogService.LoadSettings();
             var settingsProps = GetSettingsTypePropertyDict();
-
-            
 
             foreach (System.Collections.DictionaryEntry entry in dic)
             {

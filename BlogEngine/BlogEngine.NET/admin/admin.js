@@ -55,8 +55,9 @@ function SaveChanges(obj, str) {
        type: "post",
        contentType: "application/json; charset=utf-8",
        dataType: "json",
-       url: "../../api/" + srv + ".asmx/Edit",
+       url: SiteVars.ApplicationRelativeWebRoot + "api/" + srv + ".asmx/Edit",
        data: JSON.stringify(dto),
+       beforeSend: onAjaxBeforeSend,
        success: function (result) {
            var rt = result.d;
            if (rt.Success) {
@@ -90,11 +91,12 @@ function DeleteRow(obj) {
    var dto = { "id": id };
 
    $.ajax({
-       url: "../../api/" + srv + ".asmx/Delete",
+       url: SiteVars.ApplicationRelativeWebRoot + "api/" + srv + ".asmx/Delete",
        data: JSON.stringify(dto),
        type: "POST",
        contentType: "application/json; charset=utf-8",
        dataType: "json",
+       beforeSend: onAjaxBeforeSend,
        success: function (result) {
            var rt = result.d;
            if (rt.Success) {
@@ -134,8 +136,9 @@ function LoadComments(page) {
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
+      beforeSend: onAjaxBeforeSend,
       success: function (msg) {
-         $('#Container').setTemplateURL('../../Templates/comments.htm', null, { filter_data: false });
+         $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/comments.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
          LoadPager();
       }
@@ -152,6 +155,7 @@ function LoadPager() {
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
+      beforeSend: onAjaxBeforeSend,
       success: function (msg) {
          $('.Pager').html(msg.d);
       }
@@ -176,13 +180,14 @@ function SaveOriginalIdValues(containerSelector, recordIdSelector) {
 
 function LoadRoles() {
     $.ajax({
-        url: "Roles.aspx/GetRoles",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/Users/Roles.aspx/GetRoles",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (msg) {
-            $('#Container').setTemplateURL('../../Templates/roles.htm', null, { filter_data: false });
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/roles.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
             SaveOriginalIdValues('#Container tr', '.editable');
         }
@@ -191,13 +196,14 @@ function LoadRoles() {
 
 function LoadUsers() {
    $.ajax({
-      url: "Users.aspx/GetUsers",
+      url: SiteVars.ApplicationRelativeWebRoot + "admin/Users/Users.aspx/GetUsers",
       data: "{ }",
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
+      beforeSend: onAjaxBeforeSend,
       success: function (msg) {
-         $('#Container').setTemplateURL('../../Templates/users.htm', null, { filter_data: false });
+         $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/users.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
          SaveOriginalIdValues('#Container tr', '.username');
       }
@@ -207,16 +213,17 @@ function LoadUsers() {
 function LoadProfile() {
    var dto = { "id": Querystring('id') };
    $.ajax({
-      url: "Profile.aspx/GetProfile",
+      url: SiteVars.ApplicationRelativeWebRoot + "admin/Users/Profile.aspx/GetProfile",
       data: JSON.stringify(dto),
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
+      beforeSend: onAjaxBeforeSend,
       success: function (msg) {
-         $('#Container').setTemplateURL('../../Templates/profile.htm', null, { filter_data: false });
+         $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/profile.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
 
-         $('#Container2').setTemplateURL('../../Templates/profile2.htm', null, { filter_data: false });
+         $('#Container2').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/profile2.htm', null, { filter_data: false });
          $('#Container2').processTemplate(msg);
       }
    });
@@ -224,13 +231,14 @@ function LoadProfile() {
 
 function LoadCustomFilters() {
     $.ajax({
-        url: "Rules.aspx/GetCustomFilters",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/Settings/Rules.aspx/GetCustomFilters",
         data: { },
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (msg) {
-            $('#Container').setTemplateURL('../../Templates/customfilters.htm', null, { filter_data: false });
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/customfilters.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
         }
     });
@@ -248,13 +256,14 @@ function LoadTrash(obj) {
         type = $(obj).attr("id");
     }
     $.ajax({
-        url: "Trash.aspx/LoadTrash",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/Trash.aspx/LoadTrash",
         data: "{'trashType':'" + type + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (msg) {
-            $('#Container').setTemplateURL('../Templates/trash.htm', null, { filter_data: false });
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/trash.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
         }
     });
@@ -286,11 +295,12 @@ function ProcessTrash(action, scope) {
 
     var dto = { "action": action, "vals": vals };
     $.ajax({
-        url: "Trash.aspx/ProcessTrash",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/Trash.aspx/ProcessTrash",
         data: JSON.stringify(dto),
         type: "post",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -316,7 +326,7 @@ function ProcessSelected(action, page) {
    // store the rows so they don't need to be queried for again.
    var commentsAndRows = [];
    // action: approve, reject, restore or delete
-   var srv = "../../api/Comments.asmx/" + action;
+   var srv = SiteVars.ApplicationRelativeWebRoot + "api/Comments.asmx/" + action;
 
    // Gets all checkboxes inside the #Comments table to prevent selecting
    // checkboxes that aren't part of the comments list.
@@ -351,6 +361,7 @@ function ProcessSelected(action, page) {
               type: "post",
               contentType: "application/json; charset=utf-8",
               dataType: "json",
+              beforeSend: onAjaxBeforeSend,
               success: function (result) {
 
                   var rt = result.d;
@@ -445,13 +456,14 @@ function EditComment(id) {
 
    var dto = { "id": id };
    $.ajax({
-      url: "../AjaxHelper.aspx/GetComment",
+      url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/GetComment",
       data: JSON.stringify(dto),
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
+      beforeSend: onAjaxBeforeSend,
       success: function (result) {
-         oRow.setTemplateURL('../../Templates/editcomment.htm', null, { filter_data: false });
+         oRow.setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/editcomment.htm', null, { filter_data: false });
          oRow.processTemplate(result);
       }
    });
@@ -492,13 +504,14 @@ function SaveComment(obj) {
 
    var dto = { "vals": vals };
    $.ajax({
-       url: "../AjaxHelper.aspx/SaveComment",
+      url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/SaveComment",
       data: JSON.stringify(dto),
       type: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
+      beforeSend: onAjaxBeforeSend,
       success: function (result) {
-         oRow.setTemplateURL('../../Templates/commentrow.htm', null, { filter_data: false });
+         oRow.setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/commentrow.htm', null, { filter_data: false });
          oRow.processTemplate(result);
          ShowStatus("success", "Updated");
       }
@@ -523,11 +536,12 @@ function CommentAction(act, id) {
    vals[0] = id;
    var dto = { "vals": vals };
    $.ajax({
-       url: "../../api/Comments.asmx/" + act,
+       url: SiteVars.ApplicationRelativeWebRoot + "api/Comments.asmx/" + act,
        data: JSON.stringify(dto),
        type: "POST",
        contentType: "application/json; charset=utf-8",
        dataType: "json",
+       beforeSend: onAjaxBeforeSend,
        success: function (result) {
            var rt = result.d;
            if (rt.Success) {
@@ -577,11 +591,12 @@ function CommentAction(act, id) {
 function DeleteAllSpam() {
    $('.loader').show();
    $.ajax({
-       url: "../../api/Comments.asmx/DeleteAll",
+       url: SiteVars.ApplicationRelativeWebRoot + "api/Comments.asmx/DeleteAll",
        data: "{ }",
        type: "POST",
        contentType: "application/json; charset=utf-8",
        dataType: "json",
+       beforeSend: onAjaxBeforeSend,
        success: function (result) {
            var rt = result.d;
            if (rt.Success) {
@@ -674,13 +689,14 @@ function LoadPosts() {
     $("#pageSizeBottom").val(pageSize);
 
     $.ajax({
-        url: "../AjaxHelper.aspx/LoadPosts",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadPosts",
         data: "{'page':'" + pg + "' , 'type':'" + ftr1 + "', 'filter':'" + ftr2 + "', 'title': '" + ftr2id + "', pageSize: '" + pageSize + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (msg) {
-            $('#Container').setTemplateURL('../../Templates/posts.htm', null, { filter_data: false });
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/posts.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
 
             LoadPostsPager(pg, pageSize, ftr1);
@@ -710,13 +726,14 @@ function LoadPosts() {
 
 function LoadPages(type) {
     $.ajax({
-        url: "../AjaxHelper.aspx/LoadPages",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadPages",
         data: "{'type':'" + type + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (msg) {
-            $('#Container').setTemplateURL('../../Templates/pages.htm', null, { filter_data: false });
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/pages.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
         }
     });
@@ -725,11 +742,12 @@ function LoadPages(type) {
 
 function LoadPostsPager(pg, pageSize, type) {
     $.ajax({
-        url: "../AjaxHelper.aspx/LoadPostPager",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadPostPager",
         data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (msg) {
             $('.Pager').html(msg.d);
         }
@@ -745,11 +763,12 @@ function DeletePost(obj) {
     var currPage = $('#PagerCurrentPage').html();
 
     $.ajax({
-        url: "../../Api/Posts.asmx/DeletePost",
+        url: SiteVars.ApplicationRelativeWebRoot + "Api/Posts.asmx/DeletePost",
         data: JSON.stringify(dto),
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -774,11 +793,12 @@ function DeletePage(obj) {
     var dto = { "id": id };
 
     $.ajax({
-        url: "../../Api/Posts.asmx/DeletePage",
+        url: SiteVars.ApplicationRelativeWebRoot + "Api/Posts.asmx/DeletePage",
         data: JSON.stringify(dto),
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
@@ -799,11 +819,12 @@ function DeletePage(obj) {
 function ChangePriority() {
     var dto = { "priority": $('#txtPriority').val(), "ext": $('#hdnExtensionName').val() };
     $.ajax({
-        url: "../AjaxHelper.aspx/ChangePriority",
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/ChangePriority",
         data: JSON.stringify(dto),
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        beforeSend: onAjaxBeforeSend,
         success: function (result) {
             var rt = result.d;
             if (rt == true) {
@@ -818,7 +839,158 @@ function ChangePriority() {
     return false;
 }
 
+
+//--------------  BLOGS
+
+function ChangeBlogsPage(select) {
+    var pageSize = $(select).val();
+    $.cookie('blogsPageSize', pageSize, { expires: 7 });
+    $.cookie('blogsCurrentPage', 1, { expires: 7 });
+    LoadBlogs();
+    return false;
+}
+
+function LoadBlogsForPage(page) {
+    if (page == null || page == 0)
+        page = 1;
+
+    $.cookie('blogsCurrentPage', page, { expires: 7 });
+    LoadBlogs();
+    return false;
+}
+
+function LoadBlogs() {
+    if ($.cookie('blogsCurrentPage') == null) {
+        $.cookie('blogsCurrentPage', 1, { expires: 7 });
+    }
+    if ($.cookie('blogsPageSize') == null) {
+        $.cookie('blogsPageSize', $("#pageSizeTop").val(), { expires: 7 });
+    }
+    var pg = $.cookie('blogsCurrentPage');
+    var pageSize = $.cookie('blogsPageSize');
+
+    // sync both dropdown lists.
+    $("#pageSizeTop").val(pageSize);
+    $("#pageSizeBottom").val(pageSize);
+
+    // remove any select options from the dropdown list.
+    $('#existingBlogToCreateNewBlogFrom').empty();
+
+    var data = { page: pg, pageSize: pageSize };
+
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadBlogs",
+        data: JSON.stringify(data),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (msg) {
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/blogs.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+
+            LoadBlogsPager(pg, pageSize);
+
+            $(".tipsyhelp").tipsy({ gravity: 's' });
+
+        }
+    });
+    return false;
+}
+
+function GetBlog(blogId, callback) {
+
+    if (!blogId || blogId.length !== 36) {
+        ShowStatus('warning', 'Invalid Blog ID.');
+        return false;
+    }
+
+    var data = { blogId: blogId };
+
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/GetBlog",
+        data: JSON.stringify(data),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            callback(result.d);
+        }
+    });
+    return false;
+}
+
+function LoadBlogsPager(pg, pageSize, type) {
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadBlogsPager",
+        data: "{'pageSize':'" + pageSize + "', 'page':'" + pg + "' , 'type':'" + type + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (msg) {
+            $('.Pager').html(msg.d);
+        }
+    });
+    return false;
+}
+
+function DeleteBlog(obj) {
+    var id = $(obj).closest("tr").attr("id");
+    var srv = $(obj).closest("table").attr("id");
+    var that = $("[id$='" + id + "']");
+    
+    var deleteStorageContainer =
+        confirm(
+            'Also delete the storage container (files, tables, etc) for this blog?\n\n' +
+            'Click OK to also delete the storage container.\n' +
+            'Click Cancel to delete the blog without deleting the storage container.\n\n' +
+            'Note, after you choose OK/Cancel, you will have an final opportunity to confirm ' +
+            'the blog deletion.');
+
+    if (!confirm("Final Confirmation: Delete the blog?")) { return false; }
+
+    var dto = { "id": id, "deleteStorageContainer": deleteStorageContainer };
+
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "Api/Blogs.asmx/DeleteBlog",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $(that).fadeOut(500, function () {
+                    $(that).remove();
+                });
+                ShowStatus("success", rt.Message);
+                LoadBlogs();
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    return false;
+}
+
+
 //--------------HELPERS AND MISC
+
+function onAjaxBeforeSend(jqXHR, settings) {
+
+    // AJAX calls need to be made directly to the real physical location of the
+    // web service/page method.  For this, SiteVars.ApplicationRelativeWebRoot is used.
+    // If an AJAX call is made to a virtual URL (for a blog instance), although
+    // the URL rewriter will rewrite these URLs, we end up with a "405 Method Not Allowed"
+    // error by the web service.  Here we set a request header so the call to the server
+    // is done under the correct blog instance ID.
+
+    jqXHR.setRequestHeader('x-blog-instance', SiteVars.BlogInstanceId);
+}
 
 function colorboxDialogSubmitClicked(validationGroup, panelId) {
 

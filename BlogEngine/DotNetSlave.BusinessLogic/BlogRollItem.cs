@@ -21,7 +21,7 @@
         /// <summary>
         /// The blog rolls.
         /// </summary>
-        private static List<BlogRollItem> blogRolls;
+        private static Dictionary<Guid, List<BlogRollItem>> blogRolls;
 
         /// <summary>
         /// The blog url.
@@ -85,6 +85,24 @@
             this.BlogUrl = blogUrl;
         }
 
+        static BlogRollItem()
+        {
+            Blog.Saved += (s, e) =>
+            {
+                if (e.Action == SaveAction.Delete)
+                {
+                    Blog blog = s as Blog;
+                    if (blog != null)
+                    {
+                        // remove deleted blog from static 'blogRolls'
+
+                        if (blogRolls != null && blogRolls.ContainsKey(blog.Id))
+                            blogRolls.Remove(blog.Id);
+                    }
+                }
+            };
+        }
+
         #endregion
 
         #region Properties
@@ -96,19 +114,24 @@
         {
             get
             {
-                if (blogRolls == null || blogRolls.Count == 0)
+                Blog blog = Blog.CurrentInstance;
+
+                if (blogRolls == null || !blogRolls.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (blogRolls == null || blogRolls.Count == 0)
+                        if (blogRolls == null || !blogRolls.ContainsKey(blog.Id))
                         {
-                            blogRolls = BlogService.FillBlogRolls();
-                            blogRolls.Sort();
+                            if (blogRolls == null)
+                                blogRolls = new Dictionary<Guid, List<BlogRollItem>>();
+
+                            blogRolls[blog.Id] = BlogService.FillBlogRolls();
+                            blogRolls[blog.Id].Sort();
                         }
                     }
                 }
 
-                return blogRolls;
+                return blogRolls[blog.Id];
             }
         }
 

@@ -24,7 +24,7 @@
         /// <summary>
         ///     The categories.
         /// </summary>
-        private static List<Category> categories;
+        private static Dictionary<Guid, List<Category>> categories;
 
         /// <summary>
         ///     The description.
@@ -50,7 +50,20 @@
         /// </summary>
         static Category()
         {
-            Folder = HttpContext.Current.Server.MapPath(BlogConfig.StorageLocation);
+            Blog.Saved += (s, e) =>
+            {
+                if (e.Action == SaveAction.Delete)
+                {
+                    Blog blog = s as Blog;
+                    if (blog != null)
+                    {
+                        // remove deleted blog from static 'categories'
+
+                        if (categories != null && categories.ContainsKey(blog.Id))
+                            categories.Remove(blog.Id);
+                    }
+                }
+            };
         }
 
         /// <summary>
@@ -91,19 +104,24 @@
         {
             get
             {
-                if (categories == null)
+                Blog blog = Blog.CurrentInstance;
+
+                if (categories == null || !categories.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (categories == null)
+                        if (categories == null || !categories.ContainsKey(blog.Id))
                         {
-                            categories = BlogService.FillCategories();
-                            categories.Sort();
+                            if (categories == null)
+                                categories = new Dictionary<Guid, List<Category>>();
+
+                            categories[blog.Id] = BlogService.FillCategories();
+                            categories[blog.Id].Sort();
                         }
                     }
                 }
 
-                return categories;
+                return categories[blog.Id];
             }
         }
 
@@ -222,12 +240,6 @@
                 base.SetValue("Title", value, ref this.title);
             }
         }
-
-        /// <summary>
-        ///     Gets or sets the folder.
-        /// </summary>
-        /// <value>The folder.</value>
-        internal static string Folder { get; set; }
 
         #endregion
 

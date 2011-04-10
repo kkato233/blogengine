@@ -133,7 +133,7 @@ namespace App_Code.Controls
 
             foreach (XmlNode widget in zone)
             {
-                var fileName = string.Format("{0}widgets/{1}/widget.ascx", Utils.RelativeWebRoot, widget.InnerText);
+                var fileName = string.Format("{0}widgets/{1}/widget.ascx", Utils.ApplicationRelativeWebRoot, widget.InnerText);
                 try
                 {
 
@@ -200,7 +200,7 @@ namespace App_Code.Controls
 
             var selectorId = string.Format("widgetselector_{0}", this.zoneName);
             writer.Write("<select id=\"{0}\" class=\"widgetselector\">", selectorId);
-            var di = new DirectoryInfo(this.Page.Server.MapPath(string.Format("{0}widgets", Utils.RelativeWebRoot)));
+            var di = new DirectoryInfo(this.Page.Server.MapPath(string.Format("{0}widgets", Utils.ApplicationRelativeWebRoot)));
             foreach (var dir in di.GetDirectories().Where(dir => File.Exists(Path.Combine(dir.FullName, "widget.ascx"))))
             {
                 writer.Write("<option value=\"{0}\">{1}</option>", dir.Name, dir.Name);

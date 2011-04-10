@@ -13,8 +13,7 @@
                     <p><span id="CreateHdr">
                         <%=Resources.labels.createAccount %></span> <span>
                             <%=Resources.labels.alreadyHaveAccount %>
-                            <a href="~/Account/login.aspx" id="HeadLoginStatus" runat="server">
-                                <%=Resources.labels.loginNow %></a> </span></p>
+                            <a id="HeadLoginStatus" runat="server"><%=Resources.labels.loginNow %></a></span></p>
                     <div class="accountInfo">
                         <div class="login">
                             <p>

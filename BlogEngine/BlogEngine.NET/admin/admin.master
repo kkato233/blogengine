@@ -11,6 +11,15 @@
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
+    <script type="text/javascript">
+
+        var SiteVars = {
+            ApplicationRelativeWebRoot: '<%= Utils.ApplicationRelativeWebRoot %>',
+            RelativeWebRoot: '<%= Utils.RelativeWebRoot %>',
+            BlogInstanceId: '<%= Blog.CurrentInstance.Id %>'
+        };
+
+    </script>
     <div class="page">
         <form id="form1" runat="server">
 
@@ -41,7 +50,7 @@
 
             <div id="footer">
                 <a href="http://dotnetblogengine.net">BlogEngine.NET <%=BlogSettings.Instance.Version() %></a> | 
-                <a id="donate" runat="server" href="~/admin/Donate.aspx" alt="Donate" target="_new"><%=Resources.labels.makeDonation %></a>          
+                <a id="donate" href="<%= Utils.RelativeWebRoot %>admin/Donate.aspx" target="_new"><%=Resources.labels.makeDonation %></a>          
             </div>
 
         </form>    

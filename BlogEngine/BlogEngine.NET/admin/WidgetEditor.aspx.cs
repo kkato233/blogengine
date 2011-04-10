@@ -98,7 +98,7 @@ namespace Admin
         private void AddWidget(string type, string zone)
         {
             var widget =
-                (WidgetBase)this.LoadControl(string.Format("{0}widgets/{1}/widget.ascx", Utils.RelativeWebRoot, type));
+                (WidgetBase)this.LoadControl(string.Format("{0}widgets/{1}/widget.ascx", Utils.ApplicationRelativeWebRoot, type));
             widget.WidgetId = Guid.NewGuid();
             widget.ID = widget.WidgetId.ToString().Replace("-", string.Empty);
             widget.Title = type;
@@ -259,7 +259,7 @@ namespace Admin
         {
             var doc = this.GetXmlDocument(zone);
             var node = doc.SelectSingleNode(string.Format("//widget[@id=\"{0}\"]", id));
-            var fileName = string.Format("{0}widgets/{1}/edit.ascx", Utils.RelativeWebRoot, type);
+            var fileName = string.Format("{0}widgets/{1}/edit.ascx", Utils.ApplicationRelativeWebRoot, type);
 
             if (File.Exists(this.Server.MapPath(fileName)))
             {

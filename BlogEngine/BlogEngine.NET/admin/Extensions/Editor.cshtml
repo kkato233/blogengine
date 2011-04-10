@@ -26,7 +26,7 @@
     }
 
     var editLink = "";   
-    if (Utils.CanWrite(Href("~/App_Code/Extensions")))
+    if (Utils.CanWrite(Href(Utils.ApplicationRelativeWebRoot + "App_Code/Extensions")))
     {
         editLink = "<a class=\"extEdit\" onclick=\"return ShowEditor();\" href=\"#\">" + Resources.labels.edit + "</a>";
     }
@@ -42,11 +42,11 @@
     }
 }
 
-<link rel="stylesheet" href="@Href("~/Styles/syntaxhighlighter/shCore.css")" type="text/css" />
-<link rel="stylesheet" href="@Href("~/Styles/syntaxhighlighter/shThemeDefault.css")" type="text/css" />
-<script src="@Href("~/Scripts/syntaxhighlighter/shCore.js")" type="text/javascript"></script>
-<script src="@Href("~/Scripts/syntaxhighlighter/shBrushCSharp.js")" type="text/javascript"></script>
-<script src="@Href("~/Scripts/syntaxhighlighter/shBrushCss.js")" type="text/javascript"></script>
+<link rel="stylesheet" href="@Href(Utils.RelativeWebRoot + "Styles/syntaxhighlighter/shCore.css")" type="text/css" />
+<link rel="stylesheet" href="@Href(Utils.RelativeWebRoot + "Styles/syntaxhighlighter/shThemeDefault.css")" type="text/css" />
+<script src="@Href(Utils.RelativeWebRoot + "Scripts/syntaxhighlighter/shCore.js")" type="text/javascript"></script>
+<script src="@Href(Utils.RelativeWebRoot + "Scripts/syntaxhighlighter/shBrushCSharp.js")" type="text/javascript"></script>
+<script src="@Href(Utils.RelativeWebRoot + "Scripts/syntaxhighlighter/shBrushCss.js")" type="text/javascript"></script>
 <script type="text/javascript">SyntaxHighlighter.all();</script>
 <script type="text/javascript">
     function ShowEditor() {
@@ -64,11 +64,12 @@
     function BtnSaveClick() {
         var dto = { "sourceCode": $('#txtSourceCode').val(), "fileName": $('#hdnFileName').val() };
         $.ajax({
-            url: "../AjaxHelper.aspx/UpdateSourceCode",
+            url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/UpdateSourceCode",
             data: JSON.stringify(dto),
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            beforeSend: onAjaxBeforeSend,
             success: function (result) {
                 var rt = result.d;
                 if (rt == true) {

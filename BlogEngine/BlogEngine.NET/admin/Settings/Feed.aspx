@@ -44,11 +44,12 @@
 			};
 			
             $.ajax({
-                url: "Feed.aspx/Save",
+                url: SiteVars.ApplicationRelativeWebRoot + "admin/Settings/Feed.aspx/Save",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(dto),
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success)

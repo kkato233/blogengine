@@ -8,16 +8,142 @@ using System.Web;
 using System.Web.Security;
 using System.Diagnostics;
 using System.Security;
+using System.Security.Principal;
 
 namespace BlogEngine.Core
 {
     /// <summary>
     /// Class to provide a unified area of authentication/authorization checking.
     /// </summary>
-    public static partial class Security
+    public partial class Security : IHttpModule
     {
         static Security()
         {
+
+        }
+
+        /// <summary>
+        /// Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"/>.
+        /// </summary>
+        public void Dispose()
+        {
+            // Nothing to dispose
+        }
+
+        /// <summary>
+        /// Initializes a module and prepares it to handle requests.
+        /// </summary>
+        /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application</param>
+        public void Init(HttpApplication context)
+        {
+            context.AuthenticateRequest += ContextAuthenticateRequest;
+        }
+
+        /// <summary>
+        /// Handles the AuthenticateRequest event of the context control.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs"/> instance containing the event data.
+        /// </param>
+        private static void ContextAuthenticateRequest(object sender, EventArgs e)
+        {
+            var context = ((HttpApplication)sender).Context;
+
+            // FormsAuthCookieName is a custom cookie name based on the current instance.
+            HttpCookie authCookie = context.Request.Cookies[FormsAuthCookieName];
+            if (authCookie != null)
+            {
+                Blog blog = Blog.CurrentInstance;
+
+                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                if (authTicket != null)
+                {
+                    CustomIdentity identity = new CustomIdentity(authTicket.Name, true);
+                    CustomPrincipal principal = new CustomPrincipal(identity);
+
+                    context.User = principal;
+                    return;
+                }
+            }
+
+            // need to create an empty/unauthenticated user to assign to context.User.
+            CustomIdentity unauthIdentity = new CustomIdentity(string.Empty, false);
+            CustomPrincipal unauthPrincipal = new CustomPrincipal(unauthIdentity);
+            context.User = unauthPrincipal;
+        }
+
+        /// <summary>
+        /// Name of the Forms authentication cookie for the current blog instance.
+        /// </summary>
+        public static string FormsAuthCookieName
+        {
+            get
+            {
+                return FormsAuthentication.FormsCookieName + "-" + Blog.CurrentInstance.Id.ToString();
+            }
+        }
+
+        public static void SignOut()
+        {
+            // using a custom cookie name based on the current blog instance.
+            HttpCookie cookie = new HttpCookie(FormsAuthCookieName, string.Empty);
+            cookie.Expires = DateTime.Now.AddYears(-3);
+            HttpContext.Current.Response.Cookies.Add(cookie);
+        }
+
+        public static bool AuthenticateUser(string username, string password, bool rememberMe)
+        {
+            string un = (username ?? string.Empty).Trim();
+            string pw = (password ?? string.Empty).Trim();
+
+            if (!string.IsNullOrWhiteSpace(un) && !string.IsNullOrWhiteSpace(pw))
+            {
+                bool isValidated = Membership.ValidateUser(un, pw);
+
+                if (isValidated)
+                {
+                    HttpContext context = HttpContext.Current;
+
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                        1,
+                        un,
+                        DateTime.Now,
+                        DateTime.Now.Add(FormsAuthentication.Timeout),
+                        rememberMe,
+                        string.Empty,
+                        FormsAuthentication.FormsCookiePath
+                    );
+
+                    string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+                    // setting a custom cookie name based on the current blog instance.
+                    HttpCookie cookie = new HttpCookie(FormsAuthCookieName, encryptedTicket);
+                    context.Response.Cookies.Set(cookie);
+
+                    string returnUrl = context.Request.QueryString["returnUrl"];
+
+                    // ignore Return URLs not beginning with a forward slash, such as remote sites.
+                    if (string.IsNullOrWhiteSpace(returnUrl) || !returnUrl.StartsWith("/"))
+                        returnUrl = null;
+
+                    if (!string.IsNullOrWhiteSpace(returnUrl))
+                    {
+                        context.Response.Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        context.Response.Redirect(Utils.RelativeWebRoot);
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         #region "Properties"
@@ -138,7 +264,7 @@ namespace BlogEngine.Core
             }
             else
             {
-                context.Response.Redirect(string.Format("~/Account/login.aspx?ReturnURL={0}", HttpUtility.UrlPathEncode(context.Request.RawUrl)));
+                context.Response.Redirect(string.Format("{0}Account/login.aspx?ReturnURL={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(context.Request.RawUrl)));
             }
         }
 

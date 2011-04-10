@@ -120,7 +120,7 @@ public class MediaElementPlayer
 
     private static void AddHeader(Page page)
     {
-		string path = Utils.RelativeWebRoot + "Scripts/mediaelement/";
+		string path = Utils.ApplicationRelativeWebRoot + "Scripts/mediaelement/";
 		
 		AddJavaScript(path + "mediaelement.min.js", page);
         AddJavaScript(path + "mediaelementplayer.min.js", page);

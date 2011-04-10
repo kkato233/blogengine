@@ -48,12 +48,12 @@
         /// <summary>
         /// The posts.
         /// </summary>
-        private static List<Post> posts;
+        private static Dictionary<Guid, List<Post>> posts;
 
         /// <summary>
         /// The deleted posts.
         /// </summary>
-        private static List<Post> deletedposts;
+        private static Dictionary<Guid, List<Post>> deletedposts;
 
         /// <summary>
         ///     The author.
@@ -128,6 +128,27 @@
             this.DateCreated = DateTime.Now;
             this.isPublished = true;
             this.hasCommentsEnabled = true;
+        }
+
+        static Post()
+        {
+            Blog.Saved += (s, e) =>
+            {
+                if (e.Action == SaveAction.Delete)
+                {
+                    Blog blog = s as Blog;
+                    if (blog != null)
+                    {
+                        // remove deleted blog from static 'posts' and 'deletedposts'
+
+                        if (posts != null && posts.ContainsKey(blog.Id))
+                            posts.Remove(blog.Id);
+
+                        if (deletedposts != null && deletedposts.ContainsKey(blog.Id))
+                            deletedposts.Remove(blog.Id);
+                    }
+                }
+            };
         }
 
         #endregion
@@ -206,20 +227,25 @@
         {
             get
             {
-                if (posts == null)
+                Blog blog = Blog.CurrentInstance;
+
+                if (posts == null || !posts.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (posts == null)
+                        if (posts == null || !posts.ContainsKey(blog.Id))
                         {
-                            posts = BlogService.FillPosts().Where(p => p.IsDeleted == false).ToList();
-                            posts.TrimExcess();
+                            if (posts == null)
+                                posts = new Dictionary<Guid, List<Post>>();
+
+                            posts[blog.Id] = BlogService.FillPosts().Where(p => p.IsDeleted == false).ToList();
+                            posts[blog.Id].TrimExcess();
                             AddRelations();
                         }
                     }
                 }
 
-                return posts;
+                return posts[blog.Id];
             }
         }
 
@@ -231,18 +257,25 @@
         {
             get
             {
-                if (deletedposts == null)
+                Blog blog = Blog.CurrentInstance;
+
+                if (deletedposts == null || !deletedposts.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (deletedposts == null)
+                        if (deletedposts == null || !deletedposts.ContainsKey(blog.Id))
                         {
-                            deletedposts = BlogService.FillPosts().Where(p => p.IsDeleted == true).ToList();
+                            if (deletedposts == null)
+                            {
+                                deletedposts = new Dictionary<Guid, List<Post>>();
+                            }
+
+                            deletedposts[blog.Id] = BlogService.FillPosts().Where(p => p.IsDeleted == true).ToList();
                         }
                     }
                 }
 
-                return deletedposts;
+                return deletedposts[blog.Id];
             }
         }
 
@@ -765,7 +798,7 @@
         }
 
         /// <summary>
-        /// Returs a post based on the specified id.
+        /// Returns a post based on the specified id.
         /// </summary>
         /// <param name="id">
         /// The post id.
@@ -899,8 +932,8 @@
         /// </summary>
         public static void Reload()
         {
-            posts = BlogService.FillPosts();
-            posts.Sort();
+            posts[Blog.CurrentInstance.Id] = BlogService.FillPosts();
+            posts[Blog.CurrentInstance.Id].Sort();
             AddRelations();
         }
 
@@ -1501,18 +1534,20 @@
         /// </summary>
         private static void AddRelations()
         {
-            for (var i = 0; i < posts.Count; i++)
+            Blog blog = Blog.CurrentInstance;
+
+            for (var i = 0; i < posts[blog.Id].Count; i++)
             {
-                posts[i].Next = null;
-                posts[i].Previous = null;
+                posts[blog.Id][i].Next = null;
+                posts[blog.Id][i].Previous = null;
                 if (i > 0)
                 {
-                    posts[i].Next = posts[i - 1];
+                    posts[blog.Id][i].Next = posts[blog.Id][i - 1];
                 }
 
                 if (i < posts.Count - 1)
                 {
-                    posts[i].Previous = posts[i + 1];
+                    posts[blog.Id][i].Previous = posts[blog.Id][i + 1];
                 }
             }
         }

@@ -29,7 +29,7 @@
         /// <summary>
         /// The users.
         /// </summary>
-        private Dictionary<string, MembershipUser> users;
+        private Dictionary<Guid, Dictionary<string, MembershipUser>> users;
 
         /// <summary>
         /// The xml file name.
@@ -40,6 +40,21 @@
 
         // MembershipProvider Properties
         #region Properties
+
+        private string XmlFullyQualifiedPath
+        {
+            get
+            {
+                string location = Blog.CurrentInstance.StorageLocation;
+
+                string fullyQualifiedPath =
+                    HostingEnvironment.MapPath(
+                        VirtualPathUtility.Combine(
+                        VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), location + xmlFileName));
+
+                return fullyQualifiedPath;
+            }
+        }
 
         /// <summary>
         /// The name of the application using the custom membership provider.
@@ -223,7 +238,7 @@
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
             var nodes = doc.GetElementsByTagName("User");
             foreach (XmlNode node in nodes)
             {
@@ -240,7 +255,7 @@
                 string passwordPrep = this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(newPassword) : newPassword;
 
                 node["Password"].InnerText = passwordPrep;
-                doc.Save(this.xmlFileName);
+                doc.Save(XmlFullyQualifiedPath);
 
                 this.users = null;
                 this.ReadMembershipDataStore();
@@ -290,13 +305,13 @@
         {
             this.ReadMembershipDataStore();
 
-            if (this.users.ContainsKey(username))
+            if (this.users[Blog.CurrentInstance.Id].ContainsKey(username))
             {
                 throw new NotSupportedException("The username is already in use. Please choose another username.");
             }
 
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
 
             XmlNode xmlUserRoot = doc.CreateElement("User");
             XmlNode xmlUserName = doc.CreateElement("UserName");
@@ -319,7 +334,7 @@
             xmlUserRoot.AppendChild(xmlLastLoginTime);
 
             doc.SelectSingleNode("Users").AppendChild(xmlUserRoot);
-            doc.Save(this.xmlFileName);
+            doc.Save(XmlFullyQualifiedPath);
 
             status = MembershipCreateStatus.Success;
             var user = new MembershipUser(
@@ -336,7 +351,7 @@
                 DateTime.Now, 
                 DateTime.Now, 
                 DateTime.MaxValue);
-            this.users.Add(username, user);
+            this.users[Blog.CurrentInstance.Id].Add(username, user);
             return user;
         }
 
@@ -350,15 +365,17 @@
         /// </returns>
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
         {
+            this.ReadMembershipDataStore();
+
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
 
             foreach (XmlNode node in
                 doc.GetElementsByTagName("User").Cast<XmlNode>().Where(node => node.ChildNodes[0].InnerText.Equals(username, StringComparison.OrdinalIgnoreCase)))
             {
                 doc.SelectSingleNode("Users").RemoveChild(node);
-                doc.Save(this.xmlFileName);
-                this.users.Remove(username);
+                doc.Save(XmlFullyQualifiedPath);
+                this.users[Blog.CurrentInstance.Id].Remove(username);
                 return true;
             }
 
@@ -413,7 +430,7 @@
             this.ReadMembershipDataStore();
             var membershipUserCollection = new MembershipUserCollection();
 
-            foreach (var pair in this.users)
+            foreach (var pair in this.users[Blog.CurrentInstance.Id])
             {
                 membershipUserCollection.Add(pair.Value);
             }
@@ -476,7 +493,7 @@
         /// </param>
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            if (String.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
                 return null;
             }
@@ -485,7 +502,7 @@
 
             // Retrieve the user from the data source
             MembershipUser user;
-            return this.users.TryGetValue(username, out user) ? user : null;
+            return this.users[Blog.CurrentInstance.Id].TryGetValue(username, out user) ? user : null;
         }
 
         /// <summary>
@@ -506,7 +523,7 @@
             }
 
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
 
             return (from XmlNode node in doc.SelectNodes("//User")
                     where node.ChildNodes[0].InnerText.Equals(providerUserKey.ToString(), StringComparison.OrdinalIgnoreCase)
@@ -534,7 +551,7 @@
             }
 
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
 
             return doc.GetElementsByTagName("User").Cast<XmlNode>().Where(
                 node => node.ChildNodes[2].InnerText.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase)).Select(
@@ -553,7 +570,7 @@
         /// The name of the provider has a length of zero.
         /// </exception>
         /// <exception cref="T:System.InvalidOperationException">
-        /// An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)"/> on a provider after the provider has already been initialized.
+        /// An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.string,System.Collections.Specialized.NameValueCollection)"/> on a provider after the provider has already been initialized.
         /// </exception>
         public override void Initialize(string name, NameValueCollection config)
         {
@@ -562,7 +579,7 @@
                 throw new ArgumentNullException("config");
             }
 
-            if (String.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 name = "XmlMembershipProvider";
             }
@@ -577,28 +594,26 @@
 
             // Initialize _XmlFileName and make sure the path
             // is app-relative
-            var path = config["xmlFileName"];
+            var filename = config["xmlFileName"];
 
-            if (String.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(filename))
             {
-                path = Path.Combine(BlogConfig.StorageLocation, "users.xml");
+                filename = "users.xml";
+            }
+            else
+            {
+                if (!VirtualPathUtility.IsAppRelative(filename))
+                {
+                    throw new ArgumentException("xmlFileName must be app-relative");
+                }
             }
 
-            if (!VirtualPathUtility.IsAppRelative(path))
-            {
-                throw new ArgumentException("xmlFileName must be app-relative");
-            }
-
-            var fullyQualifiedPath =
-                VirtualPathUtility.Combine(
-                    VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), path);
-
-            this.xmlFileName = HostingEnvironment.MapPath(fullyQualifiedPath);
+            xmlFileName = filename;
             config.Remove("xmlFileName");
 
             // Make sure we have permission to read the XML data source and
             // throw an exception if we don't
-            var permission = new FileIOPermission(FileIOPermissionAccess.Write, this.xmlFileName);
+            var permission = new FileIOPermission(FileIOPermissionAccess.Write, this.XmlFullyQualifiedPath);
             permission.Demand();
 
             // Password Format
@@ -607,7 +622,7 @@
                 config["passwordFormat"] = "Hashed";
                 this.passwordFormat = MembershipPasswordFormat.Hashed;
             }
-            else if (String.Compare(config["passwordFormat"], "clear", true) == 0)
+            else if (string.Compare(config["passwordFormat"], "clear", true) == 0)
             {
                 this.passwordFormat = MembershipPasswordFormat.Clear;
             }
@@ -622,7 +637,7 @@
             if (config.Count > 0)
             {
                 var attr = config.GetKey(0);
-                if (!String.IsNullOrEmpty(attr))
+                if (!string.IsNullOrEmpty(attr))
                 {
                     throw new ProviderException(string.Format("Unrecognized attribute: {0}", attr));
                 }
@@ -638,7 +653,7 @@
         public override string ResetPassword(string username, string answer)
         {
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
             var nodes = doc.GetElementsByTagName("User");
             var newPassword = Utils.RandomPassword();
 
@@ -659,7 +674,7 @@
                 }
 
                 node["Password"].InnerText = passwordPrep;
-                doc.Save(this.xmlFileName);
+                doc.Save(XmlFullyQualifiedPath);
 
                 this.users = null;
                 this.ReadMembershipDataStore();
@@ -689,8 +704,9 @@
         /// </param>
         public override void UpdateUser(MembershipUser user)
         {
+            this.ReadMembershipDataStore();
             var doc = new XmlDocument();
-            doc.Load(this.xmlFileName);
+            doc.Load(XmlFullyQualifiedPath);
 
             foreach (var node in
                 doc.GetElementsByTagName("User").Cast<XmlNode>().Where(node => node.ChildNodes[0].InnerText.Equals(user.UserName, StringComparison.OrdinalIgnoreCase)))
@@ -703,8 +719,8 @@
                 node.ChildNodes[2].InnerText = user.Email;
                 node.ChildNodes[3].InnerText = user.LastLoginDate.ToString(
                     "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-                doc.Save(this.xmlFileName);
-                this.users[user.UserName] = user;
+                doc.Save(XmlFullyQualifiedPath);
+                this.users[Blog.CurrentInstance.Id][user.UserName] = user;
             }
         }
 
@@ -723,7 +739,7 @@
         public override bool ValidateUser(string username, string password)
         {
             var validated = false;
-            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 return false;
             }
@@ -734,7 +750,7 @@
 
                 // Validate the user name and password
                 MembershipUser user;
-                if (this.users.TryGetValue(username, out user))
+                if (this.users[Blog.CurrentInstance.Id].TryGetValue(username, out user))
                 {
                     validated = this.CheckPassword(user.Comment, password);
                 }
@@ -769,7 +785,7 @@
             if (storedPassword == string.Empty)
             {
                 // This is a special case used for resetting.
-                if (String.Compare(inputPassword, "admin", true) == 0)
+                if (string.Compare(inputPassword, "admin", true) == 0)
                 {
                     validated = true;
                 }
@@ -801,9 +817,14 @@
             {
                 if (this.users == null)
                 {
-                    this.users = new Dictionary<string, MembershipUser>(16, StringComparer.OrdinalIgnoreCase);
+                    this.users = new Dictionary<Guid, Dictionary<string, MembershipUser>>();
+                }
+
+                if (!this.users.ContainsKey(Blog.CurrentInstance.Id))
+                {
+                    this.users[Blog.CurrentInstance.Id] = new Dictionary<string, MembershipUser>(16, StringComparer.OrdinalIgnoreCase);
                     var doc = new XmlDocument();
-                    doc.Load(this.xmlFileName);
+                    doc.Load(XmlFullyQualifiedPath);
                     var nodes = doc.GetElementsByTagName("User");
 
                     foreach (var user in
@@ -817,7 +838,7 @@
                                         // providerUserKey
                                         node["Email"].InnerText,
                                         // Email
-                                        String.Empty,
+                                        string.Empty,
                                         // passwordQuestion
                                         node["Password"].InnerText,
                                         // Comment
@@ -835,7 +856,7 @@
                                         // lastPasswordChangedDate
                                         new DateTime(1980, 1, 1))))
                     {
-                        this.users.Add(user.UserName, user);
+                        this.users[Blog.CurrentInstance.Id].Add(user.UserName, user);
                     }
                 }
             }

@@ -138,13 +138,13 @@
         protected virtual void AddGlobalStyles()
         {
             // add styles in the ~/Styles folder to the page header
-            var s = Path.Combine(HttpContext.Current.Server.MapPath("~/"), "Styles");
+            var s = Path.Combine(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot), "Styles");
             var fileEntries = Directory.GetFiles(s);
             foreach (var fileName in
                 fileEntries.Where(fileName => fileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)))
             {
                 this.AddStylesheetInclude(
-                    string.Format("{0}Styles/{1}", Utils.RelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)), true);
+                    string.Format("{0}Styles/{1}", Utils.ApplicationRelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)), true);
             }
         }
 
@@ -252,7 +252,7 @@
                     continue;
                 }
 
-                var url = string.Format("{0}themes/{1}/css.axd?name={2}", Utils.RelativeWebRoot, this.theme, c.Attributes["href"]);
+                var url = string.Format("{0}themes/{1}/css.axd?name={2}", Utils.ApplicationRelativeWebRoot, this.theme, c.Attributes["href"]);
                 c.Attributes["href"] = url.Replace(".css", string.Format("{0}.css", BlogSettings.Instance.Version()));
                 c.EnableViewState = false;
             }
@@ -380,7 +380,7 @@
 
             if (Security.IsAuthorizedTo(Rights.ManageWidgets))
             {
-                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.RelativeWebRoot), true, false, true);
+                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.ApplicationRelativeWebRoot), true, false, true);
             }
 
             if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
@@ -419,7 +419,7 @@
                 this.Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
             }
 
-            this.MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.RelativeWebRoot, this.theme);
+            this.MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, this.theme);
 
             base.OnPreInit(e);
 

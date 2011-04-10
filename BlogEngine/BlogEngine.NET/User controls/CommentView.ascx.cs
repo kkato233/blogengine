@@ -64,7 +64,7 @@
                     else
                     {
                         var path = string.Format(
-                            "{0}themes/{1}/CommentView.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
+                            "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
 
                         // test comment control for nesting placeholder (for backwards compatibility with older themes)
                         var commentTester = (CommentViewBase)this.LoadControl(path);
@@ -352,7 +352,7 @@
             }
 
             var path = string.Format(
-                "{0}themes/{1}/CommentView.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
+                "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
 
             var control = (CommentViewBase)this.LoadControl(path);
             control.Comment = comment;
@@ -490,7 +490,7 @@
                 }
 
                 var path = string.Format(
-                    "{0}themes/{1}/CommentView.ascx", Utils.RelativeWebRoot, BlogSettings.Instance.Theme);
+                    "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
 
                 bool canViewUnpublishedPosts = Security.IsAuthorizedTo(AuthorizationCheck.HasAny, new[] { Rights.ViewUnmoderatedComments, Rights.ModerateComments });
 

@@ -26,12 +26,12 @@
         /// <summary>
         /// The pages that not deleted.
         /// </summary>
-        private static List<Page> pages;
+        private static Dictionary<Guid, List<Page>> pages;
 
         /// <summary>
         /// The deleted pages.
         /// </summary>
-        private static List<Page> deletedpages;
+        private static Dictionary<Guid, List<Page>> deletedpages;
 
         /// <summary>
         /// The _ content.
@@ -97,6 +97,27 @@
             this.DateCreated = DateTime.Now;
         }
 
+        static Page()
+        {
+            Blog.Saved += (s, e) =>
+            {
+                if (e.Action == SaveAction.Delete)
+                {
+                    Blog blog = s as Blog;
+                    if (blog != null)
+                    {
+                        // remove deleted blog from static 'pages' and 'deletedpages'
+
+                        if (pages != null && pages.ContainsKey(blog.Id))
+                            pages.Remove(blog.Id);
+
+                        if (deletedpages != null && deletedpages.ContainsKey(blog.Id))
+                            deletedpages.Remove(blog.Id);
+                    }
+                }
+            };
+        }
+
         #endregion
 
         #region Events
@@ -117,19 +138,24 @@
         {
             get
             {
-                if (pages == null)
+                Blog blog = Blog.CurrentInstance;
+
+                if (pages == null || !pages.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (pages == null)
+                        if (pages == null || !pages.ContainsKey(blog.Id))
                         {
-                            pages = BlogService.FillPages().Where(p => p.IsDeleted == false).ToList();
-                            pages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
+                            if (pages == null)
+                                pages = new Dictionary<Guid, List<Page>>();
+
+                            pages[blog.Id] = BlogService.FillPages().Where(p => p.IsDeleted == false).ToList();
+                            pages[blog.Id].Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
                         }
                     }
                 }
 
-                return pages;
+                return pages[blog.Id];
             }
         }
 
@@ -140,19 +166,24 @@
         {
             get
             {
-                if (deletedpages == null)
+                Blog blog = Blog.CurrentInstance;
+
+                if (deletedpages == null || !deletedpages.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (deletedpages == null)
+                        if (deletedpages == null || !deletedpages.ContainsKey(blog.Id))
                         {
-                            deletedpages = BlogService.FillPages().Where(p => p.IsDeleted == true).ToList();
-                            deletedpages.Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
+                            if (deletedpages == null)
+                                deletedpages = new Dictionary<Guid, List<Page>>();
+
+                            deletedpages[blog.Id] = BlogService.FillPages().Where(p => p.IsDeleted == true).ToList();
+                            deletedpages[blog.Id].Sort((p1, p2) => String.Compare(p1.Title, p2.Title));
                         }
                     }
                 }
 
-                return deletedpages;
+                return deletedpages[blog.Id];
             }
         }
 
@@ -223,7 +254,7 @@
         {
             get
             {
-                return pages.Any(p => p.Parent == this.Id);
+                return Pages.Any(p => p.Parent == this.Id);
             }
         }
 

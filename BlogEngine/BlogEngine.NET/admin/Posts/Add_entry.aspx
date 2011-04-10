@@ -115,11 +115,12 @@
                     //alert(JSON.stringify(dto));
 
                     $.ajax({
-                        url: "../AjaxHelper.aspx/SavePost",
+                        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/SavePost",
                         type: "POST",
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(dto),
+                        beforeSend: onAjaxBeforeSend,
                         success: function (result) {
                             var rt = result.d;
                             if (rt.Success) {
