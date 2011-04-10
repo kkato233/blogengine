@@ -44,7 +44,7 @@
         /// </returns>
         public override List<Page> FillPages()
         {
-            var folder = string.Format("{0}pages{1}", Category.Folder, Path.DirectorySeparatorChar);
+            var folder = string.Format("{0}pages{1}", this.Folder, Path.DirectorySeparatorChar);
 
             return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
                     select new FileInfo(file)

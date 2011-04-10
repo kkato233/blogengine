@@ -31,11 +31,12 @@
 			};
 			
             $.ajax({
-                url: "Email.aspx/Save",
+                url: SiteVars.ApplicationRelativeWebRoot + "admin/Settings/Email.aspx/Save",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(dto),
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success)
@@ -61,11 +62,12 @@
             };
 
             $.ajax({
-                url: "Email.aspx/TestSmtp",
+                url: SiteVars.ApplicationRelativeWebRoot + "admin/Settings/Email.aspx/TestSmtp",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(dto),
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success)

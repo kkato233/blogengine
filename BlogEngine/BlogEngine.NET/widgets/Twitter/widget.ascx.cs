@@ -184,7 +184,7 @@ namespace Widgets.Twitter
             if (string.IsNullOrEmpty(lastFeedDataFileName))
             {
                 lastFeedDataFileName =
-                    HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, "twitter_feeds.xml"));
+                    HostingEnvironment.MapPath(Path.Combine(Blog.CurrentInstance.StorageLocation, "twitter_feeds.xml"));
             }
 
             return lastFeedDataFileName;

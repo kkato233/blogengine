@@ -198,7 +198,7 @@ public class SyntaxHighlighter
     private static string GetUrl(string folder, string url)
     {
         string s = HttpContext.Current.Server.UrlPathEncode(string.Format("{0}{1}", folder, url));
-        s = Utils.RelativeWebRoot + s;
+        s = Utils.ApplicationRelativeWebRoot + s;
         return s;
     }
     

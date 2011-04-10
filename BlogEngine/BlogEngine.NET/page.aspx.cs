@@ -122,7 +122,7 @@ public partial class page : BlogBasePage
 
         page.Delete();
         page.Save();
-        this.Response.Redirect("~/", true);
+        this.Response.Redirect(Utils.RelativeWebRoot, true);
     }
 
  

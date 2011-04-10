@@ -86,7 +86,7 @@
                             <ul class="rowToolsMenu">
                                 <li><a href="@statusLink" class="unapproveButton unapproveAction">@enabled</a></li>
                                 <li><a href="#" onclick="$('#txtPriority').val('@x.Priority'); $('#hdnExtensionName').val('@x.Name');" class="changePriority rightsAction">@Resources.labels.priority</a></li>
-                                <li><a href="@Href("~/admin/Extensions/Editor.cshtml?id=")@x.Name" class="viewButton viewAction">View</a></li>
+                                <li><a href="@Href(Utils.RelativeWebRoot + "admin/Extensions/Editor.cshtml?id=")@x.Name" class="viewButton viewAction">View</a></li>
                             </ul>
                         </li>
                     </ul>

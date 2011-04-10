@@ -75,11 +75,12 @@
             };
 
             $.ajax({
-                url: "../../api/RoleService.asmx/SaveRights",
+                url: SiteVars.ApplicationRelativeWebRoot + "api/RoleService.asmx/SaveRights",
                 data: JSON.stringify(dto),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if(rt.Success) {
@@ -110,7 +111,7 @@
             }
 
             $.ajax({
-                url: "../../api/RoleService.asmx/" + serviceName,
+                url: SiteVars.ApplicationRelativeWebRoot + "api/RoleService.asmx/" + serviceName,
                 data: JSON.stringify({ roleName: roleName }),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",

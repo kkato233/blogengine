@@ -32,7 +32,7 @@
         /// <summary>
         /// The roles.
         /// </summary>
-        private readonly List<Role> roles = new List<Role>();
+        private readonly Dictionary<Guid, List<Role>> roles = new Dictionary<Guid, List<Role>>();
 
         /// <summary>
         /// The user names.
@@ -47,6 +47,21 @@
         #endregion
 
         #region Properties
+
+        private string XmlFullyQualifiedPath
+        {
+            get
+            {
+                string location = Blog.CurrentInstance.StorageLocation;
+
+                string fullyQualifiedPath =
+                    HostingEnvironment.MapPath(
+                        VirtualPathUtility.Combine(
+                        VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), location + xmlFileName));
+
+                return fullyQualifiedPath;
+            }
+        }
 
         /// <summary>
         ///     Gets or sets the name of the application to store and retrieve role information for.
@@ -81,15 +96,17 @@
         /// </param>
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
+            ReadRoleDataStore();
+
             var currentRoles = new List<string>(this.GetAllRoles());
             if (usernames.Length != 0 && roleNames.Length != 0)
             {
                 foreach (var rolename in roleNames.Where(rolename => !currentRoles.Contains(rolename) && !rolename.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase)))
                 {
-                    this.roles.Add(new Role(rolename, new List<string>(usernames)));
+                    this.roles[Blog.CurrentInstance.Id].Add(new Role(rolename, new List<string>(usernames)));
                 }
 
-                foreach (var role in this.roles)
+                foreach (var role in this.roles[Blog.CurrentInstance.Id])
                 {
                     var role1 = role;
                     foreach (var s in from name in roleNames
@@ -114,13 +131,15 @@
         /// </param>
         public override void CreateRole(string roleName)
         {
+            ReadRoleDataStore();
+
             // This needs to be fixed. This will always return false.
-            if (this.roles.Contains(new Role(roleName)))
+            if (this.roles[Blog.CurrentInstance.Id].Contains(new Role(roleName)))
             {
                 return;
             }
 
-            this.roles.Add(new Role(roleName));
+            this.roles[Blog.CurrentInstance.Id].Add(new Role(roleName));
             this.Save();
         }
 
@@ -138,16 +157,18 @@
         /// </param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
+            ReadRoleDataStore();
+
             if (BlogConfig.IsSystemRole(roleName))
             {
                 for (var i = 0; i < this.roles.Count; i++)
                 {
-                    if (this.roles[i].Name != roleName)
+                    if (this.roles[Blog.CurrentInstance.Id][i].Name != roleName)
                     {
                         continue;
                     }
 
-                    this.roles.RemoveAt(i);
+                    this.roles[Blog.CurrentInstance.Id].RemoveAt(i);
                     this.Save();
                     return true;
                 }
@@ -187,7 +208,8 @@
         /// </returns>
         public override string[] GetAllRoles()
         {
-            return this.roles.Select(role => role.Name).ToArray();
+            ReadRoleDataStore();
+            return this.roles[Blog.CurrentInstance.Id].Select(role => role.Name).ToArray();
         }
 
         /// <summary>
@@ -201,8 +223,8 @@
         /// </param>
         public override string[] GetRolesForUser(string username)
         {
-            // ReadRoleDataStore();
-            return (from role in this.roles
+            ReadRoleDataStore();
+            return (from role in this.roles[Blog.CurrentInstance.Id]
                     from user in role.Users
                     where user.Equals(username, StringComparison.OrdinalIgnoreCase)
                     select role.Name).ToArray();
@@ -220,8 +242,8 @@
         /// </param>
         public override string[] GetUsersInRole(string roleName)
         {
-            // ReadRoleDataStore();
-            return (from role in this.roles
+            ReadRoleDataStore();
+            return (from role in this.roles[Blog.CurrentInstance.Id]
                     where role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase)
                     from user in role.Users
                     select user.ToLowerInvariant()).ToArray();
@@ -243,7 +265,7 @@
         /// The name of the provider has a length of zero.
         /// </exception>
         /// <exception cref="T:System.InvalidOperationException">
-        /// An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)"/> on a provider after the provider has already been initialized.
+        /// An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.string,System.Collections.Specialized.NameValueCollection)"/> on a provider after the provider has already been initialized.
         /// </exception>
         public override void Initialize(string name, NameValueCollection config)
         {
@@ -252,7 +274,7 @@
                 throw new ArgumentNullException("config");
             }
 
-            if (String.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 name = "XmlMembershipProvider";
             }
@@ -267,32 +289,30 @@
 
             // Initialize _XmlFileName and make sure the path
             // is app-relative
-            var path = config["xmlFileName"];
+            var filename = config["xmlFileName"];
 
-            if (String.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(filename))
             {
-                path = Path.Combine(BlogConfig.StorageLocation, "roles.xml");
+                filename = "roles.xml";
+            }
+            else
+            {
+                if (!VirtualPathUtility.IsAppRelative(filename))
+                {
+                    throw new ArgumentException("xmlFileName must be app-relative");
+                }
             }
 
-            if (!VirtualPathUtility.IsAppRelative(path))
-            {
-                throw new ArgumentException("xmlFileName must be app-relative");
-            }
-
-            var fullyQualifiedPath =
-                VirtualPathUtility.Combine(
-                    VirtualPathUtility.AppendTrailingSlash(HttpRuntime.AppDomainAppVirtualPath), path);
-
-            this.xmlFileName = HostingEnvironment.MapPath(fullyQualifiedPath);
+            this.xmlFileName = filename;
             config.Remove("xmlFileName");
 
             // Make sure we have permission to read the XML data source and
             // throw an exception if we don't
-            var permission = new FileIOPermission(FileIOPermissionAccess.Write, this.xmlFileName);
+            var permission = new FileIOPermission(FileIOPermissionAccess.Write, this.XmlFullyQualifiedPath);
             permission.Demand();
 
             this.ReadMembershipDataStore();
-            if (!File.Exists(this.xmlFileName))
+            if (!File.Exists(this.XmlFullyQualifiedPath))
             {
                 this.AddUsersToRoles(this.userNames.ToArray(), this.defaultRolesToAdd);
             }
@@ -304,7 +324,7 @@
             if (config.Count > 0)
             {
                 var attr = config.GetKey(0);
-                if (!String.IsNullOrEmpty(attr))
+                if (!string.IsNullOrEmpty(attr))
                 {
                     throw new ProviderException(string.Format("Unrecognized attribute: {0}", attr));
                 }
@@ -325,8 +345,9 @@
         /// </param>
         public override bool IsUserInRole(string username, string roleName)
         {
+            ReadRoleDataStore();
             return
-                this.roles.Where(role => role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).SelectMany(
+                this.roles[Blog.CurrentInstance.Id].Where(role => role.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).SelectMany(
                     role => role.Users).Any(user => user.Equals(username, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -341,9 +362,11 @@
         /// </param>
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
+            ReadRoleDataStore();
+
             if (usernames.Length != 0 && roleNames.Length != 0)
             {
-                foreach (var role in this.roles)
+                foreach (var role in this.roles[Blog.CurrentInstance.Id])
                 {
                     var role1 = role;
                     if (!roleNames.Any(name => role1.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
@@ -405,14 +428,15 @@
         /// </summary>
         public void Save()
         {
+            ReadRoleDataStore();
             var settings = new XmlWriterSettings { Indent = true };
 
-            using (var writer = XmlWriter.Create(this.xmlFileName, settings))
+            using (var writer = XmlWriter.Create(this.XmlFullyQualifiedPath, settings))
             {
                 writer.WriteStartDocument(true);
                 writer.WriteStartElement("roles");
 
-                foreach (var role in this.roles)
+                foreach (var role in this.roles[Blog.CurrentInstance.Id])
                 {
                     writer.WriteStartElement("role");
                     writer.WriteElementString("name", role.Name);
@@ -480,36 +504,41 @@
         {
             lock (this)
             {
-                var doc = new XmlDocument();
-
-                try
+                if (!roles.ContainsKey(Blog.CurrentInstance.Id))
                 {
-                    doc.Load(this.xmlFileName);
-                    var nodes = doc.GetElementsByTagName("role");
-                    foreach (XmlNode roleNode in nodes)
+                    roles[Blog.CurrentInstance.Id] = new List<Role>();
+
+                    var doc = new XmlDocument();
+
+                    try
                     {
-                        var name = roleNode.SelectSingleNode("name");
-                        if (name == null)
+                        doc.Load(this.XmlFullyQualifiedPath);
+                        var nodes = doc.GetElementsByTagName("role");
+                        foreach (XmlNode roleNode in nodes)
                         {
-                            continue;
-                        }
-
-                        var tempRole = new Role(name.InnerText);
-                        var user = roleNode.SelectNodes("users/user");
-                        if (user != null)
-                        {
-                            foreach (XmlNode userNode in user)
+                            var name = roleNode.SelectSingleNode("name");
+                            if (name == null)
                             {
-                                tempRole.Users.Add(userNode.InnerText);
+                                continue;
                             }
-                        }
 
-                        this.roles.Add(tempRole);
+                            var tempRole = new Role(name.InnerText);
+                            var user = roleNode.SelectNodes("users/user");
+                            if (user != null)
+                            {
+                                foreach (XmlNode userNode in user)
+                                {
+                                    tempRole.Users.Add(userNode.InnerText);
+                                }
+                            }
+
+                            this.roles[Blog.CurrentInstance.Id].Add(tempRole);
+                        }
                     }
-                }
-                catch (XmlException)
-                {
-                    this.AddUsersToRoles(this.userNames.ToArray(), this.defaultRolesToAdd);
+                    catch (XmlException)
+                    {
+                        this.AddUsersToRoles(this.userNames.ToArray(), this.defaultRolesToAdd);
+                    }
                 }
             }
         }

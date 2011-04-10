@@ -28,7 +28,7 @@
                     cls = "current";
                 }
                 
-                <li><a href="@adminNode.Url" class="@cls"><span>@Utils.Translate(adminNode.Title, adminNode.Title)</span></a></li>
+                <li><a href="@(Utils.RelativeWebRoot + adminNode.Url.Substring(Utils.ApplicationRelativeWebRoot.Length))" class="@cls"><span>@Utils.Translate(adminNode.Title, adminNode.Title)</span></a></li>
             }
         }
     }

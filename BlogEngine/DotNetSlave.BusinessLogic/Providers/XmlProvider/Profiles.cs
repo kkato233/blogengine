@@ -41,7 +41,7 @@
         /// </returns>
         public override List<AuthorProfile> FillProfiles()
         {
-            var folder = string.Format("{0}profiles{1}", Category.Folder, Path.DirectorySeparatorChar);
+            var folder = string.Format("{0}profiles{1}", this.Folder, Path.DirectorySeparatorChar);
 
             return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
                     select new FileInfo(file)

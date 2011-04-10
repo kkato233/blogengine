@@ -109,6 +109,7 @@
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
     <Compile Include="Avatar.cs" />
+    <Compile Include="Blog.cs" />
     <Compile Include="BlogConfig.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Compilation\BaseServerObjectExpressionBuilder.cs" />
@@ -123,6 +124,8 @@
     <Compile Include="Compilation\ServerVariableExpressionBuilder.cs" />
     <Compile Include="Compilation\SessionExpressionBuilder.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Json\JsonBlog.cs" />
+    <Compile Include="Json\JsonBlogs.cs" />
     <Compile Include="Json\JsonComment.cs" />
     <Compile Include="Json\JsonCulture.cs" />
     <Compile Include="Json\JsonCustomFilter.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="Ping\TrackbackMessage.cs" />
     <Compile Include="Providers\BlogProviderCollection.cs" />
     <Compile Include="Providers\DbConnectionHelper.cs" />
+    <Compile Include="Providers\XmlProvider\Blogs.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="RemoteFile.cs" />
     <Compile Include="Security\CustomIdentity.cs" />

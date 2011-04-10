@@ -13,7 +13,7 @@
     <div class="container">
 	    <div class="header">
 	        <div class="title">
-	            <h1><a href="~/" runat="server"><%=BlogSettings.Instance.Name %></a></h1>
+	            <h1><a href="<%= Utils.RelativeWebRoot %>"><%=BlogSettings.Instance.Name %></a></h1>
 	            <%=BlogSettings.Instance.Description %>
             </div>
         </div>
@@ -60,7 +60,7 @@
       <%
          }
       %>
-                <p><asp:LoginStatus runat="Server" LoginText="Sign in" LogoutText="Sign out" EnableViewState="false" /></p>
+                <p><asp:HyperLink ID="hypLoginStatus" runat="server"></asp:HyperLink></p>
               
             </div>
             <div class="clearer"><span></span></div>

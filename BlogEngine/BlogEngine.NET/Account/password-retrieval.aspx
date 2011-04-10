@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="Password Retrieval" Language="C#" MasterPageFile="~/Account/account.master" AutoEventWireup="true"
     CodeFile="password-retrieval.aspx.cs" Inherits="Account.PasswordRetrieval" %>
-
 <%@ MasterType VirtualPath="~/Account/account.master" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
@@ -23,7 +24,7 @@
                     OnClick="LoginButton_Click" OnClientClick="return ValidatePasswordRetrieval()" />
                 <span>
                     <%=Resources.labels.or %>
-                    <a runat="server" href="~/Account/login.aspx">
+                    <a href="<%= Utils.RelativeWebRoot %>Account/login.aspx">
                         <%=Resources.labels.cancel %></a></span> </p>
         </div>
     </div>

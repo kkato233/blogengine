@@ -3,11 +3,12 @@
     using System;
     using System.Web.Security;
     using System.Web.UI;
+    using BlogEngine.Core;
 
     /// <summary>
     /// The account change password.
     /// </summary>
-    public partial class ChangePassword : Page
+    public partial class ChangePassword : System.Web.UI.Page
     {
         #region Methods
 
@@ -29,6 +30,7 @@
         protected void Page_Load(object sender, EventArgs e)
         {
             this.hdnPassLength.Value = Membership.MinRequiredPasswordLength.ToString();
+            ChangeUserPassword.SuccessPageUrl = Utils.RelativeWebRoot + "Account/change-password-success.aspx";
         }
 
         #endregion

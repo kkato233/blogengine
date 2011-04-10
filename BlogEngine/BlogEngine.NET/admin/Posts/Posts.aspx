@@ -17,7 +17,7 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1><%=Resources.labels.posts %></h1>
+            <h1><%=Resources.labels.posts%></h1>
             <div class="tableToolBox">
                 <%=Resources.labels.show %>: <a class="current" href="#" onclick="return ChangePostFilterType('All')"><%=Resources.labels.all %></a> | 
                 <a href="#" onclick="return ChangePostFilterType('Draft')"><%=Resources.labels.drafts %></a> | 
@@ -25,7 +25,7 @@
                 <span id="filteredby"></span>
                 <div class="Pager"></div>
                 <div class="PageSize">
-                    <label for="pageSizeTop">Posts/Page</label>
+                    <label for="pageSizeTop"><%=Resources.labels.itemsPerPage%></label>
                     <select id="pageSizeTop" name="pageSizeTop" onchange="return ChangePostPageSize(this)">
                         <option value="10">10</option>
                         <option value="25" selected="selected">25</option>
@@ -37,7 +37,7 @@
             <div id="Container"></div>
             <div class="Pager"></div>
             <div class="PageSize">
-                <label for="pageSizeBottom">Posts/Page</label>
+                <label for="pageSizeBottom"><%=Resources.labels.itemsPerPage%></label>
                 <select id="pageSizeBottom" name="pageSizeBottom" onchange="return ChangePostPageSize(this)">
                     <option value="10">10</option>
                     <option value="25" selected="selected">25</option>

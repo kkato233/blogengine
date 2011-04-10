@@ -24,6 +24,14 @@
         public abstract void DeleteBlogRollItem(BlogRollItem blogRollItem);
 
         /// <summary>
+        /// Deletes a Blog from the data store specified by the provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog to delete.
+        /// </param>
+        public abstract void DeleteBlog(Blog blog);
+
+        /// <summary>
         /// Deletes a Category from the data store specified by the provider.
         /// </summary>
         /// <param name="category">
@@ -60,6 +68,12 @@
         /// </summary>
         /// <returns>A list of BlogRollItem.</returns>
         public abstract List<BlogRollItem> FillBlogRoll();
+
+        /// <summary>
+        /// Retrieves all Blogs from the provider and returns them in a list.
+        /// </summary>
+        /// <returns>A list of Blogs.</returns>
+        public abstract List<Blog> FillBlogs();
 
         /// <summary>
         /// Retrieves all Categories from the provider and returns them in a List.
@@ -113,6 +127,14 @@
         /// The blog Roll Item.
         /// </param>
         public abstract void InsertBlogRollItem(BlogRollItem blogRollItem);
+
+        /// <summary>
+        /// Inserts a new Blog into the data store specified by the provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public abstract void InsertBlog(Blog blog);
 
         /// <summary>
         /// Inserts a new Category into the data store specified by the provider.
@@ -245,6 +267,13 @@
         public abstract BlogRollItem SelectBlogRollItem(Guid id);
 
         /// <summary>
+        /// Retrieves a Blog from the provider based on the specified id.
+        /// </summary>
+        /// <param name="id">The Blog Id.</param>
+        /// <returns>A Blog.</returns>
+        public abstract Blog SelectBlog(Guid id);
+
+        /// <summary>
         /// Retrieves a Category from the provider based on the specified id.
         /// </summary>
         /// <param name="id">The Category id.</param>
@@ -280,12 +309,28 @@
         public abstract Referrer SelectReferrer(Guid id);
 
         /// <summary>
-        /// Updates an existing BlogRoll in the data store specified by the provider.
+        /// Sets up the required storage files/tables for a new Blog instance, from an existing blog instance.
+        /// </summary>
+        /// <param name="existingBlog">The existing blog instance to base the new blog instance off of.</param>
+        /// <param name="newBlog">The new blog instance.</param>
+        /// <returns>A boolean indicating if the setup process was successful.</returns>
+        public abstract bool SetupBlogFromExistingBlog(Blog existingBlog, Blog newBlog);
+
+        /// <summary>
+        /// Updates an existing BlogRollItem in the data store specified by the provider.
         /// </summary>
         /// <param name="blogRollItem">
-        /// The blog Roll Item to update.
+        /// The blogroll item to update.
         /// </param>
         public abstract void UpdateBlogRollItem(BlogRollItem blogRollItem);
+
+        /// <summary>
+        /// Updates an existing Blog in the data store specified by the provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog to update.
+        /// </param>
+        public abstract void UpdateBlog(Blog blog);
 
         /// <summary>
         /// Updates an existing Category in the data store specified by the provider.

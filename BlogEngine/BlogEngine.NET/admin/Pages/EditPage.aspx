@@ -48,11 +48,12 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
             //alert(JSON.stringify(dto));
 
             $.ajax({
-                url: "../AjaxHelper.aspx/SavePage",
+                url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/SavePage",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(dto),
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success) {

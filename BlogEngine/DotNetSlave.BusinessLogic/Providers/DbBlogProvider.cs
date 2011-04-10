@@ -69,6 +69,30 @@
         }
 
         /// <summary>
+        /// Deletes a Blog from the database
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public override void DeleteBlog(Blog blog)
+        {
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("DELETE FROM {0}Blogs WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Deletes a category from the database
         /// </summary>
         /// <param name="category">
@@ -238,6 +262,43 @@
             }
 
             return blogRoll;
+        }
+
+        /// <summary>
+        /// Gets all Blogs in database
+        /// </summary>
+        /// <returns>
+        /// List of Blogs
+        /// </returns>
+        public override List<Blog> FillBlogs()
+        {
+            var blogs = new List<Blog>();
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT BlogId, BlogName FROM {0}Blogs ", this.tablePrefix)))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var b = new Blog
+                                {
+                                    Id = rdr.GetGuid(0),
+                                    Name = rdr.GetString(1)
+                                };
+
+                                blogs.Add(b);
+                                b.MarkOld();
+                            }
+                        }
+                    }
+                }
+            }
+
+            return blogs;
         }
 
         /// <summary>
@@ -552,6 +613,58 @@
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a new blog to the database.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public override void InsertBlog(Blog blog)
+        {
+            if (blog.DatabaseId < 1)
+                blog.DatabaseId = GetNextAvailableBlogDatabaseId();
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("INSERT INTO {0}Blogs (BlogId, BlogDbId, BlogName) VALUES ({1}BlogId, {1}BlogDbId, {1}BlogName)", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        this.AddBlogParametersToCommand(blog, conn, cmd);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        public int GetNextAvailableBlogDatabaseId()
+        {
+            int nextId = 1;
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("SELECT MAX(BlogDbId) FROM {0}Blogs", this.tablePrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                nextId = rdr.GetInt32(0) + 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return nextId;
         }
 
         /// <summary>
@@ -1067,6 +1180,23 @@
         }
 
         /// <summary>
+        /// Gets a Blog based on a Guid.
+        /// </summary>
+        /// <param name="id">
+        /// The Blog's Guid.
+        /// </param>
+        /// <returns>
+        /// A matching Blog
+        /// </returns>
+        public override Blog SelectBlog(Guid id)
+        {
+            var blog = Blog.Blogs.Find(b => b.Id == id) ?? new Blog();
+
+            blog.MarkOld();
+            return blog;
+        }
+
+        /// <summary>
         /// Returns a category
         /// </summary>
         /// <param name="id">Id of category to return</param>
@@ -1502,6 +1632,49 @@
         }
 
         /// <summary>
+        /// Sets up the required storage files/tables for a new Blog instance, from an existing blog instance.
+        /// </summary>
+        /// <param name="existingBlog">
+        /// The existing blog to copy from.
+        /// </param>
+        /// <param name="newBlog">
+        /// The new blog to copy to.
+        /// </param>
+        public override bool SetupBlogFromExistingBlog(Blog existingBlog, Blog newBlog)
+        {
+            // Even for the DbBlogProvider, we call newBlog.CopyExistingBlogFolderToNewBlogFolder().
+            // The reasons are that a small number of extensions/widgets use App_Data even if
+            // the DbBlogProvider is being used (Newsletter widget, Logger extension, and any
+            // other custom components written by other people).  Also, even if the
+            // DbBlogProvider is being used, the XmlMembershipProvider and XmlRoleProvider could
+            // also be used, which stores data in App_Data.
+            // So as a rule of thumb, whenever a new blog instance is created, we will create
+            // a new folder in App_Data for that new instance, and copy all the files/folders in.
+
+            bool copyResult = newBlog.CopyExistingBlogFolderToNewBlogFolder(existingBlog);
+
+            if (!copyResult)
+            {
+                Utils.Log("DbBlogProvider.SetupBlogFromExistingBlog", new Exception("Unsuccessful result from newBlog.CopyExistingBlogFolderToNewBlogFolder."));
+                return false;
+            }
+
+            // TODO: Need to copy all the data, from tables such as be_Settings,
+            // be_DataStoreSettings, be_Posts, etc, etc.
+            //
+            // Easiest method might be to call the various Fill*** methods here
+            // (FillPosts, LoadSettings, etc), which retrieves the data directly
+            // from the data store.  Then for each object, call the corresponding
+            // Save*** method.  To do this, need to update the Fill*** and Save***
+            // methods so they will use a Blog Instance we pass it (the "newBlog"
+            // parameter of this method), rather than it using Blog.CurrentInstance.
+            // For this, probably best to create overloads of each of the Fill***
+            // and Save*** methods that accept a Blog.
+
+            return true;
+        }
+
+        /// <summary>
         /// Saves an existing BlogRoll to the database
         /// </summary>
         /// <param name="blogRollItem">
@@ -1522,6 +1695,29 @@
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         this.AddBlogRollParametersToCommand(blogRollItem, conn, cmd);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves an existing Blog to the database
+        /// </summary>
+        /// <param name="blog">
+        /// Blog to be saved
+        /// </param>
+        public override void UpdateBlog(Blog blog)
+        {
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("UPDATE {0}Blogs SET BlogName = {1}BlogName, BlogDbId = {1}BlogDbId WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        this.AddBlogParametersToCommand(blog, conn, cmd);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -1976,6 +2172,27 @@
             parms.Add(conn.CreateParameter(FormatParamName("FeedUrl"), (blogRollItem.FeedUrl != null ? (object)blogRollItem.FeedUrl.ToString() : DBNull.Value)));
             parms.Add(conn.CreateParameter(FormatParamName("Xfn"), blogRollItem.Xfn));
             parms.Add(conn.CreateParameter(FormatParamName("SortIndex"), blogRollItem.SortIndex));
+        }
+
+        /// <summary>
+        /// Adds blog parameters to command.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        /// <param name="conn">
+        /// The connection.
+        /// </param>
+        /// <param name="cmd">
+        /// The command.
+        /// </param>
+        private void AddBlogParametersToCommand(
+            Blog blog, DbConnectionHelper conn, DbCommand cmd)
+        {
+            var parms = cmd.Parameters;
+            parms.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+            parms.Add(conn.CreateParameter(FormatParamName("BlogDbId"), blog.DatabaseId.ToString()));
+            parms.Add(conn.CreateParameter(FormatParamName("BlogName"), blog.Name));
         }
 
         /// <summary>

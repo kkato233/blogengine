@@ -8,11 +8,12 @@
         function ResetCounters(filterName) {
             var dto = { "filterName": filterName };
             $.ajax({
-                url: "../AjaxHelper.aspx/ResetCounters",
+                url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/ResetCounters",
                 data: JSON.stringify(dto),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success) {

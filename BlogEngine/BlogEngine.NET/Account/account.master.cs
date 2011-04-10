@@ -93,7 +93,7 @@
 
             this.AddLocalizedStringsToJavaScript(resources);
 
-            Utils.AddJavaScriptInclude(this.Page, string.Format("{0}Account/account.js", Utils.RelativeWebRoot), false, false);
+            Utils.AddJavaScriptInclude(this.Page, string.Format("{0}Account/account.js", Utils.ApplicationRelativeWebRoot), false, false);
         }
 
         #endregion

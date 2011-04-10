@@ -21,7 +21,7 @@
         /// <summary>
         /// The referrers.
         /// </summary>
-        private static List<Referrer> referrers;
+        private static Dictionary<Guid, List<Referrer>> referrers;
 
         /// <summary>
         /// The referrers by day.
@@ -77,6 +77,24 @@
             this.ReferrerUrl = referrer;
         }
 
+        static Referrer()
+        {
+            Blog.Saved += (s, e) =>
+            {
+                if (e.Action == SaveAction.Delete)
+                {
+                    Blog blog = s as Blog;
+                    if (blog != null)
+                    {
+                        // remove deleted blog from static 'referrers'
+
+                        if (referrers != null && referrers.ContainsKey(blog.Id))
+                            referrers.Remove(blog.Id);
+                    }
+                }
+            };
+        }
+
         #endregion
 
         #region Properties
@@ -88,19 +106,24 @@
         {
             get
             {
-                if (referrers == null || referrers.Count == 0)
+                Blog blog = Blog.CurrentInstance;
+
+                if (referrers == null || !referrers.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (referrers == null || referrers.Count == 0)
+                        if (referrers == null || !referrers.ContainsKey(blog.Id))
                         {
-                            referrers = BlogService.FillReferrers();
+                            if (referrers == null)
+                                referrers = new Dictionary<Guid, List<Referrer>>();
+
+                            referrers[blog.Id] = BlogService.FillReferrers();
                             ParseReferrers();
                         }
                     }
                 }
 
-                return referrers;
+                return referrers[blog.Id];
             }
         }
 
@@ -344,7 +367,7 @@
         private static void ParseReferrers()
         {
             referrersByDay = new Dictionary<DateTime, List<Referrer>>();
-            foreach (var refer in referrers)
+            foreach (var refer in Referrers)
             {
                 if (referrersByDay.ContainsKey(refer.Day))
                 {

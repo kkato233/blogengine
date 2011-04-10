@@ -277,7 +277,7 @@ namespace Widgets.Newsletter
                 return;
             }
 
-            fileName = Path.Combine(BlogConfig.StorageLocation, "newsletter.xml");
+            fileName = Path.Combine(Blog.CurrentInstance.StorageLocation, "newsletter.xml");
             fileName = HostingEnvironment.MapPath(fileName);
 
             if (File.Exists(fileName))

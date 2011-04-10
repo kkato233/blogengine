@@ -25,6 +25,7 @@
 
     using BlogEngine.Core.Web.Controls;
     using BlogEngine.Core.Web.Extensions;
+    using System.Net.Sockets;
 
     /// <summary>
     /// Utilities for the entire solution to use.
@@ -42,6 +43,11 @@
         /// The pattern.
         /// </summary>
         private const string Pattern = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
+
+        /// <summary>
+        /// The application's relative web root.
+        /// </summary>
+        private static string applicationRelativeWebRoot;
 
         /// <summary>
         /// The href regex.
@@ -76,11 +82,6 @@
         ///     Boolean for returning whether or not BlogEngine is currently running on Mono.
         /// </summary>
         private static readonly bool isMono = (Type.GetType("Mono.Runtime") != null);
-
-        /// <summary>
-        ///     The relative web root.
-        /// </summary>
-        private static string relativeWebRoot;
 
         #endregion
 
@@ -199,16 +200,28 @@
         }
 
         /// <summary>
-        ///     Gets the relative root of the website.
+        ///     Gets the relative root of the current blog instance.
         /// </summary>
         /// <value>A string that ends with a '/'.</value>
         public static string RelativeWebRoot
         {
             get
             {
-                return relativeWebRoot ??
-                       (relativeWebRoot =
-                        VirtualPathUtility.ToAbsolute(ConfigurationManager.AppSettings["BlogEngine.VirtualPath"]));
+                return Blog.CurrentInstance.RelativeWebRoot;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the application's relative root.
+        /// </summary>
+        /// <value>A string that ends with a '/'.</value>
+        public static string ApplicationRelativeWebRoot
+        {
+            get
+            {
+                return applicationRelativeWebRoot ??
+                       (applicationRelativeWebRoot =
+                        VirtualPathUtility.ToAbsolute(BlogConfig.VirtualPath));
             }
         }
 
@@ -512,7 +525,7 @@
                     scriptsAddedDuringRequest.Add(file, true);
 
                     AddJavaScriptInclude(page,
-                        string.Format("{0}/{1}", pathFromRoot, fileName), addAtBottom, defer, minify);
+                        string.Format("{0}{1}/{2}", Utils.ApplicationRelativeWebRoot, pathFromRoot, fileName), addAtBottom, defer, minify);
                 }
             }
 
@@ -888,6 +901,9 @@
         private static readonly Regex emailRegex = new Regex(
             @"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", RegexOptions.IgnoreCase);
 
+        private static readonly Regex validIpV4AddressRegex = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", RegexOptions.IgnoreCase);
+        private static readonly Regex validHostnameRegex = new Regex(@"^(([a-z]|[a-z][a-z0-9\-]*[a-z0-9])\.)*([a-z]|[a-z][a-z0-9\-]*[a-z0-9])$", RegexOptions.IgnoreCase);
+
         /// <summary>
         /// Email address by user name
         /// </summary>
@@ -908,19 +924,65 @@
         }
 
         /// <summary>
-        /// Validates an email address. Returns true if the string is a valid formatted email address.
+        /// Validates an email address.
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
         public static bool IsEmailValid(string email)
         {
-            // Null check needs to be had because RegEx
-            // doesn't accept null parameters.
-            if (!Utils.StringIsNullOrWhitespace(email))
+            if (!string.IsNullOrWhiteSpace(email))
             {
                 return emailRegex.IsMatch(email.Trim());
             }
 
+            return false;
+        }
+
+        /// <summary>
+        /// Validates a host name.
+        /// </summary>
+        /// <param name="hostname"></param>
+        /// <returns></returns>
+        public static bool IsHostnameValid(string hostname)
+        {
+            if (!string.IsNullOrWhiteSpace(hostname))
+            {
+                return validHostnameRegex.IsMatch(hostname.Trim());
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Validates an IPv4 address.
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public static bool IsIpV4AddressValid(string address)
+        {
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                return validIpV4AddressRegex.IsMatch(address.Trim());
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Validates an IPv6 address.
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        public static bool IsIpV6AddressValid(string address)
+        {
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                IPAddress ip;
+                if (IPAddress.TryParse(address, out ip))
+                {
+                    return ip.AddressFamily == AddressFamily.InterNetworkV6;
+                }
+            }
             return false;
         }
 
@@ -1300,14 +1362,14 @@
         /// <summary>
         /// Helper method to quickly check if directory or file is writable
         /// </summary>
-        /// <param name="url">Phisical path</param>
+        /// <param name="url">Physical path</param>
         /// <param name="file">Optional File name</param>
         /// <returns>True if application can write file/directory</returns>
         public static bool CanWrite(string url, string file = "")
         {
             var dir = HttpContext.Current.Server.MapPath(url);
 
-            if(dir !=null && Directory.Exists(dir))
+            if (dir != null && Directory.Exists(dir))
             {
                 if (string.IsNullOrEmpty(file)) 
                     file = string.Format("test{0}.txt", DateTime.Now.ToString("ddmmhhssss"));
@@ -1331,6 +1393,38 @@
                 }
             }
             return false;
+        }
+
+        public static void CopyDirectoryContents(DirectoryInfo source, DirectoryInfo target)
+        {
+            CopyDirectoryContents(source, target, null);
+        }
+
+        public static void CopyDirectoryContents(DirectoryInfo source, DirectoryInfo target, List<string> directoryNamesToExclude)
+        {
+            foreach (DirectoryInfo dir in source.GetDirectories().Where(d => (directoryNamesToExclude ?? new List<string>()).FirstOrDefault(dn => dn.Equals(d.Name, StringComparison.OrdinalIgnoreCase)) == null))
+                CopyDirectoryContents(dir, target.CreateSubdirectory(dir.Name), directoryNamesToExclude);
+
+            foreach (FileInfo file in source.GetFiles())
+                file.CopyTo(Path.Combine(target.FullName, file.Name));
+        }
+
+        public static bool CreateDirectoryIfNotExists(string directoryName)
+        {
+            try
+            {
+                if (!Directory.Exists(directoryName))
+                {
+                    Directory.CreateDirectory(directoryName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Utils.CreateDirectoryIfNotExists", ex);
+                return false;
+            }
+
+            return true;
         }
 
         #endregion

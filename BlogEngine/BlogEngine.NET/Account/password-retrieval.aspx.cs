@@ -25,7 +25,7 @@
         {
             if (!BlogSettings.Instance.EnablePasswordReset)
             {
-                Response.Redirect("login.aspx");
+                Response.Redirect(Utils.RelativeWebRoot + "Account/login.aspx");
             }
         }
 

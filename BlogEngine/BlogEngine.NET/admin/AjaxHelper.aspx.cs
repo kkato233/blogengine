@@ -14,7 +14,95 @@
     using App_Code;
 
     public partial class AjaxHelper : System.Web.UI.Page
-    {    
+    {
+        [WebMethod]
+        public static IEnumerable LoadBlogs(int page, int pageSize)
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!Blog.CurrentInstance.IsPrimary)
+            {
+                Security.RedirectForUnauthorizedRequest();
+                return new List<JsonBlog>();
+            }
+
+            return JsonBlogs.GetBlogs(page, pageSize);
+        }
+
+        [WebMethod]
+        public static string LoadBlogsPager(int page, int pageSize, string type)
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!Blog.CurrentInstance.IsPrimary)
+            {
+                Security.RedirectForUnauthorizedRequest();
+                return string.Empty;
+            }
+
+            return JsonBlogs.GetPager(page, pageSize);
+        }
+
+        [WebMethod]
+        public static JsonResponse<IEnumerable<KeyValuePair<string, string>>> GetCopyFromBlogs()
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!Blog.CurrentInstance.IsPrimary)
+            {
+                Security.RedirectForUnauthorizedRequest();
+                return new JsonResponse<IEnumerable<KeyValuePair<string, string>>>()
+                {
+                    Success = false,
+                    Message = "Unauthorized"
+                };
+            }
+
+            return new JsonResponse<IEnumerable<KeyValuePair<string, string>>>()
+            {
+                Success = true,
+                Data = Blog.Blogs.Select(b => new KeyValuePair<string, string>(b.Id.ToString(), b.Name))
+            };
+        }
+
+        [WebMethod]
+        public static JsonResponse<JsonBlog> GetBlog(string blogId)
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!Blog.CurrentInstance.IsPrimary)
+            {
+                Security.RedirectForUnauthorizedRequest();
+                return new JsonResponse<JsonBlog>()
+                {
+                    Success = false,
+                    Message = "Unauthorized"
+                };
+            }
+
+            if (string.IsNullOrWhiteSpace(blogId) || blogId.Length != 36)
+            {
+                return new JsonResponse<JsonBlog>()
+                {
+                    Success = false,
+                    Message = "Blog not found."
+                };
+            }
+
+            Blog blog = Blog.GetBlog(new Guid(blogId));
+            if (blog == null)
+            {
+                return new JsonResponse<JsonBlog>()
+                {
+                    Success = false,
+                    Message = "Blog not found."
+                };
+            }
+
+            return new JsonResponse<JsonBlog>()
+            {
+                Success = true,
+                Data = JsonBlogs.CreateJsonBlog(blog)
+            };
+        }
+
+
         [WebMethod]
         public static JsonComment GetComment(string id)
         {

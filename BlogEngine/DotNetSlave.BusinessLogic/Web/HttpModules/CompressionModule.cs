@@ -74,10 +74,7 @@
         /// </param>
         void IHttpModule.Init(HttpApplication context)
         {
-            if (BlogSettings.Instance.EnableHttpCompression)
-            {
-                context.PreRequestHandlerExecute += ContextPostReleaseRequestState;
-            }
+            context.PreRequestHandlerExecute += ContextPostReleaseRequestState;
         }
 
         #endregion
@@ -124,6 +121,8 @@
         private static void ContextPostReleaseRequestState(object sender, EventArgs e)
         {
             var context = ((HttpApplication)sender).Context;
+            if (!BlogSettings.Instance.EnableHttpCompression) { return; }
+
             if (context.CurrentHandler is Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null &&
                 context.Request.HttpMethod == "GET")
             {
@@ -248,7 +247,7 @@
                 var relative = match.Groups[1].Value;
                 var absolute = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
                 return match.Value.Replace(
-                    relative, string.Format("{0}js.axd?path={1}", Utils.RelativeWebRoot, HttpUtility.UrlEncode(absolute + relative)));
+                    relative, string.Format("{0}js.axd?path={1}", Utils.ApplicationRelativeWebRoot, HttpUtility.UrlEncode(absolute + relative)));
             }
 
             /// <summary>

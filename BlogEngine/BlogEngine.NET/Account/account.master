@@ -1,4 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="account.master.cs" Inherits="Account.AccountMasterPage" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -16,7 +18,7 @@
                 <img alt="BlogEngine.net" src="../pics/be-logo.jpg" />
             </div>
             <div class="loginDisplay">
-                <a href="~/default.aspx" ID="HeadLoingHome" runat="server"><%=Resources.labels.returnToBlog %></a>
+                <a href="<%= Utils.RelativeWebRoot %>default.aspx"><%=Resources.labels.returnToBlog %></a>
             </div>
         </div>
         <div class="clear"></div>

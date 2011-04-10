@@ -2,7 +2,6 @@
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server"> 
-    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
     <script type="text/javascript">
 
         var oShowDescChkBox;
@@ -82,11 +81,12 @@
 			};
 			
             $.ajax({
-                url: "Main.aspx/Save",
+                url: SiteVars.ApplicationRelativeWebRoot + "admin/Settings/Main.aspx/Save",
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(dto),
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success)

@@ -20,7 +20,7 @@
         /// <summary>
         /// The profiles.
         /// </summary>
-        private static List<AuthorProfile> profiles;
+        private static Dictionary<Guid, List<AuthorProfile>> profiles;
 
         /// <summary>
         /// The about me.
@@ -124,6 +124,24 @@
             this.Id = username;
         }
 
+        static AuthorProfile()
+        {
+            Blog.Saved += (s, e) =>
+            {
+                if (e.Action == SaveAction.Delete)
+                {
+                    Blog blog = s as Blog;
+                    if (blog != null)
+                    {
+                        // remove deleted blog from static 'profiles'
+
+                        if (profiles != null && profiles.ContainsKey(blog.Id))
+                            profiles.Remove(blog.Id);
+                    }
+                }
+            };
+        }
+
         #endregion
 
         #region Properties
@@ -135,18 +153,23 @@
         {
             get
             {
-                if (profiles == null)
+                Blog blog = Blog.CurrentInstance;
+
+                if (profiles == null || !profiles.ContainsKey(blog.Id))
                 {
                     lock (SyncRoot)
                     {
-                        if (profiles == null)
+                        if (profiles == null || !profiles.ContainsKey(blog.Id))
                         {
-                            profiles = BlogService.FillProfiles();
+                            if (profiles == null)
+                                profiles = new Dictionary<Guid, List<AuthorProfile>>();
+
+                            profiles[blog.Id] = BlogService.FillProfiles();
                         }
                     }
                 }
 
-                return profiles;
+                return profiles[blog.Id];
             }
         }
 

@@ -11,7 +11,7 @@
         <%=String.Format(Resources.labels.requiredPasswordLength,Membership.MinRequiredPasswordLength) %>
     </p>
     <asp:ChangePassword ID="ChangeUserPassword" runat="server" CancelDestinationPageUrl="~/"
-        EnableViewState="false" RenderOuterTable="false" SuccessPageUrl="change-password-success.aspx">
+        EnableViewState="false" RenderOuterTable="false">
         <ChangePasswordTemplate>
             <div class="accountInfo">
                 <div class="login">

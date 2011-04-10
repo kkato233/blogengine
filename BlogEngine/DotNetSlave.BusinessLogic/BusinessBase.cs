@@ -311,7 +311,7 @@
         /// Marks the object for deletion. It will then be 
         ///     deleted when the object's Save() method is called.
         /// </summary>
-        public void Delete()
+        public virtual void Delete()
         {
             this.Deleted = true;
             this.IsChanged = true;

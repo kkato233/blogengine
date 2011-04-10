@@ -414,7 +414,7 @@
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
-            var folder = BlogConfig.StorageLocation + "files" + Path.DirectorySeparatorChar;
+            var folder = Blog.CurrentInstance.StorageLocation + "files" + Path.DirectorySeparatorChar;
             var fileName = txtUploadFile.FileName;
             Upload(folder + relativeFolder, txtUploadFile, fileName);
 
@@ -435,7 +435,7 @@
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
-            var folder = string.Format("{0}files{1}", BlogConfig.StorageLocation, Path.DirectorySeparatorChar);
+            var folder = string.Format("{0}files{1}", Blog.CurrentInstance.StorageLocation, Path.DirectorySeparatorChar);
             var fileName = txtUploadImage.FileName;
             Upload(folder + relativeFolder, txtUploadImage, fileName);
 
@@ -462,7 +462,7 @@
 			var mediaPlayerExtension = BlogEngine.Core.Web.Extensions.ExtensionManager.GetExtension("MediaElementPlayer");
 			mediaFolder = mediaPlayerExtension.Settings[0].GetSingleValue("folder");
 
-			var folder = "~/" + mediaFolder + "/";
+			var folder = Utils.RelativeWebRoot + mediaFolder + "/";
 			var fileName = txtUploadVideo.FileName;
 
 			Upload(folder, txtUploadVideo, fileName);

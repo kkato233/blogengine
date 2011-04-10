@@ -2,6 +2,7 @@
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
   <siteMapNode url="default.aspx" title="Blog Engine" description="">
     <siteMapNode url="~/admin/Dashboard.aspx" title="dashboard" description="" rights="AccessAdminPages" />
+    <siteMapNode url="~/admin/Blogs.aspx" title="blogs" description="" rights="AccessAdminPages" primaryBlogInstanceOnly="true" />
     <siteMapNode url="~/admin/Posts/Posts.aspx" title="posts" description="" rightsAuthorizationCheck="HasAny" rights="CreateNewPosts, EditOwnPosts, EditOtherUsersPosts, PublishOwnPosts, PublishOtherUsersPosts" />
     <siteMapNode url="~/admin/Comments/Approved.aspx" title="comments" description="" rightsAuthorizationCheck="HasAny" rights="ModerateComments" />
     <siteMapNode url="~/admin/Pages/Pages.aspx" title="pages" description="" rightsAuthorizationCheck="HasAny" rights="CreateNewPages, EditOwnPages, EditOtherUsersPages, PublishOwnPages, PublishOtherUsersPages" />

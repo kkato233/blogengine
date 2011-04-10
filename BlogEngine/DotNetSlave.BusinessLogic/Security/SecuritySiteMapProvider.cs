@@ -16,12 +16,22 @@
         /// </summary>
         public override bool IsAccessibleToUser(HttpContext context, SiteMapNode node)
         {
-            // We are only checking Rights here.  Roles may also be part of
-            // the SiteMapNode.  Let the base class check for that.  If false,
-            // return false, otherwise, continue with our check of Rights.
+            // We are checking Rights, and other custom attributes here.
+            // Roles may also be part of the SiteMapNode.  Let the base class
+            // check for that.  If false, return false, otherwise, continue
+            // with our checks.
 
             if (!base.IsAccessibleToUser(context, node))
                 return false;
+
+            bool primaryBlogInstanceOnly;
+            if (!string.IsNullOrWhiteSpace(node["primaryBlogInstanceOnly"]) && bool.TryParse(node["primaryBlogInstanceOnly"], out primaryBlogInstanceOnly))
+            {
+                if (primaryBlogInstanceOnly && !Blog.CurrentInstance.IsPrimary)
+                {
+                    return false;
+                }
+            }
 
             if (!Utils.StringIsNullOrWhitespace(node["rights"]))
             {

@@ -37,7 +37,7 @@
         <ul>
             @foreach (var x in manExtensions)
             {
-                var lnk = string.Format("~/admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled);
+                var lnk = string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled);
                 
                 if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
                 {

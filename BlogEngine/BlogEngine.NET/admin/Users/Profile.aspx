@@ -61,11 +61,12 @@
             var dto = { "id": Querystring('id'), "vals" : vals, "roles" : roles };
 
             $.ajax({
-                url: "../../api/Profile.asmx/Save",
+                url: SiteVars.ApplicationRelativeWebRoot + "api/Profile.asmx/Save",
                 data: JSON.stringify(dto),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                beforeSend: onAjaxBeforeSend,
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success) {

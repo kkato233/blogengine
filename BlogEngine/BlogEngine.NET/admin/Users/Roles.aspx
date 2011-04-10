@@ -15,11 +15,12 @@
                 var dto = { "roleName": txtUser };
 
                 $.ajax({
-                    url: "../../api/RoleService.asmx/Add",
+                    url: SiteVars.ApplicationRelativeWebRoot + "api/RoleService.asmx/Add",
                     data: JSON.stringify(dto),
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    beforeSend: onAjaxBeforeSend,
                     success: function (result) {
                         var rt = result.d;
                         if (rt.Success) {

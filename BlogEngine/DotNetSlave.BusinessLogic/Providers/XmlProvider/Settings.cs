@@ -23,7 +23,7 @@
         /// <returns>A StringDictionary.</returns>
         public override StringDictionary LoadSettings()
         {
-            var filename = HttpContext.Current.Server.MapPath(string.Format("{0}settings.xml", BlogConfig.StorageLocation));
+            var filename = HttpContext.Current.Server.MapPath(string.Format("{0}settings.xml", Blog.CurrentInstance.StorageLocation));
             var dic = new StringDictionary();
 
             var doc = new XmlDocument();

@@ -5,7 +5,7 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false">
+    <asp:Login ID="LoginUser" runat="server" EnableViewState="false" RenderOuterTable="false" OnAuthenticate="LoginUser_OnAuthenticate">
         <LayoutTemplate>
             <div class="accountInfo">
                 <div class="login">
@@ -30,8 +30,7 @@
                         <asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="<%$Resources:labels,login %>" OnClientClick="return ValidateLogin();" />
                         <asp:PlaceHolder ID="phResetPassword" runat="server">
                             <span>
-                                <asp:HyperLink runat="server" ID="linkForgotPassword" NavigateUrl="~/Account/password-retrieval.aspx"
-                                    Text="<%$ Resources:labels,forgotPassword %>" />
+                                <asp:HyperLink runat="server" ID="linkForgotPassword" Text="<%$ Resources:labels,forgotPassword %>" />
                             </span>
                         </asp:PlaceHolder>
                     </div>

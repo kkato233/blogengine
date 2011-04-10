@@ -75,6 +75,17 @@
         }
 
         /// <summary>
+        /// Deletes the specified Blog from the current provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public static void DeleteBlog(Blog blog)
+        {
+            Provider.DeleteBlog(blog);
+        }
+
+        /// <summary>
         /// Deletes the specified Category from the current provider.
         /// </summary>
         /// <param name="category">
@@ -163,6 +174,17 @@
         }
 
         /// <summary>
+        /// The fill blogs.
+        /// </summary>
+        /// <returns>
+        /// A list of Blogs.
+        /// </returns>
+        public static List<Blog> FillBlogs()
+        {
+            return Provider.FillBlogs();
+        }
+
+        /// <summary>
         /// The fill profiles.
         /// </summary>
         /// <returns>
@@ -211,6 +233,17 @@
         public static void InsertBlogRoll(BlogRollItem blogRoll)
         {
             Provider.InsertBlogRollItem(blogRoll);
+        }
+
+        /// <summary>
+        /// Persists a new Blog in the current provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public static void InsertBlog(Blog blog)
+        {
+            Provider.InsertBlog(blog);
         }
 
         /// <summary>
@@ -388,6 +421,16 @@
         }
 
         /// <summary>
+        /// Returns a Blog based on the specified id.
+        /// </summary>
+        /// <param name="id">The Blog id.</param>
+        /// <returns>A Blog.</returns>
+        public static Blog SelectBlog(Guid id)
+        {
+            return Provider.SelectBlog(id);
+        }
+
+        /// <summary>
         /// Returns a Category based on the specified id.
         /// </summary>
         /// <param name="id">The Category id.</param>
@@ -438,6 +481,17 @@
         }
 
         /// <summary>
+        /// Sets up the required storage files/tables for a new Blog instance, from an existing blog instance.
+        /// </summary>
+        /// <param name="existingBlog">The existing blog instance to base the new blog instance off of.</param>
+        /// <param name="newBlog">The new blog instance.</param>
+        /// <returns>A boolean indicating if the setup process was successful.</returns>
+        public static bool SetupBlogFromExistingBlog(Blog existingBlog, Blog newBlog)
+        {
+            return Provider.SetupBlogFromExistingBlog(existingBlog, newBlog);
+        }
+
+        /// <summary>
         /// Updates an exsiting BlogRoll.
         /// </summary>
         /// <param name="blogRoll">
@@ -446,6 +500,17 @@
         public static void UpdateBlogRoll(BlogRollItem blogRoll)
         {
             Provider.UpdateBlogRollItem(blogRoll);
+        }
+
+        /// <summary>
+        /// Updates an exsiting Blog.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public static void UpdateBlog(Blog blog)
+        {
+            Provider.UpdateBlog(blog);
         }
 
         /// <summary>

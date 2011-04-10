@@ -362,7 +362,7 @@ namespace Admin.Pages
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
-            var folder = BlogConfig.StorageLocation + "files" + Path.DirectorySeparatorChar;
+            var folder = Blog.CurrentInstance.StorageLocation + "files" + Path.DirectorySeparatorChar;
             var fileName = this.txtUploadFile.FileName;
             this.Upload(folder + relativeFolder, this.txtUploadFile, fileName);
 
@@ -381,7 +381,7 @@ namespace Admin.Pages
         {
             var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
                                  Path.DirectorySeparatorChar;
-            var folder = string.Format("{0}files{1}", BlogConfig.StorageLocation, Path.DirectorySeparatorChar);
+            var folder = string.Format("{0}files{1}", Blog.CurrentInstance.StorageLocation, Path.DirectorySeparatorChar);
             var fileName = this.txtUploadImage.FileName;
             this.Upload(folder + relativeFolder, this.txtUploadImage, fileName);
 
