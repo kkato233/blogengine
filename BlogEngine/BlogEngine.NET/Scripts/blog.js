@@ -5,6 +5,8 @@ BlogEngine = {
     }
 	,
     webRoot: '',
+    applicationWebRoot: '',
+    blogInstanceId: '',
     // internationalization (injected into the <head> by BlogBasePage)
     i18n: {
         hasRated: '',

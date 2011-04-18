@@ -22,7 +22,7 @@
         <tr id="{$T.b.Id}" class="{#cycle values=['','alt']}">
             <td style="text-align:center;"><span class="published-{$T.b.IsActive}"></span></td>
             <td style="text-align:center;"><span class="published-{$T.b.IsPrimary}"></span></td>
-            <td><span>{$T.b.Name}</span></td>
+            <td><a href='{$T.b.AbsoluteWebRoot}' target='_blank'><span>{$T.b.Name}</span></a></td>
             <td><span>{$T.b.Hostname}</span></td>
             <td style="text-align:center;"><span class="published-{$T.b.IsAnyTextBeforeHostnameAccepted}"></span></td>
             <td><span>{$T.b.VirtualPath}</span></td>

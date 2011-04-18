@@ -886,7 +886,7 @@ function LoadBlogs() {
         dataType: "json",
         beforeSend: onAjaxBeforeSend,
         success: function (msg) {
-            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/blogs.htm', null, { filter_data: false });
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/blogs.htm?v=2', null, { filter_data: false });
             $('#Container').processTemplate(msg);
 
             LoadBlogsPager(pg, pageSize);

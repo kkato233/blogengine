@@ -83,6 +83,7 @@
                 IsActive = b.IsActive,
                 IsPrimary = b.IsPrimary,
                 RelativeWebRoot = b.RelativeWebRoot,
+                AbsoluteWebRoot = b.AbsoluteWebRoot,
                 PhysicalStorageLocation = HostingEnvironment.MapPath(b.StorageLocation),
                 CanUserEdit = b.CanUserEdit,
                 CanUserDelete = b.CanUserDelete

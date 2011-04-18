@@ -80,28 +80,32 @@
 
                         foreach (var user in usernames)
                         {
-                            parms.Clear();
-                            cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
+                            //parms.Clear();
+                            //cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE BlogID = {1}blogid AND UserName = {1}user", this.tablePrefix, this.parmPrefix);
 
-                            parms.Add(conn.CreateParameter(FormatParamName("user"), user));
+                            //parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                            //parms.Add(conn.CreateParameter(FormatParamName("user"), user));
 
-                            var userId = Int32.Parse(cmd.ExecuteScalar().ToString());
+                            //var userId = Int32.Parse(cmd.ExecuteScalar().ToString());
 
                             foreach (var role in roleNames)
                             {
                                 if (!role.Equals(BlogSettings.Instance.AnonymousRole))
                                 {
+                                    //parms.Clear();
+                                    //cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE BlogID = {1}blogid AND Role = {1}role", this.tablePrefix, this.parmPrefix);
+
+                                    //parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                                    //parms.Add(conn.CreateParameter(FormatParamName("role"), role));
+
+                                    //var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
+
                                     parms.Clear();
-                                    cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
+                                    cmd.CommandText = string.Format("INSERT INTO {0}UserRoles (BlogID, UserName, Role) VALUES ({1}blogID, {1}username, {1}role)", this.tablePrefix, this.parmPrefix);
 
-                                    parms.Add(conn.CreateParameter(FormatParamName("role"), role));
-
-                                    var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
-
-                                    cmd.CommandText = string.Format("INSERT INTO {0}UserRoles (UserID, RoleID) VALUES ({1}uID, {1}rID)", this.tablePrefix, this.parmPrefix);
-
-                                    parms.Add(conn.CreateParameter(FormatParamName("uID"), userId));
-                                    parms.Add(conn.CreateParameter(FormatParamName("rID"), roleId));
+                                    parms.Add(conn.CreateParameter(FormatParamName("blogID"), Blog.CurrentInstance.Id.ToString()));
+                                    parms.Add(conn.CreateParameter(FormatParamName("username"), user.Trim()));
+                                    parms.Add(conn.CreateParameter(FormatParamName("role"), role.Trim()));
 
                                     cmd.ExecuteNonQuery();
                                 }
@@ -125,8 +129,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}Roles (role) VALUES ({1}role)", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}Roles (BlogID, role) VALUES ({1}blogid, {1}role)", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
                         cmd.ExecuteNonQuery();
                     }
@@ -153,8 +158,9 @@
                 {
                     if (conn.HasConnection)
                     {
-                        using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix)))
+                        using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Roles WHERE BlogID = {1}blogid AND Role = {1}role", this.tablePrefix, this.parmPrefix)))
                         {
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
                             cmd.ExecuteNonQuery();
                             success = true;
@@ -185,10 +191,17 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT u.UserName FROM {0}Users u INNER JOIN {0}UserRoles ur ON u.UserID = ur.UserID INNER JOIN {0}Roles r ON ur.RoleID = r.RoleID WHERE r.Role  = {1}role AND u.UserName LIKE {1}name", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format(
+                        " SELECT ur.UserName " +
+                        " FROM {0}UsersRoles ur " +
+                        " WHERE ur.BlogID = {1}blogid " +
+                        " AND   ur.Role   = {1}role " +
+                        " AND   ur.UserName LIKE {1}name", this.tablePrefix, this.parmPrefix);
+
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("role"), roleName));
                         parms.Add(conn.CreateParameter(FormatParamName("name"), string.Format("{0}%", usernameToMatch)));
 
@@ -223,8 +236,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT role FROM {0}Roles", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT role FROM {0}Roles WHERE BlogID = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -257,10 +272,15 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT r.role FROM {0}Roles r INNER JOIN {0}UserRoles ur ON r.RoleID = ur.RoleID INNER JOIN {0}Users u ON ur.UserID = u.UserID WHERE u.UserName = {1}name", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format(
+                        " SELECT ur.role " +
+                        " FROM {0}UserRoles ur " +
+                        " WHERE ur.BlogID   = {1}blogid " +
+                        " AND   ur.UserName = {1}name", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -295,10 +315,15 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT u.UserName FROM {0}Users u INNER JOIN {0}UserRoles ur ON u.UserID = ur.UserID INNER JOIN {0}Roles r ON ur.RoleID = r.RoleID WHERE r.Role  = {1}role", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format(
+                        " SELECT ur.UserName " +
+                        " FROM {0}UserRoles ur " +
+                        " WHERE ur.BlogID = {1}blogid " +
+                        " AND   ur.Role  = {1}role", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -408,11 +433,17 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT r.roleID FROM {0}Roles r INNER JOIN {0}UserRoles ur ON r.RoleID = ur.RoleID INNER JOIN {0}Users u ON ur.UserID = u.UserID WHERE u.UserName = {1}name AND r.role = {1}role", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format(
+                        " SELECT ur.roleID " +
+                        " FROM {0}UserRoles ur " +
+                        " WHERE ur.BlogID = {1}blogid " +
+                        " AND   ur.UserName = {1}name " +
+                        " AND   ur.role = {1}role", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         var parms = cmd.Parameters;
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("name"), username));
                         parms.Add(conn.CreateParameter(FormatParamName("role"), roleName));
                         
@@ -447,39 +478,43 @@
 
                         foreach (var user in usernames)
                         {
-                            parms.Clear();
-                            cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE UserName = {1}user", this.tablePrefix, this.parmPrefix);
+                            //parms.Clear();
+                            //cmd.CommandText = string.Format("SELECT UserID FROM {0}Users WHERE BlogID = {1}blogid AND UserName = {1}user", this.tablePrefix, this.parmPrefix);
 
-                            parms.Add(conn.CreateParameter(FormatParamName("user"), user));
+                            //parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                            //parms.Add(conn.CreateParameter(FormatParamName("user"), user));
                             
-                            int userId;
-                            try
-                            {
-                                userId = Int32.Parse(cmd.ExecuteScalar().ToString());
-                            }
-                            catch
-                            {
-                                userId = 0;
-                            }
+                            //int userId;
+                            //try
+                            //{
+                            //    userId = Int32.Parse(cmd.ExecuteScalar().ToString());
+                            //}
+                            //catch
+                            //{
+                            //    userId = 0;
+                            //}
 
-                            if (userId <= 0)
-                            {
-                                continue;
-                            }
+                            //if (userId <= 0)
+                            //{
+                            //    continue;
+                            //}
 
                             foreach (var role in roleNames)
                             {
+                                //parms.Clear();
+                                //cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE BlogID = {1}blogid AND Role = {1}role", this.tablePrefix, this.parmPrefix);
+
+                                //parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                                //parms.Add(conn.CreateParameter(FormatParamName("role"), role));
+
+                                //var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
+
                                 parms.Clear();
-                                cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);
+                                cmd.CommandText = string.Format("DELETE FROM {0}UserRoles WHERE BlogID = {1}blogid AND UserName = {1}username AND Role = {1}role", this.tablePrefix, this.parmPrefix);
 
-                                parms.Add(conn.CreateParameter(FormatParamName("role"), role));
-
-                                var roleId = Int32.Parse(cmd.ExecuteScalar().ToString());
-
-                                cmd.CommandText = string.Format("DELETE FROM {0}UserRoles WHERE UserID = {1}uID AND RoleID = {1}rID", this.tablePrefix, this.parmPrefix);
-
-                                parms.Add(conn.CreateParameter(FormatParamName("uID"), userId));
-                                parms.Add(conn.CreateParameter(FormatParamName("rID"), roleId));
+                                parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                                parms.Add(conn.CreateParameter(FormatParamName("username"), user.Trim()));
+                                parms.Add(conn.CreateParameter(FormatParamName("role"), role.Trim()));
 
                                 cmd.ExecuteNonQuery();
                             }
@@ -506,8 +541,9 @@
                 if (conn.HasConnection)
                 {
 
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT roleID FROM {0}Roles WHERE role = {1}role", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT roleID FROM {0}Roles WHERE BlogID = {1}blogid AND role = {1}role", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), roleName));
 
                         using (var rdr = cmd.ExecuteReader())

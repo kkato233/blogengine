@@ -56,10 +56,11 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}BlogRollItems WHERE BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}BlogRollItems WHERE BlogId = {1}BlogId AND BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogRollId"), blogRollItem.Id.ToString()));
 
                         cmd.ExecuteNonQuery();
@@ -107,18 +108,20 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE BlogID = {1}blogid AND CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
 
-                    sqlQuery = string.Format("DELETE FROM {0}Categories WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
+                    sqlQuery = string.Format("DELETE FROM {0}Categories WHERE BlogID = {1}blogid AND CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -138,8 +141,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Pages WHERE BlogID = {1}blogid AND PageID = {1}id", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), page.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -159,42 +163,47 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
 
-                    sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
 
-                    sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
 
-                    sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
 
-                    sqlQuery = string.Format("DELETE FROM {0}Posts WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    sqlQuery = string.Format("DELETE FROM {0}Posts WHERE BlogID = @blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -213,8 +222,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Profiles WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), profile.Id));
                         cmd.ExecuteNonQuery();
                     }
@@ -236,8 +246,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex FROM {0}BlogRollItems ", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex FROM {0}BlogRollItems WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -278,7 +290,7 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT BlogId, BlogName FROM {0}Blogs ", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT BlogId, BlogName, Hostname, IsAnyTextBeforeHostnameAccepted, StorageContainerName, VirtualPath, IsPrimary, IsActive FROM {0}Blogs ", this.tablePrefix)))
                     {
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -287,7 +299,13 @@
                                 var b = new Blog
                                 {
                                     Id = rdr.GetGuid(0),
-                                    Name = rdr.GetString(1)
+                                    Name = rdr.GetString(1),
+                                    Hostname = rdr.GetString(2),
+                                    IsAnyTextBeforeHostnameAccepted = rdr.GetBoolean(3),
+                                    StorageContainerName = rdr.GetString(4),
+                                    VirtualPath = rdr.GetString(5),
+                                    IsPrimary = rdr.GetBoolean(6),
+                                    IsActive = rdr.GetBoolean(7)
                                 };
 
                                 blogs.Add(b);
@@ -315,8 +333,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT CategoryID, CategoryName, description, ParentID FROM {0}Categories ", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT CategoryID, CategoryName, description, ParentID FROM {0}Categories WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -354,8 +374,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PageID FROM {0}Pages ", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PageID FROM {0}Pages WHERE BlogID = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -384,8 +406,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PostID FROM {0}Posts ", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PostID FROM {0}Posts WHERE BlogID = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -417,8 +441,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT UserName FROM {0}Profiles GROUP BY UserName", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT UserName FROM {0}Profiles WHERE BlogID = {1}blogid GROUP BY UserName", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -449,8 +475,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam FROM {0}Referrers ", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam FROM {0}Referrers WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -484,9 +512,11 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT RightName FROM {0}Rights ", this.tablePrefix);
+                    var sqlQuery = string.Format("SELECT RightName FROM {0}Rights WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix);
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -496,7 +526,9 @@
                         }
 
                         // Get Right Roles.
-                        cmd.CommandText = string.Format("SELECT RightName, Role FROM {0}RightRoles ", this.tablePrefix);
+                        cmd.CommandText = string.Format("SELECT RightName, Role FROM {0}RightRoles WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix);
+                        // don't need to add "blogid" parameter again since the same cmd is being used.
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -604,7 +636,7 @@
                 if (conn.HasConnection)
                 {
 
-                    var sqlQuery = string.Format("INSERT INTO {0}BlogRollItems (BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex) VALUES ({1}BlogRollId, {1}Title, {1}Description, {1}BlogUrl, {1}FeedUrl, {1}Xfn, {1}SortIndex)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}BlogRollItems (BlogId, BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex) VALUES ({1}BlogId, {1}BlogRollId, {1}Title, {1}Description, {1}BlogUrl, {1}FeedUrl, {1}Xfn, {1}SortIndex)", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -623,14 +655,11 @@
         /// </param>
         public override void InsertBlog(Blog blog)
         {
-            if (blog.DatabaseId < 1)
-                blog.DatabaseId = GetNextAvailableBlogDatabaseId();
-
             using (var conn = this.CreateConnection())
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Blogs (BlogId, BlogDbId, BlogName) VALUES ({1}BlogId, {1}BlogDbId, {1}BlogName)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Blogs (BlogId, BlogName, Hostname, IsAnyTextBeforeHostnameAccepted, StorageContainerName, VirtualPath, IsPrimary, IsActive) VALUES ({1}BlogId, {1}BlogName, {1}Hostname, {1}IsAnyTextBeforeHostnameAccepted, {1}StorageContainerName, {1}VirtualPath, {1}IsPrimary, {1}IsActive)", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -639,32 +668,6 @@
                     }
                 }
             }
-        }
-
-        public int GetNextAvailableBlogDatabaseId()
-        {
-            int nextId = 1;
-
-            using (var conn = this.CreateConnection())
-            {
-                if (conn.HasConnection)
-                {
-                    var sqlQuery = string.Format("SELECT MAX(BlogDbId) FROM {0}Blogs", this.tablePrefix);
-
-                    using (var cmd = conn.CreateTextCommand(sqlQuery))
-                    {
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                nextId = rdr.GetInt32(0) + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return nextId;
         }
 
         /// <summary>
@@ -683,11 +686,12 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Categories (CategoryID, CategoryName, description, ParentID) VALUES ({1}catid, {1}catname, {1}description, {1}parentid)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Categories (BlogID, CategoryID, CategoryName, description, ParentID) VALUES ({1}blogid, {1}catid, {1}catname, {1}description, {1}parentid)", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("catname"), category.Title));
                         parms.Add(conn.CreateParameter(FormatParamName("description"), category.Description));
@@ -711,12 +715,13 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Pages (PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug, IsDeleted) VALUES ({1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}keywords, {1}ispublished, {1}isfrontpage, {1}parent, {1}showinlist, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Pages (BlogID, PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug, IsDeleted) VALUES ({1}blogid, {1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}keywords, {1}ispublished, {1}isfrontpage, {1}parent, {1}showinlist, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
                    
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("id"), page.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("title"), page.Title));
                         parms.Add(conn.CreateParameter(FormatParamName("desc"), page.Description));
@@ -750,12 +755,13 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Posts (PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted)VALUES ({1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}author, {1}published, {1}commentEnabled, {1}raters, {1}rating, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Posts (BlogID, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted) VALUES ({1}blogid, {1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}author, {1}published, {1}commentEnabled, {1}raters, {1}rating, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
                
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
                         parms.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
@@ -813,7 +819,7 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Referrers (ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam) VALUES ({1}ReferrerId, {1}ReferralDay, {1}ReferrerUrl, {1}ReferralCount, {1}Url, {1}IsSpam)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Referrers (BlogId, ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam) VALUES ({1}BlogId, {1}ReferrerId, {1}ReferralDay, {1}ReferrerUrl, {1}ReferralCount, {1}Url, {1}IsSpam)", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -845,11 +851,12 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT Settings FROM {0}DataStoreSettings WHERE ExtensionType = {1}etype AND ExtensionId = {1}eid", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("SELECT Settings FROM {0}DataStoreSettings WHERE BlogId = {1}blogid AND ExtensionType = {1}etype AND ExtensionId = {1}eid", this.tablePrefix, this.parmPrefix);
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("etype"), extensionType.GetHashCode()));
                         parms.Add(conn.CreateParameter(FormatParamName("eid"), extensionId));
 
@@ -875,8 +882,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT Link FROM {0}PingService", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT Link FROM {0}PingService WHERE BlogID = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -908,8 +917,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Settings", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Settings WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -941,8 +952,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT StopWord FROM {0}StopWords", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT StopWord FROM {0}StopWords WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -976,11 +989,12 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE ExtensionType = {1}type AND ExtensionId = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE BlogId = {1}blogId AND ExtensionType = {1}type AND ExtensionId = {1}id", this.tablePrefix, this.parmPrefix);
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("type"), extensionType));
                         p.Add(conn.CreateParameter(FormatParamName("id"), extensionId));
 
@@ -1009,15 +1023,17 @@
                 if (conn.HasConnection)
                 {
 
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}PingService", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}PingService WHERE BlogID = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.ExecuteNonQuery();
 
                         foreach (var service in services)
                         {
-                            cmd.CommandText = string.Format("INSERT INTO {0}PingService (Link) VALUES ({1}link)", this.tablePrefix, this.parmPrefix);
+                            cmd.CommandText = string.Format("INSERT INTO {0}PingService (BlogID, Link) VALUES ({1}blogid, {1}link)", this.tablePrefix, this.parmPrefix);
                             cmd.Parameters.Clear();
 
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("link"), service));
 
                             cmd.ExecuteNonQuery();
@@ -1038,27 +1054,30 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Rights", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Rights WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = string.Format("DELETE FROM {0}RightRoles", this.tablePrefix);
+                        cmd.CommandText = string.Format("DELETE FROM {0}RightRoles WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix);
                         cmd.ExecuteNonQuery();
 
                         foreach (var right in rights)
                         {
-                            cmd.CommandText = string.Format("INSERT INTO {0}Rights (RightName) VALUES ({1}RightName)", this.tablePrefix, this.parmPrefix);
+                            cmd.CommandText = string.Format("INSERT INTO {0}Rights (BlogId, RightName) VALUES ({1}BlogId, {1}RightName)", this.tablePrefix, this.parmPrefix);
 
                             cmd.Parameters.Clear();
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), Blog.CurrentInstance.Id.ToString()));
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("RightName"), right.Name));
 
                             cmd.ExecuteNonQuery();
 
                             foreach (var role in right.Roles)
                             {
-                                cmd.CommandText = string.Format("INSERT INTO {0}RightRoles (RightName, Role) VALUES ({1}RightName, {1}Role)", this.tablePrefix, this.parmPrefix);
+                                cmd.CommandText = string.Format("INSERT INTO {0}RightRoles (BlogId, RightName, Role) VALUES ({1}BlogId, {1}RightName, {1}Role)", this.tablePrefix, this.parmPrefix);
 
                                 cmd.Parameters.Clear();
+                                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), Blog.CurrentInstance.Id.ToString()));
                                 cmd.Parameters.Add(conn.CreateParameter(FormatParamName("RightName"), right.Name));
                                 cmd.Parameters.Add(conn.CreateParameter(FormatParamName("Role"), role));
 
@@ -1088,15 +1107,17 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Settings", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Settings WHERE BlogId = {1}blogid", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.ExecuteNonQuery();
 
                         foreach (string key in settings.Keys)
                         {
-                            cmd.CommandText = string.Format("INSERT INTO {0}Settings (SettingName, SettingValue) VALUES ({1}name, {1}value)", this.tablePrefix, this.parmPrefix);
+                            cmd.CommandText = string.Format("INSERT INTO {0}Settings (BlogId, SettingName, SettingValue) VALUES ({1}blogid, {1}name, {1}value)", this.tablePrefix, this.parmPrefix);
                             cmd.Parameters.Clear();
 
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), key));
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("value"), settings[key]));
 
@@ -1140,19 +1161,20 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE ExtensionType = {1}type AND ExtensionId = {1}id; ", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE BlogId = {1}blogid AND ExtensionType = {1}type AND ExtensionId = {1}id; ", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var p = cmd.Parameters;
 
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("type"), extensionType.GetHashCode()));
                         p.Add(conn.CreateParameter(FormatParamName("id"), extensionId));
 
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = string.Format("INSERT INTO {0}DataStoreSettings (ExtensionType, ExtensionId, Settings) VALUES ({1}type, {1}id, {1}file)", this.tablePrefix, this.parmPrefix);
+                        cmd.CommandText = string.Format("INSERT INTO {0}DataStoreSettings (BlogId, ExtensionType, ExtensionId, Settings) VALUES ({1}blogid, {1}type, {1}id, {1}file)", this.tablePrefix, this.parmPrefix);
 
                         p.Add(conn.CreateParameter(FormatParamName("file"), objectXml));
 
@@ -1233,11 +1255,11 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug, IsDeleted FROM {0}Pages WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("SELECT PageID, Title, Description, PageContent, DateCreated, DateModified, Keywords, IsPublished, IsFrontPage, Parent, ShowInList, Slug, IsDeleted FROM {0}Pages WHERE BlogID = {1}blogid AND PageID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), id.ToString()));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -1318,10 +1340,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("SELECT PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted FROM {0}Posts WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("SELECT PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted FROM {0}Posts WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
-
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), id.ToString()));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -1377,7 +1399,7 @@
                         }
 
                         // Tags
-                        cmd.CommandText = string.Format("SELECT Tag FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        cmd.CommandText = string.Format("SELECT Tag FROM {0}PostTag WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -1392,7 +1414,7 @@
                         post.Tags.MarkOld();
 
                         // Categories
-                        cmd.CommandText = string.Format("SELECT CategoryID FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        cmd.CommandText = string.Format("SELECT CategoryID FROM {0}PostCategory WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -1406,7 +1428,7 @@
                         }
 
                         // Comments
-                        cmd.CommandText = string.Format("SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar, IsSpam, IsDeleted FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        cmd.CommandText = string.Format("SELECT PostCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ParentCommentID, ModeratedBy, Avatar, IsSpam, IsDeleted FROM {0}PostComment WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -1472,7 +1494,7 @@
                         post.AllComments.Sort();
 
                         // Email Notification
-                        cmd.CommandText = string.Format("SELECT NotifyAddress FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                        cmd.CommandText = string.Format("SELECT NotifyAddress FROM {0}PostNotify WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -1511,8 +1533,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), id));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -1659,17 +1682,244 @@
                 return false;
             }
 
-            // TODO: Need to copy all the data, from tables such as be_Settings,
-            // be_DataStoreSettings, be_Posts, etc, etc.
-            //
-            // Easiest method might be to call the various Fill*** methods here
-            // (FillPosts, LoadSettings, etc), which retrieves the data directly
-            // from the data store.  Then for each object, call the corresponding
-            // Save*** method.  To do this, need to update the Fill*** and Save***
-            // methods so they will use a Blog Instance we pass it (the "newBlog"
-            // parameter of this method), rather than it using Blog.CurrentInstance.
-            // For this, probably best to create overloads of each of the Fill***
-            // and Save*** methods that accept a Blog.
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    // be_BlogRollItems
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}BlogRollItems ( BlogId, BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex ) " +
+                        " SELECT {1}newblogid, BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex " +
+                        " FROM {0}BlogRollItems " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Categories
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Categories ( BlogID, CategoryID, CategoryName, Description, ParentID ) " +
+                        " SELECT {1}newblogid, CategoryID, CategoryName, Description, ParentID " +
+                        " FROM {0}Categories " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_DataStoreSettings
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}DataStoreSettings ( BlogId, ExtensionType, ExtensionId, Settings ) " +
+                        " SELECT {1}newblogid, ExtensionType, ExtensionId, Settings " +
+                        " FROM {0}DataStoreSettings " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Pages
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Pages ( BlogID, PageID, Title, Description, PageContent, Keywords, DateCreated, DateModified, IsPublished, IsFrontPage, Parent, ShowInList, Slug, IsDeleted ) " +
+                        " SELECT {1}newblogid, PageID, Title, Description, PageContent, Keywords, DateCreated, DateModified, IsPublished, IsFrontPage, Parent, ShowInList, Slug, IsDeleted " +
+                        " FROM {0}Pages " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_PingService
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}PingService ( BlogID, Link ) " +
+                        " SELECT {1}newblogid, Link " +
+                        " FROM {0}PingService " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Profiles
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Profiles ( BlogID, UserName, SettingName, SettingValue ) " +
+                        " SELECT {1}newblogid, UserName, SettingName, SettingValue " +
+                        " FROM {0}Profiles " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Referrers
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Referrers ( BlogId, ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam ) " +
+                        " SELECT {1}newblogid, ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam " +
+                        " FROM {0}Referrers " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Rights
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Rights ( BlogId, RightName ) " +
+                        " SELECT {1}newblogid, RightName " +
+                        " FROM {0}Rights " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_RightRoles
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}RightRoles ( BlogId, RightName, Role ) " +
+                        " SELECT {1}newblogid, RightName, Role " +
+                        " FROM {0}RightRoles " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Settings
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Settings ( BlogId, SettingName, SettingValue ) " +
+                        " SELECT {1}newblogid, SettingName, SettingValue " +
+                        " FROM {0}Settings " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_StopWords
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}StopWords ( BlogId, StopWord ) " +
+                        " SELECT {1}newblogid, StopWord " +
+                        " FROM {0}StopWords " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Posts
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Posts ( BlogId, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted ) " +
+                        " SELECT {1}newblogid, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted " +
+                        " FROM {0}Posts " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_PostCategory
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}PostCategory ( BlogId, PostID, CategoryID ) " +
+                        " SELECT {1}newblogid, PostID, CategoryID " +
+                        " FROM {0}PostCategory " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_PostComment
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}PostComment ( BlogId, PostCommentID, PostID, ParentCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted ) " +
+                        " SELECT {1}newblogid, PostCommentID, PostID, ParentCommentID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted " +
+                        " FROM {0}PostComment " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_PostNotify
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}PostNotify ( BlogId, PostID, NotifyAddress ) " +
+                        " SELECT {1}newblogid, PostID, NotifyAddress " +
+                        " FROM {0}PostNotify " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_PostTag
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}PostTag ( BlogId, PostID, Tag ) " +
+                        " SELECT {1}newblogid, PostID, Tag " +
+                        " FROM {0}PostTag " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //////////////////////////////////////
+                    // The DbMembershipProvider and DbRoleProvider may or may not be in use.
+                    // Even if it's not in use, copy the rows for the Users and Roles tables.
+                    //
+
+                    // be_Users
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Users ( BlogId, UserName, Password, LastLoginTime, EmailAddress ) " +
+                        " SELECT {1}newblogid, UserName, Password, LastLoginTime, EmailAddress " +
+                        " FROM {0}Users " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Roles
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Roles ( BlogId, Role ) " +
+                        " SELECT {1}newblogid, Role " +
+                        " FROM {0}Roles " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_UserRoles
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}UserRoles ( BlogId, UserName, Role ) " +
+                        " SELECT {1}newblogid, UserName, Role " +
+                        " FROM {0}UserRoles " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
 
             return true;
         }
@@ -1690,7 +1940,7 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}BlogRollItems SET Title = {1}Title, Description = {1}Description, BlogUrl = {1}BlogUrl, FeedUrl = {1}FeedUrl, Xfn = {1}Xfn, SortIndex = {1}SortIndex WHERE BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("UPDATE {0}BlogRollItems SET Title = {1}Title, Description = {1}Description, BlogUrl = {1}BlogUrl, FeedUrl = {1}FeedUrl, Xfn = {1}Xfn, SortIndex = {1}SortIndex WHERE BlogId = {1}BlogId AND BlogRollId = {1}BlogRollId", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -1713,7 +1963,7 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Blogs SET BlogName = {1}BlogName, BlogDbId = {1}BlogDbId WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Blogs SET BlogName = {1}BlogName, Hostname = {1}Hostname, IsAnyTextBeforeHostnameAccepted = {1}IsAnyTextBeforeHostnameAccepted, StorageContainerName = {1}StorageContainerName, VirtualPath = {1}VirtualPath, IsPrimary = {1}IsPrimary, IsActive = {1}IsActive WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -1741,13 +1991,14 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Categories SET CategoryName = {1}catname, Description = {1}description, ParentID = {1}parentid WHERE CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Categories SET CategoryName = {1}catname, Description = {1}description, ParentID = {1}parentid WHERE BlogID = {1}blogid AND CategoryID = {1}catid", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var p = cmd.Parameters;
 
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("catid"), category.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("catname"), category.Title));
                         p.Add(conn.CreateParameter(FormatParamName("description"), category.Description));
@@ -1771,12 +2022,13 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Pages SET Title = {1}title, Description = {1}desc, PageContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Keywords = {1}keywords, IsPublished = {1}ispublished, IsFrontPage = {1}isfrontpage, Parent = {1}parent, ShowInList = {1}showinlist, Slug = {1}slug, IsDeleted = {1}isdeleted WHERE PageID = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Pages SET Title = {1}title, Description = {1}desc, PageContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Keywords = {1}keywords, IsPublished = {1}ispublished, IsFrontPage = {1}isfrontpage, Parent = {1}parent, ShowInList = {1}showinlist, Slug = {1}slug, IsDeleted = {1}isdeleted WHERE BlogID = {1}blogid AND PageID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         var p = cmd.Parameters;
 
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("id"), page.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("title"), page.Title));
                         p.Add(conn.CreateParameter(FormatParamName("desc"), page.Description));
@@ -1809,12 +2061,14 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = {1}title, Description = {1}desc, PostContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Author = {1}Author, IsPublished = {1}published, IsCommentEnabled = {1}commentEnabled, Raters = {1}raters, Rating = {1}rating, Slug = {1}slug, IsDeleted = {1}isdeleted WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = {1}title, Description = {1}desc, PostContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Author = {1}Author, IsPublished = {1}published, IsCommentEnabled = {1}commentEnabled, Raters = {1}raters, Rating = {1}rating, Slug = {1}slug, IsDeleted = {1}isdeleted WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var p = cmd.Parameters;
+
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                         p.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
                         p.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
@@ -1946,10 +2200,11 @@
                 {
                     foreach (string key in dic.Keys)
                     {
-                        var sqlQuery = string.Format("INSERT INTO {0}Profiles (UserName, SettingName, SettingValue) VALUES ({1}user, {1}name, {1}value)", this.tablePrefix, this.parmPrefix);
+                        var sqlQuery = string.Format("INSERT INTO {0}Profiles (BlogID, UserName, SettingName, SettingValue) VALUES ({1}blogid, {1}user, {1}name, {1}value)", this.tablePrefix, this.parmPrefix);
 
                         cmd.CommandText = sqlQuery;
                         cmd.Parameters.Clear();
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("user"), profile.Id));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), key));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("value"), dic[key]));
@@ -1976,7 +2231,7 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Referrers SET ReferralDay = {1}ReferralDay, ReferrerUrl = {1}ReferrerUrl, ReferralCount = {1}ReferralCount, Url = {1}Url, IsSpam = {1}IsSpam WHERE ReferrerId = {1}ReferrerId", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("UPDATE {0}Referrers SET ReferralDay = {1}ReferralDay, ReferrerUrl = {1}ReferrerUrl, ReferralCount = {1}ReferralCount, Url = {1}Url, IsSpam = {1}IsSpam WHERE BlogId = {1}BlogId AND ReferrerId = {1}ReferrerId", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -2016,17 +2271,19 @@
         /// </param>
         private void UpdateCategories(Post post, DbConnectionHelper conn)
         {
-            var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+            var sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
             using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
+                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                 cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
 
                 cmd.ExecuteNonQuery();
 
                 foreach (var cat in post.Categories)
                 {
-                    cmd.CommandText = string.Format("INSERT INTO {0}PostCategory (PostID, CategoryID) VALUES ({1}id, {1}cat)", this.tablePrefix, this.parmPrefix);
+                    cmd.CommandText = string.Format("INSERT INTO {0}PostCategory (BlogID, PostID, CategoryID) VALUES ({1}blogid, {1}id, {1}cat)", this.tablePrefix, this.parmPrefix);
                     cmd.Parameters.Clear();
+                    cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                     cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                     cmd.Parameters.Add(conn.CreateParameter(FormatParamName("cat"), cat.Id.ToString()));
 
@@ -2046,23 +2303,25 @@
         /// </param>
         private void UpdateComments(Post post, DbConnectionHelper conn)
         {
-            var sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+            var sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
             using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
 
                 var parms = cmd.Parameters;
 
+                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                 parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
 
                 cmd.ExecuteNonQuery();
 
                 foreach (var comment in post.AllComments)
                 {
-                    sqlQuery = string.Format("INSERT INTO {0}PostComment (PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted) VALUES ({1}postcommentid, {1}parentid, {1}id, {1}date, {1}author, {1}email, {1}website, {1}comment, {1}country, {1}ip, {1}isapproved, {1}moderatedby, {1}avatar, {1}isspam, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
+                    sqlQuery = string.Format("INSERT INTO {0}PostComment (BlogID, PostCommentID, ParentCommentID, PostID, CommentDate, Author, Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar, IsSpam, IsDeleted) VALUES ({1}blogid, {1}postcommentid, {1}parentid, {1}id, {1}date, {1}author, {1}email, {1}website, {1}comment, {1}country, {1}ip, {1}isapproved, {1}moderatedby, {1}avatar, {1}isspam, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
 
                     cmd.CommandText = sqlQuery;
                     parms.Clear();
 
+                    parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("postcommentid"), comment.Id.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("parentid"), comment.ParentId.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
@@ -2095,20 +2354,22 @@
         /// </param>
         private void UpdateNotify(Post post, DbConnectionHelper conn)
         {
-            var sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+            var sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
             using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
                 var parms = cmd.Parameters;
 
+                parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                 parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
 
                 cmd.ExecuteNonQuery();
 
                 foreach (var email in post.NotificationEmails)
                 {
-                    cmd.CommandText = string.Format("INSERT INTO {0}PostNotify (PostID, NotifyAddress) VALUES ({1}id, {1}notify)", this.tablePrefix, this.parmPrefix);
+                    cmd.CommandText = string.Format("INSERT INTO {0}PostNotify (BlogID, PostID, NotifyAddress) VALUES ({1}blogid, {1}id, {1}notify)", this.tablePrefix, this.parmPrefix);
                     parms.Clear();
 
+                    parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("notify"), email));
 
@@ -2128,18 +2389,19 @@
         /// </param>
         private void UpdateTags(Post post, DbConnectionHelper conn)
         {
-            var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE PostID = {1}id", this.tablePrefix, this.parmPrefix);
+            var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
             using (var cmd = conn.CreateTextCommand(sqlQuery))
             {
-
+                cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                 cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                 cmd.ExecuteNonQuery();
 
                 foreach (var tag in post.Tags)
                 {
-                    cmd.CommandText = string.Format("INSERT INTO {0}PostTag (PostID, Tag) VALUES ({1}id, {1}tag)", this.tablePrefix, this.parmPrefix);
+                    cmd.CommandText = string.Format("INSERT INTO {0}PostTag (BlogID, PostID, Tag) VALUES ({1}blogid, {1}id, {1}tag)", this.tablePrefix, this.parmPrefix);
                     cmd.Parameters.Clear();
 
+                    cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                     cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                     cmd.Parameters.Add(conn.CreateParameter(FormatParamName("tag"), tag));
 
@@ -2165,6 +2427,7 @@
         {
 
             var parms = cmd.Parameters;
+            parms.Add(conn.CreateParameter(FormatParamName("BlogId"), Blog.CurrentInstance.Id.ToString()));
             parms.Add(conn.CreateParameter(FormatParamName("BlogRollId"), blogRollItem.Id.ToString()));
             parms.Add(conn.CreateParameter(FormatParamName("Title"), blogRollItem.Title));
             parms.Add(conn.CreateParameter(FormatParamName("Description"), blogRollItem.Description));
@@ -2191,8 +2454,13 @@
         {
             var parms = cmd.Parameters;
             parms.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
-            parms.Add(conn.CreateParameter(FormatParamName("BlogDbId"), blog.DatabaseId.ToString()));
-            parms.Add(conn.CreateParameter(FormatParamName("BlogName"), blog.Name));
+            parms.Add(conn.CreateParameter(FormatParamName("BlogName"), blog.Name ?? string.Empty));
+            parms.Add(conn.CreateParameter(FormatParamName("Hostname"), blog.Hostname ?? string.Empty));
+            parms.Add(conn.CreateParameter(FormatParamName("IsAnyTextBeforeHostnameAccepted"), blog.IsAnyTextBeforeHostnameAccepted));
+            parms.Add(conn.CreateParameter(FormatParamName("StorageContainerName"), blog.StorageContainerName));
+            parms.Add(conn.CreateParameter(FormatParamName("VirtualPath"), blog.VirtualPath ?? string.Empty));
+            parms.Add(conn.CreateParameter(FormatParamName("IsPrimary"), blog.IsPrimary));
+            parms.Add(conn.CreateParameter(FormatParamName("IsActive"), blog.IsActive));
         }
 
         /// <summary>
@@ -2211,6 +2479,7 @@
         {
             var parms = cmd.Parameters;
 
+            parms.Add(conn.CreateParameter("BlogId", Blog.CurrentInstance.Id.ToString()));
             parms.Add(conn.CreateParameter("ReferrerId", referrer.Id.ToString()));
             parms.Add(conn.CreateParameter(FormatParamName("ReferralDay"), referrer.Day));
             parms.Add(conn.CreateParameter(FormatParamName("ReferrerUrl"), (referrer.ReferrerUrl != null ? (object)referrer.ReferrerUrl.ToString() : DBNull.Value)));
@@ -2228,10 +2497,11 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Referrers WHERE ReferralDay < {1}ReferralDay", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Referrers WHERE BlogId = {1}BlogId AND ReferralDay < {1}ReferralDay", this.tablePrefix, this.parmPrefix)))
                     {
                         var cutoff = DateTime.Today.AddDays(-BlogSettings.Instance.NumberOfReferrerDays);
 
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("ReferralDay"), cutoff));
 
                         cmd.ExecuteNonQuery();
