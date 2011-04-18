@@ -52,6 +52,11 @@
         public string RelativeWebRoot { get; set; }
 
         /// <summary>
+        /// Absolute Web Root (READ ONLY).
+        /// </summary>
+        public Uri AbsoluteWebRoot { get; set; }
+
+        /// <summary>
         /// Whether the blog instance is the Primary instance.
         /// </summary>
         public bool IsPrimary { get; set; }

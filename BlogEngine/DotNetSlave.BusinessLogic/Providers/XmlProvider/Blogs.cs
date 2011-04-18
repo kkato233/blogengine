@@ -6,6 +6,7 @@ using System.IO;
 using System.Web;
 using System.Xml;
 using System.Web.Hosting;
+using System.Globalization;
 
 namespace BlogEngine.Core.Providers
 {
@@ -49,22 +50,22 @@ namespace BlogEngine.Core.Providers
             if (nodes != null)
             {
 
-                foreach (var b in from XmlNode node in nodes
-                                   select new Blog()
-                                   {
-                                       Id = node.Attributes["id"] == null ? Guid.NewGuid() : new Guid(node.Attributes["id"].Value),
-                                       Name = node.Attributes["name"] == null ? string.Empty : node.Attributes["name"].Value,
-                                       StorageContainerName = node.Attributes["storageContainerName"] == null ? string.Empty : node.Attributes["storageContainerName"].Value,
-                                       Hostname = node.Attributes["hostName"] == null ? string.Empty : node.Attributes["hostName"].Value,
-                                       IsAnyTextBeforeHostnameAccepted = node.Attributes["isAnyTextBeforeHostnameAccepted"] == null ? false : bool.Parse(node.Attributes["isAnyTextBeforeHostnameAccepted"].Value),
-                                       VirtualPath = node.Attributes["virtualPath"] == null ? string.Empty : node.Attributes["virtualPath"].Value,
-                                       DatabaseId = node.Attributes["databaseId"] == null ? 0 : int.Parse(node.Attributes["databaseId"].Value),
-                                       IsPrimary = node.Attributes["isPrimary"] == null ? false : bool.Parse(node.Attributes["isPrimary"].Value),
-                                       IsActive = node.Attributes["isActive"] == null ? false : bool.Parse(node.Attributes["isActive"].Value)
-                                   })
+                foreach (XmlNode node in nodes)
                 {
+                    var b = new Blog()
+                    {
+                        Id = node.Attributes["id"] == null ? Guid.NewGuid() : new Guid(node.Attributes["id"].Value),
+                        Name = node.Attributes["name"] == null ? string.Empty : node.Attributes["name"].Value,
+                        StorageContainerName = node.Attributes["storageContainerName"] == null ? string.Empty : node.Attributes["storageContainerName"].Value,
+                        Hostname = node.Attributes["hostName"] == null ? string.Empty : node.Attributes["hostName"].Value,
+                        IsAnyTextBeforeHostnameAccepted = node.Attributes["isAnyTextBeforeHostnameAccepted"] == null ? false : bool.Parse(node.Attributes["isAnyTextBeforeHostnameAccepted"].Value),
+                        VirtualPath = node.Attributes["virtualPath"] == null ? string.Empty : node.Attributes["virtualPath"].Value,
+                        IsPrimary = node.Attributes["isPrimary"] == null ? false : bool.Parse(node.Attributes["isPrimary"].Value),
+                        IsActive = node.Attributes["isActive"] == null ? false : bool.Parse(node.Attributes["isActive"].Value)
+                    };
+
                     blogs.Add(b);
-                    b.MarkOld();
+                    b.MarkOld();   
                 }
             }
 
@@ -145,12 +146,6 @@ namespace BlogEngine.Core.Providers
                     writer.WriteAttributeString("isPrimary", b.IsPrimary.ToString());
                     writer.WriteAttributeString("isActive", b.IsActive.ToString());
 
-                    //writer.WriteAttributeString("title", b.Title);
-                    //writer.WriteAttributeString("description", b.Description ?? string.Empty);
-                    //writer.WriteAttributeString("htmlUrl", b.BlogUrl != null ? b.BlogUrl.ToString() : string.Empty);
-                    //writer.WriteAttributeString("xmlUrl", b.FeedUrl != null ? b.FeedUrl.ToString() : string.Empty);
-                    //writer.WriteAttributeString("xfn", b.Xfn ?? string.Empty);
-                    //writer.WriteAttributeString("sortIndex", b.SortIndex.ToString());
                     writer.WriteEndElement();
                     b.MarkOld();
                 }

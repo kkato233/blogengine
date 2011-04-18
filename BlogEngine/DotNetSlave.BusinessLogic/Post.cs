@@ -1535,19 +1535,20 @@
         private static void AddRelations()
         {
             Blog blog = Blog.CurrentInstance;
+            List<Post> blogPosts = posts[blog.Id];
 
-            for (var i = 0; i < posts[blog.Id].Count; i++)
+            for (var i = 0; i < blogPosts.Count; i++)
             {
-                posts[blog.Id][i].Next = null;
-                posts[blog.Id][i].Previous = null;
+                blogPosts[i].Next = null;
+                blogPosts[i].Previous = null;
                 if (i > 0)
                 {
-                    posts[blog.Id][i].Next = posts[blog.Id][i - 1];
+                    blogPosts[i].Next = blogPosts[i - 1];
                 }
 
-                if (i < posts.Count - 1)
+                if (i < blogPosts.Count - 1)
                 {
-                    posts[blog.Id][i].Previous = posts[blog.Id][i + 1];
+                    blogPosts[i].Previous = blogPosts[i + 1];
                 }
             }
         }

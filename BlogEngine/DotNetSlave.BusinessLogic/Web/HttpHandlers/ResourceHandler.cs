@@ -90,6 +90,8 @@
 
                 StringBuilder sb = new StringBuilder();
                 sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
+                sb.AppendFormat("BlogEngine.applicationWebRoot='{0}';", Utils.ApplicationRelativeWebRoot);
+                sb.AppendFormat("BlogEngine.blogInstanceId='{0}';", Blog.CurrentInstance.Id);
                 sb.AppendFormat("BlogEngine.i18n = {0};", jc.ToJsonString());
 
                 script = sb.ToString();

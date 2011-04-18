@@ -191,10 +191,11 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE BlogID = {1}blogid AND userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
                         // Check Old Password
 
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -230,7 +231,7 @@
                         // Update New Password
                         if (oldPasswordCorrect)
                         {
-                            cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE userName = {1}name", this.tablePrefix, this.parmPrefix);
+                            cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE BlogID = {1}blogid AND userName = {1}name", this.tablePrefix, this.parmPrefix);
 
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("pwd"), (this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(newPassword) : newPassword)));
 
@@ -287,11 +288,12 @@
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Users (userName, password, emailAddress, lastLoginTime) VALUES ({1}name, {1}pwd, {1}email, {1}login)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Users (blogId, userName, password, emailAddress, lastLoginTime) VALUES ({1}blogid, {1}name, {1}pwd, {1}email, {1}login)", this.tablePrefix, this.parmPrefix);
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
 
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("name"), username));
                         parms.Add(conn.CreateParameter(FormatParamName("pwd"), (this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(password) : password)));
                         parms.Add(conn.CreateParameter(FormatParamName("email"), email));
@@ -322,8 +324,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Users WHERE blogId = {1}blogid AND userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         try
@@ -392,8 +395,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users", this.tablePrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users WHERE BlogID = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
@@ -460,8 +465,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT username, EmailAddress, lastLoginTime FROM {0}Users WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -498,8 +504,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT userName FROM {0}Users WHERE emailAddress = {1}email", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT userName FROM {0}Users WHERE BlogID = {1}blogid AND emailAddress = {1}email", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("email"), email));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -532,7 +539,7 @@
                 throw new ArgumentNullException("config");
             }
 
-            if (String.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
                 name = "DbMembershipProvider";
             }
@@ -598,7 +605,7 @@
                 config["passwordFormat"] = "Hashed";
                 this.passwordFormat = MembershipPasswordFormat.Hashed;
             }
-            else if (String.Compare(config["passwordFormat"], "clear", true) == 0)
+            else if (string.Compare(config["passwordFormat"], "clear", true) == 0)
             {
                 this.passwordFormat = MembershipPasswordFormat.Clear;
             }
@@ -613,7 +620,7 @@
             if (config.Count > 0)
             {
                 var attr = config.GetKey(0);
-                if (!String.IsNullOrEmpty(attr))
+                if (!string.IsNullOrEmpty(attr))
                 {
                     throw new ProviderException(string.Format("Unrecognized attribute: {0}", attr));
                 }
@@ -641,10 +648,11 @@
                 if (conn.HasConnection)
                 {
 
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE BlogID = {1}blogid AND userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
                         // Check Old Password
 
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -658,7 +666,7 @@
                         // Update Password
                         if (!string.IsNullOrEmpty(oldPassword))
                         {
-                            cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE userName = {2}name", this.tablePrefix, this.parmPrefix, this.parmPrefix);
+                            cmd.CommandText = string.Format("UPDATE {0}Users SET password = {1}pwd WHERE BlogID = {1}blogid AND userName = {1}name", this.tablePrefix, this.parmPrefix);
 
                             cmd.Parameters.Add(conn.CreateParameter(FormatParamName("pwd"), (this.passwordFormat == MembershipPasswordFormat.Hashed ? Utils.HashPassword(randomPassword) : randomPassword)));
 
@@ -692,9 +700,10 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("UPDATE {0}Users SET emailAddress = {1}email WHERE userName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("UPDATE {0}Users SET emailAddress = {1}email WHERE BlogId = {1}blogId AND userName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
                         var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         parms.Add(conn.CreateParameter(FormatParamName("name"), user.UserName));
                         parms.Add(conn.CreateParameter(FormatParamName("email"), user.Email));
 
@@ -718,8 +727,9 @@
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT password FROM {0}Users WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), username));
 
                         using (var rdr = cmd.ExecuteReader())
@@ -777,7 +787,7 @@
         /// <returns></returns>
         private string FormatParamName(string parameterName)
         {
-            return String.Format("{0}{1}", this.parmPrefix, parameterName);
+            return string.Format("{0}{1}", this.parmPrefix, parameterName);
         }
 
         /// <summary>
@@ -802,8 +812,8 @@
                 userName, // Username
                 userName, // providerUserKey
                 email, // Email
-                String.Empty, // passwordQuestion
-                String.Empty, // Comment
+                string.Empty, // passwordQuestion
+                string.Empty, // Comment
                 true, // approved
                 false, // isLockedOut
                 DateTime.Now, // creationDate

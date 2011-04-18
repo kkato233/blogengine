@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Hosting;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.Web.Security;
 
 namespace BlogEngine.Core
 {
@@ -24,11 +26,6 @@ namespace BlogEngine.Core
         ///     Blog name
         /// </summary>
         private string blogName;
-
-        /// <summary>
-        ///     The unique ID of the blog used to associate objects to this blog.
-        /// </summary>
-        private int databaseId;
 
         /// <summary>
         ///     Whether the blog is the primary blog instance
@@ -173,22 +170,6 @@ namespace BlogEngine.Core
             set
             {
                 base.SetValue("Name", value, ref this.blogName);
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets the database ID.
-        /// </summary>
-        public int DatabaseId
-        {
-            get
-            {
-                return this.databaseId;
-            }
-
-            set
-            {
-                base.SetValue("DatabaseId", value, ref this.databaseId);
             }
         }
 
@@ -399,6 +380,7 @@ namespace BlogEngine.Core
 
                                 Blog blog = new Blog();
                                 blog.Name = "Primary";
+                                blog.hostname = string.Empty;
                                 blog.VirtualPath = BlogConfig.VirtualPath;
                                 blog.StorageContainerName = string.Empty;
                                 blog.IsPrimary = true;
@@ -575,6 +557,43 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
+        ///     Gets the absolute root of the blog instance.
+        /// </summary>
+        public Uri AbsoluteWebRoot
+        {
+            get
+            {
+                string contextItemKey = string.Format("{0}-absolutewebroot", this.Id);
+
+                var context = HttpContext.Current;
+                if (context == null)
+                {
+                    throw new WebException("The current HttpContext is null");
+                }
+
+                Uri absoluteWebRoot = context.Items[contextItemKey] as Uri;
+                if (absoluteWebRoot != null) { return absoluteWebRoot; }
+
+                UriBuilder uri = new UriBuilder();
+                if (!string.IsNullOrWhiteSpace(this.Hostname))
+                    uri.Host = this.Hostname;
+                else
+                    uri.Host = context.Request.Url.Host;
+
+                string vPath = this.VirtualPath ?? string.Empty;
+                if (vPath.StartsWith("~/")) { vPath = vPath.Substring(2); }
+                uri.Path = string.Format("{0}{1}", Utils.ApplicationRelativeWebRoot, vPath);
+                if (!uri.Path.EndsWith("/")) { uri.Path += "/"; }
+
+                absoluteWebRoot = uri.Uri;
+                context.Items[contextItemKey] = absoluteWebRoot;
+
+                return absoluteWebRoot;
+            }
+        }
+
+
+        /// <summary>
         /// Creates a new blog.
         /// </summary>
         public static Blog CreateNewBlog(
@@ -726,6 +745,16 @@ namespace BlogEngine.Core
             bool providerResult = BlogService.SetupBlogFromExistingBlog(existing, this);
             if (!providerResult)
                 return false;
+
+            //if (Membership.Provider.Name.Equals("DbMembershipProvider", StringComparison.OrdinalIgnoreCase))
+            //{ 
+
+            //}
+
+            //if (Roles.Provider.Name.Equals("DbRoleProvider", StringComparison.OrdinalIgnoreCase))
+            //{
+
+            //}
 
             return true;
         }
