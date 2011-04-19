@@ -880,7 +880,7 @@ namespace BlogEngine.Core
         /// </summary>
         public CacheProvider Cache
         {
-            get { return _cache ?? new CacheProvider(HttpContext.Current.Cache); }
+            get { return _cache ?? (_cache = new CacheProvider(HttpContext.Current.Cache)); }
         }
     }
 }
