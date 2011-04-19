@@ -28,18 +28,13 @@ namespace App_Code.Controls
         #region Constants and Fields
 
         /// <summary>
-        /// The xml document by zone.
-        /// </summary>
-        private static readonly Dictionary<string, XmlDocument> XmlDocumentByZone =
-            new Dictionary<string, XmlDocument>();
-
-        /// <summary>
         ///     The zone name.
         /// </summary>
         /// <remarks>
         ///     For backwards compatibility or if a ZoneName is omitted, provide a default ZoneName.
         /// </remarks>
         private string zoneName = "be_WIDGET_ZONE";
+        private const string staticZone = "be_WIDGET_ZONE";
 
         #endregion
 
@@ -64,12 +59,12 @@ namespace App_Code.Controls
         {
             get
             {
-                return this.zoneName;
+                return zoneName;
             }
 
             set
             {
-                this.zoneName = Utils.RemoveIllegalCharacters(value);
+                zoneName = Utils.RemoveIllegalCharacters(value);
             }
         }
 
@@ -82,7 +77,7 @@ namespace App_Code.Controls
             get
             {
                 // look up the document by zone name
-                return XmlDocumentByZone.ContainsKey(this.ZoneName) ? XmlDocumentByZone[this.ZoneName] : null;
+                return Blog.CurrentInstance.Cache[ZoneName] == null ? null : (XmlDocument)Blog.CurrentInstance.Cache[ZoneName];
             }
         }
 
@@ -104,7 +99,7 @@ namespace App_Code.Controls
                 var doc = RetrieveXml(this.ZoneName);
                 if (doc != null)
                 {
-                    XmlDocumentByZone[this.ZoneName] = doc;
+                    Blog.CurrentInstance.Cache[ZoneName] = doc;
                 }
             }
 
@@ -219,7 +214,7 @@ namespace App_Code.Controls
         /// </summary>
         private static void OnZonesUpdated()
         {
-            XmlDocumentByZone.Clear();
+            Blog.CurrentInstance.Cache.Remove(staticZone);
         }
 
         /// <summary>
