@@ -95,7 +95,7 @@ BlogEngine.widgetAdmin = {
                         BlogEngine.widgetAdmin.moveContainerCurrentLocationWidgetId + "," +
                         sNewZoneName + "," + moveBeforeWidgetId;
 
-                    BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?move=" + sData + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.moveComplete);
+                    BlogEngine.createCallback(BlogEngine.applicationWebRoot + "admin/WidgetEditor.aspx?move=" + sData + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.moveComplete);
                 }
             }
         }
@@ -204,7 +204,7 @@ BlogEngine.widgetAdmin = {
             }
         }
 
-        BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?getmoveitems=" + BlogEngine.widgetAdmin.zoneNames.join(",") + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.loadMoveDropdownItems);
+        BlogEngine.createCallback(BlogEngine.applicationWebRoot + "admin/WidgetEditor.aspx?getmoveitems=" + BlogEngine.widgetAdmin.zoneNames.join(",") + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.loadMoveDropdownItems);
     }
     ,
     getWidgetsZoneName: function(id) {
@@ -267,7 +267,7 @@ BlogEngine.widgetAdmin = {
         var iframe = document.createElement('iframe');
         iframe.name = 'Widget Editor';
         iframe.id = 'WidgetEditor';
-        iframe.src = BlogEngine.webRoot + 'admin/WidgetEditor.aspx?widget=' + name + '&id=' + id + "&zone=" + zone;
+        iframe.src = BlogEngine.applicationWebRoot + 'admin/WidgetEditor.aspx?widget=' + name + '&id=' + id + "&zone=" + zone;
         iframe.style.height = size.height + 'px';
         iframe.style.width = size.width + 'px';
         iframe.style.position = 'fixed';
@@ -283,7 +283,7 @@ BlogEngine.widgetAdmin = {
     }
     ,
     addWidget: function(type, zone) {
-        BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?add=" + type + "&zone=" + zone + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.appendWidget);
+        BlogEngine.createCallback(BlogEngine.applicationWebRoot + "admin/WidgetEditor.aspx?add=" + type + "&zone=" + zone + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.appendWidget);
     }
     ,
     appendWidget: function(response) {
@@ -327,7 +327,7 @@ BlogEngine.widgetAdmin = {
     removeWidget: function(id) {
         if (confirm('Are you sure you want to remove the widget?')) {
             var zone = BlogEngine.widgetAdmin.getWidgetsZoneName(id);
-            BlogEngine.createCallback(BlogEngine.webRoot + "admin/WidgetEditor.aspx?remove=" + id + "&zone=" + zone + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.widgetRemoved);
+            BlogEngine.createCallback(BlogEngine.applicationWebRoot + "admin/WidgetEditor.aspx?remove=" + id + "&zone=" + zone + "&rnd=" + Math.random(), BlogEngine.widgetAdmin.widgetRemoved);
         }
     }
     ,

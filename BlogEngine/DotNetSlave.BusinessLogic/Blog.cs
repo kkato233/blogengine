@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BlogEngine.Core.Providers;
 using System.Web;
 using System.Web.Hosting;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
-using System.Web.Security;
+using BlogEngine.Core.Providers.CacheProvider;
 
 namespace BlogEngine.Core
 {
@@ -873,6 +872,15 @@ namespace BlogEngine.Core
             }
 
             return this.Name.CompareTo(other.Name);
+        }
+
+        private CacheProvider _cache;
+        /// <summary>
+        /// blog instance cache
+        /// </summary>
+        public CacheProvider Cache
+        {
+            get { return _cache ?? new CacheProvider(HttpContext.Current.Cache); }
         }
     }
 }

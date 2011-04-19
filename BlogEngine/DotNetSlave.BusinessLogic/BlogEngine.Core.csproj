@@ -145,6 +145,8 @@
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />
     <Compile Include="Providers\BlogProviderCollection.cs" />
+    <Compile Include="Providers\CacheProvider\CacheBase .cs" />
+    <Compile Include="Providers\CacheProvider\CacheProvider.cs" />
     <Compile Include="Providers\DbConnectionHelper.cs" />
     <Compile Include="Providers\XmlProvider\Blogs.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
