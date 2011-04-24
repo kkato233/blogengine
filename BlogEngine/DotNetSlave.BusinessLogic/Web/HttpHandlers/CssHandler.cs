@@ -85,7 +85,7 @@
                 }
 
                 string cacheKey = request.RawUrl.Trim();
-                string css = (string)context.Cache[cacheKey];
+                string css = (string)Blog.CurrentInstance.Cache[cacheKey];
 
                 if (String.IsNullOrEmpty(css))
                 {
@@ -203,7 +203,7 @@
                 }
 
                 css = ProcessCss(css);
-                HttpContext.Current.Cache.Insert(cacheKey, css, new CacheDependency(path));
+                Blog.CurrentInstance.Cache.Insert(cacheKey, css, new CacheDependency(path));
 
                 return css;
             }
@@ -239,7 +239,7 @@
                     css = ProcessCss(css);
 
                     // Insert into cache
-                    HttpContext.Current.Cache.Insert(
+                    Blog.CurrentInstance.Cache.Insert(
                         cacheKey,
                         css,
                         null,

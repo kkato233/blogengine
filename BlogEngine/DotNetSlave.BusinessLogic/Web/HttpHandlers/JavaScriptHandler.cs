@@ -69,7 +69,7 @@
 
             string rawUrl = request.RawUrl.Trim();
             string cacheKey = context.Server.HtmlDecode(rawUrl);
-            string script = (string)context.Cache[cacheKey];
+            string script = (string)Blog.CurrentInstance.Cache[cacheKey];
             bool minify = ((request.QueryString["minify"] != null) || (BlogSettings.Instance.CompressWebResource && cacheKey.Contains("WebResource.axd")));
 
 
@@ -174,7 +174,7 @@
                     }
 
                     script = ProcessScript(script, file, minify);
-                    HttpContext.Current.Cache.Insert(cacheKey, script, new CacheDependency(path));
+                    Blog.CurrentInstance.Cache.Insert(cacheKey, script, new CacheDependency(path));
                     return script;
                 }
             }
@@ -209,7 +209,7 @@
                     var remoteFile = new RemoteFile(url, false);
                     string script = remoteFile.GetFileAsString();
                     script = ProcessScript(script, file, minify);
-                    HttpContext.Current.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+                    Blog.CurrentInstance.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
                     return script;
                 }
                 catch (SocketException)

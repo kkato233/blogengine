@@ -114,7 +114,7 @@
             }
 
             string message;
-            if (!Blog.ValidateProperties(blog == null, blogName, hostname, isAnyTextBeforeHostnameAccepted, storageContainerName, virtualPath, out message))
+            if (!Blog.ValidateProperties(blog == null, blog, blogName, hostname, isAnyTextBeforeHostnameAccepted, storageContainerName, virtualPath, out message))
             {
                 if (string.IsNullOrWhiteSpace(message)) { message = "Validation for new blog failed."; }
                 return new JsonResponse() { Message = message };

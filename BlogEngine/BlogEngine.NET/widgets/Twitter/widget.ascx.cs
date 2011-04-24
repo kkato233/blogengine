@@ -125,18 +125,18 @@ namespace Widgets.Twitter
                 return;
             }
             
-            if (HttpRuntime.Cache[TwitterFeedsCacheKey] == null)
+            if (Blog.CurrentInstance.Cache[TwitterFeedsCacheKey] == null)
             {
                 var doc = GetLastFeed();
                 if (doc != null)
                 {
-                    HttpRuntime.Cache[TwitterFeedsCacheKey] = doc.OuterXml;
+                    Blog.CurrentInstance.Cache[TwitterFeedsCacheKey] = doc.OuterXml;
                 }
             }
 
-            if (HttpRuntime.Cache[TwitterFeedsCacheKey] != null)
+            if (Blog.CurrentInstance.Cache[TwitterFeedsCacheKey] != null)
             {
-                var xml = (string)HttpRuntime.Cache[TwitterFeedsCacheKey];
+                var xml = (string)Blog.CurrentInstance.Cache[TwitterFeedsCacheKey];
                 var doc = new XmlDocument();
                 doc.LoadXml(xml);
                 this.BindFeed(doc, settings.MaxItems);
@@ -317,7 +317,7 @@ namespace Widgets.Twitter
                         doc.Load(responseStream);
                     }
 
-                    HttpRuntime.Cache[TwitterFeedsCacheKey] = doc.OuterXml;
+                    Blog.CurrentInstance.Cache[TwitterFeedsCacheKey] = doc.OuterXml;
                     SaveLastFeed(doc);
                 }
             }
@@ -364,7 +364,7 @@ namespace Widgets.Twitter
         /// </returns>
         private TwitterSettings GetTwitterSettings()
         {
-            var twitterSettings = HttpRuntime.Cache[TwitterSettingsCacheKey] as TwitterSettings;
+            var twitterSettings = Blog.CurrentInstance.Cache[TwitterSettingsCacheKey] as TwitterSettings;
 
             if (twitterSettings != null)
             {
@@ -427,7 +427,7 @@ namespace Widgets.Twitter
                                                ? settings["followmetext"]
                                                : FollowMeText;
 
-            HttpRuntime.Cache[TwitterSettingsCacheKey] = twitterSettings;
+            Blog.CurrentInstance.Cache[TwitterSettingsCacheKey] = twitterSettings;
 
             return twitterSettings;
         }

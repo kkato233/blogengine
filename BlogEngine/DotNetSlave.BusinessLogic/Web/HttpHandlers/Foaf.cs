@@ -215,24 +215,24 @@
 
                     var foaf = new FoafPerson(title) { Name = title, Blog = url };
 
-                    if (context.Cache[string.Format("foaf:{0}", title)] == null)
+                    if (Blog.CurrentInstance.Cache[string.Format("foaf:{0}", title)] == null)
                     {
                         var docs = Utils.FindSemanticDocuments(new Uri(url), "foaf");
                         if (docs.Count > 0)
                         {
                             foreach (var key in docs.Keys)
                             {
-                                context.Cache.Insert(string.Format("foaf:{0}", title), key.ToString());
+                                Blog.CurrentInstance.Cache.Insert(string.Format("foaf:{0}", title), key.ToString());
                                 break;
                             }
                         }
                         else
                         {
-                            context.Cache.Insert(string.Format("foaf:{0}", title), "0");
+                            Blog.CurrentInstance.Cache.Insert(string.Format("foaf:{0}", title), "0");
                         }
                     }
 
-                    var seeAlso = (string)context.Cache[string.Format("foaf:{0}", title)];
+                    var seeAlso = (string)Blog.CurrentInstance.Cache[string.Format("foaf:{0}", title)];
                     if (seeAlso != null && seeAlso.Contains("://"))
                     {
                         foaf.Rdf = seeAlso;

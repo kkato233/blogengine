@@ -10,7 +10,7 @@ namespace BlogEngine.Core.Providers.CacheProvider
     public class CacheProvider : CacheBase
     {
         private readonly Cache _cache;
-        private readonly string _keyPreffix = Blog.CurrentInstance.Id + "_";
+        private readonly string _keyPrefix = Blog.CurrentInstance.Id + "_";
         /// <summary>
         /// 
         /// </summary>
@@ -39,22 +39,22 @@ namespace BlogEngine.Core.Providers.CacheProvider
         {
             get
             {
-                return _cache[_keyPreffix + key];
+                return _cache[_keyPrefix + key];
             }
             set
             {
-                _cache[_keyPreffix + key] = value;
+                _cache[_keyPrefix + key] = value;
             }
         }
 
         public override object Add(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration, TimeSpan slidingExpiration, CacheItemPriority priority, CacheItemRemovedCallback onRemoveCallback)
         {
-            return _cache.Add(_keyPreffix + key, value, dependencies, absoluteExpiration, slidingExpiration, priority, onRemoveCallback);
+            return _cache.Add(_keyPrefix + key, value, dependencies, absoluteExpiration, slidingExpiration, priority, onRemoveCallback);
         }
 
         public override object Get(string key)
         {
-            return _cache.Get(_keyPreffix + key);
+            return _cache.Get(_keyPrefix + key);
         }
 
         public override IDictionaryEnumerator GetEnumerator()
@@ -64,27 +64,27 @@ namespace BlogEngine.Core.Providers.CacheProvider
 
         public override void Insert(string key, object value)
         {
-            _cache.Insert(_keyPreffix + key, value);
+            _cache.Insert(_keyPrefix + key, value);
         }
 
         public override void Insert(string key, object value, CacheDependency dependencies)
         {
-            _cache.Insert(_keyPreffix + key, value, dependencies);
+            _cache.Insert(_keyPrefix + key, value, dependencies);
         }
 
         public override void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration, TimeSpan slidingExpiration)
         {
-            _cache.Insert(_keyPreffix + key, value, dependencies, absoluteExpiration, slidingExpiration);
+            _cache.Insert(_keyPrefix + key, value, dependencies, absoluteExpiration, slidingExpiration);
         }
 
         public override void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration, TimeSpan slidingExpiration, CacheItemPriority priority, CacheItemRemovedCallback onRemoveCallback)
         {
-            _cache.Insert(_keyPreffix + key, value, dependencies, absoluteExpiration, slidingExpiration, priority, onRemoveCallback);
+            _cache.Insert(_keyPrefix + key, value, dependencies, absoluteExpiration, slidingExpiration, priority, onRemoveCallback);
         }
 
         public override object Remove(string key)
         {
-            return _cache.Remove(_keyPreffix + key);
+            return _cache.Remove(_keyPrefix + key);
         }
     }
 }
