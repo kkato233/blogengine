@@ -349,7 +349,7 @@
 
                 //if (base.SetValue("Content", value, ref this.content))
                 //{
-                //    HttpContext.Current.Cache.Remove("content_" + this.Id);
+                //    Blog.CurrentInstance.Cache.Remove("content_" + this.Id);
                 //}
             }
         }

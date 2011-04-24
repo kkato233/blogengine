@@ -36,6 +36,10 @@
         var validIpAddressRegex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/i;
         var validHostnameRegex = /^(([a-z]|[a-z][a-z0-9\-]*[a-z0-9])\.)*([a-z]|[a-z][a-z0-9\-]*[a-z0-9])$/i;
 
+        function IsEditingPrimary() {
+            
+        }
+
         function IsBlogDataValid() {
 
             // hide all validators.
@@ -49,17 +53,20 @@
                 return false;
             }
 
-            if (data.storageContainerName.length === 0) {
-                $('#txtStorageContainerNameReq').removeClass('hidden');
-                $('#txtStorageContainerName').focus().select();
-                return false;
-            } else {
-
-                if (!IsValidChars(data.storageContainerName)) {
+            var storageContainerNameIsReadonly = $('#txtStorageContainerName').attr('readonly');
+            if (!storageContainerNameIsReadonly) {
+                if (data.storageContainerName.length === 0) {
                     $('#txtStorageContainerNameReq').removeClass('hidden');
                     $('#txtStorageContainerName').focus().select();
-                    alert('The Storage Container Name contains invalid characters.  ' + OnlyAllowedMsg());
                     return false;
+                } else {
+
+                    if (!IsValidChars(data.storageContainerName)) {
+                        $('#txtStorageContainerNameReq').removeClass('hidden');
+                        $('#txtStorageContainerName').focus().select();
+                        alert('The Storage Container Name contains invalid characters.  ' + OnlyAllowedMsg());
+                        return false;
+                    }
                 }
             }
 
@@ -268,7 +275,7 @@
         function resetForm() {
 
             $('.tblForm .req').addClass('hidden');
-            
+
             $('#hdnEditBlogId').val('');
             $('#txtBlogName').val('');
             $('#txtStorageContainerName').val('');

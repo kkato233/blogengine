@@ -290,6 +290,7 @@ namespace BlogEngine.Core
             if (this.IsChanged)
             {
                 BlogService.UpdateBlog(this);
+                SortBlogs();
             }
 
             OnSaved(this, SaveAction.Update);
@@ -607,7 +608,7 @@ namespace BlogEngine.Core
         {
             message = null;
 
-            if (!ValidateProperties(true, blogName, hostname, isAnyTextBeforeHostnameAccepted, storageContainerName, virtualPath, out message))
+            if (!ValidateProperties(true, null, blogName, hostname, isAnyTextBeforeHostnameAccepted, storageContainerName, virtualPath, out message))
             {
                 if (string.IsNullOrWhiteSpace(message))
                 {
@@ -656,6 +657,7 @@ namespace BlogEngine.Core
 
         public static bool ValidateProperties(
             bool isNew,
+            Blog updateBlog,
             string blogName,
             string hostname,
             bool isAnyTextBeforeHostnameAccepted,
@@ -684,16 +686,21 @@ namespace BlogEngine.Core
 
             Regex validChars = new Regex("^[a-z0-9-_]+$", RegexOptions.IgnoreCase);
 
-            if (string.IsNullOrWhiteSpace(storageContainerName))
+            // if primary is being edited, allow an empty storage container name (bypass check).
+            if (updateBlog == null || !updateBlog.IsPrimary)
             {
-                message = "Storage Container Name is Required.";
-                return false;
+                if (string.IsNullOrWhiteSpace(storageContainerName))
+                {
+                    message = "Storage Container Name is Required.";
+                    return false;
+                }
             }
-            else if (!validChars.IsMatch(storageContainerName))
+            if (!string.IsNullOrWhiteSpace(storageContainerName) && !validChars.IsMatch(storageContainerName))
             {
                 message = "Storage Container Name contains invalid characters.";
                 return false;
             }
+            
 
             if (string.IsNullOrWhiteSpace(virtualPath))
             {
@@ -722,6 +729,12 @@ namespace BlogEngine.Core
                         return false;
                     }
                 }
+            }
+
+            if (Blog.Blogs.FirstOrDefault(b => (updateBlog == null || updateBlog.Id != b.Id) && (b.VirtualPath ?? string.Empty).Equals((virtualPath ?? string.Empty), StringComparison.OrdinalIgnoreCase) && (b.Hostname ?? string.Empty).Equals(hostname ?? string.Empty, StringComparison.OrdinalIgnoreCase)) != null)
+            {
+                message = "Another blog has the same combination of Hostname and Virtual Path.";
+                return false;
             }
 
             return true;
@@ -853,22 +866,42 @@ namespace BlogEngine.Core
         {   
             // order so:
             //   1. active blogs come first
-            //   2. blogs with longer RelativeWebRoots come first (length DESC)
-            //   3. blog name ASC.
+            //   2. blogs with longer Hostnames come first (length DESC)
+            //   3. blogs not allowing any text before hostname come first.
+            //   4. blogs with longer RelativeWebRoots come first (length DESC)
+            //   5. blog name ASC.
 
-            // it is sorted this way to optimize the speed in determining 'CurrentInstance'.
+            // it is sorted this way so the more specific criteria are evaluated first,
+            // and pre-sorted to make CurrentInstance work as fast as possible.
 
             if (this.IsActive && !other.IsActive)
                 return -1;
             else if (!this.IsActive && other.IsActive)
                 return 1;
 
-            int otherLength = other.RelativeWebRoot.Length;
-            int thisLength = this.RelativeWebRoot.Length;
+            int otherHostnameLength = other.Hostname.Length;
+            int thisHostnameLength = this.hostname.Length;
 
-            if (otherLength != thisLength)
+            if (otherHostnameLength != thisHostnameLength)
             {
-                return otherLength.CompareTo(thisLength);
+                return otherHostnameLength.CompareTo(thisHostnameLength);
+            }
+
+            // at this point, otherHostnameLength == thisHostnameLength.
+            if (otherHostnameLength > 0)  // if so, thisHostnameLength is also > 0.
+            {
+                if (this.IsAnyTextBeforeHostnameAccepted && !other.IsAnyTextBeforeHostnameAccepted)
+                    return 1;
+                else if (!this.IsAnyTextBeforeHostnameAccepted && other.IsAnyTextBeforeHostnameAccepted)
+                    return -1;
+            }
+
+            int otherRelWebRootLength = other.RelativeWebRoot.Length;
+            int thisRelWebRootLength = this.RelativeWebRoot.Length;
+
+            if (otherRelWebRootLength != thisRelWebRootLength)
+            {
+                return otherRelWebRootLength.CompareTo(thisRelWebRootLength);
             }
 
             return this.Name.CompareTo(other.Name);

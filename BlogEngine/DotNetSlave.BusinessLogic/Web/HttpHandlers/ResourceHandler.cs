@@ -65,7 +65,7 @@
             lang = lang.ToLowerInvariant();
 
             string cacheKey = "resource.axd - " + lang;
-            string script = (string)context.Cache[cacheKey];
+            string script = (string)Blog.CurrentInstance.Cache[cacheKey];
            
             if (String.IsNullOrEmpty(script))
             {
@@ -95,7 +95,7 @@
                 sb.AppendFormat("BlogEngine.i18n = {0};", jc.ToJsonString());
 
                 script = sb.ToString();
-                HttpContext.Current.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
+                Blog.CurrentInstance.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
             }
 
             SetHeaders(script.GetHashCode(), context);
