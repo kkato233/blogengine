@@ -8,6 +8,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace BlogEngine.Core.Providers
 {
     using System.IO;
@@ -117,9 +119,10 @@ namespace BlogEngine.Core.Providers
             switch (extensionType)
             {
                 case ExtensionType.Extension:
+                    Blog blog = Blog.Blogs.FirstOrDefault(b => b.IsPrimary);
                     return
                         HostingEnvironment.MapPath(
-                            Path.Combine(Blog.CurrentInstance.StorageLocation, @"datastore\extensions\"));
+                            Path.Combine(blog.StorageLocation, @"datastore\extensions\"));
                 case ExtensionType.Widget:
                     return
                         HostingEnvironment.MapPath(

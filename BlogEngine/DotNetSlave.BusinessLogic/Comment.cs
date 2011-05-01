@@ -1,12 +1,9 @@
 ﻿namespace BlogEngine.Core
 {
     using System;
-    using System.Text;
-    using System.Web;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Xml.Serialization;
-    using System.Security.Cryptography;
 
     /// <summary>
     /// Represents a comment to a blog post.
@@ -72,7 +69,7 @@
         {
             get
             {
-                return new Uri(string.Format("{0}#id_{1}", this.Parent.AbsoluteLink, this.Id));
+                return new Uri(string.Format("{0}#id_{1}", Parent.AbsoluteLink, Id));
             }
         }
 
@@ -94,15 +91,20 @@
         {
             get
             {
-                return this.comments ?? (this.comments = new List<Comment>());
+                return comments ?? (comments = new List<Comment>());
             }
         }
 
+        private string content;
         /// <summary>
         ///     Gets or sets the content.
         /// </summary>
         /// <value>The content.</value>
-        public string Content { get; set; }
+        public string Content 
+        {
+            get { return System.Web.HttpUtility.HtmlEncode(content); }
+            set { content = value; }
+        }
 
         /// <summary>
         ///     Gets or sets the country.
@@ -117,12 +119,12 @@
         {
             get
             {
-                return this.dateCreated == DateTime.MinValue ? this.dateCreated : this.dateCreated.AddHours(BlogSettings.Instance.Timezone);
+                return dateCreated == DateTime.MinValue ? dateCreated : dateCreated.AddHours(BlogSettings.Instance.Timezone);
             }
 
             set
             {
-                this.dateCreated = value;
+                dateCreated = value;
             }
         }
 
@@ -230,7 +232,7 @@
         {
             get
             {
-                return string.Format("{0}#id_{1}", this.Parent.RelativeLink, this.Id);
+                return string.Format("{0}#id_{1}", Parent.RelativeLink, Id);
             }
         }
 
@@ -241,7 +243,7 @@
         {
             get
             {
-                var ret = Utils.StripHtml(this.Content).Trim();
+                var ret = Utils.StripHtml(Content).Trim();
                 return ret.Length > 120 ? string.Format("{0} ...", ret.Substring(0, 116)) : ret;
             }
         }
@@ -251,7 +253,7 @@
         /// </summary>
         public bool IsPingbackOrTrackback
         {
-            get { return (this.Email.ToLowerInvariant() == "pingback" || this.Email.ToLowerInvariant() == "trackback") ? true : false; }
+            get { return (Email.ToLowerInvariant() == "pingback" || Email.ToLowerInvariant() == "trackback") ? true : false; }
         }
 
         /// <summary>
@@ -262,11 +264,11 @@
         {
             get
             {
-                if (this.Website != null)
+                if (Website != null)
                 {
-                    return string.Format("<a class=\"comment_auth\" href=\"{2}\" alt=\"{2}\" title=\"{2}\">{0}</a> on <a href=\"{3}\" alt=\"{3}\">{1}</a>", this.Author, this.Parent.Title, this.Website.ToString(), this.RelativeLink);
+                    return string.Format("<a class=\"comment_auth\" href=\"{2}\" alt=\"{2}\" title=\"{2}\">{0}</a> on <a href=\"{3}\" alt=\"{3}\">{1}</a>", Author, Parent.Title, Website.ToString(), RelativeLink);
                 }
-                return string.Format("{0} on <a href=\"{2}\" alt=\"{2}\">{1}</a>", this.Author, this.Parent.Title, this.RelativeLink);             
+                return string.Format("{0} on <a href=\"{2}\" alt=\"{2}\">{1}</a>", Author, Parent.Title, RelativeLink);             
             }
         }
 
@@ -294,7 +296,7 @@
         {
             get
             {
-                return this.DateCreated;
+                return DateCreated;
             }
         }
 
@@ -346,7 +348,7 @@
         /// </returns>
         public int CompareTo(Comment other)
         {
-            return this.DateCreated.CompareTo(other.DateCreated);
+            return DateCreated.CompareTo(other.DateCreated);
         }
 
         #endregion

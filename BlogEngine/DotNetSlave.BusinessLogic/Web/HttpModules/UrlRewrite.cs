@@ -320,6 +320,9 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
+            // to prevent XSS
+            url = HttpUtility.HtmlEncode(url);
+
             Blog blogInstance = Blog.CurrentInstance;
 
             //if (!path.Contains(BlogConfig.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
