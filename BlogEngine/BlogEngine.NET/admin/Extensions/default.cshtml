@@ -33,17 +33,19 @@
 </script>
 
 <div class="content-box-outer">
+    @if (Blog.CurrentInstance.IsPrimary)
+    {
 	<div class="content-box-right">
-        <ul>
-            @foreach (var x in manExtensions)
+        <ul>   
+        @foreach (var x in manExtensions)
+        {
+            var lnk = string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled);
+
+            if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
             {
-                var lnk = string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled);
-                
-                if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
-                {
-                    <li><a href="@Href(lnk)">@x.Name</a></li>
-                }
+            <li><a href="@Href(lnk)">@x.Name</a></li>
             }
+        }   
         </ul>
 	</div>
 	<div class="content-box-left">
@@ -61,7 +63,15 @@
 	        </div>
         </div>
 
-        <div>@AdminExtensionsHelper.GetTable(true)</div>
-        <div>@AdminExtensionsHelper.GetTable(false)</div>
+        <div>@AdminExtensionsHelper.GetExtensions(true)</div>
+        <div>@AdminExtensionsHelper.GetExtensions(false)</div>
 	</div>
+    }
+    else
+    {
+    <div class="content-widgets-box-full">
+        <div>@AdminExtensionsHelper.GetBlogExtensions(true)</div>
+        <div>@AdminExtensionsHelper.GetBlogExtensions(false)</div>
+    </div>
+    }
 </div>

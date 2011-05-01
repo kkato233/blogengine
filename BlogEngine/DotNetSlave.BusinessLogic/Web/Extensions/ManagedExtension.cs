@@ -19,6 +19,8 @@
         /// </summary>
         private List<ExtensionSettings> settings;
 
+        private List<Guid> blogs;
+
         #endregion
 
         #region Constructors and Destructors
@@ -107,12 +109,22 @@
         {
             get
             {
-                return this.settings;
+                return settings;
             }
             set
             {
-                this.settings = value;
+                settings = value;
             }
+        }
+
+        /// <summary>
+        /// List of blogs that opt to DISABLE extension
+        /// </summary>
+        [XmlElement]
+        public List<Guid> Blogs
+        {
+            get { return blogs; }
+            set { blogs = value; }
         }
 
         /// <summary>
