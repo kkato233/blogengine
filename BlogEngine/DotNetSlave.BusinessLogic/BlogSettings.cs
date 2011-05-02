@@ -312,51 +312,6 @@
 
         #endregion
 
-        #region AdministratorRole
-
-        /// <summary>
-        ///     The role that has administrator persmissions
-        /// </summary>
-        public string AdministratorRole
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["BlogEngine.AdminRole"] ?? "administrators";
-            }
-        }
-
-        #endregion
-
-        #region AnonymousRole
-
-        /// <summary>
-        /// The role that represents all non-authenticated users.
-        /// </summary>
-        public string AnonymousRole
-        {
-            get
-            {
-                return (ConfigurationManager.AppSettings["BlogEngine.AnonymousRole"] ?? "Anonymous");
-            }
-        }
-
-        #endregion
-
-        #region EditorsRole
-
-        /// <summary>
-        /// The role that represents all non-authenticated users.
-        /// </summary>
-        public string EditorsRole
-        {
-            get
-            {
-                return (ConfigurationManager.AppSettings["BlogEngine.EditorsRole"] ?? "Editors");
-            }
-        }
-
-        #endregion
-
         #region SyndicationFormat
 
         /// <summary>

@@ -38,7 +38,7 @@
         private void BindRoles()
         {
             ddlSelfRegistrationInitialRole.AppendDataBoundItems = true;
-            ddlSelfRegistrationInitialRole.DataSource = Roles.GetAllRoles().Where(r => !r.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase));
+            ddlSelfRegistrationInitialRole.DataSource = Roles.GetAllRoles().Where(r => !r.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase));
             ddlSelfRegistrationInitialRole.DataBind();
         }
 

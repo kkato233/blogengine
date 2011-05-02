@@ -61,7 +61,7 @@
             {
                 var ret = string.Empty;
                 const string Ptrn = "<input type=\"checkbox\" id=\"{0}\" class=\"chkRole\" /><span class=\"lbl\">{0}</span>";
-                var allRoles = System.Web.Security.Roles.GetAllRoles().Where(r => !r.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase));
+                var allRoles = System.Web.Security.Roles.GetAllRoles().Where(r => !r.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase));
                 return allRoles.Aggregate(ret, (current, r) => current + string.Format(Ptrn, r, string.Empty));
             }
         }
