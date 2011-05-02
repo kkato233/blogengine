@@ -51,7 +51,7 @@ namespace BlogEngine.Core
             var flagType = typeof(Rights);
             rightFlagValues = Enum.GetValues(flagType).Cast<Rights>().ToList().AsReadOnly();
 
-            var adminRole = BlogEngine.Core.BlogSettings.Instance.AdministratorRole;
+            var adminRole = BlogEngine.Core.BlogConfig.AdministratorRole;
 
             var allRights = new List<Right>();
 
@@ -81,33 +81,33 @@ namespace BlogEngine.Core
             allRightInstances = allRights.AsReadOnly();
 
             // Make sure the Administrator role exists with the Role provider.
-            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.AdministratorRole))
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AdministratorRole))
             {
-                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AdministratorRole);
+                System.Web.Security.Roles.CreateRole(BlogConfig.AdministratorRole);
 
                 // if no one is in the admin role, and there is a user named "admin", add that user
                 // to the role.
-                if (System.Web.Security.Roles.GetUsersInRole(BlogSettings.Instance.AdministratorRole).Length == 0)
+                if (System.Web.Security.Roles.GetUsersInRole(BlogConfig.AdministratorRole).Length == 0)
                 {
                     System.Web.Security.MembershipUser membershipUser = System.Web.Security.Membership.GetUser("Admin");
                     if (membershipUser != null)
                     {
-                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogSettings.Instance.AdministratorRole });
+                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogConfig.AdministratorRole });
                     }
                 }
             }
 
             // Make sure the Anonymous role exists with the Role provider.
-            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.AnonymousRole))
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AnonymousRole))
             {
                 // Users shouldn't actually be in the anonymous role, since the role is specifically for people who aren't users.
-                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AnonymousRole);
+                System.Web.Security.Roles.CreateRole(BlogConfig.AnonymousRole);
             }
 
             // Make sure the Editors role exists with the Role provider.
-            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.EditorsRole))
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.EditorsRole))
             {
-                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.EditorsRole);
+                System.Web.Security.Roles.CreateRole(BlogConfig.EditorsRole);
             }
 
             RefreshAllRights();
@@ -137,9 +137,9 @@ namespace BlogEngine.Core
                     allRoles.Add(curRole);
                 }
 
-                var adminRole = BlogSettings.Instance.AdministratorRole;
-                var anonymousRole = BlogSettings.Instance.AnonymousRole;
-                var editorsRole = BlogSettings.Instance.EditorsRole;
+                var adminRole = BlogConfig.AdministratorRole;
+                var anonymousRole = BlogConfig.AnonymousRole;
+                var editorsRole = BlogConfig.EditorsRole;
 
                 foreach (var right in GetAllRights())
                 {
@@ -218,7 +218,7 @@ namespace BlogEngine.Core
         {
             if (string.IsNullOrEmpty(roleName)) { return new List<Rights>(); }
 
-            if (roleName.Equals(BlogSettings.Instance.EditorsRole, StringComparison.OrdinalIgnoreCase))
+            if (roleName.Equals(BlogConfig.EditorsRole, StringComparison.OrdinalIgnoreCase))
             {
                 return new List<Rights>()
                 {
@@ -244,7 +244,7 @@ namespace BlogEngine.Core
                     Rights.EditOwnUser
                 };
             }
-            else if (roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase))
+            else if (roleName.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase))
             {
                 return new List<Rights>()
                 {
@@ -610,7 +610,7 @@ namespace BlogEngine.Core
 
             roleName = PrepareRoleName(roleName);
 
-            if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
+            if (roleName.Equals(BlogConfig.AdministratorRole, StringComparison.OrdinalIgnoreCase))
             {
                 throw new System.Security.SecurityException("Rights can not be removed from the administrative role");
             }

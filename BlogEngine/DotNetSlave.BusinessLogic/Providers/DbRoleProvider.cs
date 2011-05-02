@@ -89,7 +89,7 @@
 
                             foreach (var role in roleNames)
                             {
-                                if (!role.Equals(BlogSettings.Instance.AnonymousRole))
+                                if (!role.Equals(BlogConfig.AnonymousRole))
                                 {
                                     parms.Clear();
                                     cmd.CommandText = string.Format("SELECT RoleID FROM {0}Roles WHERE Role = {1}role", this.tablePrefix, this.parmPrefix);

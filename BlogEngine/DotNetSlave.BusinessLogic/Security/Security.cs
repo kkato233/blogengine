@@ -67,7 +67,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return (Security.IsAuthenticated && Security.CurrentUser.IsInRole(BlogSettings.Instance.AdministratorRole));
+                return (Security.IsAuthenticated && Security.CurrentUser.IsInRole(BlogConfig.AdministratorRole));
             }
         }
 
@@ -212,9 +212,9 @@ namespace BlogEngine.Core
         /// <returns>true if the roleName is a system role, otherwiser false</returns>
         public static bool IsSystemRole(string roleName)
         {
-            if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase) ||
-                roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase) ||
-                roleName.Equals(BlogSettings.Instance.EditorsRole, StringComparison.OrdinalIgnoreCase))
+            if (roleName.Equals(BlogConfig.AdministratorRole, StringComparison.OrdinalIgnoreCase) ||
+                roleName.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase) ||
+                roleName.Equals(BlogConfig.EditorsRole, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
@@ -248,7 +248,7 @@ namespace BlogEngine.Core
                 // This needs to be recreated each time, because it's possible 
                 // that the array can fall into the wrong hands and then someone
                 // could alter it. 
-                return new[] { BlogSettings.Instance.AnonymousRole };
+                return new[] { BlogConfig.AnonymousRole };
             }
             else
             {
