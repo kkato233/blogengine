@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 
 namespace BlogEngine.Core
@@ -111,27 +109,22 @@ namespace BlogEngine.Core
             allRightInstances = allRights.AsReadOnly();
 
             EnsureBlogInstanceDataLoaded();
-            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AdministratorRole))
-                System.Web.Security.Roles.CreateRole(BlogConfig.AdministratorRole);
 
             Blog.Saved += (s, e) =>
-                if (System.Web.Security.Roles.GetUsersInRole(BlogConfig.AdministratorRole).Length == 0)
             {
                 if (e.Action == SaveAction.Delete)
                 {
-                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogConfig.AdministratorRole });
+                    Blog blog = s as Blog;
                     if (blog != null)
                     {
                         // remove deleted blog from static 'rightsByRole'
 
                         if (rightsByRole != null && rightsByRole.ContainsKey(blog.Id))
-            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AnonymousRole))
+                            rightsByRole.Remove(blog.Id);
 
                         // remove deleted blog from _readOnlyRoles/_rolesWithRight from
-                System.Web.Security.Roles.CreateRole(BlogConfig.AnonymousRole);
+                        // each of the Right instances.
                         for (int i = 0; i < allRightInstances.Count; i++)
-            if (!System.Web.Security.Roles.RoleExists(BlogConfig.EditorsRole))
-                System.Web.Security.Roles.CreateRole(BlogConfig.EditorsRole);
                         {
                             if (allRightInstances[i]._readOnlyRoles.ContainsKey(blog.Id))
                                 allRightInstances[i]._readOnlyRoles.Remove(blog.Id);
@@ -531,10 +524,10 @@ namespace BlogEngine.Core
         /// <param name="RightEnumName"></param>
         private Right(Rights Right, string RightEnumName)
         {
-            this._flag = Right;
-            this._name = RightEnumName;
-            this._rolesWithRight = new Dictionary<Guid, List<string>>();
-            this._readOnlyRoles = new Dictionary<Guid, ReadOnlyCollection<string>>();
+            _flag = Right;
+            _name = RightEnumName;
+            _rolesWithRight = new Dictionary<Guid, List<string>>();
+            _readOnlyRoles = new Dictionary<Guid, ReadOnlyCollection<string>>();
         }
 
         // empty constructor so Right can be an HttpModule.
@@ -573,8 +566,8 @@ namespace BlogEngine.Core
         private List<string> RolesWithRight
         {
             get
-            {   
-                return this._rolesWithRight[Blog.CurrentInstance.Id];
+            {
+                return _rolesWithRight[Blog.CurrentInstance.Id];
             }
         }
 
@@ -582,7 +575,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return this._readOnlyRoles[Blog.CurrentInstance.Id];
+                return _readOnlyRoles[Blog.CurrentInstance.Id];
             }
         }
 
@@ -597,7 +590,7 @@ namespace BlogEngine.Core
                     lock (staticLockObj)
                     {
                         if (!rightsByRole.ContainsKey(blog.Id))
-                        {                            
+                        {
                             rightsByRole[blog.Id] = new Dictionary<string, HashSet<Right>>(StringComparer.OrdinalIgnoreCase);
                             InitRightForBlogInstance();
                         }
@@ -611,36 +604,36 @@ namespace BlogEngine.Core
         private static void InitRightForBlogInstance()
         {
             // Make sure the Administrator role exists with the Role provider.
-            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.AdministratorRole))
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AdministratorRole))
             {
-                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AdministratorRole);
+                System.Web.Security.Roles.CreateRole(BlogConfig.AdministratorRole);
 
                 // if no one is in the admin role, and there is a user named "admin", add that user
                 // to the role.
-                if (System.Web.Security.Roles.GetUsersInRole(BlogSettings.Instance.AdministratorRole).Length == 0)
+                if (System.Web.Security.Roles.GetUsersInRole(BlogConfig.AdministratorRole).Length == 0)
                 {
                     System.Web.Security.MembershipUser membershipUser = System.Web.Security.Membership.GetUser("Admin");
                     if (membershipUser != null)
                     {
-                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogSettings.Instance.AdministratorRole });
+                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogConfig.AdministratorRole });
                     }
                 }
             }
 
             // Make sure the Anonymous role exists with the Role provider.
-            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.AnonymousRole))
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AnonymousRole))
             {
                 // Users shouldn't actually be in the anonymous role, since the role is specifically for people who aren't users.
-                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.AnonymousRole);
+                System.Web.Security.Roles.CreateRole(BlogConfig.AnonymousRole);
             }
 
             // Make sure the Editors role exists with the Role provider.
-            if (!System.Web.Security.Roles.RoleExists(BlogSettings.Instance.EditorsRole))
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.EditorsRole))
             {
-                System.Web.Security.Roles.CreateRole(BlogSettings.Instance.EditorsRole);
+                System.Web.Security.Roles.CreateRole(BlogConfig.EditorsRole);
             }
 
-            var adminRole = BlogEngine.Core.BlogSettings.Instance.AdministratorRole;
+            var adminRole = BlogConfig.AdministratorRole;
 
             RefreshAllRights();
         }
@@ -652,14 +645,14 @@ namespace BlogEngine.Core
         //{
         //    get
         //    {
-        //        return this._resourceLabelKey;
+        //        return _resourceLabelKey;
         //    }
         //}
         //private readonly string _resourceLabelKey;
 
         public string DisplayName
         {
-            get { return Utils.FormatIdentifierForDisplay(this.Name); }
+            get { return Utils.FormatIdentifierForDisplay(Name); }
         }
 
         public string Description
@@ -674,7 +667,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return this._flag;
+                return _flag;
             }
         }
         private readonly Rights _flag;
@@ -692,7 +685,7 @@ namespace BlogEngine.Core
         /// </remarks>
         public string Name
         {
-            get { return this._name; }
+            get { return _name; }
         }
         private readonly string _name;
 
@@ -728,9 +721,9 @@ namespace BlogEngine.Core
         {
             roleName = PrepareRoleName(roleName);
 
-            lock (this.instanceLockObj)
+            lock (instanceLockObj)
             {
-                if (!this.Roles.Contains(roleName, StringComparer.OrdinalIgnoreCase))
+                if (!Roles.Contains(roleName, StringComparer.OrdinalIgnoreCase))
                 {
                     RolesWithRight.Add(roleName);
                     return true;
@@ -764,7 +757,7 @@ namespace BlogEngine.Core
             }
             else
             {
-                lock (this.instanceLockObj)
+                lock (instanceLockObj)
                 {
                     return RolesWithRight.Remove(roleName);
                 }
@@ -776,9 +769,9 @@ namespace BlogEngine.Core
         /// </summary>
         private void ClearRoles()
         {
-            lock (this.instanceLockObj)
+            lock (instanceLockObj)
             {
-                this.RolesWithRight.Clear();
+                RolesWithRight.Clear();
             }
         }
 
