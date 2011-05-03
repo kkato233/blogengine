@@ -88,7 +88,7 @@ namespace BlogEngine.Core
             var flagType = typeof(Rights);
             rightFlagValues = Enum.GetValues(flagType).Cast<Rights>().ToList().AsReadOnly();
 
-            var adminRole = BlogEngine.Core.BlogSettings.Instance.AdministratorRole;
+            var adminRole = BlogEngine.Core.BlogConfig.AdministratorRole;
 
             var allRights = new List<Right>();
 
@@ -111,22 +111,27 @@ namespace BlogEngine.Core
             allRightInstances = allRights.AsReadOnly();
 
             EnsureBlogInstanceDataLoaded();
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AdministratorRole))
+                System.Web.Security.Roles.CreateRole(BlogConfig.AdministratorRole);
 
             Blog.Saved += (s, e) =>
+                if (System.Web.Security.Roles.GetUsersInRole(BlogConfig.AdministratorRole).Length == 0)
             {
                 if (e.Action == SaveAction.Delete)
                 {
-                    Blog blog = s as Blog;
+                        System.Web.Security.Roles.AddUsersToRoles(new string[] { membershipUser.UserName }, new string[] { BlogConfig.AdministratorRole });
                     if (blog != null)
                     {
                         // remove deleted blog from static 'rightsByRole'
 
                         if (rightsByRole != null && rightsByRole.ContainsKey(blog.Id))
-                            rightsByRole.Remove(blog.Id);
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.AnonymousRole))
 
                         // remove deleted blog from _readOnlyRoles/_rolesWithRight from
-                        // each of the Right instances.
+                System.Web.Security.Roles.CreateRole(BlogConfig.AnonymousRole);
                         for (int i = 0; i < allRightInstances.Count; i++)
+            if (!System.Web.Security.Roles.RoleExists(BlogConfig.EditorsRole))
+                System.Web.Security.Roles.CreateRole(BlogConfig.EditorsRole);
                         {
                             if (allRightInstances[i]._readOnlyRoles.ContainsKey(blog.Id))
                                 allRightInstances[i]._readOnlyRoles.Remove(blog.Id);
@@ -162,9 +167,9 @@ namespace BlogEngine.Core
                     allRoles.Add(curRole);
                 }
 
-                var adminRole = BlogSettings.Instance.AdministratorRole;
-                var anonymousRole = BlogSettings.Instance.AnonymousRole;
-                var editorsRole = BlogSettings.Instance.EditorsRole;
+                var adminRole = BlogConfig.AdministratorRole;
+                var anonymousRole = BlogConfig.AnonymousRole;
+                var editorsRole = BlogConfig.EditorsRole;
 
                 foreach (var right in GetAllRights())
                 {
@@ -257,7 +262,7 @@ namespace BlogEngine.Core
         {
             if (string.IsNullOrEmpty(roleName)) { return new List<Rights>(); }
 
-            if (roleName.Equals(BlogSettings.Instance.EditorsRole, StringComparison.OrdinalIgnoreCase))
+            if (roleName.Equals(BlogConfig.EditorsRole, StringComparison.OrdinalIgnoreCase))
             {
                 return new List<Rights>()
                 {
@@ -283,7 +288,7 @@ namespace BlogEngine.Core
                     Rights.EditOwnUser
                 };
             }
-            else if (roleName.Equals(BlogSettings.Instance.AnonymousRole, StringComparison.OrdinalIgnoreCase))
+            else if (roleName.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase))
             {
                 return new List<Rights>()
                 {
@@ -753,7 +758,7 @@ namespace BlogEngine.Core
 
             roleName = PrepareRoleName(roleName);
 
-            if (roleName.Equals(BlogSettings.Instance.AdministratorRole, StringComparison.OrdinalIgnoreCase))
+            if (roleName.Equals(BlogConfig.AdministratorRole, StringComparison.OrdinalIgnoreCase))
             {
                 throw new System.Security.SecurityException("Rights can not be removed from the administrative role");
             }
