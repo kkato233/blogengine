@@ -60,7 +60,10 @@ namespace BlogEngine.Core
 
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
 
-                if (authTicket != null)
+                // for extra security, make sure the UserData matches the current blog instance.
+                // this would prevent a cookie name change for a forms auth cookie encrypted in
+                // the same application (different blog) as being valid for this blog instance.
+                if (authTicket != null && !string.IsNullOrWhiteSpace(authTicket.UserData) && authTicket.UserData.Equals(Blog.CurrentInstance.Id.ToString(), StringComparison.OrdinalIgnoreCase))
                 {
                     CustomIdentity identity = new CustomIdentity(authTicket.Name, true);
                     CustomPrincipal principal = new CustomPrincipal(identity);
@@ -114,7 +117,7 @@ namespace BlogEngine.Core
                         DateTime.Now,
                         DateTime.Now.Add(FormsAuthentication.Timeout),
                         rememberMe,
-                        string.Empty,
+                        Blog.CurrentInstance.Id.ToString(),
                         FormsAuthentication.FormsCookiePath
                     );
 

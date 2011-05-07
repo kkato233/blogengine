@@ -75,6 +75,21 @@
         void IHttpModule.Init(HttpApplication context)
         {
             context.PreRequestHandlerExecute += ContextPostReleaseRequestState;
+            context.Error += new EventHandler(context_Error);
+        }
+
+        void context_Error(object sender, EventArgs e)
+        {
+            HttpContext context = ((HttpApplication)sender).Context;
+            Exception ex = context.Server.GetLastError();
+
+            // If this CompressionModule will be compressing the response and an unhandled exception
+            // has occurred, remove the WebResourceFilter as that will cause garbage characters to
+            // be sent to the browser instead of a yellow screen of death.
+            if (context.Response.Filter != null && context.Response.Filter.ToString().IndexOf("WebResourceFilter", StringComparison.OrdinalIgnoreCase) != -1)
+            {
+                context.Response.Filter = null;
+            }
         }
 
         #endregion
