@@ -109,8 +109,16 @@ namespace Admin
                 return;
             }
 
-            LoginStatus1.LoginText = Resources.labels.login;
-            LoginStatus1.LogoutText = Resources.labels.logoff;
+            if (Security.IsAuthenticated)
+            {
+                aLogin.InnerText = Resources.labels.logoff;
+                aLogin.HRef = Utils.RelativeWebRoot + "Account/login.aspx?logoff";
+            }
+            else
+            {
+                aLogin.HRef = Utils.RelativeWebRoot + "Account/login.aspx";
+                aLogin.InnerText = Resources.labels.login;
+            }
 
             phRecycleBin.Visible = Security.IsAuthorizedTo(Rights.AccessAdminPages);
 

@@ -40,12 +40,34 @@
             if (IsEncodingAccepted(Deflate))
             {
                 context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
+                WillCompressResponse = true;
                 SetEncoding(Deflate);
             }
             else if (IsEncodingAccepted(Gzip))
             {
                 context.Response.Filter = new GZipStream(context.Response.Filter, CompressionMode.Compress);
+                WillCompressResponse = true;
                 SetEncoding(Gzip);
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static bool WillCompressResponse
+        {
+            get
+            {
+                HttpContext context = HttpContext.Current;
+                if (context == null) { return false; }
+                return context.Items["will-compress-resource"] != null && (bool)context.Items["will-compress-resource"];
+            }
+            set
+            {
+                HttpContext context = HttpContext.Current;
+                if (context == null) { return; }
+                context.Items["will-compress-resource"] = value;
             }
         }
 
@@ -86,9 +108,10 @@
             // If this CompressionModule will be compressing the response and an unhandled exception
             // has occurred, remove the WebResourceFilter as that will cause garbage characters to
             // be sent to the browser instead of a yellow screen of death.
-            if (context.Response.Filter != null && context.Response.Filter.ToString().IndexOf("WebResourceFilter", StringComparison.OrdinalIgnoreCase) != -1)
+            if (WillCompressResponse)
             {
                 context.Response.Filter = null;
+                WillCompressResponse = false;
             }
         }
 
@@ -146,6 +169,7 @@
                 if (BlogSettings.Instance.CompressWebResource)
                 {
                     context.Response.Filter = new WebResourceFilter(context.Response.Filter);
+                    WillCompressResponse = true;
                 }
             }
             else if (!BlogSettings.Instance.CompressWebResource && context.Request.Path.Contains("WebResource.axd"))
