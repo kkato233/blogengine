@@ -320,6 +320,8 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
+            var urlContainsFileExtension = url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
+
             // to prevent XSS
             url = HttpUtility.HtmlEncode(url);
 
@@ -340,38 +342,38 @@
                 }
             }
 
-            if (url.Contains("/POST/"))
+            if (urlContainsFileExtension && url.Contains("/POST/"))
             {
                 RewritePost(context, url);
             }
-            else if (url.Contains("/CATEGORY/"))
+            else if (urlContainsFileExtension && url.Contains("/CATEGORY/"))
             {
                 RewriteCategory(context, url);
             }
-            else if (url.Contains("/TAG/"))
+            else if (urlContainsFileExtension && url.Contains("/TAG/"))
             {
                 RewriteTag(context, url);
             }
-            else if (url.Contains("/PAGE/"))
+            else if (urlContainsFileExtension && url.Contains("/PAGE/"))
             {
                 RewritePage(context, url);
             }
-            else if (url.Contains("/CALENDAR/"))
+            else if (urlContainsFileExtension && url.Contains("/CALENDAR/"))
             {
                 context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.ApplicationRelativeWebRoot), false);
             }
-            else if (url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant())))
+            else if (urlContainsFileExtension && url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant())))
             {
                 RewriteDefault(context);
             }
-            else if (url.Contains("/AUTHOR/"))
+            else if (urlContainsFileExtension && url.Contains("/AUTHOR/"))
             {
                 var author = ExtractTitle(context, url);
                 context.RewritePath(
                     string.Format("{0}default{1}?name={2}{3}", Utils.ApplicationRelativeWebRoot, BlogConfig.FileExtension, author, GetQueryString(context)),
                     false);
             }
-            else if (path.Contains("/BLOG.ASPX"))
+            else if (urlContainsFileExtension && path.Contains("/BLOG.ASPX"))
             {
                 context.RewritePath(string.Format("{0}default.aspx?blog=true{1}", Utils.ApplicationRelativeWebRoot, GetQueryString(context)));
             }

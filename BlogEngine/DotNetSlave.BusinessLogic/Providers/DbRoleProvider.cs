@@ -434,7 +434,7 @@
                 if (conn.HasConnection)
                 {
                     var sqlQuery = string.Format(
-                        " SELECT ur.roleID " +
+                        " SELECT ur.UserRoleID " +
                         " FROM {0}UserRoles ur " +
                         " WHERE ur.BlogID = {1}blogid " +
                         " AND   ur.UserName = {1}name " +

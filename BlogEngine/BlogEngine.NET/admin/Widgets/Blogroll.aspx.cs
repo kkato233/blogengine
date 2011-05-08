@@ -37,7 +37,7 @@
             BlogSettings.Instance.BlogrollVisiblePosts = int.Parse(ddlVisiblePosts.SelectedValue);
             BlogSettings.Instance.BlogrollUpdateMinutes = int.Parse(txtUpdateFrequency.Text);
             BlogSettings.Instance.Save();
-            Response.Redirect(Request.FilePath, true);
+            Response.Redirect(Request.RawUrl, true);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -47,7 +47,7 @@
                 return;
 
             AddBlog();
-            Response.Redirect(Request.FilePath, true);
+            Response.Redirect(Request.RawUrl, true);
         }
 
         #endregion
