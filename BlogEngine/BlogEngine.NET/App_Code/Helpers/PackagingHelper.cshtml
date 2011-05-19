@@ -1,0 +1,14 @@
+﻿@using BlogEngine.Core
+@using BlogEngine.Core.Packaging
+
+@helper GetPackages(string pkgType)
+{
+    var packages = PackageManager.GetPackages(pkgType);  
+    
+    <ul>
+        @foreach (var package in packages)
+        {
+            <li>@package.Id @package.Version</li>
+        }
+    </ul>        
+}
