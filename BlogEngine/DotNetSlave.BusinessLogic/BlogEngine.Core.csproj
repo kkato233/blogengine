@@ -73,6 +73,10 @@
     <Reference Include="BlogML">
       <HintPath>..\..\lib\blogml\BlogML.dll</HintPath>
     </Reference>
+    <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\nuget\NuGet.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -141,6 +145,7 @@
     <Compile Include="Json\JsonTag.cs" />
     <Compile Include="Json\JsonTrash.cs" />
     <Compile Include="Json\JsonTrashList.cs" />
+    <Compile Include="Packaging\PackageManager.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />
@@ -275,6 +280,7 @@
     <None Include="Providers\Providers.cd" />
     <None Include="Web\Web.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
