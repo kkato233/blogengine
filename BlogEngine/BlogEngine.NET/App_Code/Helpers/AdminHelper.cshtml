@@ -1,0 +1,11 @@
+﻿@using BlogEngine.Core
+
+@helper CurrentClass(string pg)
+{
+    var current = "class=\"content-box-selected\"";
+        
+    if (Request.Path.ToLower().Contains(pg.ToLower()))
+    {
+        __razor_helper_writer.Write(current);
+    }
+}

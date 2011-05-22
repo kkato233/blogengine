@@ -1,0 +1,54 @@
+﻿@using BlogEngine.Core.Packaging
+
+@{
+    Page.Title = Resources.labels.dashboard;
+    Layout = "~/admin/_Layout.cshtml";
+
+    var tab = "1";
+    if(!string.IsNullOrEmpty(Request.QueryString["t"])){
+        tab = Request.QueryString["t"];   
+    }
+}
+
+<div class="content-box-outer">
+    <div class="content-box-right">
+        @RenderPage("_menu.cshtml")
+	</div>
+    <div class="content-box-left">
+        <h1>
+            Themes
+            @if (tab == "1")
+            {
+            <a href="Themes.cshtml?t=2" class="image-gallery cboxElement">Gallery</a>
+            }
+            else
+            {
+                <a href="Themes.cshtml" class="image-gallery cboxElement">Installed</a>
+            }
+        </h1>
+
+        <div>
+            @if (tab == "1")
+            {
+            <p>xxxx</p>
+            }
+            else
+            {
+            <div class="gallery-options">
+                <div id="gallery-search">
+                    <input type="text" value="" id="searchGallery" />
+                    <input type="submit" id="btnGalSearch" class="btn primary" value="@Resources.labels.search" />
+                </div>
+                <span>Order by: </span>
+                <select id="filterResults">
+                    <option value="Downloads">Downloads</option>
+                    <option value="Ratings">Ratings</option>
+                    <option value="Alphanumeric" selected="selected">Alphanumeric</option>
+                </select>
+            </div>
+            @Helpers.PackagingHelper.GetPackages("Theme", 1, PackageManager.OrderType.Downloads)
+            }
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
