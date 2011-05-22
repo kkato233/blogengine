@@ -84,8 +84,11 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -162,6 +165,11 @@
     <Compile Include="Security\Rights.cs" />
     <Compile Include="Security\Security.cs" />
     <Compile Include="Security\SecuritySiteMapProvider.cs" />
+    <Compile Include="Service References\GalleryServer\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
     <Compile Include="ServingEventArgs.cs" />
     <Compile Include="Providers\XmlProvider\PingServices.cs" />
     <Compile Include="SavedEventArgs.cs" />
@@ -278,9 +286,23 @@
     <None Include="key.snk" />
     <None Include="Ping\Ping.cd" />
     <None Include="Providers\Providers.cd" />
+    <None Include="Service References\GalleryServer\service.edmx" />
     <None Include="Web\Web.cd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ServiceReferenceMetadataStorage Include="Service References\GalleryServer\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GalleryServer\Reference.datasvcmap">
+      <Generator>DataServiceClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

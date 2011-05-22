@@ -484,3 +484,20 @@ a.comCountPending { color: #ff8a00; margin:0 3px 0 0; }
 a.comCountApproved { color: #3c8e01; margin:0 3px 0 0; }
 a.comCountSpam { color: #d10000; margin:0 3px 0 0; }
 span.comNone {color: #aaa; margin:0 3px 0 0; cursor:default;}
+
+/* Gallery */
+/* ------------------------------*/
+ul.gallery { margin: 0; padding: 0; }
+.gallery h2 { border: 0; padding: 0; margin: 0;  }
+.gallery.Theme .thumbnail { border: 0; width: 160px; }
+.ext { width: 99%; display:inline-block; border-bottom: 1px solid #EAEAEA; }
+.ext-img { width: 23%; float: left; }
+.ext-prop { float: right; text-align: left; width: 77%; }
+
+.gallery li { list-style: none; margin: 0 0 10px 0; }
+
+.gallery-options { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea; clear: left; }
+#filterResults { margin-left: 10px; }
+#gallery-search { float: right; }
+.image-gallery {float:right; font-weight:normal; padding:7px 10px 5px 22px; margin-left:20px; font-size:13px;
+    background: transparent url("images/imagegallery.png") no-repeat scroll left center;  }
