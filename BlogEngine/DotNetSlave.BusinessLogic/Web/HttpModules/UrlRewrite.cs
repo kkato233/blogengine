@@ -320,8 +320,6 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
-            var urlContainsFileExtension = url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
-
             // to prevent XSS
             url = HttpUtility.HtmlEncode(url);
 
@@ -332,8 +330,7 @@
             //    return;
             //}
 
-            if (path == string.Format("{0}DEFAULT.ASPX", Utils.RelativeWebRoot.ToUpperInvariant()) &&
-                context.Request.QueryString.Count == 0)
+            if (Utils.IsCurrentRequestForHomepage)
             {
                 var front = Page.GetFrontPage();
                 if (front != null)
@@ -341,6 +338,8 @@
                     url = front.RelativeLink.ToUpperInvariant();
                 }
             }
+
+            var urlContainsFileExtension = url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
 
             if (urlContainsFileExtension && url.Contains("/POST/"))
             {
@@ -428,6 +427,8 @@
                 }
             }
         }
+
+
 
         #endregion
     }
