@@ -66,7 +66,8 @@
 
         private static string GetUrlWithQueryString(HttpContext context)
         {
-            return string.Format("{0}?{1}", context.Request.Path, context.Request.QueryString.ToString());
+            return string.Format(
+                "{0}?{1}", context.Request.Path, context.Request.QueryString.ToString());
         }
 
         /// <summary>
