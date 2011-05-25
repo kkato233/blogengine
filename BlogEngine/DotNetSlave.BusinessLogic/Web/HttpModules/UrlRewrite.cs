@@ -66,7 +66,6 @@
 
         private static string GetUrlWithQueryString(HttpContext context)
         {
-            //default: return context.Request.RawUrl;
             return string.Format("{0}?{1}", context.Request.Path, context.Request.QueryString.ToString());
         }
 
