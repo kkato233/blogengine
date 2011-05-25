@@ -64,6 +64,12 @@
 
         #region Methods
 
+        private static string GetUrlWithQueryString(HttpContext context)
+        {
+            //default: return context.Request.RawUrl;
+            return string.Format("{0}?{1}", context.Request.Path, context.Request.QueryString.ToString());
+        }
+
         /// <summary>
         /// Extracts the year and month from the requested URL and returns that as a DateTime.
         /// </summary>
@@ -88,23 +94,20 @@
             month = 0;
             day = 0;
 
-            if (!BlogSettings.Instance.TimeStampPostLinks)
-            {
+            if (!BlogSettings.Instance.TimeStampPostLinks) {
                 return false;
             }
 
-            var match = YearMonthDayRegex.Match(context.Request.RawUrl);
-            if (match.Success)
-            {
+            var match = YearMonthDayRegex.Match(GetUrlWithQueryString(context));
+            if (match.Success) {
                 year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
                 month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
                 day = int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture);
                 return true;
             }
 
-            match = YearMonthRegex.Match(context.Request.RawUrl);
-            if (match.Success)
-            {
+            match = YearMonthRegex.Match(GetUrlWithQueryString(context));
+            if (match.Success) {
                 year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
                 month = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
                 return true;
@@ -128,8 +131,7 @@
         private static string ExtractTitle(HttpContext context, string url)
         {
             url = url.ToLowerInvariant().Replace("---", "-");
-            if (url.Contains(BlogConfig.FileExtension) && url.EndsWith("/"))
-            {
+            if (url.Contains(BlogConfig.FileExtension) && url.EndsWith("/")) {
                 url = url.Substring(0, url.Length - 1);
                 context.Response.AppendHeader("location", url);
                 context.Response.StatusCode = 301;
@@ -167,14 +169,11 @@
             foreach (var cat in from cat in Category.Categories
                                 let legalTitle = Utils.RemoveIllegalCharacters(cat.Title).ToLowerInvariant()
                                 where title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase)
-                                select cat)
-            {
-                if (url.Contains("/FEED/"))
-                {
+                                select cat) {
+                if (url.Contains("/FEED/")) {
                     context.RewritePath(string.Format("syndication.axd?category={0}{1}", cat.Id, GetQueryString(context)), false);
                 }
-                else
-                {
+                else {
                     context.RewritePath(
                         string.Format("{0}default.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, cat.Id, GetQueryString(context)), false);
                     break;
@@ -191,12 +190,10 @@
         {
             var tag = ExtractTitle(context, url);
 
-            if (url.Contains("/FEED/"))
-            {
+            if (url.Contains("/FEED/")) {
                 context.RewritePath(string.Format("syndication.axd?tag={0}{1}", tag, GetQueryString(context)), false);
             }
-            else
-            {
+            else {
                 context.RewritePath(
                     string.Format("{0}?tag=/{1}{2}", Utils.ApplicationRelativeWebRoot, tag, GetQueryString(context)), false);
             }
@@ -210,15 +207,13 @@
         /// </param>
         private static void RewriteDefault(HttpContext context)
         {
-            var url = context.Request.RawUrl;
+            var url = GetUrlWithQueryString(context);
             var page = string.Format("&page={0}", context.Request.QueryString["page"]);
-            if (string.IsNullOrEmpty(context.Request.QueryString["page"]))
-            {
+            if (string.IsNullOrEmpty(context.Request.QueryString["page"])) {
                 page = null;
             }
 
-            if (YearMonthDayRegex.IsMatch(url))
-            {
+            if (YearMonthDayRegex.IsMatch(url)) {
                 var match = YearMonthDayRegex.Match(url);
                 var year = match.Groups[1].Value;
                 var month = match.Groups[2].Value;
@@ -226,23 +221,20 @@
                 var date = string.Format("{0}-{1}-{2}", year, month, day);
                 context.RewritePath(string.Format("{0}default.aspx?date={1}{2}", Utils.ApplicationRelativeWebRoot, date, page), false);
             }
-            else if (YearMonthRegex.IsMatch(url))
-            {
+            else if (YearMonthRegex.IsMatch(url)) {
                 var match = YearMonthRegex.Match(url);
                 var year = match.Groups[1].Value;
                 var month = match.Groups[2].Value;
                 var path = string.Format("default.aspx?year={0}&month={1}", year, month);
                 context.RewritePath(Utils.ApplicationRelativeWebRoot + path + page, false);
             }
-            else if (YearRegex.IsMatch(url))
-            {
+            else if (YearRegex.IsMatch(url)) {
                 var match = YearRegex.Match(url);
                 var year = match.Groups[1].Value;
                 var path = string.Format("default.aspx?year={0}", year);
                 context.RewritePath(Utils.ApplicationRelativeWebRoot + path + page, false);
             }
-            else
-            {
+            else {
                 string newUrl = url.Replace("Default.aspx", "default.aspx");  // fixes a casing oddity on Mono
                 int defaultStart = url.IndexOf("default.aspx");
                 newUrl = Utils.ApplicationRelativeWebRoot + url.Substring(defaultStart);
@@ -263,8 +255,7 @@
                 Page.Pages.Find(
                     p => slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase));
 
-            if (page != null)
-            {
+            if (page != null) {
                 context.RewritePath(string.Format("{0}page.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, page.Id, GetQueryString(context)), false);
             }
         }
@@ -290,8 +281,7 @@
                 ((!haveDate || (day == 0 || p.DateCreated.Day == day)) &&
                  slug.Equals(Utils.RemoveIllegalCharacters(p.Slug), StringComparison.OrdinalIgnoreCase)));
 
-            if (post == null)
-            {
+            if (post == null) {
                 return;
             }
 
@@ -315,7 +305,7 @@
         {
             var context = ((HttpApplication)sender).Context;
             var path = context.Request.Path.ToUpperInvariant();
-            var url = context.Request.RawUrl.ToUpperInvariant();
+            var url = GetUrlWithQueryString(context).ToUpperInvariant();
 
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
@@ -330,65 +320,53 @@
             //    return;
             //}
 
-            if (Utils.IsCurrentRequestForHomepage)
-            {
+            if (Utils.IsCurrentRequestForHomepage) {
                 var front = Page.GetFrontPage();
-                if (front != null)
-                {
+                if (front != null) {
                     url = front.RelativeLink.ToUpperInvariant();
                 }
             }
 
             var urlContainsFileExtension = url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
 
-            if (urlContainsFileExtension && url.Contains("/POST/"))
-            {
+            if (urlContainsFileExtension && url.Contains("/POST/")) {
                 RewritePost(context, url);
             }
-            else if (urlContainsFileExtension && url.Contains("/CATEGORY/"))
-            {
+            else if (urlContainsFileExtension && url.Contains("/CATEGORY/")) {
                 RewriteCategory(context, url);
             }
-            else if (urlContainsFileExtension && url.Contains("/TAG/"))
-            {
+            else if (urlContainsFileExtension && url.Contains("/TAG/")) {
                 RewriteTag(context, url);
             }
-            else if (urlContainsFileExtension && url.Contains("/PAGE/"))
-            {
+            else if (urlContainsFileExtension && url.Contains("/PAGE/")) {
                 RewritePage(context, url);
             }
-            else if (urlContainsFileExtension && url.Contains("/CALENDAR/"))
-            {
+            else if (urlContainsFileExtension && url.Contains("/CALENDAR/")) {
                 context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.ApplicationRelativeWebRoot), false);
             }
-            else if (urlContainsFileExtension && url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant())))
-            {
+            else if (urlContainsFileExtension && url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant()))) {
                 RewriteDefault(context);
             }
-            else if (urlContainsFileExtension && url.Contains("/AUTHOR/"))
-            {
+            else if (urlContainsFileExtension && url.Contains("/AUTHOR/")) {
                 var author = ExtractTitle(context, url);
                 context.RewritePath(
                     string.Format("{0}default{1}?name={2}{3}", Utils.ApplicationRelativeWebRoot, BlogConfig.FileExtension, author, GetQueryString(context)),
                     false);
             }
-            else if (urlContainsFileExtension && path.Contains("/BLOG.ASPX"))
-            {
+            else if (urlContainsFileExtension && path.Contains("/BLOG.ASPX")) {
                 context.RewritePath(string.Format("{0}default.aspx?blog=true{1}", Utils.ApplicationRelativeWebRoot, GetQueryString(context)));
             }
-            else
-            {
+            else {
                 // If this is blog instance that is in a virtual sub-folder, we will
                 // need to rewrite the path for URL to a physical file.  This includes
                 // requests such as the homepage (default.aspx), contact.aspx, archive.aspx,
                 // any of the admin pages, etc, etc.
 
                 if (blogInstance.IsSubfolderOfApplicationWebRoot &&
-                    VirtualPathUtility.AppendTrailingSlash(path).IndexOf(blogInstance.RelativeWebRoot, StringComparison.OrdinalIgnoreCase) != -1)
-                {
+                    VirtualPathUtility.AppendTrailingSlash(path).IndexOf(blogInstance.RelativeWebRoot, StringComparison.OrdinalIgnoreCase) != -1) {
                     bool skipRewrite = false;
                     string rewriteQs = string.Empty;
-                    string rewriteUrl = context.Request.RawUrl;
+                    string rewriteUrl = GetUrlWithQueryString(context);
 
                     int qsStart = rewriteUrl.IndexOf("?");
                     if (qsStart != -1)  // remove querystring.
@@ -402,21 +380,18 @@
                     // tells us if the actual path (after the AppWebRoot) contains a dot.
                     string pathAfterAppWebRoot = rewriteUrl.Substring(Utils.ApplicationRelativeWebRoot.Length);
 
-                    if (!pathAfterAppWebRoot.Contains("."))
-                    {
+                    if (!pathAfterAppWebRoot.Contains(".")) {
                         if (!rewriteUrl.EndsWith("/"))
                             rewriteUrl += "/";
 
                         rewriteUrl += "default.aspx";
                     }
-                    else
-                    {
+                    else {
                         if (Path.GetExtension(pathAfterAppWebRoot).ToUpperInvariant() == ".AXD")
                             skipRewrite = true;
                     }
 
-                    if (!skipRewrite)
-                    {
+                    if (!skipRewrite) {
                         // remove the subfolder portion.  so /subfolder/ becomes /.
                         rewriteUrl = new Regex(Regex.Escape(blogInstance.RelativeWebRoot), RegexOptions.IgnoreCase).Replace(rewriteUrl, Utils.ApplicationRelativeWebRoot);
 
