@@ -977,6 +977,51 @@ function DeleteBlog(obj) {
     return false;
 }
 
+//--------------GALLERY
+
+function SetCurrentTheme(theme, mobile) {
+    var dto = { "theme": theme, "mobile": mobile };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/SetCurrentTheme",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt == true) {
+                window.location.reload();
+            }
+            else {
+                ShowStatus("warning", "Error setting current theme");
+            }
+        }
+    });
+    return false;
+}
+
+function GalleryGetPackages(pg) {
+    $('.loader2').show();
+    var srt = $("#gallery-sort-order").val();
+    var srch = $("#searchGallery").val();
+    //var pg = Querystring('p').length > 0 ? Querystring('p') : 1;
+    var dto = { "pkgType": "Theme", "page": pg, "sortOrder": srt, "searchVal": srch };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadGalleryPage",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (msg) {
+            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/packages.htm', null, { filter_data: false });
+            $('#Container').processTemplate(msg);
+            $('.loader2').hide();
+        }
+    });
+    return false;
+}
 
 //--------------HELPERS AND MISC
 

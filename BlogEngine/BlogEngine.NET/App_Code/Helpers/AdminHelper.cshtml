@@ -3,9 +3,93 @@
 @helper CurrentClass(string pg)
 {
     var current = "class=\"content-box-selected\"";
-        
     if (Request.Path.ToLower().Contains(pg.ToLower()))
     {
         __razor_helper_writer.Write(current);
     }
+}
+
+@helper InstalledThemes()
+{
+    var path = Server.MapPath(string.Format("{0}themes/", Blog.CurrentInstance.RelativeWebRoot));
+
+    var themePic = "";
+    var mobilePic = "";
+
+    themePic = File.Exists(Path.Combine(path, BlogSettings.Instance.Theme, "theme.png")) ?
+        string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, BlogSettings.Instance.Theme) :
+        Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+
+    mobilePic = File.Exists(Path.Combine(path, BlogSettings.Instance.MobileTheme, "theme.png")) ?
+        string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, BlogSettings.Instance.MobileTheme) :
+        Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+    
+    <h2>Current</h2>
+    <div class="installed-themes">
+        <ul class="gallery Theme">
+            <li>
+                <div class="ext">
+                    <div class="ext-prop">
+                        <h2>Current theme: @BlogSettings.Instance.Theme</h2>
+                        <div class="properties">
+                            <p>Author: unknown</p>
+                        </div>
+                    </div>
+                    <div class="ext-img">
+                        <img src="@themePic" class="thumbnail" alt="current theme" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="ext">
+                    <div class="ext-prop">
+                        <h2>Mobile theme: @BlogSettings.Instance.MobileTheme</h2>
+                        <div class="properties">
+                            <p>Author: unknown</p>
+                        </div>
+                    </div>
+                    <div class="ext-img">
+                        <img src="@mobilePic" class="thumbnail" alt="mobile theme" />
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+   
+    <h2>Available</h2>
+    <div class="available-themes">
+        <ul class="gallery Theme">
+        @foreach (var dic in Directory.GetDirectories(path))
+        {
+            var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
+            var theme = dic.Substring(index);
+            var themeFile = dic + @"\theme.png";
+            themePic = File.Exists(themeFile) ?
+                string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, theme) :
+                Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+
+            if (theme != BlogSettings.Instance.Theme && theme != BlogSettings.Instance.MobileTheme)
+            { 
+            <li>
+                <div class="ext">
+                    <div class="ext-prop">
+                        <h2>@theme</h2>
+                        <div class="properties">
+                            <p>Author: unknown</p>
+                            <p>
+                                <a href="" onclick="SetCurrentTheme('@theme','false'); return false;">Set As Current Theme</a>&nbsp;|
+                                <a href="" onclick="SetCurrentTheme('@theme','true'); return false;">Set As Mobile Theme</a>&nbsp;|
+                                <a href="" onclick="window.open('@Path.Combine(Blog.CurrentInstance.RelativeWebRoot, "?theme=")@theme','themepreview','width=1000,height=700,scrollbars=yes,resizable=yes'); return false">Preview</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ext-img">
+                        <img src="@themePic" class="thumbnail" alt="theme" />
+                    </div>
+                </div>
+            </li>
+            }
+        }
+        </ul>
+    </div>
 }

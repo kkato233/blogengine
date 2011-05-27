@@ -10,8 +10,9 @@ namespace BlogEngine.Core.Packaging
     /// </summary>
     public class PackageManager
     {
-        //private const string _feedUrl = "http://localhost/feed/FeedService.svc";
-        private const string _feedUrl = "http://dnbegallery.org/feed/FeedService.svc";
+        // "http://localhost/feed/FeedService.svc";
+        // "http://dnbegallery.org/feed/FeedService.svc";
+        private static readonly string _feedUrl = BlogSettings.Instance.GalleryFeedUrl; 
 
         /// <summary>
         /// Type of sort order
@@ -23,6 +24,10 @@ namespace BlogEngine.Core.Packaging
             /// </summary>
             Downloads,
             /// <summary>
+            /// Newest
+            /// </summary>
+            Newest,
+            /// <summary>
             /// Heighest rated
             /// </summary>
             Rating,
@@ -33,62 +38,82 @@ namespace BlogEngine.Core.Packaging
         }
 
         /// <summary>
+        /// Package counter
+        /// </summary>
+        public static int Count { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="pkgType"></param>
         /// <param name="page"></param>
         /// <param name="sortOrder"></param>
+        /// <param name="searchVal"></param>
         /// <returns></returns>
-        public static IQueryable<PublishedPackage> GetPackages(string pkgType, int page, OrderType sortOrder)
+        public static IQueryable<PublishedPackage> GetPackages(string pkgType, int page = 1, OrderType sortOrder = OrderType.Newest, string searchVal = "")
         {
             var srs = new PackagingSource {FeedUrl = _feedUrl};
 
             //TODO: add setting for gallery page size
             var pageSize = BlogSettings.Instance.PostsPerPage;
+            var cnt = 0;
 
             try
             {
-                var pkgList = GetPackageList(srs,
-                    packages =>
-                    {
-                        packages = packages.Where(p => p.PackageType == pkgType && p.IsLatestVersion);
-
-                        packages = packages.OrderByDescending(p => p.DownloadCount).ThenBy(p => p.Title);
-
-                        return packages;
-                    });
-
                 var retPackages = new List<PublishedPackage>();
+                var pkgList = GetPackageList(srs,
+                    packages => packages.Where(p => p.PackageType == pkgType && p.IsLatestVersion));
 
-                switch (sortOrder)
+                foreach (var pkg in pkgList.ToList())
                 {
-                    case OrderType.Downloads:
-                        retPackages = pkgList.Where(pkg => pkg.PackageType == pkgType && pkg.IsLatestVersion)
-                            .OrderByDescending(p => p.DownloadCount).ThenBy(p => p.Title)
-                            .Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                        break;
-                    case OrderType.Rating:
-                        retPackages = pkgList.Where(pkg => pkg.PackageType == pkgType && pkg.IsLatestVersion)
-                            .OrderByDescending(p => p.Rating).ThenBy(p => p.Title)
-                            .Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                        break;
-                    case OrderType.Alphanumeric:
-                        retPackages = pkgList.Where(pkg => pkg.PackageType == pkgType && pkg.IsLatestVersion)
-                            .OrderBy(p => p.Title)
-                            .Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                    break;
-                }
+                    if (pkg.PackageType != pkgType || !pkg.IsLatestVersion) continue;
 
-                foreach (var pkg in retPackages)
-                {
                     if (pkg.PackageType == "Theme" && pkg.Screenshots != null && pkg.Screenshots.Count > 0)
-                    {
                         pkg.IconUrl = pkg.Screenshots[0].ScreenshotUri;
+
+                    if(string.IsNullOrEmpty(searchVal))
+                    {
+                        retPackages.Add(pkg);
+                        cnt++;
+                    }
+                    else
+                    {
+                        if(pkg.Title.Contains(searchVal) 
+                           || pkg.Description.Contains(searchVal) 
+                           || (!string.IsNullOrWhiteSpace(pkg.Tags) && pkg.Tags.Contains(searchVal)))
+                        {
+                            retPackages.Add(pkg);
+                            cnt++;
+                        }
                     }
                 }
-
-                //retPackages.Sort((p1, p2) => p1.DownloadCount.CompareTo(p2.DownloadCount));
-
+                
+                Count = cnt;
+                if (cnt > 0)
+                {
+                    switch (sortOrder)
+                    {
+                        case OrderType.Downloads:
+                            retPackages = retPackages
+                                .OrderByDescending(p => p.DownloadCount).ThenBy(p => p.Title)
+                                .Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                            break;
+                        case OrderType.Rating:
+                            retPackages = retPackages
+                                .OrderByDescending(p => p.Rating).ThenBy(p => p.Title)
+                                .Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                            break;
+                        case OrderType.Newest:
+                            retPackages = retPackages
+                                .OrderByDescending(p => p.LastUpdated).ThenBy(p => p.Title)
+                                .Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                            break;
+                        case OrderType.Alphanumeric:
+                            retPackages = retPackages.OrderBy(p => p.Title)
+                                .Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                            break;
+                    }
+                }
                 return retPackages.AsQueryable();
             }
             catch (Exception)

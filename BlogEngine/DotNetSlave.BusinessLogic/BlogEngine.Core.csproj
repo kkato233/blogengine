@@ -137,6 +137,8 @@
     <Compile Include="Json\JsonCulture.cs" />
     <Compile Include="Json\JsonCustomFilter.cs" />
     <Compile Include="Json\JsonCustomFilterList.cs" />
+    <Compile Include="Json\JsonPackage.cs" />
+    <Compile Include="Json\JsonPackages.cs" />
     <Compile Include="Json\JsonPage.cs" />
     <Compile Include="Json\JsonPages.cs" />
     <Compile Include="Json\JsonPost.cs" />

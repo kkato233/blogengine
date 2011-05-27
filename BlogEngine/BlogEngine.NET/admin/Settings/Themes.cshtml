@@ -3,12 +3,27 @@
 @{
     Page.Title = Resources.labels.dashboard;
     Layout = "~/admin/_Layout.cshtml";
+    
+    var loaderSrc = Path.Combine(BlogEngine.Core.Blog.CurrentInstance.RelativeWebRoot, "pics/ajax-loader.gif");
 
     var tab = "1";
     if(!string.IsNullOrEmpty(Request.QueryString["t"])){
         tab = Request.QueryString["t"];   
     }
+
+    var page = 1;
+    if(!string.IsNullOrEmpty(Request.QueryString["p"])){
+        page = int.Parse(Request.QueryString["p"]);
+    }
 }
+
+ <script type="text/javascript">
+     $(document).ready(function () {
+         if (Querystring('t') == '2') {
+             GalleryGetPackages(1);
+         }
+     });
+</script>
 
 <div class="content-box-outer">
     <div class="content-box-right">
@@ -30,23 +45,24 @@
         <div>
             @if (tab == "1")
             {
-            <p>xxxx</p>
+            @Helpers.AdminHelper.InstalledThemes()
             }
             else
             {
             <div class="gallery-options">
                 <div id="gallery-search">
                     <input type="text" value="" id="searchGallery" />
-                    <input type="submit" id="btnGalSearch" class="btn primary" value="@Resources.labels.search" />
+                    <input type="submit" id="btnGalSearch" class="btn primary" onclick="GalleryGetPackages(1); return false;" value="Search" />
                 </div>
                 <span>Order by: </span>
-                <select id="filterResults">
+                <select id="gallery-sort-order" onchange="GalleryGetPackages(1)">
+                    <option value="Alphanumeric">Alphanumeric</option>
                     <option value="Downloads">Downloads</option>
-                    <option value="Ratings">Ratings</option>
-                    <option value="Alphanumeric" selected="selected">Alphanumeric</option>
+                    <option value="Newest" selected="selected">Newest</option>
                 </select>
+                <img class="loader2" src="@loaderSrc" alt="loader" />
             </div>
-            @Helpers.PackagingHelper.GetPackages("Theme", 1, PackageManager.OrderType.Downloads)
+            <div id="Container"></div>
             }
         </div>
         <div class="clear"></div>
