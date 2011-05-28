@@ -578,7 +578,13 @@ namespace BlogEngine.Core
                 if (!string.IsNullOrWhiteSpace(this.Hostname))
                     uri.Host = this.Hostname;
                 else
+                {
                     uri.Host = context.Request.Url.Host;
+                    if (!context.Request.Url.IsDefaultPort)
+                    {
+                        uri.Port = context.Request.Url.Port;
+                    }
+                }
 
                 string vPath = this.VirtualPath ?? string.Empty;
                 if (vPath.StartsWith("~/")) { vPath = vPath.Substring(2); }

@@ -1205,6 +1205,20 @@
 
         #endregion
 
+        #region GalleryFeedUrl
+
+        private string _galleryFeedUrl;
+        /// <summary>
+        /// Gallery server feed URL
+        /// </summary>
+        public string GalleryFeedUrl
+        {
+            get { return string.IsNullOrEmpty(_galleryFeedUrl) ? "http://dnbegallery.org/feed/FeedService.svc" : _galleryFeedUrl; }
+            set { _galleryFeedUrl = value; }
+        }
+
+        #endregion
+
         #region "Methods"
 
         #region Load()

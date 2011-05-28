@@ -484,3 +484,65 @@ a.comCountPending { color: #ff8a00; margin:0 3px 0 0; }
 a.comCountApproved { color: #3c8e01; margin:0 3px 0 0; }
 a.comCountSpam { color: #d10000; margin:0 3px 0 0; }
 span.comNone {color: #aaa; margin:0 3px 0 0; cursor:default;}
+
+/* Gallery */
+/* ------------------------------*/
+ul.gallery { margin: 0; padding: 0; }
+.gallery h2 { border: 0; padding: 0; margin: 0;  }
+.gallery.Theme .thumbnail { border: 0; width: 160px; }
+.ext { width: 99%; display:inline-table; border-bottom: 1px solid #EAEAEA; padding: 8px 0; }
+.ext-img { width: 180px; float: left; }
+.ext-prop { text-align: left; width: auto; margin-left: 190px; }
+.gallery li { list-style: none; margin: 0 0 10px 0; }
+.gallery-options { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea; clear: left; }
+.loader2 { margin: 0; padding: 0; border: 0; width: 18px; height: 18px; position: relative; top: 4px; left: 5px; }
+#filterResults { margin-left: 10px; }
+#gallery-search { float: right; }
+.installed-themes { margin-bottom: 35px; }
+.installed-themes img { border: 4px solid #ccc !important; padding: 3px !important; width: 148px !important; }
+.image-gallery {float:right; font-weight:normal; padding:7px 10px 5px 22px; margin-left:20px; font-size:13px;
+    background: transparent url("images/imagegallery.png") no-repeat scroll left center;  }
+    
+/* List pager */
+/* ------------------------------*/
+#list-pager { border:0; margin:0 0 0 300px; padding:0; }
+#list-pager li{
+    border:0; margin:0; padding:0;
+    font-size:11px;
+    list-style:none;
+    margin-right:2px;
+}
+#list-pager a{
+    border:solid 1px #9aafe5;
+    margin-right:2px;
+}
+#list-pager .previous-off, #list-pager .next-off {
+    border:solid 1px #DEDEDE;
+    color:#888888;
+    display:block;
+    float:left;
+    font-weight:bold;
+    margin-right:2px;
+    padding:3px 4px;
+}
+#list-pager .next a, #list-pager .previous a {
+    font-weight:bold;
+}
+#list-pager .active{
+    background:#38560F;
+    color:#FFFFFF;
+    font-weight:bold;
+    display:block;
+    float:left;
+    padding:4px 6px;
+}
+#list-pager a:link, #list-pager a:visited {
+    color:#0e509e;
+    display:block;
+    float:left;
+    padding:3px 6px;
+    text-decoration:none;
+}
+#list-pager a:hover{
+    border:solid 1px #0e509e;
+}
