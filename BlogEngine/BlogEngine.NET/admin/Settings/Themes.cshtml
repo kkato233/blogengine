@@ -1,7 +1,7 @@
 ﻿@using BlogEngine.Core.Packaging
 
 @{
-    Page.Title = Resources.labels.dashboard;
+    Page.Title = Resources.labels.theme;
     Layout = "~/admin/_Layout.cshtml";
     
     var loaderSrc = Path.Combine(BlogEngine.Core.Blog.CurrentInstance.RelativeWebRoot, "pics/ajax-loader.gif");
@@ -63,6 +63,7 @@
                 <img class="loader2" src="@loaderSrc" alt="loader" />
             </div>
             <div id="Container"></div>
+            <div id="Pager"></div>
             }
         </div>
         <div class="clear"></div>

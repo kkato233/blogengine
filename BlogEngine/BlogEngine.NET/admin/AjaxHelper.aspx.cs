@@ -492,5 +492,12 @@ namespace Admin
             return JsonPackages.GetPage(pkgType, page, sortOrder, searchVal);
         }
 
+        [WebMethod]
+        public static IEnumerable LoadGalleryPager()
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            return PackageManager.GalleryPager.PageItems;
+        }
+
     }
 }

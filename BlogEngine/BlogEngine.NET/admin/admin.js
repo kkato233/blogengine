@@ -1017,6 +1017,25 @@ function GalleryGetPackages(pg) {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/packages.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            GalleryGetPager();
+            $('.loader2').hide();
+        }
+    });
+    return false;
+}
+
+function GalleryGetPager() {
+    var dto = { };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadGalleryPager",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (msg) {
+            $('#Pager').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/pager.htm', null, { filter_data: false });
+            $('#Pager').processTemplate(msg);
             $('.loader2').hide();
         }
     });
