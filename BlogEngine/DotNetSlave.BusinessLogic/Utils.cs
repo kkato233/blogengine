@@ -225,6 +225,37 @@
             }
         }
 
+        /// <summary>
+        ///     Gets if the current HTTP request is a homepage request, taking the blog
+        ///     instance into consideration.
+        /// </summary>
+        public static bool IsCurrentRequestForHomepage
+        {
+            get
+            {
+                HttpContext context = HttpContext.Current;
+
+                // because the homepage uses querystring values to render non-homepage content
+                // such as posts by tag, posts by date range, posts by author, etc, if there
+                // are any QS parameters, this will be considered not a homepage request.
+                if (context.Request.QueryString.Count != 0) { return false; }
+
+                string path = context.Request.Path;
+
+                // If this is a virtual folder for a blog instance, unless "default.aspx" is
+                // actually in the URL, default.aspx won't be reported in path, so we check
+                // to see if path is the root of RelativeWebRoot (the blog instance's
+                // relative web root).
+
+                if (RelativeWebRoot.Equals(VirtualPathUtility.AppendTrailingSlash(path), StringComparison.OrdinalIgnoreCase))
+                    return true;
+                else if (path.Equals(string.Format("{0}default.aspx", RelativeWebRoot), StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+                return false;
+            }
+        }
+
         #endregion
 
         #region Public Methods

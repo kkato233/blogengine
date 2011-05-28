@@ -1,4 +1,6 @@
-﻿namespace Admin
+﻿using BlogEngine.Core.Packaging;
+
+namespace Admin
 {
     using System;
     using System.Collections;
@@ -461,6 +463,40 @@
                 Utils.Log("Error saving source code: " + ex.Message);
                 return false;
             }
+        }
+
+        [WebMethod]
+        public static bool SetCurrentTheme(string theme, bool mobile)
+        {
+            try
+            {
+                if(mobile) 
+                    BlogSettings.Instance.MobileTheme = theme;
+                else
+                    BlogSettings.Instance.Theme = theme;
+
+                BlogSettings.Instance.Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error setting current theme: " + ex.Message);
+            }
+            return false;
+        }
+
+        [WebMethod]
+        public static IEnumerable LoadGalleryPage(string pkgType, int page, PackageManager.OrderType sortOrder, string searchVal)
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            return JsonPackages.GetPage(pkgType, page, sortOrder, searchVal);
+        }
+
+        [WebMethod]
+        public static IEnumerable LoadGalleryPager()
+        {
+            WebUtils.CheckRightsForAdminPostPages(false);
+            return PackageManager.GalleryPager.PageItems;
         }
 
     }
