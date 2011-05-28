@@ -29,27 +29,27 @@
         <ul class="gallery Theme">
             <li>
                 <div class="ext">
+                    <div class="ext-img">
+                        <img src="@themePic" class="thumbnail" alt="current theme" />
+                    </div>
                     <div class="ext-prop">
                         <h2>Current theme: @BlogSettings.Instance.Theme</h2>
                         <div class="properties">
                             <p>Author: unknown</p>
                         </div>
                     </div>
-                    <div class="ext-img">
-                        <img src="@themePic" class="thumbnail" alt="current theme" />
-                    </div>
                 </div>
             </li>
             <li>
                 <div class="ext">
+                    <div class="ext-img">
+                        <img src="@mobilePic" class="thumbnail" alt="mobile theme" />
+                    </div>
                     <div class="ext-prop">
                         <h2>Mobile theme: @BlogSettings.Instance.MobileTheme</h2>
                         <div class="properties">
                             <p>Author: unknown</p>
                         </div>
-                    </div>
-                    <div class="ext-img">
-                        <img src="@mobilePic" class="thumbnail" alt="mobile theme" />
                     </div>
                 </div>
             </li>
@@ -72,6 +72,9 @@
             { 
             <li>
                 <div class="ext">
+                    <div class="ext-img">
+                        <img src="@themePic" class="thumbnail" alt="theme" />
+                    </div>
                     <div class="ext-prop">
                         <h2>@theme</h2>
                         <div class="properties">
@@ -82,9 +85,6 @@
                                 <a href="" onclick="window.open('@Path.Combine(Blog.CurrentInstance.RelativeWebRoot, "?theme=")@theme','themepreview','width=1000,height=700,scrollbars=yes,resizable=yes'); return false">Preview</a>
                             </p>
                         </div>
-                    </div>
-                    <div class="ext-img">
-                        <img src="@themePic" class="thumbnail" alt="theme" />
                     </div>
                 </div>
             </li>
