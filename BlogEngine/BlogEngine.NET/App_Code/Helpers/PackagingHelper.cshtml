@@ -1,0 +1,60 @@
+﻿@using BlogEngine.Core
+@using BlogEngine.Core.Packaging
+
+@helper GetPackages(string pkgType, int page, PackageManager.OrderType sortOrder)
+{
+    var packages = PackageManager.GetPackages(pkgType, page, sortOrder);  
+    
+    if(packages != null && packages.Count() > 0){
+    <ul class="gallery @pkgType">
+        @foreach (var package in packages)
+        {
+            var projWebsite = ""; 
+            var iconUrl = package.IconUrl;
+            if (string.IsNullOrWhiteSpace(iconUrl))
+            {
+                iconUrl = Href("~/Pics/imagePlaceholder.png");
+            }
+            else{
+                iconUrl = "http://dnbegallery.org" + iconUrl;
+            }
+            <li>
+                <div class="ext">
+                    
+                    <div class="ext-prop">
+                        @if (!string.IsNullOrWhiteSpace(package.GalleryDetailsUrl)) {
+                            <a href="http://dnbegallery.org/cms/List/Themes/@package.Id" target="_new">
+                                <h2>@package.Title<span> - Version: @package.Version</span></h2>
+                            </a>
+                        } else {
+                            <h2>@package.Title<span> - Version: @package.Version</span></h2>
+                        }
+
+                        <div class="properties">
+                            <p>@package.Description</p>
+                            <p class="status">
+                                Last Updated: @package.LastUpdated&nbsp;&#124;&nbsp;
+                                Author: @package.Authors&nbsp;&#124;&nbsp;
+                                Downloads: @package.DownloadCount
+                            </p>
+                            @if(!string.IsNullOrWhiteSpace(package.ProjectUrl)){
+                                projWebsite = "<p class=\"website\">Website: <a target=\"_new\" href=\"" + package.ProjectUrl + "\">" + package.ProjectUrl + "</a></p>"; 
+                            }
+                            @Html.Raw(projWebsite)
+                        </div>
+                    </div>
+                    <div class="ext-img">
+                        <img src="@iconUrl" class="thumbnail" alt="theme" />
+                    </div>
+                     
+                </div>
+                              
+            </li>
+        }
+    </ul>
+    }
+    else
+    {
+        <div class="info">No themes available</div>   
+    }
+}
