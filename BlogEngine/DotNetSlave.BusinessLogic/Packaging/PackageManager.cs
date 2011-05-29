@@ -38,9 +38,9 @@ namespace BlogEngine.Core.Packaging
         }
 
         /// <summary>
-        /// Package counter
+        /// Gallery pager
         /// </summary>
-        public static int Count { get; set; }
+        public static Pager GalleryPager;
 
         /// <summary>
         /// 
@@ -88,7 +88,8 @@ namespace BlogEngine.Core.Packaging
                     }
                 }
                 
-                Count = cnt;
+                GalleryPager = new Pager(page, cnt);
+
                 if (cnt > 0)
                 {
                     switch (sortOrder)

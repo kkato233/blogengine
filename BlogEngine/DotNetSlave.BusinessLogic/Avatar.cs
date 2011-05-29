@@ -88,7 +88,7 @@ namespace BlogEngine.Core
                     url =
                         new Uri(
                             string.Format(
-                                "http://images.websnapr.com/?url={0}&amp;size=t", 
+                                "http://cligs.websnapr.com/?url={0}&amp;size=t", 
                                 HttpUtility.UrlEncode(website.ToString())));
 
                     imageTag = string.Format(
