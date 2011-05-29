@@ -419,7 +419,7 @@
                 this.Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
             }
 
-            this.MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, this.theme);
+            this.MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
             base.OnPreInit(e);
 

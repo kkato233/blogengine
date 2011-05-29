@@ -109,6 +109,7 @@ namespace Admin
             // Load a widget container for this new widget.  This will return the WidgetContainer
             // with the new widget in it.
             var widgetContainer = WidgetContainer.GetWidgetContainer(widget);
+            widgetContainer.RenderContainer();
 
             // need to manually invoke the loading process, since the Loading process for this Http Request
             // page lifecycle has already fired.
@@ -454,10 +455,12 @@ namespace Admin
             }
 
             var widgets = doc.SelectSingleNode("widgets");
-            if (widgets != null)
+            if (widgets == null)
             {
-                widgets.AppendChild(node);
+                widgets = doc.CreateElement("widgets");
+                doc.AppendChild(widgets);
             }
+            widgets.AppendChild(node);
 
             SaveXmlDocument(doc, zone);
         }

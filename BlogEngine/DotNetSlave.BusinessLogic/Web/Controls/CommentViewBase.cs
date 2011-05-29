@@ -84,7 +84,7 @@
         ///     Gets a delete link to visitors that are authenticated
         ///     using the default membership provider.
         /// </summary>
-        protected string AdminLinks
+        public string AdminLinks
         {
             get
             {
@@ -154,7 +154,7 @@
         ///         the flag does not exist for that country, nothing is displayed.
         ///     </remarks>
         /// </summary>
-        protected string Flag
+        public string Flag
         {
             get
             {
@@ -172,7 +172,7 @@
         /// <summary>
         ///     Gets a link that lets a user reply to a specific comment
         /// </summary>
-        protected string ReplyToLink
+        public string ReplyToLink
         {
             get
             {
@@ -193,6 +193,17 @@
         #region Methods
 
         /// <summary>
+        /// The comment will be processed when invoked, rather than waiting
+        /// for the Load event to occur.
+        /// </summary>
+        public virtual void RenderComment() { }
+
+        /// <summary>
+        /// For styling, indicates if the comment is odd or even.
+        /// </summary>
+        public bool IsOdd { get; set; }
+
+        /// <summary>
         /// Displays the Gravatar image that matches the specified email.
         /// </summary>
         /// <param name="size">
@@ -201,13 +212,13 @@
         /// <returns>
         /// The gravatar.
         /// </returns>
-        protected string Gravatar(int size)
+        public string Gravatar(int size)
         {
             return Avatar.GetAvatarImageTag(size, this.Comment.Email, this.Comment.Website, this.Comment.Avatar, this.Comment.Author);
         }
 
         /// <summary>
-        /// Examins the comment body for any links and turns them
+        /// Examines the comment body for any links and turns them
         ///     automatically into one that can be clicked.
         /// </summary>
         /// <param name="body">
@@ -217,7 +228,7 @@
         /// The resolve links.
         /// </returns>
         [Obsolete("Use the Text property instead. This method will be removed in a future version.")]
-        protected string ResolveLinks(string body)
+        public string ResolveLinks(string body)
         {
             return this.Text;
         }

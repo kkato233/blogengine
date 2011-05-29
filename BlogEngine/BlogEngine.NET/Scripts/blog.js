@@ -156,7 +156,7 @@ BlogEngine = {
             if (replies == null) {
                 replies = document.createElement('div');
                 replies.className = 'comment-replies';
-                replies.setAttribute('id') = 'replies_' + id;
+                replies.id = 'replies_' + id;
                 parentComment.appendChild(replies);
             }
             replies.style.display = '';

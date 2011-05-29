@@ -65,7 +65,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
                     var settings = BlogSettings.Instance;
                     string encodedPostTitle = Server.HtmlEncode(Post.Title);
-                    string path = Utils.ApplicationRelativeWebRoot + "themes/" + settings.Theme + "/PostView.ascx";
+                    string path = Utils.ApplicationRelativeWebRoot + "themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostView.ascx";
 
                     PostViewBase postView = (PostViewBase)LoadControl(path);
                     postView.Post = Post;

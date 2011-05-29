@@ -166,7 +166,7 @@
         /// <summary>
         ///     Gets an Edit and Delete link to any authenticated user.
         /// </summary>
-        protected virtual string AdminLinks
+        public virtual string AdminLinks
         {
             get
             {
@@ -233,7 +233,7 @@
         ///     Gets the rating.
         /// Enable visitors to rate the post.
         /// </summary>
-        protected virtual string Rating
+        public virtual string Rating
         {
             get
             {
@@ -264,7 +264,7 @@
         /// <returns>
         /// The category links.
         /// </returns>
-        protected virtual string CategoryLinks(string separator)
+        public virtual string CategoryLinks(string separator)
         {
             var keywords = new string[this.Post.Categories.Count];
             const string Link = "<a href=\"{0}\">{1}</a>";
@@ -330,7 +330,7 @@
         /// <returns>
         /// The tag links.
         /// </returns>
-        protected virtual string TagLinks(string separator)
+        public virtual string TagLinks(string separator)
         {
             var tags = this.Post.Tags;
             if (tags.Count == 0)

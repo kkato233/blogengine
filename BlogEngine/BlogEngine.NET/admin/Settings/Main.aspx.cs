@@ -83,8 +83,12 @@
             foreach (var dic in Directory.GetDirectories(path))
             {
                 var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
-                ddlTheme.Items.Add(dic.Substring(index));
-                ddlMobileTheme.Items.Add(dic.Substring(index));
+                var themeName = dic.Substring(index);
+                if (!themeName.Equals("RazorHost", StringComparison.OrdinalIgnoreCase))
+                {
+                    ddlTheme.Items.Add(themeName);
+                    ddlMobileTheme.Items.Add(themeName);
+                }
             }
         }
 

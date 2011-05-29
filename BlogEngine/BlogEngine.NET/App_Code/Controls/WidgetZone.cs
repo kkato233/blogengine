@@ -19,6 +19,7 @@ namespace App_Code.Controls
     using BlogEngine.Core.DataStore;
 
     using Resources;
+    using System.Web.Hosting;
 
     /// <summary>
     /// The widget zone.
@@ -123,8 +124,8 @@ namespace App_Code.Controls
             }
 
             // This is for compatibility with older themes that do not have a WidgetContainer control.
-            var widgetContainerExists = WidgetContainer.DoesThemeWidgetContainerExist();
-            var widgetContainerVirtualPath = WidgetContainer.GetThemeWidgetContainerVirtualPath();
+            var widgetContainerExists = WidgetContainer.DoesThemeWidgetContainerExist(true);
+            var widgetContainerVirtualPath = WidgetContainer.GetThemeWidgetContainerVirtualPath(false);
 
             foreach (XmlNode widget in zone)
             {
@@ -195,7 +196,7 @@ namespace App_Code.Controls
 
             var selectorId = string.Format("widgetselector_{0}", this.zoneName);
             writer.Write("<select id=\"{0}\" class=\"widgetselector\">", selectorId);
-            var di = new DirectoryInfo(this.Page.Server.MapPath(string.Format("{0}widgets", Utils.ApplicationRelativeWebRoot)));
+            var di = new DirectoryInfo(HostingEnvironment.MapPath(string.Format("{0}widgets", Utils.ApplicationRelativeWebRoot)));
             foreach (var dir in di.GetDirectories().Where(dir => File.Exists(Path.Combine(dir.FullName, "widget.ascx"))))
             {
                 writer.Write("<option value=\"{0}\">{1}</option>", dir.Name, dir.Name);

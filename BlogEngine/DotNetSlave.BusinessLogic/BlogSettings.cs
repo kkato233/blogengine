@@ -8,6 +8,8 @@
     using System.Web;
 
     using BlogEngine.Core.Providers;
+    using System.Web.Hosting;
+    using System.IO;
 
     /// <summary>
     /// Represents the configured settings for the blog engine.
@@ -98,6 +100,9 @@
             }
         }
 
+        /// <summary>
+        /// Returns the settings for the requested blog instance.
+        /// </summary>
         public static BlogSettings GetInstanceSettings(Blog blog)
         {
             BlogSettings blogSettings;
@@ -117,6 +122,47 @@
             }
 
             return blogSettings;
+        }
+
+        private bool? _isRazorTheme;
+        /// <summary>
+        /// Gets whether Theme is a razor theme.
+        /// </summary>
+        public bool IsRazorTheme
+        {
+            get
+            {
+                if (_isRazorTheme.HasValue) { return _isRazorTheme.Value; }
+
+                _isRazorTheme = IsThemeRazor(this.Theme);
+                return _isRazorTheme.Value;
+            }
+        }
+
+        /// <summary>
+        /// Determines if themeName is a razor theme.
+        /// </summary>
+        public static bool IsThemeRazor(string themeName)
+        {
+            string path = HostingEnvironment.MapPath(string.Format("~/themes/{0}/site.cshtml", themeName));
+            return File.Exists(path);
+        }
+
+        /// <summary>
+        /// Takes into account factors such as if there is a theme override of if
+        /// the theme is a Razor theme and returns the actual theme folder name
+        /// for the current HTTP request.
+        /// </summary>
+        public string GetThemeWithAdjustments(string themeOverride)
+        {
+            string theme = this.Theme;
+            bool isRazorTheme = IsRazorTheme;
+            if (!string.IsNullOrWhiteSpace(themeOverride))
+            {
+                theme = themeOverride;
+                isRazorTheme = IsThemeRazor(theme);
+            }
+            return isRazorTheme ? "RazorHost" : theme;
         }
 
         #region Description
@@ -1350,6 +1396,7 @@
             }
 
             BlogService.SaveSettings(dic);
+            _isRazorTheme = null;
             OnChanged();
         }
 

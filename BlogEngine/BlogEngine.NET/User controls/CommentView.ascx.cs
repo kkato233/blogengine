@@ -64,7 +64,7 @@
                     else
                     {
                         var path = string.Format(
-                            "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
+                            "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
                         // test comment control for nesting placeholder (for backwards compatibility with older themes)
                         var commentTester = (CommentViewBase)this.LoadControl(path);
@@ -352,11 +352,12 @@
             }
 
             var path = string.Format(
-                "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
+                "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
             var control = (CommentViewBase)this.LoadControl(path);
             control.Comment = comment;
             control.Post = this.Post;
+            control.RenderComment();
 
             using (var sw = new StringWriter())
             {
@@ -453,7 +454,7 @@
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
+            bool isOdd = true;
 
             if (this.Post == null)
             {
@@ -490,7 +491,7 @@
                 }
 
                 var path = string.Format(
-                    "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
+                    "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
                 bool canViewUnpublishedPosts = Security.IsAuthorizedTo(AuthorizationCheck.HasAny, new[] { Rights.ViewUnmoderatedComments, Rights.ModerateComments });
 
@@ -507,6 +508,8 @@
                     // old, non nested code
                     // Add approved Comments
 
+                    isOdd = true;
+
                     foreach (var comment in
                         this.Post.Comments.Where(
                             comment => comment.Email != "pingback" && comment.Email != "trackback"))
@@ -521,9 +524,11 @@
                             continue;
                         }
 
+                        isOdd = !isOdd;
                         var control = (CommentViewBase)this.LoadControl(path);
                         control.Comment = comment;
                         control.Post = this.Post;
+                        control.IsOdd = isOdd;
                         this.phComments.Controls.Add(control);
                     }
 
@@ -542,9 +547,11 @@
                                 continue;
                             }
 
+                            isOdd = !isOdd;
                             var control = (CommentViewBase)this.LoadControl(path);
                             control.Comment = comment;
                             control.Post = this.Post;
+                            control.IsOdd = isOdd;
                             this.phComments.Controls.Add(control);
                         }
                     }
@@ -552,6 +559,7 @@
 
                 var pingbacks = new List<CommentViewBase>();
 
+                isOdd = true;
                 foreach (var comment in this.Post.Comments)
                 {
                     var control = (CommentViewBase)this.LoadControl(path);
@@ -561,8 +569,10 @@
                         continue;
                     }
 
+                    isOdd = !isOdd;
                     control.Comment = comment;
                     control.Post = this.Post;
+                    control.IsOdd = isOdd;
                     pingbacks.Add(control);
                 }
 
@@ -631,7 +641,8 @@
         private void AddNestedComments(string path, IEnumerable<Comment> nestedComments, Control commentsPlaceHolder, bool canViewUnpublishedPosts)
         {
             bool enableCommentModeration = BlogSettings.Instance.EnableCommentsModeration;
-            
+
+            bool isOdd = true;
             foreach (var comment in nestedComments)
             {
                 if ((!comment.IsApproved && enableCommentModeration) &&
@@ -651,9 +662,12 @@
                     continue;
                 }
 
+                isOdd = !isOdd;
+
                 var control = (CommentViewBase)this.LoadControl(path);
                 control.Comment = comment;
                 control.Post = this.Post;
+                control.IsOdd = isOdd;
 
                 if (comment.IsApproved)
                 {
