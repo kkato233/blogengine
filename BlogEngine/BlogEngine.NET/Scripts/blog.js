@@ -99,13 +99,14 @@ BlogEngine = {
 
         var author = BlogEngine.comments.nameBox.value;
         var email = BlogEngine.comments.emailBox.value;
+        var content = BlogEngine.comments.contentBox.value;
+        var captcha = BlogEngine.comments.captchaField.value;
+
         var website = BlogEngine.comments.websiteBox ? BlogEngine.comments.websiteBox.value : "";
         var country = BlogEngine.comments.countryDropDown ? BlogEngine.comments.countryDropDown.value : "";
-        var content = BlogEngine.comments.contentBox.value;
-        var notify = BlogEngine.$("cbNotify").checked;
-        var captcha = BlogEngine.comments.captchaField.value;
+        var notify = BlogEngine.$("cbNotify") ? BlogEngine.$("cbNotify").checked : false;
         var replyToId = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : "";
-
+                
         var recaptchaResponseField = document.getElementById('recaptcha_response_field');
         var recaptchaResponse = recaptchaResponseField ? recaptchaResponseField.value : "";
 
