@@ -39,14 +39,16 @@ namespace BlogEngine.Core.Json
             {
                 var jp = new JsonPackage
                 {
+                    Id = p.Id,
                     PackageType = pkgType,
-                    Authors = p.Authors,
+                    Authors = string.IsNullOrEmpty(p.Authors) ? "unknown" : p.Authors,
                     Description = p.Description,
                     DownloadCount = p.DownloadCount,
                     LastUpdated = p.LastUpdated.ToString("dd MMM yyyy"),
                     Title = p.Title,
                     Version = p.Version,
                     Website = p.ProjectUrl,
+                    Tags = p.Tags,
                     IconUrl = string.IsNullOrWhiteSpace(p.IconUrl)
                         ? Blog.CurrentInstance.RelativeWebRoot + "Pics/imagePlaceholder.png"
                         : "http://dnbegallery.org" + p.IconUrl

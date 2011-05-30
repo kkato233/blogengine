@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using BlogEngine.Core.GalleryServer;
+using BlogEngine.Core.Json;
+using NuGet;
 
 namespace BlogEngine.Core.Packaging
 {
@@ -61,8 +65,7 @@ namespace BlogEngine.Core.Packaging
             try
             {
                 var retPackages = new List<PublishedPackage>();
-                var pkgList = GetPackageList(srs,
-                    packages => packages.Where(p => p.PackageType == pkgType && p.IsLatestVersion));
+                var pkgList = GetPackageList(srs);
 
                 foreach (var pkg in pkgList.ToList())
                 {
@@ -123,7 +126,138 @@ namespace BlogEngine.Core.Packaging
             }
         }
 
-        static IEnumerable<PublishedPackage> GetPackageList(PackagingSource packagingSource = null, Func<IQueryable<PublishedPackage>, IQueryable<PublishedPackage>> query = null)
+        /// <summary>
+        /// Installed themes
+        /// </summary>
+        /// <returns></returns>
+        public static List<JsonPackage> InstalledThemes()
+        {
+            var installedThemes = new List<JsonPackage>();
+            var path = HttpContext.Current.Server.MapPath(string.Format("{0}themes/", Blog.CurrentInstance.RelativeWebRoot));
+
+            foreach (var dic in Directory.GetDirectories(path))
+            {
+                var jp = new JsonPackage();
+                var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
+                
+                var themeFile = dic + @"\theme.png";
+                jp.Id = dic.Substring(index);
+
+                jp.IconUrl = File.Exists(themeFile)
+                               ? string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, jp.Id)
+                               : Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+
+                if (jp.Id != BlogSettings.Instance.Theme && jp.Id != BlogSettings.Instance.MobileTheme)
+                {
+                    installedThemes.Add(jp);
+                }
+            }
+
+            return installedThemes;
+        }
+
+        /// <summary>
+        /// Install package
+        /// </summary>
+        /// <param name="pkgId"></param>
+        public static JsonResponse InstallPackage(string pkgId)
+        {
+            try
+            {
+                var repo =
+                PackageRepositoryFactory.Default.CreateRepository(
+                    new PackageSource("http://dnbegallery.org/feed/FeedService.svc", "Default"));
+
+                var packageManager = new NuGet.PackageManager(
+                    repo,
+                    new DefaultPackagePathResolver("http://dnbegallery.org/feed/FeedService.svc"),
+                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot + "App_Data/packages"))
+                );
+
+                var package = repo.FindPackage(pkgId);
+
+                packageManager.InstallPackage(package, false);
+
+                CopyPackageFiles(package.Id, package.Version.ToString());
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("PackageManager.InstallPackage", ex);
+                return new JsonResponse() { Success = false, Message = "Error installing package, see logs for details" };
+            }
+
+            return new JsonResponse() { Success = true, Message = "Package successfully installed" };
+        }
+
+        /// <summary>
+        /// Uninstall package
+        /// </summary>
+        /// <param name="pkgId"></param>
+        /// <returns></returns>
+        public static JsonResponse UninstallPackage(string pkgId)
+        {
+            try
+            {
+                var repo =
+                PackageRepositoryFactory.Default.CreateRepository(
+                    new PackageSource("http://dnbegallery.org/feed/FeedService.svc", "Default"));
+
+                var packageManager = new NuGet.PackageManager(
+                    repo,
+                    new DefaultPackagePathResolver("http://dnbegallery.org/feed/FeedService.svc"),
+                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot + "App_Data/packages"))
+                );
+
+                var package = repo.FindPackage(pkgId);
+
+                if(package == null)
+                    return new JsonResponse { Success = false, Message = "Package " + pkgId + " not found" };
+
+                packageManager.UninstallPackage(package, true);
+
+                RemovePackageFiles(package.Id, package.Version.ToString());        
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("PackageManager.UninstallPackage", ex);
+                return new JsonResponse { Success = false, Message = "Error uninstalling package, see logs for details" };
+            }
+
+            return new JsonResponse { Success = true, Message = "Package successfully uninstalled" };
+        }
+
+        static void CopyPackageFiles(string pkgId, string version)
+        {
+            //TODO: implement also for extensions and widgets, add "lib" handling
+            var src = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot +
+                string.Format("App_Data/packages/{0}.{1}/content", pkgId, version));
+
+            var tgt = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot);
+
+            var source = new DirectoryInfo(src);
+            var target = new DirectoryInfo(tgt);
+
+            Utils.CopyDirectoryContents(source, target);
+        }
+
+        static void RemovePackageFiles(string pkgId, string version)
+        {
+            //TODO: implement also for extensions and widgets
+            var pkg = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot +
+                string.Format("themes/{0}", pkgId));
+
+            if (Directory.Exists(pkg))
+                ForceDeleteDirectory(pkg); // Directory.Delete(pkg, true);
+
+            // remove package itself
+            pkg = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot +
+                string.Format("App_Data/packages/{0}.{1}", pkgId, version));
+
+            if (Directory.Exists(pkg))
+                ForceDeleteDirectory(pkg); // Directory.Delete(pkg, true);
+        }
+
+        static IEnumerable<PublishedPackage> GetPackageList(PackagingSource packagingSource = null)
         {
             return (new[] { packagingSource })
             .SelectMany(
@@ -134,6 +268,32 @@ namespace BlogEngine.Core.Packaging
                 }
             );
         }
+
+        public static void ForceDeleteDirectory(string path)
+        {
+            DirectoryInfo root;
+            Stack<DirectoryInfo> fols;
+            DirectoryInfo fol;
+            fols = new Stack<DirectoryInfo>();
+            root = new DirectoryInfo(path);
+            fols.Push(root);
+            while (fols.Count > 0)
+            {
+                fol = fols.Pop();
+                fol.Attributes = fol.Attributes & ~(FileAttributes.Archive | FileAttributes.ReadOnly | FileAttributes.Hidden);
+                foreach (DirectoryInfo d in fol.GetDirectories())
+                {
+                    fols.Push(d);
+                }
+                foreach (FileInfo f in fol.GetFiles())
+                {
+                    f.Attributes = f.Attributes & ~(FileAttributes.Archive | FileAttributes.ReadOnly | FileAttributes.Hidden);
+                    f.Delete();
+                }
+            }
+            root.Delete(true);
+        }
+
     }
 
     /// <summary>
