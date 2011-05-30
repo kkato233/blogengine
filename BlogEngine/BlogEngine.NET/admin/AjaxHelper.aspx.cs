@@ -488,15 +488,29 @@ namespace Admin
         [WebMethod]
         public static IEnumerable LoadGalleryPage(string pkgType, int page, PackageManager.OrderType sortOrder, string searchVal)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
             return JsonPackages.GetPage(pkgType, page, sortOrder, searchVal);
         }
 
         [WebMethod]
         public static IEnumerable LoadGalleryPager()
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
+            WebUtils.CheckRightsForAdminSettingsPage(false);
             return PackageManager.GalleryPager.PageItems;
+        }
+
+        [WebMethod]
+        public static JsonResponse InstallPackage(string pkgId)
+        {
+            WebUtils.CheckRightsForAdminSettingsPage(false);
+            return PackageManager.InstallPackage(pkgId);
+        }
+
+        [WebMethod]
+        public static JsonResponse UninstallPackage(string pkgId)
+        {
+            WebUtils.CheckRightsForAdminSettingsPage(false);
+            return PackageManager.UninstallPackage(pkgId);
         }
 
     }

@@ -1042,6 +1042,56 @@ function GalleryGetPager() {
     return false;
 }
 
+function InstallPackage(pkgId) {
+    var dto = { "pkgId": pkgId };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/InstallPackage",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    return false;
+}
+
+function UninstallPackage(pkgId) {
+    $('.loader2').show();
+    var li = $("[id$='" + pkgId + "']");
+    var dto = { "pkgId": pkgId };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/UninstallPackage",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $(li).fadeOut(500, function () {
+                    $(li).remove();
+                });
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    $('.loader2').hide();
+    return false;
+}
+
 //--------------HELPERS AND MISC
 
 function onAjaxBeforeSend(jqXHR, settings) {
