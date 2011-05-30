@@ -921,5 +921,11 @@ namespace BlogEngine.Core
         {
             get { return _cache ?? (_cache = new CacheProvider(HttpContext.Current.Cache)); }
         }
+
+        private List<Json.JsonPackage> _installedPackages;
+        /// <summary>
+        /// Installed Packages (extensions, themes and widgets)
+        /// </summary>
+        public List<Json.JsonPackage> InstalledPackages { get; set; }
     }
 }

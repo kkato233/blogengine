@@ -21,6 +21,9 @@
                 {#/if}
                 <div class="properties">
                     <p>{$T.p.Description}</p>
+                    {#if $T.p.Tags != null}
+                        <p class="tags">Tags: {$T.p.Tags}</p> 
+                    {#/if}
                     <p class="status">
                         Last Updated: {$T.p.LastUpdated}&nbsp;&#124;&nbsp;
                         Author: {$T.p.Authors}&nbsp;&#124;&nbsp;
@@ -29,6 +32,10 @@
                     {#if $T.p.Website != null}
                         <p class="website">Website: <a target="_new" href="{$T.p.Website}">{$T.p.Website}</a></p> 
                     {#/if}
+                    <p>
+                        <a href="" onclick="InstallPackage('{$T.p.Id}'); return false;">Install</a>
+                        <img class="loader2" src="../../pics/ajax-loader.gif" alt="loader" />
+                    </p>
                 </div>
             </div> 
         </div>        
