@@ -24,7 +24,6 @@
         {
             WebUtils.CheckRightsForAdminSettingsPage(false);
 
-            BindThemes();
             BindCultures();
             BindRoles();
             BindSettings();
@@ -54,8 +53,6 @@
             txtDescription.Text = BlogSettings.Instance.Description;
             txtPostsPerPage.Text = BlogSettings.Instance.PostsPerPage.ToString();
             cbShowRelatedPosts.Checked = BlogSettings.Instance.EnableRelatedPosts;
-            ddlTheme.SelectedValue = BlogSettings.Instance.Theme;
-            ddlMobileTheme.SelectedValue = BlogSettings.Instance.MobileTheme;
             txtThemeCookieName.Text = BlogSettings.Instance.ThemeCookieName;
             cbUseBlogNameInPageTitles.Checked = BlogSettings.Instance.UseBlogNameInPageTitles;
             cbEnableRating.Checked = BlogSettings.Instance.EnableRating;
@@ -72,24 +69,6 @@
             cbEnablePasswordReset.Checked = BlogSettings.Instance.EnablePasswordReset;
             cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
             Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
-        }
-
-        /// <summary>
-        /// The bind themes.
-        /// </summary>
-        private void BindThemes()
-        {
-            var path = Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
-            foreach (var dic in Directory.GetDirectories(path))
-            {
-                var index = dic.LastIndexOf(Path.DirectorySeparatorChar) + 1;
-                var themeName = dic.Substring(index);
-                if (!themeName.Equals("RazorHost", StringComparison.OrdinalIgnoreCase))
-                {
-                    ddlTheme.Items.Add(themeName);
-                    ddlMobileTheme.Items.Add(themeName);
-                }
-            }
         }
 
         /// <summary>
@@ -162,8 +141,6 @@
         public static JsonResponse Save(string name, 
 			string desc,
 			string postsPerPage,
-			string theme,
-			string mobileTheme,
 			string themeCookieName,
 			string useBlogNameInPageTitles,
 			string enableRelatedPosts,
@@ -193,8 +170,6 @@
                 BlogSettings.Instance.Name = name;
                 BlogSettings.Instance.Description = desc;
 				BlogSettings.Instance.PostsPerPage = int.Parse(postsPerPage);
-				BlogSettings.Instance.Theme = theme;
-				BlogSettings.Instance.MobileTheme = mobileTheme;
 				BlogSettings.Instance.ThemeCookieName = themeCookieName;
 				BlogSettings.Instance.UseBlogNameInPageTitles = bool.Parse(useBlogNameInPageTitles);
 				BlogSettings.Instance.EnableRelatedPosts = bool.Parse(enableRelatedPosts);

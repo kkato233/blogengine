@@ -47,7 +47,7 @@
                         <img src="@mobilePic" class="thumbnail" alt="mobile theme" />
                     </div>
                     <div class="ext-prop">
-                        <h2>Mobile theme: @BlogSettings.Instance.MobileTheme</h2>
+                        <h2>@Resources.labels.mobileTheme: @BlogSettings.Instance.MobileTheme</h2>
                         <div class="properties">
                             <p>Author: unknown</p>
                         </div>
@@ -60,7 +60,7 @@
     <h2>Available</h2>
     <div class="available-themes">
         <ul class="gallery Theme">
-        @foreach (var theme in BlogEngine.Core.Packaging.PackageManager.InstalledThemes())
+        @foreach (var theme in Blog.CurrentInstance.InstalledThemes)
         {
         <li id="@theme.Id">
             <div class="ext">
@@ -68,9 +68,30 @@
                     <img src="@theme.IconUrl" class="thumbnail" alt="theme" />
                 </div>
                 <div class="ext-prop">
+                    @if(!string.IsNullOrWhiteSpace(theme.Version)){
+                    <h2>@theme.Id @theme.Version</h2> 
+                    }
+                    else
+                    {
                     <h2>@theme.Id</h2>
+                    }
                     <div class="properties">
-                        <p>Author: unknown</p>
+                        @if (!string.IsNullOrWhiteSpace(theme.Description))
+                        {
+                        <p>@theme.Description</p>   
+                        }
+                        @if (!string.IsNullOrWhiteSpace(theme.Tags))
+                        {
+                        <p>Tags: @theme.Tags</p>   
+                        }
+                        @if (!string.IsNullOrWhiteSpace(theme.Authors))
+                        {
+                         <p>Authors: @theme.Authors</p>   
+                        }
+                        else
+                        {
+                        <p>Authors: unknown</p>
+                        }
                         <p>
                             <a href="" onclick="SetCurrentTheme('@theme.Id','false'); return false;">Set As Current Theme</a>&nbsp;|
                             <a href="" onclick="SetCurrentTheme('@theme.Id','true'); return false;">Set As Mobile Theme</a>&nbsp;|

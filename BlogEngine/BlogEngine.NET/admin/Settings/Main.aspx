@@ -17,7 +17,6 @@
             } else {
                 oCharContainer.hide();
             }
-
         }
 
         $(document).ready(function () {
@@ -50,19 +49,12 @@
             syncCharCountBox(oShowDescTagCatChkBox, oDescCharTagCatContainer);
 
         });
-        function PreviewTheme() {
-            var theme = document.getElementById('<%=ddlTheme.ClientID %>').value;
-            var path = '../../?theme=' + theme;
-            window.open(path);
-        }
         function SaveSettings() {
             $('.loader').show();
             var dto = { 
 				"name": $("[id$='_txtName']").val(),
 				"desc": $("[id$='_txtDescription']").val(),
 				"postsPerPage": $("[id$='_txtPostsPerPage']").val(),
-				"theme": $("[id$='_ddlTheme']").val(),
-				"mobileTheme": $("[id$='_ddlMobileTheme']").val(),
 				"themeCookieName": $("[id$='_txtThemeCookieName']").val(),
 				"useBlogNameInPageTitles": $("[id$='_cbUseBlogNameInPageTitles']").attr('checked'),
 				"enableRelatedPosts": $("[id$='_cbShowRelatedPosts']").attr('checked'),
@@ -115,15 +107,6 @@
                     <li>
                         <label class="lbl" for="<%=txtDescription.ClientID %>"><%=Resources.labels.description %></label>
                         <asp:TextBox width="300" runat="server" ID="txtDescription" />
-                    </li>
-                    <li>
-                        <label class="lbl" for="<%=ddlTheme.ClientID %>"><%=Resources.labels.theme %></label>
-                        <asp:DropDownList CssClass="txt" Width="212" runat="server" ID="ddlTheme" />
-                        <a href="javascript:void(PreviewTheme());"><%=Resources.labels.preview %></a> | <a href="http://www.dotnetblogengine.net/page/themes.aspx" target="_blank"><%=Resources.labels.download %></a>
-                    </li>
-                    <li>
-                        <label class="lbl" for="<%=ddlMobileTheme.ClientID %>"><%=Resources.labels.mobileTheme %></label>
-                        <asp:DropDownList CssClass="txt" Width="212" runat="server" ID="ddlMobileTheme" />
                     </li>
                     <li>
                         <label class="lbl" for="<%=txtThemeCookieName.ClientID %>"><%=Resources.labels.themeCookieName %></label>
