@@ -154,7 +154,9 @@
     <Compile Include="Json\JsonTag.cs" />
     <Compile Include="Json\JsonTrash.cs" />
     <Compile Include="Json\JsonTrashList.cs" />
+    <Compile Include="Packaging\FileSystem.cs" />
     <Compile Include="Packaging\PackageManager.cs" />
+    <Compile Include="Packaging\PackagingSource.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
