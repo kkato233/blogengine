@@ -11,19 +11,19 @@
 
 @helper InstalledThemes()
 {
-    var path = Server.MapPath(string.Format("{0}themes/", Blog.CurrentInstance.RelativeWebRoot));
-    var loaderSrc = Path.Combine(BlogEngine.Core.Blog.CurrentInstance.RelativeWebRoot, "pics/ajax-loader.gif");
+    var path = Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
+    var loaderSrc = Path.Combine(BlogEngine.Core.Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
     var themePic = "";
     var mobilePic = "";
 
     themePic = File.Exists(Path.Combine(path, BlogSettings.Instance.Theme, "theme.png")) ?
-        string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, BlogSettings.Instance.Theme) :
-        Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+        string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme) :
+        Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
 
     mobilePic = File.Exists(Path.Combine(path, BlogSettings.Instance.MobileTheme, "theme.png")) ?
-        string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, BlogSettings.Instance.MobileTheme) :
-        Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+        string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.MobileTheme) :
+        Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
     
     <h2>Current</h2>
     <div class="installed-themes">

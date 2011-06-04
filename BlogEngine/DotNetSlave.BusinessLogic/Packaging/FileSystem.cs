@@ -17,10 +17,10 @@ namespace BlogEngine.Core.Packaging
         public static void CopyPackageFiles(string pkgId, string version)
         {
             //TODO: implement also for extensions and widgets, add "lib" handling
-            var src = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot +
+            var src = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
                 string.Format("App_Data/packages/{0}.{1}/content", pkgId, version));
 
-            var tgt = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot);
+            var tgt = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot);
 
             var source = new DirectoryInfo(src);
             var target = new DirectoryInfo(tgt);
@@ -36,14 +36,14 @@ namespace BlogEngine.Core.Packaging
         public static void RemovePackageFiles(string pkgId, string version)
         {
             //TODO: implement also for extensions and widgets
-            var pkg = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot +
+            var pkg = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
                 string.Format("themes/{0}", pkgId));
 
             if (Directory.Exists(pkg))
                 ForceDeleteDirectory(pkg); // Directory.Delete(pkg, true);
 
             // remove package itself
-            pkg = HttpContext.Current.Server.MapPath(Blog.CurrentInstance.RelativeWebRoot +
+            pkg = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
                 string.Format("App_Data/packages/{0}.{1}", pkgId, version));
 
             if (Directory.Exists(pkg))

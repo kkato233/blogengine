@@ -143,7 +143,7 @@ namespace BlogEngine.Core.Packaging
         public static List<JsonPackage> InstalledPackages(string pkgType)
         {
             var installedThemes = new Dictionary<string, JsonPackage>();
-            var path = HttpContext.Current.Server.MapPath(string.Format("{0}themes/", Blog.CurrentInstance.RelativeWebRoot));
+            var path = HttpContext.Current.Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
 
             // read themes directory
             foreach (var d in Directory.GetDirectories(path))
@@ -154,8 +154,8 @@ namespace BlogEngine.Core.Packaging
                 p.Id = d.Substring(index);
 
                 p.IconUrl = File.Exists(themeFile)
-                               ? string.Format("{0}themes/{1}/theme.png", Blog.CurrentInstance.RelativeWebRoot, p.Id)
-                               : Blog.CurrentInstance.RelativeWebRoot + "pics/Theme.png";
+                               ? string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, p.Id)
+                               : Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
 
                 if (p.Id != BlogSettings.Instance.Theme && 
                     p.Id != BlogSettings.Instance.MobileTheme &&
@@ -210,7 +210,7 @@ namespace BlogEngine.Core.Packaging
                 var packageManager = new NuGet.PackageManager(
                     _repository,
                     new DefaultPackagePathResolver("http://dnbegallery.org/feed/FeedService.svc"),
-                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot + "App_Data/packages"))
+                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
                 );
 
                 var package = _repository.FindPackage(pkgId);
@@ -243,7 +243,7 @@ namespace BlogEngine.Core.Packaging
                 var packageManager = new NuGet.PackageManager(
                     _repository,
                     new DefaultPackagePathResolver("http://dnbegallery.org/feed/FeedService.svc"),
-                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot + "App_Data/packages"))
+                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
                 );
 
                 var package = _repository.FindPackage(pkgId);

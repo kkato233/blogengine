@@ -50,7 +50,7 @@ namespace BlogEngine.Core.Json
                     Website = p.ProjectUrl,
                     Tags = p.Tags,
                     IconUrl = string.IsNullOrWhiteSpace(p.IconUrl)
-                        ? Blog.CurrentInstance.RelativeWebRoot + "Pics/imagePlaceholder.png"
+                        ? Utils.ApplicationRelativeWebRoot + "Pics/imagePlaceholder.png"
                         : "http://dnbegallery.org" + p.IconUrl
                 };
 
