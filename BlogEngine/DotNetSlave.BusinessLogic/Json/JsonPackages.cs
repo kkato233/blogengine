@@ -22,7 +22,7 @@ namespace BlogEngine.Core.Json
         /// <param name="sortOrder"></param>
         /// <param name="searchVal"></param>
         /// <returns></returns>
-        public static List<JsonPackage> GetPage(string pkgType, int page, PackageManager.OrderType sortOrder, string searchVal)
+        public static List<JsonPackage> GetPage(string pkgType, int page = 1, PackageManager.OrderType sortOrder = PackageManager.OrderType.Newest, string searchVal = "")
         {
             var retPkgs = new List<JsonPackage>();
 
@@ -49,9 +49,7 @@ namespace BlogEngine.Core.Json
                     Version = p.Version,
                     Website = p.ProjectUrl,
                     Tags = p.Tags,
-                    IconUrl = string.IsNullOrWhiteSpace(p.IconUrl)
-                        ? Blog.CurrentInstance.RelativeWebRoot + "Pics/imagePlaceholder.png"
-                        : "http://dnbegallery.org" + p.IconUrl
+                    IconUrl = p.IconUrl
                 };
 
                 if (!string.IsNullOrWhiteSpace(p.GalleryDetailsUrl))
@@ -59,6 +57,7 @@ namespace BlogEngine.Core.Json
 
                 retPkgs.Add(jp);
             }
+
             return retPkgs;
         }
     }

@@ -3,8 +3,8 @@
 @{
     Page.Title = Resources.labels.theme;
     Layout = "~/admin/_Layout.cshtml";
-    
-    var loaderSrc = Path.Combine(BlogEngine.Core.Blog.CurrentInstance.RelativeWebRoot, "pics/ajax-loader.gif");
+
+    var loaderSrc = Path.Combine(BlogEngine.Core.Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
     var tab = "1";
     if(!string.IsNullOrEmpty(Request.QueryString["t"])){
