@@ -78,10 +78,39 @@ namespace BlogEngine.Core.Packaging
 
                 foreach (var pkg in pkgList.ToList())
                 {
-                    if (pkg.PackageType != pkgType || !pkg.IsLatestVersion) continue;
+                    if(pkgType != "all"){
+                        if (pkg.PackageType != pkgType) continue;
+                    }
 
-                    if (pkg.PackageType == "Theme" && pkg.Screenshots != null && pkg.Screenshots.Count > 0)
+                    if (!pkg.IsLatestVersion) continue;
+
+                    // for themes, get screenshot isetead of icon
+                    // also get screenshot if icon is missing for package
+                    if ((pkg.PackageType == "Theme" || string.IsNullOrEmpty(pkg.IconUrl)) && pkg.Screenshots != null && pkg.Screenshots.Count > 0)
                         pkg.IconUrl = pkg.Screenshots[0].ScreenshotUri;
+
+                    // if both icon and screenshot missing, get default image for package type
+                    if(string.IsNullOrEmpty(pkg.IconUrl))
+                    {
+                        switch (pkg.PackageType)
+                        {
+                            case "Theme":
+                                pkg.IconUrl = 
+                                    "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/themeDefaultIcon.png";
+                                break;
+                            case "Extension":
+                                pkg.IconUrl = 
+                                    "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png";
+                                break;
+                            case "Widget":
+                                pkg.IconUrl =
+                                    "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/widgetDefaultIcon.png";
+                                break;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(pkg.IconUrl) && !pkg.IconUrl.StartsWith("http:"))
+                        pkg.IconUrl = "http://dnbegallery.org" + pkg.IconUrl;
 
                     if(string.IsNullOrEmpty(searchVal))
                     {
@@ -209,7 +238,7 @@ namespace BlogEngine.Core.Packaging
             {
                 var packageManager = new NuGet.PackageManager(
                     _repository,
-                    new DefaultPackagePathResolver("http://dnbegallery.org/feed/FeedService.svc"),
+                    new DefaultPackagePathResolver(_feedUrl),
                     new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
                 );
 
@@ -242,7 +271,7 @@ namespace BlogEngine.Core.Packaging
             {
                 var packageManager = new NuGet.PackageManager(
                     _repository,
-                    new DefaultPackagePathResolver("http://dnbegallery.org/feed/FeedService.svc"),
+                    new DefaultPackagePathResolver(_feedUrl),
                     new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
                 );
 
