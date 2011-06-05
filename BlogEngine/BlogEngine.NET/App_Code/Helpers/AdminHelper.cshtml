@@ -12,7 +12,7 @@
 @helper InstalledThemes()
 {
     var path = Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
-    var loaderSrc = Path.Combine(BlogEngine.Core.Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
+    var loaderSrc = Path.Combine(Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
     var themePic = "";
     var mobilePic = "";
