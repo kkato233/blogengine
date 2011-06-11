@@ -15,10 +15,10 @@
     var loaderSrc = Path.Combine(Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
     var currTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.Theme);
-    if (string.IsNullOrEmpty(currTheme.Description)) currTheme.Description = "Current selected theme";
+    if (string.IsNullOrEmpty(currTheme.Description)) { currTheme.Description = "Current selected theme"; }
     
     var currMobileTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.MobileTheme);
-    if (string.IsNullOrEmpty(currMobileTheme.Description)) currMobileTheme.Description = "Current selected mobile theme";
+    if (string.IsNullOrEmpty(currMobileTheme.Description)) { currMobileTheme.Description = "Current selected mobile theme"; }
     
     <h2>Current</h2>
     <div class="installed-themes">
