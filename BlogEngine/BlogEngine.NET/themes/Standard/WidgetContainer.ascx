@@ -6,10 +6,6 @@
        { %>
     <h4>
         <%= Widget.Title%></h4>
-    <% }
-       else
-       { %>
-    <br />
     <% } %>
     <div class="content">
         <asp:PlaceHolder ID="phWidgetBody" runat="server"></asp:PlaceHolder>
