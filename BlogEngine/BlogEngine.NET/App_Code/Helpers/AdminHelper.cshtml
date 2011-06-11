@@ -14,16 +14,11 @@
     var path = Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
     var loaderSrc = Path.Combine(Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
-    var themePic = "";
-    var mobilePic = "";
-
-    themePic = File.Exists(Path.Combine(path, BlogSettings.Instance.Theme, "theme.png")) ?
-        string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme) :
-        Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
-
-    mobilePic = File.Exists(Path.Combine(path, BlogSettings.Instance.MobileTheme, "theme.png")) ?
-        string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.MobileTheme) :
-        Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
+    var currTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.Theme);
+    if (string.IsNullOrEmpty(currTheme.Description)) currTheme.Description = "Current selected theme";
+    
+    var currMobileTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.MobileTheme);
+    if (string.IsNullOrEmpty(currMobileTheme.Description)) currMobileTheme.Description = "Current selected mobile theme";
     
     <h2>Current</h2>
     <div class="installed-themes">
@@ -31,12 +26,13 @@
             <li>
                 <div class="ext">
                     <div class="ext-img">
-                        <img src="@themePic" class="thumbnail" alt="current theme" />
+                        <img src="@currTheme.IconUrl" class="thumbnail" alt="current theme" />
                     </div>
                     <div class="ext-prop">
-                        <h2>Current theme: @BlogSettings.Instance.Theme</h2>
+                        <h2>Current theme: @BlogSettings.Instance.Theme @currTheme.Version</h2>
                         <div class="properties">
-                            <p>Author: unknown</p>
+                            <p>@currTheme.Description</p>
+                            <p>Authors: @currTheme.Authors</p>
                         </div>
                     </div>
                 </div>
@@ -44,12 +40,13 @@
             <li>
                 <div class="ext">
                     <div class="ext-img">
-                        <img src="@mobilePic" class="thumbnail" alt="mobile theme" />
+                        <img src="@currMobileTheme.IconUrl" class="thumbnail" alt="mobile theme" />
                     </div>
                     <div class="ext-prop">
-                        <h2>@Resources.labels.mobileTheme: @BlogSettings.Instance.MobileTheme</h2>
+                        <h2>@Resources.labels.mobileTheme: @BlogSettings.Instance.MobileTheme @currMobileTheme.Version</h2>
                         <div class="properties">
-                            <p>Author: unknown</p>
+                            <p>@currMobileTheme.Description</p>
+                            <p>Authors: @currMobileTheme.Authors</p>
                         </div>
                     </div>
                 </div>
@@ -62,6 +59,7 @@
         <ul class="gallery Theme">
         @foreach (var theme in Blog.CurrentInstance.InstalledThemes)
         {
+        if(theme.Id == BlogSettings.Instance.Theme || theme.Id == BlogSettings.Instance.MobileTheme){continue;}
         <li id="@theme.Id">
             <div class="ext">
                 <div class="ext-img">
