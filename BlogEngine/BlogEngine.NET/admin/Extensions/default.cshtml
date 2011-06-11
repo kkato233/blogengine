@@ -39,7 +39,9 @@
         <ul>   
         @foreach (var x in manExtensions)
         {
-            var lnk = string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled);
+            var lnk = string.IsNullOrEmpty(x.AdminPage) ?
+                string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled) :
+                string.Format(x.AdminPage, x.Name, x.Enabled);
 
             if (x.Settings.Count > 0 && x.Settings[0] != null && x.ShowSettings != false)
             {

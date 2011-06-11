@@ -995,6 +995,11 @@
         /// <value><b>true</b> if post comments can be searched, otherwise returns <b>false</b>.</value>
         public bool EnableCommentSearch { get; set; }
 
+        /// <summary>
+        ///     If yes, checkbox for include comments in search added to UI
+        /// </summary>
+        public bool ShowIncludeCommentsOption { get; set; }
+
         #endregion
 
         #region SearchButtonText

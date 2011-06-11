@@ -116,9 +116,9 @@
     if (jsonComments.Count > 0)
     {
         <ul>
-        @foreach (var jc in jsonComments.Take(8))
+        @foreach (var jc in jsonComments.Take(5))
         {
-            <li>@jc.Title<span class='teaser'>@jc.Teaser</span></li>    
+            <li>@Html.Raw(jc.Title)<span class='teaser'>@Html.Raw(jc.Teaser)</span></li>    
         }
         </ul>
     }
@@ -130,7 +130,7 @@
     
     if(packages != null && packages.Count() > 0){
     <ul>
-        @foreach (var p in packages.Take(8)){
+        @foreach (var p in packages.Take(6)){
 		<li>
             <div class="ext">
                 <img style="width: 40px; border: 0; float: left" src="@p.IconUrl" alt="icon url" />

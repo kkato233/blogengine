@@ -20,6 +20,7 @@
  <script type="text/javascript">
      $(document).ready(function () {
          $('.loader2').hide();
+         $('.page-loader').hide();
          if (Querystring('t') == '2') {
              GalleryGetPackages(1);
          }
@@ -33,23 +34,19 @@
     <div class="content-box-left">
         <h1>
             Themes
-            @if (tab == "1")
-            {
-            <a href="Themes.cshtml?t=2" class="image-gallery cboxElement">Gallery</a>
+            @if (tab == "1"){
+                <a href="Themes.cshtml?t=2" class="image-gallery cboxElement">Gallery</a>
             }
-            else
-            {
+            else{
                 <a href="Themes.cshtml" class="image-gallery cboxElement">Installed</a>
             }
         </h1>
 
         <div>
-            @if (tab == "1")
-            {
-            @Helpers.AdminHelper.InstalledThemes()
+            @if (tab == "1"){
+                @Helpers.AdminHelper.InstalledThemes()
             }
-            else
-            {
+            else{
             <div class="gallery-options">
                 <div id="gallery-search">
                     <input type="text" value="" id="searchGallery" />
@@ -61,7 +58,7 @@
                     <option value="Downloads">Downloads</option>
                     <option value="Newest" selected="selected">Newest</option>
                 </select>
-                <img class="loader2" src="@loaderSrc" alt="loader" />
+                <img class="page-loader" src="@loaderSrc" alt="loader" />
             </div>
             <div id="Container"></div>
             <div id="Pager"></div>

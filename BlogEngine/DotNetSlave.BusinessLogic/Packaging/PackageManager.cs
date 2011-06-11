@@ -224,8 +224,42 @@ namespace BlogEngine.Core.Packaging
             }
             catch (Exception)
             {
-                return null;
+                // no connection - return local
+                return installedThemes.Select(t => t.Value).ToList();
             }
+        }
+
+        /// <summary>
+        /// Json package representing current selected theme
+        /// </summary>
+        /// <param name="themeId">Theme id</param>
+        /// <returns>Json package</returns>
+        public static JsonPackage GetCurrentTheme(string themeId)
+        {
+            // first try to pull theme metadata from manifest file
+            var jp = FileSystem.GetThemeManifest(themeId);
+
+            if (jp != null)
+                return jp;
+
+            // if no manifest file, check themes in online gallery
+            // and if found create manifest file using package info
+            var srs = new PackagingSource { FeedUrl = _feedUrl };
+            var gPkg = GetPublishedPackages(srs).ToList().Where(p => p.Id == themeId).FirstOrDefault();
+            if(gPkg != null)
+            {
+                if (gPkg.Screenshots != null && gPkg.Screenshots.Count > 0)
+                    gPkg.IconUrl = string.Format("http://dnbegallery.org{0}", gPkg.Screenshots[0].ScreenshotUri);
+
+                jp = FileSystem.WriteThemeManifest(gPkg.Id, gPkg.Description, gPkg.Authors, gPkg.ProjectUrl, gPkg.Version, gPkg.IconUrl);
+                if (jp != null) 
+                    return jp;
+            }
+
+            // generate default blank manifest if both methods failed
+            jp = FileSystem.WriteThemeManifest(themeId);
+            
+            return jp;
         }
 
         /// <summary>
@@ -307,5 +341,6 @@ namespace BlogEngine.Core.Packaging
                 }
             );
         }
+
     }
 }

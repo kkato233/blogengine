@@ -250,10 +250,6 @@ namespace App_Code.Controls
             {
                 sb.AppendFormat("<h4>{0}</h4>", this.Widget.Title);
             }
-            else
-            {
-                sb.Append("<br />");
-            }
 
             sb.Append("<div class=\"content\">");
 
