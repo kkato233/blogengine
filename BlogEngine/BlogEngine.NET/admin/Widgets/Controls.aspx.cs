@@ -51,6 +51,7 @@ namespace admin.Widgets
             txtCommentLabelText.Text = BlogSettings.Instance.SearchCommentLabelText;
             txtDefaultSearchText.Text = BlogSettings.Instance.SearchDefaultText;
             cbEnableCommentSearch.Checked = BlogSettings.Instance.EnableCommentSearch;
+            cbShowIncludeCommentsOption.Checked = BlogSettings.Instance.ShowIncludeCommentsOption;
 
             txtThankMessage.Text = BlogSettings.Instance.ContactThankMessage;
             txtFormMessage.Text = BlogSettings.Instance.ContactFormMessage;
@@ -76,6 +77,7 @@ namespace admin.Widgets
             BlogSettings.Instance.SearchCommentLabelText = txtCommentLabelText.Text;
             BlogSettings.Instance.SearchDefaultText = txtDefaultSearchText.Text;
             BlogSettings.Instance.EnableCommentSearch = cbEnableCommentSearch.Checked;
+            BlogSettings.Instance.ShowIncludeCommentsOption = cbShowIncludeCommentsOption.Checked;
 
             BlogSettings.Instance.ContactFormMessage = txtFormMessage.Text;
             BlogSettings.Instance.ContactThankMessage = txtThankMessage.Text;

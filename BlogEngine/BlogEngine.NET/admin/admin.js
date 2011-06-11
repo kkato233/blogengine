@@ -1002,7 +1002,7 @@ function SetCurrentTheme(theme, mobile) {
 }
 
 function GalleryGetPackages(pg) {
-    $('.loader2').show();
+    $('.page-loader').show();
     var srt = $("#gallery-sort-order").val();
     var srch = $("#searchGallery").val();
     //var pg = Querystring('p').length > 0 ? Querystring('p') : 1;
@@ -1018,7 +1018,7 @@ function GalleryGetPackages(pg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/packages.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
             GalleryGetPager();
-            $('.loader2').hide();
+            $('.page-loader').hide();
         }
     });
     return false;
@@ -1036,7 +1036,6 @@ function GalleryGetPager() {
         success: function (msg) {
             $('#Pager').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/pager.htm', null, { filter_data: false });
             $('#Pager').processTemplate(msg);
-            $('.loader2').hide();
         }
     });
     return false;
@@ -1044,6 +1043,7 @@ function GalleryGetPager() {
 
 function InstallPackage(pkgId) {
     var dto = { "pkgId": pkgId };
+    $("[id$='" + pkgId + "']").show();
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/InstallPackage",
         data: JSON.stringify(dto),
@@ -1059,6 +1059,7 @@ function InstallPackage(pkgId) {
             else {
                 ShowStatus("warning", rt.Message);
             }
+            $("[id$='" + pkgId + "']").hide();
         }
     });
     return false;

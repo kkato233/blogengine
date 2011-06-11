@@ -476,6 +476,10 @@ namespace Admin
                     BlogSettings.Instance.Theme = theme;
 
                 BlogSettings.Instance.Save();
+
+                // reset cache
+                Blog.CurrentInstance.Cache.Remove("Installed-Themes");
+
                 return true;
             }
             catch (Exception ex)

@@ -463,10 +463,7 @@ ul.recentComments li a.postTitle{
 #searchbox {
 	margin-top: 5px;
 	font-size: 85%;
-}
-
-#searchbox input {
-	font-size: 85%;
+	display: inline-table;
 }
 
 #searchbox #searchbutton {
@@ -474,7 +471,8 @@ ul.recentComments li a.postTitle{
 }
 
 #searchbox #searchfield {
-	width: 180px;
+	width: 175px;
+	margin-left: -8px;
 }
 
 /*----------------------------
@@ -925,4 +923,8 @@ input[type="submit"]:hover, input[type="button"]:hover {
 
 #searchcomments {
     margin: 10px 5px 0 0;
+}
+
+#newsletterform input[type="text"] {
+    margin: 10px 0;
 }
