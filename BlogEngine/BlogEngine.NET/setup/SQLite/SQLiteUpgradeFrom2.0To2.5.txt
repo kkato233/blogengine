@@ -1,0 +1,125 @@
+﻿--
+-- Update be_Users
+--
+ALTER TABLE be_Users
+ADD BlogID VARCHAR(36) NULL;
+
+UPDATE be_Users SET BlogID = '27604F05-86AD-47EF-9E05-950BB762570C';
+
+CREATE INDEX idx_be_Users_BlogId_UserName
+ON be_Users (BlogID, UserName);
+
+--
+-- Update be_UserRoles
+--
+CREATE TABLE be_UserRolesNew (
+[UserRolesID] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+[BlogID] VARCHAR(36) NOT NULL,
+[UserName] VARCHAR(100) NOT NULL,
+[Role] VARCHAR(100) NOT NULL);
+
+INSERT INTO be_UserRolesNew
+SELECT ur.UserRolesID, '27604F05-86AD-47EF-9E05-950BB762570C', u.UserName, r.Role
+FROM be_UserRoles ur
+INNER JOIN be_Users u ON ur.UserID = u.UserID
+INNER JOIN be_Roles r ON ur.RoleID = r.RoleID;
+
+DROP TABLE be_UserRoles;
+ALTER TABLE be_UserRolesNew RENAME TO be_UserRoles;
+
+CREATE INDEX idx_be_UserRoles_BlogId
+ON be_UserRoles (BlogID);
+
+--
+-- Update be_StopWords
+--
+CREATE TABLE be_StopWordsNew (
+[StopWordsRowId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+[BlogId] VARCHAR(36) NOT NULL,
+[StopWord] VARCHAR(50) NOT NULL);
+
+INSERT INTO be_StopWordsNew (BlogId, StopWord)
+SELECT '27604F05-86AD-47EF-9E05-950BB762570C', o.StopWord
+FROM be_StopWords o;
+
+DROP TABLE be_StopWords;
+ALTER TABLE be_StopWordsNew RENAME TO be_StopWords;
+
+CREATE INDEX idx_be_StopWords_BlogId
+ON be_StopWords (BlogId);
+
+--
+-- Update be_Settings
+--
+CREATE TABLE be_SettingsNew (
+[SettingsRowId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+[BlogId] VARCHAR(36) NOT NULL,
+[SettingName] VARCHAR(50),
+[SettingValue] TEXT NULL);
+
+INSERT INTO be_SettingsNew (BlogId, SettingName, SettingValue)
+SELECT '27604F05-86AD-47EF-9E05-950BB762570C', s.SettingName, s.SettingValue
+FROM be_Settings s;
+
+DROP TABLE be_Settings;
+ALTER TABLE be_SettingsNew RENAME TO be_Settings;
+
+CREATE INDEX idx_be_Settings_BlogId
+ON be_Settings (BlogId);
+
+--
+-- Update be_Roles
+--
+ALTER TABLE be_Roles
+ADD BlogID VARCHAR(36) NULL;
+
+UPDATE be_Roles SET BlogID = '27604F05-86AD-47EF-9E05-950BB762570C';
+
+CREATE INDEX idx_be_Roles_BlogId_Role
+ON be_Roles (BlogID, Role);
+
+--
+-- Update be_Rights
+--
+CREATE TABLE be_RightsNew (
+[RightRowId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+[BlogId] VARCHAR(36) NOT NULL,
+[RightName] VARCHAR(100));
+
+INSERT INTO be_RightsNew (BlogId, RightName)
+SELECT '27604F05-86AD-47EF-9E05-950BB762570C', r.RightName
+FROM be_Rights r;
+
+DROP TABLE be_Rights;
+ALTER TABLE be_RightsNew RENAME TO be_Rights;
+
+CREATE INDEX idx_be_Rights_BlogId
+ON be_Rights (BlogId);
+
+--
+-- Update be_RightRoles
+--
+CREATE TABLE be_RightRolesNew (
+[RightRoleRowId] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+[BlogId] VARCHAR(36) NOT NULL,
+[RightName] VARCHAR(100),
+[Role] VARCHAR(100));
+
+INSERT INTO be_RightRolesNew (BlogId, RightName, Role)
+SELECT '27604F05-86AD-47EF-9E05-950BB762570C', r.RightName, r.Role
+FROM be_RightRoles r;
+
+DROP TABLE be_RightRoles;
+ALTER TABLE be_RightRolesNew RENAME TO be_RightRoles;
+
+CREATE INDEX idx_be_RightRoles_BlogId
+ON be_RightRoles (BlogId);
+
+--
+-- Incomplete...
+--
+
+
+
+
+
