@@ -26,6 +26,17 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
+        /// Deletes the blog's storage container.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public override bool DeleteBlogStorageContainer(Blog blog)
+        {
+            return blog.DeleteBlogFolder();
+        }
+
+        /// <summary>
         /// Fills an unsorted list of Blogs.
         /// </summary>
         /// <returns>

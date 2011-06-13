@@ -250,15 +250,17 @@ namespace BlogEngine.Core
         protected override void DataDelete()
         {
             OnSaving(this, SaveAction.Delete);
+
+            if (this.DeleteStorageContainer)
+            {
+                BlogService.DeleteBlogStorageContainer(this);
+            }
+
             if (this.Deleted)
             {
                 BlogService.DeleteBlog(this);
             }
 
-            if (this.DeleteStorageContainer)
-            {
-                this.DeleteEntireStorageContainer();
-            }
             Blogs.Remove(this);
             SortBlogs();
             OnSaved(this, SaveAction.Delete);
@@ -648,7 +650,17 @@ namespace BlogEngine.Core
                 IsActive = isActive
             };
 
-            bool setupResult = newBlog.SetupFromExistingBlog(existingBlog);
+            bool setupResult = false;
+            try
+            {
+                setupResult = newBlog.SetupFromExistingBlog(existingBlog);
+            }
+            catch (Exception ex)
+            {   
+                Utils.Log("Blog.CreateNewBlog", ex);
+                message = "Failed to create new blog. Error: " + ex.Message;
+                return null;
+            }
 
             if (!setupResult)
             {
@@ -778,8 +790,13 @@ namespace BlogEngine.Core
             return true;
         }
 
-        private bool DeleteEntireStorageContainer()
+        internal bool DeleteBlogFolder()
         {
+            // This method is called by the blog providers when a blog's storage container
+            // is being deleted.  Even the DbBlogProvider will call this method.
+            // However, a different type of blog provider (e.g. Azure, etc) may not
+            // need to call this method.
+
             try
             {
                 string storagePath = HostingEnvironment.MapPath(this.StorageLocation);
@@ -790,7 +807,7 @@ namespace BlogEngine.Core
             }
             catch (Exception ex)
             {
-                Utils.Log("Blog.DeleteStorageContainer", ex);
+                Utils.Log("Blog.DeleteBlogFolder", ex);
                 return false;
             }
 
@@ -820,7 +837,7 @@ namespace BlogEngine.Core
             catch (Exception ex)
             {
                 Utils.Log("Blog.CreateNewBlogFromExisting", ex);
-                return false;
+                throw;  // re-throw error so error message bubbles up.
             }
 
             // Ensure "BlogInstancesFolderName" exists.
@@ -841,7 +858,7 @@ namespace BlogEngine.Core
             catch (Exception ex)
             {
                 Utils.Log("Blog.CopyExistingBlogFolderToNewBlogFolder", ex);
-                return false;
+                throw;  // re-throw error so error message bubbles up.
             }
             if (!Utils.CreateDirectoryIfNotExists(newBlogStoragePath))
                 return false;
@@ -863,7 +880,7 @@ namespace BlogEngine.Core
             catch (Exception ex)
             {
                 Utils.Log("Blog.CopyExistingBlogFolderToNewBlogFolder", ex);
-                return false;
+                throw;  // re-throw error so error message bubbles up.
             }
 
             return true;

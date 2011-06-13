@@ -11,7 +11,7 @@ namespace App_Code.Controls
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
-
+    using System.Collections.Generic;
     using BlogEngine.Core;
 
     using Resources;
@@ -26,12 +26,12 @@ namespace App_Code.Controls
         /// <summary>
         /// The html string.
         /// </summary>
-        private static string html;
+        private static Dictionary<Guid, string> blogsHtml = new Dictionary<Guid, string>();
 
         /// <summary>
         /// The show rss icon.
         /// </summary>
-        private static bool showRssIcon = true;
+        private static Dictionary<Guid, bool> blogsShowRssIcon = new Dictionary<Guid, bool>();
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace App_Code.Controls
         /// </summary>
         static AuthorList()
         {
-            Post.Saved += (sender, args) => html = null;
+            Post.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
         }
 
         #endregion
@@ -56,18 +56,28 @@ namespace App_Code.Controls
         {
             get
             {
-                return showRssIcon;
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsShowRssIcon.ContainsKey(blogId))
+                    blogsShowRssIcon[blogId] = true;
+
+                return blogsShowRssIcon[blogId];
             }
 
             set
             {
-                if (showRssIcon == value)
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsShowRssIcon.ContainsKey(blogId))
+                    blogsShowRssIcon[blogId] = true;
+
+                if (blogsShowRssIcon[blogId] == value)
                 {
                     return;
                 }
 
-                showRssIcon = value;
-                html = null;
+                blogsShowRssIcon.Remove(blogId);
+                blogsHtml.Remove(blogId);
             }
         }
 
@@ -79,13 +89,12 @@ namespace App_Code.Controls
         {
             get
             {
-                if (html == null)
-                {
-                    var ul = this.BindAuthors();
-                    html = Utils.RenderControl(ul);
-                }
+                Guid blogId = Blog.CurrentInstance.Id;
 
-                return html;
+                if (!blogsHtml.ContainsKey(blogId))
+                    blogsHtml[blogId] = string.Empty;
+
+                return blogsHtml[blogId];
             }
         }
 

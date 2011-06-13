@@ -54,7 +54,7 @@ namespace Widgets.Twitter
         /// <summary>
         /// The last feed data file name.
         /// </summary>
-        private static string lastFeedDataFileName;
+        private static Dictionary<Guid, string> lastFeedDataFileName = new Dictionary<Guid, string>();
 
         #endregion
 
@@ -181,13 +181,12 @@ namespace Widgets.Twitter
         /// </returns>
         private static string GetLastFeedDataFileName()
         {
-            if (string.IsNullOrEmpty(lastFeedDataFileName))
+            if (!lastFeedDataFileName.ContainsKey(Blog.CurrentInstance.Id))
             {
-                lastFeedDataFileName =
-                    HostingEnvironment.MapPath(Path.Combine(Blog.CurrentInstance.StorageLocation, "twitter_feeds.xml"));
+                lastFeedDataFileName[Blog.CurrentInstance.Id] = HostingEnvironment.MapPath(Path.Combine(Blog.CurrentInstance.StorageLocation, "twitter_feeds.xml"));
             }
 
-            return lastFeedDataFileName;
+            return lastFeedDataFileName[Blog.CurrentInstance.Id];
         }
 
         /// <summary>

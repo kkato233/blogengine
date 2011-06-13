@@ -3,9 +3,10 @@
     using System;
     using System.IO;
     using System.Web.Hosting;
-
+    using System.Collections.Generic;
     using BlogEngine.Core;
     using BlogEngine.Core.Web.Controls;
+    using System.Web;
 
     /// <summary>
     /// Subscribes to Log events and records the events in a file.
@@ -15,6 +16,10 @@
     {
         #region Constants and Fields
 
+        private const string BaseFilename = "logger.txt";
+
+        private const int MaxLogSizeMb = 25;
+
         /// <summary>
         /// The sync root.
         /// </summary>
@@ -23,7 +28,7 @@
         /// <summary>
         /// The file name.
         /// </summary>
-        private static string fileName;
+        private static Dictionary<Guid, string> blogsfileName = new Dictionary<Guid, string>();
 
         #endregion
 
@@ -39,21 +44,45 @@
 
         #endregion
 
+        #region Properties
+
+        #endregion
+
         #region Methods
 
         /// <summary>
         /// Gets the name of the file.
         /// </summary>
         /// <returns>The file name.</returns>
-        private static string GetFileName()
+        private static string Filename
         {
-            if (fileName != null)
+            get
             {
-                return fileName;
-            }
+                // If in a BG thread, and HttpContext isn't available, then use
+                // the root of BlogConfig.StorageLocation.  In this case, want to
+                // avoid checking Blog.CurrentInstance since it may return null
+                // or throw an error without a context.
+                HttpContext context = HttpContext.Current;
+                if (context == null)
+                {
+                    return HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, BaseFilename));
+                }
 
-            fileName = HostingEnvironment.MapPath(Path.Combine(Blog.CurrentInstance.StorageLocation, "logger.txt"));
-            return fileName;
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsfileName.ContainsKey(blogId))
+                {
+                    lock (SyncRoot)
+                    {
+                        if (!blogsfileName.ContainsKey(blogId))
+                        {
+                            blogsfileName[blogId] = HostingEnvironment.MapPath(Path.Combine(Blog.CurrentInstance.StorageLocation, BaseFilename));
+                        }
+                    }
+                }
+
+                return blogsfileName[blogId];
+            }
         }
 
         /// <summary>
@@ -79,12 +108,20 @@
                 return;
             }
 
-            var file = GetFileName();
+            var file = Filename;
 
             lock (SyncRoot)
             {
                 try
                 {
+                    FileInfo fi = new FileInfo(file);
+
+                    // 1048576 is the number of bytes in a megabyte.
+                    if (fi != null && fi.Exists && fi.Length > (1048576 * MaxLogSizeMb))
+                    {
+                        fi.Delete();
+                    }
+
                     using (var fs = new FileStream(file, FileMode.Append))
                     using (var sw = new StreamWriter(fs))
                     {

@@ -86,6 +86,17 @@
         }
 
         /// <summary>
+        /// Deletes the storage container for the specified Blog from the current provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public static bool DeleteBlogStorageContainer(Blog blog)
+        {
+            return Provider.DeleteBlogStorageContainer(blog);
+        }
+
+        /// <summary>
         /// Deletes the specified Category from the current provider.
         /// </summary>
         /// <param name="category">

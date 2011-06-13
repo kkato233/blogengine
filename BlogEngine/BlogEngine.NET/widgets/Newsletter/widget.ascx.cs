@@ -21,6 +21,8 @@ namespace Widgets.Newsletter
     using BlogEngine.Core;
     using BlogEngine.Core.Providers;
     using System.Collections.Specialized;
+    using System.Web.Caching;
+    using System.Threading;
 
     /// <summary>
     /// The widget.
@@ -32,17 +34,27 @@ namespace Widgets.Newsletter
         /// <summary>
         ///     The xml doc.
         /// </summary>
-        private static XmlDocument doc;
+        private static Dictionary<Guid, XmlDocument> docs = new Dictionary<Guid, XmlDocument>();
 
         /// <summary>
         ///     The filename.
         /// </summary>
-        private static string fileName;
+        private static Dictionary<Guid, string> fileNames = new Dictionary<Guid, string>();
+
+        /// <summary>
+        ///     The filename.
+        /// </summary>
+        private static Dictionary<Guid, bool> reloadData = new Dictionary<Guid, bool>();
 
         /// <summary>
         ///     The callback.
         /// </summary>
         private string callback;
+
+        /// <summary>
+        ///     The syncroot.
+        /// </summary>
+        private static readonly object syncRoot = new object();
 
         /// <summary>
         ///     Whether emails are sent for posts.
@@ -142,6 +154,8 @@ namespace Widgets.Newsletter
 
         #region Methods
 
+
+
         /// <summary>
         /// Creates the email.
         /// </summary>
@@ -173,7 +187,10 @@ namespace Widgets.Newsletter
         /// </returns>
         private static bool DoesEmailExist(string email)
         {
-            return doc.SelectSingleNode(string.Format("emails/email[text()='{0}']", email)) != null;
+            lock (syncRoot)
+            {
+                return docs[Blog.CurrentInstance.Id].SelectSingleNode(string.Format("emails/email[text()='{0}']", email)) != null;
+            }
         }
 
         /// <summary>
@@ -272,23 +289,59 @@ namespace Widgets.Newsletter
         /// </summary>
         private static void LoadEmails()
         {
-            if (doc != null && fileName != null)
-            {
-                return;
-            }
+            Guid blogId = Blog.CurrentInstance.Id;
 
-            fileName = Path.Combine(Blog.CurrentInstance.StorageLocation, "newsletter.xml");
-            fileName = HostingEnvironment.MapPath(fileName);
+            lock (syncRoot)
+            {
+                if (reloadData.ContainsKey(blogId) && reloadData[blogId])
+                {
+                    docs.Remove(blogId);
+                    fileNames.Remove(blogId);
+                    reloadData.Remove(blogId);
+                }
 
-            if (File.Exists(fileName))
-            {
-                doc = new XmlDocument();
-                doc.Load(fileName);
+                if (docs.ContainsKey(blogId) && fileNames.ContainsKey(blogId)) { return; }
+
+                string filename = Path.Combine(Blog.CurrentInstance.StorageLocation, "newsletter.xml");
+                filename = HostingEnvironment.MapPath(filename);
+
+                fileNames[blogId] = filename;  // store in static dictionary
+
+                XmlDocument doc = null;
+
+                if (File.Exists(filename))
+                {
+                    doc = new XmlDocument();
+                    doc.Load(filename);
+
+                    HttpRuntime.Cache.Insert(filename, Blog.CurrentInstance.Id, new CacheDependency(filename), Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.Default, new CacheItemRemovedCallback(FilenameCacheRemoved));
+                }
+                else
+                {
+                    doc = new XmlDocument();
+                    doc.LoadXml("<emails></emails>");
+                }
+
+                docs[blogId] = doc;  // store in static dictionary.
             }
-            else
+        }
+
+        /// <summary>
+        /// Callback when either the file is modified (which can happen when editing the
+        /// widget), or if the cache item leaves cache.
+        /// </summary>
+        private static void FilenameCacheRemoved(string key, object value, CacheItemRemovedReason removedReason)
+        {
+            Guid blogId = (Guid)value;
+
+            lock (syncRoot)
             {
-                doc = new XmlDocument();
-                doc.LoadXml("<emails></emails>");
+                // instead of clearing the static data (out of docs and fileNames),
+                // mark it as 'reload', so the next time that data is needed, it 
+                // will be reloaded.  want to avoid clearing the data out of the
+                // dictionaries here in case it's in-use by another thread.
+
+                reloadData[blogId] = true;
             }
         }
 
@@ -310,19 +363,42 @@ namespace Widgets.Newsletter
                 return;
             }
 
-            LoadEmails();
-            var emails = doc.SelectNodes("emails/email");
-            if (emails == null)
+            XmlNodeList emails = null;
+            lock (syncRoot)
             {
-                return;
+                LoadEmails();
+
+                emails = docs[Blog.CurrentInstance.Id].SelectNodes("emails/email");
             }
 
+            if (emails == null) { return; }
+
+            List<MailMessage> messages = new List<MailMessage>();
             foreach (XmlNode node in emails)
             {
-                var mail = CreateEmail(publishable);
-                mail.To.Add(node.InnerText);
-                Utils.SendMailMessageAsync(mail);
+                string address = node.InnerText.Trim();
+
+                if (!Utils.StringIsNullOrWhitespace(address) && Utils.IsEmailValid(address))
+                {
+                    MailMessage message = CreateEmail(publishable);
+                    message.To.Add(address);
+                    messages.Add(message);
+                }
             }
+            if (messages.Count == 0) { return; }
+
+            // retrieve the blog settings before entering the BG thread.
+            BlogSettings blogSettings = BlogSettings.Instance;
+
+            ThreadPool.QueueUserWorkItem(state =>
+            {
+                Thread.Sleep(3000);
+
+                foreach (MailMessage message in messages)
+                {
+                    Utils.SendMailMessage(message, blogSettings);
+                }
+            });
         }
 
         /// <summary>
@@ -380,11 +456,16 @@ namespace Widgets.Newsletter
         /// </summary>
         private static void SaveEmails()
         {
-            using (var ms = new MemoryStream())
-            using (var fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
+            string filename = fileNames[Blog.CurrentInstance.Id];
+
+            lock (syncRoot)
             {
-                doc.Save(ms);
-                ms.WriteTo(fs);
+                using (var ms = new MemoryStream())
+                using (var fs = File.Open(filename, FileMode.Create, FileAccess.Write))
+                {
+                    docs[Blog.CurrentInstance.Id].Save(ms);
+                    ms.WriteTo(fs);
+                }
             }
         }
 
@@ -413,30 +494,33 @@ namespace Widgets.Newsletter
         {
             try
             {
-                if (!Utils.IsEmailValid(email)) { return; }
-                email = email.Trim();
-
-                LoadEmails();
-
-                if (!DoesEmailExist(email))
+                lock (syncRoot)
                 {
-                    XmlNode node = doc.CreateElement("email");
-                    node.InnerText = email;
-                    doc.FirstChild.AppendChild(node);
+                    if (!Utils.IsEmailValid(email)) { return; }
+                    email = email.Trim();
 
-                    this.callback = "true";
-                    SaveEmails();
-                }
-                else
-                {
-                    var emailNode = doc.SelectSingleNode(string.Format("emails/email[text()='{0}']", email));
-                    if (emailNode != null)
+                    LoadEmails();
+
+                    if (!DoesEmailExist(email))
                     {
-                        doc.FirstChild.RemoveChild(emailNode);
-                    }
+                        XmlNode node = docs[Blog.CurrentInstance.Id].CreateElement("email");
+                        node.InnerText = email;
+                        docs[Blog.CurrentInstance.Id].FirstChild.AppendChild(node);
 
-                    this.callback = "false";
-                    SaveEmails();
+                        this.callback = "true";
+                        SaveEmails();
+                    }
+                    else
+                    {
+                        var emailNode = docs[Blog.CurrentInstance.Id].SelectSingleNode(string.Format("emails/email[text()='{0}']", email));
+                        if (emailNode != null)
+                        {
+                            docs[Blog.CurrentInstance.Id].FirstChild.RemoveChild(emailNode);
+                        }
+
+                        this.callback = "false";
+                        SaveEmails();
+                    }
                 }
             }
             catch

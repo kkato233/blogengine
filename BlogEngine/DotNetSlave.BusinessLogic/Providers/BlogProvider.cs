@@ -32,6 +32,14 @@
         public abstract void DeleteBlog(Blog blog);
 
         /// <summary>
+        /// Deletes a Blog's storage container from the data store specified by the provider.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog to delete the storage container of.
+        /// </param>
+        public abstract bool DeleteBlogStorageContainer(Blog blog);
+
+        /// <summary>
         /// Deletes a Category from the data store specified by the provider.
         /// </summary>
         /// <param name="category">

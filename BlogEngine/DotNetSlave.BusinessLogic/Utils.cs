@@ -1202,9 +1202,34 @@
         /// </returns>
         public static string SendMailMessage(MailMessage message)
         {
+            return SendMailMessage(message, BlogSettings.Instance);
+        }
+
+        /// <summary>
+        /// Sends a MailMessage object using the SMTP settings.
+        /// </summary>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="blogSettings">
+        /// BlogSettings to use for retrieving SMTP setting.  If this method is called
+        /// in a background thread where HttpContext is not available, blogSettings needs
+        /// to be passed in since the current blog instance will not be determinable to
+        /// retrieve the current blog instance's settings for.
+        /// </param>
+        /// <returns>
+        /// Error message, if any.
+        /// </returns>
+        public static string SendMailMessage(MailMessage message, BlogSettings blogSettings)
+        {
             if (message == null)
             {
                 throw new ArgumentNullException("message");
+            }
+
+            if (blogSettings == null)
+            {
+                throw new ArgumentNullException("blogSettings");
             }
 
             StringBuilder errorMsg = new StringBuilder();
@@ -1213,18 +1238,18 @@
             {
                 message.IsBodyHtml = true;
                 message.BodyEncoding = Encoding.UTF8;
-                var smtp = new SmtpClient(BlogSettings.Instance.SmtpServer);
+                var smtp = new SmtpClient(blogSettings.SmtpServer);
 
                 // don't send credentials if a server doesn't require it,
                 // linux smtp servers don't like that 
-                if (!string.IsNullOrEmpty(BlogSettings.Instance.SmtpUserName))
+                if (!string.IsNullOrEmpty(blogSettings.SmtpUserName))
                 {
                     smtp.Credentials = new NetworkCredential(
-                        BlogSettings.Instance.SmtpUserName, BlogSettings.Instance.SmtpPassword);
+                        blogSettings.SmtpUserName, blogSettings.SmtpPassword);
                 }
 
-                smtp.Port = BlogSettings.Instance.SmtpServerPort;
-                smtp.EnableSsl = BlogSettings.Instance.EnableSsl;
+                smtp.Port = blogSettings.SmtpServerPort;
+                smtp.EnableSsl = blogSettings.EnableSsl;
                 smtp.Send(message);
                 OnEmailSent(message);
             }
@@ -1261,7 +1286,9 @@
         /// </param>
         public static void SendMailMessageAsync(MailMessage message)
         {
-            ThreadPool.QueueUserWorkItem(delegate { SendMailMessage(message); });
+            // Before entering a BG thread, retrieve the current instance blog settings.
+            BlogSettings blogSettings = BlogSettings.Instance;
+            ThreadPool.QueueUserWorkItem(delegate { SendMailMessage(message, blogSettings); });
         }
 
         /// <summary>
@@ -1452,7 +1479,7 @@
             catch (Exception ex)
             {
                 Utils.Log("Utils.CreateDirectoryIfNotExists", ex);
-                return false;
+                throw;  // re-throw error so error message bubbles up.
             }
 
             return true;
