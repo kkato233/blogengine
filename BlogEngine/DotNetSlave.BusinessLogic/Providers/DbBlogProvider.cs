@@ -70,6 +70,170 @@
         }
 
         /// <summary>
+        /// Deletes the blog's storage container.
+        /// </summary>
+        /// <param name="blog">
+        /// The blog.
+        /// </param>
+        public override bool DeleteBlogStorageContainer(Blog blog)
+        {
+            // First delete the blog folder.  Even the DB provider uses
+            // the folder.  This is rare and is usually by widgets/extensions.
+            if (!blog.DeleteBlogFolder())
+            {
+                return false;
+            }
+
+            // Delete data from all tables except for be_Blogs.  The blog
+            // data from be_Blogs will be deleted in DeleteBlog().
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    // Note, the order here is important, especially for the DBs where
+                    // foreign key constraints are setup (SQL Server is one).  The data
+                    // in the referencing tables needs to be deleted first.
+
+                    var sqlQuery = string.Format("DELETE FROM {0}PostTag WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PostNotify WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PostComment WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PostCategory WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Posts WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}RightRoles WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Profiles WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}UserRoles WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Roles WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Rights WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Users WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Pages WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}StopWords WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Settings WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Referrers WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}PingService WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}DataStoreSettings WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}BlogRollItems WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Categories WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Deletes a Blog from the database
         /// </summary>
         /// <param name="blog">
@@ -77,18 +241,20 @@
         /// </param>
         public override void DeleteBlog(Blog blog)
         {
+            // Only deleting data from be_Blogs.  Data from the other tables
+            // will be deleted in DeleteBlogStorageContainer().
+
             using (var conn = this.CreateConnection())
             {
                 if (conn.HasConnection)
                 {
                     var sqlQuery = string.Format("DELETE FROM {0}Blogs WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
-
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
-
                         cmd.ExecuteNonQuery();
                     }
+
                 }
             }
         }

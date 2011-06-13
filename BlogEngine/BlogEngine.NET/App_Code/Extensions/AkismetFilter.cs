@@ -13,7 +13,7 @@ namespace Joel.Net
     using System.IO;
     using System.Net;
     using System.Web;
-
+    
     #region - public class AkismetComment -
 
     /// <summary>
@@ -330,10 +330,11 @@ namespace Joel.Net
 
 namespace App_Code.Extensions
 {
+    using System;
     using BlogEngine.Core;
     using BlogEngine.Core.Web.Controls;
     using BlogEngine.Core.Web.Extensions;
-
+    using System.Collections.Generic;
     using Joel.Net;
 
     /// <summary>
@@ -345,24 +346,29 @@ namespace App_Code.Extensions
         #region Constants and Fields
 
         /// <summary>
+        ///     The sync root.
+        /// </summary>
+        private static readonly object syncRoot = new object();
+
+        /// <summary>
         ///     The api.
         /// </summary>
-        private static Akismet api;
+        private static Dictionary<Guid, Akismet> blogsApi = new Dictionary<Guid, Akismet>();
 
         /// <summary>
         ///     The key.
         /// </summary>
-        private static string key;
+        private static Dictionary<Guid, string> blogsKey = new Dictionary<Guid, string>();
 
         /// <summary>
         ///     The settings.
         /// </summary>
-        private static ExtensionSettings settings;
+        private static Dictionary<Guid, ExtensionSettings> blogsSettings = new Dictionary<Guid, ExtensionSettings>();
 
         /// <summary>
         ///     The site.
         /// </summary>
-        private static string site;
+        private static Dictionary<Guid, string> blogsSite = new Dictionary<Guid, string>();
 
         #endregion
 
@@ -379,6 +385,66 @@ namespace App_Code.Extensions
         #endregion
 
         #region Properties
+
+        private static Akismet Api
+        {
+            get
+            {
+                Akismet akismet = null;
+                blogsApi.TryGetValue(Blog.CurrentInstance.Id, out akismet);
+
+                return akismet;
+            }
+            set
+            {
+                blogsApi[Blog.CurrentInstance.Id] = value;
+            }
+        }
+
+        private static string Key
+        {
+            get
+            {
+                string key = null;
+                blogsKey.TryGetValue(Blog.CurrentInstance.Id, out key);
+
+                return key;
+            }
+            set
+            {
+                blogsKey[Blog.CurrentInstance.Id] = value;
+            }
+        }
+
+        private static string Site
+        {
+            get
+            {
+                string key = null;
+                blogsSite.TryGetValue(Blog.CurrentInstance.Id, out key);
+
+                return key;
+            }
+            set
+            {
+                blogsSite[Blog.CurrentInstance.Id] = value;
+            }
+        }
+
+        private static ExtensionSettings Settings
+        {
+            get
+            {
+                ExtensionSettings settings = null;
+                blogsSettings.TryGetValue(Blog.CurrentInstance.Id, out settings);
+
+                return settings;
+            }
+            set
+            {
+                blogsSettings[Blog.CurrentInstance.Id] = value;
+            }
+        }
 
         /// <summary>
         ///     Gets a value indicating whether FallThrough.
@@ -402,18 +468,18 @@ namespace App_Code.Extensions
         /// </returns>
         public bool Check(Comment comment)
         {
-            if (api == null)
+            if (Api == null)
             {
                 this.Initialize();
             }
 
-            if (settings == null)
+            if (Settings == null)
             {
                 this.InitSettings();
             }
 
             var akismetComment = GetAkismetComment(comment);
-            var spam = api.CommentCheck(akismetComment);
+            var spam = Api.CommentCheck(akismetComment);
             this.FallThrough = !spam;
             return spam;
         }
@@ -431,16 +497,16 @@ namespace App_Code.Extensions
                 return false;
             }
 
-            if (settings == null)
+            if (Settings == null)
             {
                 this.InitSettings();
             }
 
-            site = settings.GetSingleValue("SiteURL");
-            key = settings.GetSingleValue("ApiKey");
-            api = new Akismet(key, site, "BlogEngine.net 1.6");
+            Site = Settings.GetSingleValue("SiteURL");
+            Key = Settings.GetSingleValue("ApiKey");
+            Api = new Akismet(Key, Site, string.Format("BlogEngine.NET {0}", BlogSettings.Instance.Version()));
 
-            return api.VerifyKey();
+            return Api.VerifyKey();
         }
 
         /// <summary>
@@ -451,12 +517,12 @@ namespace App_Code.Extensions
         /// </param>
         public void Report(Comment comment)
         {
-            if (api == null && !this.Initialize())
+            if (Api == null && !this.Initialize())
             {
                 return;
             }
 
-            if (settings == null)
+            if (Settings == null)
             {
                 this.InitSettings();
             }
@@ -467,12 +533,12 @@ namespace App_Code.Extensions
             {
                 Utils.Log(
                     string.Format("Akismet: Reporting NOT spam from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-                api.SubmitHam(akismetComment);
+                Api.SubmitHam(akismetComment);
             }
             else
             {
                 Utils.Log(string.Format("Akismet: Reporting SPAM from \"{0}\" at \"{1}\"", comment.Author, comment.IP));
-                api.SubmitSpam(akismetComment);
+                Api.SubmitSpam(akismetComment);
             }
         }
 
@@ -495,7 +561,7 @@ namespace App_Code.Extensions
         {
             var akismetComment = new AkismetComment
                 {
-                    Blog = settings.GetSingleValue("SiteURL"), 
+                    Blog = Settings.GetSingleValue("SiteURL"), 
                     UserIp = comment.IP, 
                     CommentContent = comment.Content, 
                     CommentType = "comment", 
@@ -523,7 +589,7 @@ namespace App_Code.Extensions
             extensionSettings.AddValue("SiteURL", "http://example.com/blog");
             extensionSettings.AddValue("ApiKey", "123456789");
 
-            settings = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
+            Settings = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
             ExtensionManager.SetStatus("AkismetFilter", false);
         }
 

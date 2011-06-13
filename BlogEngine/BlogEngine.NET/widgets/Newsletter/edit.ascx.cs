@@ -26,12 +26,12 @@ namespace Widgets.Newsletter
         /// <summary>
         ///     The xml document.
         /// </summary>
-        private static XmlDocument doc;
+        private XmlDocument doc;
 
         /// <summary>
         ///     The file name.
         /// </summary>
-        private static string fileName;
+        private string fileName;
 
         #endregion
 
@@ -69,7 +69,7 @@ namespace Widgets.Newsletter
         /// <summary>
         /// Loads the emails.
         /// </summary>
-        private static void LoadEmails()
+        private void LoadEmails()
         {
             if (doc != null && fileName != null)
             {
@@ -94,7 +94,7 @@ namespace Widgets.Newsletter
         /// <summary>
         /// Saves the emails.
         /// </summary>
-        private static void SaveEmails()
+        private void SaveEmails()
         {
             using (var ms = new MemoryStream())
             using (var fs = File.Open(fileName, FileMode.Create, FileAccess.Write))

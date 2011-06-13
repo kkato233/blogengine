@@ -23,16 +23,15 @@ namespace App_Code.Controls
     {
         #region Constants and Fields
 
+        /// <summary>
+        /// The html string.
+        /// </summary>
+        private static Dictionary<Guid, string> blogsHtml = new Dictionary<Guid, string>();
 
         /// <summary>
-        ///     The html string.
+        /// The show rss icon.
         /// </summary>
-        private static string html;
-
-        /// <summary>
-        ///     The show rss icon.
-        /// </summary>
-        private static bool showRssIcon = true;
+        private static Dictionary<Guid, bool> blogsShowRssIcon = new Dictionary<Guid, bool>();
 
         /// <summary>
         ///     The show post count.
@@ -48,8 +47,8 @@ namespace App_Code.Controls
         /// </summary>
         static CategoryList()
         {
-            Post.Saved += (sender, args) => html = null;
-            Category.Saved += (sender, args) => html = null;
+            Post.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
+            Category.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
         }
 
         #endregion
@@ -74,7 +73,7 @@ namespace App_Code.Controls
                 }
 
                 this.showPostCount = value;
-                html = null;
+                blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
 
@@ -85,18 +84,28 @@ namespace App_Code.Controls
         {
             get
             {
-                return showRssIcon;
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsShowRssIcon.ContainsKey(blogId))
+                    blogsShowRssIcon[blogId] = true;
+
+                return blogsShowRssIcon[blogId];
             }
 
             set
             {
-                if (showRssIcon == value)
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsShowRssIcon.ContainsKey(blogId))
+                    blogsShowRssIcon[blogId] = true;
+
+                if (blogsShowRssIcon[blogId] == value)
                 {
                     return;
                 }
 
-                showRssIcon = value;
-                html = null;
+                blogsShowRssIcon.Remove(blogId);
+                blogsHtml.Remove(blogId);
             }
         }
 
@@ -107,7 +116,9 @@ namespace App_Code.Controls
         {
             get
             {
-                if (html == null)
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsHtml.ContainsKey(blogId))
                 {
                     var ul = this.BindCategories();
                     using (var sw = new StringWriter())
@@ -115,12 +126,12 @@ namespace App_Code.Controls
                         using (var hw = new HtmlTextWriter(sw))
                         {
                             ul.RenderControl(hw);
-                            html = sw.ToString();
+                            blogsHtml[blogId] = sw.ToString();
                         }
                     }
                 }
 
-                return html;
+                return blogsHtml[blogId];
             }
         }
 
