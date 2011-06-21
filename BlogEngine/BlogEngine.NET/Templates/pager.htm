@@ -1,4 +1,4 @@
-﻿{#if $T.d.length > 1}
+﻿{#if $T.d != null && $T.d.length > 1}
 <ul id="list-pager">
     {#foreach $T.d as p}
         {#if $T.p.Current}

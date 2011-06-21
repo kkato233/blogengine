@@ -119,9 +119,9 @@ namespace BlogEngine.Core.Packaging
                     }
                     else
                     {
-                        if(pkg.Title.Contains(searchVal) 
-                           || pkg.Description.Contains(searchVal) 
-                           || (!string.IsNullOrWhiteSpace(pkg.Tags) && pkg.Tags.Contains(searchVal)))
+                        if(pkg.Title.IndexOf(searchVal, StringComparison.OrdinalIgnoreCase) != -1
+                           || pkg.Description.IndexOf(searchVal, StringComparison.OrdinalIgnoreCase) != -1
+                           || (!string.IsNullOrWhiteSpace(pkg.Tags) && pkg.Tags.IndexOf(searchVal, StringComparison.OrdinalIgnoreCase) != -1))
                         {
                             retPackages.Add(pkg);
                             cnt++;
@@ -160,6 +160,7 @@ namespace BlogEngine.Core.Packaging
             }
             catch (Exception)
             {
+                GalleryPager = null;
                 return null;
             }
         }

@@ -387,16 +387,21 @@ namespace Widgets.Newsletter
             }
             if (messages.Count == 0) { return; }
 
-            // retrieve the blog settings before entering the BG thread.
-            BlogSettings blogSettings = BlogSettings.Instance;
+            // retrieve the blogId before entering the BG thread.
+            Guid blogId = Blog.CurrentInstance.Id;
 
             ThreadPool.QueueUserWorkItem(state =>
             {
                 Thread.Sleep(3000);
 
+                // because HttpContext is not available within this BG thread
+                // needed to determine the current blog instance,
+                // set override value here.
+                Blog.InstanceIdOverride = blogId;
+
                 foreach (MailMessage message in messages)
                 {
-                    Utils.SendMailMessage(message, blogSettings);
+                    Utils.SendMailMessage(message);
                 }
             });
         }

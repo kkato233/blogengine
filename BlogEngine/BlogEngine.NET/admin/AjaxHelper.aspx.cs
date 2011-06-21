@@ -20,12 +20,8 @@ namespace Admin
         [WebMethod]
         public static IEnumerable LoadBlogs(int page, int pageSize)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
-            if (!Blog.CurrentInstance.IsPrimary)
-            {
-                Security.RedirectForUnauthorizedRequest();
-                return new List<JsonBlog>();
-            }
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
             return JsonBlogs.GetBlogs(page, pageSize);
         }
@@ -33,12 +29,8 @@ namespace Admin
         [WebMethod]
         public static string LoadBlogsPager(int page, int pageSize, string type)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
-            if (!Blog.CurrentInstance.IsPrimary)
-            {
-                Security.RedirectForUnauthorizedRequest();
-                return string.Empty;
-            }
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
             return JsonBlogs.GetPager(page, pageSize);
         }
@@ -46,16 +38,8 @@ namespace Admin
         [WebMethod]
         public static JsonResponse<IEnumerable<KeyValuePair<string, string>>> GetCopyFromBlogs()
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
-            if (!Blog.CurrentInstance.IsPrimary)
-            {
-                Security.RedirectForUnauthorizedRequest();
-                return new JsonResponse<IEnumerable<KeyValuePair<string, string>>>()
-                {
-                    Success = false,
-                    Message = "Unauthorized"
-                };
-            }
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
             return new JsonResponse<IEnumerable<KeyValuePair<string, string>>>()
             {
@@ -67,16 +51,8 @@ namespace Admin
         [WebMethod]
         public static JsonResponse<JsonBlog> GetBlog(string blogId)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
-            if (!Blog.CurrentInstance.IsPrimary)
-            {
-                Security.RedirectForUnauthorizedRequest();
-                return new JsonResponse<JsonBlog>()
-                {
-                    Success = false,
-                    Message = "Unauthorized"
-                };
-            }
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
             if (string.IsNullOrWhiteSpace(blogId) || blogId.Length != 36)
             {
@@ -150,7 +126,7 @@ namespace Admin
         [WebMethod]
         public static IEnumerable LoadPosts(int page, string  type, string filter, string title, int pageSize)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
 
             return JsonPosts.GetPosts(page, pageSize, type, filter, title);
         }
@@ -166,7 +142,7 @@ namespace Admin
         [WebMethod]
         public static IEnumerable LoadTags(int page)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
 
             var tags = new List<JsonTag>();
             foreach (var p in Post.Posts)
@@ -190,7 +166,7 @@ namespace Admin
         [WebMethod]
         public static string LoadPostPager(int page, int pageSize, string type)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
 
             return JsonPosts.GetPager(page, pageSize);
         }
@@ -210,7 +186,7 @@ namespace Admin
             string date,
             string time)
         {
-            WebUtils.CheckRightsForAdminPostPages(false);
+            if (!WebUtils.CheckRightsForAdminPostPages(false)) { return null; }
 
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
@@ -427,8 +403,11 @@ namespace Admin
         }
 
         [WebMethod]
-        public static bool ChangePriority(int priority, string  ext)
+        public static bool ChangePriority(int priority, string ext)
         {
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return false; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return false; }
+
             try
             {
                 var x = ExtensionManager.GetExtension(ext);
@@ -447,11 +426,25 @@ namespace Admin
         }
 
         [WebMethod]
-        public static bool UpdateSourceCode(string sourceCode, string fileName)
+        public static bool UpdateExtensionSourceCode(string sourceCode, string extensionName)
         {
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return false; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return false; }
+
+            if (string.IsNullOrWhiteSpace(extensionName))
+                return false;
+
+            var ext = ExtensionManager.GetExtension(extensionName);
+            if (ext == null)
+                return false;
+
+            string extensionFilename = ext.GetPathAndFilename(true);
+            if (string.IsNullOrWhiteSpace(extensionFilename))
+                return false;
+
             try
             {
-                using (var f = File.CreateText(fileName))
+                using (var f = File.CreateText(extensionFilename))
                 {
                     f.Write(sourceCode);
                     f.Close();
@@ -468,6 +461,8 @@ namespace Admin
         [WebMethod]
         public static bool SetCurrentTheme(string theme, bool mobile)
         {
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return false; }
+
             try
             {
                 if(mobile) 
@@ -492,28 +487,36 @@ namespace Admin
         [WebMethod]
         public static IEnumerable LoadGalleryPage(string pkgType, int page, PackageManager.OrderType sortOrder, string searchVal)
         {
-            WebUtils.CheckRightsForAdminSettingsPage(false);
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
+
             return JsonPackages.GetPage(pkgType, page, sortOrder, searchVal);
         }
 
         [WebMethod]
         public static IEnumerable LoadGalleryPager()
         {
-            WebUtils.CheckRightsForAdminSettingsPage(false);
-            return PackageManager.GalleryPager.PageItems;
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
+
+            return PackageManager.GalleryPager == null ? null : PackageManager.GalleryPager.PageItems;
         }
 
         [WebMethod]
         public static JsonResponse InstallPackage(string pkgId)
         {
-            WebUtils.CheckRightsForAdminSettingsPage(false);
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
+
             return PackageManager.InstallPackage(pkgId);
         }
 
         [WebMethod]
         public static JsonResponse UninstallPackage(string pkgId)
-        {
-            WebUtils.CheckRightsForAdminSettingsPage(false);
+        {   
+            if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
+            if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
+
             return PackageManager.UninstallPackage(pkgId);
         }
 

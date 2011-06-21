@@ -1,4 +1,6 @@
-﻿namespace App_Code.Extensions
+﻿using BlogEngine.Core.Web.Extensions;
+
+namespace App_Code.Extensions
 {
     using System;
     using System.IO;
@@ -97,16 +99,15 @@
         private static void OnLog(object sender, EventArgs e)
         {
             if (sender == null || !(sender is string))
-            {
                 return;
-            }
+
+            if (!ExtensionManager.ExtensionEnabled("Logger"))
+                return;
 
             var logMsg = (string)sender;
 
             if (string.IsNullOrEmpty(logMsg))
-            {
                 return;
-            }
 
             var file = Filename;
 

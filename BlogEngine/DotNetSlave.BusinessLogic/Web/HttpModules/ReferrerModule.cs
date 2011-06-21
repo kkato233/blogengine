@@ -76,14 +76,13 @@
         /// <summary>
         /// The begin register click.
         /// </summary>
-        /// <param name="stateInfo">
-        /// The state info.
+        /// <param name="entry">
+        /// Contains data to register.
         /// </param>
-        private static void BeginRegisterClick(object stateInfo)
+        private static void BeginRegisterClick(DictionaryEntry entry)
         {
             try
             {
-                var entry = (DictionaryEntry)stateInfo;
                 var referrer = (Uri)entry.Key;
                 var url = (Uri)entry.Value;
 
@@ -222,7 +221,17 @@
             if (!referrer.Host.Equals(Utils.AbsoluteWebRoot.Host, StringComparison.OrdinalIgnoreCase) &&
                 !IsSearchEngine(referrer.ToString()))
             {
-                ThreadPool.QueueUserWorkItem(BeginRegisterClick, new DictionaryEntry(referrer, context.Request.Url));
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                ThreadPool.QueueUserWorkItem(state =>
+                    {
+                        // because HttpContext is not available within this BG thread
+                        // needed to determine the current blog instance,
+                        // set override value here.
+                        Blog.InstanceIdOverride = blogId;
+
+                        BeginRegisterClick(new DictionaryEntry(referrer, context.Request.Url));
+                    });
             }
         }
 

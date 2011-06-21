@@ -118,20 +118,7 @@ namespace App_Code.Controls
             }
             set
             {
-                Guid blogId = Blog.CurrentInstance.Id;
-
-                if (!blogsLastUpdated.ContainsKey(blogId))
-                {
-                    lock (SyncRoot)
-                    {
-                        if (!blogsLastUpdated.ContainsKey(blogId))
-                        {
-                            blogsLastUpdated[blogId] = DateTime.Now; ;
-                        }
-                    }
-                }
-
-                blogsLastUpdated[blogId] = value;
+                blogsLastUpdated[Blog.CurrentInstance.Id] = value;
             }
         }
 
@@ -339,7 +326,14 @@ namespace App_Code.Controls
 
             var blogRequest = new BlogRequest(br, req);
             Items.Add(blogRequest);
-            req.BeginGetResponse(ProcessResponse, blogRequest);
+
+            GetRequestData data = new GetRequestData()
+            {
+                BlogInstanceId = Blog.CurrentInstance.Id,
+                BlogRequest = blogRequest
+            };
+
+            req.BeginGetResponse(ProcessResponse, data);
         }
 
         /// <summary>
@@ -350,7 +344,10 @@ namespace App_Code.Controls
         /// </param>
         private static void ProcessResponse(IAsyncResult async)
         {
-            var blogReq = (BlogRequest)async.AsyncState;
+            GetRequestData data = (GetRequestData)async.AsyncState;
+            Blog.InstanceIdOverride = data.BlogInstanceId;
+            var blogReq = data.BlogRequest;
+
             try
             {
                 using (var response = (HttpWebResponse)blogReq.Request.EndGetResponse(async))
@@ -388,12 +385,22 @@ namespace App_Code.Controls
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Utils.Log("App_Code.Controls.Blogroll.ProcessRequest", ex);
             }
         }
 
         #endregion
+
+        /// <summary>
+        /// Data used during the async HTTP request for blogrolls.
+        /// </summary>
+        private class GetRequestData
+        {
+            public Guid BlogInstanceId { get; set; }
+            public BlogRequest BlogRequest { get; set; }
+        }
     }
 
     /// <summary>

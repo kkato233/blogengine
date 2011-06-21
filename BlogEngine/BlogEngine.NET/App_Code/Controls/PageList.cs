@@ -83,20 +83,7 @@ namespace App_Code.Controls
             }
             set
             {
-                Guid blogId = Blog.CurrentInstance.Id;
-
-                if (!blogsHtml.ContainsKey(blogId))
-                {
-                    lock (syncRoot)
-                    {
-                        if (!blogsHtml.ContainsKey(blogId))
-                        {
-                            blogsHtml[blogId] = string.Empty;
-                        }
-                    }
-                }
-
-                blogsHtml[blogId] = value;
+                blogsHtml[Blog.CurrentInstance.Id] = value;
             }
         }
 

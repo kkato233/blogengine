@@ -206,16 +206,22 @@ div.post .text a[rel~="sweetheart"][rel~="met"] {
     height: 16px;
     display:inline-block;
 }
-
 .imgDelete {
+    background-image:url('../../admin/images/action-delete-small-lt.png');
+}
+.imgDelete:hover {
     background-image:url('../../admin/images/action-delete-small.png');
 }
-
 .imgMove {
+    background-image:url('../../admin/images/action-tools-small-lt.png');
+}
+.imgMove:hover {
     background-image:url('../../admin/images/action-tools-small.png');
 }
-
 .imgEdit {
+    background-image:url('../../admin/images/action-edit-small-lt.png');
+}
+.imgEdit:hover {
     background-image:url('../../admin/images/action-edit-small.png');
 }
 

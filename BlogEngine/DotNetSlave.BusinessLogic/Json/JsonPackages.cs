@@ -53,8 +53,21 @@ namespace BlogEngine.Core.Json
                 };
 
                 if (!string.IsNullOrWhiteSpace(p.GalleryDetailsUrl))
-                    jp.PackageUrl = "http://dnbegallery.org/cms/List/Themes/" + p.Id;
-
+                {
+                    switch (p.PackageType)
+                    {
+                        case "Theme":
+                            jp.PackageUrl = "http://dnbegallery.org/cms/List/Themes/" + p.Id;
+                            break;
+                        case "Extension":
+                            jp.PackageUrl = "http://dnbegallery.org/cms/List/Extensions/" + p.Id;
+                            break;
+                        case "Widget":
+                            jp.PackageUrl = "http://dnbegallery.org/cms/List/Widgets/" + p.Id;
+                            break;
+                    }
+                }
+                
                 retPkgs.Add(jp);
             }
 

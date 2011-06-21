@@ -107,7 +107,28 @@
         {
             LoadExtensions();
             ManagedExtension extension = GetExtension(extensionName);
-            return extension == null ? false : extension.Enabled;
+
+            if (Blog.CurrentInstance.IsPrimary)
+            {
+                return extension == null ? false : extension.Enabled;
+            }
+            else
+            {
+                if (extension != null)
+                {
+                    // if the extension is disabled at the primary blog, then
+                    // it is automatically considered disabled for all child blogs.
+                    if (!extension.Enabled) { return false; }
+
+                    if (extension.Blogs != null && extension.Blogs.Contains(Blog.CurrentInstance.Id))
+                    {
+                        // when non-primary blog disables extension,
+                        // this blog added to Blogs list for this extension
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
 
         /// <summary>

@@ -106,6 +106,17 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private static void ContextBeginRequest(object sender, EventArgs e)
         {
+            // Clear the InstanceIdOverride to ensure any values are not
+            // carried over from previous times this thread from the thread
+            // pool was used.
+            //
+            // This should be done at the beginning of each HTTP request as
+            // early as possible.  It is being done here because in the
+            // list of HTTP modules defined in the web.config file, this
+            // module (WwwSubdomainModule) is the first defined one so will
+            // fire before any other modules.
+            Blog.InstanceIdOverride = Guid.Empty;
+
             if (BlogSettings.Instance.HandleWwwSubdomain == "ignore" ||
                 string.IsNullOrEmpty(BlogSettings.Instance.HandleWwwSubdomain))
             {

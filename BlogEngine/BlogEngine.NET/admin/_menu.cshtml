@@ -19,7 +19,9 @@
             {
                 var cls = "";
                 var nodeUrl = adminNode.Url;
-                var nodeDir = adminNode.Url.Substring(0, adminNode.Url.LastIndexOf("/"));
+                var startIndx = nodeUrl.LastIndexOf("/admin/") > 0 ? nodeUrl.LastIndexOf("/admin/") : 0;
+                var endIndx = adminNode.Url.LastIndexOf(".") > 0 ? adminNode.Url.LastIndexOf(".") : adminNode.Url.Length;
+                var nodeDir = adminNode.Url.Substring(startIndx, endIndx - startIndx);
                 
                 if (Request.RawUrl.IndexOf(nodeUrl, StringComparison.OrdinalIgnoreCase) != -1 ||
                     (Request.RawUrl.IndexOf(nodeDir, StringComparison.OrdinalIgnoreCase) != -1) &&

@@ -3,8 +3,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
-        var rights = <%=this.GetRightsJson()%>;
-        var role = "<%=this.RoleName %>";
+        var rights = <%=GetRightsJson()%>;
+        var role = "<%=RoleName %>";
 
         var rightsControls = {};
 
@@ -180,7 +180,7 @@
                 </ul>
             </div>
 
-            <h1><%=Resources.labels.editingRightsForRole %> <%=Server.HtmlEncode(this.RoleName) %></h1>
+            <h1><%=Resources.labels.editingRightsForRole %> <%=Server.HtmlEncode(RoleName) %></h1>
             <div id="rightsHolder"></div>
             <div style="clear:both">&nbsp;</div>
             <input type="submit" class="btn primary rounded" value="<%=Resources.labels.save %>" onclick="return SaveRights();" />

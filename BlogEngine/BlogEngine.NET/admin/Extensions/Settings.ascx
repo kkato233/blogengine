@@ -16,7 +16,8 @@
 </div>
 
 <asp:GridView ID="grid"  
-        runat="server"  
+        runat="server"
+        class="beTable"
         GridLines="None"
         AutoGenerateColumns="False"
         HeaderStyle-BackColor="#f9f9f9"

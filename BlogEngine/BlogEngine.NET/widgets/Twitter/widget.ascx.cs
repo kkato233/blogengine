@@ -218,7 +218,14 @@ namespace Widgets.Twitter
             {
                 var request = (HttpWebRequest)WebRequest.Create(url);
                 request.Credentials = CredentialCache.DefaultNetworkCredentials;
-                request.BeginGetResponse(EndGetResponse, request);
+
+                GetRequestData data = new GetRequestData()
+                {
+                    BlogInstanceId = Blog.CurrentInstance.Id,
+                    HttpWebRequest = request
+                };
+
+                request.BeginGetResponse(EndGetResponse, data);
             }
             catch (Exception ex)
             {
@@ -306,8 +313,10 @@ namespace Widgets.Twitter
         {
             try
             {
-                var request = (HttpWebRequest)result.AsyncState;
-                using (var response = (HttpWebResponse)request.GetResponse())
+                GetRequestData data = (GetRequestData)result.AsyncState;
+                Blog.InstanceIdOverride = data.BlogInstanceId;
+
+                using (var response = (HttpWebResponse)data.HttpWebRequest.GetResponse())
                 {
                     var doc = new XmlDocument();
                     var responseStream = response.GetResponseStream();
@@ -446,6 +455,15 @@ namespace Widgets.Twitter
         }
 
         #endregion
+
+        /// <summary>
+        /// Data used during the async HTTP request for tweets.
+        /// </summary>
+        private class GetRequestData
+        {
+            public Guid BlogInstanceId { get; set; }
+            public HttpWebRequest HttpWebRequest { get; set; }
+        }
 
         /// <summary>
         /// The tweet.

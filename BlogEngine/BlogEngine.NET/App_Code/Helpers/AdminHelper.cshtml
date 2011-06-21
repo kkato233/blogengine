@@ -14,13 +14,10 @@
     var path = Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
     var loaderSrc = Path.Combine(Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
-    var currTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.Theme);
-    if (string.IsNullOrEmpty(currTheme.Description)) { currTheme.Description = "Current selected theme"; }
-    
+    var currTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.Theme);  
     var currMobileTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.MobileTheme);
-    if (string.IsNullOrEmpty(currMobileTheme.Description)) { currMobileTheme.Description = "Current selected mobile theme"; }
     
-    <h2>Current</h2>
+    <h2>@Resources.labels.active</h2>
     <div class="installed-themes">
         <ul class="gallery Theme">
             <li>
@@ -29,10 +26,12 @@
                         <img src="@currTheme.IconUrl" class="thumbnail" alt="current theme" />
                     </div>
                     <div class="ext-prop">
-                        <h2>Current theme: @BlogSettings.Instance.Theme @currTheme.Version</h2>
+                        <h2>@Resources.labels.currentTheme: @BlogSettings.Instance.Theme @currTheme.Version</h2>
                         <div class="properties">
+                            @if(!string.IsNullOrEmpty(currTheme.Description)){
                             <p>@currTheme.Description</p>
-                            <p>Authors: @currTheme.Authors</p>
+                            }
+                            <p>@Resources.labels.author: @currTheme.Authors</p>
                         </div>
                     </div>
                 </div>
@@ -45,8 +44,10 @@
                     <div class="ext-prop">
                         <h2>@Resources.labels.mobileTheme: @BlogSettings.Instance.MobileTheme @currMobileTheme.Version</h2>
                         <div class="properties">
+                            @if (!string.IsNullOrEmpty(currMobileTheme.Description)){
                             <p>@currMobileTheme.Description</p>
-                            <p>Authors: @currMobileTheme.Authors</p>
+                            }
+                            <p>@Resources.labels.author: @currMobileTheme.Authors</p>
                         </div>
                     </div>
                 </div>
@@ -54,19 +55,20 @@
         </ul>
     </div>
    
-    <h2>Available</h2>
+    <h2>@Resources.labels.available</h2>
     <div class="available-themes">
         <ul class="gallery Theme">
         @foreach (var theme in Blog.CurrentInstance.InstalledThemes)
         {
-        if(theme.Id == BlogSettings.Instance.Theme || theme.Id == BlogSettings.Instance.MobileTheme){continue;}
+            if (theme.Id == BlogSettings.Instance.Theme || theme.Id == BlogSettings.Instance.MobileTheme) { continue; }
         <li id="@theme.Id">
             <div class="ext">
                 <div class="ext-img">
                     <img src="@theme.IconUrl" class="thumbnail" alt="theme" />
                 </div>
                 <div class="ext-prop">
-                    @if(!string.IsNullOrWhiteSpace(theme.Version)){
+                    @if (!string.IsNullOrWhiteSpace(theme.Version))
+                    {
                     <h2>@theme.Id @theme.Version</h2> 
                     }
                     else
@@ -84,21 +86,23 @@
                         }
                         @if (!string.IsNullOrWhiteSpace(theme.Authors))
                         {
-                         <p>Authors: @theme.Authors</p>   
+                         <p>@Resources.labels.author: @theme.Authors</p>   
                         }
                         else
                         {
-                        <p>Authors: unknown</p>
+                        <p>@Resources.labels.author: unknown</p>
                         }
                         <p>
-                            <a href="" onclick="SetCurrentTheme('@theme.Id','false'); return false;">Set As Current Theme</a>&nbsp;|
-                            <a href="" onclick="SetCurrentTheme('@theme.Id','true'); return false;">Set As Mobile Theme</a>&nbsp;|
-                            <a href="" onclick="window.open('@Path.Combine(Blog.CurrentInstance.RelativeWebRoot, "?theme=")@theme.Id','themepreview','width=1000,height=700,scrollbars=yes,resizable=yes'); return false">Preview</a>
+                            <a href="" onclick="SetCurrentTheme('@theme.Id','false'); return false;">@Resources.labels.setAsCurrentTheme</a>&nbsp;|
+                            <a href="" onclick="SetCurrentTheme('@theme.Id','true'); return false;">@Resources.labels.setAsMobileTheme</a>&nbsp;|
+                            <a href="" onclick="window.open('@Path.Combine(Blog.CurrentInstance.RelativeWebRoot, "?theme=")@theme.Id','themepreview','width=1000,height=700,scrollbars=yes,resizable=yes'); return false">@Resources.labels.preview</a>
                         </p>
-                        <p>
-                            <a href="" onclick="UninstallPackage('@theme.Id'); return false;">Uninstall</a>
-                            <img class="loader2" src="@loaderSrc" alt="loader" />
-                        </p>
+                        @if (Blog.CurrentInstance.IsPrimary) {
+                            <p>
+                                <a href="" class="deleteAction" onclick="UninstallPackage('@theme.Id'); return false;">@Resources.labels.delete</a>
+                                <img class="loader2" src="@loaderSrc" alt="loader" />
+                            </p>
+                        }
                     </div>
                 </div>
             </div>

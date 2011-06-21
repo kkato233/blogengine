@@ -38,7 +38,7 @@ namespace Admin
 
             var li = new HtmlGenericControl("li");
             li.Controls.Add(a);
-            this.ulMenu.Controls.Add(li);
+            ulMenu.Controls.Add(li);
         }
 
         #endregion
@@ -55,9 +55,9 @@ namespace Admin
         {
             base.OnLoad(e);
 
-            if (!this.Page.IsCallback)
+            if (!Page.IsCallback)
             {
-                this.BindMenu();
+                BindMenu();
             }
         }
 
@@ -72,6 +72,9 @@ namespace Admin
         /// </returns>
         private static string SubUrl(string url)
         {
+            if(!Blog.CurrentInstance.IsPrimary)
+                url = url.Replace(Blog.CurrentInstance.VirtualPath.Replace("~", ""), "");
+
             var i = url.LastIndexOf("/");
 
             return (i > 0) ? url.Substring(0, i) : string.Empty;
@@ -95,7 +98,7 @@ namespace Admin
                             root.ChildNodes.Cast<SiteMapNode>().Where(
                                 adminNode => adminNode.IsAccessibleToUser(HttpContext.Current)).Where(
                                     adminNode =>
-                                    this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") ||
+                                    Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") ||
                                     (!adminNode.Url.Contains("xmanager") && !adminNode.Url.Contains("PingServices"))))
                     {
 
@@ -109,32 +112,36 @@ namespace Admin
                             };
 
                         // "<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-                        if (this.Request.RawUrl.IndexOf(adminNode.Url, StringComparison.OrdinalIgnoreCase) != -1)
+                        var startIndx = adminNode.Url.LastIndexOf("/admin/") > 0 ? adminNode.Url.LastIndexOf("/admin/") : 0;
+                        var endIndx = adminNode.Url.LastIndexOf(".") > 0 ? adminNode.Url.LastIndexOf(".") : adminNode.Url.Length;
+                        var nodeDir = adminNode.Url.Substring(startIndx, endIndx - startIndx);
+
+                        if (Request.RawUrl.IndexOf(nodeDir, StringComparison.OrdinalIgnoreCase) != -1)
                         {
                             a.Attributes["class"] = "current";
                         }
 
                         // if "page" has its own subfolder (comments, extensions) should 
                         // select parent tab when navigating through child tabs
-                        if (!SubUrl(this.Request.RawUrl).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&
-                            SubUrl(this.Request.RawUrl) == SubUrl(adminNode.Url))
+                        if (!SubUrl(Request.RawUrl).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&
+                            SubUrl(Request.RawUrl) == SubUrl(adminNode.Url))
                         {
                             a.Attributes["class"] = "current";
                         }
 
                         var li = new HtmlGenericControl("li");
                         li.Controls.Add(a);
-                        this.ulMenu.Controls.Add(li);
+                        ulMenu.Controls.Add(li);
                     }
                 }
             }
 
-            if (!this.Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
+            if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
             {
-                this.AddItem(
+                AddItem(
                     labels.myProfile, string.Format("{0}admin/Users/Profile.aspx?id={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(Security.CurrentUser.Identity.Name)));
 
-                this.AddItem(
+                AddItem(
                     labels.changePassword, string.Format("{0}Account/change-password.aspx", Utils.RelativeWebRoot));
             }
         }
