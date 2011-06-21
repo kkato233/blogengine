@@ -1,6 +1,7 @@
 ﻿@using System.IO
 @using System.Linq
 @using System.Reflection
+@using App_Code;
 @using BlogEngine.Core
 @using BlogEngine.Core.Web.Extensions
 @{
@@ -8,37 +9,43 @@
     Layout = "../_Layout.cshtml";
 
     Security.DemandUserHasRight(Rights.AccessAdminPages, true);
+    if (!WebUtils.CheckIfPrimaryBlog(false)) { return; }
 
     var extName = Request.QueryString["id"];
-
-    var fileName = Request.PhysicalApplicationPath;
-    var codeAssemblies = Utils.CodeAssemblies();
-    foreach (Assembly a in codeAssemblies)
+    if (string.IsNullOrWhiteSpace(extName))
     {
-        var types = a.GetTypes();
-        foreach (var type in types.Where(type => type.Name == extName))
-        {
-            var assemblyName = type.Assembly.FullName.Split(".".ToCharArray())[0];
-            assemblyName = assemblyName.Replace("App_SubCode_", "App_Code\\");
-            var fileExt = assemblyName.Contains("VB_Code") ? ".vb" : ".cs";
-            fileName += Path.Combine(Path.Combine(assemblyName, "Extensions"), extName + fileExt);
-        }
+        Response.Redirect("default.cshtml");
+        return;
     }
 
+    var ext = ExtensionManager.GetExtension(extName);
+    if (ext == null)
+    {
+        Response.Redirect("default.cshtml");
+        return;
+    }
+
+    var extensionFilename = ext.GetPathAndFilename(false);
+    var canWrite = Utils.CanWrite(Href(Utils.ApplicationRelativeWebRoot + "App_Code/Extensions"));
+    var fileExists = !string.IsNullOrWhiteSpace(extensionFilename) && File.Exists(extensionFilename);
+    
     var editLink = "";   
-    if (Utils.CanWrite(Href(Utils.ApplicationRelativeWebRoot + "App_Code/Extensions")))
+    if (canWrite)
     {
         editLink = "<a class=\"extEdit\" onclick=\"return ShowEditor();\" href=\"#\">" + Resources.labels.edit + "</a>";
     }
 
-    var val = string.Format("Source for [{0}] not found", fileName);
+    var val = string.Format("Source for [{0}] not found", extensionFilename);
     try
     {
-        val = File.ReadAllText(fileName);
+        if (fileExists)
+        {
+            val = File.ReadAllText(extensionFilename);
+        }
     }
-    catch (Exception)
+    catch (Exception ex)
     {
-        
+        Utils.Log("admin/Extensions/Editor.cshtml", ex);
     }
 }
 
@@ -62,9 +69,9 @@
     }
 
     function BtnSaveClick() {
-        var dto = { "sourceCode": $('#txtSourceCode').val(), "fileName": $('#hdnFileName').val() };
+        var dto = { "sourceCode": $('#txtSourceCode').val(), "extensionName": $('#hdnExtensionName').val() };
         $.ajax({
-            url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/UpdateSourceCode",
+            url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/UpdateExtensionSourceCode",
             data: JSON.stringify(dto),
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -98,7 +105,7 @@
 	<div class="content-box-full">
         <h1>@Resources.labels.sourceViewer: @extName @Html.Raw(editLink)</h1>
         <div id="extensionViewer">
-<pre class="brush: c-sharp;">// @fileName
+<pre class="brush: c-sharp;">// @extensionFilename
 
 @val</pre>
 
@@ -113,5 +120,5 @@
             @Resources.labels.or <a href="" onclick="return CancelEdit();">@Resources.labels.cancel</a>
         </div>
 	</div>
-    <input type="text" id="hdnFileName" value="@fileName" style="display:none" />
+    <input type="hidden" id="hdnExtensionName" value="@extName" />
 </div>

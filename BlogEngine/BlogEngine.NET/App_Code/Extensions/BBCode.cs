@@ -162,6 +162,9 @@ public class BBCode
     /// <param name="e">The <see cref="BlogEngine.Core.ServingEventArgs"/> instance containing the event data.</param>
     private static void PostCommentServing(object sender, ServingEventArgs e)
     {
+        if(!ExtensionManager.ExtensionEnabled("BBCode"))
+            return;
+
         var body = e.Body;
 
         // retrieve parameters back as a data table

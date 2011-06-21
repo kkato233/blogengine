@@ -435,14 +435,33 @@ namespace App_Code.Extensions
         {
             get
             {
+                Guid blogId = Blog.CurrentInstance.Id;
                 ExtensionSettings settings = null;
-                blogsSettings.TryGetValue(Blog.CurrentInstance.Id, out settings);
+                blogsSettings.TryGetValue(blogId, out settings);
+
+                if (settings == null)
+                {
+                    lock (syncRoot)
+                    {
+                        blogsSettings.TryGetValue(blogId, out settings);
+
+                        if (settings == null)
+                        {
+                            var extensionSettings = new ExtensionSettings("AkismetFilter") { IsScalar = true };
+
+                            extensionSettings.AddParameter("SiteURL", "Site URL");
+                            extensionSettings.AddParameter("ApiKey", "API Key");
+
+                            extensionSettings.AddValue("SiteURL", "http://example.com/blog");
+                            extensionSettings.AddValue("ApiKey", "123456789");
+
+                            blogsSettings[blogId] = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
+                            ExtensionManager.SetStatus("AkismetFilter", false);
+                        }
+                    }
+                }
 
                 return settings;
-            }
-            set
-            {
-                blogsSettings[Blog.CurrentInstance.Id] = value;
             }
         }
 
@@ -576,21 +595,10 @@ namespace App_Code.Extensions
             return akismetComment;
         }
 
-        /// <summary>
-        /// The init settings.
-        /// </summary>
         private void InitSettings()
         {
-            var extensionSettings = new ExtensionSettings(this) { IsScalar = true };
-
-            extensionSettings.AddParameter("SiteURL", "Site URL");
-            extensionSettings.AddParameter("ApiKey", "API Key");
-
-            extensionSettings.AddValue("SiteURL", "http://example.com/blog");
-            extensionSettings.AddValue("ApiKey", "123456789");
-
-            Settings = ExtensionManager.InitSettings("AkismetFilter", extensionSettings);
-            ExtensionManager.SetStatus("AkismetFilter", false);
+            // call Settings getter so default settings are loaded on application start.
+            var s = Settings;
         }
 
         #endregion

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
     <value>Add</value>
@@ -1687,9 +1687,6 @@
   <data name="invalidBlogId" xml:space="preserve">
     <value>Invalid blog id</value>
   </data>
-  <data name="addNewBlog" xml:space="preserve">
-    <value>Add new blog</value>
-  </data>
   <data name="editExistingBlog" xml:space="preserve">
     <value>Edit blog</value>
   </data>
@@ -1707,8 +1704,35 @@
   </data>
   <data name="hostName" xml:space="preserve">
     <value>Host Name (optional)</value>
-  </data>  
+  </data>
   <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
     <value>Accept Any Text before Host Name</value>
-  </data>  
+  </data>
+  <data name="latestFromTheGallery" xml:space="preserve">
+    <value>Latest from the gallery</value>
+  </data>
+  <data name="savedByAtTime" xml:space="preserve">
+    <value>Saved by {0} at {1}</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="currentTheme" xml:space="preserve">
+    <value>Current theme</value>
+  </data>
+  <data name="gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="setAsCurrentTheme" xml:space="preserve">
+    <value>Set as current theme</value>
+  </data>
+  <data name="setAsMobileTheme" xml:space="preserve">
+    <value>Set as mobile theme</value>
+  </data>
+  <data name="themes" xml:space="preserve">
+    <value>Themes</value>
+  </data>
 </root>

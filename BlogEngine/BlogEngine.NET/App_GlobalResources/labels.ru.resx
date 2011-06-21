@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
     <value>Добавить</value>
@@ -1083,5 +1083,38 @@
   </data>
   <data name="returnToBlog" xml:space="preserve">
     <value>Вернуться в начало</value>
+  </data>
+  <data name="latestFromTheGallery" xml:space="preserve">
+    <value>Новинки галереи</value>
+  </data>
+  <data name="savedByAtTime" xml:space="preserve">
+    <value>Автор: {0} дата: {1}</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>Выбранные</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>Имеющиеся</value>
+  </data>
+  <data name="currentTheme" xml:space="preserve">
+    <value>Основная тема</value>
+  </data>
+  <data name="gallery" xml:space="preserve">
+    <value>Галерея</value>
+  </data>
+  <data name="installed" xml:space="preserve">
+    <value>Установленные</value>
+  </data>
+  <data name="preview" xml:space="preserve">
+    <value>Предосмотр</value>
+  </data>
+  <data name="setAsCurrentTheme" xml:space="preserve">
+    <value>Выбрать основной темой</value>
+  </data>
+  <data name="setAsMobileTheme" xml:space="preserve">
+    <value>Выбрать мобильной темой</value>
+  </data>
+  <data name="themes" xml:space="preserve">
+    <value>Темы</value>
   </data>
 </root>

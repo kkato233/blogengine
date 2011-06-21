@@ -53,8 +53,10 @@
 	  <span class="CommentFlag"><asp:Image runat="server" ID="imgFlag" AlternateText="Country flag" Width="16" Height="11" EnableViewState="false" /></span><br />
 	  <%} %>
 
-	  <span class="bbcode<%= !BlogSettings.Instance.ShowLivePreview ? " bbcodeNoLivePreview" : "" %>" title="BBCode tags"><%=BBCodes() %></span>
-	  <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
+      <%if (BlogEngine.Core.Web.Extensions.ExtensionManager.ExtensionEnabled("BBCode")){%>
+	  <span class="bbcode<%=!BlogSettings.Instance.ShowLivePreview ? " bbcodeNoLivePreview" : ""%>" title="BBCode tags"><%=BBCodes()%></span>
+	  <%}%>
+      <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtContent" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" /><br />
 
 	  <% if (BlogSettings.Instance.ShowLivePreview) { %>  
 	  <ul id="commentMenu">

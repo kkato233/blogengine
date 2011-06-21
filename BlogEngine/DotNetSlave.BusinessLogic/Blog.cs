@@ -404,10 +404,47 @@ namespace BlogEngine.Core
             Blogs.Sort();
         }
 
+        /// <summary>
+        /// Marked as ThreadStatic so each thread has its own value.
+        /// Need to be careful with this since when using ThreadPool.QueueUserWorkItem,
+        /// after a thread is used, it is returned to the thread pool and
+        /// any ThreadStatic values (such as this field) are not cleared, they will persist.
+        /// 
+        /// This value is reset in WwwSubdomainModule.BeginRequest.
+        /// 
+        /// </summary>
+        [ThreadStatic]
+        private static Guid _InstanceIdOverride;
+
+        /// <summary>
+        /// This is a thread-specific Blog Instance ID to override.
+        /// If the current blog instance needs to be overridden,
+        /// this property can be used.  A typical use for this is when
+        /// using BG/async threads where the current blog instance
+        /// cannot be determined since HttpContext will be null.
+        /// </summary>
+        public static Guid InstanceIdOverride
+        {
+            get { return _InstanceIdOverride; }
+            set { _InstanceIdOverride = value; }
+        }
+
+        /// <summary>
+        /// The current blog instance.
+        /// </summary>
         public static Blog CurrentInstance
         {
             get
             {
+                if (_InstanceIdOverride != Guid.Empty)
+                {
+                    Blog overrideBlog = Blogs.FirstOrDefault(b => b.Id == _InstanceIdOverride);
+                    if (overrideBlog != null)
+                    {
+                        return overrideBlog;
+                    }
+                }
+
                 const string CONTEXT_ITEM_KEY = "current-blog-instance";
                 HttpContext context = HttpContext.Current;
 

@@ -805,6 +805,15 @@ blockquote p  {
 #comment-form #status { font-weight: bold; }
 #comment-form .success { color: Green; }
 
-.content #blogroll li img { margin: 0 4px 0 0; }
+.content #blogroll li img, .content #categorylist li img
+    { margin: 0 4px 0 0; }
 
+#searchbox input[type='text'] { float: left; width: 55%; margin: 0; }
+#searchbox input[type='button'] { padding: 5px 4px; margin: 0 auto 0 4px; float: left; }
+#searchbox br { clear: both; }
+#searchbox #searchcomments, #searchbox label { display: none; }
+div.widget.search > br { display: none; }
+div.widget { margin-bottom: 18px; }
+
+#PostPager li { border: 1px solid #67AAF4; }
 

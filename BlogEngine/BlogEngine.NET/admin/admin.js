@@ -128,14 +128,12 @@ function LoadComments(page) {
         pg = $.cookie('CommentPagerCurrentPage');
     }
     $.cookie('CommentPagerCurrentPage', pg, { expires: 7 });
-
     var srvs = CommentPage();
-   $.ajax({
+    $.ajax({
       url: srvs + "/LoadComments",
       data: "{'page':'" + pg + "'}",
       type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
+      contentType: "application/json",
       beforeSend: onAjaxBeforeSend,
       success: function (msg) {
          $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/comments.htm', null, { filter_data: false });
@@ -164,10 +162,10 @@ function LoadPager() {
 }
 
 function CommentPage() {
-    var page = 'Approved.aspx';
-    if (location.href.indexOf('Comments\/Spam.aspx') > 0) { page = 'Spam.aspx'; }
-    if (location.href.indexOf('Comments\/Pending.aspx') > 0) { page = 'Pending.aspx'; }
-    if (location.href.indexOf('Tracking\/Pingbacks.aspx') > 0) { page = 'Pingbacks.aspx'; }
+    var page = SiteVars.ApplicationRelativeWebRoot + 'admin/Comments/Approved.aspx';
+    if (location.href.indexOf('Comments\/Spam.aspx') > 0) { page = SiteVars.ApplicationRelativeWebRoot + 'admin/Comments/Spam.aspx'; }
+    if (location.href.indexOf('Comments\/Pending.aspx') > 0) { page = SiteVars.ApplicationRelativeWebRoot + 'admin/Comments/Pending.aspx'; }
+    if (location.href.indexOf('Tracking\/Pingbacks.aspx') > 0) { page = SiteVars.ApplicationRelativeWebRoot + 'admin/Tracking/Pingbacks.aspx'; }
     return page;
 }
 

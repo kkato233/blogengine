@@ -208,7 +208,7 @@
         private static void RewriteDefault(HttpContext context)
         {
             var url = GetUrlWithQueryString(context);
-            var page = string.Format("&page={0}", context.Request.QueryString["page"]);
+            var page = string.Format("&amp;page={0}", context.Request.QueryString["page"]);
             if (string.IsNullOrEmpty(context.Request.QueryString["page"])) {
                 page = null;
             }

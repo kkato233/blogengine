@@ -156,7 +156,7 @@
         public string GetThemeWithAdjustments(string themeOverride)
         {
             string theme = this.Theme;
-            bool isRazorTheme = IsRazorTheme;
+            bool isRazorTheme = configuredTheme == theme ? IsRazorTheme : IsThemeRazor(theme);
             if (!string.IsNullOrWhiteSpace(themeOverride))
             {
                 theme = themeOverride;

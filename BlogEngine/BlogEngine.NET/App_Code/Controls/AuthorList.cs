@@ -66,18 +66,13 @@ namespace App_Code.Controls
 
             set
             {
-                Guid blogId = Blog.CurrentInstance.Id;
-
-                if (!blogsShowRssIcon.ContainsKey(blogId))
-                    blogsShowRssIcon[blogId] = true;
-
-                if (blogsShowRssIcon[blogId] == value)
+                if (ShowRssIcon == value)
                 {
                     return;
                 }
 
-                blogsShowRssIcon.Remove(blogId);
-                blogsHtml.Remove(blogId);
+                blogsShowRssIcon.Remove(Blog.CurrentInstance.Id);
+                blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
 

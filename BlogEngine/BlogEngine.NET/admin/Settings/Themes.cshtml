@@ -1,14 +1,22 @@
 ﻿@using BlogEngine.Core.Packaging
 
 @{
-    Page.Title = Resources.labels.theme;
+    Page.Title = Resources.labels.themes;
     Layout = "~/admin/_Layout.cshtml";
 
     var loaderSrc = Path.Combine(BlogEngine.Core.Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
 
+    // disallow gallery page in child blogs.
+    var canManageThemes = BlogEngine.Core.Blog.CurrentInstance.IsPrimary;
+    
     var tab = "1";
     if(!string.IsNullOrEmpty(Request.QueryString["t"])){
         tab = Request.QueryString["t"];   
+    }
+    if (tab == "2" && !canManageThemes)
+    {   
+        Response.Redirect("Themes.cshtml");
+        return;
     }
 
     var page = 1;
@@ -33,12 +41,14 @@
 	</div>
     <div class="content-box-left">
         <h1>
-            Themes
+            @Resources.labels.themes
             @if (tab == "1"){
-                <a href="Themes.cshtml?t=2" class="image-gallery cboxElement">Gallery</a>
+                if (canManageThemes) {
+                    <a href="Themes.cshtml?t=2" class="image-gallery cboxElement">@Resources.labels.gallery</a>
+                }
             }
             else{
-                <a href="Themes.cshtml" class="image-gallery cboxElement">Installed</a>
+                <a href="Themes.cshtml" class="image-gallery cboxElement">@Resources.labels.installed</a>
             }
         </h1>
 

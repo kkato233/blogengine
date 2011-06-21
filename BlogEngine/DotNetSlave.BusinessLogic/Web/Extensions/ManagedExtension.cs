@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
+    using System.Reflection;
+    using System.Web.Hosting;
+    using System.IO;
 
     /// <summary>
     /// Serializable object that holds extension,
@@ -202,6 +205,41 @@
             this.settings.Add(extensionSettings);
 			this.settings.Sort((s1, s2) => string.Compare(s1.Index.ToString(), s2.Index.ToString()));
         }
+
+        /// <summary>
+        /// Returns the physical path and filename of this extension.
+        /// </summary>
+        /// <param name="checkExistence">
+        /// If true, existence of the file is checked and if the file does not exist,
+        /// an empty string is returned.
+        /// </param>
+        /// <returns></returns>
+        public string GetPathAndFilename(bool checkExistence)
+        {
+            string filename = string.Empty;
+            var appRoot = HostingEnvironment.MapPath("~/");
+            var codeAssemblies = Utils.CodeAssemblies();
+            foreach (Assembly a in codeAssemblies)
+            {
+                var types = a.GetTypes();
+                foreach (var type in types.Where(type => type.Name == Name))
+                {
+                    var assemblyName = type.Assembly.FullName.Split(".".ToCharArray())[0];
+                    assemblyName = assemblyName.Replace("App_SubCode_", "App_Code\\");
+                    var fileExt = assemblyName.Contains("VB_Code") ? ".vb" : ".cs";
+                    filename = appRoot + Path.Combine(Path.Combine(assemblyName, "Extensions"), Name + fileExt);
+                }
+            }
+
+            if (checkExistence && !string.IsNullOrWhiteSpace(filename))
+            {
+                if (!File.Exists(filename))
+                    return string.Empty;
+            }
+
+            return filename;
+        }
+
 
         #endregion
     }
