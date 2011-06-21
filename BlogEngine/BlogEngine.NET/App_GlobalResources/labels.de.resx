@@ -169,7 +169,7 @@
     <value>Gib die erste Bewertung ab</value>
   </data>
 	<data name="blogMLDescription" xml:space="preserve">
-    <value>BlogEngine.NET verwendet BlogML als Export Format. Der Import unterstätzt RSS und BlogML.</value>
+    <value>BlogEngine.NET verwendet BlogML als Export Format. Der Import unterstützt RSS und BlogML.</value>
   </data>
 	<data name="blogroll" xml:space="preserve">
     <value>Blogroll</value>
@@ -202,7 +202,7 @@
     <value>Kommentare sind geschlossen</value>
   </data>
 	<data name="commentWasSaved" xml:space="preserve">
-    <value>Der Kommentar wurde gespeichert, danke fär dein Feedback.</value>
+    <value>Der Kommentar wurde gespeichert, danke für dein Feedback.</value>
   </data>
 	<data name="contact" xml:space="preserve">
     <value>Kontakt</value>
@@ -283,7 +283,7 @@
     <value>Aktiviere OpenSearch</value>
   </data>
 	<data name="enableOpenSearchDescription" xml:space="preserve">
-    <value>Suche fär alle neuen Browser (empfohlen).</value>
+    <value>Suche für alle neuen Browser (empfohlen).</value>
   </data>
 	<data name="enableRating" xml:space="preserve">
     <value>Aktiviere Bewertungen</value>
@@ -335,7 +335,7 @@
     <value>Ist Startseite</value>
   </data>
 	<data name="keywords" xml:space="preserve">
-    <value>Schlässelwörter</value>
+    <value>Schlüsselwörter</value>
   </data>
 	<data name="language" xml:space="preserve">
     <value>Wähle Sprache</value>
@@ -530,10 +530,10 @@
     <value>der Beitrag</value>
   </data>
 	<data name="thereAreXDrafts" xml:space="preserve">
-    <value>Es gibt {0} nicht publizierte Beiträge</value>
+    <value>Es gibt {0} Beiträge die noch nicht publiziert wurden</value>
   </data>
 	<data name="timeStampPostLinks" xml:space="preserve">
-    <value>Datum zu Beitragslinks hinzufägen</value>
+    <value>Datum zu Beitragslinks hinzufügen</value>
   </data>
 	<data name="timezone" xml:space="preserve">
     <value>Serverzeit Abweichung</value>
@@ -602,7 +602,7 @@
     <value>Stadt</value>
   </data>
 	<data name="commentWaitingModeration" xml:space="preserve">
-    <value>Vielen Dank fär Ihren Beitrag. Der Kommentar wartet auf Bestätigung vom Moderator</value>
+    <value>Vielen Dank für Ihren Beitrag. Der Kommentar wartet auf die Bestätigung durch einen Moderator</value>
   </data>
 	<data name="company" xml:space="preserve">
     <value>Firma</value>
@@ -629,7 +629,7 @@
     <value>Verschachtelte Kommentare aktivieren</value>
   </data>
 	<data name="enableCommentNestingDescription" xml:space="preserve">
-    <value>Funktioniert nur, wenn das Thema dies unterstätzt</value>
+    <value>Funktioniert nur, wenn das Thema dies unterstützt</value>
   </data>
 	<data name="enablePingbacks" xml:space="preserve">
     <value>Pingbacks aktivieren</value>
@@ -638,10 +638,10 @@
     <value>Trackbacks aktivieren</value>
   </data>
 	<data name="enterValidEmail" xml:space="preserve">
-    <value>Bitte geben Sie eine gältige eMail-Adresse an</value>
+    <value>Bitte geben Sie eine gültige eMail-Adresse an</value>
   </data>
 	<data name="enterValidUrl" xml:space="preserve">
-    <value>Bitte geben Sie eine gältige URL an</value>
+    <value>Bitte geben Sie eine gültige URL an</value>
   </data>
 	<data name="filter" xml:space="preserve">
     <value>Filter</value>
@@ -683,7 +683,7 @@
     <value>Zweitname</value>
   </data>
 	<data name="mobileTheme" xml:space="preserve">
-    <value>Thema fär Mobilgeräte</value>
+    <value>Thema für Mobilgeräte</value>
   </data>
 	<data name="nextPost" xml:space="preserve">
     <value>Nächster Artikel</value>
@@ -740,7 +740,7 @@
     <value>Erforderlich</value>
   </data>
 	<data name="requireSslForMetaWeblogApi" xml:space="preserve">
-    <value>Fär die MetaWeblog API wird SSL benötigt</value>
+    <value>für die MetaWeblog API wird SSL benötigt</value>
   </data>
 	<data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
     <value>SSL für Kommunikation mit MetaWeblog API erzwingen</value>
@@ -821,10 +821,10 @@
 		<value>Genauigkeit</value>
 	</data>
 	<data name="addFilter" xml:space="preserve">
-		<value>Filter hinzufägen</value>
+		<value>Filter hinzufügen</value>
 	</data>
 	<data name="addToWhiteList" xml:space="preserve">
-		<value>Zur  Whitelist hinzufägen wenn mindestens</value>
+		<value>Zur  Whitelist hinzufügen wenn mindestens</value>
 	</data>
 	<data name="allow" xml:space="preserve">
 		<value>Erlauben</value>
@@ -842,13 +842,13 @@
 		<value>Author Blocken wenn Kommentar gelöscht wurde</value>
 	</data>
 	<data name="authorRejected" xml:space="preserve">
-		<value>Kommentar dieses Benutzers wurde zuräckgehalten</value>
+		<value>Kommentar dieses Benutzers wurde zurückgehalten</value>
 	</data>
 	<data name="block" xml:space="preserve">
 		<value>Blockieren</value>
 	</data>
 	<data name="cheked" xml:space="preserve">
-		<value>Gepräft</value>
+		<value>Geprüft</value>
 	</data>
 	<data name="commentsApprovedByAdmin" xml:space="preserve">
 		<value>Manuell - Nur wenn der Kommentar von einem Adminstrator genehmigt wurde erscheint er im Blog</value>
@@ -857,7 +857,7 @@
 		<value>Automatisch - Regeln und Filterentscheiden ob Kommentar Spam ist</value>
 	</data>
 	<data name="commentsBlacklist" xml:space="preserve">
-		<value>Zur  Blacklist hinzufägen wenn mindestens</value>
+		<value>Zur  Blacklist hinzufügen wenn mindestens</value>
 	</data>
 	<data name="commentsBlockOnDelete" xml:space="preserve">
 		<value>Blockieren bei löschen</value>
@@ -869,7 +869,7 @@
 		<value>Alle Kommentare werden Standardmäßig genehmigt wenn sie nicht Moderiert werden</value>
 	</data>
 	<data name="confirmResetCounters" xml:space="preserve">
-		<value>Bist du sicher das du alle Zähler nach `0` zuräcksetzten möchtest?</value>
+		<value>Bist du sicher das du alle Zähler auf `0` zurücksetzten möchtest?</value>
 	</data>
 	<data name="contains" xml:space="preserve">
 		<value>Beinhaltet</value>
@@ -905,10 +905,10 @@
 		<value>Priorität</value>
 	</data>
 	<data name="reportMistakesToService" xml:space="preserve">
-		<value>Fehler zuräck zum Service melden</value>
+		<value>Fehler zurück zum Service melden</value>
 	</data>
 	<data name="resetCounters" xml:space="preserve">
-		<value>Zähler zuräcksetzten</value>
+		<value>Zähler zurücksetzten</value>
 	</data>
 	<data name="rules" xml:space="preserve">
 		<value>Regeln</value>
@@ -986,16 +986,16 @@
 		<value>Registrieren</value>
 	</data>
 	<data name="addCommentsToPages" xml:space="preserve">
-		<value>Kommentar zur Seite hinzufägen</value>
+		<value>Kommentar zur Seite hinzufügen</value>
 	</data>
 	<data name="addToPages" xml:space="preserve">
-		<value>Zu Seiten hinzufägen (zusätzlich zu Beiträgen)</value>
+		<value>Zu Seiten hinzufügen (zusätzlich zu Beiträgen)</value>
 	</data>
 	<data name="alreadyHaveAccount" xml:space="preserve">
 		<value>Konto bereits vorhanden?</value>
 	</data>
 	<data name="applyChanges" xml:space="preserve">
-		<value>Änderungen äbernehmen</value>
+		<value>Änderungen übernehmen</value>
 	</data>
 	<data name="clickToDisable" xml:space="preserve">
 		<value>Klicken zum Deaktivieren</value>
@@ -1007,10 +1007,10 @@
 		<value>kommentar wo</value>
 	</data>
 	<data name="confirmNewPassword" xml:space="preserve">
-		<value>Bestätige neues Passwort</value>
+		<value>Bestätige das neue Passwort</value>
 	</data>
 	<data name="confirmPassword" xml:space="preserve">
-		<value>Bestätige Passwort</value>
+		<value>Bestätige das Passwort</value>
 	</data>
 	<data name="createAccount" xml:space="preserve">
 		<value>Konto erstellen</value>
@@ -1089,7 +1089,7 @@ Kurznamen werden benutzt um deine Webseite eindeutig bei Disqus zu Indentifizier
 		<value>Passwortabfrage</value>
 	</data>
 	<data name="passwordRetrievalInstructionMessage" xml:space="preserve">
-		<value>Gib deine eMail Adresse in das Feld ein damit du dein Passwort in kärze per eMail erhälst.</value>
+		<value>Gib deine eMail Adresse in das Feld ein damit du dein Passwort in kürze per eMail erhälst.</value>
 	</data>
 	<data name="rememberMe" xml:space="preserve">
 		<value>Angemeldet bleiben</value>
@@ -1098,10 +1098,10 @@ Kurznamen werden benutzt um deine Webseite eindeutig bei Disqus zu Indentifizier
 		<value>Das neue Passwort muss mindestens {0} Zeichen lang sein.</value>
 	</data>
 	<data name="returnToBlog" xml:space="preserve">
-		<value>Zuräck zum Blog</value>
+		<value>Zurück zum Blog</value>
 	</data>
 	<data name="siteUnavailableConfirm" xml:space="preserve">
-		<value>Diese Webseite wird fär ein paar Sekunden nicht erreichbar sein.\nWirklich fortfahren?</value>
+		<value>Diese Webseite wird für ein paar Sekunden nicht erreichbar sein.\nWirklich fortfahren?</value>
 	</data>
 	<data name="source" xml:space="preserve">
 		<value>Quelle</value>
@@ -1119,7 +1119,7 @@ Kurznamen werden benutzt um deine Webseite eindeutig bei Disqus zu Indentifizier
 		<value>Version</value>
 	</data>
 	<data name="addNewRole" xml:space="preserve">
-		<value>Neue Rolle hinzufägen</value>
+		<value>Neue Rolle hinzufügen</value>
 	</data>
 	<data name="areYouSureDeleteRow" xml:space="preserve">
 		<value>Bist du sicher das du das jetzt löschen möchtest?</value>
@@ -1149,16 +1149,16 @@ Kurznamen werden benutzt um deine Webseite eindeutig bei Disqus zu Indentifizier
 		<value>Bitte gib ein Titel ein</value>
 	</data>
 	<data name="enterValidDate" xml:space="preserve">
-		<value>Bitte gib ein gältiges Datum ein (yyyy-mm-dd hh:mm)</value>
+		<value>Bitte gib ein gültiges Datum ein (yyyy-mm-dd hh:mm)</value>
 	</data>
 	<data name="enterValidName" xml:space="preserve">
-		<value>Bitte gib einen gältigen Namen ein</value>
+		<value>Bitte gib einen gültigen Namen ein</value>
 	</data>
 	<data name="enterValidNumber" xml:space="preserve">
-		<value>Bitte gib eine gältige Nummer ein</value>
+		<value>Bitte gib eine gültige Nummer ein</value>
 	</data>
 	<data name="enterValidNumberPositiveNegative" xml:space="preserve">
-		<value>Bitte bestimme eine gältige Nummer (positiv oder negativ)</value>
+		<value>Bitte bestimme eine gültige Nummer (positiv oder negativ)</value>
 	</data>
 	<data name="extractFromTitle" xml:space="preserve">
 		<value>Aus Titel entnehmen</value>
@@ -1170,10 +1170,10 @@ Kurznamen werden benutzt um deine Webseite eindeutig bei Disqus zu Indentifizier
 		<value>Aus BlogML importieren</value>
 	</data>
 	<data name="invalid" xml:space="preserve">
-		<value>Ungältig</value>
+		<value>Ungültig</value>
 	</data>
 	<data name="noValidNumber" xml:space="preserve">
-		<value>Keine gältige Nummer</value>
+		<value>Keine gültige Nummer</value>
 	</data>
 	<data name="onlyLoggedInCanView" xml:space="preserve">
 		<value>Nur Angemeldete Benutzer können Beiträge sehen (Privater Blog)</value>
@@ -1210,7 +1210,7 @@ Kurznamen werden benutzt um deine Webseite eindeutig bei Disqus zu Indentifizier
 	</data>
 	<data name="trackingScriptDescription" xml:space="preserve">
 		<value>Besucher Tracking Script&lt;br /&gt;&lt;br /&gt;Der JavaScript Code z.B. von Google Analytics.&lt;br /&gt;&lt;br /&gt;
-Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;br /&gt;&lt;br /&gt;(vergesse nicht das &amp;lt;script&amp;gt; tag hinzuzufägen)</value>
+Wird ans Ender jeder Seite hinzugefügt, unabhängig vom verwendetem Theme.&lt;br /&gt;&lt;br /&gt;(vergesse nicht das &amp;lt;script&amp;gt; tag hinzuzufägen)</value>
 	</data>
 	<data name="upload" xml:space="preserve">
 		<value>Hochladen</value>
@@ -1240,10 +1240,10 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Erlaube dem Server das Handhaben beim Herunterladen/Zwischenspeichern/Bearbeiten von Ressourcen bei anderen Webseiten.</value>
 	</data>
 	<data name="remoteTimeout" xml:space="preserve">
-		<value>Max. Zeit fär entfernte Dateidownloads</value>
+		<value>Max. Zeit für entfernte Dateidownloads</value>
 	</data>
 	<data name="remoteTimeoutDescription" xml:space="preserve">
-		<value>Die max. Zeitspanne (in ms.) die der Server brauchen darf um eine entfernte Ressource herunterzuladen. Setzte es auf 0 fär unbegrenzt. Standard ist 30000.</value>
+		<value>Die max. Zeitspanne (in ms.) die der Server brauchen darf um eine entfernte Ressource herunterzuladen. Setzte es auf 0 für unbegrenzt. Standard ist 30000.</value>
 	</data>
 	<data name="securitySettings" xml:space="preserve">
 		<value>Sicherheitseinstellungen</value>
@@ -1252,7 +1252,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Max. Dateigröße beim herunterladen entfernter Ressourcen</value>
 	</data>
 	<data name="maximumRemoteFileSizeDescription" xml:space="preserve">
-		<value>Die max. Dateigröße in Bytes fär eine entfernter Ressourcen die der Server herunterladen kann. Setzte es auf 0 fär unbegrenzt.</value>
+		<value>Die max. Dateigröße in Bytes für eine entfernter Ressourcen die der Server herunterladen kann. Setzte es auf 0 für unbegrenzt.</value>
 	</data>
 	<data name="selfRegistrationInitialRole" xml:space="preserve">
 		<value>Anfangsrolle bei Selbst Registration</value>
@@ -1264,10 +1264,10 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Stelle sicher das die Recaptcha Erweiterung aktiviert und richtig konfiguriert ist</value>
 	</data>
 	<data name="whitelistIpOnCommentApproval" xml:space="preserve">
-		<value>Automatisches hinzufägen der IP Adresse von genehmigten Kommentaren zur Whitelist.</value>
+		<value>Automatisches hinzufügen der IP Adresse von genehmigten Kommentaren zur Whitelist.</value>
 	</data>
 	<data name="blacklistIpOnCommentRejection" xml:space="preserve">
-		<value>Automatisches hinzufägen der IP Adresse von genehmigten Kommentaren zur Blacklist</value>
+		<value>Automatisches hinzufügen der IP Adresse von genehmigten Kommentaren zur Blacklist</value>
 	</data>
 	<data name="dashboard" xml:space="preserve">
 		<value>Dashboard</value>
@@ -1282,7 +1282,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Passwortbestätigung ist erforderlich</value>
 	</data>
 	<data name="emailIsInvalid" xml:space="preserve">
-		<value>EMail ist ungältig</value>
+		<value>EMail ist ungültig</value>
 	</data>
 	<data name="emailIsRequired" xml:space="preserve">
 		<value>EMail ist erforderlich</value>
@@ -1291,7 +1291,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Min. Passwortlänge ist {0} Zeichen</value>
 	</data>
 	<data name="newAndConfirmPasswordMismatch" xml:space="preserve">
-		<value>Neues Passwort und die Bestätigung stimen nicht äberein</value>
+		<value>Neues Passwort und die Bestätigung stimen nicht überein</value>
 	</data>
 	<data name="newPasswordIsRequired" xml:space="preserve">
 		<value>Neues Passwort ist erforderlich</value>
@@ -1300,13 +1300,13 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Altes Passwort ist erforderlich</value>
 	</data>
 	<data name="passwordAndConfirmPasswordMismatch" xml:space="preserve">
-		<value>Passwort und Bestätigungspasswort stimmen nicht äberrein</value>
+		<value>Passwort und Bestätigungspasswort stimmen nicht überrein</value>
 	</data>
 	<data name="passwordIsRequried" xml:space="preserve">
 		<value>Passwort ist erforderlich</value>
 	</data>
 	<data name="passwordAndConfirmPasswordIsMatch" xml:space="preserve">
-		<value>Neues Passwort und die Bestätigung stimen nicht äberein</value>
+		<value>Neues Passwort und die Bestätigung stimen nicht überein</value>
 	</data>
 	<data name="userNameIsRequired" xml:space="preserve">
 		<value>Benutzername ist erforderlich</value>
@@ -1318,22 +1318,22 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Willkommen</value>
 	</data>
 	<data name="addNewPage" xml:space="preserve">
-		<value>Neue Seite hinzufägen</value>
+		<value>Neue Seite hinzufügen</value>
 	</data>
 	<data name="admin" xml:space="preserve">
 		<value>Administrator</value>
 	</data>
 	<data name="draftPages" xml:space="preserve">
-		<value>Seiten Entwärfe</value>
+		<value>Seiten Entwerfen</value>
 	</data>
 	<data name="draftPosts" xml:space="preserve">
-		<value>Beitrags Entwärfe</value>
+		<value>Beitrags Entwerfen</value>
 	</data>
 	<data name="emptyTrash" xml:space="preserve">
 		<value>Papierkorb leeren</value>
 	</data>
 	<data name="recentPendingComments" xml:space="preserve">
-		<value>Jängste ausstehende Kommentare</value>
+		<value>Jüngste ausstehende Kommentare</value>
 	</data>
 	<data name="stats" xml:space="preserve">
 		<value>Statistiken</value>
@@ -1405,31 +1405,31 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Konnte Benutzer nicht aktuallisieren: {0}</value>
 	</data>
 	<data name="displayNameIsRequired" xml:space="preserve">
-		<value>Anzeigename ist ein pflichtfeld</value>
+		<value>Anzeigename ist ein Pflichtfeld</value>
 	</data>
 	<data name="doNotPassRightsWithFalseValue" xml:space="preserve">
-		<value>Gib keine rechte zuräck die einen negativen Wert haben.</value>
+		<value>Gib keine rechte zurück die einen negativen Wert haben.</value>
 	</data>
 	<data name="emailArgumentInvalid" xml:space="preserve">
-		<value>EMail Argument ist ungältig.</value>
+		<value>EMail Argument ist ungültig.</value>
 	</data>
 	<data name="errorApprovingComment" xml:space="preserve">
 		<value>Fehler beim genehmigen des Kommentar: {0}</value>
 	</data>
 	<data name="errorRejectingComment" xml:space="preserve">
-		<value>Fehler beim zuräckhalten des Kommentar</value>
+		<value>Fehler beim zurückhalten des Kommentar</value>
 	</data>
 	<data name="idArgumentNull" xml:space="preserve">
 		<value>ID Argument ist NULL</value>
 	</data>
 	<data name="invalidPageId" xml:space="preserve">
-		<value>Ungältige Seiten ID</value>
+		<value>Ungültige Seiten ID</value>
 	</data>
 	<data name="invalidPostId" xml:space="preserve">
-		<value>Ungältige Beitrags ID</value>
+		<value>Ungültige Beitrags ID</value>
 	</data>
 	<data name="invalidRoleName" xml:space="preserve">
-		<value>Ungältiger Rollen Name</value>
+		<value>Ungültiger Rollen Name</value>
 	</data>
 	<data name="noRightExists" xml:space="preserve">
 		<value>So ein Recht gibt es nicht: {0}</value>
@@ -1441,7 +1441,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Seiten ID ist erforderlich</value>
 	</data>
 	<data name="passwordArgumentInvalid" xml:space="preserve">
-		<value>Passwort Argument ist ungältig.</value>
+		<value>Passwort Argument ist ungültig.</value>
 	</data>
 	<data name="postDeleted" xml:space="preserve">
 		<value>Beitrag gelöscht</value>
@@ -1453,7 +1453,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Rechte Sammlung Argumente können nicht NULL sein.</value>
 	</data>
 	<data name="rightsUpdatedForRole" xml:space="preserve">
-		<value>Rechte aktuallisiert fär Rolle "{0}"</value>
+		<value>Rechte aktuallisiert für Rolle "{0}"</value>
 	</data>
 	<data name="roleAlreadyExists" xml:space="preserve">
 		<value>Rolle "{0}" existiert bereits</value>
@@ -1477,7 +1477,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Ausgewähltes Kommentar gelöscht</value>
 	</data>
 	<data name="selectedCommentRejected" xml:space="preserve">
-		<value>Ausgewähltes Kommentar zuräck gehalten</value>
+		<value>Ausgewähltes Kommentar zurück gehalten</value>
 	</data>
 	<data name="selectedCommentRestored" xml:space="preserve">
 		<value>Ausgewähltes Kommentar wiederhergestellt</value>
@@ -1492,7 +1492,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Tag ist ein Pflichtfeld.</value>
 	</data>
 	<data name="userArgumentInvalid" xml:space="preserve">
-		<value>Benutzer Argument ist ungältig.</value>
+		<value>Benutzer Argument ist ungültig.</value>
 	</data>
 	<data name="userHasBeenCreated" xml:space="preserve">
 		<value>Benutzer "{0}" wurde erstellt</value>
@@ -1513,13 +1513,13 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Erstelle/Bearbeite Beitrag</value>
 	</data>
 	<data name="addNewCategory" xml:space="preserve">
-		<value>Neue Kategorie hinzufägen</value>
+		<value>Neue Kategorie hinzufügen</value>
 	</data>
 	<data name="insertImage" xml:space="preserve">
-		<value>Bild hinzufägen</value>
+		<value>Bild hinzufügen</value>
 	</data>
 	<data name="insertVideo" xml:space="preserve">
-		<value>Video hinzufägen</value>
+		<value>Video hinzufügen</value>
 	</data>
 	<data name="published" xml:space="preserve">
 		<value>Veröffentlichen</value>
@@ -1555,7 +1555,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Optionen</value>
 	</data>
 	<data name="quickAddNewCategory" xml:space="preserve">
-		<value>Schnelles hinzufägen einer neuen Kategorie</value>
+		<value>Schnelles hinzufügen einer neuen Kategorie</value>
 	</data>
 	<data name="setPublishDate" xml:space="preserve">
 		<value>Setzte Veröffentlichungsdatum</value>
@@ -1567,7 +1567,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Aktiviere Passwort Reset</value>
 	</data>
 	<data name="addNewBlog" xml:space="preserve">
-		<value>Neuen Blog hinzufägen</value>
+		<value>Neuen Blog hinzufügen</value>
 	</data>
 	<data name="approvedComments" xml:space="preserve">
 		<value>Genehmigte Kommentare</value>
@@ -1579,7 +1579,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Deaktivieren</value>
 	</data>
 	<data name="drafts" xml:space="preserve">
-		<value>Entwärfe</value>
+		<value>Entwerfe</value>
 	</data>
 	<data name="enable" xml:space="preserve">
 		<value>Aktivieren</value>
@@ -1594,7 +1594,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Quelle ansehen</value>
 	</data>
 	<data name="addNewUser" xml:space="preserve">
-		<value>Neuen Benutzer hinzufägen</value>
+		<value>Neuen Benutzer hinzufügen</value>
 	</data>
 	<data name="appearance" xml:space="preserve">
 		<value>Aussehen</value>
@@ -1651,7 +1651,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Ping Service URL</value>
 	</data>
 	<data name="runClickOnceApplicationToImport" xml:space="preserve">
-		<value>Ausfähren der Click-Once Anwendung zum Import von Inhalten aus BlogML oder RSS 2.0 in deinen Blog. &lt;i&gt;Nur Internet Explorer.&lt;/i&gt;</value>
+		<value>Ausführen der Click-Once Anwendung zum Import von Inhalten aus BlogML oder RSS 2.0 in deinen Blog. &lt;i&gt;Nur Internet Explorer.&lt;/i&gt;</value>
 	</data>
 	<data name="selectSavedBlogMlFle" xml:space="preserve">
 		<value>Wähle eine gespeicherte BlogML Datei und importiere sie in deinen Blog. Jeder Browser, aber nurBlogML.</value>
@@ -1681,10 +1681,10 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Blog "{0}" wurde erfolgreich gelöscht</value>
 	</data>
 	<data name="blogAdded" xml:space="preserve">
-		<value>Blog "{0}" wurde erfolgreich hinzugefägt</value>
+		<value>Blog "{0}" wurde erfolgreich hinzugefügt</value>
 	</data>
 	<data name="invalidBlogId" xml:space="preserve">
-		<value>Ungältige Blog ID</value>
+		<value>Ungültige Blog ID</value>
 	</data>
 	<data name="editExistingBlog" xml:space="preserve">
 		<value>Blog bearbeiten</value>
@@ -1714,7 +1714,7 @@ Wird ans Ender jeder Seite hinzugefägt, unabhängig vom verwendetem Theme.&lt;b
 		<value>Gespeichert von {0} um {1}</value>
 	</data>
 	<data name="available" xml:space="preserve">
-		<value>Verfägbar</value>
+		<value>Verfügbar</value>
 	</data>
 	<data name="currentTheme" xml:space="preserve">
 		<value>Aktuelles Theme</value>
