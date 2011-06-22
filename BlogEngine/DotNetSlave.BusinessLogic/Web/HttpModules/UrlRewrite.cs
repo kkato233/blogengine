@@ -236,7 +236,7 @@
             }
             else {
                 string newUrl = url.Replace("Default.aspx", "default.aspx");  // fixes a casing oddity on Mono
-                int defaultStart = url.IndexOf("default.aspx");
+                int defaultStart = url.IndexOf("default.aspx", StringComparison.OrdinalIgnoreCase);
                 newUrl = Utils.ApplicationRelativeWebRoot + url.Substring(defaultStart);
 
                 context.RewritePath(newUrl);
