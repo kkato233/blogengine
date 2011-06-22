@@ -38,6 +38,7 @@ public class BBCode
     static BBCode()
     {
         Comment.Serving += PostCommentServing;
+        var s = Settings;
     }
 
     /// <summary>

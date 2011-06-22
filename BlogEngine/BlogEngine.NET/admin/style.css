@@ -186,7 +186,9 @@ label.lbl { display:block; margin:0 0 5px 0;}
     font-size:12px;}
 .profileAction {background: transparent url("images/action-profile-small.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
-.newAction {background: transparent url("images/action-add.png") no-repeat scroll left center;  padding-left:18px;
+.newAction {background: transparent url("images/action-add.png") no-repeat scroll left center;  padding-left:20px;
+    font-size:12px;}
+.deleteAction {background: transparent url("images/action-delete.png") no-repeat scroll left center;  padding-left:20px;
     font-size:12px;}
     
 .rowTools { margin:0; padding:0; list-style:none; }
@@ -515,7 +517,7 @@ ul.gallery { margin: 0; padding: 0; }
     margin-right:2px;
 }
 #list-pager a{
-    border:solid 1px #9aafe5;
+    border:solid 1px #EAEAEA;
     margin-right:2px;
 }
 #list-pager .previous-off, #list-pager .next-off {
@@ -531,7 +533,7 @@ ul.gallery { margin: 0; padding: 0; }
     font-weight:bold;
 }
 #list-pager .active{
-    background:#38560F;
+    background:#CE3900;
     color:#FFFFFF;
     font-weight:bold;
     display:block;
@@ -546,7 +548,7 @@ ul.gallery { margin: 0; padding: 0; }
     text-decoration:none;
 }
 #list-pager a:hover{
-    border:solid 1px #0e509e;
+    border:solid 1px #ccc;
 }
 
 

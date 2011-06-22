@@ -1735,4 +1735,16 @@
   <data name="themes" xml:space="preserve">
     <value>Themes</value>
   </data>
+  <data name="alphaNumeric" xml:space="preserve">
+    <value>Alphanumeric</value>
+  </data>
+  <data name="downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Newest</value>
+  </data>
+  <data name="orderBy" xml:space="preserve">
+    <value>Order by</value>
+  </data>
 </root>
