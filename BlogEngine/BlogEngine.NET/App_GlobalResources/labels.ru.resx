@@ -1117,4 +1117,16 @@
   <data name="themes" xml:space="preserve">
     <value>Темы</value>
   </data>
+  <data name="alphaNumeric" xml:space="preserve">
+    <value>Алфавиту</value>
+  </data>
+  <data name="downloads" xml:space="preserve">
+    <value>Загрузки</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Новинки</value>
+  </data>
+  <data name="orderBy" xml:space="preserve">
+    <value>Сортировать по</value>
+  </data>
 </root>

@@ -178,14 +178,19 @@ namespace BlogEngine.Core.Packaging
             // read themes directory
             foreach (var d in Directory.GetDirectories(path))
             {
-                var p = new JsonPackage();
                 var index = d.LastIndexOf(Path.DirectorySeparatorChar) + 1;
-                var themeFile = d + @"\theme.png";
-                p.Id = d.Substring(index);
+                var themeId = d.Substring(index);
 
-                p.IconUrl = File.Exists(themeFile)
-                               ? string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, p.Id)
-                               : Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
+                // first try to pull theme metadata from manifest file
+                var p = FileSystem.GetThemeManifest(themeId);
+                if(p == null)
+                {
+                    p = new JsonPackage();
+                    p.Id = themeId;
+                    p.IconUrl = File.Exists(d + @"\theme.png")
+                                   ? string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, p.Id)
+                                   : Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
+                }
 
                 if (p.Id != BlogSettings.Instance.Theme && 
                     p.Id != BlogSettings.Instance.MobileTheme &&
@@ -258,7 +263,12 @@ namespace BlogEngine.Core.Packaging
             }
 
             // generate default blank manifest if both methods failed
-            jp = FileSystem.WriteThemeManifest(themeId);
+            var jpw = FileSystem.WriteThemeManifest(themeId);
+            if (jpw != null) jp = jpw;
+
+            // return default values if theme folder read only
+            if (jp == null)
+                jp = new JsonPackage {Id = themeId, Authors = "Unknown", IconUrl = Utils.ApplicationRelativeWebRoot + "pics/Theme.png" };
             
             return jp;
         }
