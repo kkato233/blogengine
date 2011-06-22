@@ -1,5 +1,4 @@
-﻿
---
+﻿--
 -- Add be_Blogs
 --
 CREATE TABLE be_Blogs (
@@ -22,7 +21,7 @@ VALUES ('27604f05-86ad-47ef-9e05-950bb762570c', 'Primary', '', 0, '', '~/', 1, 1
 ALTER TABLE be_Users
 ADD BlogID VARCHAR(36) NULL;
 
-UPDATE be_Users SET BlogID = '27604F05-86AD-47EF-9E05-950BB762570C';
+UPDATE be_Users SET BlogID = '27604f05-86ad-47ef-9e05-950bb762570c';
 
 CREATE INDEX idx_be_Users_BlogId_UserName
 ON be_Users (BlogID, UserName);
@@ -37,7 +36,7 @@ CREATE TABLE be_UserRolesNew (
 [Role] VARCHAR(100) NOT NULL);
 
 INSERT INTO be_UserRolesNew
-SELECT ur.UserRolesID, '27604F05-86AD-47EF-9E05-950BB762570C', u.UserName, r.Role
+SELECT ur.UserRolesID, '27604f05-86ad-47ef-9e05-950bb762570c', u.UserName, r.Role
 FROM be_UserRoles ur
 INNER JOIN be_Users u ON ur.UserID = u.UserID
 INNER JOIN be_Roles r ON ur.RoleID = r.RoleID;
@@ -57,7 +56,7 @@ CREATE TABLE be_StopWordsNew (
 [StopWord] VARCHAR(50) NOT NULL);
 
 INSERT INTO be_StopWordsNew (BlogId, StopWord)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', o.StopWord
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', o.StopWord
 FROM be_StopWords o;
 
 DROP TABLE be_StopWords;
@@ -76,7 +75,7 @@ CREATE TABLE be_SettingsNew (
 [SettingValue] TEXT NULL);
 
 INSERT INTO be_SettingsNew (BlogId, SettingName, SettingValue)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', s.SettingName, s.SettingValue
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', s.SettingName, s.SettingValue
 FROM be_Settings s;
 
 DROP TABLE be_Settings;
@@ -91,7 +90,7 @@ ON be_Settings (BlogId);
 ALTER TABLE be_Roles
 ADD BlogID VARCHAR(36) NULL;
 
-UPDATE be_Roles SET BlogID = '27604F05-86AD-47EF-9E05-950BB762570C';
+UPDATE be_Roles SET BlogID = '27604f05-86ad-47ef-9e05-950bb762570c';
 
 CREATE INDEX idx_be_Roles_BlogId_Role
 ON be_Roles (BlogID, Role);
@@ -105,7 +104,7 @@ CREATE TABLE be_RightsNew (
 [RightName] VARCHAR(100));
 
 INSERT INTO be_RightsNew (BlogId, RightName)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', r.RightName
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', r.RightName
 FROM be_Rights r;
 
 DROP TABLE be_Rights;
@@ -124,7 +123,7 @@ CREATE TABLE be_RightRolesNew (
 [Role] VARCHAR(100));
 
 INSERT INTO be_RightRolesNew (BlogId, RightName, Role)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', r.RightName, r.Role
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', r.RightName, r.Role
 FROM be_RightRoles r;
 
 DROP TABLE be_RightRoles;
@@ -149,7 +148,7 @@ CREATE TABLE be_BlogRollItemsNew (
 );
 
 INSERT INTO be_BlogRollItemsNew (BlogId, BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', b.BlogRollId, b.Title, b.Description, b.BlogUrl, b.FeedUrl, b.Xfn, b.SortIndex
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', b.BlogRollId, b.Title, b.Description, b.BlogUrl, b.FeedUrl, b.Xfn, b.SortIndex
 FROM be_BlogRollItems b;
 
 DROP TABLE be_BlogRollItems;
@@ -170,7 +169,7 @@ CREATE TABLE be_DataStoreSettingsNew (
 );
 
 INSERT INTO be_DataStoreSettingsNew (BlogId, ExtensionType, ExtensionId, Settings)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', b.ExtensionType, b.ExtensionId, b.Settings
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', b.ExtensionType, b.ExtensionId, b.Settings
 FROM be_DataStoreSettings b;
 
 DROP TABLE be_DataStoreSettings;
@@ -189,7 +188,7 @@ CREATE TABLE be_PingServiceNew (
 );
 
 INSERT INTO be_PingServiceNew (BlogID, Link)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.Link
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.Link
 FROM be_PingService p;
 
 DROP TABLE be_PingService;
@@ -213,7 +212,7 @@ CREATE TABLE be_ReferrersNew (
 );
 
 INSERT INTO be_ReferrersNew (BlogId, ReferrerId, ReferralDay, ReferrerUrl, ReferralCount, Url, IsSpam)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', r.ReferrerId, r.ReferralDay, r.ReferrerUrl, r.ReferralCount, r.Url, r.IsSpam
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', r.ReferrerId, r.ReferralDay, r.ReferrerUrl, r.ReferralCount, r.Url, r.IsSpam
 FROM be_Referrers r;
 
 DROP TABLE be_Referrers;
@@ -230,11 +229,11 @@ CREATE TABLE be_ProfilesNew (
 [BlogID] VARCHAR(36) NOT NULL,
 [UserName] VARCHAR(100) NOT NULL,
 [SettingName] VARCHAR(200) NOT NULL,
-[SettingValue] TEXT NOT NULL,
+[SettingValue] TEXT NOT NULL
 );
 
 INSERT INTO be_ProfilesNew (BlogID, UserName, SettingName, SettingValue)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.UserName, p.SettingName, p.SettingValue
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.UserName, p.SettingName, p.SettingValue
 FROM be_Profiles p;
 
 DROP TABLE be_Profiles;
@@ -269,9 +268,9 @@ INSERT INTO be_PagesNew
 	 DateCreated, DateModified, IsPublished, IsFrontPage, Parent,
 	 ShowInList, Slug, IsDeleted)
 SELECT
-	'27604F05-86AD-47EF-9E05-950BB762570C', p.PageID, p.Title, p.Description, p.PageContent, p.Keywords,
+	'27604f05-86ad-47ef-9e05-950bb762570c', p.PageID, p.Title, p.Description, p.PageContent, p.Keywords,
 	 p.DateCreated, p.DateModified, p.IsPublished, p.IsFrontPage, p.Parent,
-	 p.ShowInList, p.Slug, p.IsDeleted
+	 p.ShowInList, coalesce(p.Slug, ''), p.IsDeleted
 FROM be_Pages p;
 
 DROP TABLE be_Pages;
@@ -289,11 +288,11 @@ CREATE TABLE be_CategoriesNew (
 [CategoryID] VARCHAR(36) NOT NULL,
 [CategoryName] VARCHAR(50) NOT NULL,
 [Description] VARCHAR(200) NOT NULL,
-[ParentID] VARCHAR(36) NOT NULL
+[ParentID] VARCHAR(36) NULL
 );
 
 INSERT INTO be_CategoriesNew (BlogID, CategoryID, CategoryName, Description, ParentID)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', c.CategoryID, c.CategoryName, c.Description, c.ParentID
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', c.CategoryID, c.CategoryName, coalesce(c.Description, ''), c.ParentID
 FROM be_Categories c;
 
 DROP TABLE be_Categories;
@@ -313,7 +312,7 @@ CREATE TABLE be_PostCategoryNew (
 );
 
 INSERT INTO be_PostCategoryNew (BlogID, PostID, CategoryID)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.PostID, p.CategoryID
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.PostID, p.CategoryID
 FROM be_PostCategory p;
 
 DROP TABLE be_PostCategory;
@@ -333,7 +332,7 @@ CREATE TABLE be_PostNotifyNew (
 );
 
 INSERT INTO be_PostNotifyNew (BlogID, PostID, NotifyAddress)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.PostID, p.NotifyAddress
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.PostID, p.NotifyAddress
 FROM be_PostNotify p;
 
 DROP TABLE be_PostNotify;
@@ -353,7 +352,7 @@ CREATE TABLE be_PostTagNew (
 );
 
 INSERT INTO be_PostTagNew (BlogID, PostID, Tag)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.PostID, p.Tag
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.PostID, p.Tag
 FROM be_PostTag p;
 
 DROP TABLE be_PostTag;
@@ -382,16 +381,15 @@ CREATE TABLE be_PostCommentNew (
 [ModeratedBy] VARCHAR(100) NOT NULL,
 [Avatar] VARCHAR(255) NOT NULL,
 [IsSpam] BOOLEAN NOT NULL,
-[IsDeleted] BOOLEAN NOT NULL,
+[IsDeleted] BOOLEAN NOT NULL
 );
 
 INSERT INTO be_PostCommentNew
 	(BlogID, PostCommentID, PostID, ParentCommentID, CommentDate, Author,
 	 Email, Website, Comment, Country, Ip, IsApproved, ModeratedBy, Avatar,
 	 IsSpam, IsDeleted)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.PostCommentID, p.PostID, p.ParentCommentID, p.CommentDate, p.Author,
-	 p.Email, p.Website, p.Comment, p.Country, p.Ip, p.IsApproved, p.ModeratedBy, p.Avatar,
-	 p.IsSpam, p.IsDeleted
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.PostCommentID, p.PostID, p.ParentCommentID, p.CommentDate, p.Author,
+	 p.Email, p.Website, p.Comment, p.Country, p.Ip, p.IsApproved, coalesce(p.ModeratedBy,''),coalesce(p.Avatar, ''), p.IsSpam, p.IsDeleted
 FROM be_PostComment p;
 
 DROP TABLE be_PostComment;
@@ -425,7 +423,7 @@ INSERT INTO be_PostsNew
 	(BlogID, PostID, Title, Description, PostContent, DateCreated,
 	 DateModified, Author, IsPublished, IsCommentEnabled, Raters,
 	 Rating, Slug, IsDeleted)
-SELECT '27604F05-86AD-47EF-9E05-950BB762570C', p.PostID, p.Title, p.Description, p.PostContent, p.DateCreated,
+SELECT '27604f05-86ad-47ef-9e05-950bb762570c', p.PostID, p.Title, p.Description, p.PostContent, p.DateCreated,
 	 p.DateModified, p.Author, p.IsPublished, p.IsCommentEnabled, p.Raters,
 	 p.Rating, p.Slug, p.IsDeleted
 FROM be_Posts p;
