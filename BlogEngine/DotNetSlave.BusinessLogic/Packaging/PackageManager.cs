@@ -187,15 +187,14 @@ namespace BlogEngine.Core.Packaging
                 {
                     p = new JsonPackage();
                     p.Id = themeId;
-                    p.IconUrl = File.Exists(d + @"\theme.png")
-                                   ? string.Format("{0}themes/{1}/theme.png", Utils.ApplicationRelativeWebRoot, p.Id)
-                                   : Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
                 }
 
                 if (p.Id != BlogSettings.Instance.Theme && 
                     p.Id != BlogSettings.Instance.MobileTheme &&
                     p.Id != "RazorHost")
                 {
+                    if(string.IsNullOrEmpty(p.IconUrl)) 
+                        p.IconUrl = DefaultIconUrl(p);
                     installedThemes.Add(p.Id, p);
                 }
             }
@@ -246,7 +245,12 @@ namespace BlogEngine.Core.Packaging
             var jp = FileSystem.GetThemeManifest(themeId);
 
             if (jp != null)
+            {
+                if (string.IsNullOrEmpty(jp.IconUrl)) 
+                    jp.IconUrl = DefaultIconUrl(jp);
                 return jp;
+            }
+                
 
             // if no manifest file, check themes in online gallery
             // and if found create manifest file using package info
@@ -339,6 +343,15 @@ namespace BlogEngine.Core.Packaging
             }
 
             return new JsonResponse { Success = true, Message = "Package successfully uninstalled" };
+        }
+
+        static string DefaultIconUrl(JsonPackage pkg)
+        {
+            var url = string.Format("{0}themes/{1}/theme.png",
+                Utils.ApplicationRelativeWebRoot, pkg.Id);
+
+            var path = HttpContext.Current.Server.MapPath(url);
+            return File.Exists(path) ? url : Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
         }
 
         static IEnumerable<PublishedPackage> GetPublishedPackages(PackagingSource packagingSource = null)
