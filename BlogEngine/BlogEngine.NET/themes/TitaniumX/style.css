@@ -3,7 +3,7 @@
 	Light Grey/Blue =	#E3E7EB
 	Medium Grey/Blue =	#A5ACB5
 	Dark Grey =		#8E8D90
-	Muted Teal =		#6D98A8
+	Muted Teal =	#6D98A8
 	Yellow =		#F6B829
 	Orange =		#EE913C
 	Dark Blue =		#1D355B
@@ -79,6 +79,12 @@ img {
 .footer {
 	font-size:8pt;
 }
+
+.taggedlink
+{
+    line-height: 110%;
+}
+
 /*----------------------------
 	Header
 ----------------------------*/
@@ -251,7 +257,9 @@ div.widget a.delete:hover {
 	margin:3px;
 }
 #newsletterform input[type='text'] {
+	width: 240px;
 	background:#E3E7EB;
+	margin-bottom: 5px;
 	border:1px solid #8E8D90;
 	border-radius:.5em;
 	-moz-border-radius:.5em;
@@ -490,10 +498,20 @@ ul.recentComments li a.postTitle {
 	Search on search
 ----------------------------*/
 #searchonsearch {
-	background:white;
-	padding:5px 10px;
-	margin-bottom:20px;
 	border:1px solid #8E8D90;
+	padding:3px 10px;
+	margin-bottom:20px;
+	background-color:white;
+	background-image:url(img/contentbg.png);
+	background-position:left top;
+	background-repeat:repeat-x;
+	line-height:110%;
+	border-radius:.5em;
+	-moz-border-radius:.5em;
+	-webkit-border-radius:.5em;
+	box-shadow:0 0 15px #A5ACB5;
+	-moz-box-shadow:0 0 15px #A5ACB5;
+	-webkit-box-shadow:0 0 15px #A5ACB5;
 }
 #searchonsearch h3 {
 	margin:3px;
