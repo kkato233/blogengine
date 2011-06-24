@@ -1,6 +1,7 @@
 ﻿
 @using BlogEngine.Core;
 @{
+    App_Code.WebUtils.CheckRightsForAdminPagesPages(false);
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
 }
 

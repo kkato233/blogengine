@@ -29,7 +29,19 @@
                 {
                     cls = "current";
                 }
-                
+
+                // if "page" has its own subfolder (comments, extensions etc.) 
+                // select parent tab when navigating through child tabs
+                startIndx = nodeDir.LastIndexOf("/");
+                if(startIndx > 0)
+                {
+                    nodeDir = nodeDir.Substring(0, startIndx);
+                    if (Request.RawUrl.ToLower().Contains(nodeDir.ToLower() + "/") && nodeDir.Substring(1, nodeDir.Length -1).IndexOf("/") > 0)
+                    {
+                        cls = "current";
+                    }
+                }
+
                 <li><a href="@(Utils.RelativeWebRoot + adminNode.Url.Substring(Utils.ApplicationRelativeWebRoot.Length))" class="@cls"><span>@Utils.Translate(adminNode.Title, adminNode.Title)</span></a></li>
             }
         }
