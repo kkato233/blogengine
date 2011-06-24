@@ -14,8 +14,7 @@
 
   <div class="footer">    
     <div class="bookmarks">
-      <a rel="nofollow" href="http://www.facebook.com/sharer.php?u=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>" target="blank"><img src="<%=VirtualPathUtility.ToAbsolute("~/themes/TitaniumX/img/")%>f_logo.png" alt="Share on Facebook" style="margin-right:3px" />Share on Facebook</a> | 
-      <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=I thought that you might find this interesting: <%=Post.AbsoluteLink.ToString() %>">E-mail</a> | 
+      <a rel="nofollow" href="mailto:?subject=<%=Post.Title %>&amp;body=I thought that you might find this interesting: <%=Post.AbsoluteLink.ToString() %>">E-Mail</a> | 
       <a rel="nofollow" href="http://www.dotnetkicks.com/submit?url=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>&amp;title=<%=Server.UrlEncode(Post.Title) %>">Kick it!</a> | 
       <a rel="nofollow" href="http://www.dzone.com/links/add.html?url=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>&amp;title=<%=Server.UrlEncode(Post.Title) %>">DZone it!</a> | 
       <a rel="nofollow" href="http://del.icio.us/post?url=<%=Server.UrlEncode(Post.AbsoluteLink.ToString()) %>&amp;title=<%=Server.UrlEncode(Post.Title) %>">del.icio.us</a>      
