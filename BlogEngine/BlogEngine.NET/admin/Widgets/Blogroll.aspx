@@ -128,8 +128,8 @@
                 </div>
             </div>
 
-            <asp:GridView runat="server" ID="grid" BorderColor="#f8f8f8" BorderStyle="solid"
-                BorderWidth="1px" RowStyle-BorderWidth="0" RowStyle-BorderStyle="None" GridLines="None"
+            <asp:GridView runat="server" ID="grid" CssClass="beTable" BorderStyle="solid"
+                RowStyle-BorderWidth="0" RowStyle-BorderStyle="None" GridLines="None"
                 Width="100%" AlternatingRowStyle-BackColor="#f8f8f8" AlternatingRowStyle-BorderColor="#f8f8f8"
                 HeaderStyle-BackColor="#F1F1F1" CellPadding="3" AutoGenerateColumns="False" OnRowDeleting="grid_RowDeleting"
                 OnRowCommand="grid_RowCommand">

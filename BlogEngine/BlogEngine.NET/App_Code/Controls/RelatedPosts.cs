@@ -205,7 +205,7 @@ namespace App_Code.Controls
             const string LinkFormat = "<a href=\"{0}\">{1}</a>";
             const string DescriptionFormat = "<span>{0}</span>";
             sb.Append("<div id=\"relatedPosts\">");
-            sb.Append("<p>+++</p>");
+            sb.Append("<h3>+++</h3>");
             sb.Append("<div>");
 
             var count = 0;

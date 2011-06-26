@@ -1091,7 +1091,7 @@
     <value>Автор: {0} дата: {1}</value>
   </data>
   <data name="active" xml:space="preserve">
-    <value>Выбранные</value>
+    <value>Активный</value>
   </data>
   <data name="available" xml:space="preserve">
     <value>Имеющиеся</value>
@@ -1128,5 +1128,26 @@
   </data>
   <data name="orderBy" xml:space="preserve">
     <value>Сортировать по</value>
+  </data>
+  <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
+    <value>Разрешать техт перед хостом</value>
+  </data>
+  <data name="activeThemes" xml:space="preserve">
+    <value>Активные темы</value>
+  </data>
+  <data name="blogs" xml:space="preserve">
+    <value>Блоги</value>
+  </data>
+  <data name="existingBlogToCreateNewBlogFrom" xml:space="preserve">
+    <value>Прототип нового блога</value>
+  </data>
+  <data name="hostName" xml:space="preserve">
+    <value>Имя хоста (необязательно)</value>
+  </data>
+  <data name="storageContainerName" xml:space="preserve">
+    <value>Название папки для данных</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>Виртуальный адрес</value>
   </data>
 </root>

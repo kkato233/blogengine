@@ -1747,4 +1747,7 @@
   <data name="orderBy" xml:space="preserve">
     <value>Order by</value>
   </data>
+  <data name="activeThemes" xml:space="preserve">
+    <value>Active themes</value>
+  </data>
 </root>

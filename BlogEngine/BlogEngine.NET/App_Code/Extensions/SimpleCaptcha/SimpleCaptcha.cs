@@ -89,7 +89,7 @@ namespace App_Code.Controls
                                 field and the value you require from your users in order to post a comment in the <b>CaptchaAnswer</b> field.";
 
                             blogsSettings[blogId] = ExtensionManager.InitSettings("SimpleCaptcha", settings);
-                            ExtensionManager.SetStatus("SimpleCaptcha", false);
+                            // ExtensionManager.SetStatus("SimpleCaptcha", false);
                         }
                     }
                 }

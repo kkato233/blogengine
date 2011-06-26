@@ -226,3 +226,5 @@ div.post .text a[rel~="sweetheart"][rel~="met"] {
 }
 
 .widget a:hover { text-decoration: none; }
+
+#comment-form p { margin: 1px; display: inline-table; width: 100%; }
