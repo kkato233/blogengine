@@ -110,12 +110,13 @@ namespace BlogEngine.Core
                 if (isValidated)
                 {
                     HttpContext context = HttpContext.Current;
+                    DateTime expirationDate = DateTime.Now.Add(FormsAuthentication.Timeout);
 
                     FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                         1,
                         un,
                         DateTime.Now,
-                        DateTime.Now.Add(FormsAuthentication.Timeout),
+                        expirationDate,
                         rememberMe,
                         Blog.CurrentInstance.Id.ToString(),
                         FormsAuthentication.FormsCookiePath
@@ -124,7 +125,10 @@ namespace BlogEngine.Core
                     string encryptedTicket = FormsAuthentication.Encrypt(ticket);
 
                     // setting a custom cookie name based on the current blog instance.
+                    // if !rememberMe, set expires to DateTime.MinValue which makes the
+                    // cookie a browser-session cookie expiring when the browser is closed.
                     HttpCookie cookie = new HttpCookie(FormsAuthCookieName, encryptedTicket);
+                    cookie.Expires = rememberMe ? expirationDate : DateTime.MinValue;
                     context.Response.Cookies.Set(cookie);
 
                     string returnUrl = context.Request.QueryString["returnUrl"];
