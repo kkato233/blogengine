@@ -70,10 +70,10 @@ namespace Admin
         /// <returns>
         /// The sub-url.
         /// </returns>
-        private static string SubUrl(string url)
+        private static string SubUrl(string url, bool isFromCurrentHttpRequest)
         {
-            if(!Blog.CurrentInstance.IsPrimary)
-                url = url.Replace(Blog.CurrentInstance.VirtualPath.Replace("~", ""), "");
+            if (isFromCurrentHttpRequest && Blog.CurrentInstance.IsSubfolderOfApplicationWebRoot)
+                url = Utils.ApplicationRelativeWebRoot + url.Substring(Blog.CurrentInstance.RelativeWebRoot.Length);
 
             var i = url.LastIndexOf("/");
 
@@ -123,8 +123,8 @@ namespace Admin
 
                         // if "page" has its own subfolder (comments, extensions) should 
                         // select parent tab when navigating through child tabs
-                        if (!SubUrl(Request.RawUrl).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&
-                            SubUrl(Request.RawUrl) == SubUrl(adminNode.Url))
+                        if (!SubUrl(Request.RawUrl, true).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&
+                            SubUrl(Request.RawUrl, true) == SubUrl(adminNode.Url, false))
                         {
                             a.Attributes["class"] = "current";
                         }
