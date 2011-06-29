@@ -11,6 +11,7 @@
     using System.Linq;
     using System.Web.Configuration;
     using System.Xml.Serialization;
+    using System.Transactions;
 
     using BlogEngine.Core.DataStore;
 
@@ -243,19 +244,22 @@
         {
             // Only deleting data from be_Blogs.  Data from the other tables
             // will be deleted in DeleteBlogStorageContainer().
-
-            using (var conn = this.CreateConnection())
+            using (TransactionScope ts = new TransactionScope())
             {
-                if (conn.HasConnection)
+                using (var conn = this.CreateConnection())
                 {
-                    var sqlQuery = string.Format("DELETE FROM {0}Blogs WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
-                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    if (conn.HasConnection)
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
-                        cmd.ExecuteNonQuery();
-                    }
+                        var sqlQuery = string.Format("DELETE FROM {0}Blogs WHERE BlogId = {1}BlogId", this.tablePrefix, this.parmPrefix);
+                        using (var cmd = conn.CreateTextCommand(sqlQuery))
+                        {
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("BlogId"), blog.Id.ToString()));
+                            cmd.ExecuteNonQuery();
+                        }
 
+                    }
                 }
+                ts.Complete();
             }
         }
 
@@ -917,48 +921,51 @@
         /// </param>
         public override void InsertPost(Post post)
         {
-            using (var conn = this.CreateConnection())
+            using (TransactionScope ts = new TransactionScope())
             {
-                if (conn.HasConnection)
+                using (var conn = this.CreateConnection())
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Posts (BlogID, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted) VALUES ({1}blogid, {1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}author, {1}published, {1}commentEnabled, {1}raters, {1}rating, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
-               
-                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    if (conn.HasConnection)
                     {
+                        var sqlQuery = string.Format("INSERT INTO {0}Posts (BlogID, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted) VALUES ({1}blogid, {1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}author, {1}published, {1}commentEnabled, {1}raters, {1}rating, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
 
-                        var parms = cmd.Parameters;
-                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
-                        parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
-                        parms.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
-                        parms.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
-                        parms.Add(conn.CreateParameter(FormatParamName("content"), post.Content));
-                        parms.Add(conn.CreateParameter(FormatParamName("created"), post.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
-                        parms.Add(conn.CreateParameter(FormatParamName("modified"), (post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
-                        parms.Add(conn.CreateParameter(FormatParamName("author"), (post.Author ?? string.Empty)));
-                        parms.Add(conn.CreateParameter(FormatParamName("published"), post.IsPublished));
-                        parms.Add(conn.CreateParameter(FormatParamName("commentEnabled"), post.HasCommentsEnabled));
-                        parms.Add(conn.CreateParameter(FormatParamName("raters"), post.Raters));
-                        parms.Add(conn.CreateParameter(FormatParamName("rating"), post.Rating));
-                        parms.Add(conn.CreateParameter(FormatParamName("slug"), (post.Slug ?? string.Empty)));
-                        parms.Add(conn.CreateParameter(FormatParamName("isdeleted"), post.IsDeleted));
+                        using (var cmd = conn.CreateTextCommand(sqlQuery))
+                        {
 
-                        cmd.ExecuteNonQuery();
+                            var parms = cmd.Parameters;
+                            parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                            parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                            parms.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
+                            parms.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
+                            parms.Add(conn.CreateParameter(FormatParamName("content"), post.Content));
+                            parms.Add(conn.CreateParameter(FormatParamName("created"), post.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                            parms.Add(conn.CreateParameter(FormatParamName("modified"), (post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
+                            parms.Add(conn.CreateParameter(FormatParamName("author"), (post.Author ?? string.Empty)));
+                            parms.Add(conn.CreateParameter(FormatParamName("published"), post.IsPublished));
+                            parms.Add(conn.CreateParameter(FormatParamName("commentEnabled"), post.HasCommentsEnabled));
+                            parms.Add(conn.CreateParameter(FormatParamName("raters"), post.Raters));
+                            parms.Add(conn.CreateParameter(FormatParamName("rating"), post.Rating));
+                            parms.Add(conn.CreateParameter(FormatParamName("slug"), (post.Slug ?? string.Empty)));
+                            parms.Add(conn.CreateParameter(FormatParamName("isdeleted"), post.IsDeleted));
+
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Tags
+                        this.UpdateTags(post, conn);
+
+                        // Categories
+                        this.UpdateCategories(post, conn);
+
+                        // Comments
+                        this.UpdateComments(post, conn);
+
+                        // Email Notification
+                        this.UpdateNotify(post, conn);
                     }
-
-                    // Tags
-                    this.UpdateTags(post, conn);
-
-                    // Categories
-                    this.UpdateCategories(post, conn);
-
-                    // Comments
-                    this.UpdateComments(post, conn);
-
-                    // Email Notification
-                    this.UpdateNotify(post, conn);
                 }
+                ts.Complete();
             }
-
         }
 
         /// <summary>
@@ -2223,47 +2230,51 @@
         /// </param>
         public override void UpdatePost(Post post)
         {
-            using (var conn = this.CreateConnection())
+            using (TransactionScope ts = new TransactionScope())
             {
-                if (conn.HasConnection)
+                using (var conn = this.CreateConnection())
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Posts SET Title = {1}title, Description = {1}desc, PostContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Author = {1}Author, IsPublished = {1}published, IsCommentEnabled = {1}commentEnabled, Raters = {1}raters, Rating = {1}rating, Slug = {1}slug, IsDeleted = {1}isdeleted WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
-
-                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    if (conn.HasConnection)
                     {
+                        var sqlQuery = string.Format("UPDATE {0}Posts SET Title = {1}title, Description = {1}desc, PostContent = {1}content, DateCreated = {1}created, DateModified = {1}modified, Author = {1}Author, IsPublished = {1}published, IsCommentEnabled = {1}commentEnabled, Raters = {1}raters, Rating = {1}rating, Slug = {1}slug, IsDeleted = {1}isdeleted WHERE BlogID = {1}blogid AND PostID = {1}id", this.tablePrefix, this.parmPrefix);
 
-                        var p = cmd.Parameters;
+                        using (var cmd = conn.CreateTextCommand(sqlQuery))
+                        {
 
-                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
-                        p.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
-                        p.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
-                        p.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
-                        p.Add(conn.CreateParameter(FormatParamName("content"), post.Content));
-                        p.Add(conn.CreateParameter(FormatParamName("created"), post.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
-                        p.Add(conn.CreateParameter(FormatParamName("modified"), (post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
-                        p.Add(conn.CreateParameter(FormatParamName("author"), (post.Author ?? string.Empty)));
-                        p.Add(conn.CreateParameter(FormatParamName("published"), post.IsPublished));
-                        p.Add(conn.CreateParameter(FormatParamName("commentEnabled"), post.HasCommentsEnabled));
-                        p.Add(conn.CreateParameter(FormatParamName("raters"), post.Raters));
-                        p.Add(conn.CreateParameter(FormatParamName("rating"), post.Rating));
-                        p.Add(conn.CreateParameter(FormatParamName("slug"), (post.Slug ?? string.Empty)));
-                        p.Add(conn.CreateParameter(FormatParamName("isdeleted"), post.IsDeleted));
+                            var p = cmd.Parameters;
 
-                        cmd.ExecuteNonQuery();
+                            p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                            p.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
+                            p.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
+                            p.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
+                            p.Add(conn.CreateParameter(FormatParamName("content"), post.Content));
+                            p.Add(conn.CreateParameter(FormatParamName("created"), post.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
+                            p.Add(conn.CreateParameter(FormatParamName("modified"), (post.DateModified == new DateTime() ? DateTime.Now : post.DateModified.AddHours(-BlogSettings.Instance.Timezone))));
+                            p.Add(conn.CreateParameter(FormatParamName("author"), (post.Author ?? string.Empty)));
+                            p.Add(conn.CreateParameter(FormatParamName("published"), post.IsPublished));
+                            p.Add(conn.CreateParameter(FormatParamName("commentEnabled"), post.HasCommentsEnabled));
+                            p.Add(conn.CreateParameter(FormatParamName("raters"), post.Raters));
+                            p.Add(conn.CreateParameter(FormatParamName("rating"), post.Rating));
+                            p.Add(conn.CreateParameter(FormatParamName("slug"), (post.Slug ?? string.Empty)));
+                            p.Add(conn.CreateParameter(FormatParamName("isdeleted"), post.IsDeleted));
+
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Tags
+                        this.UpdateTags(post, conn);
+
+                        // Categories
+                        this.UpdateCategories(post, conn);
+
+                        // Comments
+                        this.UpdateComments(post, conn);
+
+                        // Email Notification
+                        this.UpdateNotify(post, conn);
                     }
-
-                    // Tags
-                    this.UpdateTags(post, conn);
-
-                    // Categories
-                    this.UpdateCategories(post, conn);
-
-                    // Comments
-                    this.UpdateComments(post, conn);
-
-                    // Email Notification
-                    this.UpdateNotify(post, conn);
                 }
+                ts.Complete();
             }
         }
 
