@@ -109,7 +109,7 @@ namespace Admin
                         c.Author = author;
                         c.Email = email;
                         c.Website = string.IsNullOrEmpty(website) ? null : new Uri(website);
-                        c.Content = cont;
+                        c.Content = HttpUtility.HtmlEncode(cont);
 
                         // need to mark post as "dirty"
                         p.DateModified = DateTime.Now;
