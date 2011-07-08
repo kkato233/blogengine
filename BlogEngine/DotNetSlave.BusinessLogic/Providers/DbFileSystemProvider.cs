@@ -90,11 +90,22 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
-        /// gets a directory by the virtual path
+        /// gets a directory by the virtual path, creates the directory path if it does not exist
         /// </summary>
         /// <param name="VirtualPath">the virtual path</param>
-        /// <returns>the directory object or null for no directory found</returns>
+        /// <returns>the directory object</returns>
         public override FileSystem.Directory GetDirectory(string VirtualPath)
+        {
+            return GetDirectory(VirtualPath, true);   
+        }
+
+        /// <summary>
+        /// gets a directory by the virtual path, with a flag to create if not found
+        /// </summary>
+        /// <param name="VirtualPath">The virtual path</param>
+        /// <param name="CreateNew">bool yes \ no to create the director.</param>
+        /// <returns>the directory object, or null if the create flag is set to false</returns>
+        public override FileSystem.Directory GetDirectory(string VirtualPath, bool CreateNew)
         {
             VirtualPath = VirtualPath.VirtualPathToDbPath();
             FileSystem.FileStoreDb db = new FileSystem.FileStoreDb(this.connectionString);
@@ -115,8 +126,17 @@ namespace BlogEngine.Core.Providers
                 var dir = db.FileStoreDirectories.FirstOrDefault(x => x.FullPath.ToLower() == VirtualPath.ToLower() && x.BlogID == Blog.CurrentInstance.Id);
                 if (dir == null)
                 {
+                    var newDirectoryPieces = VirtualPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                    var cPath = string.Empty;
+                    foreach (var pieces in newDirectoryPieces)
+                    {
+                        cPath = string.Format("{0}/{1}", cPath, pieces);
+                        if (!DirectoryExists(cPath))
+                            CreateDirectory(cPath);
+                    }
+                    var nObj = GetDirectory(VirtualPath);
                     db.Dispose();
-                    return null;
+                    return nObj;
                 }
                 var obj = dir.CopyToDirectory();
                 db.Dispose();
@@ -133,6 +153,11 @@ namespace BlogEngine.Core.Providers
         public override FileSystem.Directory GetDirectory(FileSystem.Directory BaseDirectory, params string[] SubPath)
         {
             return GetDirectory(string.Concat(BaseDirectory.FullPath, string.Join("/", SubPath)));
+        }
+
+        public override FileSystem.Directory GetDirectory(FileSystem.Directory BaseDirectory, bool CreateNew, params string[] SubPath)
+        {
+            return GetDirectory(string.Concat(BaseDirectory.FullPath, string.Join("/", SubPath)), CreateNew);
         }
 
         /// <summary>
