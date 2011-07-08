@@ -135,6 +135,10 @@
     <Compile Include="Compilation\ServerVariableExpressionBuilder.cs" />
     <Compile Include="Compilation\SessionExpressionBuilder.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FileSystem\Directory.cs" />
+    <Compile Include="FileSystem\File.cs" />
+    <Compile Include="FileSystem\FileStoreDb.cs" />
+    <Compile Include="FileSystem\Image.cs" />
     <Compile Include="Json\JsonBlog.cs" />
     <Compile Include="Json\JsonBlogs.cs" />
     <Compile Include="Json\JsonComment.cs" />
@@ -165,8 +169,10 @@
     <Compile Include="Providers\CacheProvider\CacheBase.cs" />
     <Compile Include="Providers\CacheProvider\CacheProvider.cs" />
     <Compile Include="Providers\DbConnectionHelper.cs" />
+    <Compile Include="Providers\DbFileSystemProvider.cs" />
     <Compile Include="Providers\XmlProvider\Blogs.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
+    <Compile Include="Providers\XmlProvider\XmlFileSystemProvider.cs" />
     <Compile Include="RemoteFile.cs" />
     <Compile Include="Security\CustomIdentity.cs" />
     <Compile Include="Security\CustomPrincipal.cs" />

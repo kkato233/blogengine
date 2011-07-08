@@ -7,13 +7,16 @@
     using System.Web.Configuration;
 
     using BlogEngine.Core.DataStore;
-
+    using BlogEngine.Core.FileSystem;
     /// <summary>
     /// The proxy class for communication between
     ///     the business objects and the providers.
     /// </summary>
     public static class BlogService
     {
+        
+
+
         #region Constants and Fields
 
         /// <summary>
@@ -27,6 +30,11 @@
         private static BlogProvider _provider;
 
         /// <summary>
+        /// the file storage provider. Don't access this directly. Access it the property accessor
+        /// </summary>
+        private static BlogProvider _fileStorageProvider;
+
+        /// <summary>
         /// The providers.
         /// </summary>
         private static BlogProviderCollection _providers;
@@ -34,6 +42,18 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        ///     gets the current FileSystem provider
+        /// </summary>
+        public static BlogProvider FileSystemProvider
+        {
+            get
+            {
+                LoadProviders();
+                return _fileStorageProvider;
+            }
+        }
 
         /// <summary>
         ///     Gets the current provider.
@@ -579,6 +599,189 @@
             Provider.UpdateReferrer(referrer);
         }
 
+        #region FileSystem Static Methods
+        /// <summary>
+        /// Creates a directory at a specific path
+        /// </summary>
+        /// <param name="VirtualPath">The virtual path to be created</param>
+        /// <returns>the new Directory object created</returns>
+        /// <remarks>
+        /// Virtual path is the path starting from the /files/ containers
+        /// The entity is created against the current blog id
+        /// </remarks>
+        internal static Directory CreateDirectory(string VirtualPath)
+        {
+            return FileSystemProvider.CreateDirectory(VirtualPath);
+        }
+
+        /// <summary>
+        /// Deletes a spefic directory from a virtual path
+        /// </summary>
+        /// <param name="VirtualPath">The path to delete</param>
+        /// <remarks>
+        /// Virtual path is the path starting from the /files/ containers
+        /// The entity is queried against to current blog id
+        /// </remarks>
+        public static void DeleteDirectory(string VirtualPath)
+        {
+            FileSystemProvider.DeleteDirectory(VirtualPath);
+        }
+
+        /// <summary>
+        /// Deletes a directory by passing in the Directory object
+        /// </summary>
+        /// <param name="DirectoryObj">the DirectoryObj </param>
+        public static void DeleteDirectory(Directory DirectoryObj)
+        {
+            DeleteDirectory(DirectoryObj.FullPath);
+        }
+
+        /// <summary>
+        /// Returns wether or not the specific directory by virtual path exists
+        /// </summary>
+        /// <param name="VirtualPath">The virtual path to query</param>
+        /// <returns>boolean</returns>
+        public static bool DirectoryExists(string VirtualPath)
+        {
+            return FileSystemProvider.DirectoryExists(VirtualPath);
+        }
+
+        /// <summary>
+        /// gets a directory by the virtual path
+        /// </summary>
+        /// <param name="VirtualPath">the virtual path</param>
+        /// <returns>the directory object or null for no directory found</returns>
+        public static Directory GetDirectory(string VirtualPath)
+        {
+            return FileSystemProvider.GetDirectory(VirtualPath);
+        }
+
+        /// <summary>
+        /// gets a directory by a basedirectory and a string array of sub path tree
+        /// </summary>
+        /// <param name="BaseDirectory">the base directory object</param>
+        /// <param name="SubPath">the params of sub path</param>
+        /// <returns>the directory found, or null for no directory found</returns>
+        public static Directory GetDirectory(Directory BaseDirectory, params string[] SubPath)
+        {
+            return FileSystemProvider.GetDirectory(BaseDirectory, SubPath);
+        }
+
+        /// <summary>
+        /// gets all the directories underneath a base directory. Only searches one level.
+        /// </summary>
+        /// <param name="BaseDirectory">the base directory</param>
+        /// <returns>collection of Directory objects</returns>
+        internal static IEnumerable<Directory> GetDirectories(Directory BaseDirectory)
+        {
+            return FileSystemProvider.GetDirectories(BaseDirectory);
+        }
+
+        /// <summary>
+        /// gets all the files in a directory, only searches one level
+        /// </summary>
+        /// <param name="BaseDirectory">the base directory</param>
+        /// <returns>collection of File objects</returns>
+        public static IEnumerable<File> GetFiles(Directory BaseDirectory)
+        {
+            return FileSystemProvider.GetFiles(BaseDirectory);
+        }
+
+        /// <summary>
+        /// gets a specific file by virtual path
+        /// </summary>
+        /// <param name="VirtualPath">the virtual path of the file</param>
+        /// <returns></returns>
+        public static File GetFile(string VirtualPath)
+        {
+            return FileSystemProvider.GetFile(VirtualPath);
+        }
+
+        /// <summary>
+        /// boolean wether a file exists by its virtual path
+        /// </summary>
+        /// <param name="VirtualPath">the virtual path</param>
+        /// <returns>boolean</returns>
+        public static bool FileExists(string VirtualPath)
+        {
+            return FileSystemProvider.FileExists(VirtualPath);
+        }
+
+        /// <summary>
+        /// deletes a file by virtual path
+        /// </summary>
+        /// <param name="VirtualPath">virtual path</param>
+        public static void DeleteFile(string VirtualPath)
+        {
+            FileSystemProvider.DeleteFile(VirtualPath);
+        }
+
+        /// <summary>
+        /// uploads a file to the provider container
+        /// </summary>
+        /// <param name="FileBinary">file contents as byte array</param>
+        /// <param name="FileName">the file name</param>
+        /// <param name="BaseDirectory">directory object that is the owner</param>
+        /// <returns>the new file object</returns>
+        public static FileSystem.File UploadFile(byte[] FileBinary, string FileName, FileSystem.Directory BaseDirectory)
+        {
+            return FileSystemProvider.UploadFile(FileBinary, FileName, BaseDirectory);
+        }
+
+        /// <summary>
+        /// uploads a file to the provider container
+        /// </summary>
+        /// <param name="FileBinary">the contents of the file as a byte array</param>
+        /// <param name="FileName">the file name</param>
+        /// <param name="BaseDirectory">the directory object that is the owner</param>
+        /// <param name="Overwrite">boolean wether to overwrite the file if it exists.</param>
+        /// <returns>the new file object</returns>
+        public static FileSystem.File UploadFile(byte[] FileBinary, string FileName, FileSystem.Directory BaseDirectory, bool Overwrite)
+        {
+            return FileSystemProvider.UploadFile(FileBinary, FileName, BaseDirectory, Overwrite);
+        }
+
+        /// <summary>
+        /// uploads a file to the provider container
+        /// </summary>
+        /// <param name="FileStream">the file stream of the file being uploaded</param>
+        /// <param name="FileName">the file name</param>
+        /// <param name="BaseDirectory">the directory object that is the owner</param>
+        /// <returns>the new file object</returns>
+        public static FileSystem.File UploadFile(System.IO.Stream FileStream, string FileName, FileSystem.Directory BaseDirectory)
+        {
+            return UploadFile(FileStream, FileName, BaseDirectory, false);
+        }
+
+        /// <summary>
+        /// uploads a file to the provider container
+        /// </summary>
+        /// <param name="FileStream">the file stream of the file being uploaded</param>
+        /// <param name="FileName">the file name</param>
+        /// <param name="BaseDirectory">the directory object that is the owner</param>
+        /// <param name="Overwrite">boolean wether to overwrite the file if it exists.</param>
+        /// <returns>the new file object</returns>
+        public static FileSystem.File UploadFile(System.IO.Stream FileStream, string FileName, FileSystem.Directory BaseDirectory, bool Overwrite)
+        {
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            FileStream.CopyTo(ms);
+            FileStream.Close();
+            byte[] binary = ms.ToArray();
+            ms.Close();
+            return FileSystemProvider.UploadFile(binary, FileName, BaseDirectory, Overwrite);
+        }
+
+        /// <summary>
+        /// gets the file contents via Lazy load, however in the DbProvider the Contents are loaded when the initial object is created to cut down on DbReads
+        /// </summary>
+        /// <param name="BaseFile">the baseFile object to fill</param>
+        /// <returns>the original file object</returns>
+        internal static File GetFileContents(File BaseFile)
+        {
+            return FileSystemProvider.GetFileContents(BaseFile);
+        }
+        #endregion
+
         #endregion
 
         #region Methods
@@ -604,7 +807,7 @@
                         _providers = new BlogProviderCollection();
                         ProvidersHelper.InstantiateProviders(section.Providers, _providers, typeof(BlogProvider));
                         _provider = _providers[section.DefaultProvider];
-
+                        _fileStorageProvider = _providers[section.FileStoreProvider];
                         if (_provider == null)
                         {
                             throw new ProviderException("Unable to load default BlogProvider");

@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Web;
+    using BlogEngine.Core.Providers;
 
     /// <summary>
     /// The ImageHanlder serves all images that is uploaded from
@@ -72,27 +73,18 @@
                 OnServing(fileName);
                 try
                 {
-                    var folder = string.Format("{0}/files/", Blog.CurrentInstance.StorageLocation);
-                    var fi = new FileInfo(context.Server.MapPath(folder) + fileName);
-
-                    if (fi.Exists &&
-                        fi.Directory.FullName.ToUpperInvariant().Contains(string.Format("{0}FILES", Path.DirectorySeparatorChar)))
+                    fileName = !fileName.StartsWith("/") ? string.Format("/{0}", fileName) : fileName;
+                    var file = BlogService.GetFile(string.Format("{0}files{1}", Blog.CurrentInstance.StorageLocation, fileName));
+                    if (file != null)
                     {
                         context.Response.Cache.SetCacheability(HttpCacheability.Public);
                         context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
-
-                        if (Utils.SetConditionalGetHeaders(fi.CreationTimeUtc))
-                        {
+                        if (Utils.SetConditionalGetHeaders(file.DateCreated.ToUniversalTime()))
                             return;
-                        }
-
                         var index = fileName.LastIndexOf(".") + 1;
                         var extension = fileName.Substring(index).ToUpperInvariant();
-
-                        // Fix for IE not handling jpg image types
                         context.Response.ContentType = string.Compare(extension, "JPG") == 0 ? "image/jpeg" : string.Format("image/{0}", extension);
-
-                        context.Response.TransmitFile(fi.FullName);
+                        context.Response.BinaryWrite(file.FileContents);
                         OnServed(fileName);
                     }
                     else

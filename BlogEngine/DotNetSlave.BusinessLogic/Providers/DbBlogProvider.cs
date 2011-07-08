@@ -1,23 +1,20 @@
-﻿namespace BlogEngine.Core.Providers
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Configuration.Provider;
+using System.Data.Common;
+using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
+using BlogEngine.Core.DataStore;
+
+namespace BlogEngine.Core.Providers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Configuration;
-    using System.Configuration.Provider;
-    using System.Data;
-    using System.Data.Common;
-    using System.IO;
-    using System.Linq;
-    using System.Web.Configuration;
-    using System.Xml.Serialization;
-
-    using BlogEngine.Core.DataStore;
-
     /// <summary>
     /// Generic Database BlogProvider
     /// </summary>
-    public class DbBlogProvider : BlogProvider
+    public partial class DbBlogProvider : BlogProvider
     {
         #region Constants and Fields
 
