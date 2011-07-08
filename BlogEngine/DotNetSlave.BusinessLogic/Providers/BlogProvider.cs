@@ -414,19 +414,36 @@
         public abstract bool DirectoryExists(string VirtualPath);
 
         /// <summary>
-        /// gets a directory by the virtual path
+        /// gets a directory by the virtual path, creates the directory path if it does not exist
         /// </summary>
         /// <param name="VirtualPath">the virtual path</param>
-        /// <returns>the directory object or null for no directory found</returns>
+        /// <returns>the directory object</returns>
         public abstract Directory GetDirectory(string VirtualPath);
+
+        /// <summary>
+        /// gets a directory by the virtual path, with a flag to create if not found
+        /// </summary>
+        /// <param name="VirtualPath">The virtual path</param>
+        /// <param name="CreateNew">bool yes \ no to create the director.</param>
+        /// <returns>the directory object, or null if the create flag is set to false</returns>
+        public abstract Directory GetDirectory(string VirtualPath, bool CreateNew);
+
+        /// <summary>
+        /// gets a directory by a basedirectory and a string array of sub path tree, directory will be created if not found
+        /// </summary>
+        /// <param name="BaseDirectory">the base directory object</param>
+        /// <param name="SubPath">the params of sub path</param>
+        /// <returns>the directory found</returns>
+        public abstract Directory GetDirectory(Directory BaseDirectory, params string[] SubPath);
 
         /// <summary>
         /// gets a directory by a basedirectory and a string array of sub path tree
         /// </summary>
         /// <param name="BaseDirectory">the base directory object</param>
+        /// <param name="CreateNew">if set will create the directory structure</param>
         /// <param name="SubPath">the params of sub path</param>
         /// <returns>the directory found, or null for no directory found</returns>
-        public abstract Directory GetDirectory(Directory BaseDirectory, params string[] SubPath);
+        public abstract Directory GetDirectory(Directory BaseDirectory,bool CreateNew, params string[] SubPath);
 
         /// <summary>
         /// gets all the directories underneath a base directory. Only searches one level.

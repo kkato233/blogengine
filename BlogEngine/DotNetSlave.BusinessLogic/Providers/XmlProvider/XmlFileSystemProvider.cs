@@ -76,6 +76,11 @@ namespace BlogEngine.Core.Providers
         /// <returns>the directory object or null for no directory found</returns>
         public override FileSystem.Directory GetDirectory(string VirtualPath)
         {
+            return GetDirectory(VirtualPath, true);
+        }
+
+        public override FileSystem.Directory GetDirectory(string VirtualPath, bool CreateNew)
+        {
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysDir = new DirectoryInfo(aPath);
             if (!sysDir.Exists)
@@ -99,16 +104,19 @@ namespace BlogEngine.Core.Providers
         /// <returns>the directory found, or null for no directory found</returns>
         public override FileSystem.Directory GetDirectory(FileSystem.Directory BaseDirectory, params string[] SubPath)
         {
-            if (SubPath.Count() == 0)
-                return BaseDirectory;
-            var directory = BaseDirectory;
-            foreach (var path in SubPath)
-            {
-                directory = directory.Directories.FirstOrDefault(x => x.Name == path);
-                if (directory == null)
-                    return null;
-            }
-            return directory;
+            return GetDirectory(string.Join("/", BaseDirectory.FullPath, SubPath), true);
+        }
+
+        /// <summary>
+        /// gets a directory by a basedirectory and a string array of sub path tree
+        /// </summary>
+        /// <param name="BaseDirectory">the base directory object</param>
+        /// <param name="CreateNew">if set will create the directory structure</param>
+        /// <param name="SubPath">the params of sub path</param>
+        /// <returns>the directory found, or null for no directory found</returns>
+        public override FileSystem.Directory GetDirectory(FileSystem.Directory BaseDirectory, bool CreateNew, params string[] SubPath)
+        {
+            return GetDirectory(string.Join("/", BaseDirectory.FullPath, SubPath), CreateNew);
         }
 
         /// <summary>
