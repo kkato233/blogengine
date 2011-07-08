@@ -170,13 +170,25 @@ namespace BlogEngine.Core.FileSystem
             try
             {
                 Rectangle cropArea = new Rectangle(x, y, width, height);
+                Bitmap target = new Bitmap(cropArea.Width, cropArea.Height);
 
-                Bitmap bmpCrop = this.bitMap.Clone(cropArea, this.bitMap.PixelFormat);
-                this.bitMap.Dispose();
-                this.bitMap = bmpCrop;
-                var nfile = BlogService.UploadFile(BmpToArray(this.bitMap), this.Name, this.ParentDirectory, true);
+                using (Graphics g = Graphics.FromImage(target))
+                {
+                    g.DrawImage(this.bitMap, new Rectangle(0, 0, width, height),
+                                     new Rectangle(x, y, target.Width, target.Height),
+                                     GraphicsUnit.Pixel);
+
+                }
+                //Bitmap bmpCrop = this.bitMap.Clone(cropArea, PixelFormat.DontCare);
+                //this.bitMap = bmpCrop;
+                //var nfile = BlogService.UploadFile(BmpToArray(this.bitMap), this.Name, this.ParentDirectory, true);
+                //this.FileContents = nfile.FileContents;
+                //nfile.Dispose();
+                
+                var nfile = BlogService.UploadFile(BmpToArray(target), this.Name, this.ParentDirectory, true);
                 this.FileContents = nfile.FileContents;
-                nfile.Dispose();
+                this.bitMap.Dispose();
+                this.bitMap = null;
                 return this;
             }
             catch

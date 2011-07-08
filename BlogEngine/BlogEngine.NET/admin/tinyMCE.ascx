@@ -32,7 +32,8 @@
                 var text = strip.split(' ').length + " Words, " +  strip.length + " Characters"
                 tinymce.DOM.setHTML(tinymce.DOM.get(tinyMCE.activeEditor.id + '_path_row'), text);   
             });
-        }
+        },
+        auto_focus: "<%=txtContent.ClientID %>"
 	});
 </script>
 

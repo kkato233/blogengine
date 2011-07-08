@@ -159,7 +159,7 @@ namespace BlogEngine.Core.Providers
         public override IEnumerable<FileSystem.File> GetFiles(FileSystem.Directory BaseDirectory)
         {
             var db = new FileSystem.FileStoreDb(this.connectionString);
-            var arr = db.FileStoreDirectories.FirstOrDefault(x=>x.Id == BaseDirectory.Id).FileStoreFiles.Select(x=>x.CopyToFile());
+            var arr = db.FileStoreDirectories.FirstOrDefault(x=>x.Id == BaseDirectory.Id).FileStoreFiles.Select(x=>x.CopyToFile()).ToList();
             db.Dispose();
             return arr;
         }
@@ -199,6 +199,7 @@ namespace BlogEngine.Core.Providers
             var db = new FileSystem.FileStoreDb(this.connectionString);
             var file = db.FileStoreFiles.Where(x => x.FullPath == VirtualPath.VirtualPathToDbPath() && x.FileStoreDirectory.BlogID == Blog.CurrentInstance.Id);
             db.FileStoreFiles.DeleteAllOnSubmit(file);
+            db.SubmitChanges();
             db.Dispose();
         }
 

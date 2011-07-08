@@ -4,9 +4,10 @@
 
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
-
+<%@ Register Src="~/admin/FileManager/FileManager.ascx" TagName="FileManager" TagPrefix="con" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 	<div class="content-box-outer">
+        <con:FileManager runat="server" ID="FileManager1" />
 		<div class="content-box-full">
             <h1><%=Resources.labels.addEditPost %></h1>
             <script type="text/javascript">
@@ -217,6 +218,7 @@
                                     <a href="#" id="uploadImage" class="image"><%=Resources.labels.insertImage %></a>
                                     <a href="#" id="uploadVideo" class="video"><%=Resources.labels.insertVideo %></a>
                                     <a href="#" id="uploadFile" class="file"><%=Resources.labels.attachFile %></a>
+                                     <a href="javascript:;" id="fileManager" class="file">File Manager</a>
                                 </div>
                                 <Blog:TextEditor runat="server" id="txtContent" />
                                 <asp:TextBox runat="server" ID="txtRawContent" Width="98%" TextMode="multiLine" Height="400px" Visible="false" />
