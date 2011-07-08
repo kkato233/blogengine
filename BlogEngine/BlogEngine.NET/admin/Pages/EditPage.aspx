@@ -2,6 +2,8 @@
 ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPage" %>
 
 <%@ Register Src="~/admin/htmlEditor.ascx" TagPrefix="Blog" TagName="TextEditor" %>
+<%@ Register Src="~/admin/FileManager/FileManager.ascx" TagName="FileManager" TagPrefix="con" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
         function GetSlug() {
@@ -138,6 +140,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
     </div>
 
     <div class="content-box-outer">
+        <con:FileManager runat="server" ID="FileManager1" />
         <div class="content-box-full">
             <h1><%=Resources.labels.editPage %></h1>
             <table class="tblForm largeForm" style="width:100%; margin:0;">
@@ -156,6 +159,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                                     <a href="#" id="uploadImage" class="image"><%=Resources.labels.insertImage %></a>
                                     <a href="#" id="uploadVideo" class="video"><%=Resources.labels.insertVideo %></a>
                                     <a href="#" id="uploadFile" class="file"><%=Resources.labels.attachFile %></a>
+                                     <a href="javascript:;" id="fileManager" class="file">File Manager</a>
                                 </div>
                                 <Blog:TextEditor runat="server" id="txtContent" TabIndex="4" />
                             </li>

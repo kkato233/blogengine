@@ -1,0 +1,135 @@
+﻿<%@ WebHandler Language="C#" Class="FileUpload" %>
+
+using System;
+using System.Web;
+using System.Web.Hosting;
+using System.Linq;
+using System.IO;
+using System.Web.SessionState;
+using BlogEngine.Core;
+using BlogEngine.Core.Providers;
+public class FileUpload : IHttpHandler, IRequiresSessionState {
+
+    public enum FileType
+    {
+        Image,
+        File
+    }
+    
+    public void ProcessRequest(HttpContext context)
+    {
+        var files = context.Request.Files;
+        if (files.Count == 0)
+        {
+            context.Response.Write("0:Unknown file upload");
+            context.Response.End();
+        }
+        
+        var file = files[0];
+        var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
+        var dir = BlogService.GetDirectory(dirName);  
+        
+        var uFile = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
+        if (uFile.IsImage)
+        {
+            var imgString = string.Format("<img src=\"{0}\" />", uFile.AsImage.ImageUrl);
+            context.Response.Write(string.Format("1:{0}:{1}:{2}", imgString, uFile.Name, uFile.ParentDirectory.FullPath));
+        }
+        else
+        {
+            var fileString = string.Format("<p><a href=\"{0}\" >{1}</a></p>", uFile.FileDownloadPath, uFile.FileDescription);
+            context.Response.Write(string.Format("1:{0}:{1}:{2}", fileString, uFile.Name, uFile.ParentDirectory.FullPath));
+        }
+        
+        //var folder = BlogEngine.Core.Providers.BlogService.GetDirectory()
+        //var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
+        //                         Path.DirectorySeparatorChar;
+        //var folder = Blog.CurrentInstance.StorageLocation + "files" + Path.DirectorySeparatorChar;
+        //var fileName = file.FileName;
+        //folder = context.Server.MapPath(folder + relativeFolder);
+        //if (!Directory.Exists(folder))
+        //    Directory.CreateDirectory(folder);
+        
+        //file.SaveAs(folder + fileName);
+        //string ext = Path.GetExtension(fileName);
+
+        //var emmbedTxt = string.Empty;
+        //if (ExtractType(ext.ToLower()) == FileType.Image)
+        //{
+        //    var path = Utils.RelativeWebRoot;
+        //    var img = string.Format(
+        //        "<img src=\"{0}image.axd?picture={1}\" alt=\"\" />",
+        //        path,
+        //        context.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
+        //    context.Response.Write(string.Format("1:{0}:{1}:/{2}:", img, fileName, relativeFolder.Replace(@"\", "/").Substring(0, relativeFolder.Length - 1)));
+        //    return;
+        //}
+        //else
+        //{
+        //    const string A = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
+        //    var text = string.Format("{0} ({1})", file.FileName, SizeFormat(file.ContentLength, "N"));
+        //    text = string.Format(
+        //       A, Utils.RelativeWebRoot, context.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
+        //    context.Response.Write(string.Format("1:{0}:{1}:/{2}:", text, fileName, relativeFolder.Replace(@"\", "/").Substring(0, relativeFolder.Length - 1)));
+        //    return;
+        //}         
+        context.Response.Write("0:Upload failed..");
+    }
+ 
+    public bool IsReusable {
+        get {
+            return false;
+        }
+    }
+
+
+    private FileType ExtractType(string Extension)
+    {
+        if (Extension == ".png" ||
+            Extension == ".jpg" ||
+            Extension == ".jpeg" ||
+            Extension == ".bmp" ||
+            Extension == ".gif")
+            return FileType.Image;
+        else
+            return FileType.File;
+    }
+    
+    /// <summary>
+    /// Sizes the format.
+    /// </summary>
+    /// <param name="size">
+    /// The string size.
+    /// </param>
+    /// <param name="formatString">
+    /// The format string.
+    /// </param>
+    /// <returns>
+    /// The string.
+    /// </returns>
+    private static string SizeFormat(float size, string formatString)
+    {
+        if (size < 1024)
+        {
+            return string.Format("{0} bytes", size.ToString(formatString));
+        }
+
+        if (size < Math.Pow(1024, 2))
+        {
+            return string.Format("{0} kb", (size / 1024).ToString(formatString));
+        }
+
+        if (size < Math.Pow(1024, 3))
+        {
+            return string.Format("{0} mb", (size / Math.Pow(1024, 2)).ToString(formatString));
+        }
+
+        if (size < Math.Pow(1024, 4))
+        {
+            return string.Format("{0} gb", (size / Math.Pow(1024, 3)).ToString(formatString));
+        }
+
+        return size.ToString(formatString);
+    }
+
+}
