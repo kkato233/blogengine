@@ -19,7 +19,19 @@ namespace BlogEngine.Core.Providers
         /// <returns>the absolute path</returns>
         private static string BlogAbsolutePath(string VirtualPath)
         {
-            return HostingEnvironment.MapPath(VirtualPath);
+            //VirtualPath = VirtualPath.Trim();
+            //var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), "files/").Trim();
+            //VirtualPath = VirtualPath.ToLower().StartsWith(fileContainer.ToLower()) ? VirtualPath : string.Format("{0}{1}", fileContainer, VirtualPath);
+            return HostingEnvironment.MapPath(string.IsNullOrWhiteSpace(VirtualPath) ? "~" : VirtualPath);
+        }
+
+        private static string RelativeFilePath(string VirtualPath)
+        {
+            VirtualPath = VirtualPath.Replace("//","/").Trim();
+            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), "files").Trim();
+            if (VirtualPath.ToLower().Contains(fileContainer.ToLower()))
+                return VirtualPath;
+            return string.Concat(fileContainer, VirtualPath);
         }
         #endregion
 
@@ -35,6 +47,7 @@ namespace BlogEngine.Core.Providers
         /// </remarks>
         internal override FileSystem.Directory CreateDirectory(string VirtualPath)
         {
+            VirtualPath = RelativeFilePath(VirtualPath);
             var aPath = BlogAbsolutePath(VirtualPath);
             if (!BlogService.DirectoryExists(VirtualPath))
                 Directory.CreateDirectory(aPath);
@@ -51,6 +64,7 @@ namespace BlogEngine.Core.Providers
         /// </remarks>
         public override void DeleteDirectory(string VirtualPath)
         {
+            VirtualPath = RelativeFilePath(VirtualPath);
             if (!BlogService.DirectoryExists(VirtualPath))
                 return;
             var aPath = BlogAbsolutePath(VirtualPath);
@@ -65,6 +79,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>boolean</returns>
         public override bool DirectoryExists(string VirtualPath)
         {
+            VirtualPath = VirtualPath.Trim();
             var aPath = BlogAbsolutePath(VirtualPath);
             return Directory.Exists(aPath);
         }
@@ -76,11 +91,13 @@ namespace BlogEngine.Core.Providers
         /// <returns>the directory object or null for no directory found</returns>
         public override FileSystem.Directory GetDirectory(string VirtualPath)
         {
+            
             return GetDirectory(VirtualPath, true);
         }
 
         public override FileSystem.Directory GetDirectory(string VirtualPath, bool CreateNew)
         {
+            VirtualPath = RelativeFilePath(VirtualPath);
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysDir = new DirectoryInfo(aPath);
             if (!sysDir.Exists)
@@ -151,6 +168,7 @@ namespace BlogEngine.Core.Providers
         /// <returns></returns>
         public override FileSystem.File GetFile(string VirtualPath)
         {
+            VirtualPath = RelativeFilePath(VirtualPath);
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysFile = new FileInfo(aPath);
             if (!sysFile.Exists)
@@ -178,6 +196,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>boolean</returns>
         public override bool FileExists(string VirtualPath)
         {
+            VirtualPath = RelativeFilePath(VirtualPath);
             var aPath = BlogAbsolutePath(VirtualPath);
             return File.Exists(aPath);
         }
@@ -188,6 +207,7 @@ namespace BlogEngine.Core.Providers
         /// <param name="VirtualPath">virtual path</param>
         public override void DeleteFile(string VirtualPath)
         {
+            VirtualPath = RelativeFilePath(VirtualPath);
             if (!BlogService.DirectoryExists(VirtualPath))
                 return;
             var aPath = BlogAbsolutePath(VirtualPath);
@@ -217,7 +237,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>the new file object</returns>
         public override FileSystem.File UploadFile(byte[] FileBinary, string FileName, FileSystem.Directory BaseDirectory, bool Overwrite)
         {
-            var virtualPath = string.Format("{0}/{1}", BaseDirectory.FullPath, FileName);
+            var virtualPath = RelativeFilePath(string.Format("{0}/{1}", BaseDirectory.FullPath, FileName));
             if (FileExists(virtualPath))
                 if (Overwrite)
                     DeleteFile(virtualPath);

@@ -7,6 +7,9 @@
     using BlogEngine.Core.Json;
     using App_Code;
     using Page = System.Web.UI.Page;
+    using BlogEngine.Core.Providers;
+    using System.Configuration;
+    using System.Web.Configuration;
 
     public partial class Advanced : Page
     {
@@ -50,7 +53,28 @@
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
+            if (!Page.IsPostBack)
+            {
+                this.ddlProvider.DataSource = BlogService.Providers;
+                this.ddlProvider.DataTextField = "Description";
+                this.ddlProvider.DataValueField = "Name";
+                this.ddlProvider.DataBind();
+                this.ddlProvider.SelectedValue = BlogService.FileSystemProvider.Name;
+                this.hdnProvider.Value = BlogService.FileSystemProvider.Name;
+            }
         }
+
+        protected void btnChangeProvider_Click(object sender, EventArgs e)
+        {
+            var zipArchive = string.Format("{0}FileSystemBackup-{1}.zip", Blog.CurrentInstance.StorageLocation, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
+            new BlogEngine.Core.FileSystem.ZipCompressor().CompressDirectory(Server.MapPath(zipArchive), Blog.CurrentInstance.RootFileStore);
+
+            var config = WebConfigurationManager.OpenWebConfiguration("~");
+            BlogProviderSection section = (BlogProviderSection)config.GetSection("BlogEngine/blogProvider");
+            section.FileStoreProvider = ddlProvider.SelectedValue.ToString();
+            config.Save();
+        }
+
 
         /// <summary>
         /// Save settings

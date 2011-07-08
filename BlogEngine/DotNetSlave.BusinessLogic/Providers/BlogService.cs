@@ -808,6 +808,8 @@
                         ProvidersHelper.InstantiateProviders(section.Providers, _providers, typeof(BlogProvider));
                         _provider = _providers[section.DefaultProvider];
                         _fileStorageProvider = _providers[section.FileStoreProvider];
+                        if (_fileStorageProvider == _provider)
+                            _fileStorageProvider = _provider;
                         if (_provider == null)
                         {
                             throw new ProviderException("Unable to load default BlogProvider");

@@ -1750,4 +1750,7 @@
   <data name="activeThemes" xml:space="preserve">
     <value>Active themes</value>
   </data>
+  <data name="filestorage" xml:space="preserve">
+    <value>File Storage Management</value>
+  </data>
 </root>

@@ -34,45 +34,15 @@ public class FileUpload : IHttpHandler, IRequiresSessionState {
         {
             var imgString = string.Format("<img src=\"{0}\" />", uFile.AsImage.ImageUrl);
             context.Response.Write(string.Format("1:{0}:{1}:{2}", imgString, uFile.Name, uFile.ParentDirectory.FullPath));
+            context.Response.End();
         }
         else
         {
             var fileString = string.Format("<p><a href=\"{0}\" >{1}</a></p>", uFile.FileDownloadPath, uFile.FileDescription);
             context.Response.Write(string.Format("1:{0}:{1}:{2}", fileString, uFile.Name, uFile.ParentDirectory.FullPath));
+            context.Response.End();
         }
         
-        //var folder = BlogEngine.Core.Providers.BlogService.GetDirectory()
-        //var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
-        //                         Path.DirectorySeparatorChar;
-        //var folder = Blog.CurrentInstance.StorageLocation + "files" + Path.DirectorySeparatorChar;
-        //var fileName = file.FileName;
-        //folder = context.Server.MapPath(folder + relativeFolder);
-        //if (!Directory.Exists(folder))
-        //    Directory.CreateDirectory(folder);
-        
-        //file.SaveAs(folder + fileName);
-        //string ext = Path.GetExtension(fileName);
-
-        //var emmbedTxt = string.Empty;
-        //if (ExtractType(ext.ToLower()) == FileType.Image)
-        //{
-        //    var path = Utils.RelativeWebRoot;
-        //    var img = string.Format(
-        //        "<img src=\"{0}image.axd?picture={1}\" alt=\"\" />",
-        //        path,
-        //        context.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
-        //    context.Response.Write(string.Format("1:{0}:{1}:/{2}:", img, fileName, relativeFolder.Replace(@"\", "/").Substring(0, relativeFolder.Length - 1)));
-        //    return;
-        //}
-        //else
-        //{
-        //    const string A = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
-        //    var text = string.Format("{0} ({1})", file.FileName, SizeFormat(file.ContentLength, "N"));
-        //    text = string.Format(
-        //       A, Utils.RelativeWebRoot, context.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
-        //    context.Response.Write(string.Format("1:{0}:{1}:/{2}:", text, fileName, relativeFolder.Replace(@"\", "/").Substring(0, relativeFolder.Length - 1)));
-        //    return;
-        //}         
         context.Response.Write("0:Upload failed..");
     }
  

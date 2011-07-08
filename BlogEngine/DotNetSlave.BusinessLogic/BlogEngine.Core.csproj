@@ -73,6 +73,9 @@
     <Reference Include="BlogML">
       <HintPath>..\..\lib\blogml\BlogML.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\razor\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -139,6 +142,7 @@
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\FileStoreDb.cs" />
     <Compile Include="FileSystem\Image.cs" />
+    <Compile Include="FileSystem\ZipCompressor.cs" />
     <Compile Include="Json\JsonBlog.cs" />
     <Compile Include="Json\JsonBlogs.cs" />
     <Compile Include="Json\JsonComment.cs" />
