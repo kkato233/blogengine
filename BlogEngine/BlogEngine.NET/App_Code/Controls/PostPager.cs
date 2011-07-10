@@ -13,6 +13,7 @@ namespace App_Code.Controls
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.WebControls;
+    using System.Text.RegularExpressions;
 
     using BlogEngine.Core;
 
@@ -157,6 +158,7 @@ namespace App_Code.Controls
         private static string PageUrl()
         {
             var path = HttpContext.Current.Request.RawUrl.Replace("Default.aspx", string.Empty);
+            path = Regex.Replace(path, "[^$&+,/:;=?@]+", m => HttpUtility.UrlEncode(m.Value));
             if (path.Contains("?"))
             {
                 if (path.Contains("page="))
