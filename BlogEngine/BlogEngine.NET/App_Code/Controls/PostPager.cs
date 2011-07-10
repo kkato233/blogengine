@@ -158,7 +158,6 @@ namespace App_Code.Controls
         private static string PageUrl()
         {
             var path = HttpContext.Current.Request.RawUrl.Replace("Default.aspx", string.Empty);
-            path = Regex.Replace(path, "[^$&+,/:;=?@]+", m => HttpUtility.UrlEncode(m.Value));
             if (path.Contains("?"))
             {
                 if (path.Contains("page="))
@@ -176,7 +175,7 @@ namespace App_Code.Controls
                 path += "?";
             }
 
-            return path + "page={0}";
+            return HttpUtility.HtmlEncode(path + "page={0}");
         }
 
         /// <summary>
