@@ -13,7 +13,6 @@ namespace BlogEngine.Core.FileSystem
     /// </remarks>
     public partial class Directory : BusinessBase<Directory, Guid>, IComparable<Directory>
     {
-
         #region Fields & Constants
         /// <summary>
         /// directory name

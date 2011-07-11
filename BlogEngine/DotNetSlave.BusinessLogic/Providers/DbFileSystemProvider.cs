@@ -18,6 +18,23 @@ namespace BlogEngine.Core.Providers
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Clears a file system. This will delete all files and folders recursivly.
+        /// </summary>
+        /// <remarks>
+        /// Handle with care... Possibly an internal method?
+        /// </remarks>
+        public override void ClearFileSystem()
+        {
+            var root = Blog.CurrentInstance.RootFileStore;
+            foreach (var directory in root.Directories)
+                directory.Delete();
+            foreach (var file in root.Files)
+                file.Delete();
+            root.Delete();
+        }
+
         /// <summary>
         /// Creates a directory at a specific path
         /// </summary>
@@ -49,7 +66,7 @@ namespace BlogEngine.Core.Providers
             if (!string.IsNullOrWhiteSpace(VirtualPath))
             {
                 var parentPath = VirtualPath.Contains("/") ? VirtualPath.Substring(0, VirtualPath.LastIndexOf("/")) : string.Empty;
-                dir.ParentID = BlogService.GetDirectory(parentPath).Id;
+                dir.ParentID = this.GetDirectory(parentPath).Id;
             }
             db.FileStoreDirectories.InsertOnSubmit(dir);
             db.SubmitChanges();
@@ -69,10 +86,14 @@ namespace BlogEngine.Core.Providers
         {
             if (!DirectoryExists(VirtualPath.VirtualPathToDbPath()))
                 return;
-            if (string.IsNullOrWhiteSpace(VirtualPath))
-                throw new ArgumentException("Unable to delete root directory.");
             FileSystem.FileStoreDb db = new FileSystem.FileStoreDb(this.connectionString);
             var query = db.FileStoreDirectories.Where(x => x.FullPath.ToLower() == VirtualPath.VirtualPathToDbPath().ToLower() && x.BlogID == Blog.CurrentInstance.Id);
+            foreach (var item in query)
+            {
+                var subDirectories = db.FileStoreDirectories.Where(x => x.ParentID == item.Id);
+                foreach (var sb in subDirectories)
+                    DeleteDirectory(sb.FullPath);
+            }
             db.FileStoreDirectories.DeleteAllOnSubmit(query);
             db.SubmitChanges();
             db.Dispose();
@@ -115,7 +136,7 @@ namespace BlogEngine.Core.Providers
                 if (directory == null)
                 {
                     db.Dispose();
-                    return BlogService.CreateDirectory(VirtualPath);
+                    return this.CreateDirectory(VirtualPath);
                 }
                 var obj = directory.CopyToDirectory();
                 db.Dispose();
@@ -184,7 +205,10 @@ namespace BlogEngine.Core.Providers
         public override IEnumerable<FileSystem.File> GetFiles(FileSystem.Directory BaseDirectory)
         {
             var db = new FileSystem.FileStoreDb(this.connectionString);
-            var arr = db.FileStoreDirectories.FirstOrDefault(x=>x.Id == BaseDirectory.Id).FileStoreFiles.Select(x=>x.CopyToFile()).ToList();
+            var fileDir = db.FileStoreDirectories.FirstOrDefault(x=>x.Id == BaseDirectory.Id);
+            if (fileDir == null)
+                return new List<FileSystem.File>();
+            var arr = fileDir.FileStoreFiles.Select(x => x.CopyToFile()).ToList();
             db.Dispose();
             return arr;
         }
@@ -296,6 +320,44 @@ namespace BlogEngine.Core.Providers
             db.Dispose();
             return BaseFile;
         }
+
+        /// <summary>
+        /// Returns a thumbnail image at a maximum size. Only one size is provided as the thumbnail will be scaled down. If the thumbnail does not exist the thumbnail is created
+        /// </summary>
+        /// <param name="VirtualPath">The virtual path of the image</param>
+        /// <param name="MaximumSize">The maximum size for the image</param>
+        /// <returns>The image with the thumbnail contents</returns>
+        /// <remarks>
+        /// this is a virtual file and all actual file methods will not be available.
+        /// </remarks>
+        public override FileSystem.Image ImageThumbnail(string VirtualPath, int MaximumSize)
+        {
+            var file = GetFile(VirtualPath);
+            if (!file.IsImage)
+                return null;
+            var db = new FileSystem.FileStoreDb(this.connectionString);
+            var image = file.AsImage;
+            var thumbnail = db.FileStoreFileThumbs.FirstOrDefault(x => x.FileId == Guid.Parse(image.Id));
+            if (thumbnail == null)
+            {
+
+                FileSystem.FileStoreFileThumb thumb = new FileSystem.FileStoreFileThumb()
+                {
+                    contents = FileSystem.Image.ResizeImageThumbnail(MaximumSize, image.FileContents),
+                    FileId = Guid.Parse(image.Id),
+                    size = MaximumSize,
+                    thumbnailId = Guid.NewGuid()
+                };
+                db.FileStoreFileThumbs.InsertOnSubmit(thumb);
+                db.SubmitChanges();
+                image.FileContents = thumb.contents.ToArray();
+            }
+            else
+                image.FileContents = thumbnail.contents.ToArray();
+            db.Dispose();
+            return image;
+        }
+
         #endregion
     }
 
@@ -359,7 +421,6 @@ namespace BlogEngine.Core.Providers
         {
             return VirtualPath.Replace(Blog.CurrentInstance.StorageLocation + "files", "");
         }
-
     }
     #endregion
 

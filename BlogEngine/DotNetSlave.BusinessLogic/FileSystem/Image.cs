@@ -106,6 +106,15 @@ namespace BlogEngine.Core.FileSystem
             return this;
         }
 
+        public static byte[] ResizeImageThumbnail(int MaxSize, byte[] originalContents)
+        {
+            var bmp = ArrayToBmp(originalContents);
+            bmp = (Bitmap)resizeImage((System.Drawing.Image)bmp, new Size(MaxSize, MaxSize));
+            originalContents = BmpToArray(bmp);
+            bmp.Dispose();
+            return originalContents;
+        }
+
         /// <summary>
         /// resizes the image to a new size based on a percentage
         /// </summary>
@@ -202,7 +211,7 @@ namespace BlogEngine.Core.FileSystem
         /// </summary>
         /// <param name="inArray">the in array</param>
         /// <returns>the new bitmap</returns>
-        private Bitmap ArrayToBmp(byte[] inArray)
+        private static Bitmap ArrayToBmp(byte[] inArray)
         {
             using (MemoryStream ms = new MemoryStream(inArray))
             {
@@ -216,7 +225,7 @@ namespace BlogEngine.Core.FileSystem
         /// </summary>
         /// <param name="bmp">the bitmap to convert</param>
         /// <returns>the byte array object</returns>
-        private byte[] BmpToArray(Bitmap bmp)
+        private static byte[] BmpToArray(Bitmap bmp)
         {
             MemoryStream ms = new MemoryStream();
             bmp.Save(ms, ImageFormat.Jpeg);
@@ -232,7 +241,7 @@ namespace BlogEngine.Core.FileSystem
         /// <param name="imgToResize">the image to resize</param>
         /// <param name="size">the new size</param>
         /// <returns>new resized image</returns>
-        private System.Drawing.Image resizeImage(System.Drawing.Image imgToResize, Size size)
+        private static System.Drawing.Image resizeImage(System.Drawing.Image imgToResize, Size size)
         {
             int sourceWidth = imgToResize.Width;
             int sourceHeight = imgToResize.Height;

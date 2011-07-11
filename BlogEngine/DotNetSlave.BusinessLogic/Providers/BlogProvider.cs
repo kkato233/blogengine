@@ -384,6 +384,14 @@
         #endregion
 
         #region FileSystem 
+        
+        /// <summary>
+        /// Clears a file system. This will delete all files and folders recursivly.
+        /// </summary>
+        /// <remarks>
+        /// Handle with care... Possibly an internal method?
+        /// </remarks>
+        public abstract void ClearFileSystem();
 
         /// <summary>
         /// Creates a directory at a specific path
@@ -504,6 +512,9 @@
         /// <param name="BaseFile">the baseFile object to fill</param>
         /// <returns>the original file object</returns>
         internal abstract File GetFileContents(File BaseFile);
+
+
+        public abstract Image ImageThumbnail(string VirtualPath, int MaximumSize);
         #endregion
     }
 }
