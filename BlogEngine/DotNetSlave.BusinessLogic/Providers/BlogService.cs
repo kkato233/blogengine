@@ -67,6 +67,12 @@
             }
         }
 
+        internal static void ReloadFileSystemProvider()
+        {
+            _fileStorageProvider = null;
+            LoadProviders();
+        }
+
         /// <summary>
         ///     Gets a collection of all registered providers.
         /// </summary>
@@ -600,6 +606,12 @@
         }
 
         #region FileSystem Static Methods
+
+        internal static void ClearFileSystem()
+        {
+            FileSystemProvider.ClearFileSystem();
+        }
+
         /// <summary>
         /// Creates a directory at a specific path
         /// </summary>
@@ -792,22 +804,23 @@
         private static void LoadProviders()
         {
             // Avoid claiming lock if providers are already loaded
-            if (_provider == null)
+            if (_provider == null || _fileStorageProvider == null)
             {
                 lock (TheLock)
                 {
                     // Do this again to make sure _provider is still null
-                    if (_provider == null)
+                    if (_provider == null || _fileStorageProvider == null)
                     {
                         // Get a reference to the <blogProvider> section
-                        var section = (BlogProviderSection)WebConfigurationManager.GetSection("BlogEngine/blogProvider");
+                        var config = WebConfigurationManager.OpenWebConfiguration("~");
+                        var section = (BlogProviderSection)config.GetSection("BlogEngine/blogProvider");
 
                         // Load registered providers and point _provider
                         // to the default provider
                         _providers = new BlogProviderCollection();
                         ProvidersHelper.InstantiateProviders(section.Providers, _providers, typeof(BlogProvider));
-                        _provider = _providers[section.DefaultProvider];
-                        _fileStorageProvider = _providers[section.FileStoreProvider];
+                        _provider = _provider ?? _providers[section.DefaultProvider];
+                        _fileStorageProvider = _fileStorageProvider ?? _providers[section.FileStoreProvider];
                         if (_fileStorageProvider == _provider)
                             _fileStorageProvider = _provider;
                         if (_provider == null)
@@ -817,6 +830,7 @@
                     }
                 }
             }
+
         }
 
         #endregion

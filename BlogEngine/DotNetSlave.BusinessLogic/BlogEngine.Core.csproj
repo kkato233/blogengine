@@ -142,7 +142,7 @@
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\FileStoreDb.cs" />
     <Compile Include="FileSystem\Image.cs" />
-    <Compile Include="FileSystem\ZipCompressor.cs" />
+    <Compile Include="FileSystem\FileSystemUtilities.cs" />
     <Compile Include="Json\JsonBlog.cs" />
     <Compile Include="Json\JsonBlogs.cs" />
     <Compile Include="Json\JsonComment.cs" />

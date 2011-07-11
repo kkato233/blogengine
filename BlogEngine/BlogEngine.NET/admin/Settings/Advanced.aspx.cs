@@ -10,6 +10,7 @@
     using BlogEngine.Core.Providers;
     using System.Configuration;
     using System.Web.Configuration;
+    using System.IO;
 
     public partial class Advanced : Page
     {
@@ -66,13 +67,33 @@
 
         protected void btnChangeProvider_Click(object sender, EventArgs e)
         {
-            var zipArchive = string.Format("{0}FileSystemBackup-{1}.zip", Blog.CurrentInstance.StorageLocation, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"));
-            new BlogEngine.Core.FileSystem.ZipCompressor().CompressDirectory(Server.MapPath(zipArchive), Blog.CurrentInstance.RootFileStore);
+            providerError.Visible = false;
+            var zipArchive = Server.MapPath(string.Format("{0}FileSystemBackup-{1}.zip", Blog.CurrentInstance.StorageLocation, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")));
+            var msg = new BlogEngine.Core.FileSystem.FileSystemUtilities().DumpProvider(ddlProvider.SelectedValue.ToString(), zipArchive);
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                providerError.Visible = true;
+                providerError.Text = msg;
+            }
+            else
+                hdnProvider.Value = ddlProvider.SelectedValue.ToString();
+        }
 
-            var config = WebConfigurationManager.OpenWebConfiguration("~");
-            BlogProviderSection section = (BlogProviderSection)config.GetSection("BlogEngine/blogProvider");
-            section.FileStoreProvider = ddlProvider.SelectedValue.ToString();
-            config.Save();
+        protected void btnDownloadArchive_Click(object sender, EventArgs e)
+        {
+            var zipArchive = Server.MapPath(string.Format("{0}FileSystemBackup-{1}.zip", Blog.CurrentInstance.StorageLocation, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")));
+            new BlogEngine.Core.FileSystem.FileSystemUtilities().CompressDirectory(zipArchive, Blog.CurrentInstance.RootFileStore);
+            var file = new FileInfo(zipArchive);
+            byte[] Buffer = null;
+            System.IO.FileStream FileStream = new System.IO.FileStream(file.FullName, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            System.IO.BinaryReader BinaryReader = new System.IO.BinaryReader(FileStream);
+            long TotalBytes = file.Length;
+            Buffer = BinaryReader.ReadBytes((int)TotalBytes);
+            FileStream.Close();
+            FileStream.Dispose();
+            BinaryReader.Close();
+            Response.AppendHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", file.Name));
+            Response.BinaryWrite(Buffer);
         }
 
 

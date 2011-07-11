@@ -36,6 +36,23 @@ namespace BlogEngine.Core.Providers
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Clears a file system. This will delete all files and folders recursivly.
+        /// </summary>
+        /// <remarks>
+        /// Handle with care... Possibly an internal method?
+        /// </remarks>
+        public override void ClearFileSystem()
+        {
+            var root = GetDirectory("");
+            foreach (var directory in root.Directories)
+                directory.Delete();
+            foreach (var file in root.Files)
+                file.Delete();
+        }
+
+
         /// <summary>
         /// Creates a directory at a specific path
         /// </summary>
@@ -49,7 +66,7 @@ namespace BlogEngine.Core.Providers
         {
             VirtualPath = RelativeFilePath(VirtualPath);
             var aPath = BlogAbsolutePath(VirtualPath);
-            if (!BlogService.DirectoryExists(VirtualPath))
+            if (!this.DirectoryExists(VirtualPath))
                 Directory.CreateDirectory(aPath);
             return GetDirectory(VirtualPath);
         }
@@ -65,7 +82,7 @@ namespace BlogEngine.Core.Providers
         public override void DeleteDirectory(string VirtualPath)
         {
             VirtualPath = RelativeFilePath(VirtualPath);
-            if (!BlogService.DirectoryExists(VirtualPath))
+            if (!this.DirectoryExists(VirtualPath))
                 return;
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysDir = new DirectoryInfo(aPath);
@@ -101,7 +118,7 @@ namespace BlogEngine.Core.Providers
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysDir = new DirectoryInfo(aPath);
             if (!sysDir.Exists)
-                BlogService.CreateDirectory(VirtualPath);
+                this.CreateDirectory(VirtualPath);
             var dir = new FileSystem.Directory();
             dir.FullPath = VirtualPath;
             dir.Name = sysDir.Name;
@@ -208,7 +225,7 @@ namespace BlogEngine.Core.Providers
         public override void DeleteFile(string VirtualPath)
         {
             VirtualPath = RelativeFilePath(VirtualPath);
-            if (!BlogService.DirectoryExists(VirtualPath))
+            if (!this.DirectoryExists(VirtualPath))
                 return;
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysFile = new FileInfo(aPath);
@@ -286,6 +303,11 @@ namespace BlogEngine.Core.Providers
             }
 
             return Buffer;
+        }
+
+        public override FileSystem.Image ImageThumbnail(string VirtualPath, int MaximumSize)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
