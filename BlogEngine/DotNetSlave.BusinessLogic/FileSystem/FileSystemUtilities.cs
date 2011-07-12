@@ -83,11 +83,11 @@ namespace BlogEngine.Core.FileSystem
                 Message = "Error while clearing the old file system provider, there may have been a lock on a file. You will have to manually clear the old file system. The update operation has bypassed clearing the old file storage, however will continue to import your data into your new file storage.<br/>";
             }
             var config = WebConfigurationManager.OpenWebConfiguration("~");
-            BlogProviderSection section = (BlogProviderSection)config.GetSection("BlogEngine/blogProvider");
-            var olderProivder = section.FileStoreProvider.Clone().ToString();
-            section.FileStoreProvider = NewProviderName;
+            BlogFileSystemProviderSection section = (BlogFileSystemProviderSection)config.GetSection("BlogEngine/blogFileSystemProvider");
+            var olderProivder = section.DefaultProvider.Clone().ToString();
+            section.DefaultProvider = NewProviderName;
             config.Save();
-            ConfigurationManager.RefreshSection("BlogEngine/blogProvider");
+            ConfigurationManager.RefreshSection("BlogEngine/blogFileSystemProvider");
             config = null;
             config = WebConfigurationManager.OpenWebConfiguration("~");
             try
@@ -98,10 +98,10 @@ namespace BlogEngine.Core.FileSystem
             }
             catch
             {
-                section = (BlogProviderSection)config.GetSection("BlogEngine/blogProvider");
-                section.FileStoreProvider = olderProivder;
+                section = (BlogFileSystemProviderSection)config.GetSection("BlogEngine/blogFileSystemProvider");
+                section.DefaultProvider = olderProivder;
                 config.Save();
-                ConfigurationManager.RefreshSection("BlogEngine/blogProvider");
+                ConfigurationManager.RefreshSection("BlogEngine/blogFileSystemProvider");
                 config = null;
                 config = WebConfigurationManager.OpenWebConfiguration("~");
                 BlogService.ReloadFileSystemProvider();
