@@ -106,8 +106,8 @@ namespace Admin
                 {
                     if (c.Id == gId)
                     {
-                        c.Author = author;
-                        c.Email = email;
+                        c.Author = HttpUtility.HtmlEncode(author);
+                        c.Email = HttpUtility.HtmlEncode(email);
                         c.Website = string.IsNullOrEmpty(website) ? null : new Uri(website);
                         c.Content = HttpUtility.HtmlEncode(cont);
 
