@@ -300,14 +300,14 @@
                     Id = Guid.NewGuid(),
                     ParentId = replyToCommentId,
                     Author = this.Server.HtmlEncode(author),
-                    Email = email,
+                    Email = this.Server.HtmlEncode(email),
                     Content = this.Server.HtmlEncode(content),
                     IP = this.Request.UserHostAddress,
-                    Country = country,
+                    Country = this.Server.HtmlEncode(country),
                     DateCreated = DateTime.Now,
                     Parent = this.Post,
                     IsApproved = !BlogSettings.Instance.EnableCommentsModeration,
-                    Avatar = avatar.Trim()
+                    Avatar = this.Server.HtmlEncode(avatar.Trim())
                 };
 
             if (Security.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)

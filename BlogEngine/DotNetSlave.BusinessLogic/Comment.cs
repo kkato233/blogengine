@@ -95,16 +95,11 @@
             }
         }
 
-        private string content;
         /// <summary>
         ///     Gets or sets the content.
         /// </summary>
         /// <value>The content.</value>
-        public string Content 
-        {
-            get { return System.Web.HttpUtility.HtmlEncode(content); }
-            set { content = value; }
-        }
+        public string Content { get; set; }  // Do Not HtmlEncode, leads to double, triple, etc encoding.
 
         /// <summary>
         ///     Gets or sets the country.
