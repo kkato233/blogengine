@@ -15,7 +15,7 @@
         <div id="fmD" class="fmD" style="display:none;">
             <div class="fmDWrap">
             <div class="fmD-left">
-                <h1>BlogEngine.Net<br /> File Manager</h1>
+                <h1>File Manager</h1>
                 <ul>
                     <li>
                         <a href="javascript:;">
