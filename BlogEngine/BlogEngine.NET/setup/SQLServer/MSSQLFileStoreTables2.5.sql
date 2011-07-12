@@ -67,4 +67,30 @@ GO
 ALTER TABLE [dbo].[be_FileStoreFiles] CHECK CONSTRAINT [FK_be_FileStoreFiles_be_FileStoreDirectory]
 GO
 
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[be_FileStoreFileThumbs](
+	[thumbnailId] [uniqueidentifier] NOT NULL,
+	[FileId] [uniqueidentifier] NOT NULL,
+	[size] [int] NOT NULL,
+	[contents] [varbinary](max) NOT NULL,
+ CONSTRAINT [PK_be_FileStoreFileThumbs] PRIMARY KEY CLUSTERED 
+(
+	[thumbnailId] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[be_FileStoreFileThumbs]  WITH CHECK ADD  CONSTRAINT [FK_be_FileStoreFileThumbs_be_FileStoreFiles] FOREIGN KEY([FileId])
+REFERENCES [dbo].[be_FileStoreFiles] ([FileID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[be_FileStoreFileThumbs] CHECK CONSTRAINT [FK_be_FileStoreFileThumbs_be_FileStoreFiles]
+GO
 
