@@ -2,14 +2,96 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Configuration;
+using System.Collections.Specialized;
+using System.Configuration.Provider;
 
 namespace BlogEngine.Core.Providers
 {
     /// <summary>
     /// DbBlogProvider Parial class for manageing all FileSystem methods
     /// </summary>
-    public partial class DbBlogProvider : BlogProvider
+    public partial class DbFileSystemProvider : BlogFileSystemProvider
     {
+
+        /// <summary>
+        /// The conn string name.
+        /// </summary>
+        private string connStringName;
+
+        /// <summary>
+        /// The parm prefix.
+        /// </summary>
+        private string parmPrefix;
+
+        /// <summary>
+        /// The table prefix.
+        /// </summary>
+        private string tablePrefix;
+
+
+        /// <summary>
+        /// init
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="config"></param>
+        public override void Initialize(string name, NameValueCollection config)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException("config");
+            }
+
+            if (String.IsNullOrEmpty(name))
+            {
+                name = "DbBlogProvider";
+            }
+
+            if (String.IsNullOrEmpty(config["description"]))
+            {
+                config.Remove("description");
+                config.Add("description", "Generic Database Blog Provider");
+            }
+
+            base.Initialize(name, config);
+
+            if (config["storageVariable"] == null)
+            {
+                // default to BlogEngine
+                config["storageVariable"] = "BlogEngine";
+            }
+
+            this.connStringName = config["storageVariable"];
+            config.Remove("storageVariable");
+
+            if (config["tablePrefix"] == null)
+            {
+                // default
+                config["tablePrefix"] = "be_";
+            }
+
+            this.tablePrefix = config["tablePrefix"];
+            config.Remove("tablePrefix");
+
+            if (config["parmPrefix"] == null)
+            {
+                // default
+                config["parmPrefix"] = "@";
+            }
+
+            this.parmPrefix = config["parmPrefix"];
+            config.Remove("parmPrefix");
+
+            // Throw an exception if unrecognized attributes remain
+            if (config.Count > 0)
+            {
+                var attr = config.GetKey(0);
+                if (!String.IsNullOrEmpty(attr))
+                {
+                    throw new ProviderException(string.Format("Unrecognized attribute: {0}", attr));
+                }
+            }
+        }
+
         #region Contansts & Fields
         /// <summary>
         /// active web.config connection string, defined by the blogProvider sections
