@@ -1,29 +1,29 @@
 ﻿.fmD   
 {
     height:290px;
-    background:#222;
+    background: #efefef;
     position:relative; 
     width:100%;
     z-index:150;
     border-bottom-left-radius: 10px 10px; 
     border-bottom-right-radius: 10px 10px; 
-    color:#fff;
+    color:#000;
     padding:0px;
     font-weight:normal;
 }
 .fmDWrap { padding:10px;height:270px; }
 .fmD h1 { font-size:18px; margin:10px 0 10px 10px; border:0; text-decoration:none; }
-.fmD a, .fmD:visited, .fmD:active { color:#fff; text-decoration:none; }
+.fmD a, .fmD:visited, .fmD:active { color:#000; text-decoration:none; }
 .fmD a img { border:0;padding:0 25px 0 0; }
 .fmD img { vertical-align:middle; border:0; }
-.fmD-left { float:left; width:270px;background:#222; }
+.fmD-left { float:left; width:270px;background:#dedede; }
 .fmD-left ul { list-style-type:none; }
 .fmD-left ul li { padding:5px 0px 5px 10px;border-top-left-radius:7px 7px; border-bottom-left-radius:7px 7px;margin:6px 0px; }
-.fmD-left ul li:hover { background:#333; }
-.fmD-left ul li.fmDActive { background:#555; }
+.fmD-left ul li:hover { background:#ccc; }
+.fmD-left ul li.fmDActive { background:#ccc; }
 .fmD-left ul li a { width:100%; height:32px; display:block; }
-.fmD-right { width:745px; float:left; min-height:260px; border-top-right-radius: 7px 7px; border-bottom-left-radius:7px 7px; background:#555; }
-.fmD-right-content { color:#fff; font-size: 11px; font-family:'Trebuchet MS', Arial, Serif; height:100%; display:none; padding:15px; }
+.fmD-right { width:745px; float:left; min-height:260px; border-top-right-radius: 7px 7px; border-bottom-left-radius:7px 7px; background:#ccc; }
+.fmD-right-content { color:#000; font-size: 11px; font-family:'Trebuchet MS', Arial, Serif; height:100%; display:none; padding:15px; }
 .fmD-right-close { padding-top: 126px; font-size:14px; }
 
 .fmD-upload { padding:15px; }
