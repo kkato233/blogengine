@@ -56,7 +56,7 @@
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
             if (!Page.IsPostBack)
             {
-                this.ddlProvider.DataSource = BlogService.Providers;
+                this.ddlProvider.DataSource = BlogService.FileSystemProviders;
                 this.ddlProvider.DataTextField = "Description";
                 this.ddlProvider.DataValueField = "Name";
                 this.ddlProvider.DataBind();

@@ -32,13 +32,15 @@
         /// <summary>
         /// the file storage provider. Don't access this directly. Access it the property accessor
         /// </summary>
-        private static BlogProvider _fileStorageProvider;
+        private static BlogFileSystemProvider _fileStorageProvider;
 
         /// <summary>
         /// The providers.
         /// </summary>
         private static BlogProviderCollection _providers;
 
+
+        private static BlogFileSystemProviderCollection _fileProviders;
         #endregion
 
         #region Properties
@@ -46,12 +48,21 @@
         /// <summary>
         ///     gets the current FileSystem provider
         /// </summary>
-        public static BlogProvider FileSystemProvider
+        public static BlogFileSystemProvider FileSystemProvider
         {
             get
             {
                 LoadProviders();
                 return _fileStorageProvider;
+            }
+        }
+
+        public static BlogFileSystemProviderCollection FileSystemProviders
+        {
+            get
+            {
+                LoadProviders();
+                return _fileProviders;
             }
         }
 
@@ -820,9 +831,6 @@
                         _providers = new BlogProviderCollection();
                         ProvidersHelper.InstantiateProviders(section.Providers, _providers, typeof(BlogProvider));
                         _provider = _provider ?? _providers[section.DefaultProvider];
-                        _fileStorageProvider = _fileStorageProvider ?? _providers[section.FileStoreProvider];
-                        if (_fileStorageProvider == _provider)
-                            _fileStorageProvider = _provider;
                         if (_provider == null)
                         {
                             throw new ProviderException("Unable to load default BlogProvider");
@@ -830,7 +838,24 @@
                     }
                 }
             }
-
+            if (_fileStorageProvider == null)
+            {
+                lock (TheLock)
+                {
+                    if (_fileStorageProvider == null)
+                    {
+                        var config = WebConfigurationManager.OpenWebConfiguration("~");
+                        var section = (BlogFileSystemProviderSection)config.GetSection("BlogEngine/blogFileSystemProvider");
+                        _fileProviders = new BlogFileSystemProviderCollection();
+                        ProvidersHelper.InstantiateProviders(section.Providers, _fileProviders, typeof(BlogFileSystemProvider));
+                        _fileStorageProvider = _fileProviders[section.DefaultProvider];
+                        if (_fileStorageProvider == null)
+                        {
+                            throw new ProviderException("unable to load default file system Blog Provider");
+                        }
+                    }
+                }
+            }
         }
 
         #endregion

@@ -1,42 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Hosting;
+using System.IO;
 
 namespace BlogEngine.Core.Providers
 {
-    /// <summary>
-    /// XmlBlogProvider Parial class for manageing all FileSystem methods
-    /// </summary>
-    public partial class XmlBlogProvider : BlogProvider
+    public partial class UNCFileSystemProvider : BlogFileSystemProvider
     {
-        #region Properties
         /// <summary>
-        /// gets the absolute file path from a virtual path.
+        /// unc path to store files. This will be the base path for all blogs.
+        /// Each blog will then seperate into seperate paths built upon the UNC path by the blog name.
+        /// ie. [unc]/primary, [unc]/template
         /// </summary>
-        /// <param name="VirtualPath">the virtual path</param>
-        /// <returns>the absolute path</returns>
-        private static string BlogAbsolutePath(string VirtualPath)
+        private string uncPath;
+
+        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
         {
-            //VirtualPath = VirtualPath.Trim();
-            //var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), "files/").Trim();
-            //VirtualPath = VirtualPath.ToLower().StartsWith(fileContainer.ToLower()) ? VirtualPath : string.Format("{0}{1}", fileContainer, VirtualPath);
-            return HostingEnvironment.MapPath(string.IsNullOrWhiteSpace(VirtualPath) ? "~" : VirtualPath);
+            if (config == null)
+            {
+                throw new ArgumentNullException("config");
+            }
+
+            if (String.IsNullOrEmpty(name))
+            {
+                name = "UNCBlogProvider";
+            }
+            base.Initialize(name, config);
+            if (String.IsNullOrEmpty(config["description"]))
+            {
+                config.Remove("description");
+                config.Add("description", "Generic UNC File Path Blog Provider");
+            }
+
+            if (config["storageVariable"] == null)
+            {
+                // default to BlogEngine XML provider paths
+                config["storageVariable"] = HostingEnvironment.MapPath(Blog.CurrentInstance.StorageLocation);
+            }
+            else
+            {
+                if(config["storageVariable"].EndsWith(@"\"))
+                    config["storageVariable"] =  config["storageVariable"].Substring(0,  config["storageVariable"].Length - 1);
+                if(!System.IO.Directory.Exists(config["storageVariable"]))
+                    throw new ArgumentException("storageVariable (as unc path) does not exist. or does not have read\\write permissions");
+            }
+
+            this.uncPath = config["storageVariable"];
+            config.Remove("storageVariable");
         }
 
-        private static string RelativeFilePath(string VirtualPath)
+
+        private string VirtualPathToUNCPath(string VirtualPath)
         {
-            VirtualPath = VirtualPath.Replace("//","/").Trim();
-            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), "files").Trim();
-            if (VirtualPath.ToLower().Contains(fileContainer.ToLower()))
+            VirtualPath = CleanVirtualPath(VirtualPath);
+            VirtualPath = VirtualPath.Replace("//","/").Replace("/",@"\").Trim();
+            VirtualPath = VirtualPath.StartsWith(@"\") ? VirtualPath : string.Concat(@"\", VirtualPath);
+            var storageContainerName = (string.IsNullOrWhiteSpace(Blog.CurrentInstance.StorageContainerName) ? Blog.CurrentInstance.Name : Blog.CurrentInstance.StorageContainerName).Replace(" ", "").Trim();
+            var fileContainer = string.Concat(this.uncPath, @"\" ,storageContainerName).Trim();
+            if(VirtualPath.ToLower().Contains(fileContainer.ToLower()))
                 return VirtualPath;
-            return string.Concat(fileContainer, VirtualPath);
+            return string.Concat(fileContainer,VirtualPath);
         }
-        #endregion
 
-        #region Methods
-
+        private string CleanVirtualPath(string VirtualPath)
+        {
+            return VirtualPath.Replace(Blog.CurrentInstance.StorageLocation + "files", "").Trim();
+        }
+        
         /// <summary>
         /// Clears a file system. This will delete all files and folders recursivly.
         /// </summary>
@@ -46,12 +78,11 @@ namespace BlogEngine.Core.Providers
         public override void ClearFileSystem()
         {
             var root = GetDirectory("");
-            foreach (var directory in root.Directories)
+            foreach(var directory in root.Directories)
                 directory.Delete();
-            foreach (var file in root.Files)
+            foreach(var file in root.Files)
                 file.Delete();
         }
-
 
         /// <summary>
         /// Creates a directory at a specific path
@@ -64,14 +95,14 @@ namespace BlogEngine.Core.Providers
         /// </remarks>
         internal override FileSystem.Directory CreateDirectory(string VirtualPath)
         {
-            VirtualPath = RelativeFilePath(VirtualPath);
-            var aPath = BlogAbsolutePath(VirtualPath);
-            if (!this.DirectoryExists(VirtualPath))
-                Directory.CreateDirectory(aPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
+            if(!System.IO.Directory.Exists(aPath))
+                System.IO.Directory.CreateDirectory(aPath);
             return GetDirectory(VirtualPath);
         }
 
-        /// <summary>
+         /// <summary>
         /// Deletes a spefic directory from a virtual path
         /// </summary>
         /// <param name="VirtualPath">The path to delete</param>
@@ -81,11 +112,11 @@ namespace BlogEngine.Core.Providers
         /// </remarks>
         public override void DeleteDirectory(string VirtualPath)
         {
-            VirtualPath = RelativeFilePath(VirtualPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
             if (!this.DirectoryExists(VirtualPath))
                 return;
-            var aPath = BlogAbsolutePath(VirtualPath);
-            var sysDir = new DirectoryInfo(aPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
+            var sysDir = new System.IO.DirectoryInfo(aPath);
             sysDir.Delete(true);
         }
 
@@ -96,9 +127,9 @@ namespace BlogEngine.Core.Providers
         /// <returns>boolean</returns>
         public override bool DirectoryExists(string VirtualPath)
         {
-            VirtualPath = VirtualPath.Trim();
-            var aPath = BlogAbsolutePath(VirtualPath);
-            return Directory.Exists(aPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
+            return System.IO.Directory.Exists(aPath);
         }
 
         /// <summary>
@@ -108,21 +139,20 @@ namespace BlogEngine.Core.Providers
         /// <returns>the directory object or null for no directory found</returns>
         public override FileSystem.Directory GetDirectory(string VirtualPath)
         {
-            
             return GetDirectory(VirtualPath, true);
         }
 
         public override FileSystem.Directory GetDirectory(string VirtualPath, bool CreateNew)
         {
-            VirtualPath = RelativeFilePath(VirtualPath);
-            var aPath = BlogAbsolutePath(VirtualPath);
-            var sysDir = new DirectoryInfo(aPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
+            var sysDir = new System.IO.DirectoryInfo(aPath);
             if (!sysDir.Exists)
                 this.CreateDirectory(VirtualPath);
             var dir = new FileSystem.Directory();
             dir.FullPath = VirtualPath;
             dir.Name = sysDir.Name;
-            dir.IsRoot = VirtualPath == string.Concat(Blog.CurrentInstance.StorageLocation, "files");
+            dir.IsRoot = string.IsNullOrWhiteSpace(VirtualPath);
             dir.LastAccessTime = sysDir.LastAccessTime;
             dir.DateModified = sysDir.LastWriteTime;
             dir.DateCreated = sysDir.CreationTime;
@@ -153,15 +183,15 @@ namespace BlogEngine.Core.Providers
             return GetDirectory(string.Join("/", BaseDirectory.FullPath, SubPath), CreateNew);
         }
 
-        /// <summary>
+         /// <summary>
         /// gets all the directories underneath a base directory. Only searches one level.
         /// </summary>
         /// <param name="BaseDirectory">the base directory</param>
         /// <returns>collection of Directory objects</returns>
         public override IEnumerable<FileSystem.Directory> GetDirectories(FileSystem.Directory BaseDirectory)
         {
-            var aPath = BlogAbsolutePath(BaseDirectory.FullPath);
-            var sysDirectory = new DirectoryInfo(aPath);
+            var aPath = VirtualPathToUNCPath(BaseDirectory.FullPath);
+            var sysDirectory = new System.IO.DirectoryInfo(aPath);
             return sysDirectory.GetDirectories().Select(x => GetDirectory(string.Format("{0}/{1}", BaseDirectory.FullPath, x.Name)));
         }
 
@@ -173,9 +203,10 @@ namespace BlogEngine.Core.Providers
         /// <returns>collection of File objects</returns>
         public override IEnumerable<FileSystem.File> GetFiles(FileSystem.Directory BaseDirectory)
         {
-            var aPath = BlogAbsolutePath(BaseDirectory.FullPath);
+
+            var aPath = VirtualPathToUNCPath(BaseDirectory.FullPath);
             var sysDirectory = new DirectoryInfo(aPath);
-            return sysDirectory.GetFiles().Select(x => GetFile(string.Format("{0}/{1}", BaseDirectory.FullPath, x.Name)));
+            return sysDirectory.GetFiles().Where(x => x.Name.ToLower() != "thumbs.db").Select(x => GetFile(string.Format("{0}/{1}", BaseDirectory.FullPath, x.Name)));
         }
 
         /// <summary>
@@ -185,8 +216,8 @@ namespace BlogEngine.Core.Providers
         /// <returns></returns>
         public override FileSystem.File GetFile(string VirtualPath)
         {
-            VirtualPath = RelativeFilePath(VirtualPath);
-            var aPath = BlogAbsolutePath(VirtualPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
             var sysFile = new FileInfo(aPath);
             if (!sysFile.Exists)
                 throw new FileNotFoundException("The file at " + VirtualPath + " was not found.");
@@ -197,10 +228,10 @@ namespace BlogEngine.Core.Providers
                 Name = sysFile.Name,
                 DateModified = sysFile.LastWriteTime,
                 DateCreated = sysFile.CreationTime,
-                Id = VirtualPath.Replace(Blog.CurrentInstance.RootFileStore.FullPath, ""),
+                Id = Guid.NewGuid().ToString(),
                 LastAccessTime = sysFile.LastAccessTime,
                 ParentDirectory = GetDirectory(VirtualPath.Substring(0, VirtualPath.LastIndexOf("/"))),
-                FilePath = VirtualPath.Replace(Blog.CurrentInstance.RootFileStore.FullPath, ""),
+                FilePath = VirtualPath,
                 FileSize = sysFile.Length,
             };
             return file;
@@ -213,8 +244,8 @@ namespace BlogEngine.Core.Providers
         /// <returns>boolean</returns>
         public override bool FileExists(string VirtualPath)
         {
-            VirtualPath = RelativeFilePath(VirtualPath);
-            var aPath = BlogAbsolutePath(VirtualPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
             return File.Exists(aPath);
         }
 
@@ -224,10 +255,10 @@ namespace BlogEngine.Core.Providers
         /// <param name="VirtualPath">virtual path</param>
         public override void DeleteFile(string VirtualPath)
         {
-            VirtualPath = RelativeFilePath(VirtualPath);
+            VirtualPath = CleanVirtualPath(VirtualPath);
             if (!this.DirectoryExists(VirtualPath))
                 return;
-            var aPath = BlogAbsolutePath(VirtualPath);
+            var aPath = VirtualPathToUNCPath(VirtualPath);
             var sysFile = new FileInfo(aPath);
             sysFile.Delete();
         }
@@ -254,14 +285,14 @@ namespace BlogEngine.Core.Providers
         /// <returns>the new file object</returns>
         public override FileSystem.File UploadFile(byte[] FileBinary, string FileName, FileSystem.Directory BaseDirectory, bool Overwrite)
         {
-            var virtualPath = RelativeFilePath(string.Format("{0}/{1}", BaseDirectory.FullPath, FileName));
+            var virtualPath = string.Format("{0}/{1}", BaseDirectory.FullPath, FileName);
             if (FileExists(virtualPath))
                 if (Overwrite)
                     DeleteFile(virtualPath);
                 else
                     throw new IOException("File " + virtualPath + " already exists. Unable to upload file.");
 
-            var aPath = BlogAbsolutePath(virtualPath);
+            var aPath = VirtualPathToUNCPath(virtualPath);
             File.WriteAllBytes(aPath, FileBinary);
             return GetFile(virtualPath);
         }
@@ -273,7 +304,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>the original file object</returns>
         internal override FileSystem.File GetFileContents(FileSystem.File BaseFile)
         {
-            var aPath = BlogAbsolutePath(BaseFile.FullPath);
+            var aPath = VirtualPathToUNCPath(BaseFile.FullPath);
             BaseFile.FileContents = FileToByteArray(aPath);
             return BaseFile;
         }
@@ -309,7 +340,5 @@ namespace BlogEngine.Core.Providers
         {
             throw new NotImplementedException();
         }
-        #endregion
-
     }
 }
