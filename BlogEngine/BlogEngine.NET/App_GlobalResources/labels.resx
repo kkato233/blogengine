@@ -198,6 +198,9 @@
   <data name="commentLabelText" xml:space="preserve">
     <value>Comment label text</value>
   </data>
+  <data name="commentRSS" xml:space="preserve">
+    <value>Comment RSS</value>
+  </data>
   <data name="comments" xml:space="preserve">
     <value>Comments</value>
   </data>
@@ -245,6 +248,9 @@
   </data>
   <data name="displayRatingsOnRecentPosts" xml:space="preserve">
     <value>Display rating</value>
+  </data>
+  <data name="downloadOPML" xml:space="preserve">
+    <value>Download OPML file</value>
   </data>
   <data name="edit" xml:space="preserve">
     <value>Edit</value>
@@ -348,6 +354,9 @@
   </data>
   <data name="import" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="incorrectSimpleCaptcha" xml:space="preserve">
+    <value>The captcha value you provided is incorrect.</value>
   </data>
   <data name="isFrontPage" xml:space="preserve">
     <value>Is front page</value>
@@ -597,6 +606,9 @@
   </data>
   <data name="trimStylesheetDescription" xml:space="preserve">
     <value>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</value>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
     <value>Unapproved Comments</value>
@@ -1015,9 +1027,6 @@
   <data name="createUser" xml:space="preserve">
     <value>Create User</value>
   </data>
-  <data name="deleteConfirm" xml:space="preserve">
-    <value>Are you sure you want to delete this comment?</value>
-  </data>
   <data name="developmentMode" xml:space="preserve">
     <value>Development mode</value>
   </data>
@@ -1114,6 +1123,15 @@
   </data>
   <data name="addNewRole" xml:space="preserve">
     <value>Add new role</value>
+  </data>
+  <data name="areYouSureDeleteComment" xml:space="preserve">
+    <value>Are you sure you want to delete the comment?</value>
+  </data>
+  <data name="areYouSureDeleteEmail" xml:space="preserve">
+    <value>Are you sure you want to delete this e-mail?</value>
+  </data>
+  <data name="areYouSureDeletePage" xml:space="preserve">
+    <value>Are you sure you want to delete the page?</value>
   </data>
   <data name="areYouSureDeleteRow" xml:space="preserve">
     <value>Are you sure you want to delete this row?</value>
@@ -1749,6 +1767,51 @@
   </data>
   <data name="activeThemes" xml:space="preserve">
     <value>Active themes</value>
+  </data>
+  <data name="enterEmail" xml:space="preserve">
+    <value>Enter your e-mail</value>
+  </data>
+  <data name="enterEmailAddress" xml:space="preserve">
+    <value>Please enter an e-mail address</value>
+  </data>
+  <data name="notifyMe" xml:space="preserve">
+    <value>Notify me</value>
+  </data>
+  <data name="thankYou" xml:space="preserve">
+    <value>Thank you</value>
+  </data>
+  <data name="nowUnsubscribed" xml:space="preserve">
+    <value>You are now unsubscribed</value>
+  </data>
+  <data name="viewLargeCalendar" xml:space="preserve">
+    <value>View posts in large calendar</value>
+  </data>
+  <data name="followTwitter" xml:space="preserve">
+    <value>Follow me on Twitter</value>
+  </data>
+  <data name="visitorHi" xml:space="preserve">
+    <value>Hi</value>
+  </data>
+  <data name="welcomeBack" xml:space="preserve">
+    <value>Welcome back!</value>
+  </data>
+  <data name="commentsAddedSince" xml:space="preserve">
+    <value>New comments have been added to {0} since your last comment. </value>
+  </data>
+  <data name="writtenCommentsTotal" xml:space="preserve">
+    <value>You have written {0} comments in total.</value>
+  </data>
+  <data name="contactAuthorInformation" xml:space="preserve">
+    <value>Author information</value>
+  </data>
+  <data name="countryCode" xml:space="preserve">
+    <value>Country code</value>
+  </data>
+  <data name="contactIPAddress" xml:space="preserve">
+    <value>IP address</value>
+  </data>
+  <data name="contactUserAgent" xml:space="preserve">
+    <value>User-agent</value>
   </data>
   <data name="filestorage" xml:space="preserve">
     <value>File Storage Management</value>

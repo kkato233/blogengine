@@ -91,10 +91,10 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 	void rep_ItemDataBound(object sender, RepeaterItemEventArgs e)
 	{
 		HtmlGenericControl control = (HtmlGenericControl)e.Item.FindControl("type");
-		string type = "<strong>Type</strong>: {0}";
+		string type = "<strong>" + Resources.labels.type + "</strong>: {0}";
 		string categories = "<strong>" + Resources.labels.categories + "</strong> : {0}";
-		string tags = "<strong>Tags</strong> : {0}";
-		string keywords = "<strong>Keywords</strong> : {0}    ";
+		string tags = "<strong>" + Resources.labels.tags + "</strong> : {0}";
+		string keywords = "<strong>" + Resources.labels.keywords + "</strong> : {0}    ";
 		if (e.Item.DataItem is Comment)
 		{
 			control.InnerHtml = string.Format(type, Resources.labels.comment);

@@ -145,20 +145,20 @@ namespace Widgets.VisitorInfo
             var avatar = Avatar.GetAvatar(16, email, null, null, name);
             var avatarLink = avatar == null || avatar.Url == null ? string.Empty : avatar.Url.ToString();
             this.Title = string.Format(
-                "<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> Hi {1}", avatarLink, this.Server.HtmlEncode(name));
-            this.pName.InnerHtml = "<strong>Welcome back!</strong>";
+                String.Concat("<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> ", Resources.labels.visitorHi, " {1}"), avatarLink, this.Server.HtmlEncode(name));
+            this.pName.InnerHtml = "<strong><%=Resources.labels.welcomeBack %></strong>";
             var list = this.GetCommentedPosts(email, website);
 
             if (list.Count > 0)
             {
                 var link = string.Format(
                     "<a href=\"{0}\">{1}</a>", list[0].RelativeLink, this.Server.HtmlEncode(list[0].Title));
-                this.pComment.InnerHtml = string.Format("New comments have been added to {0} since your last comment. ", link);
+                this.pComment.InnerHtml = string.Format(Resources.labels.commentsAddedSince, link);
             }
 
             if (this.numberOfComments > 0)
             {
-                this.pComment.InnerHtml += string.Format("You have written {0} comments in total.", this.numberOfComments);
+                this.pComment.InnerHtml += string.Format(Resources.labels.writtenCommentsTotal, this.numberOfComments);
             }
         }
 

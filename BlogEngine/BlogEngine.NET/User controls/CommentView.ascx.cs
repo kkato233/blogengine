@@ -394,12 +394,12 @@
 
                 if (Security.IsAuthorizedTo(Rights.ModerateComments))
                 {
-                    const string ConfirmDelete = "Are you sure you want to delete the comment?";
+                    string ConfirmDelete = Resources.labels.areYouSureDeleteComment;
                     sb.AppendFormat(
                         " | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>",
                         id,
                         ConfirmDelete,
-                        "Delete");
+                        Resources.labels.delete);
 
                 }
                 return sb.ToString();
