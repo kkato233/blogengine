@@ -19,10 +19,10 @@
 .fmD-left { float:left; width:270px;background:#dedede; }
 .fmD-left ul { list-style-type:none; }
 .fmD-left ul li { padding:5px 0px 5px 10px;border-top-left-radius:7px 7px; border-bottom-left-radius:7px 7px;margin:6px 0px; }
-.fmD-left ul li:hover { background:#ccc; }
-.fmD-left ul li.fmDActive { background:#ccc; }
+.fmD-left ul li:hover { background:#fff; }
+.fmD-left ul li.fmDActive { background:#fff; }
 .fmD-left ul li a { width:100%; height:32px; display:block; }
-.fmD-right { width:745px; float:left; min-height:260px; border-top-right-radius: 7px 7px; border-bottom-left-radius:7px 7px; background:#ccc; }
+.fmD-right { width:745px; float:left; min-height:260px; border-top-right-radius: 7px 7px; border-bottom-left-radius:7px 7px; background:#fff; }
 .fmD-right-content { color:#000; font-size: 11px; font-family:'Trebuchet MS', Arial, Serif; height:100%; display:none; padding:15px; }
 .fmD-right-close { padding-top: 126px; font-size:14px; }
 
