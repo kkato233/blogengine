@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
-	Translation done by Kamyar Paykhan (http://www.devzone.ir) - 05/11/2011 - BE.NET 2.0
     Microsoft ResX Schema 
     
     Version 2.0
@@ -1334,7 +1333,7 @@
     <value>آمار</value>
   </data>
   <data name="trash" xml:space="preserve">
-    <value>Trash</value>
+    <value>سطل زباله</value>
   </data>
   <data name="unapproved" xml:space="preserve">
     <value>تایید نشده</value>
@@ -1653,5 +1652,101 @@
   </data>
   <data name="toDisableSetTo0" xml:space="preserve">
     <value>برای غیر فعال کردن، مقدار "0" وارد کنید</value>
+  </data>
+  <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
+    <value>هر متنی را قبل از نام هاست قبول کن</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="activeThemes" xml:space="preserve">
+    <value>تم های فعال</value>
+  </data>
+  <data name="allowMobileTheme" xml:space="preserve">
+    <value>سایت موبایل</value>
+  </data>
+  <data name="alphaNumeric" xml:space="preserve">
+    <value>الفبایی یا عددی</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>قابل استفاده</value>
+  </data>
+  <data name="blogAdded" xml:space="preserve">
+    <value>بلاگ "{0}" ایجاد شد</value>
+  </data>
+  <data name="blogDeleted" xml:space="preserve">
+    <value>بلاگ "{0}" حذف شد</value>
+  </data>
+  <data name="blogs" xml:space="preserve">
+    <value>بلاگها</value>
+  </data>
+  <data name="cannotDeleteLastAdmin" xml:space="preserve">
+    <value>شما نمی توانید آخرین کاربر با دسترسی ایجاد و ویرایش بقیه کاربران را پاک کنید. قبل از حذف این کاربر، ابتدا این دسترسی را به کاربر دیگری بدهید.</value>
+  </data>
+  <data name="couldNotDeleteBlog" xml:space="preserve">
+    <value>خطا در حذف بلاگ: {0}</value>
+  </data>
+  <data name="currentTheme" xml:space="preserve">
+    <value>تم فعلی</value>
+  </data>
+  <data name="downloads" xml:space="preserve">
+    <value>دانلودها</value>
+  </data>
+  <data name="editExistingBlog" xml:space="preserve">
+    <value>ویرایش بلاگ</value>
+  </data>
+  <data name="existingBlogToCreateNewBlogFrom" xml:space="preserve">
+    <value>بلاگ موجود، برای ایجاد بلاگ جدید از روی آن</value>
+  </data>
+  <data name="forceMainTheme" xml:space="preserve">
+    <value>سایت عادی</value>
+  </data>
+  <data name="gallery" xml:space="preserve">
+    <value>گالری</value>
+  </data>
+  <data name="hostName" xml:space="preserve">
+    <value>نام هاست (اختیاری)</value>
+  </data>
+  <data name="installed" xml:space="preserve">
+    <value>نصب شده</value>
+  </data>
+  <data name="invalidBlogId" xml:space="preserve">
+    <value>id بلاگ نامعتبر</value>
+  </data>
+  <data name="itemsPerPage" xml:space="preserve">
+    <value>تعداد آیتمها/صفحه</value>
+  </data>
+  <data name="latestFromTheGallery" xml:space="preserve">
+    <value>آخرین های گالری</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>جدیدترین</value>
+  </data>
+  <data name="orderBy" xml:space="preserve">
+    <value>مرتب سازی بر اساس</value>
+  </data>
+  <data name="savedByAtTime" xml:space="preserve">
+    <value>ذخیره شده توسط{0} در {1}</value>
+  </data>
+  <data name="setAsCurrentTheme" xml:space="preserve">
+    <value>ذخیره به عنوان تم فعلی</value>
+  </data>
+  <data name="setAsMobileTheme" xml:space="preserve">
+    <value>ذخیره به عنوان تم موبایل</value>
+  </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>اجازه درج وبسایت در نظرات</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>مشخص کنید که آیا اجازه درج وبسایت در نظرات را میدهید یا نه</value>
+  </data>
+  <data name="storageContainerName" xml:space="preserve">
+    <value>نام مکان ذخیره سازی</value>
+  </data>
+  <data name="themes" xml:space="preserve">
+    <value>تمها</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>مسیر مجازی</value>
   </data>
 </root>
