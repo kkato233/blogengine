@@ -14,7 +14,6 @@ public class SyntaxHighlighter
     #region Private members
     private const string ExtensionName = "SyntaxHighlighter";
     static protected Dictionary<Guid, ExtensionSettings> _blogsOptions = new Dictionary<Guid, ExtensionSettings>();
-    static protected Dictionary<Guid, ExtensionSettings> _blogsBrushes = new Dictionary<Guid, ExtensionSettings>();
     static protected Dictionary<Guid, ExtensionSettings> _blogsThemes = new Dictionary<Guid, ExtensionSettings>();
     #endregion
 
@@ -41,7 +40,6 @@ public class SyntaxHighlighter
                     {
                         // Initializes
                         //   (1) Options
-                        //   (2) Brushes
                         //   (3) Themees
                         // for the current blog instance.
 
@@ -50,6 +48,8 @@ public class SyntaxHighlighter
                         options.IsScalar = true;
                         options.Help = OptionsHelp();
 
+                        options.AddParameter("cdnScriptsPath", "CDN Script Path", 250, false);
+                        options.AddParameter("cdnStylesPath", "CDN Styles Path", 250, false);
                         options.AddParameter("gutter", "Gutter");
                         options.AddParameter("smart-tabs", "Smart tabs");
                         options.AddParameter("auto-links", "Auto links");
@@ -59,6 +59,8 @@ public class SyntaxHighlighter
                         options.AddParameter("toolbar", "Toolbar");
                         options.AddParameter("wrap-lines", "Wrap lines");
 
+                        options.AddValue("cdnScriptsPath", "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/scripts/");
+                        options.AddValue("cdnStylesPath", "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/styles/");
                         options.AddValue("gutter", true);
                         options.AddValue("smart-tabs", true);
                         options.AddValue("auto-links", true);
@@ -69,58 +71,6 @@ public class SyntaxHighlighter
                         options.AddValue("wrap-lines", true);
 
                         _blogsOptions[blogId] = ExtensionManager.InitSettings(ExtensionName, options);
-
-                        // brushes
-                        ExtensionSettings brushes = new ExtensionSettings("Brushes");
-                        brushes.IsScalar = true;
-
-                        brushes.AddParameter("shBrushBash", "Bash (bash, shell)", 100, false);
-                        brushes.AddParameter("shBrushCpp", "C++ (cpp, c)", 100, false);
-                        brushes.AddParameter("shBrushCSharp", "C# (c-sharp, csharp)", 100, false);
-                        brushes.AddParameter("shBrushCss", "Css (css)", 100, false);
-                        brushes.AddParameter("shBrushDelphi", "Delphi (delphi, pas, pascal)", 100, false);
-                        brushes.AddParameter("shBrushDiff", "Diff (diff, patch)", 100, false);
-                        brushes.AddParameter("shBrushGroovy", "Groovy (groovy)", 100, false);
-                        brushes.AddParameter("shBrushJava", "Java (java)", 100, false);
-                        brushes.AddParameter("shBrushJScript", "JScript (js, jscript, javascript)", 100, false);
-                        brushes.AddParameter("shBrushPhp", "PHP (php)", 100, false);
-                        brushes.AddParameter("shBrushPlain", "Plain (plain, text)", 100, false);
-                        brushes.AddParameter("shBrushPython", "Python (py, python)", 100, false);
-                        brushes.AddParameter("shBrushRuby", "Ruby (rails, ror, ruby)", 100, false);
-                        brushes.AddParameter("shBrushScala", "Scala (scala)", 100, false);
-                        brushes.AddParameter("shBrushSql", "SQL (sql)", 100, false);
-                        brushes.AddParameter("shBrushVb", "VB (vb, vbnet)", 100, false);
-                        brushes.AddParameter("shBrushXml", "XML (xml, xhtml, xslt, html, xhtml)", 100, false);
-                        brushes.AddParameter("shBrushColdFusion", "Cold Fusion (cf, coldfusion)", 100, false);
-                        brushes.AddParameter("shBrushErlang", "Erlang (erlang, erl)", 100, false);
-                        brushes.AddParameter("shBrushJavaFX", "JavaFX (jfx, javafx)", 100, false);
-                        brushes.AddParameter("shBrushPerl", "Perl (perl, pl)", 100, false);
-                        brushes.AddParameter("shBrushPowerShell", "PowerSell (ps, powershell)", 100, false);
-
-                        brushes.AddValue("shBrushBash", false);
-                        brushes.AddValue("shBrushCpp", false);
-                        brushes.AddValue("shBrushCSharp", true);
-                        brushes.AddValue("shBrushCss", true);
-                        brushes.AddValue("shBrushDelphi", false);
-                        brushes.AddValue("shBrushDiff", false);
-                        brushes.AddValue("shBrushGroovy", false);
-                        brushes.AddValue("shBrushJava", false);
-                        brushes.AddValue("shBrushJScript", true);
-                        brushes.AddValue("shBrushPhp", false);
-                        brushes.AddValue("shBrushPlain", true);
-                        brushes.AddValue("shBrushPython", false);
-                        brushes.AddValue("shBrushRuby", false);
-                        brushes.AddValue("shBrushScala", false);
-                        brushes.AddValue("shBrushSql", true);
-                        brushes.AddValue("shBrushVb", true);
-                        brushes.AddValue("shBrushXml", true);
-                        brushes.AddValue("shBrushColdFusion", false);
-                        brushes.AddValue("shBrushErlang", false);
-                        brushes.AddValue("shBrushJavaFX", false);
-                        brushes.AddValue("shBrushPerl", false);
-                        brushes.AddValue("shBrushPowerShell", false);
-
-                        _blogsBrushes[blogId] = ExtensionManager.InitSettings(ExtensionName, brushes);
 
                         // themes
                         ExtensionSettings themes = new ExtensionSettings("Themes");
@@ -133,17 +83,6 @@ public class SyntaxHighlighter
             }
 
             return options;
-        }
-    }
-
-    private static ExtensionSettings Brushes
-    {
-        get
-        {
-            // by invoking the "Options" property getter, we are ensuring
-            // that an entry is put into _blogsBrushes for the current blog instance.
-            ExtensionSettings options = Options;
-            return _blogsBrushes[Blog.CurrentInstance.Id];
         }
     }
 
@@ -227,85 +166,14 @@ public class SyntaxHighlighter
     private static void AddJavaScripts(Page page)
     {
         AddJavaScript("shCore.js", page);
-
-        if (Brushes != null)
-        {
-            if (Brushes.GetSingleValue("shBrushBash").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushBash.js", page);
-
-            if (Brushes.GetSingleValue("shBrushCpp").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushCpp.js", page);
-
-            if (Brushes.GetSingleValue("shBrushCSharp").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushCSharp.js", page);
-
-            if (Brushes.GetSingleValue("shBrushCss").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushCss.js", page);
-
-            if (Brushes.GetSingleValue("shBrushDelphi").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushDelphi.js", page);
-
-            if (Brushes.GetSingleValue("shBrushDiff").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushDiff.js", page);
-
-            if (Brushes.GetSingleValue("shBrushGroovy").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushGroovy.js", page);
-
-            if (Brushes.GetSingleValue("shBrushJava").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushJava.js", page);
-
-            if (Brushes.GetSingleValue("shBrushJScript").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushJScript.js", page);
-
-            if (Brushes.GetSingleValue("shBrushPhp").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushPhp.js", page);
-
-            if (Brushes.GetSingleValue("shBrushPlain").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushPlain.js", page);
-
-            if (Brushes.GetSingleValue("shBrushPython").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushPython.js", page);
-
-            if (Brushes.GetSingleValue("shBrushRuby").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushRuby.js", page);
-
-            if (Brushes.GetSingleValue("shBrushScala").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushScala.js", page);
-
-            if (Brushes.GetSingleValue("shBrushSql").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushSql.js", page);
-
-            if (Brushes.GetSingleValue("shBrushVb").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushVb.js", page);
-
-            if (Brushes.GetSingleValue("shBrushXml").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushXml.js", page);
-
-            if (Brushes.GetSingleValue("shBrushColdFusion").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushColdFusion.js", page);
-
-            if (Brushes.GetSingleValue("shBrushErlang").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushErlang.js", page);
-
-            if (Brushes.GetSingleValue("shBrushJavaFX").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushJavaFX.js", page);
-
-            if (Brushes.GetSingleValue("shBrushPerl").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushPerl.js", page);
-
-            if (Brushes.GetSingleValue("shBrushPowerShell").ToLowerInvariant() == "true")
-                AddJavaScript("shBrushPowerShell.js", page);
-        }
+        AddJavaScript("shAutoloader.js", page);
     }
 
     #region Script/Style adding
 
     private static void AddJavaScript(string src, Page page)
     {
-        HtmlGenericControl script = new HtmlGenericControl("script");
-        script.Attributes["type"] = "text/javascript";
-        script.Attributes["src"] = GetUrl(ScriptsFolder(), src);
-        page.Header.Controls.Add(script);
+        page.ClientScript.RegisterStartupScript(page.GetType(), src, String.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", GetUrl(ScriptsFolder(), src)));
     }
 
     private static void AddStylesheet(string href, Page page)
@@ -321,7 +189,36 @@ public class SyntaxHighlighter
     {
         StringBuilder sb = new StringBuilder();
         
-        sb.AppendLine("\n\n<script type=\"text/javascript\">");
+        sb.AppendLine("<script type=\"text/javascript\" defer=\"defer\">");
+
+        sb.AppendLine("function path() { var args = arguments, result = []; for(var i = 0; i < args.length; i++) { result.push(args[i].replace('@', '" + ScriptsFolder() + "')); } return result; }");
+        sb.AppendLine("SyntaxHighlighter.autoloader.apply(null, path(");
+        sb.AppendLine("'applescript            @shBrushAppleScript.js',");
+        sb.AppendLine("'actionscript3 as3      @shBrushAS3.js',");
+        sb.AppendLine("'bash shell             @shBrushBash.js',");
+        sb.AppendLine("'coldfusion cf          @shBrushColdFusion.js',");
+        sb.AppendLine("'cpp c                  @shBrushCpp.js',");
+        sb.AppendLine("'c# c-sharp csharp      @shBrushCSharp.js',");
+        sb.AppendLine("'css                    @shBrushCss.js',");
+        sb.AppendLine("'delphi pascal          @shBrushDelphi.js',");
+        sb.AppendLine("'diff patch pas         @shBrushDiff.js',");
+        sb.AppendLine("'erl erlang             @shBrushErlang.js',");
+        sb.AppendLine("'groovy                 @shBrushGroovy.js',");
+        sb.AppendLine("'java                   @shBrushJava.js',");
+        sb.AppendLine("'jfx javafx             @shBrushJavaFX.js',");
+        sb.AppendLine("'js jscript javascript  @shBrushJScript.js',");
+        sb.AppendLine("'perl pl                @shBrushPerl.js',");
+        sb.AppendLine("'php                    @shBrushPhp.js',");
+        sb.AppendLine("'text plain             @shBrushPlain.js',");
+        sb.AppendLine("'py python              @shBrushPython.js',");
+        sb.AppendLine("'ruby rails ror rb      @shBrushRuby.js',");
+        sb.AppendLine("'sass scss              @shBrushSass.js',");
+        sb.AppendLine("'scala                  @shBrushScala.js',");
+        sb.AppendLine("'sql                    @shBrushSql.js',");
+        sb.AppendLine("'vb vbnet               @shBrushVb.js',");
+        sb.AppendLine("'xml xhtml xslt html    @shBrushXml.js'");
+        sb.AppendLine("));");
+
         sb.AppendLine(string.Format("\tSyntaxHighlighter.config.clipboardSwf='{0}';", GetUrl(ScriptsFolder(), "clipboard.swf")));
 
         if (Options != null)
@@ -337,14 +234,15 @@ public class SyntaxHighlighter
         }  
         
         sb.AppendLine("\tSyntaxHighlighter.all();");
-        sb.AppendLine("</script>\n\n");
+        sb.AppendLine("</script>");
         page.ClientScript.RegisterStartupScript(page.GetType(), "SyntaxHighlighter", sb.ToString(), false);
     }
 
     private static string GetUrl(string folder, string url)
     {
         string s = HttpContext.Current.Server.UrlPathEncode(string.Format("{0}{1}", folder, url));
-        s = Utils.ApplicationRelativeWebRoot + s;
+        if (!folder.ToLowerInvariant().Contains("http:") && !folder.ToLowerInvariant().Contains("https://"))
+            s = Utils.ApplicationRelativeWebRoot + s;
         return s;
     }
     
@@ -362,6 +260,8 @@ public class SyntaxHighlighter
     {
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("<p>This extension implements excellent Alex Gorbatchev's syntax highlighter JS library for source code formatting. Please refer to <a target=\"_new\" href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter:Usage\">this site</a> for usage.</p>");
+        sb.AppendLine("<p><b>cdnScriptsPath</b>: Allows you to load the SyntaxHighlighter script from a CDN. Leave empty for local files</p>");
+        sb.AppendLine("<p><b>cdnStylesPath</b>: Allows you to load the SyntaxHighlighter styles from a CDN. Leave empty for local files</p>");
         sb.AppendLine("<p><b>auto-links</b>: Allows you to turn detection of links in the highlighted element on and off. If the option is turned off, URLs won't be clickable.</p>");
         sb.AppendLine("<p><b>collapse</b>: Allows you to force highlighted elements on the page to be collapsed by default.</p>");
         sb.AppendLine("<p><b>gutter</b>:	Allows you to turn gutter with line numbers on and off.</p>");
@@ -389,7 +289,10 @@ public class SyntaxHighlighter
     {
         if (Options != null)
         {
-            return "Scripts/syntaxhighlighter/";
+            if (!String.IsNullOrEmpty(Options.GetSingleValue("cdnScriptsPath")))
+                return Options.GetSingleValue("cdnScriptsPath");
+            else
+                return "Scripts/syntaxhighlighter/";
         }
         return "";
     }
@@ -398,7 +301,10 @@ public class SyntaxHighlighter
     {
         if (Options != null)
         {
-            return "Styles/syntaxhighlighter/";
+            if (!String.IsNullOrEmpty(Options.GetSingleValue("cdnStylesPath")))
+                return Options.GetSingleValue("cdnStylesPath");
+            else
+                return "Styles/syntaxhighlighter/";
         }
         return "";
     }
