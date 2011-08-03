@@ -191,7 +191,7 @@ public class SyntaxHighlighter
         
         sb.AppendLine("<script type=\"text/javascript\" defer=\"defer\">");
 
-        sb.AppendLine("function path() { var args = arguments, result = []; for(var i = 0; i < args.length; i++) { result.push(args[i].replace('@', '" + GetUrl(ScriptsFolder(), String.Empty()) + "')); } return result; }");
+        sb.AppendLine("function path() { var args = arguments, result = []; for(var i = 0; i < args.length; i++) { result.push(args[i].replace('@', '" + GetUrl(ScriptsFolder(), String.Empty) + "')); } return result; }");
         sb.AppendLine("SyntaxHighlighter.autoloader.apply(null, path(");
         sb.AppendLine("'applescript            @shBrushAppleScript.js',");
         sb.AppendLine("'actionscript3 as3      @shBrushAS3.js',");
