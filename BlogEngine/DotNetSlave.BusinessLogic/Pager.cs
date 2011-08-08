@@ -6,16 +6,19 @@ namespace BlogEngine.Core
     {
         private static int _currentPage;
         private static int _itemCount;
+        private static string _pkgType;
 
         /// <summary>
         /// Pager
         /// </summary>
         /// <param name="currentPage">Current page</param>
         /// <param name="itemCount">Item count</param>
-        public Pager(int currentPage, int itemCount)
+        /// <param name="pkgType">Package type</param>
+        public Pager(int currentPage, int itemCount, string pkgType)
         {
             _currentPage = currentPage;
             _itemCount = itemCount;
+            _pkgType = pkgType;
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace BlogEngine.Core
 
                 for (int i = 1; i <= (int)(_itemCount / BlogSettings.Instance.PostsPerPage) + 1; i++)
                 {
-                    items.Add(i == _currentPage ? new PagerItem(i, true) : new PagerItem(i, false));
+                    items.Add(i == _currentPage ? new PagerItem(i, true, _pkgType) : new PagerItem(i, false, _pkgType));
                 }
                 return items;
             }
@@ -49,15 +52,18 @@ namespace BlogEngine.Core
     /// </summary>
     public class PagerItem
     {
+        private readonly string _pkgType;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="pageNumber"></param>
         /// <param name="current"></param>
-        public PagerItem(int pageNumber, bool current)
+        /// <param name="pkgType"></param>
+        public PagerItem(int pageNumber, bool current, string pkgType = "")
         {
             PageNumber = pageNumber;
             Current = current;
+            _pkgType = pkgType;
         }
         /// <summary>
         /// Page number
@@ -67,5 +73,12 @@ namespace BlogEngine.Core
         /// Current selected page
         /// </summary>
         public bool Current { get; set; }
+        /// <summary>
+        /// Page link
+        /// </summary>
+        public string PageLink 
+        {
+            get { return string.Format("GalleryGetPackages({0},'{1}'); return false;", PageNumber, _pkgType); }
+        }
     }
 }

@@ -4,7 +4,7 @@
         {#if $T.p.Current}
             <li class="active">{$T.p.PageNumber}</li> 
         {#else}
-            <li><a href="" onclick="GalleryGetPackages({$T.p.PageNumber}); return false;">{$T.p.PageNumber}</a></li>
+            <li><a href="" onclick="{$T.p.PageLink}">{$T.p.PageNumber}</a></li>
         {#/if}   
     {#/for}
 </ul><img class="page-loader" src="../../pics/ajax-loader.gif" style="display: none;" alt="loader" />

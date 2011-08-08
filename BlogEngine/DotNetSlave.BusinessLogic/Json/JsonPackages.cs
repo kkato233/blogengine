@@ -42,7 +42,7 @@ namespace BlogEngine.Core.Json
                     Id = p.Id,
                     PackageType = pkgType,
                     Authors = string.IsNullOrEmpty(p.Authors) ? "unknown" : p.Authors,
-                    Description = p.Description,
+                    Description = p.Description.Length > 140 ? string.Format("{0}...", p.Description.Substring(0, 140)) : p.Description,
                     DownloadCount = p.DownloadCount,
                     LastUpdated = p.LastUpdated.ToString("dd MMM yyyy"),
                     Title = p.Title,

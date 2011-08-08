@@ -999,12 +999,12 @@ function SetCurrentTheme(theme, mobile) {
     return false;
 }
 
-function GalleryGetPackages(pg) {
+function GalleryGetPackages(pg, pkgType) {
     $('.page-loader').show();
     var srt = $("#gallery-sort-order").val();
     var srch = $("#searchGallery").val();
     //var pg = Querystring('p').length > 0 ? Querystring('p') : 1;
-    var dto = { "pkgType": "Theme", "page": pg, "sortOrder": srt, "searchVal": srch };
+    var dto = { "pkgType": pkgType, "page": pg, "sortOrder": srt, "searchVal": srch };
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadGalleryPage",
         data: JSON.stringify(dto),

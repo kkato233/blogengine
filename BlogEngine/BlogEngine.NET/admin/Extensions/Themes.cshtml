@@ -30,40 +30,57 @@
          $('.loader2').hide();
          $('.page-loader').hide();
          if (Querystring('t') == '2') {
-             GalleryGetPackages(1);
+             GalleryGetPackages(1, 'Theme');
          }
      });
 </script>
 
 <div class="content-box-outer">
-    <div class="content-box-right">
-        @RenderPage("_menu.cshtml")
-	</div>
-    <div class="content-box-left">
-        <h1>
-            @Resources.labels.themes
-            @if (tab == "1"){
-                if (canManageThemes) {
-                    <a href="Themes.cshtml?t=2" class="image-gallery cboxElement">@Resources.labels.gallery</a>
+    <div class="content-box-full">
+        
+        <div class="TabRow">
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" onclick="location.href='default.cshtml'">Extensions</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab AlternatePageTabSelected">@Resources.labels.themes</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" onclick="location.href='Widgets.cshtml'">Widgets</span>
+            </div>
+            <div class="TabRight">
+                @if (tab == "1"){
+                    @Resources.labels.installed
+                    if (canManageThemes)
+                    {
+                        <span>|</span> <a href="Themes.cshtml?t=2">@Resources.labels.gallery</a>
+                    }
                 }
-            }
-            else{
-                <a href="Themes.cshtml" class="image-gallery cboxElement">@Resources.labels.installed</a>
-            }
-        </h1>
+                else
+                {
+                    <a href="Themes.cshtml">@Resources.labels.installed</a>
+                     <span>|</span> @Resources.labels.gallery
+                }
+            </div>
+        </div>
 
         <div>
-            @if (tab == "1"){
+            @if (tab == "1")
+            {
                 @Helpers.AdminHelper.InstalledThemes()
             }
-            else{
+            else
+            {
             <div class="gallery-options">
                 <div id="gallery-search">
                     <input type="text" value="" id="searchGallery" />
-                    <input type="submit" id="btnGalSearch" class="btn primary" onclick="GalleryGetPackages(1); return false;" value="@Resources.labels.search" />
+                    <input type="submit" id="btnGalSearch" class="btn primary" onclick="GalleryGetPackages(1, 'Theme'); return false;" value="@Resources.labels.search" />
                 </div>
                 <span>@Resources.labels.orderBy: </span>
-                <select id="gallery-sort-order" onchange="GalleryGetPackages(1)">
+                <select id="gallery-sort-order" onchange="GalleryGetPackages(1, 'Theme')">
                     <option value="Alphanumeric">@Resources.labels.alphaNumeric</option>
                     <option value="Downloads">@Resources.labels.downloads</option>
                     <option value="Newest" selected="selected">@Resources.labels.newest</option>

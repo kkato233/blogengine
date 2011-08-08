@@ -17,12 +17,12 @@
     var currTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.Theme);  
     var currMobileTheme = BlogEngine.Core.Packaging.PackageManager.GetCurrentTheme(BlogSettings.Instance.MobileTheme);
     
-    <h2>@Resources.labels.activeThemes</h2>
+
     <div class="installed-themes">
-        <ul class="gallery Theme">
+        <ul class="gallery">
             <li>
-                <div class="ext">
-                    <div class="ext-img">
+                <div class="Theme">
+                    <div class="pkg-img">
                         <img src="@currTheme.IconUrl" class="thumbnail" alt="current theme" />
                     </div>
                     <div class="ext-prop">
@@ -37,8 +37,8 @@
                 </div>
             </li>
             <li>
-                <div class="ext">
-                    <div class="ext-img">
+                <div class="Theme">
+                    <div class="pkg-img">
                         <img src="@currMobileTheme.IconUrl" class="thumbnail" alt="mobile theme" />
                     </div>
                     <div class="ext-prop">
@@ -57,13 +57,13 @@
    
     <h2>@Resources.labels.available</h2>
     <div class="available-themes">
-        <ul class="gallery Theme">
+        <ul class="gallery">
         @foreach (var theme in Blog.CurrentInstance.InstalledThemes)
         {
             if (theme.Id == BlogSettings.Instance.Theme || theme.Id == BlogSettings.Instance.MobileTheme) { continue; }
         <li id="@theme.Id">
-            <div class="ext">
-                <div class="ext-img">
+            <div class="Theme">
+                <div class="pkg-img">
                     <img src="@theme.IconUrl" class="thumbnail" alt="theme" />
                 </div>
                 <div class="ext-prop">

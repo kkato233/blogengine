@@ -4,11 +4,11 @@
     There are no packages to display.
 </div>
 {#else}
-<ul class="gallery Theme">
+<ul class="gallery {$T.d[0].PackageType}">
     {#foreach $T.d as p}
     <li>
-        <div class="ext">
-            <div class="ext-img">
+        <div class="{$T.p.PackageType}">
+            <div class="pkg-img">
                 <img src="{$T.p.IconUrl}" class="thumbnail" alt="theme" />
             </div>                   
             <div class="ext-prop">
@@ -24,18 +24,19 @@
                     {#if $T.p.Tags != null}
                         <p class="tags">Tags: {$T.p.Tags}</p> 
                     {#/if}
-                    <p class="status">
-                        Last Updated: {$T.p.LastUpdated}&nbsp;&#124;&nbsp;
-                        Author: {$T.p.Authors}&nbsp;&#124;&nbsp;
-                        Downloads: {$T.p.DownloadCount}
-                    </p>
+                    <p class="status">Last Updated: {$T.p.LastUpdated}</p>
                     {#if $T.p.Website != null}
-                        <p class="website">Website: <a target="_new" href="{$T.p.Website}">{$T.p.Website}</a></p> 
+                        <p class="website">Author: <a target="_new" href="{$T.p.Website}">{$T.p.Authors}</a></p> 
+                    {#else}
+                        <p>Author: {$T.p.Authors}</p>
                     {#/if}
+                    <p>Downloads: {$T.p.DownloadCount}</p>
+                    {#if $T.p.PackageType == 'Theme'}
                     <p>
                         <a href="" class="newAction" onclick="InstallPackage('{$T.p.Id}'); return false;">Install</a>
                         <img id="pkg-{$T.p.Id}" class="loader2" src="../../pics/ajax-loader.gif" style="display: none;" alt="loader" />
                     </p>
+                    {#/if}
                 </div>
             </div> 
         </div>        
