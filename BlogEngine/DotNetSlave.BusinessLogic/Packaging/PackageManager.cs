@@ -129,7 +129,7 @@ namespace BlogEngine.Core.Packaging
                     }
                 }
                 
-                GalleryPager = new Pager(page, cnt);
+                GalleryPager = new Pager(page, cnt, pkgType);
 
                 if (cnt > 0)
                 {

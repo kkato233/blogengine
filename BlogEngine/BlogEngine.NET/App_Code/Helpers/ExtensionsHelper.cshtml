@@ -23,11 +23,7 @@
         }
     }
 
-    if(isenabled)
-    {
-        <h1>@Resources.labels.extensions (@manExtensions.Count)</h1>
-    }
-    else
+    if(!isenabled)
     {
         @* show/hide disabled extensions *@
         var ShowHide = "Hide";

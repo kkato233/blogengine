@@ -65,6 +65,26 @@
 	        </div>
         </div>
 
+        <div class="TabRow">
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab AlternatePageTabSelected" title="Tasks">Extensions</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" title="News" onclick="location.href='Themes.cshtml'">Themes</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" title="News" onclick="location.href='Widgets.cshtml'">Widgets</span>
+            </div>
+            <div class="TabRight">
+                Installed | 
+                <a href="Extensions.cshtml">@Resources.labels.gallery</a>
+            </div>
+        </div>
+        
+
         <div>@Helpers.ExtensionsHelper.GetExtensions(true)</div>
         <div>@Helpers.ExtensionsHelper.GetExtensions(false)</div>
 	</div>
