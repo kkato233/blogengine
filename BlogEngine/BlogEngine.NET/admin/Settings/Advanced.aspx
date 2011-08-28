@@ -33,7 +33,8 @@
 				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
 				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
-				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value')                
+				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value'),
+				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value')                
 			};
 			
             $.ajax({
@@ -138,6 +139,11 @@
                         <asp:CheckBox runat="server" ID="cbEnableErrorLogging" />
                         <label for="<%=cbEnableErrorLogging.ClientID %>"><%=Resources.labels.enableErrorLogging %></label>
                         <span class="insetHelp">(<%=Resources.labels.enableErrorLoggingDescription%>)</span>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=txtGalleryFeed.ClientID %>"><%=Resources.labels.galleryFeedUrl%></label>
+                        <asp:TextBox Width="300" runat="server" ID="txtGalleryFeed" />
+                        <span class="belowHelp"><label><%=Resources.labels.galleryFeedUrlDescription%></label></span>
                     </li>
                 </ul>
                 <h2><%=Resources.labels.securitySettings %></h2>

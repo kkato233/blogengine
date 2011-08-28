@@ -51,17 +51,18 @@
             cbEnableTrackBackSend.Checked = settings.EnableTrackBackSend;
             cbEnableTrackBackReceive.Checked = settings.EnableTrackBackReceive;
             cbEnableErrorLogging.Checked = settings.EnableErrorLogging;
+            txtGalleryFeed.Text = settings.GalleryFeedUrl;
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
             if (!Page.IsPostBack)
             {
-                this.ddlProvider.DataSource = BlogService.FileSystemProviders;
-                this.ddlProvider.DataTextField = "Description";
-                this.ddlProvider.DataValueField = "Name";
-                this.ddlProvider.DataBind();
-                this.ddlProvider.SelectedValue = BlogService.FileSystemProvider.Name;
-                this.hdnProvider.Value = BlogService.FileSystemProvider.Name;
+                ddlProvider.DataSource = BlogService.FileSystemProviders;
+                ddlProvider.DataTextField = "Description";
+                ddlProvider.DataValueField = "Name";
+                ddlProvider.DataBind();
+                ddlProvider.SelectedValue = BlogService.FileSystemProvider.Name;
+                hdnProvider.Value = BlogService.FileSystemProvider.Name;
             }
         }
 
@@ -114,6 +115,7 @@
         /// <param name="allowRemoteFileDownloads"></param>
         /// <param name="remoteTimeout"></param>
         /// <param name="remoteMaxFileSize"></param>
+        /// <param name="galleryFeedUrl">Online gallery feed URL</param>
         /// <returns></returns>
         [WebMethod]
         public static JsonResponse Save(bool enableCompression, 
@@ -129,7 +131,8 @@
             bool enableErrorLogging,
             bool allowRemoteFileDownloads,
             int remoteTimeout,
-            int remoteMaxFileSize)
+            int remoteMaxFileSize,
+            string galleryFeedUrl)
         {
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
@@ -154,9 +157,7 @@
                 else if (remoteMaxFileSize < 0)
                 {
                     throw new ArgumentOutOfRangeException("RemoteMaxFileSize must be greater than or equal to 0 bytes.");
-                }
-
-         
+                }  
 
                 settings.EnableHttpCompression = enableCompression;
                 settings.RemoveWhitespaceInStyleSheets = removeWhitespaceInStyleSheets;
@@ -169,6 +170,7 @@
                 settings.EnablePingBackSend = enablePingBackSend;
                 settings.EnablePingBackReceive = enablePingBackReceive;
                 settings.EnableErrorLogging = enableErrorLogging;
+                settings.GalleryFeedUrl = galleryFeedUrl;
 
                 settings.AllowServerToDownloadRemoteFiles = allowRemoteFileDownloads;
                 settings.RemoteFileDownloadTimeout = remoteTimeout;

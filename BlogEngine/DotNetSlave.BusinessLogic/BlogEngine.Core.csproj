@@ -151,7 +151,6 @@
     <Compile Include="Json\JsonCustomFilter.cs" />
     <Compile Include="Json\JsonCustomFilterList.cs" />
     <Compile Include="Json\JsonPackage.cs" />
-    <Compile Include="Json\JsonPackages.cs" />
     <Compile Include="Json\JsonPage.cs" />
     <Compile Include="Json\JsonPages.cs" />
     <Compile Include="Json\JsonPost.cs" />
@@ -163,10 +162,15 @@
     <Compile Include="Json\JsonTag.cs" />
     <Compile Include="Json\JsonTrash.cs" />
     <Compile Include="Json\JsonTrashList.cs" />
+    <Compile Include="Packaging\Constants.cs" />
     <Compile Include="Packaging\FileSystem.cs" />
-    <Compile Include="Packaging\PackageManager.cs" />
+    <Compile Include="Packaging\Gallery.cs" />
+    <Compile Include="Packaging\InstalledPackage.cs" />
+    <Compile Include="Packaging\Installer.cs" />
+    <Compile Include="Packaging\PackageFile.cs" />
+    <Compile Include="Packaging\PackageRepository.cs" />
     <Compile Include="Packaging\PackagingSource.cs" />
-    <Compile Include="Pager.cs" />
+    <Compile Include="Packaging\Pager.cs" />
     <Compile Include="Ping\Manager.cs" />
     <Compile Include="Ping\Trackback.cs" />
     <Compile Include="Ping\TrackbackMessage.cs" />
@@ -180,6 +184,7 @@
     <Compile Include="Providers\FileSystemProviders\DbFileSystemProvider.cs" />
     <Compile Include="Providers\FileSystemProviders\UNCFileSystemProvider.cs" />
     <Compile Include="Providers\XmlProvider\Blogs.cs" />
+    <Compile Include="Providers\XmlProvider\Packaging.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="Providers\FileSystemProviders\XmlFileSystemProvider.cs" />
     <Compile Include="RemoteFile.cs" />

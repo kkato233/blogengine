@@ -990,30 +990,5 @@ namespace BlogEngine.Core
             get { return _cache ?? (_cache = new CacheProvider(HttpContext.Current.Cache)); }
         }
 
-        #region Gallery/Packaging
-
-        /// <summary>
-        /// Installed Packages (extensions, themes and widgets)
-        /// </summary>
-        public List<Json.JsonPackage> InstalledThemes
-        {
-            get
-            {
-                if (Cache["Installed-Themes"] == null)
-                {
-                    Cache.Add(
-                        "Installed-Themes",
-                        Packaging.PackageManager.InstalledPackages("Theme"),
-                        null,
-                        System.Web.Caching.Cache.NoAbsoluteExpiration,
-                        new TimeSpan(1, 0, 0),
-                        CacheItemPriority.Low,
-                        null);
-                }
-                return (List<Json.JsonPackage>)Cache["Installed-Themes"];
-            } 
-        }
-
-        #endregion
     }
 }

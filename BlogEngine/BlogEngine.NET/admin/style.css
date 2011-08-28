@@ -490,32 +490,38 @@ span.comNone {color: #aaa; margin:0 3px 0 0; cursor:default;}
 /* Gallery */
 /* ------------------------------*/
 ul.gallery { margin: 0; padding: 0; }
-.gallery h2 { border: 0; padding: 0; margin: 0;  }
-.gallery .Theme .thumbnail { border: 0; width: 148px; height: 96px; overflow: hidden; }
-.gallery .Extension .thumbnail, .gallery .Widget .thumbnail { border: 0; width: 72px; }
-.ext { width: 99%; display:inline-table; border-bottom: 1px solid #EAEAEA; padding: 8px 0; }
-.pkg-img { float: left; }
-
-
-.ext-prop { text-align: left; width: auto; margin-left: 190px; }
-.gallery .Extension .ext-prop, .gallery .Widget .ext-prop { text-align: left; width: auto; margin-left: 106px; }
-.gallery li { list-style: none; margin: 0 0 10px 0; }
-.gallery-options { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea; clear: left; }
-.loader2, .page-loader { margin: 0; padding: 0; border: 0; width: 18px; height: 18px; position: relative; top: 4px; left: 5px; }
 #filterResults { margin-left: 10px; }
 #gallery-search { float: right; }
-.installed-themes { margin-bottom: 35px; }
-.installed-themes img { border: 2px solid #36B121 !important; padding: 3px !important; width: 140px !important; }
+.gallery-options { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea; clear: left; }
+.gallery h2 { border: 0; padding: 0; margin: 0;  }
+h2.gallery-hdr {  font-size: 18px; }
+.gallery h4, .ext h4 { margin-bottom: 3px; }
+.ext { width: 99%; display:inline-table; border-bottom: 1px solid #EAEAEA; padding: 8px 0; }
+.pkg-installed { background-color: #F9F9F9; }
+.gallery img { border: 0; width: 100px; }
+.pkg-hdr { display: inline-table; width: 340px; }
+.pkg-img { float: left; width: 100px; height: 100px; overflow: hidden; }
+.prop-hdr { display: inline-table; width: 220px; float: right; height: 120px; }
+.prop-hdr p.package-installed, .prop-hdr p.package-update { padding-left: 20px; }
+.loader2, .page-loader { margin: 0; padding: 0; border: 0; width: 18px !important; height: 18px; position: relative; top: 4px; left: 5px; }
+.installed-themes { margin-bottom: 35px; margin-top: 20px; } 
+.gallery li { list-style: none; margin: 2px; width: 31%; height: 235px; padding: 5px; display: inline-table; border-bottom: 1px solid #eaeaea; border: 1px solid #eaeaea; }
+.gallery p, .ext p { margin: 0; }
 
-.gallery li { width: 48%; height: 100%; padding: 5px; display: inline-table; border-bottom: 1px solid #eaeaea; }
+/* gallery background icons */
 .image-gallery {float:right; font-weight:normal; padding:7px 10px 5px 22px; margin-left:20px; font-size:13px;
     background: transparent url("images/imagegallery.png") no-repeat scroll left center;  }
-.gallery h4, .ext h4 { margin-bottom: 3px; }
-.gallery p, .ext p { margin: 0; }
+.package-installed { padding:5px 5px 5px 22px; margin-left:20px; font-size:13px; color: Green;
+    background: transparent url("images/action-enable.png") no-repeat scroll left center;  }
+.package-update { padding-left: 20px; margin-left:20px; background: transparent url("images/icon-info.png") no-repeat scroll left center; width: 40%; }
+.package-update a { color: Blue; }
+.package-delete { width: 40%; float: left; }
+.package-update.local { float: right; }
     
 /* List pager */
 /* ------------------------------*/
-#list-pager { border:0; margin:0 0 0 300px; padding:0; }
+
+#list-pager { border:0; margin: 0; margin-left: 44%; margin-top: 20px; padding:0; float: none; }
 #list-pager li{
     border:0; margin:0; padding:0;
     font-size:11px;

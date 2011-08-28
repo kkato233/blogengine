@@ -20,7 +20,7 @@
      $(document).ready(function () {
          $('.loader2').hide();
          $('.page-loader').hide();
-         GalleryGetPackages(1,'Widget');
+         GalleryGetPackages(0,'Widget');
      });
 </script>
 
@@ -50,10 +50,10 @@
             <div class="gallery-options">
                 <div id="gallery-search">
                     <input type="text" value="" id="searchGallery" />
-                    <input type="submit" id="btnGalSearch" class="btn primary" onclick="GalleryGetPackages(1,'Widget'); return false;" value="@Resources.labels.search" />
+                    <input type="submit" id="btnGalSearch" class="btn primary" onclick="GalleryGetPackages(0,'Widget'); return false;" value="@Resources.labels.search" />
                 </div>
                 <span>@Resources.labels.orderBy: </span>
-                <select id="gallery-sort-order" onchange="GalleryGetPackages(1,'Widget')">
+                <select id="gallery-sort-order" onchange="GalleryGetPackages(0,'Widget')">
                     <option value="Alphanumeric">@Resources.labels.alphaNumeric</option>
                     <option value="Downloads">@Resources.labels.downloads</option>
                     <option value="Newest" selected="selected">@Resources.labels.newest</option>

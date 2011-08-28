@@ -1,4 +1,6 @@
-﻿namespace BlogEngine.Core.Providers
+﻿using BlogEngine.Core.Packaging;
+
+namespace BlogEngine.Core.Providers
 {
     using System;
     using System.Collections.Generic;
@@ -14,9 +16,6 @@
     /// </summary>
     public static class BlogService
     {
-        
-
-
         #region Constants and Fields
 
         /// <summary>
@@ -803,6 +802,56 @@
         {
             return FileSystemProvider.GetFileContents(BaseFile);
         }
+        #endregion
+
+        #region Packaging
+
+        /// <summary>
+        /// Save installed gallery package
+        /// </summary>
+        /// <param name="package">Installed package</param>
+        public static void InsertPackage(InstalledPackage package)
+        {
+            Provider.SavePackage(package);
+        }
+        /// <summary>
+        /// Save package files
+        /// </summary>
+        /// <param name="packageFiles">List of package files</param>
+        public static void InsertPackageFiles(List<PackageFile> packageFiles)
+        {
+            Provider.SavePackageFiles(packageFiles);
+        }
+
+        /// <summary>
+        /// Packages installed from online gallery
+        /// </summary>
+        /// <returns></returns>
+        public static List<InstalledPackage> InstalledFromGalleryPackages()
+        {
+            return Provider.FillPackages();
+        }
+
+        /// <summary>
+        /// Log of files installed by gallery package
+        /// </summary>
+        /// <param name="packageId">Package ID</param>
+        /// <returns>List of files</returns>
+        public static List<PackageFile> InstalledFromGalleryPackageFiles(string packageId)
+        {
+            return Provider.FillPackageFiles(packageId);
+        }
+
+        /// <summary>
+        /// Delete all installed by package files from application
+        /// </summary>
+        /// <param name="packageId">Package ID</param>
+        /// <param name="version">Version</param>
+        public static void DeletePackage(string packageId)
+        {
+            Provider.DeletePackage(packageId);
+        }
+
         #endregion
 
         #endregion
