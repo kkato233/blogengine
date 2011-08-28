@@ -7,8 +7,10 @@ using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-    using System.Transactions;
+using System.Transactions;
+
 using BlogEngine.Core.DataStore;
+using BlogEngine.Core.Packaging;
 
 namespace BlogEngine.Core.Providers
 {
@@ -2416,6 +2418,160 @@ namespace BlogEngine.Core.Providers
                 }
             }
         }
+
+        #region Packaging
+
+        /// <summary>
+        /// Log of all installed packages
+        /// </summary>
+        /// <param name="package">Intalled package</param>
+        public override void SavePackage(InstalledPackage package)
+        {
+            using (var conn = CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("INSERT INTO {0}Packages (PackageId, [Version]) VALUES ({1}PackageId, {1}Version)", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("PackageId"), package.PackageId));
+                        parms.Add(conn.CreateParameter(FormatParamName("Version"), package.Version));
+ 
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Log of all files for installed package
+        /// </summary>
+        /// <param name="packageFiles">List of intalled package files</param>
+        public override void SavePackageFiles(List<PackageFile> packageFiles)
+        {
+            using (var conn = CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("INSERT INTO {0}PackageFiles (PackageId, FileOrder, FilePath, IsDirectory) VALUES ({1}PackageId, {1}FileOrder, {1}FilePath, {1}IsDirectory)", this.tablePrefix, this.parmPrefix);
+
+                    foreach (var file in packageFiles)
+                    {
+                        using (var cmd = conn.CreateTextCommand(sqlQuery))
+                        {
+                            var parms = cmd.Parameters;
+                            parms.Add(conn.CreateParameter(FormatParamName("PackageId"), file.PackageId));
+                            parms.Add(conn.CreateParameter(FormatParamName("FileOrder"), file.FileOrder));
+                            parms.Add(conn.CreateParameter(FormatParamName("FilePath"), file.FilePath));
+                            parms.Add(conn.CreateParameter(FormatParamName("IsDirectory"), file.IsDirectory));
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Gets list of files for installed package
+        /// </summary>
+        /// <param name="packageId">Package ID</param>
+        /// <param name="version">Version</param>
+        /// <returns>List of files for installed package</returns>
+        public override List<PackageFile> FillPackageFiles(string packageId)
+        {
+            var files = new List<PackageFile>();
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PackageId, FileOrder, FilePath, IsDirectory FROM {0}PackageFiles ", this.tablePrefix)))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var f = new PackageFile()
+                                {
+                                    PackageId = rdr.GetString(0),
+                                    FileOrder = rdr.GetInt32(1),
+                                    FilePath = rdr.GetString(2),
+                                    IsDirectory = rdr.GetBoolean(3)
+                                };
+
+                                files.Add(f);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return files;
+        }
+        /// <summary>
+        /// Gets all installed from gallery packages
+        /// </summary>
+        /// <returns>List of installed packages</returns>
+        public override List<InstalledPackage> FillPackages()
+        {
+            var packages = new List<InstalledPackage>();
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT PackageId, Version FROM {0}Packages ", tablePrefix)))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var p = new InstalledPackage()
+                                {
+                                    PackageId = rdr.GetString(0),
+                                    Version = rdr.GetString(1)
+                                };
+
+                                packages.Add(p);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return packages;
+        }
+        /// <summary>
+        /// Should delete package and remove all package files
+        /// </summary>
+        /// <param name="packageId">Package ID</param>
+        public override void DeletePackage(string packageId)
+        {
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("DELETE FROM {0}PackageFiles WHERE PackageId = {1}PackageId", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("PackageId"), packageId));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    sqlQuery = string.Format("DELETE FROM {0}Packages WHERE PackageId = {1}PackageId", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("PackageId"), packageId));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Returns a formatted parameter name to include this DbBlogProvider instance's paramPrefix.

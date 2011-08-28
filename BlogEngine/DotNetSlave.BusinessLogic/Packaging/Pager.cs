@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace BlogEngine.Core
+namespace BlogEngine.Core.Packaging
 {
+    /// <summary>
+    /// Gallery pager
+    /// </summary>
     public class Pager
     {
+        #region Private members
         private static int _currentPage;
         private static int _itemCount;
         private static string _pkgType;
+        #endregion
 
         /// <summary>
         /// Pager
@@ -38,7 +43,7 @@ namespace BlogEngine.Core
             {
                 var items = new List<PagerItem>();
 
-                for (int i = 1; i <= (int)(_itemCount / BlogSettings.Instance.PostsPerPage) + 1; i++)
+                for (int i = 0; i <= (int)(_itemCount / Constants.PageSize); i++)
                 {
                     items.Add(i == _currentPage ? new PagerItem(i, true, _pkgType) : new PagerItem(i, false, _pkgType));
                 }

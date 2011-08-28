@@ -5,8 +5,8 @@
     using System.Collections.Specialized;
     using System.Configuration.Provider;
 
-    using BlogEngine.Core.DataStore;
-    using BlogEngine.Core.FileSystem;
+    using DataStore;
+    using Packaging;
 
     /// <summary>
     /// A base class for all custom providers to inherit from.
@@ -380,6 +380,37 @@
         /// The referrer to update.
         /// </param>
         public abstract void UpdateReferrer(Referrer referrer);
+
+        #region Packaging
+        /// <summary>
+        /// Save installed package id and version
+        /// </summary>
+        /// <param name="package">Intalled package</param>
+        public abstract void SavePackage(InstalledPackage package);
+        /// <summary>
+        /// Log of all files for installed package
+        /// </summary>
+        /// <param name="packageFiles">List of intalled package files</param>
+        public abstract void SavePackageFiles(List<PackageFile> packageFiles);
+        /// <summary>
+        /// Gets list of files for installed package
+        /// </summary>
+        /// <param name="packageId">Package ID</param>
+        /// <returns>List of files for installed package</returns>
+        public abstract List<PackageFile> FillPackageFiles(string packageId);
+        /// <summary>
+        /// Gets all installed from gallery packages
+        /// </summary>
+        /// <returns>List of installed packages</returns>
+        public abstract List<InstalledPackage> FillPackages();
+        /// <summary>
+        /// Should delete package and remove all package files
+        /// </summary>
+        /// <param name="packageId">Package ID</param>
+        /// <param name="version">Version</param>
+        public abstract void DeletePackage(string packageId);
+
+        #endregion
 
         #endregion
     }

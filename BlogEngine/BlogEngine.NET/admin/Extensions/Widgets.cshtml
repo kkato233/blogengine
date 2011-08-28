@@ -1,37 +1,18 @@
-﻿@using BlogEngine.Core.Packaging
+﻿@using BlogEngine.Core
+@using BlogEngine.Core.Packaging
 
 @{
     Page.Title = Resources.labels.themes;
     Layout = "~/admin/_Layout.cshtml";
 
     var loaderSrc = Path.Combine(BlogEngine.Core.Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
-
-    // disallow gallery page in child blogs.
-    var canManageThemes = BlogEngine.Core.Blog.CurrentInstance.IsPrimary;
-    
-    var tab = "1";
-    if(!string.IsNullOrEmpty(Request.QueryString["t"])){
-        tab = Request.QueryString["t"];   
-    }
-    if (tab == "2" && !canManageThemes)
-    {   
-        Response.Redirect("Widgets.cshtml");
-        return;
-    }
-
-    var page = 1;
-    if(!string.IsNullOrEmpty(Request.QueryString["p"])){
-        page = int.Parse(Request.QueryString["p"]);
-    }
+    var canManagePackages = BlogEngine.Core.Blog.CurrentInstance.IsPrimary;
+    var installedPackages = PackageRepository.LocalPackages(Constants.Widget);
 }
 
  <script type="text/javascript">
      $(document).ready(function () {
          $('.loader2').hide();
-         $('.page-loader').hide();
-         if (Querystring('t') == '2') {
-             //GalleryGetPackages(1);
-         }
      });
 </script>
 
@@ -53,7 +34,7 @@
             </div>
             <div class="TabRight">
                 @Resources.labels.installed
-                @if (canManageThemes)
+                @if (canManagePackages)
                 {
                     <span>|</span> <a href="WidgetGallery.cshtml">@Resources.labels.gallery</a>
                 }
@@ -61,28 +42,74 @@
         </div>
 
         <div>
-            @if (tab == "1")
-            {
-                <div>Placeholder</div>
-            }
-            else
-            {
-            <div class="gallery-options">
-                <div id="gallery-search">
-                    <input type="text" value="" id="searchGallery" />
-                    <input type="submit" id="btnGalSearch" class="btn primary" onclick="GalleryGetPackages(1); return false;" value="@Resources.labels.search" />
-                </div>
-                <span>@Resources.labels.orderBy: </span>
-                <select id="gallery-sort-order" onchange="GalleryGetPackages(1)">
-                    <option value="Alphanumeric">@Resources.labels.alphaNumeric</option>
-                    <option value="Downloads">@Resources.labels.downloads</option>
-                    <option value="Newest" selected="selected">@Resources.labels.newest</option>
-                </select>
-                <img class="page-loader" src="@loaderSrc" alt="loader" />
+            <h2 class="gallery-hdr">Installed Widgets</h2>   
+            <div class="installed-widgets">
+                <ul class="gallery">
+                @foreach (var wdg in installedPackages)
+                {
+                    <li id="@wdg.Id">
+                        <div class="Widget">
+                            <div class="pkg-hdr"> 
+                                <div class="pkg-img">
+                                    <img src="@wdg.IconUrl" class="thumbnail" alt="Widget" />
+                                </div>
+                                <div class="prop-hdr">
+                                    @if (!string.IsNullOrWhiteSpace(wdg.LocalVersion) && wdg.Location == "I")
+                                    {
+                                        <a href="@wdg.PackageUrl" target="_new">
+                                            <h2>@wdg.Id</h2>
+                                        </a>
+                                        <p>Version: @wdg.LocalVersion</p>
+                                    }
+                                    else
+                                    {
+                                        <h2>@wdg.Id</h2>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(wdg.Authors))
+                                    {
+                                        if(wdg.Website != null){
+                                            <p class="website">@Resources.labels.author: <a target="_new" href="@wdg.Website">@wdg.Authors</a></p> 
+                                        }
+                                        else{
+                                            <p>@Resources.labels.author: @wdg.Authors</p> 
+                                        }
+                                    }
+                                    else
+                                    {
+                                    <p>@Resources.labels.author: unknown</p>
+                                    }
+                                    @if (Blog.CurrentInstance.IsPrimary && @wdg.Location == "I")
+                                    {
+                                        if (Gallery.ConvertVersion(wdg.LocalVersion) < Gallery.ConvertVersion(wdg.OnlineVersion))
+                                        {
+                                        <p id="upd-@wdg.Id" class="package-update local">
+                                            <a href="" onclick="UpdatePackage('@wdg.Id'); return false;">@Resources.labels.update</a>
+                                            <img class="loader2" src="@loaderSrc" alt="loader" />
+                                        </p>
+                                        }
+                                        <p id="del-@wdg.Id" class="package-delete">
+                                            <a href="" class="deleteAction" onclick="UninstallPackage('@wdg.Id'); return false;">@Resources.labels.delete</a>
+                                            <img class="loader2" src="@loaderSrc" alt="loader" />
+                                        </p>  
+                                    }
+                                </div>
+                            </div>
+                            <div class="pkg-desc">  
+                                @if (!string.IsNullOrWhiteSpace(wdg.Description))
+                                {
+                                <p>@wdg.Description</p>   
+                                }
+                                @if (!string.IsNullOrWhiteSpace(wdg.Tags))
+                                {
+                                <p>Tags: @wdg.Tags</p>   
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+                </ul>
             </div>
-            <div id="Container"></div>
-            <div id="Pager"></div>
-            }
+
         </div>
         <div class="clear"></div>
     </div>

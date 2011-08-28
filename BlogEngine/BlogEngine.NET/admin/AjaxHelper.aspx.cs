@@ -472,9 +472,6 @@ namespace Admin
 
                 BlogSettings.Instance.Save();
 
-                // reset cache
-                Blog.CurrentInstance.Cache.Remove("Installed-Themes");
-
                 return true;
             }
             catch (Exception ex)
@@ -485,12 +482,12 @@ namespace Admin
         }
 
         [WebMethod]
-        public static IEnumerable LoadGalleryPage(string pkgType, int page, PackageManager.OrderType sortOrder, string searchVal)
+        public static IEnumerable LoadGalleryPage(string pkgType, int page, Gallery.OrderType sortOrder, string searchVal)
         {
             if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
             if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
-            return JsonPackages.GetPage(pkgType, page, sortOrder, searchVal);
+            return PackageRepository.FromGallery(pkgType, page, sortOrder, searchVal);
         }
 
         [WebMethod]
@@ -499,7 +496,7 @@ namespace Admin
             if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
             if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
-            return PackageManager.GalleryPager == null ? null : PackageManager.GalleryPager.PageItems;
+            return Gallery.GalleryPager == null ? null : Gallery.GalleryPager.PageItems;
         }
 
         [WebMethod]
@@ -508,7 +505,7 @@ namespace Admin
             if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
             if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
-            return PackageManager.InstallPackage(pkgId);
+            return Installer.InstallPackage(pkgId);
         }
 
         [WebMethod]
@@ -517,7 +514,7 @@ namespace Admin
             if (!WebUtils.CheckRightsForAdminSettingsPage(false)) { return null; }
             if (!WebUtils.CheckIfPrimaryBlog(false)) { return null; }
 
-            return PackageManager.UninstallPackage(pkgId);
+            return Installer.UninstallPackage(pkgId);
         }
 
     }
