@@ -2,6 +2,7 @@
 <%@ Import Namespace="System.Threading" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="BlogEngine.Core" %>
+<%@ Import Namespace="App_Code.Controls" %>
 
 <script RunAt="server">
   
@@ -96,6 +97,7 @@
             {
                 if (_initializedAlready) { return; }
 
+                WidgetZone.PreloadWidgetsAsync("be_WIDGET_ZONE"); 
                 Utils.LoadExtensions();
                 _initializedAlready = true;
             }
