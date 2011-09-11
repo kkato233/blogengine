@@ -45,14 +45,14 @@ namespace BlogEngine.Core.Packaging
                 var iPkg = new InstalledPackage { PackageId = package.Id, Version = package.Version.ToString() };
                 BlogService.InsertPackage(iPkg);
 
-                var packageFiles = FileSystem.CopyPackageFiles(package.Id, package.Version.ToString());
+                var packageFiles = FileSystem.InstallPackage(package.Id, package.Version.ToString());
                 BlogService.InsertPackageFiles(packageFiles);
 
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
             }
             catch (Exception ex)
             {
-                Utils.Log("PackageManager.InstallPackage", ex);
+                Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage", ex);
                 return new JsonResponse { Success = false, Message = "Error installing package, see logs for details" };
             }
 
@@ -81,7 +81,7 @@ namespace BlogEngine.Core.Packaging
 
                 packageManager.UninstallPackage(package, true);
 
-                FileSystem.RemovePackageFiles(package.Id);
+                FileSystem.UninstallPackage(package.Id);
 
                 BlogService.DeletePackage(pkgId);
 
@@ -101,7 +101,7 @@ namespace BlogEngine.Core.Packaging
         /// Load installed packages
         /// </summary>
         /// <param name="packages"></param>
-        public static void Load(List<JsonPackage> packages)
+        public static void MarkAsInstalled(List<JsonPackage> packages)
         {
             var installed = BlogService.InstalledFromGalleryPackages();
 

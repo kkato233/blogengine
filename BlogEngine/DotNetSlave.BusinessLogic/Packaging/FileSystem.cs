@@ -54,20 +54,34 @@ namespace BlogEngine.Core.Packaging
         }
 
         /// <summary>
-        /// Copy package files
+        /// Copy uncompressed package files
+        /// to application directories
         /// </summary>
         /// <param name="pkgId">Package Id</param>
         /// <param name="version">Package Version</param>
-        public static List<PackageFile> CopyPackageFiles(string pkgId, string version)
+        public static List<PackageFile> InstallPackage(string pkgId, string version)
         {
-            var src = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
+            var packgeFiles = new List<PackageFile>();
+
+            var content = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
                 string.Format("App_Data/packages/{0}.{1}/content", pkgId, version));
 
-            var tgt = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot);
+            var lib = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
+                string.Format("App_Data/packages/{0}.{1}/lib", pkgId, version));
 
-            var source = new DirectoryInfo(src);
-            var target = new DirectoryInfo(tgt);
-            var packgeFiles = new List<PackageFile>();
+            var root = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot);
+            var bin = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "bin");
+
+            // copy content files
+            var source = new DirectoryInfo(content);
+            var target = new DirectoryInfo(root);
+            
+            fileOrder = 0;
+            CopyDirectory(source, target, pkgId, packgeFiles);
+
+            // copy DLLs from lib to bin
+            source = new DirectoryInfo(lib);
+            target = new DirectoryInfo(bin);
 
             fileOrder = 0;
             CopyDirectory(source, target, pkgId, packgeFiles);
@@ -79,7 +93,7 @@ namespace BlogEngine.Core.Packaging
         /// Remove package files
         /// </summary>
         /// <param name="pkgId">Package Id</param>
-        public static void RemovePackageFiles(string pkgId)
+        public static void UninstallPackage(string pkgId)
         {
             var installedFiles = BlogService.InstalledFromGalleryPackageFiles(pkgId);
 
