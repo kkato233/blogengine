@@ -293,6 +293,34 @@
         }
 
         /// <summary>
+        /// Rewrites the incoming file request to the actual handler
+        /// </summary>
+        /// <param name="context">the context</param>
+        /// <param name="url">the url string</param>
+        private static void RewriteFilePath(HttpContext context, string url)
+        {
+            var awr = Utils.AbsoluteWebRoot;
+            url = url.ToLower().Replace(awr.ToString().ToLower(), string.Empty).Replace("files/", string.Empty);
+            url = url.Substring(0, url.LastIndexOf(System.IO.Path.GetExtension(url)));
+            var npath = string.Format("{0}file.axd?file={1}", Utils.ApplicationRelativeWebRoot, url);
+            context.RewritePath(npath);
+        }
+
+        /// <summary>
+        /// Rewrites the incoming image request to the actual handler
+        /// </summary>
+        /// <param name="context">the context</param>
+        /// <param name="url">the url string</param>
+        private static void RewriteImagePath(HttpContext context, string url)
+        {
+            var awr = Utils.AbsoluteWebRoot;
+            url = url.ToLower().Replace(awr.ToString().ToLower(), string.Empty).Replace("images/", string.Empty);
+            url = url.Substring(0, url.LastIndexOf(System.IO.Path.GetExtension(url)));
+            var npath = string.Format("{0}image.axd?picture={1}", Utils.ApplicationRelativeWebRoot, url);
+            context.RewritePath(npath);
+        }
+
+        /// <summary>
         /// Handles the BeginRequest event of the context control.
         /// </summary>
         /// <param name="sender">
@@ -329,6 +357,10 @@
 
             var urlContainsFileExtension = url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
 
+            if(url.Contains("/FILES/") && url.Contains(".AXDX"))
+                RewriteFilePath(context, url);
+            if (url.Contains("/IMAGES/") && url.Contains(".JPGX"))
+                RewriteImagePath(context, url);
             if (urlContainsFileExtension && url.Contains("/POST/")) {
                 RewritePost(context, url);
             }

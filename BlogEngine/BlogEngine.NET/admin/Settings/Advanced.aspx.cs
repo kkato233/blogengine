@@ -7,6 +7,10 @@
     using BlogEngine.Core.Json;
     using App_Code;
     using Page = System.Web.UI.Page;
+    using BlogEngine.Core.Providers;
+    using System.Configuration;
+    using System.Web.Configuration;
+    using System.IO;
 
     public partial class Advanced : Page
     {
@@ -47,10 +51,52 @@
             cbEnableTrackBackSend.Checked = settings.EnableTrackBackSend;
             cbEnableTrackBackReceive.Checked = settings.EnableTrackBackReceive;
             cbEnableErrorLogging.Checked = settings.EnableErrorLogging;
+            txtGalleryFeed.Text = settings.GalleryFeedUrl;
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
+            if (!Page.IsPostBack)
+            {
+                ddlProvider.DataSource = BlogService.FileSystemProviders;
+                ddlProvider.DataTextField = "Description";
+                ddlProvider.DataValueField = "Name";
+                ddlProvider.DataBind();
+                ddlProvider.SelectedValue = BlogService.FileSystemProvider.Name;
+                hdnProvider.Value = BlogService.FileSystemProvider.Name;
+            }
         }
+
+        protected void btnChangeProvider_Click(object sender, EventArgs e)
+        {
+            providerError.Visible = false;
+            var zipArchive = Server.MapPath(string.Format("{0}FileSystemBackup-{1}.zip", Blog.CurrentInstance.StorageLocation, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")));
+            var msg = new BlogEngine.Core.FileSystem.FileSystemUtilities().DumpProvider(ddlProvider.SelectedValue.ToString(), zipArchive);
+            if (!string.IsNullOrWhiteSpace(msg))
+            {
+                providerError.Visible = true;
+                providerError.Text = msg;
+            }
+            else
+                hdnProvider.Value = ddlProvider.SelectedValue.ToString();
+        }
+
+        protected void btnDownloadArchive_Click(object sender, EventArgs e)
+        {
+            var zipArchive = Server.MapPath(string.Format("{0}FileSystemBackup-{1}.zip", Blog.CurrentInstance.StorageLocation, DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")));
+            new BlogEngine.Core.FileSystem.FileSystemUtilities().CompressDirectory(zipArchive, Blog.CurrentInstance.RootFileStore);
+            var file = new FileInfo(zipArchive);
+            byte[] Buffer = null;
+            System.IO.FileStream FileStream = new System.IO.FileStream(file.FullName, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+            System.IO.BinaryReader BinaryReader = new System.IO.BinaryReader(FileStream);
+            long TotalBytes = file.Length;
+            Buffer = BinaryReader.ReadBytes((int)TotalBytes);
+            FileStream.Close();
+            FileStream.Dispose();
+            BinaryReader.Close();
+            Response.AppendHeader("Content-Disposition", string.Format("attachment; filename=\"{0}\"", file.Name));
+            Response.BinaryWrite(Buffer);
+        }
+
 
         /// <summary>
         /// Save settings
@@ -69,6 +115,7 @@
         /// <param name="allowRemoteFileDownloads"></param>
         /// <param name="remoteTimeout"></param>
         /// <param name="remoteMaxFileSize"></param>
+        /// <param name="galleryFeedUrl">Online gallery feed URL</param>
         /// <returns></returns>
         [WebMethod]
         public static JsonResponse Save(bool enableCompression, 
@@ -84,7 +131,8 @@
             bool enableErrorLogging,
             bool allowRemoteFileDownloads,
             int remoteTimeout,
-            int remoteMaxFileSize)
+            int remoteMaxFileSize,
+            string galleryFeedUrl)
         {
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
@@ -109,9 +157,7 @@
                 else if (remoteMaxFileSize < 0)
                 {
                     throw new ArgumentOutOfRangeException("RemoteMaxFileSize must be greater than or equal to 0 bytes.");
-                }
-
-         
+                }  
 
                 settings.EnableHttpCompression = enableCompression;
                 settings.RemoveWhitespaceInStyleSheets = removeWhitespaceInStyleSheets;
@@ -124,6 +170,7 @@
                 settings.EnablePingBackSend = enablePingBackSend;
                 settings.EnablePingBackReceive = enablePingBackReceive;
                 settings.EnableErrorLogging = enableErrorLogging;
+                settings.GalleryFeedUrl = galleryFeedUrl;
 
                 settings.AllowServerToDownloadRemoteFiles = allowRemoteFileDownloads;
                 settings.RemoteFileDownloadTimeout = remoteTimeout;

@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Web;
+    using BlogEngine.Core.Providers;
 
     /// <summary>
     /// The FileHandler serves all files that is uploaded from
@@ -70,23 +71,19 @@
             {
                 var fileName = context.Request.QueryString["file"];
                 OnServing(fileName);
-
+                fileName = !fileName.StartsWith("/") ? string.Format("/{0}", fileName) : fileName;
                 try
                 {
-                    var folder = context.Server.MapPath(string.Format("{0}/files", Blog.CurrentInstance.StorageLocation));
-                    var info = new FileInfo(folder + Path.DirectorySeparatorChar + fileName);
 
-                    if (info.Exists && info.Directory.FullName.StartsWith(folder, StringComparison.OrdinalIgnoreCase))
+                    var file = BlogService.GetFile(string.Format("{0}files{1}",Blog.CurrentInstance.StorageLocation, fileName));
+                    if (file != null)
                     {
-                        context.Response.AppendHeader("Content-Disposition", string.Format("inline; filename=\"{0}\"", info.Name));
-                        SetContentType(context, fileName);
-
-                        if (Utils.SetConditionalGetHeaders(info.CreationTimeUtc))
-                        {
+                        context.Response.AppendHeader("Content-Disposition", string.Format("inline; filename=\"{0}\"", file.Name));
+                        SetContentType(context, file.Name);
+                        if (Utils.SetConditionalGetHeaders(file.DateCreated.ToUniversalTime()))
                             return;
-                        }
 
-                        context.Response.TransmitFile(info.FullName);
+                        context.Response.BinaryWrite(file.FileContents);
                         OnServed(fileName);
                     }
                     else

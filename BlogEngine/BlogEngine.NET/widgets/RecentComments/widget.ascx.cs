@@ -213,8 +213,8 @@ namespace Widgets.RecentComments
             var sw = new StringWriter();
             ul.RenderControl(new HtmlTextWriter(sw));
 
-            const string Ahref =
-                "<a href=\"{0}syndication.axd?comments=true\">Comment RSS <img src=\"{0}pics/rssButton.png\" alt=\"\" /></a>";
+            string Ahref =
+                String.Concat ("<a href=\"{0}syndication.axd?comments=true\">", labels.commentRSS, " <img src=\"{0}pics/rssButton.png\" alt=\"\" /></a>");
             var rss = string.Format(Ahref, Utils.RelativeWebRoot);
             sw.Write(rss);
             return sw.ToString();

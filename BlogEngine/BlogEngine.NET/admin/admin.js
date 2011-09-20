@@ -999,12 +999,11 @@ function SetCurrentTheme(theme, mobile) {
     return false;
 }
 
-function GalleryGetPackages(pg) {
+function GalleryGetPackages(pg, pkgType) {
     $('.page-loader').show();
     var srt = $("#gallery-sort-order").val();
     var srch = $("#searchGallery").val();
-    //var pg = Querystring('p').length > 0 ? Querystring('p') : 1;
-    var dto = { "pkgType": "Theme", "page": pg, "sortOrder": srt, "searchVal": srch };
+    var dto = { "pkgType": pkgType, "page": pg, "sortOrder": srt, "searchVal": srch };
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadGalleryPage",
         data: JSON.stringify(dto),
@@ -1023,7 +1022,7 @@ function GalleryGetPackages(pg) {
 }
 
 function GalleryGetPager() {
-    var dto = { };
+    var dto = {};
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/LoadGalleryPager",
         data: JSON.stringify(dto),
@@ -1041,7 +1040,11 @@ function GalleryGetPager() {
 
 function InstallPackage(pkgId) {
     var dto = { "pkgId": pkgId };
-    $("[id$='" + pkgId + "']").show();
+    var spinner = '<img class="loader2" src="../../pics/ajax-loader.gif" alt="loading..." />';
+    var p = $("[id$='p_" + pkgId + "']");
+    var backup = p.html();
+
+    p.html(spinner);
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/InstallPackage",
         data: JSON.stringify(dto),
@@ -1052,20 +1055,69 @@ function InstallPackage(pkgId) {
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
+                p.removeClass("package-update");
+                p.addClass("package-installed");
+                p.closest("li").addClass("pkg-installed");
+                p.html('Installed');
                 ShowStatus("success", rt.Message);
             }
             else {
+                p.html(backup);
                 ShowStatus("warning", rt.Message);
             }
-            $("[id$='" + pkgId + "']").hide();
+        }
+    });
+    return false;
+}
+
+function UpdatePackage(pkgId, location) {
+    var spinner = '<img class="loader2" style="margin-left: 0" src="../../pics/ajax-loader.gif" alt="loader" />';
+    var p = $("[id$='upd-" + pkgId + "']");
+    var backup = p.html();
+    p.css('background','none');
+    p.html(spinner);
+
+    var dto = { "pkgId": pkgId };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/InstallPackage",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                if (location == 'G') {
+                    p.css('background', 'url("../images/action-enable.png") no-repeat scroll left center transparent');
+                    p.html('Installed');
+                    p.removeClass("package-update");
+                    p.addClass("package-installed");
+                }
+                else {
+                    $(p).fadeOut(500, function () {
+                        $(p).remove();
+                    });
+                }
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                p.css('background', 'url("../images/action-enable.png") no-repeat scroll left center transparent');
+                p.html(packup);
+                ShowStatus("warning", rt.Message);
+            }
         }
     });
     return false;
 }
 
 function UninstallPackage(pkgId) {
-    $('.loader2').show();
-    var li = $("[id$='" + pkgId + "']");
+    var spinner = '<img class="loader2" style="margin-left: 0" src="../../pics/ajax-loader.gif" alt="loader" />';
+    var p = $("[id$='del-" + pkgId + "']");
+    var li = p.closest("li");
+    var backup = p.html();
+    p.html(spinner);
+
     var dto = { "pkgId": pkgId };
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/UninstallPackage",
@@ -1083,13 +1135,46 @@ function UninstallPackage(pkgId) {
                 ShowStatus("success", rt.Message);
             }
             else {
+                p.html(packup);
                 ShowStatus("warning", rt.Message);
             }
         }
     });
-    $('.loader2').hide();
     return false;
 }
+
+// extensions are special case
+function UninstallExtension(pkgId) {
+    var spinner = '<img class="loader2" style="margin-left: 70px" src="../../pics/ajax-loader.gif" alt="loader" />';
+    var row = $("[id$='ext_" + pkgId + "']");
+    var backup = row.html();
+    row.html(spinner);
+    
+    var dto = { "pkgId": pkgId };
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/AjaxHelper.aspx/UninstallPackage",
+        data: JSON.stringify(dto),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                $(row).fadeOut(500, function () {
+                    $(row).remove();
+                });
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                row.html(backup);
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    return false;
+}
+
 
 //--------------HELPERS AND MISC
 

@@ -57,7 +57,7 @@ namespace App_Code.Controls
         {
             get
             {
-                return this.errorMessage ?? "The captcha value you provided is incorrect.";
+                return this.errorMessage ?? Resources.labels.incorrectSimpleCaptcha;
             }
 
             set

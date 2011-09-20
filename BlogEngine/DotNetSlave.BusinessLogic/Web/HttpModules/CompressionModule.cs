@@ -192,6 +192,14 @@
             /// </summary>
             private readonly Stream sink;
 
+            /// <summary>
+            /// Regex for parsing webresource.axd
+            /// </summary>
+            private static readonly Regex WebResourceRegex =
+                new Regex(
+                    "<script\\s*src=\"((?=[^\"]*webresource.axd)[^\"]*)\"\\s*type=\"text/javascript\"[^>]*>[^<]*(?:</script>)?",
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
             #endregion
 
             #region Constructors and Destructors
@@ -398,13 +406,9 @@
             /// </exception>
             public override void Write(byte[] buffer, int offset, int count)
             {
-                var html = Encoding.UTF8.GetString(buffer);
+                var html = Encoding.UTF8.GetString(buffer, offset, count);
 
-                var regex =
-                    new Regex(
-                        "<script\\s*src=\"((?=[^\"]*webresource.axd)[^\"]*)\"\\s*type=\"text/javascript\"[^>]*>[^<]*(?:</script>)?", 
-                        RegexOptions.IgnoreCase);
-                html = regex.Replace(html, new MatchEvaluator(this.Evaluator));
+                html = WebResourceRegex.Replace(html, new MatchEvaluator(this.Evaluator));
 
                 var outdata = Encoding.UTF8.GetBytes(html);
                 this.sink.Write(outdata, 0, outdata.GetLength(0));

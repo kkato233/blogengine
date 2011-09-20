@@ -33,7 +33,8 @@
 				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
 				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
-				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value')                
+				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value'),
+				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value')                
 			};
 			
             $.ajax({
@@ -53,7 +54,25 @@
             });
             $('.loader').hide();
             return false;
-        }  
+        }
+
+        function warnProviderChange() {
+            if ($('#ddlProvider').val() == $('#hdnProvider').val()) {
+                ShowStatus("warning", "No provider change detected, operation cancelled.");
+                return false;
+            }
+            return confirm('***CRITIAL WARNING***\r\n\r\nAre you sure you wish to modify your Storage Provider?\r\n\r\nWhen you modify your' +
+                           ' storage provider all your uploaded files will be archived, and then moved into your selected provider. Once the move has been completed old File Storage will be deleted.' +
+                           '\r\n\r\nThis operation could take 2-3 minutes where your application may seem unresponsive.\r\n\r\nIt is advised to backup ' +
+                           'your File Storage locally before completing this request.\r\n\r\nDo NOT refresh the page while your provider is being modified. ' +
+                           '\r\n\r\nAre you sure you wish to continue?');
+        }
+        function warnBackupTime() {
+            return confirm('***CRITICAL WARNING***\r\n\r\nYou have selected to backup your file system.' +
+                           ' This operation will archive all your current files and allow you to download the archive to your local machine.\r\n\r\n' +
+                           'This operation (depending on the file storage size) could take 2-3 minutes.' +
+                           ' During this time you MUST NOT refresh or reload your browser.\r\n\r\nAre you sure you wish to continue?');
+        }
     </script>
      
 	<div class="content-box-outer">
@@ -121,6 +140,11 @@
                         <label for="<%=cbEnableErrorLogging.ClientID %>"><%=Resources.labels.enableErrorLogging %></label>
                         <span class="insetHelp">(<%=Resources.labels.enableErrorLoggingDescription%>)</span>
                     </li>
+                    <li>
+                        <label class="lbl" for="<%=txtGalleryFeed.ClientID %>"><%=Resources.labels.galleryFeedUrl%></label>
+                        <asp:TextBox Width="300" runat="server" ID="txtGalleryFeed" />
+                        <span class="belowHelp"><label><%=Resources.labels.galleryFeedUrlDescription%></label></span>
+                    </li>
                 </ul>
                 <h2><%=Resources.labels.securitySettings %></h2>
 
@@ -139,6 +163,24 @@
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbAllowRemoteFileDownloads" /><label for="<%=cbAllowRemoteFileDownloads.ClientID %>"><%=Resources.labels.allowRemoteFileDownloads %></label>
                         <span class="insetHelp"><%=Resources.labels.allowRemoteFileDownloadsDescription%></span>
+                    </li>
+                </ul>
+                <h2><%=Resources.labels.filestorage %></h2>
+                <p>
+                    Modifying your File Storage settings may cause data loss. This operation will move all your files from one storage provider to another storage provider. It is recommended to backup your File storage into a recoverable archive.
+                </p>
+                <ul class="fl leftaligned">
+                    <li>
+                        <label class="lbl">Backup File Storage</label>
+                        <asp:Button runat="server" ID="btnDownloadArchive" OnClick="btnDownloadArchive_Click" Text="Start Backup" CssClass="btn rounded" OnClientClick="return warnBackupTime();" />
+                    </li>
+                    <li>
+                        <label class="lbl">Change File Storage Provider</label>
+                        <asp:DropDownList runat="server" ID="ddlProvider" ClientIDMode="Static" /><br />
+                        <asp:HiddenField runat="server" ID="hdnProvider" ClientIDMode="Static" />
+                        <label class="lbl"></label>
+                        <asp:Label runat="server" ID="providerError" ForeColor="Red" Visible="false" />
+                        <asp:Button runat="server" ID="btnChangeProvider" OnClick="btnChangeProvider_Click" Text="Change Provider" CssClass="btn rounded" OnClientClick="return warnProviderChange();" />
                     </li>
                 </ul>
             <div class="action_buttons">

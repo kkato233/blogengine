@@ -163,7 +163,7 @@ public partial class page : BlogBasePage
                 if (sb.Length > 0) { sb.Append(" | "); }
 
                 sb.AppendFormat(
-                    "<a href=\"javascript:void(0);\" onclick=\"if (confirm('Are you sure you want to delete the page?')) location.href='?deletepage={0}'\">{1}</a>",
+                    String.Concat("<a href=\"javascript:void(0);\" onclick=\"if (confirm('", labels.areYouSureDeletePage, "')) location.href='?deletepage={0}'\">{1}</a>"),
                     this.Page.Id,
                     labels.delete);
             }
