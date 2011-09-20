@@ -159,7 +159,7 @@
         {
             ReadRoleDataStore();
 
-            if (BlogConfig.IsSystemRole(roleName))
+            if (!BlogConfig.IsSystemRole(roleName))
             {
                 for (var i = 0; i < this.roles.Count; i++)
                 {
