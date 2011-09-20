@@ -17,6 +17,7 @@ namespace BlogEngine.Core
     /// </summary>
     public class Blog : BusinessBase<Blog, Guid>, IComparable<Blog>
     {
+        
         /// <summary>
         ///     Whether the blog is deleted.
         /// </summary>
@@ -360,6 +361,7 @@ namespace BlogEngine.Core
             this.Id = Guid.NewGuid();
             this.DateCreated = DateTime.Now;
             this.DateModified = DateTime.Now;
+            
         }
 
         /// <summary>
@@ -579,6 +581,17 @@ namespace BlogEngine.Core
                 }
 
                 return string.Format("{0}{1}/{2}/", BlogConfig.StorageLocation, BlogConfig.BlogInstancesFolderName, this.StorageContainerName);
+            }
+        }
+
+        /// <summary>
+        /// the root file storage directory for the blog. All File system management should start from the Root file store
+        /// </summary>
+        public FileSystem.Directory RootFileStore
+        {
+            get
+            {
+                return BlogService.GetDirectory(string.Concat(this.StorageLocation, "files"));
             }
         }
 
@@ -977,30 +990,5 @@ namespace BlogEngine.Core
             get { return _cache ?? (_cache = new CacheProvider(HttpContext.Current.Cache)); }
         }
 
-        #region Gallery/Packaging
-
-        /// <summary>
-        /// Installed Packages (extensions, themes and widgets)
-        /// </summary>
-        public List<Json.JsonPackage> InstalledThemes
-        {
-            get
-            {
-                if (Cache["Installed-Themes"] == null)
-                {
-                    Cache.Add(
-                        "Installed-Themes",
-                        Packaging.PackageManager.InstalledPackages("Theme"),
-                        null,
-                        System.Web.Caching.Cache.NoAbsoluteExpiration,
-                        new TimeSpan(1, 0, 0),
-                        CacheItemPriority.Low,
-                        null);
-                }
-                return (List<Json.JsonPackage>)Cache["Installed-Themes"];
-            } 
-        }
-
-        #endregion
     }
 }

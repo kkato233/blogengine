@@ -13,6 +13,7 @@ namespace App_Code.Controls
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.WebControls;
+    using System.Text.RegularExpressions;
 
     using BlogEngine.Core;
 
@@ -174,7 +175,7 @@ namespace App_Code.Controls
                 path += "?";
             }
 
-            return path + "page={0}";
+            return HttpUtility.HtmlEncode(path + "page={0}");
         }
 
         /// <summary>

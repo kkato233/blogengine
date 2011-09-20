@@ -135,7 +135,7 @@ namespace Widgets.Newsletter
             var delete = e.Row.Cells[0].Controls[0] as LinkButton;
             if (delete != null)
             {
-                delete.OnClientClick = "return confirm('Are you sure you want to delete this e-mail?')";
+                delete.OnClientClick = "return confirm('<%=Resources.labels.areYouSureDeleteEmail %>')";
             }
         }
 

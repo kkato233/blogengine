@@ -32,6 +32,27 @@
         }
 
         /// <summary>
+        /// Gets or sets the name of the file storage provider, defaults to the XmlBlogProvider if one is not specified
+        /// </summary>
+        /// <remarks>
+        /// This  attribute is not required, however allows for specifying different providers for various operations
+        /// </remarks>
+        [StringValidator(MinLength = 0)]
+        [ConfigurationProperty("fileStoreProvider", IsRequired = false, DefaultValue = "XmlBlogProvider")]
+        public string FileStoreProvider
+        {
+            get
+            {
+                return (string)base["fileStoreProvider"];
+            }
+
+            set
+            {
+                base["fileStoreProvider"] = value;
+            }
+        }
+
+        /// <summary>
         ///     Gets a collection of registered providers.
         /// </summary>
         [ConfigurationProperty("providers")]

@@ -18,6 +18,7 @@ namespace Admin.Pages
 
     using Page = System.Web.UI.Page;
     using App_Code;
+    using BlogEngine.Core.Providers;
 
     public partial class EditPage : Page, ICallbackEventHandler
     {
@@ -360,16 +361,10 @@ namespace Admin.Pages
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void BtnUploadFileClick(object sender, EventArgs e)
         {
-            var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
-                                 Path.DirectorySeparatorChar;
-            var folder = Blog.CurrentInstance.StorageLocation + "files" + Path.DirectorySeparatorChar;
-            var fileName = this.txtUploadFile.FileName;
-            this.Upload(folder + relativeFolder, this.txtUploadFile, fileName);
-
-            const string A = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
-            var text = string.Format("{0} ({1})", this.txtUploadFile.FileName, SizeFormat(this.txtUploadFile.FileBytes.Length, "N"));
-            this.txtContent.Text += string.Format(
-                A, Utils.RelativeWebRoot, this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName), text);
+            var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
+            var dir = BlogService.GetDirectory(dirName);
+            var file = BlogService.UploadFile(txtUploadFile.PostedFile.InputStream, txtUploadFile.PostedFile.FileName, dir, true);
+            txtContent.Text += string.Format("<p><a href=\"{0}\">{1}</a></p>", file.FileDownloadPath, file.FileDescription);
         }
 
         /// <summary>
@@ -379,18 +374,10 @@ namespace Admin.Pages
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void BtnUploadImageClick(object sender, EventArgs e)
         {
-            var relativeFolder = DateTime.Now.Year.ToString() + Path.DirectorySeparatorChar + DateTime.Now.Month +
-                                 Path.DirectorySeparatorChar;
-            var folder = string.Format("{0}files{1}", Blog.CurrentInstance.StorageLocation, Path.DirectorySeparatorChar);
-            var fileName = this.txtUploadImage.FileName;
-            this.Upload(folder + relativeFolder, this.txtUploadImage, fileName);
-
-            var path = Utils.RelativeWebRoot;
-            var img = string.Format(
-                "<img src=\"{0}image.axd?picture={1}\" alt=\"\" />",
-                path,
-                this.Server.UrlEncode(relativeFolder.Replace("\\", "/") + fileName));
-            this.txtContent.Text += img;
+            var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
+            var dir = BlogService.GetDirectory(dirName);
+            var file = BlogService.UploadFile(txtUploadImage.PostedFile.InputStream, txtUploadImage.PostedFile.FileName, dir, true);
+            txtContent.Text += string.Format("<img src=\"{0}\" />", file.AsImage.ImageUrl);
         }
 
         /// <summary>

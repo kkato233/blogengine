@@ -300,14 +300,14 @@
                     Id = Guid.NewGuid(),
                     ParentId = replyToCommentId,
                     Author = this.Server.HtmlEncode(author),
-                    Email = email,
+                    Email = this.Server.HtmlEncode(email),
                     Content = this.Server.HtmlEncode(content),
                     IP = this.Request.UserHostAddress,
-                    Country = country,
+                    Country = this.Server.HtmlEncode(country),
                     DateCreated = DateTime.Now,
                     Parent = this.Post,
                     IsApproved = !BlogSettings.Instance.EnableCommentsModeration,
-                    Avatar = avatar.Trim()
+                    Avatar = this.Server.HtmlEncode(avatar.Trim())
                 };
 
             if (Security.IsAuthenticated && BlogSettings.Instance.TrustAuthenticatedUsers)
@@ -394,12 +394,12 @@
 
                 if (Security.IsAuthorizedTo(Rights.ModerateComments))
                 {
-                    const string ConfirmDelete = "Are you sure you want to delete the comment?";
+                    string ConfirmDelete = Resources.labels.areYouSureDeleteComment;
                     sb.AppendFormat(
                         " | <a href=\"?deletecomment={0}\" onclick=\"return confirm('{1}?')\">{2}</a>",
                         id,
                         ConfirmDelete,
-                        "Delete");
+                        Resources.labels.delete);
 
                 }
                 return sb.ToString();

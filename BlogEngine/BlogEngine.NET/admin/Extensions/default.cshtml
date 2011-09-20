@@ -6,6 +6,8 @@
 
     var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
 
+    var canManagePackages = BlogEngine.Core.Blog.CurrentInstance.IsPrimary;
+
     extensions.Sort(
         (e1, e2) => e1.Value.Priority == e2.Value.Priority ? string.CompareOrdinal(e1.Key, e2.Key) : e1.Value.Priority.CompareTo(e2.Value.Priority));
 
@@ -65,13 +67,59 @@
 	        </div>
         </div>
 
+        <div class="TabRow">
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab AlternatePageTabSelected">Extensions</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" onclick="location.href='Themes.cshtml'">@Resources.labels.themes</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" onclick="location.href='Widgets.cshtml'">Widgets</span>
+            </div>
+            <div class="TabRight">
+                @Resources.labels.installed
+                @if (canManagePackages)
+                {
+                    <span>|</span> <a href="Extensions.cshtml">@Resources.labels.gallery</a>
+                }
+            </div>
+        </div>
+       
+
         <div>@Helpers.ExtensionsHelper.GetExtensions(true)</div>
         <div>@Helpers.ExtensionsHelper.GetExtensions(false)</div>
 	</div>
     }
     else
     {
-    <div class="content-widgets-box-full">
+    <div class="content-box-full">
+        
+        <div class="TabRow">
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab AlternatePageTabSelected">Extensions</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" onclick="location.href='Themes.cshtml'">@Resources.labels.themes</span>
+            </div>
+            <div class="AlternatePagesDivder"></div>
+            <div class="AlternatePageDivTab">
+	            <span class="AlternatePageTab" onclick="location.href='Widgets.cshtml'">Widgets</span>
+            </div>
+            <div class="TabRight">
+                @Resources.labels.installed
+                @if (canManagePackages)
+                {
+                    <span>|</span> <a href="Extensions.cshtml">@Resources.labels.gallery</a>
+                }
+            </div>
+        </div>
+
         <div>@Helpers.ExtensionsHelper.GetBlogExtensions(true)</div>
         <div>@Helpers.ExtensionsHelper.GetBlogExtensions(false)</div>
     </div>
