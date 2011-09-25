@@ -30,7 +30,9 @@ namespace BlogEngine.Core.Packaging
         {
             try
             {
-                UninstallPackage(pkgId);
+                if(BlogService.InstalledFromGalleryPackages() != null && 
+                    BlogService.InstalledFromGalleryPackages().Find(p => p.PackageId == pkgId) != null)
+                    UninstallPackage(pkgId);
 
                 var packageManager = new PackageManager(
                     _repository,

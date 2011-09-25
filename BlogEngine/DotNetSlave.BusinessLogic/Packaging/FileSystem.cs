@@ -80,11 +80,14 @@ namespace BlogEngine.Core.Packaging
             CopyDirectory(source, target, pkgId, packgeFiles);
 
             // copy DLLs from lib to bin
-            source = new DirectoryInfo(lib);
-            target = new DirectoryInfo(bin);
+            if (Directory.Exists(lib))
+            {
+                source = new DirectoryInfo(lib);
+                target = new DirectoryInfo(bin);
 
-            fileOrder = 0;
-            CopyDirectory(source, target, pkgId, packgeFiles);
+                fileOrder = 0;
+                CopyDirectory(source, target, pkgId, packgeFiles);
+            }
 
             return packgeFiles;
         }
