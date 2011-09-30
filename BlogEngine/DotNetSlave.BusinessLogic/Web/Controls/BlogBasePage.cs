@@ -416,7 +416,8 @@
 
             if (!allowViewing)
             {
-                this.Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
+                var url = string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot).ToPublicUrl(Context);
+                this.Response.Redirect(url);
             }
 
             this.MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
