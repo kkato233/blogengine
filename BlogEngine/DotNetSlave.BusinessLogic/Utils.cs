@@ -1485,7 +1485,7 @@
             {
                 Host = httpContext.Request.Url.Host,
                 Path = "/",
-                Port = 80,
+                Port = BlogSettings.Instance.ForwadingPort,
                 Scheme = "http",
             };
 
