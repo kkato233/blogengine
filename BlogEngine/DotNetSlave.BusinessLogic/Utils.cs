@@ -1468,8 +1468,19 @@
             return true;
         }
 
+        /// <summary>
+        /// Converts a URL to a public facing URL, if port forwarding is enabled.
+        /// </summary>
+        /// <param name="httpContext">httpContext of the URL</param>
+        /// <param name="relativeUri">relative URL to be updated</param>
+        /// <returns></returns>
         public static string ConvertToPublicUrl(HttpContext httpContext, Uri relativeUri)
         {
+            if (!BlogSettings.Instance.EnablePortForwarding)
+            {
+                return relativeUri.AbsoluteUri;
+            }
+
             var uriBuilder = new UriBuilder
             {
                 Host = httpContext.Request.Url.Host,
@@ -1486,9 +1497,15 @@
             return new Uri(uriBuilder.Uri, relativeUri).AbsoluteUri;
         }
 
-        public static string ToPublicUrl(this string url, HttpContext httpContext)
+        /// <summary>
+        /// Extension method that calls the ConvertToPublicUrl functionality.
+        /// </summary>
+        /// <param name="relativeUrl">string that this method extends</param>
+        /// <param name="httpContext">httpContext of the URL</param>
+        /// <returns></returns>
+        public static string ToPublicUrl(this string relativeUrl, HttpContext httpContext)
         {
-            var uri = new Uri(url, UriKind.Relative);
+            var uri = new Uri(relativeUrl, UriKind.Relative);
             return ConvertToPublicUrl(httpContext, uri);
         }
 
