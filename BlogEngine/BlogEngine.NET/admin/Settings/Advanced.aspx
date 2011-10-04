@@ -35,7 +35,7 @@
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
 				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value'),
 				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value'),
-                "enablePortForwarding": $("[id$='_cbEnablePortForwarding']").attr('checked.'),
+                "enablePortForwarding": $("[id$='_cbEnablePortForwarding']").attr('checked'),
                 "forwardingPort": $("[id$='_txtForwardingPort']").attr('value')
 			};
 			
