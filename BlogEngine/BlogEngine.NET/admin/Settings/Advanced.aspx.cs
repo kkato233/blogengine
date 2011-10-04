@@ -52,6 +52,8 @@
             cbEnableTrackBackReceive.Checked = settings.EnableTrackBackReceive;
             cbEnableErrorLogging.Checked = settings.EnableErrorLogging;
             txtGalleryFeed.Text = settings.GalleryFeedUrl;
+            cbEnablePortForwarding.Checked = settings.EnablePortForwarding;
+            txtForwardingPort.Text = settings.ForwadingPort.ToString();
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
@@ -116,6 +118,8 @@
         /// <param name="remoteTimeout"></param>
         /// <param name="remoteMaxFileSize"></param>
         /// <param name="galleryFeedUrl">Online gallery feed URL</param>
+        /// <param name="enablePortForwarding"></param>
+        /// <param name="forwardingPort"></param>
         /// <returns></returns>
         [WebMethod]
         public static JsonResponse Save(bool enableCompression, 
@@ -132,7 +136,9 @@
             bool allowRemoteFileDownloads,
             int remoteTimeout,
             int remoteMaxFileSize,
-            string galleryFeedUrl)
+            string galleryFeedUrl,
+            bool enablePortForwarding,
+            int forwardingPort)
         {
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
@@ -171,6 +177,8 @@
                 settings.EnablePingBackReceive = enablePingBackReceive;
                 settings.EnableErrorLogging = enableErrorLogging;
                 settings.GalleryFeedUrl = galleryFeedUrl;
+                settings.EnablePortForwarding = enablePortForwarding;
+                settings.ForwadingPort = forwardingPort;
 
                 settings.AllowServerToDownloadRemoteFiles = allowRemoteFileDownloads;
                 settings.RemoteFileDownloadTimeout = remoteTimeout;
