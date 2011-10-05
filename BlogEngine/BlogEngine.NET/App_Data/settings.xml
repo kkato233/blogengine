@@ -62,6 +62,7 @@
   <iscommentsenabled>True</iscommentsenabled>
   <syndicationformat>Rss</syndicationformat>
   <smtpserverport>25</smtpserverport>
+  <forwadingport>80</forwadingport>
   <blockauthoroncommentdelete>False</blockauthoroncommentdelete>
   <iscommentnestingenabled>True</iscommentnestingenabled>
   <timestamppostlinks>True</timestamppostlinks>
@@ -70,6 +71,7 @@
   <smtppassword>password</smtppassword>
   <numberofrecentcomments>10</numberofrecentcomments>
   <enablerecaptchaoncontactform>False</enablerecaptchaoncontactform>
+  <enableportforwarding>False</enableportforwarding>
   <enablessl>False</enablessl>
   <name>Name of the blog</name>
   <moderationtype>Auto</moderationtype>

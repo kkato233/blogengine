@@ -1476,6 +1476,11 @@
         /// <returns></returns>
         public static string ConvertToPublicUrl(HttpContext httpContext, Uri relativeUri)
         {
+            if (relativeUri.IsAbsoluteUri)
+            {
+                relativeUri = httpContext.Request.Url.MakeRelativeUri(relativeUri);
+            }
+
             if (!BlogSettings.Instance.EnablePortForwarding)
             {
                 var absoluteUri = new Uri(httpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeUri);
@@ -1486,14 +1491,9 @@
             {
                 Host = httpContext.Request.Url.Host,
                 Path = "/",
-                Port = BlogSettings.Instance.ForwadingPort,
+                Port = httpContext.Request.IsLocal ? httpContext.Request.Url.Port : BlogSettings.Instance.ForwadingPort,
                 Scheme = "http",
             };
-
-            if (httpContext.Request.IsLocal)
-            {
-                uriBuilder.Port = httpContext.Request.Url.Port;
-            }
 
             return new Uri(uriBuilder.Uri, relativeUri).AbsoluteUri;
         }
@@ -1506,14 +1506,7 @@
         /// <returns></returns>
         public static string ToPublicUrl(this string relativeUrl, HttpContext httpContext)
         {
-            var uri = new Uri(relativeUrl);
-
-            if (uri.IsAbsoluteUri)
-            {
-                uri = httpContext.Request.Url.MakeRelativeUri(uri);
-            }
-
-            return ConvertToPublicUrl(httpContext, uri);
+            return ConvertToPublicUrl(httpContext, new Uri(relativeUrl));
         }
 
         #endregion
