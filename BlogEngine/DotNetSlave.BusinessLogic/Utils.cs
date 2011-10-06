@@ -1481,11 +1481,21 @@
                 if (relativeUri.IsAbsoluteUri)
                 {
                     return relativeUri.AbsoluteUri;
-                    //relativeUri = httpContext.Request.Url.MakeRelativeUri(relativeUri);
                 }
 
-                var absoluteUri = new Uri(httpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeUri);
-                return absoluteUri.AbsoluteUri;
+                var absoluteUriBuilder = new UriBuilder
+                {
+                    Host = httpContext.Request.Url.Host,
+                    Path = relativeUri.ToString(),
+                    Port = httpContext.Request.Url.Port,
+                    Scheme = httpContext.Request.Url.Scheme,
+                    Query = httpContext.Request.Url.Query.TrimStart('?')
+                };
+
+                return absoluteUriBuilder.Uri.ToString();
+
+                //var absoluteUri = new Uri(httpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeUri);
+                //return absoluteUri.AbsoluteUri;
             }
 
             if (relativeUri.IsAbsoluteUri)
@@ -1499,7 +1509,8 @@
                 Host = httpContext.Request.Url.Host,
                 Path = "/",
                 Port = httpContext.Request.IsLocal ? httpContext.Request.Url.Port : BlogSettings.Instance.ForwadingPort,
-                Scheme = "http",
+                Scheme = httpContext.Request.Url.Scheme,
+                Query = httpContext.Request.Url.Query.TrimStart('?')
             };
 
             return new Uri(uriBuilder.Uri, relativeUri).AbsoluteUri;
@@ -1513,7 +1524,12 @@
         /// <returns></returns>
         public static string ToPublicUrl(this string relativeUrl, HttpContext httpContext)
         {
-            return ConvertToPublicUrl(httpContext, new Uri(relativeUrl));
+            if (relativeUrl.StartsWith("http"))
+            {
+                return ConvertToPublicUrl(httpContext, httpContext.Request.Url.MakeRelativeUri(new Uri(relativeUrl, UriKind.Absolute)));
+            }
+
+            return ConvertToPublicUrl(httpContext, new Uri(relativeUrl, UriKind.Relative));
         }
 
         #endregion

@@ -605,7 +605,7 @@ namespace BlogEngine.Core
             {
                 return relativeWebRoot ??
                        (relativeWebRoot =
-                        VirtualPathUtility.ToAbsolute(VirtualPathUtility.AppendTrailingSlash(this.VirtualPath ?? BlogConfig.VirtualPath)));
+                        VirtualPathUtility.ToAbsolute(VirtualPathUtility.AppendTrailingSlash(this.VirtualPath ?? BlogConfig.VirtualPath))).ToPublicUrl(HttpContext.Current);
             }
         }
 
