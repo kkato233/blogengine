@@ -49,7 +49,7 @@
   <enabletrackbacksend>True</enabletrackbacksend>
   <timezone>0</timezone>
   <feedauthor />
-  <allowservertodownloadremotefiles>False</allowservertodownloadremotefiles>
+  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <culture>Auto</culture>
   <disquswebsitename />
   <handlewwwsubdomain />
