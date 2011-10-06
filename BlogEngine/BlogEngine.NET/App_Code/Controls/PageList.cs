@@ -42,48 +42,34 @@ namespace App_Code.Controls
         {
             BlogEngine.Core.Page.Saved += (sender, args) =>
             {
-                RefreshCachedHtml();
+                lock (syncRoot) {
+                    // only refresh current blog
+                    blogsHtml.Remove(Blog.CurrentInstance.Id);
+                }
             };
-
-            RefreshCachedHtml();
         }
 
-        private static void RefreshCachedHtml()
-        {
-            Html = string.Empty;
-
-            if (BlogEngine.Core.Page.Pages != null)
-            {
-                var ul = BindPages();
-                Html = BlogEngine.Core.Utils.RenderControl(ul);
-            }
-        }
         #endregion
 
         #region Properties
 
-        private static string Html
-        {
+        private static string Html {
             get
-            { 
+            {
                 Guid blogId = Blog.CurrentInstance.Id;
-
-                if (!blogsHtml.ContainsKey(blogId))
-                {
-                    lock (syncRoot)
-                    {
-                        if (!blogsHtml.ContainsKey(blogId))
-                        {
+                lock (syncRoot) {
+                    
+                    if (!blogsHtml.ContainsKey(blogId)) {
+                        if (BlogEngine.Core.Page.Pages != null) {
+                            var ul = BindPages();
+                            blogsHtml[blogId] = BlogEngine.Core.Utils.RenderControl(ul);
+                        } else {
                             blogsHtml[blogId] = string.Empty;
                         }
                     }
-                }
 
-                return blogsHtml[blogId];
-            }
-            set
-            {
-                blogsHtml[Blog.CurrentInstance.Id] = value;
+                    return blogsHtml[blogId];
+                }
             }
         }
 
