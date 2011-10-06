@@ -143,7 +143,7 @@ namespace BlogEngine.Core
                     }
                     else
                     {
-                        context.Response.Redirect(Utils.RelativeWebRoot);
+                        context.Response.Redirect(Utils.RelativeWebRoot.ToPublicUrl(context));
                     }
 
                     return true;
