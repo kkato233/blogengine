@@ -157,19 +157,22 @@
         /// </param>
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
+            if (Security.IsSystemRole(roleName))
+                return false;
+
             ReadRoleDataStore();
 
-            if (BlogConfig.IsSystemRole(roleName))
-            {
-                for (var i = 0; i < this.roles.Count; i++)
-                {
-                    if (this.roles[Blog.CurrentInstance.Id][i].Name != roleName)
-                    {
-                        continue;
-                    }
+            var blogRoles = roles[Blog.CurrentInstance.Id];
 
-                    this.roles[Blog.CurrentInstance.Id].RemoveAt(i);
-                    this.Save();
+            if (blogRoles == null || blogRoles.Count == 0)
+                return false;
+
+            for (var i = 0; i < blogRoles.Count; i++)
+            {
+                if (blogRoles[i].Name == roleName)
+                {
+                    roles[Blog.CurrentInstance.Id].RemoveAt(i);
+                    Save();
                     return true;
                 }
             }
