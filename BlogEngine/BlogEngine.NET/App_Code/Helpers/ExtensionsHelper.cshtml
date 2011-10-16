@@ -92,7 +92,7 @@
                                 <li><a href="#" onclick="$('#txtPriority').val('@x.Priority'); $('#hdnExtensionName').val('@x.Name');" class="changePriority rightsAction">@Resources.labels.priority</a></li>
                                 <li><a href="@Href(Utils.RelativeWebRoot + "admin/Extensions/Editor.cshtml?id=")@x.Name" class="viewButton viewAction">View</a></li>
                                 @if(pkg != null && pkg.Location == "I"){
-                                <li><a href="#" onclick="UninstallExtension('@x.Name'); return false;" class="deleteAction">@Resources.labels.delete</a></li> 
+                                <li><a href="#" id="a-@x.Name" onclick="UninstallExtension('@x.Name'); return false;" class="deleteAction">@Resources.labels.delete</a></li> 
                                 }
                             </ul>
                         </li>
