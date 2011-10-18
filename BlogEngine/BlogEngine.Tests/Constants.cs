@@ -13,6 +13,7 @@
 
         public static readonly string UrlAdminAddNewPost = Root + "/admin/Posts/Add_entry.aspx";
         public static readonly string UrlAdminPosts = Root + "/admin/Posts/Posts.aspx";
+        public static readonly string UrlAdminTrash = Root + "/admin/Trash.aspx";
 
         // login
         public static readonly string LoginLinkId = "ctl00_aLogin";

@@ -13,7 +13,7 @@ namespace BlogEngine.Tests.Packaging
         }
 
         [Test]
-        public void InstallTheme()
+        public void CanInstallAndUninstallTheme()
         {
             ie.GoTo(Constants.GalleryThemes);
 
@@ -23,18 +23,14 @@ namespace BlogEngine.Tests.Packaging
 
             ie.Link(Find.ById("a-Boldy")).Click();
 
-            Wait(10);
+            Wait(15);
 
             ie.GoTo(Constants.LocalThemes);
 
             ie.WaitUntilContainsText("Boldy");
 
             Assert.IsTrue(ie.ContainsText("Boldy"));
-        }
 
-        [Test]
-        public void UninstallTheme()
-        {
             ie.GoTo(Constants.LocalThemes);
 
             ie.Link(Find.ById("a-Boldy")).Click();
