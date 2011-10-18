@@ -16,8 +16,15 @@ namespace BlogEngine.Tests.Posts
             Login("admin");
         }
 
+        [TearDown]
+        public void Dispose()
+        {
+            ie.GoTo(Constants.UrlAdminTrash);
+            ie.Button(Find.ById("btnPurgeAll")).Click();
+        }
+
         [Test]
-        public void CanCreatePost()
+        public void CanCreateAndDeletePost()
         {
             ie.GoTo(Constants.UrlAdminAddNewPost);
             TypeQuickly(ie.TextField(Find.ById(TxtTitle)), TheTestPost);
@@ -31,11 +38,7 @@ namespace BlogEngine.Tests.Posts
             SetPostId();
 
             Assert.IsTrue(ie.ContainsText(TheTestPost));
-        }
 
-        [Test]
-        public void CanDeletePost()
-        {
             ie.GoTo(Constants.UrlAdminPosts);
             ie.Link(Find.ById("a-" + PostId)).Click();
 
@@ -50,6 +53,7 @@ namespace BlogEngine.Tests.Posts
         {
             var pos = ie.Html.IndexOf("deletepost=");
             PostId = ie.Html.Substring(pos + 11, 36);
+            System.Console.WriteLine("Post ID is: " + PostId);
         }
     }
 }
