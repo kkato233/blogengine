@@ -1476,23 +1476,16 @@
         /// <returns></returns>
         public static string ConvertToPublicUrl(HttpContext httpContext, Uri relativeUri)
         {
-            if (!BlogSettings.Instance.EnablePortForwarding)
-            {
-                if (relativeUri.IsAbsoluteUri)
-                {
-                    return relativeUri.AbsoluteUri;
-                    //relativeUri = httpContext.Request.Url.MakeRelativeUri(relativeUri);
-                }
-
-                var absoluteUri = new Uri(httpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeUri);
-                return absoluteUri.AbsoluteUri;
-            }
-
             if (relativeUri.IsAbsoluteUri)
             {
                 relativeUri = httpContext.Request.Url.MakeRelativeUri(relativeUri);
             }
 
+            if (!BlogSettings.Instance.EnablePortForwarding)
+            {
+                var absoluteUri = new Uri(httpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeUri);
+                return absoluteUri.AbsoluteUri;
+            }
 
             var uriBuilder = new UriBuilder
             {

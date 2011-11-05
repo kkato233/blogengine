@@ -271,8 +271,8 @@ namespace BlogEngine.Core
             }
             else
             {
-                var url = string.Format("{0}Account/login.aspx?ReturnURL={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(Utils.ConvertToPublicUrl(context, context.Request.Url)));
-                context.Response.Redirect(url.ToPublicUrl(context));
+                var url = string.Format("{0}Account/login.aspx?ReturnURL={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(context.Request.RawUrl)).ToPublicUrl(context);
+                context.Response.Redirect(url);
             }
         }
 
