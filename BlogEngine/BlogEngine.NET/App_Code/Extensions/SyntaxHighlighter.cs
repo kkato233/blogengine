@@ -8,7 +8,7 @@ using Page=System.Web.UI.Page;
 using System.Collections.Generic;
 using System;
 
-[Extension("Adds <a target=\"_new\" href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter\">Alex Gorbatchev's</a> source code formatter", "2.5", "<a target=\"_new\" href=\"http://dotnetblogengine.net/\">BlogEngine.NET</a>")]
+[Extension("Adds <a target=\"_new\" href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter\">Alex Gorbatchev's</a> source code formatter", "2.5.1", "<a target=\"_new\" href=\"http://dotnetblogengine.net/\">BlogEngine.NET</a>")]
 public class SyntaxHighlighter
 {
     #region Private members
@@ -54,10 +54,8 @@ public class SyntaxHighlighter
                         options.AddParameter("smart-tabs", "Smart tabs");
                         options.AddParameter("auto-links", "Auto links");
                         options.AddParameter("collapse", "Collapse");
-                        options.AddParameter("light", "Light");
                         options.AddParameter("tab-size", "Tab size");
                         options.AddParameter("toolbar", "Toolbar");
-                        options.AddParameter("wrap-lines", "Wrap lines");
 
                         options.AddValue("cdnScriptsPath", "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/scripts/");
                         options.AddValue("cdnStylesPath", "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/styles/");
@@ -65,10 +63,8 @@ public class SyntaxHighlighter
                         options.AddValue("smart-tabs", true);
                         options.AddValue("auto-links", true);
                         options.AddValue("collapse", false);
-                        options.AddValue("light", false);
                         options.AddValue("tab-size", 4);
                         options.AddValue("toolbar", true);
-                        options.AddValue("wrap-lines", true);
 
                         _blogsOptions[blogId] = ExtensionManager.InitSettings(ExtensionName, options);
 
@@ -109,6 +105,10 @@ public class SyntaxHighlighter
             return;
 
 		if(e.Location == ServingLocation.Feed) 
+            return;
+
+        // if no code blocks on the page - don't bother
+        if (!e.Body.ToLowerInvariant().Contains("<pre class=\"brush:"))
             return;
 	
         HttpContext context = HttpContext.Current;
@@ -167,6 +167,10 @@ public class SyntaxHighlighter
     {
         AddJavaScript("shCore.js", page);
         AddJavaScript("shAutoloader.js", page);
+
+        // register starter script
+        page.ClientScript.RegisterStartupScript(page.GetType(), "shInit.js", 
+            String.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", GetUrl("Scripts/syntaxhighlighter/", "shInit.js")));
     }
 
     #region Script/Style adding
@@ -191,46 +195,30 @@ public class SyntaxHighlighter
         
         sb.AppendLine("<script type=\"text/javascript\" defer=\"defer\">");
 
-        sb.AppendLine("function path() { var args = arguments, result = []; for(var i = 0; i < args.length; i++) { result.push(args[i].replace('@', '" + GetUrl(ScriptsFolder(), String.Empty) + "')); } return result; }");
-        sb.AppendLine("SyntaxHighlighter.autoloader.apply(null, path(");
-        sb.AppendLine("'applescript            @shBrushAppleScript.js',");
-        sb.AppendLine("'actionscript3 as3      @shBrushAS3.js',");
-        sb.AppendLine("'bash shell             @shBrushBash.js',");
-        sb.AppendLine("'coldfusion cf          @shBrushColdFusion.js',");
-        sb.AppendLine("'cpp c                  @shBrushCpp.js',");
-        sb.AppendLine("'c# c-sharp csharp      @shBrushCSharp.js',");
-        sb.AppendLine("'css                    @shBrushCss.js',");
-        sb.AppendLine("'delphi pascal          @shBrushDelphi.js',");
-        sb.AppendLine("'diff patch pas         @shBrushDiff.js',");
-        sb.AppendLine("'erl erlang             @shBrushErlang.js',");
-        sb.AppendLine("'groovy                 @shBrushGroovy.js',");
-        sb.AppendLine("'java                   @shBrushJava.js',");
-        sb.AppendLine("'jfx javafx             @shBrushJavaFX.js',");
-        sb.AppendLine("'js jscript javascript  @shBrushJScript.js',");
-        sb.AppendLine("'perl pl                @shBrushPerl.js',");
-        sb.AppendLine("'php                    @shBrushPhp.js',");
-        sb.AppendLine("'text plain             @shBrushPlain.js',");
-        sb.AppendLine("'py python              @shBrushPython.js',");
-        sb.AppendLine("'ruby rails ror rb      @shBrushRuby.js',");
-        sb.AppendLine("'sass scss              @shBrushSass.js',");
-        sb.AppendLine("'scala                  @shBrushScala.js',");
-        sb.AppendLine("'sql                    @shBrushSql.js',");
-        sb.AppendLine("'vb vbnet               @shBrushVb.js',");
-        sb.AppendLine("'xml xhtml xslt html    @shBrushXml.js'");
-        sb.AppendLine("));");
-
-        sb.AppendLine(string.Format("\tSyntaxHighlighter.config.clipboardSwf='{0}';", GetUrl(ScriptsFolder(), "clipboard.swf")));
-
+        // add not-default options
         if (Options != null)
         {
-            sb.AppendLine(GetOption("gutter"));
-            sb.AppendLine(GetOption("smart-tabs"));
-            sb.AppendLine(GetOption("auto-links"));
-            sb.AppendLine(GetOption("collapse"));
-            sb.AppendLine(GetOption("light"));
-            sb.AppendLine(GetOption("tab-size"));
-            sb.AppendLine(GetOption("toolbar"));
-            sb.AppendLine(GetOption("wrap-lines"));
+            if(Options.GetSingleValue("gutter").ToLowerInvariant() == "false")
+                sb.AppendLine(GetOption("gutter"));
+
+            if (Options.GetSingleValue("smart-tabs").ToLowerInvariant() == "false")
+                sb.AppendLine(GetOption("smart-tabs"));
+
+            if (Options.GetSingleValue("auto-links").ToLowerInvariant() == "false")
+                sb.AppendLine(GetOption("auto-links"));
+
+            if (Options.GetSingleValue("collapse").ToLowerInvariant() == "true")
+                sb.AppendLine(GetOption("collapse"));
+            
+            if (Options.GetSingleValue("toolbar").ToLowerInvariant() == "false")
+                sb.AppendLine(GetOption("toolbar"));
+
+            if (Options.GetSingleValue("tab-size") != "4")
+                sb.AppendLine(GetOption("tab-size"));
+
+            // depricated in latest version
+            //sb.AppendLine(GetOption("light"));
+            //sb.AppendLine(GetOption("wrap-lines"));
         }  
         
         sb.AppendLine("\tSyntaxHighlighter.all();");
@@ -265,11 +253,9 @@ public class SyntaxHighlighter
         sb.AppendLine("<p><b>auto-links</b>: Allows you to turn detection of links in the highlighted element on and off. If the option is turned off, URLs won't be clickable.</p>");
         sb.AppendLine("<p><b>collapse</b>: Allows you to force highlighted elements on the page to be collapsed by default.</p>");
         sb.AppendLine("<p><b>gutter</b>:	Allows you to turn gutter with line numbers on and off.</p>");
-        sb.AppendLine("<p><b>light</b>: Allows you to disable toolbar and gutter with a single property.</p>");
         sb.AppendLine("<p><b>smart-tabs</b>:	Allows you to turn smart tabs feature on and off.</p>");
         sb.AppendLine("<p><b>tab-size</b>: Allows you to adjust tab size.</p>");
         sb.AppendLine("<p><b>toolbar</b>: Toggles toolbar on/off.</p>");
-        sb.AppendLine("<p><b>wrap-lines</b>: Allows you to turn line wrapping feature on and off.</p>");
         sb.AppendLine("<p><a target=\"_new\" href=\"http://alexgorbatchev.com/wiki/SyntaxHighlighter:Configuration\">more...</a></p>");
         return sb.ToString();
     }
