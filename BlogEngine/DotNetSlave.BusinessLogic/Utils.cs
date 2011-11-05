@@ -1478,8 +1478,7 @@
         {
             if (!BlogSettings.Instance.EnablePortForwarding)
             {
-                var absoluteUri = new Uri(httpContext.Request.Url.GetLeftPart(UriPartial.Authority) + relativeUri);
-                return absoluteUri.AbsoluteUri;
+                return relativeUri.ToString();
             }
 
             var uriBuilder = new UriBuilder
