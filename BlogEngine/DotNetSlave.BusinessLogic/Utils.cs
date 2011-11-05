@@ -1478,7 +1478,7 @@
         {
             if (!BlogSettings.Instance.EnablePortForwarding)
             {
-                return relativeUri.ToString();
+                return relativeUri.AbsoluteUri;
             }
 
             var uriBuilder = new UriBuilder
