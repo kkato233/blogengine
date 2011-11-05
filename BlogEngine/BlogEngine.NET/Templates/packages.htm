@@ -33,7 +33,7 @@
                     <p>Downloads: {$T.p.DownloadCount}</p>
                     {#if $T.p.Location == "G"}
                     <p id="p_{$T.p.Id}">
-                        <a href="" class="newAction" onclick="InstallPackage('{$T.p.Id}'); return false;">Install</a>
+                        <a href="" id="a-{$T.p.Id}" class="newAction" onclick="InstallPackage('{$T.p.Id}'); return false;">Install</a>
                     </p>
                     {#else}
                         {#if $T.p.UpdateAvailable}
