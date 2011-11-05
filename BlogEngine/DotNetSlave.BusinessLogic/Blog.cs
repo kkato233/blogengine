@@ -624,21 +624,20 @@ namespace BlogEngine.Core
                     throw new WebException("The current HttpContext is null");
                 }
 
-                var absoluteWebRoot = context.Items[contextItemKey] as Uri;
+                Uri absoluteWebRoot = context.Items[contextItemKey] as Uri;
                 if (absoluteWebRoot != null) { return absoluteWebRoot; }
 
-                var uri = new UriBuilder();
+                UriBuilder uri = new UriBuilder();
                 if (!string.IsNullOrWhiteSpace(this.Hostname))
                     uri.Host = this.Hostname;
                 else
                 {
+                    uri.Host = context.Request.Url.Host;
                     if (!context.Request.Url.IsDefaultPort)
                     {
                         uri.Port = context.Request.Url.Port;
                     }
                 }
-
-                uri = new UriBuilder(Utils.ConvertToPublicUrl(context, uri.Uri));
 
                 string vPath = this.VirtualPath ?? string.Empty;
                 if (vPath.StartsWith("~/")) { vPath = vPath.Substring(2); }

@@ -123,7 +123,7 @@
                 var absoluteurl = context.Items["absoluteurl"];
                 if (absoluteurl == null)
                 {
-                    absoluteurl = new Uri(ConvertToPublicUrl(context, new Uri(RelativeWebRoot, UriKind.Relative)));
+                    absoluteurl = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
                     context.Items["absoluteurl"] = absoluteurl;
                 }
 
@@ -1466,30 +1466,6 @@
             }
 
             return true;
-        }
-
-        public static string ConvertToPublicUrl(HttpContext httpContext, Uri relativeUri)
-        {
-            var uriBuilder = new UriBuilder
-            {
-                Host = httpContext.Request.Url.Host,
-                Path = "/",
-                Port = 80,
-                Scheme = "http",
-            };
-
-            if (httpContext.Request.IsLocal)
-            {
-                uriBuilder.Port = httpContext.Request.Url.Port;
-            }
-
-            return new Uri(uriBuilder.Uri, relativeUri).AbsoluteUri;
-        }
-
-        public static string ToPublicUrl(this string url, HttpContext httpContext)
-        {
-            var uri = new Uri(url, UriKind.Relative);
-            return ConvertToPublicUrl(httpContext, uri);
         }
 
         #endregion

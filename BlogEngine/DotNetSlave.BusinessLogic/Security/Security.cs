@@ -139,7 +139,7 @@ namespace BlogEngine.Core
 
                     if (!string.IsNullOrWhiteSpace(returnUrl))
                     {
-                        context.Response.Redirect(returnUrl.ToPublicUrl(context));
+                        context.Response.Redirect(returnUrl);
                     }
                     else
                     {
@@ -271,8 +271,7 @@ namespace BlogEngine.Core
             }
             else
             {
-                var url = string.Format("{0}Account/login.aspx?ReturnURL={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(context.Request.RawUrl)).ToPublicUrl(context);
-                context.Response.Redirect(url);
+                context.Response.Redirect(string.Format("{0}Account/login.aspx?ReturnURL={1}", Utils.RelativeWebRoot, HttpUtility.UrlPathEncode(context.Request.RawUrl)));
             }
         }
 

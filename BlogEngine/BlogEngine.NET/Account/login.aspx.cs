@@ -39,7 +39,7 @@
                 Security.SignOut();
                 if (this.Request.UrlReferrer != null && this.Request.UrlReferrer != this.Request.Url)
                 {
-                    this.Response.Redirect(this.Request.UrlReferrer.ToString().ToPublicUrl(Context), true);
+                    this.Response.Redirect(this.Request.UrlReferrer.ToString(), true);
                 }
                 else
                 {
