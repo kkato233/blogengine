@@ -864,22 +864,23 @@ namespace BlogEngine.Core.Providers
         private static void LoadProviders()
         {
             // Avoid claiming lock if providers are already loaded
-            if (_provider == null || _fileStorageProvider == null)
+            if (_provider == null)
             {
                 lock (TheLock)
                 {
                     // Do this again to make sure _provider is still null
-                    if (_provider == null || _fileStorageProvider == null)
+                    if (_provider == null)
                     {
                         // Get a reference to the <blogProvider> section
-                        var config = WebConfigurationManager.OpenWebConfiguration("~");
-                        var section = (BlogProviderSection)config.GetSection("BlogEngine/blogProvider");
+                        var section =
+                            (BlogProviderSection)WebConfigurationManager.GetSection("BlogEngine/blogProvider");
 
                         // Load registered providers and point _provider
                         // to the default provider
                         _providers = new BlogProviderCollection();
                         ProvidersHelper.InstantiateProviders(section.Providers, _providers, typeof(BlogProvider));
-                        _provider = _provider ?? _providers[section.DefaultProvider];
+                        _provider = _providers[section.DefaultProvider];
+
                         if (_provider == null)
                         {
                             throw new ProviderException("Unable to load default BlogProvider");
@@ -893,8 +894,7 @@ namespace BlogEngine.Core.Providers
                 {
                     if (_fileStorageProvider == null)
                     {
-                        var config = WebConfigurationManager.OpenWebConfiguration("~");
-                        var section = (BlogFileSystemProviderSection)config.GetSection("BlogEngine/blogFileSystemProvider");
+                        var section = (BlogFileSystemProviderSection)WebConfigurationManager.GetSection("BlogEngine/blogFileSystemProvider");
                         _fileProviders = new BlogFileSystemProviderCollection();
                         ProvidersHelper.InstantiateProviders(section.Providers, _fileProviders, typeof(BlogFileSystemProvider));
                         _fileStorageProvider = _fileProviders[section.DefaultProvider];
