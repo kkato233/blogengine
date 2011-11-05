@@ -1506,13 +1506,7 @@
         /// <returns></returns>
         public static string ToPublicUrl(this string relativeUrl, HttpContext httpContext)
         {
-            var uri = new Uri(relativeUrl);
-
-            if (uri.IsAbsoluteUri)
-            {
-                uri = httpContext.Request.Url.MakeRelativeUri(uri);
-            }
-
+            var uri = new Uri(relativeUrl, UriKind.Relative);
             return ConvertToPublicUrl(httpContext, uri);
         }
 
