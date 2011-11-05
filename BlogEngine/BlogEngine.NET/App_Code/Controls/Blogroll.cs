@@ -342,15 +342,15 @@ namespace App_Code.Controls
         /// <param name="async">
         /// The async result.
         /// </param>
-        private static void ProcessResponse(IAsyncResult async)
+        private static void ProcessResponse(IAsyncResult asyncResult)
         {
-            GetRequestData data = (GetRequestData)async.AsyncState;
+            GetRequestData data = (GetRequestData)asyncResult.AsyncState;
             Blog.InstanceIdOverride = data.BlogInstanceId;
             var blogReq = data.BlogRequest;
 
             try
             {
-                using (var response = (HttpWebResponse)blogReq.Request.EndGetResponse(async))
+                using (var response = (HttpWebResponse)blogReq.Request.EndGetResponse(asyncResult))
                 {
                     var doc = new XmlDocument();
                     var responseStream = response.GetResponseStream();
