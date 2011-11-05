@@ -58,11 +58,6 @@
         private bool enablePasswordResets = true;
 
         /// <summary>
-        /// Default port when enabling port forwarding
-        /// </summary>
-        private int forwadingPort = 80;
-
-        /// <summary>
         /// The sync root.
         /// </summary>
         private static readonly object SyncRoot = new object();
@@ -1208,23 +1203,6 @@
                 if (value < 0) { value = defaultRemoteDownloadTimeout; }
                 this.remoteDownloadTimeout = value;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets whether to forward all ports to the ForwardingPort
-        /// </summary>
-        public bool EnablePortForwarding { get; set; }
-
-        /// <summary>
-        /// Gets or sets the port that URLs are forwarded to.
-        /// </summary>
-        /// <remarks>
-        ///     Only used if EnabledPortForwarding is enabled.
-        /// </remarks>
-        public int ForwadingPort
-        {
-            get { return forwadingPort; }
-            set { forwadingPort = value; }
         }
 
         /// <summary>
