@@ -128,7 +128,9 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 					mail.Attachments.Add(attachment);
 				}
 
-				Utils.SendMailMessage(mail);
+				if (Utils.SendMailMessage(mail).Length > 0) {
+					return false;
+				};
 			}
 
 			return true;
