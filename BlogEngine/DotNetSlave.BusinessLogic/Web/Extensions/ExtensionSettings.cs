@@ -110,7 +110,7 @@
                     rval = val.Name;
                 }
 
-                if (string.IsNullOrEmpty(rval))
+                if (string.IsNullOrEmpty(rval) && !IsScalar)
                 {
                     rval = this.Parameters[0].Name;
                 }
@@ -151,7 +151,8 @@
                 // key field is required by default
                 if (!this.requiredFields.Contains(this.KeyField))
                 {
-                    this.requiredFields.Add(this.KeyField);
+                    if(KeyField != null)
+                        requiredFields.Add(KeyField);
                 }
 
                 return this.requiredFields;

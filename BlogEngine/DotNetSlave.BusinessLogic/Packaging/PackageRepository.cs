@@ -135,7 +135,7 @@ namespace BlogEngine.Core.Packaging
 
             Gallery.Load(packages);
             FileSystem.Load(packages);
-            Installer.Load(packages);
+            Installer.MarkAsInstalled(packages);
 
             return packages;
         }
