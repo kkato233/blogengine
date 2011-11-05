@@ -42,9 +42,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			DisplayApmlFiltering();
 		}
 		else
-		{
-            PostList1.ContentBy = ServingContentBy.AllContent;
-			PostList1.Posts = Post.Posts.ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
+		{			
 			if (!BlogSettings.Instance.UseBlogNameInPageTitles)
 				Page.Title = BlogSettings.Instance.Name + " | ";
 

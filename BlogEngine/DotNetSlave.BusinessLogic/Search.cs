@@ -26,18 +26,62 @@
         /// <summary>
         /// The catalog.
         /// </summary>
-        private static readonly Collection<Entry> Catalog = new Collection<Entry>();
+        private static readonly Dictionary<Guid, Collection<Entry>> _catalog = new Dictionary<Guid, Collection<Entry>>();
 
         /// <summary>
         /// The stop words.
         /// </summary>
-        private static readonly StringCollection StopWords = BlogService.LoadStopWords();
+        private static readonly Dictionary<Guid, StringCollection> _stopWords = new Dictionary<Guid, StringCollection>();
 
         /// <summary>
         /// The sync root.
         /// </summary>
-        private static readonly object SyncRoot = new object();
+        private static readonly object _syncRoot = new object();
 
+        #endregion
+
+        #region Properties
+
+        private static StringCollection StopWords
+        {       
+            get
+            {
+                Guid blogId = Blog.CurrentInstance.Id;
+                StringCollection stopWords;
+                lock (_syncRoot)
+                {
+                    if (!_stopWords.TryGetValue(blogId, out stopWords))
+                    {
+                        stopWords = BlogService.LoadStopWords();
+                        _stopWords.Add(blogId, stopWords);
+                    }
+                }
+
+                return stopWords;
+            }
+        }
+
+        private static Collection<Entry> Catalog
+        {
+            get
+            {
+                Guid blogId = Blog.CurrentInstance.Id;
+                Collection<Entry> catalog;
+                lock (_syncRoot)
+                {   
+                    if (!_catalog.TryGetValue(blogId, out catalog))
+                    {
+                        catalog = new Collection<Entry>();
+                        _catalog.Add(blogId, catalog);
+                        BuildCatalog();
+                    }
+                }
+
+                return catalog;
+            }
+        }
+
+        
         #endregion
 
         #region Constructors and Destructors
@@ -47,7 +91,6 @@
         /// </summary>
         static Search()
         {
-            BuildCatalog();
             Post.Saved += Post_Saved;
             Page.Saved += Page_Saved;
             BlogSettings.Changed += delegate { BuildCatalog(); };
@@ -257,7 +300,7 @@
         /// <returns>A list of IPublishable.</returns>
         public static List<IPublishable> Hits(string searchTerm, bool includeComments)
         {
-            lock (SyncRoot)
+            lock (_syncRoot)
             {
                 var results = BuildResultSet(searchTerm, includeComments);
                 var items = results.ConvertAll(ResultToPost);
@@ -313,7 +356,7 @@
         {
             OnIndexBuilding();
 
-            lock (SyncRoot)
+            lock (_syncRoot)
             {
                 Catalog.Clear();
                 foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
@@ -353,25 +396,25 @@
             var results = new List<Result>();
             var term = CleanContent(searchTerm.ToLowerInvariant().Trim(), false);
             var terms = term.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var regex = string.Format(CultureInfo.InvariantCulture, "({0})", string.Join("|", terms));
+            var regex = new Regex(string.Format(CultureInfo.InvariantCulture, "({0})", string.Join("|", terms)));
 
             foreach (var entry in Catalog)
             {
                 var result = new Result();
                 if (!(entry.Item is Comment))
                 {
-                    var titleMatches = Regex.Matches(entry.Title, regex).Count;
+                    var titleMatches = regex.Matches(entry.Title).Count;
                     result.Rank = titleMatches * 20;
 
-                    var postMatches = Regex.Matches(entry.Content, regex).Count;
+                    var postMatches = regex.Matches(entry.Content).Count;
                     result.Rank += postMatches;
 
-                    var descriptionMatches = Regex.Matches(entry.Item.Description, regex).Count;
+                    var descriptionMatches = regex.Matches(entry.Item.Description).Count;
                     result.Rank += descriptionMatches * 2;
                 }
                 else if (includeComments)
                 {
-                    var commentMatches = Regex.Matches(entry.Content + entry.Title, regex).Count;
+                    var commentMatches = regex.Matches(entry.Content + entry.Title).Count;
                     result.Rank += commentMatches;
                 }
 
@@ -465,7 +508,7 @@
         /// <param name="e">The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.</param>
         private static void Page_Saved(object sender, SavedEventArgs e)
         {
-            lock (SyncRoot)
+            lock (_syncRoot)
             {
                 if (e.Action == SaveAction.Insert)
                 {
@@ -504,7 +547,7 @@
         /// <param name="e">The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.</param>
         private static void Post_Saved(object sender, SavedEventArgs e)
         {
-            lock (SyncRoot)
+            lock (_syncRoot)
             {
                 if (e.Action == SaveAction.Insert)
                 {
