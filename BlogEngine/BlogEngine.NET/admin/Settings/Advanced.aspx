@@ -34,9 +34,7 @@
 				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
 				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value'),
-				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value'),
-                "enablePortForwarding": $("[id$='_cbEnablePortForwarding']").attr('checked.'),
-                "forwardingPort": $("[id$='_txtForwardingPort']").attr('value')
+				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value')                
 			};
 			
             $.ajax({
@@ -105,17 +103,6 @@
                                 <asp:ListItem Text="<%$ Resources:labels, enforce %>" Value="add" />
                                 <asp:ListItem Text="<%$ Resources:labels, ignore %>" Value="" Selected="true" />
                             </asp:RadioButtonList>
-                    </li>
-                    <li>
-                        <label class="lbl">Port Forwarding</label>
-                        <asp:CheckBox runat="server" ID="cbEnablePortForwarding" />
-                        <label for="<%=cbEnablePortForwarding.ClientID %>">Enable Port Forwading</label>
-                        <span class="insetHelp">(Makes all URLs resolve to the specified port below. Useful for load-balanced/cloud servers.)</span>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
-                        <asp:TextBox runat="server" ID="txtForwardingPort" />
-                        <span class="insetHelp">(The port to forward to, usually port 80)</span>
                     </li>
                     <li>
                         <label class="lbl"><%=Resources.labels.otherSettings %></label>
