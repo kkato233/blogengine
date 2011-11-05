@@ -91,7 +91,6 @@
         <ul class="gallery">
         @foreach (var theme in PackageRepository.LocalPackages(Constants.Theme))
         {
-            if (theme.Id == BlogSettings.Instance.Theme || theme.Id == BlogSettings.Instance.MobileTheme) { continue; }
         <li id="@theme.Id">
             <div class="Theme">
                 <div class="pkg-hdr">

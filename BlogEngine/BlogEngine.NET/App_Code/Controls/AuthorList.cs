@@ -7,7 +7,6 @@
 namespace App_Code.Controls
 {
     using System;
-    using System.IO;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
@@ -71,7 +70,7 @@ namespace App_Code.Controls
                     return;
                 }
 
-                blogsShowRssIcon.Remove(Blog.CurrentInstance.Id);
+                blogsShowRssIcon[Blog.CurrentInstance.Id] = value;
                 blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
@@ -103,7 +102,7 @@ namespace App_Code.Controls
         /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"/> object that receives the control content.</param>
         public override void RenderControl(HtmlTextWriter writer)
         {
-            writer.Write(this.Html);
+            writer.Write(Html);
             writer.Write(Environment.NewLine);
         }
 
@@ -136,7 +135,7 @@ namespace App_Code.Controls
 
                 var li = new HtmlGenericControl("li");
 
-                if (this.ShowRssIcon)
+                if (ShowRssIcon)
                 {
                     var img = new HtmlImage
                         {

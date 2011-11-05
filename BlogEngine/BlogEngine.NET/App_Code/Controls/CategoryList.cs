@@ -99,7 +99,7 @@ namespace App_Code.Controls
                     return;
                 }
 
-                blogsShowRssIcon.Remove(Blog.CurrentInstance.Id);
+                blogsShowRssIcon[Blog.CurrentInstance.Id] = value;
                 blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
