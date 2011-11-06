@@ -73,7 +73,7 @@ namespace Widgets.Newsletter
         /// <summary>
         ///     Initializes static members of the <see cref = "Widget" /> class.
         /// </summary>
-        static Widget()
+        public Widget()
         {
             Post.Saved += PublishableSaved;
             Post.Saving += PublishableSaving;
@@ -133,7 +133,7 @@ namespace Widgets.Newsletter
         /// </returns>
         public string GetCallbackResult()
         {
-            return this.callback;
+            return callback;
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace Widgets.Newsletter
         /// </param>
         public void RaiseCallbackEvent(string eventArgument)
         {
-            this.callback = eventArgument;
-            this.AddEmail(eventArgument);
+            callback = eventArgument;
+            AddEmail(eventArgument);
         }
 
         #endregion
@@ -153,8 +153,6 @@ namespace Widgets.Newsletter
         #endregion
 
         #region Methods
-
-
 
         /// <summary>
         /// Creates the email.
@@ -165,14 +163,19 @@ namespace Widgets.Newsletter
         /// <returns>
         /// The email.
         /// </returns>
-        private static MailMessage CreateEmail(IPublishable publishable)
+        private MailMessage CreateEmail(IPublishable publishable)
         {
-            var mail = new MailMessage
-                {
-                    Subject = publishable.Title,
-                    Body = FormatBodyMail(publishable), 
-                    From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name)
-                };
+            var subject = publishable.Title;
+            var settings = GetSettings();
+
+            if (settings["subjectPrefix"] != null)
+                subject = settings["subjectPrefix"] + subject;
+
+            var mail = new MailMessage {
+                Subject = subject,
+                Body = FormatBodyMail(publishable), 
+                From = new MailAddress(BlogSettings.Instance.Email, BlogSettings.Instance.Name)
+            };
             return mail;
         }
 
@@ -354,7 +357,7 @@ namespace Widgets.Newsletter
         /// <param name="e">
         /// The <see cref="BlogEngine.Core.SavedEventArgs"/> instance containing the event data.
         /// </param>
-        private static void PublishableSaved(object sender, SavedEventArgs e)
+        private void PublishableSaved(object sender, SavedEventArgs e)
         {
             var publishable = (IPublishable)sender;
 
@@ -512,7 +515,7 @@ namespace Widgets.Newsletter
                         node.InnerText = email;
                         docs[Blog.CurrentInstance.Id].FirstChild.AppendChild(node);
 
-                        this.callback = "true";
+                        callback = "true";
                         SaveEmails();
                     }
                     else
@@ -523,14 +526,14 @@ namespace Widgets.Newsletter
                             docs[Blog.CurrentInstance.Id].FirstChild.RemoveChild(emailNode);
                         }
 
-                        this.callback = "false";
+                        callback = "false";
                         SaveEmails();
                     }
                 }
             }
             catch
             {
-                this.callback = "false";
+                callback = "false";
             }
         }
 
