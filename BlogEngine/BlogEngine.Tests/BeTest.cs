@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using WatiN.Core;
+using BlogEngine.Tests.PageTemplates.Account;
 
 namespace BlogEngine.Tests
 {
@@ -32,22 +33,25 @@ namespace BlogEngine.Tests
 
         public void Login(string user, string pwd = "")
         {
-            ie.GoTo(Constants.AccountLogin);
-
             if (string.IsNullOrEmpty(pwd)) 
                 pwd = user;
 
-            TypeQuickly(ie.TextField(Find.ById(Constants.UserName)), user);
-            TypeQuickly(ie.TextField(Find.ById(Constants.Password)), pwd);
+            var login = ie.Page<Login>();
 
-            ie.Button(Find.ById(Constants.LoginButton)).Click();
+            ie.GoTo(login.Url);
+
+            TypeQuickly(login.UserName, user);
+            TypeQuickly(login.Password, pwd);
+
+            login.LoginButton.Click();
         }
 
         public void Logout()
         {
             ie.GoTo(Constants.Root);
 
-            var logOffLink = ie.Link(Find.ById(Constants.LoginLinkId));
+            var login = ie.Page<Login>();
+            var logOffLink = login.LogoffLink;
 
             if (logOffLink != null && logOffLink.Text == Constants.LogOff)
             {

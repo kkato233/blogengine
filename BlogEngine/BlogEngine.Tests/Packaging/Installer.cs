@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using WatiN.Core;
+using BlogEngine.Tests.PageTemplates.Admin;
 
 namespace BlogEngine.Tests.Packaging
 {
@@ -15,25 +15,29 @@ namespace BlogEngine.Tests.Packaging
         [Test]
         public void CanInstallAndUninstallTheme()
         {
-            ie.GoTo(Constants.GalleryThemes);
+            var gal = ie.Page<ThemesGallery>();
 
-            TypeQuickly(ie.TextField(Find.ById("searchGallery")), "Boldy");
+            ie.GoTo(gal.Url);
 
-            ie.Button(Find.ById("btnGalSearch")).Click();
+            TypeQuickly(gal.TxtSearch, "Boldy");
 
-            ie.Link(Find.ById("a-Boldy")).Click();
+            gal.BtnSearch.Click();
+
+            gal.ABoldy.Click();
 
             Wait(15);
 
-            ie.GoTo(Constants.LocalThemes);
+            var loc = ie.Page<ThemesLocal>();
+
+            ie.GoTo(loc.Url);
 
             ie.WaitUntilContainsText("Boldy");
 
             Assert.IsTrue(ie.ContainsText("Boldy"));
 
-            ie.GoTo(Constants.LocalThemes);
+            ie.GoTo(loc.Url);
 
-            ie.Link(Find.ById("a-Boldy")).Click();
+            loc.ABoldy.Click();
 
             Wait(10);
 

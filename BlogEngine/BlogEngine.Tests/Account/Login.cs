@@ -1,11 +1,13 @@
 ﻿using NUnit.Framework;
-using WatiN.Core;
 
 namespace BlogEngine.Tests.Account
 {
     [TestFixture]
     public class Login : BeTest
     {
+        readonly string LoginFailedMsg = "Login failed";
+        readonly string WelcomeToBeMsg = "Welcome to BlogEngine.NET";
+
         [SetUp]
         public void Init()
         {
@@ -15,21 +17,17 @@ namespace BlogEngine.Tests.Account
         [Test]
         public void InvalidLoginShouldFail()
         {
-            ie.GoTo(Constants.AccountLogin);
-
             Login("foo", "bar");
 
-            Assert.IsTrue(ie.ContainsText(Constants.LoginFailedMsg));
+            Assert.IsTrue(ie.ContainsText(LoginFailedMsg));
         }
 
         [Test]
         public void ValidLoginShouldPass()
         {
-            ie.GoTo(Constants.AccountLogin);
-
             Login("admin");
 
-            Assert.IsTrue(ie.ContainsText(Constants.WelcomeToBeMsg));
+            Assert.IsTrue(ie.ContainsText(WelcomeToBeMsg));
         }
     }
 }

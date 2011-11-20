@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using WatiN.Core;
+using BlogEngine.Tests.PageTemplates.Admin;
 
 namespace BlogEngine.Tests.Posts
 {
@@ -8,7 +9,6 @@ namespace BlogEngine.Tests.Posts
     {
         string PostId = "";
         string TheTestPost = "The test post";
-        string TxtTitle = "ctl00_cphAdmin_txtTitle";
 
         [SetUp]
         public void Init()
@@ -19,27 +19,29 @@ namespace BlogEngine.Tests.Posts
         [TearDown]
         public void Dispose()
         {
-            ie.GoTo(Constants.UrlAdminTrash);
-            ie.Button(Find.ById("btnPurgeAll")).Click();
+            var trash = ie.Page<Trash>();
+            ie.GoTo(trash.Url);
+            trash.PurgeAll.Click();
         }
 
         [Test]
         public void CanCreateAndDeletePost()
         {
-            ie.GoTo(Constants.UrlAdminAddNewPost);
-            TypeQuickly(ie.TextField(Find.ById(TxtTitle)), TheTestPost);
+            var editPost = ie.Page<EditPost>();
 
-            // tinyMCE uses frames to simulate text area, need javascript hack as workaround
-            string js = "document.getElementById('ctl00_cphAdmin_txtContent_TinyMCE1_txtContent_ifr').contentWindow.document.body.innerHTML = 'This is WATIN test post.';";
-            ie.Eval(js);
+            ie.GoTo(editPost.Url);
 
-            ie.Button(Find.ById("btnSave")).Click();
+            TypeQuickly(editPost.PostTitle, TheTestPost);
+            
+            ie.Eval(editPost.JsHack);
+
+            editPost.Save.Click();
 
             SetPostId();
 
             Assert.IsTrue(ie.ContainsText(TheTestPost));
 
-            ie.GoTo(Constants.UrlAdminPosts);
+            ie.GoTo(ie.Page<PostList>().Url);
             ie.Link(Find.ById("a-" + PostId)).Click();
 
             // give 5 seconds for ajax method to execute
