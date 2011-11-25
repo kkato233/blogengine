@@ -23,6 +23,8 @@ namespace BlogEngine.Tests.Packaging
 
             gal.BtnSearch.Click();
 
+            Wait(10);
+
             gal.ABoldy.Click();
 
             Wait(15);

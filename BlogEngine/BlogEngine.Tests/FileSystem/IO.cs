@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.AccessControl;
 using NUnit.Framework;
 
 namespace BlogEngine.Tests.FileSystem
@@ -26,7 +27,8 @@ namespace BlogEngine.Tests.FileSystem
             // recycle application pool -
             // wait untill application back online
             ie.GoTo(Constants.Root);
-            Wait(35);
+            ie.WaitForComplete();
+            //Wait(35);
         }
 
         [TearDown]
@@ -42,7 +44,7 @@ namespace BlogEngine.Tests.FileSystem
 
             Directory.CreateDirectory(testDir);
 
-            using (StreamWriter sw = File.CreateText(file))
+            using (var sw = File.CreateText(file))
             {
                 sw.WriteLine("The test");
             }
@@ -50,13 +52,13 @@ namespace BlogEngine.Tests.FileSystem
             if (!File.Exists(file))
                 return false;
 
-            using (StreamReader sr = File.OpenText(file))
+            using (var sr = File.OpenText(file))
             {
                 if (sr.ReadToEnd() != "The test\r\n")
                     return false;
             }
 
-            using (StreamReader sr = File.OpenText(file))
+            using (var sr = File.OpenText(file))
             {
                 return (sr.ReadToEnd() == "The test\r\n");
             }
@@ -68,6 +70,43 @@ namespace BlogEngine.Tests.FileSystem
             Directory.Delete(Path.Combine(dir, "foo"));
 
             return !Directory.Exists(Path.Combine(dir, "foo"));
+        }
+
+        public static void MkDir(string dir)
+        {
+            string path = Path.Combine(RootPath(), dir);
+
+            if (!Directory.Exists((path)))
+                Directory.CreateDirectory(path);
+        }
+
+        public static void DelDir(string dir)
+        {
+            string path = Path.Combine(RootPath(), dir);
+
+            if (Directory.Exists((path)))
+                Directory.Delete(path);
+        }
+
+        public static void MkFile(string file, string text)
+        {
+            var path = Path.Combine(RootPath(), file);
+
+            if(!File.Exists(path))
+            {
+                using (var sw = File.CreateText(path))
+                {
+                    sw.Write(text);
+                }
+            }
+        }
+
+        public static void DelFile(string file)
+        {
+            var path = Path.Combine(RootPath(), file);
+
+            if (File.Exists((path)))
+                File.Delete(path);
         }
 
         static string RootPath()

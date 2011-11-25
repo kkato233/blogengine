@@ -1135,7 +1135,7 @@ function UninstallPackage(pkgId) {
                 ShowStatus("success", rt.Message);
             }
             else {
-                p.html(packup);
+                p.html(backup);
                 ShowStatus("warning", rt.Message);
             }
         }
