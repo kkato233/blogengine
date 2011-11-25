@@ -13,6 +13,10 @@ namespace BlogEngine.Tests
         public void SetUp()
         {
             ie = new IE();
+
+            ie.Refresh();
+            ie.ClearCache();
+
             Settings.WaitForCompleteTimeOut = 240;
 
             // to hide IE window

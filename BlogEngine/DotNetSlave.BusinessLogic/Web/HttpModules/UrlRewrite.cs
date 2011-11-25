@@ -376,7 +376,8 @@
             else if (urlContainsFileExtension && url.Contains("/CALENDAR/")) {
                 context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.ApplicationRelativeWebRoot), false);
             }
-            else if (urlContainsFileExtension && url.Contains(string.Format("/DEFAULT{0}", BlogConfig.FileExtension.ToUpperInvariant()))) {
+            else if (urlContainsFileExtension && DefaultPageRequested(context))
+            {
                 RewriteDefault(context);
             }
             else if (urlContainsFileExtension && url.Contains("/AUTHOR/")) {
@@ -435,7 +436,13 @@
             }
         }
 
-
+        private static bool DefaultPageRequested(HttpContext context)
+        {
+            var url = context.Request.Url.ToString().ToUpper();
+            var match = string.Format("{0}DEFAULT{1}", Utils.AbsoluteWebRoot,
+                                      BlogConfig.FileExtension.ToUpperInvariant()).ToUpper();
+            return url.Contains(match);
+        }
 
         #endregion
     }

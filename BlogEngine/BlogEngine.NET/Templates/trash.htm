@@ -1,5 +1,7 @@
 ﻿{#if $T.d.length == 0}
 <div class="info" style="margin-top: 10px">
+    {$("#recyclebin a").removeClass("full");}
+    {$("#recyclebin a").addClass("empty");}
     Trash is empty.
 </div>
 {#else}

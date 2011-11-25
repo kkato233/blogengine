@@ -1,7 +1,7 @@
 
 To run tests:
 
-2. Copy these files from "..\lib\watin" to "BlogEngine\BlogEngine.Tests\bin\Debug".
+1. Copy these files from "..\lib\watin" to "BlogEngine\BlogEngine.Tests\bin\Debug".
 	Interop.SHDocVw.dll
 	BlogEngine.Tests.dll.config
 
@@ -18,5 +18,3 @@ To run tests:
 6. File -> Open Project -> then select "BlogEngine\BlogEngine.Tests\bin\Debug\BlogEngine.Tests.dll"
 
 7. Click "Run", all should pass.
-
-
