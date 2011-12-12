@@ -2657,7 +2657,7 @@ namespace BlogEngine.Core.Providers
                     parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("date"), comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
                     parms.Add(conn.CreateParameter(FormatParamName("author"), comment.Author));
-                    parms.Add(conn.CreateParameter(FormatParamName("email"), comment.Email));
+                    parms.Add(conn.CreateParameter(FormatParamName("email"), (comment.Email ?? string.Empty)));
                     parms.Add(conn.CreateParameter(FormatParamName("website"), (comment.Website == null ? string.Empty : comment.Website.ToString())));
                     parms.Add(conn.CreateParameter(FormatParamName("comment"), comment.Content));
                     parms.Add(conn.CreateParameter(FormatParamName("country"), (comment.Country ?? string.Empty)));
