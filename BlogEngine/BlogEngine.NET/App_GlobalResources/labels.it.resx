@@ -127,7 +127,7 @@
     <value>Aggiungi Commento</value>
   </data>
   <data name="addCustomCodeToHeader" xml:space="preserve">
-    <value>Aggiungi Codice persolnalizzato all&apos;intestazione (head) HTML</value>
+    <value>Aggiungi Codice personalizzato all&apos;elemento head HTML</value>
   </data>
   <data name="administrationPanel" xml:space="preserve">
     <value>Pannello di Controllo</value>
@@ -148,7 +148,7 @@
     <value>Approva tutti i Commenti al Post</value>
   </data>
   <data name="archive" xml:space="preserve">
-    <value>Archivia</value>
+    <value>Archivio</value>
   </data>
   <data name="areYouSure" xml:space="preserve">
     <value>Sei sicuro di volere {0} {1}?</value>
@@ -722,7 +722,7 @@
     <value>Nessun Categoria</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancella</value>
+    <value>Annulla</value>
   </data>
   <data name="filter" xml:space="preserve">
     <value>Filtra</value>
@@ -737,7 +737,7 @@
     <value>Accedi</value>
   </data>
   <data name="logoff" xml:space="preserve">
-    <value>Log off</value>
+    <value>Esci</value>
   </data>
   <data name="useRawHtmlEditor" xml:space="preserve">
     <value>Utilizza l&apos;editor HTML</value>
@@ -749,7 +749,7 @@
     <value>Elimina questo Commento, ma conserva le risposte</value>
   </data>
   <data name="deletePlusReplies" xml:space="preserve">
-    <value>Elimina il Commento e tute le risposte</value>
+    <value>Elimina il Commento e tutte le risposte</value>
   </data>
   <data name="replyTo" xml:space="preserve">
     <value>In risposta a</value>
@@ -1291,7 +1291,7 @@
     <value>Imposta i diritti per il Ruolo</value>
   </data>
   <data name="emailArgumentInvalid" xml:space="preserve">
-    <value>Argomentazioni nell&apos;e-mail non valide.</value>
+    <value>Argomenti e-mail non validi.</value>
   </data>
   <data name="enable" xml:space="preserve">
     <value>Abilita</value>
@@ -1582,7 +1582,7 @@
     <value>Testa le impostazioni e-mail</value>
   </data>
   <data name="themeCookieName" xml:space="preserve">
-    <value>Nome del Coockie per il Tema</value>
+    <value>Nome del cookie per il tema</value>
   </data>
   <data name="theValuesSaved" xml:space="preserve">
     <value>I valori sono stati salvati</value>
