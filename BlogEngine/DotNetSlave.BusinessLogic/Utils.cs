@@ -1184,6 +1184,7 @@
             text = text.Replace("\"", string.Empty);
             text = text.Replace("&", string.Empty);
             text = text.Replace("'", string.Empty);
+            text = text.Replace("’", string.Empty); // live writer passes char 8217  this inplace of a char 39
             text = text.Replace(" ", "-");
             text = RemoveDiacritics(text);
             text = RemoveExtraHyphen(text);
