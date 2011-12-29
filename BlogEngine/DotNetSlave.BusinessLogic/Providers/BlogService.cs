@@ -9,7 +9,9 @@ namespace BlogEngine.Core.Providers
     using System.Web.Configuration;
 
     using BlogEngine.Core.DataStore;
-    using BlogEngine.Core.FileSystem;
+    using BlogEngine.Core.FileSystem;   
+    using Notes;
+
     /// <summary>
     /// The proxy class for communication between
     ///     the business objects and the providers.
@@ -852,6 +854,29 @@ namespace BlogEngine.Core.Providers
             Provider.DeletePackage(packageId);
         }
 
+        #endregion
+
+        #region QuickNotes
+        public static void SaveQuickNote(QuickNote note)
+        {
+            Provider.SaveQuickNote(note);
+        }
+        public static void SaveQuickSetting(QuickSetting setting)
+        {
+            Provider.SaveQuickSetting(setting);
+        }
+        public static List<QuickNote> FillQuickNotes(string userId)
+        {
+            return Provider.FillQuickNotes(userId);
+        }
+        public static List<QuickSetting> FillQuickSettings(string userId)
+        {
+            return Provider.FillQuickSettings(userId);
+        }
+        public static void DeleteQuickNote(Guid noteId)
+        {
+            Provider.DeleteQuickNote(noteId);
+        }
         #endregion
 
         #endregion

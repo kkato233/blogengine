@@ -1167,6 +1167,16 @@
 
         #endregion
 
+        #region DisableQuickNotes
+
+        /// <summary>
+        ///     Gets or sets a value indicating if QuickNotes module is enabled
+        /// </summary>
+        /// <value><b>true</b> if QuickNotes is disabled, otherwise returns <b>false</b>.</value>
+        public bool DisableQuickNotes { get; set; }
+
+        #endregion
+
         /// <summary>
         /// Gets or sets whether this application's handlers should be able to download and cache files hosted on other servers.
         /// </summary>

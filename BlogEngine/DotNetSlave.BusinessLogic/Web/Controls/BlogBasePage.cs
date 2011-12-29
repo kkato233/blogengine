@@ -383,6 +383,16 @@
                 Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.ApplicationRelativeWebRoot), true, false, true);
             }
 
+            // quick notes should be enabled in settings and user should have publish permission
+            if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
+            {
+                var control = new LiteralControl(string.Format("<script>var appRoot = '{0}'; var appUser = '{1}'</script>", Utils.ApplicationRelativeWebRoot, Security.CurrentUser.Identity.Name));
+                this.Page.Header.Controls.Add(control);
+
+                AddStylesheetInclude(string.Format("{0}Modules/QuickNotes/qnotes.css", Utils.ApplicationRelativeWebRoot), false);
+                Utils.AddJavaScriptInclude(this, string.Format("{0}Modules/QuickNotes/qnotes.js", Utils.ApplicationRelativeWebRoot), true, false, true);
+           }
+
             if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
             {
                 this.CompressCss();

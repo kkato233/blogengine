@@ -11,6 +11,7 @@ using System.Transactions;
 
 using BlogEngine.Core.DataStore;
 using BlogEngine.Core.Packaging;
+using BlogEngine.Core.Notes;
 
 namespace BlogEngine.Core.Providers
 {
@@ -2573,6 +2574,51 @@ namespace BlogEngine.Core.Providers
 
         #endregion
 
+        #region QuickNotes
+        /// <summary>
+        /// Save quick note
+        /// </summary>
+        /// <param name="note">Quick note</param>
+        public override void SaveQuickNote(QuickNote note)
+        {
+
+        }
+        /// <summary>
+        /// Save quick setting
+        /// </summary>
+        /// <param name="setting">Quick setting</param>
+        public override void SaveQuickSetting(QuickSetting setting)
+        {
+
+        }
+        /// <summary>
+        /// Fill quick notes
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>List of user notes</returns>
+        public override List<QuickNote> FillQuickNotes(string userId)
+        {
+            return null;
+        }
+        /// <summary>
+        /// Fill quick settings
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>List of user settings</returns>
+        public override List<QuickSetting> FillQuickSettings(string userId)
+        {
+            return null;
+        }
+        /// <summary>
+        /// Delete quick note
+        /// </summary>
+        /// <param name="noteId">Note ID</param>
+        public override void DeleteQuickNote(Guid noteId)
+        {
+
+        }
+        #endregion
+
         /// <summary>
         /// Returns a formatted parameter name to include this DbBlogProvider instance's paramPrefix.
         /// </summary>
@@ -2657,7 +2703,7 @@ namespace BlogEngine.Core.Providers
                     parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                     parms.Add(conn.CreateParameter(FormatParamName("date"), comment.DateCreated.AddHours(-BlogSettings.Instance.Timezone)));
                     parms.Add(conn.CreateParameter(FormatParamName("author"), comment.Author));
-                    parms.Add(conn.CreateParameter(FormatParamName("email"), (comment.Email ?? string.Empty)));
+                    parms.Add(conn.CreateParameter(FormatParamName("email"), comment.Email));
                     parms.Add(conn.CreateParameter(FormatParamName("website"), (comment.Website == null ? string.Empty : comment.Website.ToString())));
                     parms.Add(conn.CreateParameter(FormatParamName("comment"), comment.Content));
                     parms.Add(conn.CreateParameter(FormatParamName("country"), (comment.Country ?? string.Empty)));

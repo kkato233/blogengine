@@ -146,6 +146,7 @@
     <Compile Include="FileSystem\FileSystemUtilities.cs" />
     <Compile Include="Json\JsonBlog.cs" />
     <Compile Include="Json\JsonBlogs.cs" />
+    <Compile Include="Json\JsonCategory.cs" />
     <Compile Include="Json\JsonComment.cs" />
     <Compile Include="Json\JsonCulture.cs" />
     <Compile Include="Json\JsonCustomFilter.cs" />
@@ -162,6 +163,10 @@
     <Compile Include="Json\JsonTag.cs" />
     <Compile Include="Json\JsonTrash.cs" />
     <Compile Include="Json\JsonTrashList.cs" />
+    <Compile Include="Notes\QuickNote.cs" />
+    <Compile Include="Notes\QuickNotes.cs" />
+    <Compile Include="Notes\QuickSetting.cs" />
+    <Compile Include="Notes\QuickSettings.cs" />
     <Compile Include="Packaging\Constants.cs" />
     <Compile Include="Packaging\FileSystem.cs" />
     <Compile Include="Packaging\Gallery.cs" />
@@ -185,6 +190,7 @@
     <Compile Include="Providers\FileSystemProviders\UNCFileSystemProvider.cs" />
     <Compile Include="Providers\XmlProvider\Blogs.cs" />
     <Compile Include="Providers\XmlProvider\Packaging.cs" />
+    <Compile Include="Providers\XmlProvider\QuickNotes.cs" />
     <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="Providers\FileSystemProviders\XmlFileSystemProvider.cs" />
     <Compile Include="RemoteFile.cs" />
@@ -314,7 +320,6 @@
     <None Include="DataStore\DataStore.cd" />
     <None Include="key.snk" />
     <None Include="Ping\Ping.cd" />
-    <None Include="Providers\Providers.cd" />
     <None Include="Service References\GalleryServer\service.edmx" />
   </ItemGroup>
   <ItemGroup>
