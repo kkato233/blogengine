@@ -2581,7 +2581,40 @@ namespace BlogEngine.Core.Providers
         /// <param name="note">Quick note</param>
         public override void SaveQuickNote(QuickNote note)
         {
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("select count(*) from {0}QuickNotes where NoteId = {1}noteid", this.tablePrefix, this.parmPrefix);
+                    object cnt;
 
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("noteid"), note.Id));
+                        cnt = cmd.ExecuteScalar();
+                    }
+
+                    if (int.Parse(cnt.ToString()) > 0)
+                        sqlQuery = string.Format("update {0}QuickNotes set Note = {1}note, updated = {1}updated where NoteId = {1}noteid", this.tablePrefix, this.parmPrefix);
+                    else
+                        sqlQuery = string.Format("insert into {0}QuickNotes (NoteId, BlogId, UserName, Note, Updated) values ({1}noteid, {1}blogid, {1}username, {1}note, {1}updated)", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+
+                        var p = cmd.Parameters;
+
+                        p.Add(conn.CreateParameter(FormatParamName("noteid"), note.Id));
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("username"), note.Author));
+                        p.Add(conn.CreateParameter(FormatParamName("note"), note.Note));
+                        p.Add(conn.CreateParameter(FormatParamName("updated"), DateTime.Now.AddHours(-BlogSettings.Instance.Timezone)));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
         /// <summary>
         /// Save quick setting
@@ -2589,7 +2622,38 @@ namespace BlogEngine.Core.Providers
         /// <param name="setting">Quick setting</param>
         public override void SaveQuickSetting(QuickSetting setting)
         {
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("select count(*) from {0}QuickSettings where BlogId = {1}blogid and UserName = {1}username and SettingName = {1}settingname", this.tablePrefix, this.parmPrefix);
+                    object cnt;
 
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("settingname"), setting.SettingName));
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("username"), setting.Author));
+                        cnt = cmd.ExecuteScalar();
+                    }
+
+                    if (int.Parse(cnt.ToString()) > 0)
+                        sqlQuery = string.Format("update {0}QuickSettings set SettingValue = {1}settingvalue where BlogId = {1}blogid and UserName = {1}username and SettingName = {1}settingname", this.tablePrefix, this.parmPrefix);
+                    else
+                        sqlQuery = string.Format("insert into {0}QuickSettings (BlogId, UserName, SettingName, SettingValue) values ({1}blogid, {1}username, {1}settingname, {1}settingvalue)", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        p.Add(conn.CreateParameter(FormatParamName("username"), setting.Author));
+                        p.Add(conn.CreateParameter(FormatParamName("settingname"), setting.SettingName));
+                        p.Add(conn.CreateParameter(FormatParamName("settingvalue"), setting.SettingValue));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
         /// <summary>
         /// Fill quick notes
@@ -2598,7 +2662,31 @@ namespace BlogEngine.Core.Providers
         /// <returns>List of user notes</returns>
         public override List<QuickNote> FillQuickNotes(string userId)
         {
-            return null;
+            var notes = new List<QuickNote>();
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT NoteId, Note, Updated FROM {0}QuickNotes where UserName = '{1}' and BlogId = '{2}'", tablePrefix, userId, Blog.CurrentInstance.Id.ToString())))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var n = new QuickNote()
+                                {
+                                    Id = rdr.GetGuid(0),
+                                    Author = userId,
+                                    Note = rdr.GetString(1),
+                                    Updated = rdr.GetDateTime(2)
+                                };
+                                notes.Add(n);
+                            }
+                        }
+                    }
+                }
+            }
+            return notes;
         }
         /// <summary>
         /// Fill quick settings
@@ -2607,7 +2695,29 @@ namespace BlogEngine.Core.Providers
         /// <returns>List of user settings</returns>
         public override List<QuickSetting> FillQuickSettings(string userId)
         {
-            return null;
+            var settings = new List<QuickSetting>();
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}QuickSettings where UserName = '{1}' and BlogId = '{2}'", tablePrefix, userId, Blog.CurrentInstance.Id.ToString())))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var s = new QuickSetting()
+                                {
+                                    SettingName = rdr.GetString(0),
+                                    SettingValue = rdr.GetString(1)
+                                };
+                                settings.Add(s);
+                            }
+                        }
+                    }
+                }
+            }
+            return settings;
         }
         /// <summary>
         /// Delete quick note
@@ -2615,7 +2725,20 @@ namespace BlogEngine.Core.Providers
         /// <param name="noteId">Note ID</param>
         public override void DeleteQuickNote(Guid noteId)
         {
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("delete from {0}QuickNotes where NoteId = {1}noteid", this.tablePrefix, this.parmPrefix);
 
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        var p = cmd.Parameters;
+                        p.Add(conn.CreateParameter(FormatParamName("noteid"), noteId.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
         #endregion
 

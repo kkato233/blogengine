@@ -51,6 +51,7 @@ public class Qnotes  : WebService {
     [WebMethod]
     public QuickNote SaveNote(string id, string note)
     {
+        note = HttpUtility.HtmlEncode(note);
         return UserNotes.SaveNote(id, note);
     }
     
@@ -98,11 +99,24 @@ public class Qnotes  : WebService {
                     cats = s.SettingValue;
             }
 
+            content = HttpUtility.HtmlEncode(content).Replace("\n", "<br />");
             var title = content;
-            if (content.Contains("."))
+
+            int prdIdx = content.IndexOf(".");
+            int brkIdx = content.IndexOf("<br />");
+
+            if (prdIdx > 0 && (brkIdx < 0 || brkIdx > prdIdx))
             {
-                title = content.Substring(0, content.IndexOf("."));
-                content = content.Substring(content.IndexOf(".") + 1).Trim();
+                title = content.Substring(0, prdIdx);
+                content = content.Substring(prdIdx + 1).Trim();
+            }
+
+            if (brkIdx > 0 && (prdIdx < 0 || prdIdx > brkIdx))
+            {
+                title = content.Substring(0, brkIdx);
+                content = content.Substring(brkIdx + 6).Trim();
+                if(content.StartsWith("<br />"))
+                    content = content.Substring(6);
             }
 
             post.Author = Security.CurrentUser.Identity.Name;
@@ -111,7 +125,7 @@ public class Qnotes  : WebService {
             post.Description = title;
             post.Slug = title;
 
-            var d = string.Format("{0}-{1}-{2} {3}:{4}", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute);
+            var d = string.Format("{0}-{1}-{2} {3}:{4}", DateTime.Now.Year, DFormat(DateTime.Now.Month), DFormat(DateTime.Now.Day), DFormat(DateTime.Now.Hour), DFormat(DateTime.Now.Minute));
             post.DateCreated = DateTime.ParseExact(d, "yyyy-MM-dd HH:mm", null).AddHours(-BlogSettings.Instance.Timezone);
 
             post.IsPublished = true;
@@ -153,6 +167,12 @@ public class Qnotes  : WebService {
         response.Message = "Post saved";
 
         return response;
+    }
+
+    string DFormat(int iDate)
+    {
+        string s = iDate.ToString();
+        return s.Length > 1 ? s : "0" + s;
     }
     
 }

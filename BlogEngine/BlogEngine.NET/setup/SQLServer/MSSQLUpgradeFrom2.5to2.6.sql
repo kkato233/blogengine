@@ -23,3 +23,32 @@ CREATE TABLE dbo.be_PackageFiles (
   [IsDirectory] bit NOT NULL
 )
 GO
+
+--
+-- QuickNotes
+--
+
+CREATE TABLE [dbo].[be_QuickNotes](
+	[NoteID] [uniqueidentifier] NOT NULL,
+	[BlogID] [uniqueidentifier] NOT NULL,
+	[UserName] [nvarchar](100) NOT NULL,
+	[Note] [nvarchar](max) NOT NULL,
+	[Updated] [datetime] NULL
+)
+GO
+
+CREATE TABLE [dbo].[be_QuickSettings](
+	[BlogID] [uniqueidentifier] NOT NULL,
+	[UserName] [nvarchar](100) NOT NULL,
+	[SettingName] [nvarchar](255) NOT NULL,
+	[SettingValue] [nvarchar](255) NOT NULL
+)
+GO
+
+CREATE NONCLUSTERED INDEX [idx_be_NoteId_BlogId_UserName] ON [dbo].[be_QuickNotes] 
+(
+	[NoteID] ASC,
+	[BlogID] ASC,
+	[UserName] ASC
+)
+GO
