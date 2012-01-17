@@ -281,23 +281,6 @@
             }
 
             /// <summary>
-            /// Evaluates the replacement for each link match.
-            /// </summary>
-            /// <param name="match">
-            /// The match.
-            /// </param>
-            /// <returns>
-            /// The evaluator.
-            /// </returns>
-            public string Evaluator(Match match)
-            {
-                var relative = match.Groups[1].Value;
-                var absolute = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
-                return match.Value.Replace(
-                    relative, string.Format("{0}js.axd?path={1}", Utils.ApplicationRelativeWebRoot, HttpUtility.UrlEncode(absolute + relative)));
-            }
-
-            /// <summary>
             /// When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to the underlying device.
             /// </summary>
             /// <exception cref="T:System.IO.IOException">
@@ -407,9 +390,6 @@
             public override void Write(byte[] buffer, int offset, int count)
             {
                 var html = Encoding.UTF8.GetString(buffer, offset, count);
-
-                html = WebResourceRegex.Replace(html, new MatchEvaluator(this.Evaluator));
-
                 var outdata = Encoding.UTF8.GetBytes(html);
                 this.sink.Write(outdata, 0, outdata.GetLength(0));
             }

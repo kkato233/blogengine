@@ -8,7 +8,6 @@
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon"/>
 </head>
 <body>
-
   <form runat="Server" class="body">
     
   <div id="header">
