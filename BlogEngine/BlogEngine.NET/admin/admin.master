@@ -5,21 +5,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%;">
 <head id="Head1" runat="server">
     <title>BlogEngine.NET Admin</title>
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="stylesheet" href="colorbox.css" type="text/css" />
-    <link rel="stylesheet" href="tipsy.css" type="text/css" />
+    <%
+    var css = SquishIt.Framework.Bundle.Css();
+    css.Add("~/admin/style.css");
+    css.Add("~/admin/colorbox.css");
+    css.Add("~/admin/tipsy.css");
+    %>
+    <%=css.Render("~/Styles/Combined/admin_combined_#.css")%>
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
     <script type="text/javascript">
-
         var SiteVars = {
             ApplicationRelativeWebRoot: '<%= Utils.ApplicationRelativeWebRoot %>',
             RelativeWebRoot: '<%= Utils.RelativeWebRoot %>',
             BlogInstanceId: '<%= Blog.CurrentInstance.Id %>'
         };
-
     </script>
+    <%      
+    var b = SquishIt.Framework.Bundle.JavaScript();
+    foreach (var item in BlogEngine.Core.Scripting.Loader.Scripts)
+    {
+        b.Add("~/Scripts/" + item.Source);
+    }
+    b.Add("~/admin/admin.js");
+    %>
+    <%= b.Render("~/Scripts/Combined/admin_combined_#.js")%>
     <div class="page">
         <form id="form1" runat="server">
 

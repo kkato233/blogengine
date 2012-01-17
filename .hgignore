@@ -25,6 +25,8 @@ syntax: glob
 *.sbr
 *.scc
 */extensions/**
+*/Scripts/Combined/**
+*/Styles/Combined/**
 [Bb]in
 [Db]ebug*/
 obj/

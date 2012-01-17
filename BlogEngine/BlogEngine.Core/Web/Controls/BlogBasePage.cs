@@ -8,6 +8,7 @@
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
+    using SquishIt.Framework;
 
     /// <summary>
     /// All pages in the custom themes as well as pre-defined pages in the root
@@ -124,28 +125,55 @@
         }
 
         /// <summary>
+        /// Compress, combine and add scripts from Scripts and Styles folders
+        /// </summary>
+        protected virtual void AddGlobalScriptsToHead()
+        {
+            var js = Bundle.JavaScript();
+            var css = Bundle.Css();
+            var rndJs = "~/Scripts/Combined/combined";
+            var rndCss = "~/Styles/Combined/combined";
+
+            foreach (var item in BlogEngine.Core.Scripting.Loader.Scripts)
+            {
+                js.Add("~/Scripts/" + item.Source);
+            }
+            if (Security.IsAuthorizedTo(Rights.ManageWidgets))
+            {
+                js.Add("~/admin/widget.js");
+                rndJs += "_w";
+            }
+            // quick notes should be enabled in settings and user should have publish permission
+            if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
+            {
+                var control = new LiteralControl(string.Format("<script type=\"text/javascript\">var appRoot = '{0}'; var appUser = '{1}';</script>", Utils.ApplicationRelativeWebRoot, Security.CurrentUser.Identity.Name));
+                this.Page.Header.Controls.Add(control);
+
+                js.Add("~/Modules/QuickNotes/Qnotes.js");
+                rndJs += "_q";
+            }
+
+            foreach (var item in BlogEngine.Core.Scripting.Loader.Styles)
+            {
+                css.Add("~/Styles/" + item.Source);
+            }
+            if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
+            {
+                css.Add("~/Modules/QuickNotes/Qnotes.css");
+                rndCss += "_q";
+            }
+
+            Page.Header.Controls.Add(new LiteralControl(css.Render(rndCss + "_#.css")));
+            Page.Header.Controls.Add(new LiteralControl(js.Render(rndJs + "_#.js")));
+        }
+
+        /// <summary>
         /// Adds the default stylesheet language
         /// </summary>
         protected virtual void AddDefaultLanguages()
         {
             this.Response.AppendHeader("Content-Style-Type", "text/css");
             this.Response.AppendHeader("Content-Script-Type", "text/javascript");
-        }
-
-        /// <summary>
-        /// Add global style sheets before any custom css
-        /// </summary>
-        protected virtual void AddGlobalStyles()
-        {
-            // add styles in the ~/Styles folder to the page header
-            var s = Path.Combine(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot), "Styles");
-            var fileEntries = Directory.GetFiles(s);
-            foreach (var fileName in
-                fileEntries.Where(fileName => fileName.EndsWith(".css", StringComparison.OrdinalIgnoreCase)))
-            {
-                this.AddStylesheetInclude(
-                    string.Format("{0}Styles/{1}", Utils.ApplicationRelativeWebRoot, Utils.ExtractFileNameFromPath(fileName)), true);
-            }
         }
 
         /// <summary>
@@ -223,41 +251,6 @@
                 this.ClientScript.RegisterStartupScript(this.GetType(), "tracking", string.Format("\n{0}", s), false);
             }
         }
-
-        /// <summary>
-        /// Finds all stylesheets in the header and changes the 
-        ///     path so it points to css.axd which removes the whitespace.
-        /// </summary>
-        protected virtual void CompressCss()
-        {
-            if (this.Request.QueryString["theme"] != null)
-            {
-                return;
-            }
-
-            foreach (Control control in this.Page.Header.Controls)
-            {
-                var c = control as HtmlControl;
-                if (c == null || c.Attributes["type"] == null ||
-                    !c.Attributes["type"].Equals("text/css", StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                // if a CSS filename has ".min.css" in it, it is probably an already
-                // minified CSS file -- skip these.
-                if (c.Attributes["href"].StartsWith("http://") ||
-                    c.Attributes["href"].IndexOf(".min.css", StringComparison.OrdinalIgnoreCase) != -1)
-                {
-                    continue;
-                }
-
-                var url = string.Format("{0}themes/{1}/css.axd?name={2}", Utils.ApplicationRelativeWebRoot, this.theme, c.Attributes["href"]);
-                c.Attributes["href"] = url.Replace(".css", string.Format("{0}.css", BlogSettings.Instance.Version()));
-                c.EnableViewState = false;
-            }
-        }
-
 
         /// <summary>
         /// Creates and returns a generic link control.
@@ -353,13 +346,9 @@
 
                 this.AddDefaultLanguages();
 
-             //   this.AddLocalizationKeys();
+                //   this.AddLocalizationKeys();
 
-                this.AddGlobalStyles();
-
-                Utils.AddFolderJavaScripts(this, "Scripts", true);
                 Utils.AddJavaScriptResourcesToPage(this);
-                Utils.AddFolderJavaScripts(this, string.Format("themes/{0}", this.theme), true);
 
                 if (BlogSettings.Instance.EnableOpenSearch)
                 {
@@ -370,33 +359,15 @@
                         string.Format("{0}opensearch.axd", absoluteWebRoot));
                 }
 
+                AddGlobalScriptsToHead();
+
                 if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
                 {
                     this.AddCustomCodeToHead();
                 }
 
                 this.AddTrackingScript();
-            }
-
-            if (Security.IsAuthorizedTo(Rights.ManageWidgets))
-            {
-                Utils.AddJavaScriptInclude(this, string.Format("{0}admin/widget.js", Utils.ApplicationRelativeWebRoot), true, false, true);
-            }
-
-            // quick notes should be enabled in settings and user should have publish permission
-            if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
-            {
-                var control = new LiteralControl(string.Format("<script>var appRoot = '{0}'; var appUser = '{1}'</script>", Utils.ApplicationRelativeWebRoot, Security.CurrentUser.Identity.Name));
-                this.Page.Header.Controls.Add(control);
-
-                AddStylesheetInclude(string.Format("{0}Modules/QuickNotes/qnotes.css", Utils.ApplicationRelativeWebRoot), false);
-                Utils.AddJavaScriptInclude(this, string.Format("{0}Modules/QuickNotes/qnotes.js", Utils.ApplicationRelativeWebRoot), true, false, true);
-           }
-
-            if (BlogSettings.Instance.RemoveWhitespaceInStyleSheets)
-            {
-                this.CompressCss();
-            }
+            }       
         }
 
         /// <summary>

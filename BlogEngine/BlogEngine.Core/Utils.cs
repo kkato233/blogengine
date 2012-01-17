@@ -83,6 +83,8 @@
         /// </summary>
         private static readonly bool isMono = (Type.GetType("Mono.Runtime") != null);
 
+        private static bool scriptsLoaded;
+
         #endregion
 
         #region Events
@@ -373,25 +375,6 @@
         }
 
         /// <summary>
-        /// Resolves the script URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL string.
-        /// </param>
-        /// <param name="minify"></param>
-        /// <returns>
-        /// The resolve script url.
-        /// </returns>
-        public static string ResolveScriptUrl(string url, bool minify)
-        {
-            var minifyQuery = (minify ? "&amp;minify=" : String.Empty);
-            return string.Format("{0}js.axd?path={1}{2}", 
-                                    Utils.RelativeWebRoot,
-                                    HttpUtility.UrlEncode(url),
-                                    minifyQuery);
-        }
-
-           /// <summary>
         /// Adds a JavaScript reference to the HTML head tag.
         /// </summary>
         /// <param name="page">
@@ -406,39 +389,19 @@
         /// <param name="addDeferAttribute">
         /// The add Defer Attribute.
         /// </param>
-        public static void AddJavaScriptInclude(System.Web.UI.Page page, string url, bool placeInBottom, bool addDeferAttribute) {
-            AddJavaScriptInclude(page, url, placeInBottom, addDeferAttribute, false);
-        }
-
-        /// <summary>
-        /// Adds a JavaScript reference to the HTML head tag.
-        /// </summary>
-        /// <param name="page">
-        /// The page to add the JavaScript include to.
-        /// </param>
-        /// <param name="url">
-        /// The url string.
-        /// </param>
-        /// <param name="placeInBottom">
-        /// The place In Bottom.
-        /// </param>
-        /// <param name="addDeferAttribute">
-        /// The add Defer Attribute.
-        /// </param>
-        /// <param name="minify">Set to true if the minify querystring parameter should be added to this script.</param>
-        public static void AddJavaScriptInclude(System.Web.UI.Page page, string url, bool placeInBottom, bool addDeferAttribute, bool minify)
+        public static void AddJavaScriptInclude(System.Web.UI.Page page, string url, bool placeInBottom = false, bool addDeferAttribute = false)
         {
             if (placeInBottom)
             {
                 var deferAttr = (addDeferAttribute ? " defer=\"defer\"" : string.Empty);
-                var script = string.Format("<script type=\"text/javascript\"{0} src=\"{1}\"></script>", deferAttr, ResolveScriptUrl(url, minify));
+                var script = string.Format("<script type=\"text/javascript\"{0} src=\"{1}\"></script>", deferAttr, url);
                 page.ClientScript.RegisterStartupScript(page.GetType(), url.GetHashCode().ToString(), script);
             }
             else
             {
                 var script = new HtmlGenericControl("script");
                 script.Attributes["type"] = "text/javascript";
-                script.Attributes["src"] = ResolveScriptUrl(url,minify);
+                script.Attributes["src"] = url;
                 if (addDeferAttribute)
                 {
                     script.Attributes["defer"] = "defer";
@@ -458,109 +421,6 @@
                 page.Header.Controls.AddAt(nextInsertPosition.Value, script);
                 if (context != null) { context.Items[itemsKey] = ++nextInsertPosition; }
             }
-        }
-
-        /// <summary>
-        /// Represents a JS, CSS or other external content type.
-        /// </summary>
-        private sealed class ExternalContentItem
-        {
-            public string ItemName { get; set; }
-            public int Priority { get; set; }
-            public bool Defer { get; set; }
-            public bool AddAtBottom { get; set; }
-            public bool IsFrontEndOnly { get; set; }
-            public bool Minify { get; set; }
-        }
-
-        /// <summary>
-        /// Add JavaScript files from a folder.
-        /// </summary>
-        public static void AddFolderJavaScripts(
-            System.Web.UI.Page page,
-            string pathFromRoot,
-            bool isFrontEnd)
-        {
-            // record that this script has been added during this request, so any
-            // subsequent calls to AddFolderJavaScripts doesn't result in the same
-            // script being added more than once.
-            
-            string itemsKey = "scripts-added-during-request";
-            Dictionary<string, bool> scriptsAddedDuringRequest = HttpContext.Current.Items[itemsKey] as Dictionary<string, bool>;
-            if (scriptsAddedDuringRequest == null)
-            {
-                scriptsAddedDuringRequest = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
-                HttpContext.Current.Items[itemsKey] = scriptsAddedDuringRequest;
-            }
-
-            // common rules for sorting, etc.
-            // Files that are already minified shouldn't be re-minified as it could cause problems.
-            List<ExternalContentItem> knownItems = new List<ExternalContentItem>()
-            {
-                new ExternalContentItem() { ItemName = "jquery.js", Priority = 0, Defer = false, Minify=false },
-                new ExternalContentItem() { ItemName = "blog.js", Priority = 1, Defer = false, IsFrontEndOnly = true, AddAtBottom = true, Minify = true },
-            };
-
-            Dictionary<string, ExternalContentItem> contentItems = knownItems.ToDictionary(i => i.ItemName, i => i, StringComparer.OrdinalIgnoreCase);
-
-            // remove leading slash, if present
-            if (pathFromRoot.StartsWith("/"))
-                pathFromRoot = pathFromRoot.Substring(1);
-
-            // remove trailing slash, if present.
-            if (pathFromRoot.EndsWith("/"))
-                pathFromRoot = pathFromRoot.Remove(pathFromRoot.Length - 1);
-
-            var fileEntries = Directory.GetFiles(HostingEnvironment.MapPath("~/" + pathFromRoot))
-                .Where(file =>
-                    !scriptsAddedDuringRequest.ContainsKey(file) &&
-                    file.EndsWith(".js", StringComparison.OrdinalIgnoreCase) &&
-                    !file.EndsWith("-vsdoc.js", StringComparison.OrdinalIgnoreCase)).ToList();
-
-            fileEntries.Sort((x, y) =>
-            {
-                string xFile = Path.GetFileName(x);
-                string yFile = Path.GetFileName(y);
-
-                int xPriority = contentItems.ContainsKey(xFile) ? contentItems[xFile].Priority : int.MaxValue;
-                int yPriority = contentItems.ContainsKey(yFile) ? contentItems[yFile].Priority : int.MaxValue;
-
-                if (xPriority == yPriority)
-                    return xFile.CompareTo(yFile);
-                else
-                    return xPriority.CompareTo(yPriority);
-            });
-
-            foreach (var file in fileEntries)
-            {
-                string fileName = Utils.ExtractFileNameFromPath(file);
-                ExternalContentItem externalContentItem = contentItems.ContainsKey(fileName) ? contentItems[fileName] : null;
-                bool defer = false;
-                bool addItem = true;
-                bool addAtBottom = false;
-                bool minify = false;
-
-                if (externalContentItem != null)
-                {
-                    defer = externalContentItem.Defer;
-                    addAtBottom = externalContentItem.AddAtBottom;
-                    minify = externalContentItem.Minify;
-                    if (externalContentItem.IsFrontEndOnly && !isFrontEnd)
-                    {
-                        addItem = false;
-                    }
-                }
-
-                if (addItem)
-                {
-                    scriptsAddedDuringRequest.Add(file, true);
-
-                    AddJavaScriptInclude(page,
-                        string.Format("{0}{1}/{2}", Utils.ApplicationRelativeWebRoot, pathFromRoot, fileName), addAtBottom, defer, minify);
-                }
-            }
-
-           
         }
 
         /// <summary>

@@ -89,10 +89,7 @@
                 "minPassLengthInChars"
             };
 
-            Utils.AddFolderJavaScripts(this.Page, "Scripts", true);
-
             this.AddLocalizedStringsToJavaScript(resources);
-
             Utils.AddJavaScriptInclude(this.Page, string.Format("{0}Account/account.js", Utils.ApplicationRelativeWebRoot), false, false);
         }
 
