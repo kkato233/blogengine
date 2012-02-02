@@ -221,7 +221,7 @@
                             "<a href=\"#\" onclick=\"if (confirm('{2}')) location.href='{0}?deletepost={1}'\">{3}</a> | ",
                             postRelativeLink,
                             this.Post.Id,
-                            confirmDelete,
+                            HttpUtility.JavaScriptStringEncode(confirmDelete),
                             Utils.Translate("delete"));
                     }
                     return sb.ToString();
