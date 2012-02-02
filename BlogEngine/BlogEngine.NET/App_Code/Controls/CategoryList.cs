@@ -207,22 +207,6 @@ namespace App_Code.Controls
 
                 var li = new HtmlGenericControl("li");
 
-                int i = cat.CompleteTitle().Count(c => c == '-');
-
-                string spaces = string.Empty;
-
-                for (int j = 0; j < i; j++)
-                {
-                    spaces += "&#160;&#160;&#160";
-                }
-
-                if (i > 0)
-                {
-                    var textArea = new HtmlAnchor();
-                    textArea.InnerHtml = spaces;
-                    li.Controls.Add(textArea);
-                }
-
                 if (this.ShowRssIcon)
                 {
                     var img = new HtmlImage
@@ -252,10 +236,9 @@ namespace App_Code.Controls
                 var anc = new HtmlAnchor
                     {
                         HRef = cat.RelativeLink,
-                        InnerHtml = HttpUtility.HtmlEncode(cat.Title) + postCount,
-                        Title = string.Format("Categorie: {0}", key)
+                        InnerHtml = HttpUtility.HtmlEncode(key) + postCount,
+                        Title = string.Format("Category: {0}", key)
                     };
-                
 
                 li.Controls.Add(anc);
                 ul.Controls.Add(li);
