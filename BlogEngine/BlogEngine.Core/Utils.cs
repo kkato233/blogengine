@@ -1044,8 +1044,10 @@
             text = text.Replace("\"", string.Empty);
             text = text.Replace("&", string.Empty);
             text = text.Replace("'", string.Empty);
-            text = text.Replace("’", string.Empty); // live writer passes char 8217  this inplace of a char 39
-            text = text.Replace("–", string.Empty); // live writer passes char 8211  this inplace of a char 45 for hyphen
+
+            text = text.Replace("–", "-"); // live writer passes char 8211  this inplace of a char 45 for hyphen
+            text = RemoveUnicodePunctuation(text); // moves any unicode versions of punctuation
+
             text = text.Replace(" ", "-");
             text = RemoveDiacritics(text);
             text = RemoveExtraHyphen(text);
@@ -1467,6 +1469,30 @@
 
             foreach (var c in
                 normalized.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark))
+            {
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Removes any unicode punctuation
+        /// </summary>
+        /// <param name="text">
+        /// The text to remove punctuation from.
+        /// </param>
+        /// <returns>
+        /// The string with the punctuation removed.
+        /// </returns>
+        private static string RemoveUnicodePunctuation(string text)
+        {
+            var normalized = text.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
+
+            foreach (var c in
+                normalized.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.InitialQuotePunctuation &&
+                                      CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.FinalQuotePunctuation))
             {
                 sb.Append(c);
             }

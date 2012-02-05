@@ -80,12 +80,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\razor\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Optimization">
+      <HintPath>..\BlogEngine.NET\Bin\Microsoft.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nuget\NuGet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SquishIt.Framework">
-      <HintPath>..\..\lib\SquishIt\SquishIt.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -197,9 +197,6 @@
     <Compile Include="Providers\XmlProvider\Rights.cs" />
     <Compile Include="Providers\FileSystemProviders\XmlFileSystemProvider.cs" />
     <Compile Include="RemoteFile.cs" />
-    <Compile Include="Scripting\Loader.cs" />
-    <Compile Include="Scripting\Repository.cs" />
-    <Compile Include="Scripting\ContentItem.cs" />
     <Compile Include="Security\CustomIdentity.cs" />
     <Compile Include="Security\CustomPrincipal.cs" />
     <Compile Include="Security\Right.cs" />
@@ -257,6 +254,7 @@
     <Compile Include="Web\HttpModules\ReferrerModule.cs" />
     <Compile Include="Web\HttpModules\WwwSubDomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
+    <Compile Include="Web\Scripting\Helpers.cs" />
     <Compile Include="XmlSafeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
