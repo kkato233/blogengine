@@ -19,7 +19,7 @@ namespace BlogEngine.Core.Web.Scripting
         public static void AddStyle(System.Web.UI.Page page, string lnk)
         {
             page.Header.Controls.Add(new LiteralControl(
-                string.Format("<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />", lnk)));
+                string.Format("\n<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />", lnk)));
         }
         /// <summary>
         /// Add javascript to page
@@ -54,7 +54,7 @@ namespace BlogEngine.Core.Web.Scripting
         {
             var sb = new StringBuilder();
 
-            sb.Append("<script type=\"text/javascript\"> \n");
+            sb.Append("\n<script type=\"text/javascript\"> \n");
             sb.Append("//<![CDATA[ \n");
             sb.Append(script).Append(" \n");
             sb.Append("//]]> \n");
