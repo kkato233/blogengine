@@ -57,7 +57,7 @@ label.wide {float: left;display: block;}
     border-top-left-radius:5px; border-top-right-radius:5px; color:#666;
     -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px;
     -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px;}
-.tabs ul a:hover, .tabs .current {color: #000;background: #fff url( "images/tab-bkg.png" ) repeat-x scroll left -1px;
+.tabs ul a:hover, .tabs .current {color: #000;background: #fff url(images/tab-bkg.png) repeat-x scroll left -1px;
     border-right:solid 1px #9a9a9a; border-left:solid 1px #fff; border-top:solid 1px #fff;}
     
 ul#trash { float:right; margin-right:20px;}    
@@ -109,11 +109,11 @@ label.lbl { display:block; margin:0 0 5px 0;}
 
 /* Buttons */
 .btn { color: #696969; border: 1px solid #919191; padding: 3px 9px; font-weight:bold;
-    background: #ededed url( "images/gray-btn-bkg.png" ) repeat-x scroll 0 0; cursor: pointer; position:relative;
+    background: #ededed url(images/gray-btn-bkg.png) repeat-x scroll 0 0; cursor: pointer; position:relative;
     font-size: 12px; font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     -moz-border-radius:5px; -webkit-border-radius:5px; -khtml-border-radius: 5px; border-radius:5px;}
 .primary { color: #38560f; border: 1px solid #78a938; 
-    background: #a5d75f url( "images/orange-btn-bkg.png" ) repeat-x scroll 0 0; }
+    background: #a5d75f url(images/orange-btn-bkg.png) repeat-x scroll 0 0; }
 .btn:active { top:1px;}
 .btn:hover { background-position:0 -50px; }
 .action_buttons .btn { padding: 5px 15px; margin: 0 5px 0  0; font-size: 13px; min-width:100px;}
@@ -167,7 +167,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .tools li:hover ul { display:block;}
 
 .toolsAction { font-size:12px; font-weight:normal;
-    border: 1px solid #919191; padding: 3px 9px; background: #ededed url( "images/gray-btn-bkg.png" ) repeat-x scroll 0 0; 
+    border: 1px solid #919191; padding: 3px 9px; background: #ededed url(images/gray-btn-bkg.png) repeat-x scroll 0 0; 
     cursor: pointer;  -moz-border-radius:5px; -webkit-border-radius:5px; -khtml-border-radius: 5px; border-radius:5px;}
 .toolsAction span {background: transparent url("images/action-dropdown.png") no-repeat scroll right center;
     padding-right:16px; color:#7a7a7a; font-weight:normal; }
