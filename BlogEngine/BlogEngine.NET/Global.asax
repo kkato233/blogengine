@@ -3,6 +3,7 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="App_Code.Controls" %>
+<%@ Import Namespace="Microsoft.Web.Optimization" %>
 
 <script RunAt="server">
   
@@ -99,8 +100,56 @@
 
                 WidgetZone.PreloadWidgetsAsync("be_WIDGET_ZONE"); 
                 Utils.LoadExtensions();
+
+                Init_BundleTable();
+                
                 _initializedAlready = true;
             }
+        }
+
+        static void Init_BundleTable()
+        {
+            BundleTable.Bundles.EnableDefaultBundles();
+
+            // for anonymous users
+            var css = new Bundle("~/Styles/css", typeof(CssMinify));
+            css.AddDirectory("~/Styles", "*.css", false);
+            BundleTable.Bundles.Add(css);
+
+            var js = new Bundle("~/Scripts/js", typeof(JsMinify));
+            js.AddFile("~/Scripts/jQuery/01-jquery.js");
+            js.AddDirectory("~/Scripts", "*.js", false);
+            BundleTable.Bundles.Add(js);
+
+            // for authenticated users
+            var cssauth = new Bundle("~/Styles/cssauth", typeof(CssMinify));
+            cssauth.AddDirectory("~/Styles", "*.css", false);
+            cssauth.AddFile("~/Modules/QuickNotes/Qnotes.css");
+            BundleTable.Bundles.Add(cssauth);
+
+            var jsauth = new Bundle("~/Scripts/jsauth", typeof(JsMinify));
+            jsauth.AddFile("~/Scripts/jQuery/01-jquery.js");
+            jsauth.AddFile("~/Scripts/jQuery/02-jquery.cookie.js");
+            jsauth.AddFile("~/Scripts/jQuery/04-jquery-jtemplates.js");
+            jsauth.AddDirectory("~/Scripts", "*.js", false);
+            jsauth.AddFile("~/admin/widget.js");
+            jsauth.AddFile("~/Modules/QuickNotes/Qnotes.js");
+            BundleTable.Bundles.Add(jsauth);
+            
+            // administration
+            var cssadmin = new Bundle("~/admin/css", typeof(CssMinify));
+            cssadmin.AddFile("~/admin/style.css");
+            cssadmin.AddFile("~/admin/colorbox.css");
+            cssadmin.AddFile("~/admin/tipsy.css");
+            BundleTable.Bundles.Add(cssadmin);
+            
+            var jsadmin = new Bundle("~/admin/js", typeof(JsMinify));
+            jsadmin.AddDirectory("~/Scripts/jQuery", "*.js", false);
+            jsadmin.AddFile("~/admin/jquery.colorbox.js");
+            jsadmin.AddFile("~/admin/jquery.masonry.min.js");
+            jsadmin.AddFile("~/admin/jquery.tipsy.js");
+            jsadmin.AddFile("~/admin/admin.js");
+            BundleTable.Bundles.Add(jsadmin);
         }
     }
     

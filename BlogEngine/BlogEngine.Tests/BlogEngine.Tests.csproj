@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,8 +69,13 @@
     <Compile Include="PageTemplates\Admin\Trash.cs" />
     <Compile Include="Posts\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickNotes\Crud.cs" />
+    <Compile Include="QuickNotes\Navigation.cs" />
+    <Compile Include="QuickNotes\Posting.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
