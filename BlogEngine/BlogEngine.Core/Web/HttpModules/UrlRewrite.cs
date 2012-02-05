@@ -285,10 +285,16 @@
                 return;
             }
 
+            var q = GetQueryString(context);
+            if (q.Contains("id=", StringComparison.OrdinalIgnoreCase))
+                q = string.Format("{0}post.aspx?{1}", Utils.ApplicationRelativeWebRoot, q);
+            else
+                q = string.Format("{0}post.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, post.Id, q);
+
             context.RewritePath(
                 url.Contains("/FEED/")
                     ? string.Format("syndication.axd?post={0}{1}", post.Id, GetQueryString(context))
-                    : string.Format("{0}post.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, post.Id, GetQueryString(context)),
+                    : q,
                 false);
         }
 
@@ -439,9 +445,20 @@
         private static bool DefaultPageRequested(HttpContext context)
         {
             var url = context.Request.Url.ToString().ToUpper();
-            var match = string.Format("{0}DEFAULT{1}", Utils.AbsoluteWebRoot,
-                                      BlogConfig.FileExtension.ToUpperInvariant()).ToUpper();
-            return url.Contains(match);
+            var match = string.Format("{0}DEFAULT{1}", Utils.AbsoluteWebRoot, BlogConfig.FileExtension);
+
+            // case when month clicked in the month list
+            // default page will be like site.com/2012/10/default.aspx
+            var u = GetUrlWithQueryString(context);
+            if (YearMonthRegex.IsMatch(u))
+            {
+                var m = YearMonthRegex.Match(u);
+                var s = string.Format("{0}{1}DEFAULT{2}", Utils.AbsoluteWebRoot, m.ToString().Substring(1), BlogConfig.FileExtension);
+                if (url.Contains(s, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            
+            return url.Contains(match, StringComparison.InvariantCultureIgnoreCase);
         }
 
         #endregion

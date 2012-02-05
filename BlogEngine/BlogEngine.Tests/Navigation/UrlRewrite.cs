@@ -44,5 +44,13 @@ namespace BlogEngine.Tests.Navigation
             ie.WaitForComplete();
             Assert.IsTrue(ie.Title.Contains("All posts by admin"));
         }
+
+        [Test]
+        public void CanNavigateToPostsByMonth()
+        {
+            ie.GoTo(Constants.Root + "/2011/06/default.aspx");
+            ie.WaitForComplete();
+            Assert.IsTrue(ie.Html.Contains("Welcome to BlogEngine.NET"));
+        }
     }
 }

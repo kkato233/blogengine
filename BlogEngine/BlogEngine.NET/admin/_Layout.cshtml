@@ -1,4 +1,5 @@
 ﻿@using BlogEngine.Core;
+@using Microsoft.Web.Optimization;
 @{
     App_Code.WebUtils.CheckRightsForAdminPagesPages(false);
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
@@ -9,21 +10,8 @@
     <head>
         <title>@Page.Title</title>
         <link rel="shortcut icon" href="@Href(Utils.RelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
-        @{
-            var css = SquishIt.Framework.Bundle.Css();
-            css.Add("~/admin/style.css");
-            css.Add("~/admin/colorbox.css");
-            css.Add("~/admin/tipsy.css");
-
-            var b = SquishIt.Framework.Bundle.JavaScript();
-            foreach (var item in BlogEngine.Core.Scripting.Loader.Scripts)
-            {
-                b.Add("~/Scripts/" + item.Source);
-            }
-            b.Add("~/admin/admin.js"); 
-        }
-        @Html.Raw(css.Render("~/Styles/Combined/admin_combined_#.css"))
-        @Html.Raw(b.Render("~/Scripts/Combined/admin_combined_#.js"))
+        <link href="@BundleTable.Bundles.ResolveBundleUrl("~/admin/css")" rel="stylesheet" type="text/css" />
+        
     </head>
     <body>
         <script type="text/javascript">
@@ -32,7 +20,18 @@
                 RelativeWebRoot: '@Utils.RelativeWebRoot',
                 BlogInstanceId: '@Blog.CurrentInstance.Id'
             };
-        </script>
+        </script> 
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/01-jquery.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/02-jquery.cookie.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/03-jquery.validate.min.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/03-jquery.validate.min.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/04-jquery-jtemplates.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/05-json2.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}admin/jquery.colorbox.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}admin/jquery.masonry.min.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}admin/jquery.tipsy.js", Utils.RelativeWebRoot)"></script>
+        <script type="text/javascript" src="@string.Format("{0}admin/admin.js", Utils.RelativeWebRoot)"></script>
+         
         <div class="page">
             <form id="form1">
 
