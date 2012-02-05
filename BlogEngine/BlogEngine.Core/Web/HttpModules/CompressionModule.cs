@@ -7,6 +7,9 @@
     using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.UI;
+    using System.Net;
+    using System.Net.Sockets;
+    using Microsoft.Ajax.Utilities;
 
     /// <summary>
     /// Compresses the output using standard gzip/deflate.
@@ -161,6 +164,20 @@
             var context = ((HttpApplication)sender).Context;
             if (!BlogSettings.Instance.EnableHttpCompression) { return; }
 
+            if (context.Request.Path.Contains("WebResource.axd") ||
+                context.Request.Path.Contains("/Scripts/js") ||
+                context.Request.Path.Contains("/Styles/css")
+                )
+            {
+                //context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+
+                SetHeaders(context);
+
+                System.Diagnostics.Debug.WriteLine("Settings expires to -> " + context.Request.Path);
+            }
+
+            //System.Diagnostics.Debug.WriteLine("Compressing -> " + context.Request.Path);
+
             if (context.CurrentHandler is Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null &&
                 context.Request.HttpMethod == "GET")
             {
@@ -176,6 +193,32 @@
             {
                 context.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
             }
+        }
+
+        private static void SetHeaders(HttpContext context)
+        {
+            var response = context.Response;
+            var cache = response.Cache;
+
+            cache.VaryByHeaders["Accept-Encoding"] = true;
+            cache.SetExpires(DateTime.UtcNow.AddDays(30));
+            cache.SetMaxAge(new TimeSpan(365, 0, 0, 0));
+            cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
+
+            var etag = string.Format("\"{0}\"", context.Request.Path.GetHashCode());
+            var incomingEtag = context.Request.Headers["If-None-Match"];
+
+            cache.SetETag(etag);
+            cache.SetCacheability(HttpCacheability.Public);
+
+            if (String.Compare(incomingEtag, etag) != 0)
+            {
+                return;
+            }
+
+            response.Clear();
+            response.StatusCode = (int)HttpStatusCode.NotModified;
+            response.SuppressContent = true;
         }
 
         #endregion
@@ -390,6 +433,19 @@
             public override void Write(byte[] buffer, int offset, int count)
             {
                 var html = Encoding.UTF8.GetString(buffer, offset, count);
+
+                var context = HttpContext.Current;
+                if (context.Request.Path.Contains("WebResource.axd"))
+                {
+                    var m = new JavascriptMinifier();
+                    //CodeSettings settings = new CodeSettings();
+                    //settings.MinifyCode = true;
+                    //settings.LocalRenaming = LocalRenaming.CrunchAll;
+                    //settings.RemoveFunctionExpressionNames = true;
+                    //settings.EvalTreatment = EvalTreatment.MakeAllSafe;
+
+                    html = m.Minify(html);
+                }
                 var outdata = Encoding.UTF8.GetBytes(html);
                 this.sink.Write(outdata, 0, outdata.GetLength(0));
             }
