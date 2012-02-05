@@ -39,13 +39,13 @@
                 </li>
                 <li>
                     <span class="filler"></span>
-                    <asp:CheckBox runat="server" ID="cbEnableComments" onclick="ToggleEnableComments();" />
+                    <asp:CheckBox runat="server" ID="cbEnableComments" />
                     <label for="<%=cbEnableComments.ClientID %>"><%=labels.enableComments %></label>
                     <span class="insetHelp">(<%=labels.enableCommentsDescription %>)</span>
                 </li>
                 <li>
                     <span class="filler"></span>
-                    <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" onclick="ToggleModeration();" /> 
+                    <asp:CheckBox runat="server" ID="cbEnableCommentsModeration" /> 
                     <label for="<%=cbEnableCommentsModeration.ClientID %>"><%=labels.enableCommentsModeration%></label>
                     <span class="insetHelp">(<%=labels.pendingApproval%>)</span>
                 </li>

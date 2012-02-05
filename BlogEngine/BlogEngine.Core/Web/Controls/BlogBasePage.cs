@@ -2,8 +2,6 @@
 {
     using System;
     using System.Globalization;
-    using System.IO;
-    using System.Linq;
     using System.Text;
     using System.Web;
     using System.Web.UI;
@@ -21,15 +19,6 @@
     /// </remarks>
     public abstract class BlogBasePage : Page
     {
-        #region Constants and Fields
-
-        /// <summary>
-        /// The theme.
-        /// </summary>
-        private readonly string theme = BlogSettings.Instance.Theme;
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -46,7 +35,7 @@
         /// </param>
         public virtual void AddGenericLink(string relation, string title, string href)
         {
-            this.AddGenericLink(null, relation, title, href);
+            AddGenericLink(null, relation, title, href);
         }
 
         /// <summary>
@@ -66,7 +55,9 @@
         /// </param>
         public virtual void AddGenericLink(string type, string relation, string title, string href)
         {
-            this.Page.Header.Controls.Add(GetGenericLink(type, relation, title, href));
+            var tp = string.IsNullOrEmpty(type) ? "" : string.Format("type=\"{0}\" ", type);
+            const string tag = "\n<link {0}rel=\"{1}\" title=\"{2}\" href=\"{3}\" />";
+            Page.Header.Controls.Add(new LiteralControl(string.Format(tag, tp, relation, title, href)));
         }
 
         /// <summary>
@@ -80,30 +71,12 @@
         /// </param>
         public virtual void AddStylesheetInclude(string url, bool insertAtFront = false)
         {
-            var link = new HtmlLink();
-            link.Attributes["type"] = "text/css";
-            link.Attributes["href"] = url;
-            link.Attributes["rel"] = "stylesheet";
+            const string tag = "\n<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />";
 
             if (insertAtFront)
-            {
-                this.Page.Header.Controls.AddAt(0, link);
-            }
+                Page.Header.Controls.AddAt(0, new LiteralControl(string.Format(tag, url)));
             else
-            {
-                this.Page.Header.Controls.Add(link);
-            }
-        }
-
-        /// <summary>
-        /// Adds a Stylesheet reference to the HTML head tag.
-        /// </summary>
-        /// <param name="url">
-        /// The relative URL.
-        /// </param>
-        public virtual void AddStylesheetInclude(string url)
-        {
-            this.AddStylesheetInclude(url, false);
+                Page.Header.Controls.Add(new LiteralControl(string.Format(tag, url)));
         }
 
         #endregion
@@ -121,7 +94,7 @@
                 Environment.NewLine,
                 BlogSettings.Instance.HtmlHeader);
             var control = new LiteralControl(code);
-            this.Page.Header.Controls.Add(control);
+            Page.Header.Controls.Add(control);
         }
 
         /// <summary>
@@ -129,8 +102,8 @@
         /// </summary>
         protected virtual void AddDefaultLanguages()
         {
-            this.Response.AppendHeader("Content-Style-Type", "text/css");
-            this.Response.AppendHeader("Content-Script-Type", "text/javascript");
+            Response.AppendHeader("Content-Style-Type", "text/css");
+            Response.AppendHeader("Content-Script-Type", "text/javascript");
         }
 
         /// <summary>
@@ -143,9 +116,9 @@
                     HttpEquiv = "content-type",
                     Content =
                         string.Format(
-                            "{0}; charset={1}", this.Response.ContentType, this.Response.ContentEncoding.HeaderName)
+                            "{0}; charset={1}", Response.ContentType, Response.ContentEncoding.HeaderName)
                 };
-            this.Page.Header.Controls.Add(meta);
+            Page.Header.Controls.Add(meta);
         }
 
         /// <summary>
@@ -160,12 +133,10 @@
         protected virtual void AddMetaTag(string name, string value)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(value))
-            {
                 return;
-            }
 
-            var meta = new HtmlMeta { Name = name, Content = value };
-            this.Page.Header.Controls.Add(meta);
+            const string tag = "\n<meta name=\"{0}\" content=\"{1}\" />";
+            Page.Header.Controls.Add(new LiteralControl(string.Format(tag, name, value)));
         }
 
         /// <summary>
@@ -205,34 +176,8 @@
             var s = sb.ToString();
             if (!string.IsNullOrEmpty(s))
             {
-                this.ClientScript.RegisterStartupScript(this.GetType(), "tracking", string.Format("\n{0}", s), false);
+                ClientScript.RegisterStartupScript(GetType(), "tracking", string.Format("\n{0}", s), false);
             }
-        }
-
-        /// <summary>
-        /// Creates and returns a generic link control.
-        /// </summary>
-        /// <param name="type">
-        /// The HtmlLink's "type" attribute value.
-        /// </param>
-        /// <param name="relation">
-        /// The HtmlLink's "rel" attribute value.
-        /// </param>
-        /// <param name="title">
-        /// The HtmlLink's "title" attribute value.
-        /// </param>
-        /// <param name="href">
-        /// The HtmlLink's "href" attribute value.
-        /// </param>
-        private static HtmlLink GetGenericLink(string type, string relation, string title, string href)
-        {
-            var link = new HtmlLink();
-
-            if (type != null) { link.Attributes["type"] = type; }
-            link.Attributes["rel"] = relation;
-            link.Attributes["title"] = title;
-            link.Attributes["href"] = href;
-            return link;
         }
 
         /// <summary>
@@ -270,23 +215,23 @@
             Uri absoluteWebRoot = Utils.AbsoluteWebRoot;
             string instanceName = BlogSettings.Instance.Name;
 
-            if (!this.Page.IsCallback)
+            if (!Page.IsCallback)
             {
                 // Links
-                this.AddGenericLink("contents", "Archive", string.Format("{0}archive.aspx", relativeWebRoot));
-                this.AddGenericLink("start", instanceName, relativeWebRoot);
-                this.AddGenericLink("application/rdf+xml", "meta", "SIOC", string.Format("{0}sioc.axd", absoluteWebRoot));
-                this.AddGenericLink("application/apml+xml", "meta", "APML", string.Format("{0}apml.axd", absoluteWebRoot));
-                this.AddGenericLink("application/rdf+xml", "meta", "FOAF", string.Format("{0}foaf.axd", absoluteWebRoot));
+                AddGenericLink("contents", "Archive", string.Format("{0}archive.aspx", relativeWebRoot));
+                AddGenericLink("start", instanceName, relativeWebRoot);
+                AddGenericLink("application/rdf+xml", "meta", "SIOC", string.Format("{0}sioc.axd", absoluteWebRoot));
+                AddGenericLink("application/apml+xml", "meta", "APML", string.Format("{0}apml.axd", absoluteWebRoot));
+                AddGenericLink("application/rdf+xml", "meta", "FOAF", string.Format("{0}foaf.axd", absoluteWebRoot));
 
                 if (string.IsNullOrEmpty(BlogSettings.Instance.AlternateFeedUrl))
                 {
-                    this.AddGenericLink(
+                    AddGenericLink(
                         "application/rss+xml",
                         "alternate",
                         string.Format("{0} (RSS)", instanceName),
                         string.Format("{0}?format=rss", Utils.FeedUrl));
-                    this.AddGenericLink(
+                    AddGenericLink(
                         "application/atom+xml",
                         "alternate",
                         string.Format("{0} (ATOM)", instanceName),
@@ -294,14 +239,14 @@
                 }
                 else
                 {
-                    this.AddGenericLink("application/rss+xml", "alternate", instanceName, Utils.FeedUrl);
+                    AddGenericLink("application/rss+xml", "alternate", instanceName, Utils.FeedUrl);
                 }
 
-                this.AddGenericLink("application/rsd+xml", "edituri", "RSD", string.Format("{0}rsd.axd", absoluteWebRoot));
+                AddGenericLink("application/rsd+xml", "edituri", "RSD", string.Format("{0}rsd.axd", absoluteWebRoot));
 
-                this.AddMetaContentType();
+                AddMetaContentType();
 
-                this.AddDefaultLanguages();
+                AddDefaultLanguages();
 
                 if (Security.IsAuthenticated)
                 {
@@ -328,7 +273,7 @@
 
                 if (BlogSettings.Instance.EnableOpenSearch)
                 {
-                    this.AddGenericLink(
+                    AddGenericLink(
                         "application/opensearchdescription+xml",
                         "search",
                         instanceName,
@@ -336,9 +281,9 @@
                 }
 
                 if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
-                    this.AddCustomCodeToHead();
+                    AddCustomCodeToHead();
 
-                this.AddTrackingScript();
+                AddTrackingScript();
             }       
         }
 
@@ -369,19 +314,19 @@
 
             if (!allowViewing)
             {
-                this.Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
+                Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
             }
 
-            this.MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
+            MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
             base.OnPreInit(e);
 
-            if (this.Page.IsPostBack || string.IsNullOrEmpty(this.Request.QueryString["deletepost"]))
+            if (Page.IsPostBack || string.IsNullOrEmpty(Request.QueryString["deletepost"]))
             {
                 return;
             }
 
-            var post = Post.GetPost(new Guid(this.Request.QueryString["deletepost"]));
+            var post = Post.GetPost(new Guid(Request.QueryString["deletepost"]));
             if (post == null || !post.CanUserDelete)
             {
                 return;
@@ -389,7 +334,7 @@
 
             post.Delete();
             post.Save();
-            this.Response.Redirect(Utils.RelativeWebRoot);
+            Response.Redirect(Utils.RelativeWebRoot);
         }
 
         /// <summary>
@@ -404,7 +349,7 @@
             base.OnPreRenderComplete(e);
             if (BlogSettings.Instance.UseBlogNameInPageTitles)
             {
-                this.Page.Title = string.Format("{0} | {1}", BlogSettings.Instance.Name, this.Page.Title);
+                Page.Title = string.Format("{0} | {1}", BlogSettings.Instance.Name, Page.Title);
             }
         }
 
