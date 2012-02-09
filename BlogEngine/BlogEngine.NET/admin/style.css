@@ -1,41 +1,41 @@
 ﻿/* General styles */
 /* ------------------------------*/
-body { background: #e7e7e7 url(images/bkg-light.jpg) repeat fixed 0 0; line-height:150%;
+body { background: #e7e7e7 url(images/bkg-light.jpg) repeat fixed 0 0; line-height: 150%;
     font-size: 13px; font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;  margin: 10px 40px; padding: 0px; color: #555; }
     
 h1, h2, h3, h4, h5, h6 { margin:0 0 20px; padding:0;}
 
-h1 { font-size:20px; font-weight:bold; border-bottom:solid 1px #dcdcdc;padding:0 0 10px; position:relative;}
-h2 { font-size:16px; font-weight:bold;padding:0 0 10px; border-bottom:solid 1px #dcdcdc;padding:0 0 10px;}
-h3 { font-size:14px; font-weight:bold;padding:0 0 10px; }
-h6 { font-size:13px; font-weight:bold; margin:0 0 10px; border-bottom:solid 1px #dcdcdc;}
-a, a:visited {	text-decoration: none; color: #ce3900; position:relative;}
+h1 { font-size: 20px; font-weight: bold; border-bottom: solid 1px #dcdcdc;padding: 0 0 10px; position:relative;}
+h2 { font-size: 16px; font-weight: bold;padding:0 0 10px; border-bottom: solid 1px #dcdcdc; padding: 0 0 10px;}
+h3 { font-size: 14px; font-weight: bold;padding: 0 0 10px; }
+h6 { font-size: 13px; font-weight: bold; margin: 0 0 10px; border-bottom: solid 1px #dcdcdc;}
+a, a:visited {	text-decoration: none; color: #ce3900; position: relative;}
 a:hover {text-decoration: underline;}
-a:active { top:1px;}
+a:active { top: 1px;}
 img {border: none;}
-.clear { clear:both; float:none;}
+.clear { clear: both; float: none;}
 .alt td {background-color: white;}
-label.wide {float: left;display: block;}
+label.wide {float: left; display: block;}
 
-.rounded { -moz-border-radius:5px; -webkit-border-radius:5px; -khtml-border-radius: 5px; border-radius:5px;}
-.toprounded {border-top-left-radius:5px; border-top-right-radius:5px; 
-    -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px;
-    -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; }
-.botomrounded {border-bottom-left-radius:5px; border-bottom-right-radius:5px; 
-    -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px;
-    -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; }
+.rounded { -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px;}
+.toprounded {border-top-left-radius: 5px; border-top-right-radius: 5px; 
+    -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; }
+.botomrounded {border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; 
+    -webkit-border-bottom-left-radius: 5px; -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomleft: 5px; -moz-border-radius-bottomright: 5px; }
     
 /* Header */
 /* ------------------------------*/
 .header {width: 100%; height: 60px; min-width:980px;}
-.toolbox {width: 450px; float:right; overflow:hidden; text-align: right; margin-top:20px; margin-right:40px; }
+.toolbox {width: 450px; float: right; overflow: hidden; text-align: right; margin-top: 20px; margin-right: 40px; }
 .be-logo { background: url( '../pics/logo.png' ) 40px 0px no-repeat; height: 60px;  margin: 0; float: left; padding: 0 0 0 220px; }
 .be-logo span { position: relative; top: 20px; font-size:18px; font-weight:bold; }
 
 /* Content */
 /* ------------------------------*/
-.content-box-outer {clear:both; background:#fff; border-right:solid 1px #b5b5b5; border-bottom:solid 1px #b5b5b5;
+.content-box-outer {clear: both; background:#fff; border-right: solid 1px #b5b5b5; border-bottom: solid 1px #b5b5b5;
     min-width:1010px;
     -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; 
     -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px;

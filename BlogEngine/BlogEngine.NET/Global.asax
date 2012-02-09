@@ -110,6 +110,7 @@
         static void Init_BundleTable()
         {
             BundleTable.Bundles.EnableDefaultBundles();
+            BundleTable.Bundles.Clear();
 
             // for anonymous users
             var css = new Bundle("~/Styles/css", typeof(CssMinify));
@@ -145,9 +146,6 @@
             
             var jsadmin = new Bundle("~/admin/js", typeof(JsMinify));
             jsadmin.AddDirectory("~/Scripts/jQuery", "*.js", false);
-            jsadmin.AddFile("~/admin/jquery.colorbox.js");
-            jsadmin.AddFile("~/admin/jquery.masonry.min.js");
-            jsadmin.AddFile("~/admin/jquery.tipsy.js");
             jsadmin.AddFile("~/admin/admin.js");
             BundleTable.Bundles.Add(jsadmin);
         }

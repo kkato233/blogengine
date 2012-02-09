@@ -217,6 +217,8 @@ namespace App_Code.Controls
                             Src = string.Format("{0}pics/rssButton.png", Utils.ApplicationRelativeWebRoot), Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
                         })
                     {
+                        image.Width = 12;
+                        image.Height = 12;
                         feedAnchor.Controls.Add(image);
                     }
                 }

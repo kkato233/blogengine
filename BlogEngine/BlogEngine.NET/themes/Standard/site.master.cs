@@ -24,17 +24,17 @@ public partial class StandardSite : System.Web.UI.MasterPage
         }
     }
 
-    //protected override void Render(HtmlTextWriter writer)
-    //{
-    //    using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
-    //    {
-    //        base.Render(htmlwriter);
-    //        string html = htmlwriter.InnerWriter.ToString();
+    protected override void Render(HtmlTextWriter writer)
+    {
+        using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
+        {
+            base.Render(htmlwriter);
+            string html = htmlwriter.InnerWriter.ToString();
 
-    //        html = reg.Replace(html, string.Empty).Trim();
+            html = reg.Replace(html, string.Empty).Trim();
 
-    //        writer.Write(html);
-    //    }
-    //}
+            writer.Write(html);
+        }
+    }
 
 }

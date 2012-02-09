@@ -79,6 +79,16 @@
                     {
                         context.Response.Cache.SetCacheability(HttpCacheability.Public);
                         context.Response.Cache.SetExpires(DateTime.Now.AddYears(1));
+
+                        var etag = string.Format("\"{0}\"", context.Request.FilePath.GetHashCode());
+                        var incomingEtag = context.Request.Headers["If-None-Match"];
+                        var cache = context.Response.Cache;
+                        cache.SetETag(etag);
+                        cache.SetCacheability(HttpCacheability.Public);
+
+                        if (String.Compare(incomingEtag, etag) != 0)
+                            return;
+
                         if (Utils.SetConditionalGetHeaders(file.DateCreated.ToUniversalTime()))
                             return;
                         var index = fileName.LastIndexOf(".") + 1;

@@ -3,6 +3,8 @@
 @{
     App_Code.WebUtils.CheckRightsForAdminPagesPages(false);
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
+    var adminCss = Utils.RelativeWebRoot + "admin/css";
+    var adminJs = Utils.RelativeWebRoot + "admin/js";
 }
 
 <!DOCTYPE html>
@@ -10,8 +12,7 @@
     <head>
         <title>@Page.Title</title>
         <link rel="shortcut icon" href="@Href(Utils.RelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
-        <link href="@BundleTable.Bundles.ResolveBundleUrl("~/admin/css")" rel="stylesheet" type="text/css" />
-        
+        <link href="@adminCss" rel="stylesheet" type="text/css" />        
     </head>
     <body>
         <script type="text/javascript">
@@ -21,17 +22,7 @@
                 BlogInstanceId: '@Blog.CurrentInstance.Id'
             };
         </script> 
-        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/01-jquery.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/02-jquery.cookie.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/03-jquery.validate.min.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/03-jquery.validate.min.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/04-jquery-jtemplates.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/05-json2.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}admin/jquery.colorbox.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}admin/jquery.masonry.min.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}admin/jquery.tipsy.js", Utils.RelativeWebRoot)"></script>
-        <script type="text/javascript" src="@string.Format("{0}admin/admin.js", Utils.RelativeWebRoot)"></script>
-         
+        <script type="text/javascript" src="@adminJs"></script>        
         <div class="page">
             <form id="form1">
 

@@ -81,7 +81,7 @@
       <HintPath>..\..\lib\razor\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Optimization">
-      <HintPath>..\BlogEngine.NET\Bin\Microsoft.Web.Optimization.dll</HintPath>
+      <HintPath>..\..\lib\optimization\Microsoft.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -161,7 +161,6 @@
     <Compile Include="Json\JsonPosts.cs" />
     <Compile Include="Json\JsonResponse.cs" />
     <Compile Include="Json\JsonComments.cs" />
-    <Compile Include="JavascriptMinifier.cs" />
     <Compile Include="Json\JsonRole.cs" />
     <Compile Include="Json\JsonTag.cs" />
     <Compile Include="Json\JsonTrash.cs" />
@@ -255,6 +254,8 @@
     <Compile Include="Web\HttpModules\WwwSubDomainModule.cs" />
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
     <Compile Include="Web\Scripting\Helpers.cs" />
+    <Compile Include="Web\Scripting\JavascriptMinifier.cs" />
+    <Compile Include="Web\Scripting\WebResourceFilter.cs" />
     <Compile Include="XmlSafeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +338,9 @@
       <Generator>DataServiceClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Web\HttpHandlers\JavaScriptHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

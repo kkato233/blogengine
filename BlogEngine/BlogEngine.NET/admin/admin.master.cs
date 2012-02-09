@@ -45,6 +45,8 @@ namespace Admin
 
         #region Methods
 
+        protected string AdminJs { get { return Utils.RelativeWebRoot + "admin/js"; } }
+
         /// <summary>
         /// Gets the current user's photo.
         /// </summary>

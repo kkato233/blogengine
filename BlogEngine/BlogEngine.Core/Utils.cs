@@ -424,19 +424,6 @@
         }
 
         /// <summary>
-        /// This method adds the resource handler script responsible for loading up BlogEngine's culture-specific resource strings
-        /// on the client side. This needs to be called at a point after blog.js has been added to the page, otherwise this script
-        /// will fail at load time.
-        /// </summary>
-        /// <param name="page">The System.Web.UI.Page instance the resources will be added to.</param>
-        public static void AddJavaScriptResourcesToPage(System.Web.UI.Page page)
-        {
-            var resourcePath = Web.HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
-            var script = string.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", resourcePath);
-            page.ClientScript.RegisterStartupScript(page.GetType(), resourcePath.GetHashCode().ToString(), script);
-        }
-
-        /// <summary>
         /// This method returns all code assemblies in app_code
         ///     If app_code has subdirectories for c#, vb.net etc
         ///     Each one will come back as a separate assembly
