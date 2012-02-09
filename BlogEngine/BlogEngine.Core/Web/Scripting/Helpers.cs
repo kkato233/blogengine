@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 using System.Web.UI;
+using Microsoft.Web.Optimization;
 
 namespace BlogEngine.Core.Web.Scripting
 {
@@ -20,6 +22,20 @@ namespace BlogEngine.Core.Web.Scripting
         {
             page.Header.Controls.Add(new LiteralControl(
                 string.Format("\n<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />", lnk)));
+        }
+        /// <summary>
+        /// Add generic lit to the page
+        /// </summary>
+        /// <param name="page">Page</param>
+        /// <param name="type">Type</param>
+        /// <param name="relation">Relation</param>
+        /// <param name="title">Title</param>
+        /// <param name="href">Url</param>
+        public static void AddGenericLink(System.Web.UI.Page page, string type, string relation, string title, string href)
+        {
+            var tp = string.IsNullOrEmpty(type) ? "" : string.Format("type=\"{0}\" ", type);
+            const string tag = "\n<link {0}rel=\"{1}\" title=\"{2}\" href=\"{3}\" />";
+            page.Header.Controls.Add(new LiteralControl(string.Format(tag, tp, relation, title, href)));
         }
         /// <summary>
         /// Add javascript to page
@@ -62,5 +78,98 @@ namespace BlogEngine.Core.Web.Scripting
 
             return sb.ToString();
         }
+
+        #region BlogBasePage helpers
+
+        /// <summary>
+        /// Adds code to the HTML head section.
+        /// </summary>
+        public static void AddCustomCodeToHead(System.Web.UI.Page page)
+        {
+            if (string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
+                return;
+
+            var code = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}",
+                Environment.NewLine,
+                BlogSettings.Instance.HtmlHeader);
+            var control = new LiteralControl(code);
+            page.Header.Controls.Add(control);
+        }
+
+        /// <summary>
+        /// Adds a JavaScript to the bottom of the page at runtime.
+        /// </summary>
+        /// <remarks>
+        /// You must add the script tags to the BlogSettings.Instance.TrackingScript.
+        /// </remarks>
+        public static void AddTrackingScript(System.Web.UI.Page page)
+        {
+            var sb = new StringBuilder();
+
+            if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
+            {
+                sb.Append("<script type=\"text/javascript\"> \n");
+                sb.Append("//<![CDATA[ \n");
+                sb.Append("(function() { ");
+                sb.Append("var links = document.getElementsByTagName('a'); ");
+                sb.Append("var query = '?'; ");
+                sb.Append("for(var i = 0; i < links.length; i++) { ");
+                sb.Append("if(links[i].href.indexOf('#disqus_thread') >= 0) { ");
+                sb.Append("query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&'; ");
+                sb.Append("}}");
+                sb.Append("document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/");
+                sb.Append(BlogSettings.Instance.DisqusWebsiteName);
+                sb.Append("/get_num_replies.js' + query + '\"></' + 'script>'); ");
+                sb.Append("})(); \n");
+                sb.Append("//]]> \n");
+                sb.Append("</script> \n");
+            }
+
+            if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
+            {
+                sb.Append(BlogSettings.Instance.TrackingScript);
+            }
+
+            var s = sb.ToString();
+            if (!string.IsNullOrEmpty(s))
+            {
+                page.ClientScript.RegisterStartupScript(page.GetType(), "tracking", string.Format("\n{0}", s), false);
+            }
+        }
+
+        /// <summary>
+        /// Add bundles created by web.optimization
+        /// </summary>
+        /// <param name="page">Base page</param>
+        public static void AddBudnledStylesAndScripts(System.Web.UI.Page page)
+        {
+            if (Security.IsAuthenticated)
+            {
+                // quick notes should be enabled in settings and user should have publish permission
+                if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
+                {
+                    string src = string.Format("var appRoot='{0}';var appUser='{1}';",
+                        Utils.ApplicationRelativeWebRoot,
+                        Security.CurrentUser.Identity.Name);
+
+                    page.Header.Controls.Add(new LiteralControl(Scripting.Helpers.FormatInlineScript(src)));
+                }
+
+                AddStyle(page, string.Format("{0}Styles/cssauth", Utils.RelativeWebRoot));
+                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), true, true);
+            }
+            else
+            {
+                AddStyle(page, string.Format("{0}Styles/css", Utils.RelativeWebRoot));
+                AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), true, true);
+            }
+
+            var resourcePath = Web.HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            AddScript(page, resourcePath, true, true);
+        }
+
+        #endregion
     }
 }

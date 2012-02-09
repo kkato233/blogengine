@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Ajax.Utilities;
 
-namespace BlogEngine.Core
+namespace BlogEngine.Core.Web.Scripting
 {
     /// <summary>
     /// Helper class for performing minification of Javascript and CSS.
@@ -21,7 +21,6 @@ namespace BlogEngine.Core
     /// </remarks>
     public sealed class JavascriptMinifier
     {
-
         private Microsoft.Ajax.Utilities.Minifier ajaxMinifier = new Microsoft.Ajax.Utilities.Minifier();
 
         /// <summary>
@@ -31,7 +30,7 @@ namespace BlogEngine.Core
         {
             this.RemoveWhitespace = true;
             this.PreserveFunctionNames = true;
-            this.VariableMinification = Core.VariableMinification.None;
+            this.VariableMinification = Core.Web.Scripting.VariableMinification.None;
         }
 
         #region "Methods"
@@ -51,18 +50,17 @@ namespace BlogEngine.Core
             codeSettings.MinifyCode = this.ShouldMinifyCode;
             if (this.ShouldMinifyCode)
             {
-
                 switch (this.VariableMinification)
                 {
-                    case Core.VariableMinification.None:
+                    case Core.Web.Scripting.VariableMinification.None:
                         codeSettings.LocalRenaming = LocalRenaming.KeepAll;
                         break;
 
-                    case Core.VariableMinification.LocalVariablesOnly:
+                    case Core.Web.Scripting.VariableMinification.LocalVariablesOnly:
                         codeSettings.LocalRenaming = LocalRenaming.KeepLocalizationVars;
                         break;
 
-                    case Core.VariableMinification.LocalVariablesAndFunctionArguments:
+                    case Core.Web.Scripting.VariableMinification.LocalVariablesAndFunctionArguments:
                         codeSettings.LocalRenaming = LocalRenaming.CrunchAll;
                         break;
                 }
@@ -74,13 +72,9 @@ namespace BlogEngine.Core
                 // This makes sure that function names on objects are kept exactly as they are. This is
                 // so functions that other non-minified scripts rely on do not get renamed.
                 codeSettings.PreserveFunctionNames = this.PreserveFunctionNames;
-
             }
-
-
             return codeSettings;
         }
-
 
         /// <summary>
         /// Gets the minified version of the passed in script.
@@ -130,7 +124,7 @@ namespace BlogEngine.Core
         public bool PreserveFunctionNames { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the <see cref="BlogEngine.Core.JavascriptMinifier"/> instance should remove
+        /// Gets or sets whether the <see cref="BlogEngine.Core.Web.Scripting.JavascriptMinifier"/> instance should remove
         /// whitespace from a script.
         /// </summary>
         public bool RemoveWhitespace { get; set; }
@@ -140,7 +134,7 @@ namespace BlogEngine.Core
             get
             {
                 //  return true;
-                return ((!PreserveFunctionNames) || (this.VariableMinification != Core.VariableMinification.None));
+                return ((!PreserveFunctionNames) || (this.VariableMinification != Core.Web.Scripting.VariableMinification.None));
             }
         }
 
@@ -153,8 +147,6 @@ namespace BlogEngine.Core
         }
 
         #endregion
-
-
     }
 
     /// <summary>
@@ -178,5 +170,4 @@ namespace BlogEngine.Core
         LocalVariablesAndFunctionArguments = 2
 
     }
-
 }

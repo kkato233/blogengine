@@ -9,9 +9,6 @@
     <title>BlogEngine.NET Admin</title>
     <link href="<%= BundleTable.Bundles.ResolveBundleUrl("~/admin/css")%>" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
-    
-    
-
 </head>
 <body>
     <script type="text/javascript">
@@ -21,15 +18,7 @@
             BlogInstanceId: '<%= Blog.CurrentInstance.Id %>'
         };
     </script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>Scripts/jQuery/01-jquery.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>Scripts/jQuery/02-jquery.cookie.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>Scripts/jQuery/03-jquery.validate.min.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>Scripts/jQuery/04-jquery-jtemplates.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>Scripts/jQuery/05-json2.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>admin/jquery.colorbox.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>admin/jquery.masonry.min.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>admin/jquery.tipsy.js"></script>
-    <script type="text/javascript" src="<%=Utils.RelativeWebRoot%>admin/admin.js"></script>
+    <script type="text/javascript" src="<%=AdminJs %>"></script>
     <div class="page">
         <form id="form1" runat="server">
 

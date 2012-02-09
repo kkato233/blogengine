@@ -55,47 +55,12 @@
         /// </param>
         public virtual void AddGenericLink(string type, string relation, string title, string href)
         {
-            var tp = string.IsNullOrEmpty(type) ? "" : string.Format("type=\"{0}\" ", type);
-            const string tag = "\n<link {0}rel=\"{1}\" title=\"{2}\" href=\"{3}\" />";
-            Page.Header.Controls.Add(new LiteralControl(string.Format(tag, tp, relation, title, href)));
-        }
-
-        /// <summary>
-        /// Adds a Stylesheet reference to the HTML head tag.
-        /// </summary>
-        /// <param name="url">
-        /// The relative URL.
-        /// </param>
-        /// <param name="insertAtFront">
-        /// If true, inserts in beginning of HTML head tag.
-        /// </param>
-        public virtual void AddStylesheetInclude(string url, bool insertAtFront = false)
-        {
-            const string tag = "\n<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />";
-
-            if (insertAtFront)
-                Page.Header.Controls.AddAt(0, new LiteralControl(string.Format(tag, url)));
-            else
-                Page.Header.Controls.Add(new LiteralControl(string.Format(tag, url)));
+            Scripting.Helpers.AddGenericLink(this, type, relation, title, href);
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Adds code to the HTML head section.
-        /// </summary>
-        protected virtual void AddCustomCodeToHead()
-        {
-            var code = string.Format(
-                CultureInfo.InvariantCulture,
-                "{0}<!-- Start custom code -->{0}{1}{0}<!-- End custom code -->{0}",
-                Environment.NewLine,
-                BlogSettings.Instance.HtmlHeader);
-            var control = new LiteralControl(code);
-            Page.Header.Controls.Add(control);
-        }
 
         /// <summary>
         /// Adds the default stylesheet language
@@ -136,48 +101,7 @@
                 return;
 
             const string tag = "\n<meta name=\"{0}\" content=\"{1}\" />";
-            Page.Header.Controls.Add(new LiteralControl(string.Format(tag, name, value)));
-        }
-
-        /// <summary>
-        /// Adds a JavaScript to the bottom of the page at runtime.
-        /// </summary>
-        /// <remarks>
-        /// You must add the script tags to the BlogSettings.Instance.TrackingScript.
-        /// </remarks>
-        protected virtual void AddTrackingScript()
-        {
-            var sb = new StringBuilder();
-
-            if (BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus)
-            {
-                sb.Append("<script type=\"text/javascript\"> \n");
-                sb.Append("//<![CDATA[ \n");
-                sb.Append("(function() { ");
-                sb.Append("var links = document.getElementsByTagName('a'); ");
-                sb.Append("var query = '?'; ");
-                sb.Append("for(var i = 0; i < links.length; i++) { ");
-                sb.Append("if(links[i].href.indexOf('#disqus_thread') >= 0) { ");
-                sb.Append("query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&'; ");
-                sb.Append("}}");
-                sb.Append("document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/");
-                sb.Append(BlogSettings.Instance.DisqusWebsiteName);
-                sb.Append("/get_num_replies.js' + query + '\"></' + 'script>'); ");
-                sb.Append("})(); \n");
-                sb.Append("//]]> \n");
-                sb.Append("</script> \n");
-            }
-
-            if (!string.IsNullOrEmpty(BlogSettings.Instance.TrackingScript))
-            {
-                sb.Append(BlogSettings.Instance.TrackingScript);
-            }
-
-            var s = sb.ToString();
-            if (!string.IsNullOrEmpty(s))
-            {
-                ClientScript.RegisterStartupScript(GetType(), "tracking", string.Format("\n{0}", s), false);
-            }
+            Header.Controls.Add(new LiteralControl(string.Format(tag, name, value)));
         }
 
         /// <summary>
@@ -248,28 +172,7 @@
 
                 AddDefaultLanguages();
 
-                if (Security.IsAuthenticated)
-                {
-                    // quick notes should be enabled in settings and user should have publish permission
-                    if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
-                    {
-                        string src = string.Format("var appRoot='{0}';var appUser='{1}';",
-                            Utils.ApplicationRelativeWebRoot,
-                            Security.CurrentUser.Identity.Name);
-
-                        Page.Header.Controls.Add(new LiteralControl(Scripting.Helpers.FormatInlineScript(src)));
-                    }
-
-                    Scripting.Helpers.AddStyle(this, BundleTable.Bundles.ResolveBundleUrl("~/Styles/cssauth"));
-                    Scripting.Helpers.AddScript(this, BundleTable.Bundles.ResolveBundleUrl("~/Scripts/jsauth"));
-                }
-                else
-                {
-                    Scripting.Helpers.AddStyle(this, BundleTable.Bundles.ResolveBundleUrl("~/Styles/css"));
-                    Scripting.Helpers.AddScript(this, BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js"), true, true);
-                }
-
-                Utils.AddJavaScriptResourcesToPage(this);
+                Scripting.Helpers.AddBudnledStylesAndScripts(this);
 
                 if (BlogSettings.Instance.EnableOpenSearch)
                 {
@@ -280,10 +183,9 @@
                         string.Format("{0}opensearch.axd", absoluteWebRoot));
                 }
 
-                if (!string.IsNullOrEmpty(BlogSettings.Instance.HtmlHeader))
-                    AddCustomCodeToHead();
+                Scripting.Helpers.AddCustomCodeToHead(this);
 
-                AddTrackingScript();
+                Scripting.Helpers.AddTrackingScript(this);
             }       
         }
 
@@ -313,24 +215,18 @@
                 allowViewing = true;
 
             if (!allowViewing)
-            {
                 Response.Redirect(string.Format("{0}Account/login.aspx", Utils.RelativeWebRoot));
-            }
 
             MasterPageFile = string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
             base.OnPreInit(e);
 
             if (Page.IsPostBack || string.IsNullOrEmpty(Request.QueryString["deletepost"]))
-            {
                 return;
-            }
 
             var post = Post.GetPost(new Guid(Request.QueryString["deletepost"]));
             if (post == null || !post.CanUserDelete)
-            {
                 return;
-            }
 
             post.Delete();
             post.Save();

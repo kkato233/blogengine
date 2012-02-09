@@ -42,6 +42,7 @@ namespace BlogEngine.Tests.Posts
             Assert.IsTrue(ie.ContainsText(TheTestPost));
 
             ie.GoTo(ie.Page<PostList>().Url);
+            ie.WaitForComplete();
             ie.Link(Find.ById("a-" + PostId)).Click();
 
             // give 5 seconds for ajax method to execute
