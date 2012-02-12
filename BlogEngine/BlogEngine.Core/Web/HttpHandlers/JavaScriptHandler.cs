@@ -1,19 +1,8 @@
 ﻿namespace BlogEngine.Core.Web.HttpHandlers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.IO;
-    using System.Linq;
     using System.Net;
-    using System.Net.Sockets;
-    using System.Security;
-    using System.Text;
-    using System.Text.RegularExpressions;
     using System.Web;
-    using System.Web.Caching;
-
-    using BlogEngine.Core.Web.HttpModules;
 
     /// <summary>
     /// Removes whitespace in all stylesheets added to the 
@@ -101,7 +90,7 @@
 
             cache.VaryByHeaders["Accept-Encoding"] = true;
             cache.SetExpires(DateTime.Now.ToUniversalTime().AddDays(7));
-            cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+            cache.SetMaxAge(new TimeSpan(30, 0, 0, 0));
             cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
 
             var etag = string.Format("\"{0}\"", hash);

@@ -1,19 +1,11 @@
 ﻿namespace BlogEngine.Core.Web.HttpHandlers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.IO;
-    using System.Linq;
     using System.Net;
-    using System.Net.Sockets;
-    using System.Security;
     using System.Text;
-    using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Caching;
-
-    using BlogEngine.Core.Web.HttpModules;
+    using HttpModules;
 
     /// <summary>
     /// Removes whitespace in all stylesheets added to the 
@@ -38,8 +30,6 @@
 
         #endregion
 
-        #region Implemented Interfaces
-
         #region IHttpHandler
 
         /// <summary>
@@ -54,7 +44,12 @@
         public void ProcessRequest(HttpContext context)
         {
             var request = context.Request;
-            var lang = request.QueryString["lang"];
+            var lang = request.FilePath;
+
+            lang = lang.Replace(".res.axd", "");
+
+            if (lang.IndexOf("/") >= 0)
+                lang = lang.Substring(lang.LastIndexOf("/") + 1);
 
             if (string.IsNullOrEmpty(lang))
             {
@@ -64,13 +59,13 @@
 
             lang = lang.ToLowerInvariant();
 
-            string cacheKey = "resource.axd - " + lang;
-            string script = (string)Blog.CurrentInstance.Cache[cacheKey];
+            var cacheKey = "resource.axd - " + lang;
+            var script = (string)Blog.CurrentInstance.Cache[cacheKey];
            
             if (String.IsNullOrEmpty(script))
             {
 
-                System.Globalization.CultureInfo culture = null;
+                System.Globalization.CultureInfo culture;
                 try
                 {
                     // This needs to be in a try-catch because there's no other
@@ -83,12 +78,12 @@
                     culture = Utils.GetDefaultCulture();
                 }
                 
-                Json.JsonCulture jc = new Json.JsonCulture(culture);
+                var jc = new Json.JsonCulture(culture);
 
                 // Although this handler is intended to output resource strings,
                 // also outputting other non-resource variables.
 
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
                 sb.AppendFormat("BlogEngine.applicationWebRoot='{0}';", Utils.ApplicationRelativeWebRoot);
                 sb.AppendFormat("BlogEngine.blogInstanceId='{0}';", Blog.CurrentInstance.Id);
@@ -109,8 +104,6 @@
 
         #endregion
 
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -120,9 +113,8 @@
         /// <returns></returns>
         public static string GetScriptPath(System.Globalization.CultureInfo cultureInfo)
         {
-            return String.Format("{0}res.axd?lang={1}", Utils.AbsoluteWebRoot, cultureInfo.Name.ToLowerInvariant());
+            return String.Format("{0}{1}.res.axd", Utils.AbsoluteWebRoot, cultureInfo.Name.ToLowerInvariant());
         }
-
 
         /// <summary>
         /// This will make the browser and server keep the output
@@ -136,16 +128,13 @@
         /// </param>
         private static void SetHeaders(int hash, HttpContext context)
         {
-
             var response = context.Response;
-
             response.ContentType = "text/javascript";
-
             var cache = response.Cache;
 
             cache.VaryByHeaders["Accept-Encoding"] = true;
-            cache.SetExpires(DateTime.UtcNow.AddDays(7));
-            cache.SetMaxAge(new TimeSpan(7, 0, 0, 0));
+            cache.SetExpires(DateTime.UtcNow.AddDays(30));
+            cache.SetMaxAge(new TimeSpan(30, 0, 0, 0));
             cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
 
             var etag = string.Format("\"{0}\"", hash);
@@ -155,9 +144,7 @@
             cache.SetCacheability(HttpCacheability.Public);
 
             if (String.Compare(incomingEtag, etag) != 0)
-            {
                 return;
-            }
 
             response.Clear();
             response.StatusCode = (int)HttpStatusCode.NotModified;
@@ -165,6 +152,5 @@
         }
 
         #endregion
-
     }
 }

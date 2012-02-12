@@ -19,7 +19,7 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void ChangePasswordPushButton_Click(object sender, EventArgs e)
         {
-            this.Master.SetStatus("warning", "Password was not changed");
+            Master.SetStatus("warning", "Password was not changed");
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.hdnPassLength.Value = Membership.MinRequiredPasswordLength.ToString();
+            hdnPassLength.Value = Membership.MinRequiredPasswordLength.ToString();
             ChangeUserPassword.SuccessPageUrl = Utils.RelativeWebRoot + "Account/change-password-success.aspx";
         }
 

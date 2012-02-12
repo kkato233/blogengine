@@ -316,7 +316,7 @@ function ProcessTrash(action, scope) {
 
 //--------------    COMMENTS
 
-var rowLoading = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+var rowLoading = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" width="24" height="24" alt="Loading" /></td>';
 
 function ProcessSelected(action, page) {
    var vals = [];
@@ -527,7 +527,7 @@ function CommentAction(act, id) {
    var oRow = $("[id$='" + id + "']");
    var hRow = oRow.html();
 
-   var rowLoader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" alt="Loading" /></td>';
+   var rowLoader = '<td colspan="8" style="text-align:center"><img src="../../pics/ajax-loader.gif" width="24" height="24" alt="Loading" /></td>';
    oRow.html(rowLoader);
 
    var vals = [];
@@ -1040,7 +1040,7 @@ function GalleryGetPager() {
 
 function InstallPackage(pkgId) {
     var dto = { "pkgId": pkgId };
-    var spinner = '<img class="loader2" src="../../pics/ajax-loader.gif" alt="loading..." />';
+    var spinner = '<img class="loader2" src="../../pics/ajax-loader.gif" width="24" height="24" alt="loading..." />';
     var p = $("[id$='p_" + pkgId + "']");
     var backup = p.html();
 
@@ -1071,7 +1071,7 @@ function InstallPackage(pkgId) {
 }
 
 function UpdatePackage(pkgId, location) {
-    var spinner = '<img class="loader2" style="margin-left: 0" src="../../pics/ajax-loader.gif" alt="loader" />';
+    var spinner = '<img class="loader2" style="margin-left: 0" src="../../pics/ajax-loader.gif" width="24" height="24" alt="loader" />';
     var p = $("[id$='upd-" + pkgId + "']");
     var backup = p.html();
     p.css('background','none');
@@ -1112,7 +1112,7 @@ function UpdatePackage(pkgId, location) {
 }
 
 function UninstallPackage(pkgId) {
-    var spinner = '<img class="loader2" style="margin-left: 0" src="../../pics/ajax-loader.gif" alt="loader" />';
+    var spinner = '<img class="loader2" style="margin-left: 0" src="../../pics/ajax-loader.gif" width="24" height="24" alt="loader" />';
     var p = $("[id$='del-" + pkgId + "']");
     var li = p.closest("li");
     var backup = p.html();
@@ -1145,7 +1145,7 @@ function UninstallPackage(pkgId) {
 
 // extensions are special case
 function UninstallExtension(pkgId) {
-    var spinner = '<img class="loader2" style="margin-left: 70px" src="../../pics/ajax-loader.gif" alt="loader" />';
+    var spinner = '<img class="loader2" style="margin-left: 70px" src="../../pics/ajax-loader.gif" width="24" height="24" alt="loader" />';
     var row = $("[id$='ext_" + pkgId + "']");
     var backup = row.html();
     row.html(spinner);
