@@ -1,12 +1,9 @@
 ﻿namespace BlogEngine.Core.Web.Controls
 {
     using System;
-    using System.Globalization;
-    using System.Text;
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
-    using Microsoft.Web.Optimization;
 
     /// <summary>
     /// All pages in the custom themes as well as pre-defined pages in the root

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.Web.UI;
-using Microsoft.Web.Optimization;
 
 namespace BlogEngine.Core.Web.Scripting
 {
@@ -154,20 +151,20 @@ namespace BlogEngine.Core.Web.Scripting
                         Utils.ApplicationRelativeWebRoot,
                         Security.CurrentUser.Identity.Name);
 
-                    page.Header.Controls.Add(new LiteralControl(Scripting.Helpers.FormatInlineScript(src)));
+                    page.Header.Controls.Add(new LiteralControl(FormatInlineScript(src)));
                 }
 
                 AddStyle(page, string.Format("{0}Styles/cssauth", Utils.RelativeWebRoot));
-                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), true, true);
+                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), false, true, true);
             }
             else
             {
                 AddStyle(page, string.Format("{0}Styles/css", Utils.RelativeWebRoot));
-                AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), true, true);
+                AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), false, true, true);
             }
 
-            var resourcePath = Web.HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
-            AddScript(page, resourcePath, true, true);
+            var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            AddScript(page, resourcePath, false, true, true);
         }
 
         #endregion

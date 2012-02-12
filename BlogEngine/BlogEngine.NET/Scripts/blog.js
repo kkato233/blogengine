@@ -40,7 +40,7 @@ BlogEngine = {
         if (oCompose) oCompose.className = '';
         this.$('commentCompose').style.display = 'none';
         this.$('commentPreview').style.display = 'block';
-        this.$('commentPreview').innerHTML = '<img src="' + BlogEngine.webRoot + 'pics/ajax-loader.gif" alt="Loading" />';
+        this.$('commentPreview').innerHTML = '<img src="' + BlogEngine.webRoot + 'pics/ajax-loader.gif" width="24" height="24" alt="Loading" />';
         var argument = this.$('commentPreview').innerHTML;
         this.addComment(true);
     }

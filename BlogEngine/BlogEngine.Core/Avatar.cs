@@ -21,7 +21,7 @@ namespace BlogEngine.Core
         /// <summary>
         ///     The avatar image.
         /// </summary>
-        private const string AvatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" />";
+        private const string AvatarImage = "<img class=\"photo\" src=\"{0}\" alt=\"{1}\" width=\"{2}\" height=\"{2}\" />";
 
         /// <summary>
         ///     Gets or sets the URL to the Avatar image.
@@ -76,7 +76,7 @@ namespace BlogEngine.Core
             if (!string.IsNullOrEmpty(avatarUrl) && Uri.TryCreate(avatarUrl, UriKind.RelativeOrAbsolute, out url))
             {
                 imageTag = string.Format(
-                    CultureInfo.InvariantCulture, AvatarImage, url, HttpUtility.HtmlEncode(description));
+                    CultureInfo.InvariantCulture, AvatarImage, url, HttpUtility.HtmlEncode(description), size);
 
                 return new Avatar { Url = url, ImageTag = imageTag };
             }
@@ -92,7 +92,7 @@ namespace BlogEngine.Core
                                 HttpUtility.UrlEncode(website.ToString())));
 
                     imageTag = string.Format(
-                        CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"{0}\" alt=\"{1}\" />", url, email);
+                        CultureInfo.InvariantCulture, "<img class=\"thumb\" src=\"{0}\" alt=\"{1}\" width=\"{2}\" height=\"{2}\" />", url, email, size);
 
                     return new Avatar { Url = url, ImageTag = imageTag };
                 }
@@ -105,7 +105,7 @@ namespace BlogEngine.Core
                         string.Format("{0}themes/{1}/noavatar.jpg", Utils.AbsoluteWebRoot, BlogSettings.Instance.Theme) : 
                         string.Format("{0}pics/noavatar.jpg", Utils.AbsoluteWebRoot));
 
-                imageTag = string.Format("<img src=\"{0}\" alt=\"{1}\" />", uri, description);
+                imageTag = string.Format("<img src=\"{0}\" alt=\"{1}\" width=\"{2}\" height=\"{2}\" />", uri, description, size);
 
                 return new Avatar { Url = uri, ImageTag = imageTag, HasNoImage = true };
             }
@@ -135,7 +135,7 @@ namespace BlogEngine.Core
             }
 
             imageTag = string.Format(
-                CultureInfo.InvariantCulture, AvatarImage, link, HttpUtility.HtmlEncode(description));
+                CultureInfo.InvariantCulture, AvatarImage, link, HttpUtility.HtmlEncode(description), size);
 
             return new Avatar { Url = new Uri(link), ImageTag = imageTag };
         }
