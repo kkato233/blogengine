@@ -7,6 +7,7 @@
 namespace App_Code.Controls
 {
     using System;
+    using System.Linq;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
@@ -86,7 +87,7 @@ namespace App_Code.Controls
                 Guid blogId = Blog.CurrentInstance.Id;
 
                 if (!blogsHtml.ContainsKey(blogId))
-                    blogsHtml[blogId] = string.Empty;
+                    blogsHtml[blogId] = Utils.RenderControl(BindAuthors());
 
                 return blogsHtml[blogId];
             }
@@ -125,7 +126,12 @@ namespace App_Code.Controls
 
             var ul = new HtmlGenericControl("ul") { ID = "authorlist" };
 
-            foreach (MembershipUser user in Membership.GetAllUsers())
+            IEnumerable<MembershipUser> users = Membership.GetAllUsers()
+                .Cast<MembershipUser>()
+                .ToList()
+                .OrderBy(a => a.UserName);
+
+            foreach (MembershipUser user in users)
             {
                 var postCount = Post.GetPostsByAuthor(user.UserName).Count;
                 if (postCount == 0)
