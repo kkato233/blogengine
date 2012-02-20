@@ -31,6 +31,7 @@ namespace BlogEngine.Tests.QuickNotes
             // clean up
             var postList = ie.Page<PostList>();
             Assert.IsTrue(postList.DeletePostByTitle("Note to publish", ie));
+            Wait(5);
         }
 
         [TearDown]

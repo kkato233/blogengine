@@ -96,7 +96,7 @@
             var etag = string.Format("\"{0}\"", hash);
             var incomingEtag = context.Request.Headers["If-None-Match"];
 
-            cache.SetETag(etag);
+            //cache.SetETag(etag);
             cache.SetCacheability(HttpCacheability.Public);
 
             if (String.Compare(incomingEtag, etag) != 0)

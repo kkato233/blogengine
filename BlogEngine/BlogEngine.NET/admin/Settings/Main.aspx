@@ -67,9 +67,7 @@
 				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
 				"culture": $("[id$='_ddlCulture']").val(),
 				"timezone": $("[id$='_txtTimeZone']").val(),
-				"enablePasswordReset": $("[id$='cbEnablePasswordReset']").attr('checked'),
-				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked'),
-				"selfRegistrationInitialRole": $("[id$='_ddlSelfRegistrationInitialRole']").val()
+                "enableQuickNotes": $("[id$='_cbEnableQuickNotes']").attr('checked'),
 			};
 			
             $.ajax({
@@ -174,19 +172,8 @@
                     </li>
                     <li>
                         <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbEnablePasswordReset" />
-                        <label for="<%=cbEnablePasswordReset.ClientID %>"><%=Resources.labels.enablePasswordReset %></label>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
-                        <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
-                    </li>
-                    <li>
-                        <label class="lbl" for="<%=ddlSelfRegistrationInitialRole.ClientID %>"><%=Resources.labels.selfRegistrationInitialRole%></label>
-                        <asp:DropDownList runat="Server" ID="ddlSelfRegistrationInitialRole" Style="text-transform: capitalize">
-                            <asp:ListItem Text="Select" />
-                        </asp:DropDownList>
+                        <asp:CheckBox runat="server" ID="cbEnableQuickNotes" />
+                        <label for="<%=cbEnableQuickNotes.ClientID %>"><%=Resources.labels.enableQuickNotes %></label>
                     </li>
                 </ul>
 

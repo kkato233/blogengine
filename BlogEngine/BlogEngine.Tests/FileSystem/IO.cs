@@ -18,6 +18,7 @@ namespace BlogEngine.Tests.FileSystem
         }
 
         [Test]
+        [Category("Reload")]
         public void CanWriteAndReadAppCodeDirectory()
         {
             Assert.IsTrue(WriteReadDirectory(AppCodeDir));

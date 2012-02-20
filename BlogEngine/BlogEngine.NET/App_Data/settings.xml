@@ -41,7 +41,7 @@
   <useblognameinpagetitles>True</useblognameinpagetitles>
   <smtpusername>username</smtpusername>
   <enableerrorlogging>False</enableerrorlogging>
-  <enablehttpcompression>True</enablehttpcompression>
+  <enablehttpcompression>False</enablehttpcompression>
   <enablepasswordreset>True</enablepasswordreset>
   <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <alternatefeedurl />
@@ -75,6 +75,7 @@
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>
   <showlivepreview>True</showlivepreview>
+  <enablequicknotes>True</enablequicknotes>
   <galleryfeedurl>http://dnbegallery.org/feed/FeedService.svc</galleryfeedurl>
   <remotemaxfilesize>524288</remotemaxfilesize>
   <enablerelatedposts>True</enablerelatedposts>

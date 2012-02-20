@@ -27,14 +27,14 @@
 
 function QuickNotes() {
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/GetQuickNotes",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetQuickNotes",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
             ClearCookies();
-            $('#q-notes').setTemplateURL(appRoot + 'Modules/QuickNotes/Templates/Panel.htm', null, { filter_data: false });
+            $('#q-notes').setTemplateURL(BlogEngine.webRoot + 'Modules/QuickNotes/Templates/Panel.htm', null, { filter_data: false });
             $('#q-notes').processTemplate(msg);
         }
     });  
@@ -43,7 +43,7 @@ function QuickNotes() {
 // NOTE
 function GetNote(id) {
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/GetNote",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetNote",
         data: "{'id':'" + id + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -52,12 +52,12 @@ function GetNote(id) {
             if (id.length > 0) {
                 var rt = result.d;
                 SetCookies(rt.Id, rt.Note);
-                $('#q-panel').setTemplateURL(appRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
+                $('#q-panel').setTemplateURL(BlogEngine.webRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
                 $('#q-panel').processTemplate(result);
                 $('.q-area').val(rt.Note);
             }
             else {
-                $('#q-panel').setTemplateURL(appRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
+                $('#q-panel').setTemplateURL(BlogEngine.webRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
                 $('#q-panel').processTemplate(result);
                 $('.q-area').val(JSON.parse($.cookie('quck-note-current')).Note);
             }
@@ -75,13 +75,13 @@ function GetNotes() {
         $.cookie('quck-note-current', JSON.stringify({ "Id": JSON.parse($.cookie('quck-note-current')).Id, "Note": $('.q-area').val() }), { expires: 2 });
     }
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/GetNotes",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetNotes",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            $('#q-panel').setTemplateURL(appRoot + 'Modules/QuickNotes/Templates/List.htm', null, { filter_data: false });
+            $('#q-panel').setTemplateURL(BlogEngine.webRoot + 'Modules/QuickNotes/Templates/List.htm', null, { filter_data: false });
             $('#q-panel').processTemplate(msg);
         }
     });
@@ -98,7 +98,7 @@ function SaveNote() {
         id = JSON.parse($.cookie('quck-note-current')).Id;
     }
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/SaveNote",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/SaveNote",
         data: "{'id':'" + id + "', 'note':'" + $('.q-area').val() + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -114,7 +114,7 @@ function SaveNote() {
 function DeleteNote() {
     id = JSON.parse($.cookie('quck-note-current')).Id;
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/DeleteNote",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/DeleteNote",
         data: "{'id':'" + id + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -152,7 +152,7 @@ function SaveQuickPost() {
     };
 
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/SaveQuickPost",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/SaveQuickPost",
         type: "POST",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -177,13 +177,13 @@ function GetSettings() {
         $.cookie('quck-note-current', JSON.stringify({ "Id": JSON.parse($.cookie('quck-note-current')).Id, "Note": $('.q-area').val() }), { expires: 2 });
     }
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/GetSettings",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetSettings",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (msg) {
-            $('#q-panel').setTemplateURL(appRoot + 'Modules/QuickNotes/Templates/Settings.htm', null, { filter_data: false });
+            $('#q-panel').setTemplateURL(BlogEngine.webRoot + 'Modules/QuickNotes/Templates/Settings.htm', null, { filter_data: false });
             $('#q-panel').processTemplate(msg);
         }
     });
@@ -192,7 +192,7 @@ function GetSettings() {
 function SaveSettings() {
     ShowLoader();
     $.ajax({
-        url: appRoot + "Modules/QuickNotes/Qnotes.asmx/SaveSettings",
+        url: BlogEngine.webRoot + "Modules/QuickNotes/Qnotes.asmx/SaveSettings",
         data: "{'category':'" + $('#selCategory').val() + "', 'tags':'" + $('#txtTags').val() + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",

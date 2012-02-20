@@ -7,7 +7,6 @@ namespace BlogEngine.Tests.Posts
     [TestFixture]
     public class Post : BeTest
     {
-        string PostId = "";
         string TheTestPost = "The test post";
 
         [SetUp]
@@ -32,31 +31,25 @@ namespace BlogEngine.Tests.Posts
             ie.GoTo(editPost.Url);
 
             TypeQuickly(editPost.PostTitle, TheTestPost);
-            
+
+            // this will type test post into TinyMCE editor
             ie.Eval(editPost.JsHack);
 
             editPost.Save.Click();
 
-            SetPostId();
-
             Assert.IsTrue(ie.ContainsText(TheTestPost));
 
-            ie.GoTo(ie.Page<PostList>().Url);
-            ie.WaitForComplete();
-            ie.Link(Find.ById("a-" + PostId)).Click();
+            Assert.IsTrue(ie.Page<PostList>().DeletePostByTitle(TheTestPost, ie), "Could not delete created post by title");
 
-            // give 5 seconds for ajax method to execute
-            // and romove element from the page
-            Wait(5);
+            Wait(5); // wait for ajax to complete. WaitForComplete not always working (((
+            ie.WaitForComplete();
+
+            ie.GoTo(Constants.Root);
+
+            ie.WaitForComplete();
 
             Assert.IsFalse(ie.ContainsText(TheTestPost));
         }
 
-        void SetPostId()
-        {
-            var pos = ie.Html.IndexOf("deletepost=");
-            PostId = ie.Html.Substring(pos + 11, 36);
-            System.Console.WriteLine("Post ID is: " + PostId);
-        }
     }
 }

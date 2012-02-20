@@ -1822,4 +1822,7 @@
   <data name="galleryFeedUrlDescription" xml:space="preserve">
     <value>URL to the valid Gallery feed containing downloadable packages</value>
   </data>
+  <data name="enableQuickNotes" xml:space="preserve">
+    <value>Enable Quick Notes</value>
+  </data>
 </root>

@@ -34,7 +34,10 @@
 				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
 				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value'),
-				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value')                
+				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value'),
+				"enablePasswordReset": $("[id$='cbEnablePasswordReset']").attr('checked'),
+				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked'),
+				"selfRegistrationInitialRole": $("[id$='_ddlSelfRegistrationInitialRole']").val()               
 			};
 			
             $.ajax({
@@ -150,6 +153,22 @@
 
                 <ul class="fl leftaligned">
                     <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnablePasswordReset" />
+                        <label for="<%=cbEnablePasswordReset.ClientID %>"><%=Resources.labels.enablePasswordReset %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
+                        <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
+                    </li>
+                    <li>
+                        <label class="lbl" for="<%=ddlSelfRegistrationInitialRole.ClientID %>"><%=Resources.labels.selfRegistrationInitialRole%></label>
+                        <asp:DropDownList runat="Server" ID="ddlSelfRegistrationInitialRole" Style="text-transform: capitalize">
+                            <asp:ListItem Text="Select" />
+                        </asp:DropDownList>
+                    </li>
+                    <li>
                         <label class="lbl" for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label>
                         <asp:TextBox runat="server" Width="80" ID="txtRemoteTimeout" />
                         <span class="belowHelp"><label for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeoutDescription %></label></span>
@@ -176,11 +195,13 @@
                     </li>
                     <li>
                         <label class="lbl">Change File Storage Provider</label>
-                        <asp:DropDownList runat="server" ID="ddlProvider" ClientIDMode="Static" /><br />
+                        <span style="float:left; text-align: left;">
+                            <asp:DropDownList runat="server" ID="ddlProvider" ClientIDMode="Static" />
+                            <asp:Button runat="server" ID="btnChangeProvider" OnClick="btnChangeProvider_Click" Text="Change Provider" CssClass="btn rounded" OnClientClick="return warnProviderChange();" />
+                        </span>
                         <asp:HiddenField runat="server" ID="hdnProvider" ClientIDMode="Static" />
                         <label class="lbl"></label>
                         <asp:Label runat="server" ID="providerError" ForeColor="Red" Visible="false" />
-                        <asp:Button runat="server" ID="btnChangeProvider" OnClick="btnChangeProvider_Click" Text="Change Provider" CssClass="btn rounded" OnClientClick="return warnProviderChange();" />
                     </li>
                 </ul>
             <div class="action_buttons">

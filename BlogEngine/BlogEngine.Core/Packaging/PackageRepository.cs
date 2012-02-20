@@ -12,13 +12,13 @@ namespace BlogEngine.Core.Packaging
     public class PackageRepository
     {
         /// <summary>
-        /// 
+        /// Returns list of packages from online gallery for a single page
         /// </summary>
-        /// <param name="pkgType"></param>
-        /// <param name="page"></param>
-        /// <param name="sortOrder"></param>
-        /// <param name="searchVal"></param>
-        /// <returns></returns>
+        /// <param name="pkgType">Theme, Widget or Extension</param>
+        /// <param name="page">Current page</param>
+        /// <param name="sortOrder">Order - newest, most downloaded etc.</param>
+        /// <param name="searchVal">Search term if it is search request</param>
+        /// <returns>List of packages</returns>
         public static List<JsonPackage> FromGallery(string pkgType, int page = 0, Gallery.OrderType sortOrder = Gallery.OrderType.Newest, string searchVal = "")
         {
             var packages = new List<JsonPackage>();
@@ -29,9 +29,6 @@ namespace BlogEngine.Core.Packaging
 
             foreach (var pkg in gallery)
             {
-                System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", 
-                    pkg.Id, pkg.OnlineVersion, pkg.PackageType, pkg.Location));
-
                 if (string.IsNullOrEmpty(searchVal))
                 {
                     packages.Add(pkg);
@@ -73,10 +70,14 @@ namespace BlogEngine.Core.Packaging
         }
 
         /// <summary>
-        /// 
+        /// Returns list of local packages from repository
+        /// For reference:
+        /// G - package exists only in the online gallery
+        /// I - installed from gallery, exists both in gallery and locally
+        /// L - local, only exists locally
         /// </summary>
-        /// <param name="pkgType"></param>
-        /// <returns></returns>
+        /// <param name="pkgType">Package type</param>
+        /// <returns>List of packages</returns>
         public static List<JsonPackage> LocalPackages(string pkgType)
         {
             var packages = new List<JsonPackage>();
@@ -99,8 +100,8 @@ namespace BlogEngine.Core.Packaging
         /// <summary>
         /// Package by ID
         /// </summary>
-        /// <param name="pkgId"></param>
-        /// <returns></returns>
+        /// <param name="pkgId">Package ID</param>
+        /// <returns>Package</returns>
         public static JsonPackage GetPackage(string pkgId)
         {
             return CachedPackages.FirstOrDefault(pkg => pkg.Id == pkgId);
@@ -126,6 +127,8 @@ namespace BlogEngine.Core.Packaging
                         null);
                 }
                 return (IEnumerable<JsonPackage>)Blog.CurrentInstance.Cache[Constants.CacheKey];
+
+                //return (IEnumerable<JsonPackage>)LoadPackages();
             }
         }
 
@@ -134,10 +137,23 @@ namespace BlogEngine.Core.Packaging
             var packages = new List<JsonPackage>();
 
             Gallery.Load(packages);
+            //Trace("01: ", packages);
             FileSystem.Load(packages);
+            //Trace("02: ", packages);
             Installer.MarkAsInstalled(packages);
+            //Trace("03: ", packages);
 
             return packages;
+        }
+
+        static void Trace(string msg, List<JsonPackage> packages)
+        {
+            string s = "{0}|{1}|{2}|{3}|{4}|{5}";
+            foreach (var p in packages)
+            {
+                if(p.PackageType == "Theme")
+                    System.Diagnostics.Debug.WriteLine(string.Format(s, msg, p.PackageType, p.Id, p.Location, p.LocalVersion, p.OnlineVersion));
+            }
         }
     }
 }

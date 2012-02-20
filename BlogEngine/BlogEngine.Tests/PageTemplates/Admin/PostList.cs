@@ -12,6 +12,8 @@ namespace BlogEngine.Tests.PageTemplates.Admin
         public bool DeletePostByTitle(string title, IE ie)
         {
             ie.GoTo(Url);
+            ie.WaitForComplete();
+
             var tblPosts = ie.Table("Posts");
 
             if (tblPosts != null)

@@ -1167,13 +1167,13 @@
 
         #endregion
 
-        #region DisableQuickNotes
+        #region EnableQuickNotes
 
         /// <summary>
         ///     Gets or sets a value indicating if QuickNotes module is enabled
         /// </summary>
-        /// <value><b>true</b> if QuickNotes is disabled, otherwise returns <b>false</b>.</value>
-        public bool DisableQuickNotes { get; set; }
+        /// <value><b>true</b> if QuickNotes is enabled, otherwise returns <b>false</b>.</value>
+        public bool EnableQuickNotes { get; set; }
 
         #endregion
 

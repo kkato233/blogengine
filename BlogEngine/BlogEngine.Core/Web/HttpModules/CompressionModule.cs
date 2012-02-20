@@ -41,6 +41,14 @@
         /// </param>
         public static void CompressResponse(HttpContext context)
         {
+            if (!BlogSettings.Instance.EnableHttpCompression)
+            {
+                WillCompressResponse = false;
+                return;
+            }
+
+            System.Diagnostics.Debug.WriteLine("compressing --->" + context.Request.Path);
+
             if (IsEncodingAccepted(Deflate))
             {
                 context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
@@ -163,17 +171,20 @@
         private static void ContextPostReleaseRequestState(object sender, EventArgs e)
         {
             var context = ((HttpApplication)sender).Context;
-            if (!BlogSettings.Instance.EnableHttpCompression) { return; }
+            System.Diagnostics.Debug.WriteLine("precessing request --->" + context.Request.Path);
 
-            // for bundled javacripts
-            if (context.Request.Path.Contains("/Scripts/") || context.Request.Path.Contains("/Styles/"))
+            // bundled javacripts and styles
+            if (context.Request.Path.Contains("/Scripts/") || context.Request.Path.Contains("/Styles/") || context.Request.Path.EndsWith(".js.axd"))
             {
                 if (!context.Request.Path.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+                {
                     SetHeaders(context);
+                    CompressResponse(context);
+                }
             }
 
-            if (context.CurrentHandler is Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null &&
-                context.Request.HttpMethod == "GET")
+            // only when page is requested
+            if (context.CurrentHandler is Page && context.Request["HTTP_X_MICROSOFTAJAX"] == null && context.Request.HttpMethod == "GET")
             {
                 CompressResponse(context);
 

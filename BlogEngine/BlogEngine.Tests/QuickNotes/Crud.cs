@@ -7,10 +7,19 @@ namespace BlogEngine.Tests.QuickNotes
     [TestFixture]
     public class Crud : BeTest
     {
+        [SetUp]
+        public void Init()
+        {
+            var pg = ie.Page<SettingsMain>();
+
+            Login("admin");
+            pg.EnableQuickNotes(ie);
+            Wait(10);
+        }
+
         [Test]
         public void ShouldBeAbleToCreateUpdateAndDeleteNote()
-        {
-            Login("admin");
+        {         
             ie.GoTo(Constants.Root);
             ie.Link(Find.ById("open")).Click();
 
@@ -25,6 +34,7 @@ namespace BlogEngine.Tests.QuickNotes
             // updated
             TypeQuickly(ie.TextField("q-txtarea"), "Note one. This is a note one. Updated.");
             ie.Button("q-save").Click();
+            ie.WaitForComplete();
             ie.Link("q-alist").Click();
             Assert.IsTrue(ie.Html.Contains("This is a note one. Updated."));
 
@@ -32,6 +42,7 @@ namespace BlogEngine.Tests.QuickNotes
             ie.SelectList("q-listbox").Options[0].Select();
             ie.WaitForComplete();
             ie.Link("q-delete").Click();
+            ie.WaitForComplete();
             ie.Link("q-alist").Click();
             Assert.IsTrue(ie.Html.Contains("You do not have any notes yet"));
         }

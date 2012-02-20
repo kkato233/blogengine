@@ -25,20 +25,12 @@
             WebUtils.CheckRightsForAdminSettingsPage(false);
 
             BindCultures();
-            BindRoles();
             BindSettings();
 
             Page.MaintainScrollPositionOnPostBack = true;
             Page.Title = labels.settings;
 
             base.OnInit(e);
-        }
-
-        private void BindRoles()
-        {
-            ddlSelfRegistrationInitialRole.AppendDataBoundItems = true;
-            ddlSelfRegistrationInitialRole.DataSource = Roles.GetAllRoles().Where(r => !r.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase));
-            ddlSelfRegistrationInitialRole.DataBind();
         }
 
         /// <summary>
@@ -66,9 +58,7 @@
             ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
-            cbEnablePasswordReset.Checked = BlogSettings.Instance.EnablePasswordReset;
-            cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
-            Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
+            cbEnableQuickNotes.Checked = BlogSettings.Instance.EnableQuickNotes;
         }
 
         /// <summary>
@@ -153,9 +143,7 @@
 			string showPostNavigation,
 			string culture,
 			string timezone,
-            string enablePasswordReset,
-			string enableSelfRegistration,
-            string selfRegistrationInitialRole)
+            string enableQuickNotes)
         {
             var response = new JsonResponse {Success = false};
 
@@ -184,11 +172,8 @@
 				BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
 				BlogSettings.Instance.Culture = culture;
 				BlogSettings.Instance.Timezone = double.Parse(timezone);
-                BlogSettings.Instance.EnablePasswordReset = bool.Parse(enablePasswordReset);
-				BlogSettings.Instance.EnableSelfRegistration = bool.Parse(enableSelfRegistration);
-                BlogSettings.Instance.SelfRegistrationInitialRole = selfRegistrationInitialRole;
-
                 BlogSettings.Instance.Save();
+                BlogSettings.Instance.EnableQuickNotes = bool.Parse(enableQuickNotes);
             }
             catch (Exception ex)
             {

@@ -5,6 +5,8 @@
     using Resources;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using System.Web.Security;
+    using System.Linq;
     using App_Code;
     using Page = System.Web.UI.Page;
     using BlogEngine.Core.Providers;
@@ -22,11 +24,19 @@
         {
             WebUtils.CheckRightsForAdminSettingsPage(false);
 
+            BindRoles();
             BindSettings();
 
             Page.MaintainScrollPositionOnPostBack = true;
             Page.Title = labels.settings;
             base.OnInit(e);
+        }
+
+        private void BindRoles()
+        {
+            ddlSelfRegistrationInitialRole.AppendDataBoundItems = true;
+            ddlSelfRegistrationInitialRole.DataSource = Roles.GetAllRoles().Where(r => !r.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase));
+            ddlSelfRegistrationInitialRole.DataBind();
         }
 
         /// <summary>
@@ -55,6 +65,9 @@
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
+            cbEnablePasswordReset.Checked = BlogSettings.Instance.EnablePasswordReset;
+            cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
+            Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
             if (!Page.IsPostBack)
             {
                 ddlProvider.DataSource = BlogService.FileSystemProviders;
@@ -97,7 +110,6 @@
             Response.BinaryWrite(Buffer);
         }
 
-
         /// <summary>
         /// Save settings
         /// </summary>
@@ -132,7 +144,10 @@
             bool allowRemoteFileDownloads,
             int remoteTimeout,
             int remoteMaxFileSize,
-            string galleryFeedUrl)
+            string galleryFeedUrl,
+            string enablePasswordReset,
+            string enableSelfRegistration,
+            string selfRegistrationInitialRole)
         {
             var response = new JsonResponse { Success = false };
             var settings = BlogSettings.Instance;
@@ -175,6 +190,9 @@
                 settings.AllowServerToDownloadRemoteFiles = allowRemoteFileDownloads;
                 settings.RemoteFileDownloadTimeout = remoteTimeout;
                 settings.RemoteMaxFileSize = remoteMaxFileSize;
+                settings.EnablePasswordReset = bool.Parse(enablePasswordReset);
+                settings.EnableSelfRegistration = bool.Parse(enableSelfRegistration);
+                settings.SelfRegistrationInitialRole = selfRegistrationInitialRole;
 
                 settings.Save();
             }

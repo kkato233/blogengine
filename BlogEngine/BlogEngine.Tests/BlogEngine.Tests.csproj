@@ -64,6 +64,7 @@
     <Compile Include="PageTemplates\Admin\ExtensionsGallery.cs" />
     <Compile Include="PageTemplates\Admin\ExtensionsLocal.cs" />
     <Compile Include="PageTemplates\Admin\PostList.cs" />
+    <Compile Include="PageTemplates\Admin\SettingsMain.cs" />
     <Compile Include="PageTemplates\Admin\ThemesGallery.cs" />
     <Compile Include="PageTemplates\Admin\ThemesLocal.cs" />
     <Compile Include="PageTemplates\Admin\Trash.cs" />

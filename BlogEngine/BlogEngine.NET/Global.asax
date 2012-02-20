@@ -118,7 +118,6 @@
             BundleTable.Bundles.Add(css);
 
             var js = new Bundle("~/Scripts/js", typeof(JsMinify));
-            js.AddFile("~/Scripts/jQuery/01-jquery.js");
             js.AddDirectory("~/Scripts", "*.js", false);
             BundleTable.Bundles.Add(js);
 
@@ -132,9 +131,9 @@
             jsauth.AddFile("~/Scripts/jQuery/01-jquery.js");
             jsauth.AddFile("~/Scripts/jQuery/02-jquery.cookie.js");
             jsauth.AddFile("~/Scripts/jQuery/04-jquery-jtemplates.js");
-            jsauth.AddDirectory("~/Scripts", "*.js", false);
+            jsauth.AddDirectory("~/Scripts", "*.js", false); 
             jsauth.AddFile("~/admin/widget.js");
-            jsauth.AddFile("~/Modules/QuickNotes/Qnotes.js");
+            jsauth.AddFile("~/Modules/QuickNotes/Qnotes.js");   
             BundleTable.Bundles.Add(jsauth);
             
             // administration

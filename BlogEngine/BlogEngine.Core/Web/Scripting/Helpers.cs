@@ -144,16 +144,6 @@ namespace BlogEngine.Core.Web.Scripting
         {
             if (Security.IsAuthenticated)
             {
-                // quick notes should be enabled in settings and user should have publish permission
-                if (!BlogSettings.Instance.DisableQuickNotes && Security.IsAuthorizedTo(Rights.PublishOwnPosts))
-                {
-                    string src = string.Format("var appRoot='{0}';var appUser='{1}';",
-                        Utils.ApplicationRelativeWebRoot,
-                        Security.CurrentUser.Identity.Name);
-
-                    page.Header.Controls.Add(new LiteralControl(FormatInlineScript(src)));
-                }
-
                 AddStyle(page, string.Format("{0}Styles/cssauth", Utils.RelativeWebRoot));
                 AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), false, true, true);
             }
@@ -165,6 +155,11 @@ namespace BlogEngine.Core.Web.Scripting
 
             var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
             AddScript(page, resourcePath, false, true, true);
+
+            //if (BlogSettings.Instance.EnableQuickNotes)
+            //{
+            //    AddScript(page, string.Format("{0}Modules/QuickNotes/Qnotes.js", Utils.RelativeWebRoot), false, true, true);
+            //}
         }
 
         #endregion

@@ -326,6 +326,16 @@
             context.RewritePath(npath);
         }
 
+        private static void RewriteBundlePathForChildBlog(HttpContext context, string url)
+        {
+            if (url.Contains("/SCRIPTS/") || url.Contains("/STYLES/"))
+            {
+                var npath = url.Replace(Blog.CurrentInstance.RelativeWebRoot, "/");
+                context.RewritePath(npath);
+                return;
+            }
+        }
+
         /// <summary>
         /// Handles the BeginRequest event of the context control.
         /// </summary>
@@ -349,10 +359,17 @@
 
             Blog blogInstance = Blog.CurrentInstance;
 
-            //if (!path.Contains(BlogConfig.FileExtension.ToUpperInvariant()) || path.Contains("ERROR404.ASPX"))
-            //{
-            //    return;
-            //}
+            // bundled scripts and styles are in the ~/scripts and ~/styles
+            // redirect path from ~/child/scripts/js to ~/scripts/js etc.
+            if (!blogInstance.IsPrimary)
+            {
+                if (url.Contains("/SCRIPTS/") || url.Contains("/STYLES/"))
+                {
+                    var npath = url.Replace(Blog.CurrentInstance.RelativeWebRoot.ToUpper(), "/");
+                    context.RewritePath(npath);
+                    return;
+                }
+            }
 
             if (Utils.IsCurrentRequestForHomepage) {
                 var front = Page.GetFrontPage();
@@ -444,8 +461,11 @@
 
         private static bool DefaultPageRequested(HttpContext context)
         {
-            var url = context.Request.Url.ToString().ToUpper();
+            var url = context.Request.Url.ToString();
             var match = string.Format("{0}DEFAULT{1}", Utils.AbsoluteWebRoot, BlogConfig.FileExtension);
+
+            Utils.Log("Url: " + url + "; match: " + match);
+
 
             // case when month clicked in the month list
             // default page will be like site.com/2012/10/default.aspx
@@ -454,6 +474,9 @@
             {
                 var m = YearMonthRegex.Match(u);
                 var s = string.Format("{0}{1}DEFAULT{2}", Utils.AbsoluteWebRoot, m.ToString().Substring(1), BlogConfig.FileExtension);
+
+                Utils.Log("Url: " + url + "; s: " + s);
+
                 if (url.Contains(s, StringComparison.OrdinalIgnoreCase))
                     return true;
             }

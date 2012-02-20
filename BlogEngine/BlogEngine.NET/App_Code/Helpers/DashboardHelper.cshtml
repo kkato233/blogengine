@@ -126,7 +126,7 @@
 }
 
 @helper GetLatestPackages(){
-    var packages = PackageRepository.FromGallery("all", 1, Gallery.OrderType.Newest);
+    var packages = PackageRepository.FromGallery("all", 0, Gallery.OrderType.Newest);
     
     if(packages != null && packages.Count() > 0){
     <ul>

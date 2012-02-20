@@ -35,7 +35,7 @@ public class Qnotes  : WebService {
     
     [WebMethod]
     public IEnumerable<QuickNote> GetNotes()
-    {
+    {       
         return UserNotes.Notes;
     }
 
