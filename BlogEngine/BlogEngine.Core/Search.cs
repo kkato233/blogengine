@@ -361,21 +361,33 @@
                 Catalog.Clear();
                 foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
                 {
-                    AddItem(post);
-                    if (!BlogSettings.Instance.EnableCommentSearch)
-                    {
-                        continue;
-                    }
+                    var arg = new ServingEventArgs(post.Content, ServingLocation.Search);
+                    Post.OnServing(post, arg);
 
-                    foreach (var comment in post.Comments.Where(comment => comment.IsApproved))
+                    if (!arg.Cancel)
                     {
-                        AddItem(comment);
+                        AddItem(post);
+                        if (!BlogSettings.Instance.EnableCommentSearch)
+                        {
+                            continue;
+                        }
+
+                        foreach (var comment in post.Comments.Where(comment => comment.IsApproved))
+                        {
+                            AddItem(comment);
+                        }
                     }
                 }
 
                 foreach (var page in Page.Pages.Where(page => page.IsVisibleToPublic))
                 {
-                    AddItem(page);
+                    var arg = new ServingEventArgs(page.Content, ServingLocation.Search);
+                    Page.OnServing(page, arg);
+
+                    if (!arg.Cancel)
+                    {
+                        AddItem(page);
+                    }
                 }
             }
 
