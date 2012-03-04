@@ -287,6 +287,9 @@
                 }
 
                 var post = Post.GetPost(new Guid(context.Request.QueryString["post"]));
+
+
+
                 if (post == null)
                 {
                     StopServing(context);
@@ -294,7 +297,16 @@
 
                 if (post != null)
                 {
-                    subTitle = post.Title;
+                    var arg = new ServingEventArgs(post.Content, ServingLocation.Feed);
+                    post.OnServing(arg);
+                    if (arg.Cancel)
+                    {
+                        StopServing(context);
+                    }
+                    else
+                    {
+                        subTitle = post.Title;
+                    }
                 }
             }
 
