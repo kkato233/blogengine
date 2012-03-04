@@ -165,12 +165,8 @@ public class SyntaxHighlighter
 
     private static void AddJavaScripts(Page page)
     {
-        AddJavaScript("shCore.js", page);
-        AddJavaScript("shAutoloader.js", page);
-
-        // register starter script
-        page.ClientScript.RegisterStartupScript(page.GetType(), "shInit.js", 
-            String.Format("<script type=\"text/javascript\" src=\"{0}\"></script>", GetUrl("Scripts/syntaxhighlighter/", "shInit.js")));
+        BlogEngine.Core.Web.Scripting.Helpers.AddScript(
+            page, string.Format("{0}Scripts/highlighter", Utils.RelativeWebRoot), false, true, true);
     }
 
     #region Script/Style adding
@@ -215,13 +211,9 @@ public class SyntaxHighlighter
 
             if (Options.GetSingleValue("tab-size") != "4")
                 sb.AppendLine(GetOption("tab-size"));
-
-            // depricated in latest version
-            //sb.AppendLine(GetOption("light"));
-            //sb.AppendLine(GetOption("wrap-lines"));
         }  
         
-        sb.AppendLine("\tSyntaxHighlighter.all();");
+        //sb.AppendLine("\tSyntaxHighlighter.all();");
         sb.AppendLine("</script>");
         page.ClientScript.RegisterStartupScript(page.GetType(), "SyntaxHighlighter", sb.ToString(), false);
     }

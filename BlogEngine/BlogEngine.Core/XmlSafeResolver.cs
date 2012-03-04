@@ -69,11 +69,22 @@
             var request = WebRequest.Create(absoluteUri);
             request.Timeout = Timeout;
 
-            var response = request.GetResponse();
-            if (response == null)
+            WebResponse response;
+            try
             {
-                throw new XmlException("Could not resolve external entity");
+                response = request.GetResponse();
+                if (response == null)
+                {
+                    Utils.Log(string.Format("Could not resolve external entity ({0})", absoluteUri));
+                    return null;
+                }
             }
+            catch (Exception)
+            {
+                Utils.Log(string.Format("Could not resolve external entity ({0})", absoluteUri));
+                return null;
+            }
+            
 
             var responseStream = response.GetResponseStream();
             if (responseStream == null)

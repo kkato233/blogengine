@@ -155,11 +155,6 @@ namespace BlogEngine.Core.Web.Scripting
 
             var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
             AddScript(page, resourcePath, false, true, true);
-
-            //if (BlogSettings.Instance.EnableQuickNotes)
-            //{
-            //    AddScript(page, string.Format("{0}Modules/QuickNotes/Qnotes.js", Utils.RelativeWebRoot), false, true, true);
-            //}
         }
 
         #endregion

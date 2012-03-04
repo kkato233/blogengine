@@ -147,6 +147,13 @@
             jsadmin.AddDirectory("~/Scripts/jQuery", "*.js", false);
             jsadmin.AddFile("~/admin/admin.js");
             BundleTable.Bundles.Add(jsadmin);
+
+            // syntax highlighter           
+            var jshighlighter = new Bundle("~/Scripts/highlighter", typeof(JsMinify));
+            jshighlighter.AddFile("~/Scripts/syntaxhighlighter/shCore.js");
+            jshighlighter.AddFile("~/Scripts/syntaxhighlighter/shAutoloader.js");
+            jshighlighter.AddFile("~/Scripts/syntaxhighlighter/shInit.js");
+            BundleTable.Bundles.Add(jshighlighter);
         }
     }
     

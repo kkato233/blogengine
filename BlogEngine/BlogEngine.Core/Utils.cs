@@ -1395,20 +1395,19 @@
                 };
 
             XmlDocument doc;
-            using (var reader = XmlReader.Create(absoluteUrl, readerSettings))
+            try
             {
-                doc = new XmlDocument();
-
-                try
+                using (var reader = XmlReader.Create(absoluteUrl, readerSettings))
                 {
+                    doc = new XmlDocument();
                     doc.Load(reader);
                 }
-                catch (Exception)
-                {
-                    return null;
-                }
             }
-
+            catch (Exception)
+            {
+                return null;
+            }
+            
             return doc;
         }
 

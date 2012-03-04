@@ -88,12 +88,14 @@ namespace BlogEngine.Core
             if (contentLength <= -1)
             {
                 response.Close();
-                throw new SecurityException("An attempt to download a remote file has been halted due to unknown content length.");
+                Utils.Log("An attempt to download a remote file has been halted due to unknown content length.");
+                return null;
             }
             else if ((BlogSettings.Instance.RemoteMaxFileSize > 0) && (contentLength > BlogSettings.Instance.RemoteMaxFileSize))
             {
                 response.Close();
-                throw new SecurityException("An attempt to download a remote file has been halted because the file is larger than allowed.");
+                Utils.Log("An attempt to download a remote file has been halted because the file is larger than allowed.");
+                return null;
             }
            
           
@@ -113,6 +115,9 @@ namespace BlogEngine.Core
         {
             using (var response = this.GetWebResponse())
             {
+                if (response == null)
+                    return string.Empty;
+
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
                     return reader.ReadToEnd();
