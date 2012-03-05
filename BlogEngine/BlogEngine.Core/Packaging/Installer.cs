@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Packaging
             get
             {
                 return PackageRepositoryFactory.Default.CreateRepository(
-                    new PackageSource(BlogSettings.Instance.GalleryFeedUrl, "Default"));
+                    BlogSettings.Instance.GalleryFeedUrl);
             }
         }
 
@@ -42,7 +42,7 @@ namespace BlogEngine.Core.Packaging
 
                 var package = _repository.FindPackage(pkgId);
 
-                packageManager.InstallPackage(package, false);
+                packageManager.InstallPackage(package, false, true);
 
                 var iPkg = new InstalledPackage { PackageId = package.Id, Version = package.Version.ToString() };
                 BlogService.InsertPackage(iPkg);
