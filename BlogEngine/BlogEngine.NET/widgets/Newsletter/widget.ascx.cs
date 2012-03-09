@@ -20,7 +20,6 @@ namespace Widgets.Newsletter
 
     using BlogEngine.Core;
     using BlogEngine.Core.Providers;
-    using System.Collections.Specialized;
     using System.Web.Caching;
     using System.Threading;
 
@@ -110,6 +109,16 @@ namespace Widgets.Newsletter
         #endregion
 
         #region Public Methods
+
+        public override void Dispose()
+        {
+            Post.Saved -= PublishableSaved;
+            Post.Saving -= PublishableSaving;
+            BlogEngine.Core.Page.Saved -= PublishableSaved;
+            BlogEngine.Core.Page.Saving -= PublishableSaving;
+
+            base.Dispose();
+        }
 
         /// <summary>
         /// This method works as a substitute for Page_Load. You should use this method for
