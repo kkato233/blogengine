@@ -8,7 +8,7 @@
 }
 
 function HideStatus() {
-    $("[id$='_AdminStatus']").fadeOut('slow', function () { });
+    $("[id$='AdminStatus']").fadeOut('slow', function () { });
 }
 
 function Hide(element) {

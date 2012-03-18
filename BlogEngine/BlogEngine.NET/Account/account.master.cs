@@ -90,7 +90,7 @@
             };
 
             AddLocalizedStringsToJavaScript(resources);
-            Utils.AddJavaScriptInclude(Page, string.Format("{0}Account/account.js", Utils.ApplicationRelativeWebRoot), false, false);
+            //Utils.AddJavaScriptInclude(Page, string.Format("{0}Account/account.js", Utils.ApplicationRelativeWebRoot), false, false);
         }
 
         #endregion

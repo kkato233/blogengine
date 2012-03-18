@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Globalization;
 using System.Web.Script.Serialization;
 
@@ -13,7 +11,6 @@ namespace BlogEngine.Core.Json
     /// </summary>
     public sealed class JsonCulture
     {
-
         #region "Fields"
 
         private readonly CultureInfo cultureInfo;
@@ -31,7 +28,7 @@ namespace BlogEngine.Core.Json
         /// without having to create/remove properties.
         /// 
         /// </remarks>
-        public JsonCulture(CultureInfo cultureInfo)
+        public JsonCulture(CultureInfo cultureInfo, ResourceType resourceType)
         {
             if (cultureInfo == null)
             {
@@ -39,20 +36,58 @@ namespace BlogEngine.Core.Json
             }
             this.cultureInfo = cultureInfo;
 
-            this.AddResource("hasRated", "youAlreadyRated");
-            this.AddResource("savingTheComment", "savingTheComment");
-            this.AddResource("comments", "comments");
-            this.AddResource("commentWasSaved", "commentWasSaved");
-            this.AddResource("commentWaitingModeration", "commentWaitingModeration");
-            this.AddResource("cancel", "cancel");
-            this.AddResource("filter", "filter");
-            this.AddResource("apmlDescription", "filterByApmlDescription");
-            this.AddResource("beTheFirstToRate", "beTheFirstToRate");
-            this.AddResource("currentlyRated", "currentlyRated");
-            this.AddResource("ratingHasBeenRegistered", "ratingHasBeenRegistered");
-            this.AddResource("rateThisXStars", "rateThisXStars");
+            if(resourceType == ResourceType.Admin)
+            {
+                AddResource("name");
+                AddResource("email");
+                AddResource("edit");
+                AddResource("delete");
+                AddResource("profile");
+                AddResource("tools");
+                AddResource("youHaveNotAddedAnyUserSoFar");
+                AddResource("roles");
+                AddResource("rights");
+                AddResource("youHaveNotDefinedAnyRolesSoFar");
+                AddResource("active");
+                AddResource("primary");
+                AddResource("textBeforeHostName");
+                AddResource("virtualPath");
+                AddResource("storageContainerName");
+                AddResource("noBlogsWereFound");
+                AddResource("unapprove");
+            }
+            else
+            {
+                AddResource("hasRated");
+                AddResource("savingTheComment");
+                AddResource("comments");
+                AddResource("commentWasSaved");
+                AddResource("commentWaitingModeration");
+                AddResource("cancel");
+                AddResource("filter");
+                AddResource("apmlDescription");
+                AddResource("beTheFirstToRate");
+                AddResource("currentlyRated");
+                AddResource("ratingHasBeenRegistered");
+                AddResource("rateThisXStars");
+            }
         }
 
+        /// <summary>
+        /// Type of language resources
+        /// </summary>
+        public enum ResourceType
+        {
+            /// <summary>
+            ///     Resources added to Blog
+            /// </summary>
+            Blog = 0,
+
+            /// <summary>
+            ///     Resources added to Admin
+            /// </summary>
+            Admin = 1
+        }
 
         #region "Methods"
 
@@ -62,13 +97,12 @@ namespace BlogEngine.Core.Json
         /// <param name="scriptKey">The key used to retrieve this value from clientside script.</param>
         /// <param name="resourceLabelKey">The key used to retrieve the translated value from global resource labels.</param>
         /// <returns>The translated string.</returns>
-        public string AddResource(string scriptKey, string resourceLabelKey)
+        public string AddResource(string resourceLabelKey)
         {
-            var translation = Utils.Translate(resourceLabelKey, null, this.cultureInfo);
-            this.translationDict.Add(scriptKey, translation);
+            var translation = Utils.Translate(resourceLabelKey, null, cultureInfo);
+            translationDict.Add(resourceLabelKey, translation);
             return translation;
         }
-
        
         /// <summary>
         /// Returns a JSON formatted string repressentation of this JsonCulture instance's culture labels.
@@ -78,10 +112,8 @@ namespace BlogEngine.Core.Json
         {
             return new JavaScriptSerializer().Serialize(this.translationDict);
         }
-
-      
+    
         #endregion
-
 
     }
 }
