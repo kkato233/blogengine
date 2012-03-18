@@ -1,4 +1,6 @@
-﻿namespace BlogEngine.Core.Web.HttpHandlers
+﻿using BlogEngine.Core.Json;
+
+namespace BlogEngine.Core.Web.HttpHandlers
 {
     using System;
     using System.Net;
@@ -58,40 +60,65 @@
             }
 
             lang = lang.ToLowerInvariant();
+            var sb = new StringBuilder();
+            string cacheKey;
+            string script;
 
-            var cacheKey = "resource.axd - " + lang;
-            var script = (string)Blog.CurrentInstance.Cache[cacheKey];
-           
-            if (String.IsNullOrEmpty(script))
+            if (request.FilePath.Contains("admin.res.axd"))
             {
+                lang = BlogSettings.Instance.Culture;
 
-                System.Globalization.CultureInfo culture;
-                try
+                cacheKey = "admin.resource.axd - " + lang;
+                script = (string)Blog.CurrentInstance.Cache[cacheKey];
+
+                if (String.IsNullOrEmpty(script))
                 {
-                    // This needs to be in a try-catch because there's no other
-                    // way to find an invalid culture/language string.
-                    culture = new System.Globalization.CultureInfo(lang);
+                    System.Globalization.CultureInfo culture;
+                    try
+                    {
+                        culture = new System.Globalization.CultureInfo(lang);
+                    }
+                    catch (Exception)
+                    {
+                        culture = Utils.GetDefaultCulture();
+                    }
+
+                    var jc = new JsonCulture(culture, JsonCulture.ResourceType.Admin);
+
+                    sb.Append("BlogAdmin = { i18n: " + jc.ToJsonString() + "};");
+                    script = sb.ToString();
                 }
-                catch (Exception)
-                {
-                    // set to default language otherwise.
-                    culture = Utils.GetDefaultCulture();
-                }
-                
-                var jc = new Json.JsonCulture(culture);
-
-                // Although this handler is intended to output resource strings,
-                // also outputting other non-resource variables.
-
-                var sb = new StringBuilder();
-                sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
-                sb.AppendFormat("BlogEngine.applicationWebRoot='{0}';", Utils.ApplicationRelativeWebRoot);
-                sb.AppendFormat("BlogEngine.blogInstanceId='{0}';", Blog.CurrentInstance.Id);
-                sb.AppendFormat("BlogEngine.i18n = {0};", jc.ToJsonString());
-
-                script = sb.ToString();
-                Blog.CurrentInstance.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
             }
+            else
+            {
+                cacheKey = "resource.axd - " + lang;
+                script = (string)Blog.CurrentInstance.Cache[cacheKey];
+                
+                if (String.IsNullOrEmpty(script))
+                {
+                    System.Globalization.CultureInfo culture;
+                    try
+                    {
+                        culture = new System.Globalization.CultureInfo(lang);
+                    }
+                    catch (Exception)
+                    {
+                        culture = Utils.GetDefaultCulture();
+                    }
+
+                    var jc = new JsonCulture(culture, JsonCulture.ResourceType.Blog);
+
+                    // Although this handler is intended to output resource strings,
+                    // also outputting other non-resource variables.
+                    sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
+                    sb.AppendFormat("BlogEngine.applicationWebRoot='{0}';", Utils.ApplicationRelativeWebRoot);
+                    sb.AppendFormat("BlogEngine.blogInstanceId='{0}';", Blog.CurrentInstance.Id);
+                    sb.AppendFormat("BlogEngine.i18n = {0};", jc.ToJsonString());
+                    script = sb.ToString();
+                }
+            }
+
+            Blog.CurrentInstance.Cache.Insert(cacheKey, script, null, Cache.NoAbsoluteExpiration, new TimeSpan(3, 0, 0, 0));
 
             SetHeaders(script.GetHashCode(), context);
             context.Response.Write(script);
