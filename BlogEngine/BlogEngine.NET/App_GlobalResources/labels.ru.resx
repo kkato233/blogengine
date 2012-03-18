@@ -1150,4 +1150,85 @@
   <data name="virtualPath" xml:space="preserve">
     <value>Виртуальный адрес</value>
   </data>
+  <data name="enterEmail" xml:space="preserve">
+    <value>Введите ваш e-mail адрес</value>
+  </data>
+  <data name="enterEmailAddress" xml:space="preserve">
+    <value>Пожалуйста введите адрес электронной почты</value>
+  </data>
+  <data name="notifyMe" xml:space="preserve">
+    <value>Сообщать об изменениях</value>
+  </data>
+  <data name="thankYou" xml:space="preserve">
+    <value>Спасибо</value>
+  </data>
+  <data name="nowUnsubscribed" xml:space="preserve">
+    <value>Подписка отменена</value>
+  </data>
+  <data name="viewLargeCalendar" xml:space="preserve">
+    <value>Большой календарь</value>
+  </data>
+  <data name="followTwitter" xml:space="preserve">
+    <value>Дружить на Твитере!</value>
+  </data>
+  <data name="visitorHi" xml:space="preserve">
+    <value>Привет</value>
+  </data>
+  <data name="welcomeBack" xml:space="preserve">
+    <value>Добро пожаловать!</value>
+  </data>
+  <data name="commentsAddedSince" xml:space="preserve">
+    <value>Новые комментарии были добавлены к {0}. </value>
+  </data>
+  <data name="writtenCommentsTotal" xml:space="preserve">
+    <value>Вы написали {0} комментариев.</value>
+  </data>
+  <data name="contactAuthorInformation" xml:space="preserve">
+    <value>Информация об авторе</value>
+  </data>
+  <data name="countryCode" xml:space="preserve">
+    <value>Код стараны</value>
+  </data>
+  <data name="contactIPAddress" xml:space="preserve">
+    <value>IP адрес</value>
+  </data>
+  <data name="contactUserAgent" xml:space="preserve">
+    <value>Параметр User-agent</value>
+  </data>
+  <data name="filestorage" xml:space="preserve">
+    <value>Управление файлами</value>
+  </data>
+  <data name="galleryFeedUrl" xml:space="preserve">
+    <value>URL адрес галереи</value>
+  </data>
+  <data name="galleryFeedUrlDescription" xml:space="preserve">
+    <value>Адрес галереи содержащей пакеты для загрузки</value>
+  </data>
+  <data name="enableQuickNotes" xml:space="preserve">
+    <value>Включить Quick Notes</value>
+  </data>
+  <data name="tools" xml:space="preserve">
+    <value>Инструменты</value>
+  </data>
+  <data name="youHaveNotAddedAnyUserSoFar" xml:space="preserve">
+    <value>Вы пока не создали ни одного пользователя. Используйте линк в правом верхнем углу чтобы добавить пользователя.</value>
+  </data>
+  <data name="rights" xml:space="preserve">
+    <value>Права</value>
+  </data>
+  <data name="youHaveNotDefinedAnyRolesSoFar" xml:space="preserve">
+    <value>Вы пока не создали ни одной роли. Используйте линк в верхнем правом углу чтобы добавить роль.</value>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>Основной</value>
+  </data>
+  <data name="textBeforeHostName" xml:space="preserve">
+    <value>Техт перед именем хоста</value>
+  </data>
+  <data name="noBlogsWereFound" xml:space="preserve">
+    <value>Не найдено ни одного блога.</value>
+  </data>
+  <data name="unapprove" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
 </root>

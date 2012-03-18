@@ -1825,4 +1825,28 @@
   <data name="enableQuickNotes" xml:space="preserve">
     <value>Enable Quick Notes</value>
   </data>
+  <data name="tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="youHaveNotAddedAnyUserSoFar" xml:space="preserve">
+    <value>You have not added any user so far. To add a new user use the link in the top right corner of the page.</value>
+  </data>
+  <data name="rights" xml:space="preserve">
+    <value>Rights</value>
+  </data>
+  <data name="youHaveNotDefinedAnyRolesSoFar" xml:space="preserve">
+    <value>You have not defined any roles so far. To add a new role use the link in the top right corner of the page.</value>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>Primary</value>
+  </data>
+  <data name="textBeforeHostName" xml:space="preserve">
+    <value>Text Accepted Before Host Name</value>
+  </data>
+  <data name="noBlogsWereFound" xml:space="preserve">
+    <value>No blogs were found.</value>
+  </data>
+  <data name="unapprove" xml:space="preserve">
+    <value>Unapprove</value>
+  </data>
 </root>

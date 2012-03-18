@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Blogs.aspx.cs" Inherits="Admin.Blogs" %>
-<%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
@@ -115,7 +114,7 @@
             if (!data.blogId) {
 
                 if (!data.copyFromExistingBlogId) {
-                    $('#existingBlogToCreateNewBlogFrom').focus()
+                    $('#existingBlogToCreateNewBlogFrom').focus();
                     alert('An existing blog to create the new blog from must be selected.');
                     return false;
                 }
