@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Caching;
 using BlogEngine.Core.Json;
+using System.Globalization;
 
 namespace BlogEngine.Core.Packaging
 {
@@ -47,6 +48,15 @@ namespace BlogEngine.Core.Packaging
             }
 
             Gallery.GalleryPager = new Pager(page, packages.Count, pkgType);
+            CultureInfo culture;
+            try
+            {
+                culture = new CultureInfo(BlogSettings.Instance.Culture);
+            }
+            catch (Exception)
+            {
+                culture = Utils.GetDefaultCulture();
+            }
 
             if (packages.Count > 0)
             {
@@ -59,7 +69,7 @@ namespace BlogEngine.Core.Packaging
                         packages = packages.OrderByDescending(p => p.Rating).ThenBy(p => p.Title).ToList();
                         break;
                     case Gallery.OrderType.Newest:
-                        packages = packages.OrderByDescending(p => Convert.ToDateTime(p.LastUpdated)).ThenBy(p => p.Title).ToList();
+                        packages = packages.OrderByDescending(p => Convert.ToDateTime(p.LastUpdated, culture)).ThenBy(p => p.Title).ToList();
                         break;
                     case Gallery.OrderType.Alphanumeric:
                         packages = packages.OrderBy(p => p.Title).ToList();
