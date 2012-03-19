@@ -103,7 +103,7 @@
             <div id="Container2"></div>
             <div class="action_buttons">
                 <input type="submit" class="btn primary rounded" value="<%=Resources.labels.saveProfile %>" onclick="return SaveProfile()" />
-		        or <a href="Users.aspx"><%=Resources.labels.cancel %></a>
+		        <%=Resources.labels.or %> <a href="Users.aspx"><%=Resources.labels.cancel %></a>
             </div>
 		</div>
 	</div>

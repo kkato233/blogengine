@@ -1,7 +1,6 @@
 ﻿{#if $T.d == null || $T.d[0] == null}
-<br />
 <div class="info">
-    There are no packages to display.
+    {BlogAdmin.i18n.noPackagesToDisplay}
 </div>
 {#else}
 <ul class="gallery {$T.d[0].PackageType}">
@@ -24,25 +23,25 @@
                     {#else}
                         <h2>{$T.p.Title}</h2>
                     {#/if}
-                        <p class="version">Version: {$T.p.OnlineVersion}</p>
+                        <p class="version">{BlogAdmin.i18n.version}: {$T.p.OnlineVersion}</p>
                     {#if $T.p.Website != null}
-                        <p class="website">Author: <a target="_new" href="{$T.p.Website}">{$T.p.Authors}</a></p> 
+                        <p class="website">{BlogAdmin.i18n.author}: <a target="_new" href="{$T.p.Website}">{$T.p.Authors}</a></p> 
                     {#else}
-                        <p>Author: {$T.p.Authors}</p>
+                        <p>{BlogAdmin.i18n.author}: {$T.p.Authors}</p>
                     {#/if}
-                    <p>Downloads: {$T.p.DownloadCount}</p>
+                    <p>{BlogAdmin.i18n.downloads}: {$T.p.DownloadCount}</p>
                     {#if $T.p.Location == "G"}
                     <p id="p_{$T.p.Id}">
-                        <a href="" id="a-{$T.p.Id}" class="newAction" onclick="InstallPackage('{$T.p.Id}'); return false;">Install</a>
+                        <a href="" id="a-{$T.p.Id}" class="newAction" onclick="InstallPackage('{$T.p.Id}'); return false;">{BlogAdmin.i18n.install}</a>
                     </p>
                     {#else}
                         {#if $T.p.UpdateAvailable}
                             <p id="upd-{$T.p.Id}" class="package-update">
-                                <a href="" onclick="UpdatePackage('{$T.p.Id}','G'); return false;">Update</a>
+                                <a href="" onclick="UpdatePackage('{$T.p.Id}','G'); return false;">{BlogAdmin.i18n.update}</a>
                             </p>
                         {#else}
                             <p class="package-installed" style="float: none">
-                                Installed
+                                {BlogAdmin.i18n.installed}
                             </p>
                         {#/if}
                     {#/if}
@@ -51,7 +50,7 @@
             <div class="pkg-desc">
                 <p>{$T.p.Description}</p>
                 {#if $T.p.Tags != null}
-                    <p class="tags">Tags: {$T.p.Tags}</p> 
+                    <p class="tags">{BlogAdmin.i18n.tags}: {$T.p.Tags}</p> 
                 {#/if}                                     
             </div> 
         </div>        

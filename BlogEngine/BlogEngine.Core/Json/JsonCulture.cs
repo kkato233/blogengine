@@ -22,6 +22,7 @@ namespace BlogEngine.Core.Json
         /// Creates a new JsonCulture instance from the supplied CultureInfo.
         /// </summary>
         /// <param name="cultureInfo">The CultureInfo needed to get the proper translations for this JsonCulture instance</param>
+        /// <param name="resourceType">Type of resource (blog or admin)</param>
         /// <remarks>
         /// 
         /// This class uses a dictionary as its basis for storing/caching its information. This makes it incredibly easy to extend
@@ -55,6 +56,71 @@ namespace BlogEngine.Core.Json
                 AddResource("storageContainerName");
                 AddResource("noBlogsWereFound");
                 AddResource("unapprove");
+                AddResource("title");
+                AddResource("type");
+                AddResource("createdOn");
+                AddResource("restore");
+                AddResource("purge");
+                AddResource("restoreSelected");
+                AddResource("purgeSelected");
+                AddResource("purgeAll");
+                AddResource("trashIsEmpty");
+                AddResource("tags");
+                AddResource("posts");
+                AddResource("count");
+                AddResource("view");
+                AddResource("youHaveNoTaggedPosts");
+                AddResource("youHaveNotWrittenAnyPosts");
+                AddResource("author");
+                AddResource("categories");
+                AddResource("published");
+                AddResource("parent");
+                AddResource("showInList");
+                AddResource("youHaveNoWrittenAnyPages");
+                AddResource("website");
+                AddResource("comment");
+                AddResource("save");
+                AddResource("or");
+                AddResource("cancel");
+                AddResource("size");
+                AddResource("noFilesFound");
+                AddResource("reset");
+                AddResource("enabled");
+                AddResource("cheked");
+                AddResource("spam");
+                AddResource("mistakes");
+                AddResource("accuracy");
+                AddResource("noPackagesToDisplay");
+                AddResource("version");
+                AddResource("installed");
+                AddResource("install");
+                AddResource("update");
+                AddResource("downloads");
+                AddResource("firstName");
+                AddResource("lastName");
+                AddResource("middleName");
+                AddResource("displayName");
+                AddResource("birthday");
+                AddResource("photoURL");
+                AddResource("isPrivate");
+                AddResource("personalDetails");
+                AddResource("contactDetails");
+                AddResource("shortBiography");
+                AddResource("phoneFax");
+                AddResource("phoneMain");
+                AddResource("phoneMobile");
+                AddResource("cityTown");
+                AddResource("country");
+                AddResource("regionState");
+                AddResource("ip");
+                AddResource("deleteSelected");
+                AddResource("approveSelected");
+                AddResource("rejectSelected");
+                AddResource("deleteAll");
+                AddResource("noSpamHere");
+                AddResource("noPendingComments");
+                AddResource("noApprovedComments");
+                AddResource("noPingbacksTrackbacks");
             }
             else
             {

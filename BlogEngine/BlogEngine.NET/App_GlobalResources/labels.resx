@@ -683,7 +683,7 @@
     <value>Occupation</value>
   </data>
   <data name="photoURL" xml:space="preserve">
-    <value>PhotoURL</value>
+    <value>Photo URL</value>
   </data>
   <data name="regionState" xml:space="preserve">
     <value>State/Region</value>
@@ -1848,5 +1848,81 @@
   </data>
   <data name="unapprove" xml:space="preserve">
     <value>Unapprove</value>
+  </data>
+  <data name="createdOn" xml:space="preserve">
+    <value>Created on</value>
+  </data>
+  <data name="trashIsEmpty" xml:space="preserve">
+    <value>Trash is empty.</value>
+  </data>
+  <data name="restoreSelected" xml:space="preserve">
+    <value>Restore selected</value>
+  </data>
+  <data name="purgeSelected" xml:space="preserve">
+    <value>Purge selected</value>
+  </data>
+  <data name="purgeAll" xml:space="preserve">
+    <value>Purge all</value>
+  </data>
+  <data name="count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="youHaveNoTaggedPosts" xml:space="preserve">
+    <value>You have no tagged posts.</value>
+  </data>
+  <data name="youHaveNotWrittenAnyPosts" xml:space="preserve">
+    <value>You have not written any posts so far. To write a new post use the link in the right side menu.</value>
+  </data>
+  <data name="youHaveNoWrittenAnyPages" xml:space="preserve">
+    <value>You have not written any pages so far. To write a new page use the link in the right side menu.</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="noFilesFound" xml:space="preserve">
+    <value>No files found.</value>
+  </data>
+
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="noPackagesToDisplay" xml:space="preserve">
+    <value>There are no packages to display.</value>
+  </data>
+  <data name="install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="personalDetails" xml:space="preserve">
+    <value>Personal details</value>
+  </data>
+  <data name="contactDetails" xml:space="preserve">
+    <value>Contact Details and Address</value>
+  </data>
+  <data name="shortBiography" xml:space="preserve">
+    <value>Short Biography</value>
+  </data>
+  <data name="deleteSelected" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="approveSelected" xml:space="preserve">
+    <value>Approve selected</value>
+  </data>
+  <data name="rejectSelected" xml:space="preserve">
+    <value>Reject selected</value>
+  </data>
+  <data name="deleteAll" xml:space="preserve">
+    <value>Delete all</value>
+  </data>
+  <data name="noSpamHere" xml:space="preserve">
+    <value>Hooray, no spam here!</value>
+  </data>
+  <data name="noPendingComments" xml:space="preserve">
+    <value>There are no pending comments.</value>
+  </data>
+  <data name="noApprovedComments" xml:space="preserve">
+    <value>There are no approved comments.</value>
+  </data>
+  <data name="noPingbacksTrackbacks" xml:space="preserve">
+    <value>There are no pingbacks or trackback. Make sure you enabled sending and recieving trackbacks/pingbacks in advanced settings.</value>
   </data>
 </root>
