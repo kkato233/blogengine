@@ -232,7 +232,7 @@ label.lbl { display:block; margin:0 0 5px 0;}
 #StatusBox { padding: 0; margin: 0; position: fixed; top: 0px; left:0px; right:0px; display:block; z-index: 999;}
 .success, .warning, .validation, .info { border: 1px solid #ccc; margin: 0 0 20px; padding:10px 10px 10px 60px; background-repeat: no-repeat;
     background-position: 25px 7px;}
-.info { color:#555; background-color: #ddeaff; background-image: url(images/status-info.png);border:solid 1px #8bb9ff; }
+.info { color:#555; background-color: #ddeaff; background-image: url(images/status-info.png);border:solid 1px #8bb9ff;margin-top: 20px; }
 .success { color: #555; background-color: #c6f7a5; background-image: url('images/status-success.png'); border:solid 1px #55b51d; }
 .warning { color: #555; background-color: #fcff9e; background-image: url('images/status-warning.png'); border:solid 1px #c99900; }
 .closeStatus { padding-left: 20px; color: #444; float: right; }
