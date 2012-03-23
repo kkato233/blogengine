@@ -128,9 +128,6 @@
             BundleTable.Bundles.Add(cssauth);
 
             var jsauth = new Bundle("~/Scripts/jsauth", typeof(JsMinify));
-            jsauth.AddFile("~/Scripts/jQuery/01-jquery.js");
-            jsauth.AddFile("~/Scripts/jQuery/02-jquery.cookie.js");
-            jsauth.AddFile("~/Scripts/jQuery/04-jquery-jtemplates.js");
             jsauth.AddDirectory("~/Scripts", "*.js", false); 
             jsauth.AddFile("~/admin/widget.js");
             jsauth.AddFile("~/Modules/QuickNotes/Qnotes.js");   

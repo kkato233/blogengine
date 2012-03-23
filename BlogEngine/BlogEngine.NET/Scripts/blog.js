@@ -4,30 +4,11 @@ BlogEngine = {
         return document.getElementById(id);
     }
 	,
-    webRoot: '',
-    applicationWebRoot: '',
-    blogInstanceId: '',
-    // internationalization (injected into the <head> by BlogBasePage)
-    i18n: {
-        hasRated: '',
-        savingTheComment: '',
-        comments: '',
-        commentWasSaved: '',
-        commentWaitingModeration: '',
-        cancel: '',
-        filter: '',
-        apmlDescription: '',
-        beTheFirstToRate: '',
-        currentlyRated: '',
-        ratingHasBeenRegistered: '',
-        rateThisXStars: ''
-    }
-	,
     setFlag: function (iso) {
         if (iso.length > 0)
-            BlogEngine.comments.flagImage.src = BlogEngine.webRoot + "pics/flags/" + iso + ".png";
+            BlogEngine.comments.flagImage.src = BlogEngineRes.webRoot + "pics/flags/" + iso + ".png";
         else
-            BlogEngine.comments.flagImage.src = BlogEngine.webRoot + "pics/pixel.gif";
+            BlogEngine.comments.flagImage.src = BlogEngineRes.webRoot + "pics/pixel.gif";
     }
 	,
 
@@ -40,7 +21,7 @@ BlogEngine = {
         if (oCompose) oCompose.className = '';
         this.$('commentCompose').style.display = 'none';
         this.$('commentPreview').style.display = 'block';
-        this.$('commentPreview').innerHTML = '<img src="' + BlogEngine.webRoot + 'pics/ajax-loader.gif" width="24" height="24" alt="Loading" />';
+        this.$('commentPreview').innerHTML = '<img src="' + BlogEngineRes.webRoot + 'pics/ajax-loader.gif" width="24" height="24" alt="Loading" />';
         var argument = this.$('commentPreview').innerHTML;
         this.addComment(true);
     }
@@ -94,9 +75,8 @@ BlogEngine = {
         var isPreview = preview == true;
         if (!isPreview) {
             BlogEngine.toggleCommentSavingIndicators(true);
-            this.$("status").innerHTML = BlogEngine.i18n.savingTheComment;
+            this.$("status").innerHTML = BlogEngineRes.i18n.savingTheComment;
         }
-
         var author = BlogEngine.comments.nameBox.value;
         var email = BlogEngine.comments.emailBox.value;
         var content = BlogEngine.comments.contentBox.value;
@@ -106,7 +86,7 @@ BlogEngine = {
         var country = BlogEngine.comments.countryDropDown ? BlogEngine.comments.countryDropDown.value : "";
         var notify = BlogEngine.$("cbNotify") ? BlogEngine.$("cbNotify").checked : false;
         var replyToId = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : "";
-                
+
         var recaptchaResponseField = document.getElementById('recaptcha_response_field');
         var recaptchaResponse = recaptchaResponseField ? recaptchaResponseField.value : "";
 
@@ -188,7 +168,7 @@ BlogEngine = {
 
                 var commentList = BlogEngine.$("commentlist");
                 if (commentList.innerHTML.length < 10)
-                    commentList.innerHTML = "<h1 id='comment'>" + BlogEngine.i18n.comments + "</h1>"
+                    commentList.innerHTML = "<h1 id='comment'>" + BlogEngineRes.i18n.comments + "</h1>"
 
                 // add comment html to the right place
                 var id = BlogEngine.comments.replyToId ? BlogEngine.comments.replyToId.value : '';
@@ -208,9 +188,9 @@ BlogEngine = {
                 BlogEngine.$("status").className = "success";
 
                 if (!BlogEngine.comments.moderation)
-                    BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWasSaved;
+                    BlogEngine.$("status").innerHTML = BlogEngineRes.i18n.commentWasSaved;
                 else
-                    BlogEngine.$("status").innerHTML = BlogEngine.i18n.commentWaitingModeration;
+                    BlogEngine.$("status").innerHTML = BlogEngineRes.i18n.commentWaitingModeration;
 
                 // move form back to bottom
                 var commentForm = BlogEngine.$('comment-form');
@@ -305,10 +285,10 @@ BlogEngine = {
             if (typeof OnRating != "undefined")
                 OnRating(rating);
 
-            alert(BlogEngine.i18n.ratingHasBeenRegistered);
+            alert(BlogEngineRes.i18n.ratingHasBeenRegistered);
         }
         else if (status == "HASRATED") {
-            alert(BlogEngine.i18n.hasRated);
+            alert(BlogEngineRes.i18n.hasRated);
         }
         else {
             alert("An error occured while registering your rating. Please try again");
@@ -417,10 +397,10 @@ BlogEngine = {
         var p = document.createElement('p');
         div.appendChild(p);
         if (raters == 0) {
-            p.innerHTML = BlogEngine.i18n.beTheFirstToRate;
+            p.innerHTML = BlogEngineRes.i18n.beTheFirstToRate;
         }
         else {
-            p.innerHTML = BlogEngine.i18n.currentlyRated.replace('{0}', new Number(rating).toFixed(1)).replace('{1}', raters);
+            p.innerHTML = BlogEngineRes.i18n.currentlyRated.replace('{0}', new Number(rating).toFixed(1)).replace('{1}', raters);
         }
 
         var ul = document.createElement('ul');
@@ -439,7 +419,7 @@ BlogEngine = {
             a.innerHTML = i;
             a.href = 'rate/' + i;
             a.className = this.englishNumber(i);
-            a.title = BlogEngine.i18n.rateThisXStars.replace('{0}', i.toString()).replace('{1}', i == 1 ? '' : 's');
+            a.title = BlogEngineRes.i18n.rateThisXStars.replace('{0}', i.toString()).replace('{1}', i == 1 ? '' : 's');
             a.onclick = function () {
                 BlogEngine.rate(id, this.innerHTML);
                 return false;
@@ -528,14 +508,14 @@ BlogEngine = {
         document.body.appendChild(div);
 
         var p = document.createElement('p');
-        p.innerHTML = BlogEngine.i18n.apmlDescription;
+        p.innerHTML = BlogEngineRes.i18n.apmlDescription;
         p.style.margin = '0px';
         div.appendChild(p);
 
         var form = document.createElement('form');
         form.method = 'get';
         form.style.display = 'inline';
-        form.action = BlogEngine.webRoot;
+        form.action = BlogEngineRes.webRoot;
         div.appendChild(form);
 
         var textbox = document.createElement('input');
@@ -544,22 +524,22 @@ BlogEngine = {
         textbox.style.width = '320px';
         textbox.id = 'txtapml';
         textbox.name = 'apml';
-        textbox.style.background = 'url(' + BlogEngine.webRoot + 'pics/apml.png) no-repeat 2px center';
+        textbox.style.background = 'url(' + BlogEngineRes.webRoot + 'pics/apml.png) no-repeat 2px center';
         textbox.style.paddingLeft = '16px';
         form.appendChild(textbox);
         textbox.focus();
 
         var button = document.createElement('input');
         button.type = 'submit';
-        button.value = BlogEngine.i18n.filter;
-        button.onclick = function () { location.href = BlogEngine.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value) };
+        button.value = BlogEngineRes.i18n.filter;
+        button.onclick = function () { location.href = BlogEngineRes.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value) };
         form.appendChild(button);
 
         var br = document.createElement('br');
         div.appendChild(br);
 
         var a = document.createElement('a');
-        a.innerHTML = BlogEngine.i18n.cancel;
+        a.innerHTML = BlogEngineRes.i18n.cancel;
         a.href = 'javascript:void(0)';
         a.onclick = function () { document.body.removeChild(BlogEngine.$('layer')); document.body.removeChild(BlogEngine.$('apmlfilter')); document.body.style.position = ''; };
         div.appendChild(a);

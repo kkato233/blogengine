@@ -1861,6 +1861,9 @@
   <data name="purgeSelected" xml:space="preserve">
     <value>Purge selected</value>
   </data>
+  <data name="purge" xml:space="preserve">
+    <value>Purge</value>
+  </data>
   <data name="purgeAll" xml:space="preserve">
     <value>Purge all</value>
   </data>

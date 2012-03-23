@@ -110,11 +110,11 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
                     // Although this handler is intended to output resource strings,
                     // also outputting other non-resource variables.
-                    sb.AppendFormat("BlogEngine.webRoot='{0}';", Utils.RelativeWebRoot);
-                    sb.AppendFormat("BlogEngine.applicationWebRoot='{0}';", Utils.ApplicationRelativeWebRoot);
-                    sb.AppendFormat("BlogEngine.blogInstanceId='{0}';", Blog.CurrentInstance.Id);
-                    sb.AppendFormat("BlogEngine.i18n = {0};", jc.ToJsonString());
-                    script = sb.ToString();
+                    sb.AppendFormat("webRoot: '{0}',", Utils.RelativeWebRoot);
+                    sb.AppendFormat("applicationWebRoot: '{0}',", Utils.ApplicationRelativeWebRoot);
+                    sb.AppendFormat("blogInstanceId: '{0}',", Blog.CurrentInstance.Id);
+                    sb.AppendFormat("i18n: {0}", jc.ToJsonString());
+                    script = "BlogEngineRes = {" + sb + "};";
                 }
             }
 
