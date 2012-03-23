@@ -142,19 +142,20 @@ namespace BlogEngine.Core.Web.Scripting
         /// <param name="page">Base page</param>
         public static void AddBudnledStylesAndScripts(System.Web.UI.Page page)
         {
+            var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            
             if (Security.IsAuthenticated)
             {
                 AddStyle(page, string.Format("{0}Styles/cssauth", Utils.RelativeWebRoot));
-                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), false, true, true);
+                AddScript(page, resourcePath);
+                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), true, true, true);
             }
             else
             {
                 AddStyle(page, string.Format("{0}Styles/css", Utils.RelativeWebRoot));
-                AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), false, true, true);
-            }
-
-            var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
-            AddScript(page, resourcePath, false, true, true);
+                AddScript(page, resourcePath);
+                AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), true, true, true);
+            }          
         }
 
         #endregion

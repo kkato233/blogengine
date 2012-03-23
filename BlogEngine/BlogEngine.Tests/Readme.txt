@@ -18,3 +18,7 @@ To run tests:
 6. File -> Open Project -> then select "BlogEngine\BlogEngine.Tests\bin\Debug\BlogEngine.Tests.dll"
 
 7. Click "Run", all should pass.
+
+Known issues:
+- Sometimes Watin has issues closing IE when another instance of IE running at the same time. This results in
+  long pauses at the end of most tests. To resolve, close all instances of IE before running tests.

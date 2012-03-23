@@ -2,7 +2,7 @@
 function path() { 
 	var args = arguments, result = []; 
 	for(var i = 0; i < args.length; i++) { 
-		result.push(args[i].replace('@', BlogEngine.webRoot + 'Scripts/syntaxhighlighter/')); 
+		result.push(args[i].replace('@', BlogEngineRes.webRoot + 'Scripts/syntaxhighlighter/')); 
 	} 
 	return result; 
 }
@@ -34,6 +34,6 @@ SyntaxHighlighter.autoloader.apply(null, path(
 	'xml xhtml xslt html    @shBrushXml.js'
 ));
 
-SyntaxHighlighter.config.clipboardSwf = BlogEngine.webRoot + 'Scripts/syntaxhighlighter/clipboard.swf';
+SyntaxHighlighter.config.clipboardSwf = BlogEngineRes.webRoot + 'Scripts/syntaxhighlighter/clipboard.swf';
 
 SyntaxHighlighter.all();
