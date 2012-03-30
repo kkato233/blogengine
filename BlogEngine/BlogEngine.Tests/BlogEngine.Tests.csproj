@@ -35,6 +35,9 @@
       <HintPath>..\..\lib\watin\Interop.SHDocVw.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\nunit\nunit.framework.dll</HintPath>
     </Reference>
@@ -53,16 +56,20 @@
   <ItemGroup>
     <Compile Include="Account\Login.cs" />
     <Compile Include="BeTest.cs" />
+    <Compile Include="Comments\Comment.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="FileSystem\Crud.cs" />
     <Compile Include="FileSystem\IO.cs" />
     <Compile Include="Navigation\CustomPages.cs" />
     <Compile Include="Navigation\UrlRewrite.cs" />
     <Compile Include="Packaging\Installer.cs" />
     <Compile Include="PageTemplates\Account\Login.cs" />
+    <Compile Include="PageTemplates\Admin\CommentsPending.cs" />
     <Compile Include="PageTemplates\Admin\EditPage.cs" />
     <Compile Include="PageTemplates\Admin\EditPost.cs" />
     <Compile Include="PageTemplates\Admin\ExtensionsGallery.cs" />
     <Compile Include="PageTemplates\Admin\ExtensionsLocal.cs" />
+    <Compile Include="PageTemplates\SinglePost.cs" />
     <Compile Include="PageTemplates\Admin\PostList.cs" />
     <Compile Include="PageTemplates\Admin\SettingsMain.cs" />
     <Compile Include="PageTemplates\Admin\ThemesGallery.cs" />
@@ -77,6 +84,7 @@
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

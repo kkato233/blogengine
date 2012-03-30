@@ -13,7 +13,7 @@ namespace BlogEngine.Tests.Packaging
         }
 
         [Test]
-        [Category("Online")]
+        [Category("online")]
         public void CanInstallAndUninstallTheme()
         {
             var gal = ie.Page<ThemesGallery>();

@@ -72,7 +72,7 @@
     <div class="action_buttons">
 		<input type="submit" class="btn" value="{BlogAdmin.i18n.approveSelected}" onclick="return ProcessSelected('Approve', 'Pending');" />&nbsp;
         <input type="submit" class="btn" value="{BlogAdmin.i18n.rejectSelected}" onclick="return ProcessSelected('Reject', 'Pending');" />&nbsp;
-        <input type="submit" class="btn" value="{BlogAdmin.i18n.deleteSelected}" onclick="return ProcessSelected('Delete', 'Pending');" />&nbsp;
+        <input type="submit" id="btn-delete" class="btn" value="{BlogAdmin.i18n.deleteSelected}" onclick="return ProcessSelected('Delete', 'Pending');" />&nbsp;
         <span class="loader">&nbsp;</span>
     </div>
     {#/if}

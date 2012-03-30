@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WatiN.Core;
+using WatiN.Core.Native.InternetExplorer;
 using BlogEngine.Tests.PageTemplates.Account;
 
 namespace BlogEngine.Tests
@@ -91,6 +92,12 @@ namespace BlogEngine.Tests
             int i;
             int.TryParse(string.Format("{0}000", seconds), out i);
             System.Threading.Thread.Sleep(i);
+        }
+
+        public void ScrollToTxt(TextField txt)
+        {
+            var nativeTxt = txt.NativeElement as IEElement;
+            nativeTxt.AsHtmlElement.scrollIntoView();
         }
     }
 }

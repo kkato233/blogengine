@@ -532,7 +532,7 @@ BlogEngine = {
         var button = document.createElement('input');
         button.type = 'submit';
         button.value = BlogEngineRes.i18n.filter;
-        button.onclick = function () { location.href = BlogEngineRes.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value) };
+        button.onclick = function () { location.href = BlogEngineRes.webRoot + '?apml=' + encodeURIComponent(BlogEngine.$('txtapml').value); };
         form.appendChild(button);
 
         var br = document.createElement('br');
