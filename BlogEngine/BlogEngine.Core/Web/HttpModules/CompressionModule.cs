@@ -47,8 +47,6 @@
                 return;
             }
 
-            System.Diagnostics.Debug.WriteLine("compressing --->" + context.Request.Path);
-
             if (IsEncodingAccepted(Deflate))
             {
                 context.Response.Filter = new DeflateStream(context.Response.Filter, CompressionMode.Compress);
@@ -176,7 +174,10 @@
             // bundled javacripts and styles
             if (context.Request.Path.Contains("/Scripts/") || context.Request.Path.Contains("/Styles/") || context.Request.Path.EndsWith(".js.axd"))
             {
-                if (!context.Request.Path.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+                if (!context.Request.Path.EndsWith(".js", StringComparison.OrdinalIgnoreCase) &&
+                    !context.Request.Path.EndsWith(".css", StringComparison.OrdinalIgnoreCase) &&
+                    !context.Request.Path.EndsWith(".png", StringComparison.OrdinalIgnoreCase) &&
+                    !context.Request.Path.EndsWith(".swf", StringComparison.OrdinalIgnoreCase))
                 {
                     SetHeaders(context);
                     CompressResponse(context);

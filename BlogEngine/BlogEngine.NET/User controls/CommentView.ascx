@@ -37,7 +37,7 @@
       </p>
       <p>
 	      <label for="<%=txtEmail.ClientID %>" class="lbl-email"><%=Resources.labels.email %>*</label>
-	      <asp:TextBox runat="Server" CssClass="lbl-email" ID="txtEmail" TabIndex="3" ValidationGroup="AddComment" />
+	      <asp:TextBox runat="Server" CssClass="txt-email" ID="txtEmail" TabIndex="3" ValidationGroup="AddComment" />
 	      <span id="gravatarmsg"></span>
 	      <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, required %>" Display="dynamic" ValidationGroup="AddComment" />
 	      <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmail" ErrorMessage="<%$Resources:labels, enterValidEmail%>" Display="dynamic" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="AddComment" />

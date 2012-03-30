@@ -349,7 +349,13 @@
         /// <param name="fileName">Name of the file.</param>
         private void Upload(string virtualFolder, FileUpload control, string fileName)
         {
-            return;
+            var folder = Server.MapPath(virtualFolder);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            control.PostedFile.SaveAs(folder + fileName);
         }
 
         /// <summary>
@@ -426,8 +432,8 @@
             var dir = BlogService.GetDirectory(dirName);
             var file = BlogService.UploadFile(txtUploadImage.PostedFile.InputStream, txtUploadImage.PostedFile.FileName, dir, true);
 
-            txtContent.Text += string.Format("<img src=\"{0}\" />", file.AsImage.ImageUrl);
-            txtRawContent.Text += string.Format("<img src=\"{0}\" />", file.AsImage.ImageUrl);
+            txtContent.Text += string.Format("<img src=\"{0}image.axd?picture={1}\" />", Utils.RelativeWebRoot, Server.UrlEncode(file.AsImage.FilePath));
+            txtRawContent.Text += string.Format("<img src=\"{0}image.axd?picture={1}\" />", Utils.RelativeWebRoot, Server.UrlEncode(file.AsImage.FilePath));
         }
 
 		/// <summary>

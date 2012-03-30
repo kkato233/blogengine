@@ -175,7 +175,7 @@
                     <ul class="fl" style="margin:0;">
                         <li>
                             <asp:Label ID="lblFileUpload" CssClass="lbl" AssociatedControlID="txtUploadImage" runat="server" Text='<%$ Resources:labels, uploadImage %>' />
-                            <asp:FileUpload runat="server" ID="txtUploadImage" Width="400" size="50" ValidationGroup="imageupload" />
+                            <asp:FileUpload runat="server" ID="txtUploadImage" CssClass="ImageUpload" Width="400" size="50" ValidationGroup="imageupload" />
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="Server" ControlToValidate="txtUploadImage" ErrorMessage="<%$ Resources:labels, required %>"
                                 ValidationGroup="imageupload" />
                         </li>
