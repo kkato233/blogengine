@@ -17,9 +17,7 @@ namespace BlogEngine.Tests.Comments
         [TearDown]
         public void Dispose()
         {
-            var trash = ie.Page<Trash>();
-            ie.GoTo(trash.Url);
-            trash.PurgeAll.Click();
+            Purge(ie);
         }
 
         [Test]

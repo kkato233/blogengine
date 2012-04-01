@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Web.Navigation;
 
     /// <summary>
     /// Type of deleted object
@@ -36,6 +37,9 @@
     /// </summary>
     public class JsonTrashList
     {
+        static int listCount = 0;
+        static int currentPage = 1;   
+
         /// <summary>
         /// Paged list of deleted objects
         /// </summary>
@@ -43,13 +47,14 @@
         /// <param name="pageSize">Page size</param>
         /// <param name="page">Page number</param>
         /// <returns></returns>
-        public static List<JsonTrash> GetTrash(TrashType trashType)
+        public static List<JsonTrash> GetTrash(TrashType trashType, int page)
         {
             var comments = new List<Comment>();
             var posts = new List<Post>();
             var pages = new List<Page>();
 
             var trashList = new List<JsonTrash>();
+            currentPage = page;
 
             // comments
             if (trashType == TrashType.All || trashType == TrashType.Comment)
@@ -121,7 +126,48 @@
                 }
             }
 
-            return trashList;
+            var pageSize = 20;
+            listCount = trashList.Count;
+
+            if (trashList.Count < pageSize)
+                return trashList;
+
+            var skip = page == 1 ? 0 : page * pageSize - pageSize;
+            var trashPage = trashList.Skip(skip).Take(pageSize).ToList();
+
+            return trashPage;
+        }
+        
+        public static string GetPager(int page)
+        {
+            if (listCount == 0)
+                return string.Empty;
+
+            IPager pager = new Pager(page, 20, listCount);
+
+            var prvLnk = string.Empty;
+            var nxtLnk = string.Empty;
+            var firstLnk = string.Empty;
+            var lastLnk = string.Empty;
+
+            const string linkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadTrash(null,{1});\" class=\"{0}\"></a>";
+
+            var pageLink = string.Format("<span>Showing {0} - {1} of {2}</span>", pager.From, pager.To, listCount);
+
+            if (page > 1)
+            {
+                prvLnk = string.Format(linkFormat, "prevLink", pager.Previous);
+                firstLnk = string.Format(linkFormat, "firstLink", pager.First);
+            }
+
+            if (page < pager.Last)
+            {
+                nxtLnk = string.Format(linkFormat, "nextLink", pager.Next);
+                lastLnk = string.Format(linkFormat, "lastLink", pager.Last);
+            }
+
+            var currpage = "<span id=\"current-page\" style=\"display:none\">" + page.ToString() + "</span>";
+            return firstLnk + prvLnk + pageLink + nxtLnk + lastLnk + currpage;
         }
 
         /// <summary>

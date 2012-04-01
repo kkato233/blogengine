@@ -80,6 +80,7 @@
     <Compile Include="QuickNotes\Crud.cs" />
     <Compile Include="QuickNotes\Navigation.cs" />
     <Compile Include="QuickNotes\Posting.cs" />
+    <Compile Include="Quixote\Runner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />
