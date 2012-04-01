@@ -4,6 +4,7 @@ using NUnit.Framework;
 using WatiN.Core;
 using WatiN.Core.Native.InternetExplorer;
 using BlogEngine.Tests.PageTemplates.Account;
+using BlogEngine.Tests.PageTemplates.Admin;
 
 namespace BlogEngine.Tests
 {
@@ -92,6 +93,14 @@ namespace BlogEngine.Tests
             int i;
             int.TryParse(string.Format("{0}000", seconds), out i);
             System.Threading.Thread.Sleep(i);
+        }
+
+        public void Purge(IE ie)
+        {
+            var trash = ie.Page<Trash>();
+            ie.GoTo(trash.Url);
+            ie.WaitForComplete();
+            trash.PurgeAll.Click();
         }
 
         public void ScrollToTxt(TextField txt)

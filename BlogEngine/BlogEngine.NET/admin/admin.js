@@ -244,8 +244,8 @@ function LoadCustomFilters() {
 
 //--------------    TRASH
 
-function LoadTrash(obj) {
-    $('.loader').hide();
+function LoadTrash(obj, page) {
+    $('.loader').show();
     var type = "All";
 
     if (obj != null) {
@@ -255,7 +255,7 @@ function LoadTrash(obj) {
     }
     $.ajax({
         url: SiteVars.ApplicationRelativeWebRoot + "admin/Trash.aspx/LoadTrash",
-        data: "{'trashType':'" + type + "'}",
+        data: "{'trashType':'" + type + "', 'page':" + page + "}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -263,6 +263,22 @@ function LoadTrash(obj) {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/trash.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            LoadTrashPager(page);
+        }
+    });
+    return false;
+}
+
+function LoadTrashPager(page) {
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/Trash.aspx/LoadPager",
+        data: "{'page':'" + page + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (msg) {
+            $('.Pager').html(msg.d);
         }
     });
     return false;
@@ -270,6 +286,8 @@ function LoadTrash(obj) {
 
 function ProcessTrash(action, scope) {
     $('#AjaxLoader').addClass('loader');
+
+    var page = $('#current-page').html();
     var vals = [];   
     if (scope == 'Selected') {
         var checked = $('#TrashTable input[@type=checkbox]:checked');
@@ -302,7 +320,7 @@ function ProcessTrash(action, scope) {
         success: function (result) {
             var rt = result.d;
             if (rt.Success) {
-                LoadTrash(null);
+                LoadTrash(null, page);
                 ShowStatus("success", rt.Message);
             }
             else {
@@ -310,7 +328,7 @@ function ProcessTrash(action, scope) {
             }
         }
     });
-    $('#AjaxLoader').removeClass('loader');
+    //$('#AjaxLoader').removeClass('loader');
     return false;
 }
 
@@ -408,6 +426,9 @@ function ProcessSelected(action, page) {
                                   break;
 
                               case "Delete":
+                                  $("#recyclebin a").removeClass("empty");
+                                  $("#recyclebin a").addClass("full");
+
                                   switch (page) {
                                       case "Approved": (com_cnt -= 1); break;
                                       case "Spam": (spm_cnt -= 1); break;
