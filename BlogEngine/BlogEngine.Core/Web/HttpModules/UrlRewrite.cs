@@ -464,9 +464,6 @@
             var url = context.Request.Url.ToString();
             var match = string.Format("{0}DEFAULT{1}", Utils.AbsoluteWebRoot, BlogConfig.FileExtension);
 
-            Utils.Log("Url: " + url + "; match: " + match);
-
-
             // case when month clicked in the month list
             // default page will be like site.com/2012/10/default.aspx
             var u = GetUrlWithQueryString(context);
