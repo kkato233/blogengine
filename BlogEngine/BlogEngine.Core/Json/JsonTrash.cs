@@ -5,6 +5,9 @@
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// JSON trash object
+    /// </summary>
     public class JsonTrash
     {
         /// <summary>
