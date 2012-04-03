@@ -147,13 +147,17 @@ namespace BlogEngine.Core.Web.Scripting
             if (Security.IsAuthenticated)
             {
                 AddStyle(page, string.Format("{0}Styles/cssauth", Utils.RelativeWebRoot));
+
                 AddScript(page, resourcePath);
+                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.RelativeWebRoot), true, false, false);
                 AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), true, true, true);
             }
             else
             {
                 AddStyle(page, string.Format("{0}Styles/css", Utils.RelativeWebRoot));
+
                 AddScript(page, resourcePath);
+                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.RelativeWebRoot), true, false, false);
                 AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), true, true, true);
             }          
         }

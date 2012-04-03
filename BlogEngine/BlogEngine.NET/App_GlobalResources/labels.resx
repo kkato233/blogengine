@@ -1885,7 +1885,6 @@
   <data name="noFilesFound" xml:space="preserve">
     <value>No files found.</value>
   </data>
-
   <data name="reset" xml:space="preserve">
     <value>Reset</value>
   </data>
@@ -1927,5 +1926,14 @@
   </data>
   <data name="noPingbacksTrackbacks" xml:space="preserve">
     <value>There are no pingbacks or trackback. Make sure you enabled sending and recieving trackbacks/pingbacks in advanced settings.</value>
+  </data>
+  <data name="thumbnailServiceProvider" xml:space="preserve">
+    <value>Thumbnail service provider</value>
+  </data>
+  <data name="thumbnailServiceProviderHelp" xml:space="preserve">
+    <value>API used to get thumbnail, i.g. http://www.robothumb.com/src/?url={0}</value>
+  </data>
+    <data name="spamProtection" xml:space="preserve">
+    <value>Spam protection</value>
   </data>
 </root>

@@ -111,6 +111,11 @@
         {
             BundleTable.Bundles.EnableDefaultBundles();
             BundleTable.Bundles.Clear();
+            
+            // scripts added to header and NOT deffered
+            var hdrjs = new Bundle("~/Scripts/Header/js", typeof(JsMinify));
+            hdrjs.AddDirectory("~/Scripts/Header", "*.js", false);
+            BundleTable.Bundles.Add(hdrjs);
 
             // for anonymous users
             var css = new Bundle("~/Styles/css", typeof(CssMinify));
