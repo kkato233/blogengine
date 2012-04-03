@@ -15,6 +15,12 @@
 
                 evt.preventDefault();
             });
+            $("#btnSave2").click(function (evt) {
+                if ($(frm).valid())
+                    SaveSettings();
+
+                evt.preventDefault();
+            });
         });
         function SaveSettings() {
             $('.loader').show();
@@ -26,10 +32,6 @@
 				"enableOpenSearch": $("[id$='_cbEnableOpenSearch']").attr('checked'),
 				"requireSslForMetaWeblogApi": $("[id$='_cbRequireSslForMetaWeblogApi']").attr('checked'),
 				"wwwSubdomain": $('.rblSubdomain input:radio:checked').val(),
-				"enableTrackBackSend": $("[id$='_cbEnableTrackBackSend']").attr('checked'),
-				"enableTrackBackReceive": $("[id$='_cbEnableTrackBackReceive']").attr('checked'),
-				"enablePingBackSend": $("[id$='_cbEnablePingBackSend']").attr('checked'),
-				"enablePingBackReceive": $("[id$='_cbEnablePingBackReceive']").attr('checked'),
 				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
 				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
@@ -83,22 +85,13 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
+            <div class="rightligned-top action_buttons">
+                <input type="submit" id="btnSave2" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
+            </div>
 
            <h1><%=Resources.labels.advancedSettings %></h1>
 
                 <ul class="fl leftaligned">
-                    <li>
-                        <label class="lbl" for=""><%=Resources.labels.enableTrackbacks %></label>
-                            <asp:CheckBox runat="server" ID="cbEnableTrackBackSend" /><label><%=Resources.labels.send %></label>
-                            &nbsp;&nbsp;
-                            <asp:CheckBox runat="server" ID="cbEnableTrackBackReceive" /><label><%=Resources.labels.receive %></label>
-                    </li>
-                    <li>
-                        <label for="" class="lbl"><%=Resources.labels.enablePingbacks %></label>
-                            <asp:CheckBox runat="server" ID="cbEnablePingBackSend" /><label><%=Resources.labels.send %></label>
-                            &nbsp;&nbsp;
-                            <asp:CheckBox runat="server" ID="cbEnablePingBackReceive" /><label><%=Resources.labels.receive %></label>
-                    </li>
                     <li>
                         <label class="lbl" for="<%=rblWwwSubdomain.ClientID %>"><%=Resources.labels.handleWwwSubdomain %></label>
                             <asp:RadioButtonList runat="server" CssClass="rblSubdomain" ID="rblWwwSubdomain" RepeatLayout="flow" RepeatDirection="horizontal">
@@ -204,7 +197,7 @@
                         <asp:Label runat="server" ID="providerError" ForeColor="Red" Visible="false" />
                     </li>
                 </ul>
-            <div class="action_buttons">
+            <div class="rightligned-bottom action_buttons">
                 <input type="submit" id="btnSave" class="btn primary rounded" value="<%=Resources.labels.saveSettings %>" />
             </div>
 		</div>

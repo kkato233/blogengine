@@ -98,7 +98,6 @@
 
 <script type="text/javascript">
 <!--//
-function registerCommentBox(){
 	BlogEngine.comments.flagImage = BlogEngine.$("imgFlag");
 	BlogEngine.comments.contentBox = BlogEngine.$("<%=txtContent.ClientID %>");
 	BlogEngine.comments.moderation = <%=BlogSettings.Instance.EnableCommentsModeration.ToString().ToLowerInvariant() %>;
@@ -111,14 +110,13 @@ function registerCommentBox(){
 	BlogEngine.comments.captchaField = BlogEngine.$('<%=hfCaptcha.ClientID %>');
 	BlogEngine.comments.controlId = '<%=UniqueID %>';
 	BlogEngine.comments.replyToId = BlogEngine.$("<%=hiddenReplyTo.ClientID %>"); 
-}
 //-->
 </script>
 
 <% if (BlogSettings.Instance.IsCoCommentEnabled){ %>
 <script type="text/javascript">
-    // this ensures coComment gets the correct values
-    coco =
+// this ensures coComment gets the correct values
+coco =
 {
     tool: "BlogEngine",
     siteurl: "<%=Utils.AbsoluteWebRoot %>",

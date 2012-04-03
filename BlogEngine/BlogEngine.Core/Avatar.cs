@@ -212,8 +212,13 @@ namespace BlogEngine.Core
         {
             // http://www.robothumb.com/src/?url={0}
             // http://api.thumbalizr.com/?url={0}
-            var url = new Uri(string.Format("http://www.robothumb.com/src/?url={0}",
-                        HttpUtility.UrlEncode(website.ToString())));
+
+            var api = BlogSettings.Instance.ThumbnailServiceApi;
+
+            if(string.IsNullOrEmpty(api) || !api.Contains("{0}"))
+                return DefaultImage(description, width, height);
+
+            var url = new Uri(string.Format(api, HttpUtility.UrlEncode(website.ToString())));
 
             var imageTag = string.Format(CultureInfo.InvariantCulture,
                 "<img class=\"thumb\" src=\"{0}\" alt=\"{1}\" width=\"{2}\" height=\"{3}\" />",

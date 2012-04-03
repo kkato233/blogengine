@@ -9,6 +9,17 @@
 	<div class="content-box-outer">
         <con:FileManager runat="server" ID="FileManager1" />
 		<div class="content-box-full">
+            <div class="rightligned-top action_buttons">
+                <input type="button" id="btnSave2" value="<%=Resources.labels.savePost %>" class="btn primary rounded" onclick="return SavePost()" /> <%=Resources.labels.or %>
+                <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+                    { %>
+                <a href="<%=PostUrl %>" title="<%=Resources.labels.goToPost %>"><%=Resources.labels.goToPost %></a>
+                <%}
+                    else
+                    {%>
+                <a href="Posts.aspx" title="<%=Resources.labels.cancel %>"><%=Resources.labels.cancel %></a>
+                <%} %>
+            </div>
             <h1><%=Resources.labels.addEditPost %></h1>
             <script type="text/javascript">
                 function GetSlug() {
@@ -240,18 +251,7 @@
                                  <asp:CheckBox runat="server" ID="cbPublish" Text="<%$ Resources:labels, publish %>" Checked="true" />
                            </li>
                         </ul>
-                        <div class="action_buttons">
-                            <input type="button" id="btnSave" value="<%=Resources.labels.savePost %>" class="btn primary rounded" onclick="return SavePost()" /> <%=Resources.labels.or %>
-                            <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
-                               { %>
-                            <a href="<%=PostUrl %>" title="<%=Resources.labels.goToPost %>"><%=Resources.labels.goToPost %></a>
-                            <%}
-                               else
-                               {%>
-                            <a href="Posts.aspx" title="<%=Resources.labels.cancel %>"><%=Resources.labels.cancel %></a>
-                            <%} %>
-                            <span id="autoSaveLabel" style="display:none;"></span>
-                        </div>
+                        
                     </td>
                     <td class="secondaryForm" style="padding:0; vertical-align:top;">
                         <ul class="fl">
@@ -307,6 +307,18 @@
                     </td>
                 </tr>
             </table>
+            <div class="rightligned-bottom action_buttons">
+                            <input type="button" id="btnSave" value="<%=Resources.labels.savePost %>" class="btn primary rounded" onclick="return SavePost()" /> <%=Resources.labels.or %>
+                            <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+                               { %>
+                            <a href="<%=PostUrl %>" title="<%=Resources.labels.goToPost %>"><%=Resources.labels.goToPost %></a>
+                            <%}
+                               else
+                               {%>
+                            <a href="Posts.aspx" title="<%=Resources.labels.cancel %>"><%=Resources.labels.cancel %></a>
+                            <%} %>
+                            <span id="autoSaveLabel" style="display:none;"></span>
+                        </div>
             <% if (Request.QueryString["id"] == null)
                { %>
             <script type="text/javascript">

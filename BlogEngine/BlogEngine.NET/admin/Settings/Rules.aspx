@@ -34,7 +34,11 @@
 			<menu:TabMenu ID="TabMenu1" runat="server" />
 		</div>
 		<div class="content-box-left">
-            <h1 style="border:none;"><%=labels.rules %> & <%=labels.filters %></h1>
+            <div class="rightligned-top action_buttons">
+                <asp:Button runat="server" class="btn primary" ID="btnSave" Text="Save settings" />
+                <span class="loader">&nbsp;</span>
+            </div>
+            <h1 style="border:none;"><%=labels.spamProtection %></h1>
             <h2><%=labels.rules%></h2>
             <ul class="fl leftaligned">
                 <li>
@@ -178,8 +182,10 @@
                 <span><%=labels.reportMistakesToService %></span>
             </div>
 
-            <div class="action_buttons">
-                <asp:Button runat="server" class="btn primary" ID="btnSave" Text="Save settings" />
+            <div style="clear:both; display: inline-block; height: 30px; width: 100%;">&nbsp;</div>
+
+            <div class="rightligned-bottom action_buttons">
+                <asp:Button runat="server" class="btn primary" ID="btnSave2" Text="Save settings" />
                 <span class="loader">&nbsp;</span>
             </div>
             

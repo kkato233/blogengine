@@ -56,10 +56,6 @@
             cbEnableOpenSearch.Checked = settings.EnableOpenSearch;
             cbRequireSslForMetaWeblogApi.Checked = settings.RequireSslMetaWeblogApi;
             rblWwwSubdomain.SelectedValue = settings.HandleWwwSubdomain;
-            cbEnablePingBackSend.Checked = settings.EnablePingBackSend;
-            cbEnablePingBackReceive.Checked = settings.EnablePingBackReceive;
-            cbEnableTrackBackSend.Checked = settings.EnableTrackBackSend;
-            cbEnableTrackBackReceive.Checked = settings.EnableTrackBackReceive;
             cbEnableErrorLogging.Checked = settings.EnableErrorLogging;
             txtGalleryFeed.Text = settings.GalleryFeedUrl;
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
@@ -136,10 +132,10 @@
             bool enableOpenSearch,
             bool requireSslForMetaWeblogApi,
 			string wwwSubdomain,
-            bool enableTrackBackSend,
+            /*bool enableTrackBackSend,
             bool enableTrackBackReceive,
             bool enablePingBackSend,
-            bool enablePingBackReceive,
+            bool enablePingBackReceive,*/
             bool enableErrorLogging,
             bool allowRemoteFileDownloads,
             int remoteTimeout,
@@ -180,10 +176,6 @@
                 settings.EnableOpenSearch = enableOpenSearch;
                 settings.RequireSslMetaWeblogApi = requireSslForMetaWeblogApi;
                 settings.HandleWwwSubdomain = wwwSubdomain;
-                settings.EnableTrackBackSend = enableTrackBackSend;
-                settings.EnableTrackBackReceive = enableTrackBackReceive;
-                settings.EnablePingBackSend = enablePingBackSend;
-                settings.EnablePingBackReceive = enablePingBackReceive;
                 settings.EnableErrorLogging = enableErrorLogging;
                 settings.GalleryFeedUrl = galleryFeedUrl;
 

@@ -86,7 +86,10 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
-        <h1><%=Resources.labels.settings %></h1>
+            <div class="rightligned-top action_buttons">
+                <input type="submit" id="btnSave" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
+            </div>
+            <h1><%=Resources.labels.settings %></h1>
 
                 <ul class="fl leftaligned">
                     <li>
@@ -126,8 +129,7 @@
                     </li>
                 </ul>
             <div class="action_buttons">
-                <input type="submit" id="btnSave" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
-                <input type="submit" class="btn" value="<%=Resources.labels.testEmailSettings %>" onclick="return TestEmail();" />
+                <input style="margin-left: 220px" type="submit" class="btn" value="<%=Resources.labels.testEmailSettings %>" onclick="return TestEmail();" />
                 <asp:Label runat="Server" ID="lbSmtpStatus" />
             </div>
         </div>

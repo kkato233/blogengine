@@ -584,8 +584,6 @@ BlogEngine.addLoadEvent(BlogEngine.hightLightXfn);
 if (typeof ($) == 'undefined')
     window.$ = BlogEngine.$;
 
-if (typeof (registerCommentBox) != 'undefined')
-    BlogEngine.addLoadEvent(registerCommentBox);
 if (typeof (setupBlogEngineCalendar) != 'undefined')
     BlogEngine.addLoadEvent(setupBlogEngineCalendar);
 

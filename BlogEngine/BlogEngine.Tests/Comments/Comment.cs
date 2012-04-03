@@ -67,6 +67,7 @@ namespace BlogEngine.Tests.Comments
             var pending = ie.Page<CommentsPending>();
             pending.CbSelectAll.Checked = true;
             pending.BtnDelete.Click();
+            ie.WaitForComplete();
         }
     }
 }

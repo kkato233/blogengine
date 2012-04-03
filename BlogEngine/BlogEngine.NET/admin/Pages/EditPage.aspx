@@ -142,6 +142,17 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
     <div class="content-box-outer">
         <con:FileManager runat="server" ID="FileManager1" />
         <div class="content-box-full">
+            <div class="rightligned-top action_buttons">
+                <input type="button" id="btnSave" value="<%=Resources.labels.savePage %>" class="btn primary" onclick="return SavePage()" /> <%=Resources.labels.or %> 
+                <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+                   { %>
+                <a href="<%=PageUrl %>" title="Go to page"><%=Resources.labels.goToPage %></a>
+                <%}
+                   else
+                   {%>
+                <a href="Pages.aspx" title="Cancel"><%=Resources.labels.cancel %></a>
+                <%} %>
+            </div>
             <h1><%=Resources.labels.editPage %></h1>
             <table class="tblForm largeForm" style="width:100%; margin:0;">
                 <tr>
@@ -201,8 +212,8 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                 </tr>
             </table>
 
-            <div class="action_buttons">
-                <input type="button" id="btnSave" value="<%=Resources.labels.savePage %>" class="btn primary" onclick="return SavePage()" /> <%=Resources.labels.or %> 
+            <div class="rightligned-bottom action_buttons">
+                <input type="button" id="btnSave2" value="<%=Resources.labels.savePage %>" class="btn primary" onclick="return SavePage()" /> <%=Resources.labels.or %> 
                 <% if (!string.IsNullOrEmpty(Request.QueryString["id"]))
                    { %>
                 <a href="<%=PageUrl %>" title="Go to page"><%=Resources.labels.goToPage %></a>

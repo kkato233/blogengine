@@ -316,15 +316,6 @@
 
         #endregion
 
-        #region ShowPingBacks
-
-        /// <summary>
-        ///     Determins if pingbacks and trackbacks shown in the comment list in admin panel
-        /// </summary>
-        public bool ShowPingBacks { get; set; }
-
-        #endregion
-
         #region EnableRating
 
         /// <summary>
@@ -662,6 +653,15 @@
         ///     <c>true</c> if [enable track back receive]; otherwise, <c>false</c>.
         /// </value>
         public bool EnableTrackBackReceive { get; set; }
+
+        #endregion
+
+        #region Thumbnail service
+
+        /// <summary>
+        /// API provided by thumbnail service provider
+        /// </summary>
+        public string ThumbnailServiceApi { get; set; }
 
         #endregion
 

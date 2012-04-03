@@ -30,7 +30,7 @@
             oDescCharContainer = $("#DescriptionCharacters");
             oDescCharTagCatContainer = $("#DescriptionCharactersForPostsByTagOrCategory");
 
-            $("#btnSave").click(function (evt) {
+            $(".btn").click(function (evt) {
                 if ($(frm).valid())
                     SaveSettings();
 
@@ -96,6 +96,10 @@
 			<menu:TabMenu ID="TabMenu" runat="server" />
 		</div>
 		<div class="content-box-left">
+            <div class="rightligned-top action_buttons">
+                <input type="submit" id="btnSave" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
+            </div>
+
             <h1 ><%=Resources.labels.basic %> <%=Resources.labels.settings %></h1>
 
                 <ul class="fl leftaligned">
@@ -177,8 +181,8 @@
                     </li>
                 </ul>
 
-            <div class="action_buttons">
-                <input type="submit" id="btnSave" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
+            <div class="rightligned-bottom action_buttons">
+                <input type="submit" id="btnSave2" class="btn primary" value="<%=Resources.labels.saveSettings %>" />
             </div>
 		</div>
 	</div>    

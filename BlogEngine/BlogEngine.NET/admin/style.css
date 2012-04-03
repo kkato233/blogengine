@@ -122,6 +122,8 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .leftaligned label.lbl { display:block; margin:0 20px 5px 0; float:left; width:200px; text-align:left;}
 .leftaligned .filler { display:block; margin-left:220px; float:left; height:24px;}
 .leftaligned .action_buttons { margin-left:220px;}
+.rightligned-top { width: 250px; float: right; position: relative; top: -14px; z-index: 99; }
+.rightligned-bottom { width: 250px; float: right; position: relative; top: -60px;}
 .leftaligned .insetHelp {color:#a0a0a0;display:block;font-family:Arial, Sans-Serif;font-size:12px;font-style:italic;
     margin-left:220px; clear:both; float:none;}
 .leftaligned .belowHelp { color:#a0a0a0;display:block;font-family:Arial, Sans-Serif;font-size:12px;font-style:italic;
@@ -616,4 +618,17 @@ span.AlternatePageTabSelected {
     width: 8px;
     position: relative;
     top: 1px;
+}
+
+.avatar-list
+{
+    border: 1px solid #fff;
+    margin-left: 225px;
+}
+
+.avatar-list img 
+{
+    border: 1px solid #ccc;
+    width: 40px;
+    margin-right: 30px;
 }
