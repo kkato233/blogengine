@@ -148,5 +148,21 @@ namespace BlogEngine.Core
 
         #endregion
 
+        #region GenericPageSize
+
+        /// <summary>
+        /// Default number of items per page in admin data grids.
+        /// </summary>
+        public static int GenericPageSize
+        {
+            get
+            {
+                return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["BlogEngine.GenericPageSize"])
+                           ? 20
+                           : int.Parse(WebConfigurationManager.AppSettings["BlogEngine.GenericPageSize"]);
+            }
+        }
+
+        #endregion
     }
 }

@@ -29,5 +29,9 @@
         /// Last page in the list
         /// </summary>
         int Last { get; }
+        /// <summary>
+        /// Renders pager tag as string
+        /// </summary>
+        string Render(int page, string callback);
     }
 }

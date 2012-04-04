@@ -80,9 +80,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\razor\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Optimization">
-      <HintPath>..\..\lib\optimization\Microsoft.Web.Optimization.dll</HintPath>
-    </Reference>
     <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nuget\NuGet.Core.dll</HintPath>
