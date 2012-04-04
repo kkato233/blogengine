@@ -8,7 +8,7 @@ namespace BlogEngine.Core.Web.Navigation
     /// </summary>
     public class Pager : IPager
     {
-        int first = 0, prev = 0, from = 0, to = 0, next = 0, last = 0;
+        int first = 0, prev = 0, from = 0, to = 0, next = 0, last = 0, cnt = 0;
 
         /// <summary>
         /// Pager constructor
@@ -19,6 +19,7 @@ namespace BlogEngine.Core.Web.Navigation
         public Pager(int page, int pageSize, int listCount)
         {
             if (page < 1) page = 1;
+            cnt = listCount;
 
             var pgs = Convert.ToDecimal(listCount) / Convert.ToDecimal(pageSize);
             var p = pgs - (int)pgs;
@@ -44,6 +45,36 @@ namespace BlogEngine.Core.Web.Navigation
 
             if (page < last) next = page + 1;
             if (page == last) last = 0;
+        }
+
+        string RenderPage(int page, string callback)
+        {
+            var prvLnk = string.Empty;
+            var nxtLnk = string.Empty;
+            var firstLnk = string.Empty;
+            var lastLnk = string.Empty;
+
+            if (string.IsNullOrEmpty(callback))
+                callback = "false";
+
+            var linkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return " + callback + ";\" class=\"{0}\"></a>";
+
+            var pageLink = string.Format("<span>Showing {0} - {1} of {2}</span>", from, to, cnt);
+
+            if (page > 1)
+            {
+                prvLnk = string.Format(linkFormat, "prevLink", prev);
+                firstLnk = string.Format(linkFormat, "firstLink", first);
+            }
+
+            if (page < last)
+            {
+                nxtLnk = string.Format(linkFormat, "nextLink", next);
+                lastLnk = string.Format(linkFormat, "lastLink", last);
+            }
+
+            var currpage = "<span id=\"current-page\" style=\"display:none\">" + page.ToString() + "</span>";
+            return firstLnk + prvLnk + pageLink + nxtLnk + lastLnk + currpage;
         }
 
         #region IPager
@@ -89,6 +120,15 @@ namespace BlogEngine.Core.Web.Navigation
         int IPager.Last
         {
             get { return last; }
+        }
+        /// <summary>
+        /// Renders pager tag as string
+        /// </summary>
+        /// <param name="page">page number</param>
+        /// <returns>Pager tag</returns>
+        string IPager.Render(int page, string callback)
+        {
+            return RenderPage(page, callback);
         }
 
         #endregion

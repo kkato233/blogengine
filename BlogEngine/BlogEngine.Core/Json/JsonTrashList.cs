@@ -145,29 +145,7 @@
 
             IPager pager = new Pager(page, 20, listCount);
 
-            var prvLnk = string.Empty;
-            var nxtLnk = string.Empty;
-            var firstLnk = string.Empty;
-            var lastLnk = string.Empty;
-
-            const string linkFormat = "<a href=\"#\" id=\"{0}\" onclick=\"return LoadTrash(null,{1});\" class=\"{0}\"></a>";
-
-            var pageLink = string.Format("<span>Showing {0} - {1} of {2}</span>", pager.From, pager.To, listCount);
-
-            if (page > 1)
-            {
-                prvLnk = string.Format(linkFormat, "prevLink", pager.Previous);
-                firstLnk = string.Format(linkFormat, "firstLink", pager.First);
-            }
-
-            if (page < pager.Last)
-            {
-                nxtLnk = string.Format(linkFormat, "nextLink", pager.Next);
-                lastLnk = string.Format(linkFormat, "lastLink", pager.Last);
-            }
-
-            var currpage = "<span id=\"current-page\" style=\"display:none\">" + page.ToString() + "</span>";
-            return firstLnk + prvLnk + pageLink + nxtLnk + lastLnk + currpage;
+            return pager.Render(page, "LoadTrash(null,{1})");
         }
 
         /// <summary>

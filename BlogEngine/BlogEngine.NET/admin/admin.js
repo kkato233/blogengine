@@ -78,17 +78,17 @@ function SaveChanges(obj, str) {
    return false;
 }
 
-
 function CancelChanges(obj, str) {
    $(obj).closest("tr").html(str);
    return false;
 }
 
 function DeleteRow(obj) {
-   var row = $(obj).closest("tr")
+   var row = $(obj).closest("tr");
    var id = row.data("recordId");
    var srv = $(obj).closest("table").attr("id");
    var dto = { "id": id };
+   var toolsId = row.find(".rowToolsMenu").attr('id');
 
    $.ajax({
        url: SiteVars.ApplicationRelativeWebRoot + "api/" + srv + ".asmx/Delete",
@@ -100,12 +100,17 @@ function DeleteRow(obj) {
        success: function (result) {
            var rt = result.d;
            if (rt.Success) {
-               row.fadeOut(500, function () {
-                   var tbody = row.closest('tbody');
-                   row.remove();
-                   $('tr:odd', tbody).addClass('alt');
-                   $('tr:even', tbody).removeClass('alt');
-               });
+               if (toolsId === 'users') {
+                   LoadUsers($.cookie('GenericCurrentPage'));
+               }
+               else {
+                   row.fadeOut(500, function () {
+                       var tbody = row.closest('tbody');
+                       row.remove();
+                       $('tr:odd', tbody).addClass('alt');
+                       $('tr:even', tbody).removeClass('alt');
+                   });
+               }
                ShowStatus("success", rt.Message);
            }
            else {
@@ -192,20 +197,38 @@ function LoadRoles() {
     });
 }
 
-function LoadUsers() {
+function LoadUsers(page) {
+   var dto = { "page": page };
    $.ajax({
-      url: SiteVars.ApplicationRelativeWebRoot + "admin/Users/Users.aspx/GetUsers",
-      data: "{ }",
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      beforeSend: onAjaxBeforeSend,
-      success: function (msg) {
-         $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/users.htm', null, { filter_data: false });
-         $('#Container').processTemplate(msg);
-         SaveOriginalIdValues('#Container tr', '.username');
-      }
+       url: SiteVars.ApplicationRelativeWebRoot + "admin/Users/Users.aspx/GetUsers",
+       data: JSON.stringify(dto),
+       type: "POST",
+       contentType: "application/json; charset=utf-8",
+       dataType: "json",
+       beforeSend: onAjaxBeforeSend,
+       success: function (msg) {
+           $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/users.htm', null, { filter_data: false });
+           $('#Container').processTemplate(msg);
+           SaveOriginalIdValues('#Container tr', '.username');
+           LoadGenericPager(page, 'admin/Users/Users.aspx');
+           $.cookie('GenericCurrentPage', page, { expires: 7 });
+       }
    });
+}
+
+function LoadGenericPager(page, url) {
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + url + "/LoadPager",
+        data: "{'page':'" + page + "'}",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (msg) {
+            $('.Pager').html(msg.d);
+        }
+    });
+    return false;
 }
 
 function LoadProfile() {
