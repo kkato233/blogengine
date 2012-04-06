@@ -50,6 +50,7 @@
 
     string temp = BlogSettings.Instance.Avatar;
     BlogSettings.Instance.Avatar = "none";
+    BlogSettings.Instance.ThumbnailServiceApi = "http://www.robothumb.com/src/?url={0}";
     
     string tag = Avatar.GetAvatarImageTag("pingback", new Uri("http://asp.net"), null, "test", 90, 70);
     BlogSettings.Instance.Avatar = temp;

@@ -6,7 +6,6 @@ namespace BlogEngine.Tests.Account
     public class Login : BeTest
     {
         readonly string LoginFailedMsg = "Login failed";
-        readonly string WelcomeToBeMsg = "Welcome to BlogEngine.NET";
 
         [SetUp]
         public void Init()
@@ -27,7 +26,7 @@ namespace BlogEngine.Tests.Account
         {
             Login("admin");
 
-            Assert.IsTrue(ie.ContainsText(WelcomeToBeMsg));
+            Assert.IsTrue(ie.ContainsText(Constants.FirstPostTitle));
         }
     }
 }

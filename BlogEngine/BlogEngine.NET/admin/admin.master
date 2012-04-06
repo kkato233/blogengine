@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%;">
 <head id="Head1" runat="server">
     <title>BlogEngine.NET Admin</title>
-    <link href="<%= BundleTable.Bundles.ResolveBundleUrl("~/admin/css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%# BundleTable.Bundles.ResolveBundleUrl("~/admin/css")%>" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
