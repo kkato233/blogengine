@@ -121,6 +121,13 @@ namespace Admin
                             a.Attributes["class"] = "current";
                         }
 
+                        // select "plugins" tab for extensions with custom admin pages
+                        if (Request.RawUrl.IndexOf("User controls", StringComparison.OrdinalIgnoreCase) != -1)
+                        {
+                            if (nodeDir == "/admin/Extensions/default")
+                                a.Attributes["class"] = "current";
+                        }
+
                         // if "page" has its own subfolder (comments, extensions) should 
                         // select parent tab when navigating through child tabs
                         if (!SubUrl(Request.RawUrl, true).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&

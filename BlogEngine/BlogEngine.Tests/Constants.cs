@@ -7,5 +7,8 @@
 
         // login
         public static readonly string LogOff = "Log off";
+
+        public static readonly string FirstPostTitle = "Welcome"; // "Post with Picture";
+        public static readonly string FirstPostCategory = "BlogEngineNET"; // "Picture";
     }
 }

@@ -128,7 +128,6 @@ namespace App_Code.Extensions
                     {
                         sw.WriteLine(@"*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
                         sw.WriteLine("Date: {0}", DateTime.Now);
-                        sw.WriteLine("Contents Below");
                         sw.WriteLine(logMsg);
                     }
                 }

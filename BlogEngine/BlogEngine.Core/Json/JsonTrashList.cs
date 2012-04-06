@@ -143,7 +143,7 @@
             if (listCount == 0)
                 return string.Empty;
 
-            IPager pager = new Pager(page, 20, listCount);
+            IPager pager = new Pager(page, BlogConfig.GenericPageSize, listCount);
 
             return pager.Render(page, "LoadTrash(null,{1})");
         }

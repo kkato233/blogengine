@@ -8,9 +8,9 @@ namespace BlogEngine.Tests.Navigation
         [Test]
         public void CanNavigateToCategoryPage()
         {
-            ie.GoTo(Constants.Root + "/category/BlogEngineNET.aspx");
+            ie.GoTo(Constants.Root + "/category/" + Constants.FirstPostCategory + ".aspx");
             ie.WaitForComplete();
-            Assert.IsTrue(ie.ContainsText("Welcome to BlogEngine.NET 2.5"));
+            Assert.IsTrue(ie.ContainsText(Constants.FirstPostTitle));
         }
        
         [Test]
@@ -18,7 +18,7 @@ namespace BlogEngine.Tests.Navigation
         {
             ie.GoTo(Constants.Root + "/?tag=/welcome");
             ie.WaitForComplete();
-            Assert.IsTrue(ie.ContainsText("Welcome to BlogEngine.NET 2.5"));
+            Assert.IsTrue(ie.ContainsText(Constants.FirstPostTitle));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace BlogEngine.Tests.Navigation
         {
             ie.GoTo(Constants.Root + "/2011/06/default.aspx");
             ie.WaitForComplete();
-            Assert.IsTrue(ie.Html.Contains("Welcome to BlogEngine.NET"));
+            Assert.IsTrue(ie.Html.Contains(Constants.FirstPostTitle));
         }
     }
 }

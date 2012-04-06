@@ -51,10 +51,12 @@ namespace BlogEngine.Core.Packaging
                 BlogService.InsertPackageFiles(packageFiles);
 
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
+
+                Utils.Log(string.Format("Installed package {0} by {1}", pkgId, Security.CurrentUser.Identity.Name));
             }
             catch (Exception ex)
             {
-                Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage", ex);
+                Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage(" + pkgId + ")", ex);
                 return new JsonResponse { Success = false, Message = "Error installing package, see logs for details" };
             }
 
@@ -89,10 +91,12 @@ namespace BlogEngine.Core.Packaging
 
                 // reset cache
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
+
+                Utils.Log(string.Format("Uninstalled package {0} by {1}", pkgId, Security.CurrentUser.Identity.Name));
             }
             catch (Exception ex)
             {
-                Utils.Log("PackageManager.UninstallPackage", ex);
+                Utils.Log("BlogEngine.Core.Packaging.Installer.UninstallPackage(" + pkgId + ")", ex);
                 return new JsonResponse { Success = false, Message = "Error uninstalling package, see logs for details" };
             }
 

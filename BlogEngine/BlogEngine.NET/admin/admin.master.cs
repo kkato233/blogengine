@@ -122,6 +122,8 @@ namespace Admin
                 aLogin.InnerText = Resources.labels.login;
             }
 
+            Page.Header.DataBind();
+
             phRecycleBin.Visible = Security.IsAuthorizedTo(Rights.AccessAdminPages);
             base.OnInit(e);
         }

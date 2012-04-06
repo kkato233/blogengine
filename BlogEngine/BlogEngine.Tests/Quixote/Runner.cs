@@ -19,5 +19,22 @@ namespace BlogEngine.Tests.Quixote
             Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
             Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
         }
+
+        [Test]
+        public void RunAvatarTests()
+        {
+            ie.GoTo(Constants.Root + "/tests/avatar.cshtml");
+            Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
+            Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
+        }
+
+        [Test]
+        [Category("online")]
+        public void RunPackagingTests()
+        {
+            ie.GoTo(Constants.Root + "/tests/packaging.cshtml");
+            Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
+            Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
+        }
     }
 }
