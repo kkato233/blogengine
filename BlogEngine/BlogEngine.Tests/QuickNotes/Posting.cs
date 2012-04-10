@@ -26,7 +26,7 @@ namespace BlogEngine.Tests.QuickNotes
             ie.Link("q-publish").Click();
             ie.GoTo(Constants.Root + "/Account/login.aspx");
             ie.GoTo(Constants.Root);
-            Assert.IsTrue(ie.Html.Contains("Note to publish"));
+            ie.WaitUntilContainsText("Note to publish");
 
             // clean up
             var postList = ie.Page<PostList>();

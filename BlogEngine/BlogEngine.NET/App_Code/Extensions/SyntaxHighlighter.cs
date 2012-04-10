@@ -166,7 +166,7 @@ public class SyntaxHighlighter
     private static void AddJavaScripts(Page page)
     {
         BlogEngine.Core.Web.Scripting.Helpers.AddScript(
-            page, string.Format("{0}Scripts/highlighter", Utils.RelativeWebRoot), false, true, true);
+            page, string.Format("{0}Scripts/highlighter", Utils.ApplicationRelativeWebRoot), false, true, true);
     }
 
     #region Script/Style adding

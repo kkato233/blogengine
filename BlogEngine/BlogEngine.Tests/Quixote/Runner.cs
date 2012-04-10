@@ -13,26 +13,29 @@ namespace BlogEngine.Tests.Quixote
         }
 
         [Test]
+        [Category("primary")]
         public void RunPagerTests()
         {
-            ie.GoTo(Constants.Root + "/tests/pager.cshtml");
+            ie.GoTo(Constants.AppRoot + "/tests/pager.cshtml");
             Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
             Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
         }
 
         [Test]
+        [Category("primary")]
         public void RunAvatarTests()
         {
-            ie.GoTo(Constants.Root + "/tests/avatar.cshtml");
+            ie.GoTo(Constants.AppRoot + "/tests/avatar.cshtml");
             Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
             Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
         }
 
         [Test]
         [Category("online")]
+        [Category("primary")]
         public void RunPackagingTests()
         {
-            ie.GoTo(Constants.Root + "/tests/packaging.cshtml");
+            ie.GoTo(Constants.AppRoot + "/tests/packaging.cshtml");
             Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
             Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
         }

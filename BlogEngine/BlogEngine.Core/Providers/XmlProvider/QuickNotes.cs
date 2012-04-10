@@ -50,6 +50,7 @@ namespace BlogEngine.Core.Providers
                 {
                     writer.WriteStartElement("item");
                     writer.WriteAttributeString("id", n.Id.ToString());
+                    writer.WriteAttributeString("blogid", Blog.CurrentInstance.Id.ToString());
                     writer.WriteAttributeString("note", n.Note);
                     writer.WriteAttributeString("author", n.Author);
                     writer.WriteEndElement();
@@ -94,6 +95,7 @@ namespace BlogEngine.Core.Providers
                 foreach (var s in settings)
                 {
                     writer.WriteStartElement("item");
+                    writer.WriteAttributeString("blogid", Blog.CurrentInstance.Id.ToString());
                     writer.WriteAttributeString("author", s.Author);
                     writer.WriteAttributeString("name", s.SettingName);
                     writer.WriteAttributeString("value", s.SettingValue);
@@ -122,9 +124,10 @@ namespace BlogEngine.Core.Providers
                     select new QuickNote
                     {
                         Id = new Guid(node.Attributes["id"].InnerText),
+                        BlogId = new Guid(node.Attributes["blogid"].InnerText),
                         Author = node.Attributes["author"].InnerText,
                         Note = node.Attributes["note"].InnerText
-                    }).Where(s => s.Author == userId).ToList();
+                    }).Where(s => s.Author == userId && s.BlogId == Blog.CurrentInstance.Id).ToList();
         }
         /// <summary>
         /// Fill quick settings
@@ -144,10 +147,11 @@ namespace BlogEngine.Core.Providers
             return (from XmlNode node in doc.SelectNodes("QuickSettings/item")
                     select new QuickSetting
                     {
+                        BlogId = new Guid(node.Attributes["blogid"].InnerText),
                         Author = node.Attributes["author"].InnerText,
                         SettingName = node.Attributes["name"].InnerText,
                         SettingValue = node.Attributes["value"].InnerText
-                    }).Where(s => s.Author == userId).ToList();
+                    }).Where(s => s.Author == userId && s.BlogId == Blog.CurrentInstance.Id).ToList();
         }
         /// <summary>
         /// Delete quick note

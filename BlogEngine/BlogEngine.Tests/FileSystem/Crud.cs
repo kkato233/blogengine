@@ -10,6 +10,7 @@ namespace BlogEngine.Tests.FileSystem
         readonly string AppCodeDir = Path.Combine(IO.RootPath(), "App_Code");
 
         [Test]
+        [Category("primary")]
         public void CanWriteAndReadAppDataDirectory()
         {
             Assert.IsTrue(WriteReadDirectory(AppDataDir));
@@ -18,6 +19,7 @@ namespace BlogEngine.Tests.FileSystem
 
         [Test]
         [Category("slow")]
+        [Category("primary")]
         public void CanWriteAndReadAppCodeDirectory()
         {
             Assert.IsTrue(WriteReadDirectory(AppCodeDir));

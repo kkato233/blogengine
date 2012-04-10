@@ -19,6 +19,10 @@ namespace BlogEngine.Core.Notes
         /// </summary>
         public Guid Id { get; set; }
         /// <summary>
+        /// Blog ID
+        /// </summary>
+        public Guid BlogId { get; set; }
+        /// <summary>
         /// Note content
         /// </summary>
         public string Note { get; set; }

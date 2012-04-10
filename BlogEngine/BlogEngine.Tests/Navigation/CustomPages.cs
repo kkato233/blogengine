@@ -18,7 +18,8 @@ namespace BlogEngine.Tests.Navigation
             TestFile += "<head runat=\"server\"><title></title></head><body><form id=\"form1\" runat=\"server\"><div>This is a test ASPX page.</div></form></body></html>";
         }
 
-        [Test]  
+        [Test]
+        [Category("primary")]
         public void CanNavigateToCustomAspxPage()
         {
             IO.MkFile("test.aspx", TestFile);
@@ -28,6 +29,7 @@ namespace BlogEngine.Tests.Navigation
         }
 
         [Test]
+        [Category("primary")]
         public void CanNavigateToDefaultAspxPageInSubDiretory()
         {
             IO.MkDir("User controls/test");

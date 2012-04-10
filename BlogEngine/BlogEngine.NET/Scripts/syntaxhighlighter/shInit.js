@@ -1,8 +1,8 @@
 ﻿
 function path() { 
 	var args = arguments, result = []; 
-	for(var i = 0; i < args.length; i++) { 
-		result.push(args[i].replace('@', BlogEngineRes.webRoot + 'Scripts/syntaxhighlighter/')); 
+	for(var i = 0; i < args.length; i++) {
+	    result.push(args[i].replace('@', BlogEngineRes.applicationWebRoot + 'Scripts/syntaxhighlighter/')); 
 	} 
 	return result; 
 }
@@ -18,6 +18,7 @@ SyntaxHighlighter.autoloader.apply(null, path(
 	'delphi pascal          @shBrushDelphi.js',
 	'diff patch pas         @shBrushDiff.js',
 	'erl erlang             @shBrushErlang.js',
+    'f# f-sharp fsharp      @shBrushFSharp.js',
 	'groovy                 @shBrushGroovy.js',
 	'java                   @shBrushJava.js',
 	'jfx javafx             @shBrushJavaFX.js',
@@ -34,6 +35,6 @@ SyntaxHighlighter.autoloader.apply(null, path(
 	'xml xhtml xslt html    @shBrushXml.js'
 ));
 
-SyntaxHighlighter.config.clipboardSwf = BlogEngineRes.webRoot + 'Scripts/syntaxhighlighter/clipboard.swf';
+SyntaxHighlighter.config.clipboardSwf = BlogEngineRes.applicationWebRoot + 'Scripts/syntaxhighlighter/clipboard.swf';
 
 SyntaxHighlighter.all();

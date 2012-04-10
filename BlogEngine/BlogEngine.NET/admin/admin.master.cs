@@ -36,16 +36,13 @@ namespace Admin
                 string.Format(
                     "{0}<a href=\"javascript:HideStatus()\" style=\"width:20px;float:right\">X</a>", 
                     this.Server.HtmlEncode(msg));
-
-            // Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "OpenStatus", 
-            // "ShowStatus('" + status + "','" + msg + "');", true);
         }
 
         #endregion
 
         #region Methods
 
-        protected string AdminJs { get { return Utils.RelativeWebRoot + "admin/js"; } }
+        protected string AdminJs { get { return Utils.ApplicationRelativeWebRoot + "admin/js"; } }
 
         /// <summary>
         /// Gets the current user's photo.

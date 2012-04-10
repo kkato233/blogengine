@@ -105,6 +105,10 @@ public class Qnotes  : WebService {
             int prdIdx = content.IndexOf(".");
             int brkIdx = content.IndexOf("<br />");
 
+            // single sentence with ending period.
+            if (prdIdx +1 == content.Length)
+                prdIdx = -1;
+
             if (prdIdx > 0 && (brkIdx < 0 || brkIdx > prdIdx))
             {
                 title = content.Substring(0, prdIdx);

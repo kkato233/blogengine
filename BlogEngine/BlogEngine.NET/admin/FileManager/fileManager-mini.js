@@ -118,6 +118,7 @@ function Files(Path) {
         data: JSON.stringify(data),
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             hhide();
@@ -163,6 +164,7 @@ function appendFile(path) {
         data: JSON.stringify(data),
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             hhide();
@@ -186,6 +188,7 @@ function deleteFile(path) {
         data: JSON.stringify(data),
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             hhide();
@@ -230,6 +233,7 @@ function setupRename(obj) {
                            data: JSON.stringify(data),
                            type: "POST",
                            contentType: "application/json; charset=utf-8",
+                           beforeSend: onAjaxBeforeSend,
                            dataType: "json",
                            success: function (msg) {
                                hhide();
@@ -295,6 +299,7 @@ function imageChange(change) {
         data: JSON.stringify(data),
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             if (!msg.d.Success) {
@@ -347,6 +352,7 @@ function submitCrop() {
         data: JSON.stringify(data),
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             if (!msg.d.Success) {
@@ -399,6 +405,7 @@ function submitResizeImage() {
         data: JSON.stringify(data),
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             if (!msg.d.Success) {
@@ -417,3 +424,15 @@ $.fn.disableSelection = function () {
                this.onselectstart = function () { return false; };
            });
 };
+
+function onAjaxBeforeSend(jqXHR, settings) {
+
+    // AJAX calls need to be made directly to the real physical location of the
+    // web service/page method.  For this, SiteVars.ApplicationRelativeWebRoot is used.
+    // If an AJAX call is made to a virtual URL (for a blog instance), although
+    // the URL rewriter will rewrite these URLs, we end up with a "405 Method Not Allowed"
+    // error by the web service.  Here we set a request header so the call to the server
+    // is done under the correct blog instance ID.
+
+    jqXHR.setRequestHeader('x-blog-instance', SiteVars.BlogInstanceId);
+}

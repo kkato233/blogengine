@@ -146,19 +146,19 @@ namespace BlogEngine.Core.Web.Scripting
             
             if (Security.IsAuthenticated)
             {
-                AddStyle(page, string.Format("{0}Styles/cssauth", Utils.RelativeWebRoot));
+                AddStyle(page, string.Format("{0}Styles/cssauth", Utils.ApplicationRelativeWebRoot));
 
                 AddScript(page, resourcePath);
-                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.RelativeWebRoot), true, false, false);
-                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.RelativeWebRoot), true, true, true);
+                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.ApplicationRelativeWebRoot), true, false, false);
+                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.ApplicationRelativeWebRoot), true, true, true);
             }
             else
             {
-                AddStyle(page, string.Format("{0}Styles/css", Utils.RelativeWebRoot));
+                AddStyle(page, string.Format("{0}Styles/css", Utils.ApplicationRelativeWebRoot));
 
                 AddScript(page, resourcePath);
-                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.RelativeWebRoot), true, false, false);
-                AddScript(page, string.Format("{0}Scripts/js", Utils.RelativeWebRoot), true, true, true);
+                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.ApplicationRelativeWebRoot), true, false, false);
+                AddScript(page, string.Format("{0}Scripts/js", Utils.ApplicationRelativeWebRoot), true, true, true);
             }          
         }
 

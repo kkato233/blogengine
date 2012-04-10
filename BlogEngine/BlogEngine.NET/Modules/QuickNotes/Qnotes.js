@@ -27,14 +27,15 @@
 
 function QuickNotes() {
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetQuickNotes",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/GetQuickNotes",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             ClearCookies();
-            $('#q-notes').setTemplateURL(BlogEngineRes.webRoot + 'Modules/QuickNotes/Templates/Panel.htm', null, { filter_data: false });
+            $('#q-notes').setTemplateURL(BlogEngineRes.applicationWebRoot + 'Modules/QuickNotes/Templates/Panel.htm', null, { filter_data: false });
             $('#q-notes').processTemplate(msg);
         }
     });  
@@ -43,21 +44,22 @@ function QuickNotes() {
 // NOTE
 function GetNote(id) {
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetNote",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/GetNote",
         data: "{'id':'" + id + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (result) {
             if (id.length > 0) {
                 var rt = result.d;
                 SetCookies(rt.Id, rt.Note);
-                $('#q-panel').setTemplateURL(BlogEngineRes.webRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
+                $('#q-panel').setTemplateURL(BlogEngineRes.applicationWebRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
                 $('#q-panel').processTemplate(result);
                 $('.q-area').val(rt.Note);
             }
             else {
-                $('#q-panel').setTemplateURL(BlogEngineRes.webRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
+                $('#q-panel').setTemplateURL(BlogEngineRes.applicationWebRoot + 'Modules/QuickNotes/Templates/Note.htm', null, { filter_data: false });
                 $('#q-panel').processTemplate(result);
                 $('.q-area').val(JSON.parse($.cookie('quck-note-current')).Note);
             }
@@ -75,13 +77,14 @@ function GetNotes() {
         $.cookie('quck-note-current', JSON.stringify({ "Id": JSON.parse($.cookie('quck-note-current')).Id, "Note": $('.q-area').val() }), { expires: 2 });
     }
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetNotes",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/GetNotes",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
-            $('#q-panel').setTemplateURL(BlogEngineRes.webRoot + 'Modules/QuickNotes/Templates/List.htm', null, { filter_data: false });
+            $('#q-panel').setTemplateURL(BlogEngineRes.applicationWebRoot + 'Modules/QuickNotes/Templates/List.htm', null, { filter_data: false });
             $('#q-panel').processTemplate(msg);
         }
     });
@@ -98,10 +101,11 @@ function SaveNote() {
         id = JSON.parse($.cookie('quck-note-current')).Id;
     }
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/SaveNote",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/SaveNote",
         data: "{'id':'" + id + "', 'note':'" + $('.q-area').val() + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (result) {
             var rt = result.d;
@@ -114,10 +118,11 @@ function SaveNote() {
 function DeleteNote() {
     id = JSON.parse($.cookie('quck-note-current')).Id;
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/DeleteNote",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/DeleteNote",
         data: "{'id':'" + id + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
             NewNote();
@@ -152,10 +157,11 @@ function SaveQuickPost() {
     };
 
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/SaveQuickPost",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/SaveQuickPost",
         type: "POST",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         data: JSON.stringify(dto),
         success: function (result) {
             var rt = result.d;
@@ -177,13 +183,14 @@ function GetSettings() {
         $.cookie('quck-note-current', JSON.stringify({ "Id": JSON.parse($.cookie('quck-note-current')).Id, "Note": $('.q-area').val() }), { expires: 2 });
     }
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/GetSettings",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/GetSettings",
         data: "{ }",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (msg) {
-            $('#q-panel').setTemplateURL(BlogEngineRes.webRoot + 'Modules/QuickNotes/Templates/Settings.htm', null, { filter_data: false });
+            $('#q-panel').setTemplateURL(BlogEngineRes.applicationWebRoot + 'Modules/QuickNotes/Templates/Settings.htm', null, { filter_data: false });
             $('#q-panel').processTemplate(msg);
         }
     });
@@ -192,10 +199,11 @@ function GetSettings() {
 function SaveSettings() {
     ShowLoader();
     $.ajax({
-        url: BlogEngineRes.webRoot + "Modules/QuickNotes/Qnotes.asmx/SaveSettings",
+        url: BlogEngineRes.applicationWebRoot + "Modules/QuickNotes/Qnotes.asmx/SaveSettings",
         data: "{'category':'" + $('#selCategory').val() + "', 'tags':'" + $('#txtTags').val() + "'}",
         type: "POST",
         contentType: "application/json; charset=utf-8",
+        beforeSend: onAjaxBeforeSend,
         dataType: "json",
         success: function (result) {
             ShowSuccess("Saved!");
@@ -255,3 +263,15 @@ $.fn.selectRange = function (start, end) {
         }
     });
 };
+
+function onAjaxBeforeSend(jqXHR, settings) {
+
+    // AJAX calls need to be made directly to the real physical location of the
+    // web service/page method.  For this, SiteVars.ApplicationRelativeWebRoot is used.
+    // If an AJAX call is made to a virtual URL (for a blog instance), although
+    // the URL rewriter will rewrite these URLs, we end up with a "405 Method Not Allowed"
+    // error by the web service.  Here we set a request header so the call to the server
+    // is done under the correct blog instance ID.
+
+    jqXHR.setRequestHeader('x-blog-instance', BlogEngineRes.blogInstanceId);
+}
