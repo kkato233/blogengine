@@ -81,6 +81,7 @@
                 IsAnyTextBeforeHostnameAccepted = b.IsAnyTextBeforeHostnameAccepted,
                 VirtualPath = b.VirtualPath,
                 IsActive = b.IsActive,
+                IsSiteAggregation = b.IsSiteAggregation,
                 IsPrimary = b.IsPrimary,
                 RelativeWebRoot = b.RelativeWebRoot,
                 AbsoluteWebRoot = b.AbsoluteWebRoot,

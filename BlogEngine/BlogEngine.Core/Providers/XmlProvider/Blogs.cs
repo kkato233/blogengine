@@ -72,7 +72,8 @@ namespace BlogEngine.Core.Providers
                         IsAnyTextBeforeHostnameAccepted = node.Attributes["isAnyTextBeforeHostnameAccepted"] == null ? false : bool.Parse(node.Attributes["isAnyTextBeforeHostnameAccepted"].Value),
                         VirtualPath = node.Attributes["virtualPath"] == null ? string.Empty : node.Attributes["virtualPath"].Value,
                         IsPrimary = node.Attributes["isPrimary"] == null ? false : bool.Parse(node.Attributes["isPrimary"].Value),
-                        IsActive = node.Attributes["isActive"] == null ? false : bool.Parse(node.Attributes["isActive"].Value)
+                        IsActive = node.Attributes["isActive"] == null ? false : bool.Parse(node.Attributes["isActive"].Value),
+                        IsSiteAggregation = node.Attributes["isSiteAggregation"] == null ? false : bool.Parse(node.Attributes["isSiteAggregation"].Value)
                     };
 
                     blogs.Add(b);
@@ -105,7 +106,7 @@ namespace BlogEngine.Core.Providers
         /// </returns>
         public override Blog SelectBlog(Guid id)
         {
-            var blog = Blog.Blogs.Find(b => b.Id == id) ?? new Blog();
+            var blog = Blog.Blogs.Find(b => b.Id == id) ?? new Blog() { Id = id };
 
             blog.MarkOld();
             return blog;
@@ -156,6 +157,7 @@ namespace BlogEngine.Core.Providers
                     writer.WriteAttributeString("virtualPath", (b.VirtualPath ?? string.Empty).Trim());
                     writer.WriteAttributeString("isPrimary", b.IsPrimary.ToString());
                     writer.WriteAttributeString("isActive", b.IsActive.ToString());
+                    writer.WriteAttributeString("isSiteAggregation", b.IsSiteAggregation.ToString());
 
                     writer.WriteEndElement();
                     b.MarkOld();

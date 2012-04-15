@@ -349,6 +349,22 @@
         }
 
         /// <summary>
+        ///     Returns a relative link if possible if the hostname of this blog instance matches the
+        ///     hostname of the site aggregation blog.  If the hostname is different, then the
+        ///     absolute link is returned.
+        /// </summary>
+        public string RelativeOrAbsoluteLink
+        {
+            get
+            {
+                if (this.Blog.DoesHostnameDifferFromSiteAggregationBlog)
+                    return this.AbsoluteLink.ToString();
+                else
+                    return this.RelativeLink;
+            }
+        }
+
+        /// <summary>
         ///     Gets or sets a value indicating whether or not this page should be in the sitemap list.
         /// </summary>
         public bool ShowInList

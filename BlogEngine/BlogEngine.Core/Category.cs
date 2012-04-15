@@ -24,7 +24,7 @@
         /// <summary>
         ///     The categories.
         /// </summary>
-        private static Dictionary<Guid, List<Category>> categories;
+        private static Dictionary<Guid, List<Category>> categories = new Dictionary<Guid, List<Category>>();
 
         /// <summary>
         ///     The description.
@@ -97,7 +97,7 @@
         #region Properties
 
         /// <summary>
-        ///     Gets an unsorted list of all Categories.
+        ///     Gets a sorted list of all Categories.
         /// </summary>
         /// <value>The categories.</value>
         public static List<Category> Categories
@@ -105,23 +105,83 @@
             get
             {
                 Blog blog = Blog.CurrentInstance;
+                List<Category> blogCategories;
 
-                if (categories == null || !categories.ContainsKey(blog.Id))
+                if (!categories.TryGetValue(blog.BlogId, out blogCategories))
                 {
                     lock (SyncRoot)
                     {
-                        if (categories == null || !categories.ContainsKey(blog.Id))
+                        if (!categories.TryGetValue(blog.BlogId, out blogCategories))
                         {
-                            if (categories == null)
-                                categories = new Dictionary<Guid, List<Category>>();
-
-                            categories[blog.Id] = BlogService.FillCategories();
-                            categories[blog.Id].Sort();
+                            categories[blog.Id] = blogCategories = BlogService.FillCategories();
+                            blogCategories.Sort();
                         }
                     }
                 }
 
-                return categories[blog.Id];
+                return blogCategories;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a sorted list of all Categories across all blog instances.
+        /// </summary>
+        /// <value>The categories.</value>
+        public static List<Category> AllBlogCategories
+        {
+            get
+            {
+                List<Blog> blogs = Blog.Blogs.Where(b => b.IsActive).ToList();
+                Guid originalBlogInstanceIdOverride = Blog.InstanceIdOverride;
+                List<Category> categoriesAcrossAllBlogs = new List<Category>();
+
+                // Categories are not loaded for a blog instance until that blog
+                // instance is first accessed.  For blog instances where the
+                // categories have not yet been loaded, using InstanceIdOverride to
+                // temporarily switch the blog CurrentInstance blog so the Categories
+                // for that blog instance can be loaded.
+                //
+                for (int i = 0; i < blogs.Count; i++)
+                {
+                    List<Category> blogCategories;
+                    if (!categories.TryGetValue(blogs[i].Id, out blogCategories))
+                    {
+                        // temporarily override the Current BlogId to the
+                        // blog Id we need categories to be loaded for.
+                        Blog.InstanceIdOverride = blogs[i].Id;
+                        blogCategories = Categories;
+                        Blog.InstanceIdOverride = originalBlogInstanceIdOverride;
+                    }
+
+                    categoriesAcrossAllBlogs.AddRange(blogCategories);
+                }
+
+                categoriesAcrossAllBlogs.Sort();
+                return categoriesAcrossAllBlogs;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a sorted list of all Categories, taking into account the
+        ///     current blog instance's Site Aggregation status in determining if
+        ///     categories from just the current instance or all instances should
+        ///     be returned.
+        /// </summary>
+        /// <remarks>
+        ///     This logic could be put into the normal 'Categories' property, however
+        ///     there are times when a Site Aggregation blog instance may just need
+        ///     its own categories.  So ApplicableCategories can be called when data
+        ///     across all blog instances may be needed, and Categories can be called
+        ///     when data for just the current blog instance is needed.
+        /// </remarks>
+        public static List<Category> ApplicableCategories
+        {
+            get
+            {
+                if (Blog.CurrentInstance.IsSiteAggregation)
+                    return AllBlogCategories;
+                else
+                    return Categories;
             }
         }
 
@@ -133,7 +193,23 @@
         {
             get
             {
-                return Utils.ConvertToAbsolute(this.RelativeLink);
+                return new Uri(this.Blog.AbsoluteWebRootAuthority + this.RelativeLink);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a relative link if possible if the hostname of this blog instance matches the
+        ///     hostname of the site aggregation blog.  If the hostname is different, then the
+        ///     absolute link is returned.
+        /// </summary>
+        public string RelativeOrAbsoluteLink
+        {
+            get
+            {
+                if (this.Blog.DoesHostnameDifferFromSiteAggregationBlog)
+                    return this.AbsoluteLink.ToString();
+                else
+                    return this.RelativeLink;
             }
         }
 
@@ -176,7 +252,7 @@
             {
                 return string.Format(
                     "{0}category/feed/{1}{2}",
-                    Utils.RelativeWebRoot,
+                    this.Blog.RelativeWebRoot,
                     Utils.RemoveIllegalCharacters(this.Title),
                     BlogConfig.FileExtension);
             }
@@ -219,7 +295,7 @@
         {
             get
             {
-                return Utils.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(this.Title) +
+                return this.Blog.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(this.Title) +
                        BlogConfig.FileExtension;
             }
         }
@@ -256,7 +332,24 @@
         /// </returns>
         public static Category GetCategory(Guid id)
         {
-            return Categories.FirstOrDefault(category => category.Id == id);
+            return GetCategory(id, false);
+        }
+
+        /// <summary>
+        /// Returns a category based on the specified id.
+        /// </summary>
+        /// <param name="id">
+        /// The category id.
+        /// </param>
+        /// <param name="acrossAllBlogInstances">
+        /// Whether to search across the categories of all blog instances.
+        /// </param>
+        /// <returns>
+        /// The category.
+        /// </returns>
+        public static Category GetCategory(Guid id, bool acrossAllBlogInstances)
+        {
+            return (acrossAllBlogInstances ? AllBlogCategories : Categories).FirstOrDefault(category => category.Id == id);
         }
 
         /// <summary>

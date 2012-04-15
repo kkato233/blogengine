@@ -9,6 +9,7 @@
         <tr>
             <th width="70" style="text-align:center;">{BlogAdmin.i18n.active}</th>
             <th width="70" style="text-align:center;">{BlogAdmin.i18n.primary}</th>
+            <th width="70" style="text-align:center;">{BlogAdmin.i18n.isForSiteAggregation}</th>
             <th width="auto">{BlogAdmin.i18n.name}</th>
             <th width="250">{BlogAdmin.i18n.hostName}</th>
             <th width="180">{BlogAdmin.i18n.textBeforeHostName}</th>
@@ -22,6 +23,7 @@
         <tr id="{$T.b.Id}" class="{#cycle values=['','alt']}">
             <td style="text-align:center;"><span class="published-{$T.b.IsActive}"></span></td>
             <td style="text-align:center;"><span class="published-{$T.b.IsPrimary}"></span></td>
+            <td style="text-align:center;"><span class="published-{$T.b.IsSiteAggregation}"></span></td>
             <td><a href='{$T.b.AbsoluteWebRoot}' target='_blank'><span>{$T.b.Name}</span></a></td>
             <td><span>{$T.b.Hostname}</span></td>
             <td style="text-align:center;"><span class="published-{$T.b.IsAnyTextBeforeHostnameAccepted}"></span></td>

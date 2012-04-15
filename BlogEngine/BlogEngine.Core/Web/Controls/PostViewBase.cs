@@ -42,6 +42,11 @@
                 var post = this.Post;
                 var body = post.Content;
 
+                if (Blog.CurrentInstance.IsSiteAggregation)
+                {
+                    body = Utils.ConvertPublishablePathsToAbsolute(body, post);
+                }
+
                 if (this.ShowExcerpt)
                 {
                     var link = string.Format(" <a href=\"{0}\">[{1}]</a>", post.RelativeLink, Utils.Translate("more"));
@@ -204,7 +209,7 @@
                         sb.AppendFormat(
                             CultureInfo.InvariantCulture,
                             "<a href=\"{0}\">{1}</a> | ",
-                        Utils.AbsoluteWebRoot + "admin/Posts/Add_entry.aspx?id=" + this.Post.Id,
+                        Post.Blog.AbsoluteWebRoot + "admin/Posts/Add_entry.aspx?id=" + this.Post.Id,
                             Utils.Translate("edit"));
                     }
 
@@ -242,12 +247,13 @@
                     return string.Empty;
                 }
 
-                const string Script = "<div class=\"ratingcontainer\" style=\"visibility:hidden\">{0}|{1}|{2}</div>";
+                const string Script = "<div class=\"ratingcontainer\" style=\"visibility:hidden\">{0}|{1}|{2}|{3}</div>";
                 return string.Format(
                     Script,
                     this.Post.Id,
                     this.Post.Raters,
-                    this.Post.Rating.ToString("#.0", CultureInfo.InvariantCulture));
+                    this.Post.Rating.ToString("#.0", CultureInfo.InvariantCulture),
+                    this.Post.BlogId);
             }
         }
 
@@ -270,10 +276,10 @@
             const string Link = "<a href=\"{0}\">{1}</a>";
             for (var i = 0; i < this.Post.Categories.Count; i++)
             {
-                var c = Category.GetCategory(this.Post.Categories[i].Id);
+                var c = Category.GetCategory(this.Post.Categories[i].Id, true);
                 if (c != null)
                 {
-                    keywords[i] = string.Format(CultureInfo.InvariantCulture, Link, c.RelativeLink, c.Title);
+                    keywords[i] = string.Format(CultureInfo.InvariantCulture, Link, c.RelativeOrAbsoluteLink, c.Title);
                 }
             }
 
@@ -340,7 +346,7 @@
 
             var tagStrings = new string[tags.Count];
             const string Link = "<a href=\"{0}/{1}\" rel=\"tag\">{2}</a>";
-            var path = Utils.RelativeWebRoot + "?tag=";
+            var path = Post.Blog.AbsoluteWebRoot + "?tag=";
             for (var i = 0; i < tags.Count; i++)
             {
                 var tag = tags[i];

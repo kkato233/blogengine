@@ -196,7 +196,7 @@
             }
 
             // The latest posts
-            return Post.Posts.ConvertAll(ConvertToIPublishable);
+            return Post.ApplicablePosts.ConvertAll(ConvertToIPublishable);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@
         /// </returns>
         private static List<IPublishable> RecentComments()
         {
-            var temp = Post.Posts.SelectMany(post => post.ApprovedComments).ToList();
+            var temp = Post.ApplicablePosts.SelectMany(post => post.ApprovedComments).ToList();
 
             temp.Sort();
             temp.Reverse();

@@ -62,6 +62,18 @@
         Guid Id { get; }
 
         /// <summary>
+        ///     Gets the blog instance ID.
+        /// </summary>
+        /// <value>The blog instance ID containing the publishable.</value>
+        Guid BlogId { get; }
+
+        /// <summary>
+        ///     Gets the blog instance.
+        /// </summary>
+        /// <value>The blog instance containing the publishable.</value>
+        Blog Blog { get; }
+
+        /// <summary>
         ///     Gets a value indicating whether or not this item is published.
         /// </summary>
         bool IsPublished { get; }
@@ -71,6 +83,14 @@
         /// </summary>
         /// <value>The relative link.</value>
         string RelativeLink { get; }
+
+        /// <summary>
+        ///     Returns a relative link if possible if the hostname of this blog instance matches the
+        ///     hostname of the site aggregation blog.  If the hostname is different, then the
+        ///     absolute link is returned.
+        /// </summary>
+        /// <value>The relative link.</value>
+        string RelativeOrAbsoluteLink { get; }
 
         /// <summary>
         ///     Gets the title of the object
