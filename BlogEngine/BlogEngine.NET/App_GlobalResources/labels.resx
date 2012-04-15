@@ -1726,6 +1726,9 @@
   <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
     <value>Accept Any Text before Host Name</value>
   </data>
+  <data name="isForSiteAggregation" xml:space="preserve">
+    <value>Is For Site Aggregation</value>
+  </data>
   <data name="latestFromTheGallery" xml:space="preserve">
     <value>Latest from the gallery</value>
   </data>
@@ -1936,7 +1939,7 @@
   <data name="spamProtection" xml:space="preserve">
     <value>Spam protection</value>
   </data>
-  <data name="widgets" xml:space="preserve">
-    <value>Widgets</value>
+  <data name="hasRated" xml:space="preserve">
+    <value>You already rated this post.</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/admin/admin.master" AutoEventWireup="true" CodeFile="Blogs.aspx.cs" Inherits="Admin.Blogs" %>
+<%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
 
@@ -18,7 +19,8 @@
                 "hostname": $.trim($('#txtHostname').val()),
                 "isAnyTextBeforeHostnameAccepted": $('#cbAcceptAnyTextBeforeHostname').is(':checked'),
                 "virtualPath": $.trim($('#txtVirtualPath').val()),
-                "isActive": $('#cbActive').is(':checked')
+                "isActive": $('#cbActive').is(':checked'),
+                "isSiteAggregation": $('#cbIsSiteAggregation').is(':checked')
             };
 
             return data;
@@ -147,6 +149,7 @@
 
             SetCheckbox($('#cbAcceptAnyTextBeforeHostname'), data.IsAnyTextBeforeHostnameAccepted);
             SetCheckbox($('#cbActive'), data.IsActive);
+            SetCheckbox($('#cbIsSiteAggregation'), data.IsSiteAggregation);
 
             OpenColorbox();
         }
@@ -282,6 +285,7 @@
             $('#cbAcceptAnyTextBeforeHostname').attr('checked', 'checked');
             $('#txtVirtualPath').val('');
             $('#cbActive').attr('checked', 'checked');
+            $('#cbIsSiteAggregation').removeAttr('checked');
         }
 
         function OpenColorbox() {
@@ -361,6 +365,14 @@
                 <td>
                         <label for="cbActive" class="lbl"><%=Resources.labels.active %></label>
 				        <input type="checkbox" id="cbActive"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                        <label for="cbIsSiteAggregation" class="lbl"><%=Resources.labels.isForSiteAggregation%></label>
+				        <input type="checkbox" id="cbIsSiteAggregation"/>
                 </td>
             </tr>
         </table>

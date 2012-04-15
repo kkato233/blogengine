@@ -50,7 +50,7 @@
 
             <div id="footer">
                 <a href="http://dotnetblogengine.net">BlogEngine.NET <%=BlogSettings.Instance.Version() %></a> | 
-                <a id="donate" href="<%= Utils.RelativeWebRoot %>admin/Donate.aspx" target="_new"><%=Resources.labels.makeDonation %></a>          
+                <a id="donate" href="http://dotnetblogengine.net/Donate.aspx" target="_new"><%=Resources.labels.makeDonation %></a>          
             </div>
 
         </form>    

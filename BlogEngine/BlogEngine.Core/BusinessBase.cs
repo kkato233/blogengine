@@ -62,6 +62,13 @@
         {
             this.New = true;
             this.IsChanged = true;
+
+            // for the case of Blog type, do not set BlogId because
+            // that requires accessing Blog.CurrentInstance which can
+            // lead to a stackoverflow when the app is first loading.
+            // instead, allow the Blog constructor set the BlogId.
+            if (this.GetType() != typeof(Blog))
+                this.BlogId = Blog.CurrentInstance.Id;
         }
 
         #endregion
@@ -141,7 +148,20 @@
         /// <summary>
         ///     Gets or sets the unique Identification of the object.
         /// </summary>
-        public TKey Id { get; set; }
+        public virtual TKey Id { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Blog instance ID this object is under.
+        /// </summary>
+        public Guid BlogId { get; internal set; }
+
+        /// <summary>
+        ///     Gets the Blog instance this object is under.
+        /// </summary>
+        public Blog Blog
+        {
+            get { return Blog.GetBlog(BlogId); }
+        }
 
         /// <summary>
         ///     Gets a value indicating whether if this object's data has been changed.

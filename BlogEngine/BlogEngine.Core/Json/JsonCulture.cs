@@ -122,6 +122,7 @@ namespace BlogEngine.Core.Json
                 AddResource("noPendingComments");
                 AddResource("noApprovedComments");
                 AddResource("noPingbacksTrackbacks");
+                AddResource("isForSiteAggregation");
             }
             else
             {
