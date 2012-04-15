@@ -114,24 +114,7 @@
         /// <value>A string that ends with a '/'.</value>
         public static Uri AbsoluteWebRoot
         {
-            get
-            {
-                var context = HttpContext.Current;
-                if (context == null)
-                {
-                    throw new WebException("The current HttpContext is null");
-                }
-
-                var absoluteurl = context.Items["absoluteurl"];
-                if (absoluteurl == null)
-                {
-                    absoluteurl = new Uri(context.Request.Url.GetLeftPart(UriPartial.Authority) + RelativeWebRoot);
-                    context.Items["absoluteurl"] = absoluteurl;
-                }
-
-                return absoluteurl as Uri;
-
-            }
+            get { return Blog.CurrentInstance.AbsoluteWebRoot; }
         }
 
         /// <summary>
@@ -224,6 +207,22 @@
                 return applicationRelativeWebRoot ??
                        (applicationRelativeWebRoot =
                         VirtualPathUtility.ToAbsolute(BlogConfig.VirtualPath));
+            }
+        }
+
+        /// <summary>
+        ///     Returns the relative webroot if possible if the hostname of this blog instance matches the
+        ///     hostname of the site aggregation blog.  If the hostname is different, then the
+        ///     absolute webroot is returned.
+        /// </summary>
+        public static string RelativeOrAbsoluteWebRoot
+        {
+            get
+            {
+                if (Blog.CurrentInstance.DoesHostnameDifferFromSiteAggregationBlog)
+                    return AbsoluteWebRoot.ToString();
+                else
+                    return RelativeWebRoot.ToString();
             }
         }
 
@@ -584,6 +583,28 @@
             }
 
             return urls;
+        }
+
+        /// <summary>
+        /// Converts all the relative paths in the specified content to absolute.
+        /// </summary>
+        /// <param name="content">
+        /// The content.
+        /// </param>
+        /// <param name="publishable">
+        /// The publishable.
+        /// </param>
+        public static string ConvertPublishablePathsToAbsolute(string content, IPublishable publishable)
+        {
+            content = content.Replace(
+                string.Format("\"{0}image.axd", publishable.Blog.AbsoluteWebRoot.AbsolutePath), "\"" + publishable.Blog.AbsoluteWebRoot + "image.axd");
+            content = content.Replace(
+                string.Format("\"{0}file.axd", publishable.Blog.AbsoluteWebRoot.AbsolutePath), "\"" + publishable.Blog.AbsoluteWebRoot + "file.axd");
+            content = content.Replace(string.Format("href=\"{0}{1}", publishable.Blog.RelativeWebRoot, string.Empty), string.Format("href=\"{0}", publishable.Blog.AbsoluteWebRoot));
+
+            content = content.Replace("href=\"/", string.Format("href=\"{0}", publishable.Blog.AbsoluteWebRoot));
+
+            return content;
         }
 
         /// <summary>

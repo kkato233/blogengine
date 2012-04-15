@@ -226,12 +226,11 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// </summary>
 	protected string ShortenUrl(string uri)
 	{
-		string url = Utils.ConvertToAbsolute(uri).ToString();
-		if (!url.Contains("#"))
-			return url;
+        if (!uri.Contains("#"))
+            return uri;
 
-		int index = url.IndexOf("#");
-		return url.Substring(0, index);
+        int index = uri.IndexOf("#");
+        return uri.Substring(0, index);
 	}
 
 	/// <summary>

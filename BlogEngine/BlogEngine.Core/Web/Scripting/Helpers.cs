@@ -140,7 +140,7 @@ namespace BlogEngine.Core.Web.Scripting
         /// Add bundles created by web.optimization
         /// </summary>
         /// <param name="page">Base page</param>
-        public static void AddBudnledStylesAndScripts(System.Web.UI.Page page)
+        public static void AddBundledStylesAndScripts(System.Web.UI.Page page)
         {
             var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
             

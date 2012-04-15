@@ -48,12 +48,12 @@
         /// <summary>
         /// The posts.
         /// </summary>
-        private static Dictionary<Guid, List<Post>> posts;
+        private static Dictionary<Guid, List<Post>> posts = new Dictionary<Guid, List<Post>>();
 
         /// <summary>
         /// The deleted posts.
         /// </summary>
-        private static Dictionary<Guid, List<Post>> deletedposts;
+        private static Dictionary<Guid, List<Post>> deletedposts = new Dictionary<Guid, List<Post>>();
 
         /// <summary>
         ///     The author.
@@ -139,13 +139,7 @@
                     Blog blog = s as Blog;
                     if (blog != null)
                     {
-                        // remove deleted blog from static 'posts' and 'deletedposts'
-
-                        if (posts != null && posts.ContainsKey(blog.Id))
-                            posts.Remove(blog.Id);
-
-                        if (deletedposts != null && deletedposts.ContainsKey(blog.Id))
-                            deletedposts.Remove(blog.Id);
+                        RefreshPostLists(blog);
                     }
                 }
             };
@@ -228,24 +222,93 @@
             get
             {
                 Blog blog = Blog.CurrentInstance;
+                List<Post> blogPosts;
 
-                if (posts == null || !posts.ContainsKey(blog.Id))
+                if (!posts.TryGetValue(blog.BlogId, out blogPosts))
                 {
                     lock (SyncRoot)
                     {
-                        if (posts == null || !posts.ContainsKey(blog.Id))
+                        if (!posts.TryGetValue(blog.BlogId, out blogPosts))
                         {
-                            if (posts == null)
-                                posts = new Dictionary<Guid, List<Post>>();
-
-                            posts[blog.Id] = BlogService.FillPosts().Where(p => p.IsDeleted == false).ToList();
-                            posts[blog.Id].TrimExcess();
-                            AddRelations();
+                            posts[blog.Id] = blogPosts = BlogService.FillPosts().Where(p => p.IsDeleted == false).ToList();
+                            blogPosts.TrimExcess();
+                            AddRelations(blogPosts);
                         }
                     }
                 }
 
-                return posts[blog.Id];
+                return blogPosts;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a sorted collection of all undeleted posts across all blogs.
+        ///     Sorted by date.
+        /// </summary>
+        public static List<Post> AllBlogPosts
+        {
+            get
+            {
+                List<Blog> blogs = Blog.Blogs.Where(b => b.IsActive).ToList();
+                Guid originalBlogInstanceIdOverride = Blog.InstanceIdOverride;
+                List<Post> postsAcrossAllBlogs = new List<Post>();
+
+                // Posts are not loaded for a blog instance until that blog
+                // instance is first accessed.  For blog instances where the
+                // posts have not yet been loaded, using InstanceIdOverride to
+                // temporarily switch the blog CurrentInstance blog so the Posts
+                // for that blog instance can be loaded.
+                //
+                for (int i = 0; i < blogs.Count; i++)
+                {
+                    List<Post> blogPosts;
+                    if (!posts.TryGetValue(blogs[i].Id, out blogPosts))
+                    {
+                        // temporarily override the Current BlogId to the
+                        // blog Id we need posts to be loaded for.
+                        Blog.InstanceIdOverride = blogs[i].Id;
+                        blogPosts = Posts;
+                        Blog.InstanceIdOverride = originalBlogInstanceIdOverride;
+                    }
+
+                    postsAcrossAllBlogs.AddRange(blogPosts);
+                }
+
+                postsAcrossAllBlogs.Sort();
+                
+                // do not call AddRelations(). that will change the Next/Previous properties
+                // to point to posts in other blogs, which leads to the Next / Previous
+                // posts pointing to posts in other blog instances when viewing a single post
+                // (in post.aspx).  If Next/Previous is needed for the posts returned
+                // here in AllBlogPosts, would be better to create new properties
+                // (e.g. AllBlogsNextPost, AllBlogsPreviousPost).
+                // AddRelations(postsAcrossAllBlogs);
+
+                return postsAcrossAllBlogs;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a sorted collection of all undeleted posts, taking into account the
+        ///     current blog instance's Site Aggregation status in determining if posts
+        ///     from just the current instance or all instances should be returned.
+        ///     Sorted by date.
+        /// </summary>
+        /// <remarks>
+        ///     This logic could be put into the normal 'Posts' property, however
+        ///     there are times when a Site Aggregation blog instance may just need
+        ///     its own posts.  So ApplicablePosts can be called when data across
+        ///     all blog instances may be needed, and Posts can be called when data
+        ///     for just the current blog instance is needed.
+        /// </remarks>
+        public static List<Post> ApplicablePosts
+        {
+            get
+            {
+                if (Blog.CurrentInstance.IsSiteAggregation)
+                    return AllBlogPosts;
+                else
+                    return Posts;
             }
         }
 
@@ -258,24 +321,21 @@
             get
             {
                 Blog blog = Blog.CurrentInstance;
+                List<Post> blogPosts;
 
-                if (deletedposts == null || !deletedposts.ContainsKey(blog.Id))
+                if (!deletedposts.TryGetValue(blog.Id, out blogPosts))
                 {
                     lock (SyncRoot)
                     {
-                        if (deletedposts == null || !deletedposts.ContainsKey(blog.Id))
+                        if (!deletedposts.TryGetValue(blog.Id, out blogPosts))
                         {
-                            if (deletedposts == null)
-                            {
-                                deletedposts = new Dictionary<Guid, List<Post>>();
-                            }
-
-                            deletedposts[blog.Id] = BlogService.FillPosts().Where(p => p.IsDeleted == true).ToList();
+                            blogPosts = BlogService.FillPosts().Where(p => p.IsDeleted == true).ToList();
+                            deletedposts[blog.Id] = blogPosts;
                         }
                     }
                 }
 
-                return deletedposts[blog.Id];
+                return blogPosts;
             }
         }
 
@@ -286,7 +346,7 @@
         {
             get
             {
-                return Utils.ConvertToAbsolute(this.RelativeLink);
+                return new Uri(this.Blog.AbsoluteWebRootAuthority + this.RelativeLink);
             }
         }
 
@@ -418,7 +478,7 @@
         {
             get
             {
-                return new Uri(string.Format("{0}post.aspx?id={1}", Utils.AbsoluteWebRoot, this.Id));
+                return new Uri(string.Format("{0}post.aspx?id={1}", this.Blog.AbsoluteWebRoot, this.Id));
             }
         }
 
@@ -507,10 +567,26 @@
                 return BlogSettings.Instance.TimeStampPostLinks
                            ? string.Format(
                                "{0}post/{1}{2}",
-                               Utils.RelativeWebRoot,
+                               this.Blog.RelativeWebRoot,
                                this.DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture),
                                theslug)
                            : string.Format("{0}post/{1}", Utils.RelativeWebRoot, theslug);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a relative link if possible if the hostname of this blog instance matches the
+        ///     hostname of the site aggregation blog.  If the hostname is different, then the
+        ///     absolute link is returned.
+        /// </summary>
+        public string RelativeOrAbsoluteLink
+        {
+            get
+            {
+                if (this.Blog.DoesHostnameDifferFromSiteAggregationBlog)
+                    return this.AbsoluteLink.ToString();
+                else
+                    return this.RelativeLink;
             }
         }
 
@@ -565,7 +641,7 @@
         {
             get
             {
-                return new Uri(string.Format("{0}trackback.axd?id={1}", Utils.AbsoluteWebRoot, this.Id));
+                return new Uri(string.Format("{0}trackback.axd?id={1}", this.Blog.AbsoluteWebRoot, this.Id));
             }
         }
 
@@ -864,7 +940,7 @@
         /// </returns>
         public static List<Post> GetPostsByDate(DateTime dateFrom, DateTime dateTo)
         {
-            var list = Posts.FindAll(p => p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
+            var list = ApplicablePosts.FindAll(p => p.DateCreated.Date >= dateFrom && p.DateCreated.Date <= dateTo);
             return list;
         }
 
@@ -882,7 +958,7 @@
             tag = Utils.RemoveIllegalCharacters(tag);
 
             var list =
-                Posts.FindAll(
+                ApplicablePosts.FindAll(
                     p =>
                     p.Tags.Any(t => Utils.RemoveIllegalCharacters(t).Equals(tag, StringComparison.OrdinalIgnoreCase)));
 
@@ -932,9 +1008,7 @@
         /// </summary>
         public static void Reload()
         {
-            posts[Blog.CurrentInstance.Id] = BlogService.FillPosts();
-            posts[Blog.CurrentInstance.Id].Sort();
-            AddRelations();
+            RefreshPostLists(Blog.CurrentInstance);
         }
 
         /// <summary>
@@ -1267,9 +1341,16 @@
             this.IsDeleted = true;
             DataUpdate();
 
-            // refresh posts list
-            posts = null;
-            deletedposts = null;
+            lock (SyncRoot)
+            {
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (posts.ContainsKey(blogId))
+                    posts.Remove(blogId);
+
+                if (deletedposts.ContainsKey(blogId))
+                    deletedposts.Remove(blogId);
+            }
         }
 
         /// <summary>
@@ -1280,20 +1361,27 @@
             BlogService.DeletePost(this);
             if (!Posts.Contains(this))
             {
-                // refresh posts list
-                posts = null;
-                deletedposts = null;
-
+                RefreshPostLists(Blog.CurrentInstance);
                 return;
             }
 
             Posts.Remove(this);
             this.Dispose();
-            AddRelations();
+            AddRelations(Posts);
 
-            // refresh posts list
-            posts = null;
-            deletedposts = null;
+            RefreshPostLists(Blog.CurrentInstance);
+        }
+
+        private static void RefreshPostLists(Blog blog)
+        {
+            lock (SyncRoot)
+            {
+                if (posts.ContainsKey(blog.BlogId))
+                    posts.Remove(blog.BlogId);
+
+                if (deletedposts.ContainsKey(blog.BlogId))
+                    deletedposts.Remove(blog.BlogId);
+            }
         }
 
         /// <summary>
@@ -1304,9 +1392,7 @@
             this.IsDeleted = false;
             DataUpdate();
 
-            // refresh posts list
-            posts = null;
-            deletedposts = null;
+            RefreshPostLists(Blog.CurrentInstance);
         }
 
         /// <summary>
@@ -1323,7 +1409,7 @@
 
             Posts.Add(this);
             Posts.Sort();
-            AddRelations();
+            AddRelations(Posts);
         }
 
         /// <summary>
@@ -1347,7 +1433,7 @@
         {
             BlogService.UpdatePost(this);
             Posts.Sort();
-            AddRelations();
+            AddRelations(Posts);
             this.ResetNestedComments();
         }
 
@@ -1532,23 +1618,20 @@
         /// <summary>
         /// Sets the Previous and Next properties to all posts.
         /// </summary>
-        private static void AddRelations()
+        private static void AddRelations(List<Post> posts)
         {
-            Blog blog = Blog.CurrentInstance;
-            List<Post> blogPosts = posts[blog.Id];
-
-            for (var i = 0; i < blogPosts.Count; i++)
+            for (var i = 0; i < posts.Count; i++)
             {
-                blogPosts[i].Next = null;
-                blogPosts[i].Previous = null;
+                posts[i].Next = null;
+                posts[i].Previous = null;
                 if (i > 0)
                 {
-                    blogPosts[i].Next = blogPosts[i - 1];
+                    posts[i].Next = posts[i - 1];
                 }
 
-                if (i < blogPosts.Count - 1)
+                if (i < posts.Count - 1)
                 {
-                    blogPosts[i].Previous = blogPosts[i + 1];
+                    posts[i].Previous = posts[i + 1];
                 }
             }
         }

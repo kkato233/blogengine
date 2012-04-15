@@ -464,12 +464,20 @@
             var url = context.Request.Url.ToString();
             var match = string.Format("{0}DEFAULT{1}", Utils.AbsoluteWebRoot, BlogConfig.FileExtension);
 
-            // case when month clicked in the month list
-            // default page will be like site.com/2012/10/default.aspx
             var u = GetUrlWithQueryString(context);
-            if (YearMonthRegex.IsMatch(u))
+            var m = YearMonthDayRegex.Match(u);
+
+            // case when month/day clicked in the calendar widget/control
+            // default page will be like site.com/2012/10/15/default.aspx
+            if (!m.Success)
             {
-                var m = YearMonthRegex.Match(u);
+                // case when month clicked in the month list
+                // default page will be like site.com/2012/10/default.aspx
+                m = YearMonthRegex.Match(u);
+            }
+
+            if (m.Success)
+            {
                 var s = string.Format("{0}{1}DEFAULT{2}", Utils.AbsoluteWebRoot, m.ToString().Substring(1), BlogConfig.FileExtension);
 
                 Utils.Log("Url: " + url + "; s: " + s);

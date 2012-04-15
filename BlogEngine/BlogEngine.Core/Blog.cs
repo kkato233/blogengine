@@ -17,7 +17,6 @@ namespace BlogEngine.Core
     /// </summary>
     public class Blog : BusinessBase<Blog, Guid>, IComparable<Blog>
     {
-        
         /// <summary>
         ///     Whether the blog is deleted.
         /// </summary>
@@ -62,6 +61,11 @@ namespace BlogEngine.Core
         ///     The relative web root.
         /// </summary>
         private string relativeWebRoot;
+
+        /// <summary>
+        ///     Whether this blog instance is an aggregration of data across all blog instances.
+        /// </summary>
+        private bool isSiteAggregation;
 
         /// <summary>
         ///     Flag used when blog is deleted on whether the storage container will be deleted too.
@@ -110,6 +114,21 @@ namespace BlogEngine.Core
                 // instances are no longer primary.
 
                 base.SetValue("IsPrimary", value, ref this.isPrimary);
+            }
+        }
+
+        /// <summary>
+        ///     Gets whether this blog instance is an aggregration of data across all blog instances.
+        /// </summary>
+        public bool IsSiteAggregation
+        {
+            get
+            {
+                return this.isSiteAggregation;
+            }
+            set
+            {
+                base.SetValue("IsSiteAggregation", value, ref this.isSiteAggregation);
             }
         }
 
@@ -207,6 +226,19 @@ namespace BlogEngine.Core
                 this.relativeWebRoot = null;
 
                 base.SetValue("VirtualPath", value, ref this.virtualPath);
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets the unique Identification of the blog instance.
+        /// </summary>
+        public override Guid Id
+        {
+            get { return base.Id; }
+            set
+            {
+                base.Id = value;
+                base.BlogId = value;
             }
         }
 
@@ -359,9 +391,9 @@ namespace BlogEngine.Core
         public Blog()
         {
             this.Id = Guid.NewGuid();
+            this.BlogId = this.Id;
             this.DateCreated = DateTime.Now;
             this.DateModified = DateTime.Now;
-            
         }
 
         /// <summary>
@@ -389,6 +421,7 @@ namespace BlogEngine.Core
                                 blog.VirtualPath = BlogConfig.VirtualPath;
                                 blog.StorageContainerName = string.Empty;
                                 blog.IsPrimary = true;
+                                blog.IsSiteAggregation = false;
                                 blog.Save();
                             }
 
@@ -568,6 +601,38 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
+        ///     Returns the site aggregation blog instance, if one exists.
+        /// </summary>
+        /// <returns>
+        ///     The site aggregation blog instance, if one exists.
+        /// </returns>
+        public static Blog SiteAggregationBlog
+        {
+            get
+            {
+                return Blogs.Find(b => b.IsSiteAggregation);
+            }
+        }
+
+        /// <summary>
+        ///     Gets whether the hostname differs from the Site Aggreation blog.
+        /// </summary>
+        public bool DoesHostnameDifferFromSiteAggregationBlog
+        {
+            get
+            {
+                if (this.IsSiteAggregation)
+                    return false;
+
+                Blog siteAggregationBlog = SiteAggregationBlog;
+                if (siteAggregationBlog == null)
+                    return false;
+
+                return siteAggregationBlog.Hostname != this.Hostname;
+            }
+        }
+
+        /// <summary>
         ///     Gets a mappable virtual path to the blog instance's storage folder.
         /// </summary>
         public string StorageLocation
@@ -610,6 +675,17 @@ namespace BlogEngine.Core
         }
 
         /// <summary>
+        ///     Gets the "authority" portion of the absolute web root.
+        /// </summary>
+        public string AbsoluteWebRootAuthority
+        {
+            get
+            {
+                return AbsoluteWebRoot.GetLeftPart(UriPartial.Authority);
+            }
+        }
+
+        /// <summary>
         ///     Gets the absolute root of the blog instance.
         /// </summary>
         public Uri AbsoluteWebRoot
@@ -639,10 +715,7 @@ namespace BlogEngine.Core
                     }
                 }
 
-                string vPath = this.VirtualPath ?? string.Empty;
-                if (vPath.StartsWith("~/")) { vPath = vPath.Substring(2); }
-                uri.Path = string.Format("{0}{1}", Utils.ApplicationRelativeWebRoot, vPath);
-                if (!uri.Path.EndsWith("/")) { uri.Path += "/"; }
+                uri.Path = RelativeWebRoot;
 
                 absoluteWebRoot = uri.Uri;
                 context.Items[contextItemKey] = absoluteWebRoot;
@@ -663,11 +736,12 @@ namespace BlogEngine.Core
             string storageContainerName,
             string virtualPath,
             bool isActive,
+            bool isSiteAggregation,
             out string message)
         {
             message = null;
 
-            if (!ValidateProperties(true, null, blogName, hostname, isAnyTextBeforeHostnameAccepted, storageContainerName, virtualPath, out message))
+            if (!ValidateProperties(true, null, blogName, hostname, isAnyTextBeforeHostnameAccepted, storageContainerName, virtualPath, isSiteAggregation, out message))
             {
                 if (string.IsNullOrWhiteSpace(message))
                 {
@@ -697,7 +771,8 @@ namespace BlogEngine.Core
                 Hostname = hostname,
                 IsAnyTextBeforeHostnameAccepted = isAnyTextBeforeHostnameAccepted,
                 VirtualPath = virtualPath,
-                IsActive = isActive
+                IsActive = isActive,
+                IsSiteAggregation = isSiteAggregation
             };
 
             bool setupResult = false;
@@ -732,6 +807,7 @@ namespace BlogEngine.Core
             bool isAnyTextBeforeHostnameAccepted,
             string storageContainerName,
             string virtualPath,
+            bool isSiteAggregation,
             out string message)
         {
             message = null;
@@ -797,6 +873,16 @@ namespace BlogEngine.Core
                         message = "The Virtual Path contains invalid characters after the ~/";
                         return false;
                     }
+                }
+            }
+
+            if (isSiteAggregation)
+            {
+                Blog siteAggregationBlog = Blog.SiteAggregationBlog;
+                if ((updateBlog == null && siteAggregationBlog != null) || (updateBlog != null && siteAggregationBlog != null && updateBlog.Id != siteAggregationBlog.Id))
+                {
+                    message = "Another blog is already marked as being the Site Aggregation blog.  Only one blog instance can be the Site Aggregration instance.";
+                    return false;
                 }
             }
 

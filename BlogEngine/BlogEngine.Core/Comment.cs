@@ -215,6 +215,19 @@
         public IPublishable Parent { get; set; }
 
         /// <summary>
+        ///     Gets or sets the Blog instance this object is under.
+        /// </summary>
+        public Guid BlogId { get { return this.Parent == null ? Guid.Empty : this.Parent.BlogId; } }
+
+        /// <summary>
+        ///     Gets the Blog instance this object is under.
+        /// </summary>
+        public Blog Blog
+        {
+            get { return Blog.GetBlog(BlogId); }
+        }
+
+        /// <summary>
         ///     Gets or sets the Id of the parent comment.
         /// </summary>
         public Guid ParentId { get; set; }
@@ -228,6 +241,22 @@
             get
             {
                 return string.Format("{0}#id_{1}", Parent.RelativeLink, Id);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a relative link if possible if the hostname of this blog instance matches the
+        ///     hostname of the site aggregation blog.  If the hostname is different, then the
+        ///     absolute link is returned.
+        /// </summary>
+        public string RelativeOrAbsoluteLink
+        {
+            get
+            {
+                if (this.Blog.DoesHostnameDifferFromSiteAggregationBlog)
+                    return this.AbsoluteLink.ToString();
+                else
+                    return this.RelativeLink;
             }
         }
 

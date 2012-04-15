@@ -42,10 +42,10 @@
     <asp:repeater runat="server" id="rep">
       <ItemTemplate>
         <div class="searchresult">
-          <a href="<%# Eval("RelativeLink") %>"><%# Eval("Title") %></a>
+          <a href="<%# Eval("AbsoluteLink") %>"><%# Eval("Title") %></a>
           <span class="text"><%# GetContent((string)Eval("Description"), (string)Eval("Content")) %></span>
          <span class="type" runat="server" id="type" />
-          <span class="url"><%# ShortenUrl((String)Eval("RelativeLink")) %></span>
+          <span class="url"><%# ShortenUrl(Eval("AbsoluteLink").ToString())%></span>
         </div>
       </ItemTemplate>
     </asp:repeater>
