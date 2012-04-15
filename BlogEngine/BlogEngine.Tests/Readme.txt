@@ -1,23 +1,23 @@
 
 To run tests:
 
-1. Copy these files from "..\lib\watin" to "BlogEngine\BlogEngine.Tests\bin\Debug".
-	Interop.SHDocVw.dll
-	BlogEngine.Tests.dll.config
+1. Click "BlogEngine\BlogEngine.sln" to load solution in VisualStudio 2010 or Visual Web Developer 2010.
 
-2. Click "BlogEngine\BlogEngine.sln" to load solution in VisualStudio 2010 or Visual Web Developer 2010.
+2. Change site root in "Constants.cs" if needed (default http://localhost:53265)
 
 3. Build and run solution (ctrl + F5 in Visual Studio)
 
-4. If different, change root path in "BlogEngine\BlogEngine.Tests\Constants.cs" from 
-	http://localhost:53265
-	to point to website you've started in the previous step and re-build BlogEngine.Tests project.
+4. Click "..\lib\nunit\runner\nunit.exe" to start NUnit GUI.
 
-5. Click "..\lib\nunit\runner\nunit.exe" to run NUnit UI.
+5. File -> Open Project -> then select "BlogEngine\BlogEngine.Tests\bin\Debug\BlogEngine.Tests.dll"
 
-6. File -> Open Project -> then select "BlogEngine\BlogEngine.Tests\bin\Debug\BlogEngine.Tests.dll"
+6. Click "Run", all should pass.
 
-7. Click "Run", all should pass.
+* There are 3 categories of tests you can exclude from running if applicable:
+	- online: tests require online connection
+	- slow: tests that run slow, usually because they have to restart IIS
+	- primary: tests only applied to primary blog, exclude if testing child blog
+To exclude, click categories tab in NUnit GUI and select categories to be excluded.
 
 Known issues:
 - Sometimes Watin has issues closing IE when another instance of IE running at the same time. This results in

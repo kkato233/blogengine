@@ -342,6 +342,12 @@
     <Compile Include="Web\HttpHandlers\JavaScriptHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)..\lib\optimization\System.Web.Optimization.dll $(SolutionDir)BlogEngine.NET\bin
+copy $(SolutionDir)..\lib\razor\*.dll $(SolutionDir)BlogEngine.NET\bin
+copy $(SolutionDir)..\lib\watin\Interop.SHDocVw.dll $(SolutionDir)BlogEngine.Tests\bin\Debug
+copy $(SolutionDir)..\lib\watin\BlogEngine.Tests.dll.config $(SolutionDir)BlogEngine.Tests\bin\Debug</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

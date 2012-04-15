@@ -1933,7 +1933,10 @@
   <data name="thumbnailServiceProviderHelp" xml:space="preserve">
     <value>API used to get thumbnail, i.g. http://www.robothumb.com/src/?url={0}</value>
   </data>
-    <data name="spamProtection" xml:space="preserve">
+  <data name="spamProtection" xml:space="preserve">
     <value>Spam protection</value>
+  </data>
+  <data name="widgets" xml:space="preserve">
+    <value>Widgets</value>
   </data>
 </root>

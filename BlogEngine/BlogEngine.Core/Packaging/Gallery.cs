@@ -58,7 +58,7 @@ namespace BlogEngine.Core.Packaging
                         Authors = string.IsNullOrEmpty(pkg.Authors) ? "unknown" : pkg.Authors,
                         Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
                         DownloadCount = pkg.DownloadCount,
-                        LastUpdated = pkg.LastUpdated.ToString("dd MMM yyyy"),
+                        LastUpdated = pkg.LastUpdated.ToString("dd MMM yyyy", Utils.GetDefaultCulture()),
                         Title = pkg.Title,
                         OnlineVersion = pkg.Version,
                         Website = pkg.ProjectUrl,

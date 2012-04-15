@@ -55,6 +55,7 @@ namespace BlogEngine.Core.Json
                 AddResource("virtualPath");
                 AddResource("storageContainerName");
                 AddResource("noBlogsWereFound");
+                AddResource("approve");
                 AddResource("unapprove");
                 AddResource("title");
                 AddResource("type");

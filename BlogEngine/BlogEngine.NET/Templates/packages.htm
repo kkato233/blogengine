@@ -23,7 +23,7 @@
                     {#else}
                         <h2>{$T.p.Title}</h2>
                     {#/if}
-                        <p class="version">{BlogAdmin.i18n.version}: {$T.p.OnlineVersion}</p>
+                    <!-- <p class="version">{BlogAdmin.i18n.version}: {$T.p.OnlineVersion}</p>-->
                     {#if $T.p.Website != null}
                         <p class="website">{BlogAdmin.i18n.author}: <a target="_new" href="{$T.p.Website}">{$T.p.Authors}</a></p> 
                     {#else}
@@ -46,13 +46,15 @@
                         {#/if}
                     {#/if}
                 </div>  
-            </div>          
+            </div>  
+            <!--        
             <div class="pkg-desc">
                 <p>{$T.p.Description}</p>
                 {#if $T.p.Tags != null}
                     <p class="tags">{BlogAdmin.i18n.tags}: {$T.p.Tags}</p> 
                 {#/if}                                     
-            </div> 
+            </div>
+            --> 
         </div>        
     </li>
     {#/for}
