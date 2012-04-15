@@ -1378,4 +1378,10 @@
   <data name="widgets" xml:space="preserve">
     <value>Виджеты</value>
   </data>
+  <data name="hasRated" xml:space="preserve">
+    <value>Вы уже оценили этот пост.</value>
+  </data>
+  <data name="isForSiteAggregation" xml:space="preserve">
+    <value>Сайт агрегатор</value>
+  </data>
 </root>

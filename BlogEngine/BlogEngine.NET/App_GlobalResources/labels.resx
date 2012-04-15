@@ -1942,4 +1942,7 @@
   <data name="hasRated" xml:space="preserve">
     <value>You already rated this post.</value>
   </data>
+  <data name="widgets" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
 </root>
