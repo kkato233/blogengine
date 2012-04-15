@@ -273,8 +273,8 @@ BlogEngine = {
             input.value = defaultText;
     }
 	,
-    rate: function (id, rating) {
-        this.createCallback("rating.axd?id=" + id + "&rating=" + rating, BlogEngine.ratingCallback);
+    rate: function (blogId, id, rating) {
+        this.createCallback("rating.axd?id=" + id + "&rating=" + rating, BlogEngine.ratingCallback, blogId);
     }
 	,
     ratingCallback: function (response) {
@@ -299,9 +299,13 @@ BlogEngine = {
     /// Creates a client callback back to the requesting page
     /// and calls the callback method with the response as parameter.
     /// </summary>
-    createCallback: function (url, callback) {
+    createCallback: function (url, callback, blogId) {
         var http = BlogEngine.getHttpObject();
         http.open("GET", url, true);
+
+        if (blogId && http.setRequestHeader) {
+            http.setRequestHeader('x-blog-instance', blogId.toString());
+        }
 
         http.onreadystatechange = function () {
             if (http.readyState == 4) {
@@ -390,7 +394,7 @@ BlogEngine = {
     }
 	,
 
-    showRating: function (container, id, raters, rating) {
+    showRating: function (container, id, raters, rating, blogId) {
         var div = document.createElement('div');
         div.className = 'rating';
 
@@ -421,7 +425,7 @@ BlogEngine = {
             a.className = this.englishNumber(i);
             a.title = BlogEngineRes.i18n.rateThisXStars.replace('{0}', i.toString()).replace('{1}', i == 1 ? '' : 's');
             a.onclick = function () {
-                BlogEngine.rate(id, this.innerHTML);
+                BlogEngine.rate(blogId, id, this.innerHTML);
                 return false;
             };
 
@@ -440,7 +444,7 @@ BlogEngine = {
         for (var i = 0; i < divs.length; i++) {
             if (divs[i].className == 'ratingcontainer') {
                 var args = divs[i].innerHTML.split('|');
-                BlogEngine.showRating(divs[i], args[0], args[1], args[2]);
+                BlogEngine.showRating(divs[i], args[0], args[1], args[2], args[3]);
             }
         }
     },

@@ -24,9 +24,9 @@
         #region Constants and Fields
 
         /// <summary>
-        /// The catalog.
+        /// The entries.
         /// </summary>
-        private static readonly Dictionary<Guid, Collection<Entry>> _catalog = new Dictionary<Guid, Collection<Entry>>();
+        private static readonly Dictionary<Guid, List<Entry>> _entries = new Dictionary<Guid, List<Entry>>();
 
         /// <summary>
         /// The stop words.
@@ -43,7 +43,7 @@
         #region Properties
 
         private static StringCollection StopWords
-        {       
+        {
             get
             {
                 Guid blogId = Blog.CurrentInstance.Id;
@@ -61,27 +61,59 @@
             }
         }
 
-        private static Collection<Entry> Catalog
+        private static List<Entry> Entries
         {
             get
             {
                 Guid blogId = Blog.CurrentInstance.Id;
-                Collection<Entry> catalog;
+                List<Entry> entries;
                 lock (_syncRoot)
-                {   
-                    if (!_catalog.TryGetValue(blogId, out catalog))
+                {
+                    if (!_entries.TryGetValue(blogId, out entries))
                     {
-                        catalog = new Collection<Entry>();
-                        _catalog.Add(blogId, catalog);
-                        BuildCatalog();
+                        entries = new List<Entry>();
+                        _entries.Add(blogId, entries);
+                        BuildEntries();
                     }
                 }
 
-                return catalog;
+                return entries;
             }
         }
 
-        
+        private static List<Entry> AllBlogsEntries
+        {
+            get
+            {
+                List<Blog> blogs = Blog.Blogs.Where(b => b.IsActive).ToList();
+                Guid originalBlogInstanceIdOverride = Blog.InstanceIdOverride;
+                List<Entry> entriesAcrossAllBlogs = new List<Entry>();
+
+                // Entries are not loaded for a blog instance until that blog
+                // instance is first accessed.  For blog instances where the
+                // entries have not yet been loaded, using InstanceIdOverride to
+                // temporarily switch the blog CurrentInstance blog so the Entries
+                // for that blog instance can be loaded.
+                //
+                for (int i = 0; i < blogs.Count; i++)
+                {
+                    List<Entry> blogEntries;
+                    if (!_entries.TryGetValue(blogs[i].Id, out blogEntries))
+                    {
+                        // temporarily override the Current BlogId to the
+                        // blog Id we need posts to be loaded for.
+                        Blog.InstanceIdOverride = blogs[i].Id;
+                        blogEntries = Entries;
+                        Blog.InstanceIdOverride = originalBlogInstanceIdOverride;
+                    }
+
+                    entriesAcrossAllBlogs.AddRange(blogEntries);
+                }
+
+                return entriesAcrossAllBlogs;
+            }
+        }
+
         #endregion
 
         #region Constructors and Destructors
@@ -93,9 +125,9 @@
         {
             Post.Saved += Post_Saved;
             Page.Saved += Page_Saved;
-            BlogSettings.Changed += delegate { BuildCatalog(); };
+            BlogSettings.Changed += delegate { BuildEntries(); };
             Post.CommentAdded += Post_CommentAdded;
-            Post.CommentRemoved += delegate { BuildCatalog(); };
+            Post.CommentRemoved += delegate { BuildEntries(); };
             Comment.Approved += Post_CommentAdded;
         }
 
@@ -123,7 +155,7 @@
         #region Public Methods
 
         /// <summary>
-        /// Adds an IPublishable item to the search catalog. 
+        /// Adds an IPublishable item to the search entries. 
         ///     That will make it immediately searchable.
         /// </summary>
         /// <param name="item">
@@ -132,17 +164,17 @@
         public static void AddItem(IPublishable item)
         {
             var entry = new Entry
-                {
-                    Item = item,
-                    Title = CleanContent(item.Title, false),
-                    Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true))
-                };
+            {
+                Item = item,
+                Title = CleanContent(item.Title, false),
+                Content = HttpUtility.HtmlDecode(CleanContent(item.Content, true))
+            };
             if (item is Comment)
             {
                 entry.Content += HttpUtility.HtmlDecode(CleanContent(item.Author, false));
             }
 
-            Catalog.Add(entry);
+            Entries.Add(entry);
         }
 
         // public static List<IPublishable> ApmlMatches(Uri url, int maxInterests)
@@ -159,7 +191,7 @@
 
         // if (upper.Contains("<HTML") && upper.Contains("</HTML"))
         // {
-        // Collection<Uri> urls = FindLinks("apml", content);
+        // List<Uri> urls = FindLinks("apml", content);
         // if (urls.Count > 0)
         // {
         // LoadDocument(url, doc, urls[0]);
@@ -321,10 +353,10 @@
         ///// <param name="type">The type of link. Could be foaf, apml or sioc.</param>
         ///// <param name="html">The HTML to look through.</param>
         ///// <returns></returns>
-        // public static Collection<Uri> FindLinks(string type, string html)
+        // public static List<Uri> FindLinks(string type, string html)
         // {
         // MatchCollection matches = Regex.Matches(html, string.Format(PATTERN, type), RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        // Collection<Uri> urls = new Collection<Uri>();
+        // List<Uri> urls = new List<Uri>();
 
         // foreach (Match match in matches)
         // {
@@ -350,15 +382,15 @@
         #region Methods
 
         /// <summary>
-        /// Builds the catalog so it can be searched.
+        /// Builds the entries so they can be searched.
         /// </summary>
-        private static void BuildCatalog()
+        private static void BuildEntries()
         {
             OnIndexBuilding();
 
             lock (_syncRoot)
             {
-                Catalog.Clear();
+                Entries.Clear();
                 foreach (var post in Post.Posts.Where(post => post.IsVisibleToPublic))
                 {
                     var arg = new ServingEventArgs(post.Content, ServingLocation.Search);
@@ -410,7 +442,9 @@
             var terms = term.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var regex = new Regex(string.Format(CultureInfo.InvariantCulture, "({0})", string.Join("|", terms)));
 
-            foreach (var entry in Catalog)
+            List<Entry> entries = Blog.CurrentInstance.IsSiteAggregation ? AllBlogsEntries : Entries;
+
+            foreach (var entry in entries)
             {
                 var result = new Result();
                 if (!(entry.Item is Comment))
@@ -528,7 +562,7 @@
                 }
                 else
                 {
-                    BuildCatalog();
+                    BuildEntries();
                 }
             }
         }
@@ -567,7 +601,7 @@
                 }
                 else
                 {
-                    BuildCatalog();
+                    BuildEntries();
                 }
             }
         }

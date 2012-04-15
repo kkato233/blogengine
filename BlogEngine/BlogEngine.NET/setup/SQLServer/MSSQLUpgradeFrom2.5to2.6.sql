@@ -52,3 +52,12 @@ CREATE NONCLUSTERED INDEX [idx_be_NoteId_BlogId_UserName] ON [dbo].[be_QuickNote
 	[UserName] ASC
 )
 GO
+
+ALTER TABLE dbo.be_Blogs ADD
+	IsSiteAggregation bit NOT NULL CONSTRAINT DF_be_Blogs_IsSiteAggregation DEFAULT 0
+GO
+
+
+
+
+

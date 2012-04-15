@@ -115,7 +115,7 @@
             var jsTransform = new JsMinify();
             var cssTransform = new CssMinify();
             
-            // scripts added to header and NOT deffered
+            // scripts added to header and NOT deferred
             var hdrjs = new Bundle("~/Scripts/Header/js", jsTransform);
             hdrjs.AddDirectory("~/Scripts/Header", "*.js", false);
             BundleTable.Bundles.Add(hdrjs);

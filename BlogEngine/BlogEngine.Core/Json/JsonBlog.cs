@@ -67,6 +67,11 @@
         public bool IsActive { get; set; }
 
         /// <summary>
+        /// Whether the blog instance is a Site Aggregation instance.
+        /// </summary>
+        public bool IsSiteAggregation { get; set; }
+
+        /// <summary>
         /// If the current user can delete this page.
         /// </summary>
         public bool CanUserDelete { get; set; }

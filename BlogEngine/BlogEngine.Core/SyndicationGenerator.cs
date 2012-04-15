@@ -282,32 +282,6 @@ namespace BlogEngine.Core
         #region Methods
 
         /// <summary>
-        /// Converts all relative paths in the spcified content to absolute.
-        /// </summary>
-        /// <param name="content">
-        /// The content.
-        /// </param>
-        /// <returns>
-        /// The convert paths to absolute.
-        /// </returns>
-        private static string ConvertPathsToAbsolute(string content)
-        {
-            content = content.Replace(
-                string.Format("\"{0}image.axd", Utils.AbsoluteWebRoot.AbsolutePath), "\"" + Utils.AbsoluteWebRoot + "image.axd");
-            content = content.Replace(
-                string.Format("\"{0}file.axd", Utils.AbsoluteWebRoot.AbsolutePath), "\"" + Utils.AbsoluteWebRoot + "file.axd");
-            content = content.Replace(string.Format("href=\"{0}{1}", Utils.RelativeWebRoot, string.Empty), string.Format("href=\"{0}", Utils.AbsoluteWebRoot));
-
-            if (HttpContext.Current != null)
-            {
-                var url = HttpContext.Current.Request.Url;
-                content = content.Replace("href=\"/", string.Format("href=\"{0}://{1}/", url.Scheme, url.Authority));
-            }
-
-            return content;
-        }
-
-        /// <summary>
         /// Converts the value of the specified <see cref="TimeSpan"/> to its equivalent string representation.
         /// </summary>
         /// <param name="offset">
@@ -340,7 +314,7 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns>The enclosure.</returns>
-        private static string GetEnclosure(string content)
+        private static string GetEnclosure(string content, IPublishable publishable)
         {
             var enclosure = string.Empty;
             fileSize = 0;
@@ -348,7 +322,7 @@ namespace BlogEngine.Core
 
             foreach (var media in SupportedMedia)
             {
-                enclosure = GetMediaEnclosure(content, media.Key, media.Value);
+                enclosure = GetMediaEnclosure(publishable, content, media.Key, media.Value);
                 if (enclosure.Length > 0)
                 {
                     break;
@@ -365,7 +339,7 @@ namespace BlogEngine.Core
         /// <param name="media">The media.</param>
         /// <param name="mediatype">The mediatype.</param>
         /// <returns>The enclosure.</returns>
-        private static string GetMediaEnclosure(string content, string media, string mediatype)
+        private static string GetMediaEnclosure(IPublishable publishable, string content, string media, string mediatype)
         {
             const string RegexLink = @"<a href=((.|\n)*?)>((.|\n)*?)</a>";
             var enclosure = "<enclosure url=\"{0}\" length=\"{1}\" type=\"{2}\" />";
@@ -379,7 +353,7 @@ namespace BlogEngine.Core
                 {
                     filename = match.Value.Substring(match.Value.IndexOf("http"));
                     filename = filename.Substring(0, filename.IndexOf(">")).Replace("\"", string.Empty).Trim();
-                    filename = ValidateFileName(filename);
+                    filename = ValidateFileName(publishable, filename);
 
                     if (!fileExists)
                     {
@@ -433,14 +407,14 @@ namespace BlogEngine.Core
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>The validated file name.</returns>
-        private static string ValidateFileName(string fileName)
+        private static string ValidateFileName(IPublishable publishable, string fileName)
         {
-            fileName = fileName.Replace(Utils.AbsoluteWebRoot.ToString(), string.Empty);
+            fileName = fileName.Replace(publishable.Blog.AbsoluteWebRoot.ToString(), string.Empty);
 
             try
             {
-                var phisicalPath = HttpContext.Current.Server.MapPath(fileName);
-                var info = new FileInfo(phisicalPath);
+                var physicalPath = HttpContext.Current.Server.MapPath(fileName);
+                var info = new FileInfo(physicalPath);
                 fileSize = info.Length;
                 fileExists = true;
             }
@@ -451,11 +425,11 @@ namespace BlogEngine.Core
                 if (fileName.IndexOf("/") > 0)
                 {
                     fileName = fileName.Substring(fileName.IndexOf("/") + 1);
-                    ValidateFileName(fileName);
+                    ValidateFileName(publishable, fileName);
                 }
             }
 
-            return Utils.AbsoluteWebRoot + fileName;
+            return publishable.Blog.AbsoluteWebRoot + fileName;
         }
 
         /// <summary>
@@ -486,14 +460,14 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             // Modify publishable content to make references absolute
             // ------------------------------------------------------------
-            var content = ConvertPathsToAbsolute(arg.Body);
+            var content = Utils.ConvertPublishablePathsToAbsolute(arg.Body, publishable);
 
             writer.WriteStartElement("entry");
 
             // ------------------------------------------------------------
             // Write required entry elements
             // ------------------------------------------------------------
-            writer.WriteElementString("id", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+            writer.WriteElementString("id", publishable.AbsoluteLink.ToString());
             writer.WriteElementString("title", publishable.Title);
             writer.WriteElementString("updated", ToW3CDateTime(publishable.DateCreated.ToUniversalTime()));
 
@@ -506,7 +480,7 @@ namespace BlogEngine.Core
             writer.WriteEndElement();
 
             writer.WriteStartElement("link");
-            writer.WriteAttributeString("href", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+            writer.WriteAttributeString("href", publishable.AbsoluteLink.ToString());
             writer.WriteEndElement();
 
             writer.WriteStartElement("author");
@@ -525,7 +499,7 @@ namespace BlogEngine.Core
 
             writer.WriteStartElement("link");
             writer.WriteAttributeString("rel", "related");
-            writer.WriteAttributeString("href", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(),
+            writer.WriteAttributeString("href", String.Concat(publishable.AbsoluteLink.ToString(),
 				BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus ? "#disqus_thread" : "#comment"));
             writer.WriteEndElement();
 
@@ -534,7 +508,7 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             if (BlogSettings.Instance.EnableEnclosures)
             {
-                var encloser = GetEnclosure(content);
+                var encloser = GetEnclosure(content, publishable);
                 if (!string.IsNullOrEmpty(encloser))
                 {
                     writer.WriteRaw(encloser);
@@ -573,7 +547,7 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             Uri pingbackServer;
             if (Uri.TryCreate(
-                String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"),
+                String.Concat(publishable.Blog.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"),
                 UriKind.RelativeOrAbsolute,
                 out pingbackServer))
             {
@@ -620,13 +594,13 @@ namespace BlogEngine.Core
                 "wfw",
                 "comment",
                 "http://wellformedweb.org/CommentAPI/",
-                String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(),
+                String.Concat(publishable.AbsoluteLink.ToString(),
 				BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus ? "#disqus_thread" : "#comment"));
             writer.WriteElementString(
                 "wfw",
                 "commentRss",
                 "http://wellformedweb.org/CommentAPI/",
-                string.Format("{0}/syndication.axd?post={1}", Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), publishable.Id));
+                string.Format("{0}/syndication.axd?post={1}", publishable.Blog.AbsoluteWebRoot.ToString().TrimEnd('/'), publishable.Id));
 
             // ------------------------------------------------------------
             // Write </entry> element
@@ -664,7 +638,7 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             // Modify post content to make references absolute
             // ------------------------------------------------------------    
-            var content = ConvertPathsToAbsolute(arg.Body);
+            var content = Utils.ConvertPublishablePathsToAbsolute(arg.Body, publishable);
 
             if (comment != null)
             {
@@ -678,14 +652,14 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             writer.WriteElementString("title", publishable.Title);
             writer.WriteElementString("description", content);
-            writer.WriteElementString("link", Utils.ConvertToAbsolute(publishable.RelativeLink).ToString());
+            writer.WriteElementString("link", publishable.AbsoluteLink.ToString());
 
             // ------------------------------------------------------------
             // Write enclosure tag for podcasting support
             // ------------------------------------------------------------
             if (BlogSettings.Instance.EnableEnclosures)
             {
-                var encloser = GetEnclosure(content);
+                var encloser = GetEnclosure(content, publishable);
                 if (!string.IsNullOrEmpty(encloser))
                 {
                     writer.WriteRaw(encloser);
@@ -702,7 +676,7 @@ namespace BlogEngine.Core
             if (post != null)
             {
                 writer.WriteElementString(
-                    "comments", String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(),
+                    "comments", String.Concat(publishable.AbsoluteLink.ToString(),
 					BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus ? "#disqus_thread" : "#comment"));
             }
 
@@ -738,7 +712,7 @@ namespace BlogEngine.Core
             // ------------------------------------------------------------
             Uri pingbackServer;
             if (Uri.TryCreate(
-                String.Concat(Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"),
+                String.Concat(publishable.Blog.AbsoluteWebRoot.ToString().TrimEnd('/'), "/pingback.axd"),
                 UriKind.RelativeOrAbsolute,
                 out pingbackServer))
             {
@@ -785,13 +759,13 @@ namespace BlogEngine.Core
                 "wfw",
                 "comment",
                 "http://wellformedweb.org/CommentAPI/",
-                String.Concat(Utils.ConvertToAbsolute(publishable.RelativeLink).ToString(),
+                String.Concat(publishable.AbsoluteLink.ToString(),
 				BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus ? "#disqus_thread" : "#comment"));
             writer.WriteElementString(
                 "wfw",
                 "commentRss",
                 "http://wellformedweb.org/CommentAPI/",
-                string.Format("{0}/syndication.axd?post={1}", Utils.AbsoluteWebRoot.ToString().TrimEnd('/'), publishable.Id));
+                string.Format("{0}/syndication.axd?post={1}", publishable.Blog.AbsoluteWebRoot.ToString().TrimEnd('/'), publishable.Id));
 
             // ------------------------------------------------------------
             // Write </item> element
