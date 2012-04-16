@@ -40,16 +40,6 @@
                         </div>
                     </div>
                     
-                    <div class="pkg-desc">
-                        @if (!string.IsNullOrEmpty(currTheme.Description))
-                        {
-                        <p>@currTheme.Description</p>
-                        }
-                        @if (!string.IsNullOrEmpty(currTheme.Tags))
-                        {
-                        <p>Tags: @currTheme.Tags</p>
-                        }
-                    </div>
                 </div>
             </li>
             <li class="pkg-installed">
@@ -71,16 +61,6 @@
                         </div>
                     </div>
                     
-                   <div class="pkg-desc">
-                        @if (!string.IsNullOrEmpty(currMobileTheme.Description))
-                        {
-                        <p>@currMobileTheme.Description</p>
-                        }
-                        @if (!string.IsNullOrEmpty(currMobileTheme.Tags))
-                        {
-                        <p>Tags: @currMobileTheme.Tags</p>
-                        }
-                    </div>
                 </div>
             </li>
         </ul>
@@ -125,14 +105,6 @@
                     </div>
                 </div>
                 <div class="pkg-desc">
-                    @if (!string.IsNullOrWhiteSpace(theme.Description))
-                    {
-                    <p>@theme.Description</p>   
-                    }
-                    @if (!string.IsNullOrWhiteSpace(theme.Tags))
-                    {
-                    <p>Tags: @theme.Tags</p>   
-                    }
                     <p>
                         <a href="" onclick="SetCurrentTheme('@theme.Id','false'); return false;">@Resources.labels.setAsCurrentTheme</a>&nbsp;|
                         <a href="" onclick="SetCurrentTheme('@theme.Id','true'); return false;">@Resources.labels.setAsMobileTheme</a>&nbsp;|
