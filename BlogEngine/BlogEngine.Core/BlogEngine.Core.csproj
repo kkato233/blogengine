@@ -343,10 +343,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)..\lib\optimization\System.Web.Optimization.dll $(SolutionDir)BlogEngine.NET\bin
-copy $(SolutionDir)..\lib\razor\*.dll $(SolutionDir)BlogEngine.NET\bin
-copy $(SolutionDir)..\lib\watin\Interop.SHDocVw.dll $(SolutionDir)BlogEngine.Tests\bin\Debug
-copy $(SolutionDir)..\lib\watin\BlogEngine.Tests.dll.config $(SolutionDir)BlogEngine.Tests\bin\Debug</PostBuildEvent>
+    <PostBuildEvent>xcopy $(SolutionDir)..\lib\optimization\System.Web.Optimization.dll $(SolutionDir)BlogEngine.NET\Bin\ /F /R /Y /I
+xcopy $(SolutionDir)..\lib\razor\*.dll $(SolutionDir)BlogEngine.NET\Bin\ /F /R /Y /I
+xcopy $(SolutionDir)..\lib\watin\Interop.SHDocVw.dll $(SolutionDir)BlogEngine.Tests\Bin\Debug\ /F /R /Y /I
+xcopy $(SolutionDir)..\lib\watin\BlogEngine.Tests.dll.config $(SolutionDir)BlogEngine.Tests\Bin\Debug\ /F /R /Y /I</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
