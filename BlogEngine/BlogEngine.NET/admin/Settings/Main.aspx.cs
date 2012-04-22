@@ -172,8 +172,8 @@
 				BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
 				BlogSettings.Instance.Culture = culture;
 				BlogSettings.Instance.Timezone = double.Parse(timezone);
-                BlogSettings.Instance.Save();
                 BlogSettings.Instance.EnableQuickNotes = bool.Parse(enableQuickNotes);
+                BlogSettings.Instance.Save();
             }
             catch (Exception ex)
             {

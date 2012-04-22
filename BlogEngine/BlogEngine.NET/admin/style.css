@@ -504,9 +504,9 @@ h2.gallery-hdr {  font-size: 18px; }
 .ext { width: 99%; display:inline-table; border-bottom: 1px solid #EAEAEA; padding: 8px 0; }
 .pkg-installed { background-color: #F9F9F9; }
 .gallery img { border: 0; width: 100px; }
-.pkg-hdr { display: inline-table; width: 400px; }
-.pkg-img { float: left; width: 100px; height: 100px; overflow: hidden; }
-.prop-hdr { display: inline-table; width: 280px; float: right; height: 100px; }
+.pkg-hdr { display: inline-table; width: 340px; }
+.pkg-img { float: left; width: 100px; height: 80px; overflow: hidden; }
+.prop-hdr { display: inline-table; width: 220px; float: right; height: 100px; }
 .prop-hdr p.package-installed, .prop-hdr p.package-update { padding-left: 20px; }
 .loader2, .page-loader { margin: 0; padding: 0; border: 0; width: 18px !important; height: 18px; position: relative; top: 4px; left: 5px; }
 .installed-themes { margin-bottom: 35px; margin-top: 20px; } 
