@@ -4,19 +4,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Web;
 using BlogEngine.Core.Packaging;
 
 namespace BlogEngine.Core.Providers
 {
     public partial class XmlBlogProvider : BlogProvider
     {
+        string dataFolder = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot);
+
         /// <summary>
         /// Log of all installed packages
         /// </summary>
         /// <param name="package">Intalled package</param>
         public override void SavePackage(InstalledPackage package)
         {
-            var fileName = Path.Combine(this.Folder, Constants.InstalledPackagesXml);
+            var fileName = Path.Combine(dataFolder, Constants.InstalledPackagesXml);
             
             var packages = FillPackages() ?? new List<InstalledPackage>();
             int pkgIndex = -1;
@@ -65,7 +68,7 @@ namespace BlogEngine.Core.Providers
             if(packageFiles == null || packageFiles.Count == 0)
                 return;
 
-            var fileName = this.Folder + Constants.InstalledPackageFilesXml;
+            var fileName = dataFolder + Constants.InstalledPackageFilesXml;
             var pkgId = packageFiles.First().PackageId;
 
             var installedFiles = AllInstalledFiles(pkgId);
@@ -109,7 +112,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>List of installed packages</returns>
         public override List<InstalledPackage> FillPackages()
         {
-            var fileName = Path.Combine(this.Folder, Constants.InstalledPackagesXml);
+            var fileName = Path.Combine(dataFolder, Constants.InstalledPackagesXml);
 
             if (!File.Exists(fileName))
             {
@@ -135,7 +138,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>List of files for installed package</returns>
         public override List<PackageFile> FillPackageFiles(string packageId)
         {
-            var fileName = Path.Combine(this.Folder, Constants.InstalledPackageFilesXml);
+            var fileName = Path.Combine(dataFolder, Constants.InstalledPackageFilesXml);
             var packageFiles = new List<PackageFile>();
 
             if (!File.Exists(fileName))
@@ -172,8 +175,8 @@ namespace BlogEngine.Core.Providers
         /// <param name="version">Version</param>
         public override void DeletePackage(string packageId)
         {        
-            var files = Path.Combine(this.Folder, Constants.InstalledPackageFilesXml);
-            var packages = Path.Combine(this.Folder, Constants.InstalledPackagesXml);
+            var files = Path.Combine(dataFolder, Constants.InstalledPackageFilesXml);
+            var packages = Path.Combine(dataFolder, Constants.InstalledPackagesXml);
             var xmlDoc = new XmlDocument();
 
             // remove files from packagefiles.xml
