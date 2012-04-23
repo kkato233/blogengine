@@ -799,6 +799,9 @@ namespace BlogEngine.Core
             return newBlog;
         }
 
+        /// <summary>
+        /// Validates the blog properties.
+        /// </summary>
         public static bool ValidateProperties(
             bool isNew,
             Blog updateBlog,

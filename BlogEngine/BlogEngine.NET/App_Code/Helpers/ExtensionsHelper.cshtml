@@ -122,7 +122,7 @@
         var oExt = ExtensionManager.GetExtension(@ext.Key);
         if (oExt.Enabled)
         {
-            if (oExt.Blogs.Contains(Blog.CurrentInstance.Id))
+            if (oExt.Blogs != null && oExt.Blogs.Contains(Blog.CurrentInstance.Id))
             {
                 if (!isenabled)
                 {
