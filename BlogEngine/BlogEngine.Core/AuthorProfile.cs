@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using BlogEngine.Core.Providers;
+    using Json;
 
     /// <summary>
     /// The author profile.
@@ -486,6 +487,51 @@
         public override string ToString()
         {
             return this.FullName;
+        }
+
+        public static JsonProfile ToJson(string username)
+        {
+            var j = new JsonProfile();
+            var p = Profiles.Find(ap => ap.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+            if (p != null)
+            {
+                j.AboutMe = p.AboutMe;
+                j.Birthday = p.Birthday.ToShortDateString();
+                j.CityTown = p.CityTown;
+                j.Country = p.Country;
+                j.DisplayName = p.DisplayName;
+                j.EmailAddress = p.EmailAddress;
+                j.PhoneFax = p.PhoneFax;
+                j.FirstName = p.FirstName;
+                j.Private = p.Private.ToString();
+                j.LastName = p.LastName;
+                j.MiddleName = p.MiddleName;
+                j.PhoneMobile = p.PhoneMobile;
+                j.PhoneMain = p.PhoneMain;
+                j.PhotoUrl = p.PhotoUrl;
+                j.RegionState = p.RegionState;
+            }
+            else
+            {
+                j.AboutMe = "";
+                j.Birthday = "01/01/1900";
+                j.CityTown = "";
+                j.Country = "";
+                j.DisplayName = username;
+                j.EmailAddress = "";
+                j.PhoneFax = "";
+                j.FirstName = username;
+                j.Private = "yes";
+                j.LastName = "";
+                j.MiddleName = "";
+                j.PhoneMobile = "";
+                j.PhoneMain = "";
+                j.PhotoUrl = "";
+                j.RegionState = "";
+            }
+
+            return j;
         }
 
         #endregion

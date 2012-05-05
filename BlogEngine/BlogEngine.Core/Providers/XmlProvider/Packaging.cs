@@ -11,7 +11,7 @@ namespace BlogEngine.Core.Providers
 {
     public partial class XmlBlogProvider : BlogProvider
     {
-        string dataFolder = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot);
+        string dataFolder = HttpContext.Current.Server.MapPath(BlogConfig.StorageLocation);
 
         /// <summary>
         /// Log of all installed packages

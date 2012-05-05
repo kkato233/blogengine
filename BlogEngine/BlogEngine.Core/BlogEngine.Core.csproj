@@ -156,6 +156,7 @@
     <Compile Include="Json\JsonPages.cs" />
     <Compile Include="Json\JsonPost.cs" />
     <Compile Include="Json\JsonPosts.cs" />
+    <Compile Include="Json\JsonProfile.cs" />
     <Compile Include="Json\JsonResponse.cs" />
     <Compile Include="Json\JsonComments.cs" />
     <Compile Include="Json\JsonRole.cs" />

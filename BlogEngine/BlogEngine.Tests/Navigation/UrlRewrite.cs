@@ -48,7 +48,7 @@ namespace BlogEngine.Tests.Navigation
         [Test]
         public void CanNavigateToPostsByMonth()
         {
-            ie.GoTo(Constants.Root + "/2011/06/default.aspx");
+            ie.GoTo(Constants.Root + "/2012/04/default.aspx");
             ie.WaitForComplete();
             Assert.IsTrue(ie.Html.Contains(Constants.FirstPostTitle));
         }
