@@ -69,6 +69,8 @@
     <Compile Include="PageTemplates\Admin\EditPost.cs" />
     <Compile Include="PageTemplates\Admin\ExtensionsGallery.cs" />
     <Compile Include="PageTemplates\Admin\ExtensionsLocal.cs" />
+    <Compile Include="PageTemplates\Admin\Profile.cs" />
+    <Compile Include="PageTemplates\Admin\Users.cs" />
     <Compile Include="PageTemplates\SinglePost.cs" />
     <Compile Include="PageTemplates\Admin\PostList.cs" />
     <Compile Include="PageTemplates\Admin\SettingsMain.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="QuickNotes\Navigation.cs" />
     <Compile Include="QuickNotes\Posting.cs" />
     <Compile Include="Quixote\Runner.cs" />
+    <Compile Include="Users\AuthorProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Readme.txt" />

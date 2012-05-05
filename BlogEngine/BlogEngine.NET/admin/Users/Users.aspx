@@ -87,7 +87,7 @@
 	<div class="content-box-outer">
 		<div class="content-box-right">
             <ul>
-                <li><a href="#" class="new"><%=Resources.labels.addNewUser %></a></li>
+                <li><a href="#" id="btnNew" class="new"><%=Resources.labels.addNewUser %></a></li>
 			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
 			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
             </ul>

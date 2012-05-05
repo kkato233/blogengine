@@ -5,6 +5,7 @@
     using System.Web.Services;
     using System.Web.Security;
     using BlogEngine.Core;
+    using BlogEngine.Core.Json;
 
     /// <summary>
     /// The admin pages profile.
@@ -50,7 +51,7 @@
         /// An AuthorProfile.
         /// </returns>
         [WebMethod]
-        public static AuthorProfile GetProfile(string id)
+        public static JsonProfile GetProfile(string id)
         {
             if (!Utils.StringIsNullOrWhitespace(id))
             { 
@@ -58,23 +59,7 @@
                 if (!CanUserEditProfile(id, out canEditRoles))
                     return null;
 
-                return AuthorProfile.GetProfile(id) ?? new AuthorProfile()
-                {
-                    DisplayName = string.Empty,
-                    FirstName = string.Empty,
-                    MiddleName = string.Empty,
-                    LastName = string.Empty,
-                    Birthday = new DateTime(1001, 1, 1),
-                    PhotoUrl = string.Empty,
-                    EmailAddress = string.Empty,
-                    PhoneMobile = string.Empty,
-                    PhoneMain = string.Empty,
-                    PhoneFax = string.Empty,
-                    CityTown = string.Empty,
-                    RegionState = string.Empty,
-                    Country = string.Empty,
-                    AboutMe = string.Empty
-                };
+                return AuthorProfile.ToJson(id);
             }
 
             return null;
