@@ -1,4 +1,4 @@
-﻿namespace MichaelJBaird.Themes.JQMobile.Controls
+namespace MichaelJBaird.Themes.JQMobile.Controls
 {
   #region using
   using System;
@@ -28,7 +28,6 @@
 
     #endregion
 
-    #region Render
     /// <summary>
     /// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object, which writes the content to be rendered on the client.
     /// </summary>
@@ -37,9 +36,7 @@
     {
       writer.Write(this.PagerTag());
     }
-    #endregion
 
-    #region PageIndex
     /// <summary>
     /// Pages the index.
     /// </summary>
@@ -63,9 +60,7 @@
 
       return retValue;
     }
-    #endregion
 
-    #region PageList
     /// <summary>
     /// The page list.
     /// </summary>
@@ -148,9 +143,7 @@
 
       return pages;
     }
-    #endregion
 
-    #region PageUrl
     /// <summary>
     /// Pages the URL.
     /// </summary>
@@ -177,9 +170,7 @@
 
       return path + "page={0}";
     }
-    #endregion
 
-    #region PagerTag
     /// <summary>
     /// Gets the pager tag.
     /// </summary>
@@ -189,9 +180,9 @@
       if (this.Posts == null) return "";
 
       var retValue = string.Empty;
-      var link = string.Format("<a href=\"{0}\" data-role=\"button\"{{2}}>{{1}}</a>", PageUrl());
+      var link = string.Format("<a href=\"{0}\" data-role=\"button\" data-transition=\"slide\"{{2}}>{{1}}</a>", PageUrl());
       const string LinkCurrent = "<a data-role=\"button\"{1}>{0}</a>";
-      var linkFirst = string.Format("<a href=\"{0}\" data-role=\"button\"{{1}}>{{0}}</a>", PageUrl());
+      var linkFirst = string.Format("<a href=\"{0}\" data-role=\"button\" data-transition=\"slide\"{{1}}>{{0}}</a>", PageUrl());
       const string LinkDisabled = "<a data-role=\"button\" data-theme=\"ui-disabled\"{1}>{0}</a>";
 
       var postsPerPage = BlogSettings.Instance.PostsPerPage;
@@ -269,6 +260,5 @@
 
       return retValue;
     }
-    #endregion
   }
 }

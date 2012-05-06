@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Web;
+using System.Text.RegularExpressions;
 using BlogEngine.Core.Json;
 using BlogEngine.Core.Providers;
 
@@ -30,7 +31,7 @@ namespace BlogEngine.Core.Packaging
                 if(themes != null && themes.Count > 0)
                 {
                     foreach (var theme in from theme in themes
-                        let found = packages.Any(pkg => theme.Id == pkg.Id)
+                        let found = packages.Any(pkg => theme.Id.ToLower() == pkg.Id.ToLower())
                         where !found select theme)
                     {
                         packages.Add(theme);
@@ -40,7 +41,7 @@ namespace BlogEngine.Core.Packaging
                 if (widgets != null && widgets.Count > 0)
                 {
                     foreach (var wdg in from wdg in widgets
-                        let found = packages.Any(pkg => wdg.Id == pkg.Id)
+                        let found = packages.Any(pkg => wdg.Id.ToLower() == pkg.Id.ToLower())
                         where !found select wdg)
                     {
                         packages.Add(wdg);
@@ -99,6 +100,8 @@ namespace BlogEngine.Core.Packaging
         public static void UninstallPackage(string pkgId)
         {
             var installedFiles = BlogService.InstalledFromGalleryPackageFiles(pkgId);
+            var pkg = PackageRepository.GetPackage(pkgId);
+            var pkgDir = string.Format("{0}.{1}", pkgId, pkg.LocalVersion);
 
             foreach (var file in installedFiles.OrderByDescending(f => f.FileOrder))
             {
@@ -121,6 +124,13 @@ namespace BlogEngine.Core.Packaging
                 {
                     File.Delete(file.FilePath);
                 }
+            }
+
+            // clean up removing installed version
+            pkgDir = HttpContext.Current.Server.MapPath(string.Format("{0}App_Data/packages/{1}", Utils.ApplicationRelativeWebRoot, pkgDir));
+            if (Directory.Exists(pkgDir))
+            {
+                ForceDeleteDirectory(pkgDir);
             }
         }
 
@@ -243,6 +253,18 @@ namespace BlogEngine.Core.Packaging
                     FilePath = Path.Combine(target.FullName, file.Name),
                     PackageId = pkgId
                 };
+
+                // fix known interface changes
+                if (fileToCopy.FilePath.ToLower().EndsWith(".cs") || 
+                    fileToCopy.FilePath.ToLower().EndsWith(".aspx") || 
+                    fileToCopy.FilePath.ToLower().EndsWith(".ascx") ||
+                    fileToCopy.FilePath.ToLower().EndsWith(".master"))
+                {
+                    ReplaceInFile(fileToCopy.FilePath, "BlogSettings.Instance.StorageLocation", "Blog.CurrentInstance.StorageLocation");
+                    ReplaceInFile(fileToCopy.FilePath, "BlogSettings.Instance.FileExtension", "BlogConfig.FileExtension");
+                    ReplaceInFile(fileToCopy.FilePath, "\"login.aspx", "\"account/login.aspx");
+                }
+
                 installedFiles.Add(fileToCopy);
             }   
         }
@@ -289,6 +311,26 @@ namespace BlogEngine.Core.Packaging
                 return Utils.ApplicationRelativeWebRoot + "pics/Widget.png";
 
             return Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
+        }
+
+        static void ReplaceInFile(string filePath, string searchText, string replaceText)
+        {
+            var cnt = 0;
+            StreamReader reader = new StreamReader(filePath);
+            string content = reader.ReadToEnd();
+            cnt = content.Length;
+            reader.Close();
+
+            content = Regex.Replace(content, searchText, replaceText);
+
+            if (cnt > 0 && cnt != content.Length)
+            {
+                Utils.Log(string.Format("Package Installer: replacing in {0} from {1} to {2}", filePath, searchText, replaceText));
+            }
+
+            StreamWriter writer = new StreamWriter(filePath);
+            writer.Write(content);
+            writer.Close();
         }
 
         #endregion

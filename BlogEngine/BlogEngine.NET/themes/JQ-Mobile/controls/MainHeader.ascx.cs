@@ -1,4 +1,4 @@
-﻿namespace MichaelJBaird.Themes.JQMobile.Controls
+namespace MichaelJBaird.Themes.JQMobile.Controls
 {
   #region using
   using System;

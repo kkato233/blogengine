@@ -14,7 +14,6 @@
   
   public partial class Archive : BlogEngine.Core.Web.Controls.BlogBasePage
   {
-    #region Page_Load
     /// <summary>
     /// Handles the Load event of the Page control.
     /// </summary>
@@ -32,9 +31,7 @@
       Page.Title = Server.HtmlEncode(Resources.labels.archive);
       base.AddMetaTag("description", Resources.labels.archive + " | " + BlogSettings.Instance.Name);
     } 
-    #endregion
 
-    #region AddHeader
     /// <summary>
     /// Adds the header.
     /// </summary>
@@ -46,9 +43,7 @@
       header.Title = labels.archive;
       jqmHeader.Controls.Add(header);
     }
-    #endregion
 
-    #region SortCategories
     /// <summary>
     /// Sorts the categories.
     /// </summary>
@@ -69,9 +64,7 @@
 
       return dic;
     } 
-    #endregion
 
-    #region CreateArchive
     /// <summary>
     /// Creates the archive.
     /// </summary>
@@ -96,28 +89,8 @@
           ulArchive.Controls.Add(postItem);
         }
       }
-
-      //List<Post> noCatList = Post.Posts.FindAll(delegate(Post p) { return p.Categories.Count == 0 && p.IsVisible; });
-      //if (noCatList.Count > 0)
-      //{
-      //  string name = Resources.labels.uncategorized;
-      //  HtmlGenericControl h2 = CreateRowHeader(null, name, noCatList.Count);
-      //  phArchive.Controls.Add(h2);
-
-      //  HtmlTable table = CreateTable(name);
-      //  foreach (Post post in noCatList)
-      //  {
-      //    CreateTableRow(table, post);
-      //  }
-
-      //  phArchive.Controls.Add(table);
-
-      //  AddCategoryToMenu(name);
-      //}
     } 
-    #endregion
 
-    #region CreatePostRow
     /// <summary>
     /// Creates the post row.
     /// </summary>
@@ -137,19 +110,10 @@
           postInnerHtml.AppendFormat("<span class=\"ui-li-count\">{0}</span>", post.ApprovedComments.Count.ToString());
       }
 
-      //if (BlogSettings.Instance.EnableRating)
-      //{
-      //  HtmlTableCell rating = new HtmlTableCell();
-      //  rating.InnerHtml = post.Raters == 0 ? "None" : Math.Round(post.Rating, 1).ToString();
-      //  rating.Attributes.Add("class", "rating");
-      //  row.Cells.Add(rating);
-      //}
       postInnerHtml.Append("</a>");
       postItem.InnerHtml = postInnerHtml.ToString();
     } 
-    #endregion
 
-    #region AddTotals
     /// <summary>
     /// Adds the totals.
     /// </summary>
@@ -171,6 +135,5 @@
       if (BlogSettings.Instance.EnableRating)
         ltRaters.Text = raters + " " + Resources.labels.raters.ToLowerInvariant();
     } 
-    #endregion
   }
 }

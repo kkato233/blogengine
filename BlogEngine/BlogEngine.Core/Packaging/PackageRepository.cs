@@ -161,8 +161,7 @@ namespace BlogEngine.Core.Packaging
             string s = "{0}|{1}|{2}|{3}|{4}|{5}";
             foreach (var p in packages)
             {
-                if(p.PackageType == "Theme")
-                    System.Diagnostics.Debug.WriteLine(string.Format(s, msg, p.PackageType, p.Id, p.Location, p.LocalVersion, p.OnlineVersion));
+                System.Diagnostics.Debug.WriteLine(string.Format(s, msg, p.PackageType, p.Id, p.Location, p.LocalVersion, p.OnlineVersion));
             }
         }
     }

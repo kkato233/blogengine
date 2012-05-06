@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" CodeFile="Post.aspx.cs" Inherits="MichaelJBaird.Themes.JQMobile.PostPage" %>
+<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" CodeFile="Post.aspx.cs" Inherits="MichaelJBaird.Themes.JQMobile.PostPage" %>
 <%@ Register Src="~/themes/JQ-Mobile/controls/CommentView.ascx" TagName="CommentView" TagPrefix="jqm" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   

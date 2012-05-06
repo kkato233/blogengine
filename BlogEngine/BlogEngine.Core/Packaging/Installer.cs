@@ -57,6 +57,14 @@ namespace BlogEngine.Core.Packaging
             catch (Exception ex)
             {
                 Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage(" + pkgId + ")", ex);
+                try
+                {
+                    UninstallPackage(pkgId);
+                }
+                catch (Exception)
+                {
+                    // just trying to clean up if package did not installed properly
+                }
                 return new JsonResponse { Success = false, Message = "Error installing package, see logs for details" };
             }
 
@@ -117,7 +125,7 @@ namespace BlogEngine.Core.Packaging
                 var p = pkg;
                 if(installed != null && installed.Count > 0)
                 {
-                    foreach (var inst in installed.Where(inst => p.Id == inst.PackageId))
+                    foreach (var inst in installed.Where(inst => p.Id.ToLower() == inst.PackageId.ToLower()))
                     {
                         pkg.Location = "I";
                         pkg.LocalVersion = inst.Version;

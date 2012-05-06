@@ -1,9 +1,8 @@
-﻿namespace MichaelJBaird.Themes.JQMobile.Controls
+namespace MichaelJBaird.Themes.JQMobile.Controls
 {
   #region using
   using System;
   using System.Collections.Generic;
-
   using BlogEngine.Core;
   using BlogEngine.Core.Web.Controls;
   #endregion
@@ -52,7 +51,10 @@
 
     #endregion
 
-    #region OnInit
+    /// <summary>
+    /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
     protected override void OnInit(EventArgs e)
     {
       base.OnInit(e);
@@ -62,9 +64,7 @@
         this.Visible = false;
       }
     }
-    #endregion
 
-    #region OnLoad
     /// <summary>
     /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
     /// </summary>
@@ -84,32 +84,39 @@
 
       // Add MainHeader
       AddMainHeader();
-    } 
-    #endregion
+    }
 
-    #region AddMainHeader
+    /// <summary>
+    /// Adds the main header.
+    /// </summary>
     private void AddMainHeader()
     {
       var jqmHeader = this.Page.Master.FindControl("jqmHeader");
       var mainHeader = LoadControl("MainHeader.ascx");
       jqmHeader.Controls.Add(mainHeader);
     } 
-    #endregion
 
-    #region BindPosts
 		/// <summary>
     /// Binds the list of posts to individual postview.ascx controls
     ///     from the current theme.
     /// </summary>
     private void BindPosts()
     {
-      if (this.Posts == null || this.Posts.Count == 0)
+      if (this.Posts == null)
       {
-        //this.hlPrev.Visible = false;
+        // no posts provided, load all posts by default
+        Posts = Post.ApplicablePosts.ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
+      }
+
+      if (this.Posts.Count == 0)
+      {
         return;
       }
 
+      //var visiblePosts = Post.Posts.FindAll(p => p.IsVisibleToPublic);
       var visiblePosts = this.Posts.FindAll(p => p.IsVisible);
+
+      BindPager(visiblePosts);
 
       var count = Math.Min(BlogSettings.Instance.PostsPerPage, visiblePosts.Count);
       var page = this.GetPageIndex();
@@ -122,8 +129,6 @@
 
       if (stop < 0 || stop + index > visiblePosts.Count)
       {
-        //this.hlPrev.Visible = false;
-        //this.hlNext.Visible = false;
         return;
       }
 
@@ -146,15 +151,8 @@
         this.posts.Controls.Add(postView);
         counter++;
       }
-
-      if (index + stop == this.Posts.Count)
-      {
-        //this.hlPrev.Visible = false;
-      }
     } 
-	#endregion
 
-    #region GetPageIndex
 		/// <summary>
     /// Retrieves the current page index based on the QueryString.
     /// </summary>
@@ -171,9 +169,7 @@
 
       return index;
     } 
-	  #endregion
 
-    #region ShowExcerpt
     /// <summary>
     /// Whether or not to show the entire post or just the excerpt/description
     /// in the post list 
@@ -187,6 +183,13 @@
       return BlogSettings.Instance.ShowDescriptionInPostList ||
           (BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory && tagOrCategory);
     }
-    #endregion
+
+    private void BindPager(List<IPublishable> posts)
+    {
+      dynamic jqmPager = LoadControl("Pager.ascx");
+      jqmPager.Posts = posts;
+      var jqmFooter = this.Page.Master.FindControl("jqmFooter");
+      jqmFooter.Controls.Add(jqmPager);
+    }
   }
 }

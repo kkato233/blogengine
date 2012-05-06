@@ -11,7 +11,6 @@
   public partial class PostPage : BlogBasePage
   {
 
-    #region OnInit
     /// <summary>
     /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
     /// </summary>
@@ -133,9 +132,7 @@
       }
 
     } 
-    #endregion
 
-    #region GetNextPost
     /// <summary>
     /// Gets the next post filtered for invisible posts.
     /// </summary>
@@ -149,9 +146,7 @@
 
       return GetNextPost(post.Next);
     } 
-    #endregion
 
-    #region GetPrevPost
     /// <summary>
     /// Gets the prev post filtered for invisible posts.
     /// </summary>
@@ -165,7 +160,6 @@
 
       return GetPrevPost(post.Previous);
     } 
-    #endregion
 
     /// <summary>
     /// Inits the navigation links above the post and in the HTML head section.
@@ -197,7 +191,6 @@
       //}
     }
 
-    #region AddMetaDescription
     /// <summary>
     /// Adds the post's description as the description metatag.
     /// </summary>
@@ -205,9 +198,7 @@
     {
       base.AddMetaTag("description", Server.HtmlEncode(Post.Description));
     } 
-    #endregion
 
-    #region AddMetaKeywords
     /// <summary>
     /// Adds the post's tags as meta keywords.
     /// </summary>
@@ -218,11 +209,9 @@
         base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", Post.Tags.ToArray())));
       }
     } 
-    #endregion
 
     public Post Post;
 
-    #region ShowCommentsForm
     /// <summary>
     /// Gets a value indicating whether [show comments form].
     /// </summary>
@@ -236,9 +225,7 @@
         return BlogSettings.Instance.ModerationType != BlogSettings.Moderation.Disqus;
       }
     } 
-    #endregion
 
-    #region ShowDisqusForm
     /// <summary>
     /// Gets a value indicating whether [show disqus form].
     /// </summary>
@@ -252,6 +239,5 @@
         return BlogSettings.Instance.ModerationType == BlogSettings.Moderation.Disqus;
       }
     } 
-    #endregion
   }
 }

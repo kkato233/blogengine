@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="PostView.ascx.cs" Inherits="MichaelJBaird.Themes.JQMobile.PostView" %>
+<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="PostView.ascx.cs" Inherits="MichaelJBaird.Themes.JQMobile.PostView" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <%
   var postTitle = Location == ServingLocation.SinglePost ? Post.Title : string.Format("<a href=\"{0}\" class=\"taggedlink\">{1}</a>", Post.RelativeLink, Post.Title);

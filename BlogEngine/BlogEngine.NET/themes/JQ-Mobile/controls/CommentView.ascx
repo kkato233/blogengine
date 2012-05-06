@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="MichaelJBaird.Themes.JQMobile.Controls.CommentView" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="MichaelJBaird.Themes.JQMobile.Controls.CommentView" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <% if (CommentCounter > 0) { %>

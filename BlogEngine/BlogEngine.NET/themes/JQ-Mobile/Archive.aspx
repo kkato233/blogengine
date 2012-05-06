@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Archive.aspx.cs" Inherits="MichaelJBaird.Themes.JQMobile.Archive" EnableViewState="false" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Archive.aspx.cs" Inherits="MichaelJBaird.Themes.JQMobile.Archive" EnableViewState="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
   <ul runat="server" id="ulArchive" data-role="listview" data-filter="true" />

@@ -12,7 +12,6 @@
   {
     private readonly string themePath;
 
-    #region Master
     /// <summary>
     /// Initializes a new instance of the <see cref="Master"/> class.
     /// </summary>
@@ -20,11 +19,9 @@
     {
       themePath = Utils.ApplicationRelativeWebRoot + "themes/" + BlogEngine.Core.BlogSettings.Instance.Theme;
     }
-    #endregion
 
     public ThemeHelper.PageType CurrentPageType { get; set; }
 
-    #region OnInit
     /// <summary>
     /// Raises the <see cref="E:System.Web.UI.Control.Init"/> event.
     /// </summary>
@@ -37,9 +34,7 @@
       SwitchPage();
       base.OnInit(e);
     }
-    #endregion
 
-    #region Page_Load
     /// <summary>
     /// Handles the Load event of the Page control.
     /// </summary>
@@ -49,9 +44,7 @@
     {
       SwitchContentControl();
     }
-    #endregion
 
-    #region Render
     /// <summary>
     /// Sends server control content to a provided <see cref="T:System.Web.UI.HtmlTextWriter"/> object, which writes the content to be rendered on the client.
     /// </summary>
@@ -62,9 +55,7 @@
 
       base.Render(writer);
     }
-    #endregion
 
-    #region SwitchContentControl
     /// <summary>
     /// Replaces the default post linsting control used in default.aspx by a custom control.
     /// </summary>
@@ -84,9 +75,7 @@
           break;
       }
     }
-    #endregion
 
-    #region AddMainHeader
     /// <summary>
     /// Adds the main header.
     /// </summary>
@@ -96,9 +85,7 @@
       var mainHeader = LoadControl("controls/MainHeader.ascx");
       jqmHeader.Controls.Add(mainHeader);
     } 
-    #endregion
 
-    #region SwitchPage
     /// <summary>
     /// Replaces a default be.net page with a custom one.
     /// </summary>
@@ -120,9 +107,7 @@
           break;
       }
     } 
-    #endregion
 
-    #region AddHeader
     /// <summary>
     /// Adds the header.
     /// </summary>
@@ -134,9 +119,7 @@
       header.Title = title;
       jqmHeader.Controls.Add(header);
     }
-    #endregion
 
-    #region SetAlternatePost
     /// <summary>
     /// Sets the alternate post page.
     /// </summary>
@@ -149,9 +132,7 @@
       if (currentPage.Request.CurrentExecutionFilePath.ToLower() == path)
         Server.TransferRequest(newPath, true);
     }
-    #endregion
 
-    #region SetAlternateArchive
     /// <summary>
     /// Sets the alternate page.
     /// </summary>
@@ -164,9 +145,7 @@
       if (currentPage.Request.CurrentExecutionFilePath.ToLower() == path)
         Server.TransferRequest(newPath, true);
     }
-    #endregion
 
-    #region SetAlternateContact
     /// <summary>
     /// Sets the alternate page.
     /// </summary>
@@ -179,9 +158,7 @@
       if (currentPage.Request.CurrentExecutionFilePath.ToLower() == path)
         Server.TransferRequest(newPath, true);
     }
-    #endregion
 
-    #region SetAlternateSearch
     /// <summary>
     /// Sets the alternate page.
     /// </summary>
@@ -194,9 +171,7 @@
       if (currentPage.Request.CurrentExecutionFilePath.ToLower() == path)
         Server.Transfer(newPath, true);
     }
-    #endregion
 
-    #region SetAlternatePostListControl
     /// <summary>
     /// Sets the alternate post list control.
     /// </summary>
@@ -224,9 +199,7 @@
       CopyControlProperty(postListControl, newPager, "Posts", "Posts");
       jqmFooter.Controls.Add(newPager);
     }
-    #endregion
 
-    #region CopyControlProperty
     /// <summary>
     /// Copies the value of one control property to another control. 
     /// </summary>
@@ -248,9 +221,7 @@
         }
       }
     }
-    #endregion
 
-    #region SetControlProperty
     /// <summary>
     /// Sets a property on a control dynamicly.
     /// </summary>
@@ -268,6 +239,5 @@
         }
       }
     }
-    #endregion
   }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="Search.aspx.cs" Inherits="MichaelJBaird.Themes.JQMobile.SearchPage" ValidateRequest="false" %>
+<%@ Page Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="Search.aspx.cs" Inherits="MichaelJBaird.Themes.JQMobile.SearchPage" ValidateRequest="false" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphBody" Runat="Server">
   <div id="searchform" class="ui-body ui-body-a ui-corner-all">

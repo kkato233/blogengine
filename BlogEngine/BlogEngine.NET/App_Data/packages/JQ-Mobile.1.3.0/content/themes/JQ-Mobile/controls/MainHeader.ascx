@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MainHeader.ascx.cs" Inherits="MichaelJBaird.Themes.JQMobile.Controls.MainHeader" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="MainHeader.ascx.cs" Inherits="MichaelJBaird.Themes.JQMobile.Controls.MainHeader" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <div data-role="header">
