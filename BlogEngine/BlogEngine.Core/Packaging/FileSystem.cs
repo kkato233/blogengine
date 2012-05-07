@@ -101,8 +101,7 @@ namespace BlogEngine.Core.Packaging
         {
             var installedFiles = BlogService.InstalledFromGalleryPackageFiles(pkgId);
             var pkg = PackageRepository.GetPackage(pkgId);
-            var pkgDir = string.Format("{0}.{1}", pkgId, pkg.LocalVersion);
-
+            
             foreach (var file in installedFiles.OrderByDescending(f => f.FileOrder))
             {
                 if(file.IsDirectory)
@@ -120,17 +119,23 @@ namespace BlogEngine.Core.Packaging
                         }
                     }
 
-                }else
+                }
+                else if (File.Exists(file.FilePath))
                 {
                     File.Delete(file.FilePath);
                 }
             }
 
-            // clean up removing installed version
-            pkgDir = HttpContext.Current.Server.MapPath(string.Format("{0}App_Data/packages/{1}", Utils.ApplicationRelativeWebRoot, pkgDir));
-            if (Directory.Exists(pkgDir))
+            if (!string.IsNullOrWhiteSpace(pkg.LocalVersion))
             {
-                ForceDeleteDirectory(pkgDir);
+                var pkgDir = string.Format("{0}.{1}", pkgId, pkg.LocalVersion);
+
+                // clean up removing installed version
+                pkgDir = HttpContext.Current.Server.MapPath(string.Format("{0}App_Data/packages/{1}", Utils.ApplicationRelativeWebRoot, pkgDir));
+                if (Directory.Exists(pkgDir))
+                {
+                    ForceDeleteDirectory(pkgDir);
+                }
             }
         }
 
