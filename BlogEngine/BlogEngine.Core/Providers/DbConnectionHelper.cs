@@ -140,6 +140,31 @@ namespace BlogEngine.Core.Providers
         /// <returns></returns>
         public DbParameter CreateParameter(string parameterName, object value)
         {
+            return CreateParameter(parameterName, value, null, null);
+        }
+
+        /// <summary>
+        /// Uses this ConnectionHelper's Provider to create a DbParameter instance with the given parameter name and value.
+        /// </summary>
+        /// <param name="parameterName">The name of the parameter.</param>
+        /// <param name="value">The value of the parameter.</param>
+        /// <param name="dbType">The DB type.</param>
+        /// <returns></returns>
+        public DbParameter CreateParameter(string parameterName, object value, DbType dbType)
+        {
+            return CreateParameter(parameterName, value, dbType, null);
+        }
+
+        /// <summary>
+        /// Uses this ConnectionHelper's Provider to create a DbParameter instance with the given parameter name and value.
+        /// </summary>
+        /// <param name="parameterName">The name of the parameter.</param>
+        /// <param name="value">The value of the parameter.</param>
+        /// <param name="dbType">The DB type.</param>
+        /// <param name="size">The size/length of the parameter.</param>
+        /// <returns></returns>
+        public DbParameter CreateParameter(string parameterName, object value, DbType? dbType, int? size)
+        {
             this.CheckDisposed();
 
             var param = this.Provider.CreateParameter();
@@ -152,9 +177,15 @@ namespace BlogEngine.Core.Providers
             {
                 param.ParameterName = parameterName;
                 param.Value = value;
+
+                if (dbType.HasValue)
+                    param.DbType = dbType.Value;
+
+                if (size.HasValue)
+                    param.Size = size.Value;
+
                 return param;
             }
-
         }
 
         #endregion
