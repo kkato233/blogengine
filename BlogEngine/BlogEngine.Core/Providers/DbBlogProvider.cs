@@ -1860,6 +1860,11 @@ namespace BlogEngine.Core.Providers
             {
                 if (conn.HasConnection)
                 {
+                    //
+                    // For SQL CE compatibility, all the "newblogid" parameters below need to have their DBType set to DBType.String.
+                    // This is done with the CreateParameter() overload that accepts a DBType.
+                    //
+
                     // be_BlogRollItems
                     using (var cmd = conn.CreateTextCommand(string.Format(
                         " INSERT INTO {0}BlogRollItems ( BlogId, BlogRollId, Title, Description, BlogUrl, FeedUrl, Xfn, SortIndex ) " +
@@ -1867,7 +1872,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}BlogRollItems " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1879,7 +1884,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Categories " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1891,7 +1896,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}DataStoreSettings " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1903,7 +1908,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Pages " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1915,7 +1920,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}PingService " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1927,7 +1932,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Profiles " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1939,7 +1944,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Referrers " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1951,7 +1956,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Rights " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1963,7 +1968,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}RightRoles " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1975,7 +1980,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Settings " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1987,7 +1992,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}StopWords " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -1999,7 +2004,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Posts " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2011,7 +2016,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}PostCategory " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2023,7 +2028,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}PostComment " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2035,7 +2040,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}PostNotify " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2047,7 +2052,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}PostTag " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2064,7 +2069,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Users " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2076,7 +2081,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}Roles " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
@@ -2088,7 +2093,7 @@ namespace BlogEngine.Core.Providers
                         " FROM {0}UserRoles " +
                         " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
                         cmd.ExecuteNonQuery();
                     }
