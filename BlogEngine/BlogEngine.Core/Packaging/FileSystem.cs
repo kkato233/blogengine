@@ -104,25 +104,27 @@ namespace BlogEngine.Core.Packaging
             
             foreach (var file in installedFiles.OrderByDescending(f => f.FileOrder))
             {
+                var fullPath = HttpContext.Current.Server.MapPath(Path.Combine(Utils.RelativeWebRoot, file.FilePath));
+
                 if(file.IsDirectory)
                 {
-                    var folder = new DirectoryInfo(file.FilePath);
+                    var folder = new DirectoryInfo(fullPath);
                     if (folder.Exists)
                     {
                         if(folder.GetFileSystemInfos().Length == 0)
                         {
-                            ForceDeleteDirectory(file.FilePath);
+                            ForceDeleteDirectory(fullPath);
                         }
                         else
                         {
-                            Utils.Log(string.Format("Package Uninstaller: can not remove directory if it is not empty ({0})", file.FilePath));
+                            Utils.Log(string.Format("Package Uninstaller: can not remove directory if it is not empty ({0})", fullPath));
                         }
                     }
 
                 }
-                else if (File.Exists(file.FilePath))
+                else if (File.Exists(fullPath))
                 {
-                    File.Delete(file.FilePath);
+                    File.Delete(fullPath);
                 }
             }
 
@@ -227,16 +229,21 @@ namespace BlogEngine.Core.Packaging
 
         static void CopyDirectory(DirectoryInfo source, DirectoryInfo target, string pkgId, List<PackageFile> installedFiles)
         {
+            var rootPath = HttpContext.Current.Server.MapPath(Utils.RelativeWebRoot);
+
             foreach (var dir in source.GetDirectories())
             {
+                var filePath = Path.Combine(target.FullName, dir.Name);
+                var relPath = filePath.Replace(rootPath, "");
+
                 // save directory if it is created by package
                 // so we can remove it on package uninstall
-                if (!Directory.Exists(Path.Combine(target.FullName, dir.Name)))
+                if (!Directory.Exists(filePath))
                 {
                     fileOrder++;
                     var fileToCopy = new PackageFile
                     {
-                        FilePath = Path.Combine(target.FullName, dir.Name),
+                        FilePath = relPath,
                         PackageId = pkgId,
                         FileOrder = fileOrder,
                         IsDirectory = true
@@ -248,26 +255,29 @@ namespace BlogEngine.Core.Packaging
              
             foreach (var file in source.GetFiles())
             {
-                file.CopyTo(Path.Combine(target.FullName, file.Name));
+                var filePath = Path.Combine(target.FullName, file.Name);
+                var relPath = filePath.Replace(rootPath, "");
+
+                file.CopyTo(filePath);
 
                 fileOrder++;
                 var fileToCopy = new PackageFile
                 {
                     FileOrder = fileOrder,
                     IsDirectory = false,
-                    FilePath = Path.Combine(target.FullName, file.Name),
+                    FilePath = relPath,
                     PackageId = pkgId
                 };
 
                 // fix known interface changes
-                if (fileToCopy.FilePath.ToLower().EndsWith(".cs") || 
-                    fileToCopy.FilePath.ToLower().EndsWith(".aspx") || 
-                    fileToCopy.FilePath.ToLower().EndsWith(".ascx") ||
-                    fileToCopy.FilePath.ToLower().EndsWith(".master"))
+                if (filePath.ToLower().EndsWith(".cs") ||
+                    filePath.ToLower().EndsWith(".aspx") ||
+                    filePath.ToLower().EndsWith(".ascx") ||
+                    filePath.ToLower().EndsWith(".master"))
                 {
-                    ReplaceInFile(fileToCopy.FilePath, "BlogSettings.Instance.StorageLocation", "Blog.CurrentInstance.StorageLocation");
-                    ReplaceInFile(fileToCopy.FilePath, "BlogSettings.Instance.FileExtension", "BlogConfig.FileExtension");
-                    ReplaceInFile(fileToCopy.FilePath, "\"login.aspx", "\"account/login.aspx");
+                    ReplaceInFile(filePath, "BlogSettings.Instance.StorageLocation", "Blog.CurrentInstance.StorageLocation");
+                    ReplaceInFile(filePath, "BlogSettings.Instance.FileExtension", "BlogConfig.FileExtension");
+                    ReplaceInFile(filePath, "\"login.aspx", "\"account/login.aspx");
                 }
 
                 installedFiles.Add(fileToCopy);
