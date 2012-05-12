@@ -140,7 +140,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
         /// <returns></returns>
         public static string GetScriptPath(System.Globalization.CultureInfo cultureInfo)
         {
-            return String.Format("{0}{1}.res.axd", Utils.AbsoluteWebRoot, cultureInfo.Name.ToLowerInvariant());
+            return String.Format("{0}{1}.res.axd", Utils.ApplicationRelativeWebRoot, cultureInfo.Name.ToLowerInvariant());
         }
 
         /// <summary>
