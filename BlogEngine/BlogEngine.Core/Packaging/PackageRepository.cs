@@ -69,7 +69,7 @@ namespace BlogEngine.Core.Packaging
                         packages = packages.OrderByDescending(p => p.Rating).ThenBy(p => p.Title).ToList();
                         break;
                     case Gallery.OrderType.Newest:
-                        packages = packages.OrderByDescending(p => Convert.ToDateTime(p.LastUpdated, culture)).ThenBy(p => p.Title).ToList();
+                        packages = packages.OrderByDescending(p => Convert.ToDateTime(p.LastUpdated, CultureInfo.InvariantCulture)).ThenBy(p => p.Title).ToList();
                         break;
                     case Gallery.OrderType.Alphanumeric:
                         packages = packages.OrderBy(p => p.Title).ToList();
