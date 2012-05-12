@@ -2438,7 +2438,7 @@ namespace BlogEngine.Core.Providers
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("INSERT INTO {0}Packages (PackageId, [Version]) VALUES ({1}PackageId, {1}Version)", this.tablePrefix, this.parmPrefix);
+                    var sqlQuery = string.Format("INSERT INTO {0}Packages (PackageId, Version) VALUES ({1}PackageId, {1}Version)", this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
