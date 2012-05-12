@@ -195,27 +195,30 @@ namespace BlogEngine.Core.Packaging
             {
                 if (File.Exists(pkgPath))
                 {
-                    var textReader = new XmlTextReader(pkgPath);
-                    textReader.Read();
-
-                    while (textReader.Read())
+                    using (var textReader = new XmlTextReader(pkgPath))
                     {
-                        textReader.MoveToElement();
+                        textReader.Read();
 
-                        if (textReader.Name == "description")
-                            jp.Description = textReader.ReadString();
+                        while (textReader.Read())
+                        {
+                            textReader.MoveToElement();
 
-                        if (textReader.Name == "authors")
-                            jp.Authors = textReader.ReadString();
+                            if (textReader.Name == "description")
+                                jp.Description = textReader.ReadString();
 
-                        if (textReader.Name == "website")
-                            jp.Website = textReader.ReadString();
+                            if (textReader.Name == "authors")
+                                jp.Authors = textReader.ReadString();
 
-                        if (textReader.Name == "version")
-                            jp.LocalVersion = textReader.ReadString();
+                            if (textReader.Name == "website")
+                                jp.Website = textReader.ReadString();
 
-                        if (textReader.Name == "iconurl")
-                            jp.IconUrl = textReader.ReadString();
+                            if (textReader.Name == "version")
+                                jp.LocalVersion = textReader.ReadString();
+
+                            if (textReader.Name == "iconurl")
+                                jp.IconUrl = textReader.ReadString();
+                        }
+                        textReader.Close();
                     }
                     return jp;
                 }
