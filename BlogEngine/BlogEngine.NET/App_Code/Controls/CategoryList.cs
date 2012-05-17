@@ -213,7 +213,7 @@ namespace App_Code.Controls
 
                 for (int j = 0; j < i; j++)
                 {
-                    spaces += "&#160;&#160;&#160";
+                    spaces += "&#160;&#160;&#160;";
                 }
 
                 if (i > 0)
@@ -253,7 +253,7 @@ namespace App_Code.Controls
                     {
                         HRef = cat.RelativeLink,
                         InnerHtml = HttpUtility.HtmlEncode(cat.Title) + postCount,
-                        Title = string.Format("Categorie: {0}", key)
+                        Title = string.Format("{0}: {1}", Resources.labels.category, key)
                     };
                 
 
