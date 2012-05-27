@@ -48,15 +48,6 @@ namespace BlogEngine.Core.Packaging
             }
 
             Gallery.GalleryPager = new Pager(page, packages.Count, pkgType);
-            CultureInfo culture;
-            try
-            {
-                culture = new CultureInfo(BlogSettings.Instance.Culture);
-            }
-            catch (Exception)
-            {
-                culture = Utils.GetDefaultCulture();
-            }
 
             if (packages.Count > 0)
             {
@@ -69,7 +60,7 @@ namespace BlogEngine.Core.Packaging
                         packages = packages.OrderByDescending(p => p.Rating).ThenBy(p => p.Title).ToList();
                         break;
                     case Gallery.OrderType.Newest:
-                        packages = packages.OrderByDescending(p => Convert.ToDateTime(p.LastUpdated, CultureInfo.InvariantCulture)).ThenBy(p => p.Title).ToList();
+                        packages = packages.OrderByDescending(p => Convert.ToDateTime(p.LastUpdated, Utils.GetDefaultCulture())).ThenBy(p => p.Title).ToList();
                         break;
                     case Gallery.OrderType.Alphanumeric:
                         packages = packages.OrderBy(p => p.Title).ToList();
@@ -137,8 +128,6 @@ namespace BlogEngine.Core.Packaging
                         null);
                 }
                 return (IEnumerable<JsonPackage>)Blog.CurrentInstance.Cache[Constants.CacheKey];
-
-                //return (IEnumerable<JsonPackage>)LoadPackages();
             }
         }
 
