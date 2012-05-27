@@ -305,8 +305,8 @@
         /// <param name="url">the url string</param>
         private static void RewriteFilePath(HttpContext context, string url)
         {
-            var awr = Utils.AbsoluteWebRoot;
-            url = url.ToLower().Replace(awr.ToString().ToLower(), string.Empty).Replace("files/", string.Empty);
+            var wr = url.Substring(0, url.IndexOf("/FILES/") + 6);
+            url = url.Replace(wr, "");
             url = url.Substring(0, url.LastIndexOf(System.IO.Path.GetExtension(url)));
             var npath = string.Format("{0}file.axd?file={1}", Utils.ApplicationRelativeWebRoot, url);
             context.RewritePath(npath);
@@ -319,8 +319,8 @@
         /// <param name="url">the url string</param>
         private static void RewriteImagePath(HttpContext context, string url)
         {
-            var awr = Utils.AbsoluteWebRoot;
-            url = url.ToLower().Replace(awr.ToString().ToLower(), string.Empty).Replace("images/", string.Empty);
+            var wr = url.Substring(0, url.IndexOf("/IMAGES/") + 6);
+            url = url.Replace(wr, "");
             url = url.Substring(0, url.LastIndexOf(System.IO.Path.GetExtension(url)));
             var npath = string.Format("{0}image.axd?picture={1}", Utils.ApplicationRelativeWebRoot, url);
             context.RewritePath(npath);
