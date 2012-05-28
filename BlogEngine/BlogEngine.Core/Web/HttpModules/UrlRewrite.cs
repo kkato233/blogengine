@@ -319,7 +319,7 @@
         /// <param name="url">the url string</param>
         private static void RewriteImagePath(HttpContext context, string url)
         {
-            var wr = url.Substring(0, url.IndexOf("/IMAGES/") + 6);
+            var wr = url.Substring(0, url.IndexOf("/IMAGES/") + 7);
             url = url.Replace(wr, "");
             url = url.Substring(0, url.LastIndexOf(System.IO.Path.GetExtension(url)));
             var npath = string.Format("{0}image.axd?picture={1}", Utils.ApplicationRelativeWebRoot, url);
