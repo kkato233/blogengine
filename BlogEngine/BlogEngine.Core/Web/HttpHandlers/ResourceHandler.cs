@@ -135,12 +135,14 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
         /// <summary>
         /// Returns the script path used to load resources on a page. 
+        /// Resource script needs to use CURRENT INSTANCE relative root
+        /// to support child-blog widgets, unlike other site-wide scripts
         /// </summary>
         /// <param name="cultureInfo"></param>
         /// <returns></returns>
         public static string GetScriptPath(System.Globalization.CultureInfo cultureInfo)
         {
-            return String.Format("{0}{1}.res.axd", Utils.ApplicationRelativeWebRoot, cultureInfo.Name.ToLowerInvariant());
+            return String.Format("{0}{1}.res.axd", Utils.RelativeWebRoot, cultureInfo.Name.ToLowerInvariant());
         }
 
         /// <summary>

@@ -41,15 +41,15 @@ namespace BlogEngine.Core.Web.Controls
             HtmlGenericControl ul = GetChildren(Guid.Empty);
 
             // items that will be appended to the end of menu list
-            AddMenuItem(ul, Contact, "~/contact.aspx");
+            AddMenuItem(ul, Contact, Utils.RelativeWebRoot + "contact.aspx");
 
             if (Security.IsAuthenticated)
             {
-                AddMenuItem(ul, Logoff, "~/Account/login.aspx?logoff");
+                AddMenuItem(ul, Logoff, Utils.RelativeWebRoot + "Account/login.aspx?logoff");
             }
             else
             {
-                AddMenuItem(ul, Logon, "~/Account/login.aspx");
+                AddMenuItem(ul, Logon, Utils.RelativeWebRoot + "Account/login.aspx");
             }
 
             return ul;
@@ -84,8 +84,8 @@ namespace BlogEngine.Core.Web.Controls
                 ul.Attributes.Add("class", "menu");
                 _ulIdSet = true;
 
-                AddMenuItem(ul, Home, "~/default.aspx");
-                AddMenuItem(ul, Archive, "~/archive.aspx");
+                AddMenuItem(ul, Home, Utils.RelativeWebRoot + "default.aspx");
+                AddMenuItem(ul, Archive, Utils.RelativeWebRoot + "archive.aspx");
             }
 
             foreach (BlogEngine.Core.Page page in BlogEngine.Core.Page.Pages)
