@@ -415,7 +415,7 @@
         {
             var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
             var dir = BlogService.GetDirectory(dirName);
-            var file = BlogService.UploadFile(txtUploadFile.PostedFile.InputStream, txtUploadFile.PostedFile.FileName, dir, true);
+            var file = BlogService.UploadFile(txtUploadFile.PostedFile.InputStream, txtUploadFile.FileName, dir, true);
 
             txtContent.Text += string.Format("<p><a href=\"{0}\">{1}</a></p>", file.FileDownloadPath, file.FileDescription);
             txtRawContent.Text += string.Format("<p><a href=\"{0}\">{1}</a></p>", file.FileDownloadPath, file.FileDescription);
@@ -430,7 +430,7 @@
         {
             var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
             var dir = BlogService.GetDirectory(dirName);
-            var file = BlogService.UploadFile(txtUploadImage.PostedFile.InputStream, txtUploadImage.PostedFile.FileName, dir, true);
+            var file = BlogService.UploadFile(txtUploadImage.PostedFile.InputStream, txtUploadImage.FileName, dir, true);
 
             txtContent.Text += string.Format("<img src=\"{0}image.axd?picture={1}\" />", Utils.RelativeWebRoot, Server.UrlEncode(file.AsImage.FilePath));
             txtRawContent.Text += string.Format("<img src=\"{0}image.axd?picture={1}\" />", Utils.RelativeWebRoot, Server.UrlEncode(file.AsImage.FilePath));
