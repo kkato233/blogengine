@@ -40,12 +40,7 @@
         /// <summary>
         ///     Is used when content is served on a custom location.
         /// </summary>
-        Other,
-
-        /// <summary>
-        ///     Is used when content is being served from a search
-        /// </summary>
-        Search
+        Other
     }
 
     /// <summary>
