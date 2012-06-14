@@ -1669,6 +1669,12 @@
   <data name="pingServiceUrl" xml:space="preserve">
     <value>Ping service URL</value>
   </data>
+  <data name="pingServiceUrlBatch" xml:space="preserve">
+    <value>Ping service URL's (one per line)</value>
+  </data>
+  <data name="pingServiceNotUnique" xml:space="preserve">
+  <value>Ping service URL already listed</value>
+  </data>
   <data name="runClickOnceApplicationToImport" xml:space="preserve">
     <value>Run click-once application to import content saved as BlogML or RSS 2.0 into your blog. &lt;i&gt;Internet Explorer only.&lt;/i&gt;</value>
   </data>
