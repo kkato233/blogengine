@@ -59,6 +59,7 @@
                 }
             }
             BlogService.SavePingServices(col);
+			BindGrid();
         }
 
         /// <summary>
