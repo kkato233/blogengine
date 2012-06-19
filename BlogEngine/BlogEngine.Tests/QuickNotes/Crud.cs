@@ -10,11 +10,7 @@ namespace BlogEngine.Tests.QuickNotes
         [SetUp]
         public void Init()
         {
-            var pg = ie.Page<SettingsMain>();
-
             Login("admin");
-            pg.EnableQuickNotes(ie);
-            Wait(10);
         }
 
         [Test]

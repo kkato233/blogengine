@@ -165,8 +165,20 @@ public class SyntaxHighlighter
 
     private static void AddJavaScripts(Page page)
     {
-        BlogEngine.Core.Web.Scripting.Helpers.AddScript(
-            page, string.Format("{0}Scripts/highlighter", Utils.ApplicationRelativeWebRoot), false, true, true);
+        if (BlogSettings.Instance.EnableOptimization)
+        {
+            BlogEngine.Core.Web.Scripting.Helpers.AddScript(
+                page, string.Format("{0}Scripts/highlighter", Utils.ApplicationRelativeWebRoot), false, true, true);
+        }
+        else
+        {
+            BlogEngine.Core.Web.Scripting.Helpers.AddScript(
+                page, string.Format("{0}Scripts/syntaxhighlighter/shCore.js", Utils.ApplicationRelativeWebRoot), false, true, true);
+            BlogEngine.Core.Web.Scripting.Helpers.AddScript(
+                page, string.Format("{0}Scripts/syntaxhighlighter/shAutoloader.js", Utils.ApplicationRelativeWebRoot), false, true, true);
+            BlogEngine.Core.Web.Scripting.Helpers.AddScript(
+                page, string.Format("{0}Scripts/syntaxhighlighter/shInit.js", Utils.ApplicationRelativeWebRoot), false, true, true);
+        }
     }
 
     #region Script/Style adding

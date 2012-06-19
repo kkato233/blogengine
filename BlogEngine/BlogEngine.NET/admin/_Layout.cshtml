@@ -3,16 +3,23 @@
 @{
     App_Code.WebUtils.CheckRightsForAdminPagesPages(false);
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
-    var adminCss = Utils.ApplicationRelativeWebRoot + "admin/css";
     var adminJs = Utils.ApplicationRelativeWebRoot + "admin/js";
 }
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>@Page.Title</title>
         <link rel="shortcut icon" href="@Href(Utils.ApplicationRelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
-        <link href="@adminCss" rel="stylesheet" type="text/css" />        
+        @if (BlogSettings.Instance.EnableOptimization)
+        {
+        <link href="@string.Format("{0}admin/css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        }
+        else
+        {
+        <link href="@string.Format("{0}admin/style.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        <link href="@string.Format("{0}admin/colorbox.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        <link href="@string.Format("{0}admin/tipsy.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        }      
     </head>
     <body>
         <script type="text/javascript">
@@ -23,7 +30,19 @@
             };
         </script> 
         <script type="text/javascript" src="admin.res.axd"></script>
-        <script type="text/javascript" src="@adminJs"></script>        
+        @if (BlogSettings.Instance.EnableOptimization)
+        {
+        <script type="text/javascript" src="@string.Format("{0}admin/js", Utils.ApplicationRelativeWebRoot)"></script> 
+        }
+        else
+        {
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/01-jquery.js", Utils.ApplicationRelativeWebRoot)"></script> 
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/02-jquery.cookie.js", Utils.ApplicationRelativeWebRoot)"></script> 
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/03-jquery.validate.min.js", Utils.ApplicationRelativeWebRoot)"></script> 
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/04-jquery-jtemplates.js", Utils.ApplicationRelativeWebRoot)"></script> 
+        <script type="text/javascript" src="@string.Format("{0}Scripts/jQuery/05-json2.js", Utils.ApplicationRelativeWebRoot)"></script> 
+        <script type="text/javascript" src="@string.Format("{0}admin/admin.js", Utils.ApplicationRelativeWebRoot)"></script> 
+        }    
         <div class="page">
             <form id="form1">
 

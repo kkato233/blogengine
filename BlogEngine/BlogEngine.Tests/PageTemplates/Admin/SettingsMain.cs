@@ -10,22 +10,22 @@ namespace BlogEngine.Tests.PageTemplates.Admin
             get { return Constants.Root + "/admin/Settings/Main.aspx"; }
         }
 
-        public bool EnableQuickNotes(IE ie)
-        {
-            ie.GoTo(Url);
-            var cbEnable = Document.CheckBox(Find.ById("ctl00_cphAdmin_cbEnableQuickNotes"));
+        //public bool EnableQuickNotes(IE ie)
+        //{
+        //    ie.GoTo(Url);
+        //    var cbEnable = Document.CheckBox(Find.ById("ctl00_cphAdmin_cbEnableQuickNotes"));
 
-            if (cbEnable != null)
-            {
-                if (!cbEnable.Checked)
-                {
-                    cbEnable.Click();
-                    Save();
-                }
-                return true;
-            }
-            return false;
-        }
+        //    if (cbEnable != null)
+        //    {
+        //        if (!cbEnable.Checked)
+        //        {
+        //            cbEnable.Click();
+        //            Save();
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public void Save()
         {

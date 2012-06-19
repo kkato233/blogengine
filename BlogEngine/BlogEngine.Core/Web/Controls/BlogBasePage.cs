@@ -169,7 +169,14 @@
 
                 AddDefaultLanguages();
 
-                Scripting.Helpers.AddBundledStylesAndScripts(this);
+                if (BlogSettings.Instance.EnableOptimization)
+                {
+                    Scripting.Helpers.AddBundledStylesAndScripts(this);
+                }
+                else
+                {
+                    Scripting.Helpers.AddStylesAndScripts(this);
+                }
 
                 if (BlogSettings.Instance.EnableOpenSearch)
                 {

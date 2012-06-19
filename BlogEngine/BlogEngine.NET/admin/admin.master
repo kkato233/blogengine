@@ -7,7 +7,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%;">
 <head id="Head1" runat="server">
     <title>BlogEngine.NET Admin</title>
+    <% if (BlogSettings.Instance.EnableOptimization) { %>
     <link href="<%# BundleTable.Bundles.ResolveBundleUrl("~/admin/css")%>" rel="stylesheet" type="text/css" />
+    <% } else { %>
+    <link href="~/admin/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/admin/colorbox.css" rel="stylesheet" type="text/css" />
+    <link href="~/admin/tipsy.css" rel="stylesheet" type="text/css" />  
+    <% } %>
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
 </head>
 <body>
@@ -19,7 +25,16 @@
         };
     </script>
     <script type="text/javascript" src="admin.res.axd"></script>
-    <script type="text/javascript" src="<%=AdminJs %>"></script>
+    <% if (BlogSettings.Instance.EnableOptimization) { %>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>admin/js"></script>
+    <% } else { %>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/01-jquery.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/02-jquery.cookie.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/03-jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/04-jquery-jtemplates.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/05-json2.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>admin/admin.js"></script>
+    <% } %>
     <div class="page">
         <form id="form1" runat="server">
 

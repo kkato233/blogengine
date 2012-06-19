@@ -2,6 +2,8 @@
 using System.Text;
 using System.Globalization;
 using System.Web.UI;
+using System.Collections.Generic;
+using System.IO;
 
 namespace BlogEngine.Core.Web.Scripting
 {
@@ -17,7 +19,12 @@ namespace BlogEngine.Core.Web.Scripting
         /// <param name="lnk">Href link</param>
         public static void AddStyle(System.Web.UI.Page page, string lnk)
         {
-            page.Header.Controls.Add(new LiteralControl(
+            // global styles on top, before theme specific styles
+            if(lnk.Contains("Global.css") || lnk.Contains("Styles/css"))
+                page.Header.Controls.AddAt(0, new LiteralControl(
+                string.Format("\n<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />", lnk)));
+            else
+                page.Header.Controls.Add(new LiteralControl(
                 string.Format("\n<link href=\"{0}\" rel=\"stylesheet\" type=\"text/css\" />", lnk)));
         }
         /// <summary>
@@ -162,6 +169,63 @@ namespace BlogEngine.Core.Web.Scripting
             }          
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        public static void AddStylesAndScripts(System.Web.UI.Page page)
+        {
+            var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            List<string> files = new List<string>();
+
+            files = GetFiles(string.Format("{0}Styles", Utils.ApplicationRelativeWebRoot));
+            foreach (var f in files)
+            {
+                AddStyle(page, string.Format("{0}Styles/{1}", Utils.ApplicationRelativeWebRoot, f));
+            }
+
+            if (Security.IsAuthenticated)
+            {
+                AddStyle(page, string.Format("{0}Modules/QuickNotes/Qnotes.css", Utils.ApplicationRelativeWebRoot));
+            }
+
+            AddScript(page, resourcePath);
+
+            files = GetFiles(string.Format("{0}Scripts/Header", Utils.ApplicationRelativeWebRoot));
+            foreach (var f in files)
+            {
+                AddScript(page, string.Format("{0}Scripts/Header/{1}", Utils.ApplicationRelativeWebRoot, f), true, false, false);
+            }
+
+            files = GetFiles(string.Format("{0}Scripts", Utils.ApplicationRelativeWebRoot));
+            foreach (var f in files)
+            {
+                AddScript(page, string.Format("{0}Scripts/{1}", Utils.ApplicationRelativeWebRoot, f), true, true, true);
+            }
+
+            if (Security.IsAuthenticated)
+            {
+                AddScript(page, string.Format("{0}admin/widget.js", Utils.ApplicationRelativeWebRoot), true, true, true);
+                AddScript(page, string.Format("{0}Modules/QuickNotes/Qnotes.js", Utils.ApplicationRelativeWebRoot), true, true, true);
+            }
+        }
+
         #endregion
+
+        static List<string> GetFiles(string url)
+        {
+            List<string> files = new List<string>();
+            string path = System.Web.HttpContext.Current.Server.MapPath(url);
+
+            var folder = new DirectoryInfo(path);
+            if (folder.Exists)
+            {
+                foreach (var file in folder.GetFiles())
+                {
+                    files.Add(file.Name);
+                }
+            }
+            return files;
+        }
     }
 }

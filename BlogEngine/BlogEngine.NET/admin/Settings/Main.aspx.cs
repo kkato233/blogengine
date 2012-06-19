@@ -58,7 +58,6 @@
             ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
-            cbEnableQuickNotes.Checked = BlogSettings.Instance.EnableQuickNotes;
         }
 
         /// <summary>
@@ -142,8 +141,7 @@
 			string timeStampPostLinks,
 			string showPostNavigation,
 			string culture,
-			string timezone,
-            string enableQuickNotes)
+			string timezone)
         {
             var response = new JsonResponse {Success = false};
 
@@ -172,7 +170,6 @@
 				BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
 				BlogSettings.Instance.Culture = culture;
 				BlogSettings.Instance.Timezone = double.Parse(timezone);
-                BlogSettings.Instance.EnableQuickNotes = bool.Parse(enableQuickNotes);
                 BlogSettings.Instance.Save();
             }
             catch (Exception ex)

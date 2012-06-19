@@ -27,7 +27,7 @@
 			
             var dto = { 
 				"enableCompression": $("[id$='_cbEnableCompression']").attr('checked'),
-				"removeWhitespaceInStyleSheets": $("[id$='_cbRemoveWhitespaceInStyleSheets']").attr('checked'),
+				"enableOptimization": $("[id$='_cbEnableOptimization']").attr('checked'),
 				"compressWebResource": $("[id$='_cbCompressWebResource']").attr('checked'),
 				"enableOpenSearch": $("[id$='_cbEnableOpenSearch']").attr('checked'),
 				"requireSslForMetaWeblogApi": $("[id$='_cbRequireSslForMetaWeblogApi']").attr('checked'),
@@ -108,9 +108,9 @@
                     </li>
                     <li>
                         <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbRemoveWhitespaceInStyleSheets" />
-                        <label for="<%=cbRemoveWhitespaceInStyleSheets.ClientID %>"><%=Resources.labels.trimStylesheet %></label>
-                        <span class="insetHelp">(<%=Resources.labels.trimStylesheetDescription %>)</span>
+                        <asp:CheckBox runat="server" ID="cbEnableOptimization" />
+                        <label for="<%=cbEnableOptimization.ClientID %>"><%=Resources.labels.enableOptimization %></label>
+                        <span class="insetHelp">(<%=Resources.labels.enableOptimizationDesc %>)</span>
                     </li>
                     <li>
                         <span class="filler"></span>

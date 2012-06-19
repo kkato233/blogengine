@@ -51,7 +51,7 @@
             var settings = BlogSettings.Instance;
 
             cbEnableCompression.Checked = settings.EnableHttpCompression;
-            cbRemoveWhitespaceInStyleSheets.Checked = settings.RemoveWhitespaceInStyleSheets;
+            cbEnableOptimization.Checked = settings.EnableOptimization;
             cbCompressWebResource.Checked = settings.CompressWebResource;
             cbEnableOpenSearch.Checked = settings.EnableOpenSearch;
             cbRequireSslForMetaWeblogApi.Checked = settings.RequireSslMetaWeblogApi;
@@ -127,7 +127,7 @@
         /// <returns></returns>
         [WebMethod]
         public static JsonResponse Save(bool enableCompression, 
-			bool removeWhitespaceInStyleSheets,
+			bool enableOptimization,
             bool compressWebResource,
             bool enableOpenSearch,
             bool requireSslForMetaWeblogApi,
@@ -171,7 +171,7 @@
                 }  
 
                 settings.EnableHttpCompression = enableCompression;
-                settings.RemoveWhitespaceInStyleSheets = removeWhitespaceInStyleSheets;
+                settings.EnableOptimization = enableOptimization;
                 settings.CompressWebResource = compressWebResource;
                 settings.EnableOpenSearch = enableOpenSearch;
                 settings.RequireSslMetaWeblogApi = requireSslForMetaWeblogApi;

@@ -1945,4 +1945,10 @@
   <data name="widgets" xml:space="preserve">
     <value>Widgets</value>
   </data>
+  <data name="enableOptimization" xml:space="preserve">
+    <value>Enable optimization</value>
+  </data>
+  <data name="enableOptimizationDesc" xml:space="preserve">
+    <value>Combine and minify scripts and styles (recommended)</value>
+  </data>
 </root>

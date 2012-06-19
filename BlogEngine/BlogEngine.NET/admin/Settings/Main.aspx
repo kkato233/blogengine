@@ -66,8 +66,7 @@
 				"timeStampPostLinks": $("[id$='_cbTimeStampPostLinks']").attr('checked'),
 				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
 				"culture": $("[id$='_ddlCulture']").val(),
-				"timezone": $("[id$='_txtTimeZone']").val(),
-                "enableQuickNotes": $("[id$='_cbEnableQuickNotes']").attr('checked'),
+				"timezone": $("[id$='_txtTimeZone']").val()
 			};
 			
             $.ajax({
@@ -173,11 +172,6 @@
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbTimeStampPostLinks" />
                         <label for="<%=cbTimeStampPostLinks.ClientID %>"><%=Resources.labels.timeStampPostLinks %></label>
-                    </li>
-                    <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbEnableQuickNotes" />
-                        <label for="<%=cbEnableQuickNotes.ClientID %>"><%=Resources.labels.enableQuickNotes %></label>
                     </li>
                 </ul>
 
