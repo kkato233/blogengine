@@ -48,8 +48,7 @@
 
             foreach (string service in txtBatchPingService.Text.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                service = service.ToLower();
-                if (!col.Contains(service))
+                if (!col.Contains(service.ToLower()))
                 {
                     col.Add(service);
                 }
