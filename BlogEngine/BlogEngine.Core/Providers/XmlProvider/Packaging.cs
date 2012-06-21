@@ -134,7 +134,6 @@ namespace BlogEngine.Core.Providers
         /// Gets list of files for installed package
         /// </summary>
         /// <param name="packageId">Package ID</param>
-        /// <param name="version">Version</param>
         /// <returns>List of files for installed package</returns>
         public override List<PackageFile> FillPackageFiles(string packageId)
         {
@@ -172,7 +171,6 @@ namespace BlogEngine.Core.Providers
         /// Should delete package and remove all package files
         /// </summary>
         /// <param name="packageId">Package ID</param>
-        /// <param name="version">Version</param>
         public override void DeletePackage(string packageId)
         {        
             var files = Path.Combine(dataFolder, Constants.InstalledPackageFilesXml);

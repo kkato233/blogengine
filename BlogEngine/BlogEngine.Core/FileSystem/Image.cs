@@ -118,7 +118,7 @@ namespace BlogEngine.Core.FileSystem
         /// <summary>
         /// resizes the image to a new size based on a percentage
         /// </summary>
-        /// <param name="newSize">the percentage to resize</param>
+        /// <param name="Percent">the percentage to resize</param>
         /// <returns>the new image</returns>
         /// <remarks>
         /// This may not be exactly to the percent as we must maintain aspect ratios.
@@ -136,7 +136,7 @@ namespace BlogEngine.Core.FileSystem
         }
 
         /// <summary>
-        /// accepts change requests for an image for rotate & flip
+        /// accepts change requests for an image for rotate &amp; flip
         /// </summary>
         /// <param name="modifications">a list of changes, will be executed in the order recieved</param>
         /// <returns>the original image</returns>
@@ -167,7 +167,7 @@ namespace BlogEngine.Core.FileSystem
         }
 
         /// <summary>
-        /// Crops an image by giving the crop start x & y co-ordinates and then the height & width to crop to. Making a perfect rectangle of the crop area.
+        /// Crops an image by giving the crop start x &amp; y co-ordinates and then the height & width to crop to. Making a perfect rectangle of the crop area.
         /// </summary>
         /// <param name="x">the x co-ordinate</param>
         /// <param name="y">the y co-ordinate</param>

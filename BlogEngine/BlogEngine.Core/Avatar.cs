@@ -100,7 +100,6 @@ namespace BlogEngine.Core
             if (BlogSettings.Instance.Avatar == "none" && email != "pingback" && email != "trackback")
                 return DefaultImage(description, width, height);
 
-            string imageTag;
             Uri url;
 
             // custom avatar URL (different than email)

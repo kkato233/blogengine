@@ -848,7 +848,6 @@ namespace BlogEngine.Core.Providers
         /// Delete all installed by package files from application
         /// </summary>
         /// <param name="packageId">Package ID</param>
-        /// <param name="version">Version</param>
         public static void DeletePackage(string packageId)
         {
             Provider.DeletePackage(packageId);

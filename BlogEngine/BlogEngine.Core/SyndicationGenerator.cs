@@ -313,6 +313,7 @@ namespace BlogEngine.Core
         /// Gets enclosure for supported media type
         /// </summary>
         /// <param name="content">The content.</param>
+        /// <param name="publishable">The publishable instance.</param>
         /// <returns>The enclosure.</returns>
         private static string GetEnclosure(string content, IPublishable publishable)
         {
@@ -335,6 +336,7 @@ namespace BlogEngine.Core
         /// <summary>
         /// Gets enclosure for supported media type
         /// </summary>
+        /// <param name="publishable">The publishable instance.</param>
         /// <param name="content">The content.</param>
         /// <param name="media">The media.</param>
         /// <param name="mediatype">The mediatype.</param>
@@ -405,6 +407,7 @@ namespace BlogEngine.Core
         /// <summary>
         /// Validates the name of the file.
         /// </summary>
+        /// <param name="publishable">The publishable instance.</param>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>The validated file name.</returns>
         private static string ValidateFileName(IPublishable publishable, string fileName)

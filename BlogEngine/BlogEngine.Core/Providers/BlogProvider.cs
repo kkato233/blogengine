@@ -408,7 +408,6 @@
         /// Should delete package and remove all package files
         /// </summary>
         /// <param name="packageId">Package ID</param>
-        /// <param name="version">Version</param>
         public abstract void DeletePackage(string packageId);
 
         #endregion

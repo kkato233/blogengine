@@ -181,9 +181,6 @@
         /// <param name="page">
         /// Current page
         /// </param>
-        /// <param name="srvs">
-        /// The Srvs..
-        /// </param>
         /// <returns>
         /// HTML with next and previous buttons
         /// </returns>

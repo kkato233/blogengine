@@ -162,7 +162,6 @@ namespace BlogEngine.Core.Json
         /// <summary>
         /// Adds a new translatable string resource to this JsonCulture.
         /// </summary>
-        /// <param name="scriptKey">The key used to retrieve this value from clientside script.</param>
         /// <param name="resourceLabelKey">The key used to retrieve the translated value from global resource labels.</param>
         /// <returns>The translated string.</returns>
         public string AddResource(string resourceLabelKey)

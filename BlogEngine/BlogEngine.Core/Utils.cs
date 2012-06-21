@@ -83,8 +83,6 @@
         /// </summary>
         private static readonly bool isMono = (Type.GetType("Mono.Runtime") != null);
 
-        private static bool scriptsLoaded;
-
         #endregion
 
         #region Events
