@@ -136,7 +136,12 @@
 
             return trashPage;
         }
-        
+
+        /// <summary>
+        /// Builds pager control for trash list page
+        /// </summary>
+        /// <param name="page">Current Page Number</param>
+        /// <returns></returns>
         public static string GetPager(int page)
         {
             if (listCount == 0)

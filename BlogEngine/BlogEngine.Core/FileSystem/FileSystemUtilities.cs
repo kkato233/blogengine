@@ -12,6 +12,9 @@ using System.Configuration;
 
 namespace BlogEngine.Core.FileSystem
 {
+    /// <summary>
+    /// Utility class for various FileSystem operations.
+    /// </summary>
     public class FileSystemUtilities
     {
         /// <summary>
@@ -146,7 +149,11 @@ namespace BlogEngine.Core.FileSystem
             }
         }
 
-
+        /// <summary>
+        /// Retrieves the given provider from Web.config and attempts to instantiate it.
+        /// </summary>
+        /// <param name="ProviderName">The blog provider to instantiate.</param>
+        /// <returns>A BlogProvider instance.</returns>
         public static Providers.BlogProvider CreateProvider(string ProviderName)
         {
             var section = (BlogProviderSection)WebConfigurationManager.GetSection("BlogEngine/blogProvider");

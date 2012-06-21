@@ -6,6 +6,9 @@ using System.Configuration.Provider;
 
 namespace BlogEngine.Core.Providers
 {
+    /// <summary>
+    /// A collection class for BlogFileSystemProviders.
+    /// </summary>
     public class BlogFileSystemProviderCollection : ProviderCollection
     {
         #region Indexers

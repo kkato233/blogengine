@@ -258,6 +258,13 @@ namespace BlogEngine.Core.Providers
             return GetDirectory(string.Concat(BaseDirectory.FullPath, string.Join("/", SubPath)));
         }
 
+        /// <summary>
+        /// gets a directory by a basedirectory and a string array of sub path tree.
+        /// </summary>
+        /// <param name="BaseDirectory">the base directory object</param>
+        /// <param name="CreateNew">If true, creates the directory if it does not already exist.</param>
+        /// <param name="SubPath">the params of sub path</param>
+        /// <returns>The directory found, or null for no directory found</returns>
         public override FileSystem.Directory GetDirectory(FileSystem.Directory BaseDirectory, bool CreateNew, params string[] SubPath)
         {
             return GetDirectory(string.Concat(BaseDirectory.FullPath, string.Join("/", SubPath)), CreateNew);

@@ -251,6 +251,11 @@ namespace BlogEngine.Core
 
         }
 
+        /// <summary>
+        /// Gets the list of default rights for the given role name.
+        /// </summary>
+        /// <param name="roleName">The role for which we are obtaining rights.</param>
+        /// <returns>If the role is found, a list of the appropriate rights. Otherwise, an empty list of rights.</returns>
         public static List<Rights> GetDefaultRights(string roleName)
         {
             if (string.IsNullOrEmpty(roleName)) { return new List<Rights>(); }
@@ -650,11 +655,17 @@ namespace BlogEngine.Core
         //}
         //private readonly string _resourceLabelKey;
 
+        /// <summary>
+        /// Returns a display-friendly version of this Right's name.
+        /// </summary>
         public string DisplayName
         {
             get { return Utils.FormatIdentifierForDisplay(Name); }
         }
 
+        /// <summary>
+        /// Returns the empty string.
+        /// </summary>
         public string Description
         {
             get { return string.Empty; }

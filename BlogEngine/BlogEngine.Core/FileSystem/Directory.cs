@@ -233,30 +233,53 @@ namespace BlogEngine.Core.FileSystem
 
         //TODO: Add method OnLoadObject(BlogProvider NewProvider) -- this method will basically allow for switching from one storage provider to another. OnLoad will copy all objects to the new provider
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
+        /// <param name="other">unused</param>
+        /// <returns>Nothing</returns>
         public int CompareTo(Directory other)
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void ValidationRules()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void DataUpdate()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
+        /// <para>unused</para>
+        /// <returns>Nothing</returns>
         protected override Directory DataSelect(Guid id)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void DataInsert()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void DataDelete()
         {
             throw new NotImplementedException();

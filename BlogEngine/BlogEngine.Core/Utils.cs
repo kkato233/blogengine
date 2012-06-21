@@ -1306,11 +1306,24 @@
             return false;
         }
 
+        /// <summary>
+        /// Recursively copies the contents of the source directory to the target directory, 
+        /// without exclusions.
+        /// </summary>
+        /// <param name="source">The source directory.</param>
+        /// <param name="target">The target directory.</param>
         public static void CopyDirectoryContents(DirectoryInfo source, DirectoryInfo target)
         {
             CopyDirectoryContents(source, target, null);
         }
 
+        /// <summary>
+        /// Recursively copies the contents of the source directory to the target directory, with 
+        /// an optional list of directories to exclude.
+        /// </summary>
+        /// <param name="source">The source directory.</param>
+        /// <param name="target">The target directory.</param>
+        /// <param name="directoryNamesToExclude">An optional list of directory names to exclude from the copy.</param>
         public static void CopyDirectoryContents(DirectoryInfo source, DirectoryInfo target, List<string> directoryNamesToExclude)
         {
             foreach (DirectoryInfo dir in source.GetDirectories().Where(d => (directoryNamesToExclude ?? new List<string>()).FirstOrDefault(dn => dn.Equals(d.Name, StringComparison.OrdinalIgnoreCase)) == null))
@@ -1320,6 +1333,11 @@
                 file.CopyTo(Path.Combine(target.FullName, file.Name));
         }
 
+        /// <summary>
+        /// If the directory does not exist, it is created.
+        /// </summary>
+        /// <param name="directoryName">The name of the directory to create.</param>
+        /// <returns></returns>
         public static bool CreateDirectoryIfNotExists(string directoryName)
         {
             try

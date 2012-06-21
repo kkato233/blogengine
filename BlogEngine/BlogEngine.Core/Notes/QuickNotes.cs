@@ -14,12 +14,17 @@ namespace BlogEngine.Core.Notes
         private string cacheKey = "";
         private string cacheKeySettings = "";
 
+        /// <summary>
+        /// Constructs a QuickNotes for the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public QuickNotes(string user)
         {
             author = user;
             cacheKey = user + "_" + "QuickNotes";
             cacheKeySettings = user + "_" + "QuickSettings";
         }
+
         /// <summary>
         /// Collection of notes
         /// </summary>

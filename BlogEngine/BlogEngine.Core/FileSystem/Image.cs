@@ -25,9 +25,24 @@ namespace BlogEngine.Core.FileSystem
         /// </summary>
         public enum ModificationType
         {
+            /// <summary>
+            /// Flip the image horizontally
+            /// </summary>
             FlipHorizontal,
+
+            /// <summary>
+            /// Flip the image vertically
+            /// </summary>
             FlipVertical,
+
+            /// <summary>
+            /// 270 degree clockwise rotation without flipping
+            /// </summary>
             RotateLeft,
+
+            /// <summary>
+            /// 90 degree clockwise rotation without flipping
+            /// </summary>
             RotateRight
         }
         #endregion
@@ -106,6 +121,12 @@ namespace BlogEngine.Core.FileSystem
             return this;
         }
 
+        /// <summary>
+        /// Creates a thumbnail from the original image.
+        /// </summary>
+        /// <param name="MaxSize">The max size in pixels of the thumbnail to generate.</param>
+        /// <param name="originalContents">Byte array containing the original image.</param>
+        /// <returns>Byte array containing the newly generated thumbnail image.</returns>
         public static byte[] ResizeImageThumbnail(int MaxSize, byte[] originalContents)
         {
             var bmp = ArrayToBmp(originalContents);
@@ -167,7 +188,7 @@ namespace BlogEngine.Core.FileSystem
         }
 
         /// <summary>
-        /// Crops an image by giving the crop start x &amp; y co-ordinates and then the height & width to crop to. Making a perfect rectangle of the crop area.
+        /// Crops an image by giving the crop start x &amp; y co-ordinates and then the height &amp; width to crop to. Making a perfect rectangle of the crop area.
         /// </summary>
         /// <param name="x">the x co-ordinate</param>
         /// <param name="y">the y co-ordinate</param>

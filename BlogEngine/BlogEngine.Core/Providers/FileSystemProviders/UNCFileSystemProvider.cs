@@ -7,6 +7,9 @@ using System.IO;
 
 namespace BlogEngine.Core.Providers
 {
+    /// <summary>
+    /// A class for managing storage on a UNC share.
+    /// </summary>
     public partial class UNCFileSystemProvider : BlogFileSystemProvider
     {
         /// <summary>
@@ -16,6 +19,11 @@ namespace BlogEngine.Core.Providers
         /// </summary>
         private string uncPath;
 
+        /// <summary>
+        /// init
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="config"></param>
         public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
         {
             if (config == null)
@@ -142,6 +150,12 @@ namespace BlogEngine.Core.Providers
             return GetDirectory(VirtualPath, true);
         }
 
+        /// <summary>
+        /// gets a directory by the virtual path
+        /// </summary>
+        /// <param name="VirtualPath">the virtual path</param>
+        /// <param name="CreateNew">unused</param>
+        /// <returns>the directory object</returns>
         public override FileSystem.Directory GetDirectory(string VirtualPath, bool CreateNew)
         {
             VirtualPath = CleanVirtualPath(VirtualPath);
@@ -336,6 +350,12 @@ namespace BlogEngine.Core.Providers
             return Buffer;
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
+        /// <param name="VirtualPath">unused</param>
+        /// <param name="MaximumSize">unused</param>
+        /// <returns>Nothing</returns>
         public override FileSystem.Image ImageThumbnail(string VirtualPath, int MaximumSize)
         {
             throw new NotImplementedException();

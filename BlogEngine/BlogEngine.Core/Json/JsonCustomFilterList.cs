@@ -10,6 +10,9 @@
     ///</summary>
     public class JsonCustomFilterList
     {
+        /// <summary>
+        /// The custom filters.
+        /// </summary>
         static protected ExtensionSettings CustomFilters;
 
         /// <summary>

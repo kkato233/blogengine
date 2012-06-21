@@ -58,6 +58,9 @@ namespace BlogEngine.Core.Providers
             }
         }
 
+        /// <summary>
+        ///     Gets a collection of FileSystem providers that are defined in Web.config.
+        /// </summary>
         public static BlogFileSystemProviderCollection FileSystemProviders
         {
             get
@@ -856,22 +859,48 @@ namespace BlogEngine.Core.Providers
         #endregion
 
         #region QuickNotes
+        /// <summary>
+        /// Saves a QuickNote.
+        /// </summary>
+        /// <param name="note">The QuickNote to save.</param>
         public static void SaveQuickNote(QuickNote note)
         {
             Provider.SaveQuickNote(note);
         }
+
+        /// <summary>
+        /// Saves a QuickSetting.
+        /// </summary>
+        /// <param name="setting">The QuickSetting to save.</param>
         public static void SaveQuickSetting(QuickSetting setting)
         {
             Provider.SaveQuickSetting(setting);
         }
+
+        /// <summary>
+        /// Returns a list of QuickNotes belonging to the given user.
+        /// </summary>
+        /// <param name="userId">The user whose QuickNotes we're retrieving.</param>
+        /// <returns>A list of the user's QuickNotes.</returns>
         public static List<QuickNote> FillQuickNotes(string userId)
         {
             return Provider.FillQuickNotes(userId);
         }
+
+        /// <summary>
+        /// Returns a list of QuickSettings belonging to the given user.
+        /// </summary>
+        /// <param name="userId">The user whose QuickSettings we're retrieving.</param>
+        /// <returns>A list of the user's QuickSettings.</returns>
         public static List<QuickSetting> FillQuickSettings(string userId)
         {
             return Provider.FillQuickSettings(userId);
         }
+
+        /// <summary>
+        /// Deletes the specified QuickNote.
+        /// </summary>
+        /// <param name="noteId">The QuickNote to delete.</param>
         public static void DeleteQuickNote(Guid noteId)
         {
             Provider.DeleteQuickNote(noteId);

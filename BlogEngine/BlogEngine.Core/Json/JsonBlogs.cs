@@ -70,6 +70,11 @@
             return jsonBlogs;
         }
 
+        /// <summary>
+        /// Converts the Blog data into a JSON-serializable object.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static JsonBlog CreateJsonBlog(Blog b)
         {
             var jb = new JsonBlog

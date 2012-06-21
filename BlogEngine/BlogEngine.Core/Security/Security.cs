@@ -90,6 +90,9 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Signs out user out of the current blog instance.
+        /// </summary>
         public static void SignOut()
         {
             // using a custom cookie name based on the current blog instance.
@@ -98,6 +101,13 @@ namespace BlogEngine.Core
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
+        /// <summary>
+        /// Attempts to sign the user into the current blog instance.
+        /// </summary>
+        /// <param name="username">The user's username.</param>
+        /// <param name="password">The user's password.</param>
+        /// <param name="rememberMe">Whether or not to persist the user's sign-in state.</param>
+        /// <returns>True if the user is successfully authenticated and signed in; false otherwise.</returns>
         public static bool AuthenticateUser(string username, string password, bool rememberMe)
         {
             string un = (username ?? string.Empty).Trim();
@@ -256,6 +266,9 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Redirects unauthenticated users to the login page.
+        /// </summary>
         public static void RedirectForUnauthorizedRequest()
         {
             HttpContext context = HttpContext.Current;

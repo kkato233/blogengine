@@ -112,6 +112,12 @@ namespace BlogEngine.Core.Providers
             return GetDirectory(VirtualPath, true);
         }
 
+        /// <summary>
+        /// gets a directory by the virtual path
+        /// </summary>
+        /// <param name="VirtualPath">the virtual path</param>
+        /// <param name="CreateNew">unused</param>
+        /// <returns>the directory object</returns>
         public override FileSystem.Directory GetDirectory(string VirtualPath, bool CreateNew)
         {
             VirtualPath = RelativeFilePath(VirtualPath);
@@ -305,6 +311,12 @@ namespace BlogEngine.Core.Providers
             return Buffer;
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
+        /// <param name="VirtualPath">unused</param>
+        /// <param name="MaximumSize">unused</param>
+        /// <returns>Nothing</returns>
         public override FileSystem.Image ImageThumbnail(string VirtualPath, int MaximumSize)
         {
             throw new NotImplementedException();
