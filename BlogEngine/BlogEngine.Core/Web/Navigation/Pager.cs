@@ -125,6 +125,7 @@ namespace BlogEngine.Core.Web.Navigation
         /// Renders pager tag as string
         /// </summary>
         /// <param name="page">page number</param>
+        /// <param name="callback">The callback</param>
         /// <returns>Pager tag</returns>
         string IPager.Render(int page, string callback)
         {

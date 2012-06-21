@@ -212,7 +212,7 @@ namespace BlogEngine.Core.FileSystem
         }
 
         /// <summary>
-        /// Deletes all the directories, including subdirectories & files.
+        /// Deletes all the directories, including subdirectories &amp; files.
         /// </summary>
         public void DeleteAllDirectories()
         {

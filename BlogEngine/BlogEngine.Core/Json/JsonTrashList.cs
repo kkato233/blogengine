@@ -44,7 +44,6 @@
         /// Paged list of deleted objects
         /// </summary>
         /// <param name="trashType">Type of delted object</param>
-        /// <param name="pageSize">Page size</param>
         /// <param name="page">Page number</param>
         /// <returns></returns>
         public static List<JsonTrash> GetTrash(TrashType trashType, int page)

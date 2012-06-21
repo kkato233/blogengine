@@ -287,7 +287,7 @@ namespace BlogEngine.Core.FileSystem
         }
 
         /// <summary>
-        /// moves the file to a new directory & new name
+        /// moves the file to a new directory &amp; new name
         /// </summary>
         /// <param name="NewName">the new name</param>
         /// <param name="NewBaseDirectory">the new directory</param>

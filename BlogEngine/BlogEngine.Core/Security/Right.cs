@@ -418,7 +418,7 @@ namespace BlogEngine.Core
         /// <summary>
         /// Returns an IEnumerable of Rights that are in the given role.
         /// </summary>
-        /// <param name="roles"></param>
+        /// <param name="roleName"></param>
         /// <returns></returns>
         public static IEnumerable<Right> GetRights(string roleName)
         {

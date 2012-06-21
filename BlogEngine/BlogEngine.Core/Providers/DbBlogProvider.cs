@@ -2483,7 +2483,6 @@ namespace BlogEngine.Core.Providers
         /// Gets list of files for installed package
         /// </summary>
         /// <param name="packageId">Package ID</param>
-        /// <param name="version">Version</param>
         /// <returns>List of files for installed package</returns>
         public override List<PackageFile> FillPackageFiles(string packageId)
         {
