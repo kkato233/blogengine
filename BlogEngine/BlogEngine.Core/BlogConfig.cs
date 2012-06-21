@@ -6,6 +6,9 @@ using System.Web.Configuration;
 
 namespace BlogEngine.Core
 {
+    /// <summary>
+    ///     Wrapper class for accessing Blog configuration settings from Web.config.
+    /// </summary>
     public class BlogConfig
     {
 
@@ -26,6 +29,9 @@ namespace BlogEngine.Core
 
         #region VirtualPath
 
+        /// <summary>
+        /// The virtual path of the BE installation.
+        /// </summary>
         public static string VirtualPath
         {
             get
@@ -37,6 +43,9 @@ namespace BlogEngine.Core
 
         #region MobileServices
 
+        /// <summary>
+        /// The regex used to identify mobile devices so a different theme can be shown
+        /// </summary>
         public static string MobileServices
         {
             get

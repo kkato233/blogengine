@@ -333,7 +333,14 @@ namespace BlogEngine.Core
 
         #region "Properties"
 
+        /// <summary>
+        /// Key for grabbing a description from a resource file.
+        /// </summary>
         public string DescriptionResourceLabelKey { get; set; }
+
+        /// <summary>
+        /// Key for grabbing a name from a resource file.
+        /// </summary>
         public string NameResourceLabelKey { get; set; }
 
         /// <summary>

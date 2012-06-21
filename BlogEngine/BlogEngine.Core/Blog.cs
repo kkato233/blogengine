@@ -259,6 +259,10 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Returns true if the blog resides in a subfolder of the application root directory; 
+        /// false otherwise.
+        /// </summary>
         public bool IsSubfolderOfApplicationWebRoot
         {
             get
@@ -267,6 +271,9 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Attempts to delete the current Blog.
+        /// </summary>
         public override void Delete()
         {
             if (this.IsPrimary)
@@ -366,6 +373,9 @@ namespace BlogEngine.Core
             }
         }
 
+        /// <summary>
+        /// Sets the current Blog instance as the primary.
+        /// </summary>
         public void SetAsPrimaryInstance()
         {   
             for (int i = 0; i < Blogs.Count; i++)
@@ -1025,6 +1035,11 @@ namespace BlogEngine.Core
             return true;
         }
 
+        /// <summary>
+        /// Compares the current Blog instance to another.
+        /// </summary>
+        /// <param name="other">The other Blog instance to compare to.</param>
+        /// <returns>-1, 0, or 1. See ordering rules in the comments.</returns>
         public int CompareTo(Blog other)
         {   
             // order so:

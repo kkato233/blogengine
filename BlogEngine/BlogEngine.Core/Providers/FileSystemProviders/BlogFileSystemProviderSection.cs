@@ -2,6 +2,9 @@
 
 namespace BlogEngine.Core.Providers
 {
+    /// <summary>
+    /// Enables a custom configuration section for the BE provider in Web.config.
+    /// </summary>
     public class BlogFileSystemProviderSection : ConfigurationSection
     {
         #region Properties

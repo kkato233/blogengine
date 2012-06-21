@@ -675,6 +675,10 @@ namespace BlogEngine.Core.Providers
             return referrers;
         }
 
+        /// <summary>
+        /// Returns a dictionary of right names and the roles associated with them.
+        /// </summary>
+        /// <returns></returns>
         public override IDictionary<string, IEnumerable<string>> FillRights()
         {
             var rightsWithRoles = new Dictionary<string, IEnumerable<string>>();
@@ -1217,6 +1221,10 @@ namespace BlogEngine.Core.Providers
             }
         }
 
+        /// <summary>
+        /// Saves the current BlogEngine rights.
+        /// </summary>
+        /// <param name="rights"></param>
         public override void SaveRights(IEnumerable<Right> rights)
         {
             if (rights == null)

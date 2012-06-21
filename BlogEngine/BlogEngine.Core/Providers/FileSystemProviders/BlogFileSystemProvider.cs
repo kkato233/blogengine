@@ -4,6 +4,9 @@ using BlogEngine.Core.FileSystem;
 
 namespace BlogEngine.Core.Providers
 {
+    /// <summary>
+    /// Abstract base class for managing all FileSystem methods.
+    /// </summary>
     public abstract class BlogFileSystemProvider : ProviderBase
     {
         #region FileSystem
@@ -136,7 +139,12 @@ namespace BlogEngine.Core.Providers
         /// <returns>the original file object</returns>
         internal abstract File GetFileContents(File BaseFile);
 
-
+        /// <summary>
+        /// Subclasses may override this method to generate a thumbnail image at a maximum size.
+        /// </summary>
+        /// <param name="VirtualPath">The virtual path of the image</param>
+        /// <param name="MaximumSize">The maximum size for the image</param>
+        /// <returns>The image with the thumbnail contents</returns>
         public abstract Image ImageThumbnail(string VirtualPath, int MaximumSize);
         #endregion
     }

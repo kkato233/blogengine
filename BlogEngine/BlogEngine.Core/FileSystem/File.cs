@@ -334,31 +334,54 @@ namespace BlogEngine.Core.FileSystem
 
 
         #region Unimplemented Methods
+
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void ValidationRules()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void DataUpdate()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
+        /// <param name="id">unused</param>
+        /// <returns>Nothing</returns>
         protected override File DataSelect(string id)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void DataInsert()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
         protected override void DataDelete()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not implemented. Throws a NotImplementedException.
+        /// </summary>
+        /// <param name="other">unused</param>
+        /// <returns>Nothing</returns>
         public int CompareTo(File other)
         {
             throw new NotImplementedException();

@@ -489,6 +489,11 @@
             return this.FullName;
         }
 
+        /// <summary>
+        /// Returns the author profile as a JsonProfile object for json serialization.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public static JsonProfile ToJson(string username)
         {
             var j = new JsonProfile();

@@ -8,6 +8,9 @@ using BlogEngine.Core;
 
 namespace BlogEngine.Core.Web.Controls
 {
+    /// <summary>
+    /// The PageMenu class.
+    /// </summary>
     public class PageMenu
     {
         #region Properties
@@ -15,13 +18,34 @@ namespace BlogEngine.Core.Web.Controls
         private bool _ulIdSet = false;
         string _curPage = HttpUtility.UrlEncode(GetPageName(HttpContext.Current.Request.RawUrl.ToLower()));
 
+        /// <summary>
+        /// Home label.
+        /// </summary>
         public string Home { get; set; }
+
+        /// <summary>
+        /// Contact label.
+        /// </summary>
         public string Contact { get; set; }
+
+        /// <summary>
+        /// Archive label.
+        /// </summary>
         public string Archive { get; set; }
+
+        /// <summary>
+        /// Logon label.
+        /// </summary>
         public string Logon { get; set; }
+
+        /// <summary>
+        /// Logoff label.
+        /// </summary>
         public string Logoff { get; set; }
 
-
+        /// <summary>
+        /// The HTML for the control to display on the page.
+        /// </summary>
         public string Html
         {
             get
