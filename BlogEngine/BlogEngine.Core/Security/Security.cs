@@ -58,7 +58,16 @@ namespace BlogEngine.Core
             {
                 Blog blog = Blog.CurrentInstance;
 
-                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                FormsAuthenticationTicket authTicket = null;
+                try
+                {
+                    authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                }
+                catch (Exception ex)
+                {
+                    Utils.Log("Failed to decrypt the FormsAuthentication cookie, signing out to avoid future failure attempts.");
+                    SignOut();
+                }                
 
                 // for extra security, make sure the UserData matches the current blog instance.
                 // this would prevent a cookie name change for a forms auth cookie encrypted in
