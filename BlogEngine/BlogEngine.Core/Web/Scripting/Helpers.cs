@@ -2,6 +2,7 @@
 using System.Text;
 using System.Globalization;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
 using System.IO;
 
@@ -49,7 +50,8 @@ namespace BlogEngine.Core.Web.Scripting
         /// <param name="top">If add to page header</param>
         /// <param name="defer">Defer</param>
         /// <param name="asnc">Async</param>
-        public static void AddScript(System.Web.UI.Page page, string src, bool top = true, bool defer = false, bool asnc = false)
+        /// <param name="indx">Index to insert script at</param>
+        public static void AddScript(System.Web.UI.Page page, string src, bool top = true, bool defer = false, bool asnc = false, int indx = 0)
         {
             var d = defer ? " defer=\"defer\"" : "";
             var a = asnc ? " async=\"async\"" : "";
@@ -58,7 +60,7 @@ namespace BlogEngine.Core.Web.Scripting
 
             if (top)
             {
-                page.Header.Controls.Add(new LiteralControl(t));
+                page.Header.Controls.AddAt(indx, new LiteralControl(t));
             }
             else
             {
@@ -149,24 +151,25 @@ namespace BlogEngine.Core.Web.Scripting
         /// <param name="page">Base page</param>
         public static void AddBundledStylesAndScripts(System.Web.UI.Page page)
         {
+            var headerScripts = new List<string>();
+            var globalScripts = new List<string>();
             var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            
+            headerScripts.Add(resourcePath);
+            headerScripts.Add(string.Format("{0}Scripts/Header/js", Utils.ApplicationRelativeWebRoot));
             
             if (Security.IsAuthenticated)
             {
                 AddStyle(page, string.Format("{0}Styles/cssauth", Utils.ApplicationRelativeWebRoot));
-
-                AddScript(page, resourcePath);
-                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.ApplicationRelativeWebRoot), true, false, false);
-                AddScript(page, string.Format("{0}Scripts/jsauth", Utils.ApplicationRelativeWebRoot), true, true, true);
+                globalScripts.Add(string.Format("{0}Scripts/jsauth", Utils.ApplicationRelativeWebRoot));
             }
             else
             {
                 AddStyle(page, string.Format("{0}Styles/css", Utils.ApplicationRelativeWebRoot));
+                globalScripts.Add(string.Format("{0}Scripts/js", Utils.ApplicationRelativeWebRoot));
+            }
 
-                AddScript(page, resourcePath);
-                AddScript(page, string.Format("{0}Scripts/Header/js", Utils.ApplicationRelativeWebRoot), true, false, false);
-                AddScript(page, string.Format("{0}Scripts/js", Utils.ApplicationRelativeWebRoot), true, true, true);
-            }          
+            AddGlobalScriptsToThePage(page, headerScripts, globalScripts);
         }
 
         /// <summary>
@@ -175,6 +178,8 @@ namespace BlogEngine.Core.Web.Scripting
         /// <param name="page"></param>
         public static void AddStylesAndScripts(System.Web.UI.Page page)
         {
+            var headerScripts = new List<string>();
+            var globalScripts = new List<string>();
             var resourcePath = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
             List<string> files = new List<string>();
 
@@ -189,25 +194,27 @@ namespace BlogEngine.Core.Web.Scripting
                 AddStyle(page, string.Format("{0}Modules/QuickNotes/Qnotes.css", Utils.ApplicationRelativeWebRoot));
             }
 
-            AddScript(page, resourcePath);
+            headerScripts.Add(resourcePath);
 
             files = GetFiles(string.Format("{0}Scripts/Header", Utils.ApplicationRelativeWebRoot));
             foreach (var f in files)
             {
-                AddScript(page, string.Format("{0}Scripts/Header/{1}", Utils.ApplicationRelativeWebRoot, f), true, false, false);
+                headerScripts.Add(string.Format("{0}Scripts/Header/{1}", Utils.ApplicationRelativeWebRoot, f));
             }
 
             files = GetFiles(string.Format("{0}Scripts", Utils.ApplicationRelativeWebRoot));
             foreach (var f in files)
             {
-                AddScript(page, string.Format("{0}Scripts/{1}", Utils.ApplicationRelativeWebRoot, f), true, true, true);
+                globalScripts.Add(string.Format("{0}Scripts/{1}", Utils.ApplicationRelativeWebRoot, f));
             }
 
             if (Security.IsAuthenticated)
             {
-                AddScript(page, string.Format("{0}admin/widget.js", Utils.ApplicationRelativeWebRoot), true, true, true);
-                AddScript(page, string.Format("{0}Modules/QuickNotes/Qnotes.js", Utils.ApplicationRelativeWebRoot), true, true, true);
+                globalScripts.Add(string.Format("{0}admin/widget.js", Utils.ApplicationRelativeWebRoot));
+                globalScripts.Add(string.Format("{0}Modules/QuickNotes/Qnotes.js", Utils.ApplicationRelativeWebRoot));
             }
+
+            AddGlobalScriptsToThePage(page, headerScripts, globalScripts);
         }
 
         #endregion
@@ -227,5 +234,58 @@ namespace BlogEngine.Core.Web.Scripting
             }
             return files;
         }
+
+        static int GetIndex(System.Web.UI.Page page)
+        {
+            // insert global scripts just before first script tag in the header
+            // or after last css style tag if no script tags in the header found
+            int cnt = 0;
+            int idx = 0;
+            string ctrlText = "";
+
+            foreach (Control ctrl in page.Header.Controls)
+            {
+                cnt++;
+                if (ctrl.GetType() == typeof(LiteralControl))
+                {
+                    LiteralControl lc = (LiteralControl)ctrl;
+                    ctrlText = lc.Text.ToLower();
+                }
+                if (ctrl.GetType() == typeof(HtmlLink))
+                {
+                    HtmlLink hl = (HtmlLink)ctrl;
+                    ctrlText = hl.Attributes["type"].ToLower();
+                }
+                if (ctrlText.Contains("text/css"))
+                    idx = cnt;
+
+                if (ctrlText.Contains("text/javascript"))
+                {
+                    idx = cnt;
+                    // offset by 1 as we need inject before
+                    if (idx > 1) idx = idx - 1;
+                    break;
+                }
+            }
+            return idx;
+        }
+
+        static void AddGlobalScriptsToThePage(System.Web.UI.Page page, List<string> headerScripts, List<string> globalScripts)
+        {
+            int idx = GetIndex(page);
+
+            globalScripts.Reverse();
+            foreach (var gs in globalScripts)
+            {
+                AddScript(page, gs, true, true, true, idx);
+            }
+
+            headerScripts.Reverse();
+            foreach (var hs in headerScripts)
+            {
+                AddScript(page, hs, true, false, false, idx);
+            }
+        }
+    
     }
 }
