@@ -80,6 +80,9 @@ namespace BlogEngine.Core.Packaging
             fileOrder = 0;
             CopyDirectory(source, target, pkgId, packgeFiles);
 
+            // clear after install
+            ForceDeleteDirectory(content);
+
             // copy DLLs from lib to bin
             if (Directory.Exists(lib))
             {
@@ -88,6 +91,9 @@ namespace BlogEngine.Core.Packaging
 
                 fileOrder = 0;
                 CopyDirectory(source, target, pkgId, packgeFiles);
+
+                // clear after install
+                ForceDeleteDirectory(lib);
             }
 
             return packgeFiles;
