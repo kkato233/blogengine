@@ -920,6 +920,16 @@
 
         #endregion
 
+        #region SecurityValidationKey
+
+        /// <summary>
+        ///     Gets or sets the security validation key.
+        /// </summary>
+        /// <value>The security validation key.</value>
+        public string SecurityValidationKey { get; set; }
+
+        #endregion
+
         #region Comments per page
 
         /// <summary>

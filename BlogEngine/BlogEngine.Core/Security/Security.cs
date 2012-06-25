@@ -65,20 +65,32 @@ namespace BlogEngine.Core
                 }
                 catch (Exception ex)
                 {
-                    Utils.Log("Failed to decrypt the FormsAuthentication cookie, signing out to avoid future failure attempts.");
-                    SignOut();
-                }                
+                    Utils.Log("Failed to decrypt the FormsAuthentication cookie.");
+                }
 
-                // for extra security, make sure the UserData matches the current blog instance.
-                // this would prevent a cookie name change for a forms auth cookie encrypted in
-                // the same application (different blog) as being valid for this blog instance.
-                if (authTicket != null && !string.IsNullOrWhiteSpace(authTicket.UserData) && authTicket.UserData.Equals(Blog.CurrentInstance.Id.ToString(), StringComparison.OrdinalIgnoreCase))
+                if (authTicket != null && !string.IsNullOrWhiteSpace(authTicket.UserData))
                 {
-                    CustomIdentity identity = new CustomIdentity(authTicket.Name, true);
-                    CustomPrincipal principal = new CustomPrincipal(identity);
+                    int delimiter = authTicket.UserData.IndexOf(AUTH_TKT_USERDATA_DELIMITER);
+                    if (delimiter != -1)
+                    {
+                        // for extra security, make sure the data in UserData contains the SecurityValidationKey
+                        // and current blog instance.  the current blog instance check would prevent a cookie name
+                        // change for a forms auth cookie encrypted in the same application (different blog) as
+                        // being valid for this blog instance.
 
-                    context.User = principal;
-                    return;
+                        string securityValidationKey = authTicket.UserData.Substring(0, delimiter).Trim();
+                        string blogId = authTicket.UserData.Substring(delimiter + AUTH_TKT_USERDATA_DELIMITER.Length).Trim();
+
+                        if (securityValidationKey.Equals(SecurityValidationKey, StringComparison.OrdinalIgnoreCase) &&
+                            blogId.Equals(Blog.CurrentInstance.Id.ToString(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            CustomIdentity identity = new CustomIdentity(authTicket.Name, true);
+                            CustomPrincipal principal = new CustomPrincipal(identity);
+
+                            context.User = principal;
+                            return;
+                        }
+                    }
                 }
             }
 
@@ -137,7 +149,7 @@ namespace BlogEngine.Core
                         DateTime.Now,
                         expirationDate,
                         rememberMe,
-                        Blog.CurrentInstance.Id.ToString(),
+                        string.Format("{0}{1}{2}", SecurityValidationKey, AUTH_TKT_USERDATA_DELIMITER, Blog.CurrentInstance.Id),
                         FormsAuthentication.FormsCookiePath
                     );
 
@@ -148,6 +160,7 @@ namespace BlogEngine.Core
                     // cookie a browser-session cookie expiring when the browser is closed.
                     HttpCookie cookie = new HttpCookie(FormsAuthCookieName, encryptedTicket);
                     cookie.Expires = rememberMe ? expirationDate : DateTime.MinValue;
+                    cookie.HttpOnly = true;
                     context.Response.Cookies.Set(cookie);
 
                     string returnUrl = context.Request.QueryString["returnUrl"];
@@ -170,6 +183,25 @@ namespace BlogEngine.Core
             }
 
             return false;
+        }
+
+        private const string AUTH_TKT_USERDATA_DELIMITER = "-|-";
+
+        private static string SecurityValidationKey
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(BlogSettings.Instance.SecurityValidationKey))
+                {
+                    BlogSettings.Instance.SecurityValidationKey = string.Format("{0}{1}{2}",
+                        Guid.NewGuid().ToString().Replace("-", string.Empty),
+                        Guid.NewGuid().ToString().Replace("-", string.Empty),
+                        Guid.NewGuid().ToString().Replace("-", string.Empty));
+                    BlogSettings.Instance.Save();
+                }
+
+                return BlogSettings.Instance.SecurityValidationKey;
+            }
         }
 
         #region "Properties"
