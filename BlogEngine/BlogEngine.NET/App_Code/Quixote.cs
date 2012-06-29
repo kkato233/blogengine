@@ -170,15 +170,32 @@ namespace QuixoteWeb{
         /// <summary>
         /// Will run a GET request on your site
         /// </summary>
-        public static WebResponse Get(string url, Cookie cookie=null) {
-            var absUrl = DecipherLocalUrl(url);
-            var result = new WebResponse();
+        // MODIFICATION
+        //public static WebResponse Get(string url, Cookie cookie=null) {
+        //    var absUrl = DecipherLocalUrl(url);
+        //    var result = new WebResponse();
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(absUrl);
+        //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(absUrl);
 
-            return ReadAndLoadResponse(request,cookie);
+        //    return ReadAndLoadResponse(request,cookie);
+        //}
+        public static WebResponse Get(string url, Cookie cookie = null)
+        {
+            try
+            {
+                var absUrl = DecipherLocalUrl(url);
+                var result = new WebResponse();
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(absUrl);
+
+                return ReadAndLoadResponse(request, cookie);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
-    
+        // MODIFICATION
     }
 
     public static class TheFollowing {

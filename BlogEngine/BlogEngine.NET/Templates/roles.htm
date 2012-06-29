@@ -22,7 +22,7 @@
                     <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
                     <ul class="rowToolsMenu">
                         {#if !$T.post.IsSystemRole}<li><a href="#" class="editButton editAction">{BlogAdmin.i18n.edit}</a></li>{#/if}
-                        {#if !$T.post.IsSystemRole}<li><a href="#" class="deleteButton deleteAction">{BlogAdmin.i18n.delete}</a></li>{#/if}
+                        {#if !$T.post.IsSystemRole}<li><a href="#" class="deleteButton deleteAction">{BlogAdmin.i18n.doDelete}</a></li>{#/if}
                         <li><a href="Rights.aspx?role={$T.post.RoleName}" class="rightsAction">{BlogAdmin.i18n.rights}</a></li>
                     </ul>
                 </li>

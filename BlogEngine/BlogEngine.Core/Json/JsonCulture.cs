@@ -167,7 +167,8 @@ namespace BlogEngine.Core.Json
         public string AddResource(string resourceLabelKey)
         {
             var translation = Utils.Translate(resourceLabelKey, null, cultureInfo);
-            translationDict.Add(resourceLabelKey, translation);
+            // "delete" label has a name conflict with jQuery under IE7/8, rename to "doDelete"
+            translationDict.Add(resourceLabelKey == "delete" ? "doDelete" : resourceLabelKey, translation);
             return translation;
         }
        

@@ -16,7 +16,7 @@
                 {#if window.location.href.indexOf('Approved.aspx') > 0}
                 <li><a class="unapproveAction" href="#" onclick="return CommentAction('Reject','{$T.d.Id}');">{BlogAdmin.i18n.unapprove}</a></li>
                 {#/if}
-                <li>{#if $T.d.HasChildren == false}<a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.d.Id}');">{BlogAdmin.i18n.delete}</a>{#/if}</li>
+                <li>{#if $T.d.HasChildren == false}<a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.d.Id}');">{BlogAdmin.i18n.doDelete}</a>{#/if}</li>
             </ul>
         </li>
     </ul>

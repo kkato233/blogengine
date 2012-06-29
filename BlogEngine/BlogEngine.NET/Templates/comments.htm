@@ -47,7 +47,7 @@
                             <li><a class="unapproveAction" href="#" onclick="return CommentAction('Reject','{$T.cmt.Id}');">{BlogAdmin.i18n.unapprove}</a></li>
                             {#/if}
                             {#if $T.cmt.HasChildren == false}
-                            <li><a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.cmt.Id}');">{BlogAdmin.i18n.delete}</a></li>
+                            <li><a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.cmt.Id}');">{BlogAdmin.i18n.doDelete}</a></li>
                             {#/if}
                        </ul>
                     </li>
