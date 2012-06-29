@@ -32,7 +32,7 @@
                         <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
                         <ul class="rowToolsMenu">
                             {#if $T.p.CanUserEdit}<li><a class="editAction" href="Add_entry.aspx?id={$T.p.Id}">{BlogAdmin.i18n.edit}</a></li>{#/if}
-                            {#if $T.p.CanUserDelete}<li><a id="a-{$T.p.Id}" class="deleteAction" href="#" onclick="return DeletePost(this);">{BlogAdmin.i18n.delete}</a></li>{#/if}
+                            {#if $T.p.CanUserDelete}<li><a id="a-{$T.p.Id}" class="deleteAction" href="#" onclick="return DeletePost(this);">{BlogAdmin.i18n.doDelete}</a></li>{#/if}
                        </ul>
                     </li>
                </ul>

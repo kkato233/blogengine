@@ -195,7 +195,7 @@
             }
             else {
                 context.RewritePath(
-                    string.Format("{0}?tag=/{1}{2}", Utils.ApplicationRelativeWebRoot, tag, GetQueryString(context)), false);
+                    string.Format("{0}default.aspx?tag=/{1}{2}", Utils.ApplicationRelativeWebRoot, tag, GetQueryString(context)), false);
             }
         }
 
@@ -480,7 +480,7 @@
             {
                 var s = string.Format("{0}{1}DEFAULT{2}", Utils.AbsoluteWebRoot, m.ToString().Substring(1), BlogConfig.FileExtension);
 
-                Utils.Log("Url: " + url + "; s: " + s);
+                //Utils.Log("Url: " + url + "; s: " + s);
 
                 if (url.Contains(s, StringComparison.OrdinalIgnoreCase))
                     return true;
