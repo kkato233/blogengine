@@ -1957,4 +1957,10 @@
   <data name="enableOptimizationDesc" xml:space="preserve">
     <value>Combine and minify scripts and styles (recommended)</value>
   </data>
+  <data name="removeExtensionsFromUrls" xml:space="preserve">
+    <value>Remove extensions from URLs</value>
+  </data>
+  <data name="removeExtensionsFromUrlsDesc" xml:space="preserve">
+    <value>Removes .aspx file extension from post or page URL</value>
+  </data>
 </root>

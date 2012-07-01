@@ -157,7 +157,10 @@ namespace App_Code.Controls
         /// <returns>The page URL.</returns>
         private static string PageUrl()
         {
-            var path = HttpContext.Current.Request.RawUrl.Replace("Default.aspx", string.Empty);
+            var path = HttpContext.Current.Request.RawUrl;
+            if(string.IsNullOrEmpty(BlogConfig.FileExtension))
+                path = path.Replace("default.aspx", string.Empty);
+
             if (path.Contains("?"))
             {
                 if (path.Contains("page="))
@@ -167,7 +170,8 @@ namespace App_Code.Controls
                 }
                 else
                 {
-                    path += "&";
+                    if (!path.EndsWith("?"))
+                        path += "&";
                 }
             }
             else

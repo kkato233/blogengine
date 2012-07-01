@@ -104,7 +104,11 @@ namespace App_Code.Controls
             foreach (var page in BlogEngine.Core.Page.Pages.Where(page => page.ShowInList && page.IsVisibleToPublic))
             {
                 var li = new HtmlGenericControl("li");
-                var anc = new HtmlAnchor { HRef = page.RelativeLink, InnerHtml = page.Title, Title = page.Description };
+                var href = page.RelativeLink;
+                if (BlogSettings.Instance.RemoveExtensionsFromUrls && !string.IsNullOrEmpty(BlogConfig.FileExtension))
+                    href = href.Replace(BlogConfig.FileExtension, "");
+                
+                var anc = new HtmlAnchor { HRef = href, InnerHtml = page.Title, Title = page.Description };
 
                 li.Controls.Add(anc);
                 ul.Controls.Add(li);

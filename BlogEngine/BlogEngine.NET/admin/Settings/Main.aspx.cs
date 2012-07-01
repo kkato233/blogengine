@@ -58,6 +58,7 @@
             ddlCulture.SelectedValue = BlogSettings.Instance.Culture;
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
+            cbRemoveFileExtension.Checked = BlogSettings.Instance.RemoveExtensionsFromUrls;
         }
 
         /// <summary>
@@ -127,23 +128,24 @@
         /// <param name="selfRegistrationInitialRole">Self registration initial role</param>
         /// <returns></returns>
         [WebMethod]
-        public static JsonResponse Save(string name, 
-			string desc,
-			string postsPerPage,
-			string themeCookieName,
-			string useBlogNameInPageTitles,
-			string enableRelatedPosts,
-			string enableRating,
-			string showDescriptionInPostList,
-			string descriptionCharacters,
-			string showDescriptionInPostListForPostsByTagOrCategory,
-			string descriptionCharactersForPostsByTagOrCategory,
-			string timeStampPostLinks,
-			string showPostNavigation,
-			string culture,
-			string timezone)
+        public static JsonResponse Save(string name,
+            string desc,
+            string postsPerPage,
+            string themeCookieName,
+            string useBlogNameInPageTitles,
+            string enableRelatedPosts,
+            string enableRating,
+            string showDescriptionInPostList,
+            string descriptionCharacters,
+            string showDescriptionInPostListForPostsByTagOrCategory,
+            string descriptionCharactersForPostsByTagOrCategory,
+            string timeStampPostLinks,
+            string showPostNavigation,
+            string culture,
+            string timezone,
+            string removeFileExtension)
         {
-            var response = new JsonResponse {Success = false};
+            var response = new JsonResponse { Success = false };
 
             if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
@@ -155,21 +157,22 @@
             {
                 BlogSettings.Instance.Name = name;
                 BlogSettings.Instance.Description = desc;
-				BlogSettings.Instance.PostsPerPage = int.Parse(postsPerPage);
-				BlogSettings.Instance.ThemeCookieName = themeCookieName;
-				BlogSettings.Instance.UseBlogNameInPageTitles = bool.Parse(useBlogNameInPageTitles);
-				BlogSettings.Instance.EnableRelatedPosts = bool.Parse(enableRelatedPosts);
-				BlogSettings.Instance.EnableRating = bool.Parse(enableRating);
-				BlogSettings.Instance.ShowDescriptionInPostList = bool.Parse(showDescriptionInPostList);
-				BlogSettings.Instance.DescriptionCharacters = int.Parse(descriptionCharacters);
-				BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory =
-					bool.Parse(showDescriptionInPostListForPostsByTagOrCategory);
-				BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory =
-					int.Parse(descriptionCharactersForPostsByTagOrCategory);
-				BlogSettings.Instance.TimeStampPostLinks = bool.Parse(timeStampPostLinks);
-				BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
-				BlogSettings.Instance.Culture = culture;
-				BlogSettings.Instance.Timezone = double.Parse(timezone);
+                BlogSettings.Instance.PostsPerPage = int.Parse(postsPerPage);
+                BlogSettings.Instance.ThemeCookieName = themeCookieName;
+                BlogSettings.Instance.UseBlogNameInPageTitles = bool.Parse(useBlogNameInPageTitles);
+                BlogSettings.Instance.EnableRelatedPosts = bool.Parse(enableRelatedPosts);
+                BlogSettings.Instance.EnableRating = bool.Parse(enableRating);
+                BlogSettings.Instance.ShowDescriptionInPostList = bool.Parse(showDescriptionInPostList);
+                BlogSettings.Instance.DescriptionCharacters = int.Parse(descriptionCharacters);
+                BlogSettings.Instance.ShowDescriptionInPostListForPostsByTagOrCategory =
+                    bool.Parse(showDescriptionInPostListForPostsByTagOrCategory);
+                BlogSettings.Instance.DescriptionCharactersForPostsByTagOrCategory =
+                    int.Parse(descriptionCharactersForPostsByTagOrCategory);
+                BlogSettings.Instance.TimeStampPostLinks = bool.Parse(timeStampPostLinks);
+                BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
+                BlogSettings.Instance.Culture = culture;
+                BlogSettings.Instance.Timezone = double.Parse(timezone);
+                BlogSettings.Instance.RemoveExtensionsFromUrls = bool.Parse(removeFileExtension);
                 BlogSettings.Instance.Save();
             }
             catch (Exception ex)

@@ -47,5 +47,14 @@ namespace BlogEngine.Tests.Quixote
             Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
             Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
         }
+
+        [Test]
+        public void RunUrlRewriteNoExtensionsTests()
+        {
+            ie.GoTo(Constants.AppRoot + "/tests/urlrewrite.cshtml?ext=off");
+            Assert.IsTrue(ie.Html.Contains("class=\"pass\""));
+            Assert.IsFalse(ie.Html.Contains("class=\"fail\""));
+        }
+ 
     }
 }

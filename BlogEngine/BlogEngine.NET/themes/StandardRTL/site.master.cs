@@ -5,7 +5,7 @@ using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using System.Text.RegularExpressions;
 
-public partial class StandardSite : System.Web.UI.MasterPage
+public partial class StandardSiteRTL : System.Web.UI.MasterPage
 {
     private static Regex reg = new Regex(@"(?<=[^])\t{2,}|(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,11}(?=[<])|(?=[\n])\s{2,}");
 

@@ -9,7 +9,7 @@
         var oDescCharContainer;
         var oDescCharTagCatContainer;
 
-        function syncCharCountBox(oChkBox,oCharContainer) {
+        function syncCharCountBox(oChkBox, oCharContainer) {
 
             var isChecked = oChkBox.is(":checked");
             if (isChecked) {
@@ -51,24 +51,25 @@
         });
         function SaveSettings() {
             $('.loader').show();
-            var dto = { 
-				"name": $("[id$='_txtName']").val(),
-				"desc": $("[id$='_txtDescription']").val(),
-				"postsPerPage": $("[id$='_txtPostsPerPage']").val(),
-				"themeCookieName": $("[id$='_txtThemeCookieName']").val(),
-				"useBlogNameInPageTitles": $("[id$='_cbUseBlogNameInPageTitles']").attr('checked'),
-				"enableRelatedPosts": $("[id$='_cbShowRelatedPosts']").attr('checked'),
-				"enableRating": $("[id$='_cbEnableRating']").attr('checked'),
-				"showDescriptionInPostList": oShowDescChkBox.attr('checked'),
-				"descriptionCharacters": $("input", oDescCharContainer).val(),
-				"showDescriptionInPostListForPostsByTagOrCategory": oShowDescTagCatChkBox.attr('checked'),
-				"descriptionCharactersForPostsByTagOrCategory": $("input", oDescCharTagCatContainer).val(),
-				"timeStampPostLinks": $("[id$='_cbTimeStampPostLinks']").attr('checked'),
-				"showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
-				"culture": $("[id$='_ddlCulture']").val(),
-				"timezone": $("[id$='_txtTimeZone']").val()
-			};
-			
+            var dto = {
+                "name": $("[id$='_txtName']").val(),
+                "desc": $("[id$='_txtDescription']").val(),
+                "postsPerPage": $("[id$='_txtPostsPerPage']").val(),
+                "themeCookieName": $("[id$='_txtThemeCookieName']").val(),
+                "useBlogNameInPageTitles": $("[id$='_cbUseBlogNameInPageTitles']").attr('checked'),
+                "enableRelatedPosts": $("[id$='_cbShowRelatedPosts']").attr('checked'),
+                "enableRating": $("[id$='_cbEnableRating']").attr('checked'),
+                "showDescriptionInPostList": oShowDescChkBox.attr('checked'),
+                "descriptionCharacters": $("input", oDescCharContainer).val(),
+                "showDescriptionInPostListForPostsByTagOrCategory": oShowDescTagCatChkBox.attr('checked'),
+                "descriptionCharactersForPostsByTagOrCategory": $("input", oDescCharTagCatContainer).val(),
+                "timeStampPostLinks": $("[id$='_cbTimeStampPostLinks']").attr('checked'),
+                "showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
+                "culture": $("[id$='_ddlCulture']").val(),
+                "timezone": $("[id$='_txtTimeZone']").val(),
+                "removeFileExtension": $("[id$='_cbRemoveFileExtension']").attr('checked')
+            };
+
             $.ajax({
                 url: SiteVars.ApplicationRelativeWebRoot + "admin/Settings/Main.aspx/Save",
                 type: "POST",
@@ -163,6 +164,12 @@
                         <label for="<%=cbUseBlogNameInPageTitles.ClientID %>"><%=Resources.labels.useBlogNameInPageTitles%></label>
                         <span class="insetHelp">(<%=Resources.labels.useBlogNameInPageTitlesDescription%>)</span>
                     </li>
+                    <li>
+			            <span class="filler"></span>
+			            <asp:CheckBox runat="server" ID="cbRemoveFileExtension" />
+			            <label for="<%=cbRemoveFileExtension.ClientID %>"><%=Resources.labels.removeExtensionsFromUrls %></label>
+			            <span class="insetHelp">(<%=Resources.labels.removeExtensionsFromUrlsDesc %>)</span>
+		            </li>
                     <li>
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbEnableRating" />
