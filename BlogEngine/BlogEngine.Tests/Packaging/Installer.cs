@@ -13,6 +13,7 @@ namespace BlogEngine.Tests.Packaging
         }
 
         [Test]
+        [Category("primary")]
         [Category("online")]
         public void CanInstallAndUninstallTheme()
         {

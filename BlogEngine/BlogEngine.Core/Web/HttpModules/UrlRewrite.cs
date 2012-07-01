@@ -85,9 +85,10 @@
 
         private static void Rewrite(HttpContext context, Blog blogInstance, string url, string path)
         {
-            var urlContainsFileExtension = url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
+            var urlContainsFileExtension = BlogSettings.Instance.RemoveExtensionsFromUrls ? true : 
+                url.IndexOf(BlogConfig.FileExtension, StringComparison.OrdinalIgnoreCase) != -1;
 
-            Utils.Log(string.Format("Rewriting :: {0} :: {1}", url, path));
+            // Utils.Log(string.Format("Rewriting :: {0} :: {1}", url, path));
 
             if (url.Contains("/FILES/") && url.Contains(".AXDX"))
             {
@@ -115,7 +116,7 @@
             }
             else if (urlContainsFileExtension && url.Contains("/CALENDAR/"))
             {
-                context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.ApplicationRelativeWebRoot), false);
+                UrlRules.RewriteCalendar(context, url);
             }
             else if (urlContainsFileExtension && UrlRules.DefaultPageRequested(context))
             {
@@ -123,31 +124,20 @@
             }
             else if (urlContainsFileExtension && url.Contains("/AUTHOR/"))
             {
-                var author = UrlRules.ExtractTitle(context, url);
-                context.RewritePath(
-                    string.Format("{0}default{1}?name={2}{3}",
-                    Utils.ApplicationRelativeWebRoot,
-                    BlogConfig.FileExtension,
-                    author,
-                    UrlRules.GetQueryString(context)),
-                    false);
+                UrlRules.RewriteAuthor(context, url);
             }
-            else if (urlContainsFileExtension && path.Contains("/BLOG.ASPX"))
+            else if (urlContainsFileExtension && (path.Contains("/BLOG.ASPX") || path.EndsWith("/BLOG")))
             {
-                context.RewritePath(
-                    string.Format("{0}default.aspx?blog=true{1}",
-                    Utils.ApplicationRelativeWebRoot,
-                    UrlRules.GetQueryString(context)));
+                UrlRules.RewriteBlog(context, url);
             }
             else
             {
+                Utils.Log(string.Format("Rewriting ELSE :: {0} :: {1}", url, path));
+
                 // If this is blog instance that is in a virtual sub-folder, we will
                 // need to rewrite the path for URL to a physical file.  This includes
                 // requests such as the homepage (default.aspx), contact.aspx, archive.aspx,
                 // any of the admin pages, etc, etc.
-
-                Utils.Log(string.Format("Rewriting ELSE :: {0} :: {1}", url, path));
-
                 if (blogInstance.IsSubfolderOfApplicationWebRoot &&
                     VirtualPathUtility.AppendTrailingSlash(path).IndexOf(blogInstance.RelativeWebRoot, StringComparison.OrdinalIgnoreCase) != -1)
                 {

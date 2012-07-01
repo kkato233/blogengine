@@ -143,6 +143,47 @@ namespace BlogEngine.Core.Web
         }
 
         /// <summary>
+        /// Page with large calendar
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="url">The URL string.</param>
+        public static void RewriteCalendar(HttpContext context, string url)
+        {
+            context.RewritePath(string.Format("{0}default.aspx?calendar=show", Utils.ApplicationRelativeWebRoot), false);
+        }
+
+        /// <summary>
+        /// Posts for author
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="url">The URL string.</param
+        public static void RewriteAuthor(HttpContext context, string url)
+        {
+            var author = UrlRules.ExtractTitle(context, url);
+
+            var path = string.Format("{0}default.aspx?name={1}{2}",
+                Utils.ApplicationRelativeWebRoot,
+                author,
+                GetQueryString(context));
+
+            context.RewritePath(path, false);
+        }
+
+        /// <summary>
+        /// Rewrites /blog.aspx path
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
+        /// <param name="url">The URL string.</param
+        public static void RewriteBlog(HttpContext context, string url)
+        {
+            var path = string.Format("{0}default.aspx?blog=true{1}",
+                Utils.ApplicationRelativeWebRoot,
+                GetQueryString(context));
+
+            context.RewritePath(path, false);
+        }
+
+        /// <summary>
         /// Rewrites the incoming file request to the actual handler
         /// </summary>
         /// <param name="context">the context</param>

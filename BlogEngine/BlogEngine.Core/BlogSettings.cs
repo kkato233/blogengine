@@ -1198,6 +1198,16 @@
 
         #endregion
 
+        #region RemoveExtensionsFromUrls
+
+        /// <summary>
+        ///     Gets or sets a value indicating if extensions (.aspx) should be removed from URLs
+        /// </summary>
+        /// <value><b>true</b> if should be removed, otherwise returns <b>false</b>.</value>
+        public bool RemoveExtensionsFromUrls { get; set; }
+
+        #endregion
+
         /// <summary>
         /// Gets or sets whether this application's handlers should be able to download and cache files hosted on other servers.
         /// </summary>

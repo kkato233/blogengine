@@ -21,6 +21,8 @@ namespace BlogEngine.Core
         {
             get
             {
+                if (BlogSettings.Instance.RemoveExtensionsFromUrls)
+                    return "";
                 return WebConfigurationManager.AppSettings["BlogEngine.FileExtension"] ?? ".aspx";
             }
         }

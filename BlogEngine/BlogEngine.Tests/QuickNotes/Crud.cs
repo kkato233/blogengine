@@ -22,9 +22,12 @@ namespace BlogEngine.Tests.QuickNotes
             // create
             TypeQuickly(ie.TextField("q-txtarea"), "Note one. This is a note one.");
             ie.Button("q-save").Click();
+            ie.WaitForComplete();
             ie.Link("q-alist").Click();
+            ie.WaitForComplete();
             Assert.IsTrue(ie.Html.Contains("Note one"));
             ie.SelectList("q-listbox").Options[0].Select();
+            ie.WaitForComplete();
             Assert.IsTrue(ie.Html.Contains("q-txtarea"), "Text area not found on the page after selecting new note");
 
             // updated
