@@ -132,7 +132,7 @@
             }
             else
             {
-                Utils.Log(string.Format("Rewriting ELSE :: {0} :: {1}", url, path));
+                // Utils.Log(string.Format("Rewriting ELSE :: {0} :: {1}", url, path));
 
                 // If this is blog instance that is in a virtual sub-folder, we will
                 // need to rewrite the path for URL to a physical file.  This includes
