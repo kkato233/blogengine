@@ -146,6 +146,7 @@
             string removeFileExtension)
         {
             var response = new JsonResponse { Success = false };
+            var recycle = false;
 
             if (!WebUtils.CheckRightsForAdminSettingsPage(true))
             {
@@ -172,8 +173,15 @@
                 BlogSettings.Instance.ShowPostNavigation = bool.Parse(showPostNavigation);
                 BlogSettings.Instance.Culture = culture;
                 BlogSettings.Instance.Timezone = double.Parse(timezone);
+
+                if (BlogSettings.Instance.RemoveExtensionsFromUrls != bool.Parse(removeFileExtension))
+                    recycle = true;
+
                 BlogSettings.Instance.RemoveExtensionsFromUrls = bool.Parse(removeFileExtension);
                 BlogSettings.Instance.Save();
+
+                // recycle to reload some static variables
+                if (recycle) Utils.RecycleIIS();
             }
             catch (Exception ex)
             {
