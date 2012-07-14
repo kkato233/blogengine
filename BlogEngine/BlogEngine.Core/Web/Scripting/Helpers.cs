@@ -246,24 +246,31 @@ namespace BlogEngine.Core.Web.Scripting
             foreach (Control ctrl in page.Header.Controls)
             {
                 cnt++;
-                if (ctrl.GetType() == typeof(LiteralControl))
+                try
                 {
-                    LiteralControl lc = (LiteralControl)ctrl;
-                    ctrlText = lc.Text.ToLower();
-                }
-                if (ctrl.GetType() == typeof(HtmlLink))
-                {
-                    HtmlLink hl = (HtmlLink)ctrl;
-                    ctrlText = hl.Attributes["type"].ToLower();
-                }
-                if (ctrlText.Contains("text/css"))
-                    idx = cnt;
+                    if (ctrl.GetType() == typeof(LiteralControl))
+                    {
+                        LiteralControl lc = (LiteralControl)ctrl;
+                        ctrlText = lc.Text.ToLower();
+                    }
+                    if (ctrl.GetType() == typeof(HtmlLink))
+                    {
+                        HtmlLink hl = (HtmlLink)ctrl;
+                        ctrlText = hl.Attributes["type"].ToLower();
+                    }
+                    if (ctrlText.Contains("text/css"))
+                        idx = cnt;
 
-                if (ctrlText.Contains("text/javascript"))
+                    if (ctrlText.Contains("text/javascript"))
+                    {
+                        idx = cnt;
+                        // offset by 1 as we need inject before
+                        if (idx > 1) idx = idx - 1;
+                        break;
+                    }
+                }
+                catch
                 {
-                    idx = cnt;
-                    // offset by 1 as we need inject before
-                    if (idx > 1) idx = idx - 1;
                     break;
                 }
             }

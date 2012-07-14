@@ -22,6 +22,7 @@
     using System.Web.UI.WebControls;
     using System.Web.UI.HtmlControls;
     using System.Xml;
+    using System.DirectoryServices;
 
     using BlogEngine.Core.Web.Controls;
     using BlogEngine.Core.Web.Extensions;
@@ -1155,11 +1156,13 @@
         /// </returns>
         public static bool SetConditionalGetHeaders(DateTime date)
         {
+            var now = date.Kind == DateTimeKind.Utc ? DateTime.UtcNow : DateTime.Now;
+
             // SetLastModified() below will throw an error if the 'date' is a future date.
             // If the date is 1/1/0001, Mono will throw a 404 error
-            if (date > DateTime.Now || date.Year < 1900)
+            if (date > now || date.Year < 1900)
             {
-                date = DateTime.Now;
+                date = now;
             }
 
             var response = HttpContext.Current.Response;
@@ -1354,6 +1357,51 @@
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Recycle app pool
+        /// </summary>
+        public static bool RecycleIIS()
+        {
+            try
+            {
+                var poolId = HttpContext.Current.Request.ServerVariables["APP_POOL_ID"];
+                var poolPath = @"IIS://" + Environment.MachineName + "/W3SVC/AppPools/" + poolId;
+
+                using (var appPool = new DirectoryEntry(poolPath))
+                {
+                    appPool.Invoke("Recycle", null);
+                }
+                return true;
+            }
+            catch { }
+
+            //try
+            //{
+            //    HttpRuntime.UnloadAppDomain();
+            //    return true;
+            //}
+            //catch { }
+
+            //try
+            //{
+            //    Process.GetCurrentProcess().Kill();
+            //    return true;
+            //}
+            //catch { }
+
+            string webConfigPath = HttpContext.Current.Request.PhysicalApplicationPath + "\\web.config";
+            try
+            {
+                File.SetLastWriteTimeUtc(webConfigPath, DateTime.UtcNow);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log("Utils.Recycle() : " + ex.Message);
+            }
+            return false;
         }
 
         #endregion

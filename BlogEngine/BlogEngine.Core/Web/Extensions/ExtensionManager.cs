@@ -73,11 +73,9 @@
                 var xs = new DataStore.ExtensionSettings(x.Key);
                 xs.SaveSettings(x.Value);
                 SaveToCache();
-
-                var configPath = string.Format("{0}Web.Config", HostingEnvironment.ApplicationPhysicalPath);
-                File.SetLastWriteTimeUtc(configPath, DateTime.UtcNow);
                 break;
             }
+            Utils.RecycleIIS();
         }
 
         /// <summary>

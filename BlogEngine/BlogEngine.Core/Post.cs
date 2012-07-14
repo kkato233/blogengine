@@ -564,7 +564,10 @@
             {
                 var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogConfig.FileExtension;
 
-                return BlogSettings.Instance.TimeStampPostLinks
+                // taking into account aggregated posts
+                var settings = BlogSettings.GetInstanceSettings(Blog);
+
+                return settings.TimeStampPostLinks
                            ? string.Format(
                                "{0}post/{1}{2}",
                                this.Blog.RelativeWebRoot,
@@ -583,10 +586,20 @@
         {
             get
             {
-                if (this.Blog.DoesHostnameDifferFromSiteAggregationBlog)
-                    return this.AbsoluteLink.ToString();
-                else
-                    return this.RelativeLink;
+                var returnLink = Blog.DoesHostnameDifferFromSiteAggregationBlog ? AbsoluteLink.ToString() : RelativeLink;
+
+                // when list blog posts for aggregate blog, current instance
+                // points to aggregate blog, so need to compensate for
+                // currently processed blog if it is a child/sub blog
+                var settings = BlogSettings.GetInstanceSettings(Blog);
+
+                // if in aggregate blog file extension set to be removed
+                // but child blog still votes to have it, add extension back
+                var ext = string.IsNullOrEmpty(BlogConfig.FileExtension) ? ".aspx" : BlogConfig.FileExtension;
+                if (!settings.RemoveExtensionsFromUrls && !returnLink.EndsWith(ext))
+                    returnLink += ext;
+
+                return settings.RemoveExtensionsFromUrls ? returnLink.Replace(ext, "") : returnLink;
             }
         }
 
