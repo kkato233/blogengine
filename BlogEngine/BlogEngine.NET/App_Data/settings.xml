@@ -28,7 +28,7 @@
   <enablewebsiteincomments>False</enablewebsiteincomments>
   <enablecontactattachments>True</enablecontactattachments>
   <blogrollmaxlength>23</blogrollmaxlength>
-  <postsperfeed>10</postsperfeed>
+  <postsperfeed>3</postsperfeed>
   <searchdefaulttext>Enter search term or APML url</searchdefaulttext>
   <language>en-US</language>
   <smtpserver>mail.example.com</smtpserver>

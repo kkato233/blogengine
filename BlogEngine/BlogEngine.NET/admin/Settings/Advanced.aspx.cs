@@ -51,13 +51,18 @@
             var settings = BlogSettings.Instance;
 
             cbEnableCompression.Checked = settings.EnableHttpCompression;
+            if (!Blog.CurrentInstance.IsPrimary) { cbEnableCompression.Enabled = false; }
             cbEnableOptimization.Checked = settings.EnableOptimization;
+            if (!Blog.CurrentInstance.IsPrimary) { cbEnableOptimization.Enabled = false; }
             cbCompressWebResource.Checked = settings.CompressWebResource;
+            if (!Blog.CurrentInstance.IsPrimary) { cbCompressWebResource.Enabled = false; }
             cbEnableOpenSearch.Checked = settings.EnableOpenSearch;
             cbRequireSslForMetaWeblogApi.Checked = settings.RequireSslMetaWeblogApi;
             rblWwwSubdomain.SelectedValue = settings.HandleWwwSubdomain;
             cbEnableErrorLogging.Checked = settings.EnableErrorLogging;
+            if (!Blog.CurrentInstance.IsPrimary) { cbEnableErrorLogging.Enabled = false; }
             txtGalleryFeed.Text = settings.GalleryFeedUrl;
+            if (!Blog.CurrentInstance.IsPrimary) { txtGalleryFeed.Enabled = false; }
             cbAllowRemoteFileDownloads.Checked = settings.AllowServerToDownloadRemoteFiles;
             txtRemoteTimeout.Text = settings.RemoteFileDownloadTimeout.ToString();
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();

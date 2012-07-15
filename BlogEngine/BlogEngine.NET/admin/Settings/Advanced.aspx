@@ -177,7 +177,8 @@
                         <span class="insetHelp"><%=Resources.labels.allowRemoteFileDownloadsDescription%></span>
                     </li>
                 </ul>
-                <h2><%=Resources.labels.filestorage %></h2>
+                <% if (BlogEngine.Core.Blog.CurrentInstance.IsPrimary){ %>
+                <h2><%=Resources.labels.filestorage%></h2>
                 <p>
                     Modifying your File Storage settings may cause data loss. This operation will move all your files from one storage provider to another storage provider. It is recommended to backup your File storage into a recoverable archive.
                 </p>
@@ -197,6 +198,7 @@
                         <asp:Label runat="server" ID="providerError" ForeColor="Red" Visible="false" />
                     </li>
                 </ul>
+                <%} %>
             <div class="rightligned-bottom action_buttons">
                 <input type="submit" id="btnSave" class="btn primary rounded" value="<%=Resources.labels.saveSettings %>" />
             </div>
