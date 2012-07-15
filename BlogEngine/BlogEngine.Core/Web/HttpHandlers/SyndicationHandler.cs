@@ -65,10 +65,18 @@
             if (string.IsNullOrEmpty(context.Request.QueryString["post"]))
             {
                 // Shorten the list to the number of posts stated in the settings, except for the comment feed.
-                var max = Math.Min(BlogSettings.Instance.PostsPerFeed, list.Count);
-                list = list.FindAll(item => item.IsVisible);
+                var max = BlogSettings.Instance.PostsPerFeed;
+                
+                // usually we want to restrict number of posts for subscribers to latest
+                // but it can be overriden in query string to bring any number of items
+                if (!string.IsNullOrEmpty(context.Request.QueryString["maxitems"]))
+                {
+                    int maxItems;
+                    if (int.TryParse(context.Request.QueryString["maxitems"], out maxItems))
+                        max = maxItems;
+                }
 
-                list = list.GetRange(0, max);
+                list = list.FindAll(item => item.IsVisible).Take(Math.Min(max, list.Count)).ToList();
             }
 
             SetHeaderInformation(context, list, format);

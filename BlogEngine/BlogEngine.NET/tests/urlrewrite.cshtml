@@ -10,7 +10,9 @@
     var useDate = BlogSettings.Instance.TimeStampPostLinks;
     var postPerPage = BlogSettings.Instance.PostsPerPage;
     DateTime startDate = new DateTime(2012, 6, 3);
+    
     var defPage = "default";
+    BlogSettings.Instance.RemoveExtensionsFromUrls = false; 
     
     if (Request.QueryString["ext"] != null && Request.QueryString["ext"] == "off") 
     {

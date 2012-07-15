@@ -131,33 +131,35 @@
                 </li>
             </ul>
 
-            <h2><%=labels.disqusSettings %></h2>       
+            <% if (BlogEngine.Core.Blog.CurrentInstance.IsPrimary){ %>
+            <h2><%=labels.disqusSettings%></h2>       
             <div class="info rounded" style="max-width:600px;">
-                <%=labels.disqusSignupMessage %>
+                <%=labels.disqusSignupMessage%>
             </div>  
             <ul class="fl leftaligned">
                 <li>
-                    <label class="lbl"><%=labels.turnDisqusOnOff %></label>
+                    <label class="lbl"><%=labels.turnDisqusOnOff%></label>
                     <asp:CheckBox runat="server" ID="cbEnableDisqus" />
-                    <label for="<%=cbEnableDisqus.ClientID %>"><%=labels.useDisqusAsCommentProvider %></label>
+                    <label for="<%=cbEnableDisqus.ClientID %>"><%=labels.useDisqusAsCommentProvider%></label>
                 </li>
                 <li>
-                    <label class="lbl" for="<%=txtDisqusName.ClientID %>"><%=labels.disqusShortName %></label>
+                    <label class="lbl" for="<%=txtDisqusName.ClientID %>"><%=labels.disqusShortName%></label>
                     <asp:TextBox runat="server" ID="txtDisqusName" Width="250" MaxLength="250" />
                 </li>
                 <li>
                     <span class="filler"></span>
                     <asp:CheckBox runat="server" ID="cbDisqusDevMode" />
-                    <label for="<%=cbDisqusDevMode.ClientID %>"><%=labels.developmentMode %></label>
-                    <span class="insetHelp">(<%=labels.developmentModeCheckboxMessage %>)</span>
+                    <label for="<%=cbDisqusDevMode.ClientID %>"><%=labels.developmentMode%></label>
+                    <span class="insetHelp">(<%=labels.developmentModeCheckboxMessage%>)</span>
                 </li>
                 <li>
                     <span class="filler"></span>
                     <asp:CheckBox runat="server" ID="cbDisqusAddToPages" />
-                    <label for="<%=cbDisqusAddToPages.ClientID %>"><%=labels.addCommentsToPages %></label>
-                    <span class="insetHelp">(<%=labels.addToPages %>)</span>
+                    <label for="<%=cbDisqusAddToPages.ClientID %>"><%=labels.addCommentsToPages%></label>
+                    <span class="insetHelp">(<%=labels.addToPages%>)</span>
                 </li>
             </ul>
+            <% } %>
     
             <div class="rightligned-bottom action_buttons">
                 <asp:Button runat="server" class="btn primary" ID="btnSave2" Text="<%$Resources:labels, saveSettings %>" />&nbsp;

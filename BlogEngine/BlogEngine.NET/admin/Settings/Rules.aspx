@@ -3,6 +3,7 @@
 <%@ Register src="Menu.ascx" tagname="TabMenu" tagprefix="menu" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">
+    
     <script type="text/javascript">
 
         function ResetCounters(filterName) {
@@ -34,6 +35,7 @@
 			<menu:TabMenu ID="TabMenu1" runat="server" />
 		</div>
 		<div class="content-box-left">
+            <% if(BlogEngine.Core.Blog.CurrentInstance.IsPrimary){ %>
             <div class="rightligned-top action_buttons">
                 <asp:Button runat="server" class="btn primary" ID="btnSave" Text="Save settings" />
                 <span class="loader">&nbsp;</span>
@@ -188,6 +190,9 @@
                 <asp:Button runat="server" class="btn primary" ID="btnSave2" Text="Save settings" />
                 <span class="loader">&nbsp;</span>
             </div>
+            <% } else { %>
+            <div class="info">Only available on application level (for primary blog).</div>
+            <% } %>
             
 		</div>
 	</div> 
