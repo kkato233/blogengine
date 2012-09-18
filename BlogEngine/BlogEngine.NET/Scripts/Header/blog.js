@@ -424,6 +424,7 @@ BlogEngine = {
             a.href = 'rate/' + i;
             a.className = this.englishNumber(i);
             a.title = BlogEngineRes.i18n.rateThisXStars.replace('{0}', i.toString()).replace('{1}', i == 1 ? '' : 's');
+            a.rel = "nofollow";
             a.onclick = function () {
                 BlogEngine.rate(blogId, id, this.innerHTML);
                 return false;
