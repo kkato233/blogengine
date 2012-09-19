@@ -25,8 +25,8 @@
 				"smtpServerPort": $("[id$='_txtSmtpServerPort']").val(),
 				"smtpUserName": $("[id$='_txtSmtpUsername']").val(),
 				"smtpPassword": $("[id$='_txtSmtpPassword']").val(),
-				"sendMailOnComment": $("[id$='_cbComments']").attr('checked'),
-				"enableSsl": $("[id$='_cbEnableSsl']").attr('checked'),
+				"sendMailOnComment": $("[id$='_cbComments']").attr('checked') || '',
+				"enableSsl": $("[id$='_cbEnableSsl']").attr('checked') || '',
 				"emailSubjectPrefix": $("[id$='_txtEmailSubjectPrefix']").val()
 			};
 			
@@ -56,8 +56,8 @@
                 "smtpServerPort": $("[id$='_txtSmtpServerPort']").val(),
                 "smtpUserName": $("[id$='_txtSmtpUsername']").val(),
                 "smtpPassword": $("[id$='_txtSmtpPassword']").val(),
-                "sendMailOnComment": $("[id$='_cbComments']").attr('checked'),
-                "enableSsl": $("[id$='_cbEnableSsl']").attr('checked'),
+                "sendMailOnComment": $("[id$='_cbComments']").attr('checked') || '',
+                "enableSsl": $("[id$='_cbEnableSsl']").attr('checked') || '',
                 "emailSubjectPrefix": $("[id$='_txtEmailSubjectPrefix']").val()
             };
 
