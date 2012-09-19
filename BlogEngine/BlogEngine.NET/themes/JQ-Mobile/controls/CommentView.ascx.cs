@@ -303,7 +303,7 @@ namespace MichaelJBaird.Themes.JQMobile.Controls
             Author = this.Server.HtmlEncode(author),
             Email = email,
             Content = this.Server.HtmlEncode(content),
-            IP = this.Request.UserHostAddress,
+            IP = Utils.GetClientIP(),
             Country = country,
             DateCreated = DateTime.Now,
             Parent = this.Post,

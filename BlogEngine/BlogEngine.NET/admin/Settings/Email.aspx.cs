@@ -140,7 +140,7 @@ namespace admin.Settings
                 {
                     body.Append(
                         "<br /><br />_______________________________________________________________________________<br /><br />");
-                    body.AppendFormat("<strong>IP address:</strong> {0}<br />", HttpContext.Current.Request.UserHostAddress);
+                    body.AppendFormat("<strong>IP address:</strong> {0}<br />", Utils.GetClientIP());
                     body.AppendFormat("<strong>User-agent:</strong> {0}", HttpContext.Current.Request.UserAgent);
                 }
 

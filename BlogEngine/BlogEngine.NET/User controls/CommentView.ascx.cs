@@ -300,7 +300,7 @@
                     Author = Server.HtmlEncode(author),
                     Email = Server.HtmlEncode(email),
                     Content = Server.HtmlEncode(content),
-                    IP = Request.UserHostAddress,
+                    IP = Utils.GetClientIP(),
                     Country = Server.HtmlEncode(country),
                     DateCreated = DateTime.Now,
                     Parent = Post,

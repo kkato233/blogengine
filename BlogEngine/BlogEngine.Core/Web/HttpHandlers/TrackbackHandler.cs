@@ -238,7 +238,7 @@
                     Email = "trackback",
                     Parent = post,
                     DateCreated = DateTime.Now,
-                    IP = HttpContext.Current.Request.UserHostAddress,
+                    IP = Utils.GetClientIP(),
                     IsApproved = true
                 };
             post.AddComment(comment);
@@ -267,7 +267,7 @@
                 !post.Comments.Any(
                     comment =>
                         comment.IP != null &&
-                        comment.IP == HttpContext.Current.Request.UserHostAddress);
+                        comment.IP == Utils.GetClientIP());
         }
 
         /// <summary>

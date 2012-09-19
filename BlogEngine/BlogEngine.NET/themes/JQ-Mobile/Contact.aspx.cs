@@ -154,7 +154,7 @@ namespace MichaelJBaird.Themes.JQMobile
 
           if (HttpContext.Current != null)
           {
-            mail.Body += "<strong>IP address:</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
+            mail.Body += "<strong>IP address:</strong> " + Utils.GetClientIP() + "<br />";
             mail.Body += "<strong>User-agent:</strong> " + HttpContext.Current.Request.UserAgent;
           }
 
