@@ -118,7 +118,7 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
 
 				if (HttpContext.Current != null)
 				{
-                    			mail.Body += "<strong>" + Resources.labels.contactIPAddress + ":</strong> " + HttpContext.Current.Request.UserHostAddress + "<br />";
+                    			mail.Body += "<strong>" + Resources.labels.contactIPAddress + ":</strong> " + Utils.GetClientIP() + "<br />";
                     			mail.Body += "<strong>" + Resources.labels.contactUserAgent + ":</strong> " + HttpContext.Current.Request.UserAgent;
 				}
 

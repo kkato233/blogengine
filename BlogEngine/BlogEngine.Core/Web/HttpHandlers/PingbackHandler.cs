@@ -292,7 +292,7 @@
                     return false;
                 }
 
-                if (comment.IP != null && comment.IP == HttpContext.Current.Request.UserHostAddress)
+                if (comment.IP != null && comment.IP == Utils.GetClientIP())
                 {
                     return false;
                 }
@@ -398,7 +398,7 @@
             comment.Content = string.Format("Pingback from {0}{1}{2}{3}", comment.Author, Environment.NewLine, Environment.NewLine, this.title);
             comment.DateCreated = DateTime.Now;
             comment.Email = "pingback";
-            comment.IP = HttpContext.Current.Request.UserHostAddress;
+            comment.IP = Utils.GetClientIP();
             comment.Parent = post;
             comment.IsApproved = true; // NOTE: Pingback comments are approved by default.
             post.AddComment(comment);

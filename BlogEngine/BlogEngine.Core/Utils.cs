@@ -1404,6 +1404,43 @@
             return false;
         }
 
+        /// <summary>
+        /// Gets the client's IP address.
+        /// This method takes into account the X-Forwarded-For header,
+        /// in case the blog is hosted behind a load balancer or proxy.
+        /// </summary>
+        /// <returns>The client's IP address.</returns>
+        public static string GetClientIP()
+        {
+            var context = HttpContext.Current;
+            if (context != null)
+            {
+                var request = context.Request;
+                if (request != null)
+                {
+                    string xff = request.Headers["X-Forwarded-For"];
+                    string clientIP = string.Empty;
+                    if (!string.IsNullOrWhiteSpace(xff))
+                    {
+                        int idx = xff.IndexOf(',');
+                        if (idx > 0)
+                        {
+                            // multiple IP addresses, pick the first one
+                            clientIP = xff.Substring(0, idx);
+                        }
+                        else
+                        {
+                            clientIP = xff;
+                        }
+                    }
+
+                    return string.IsNullOrWhiteSpace(clientIP) ? request.UserHostAddress : clientIP;
+                }
+            }
+
+            return string.Empty;
+        }
+
         #endregion
 
         #region Methods
