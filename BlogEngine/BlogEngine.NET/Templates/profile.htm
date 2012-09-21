@@ -27,15 +27,22 @@
                 <input type="text" id="txtMiddleName" class="txt200" value="{$T.d.MiddleName}" />
             </td>
             <td>
-                <label for="txtPhotoURL" class="lbl">{BlogAdmin.i18n.photoURL}</label>
-                <input type="text" id="txtPhotoURL" class="txt200" value="{$T.d.PhotoUrl}" />
+                <label for="txtDispalayName" class="lbl">{BlogAdmin.i18n.displayName}</label>
+                <input type="text" id="txtDispalayName" class="txt200" value="{$T.d.DisplayName}" />
             </td>
         </tr>
         <tr>
             <td>
-                <label for="txtDispalayName" class="lbl">{BlogAdmin.i18n.displayName}</label>
-                <input type="text" id="txtDispalayName" class="txt200" value="{$T.d.DisplayName}" />
+                <label for="txtPhotoURL" class="lbl">{BlogAdmin.i18n.photoURL}</label>
+                <input type="text" id="txtPhotoURL" class="txt200" value="{$T.d.PhotoUrl}" />
             </td>
+            <td>
+                <label for="file" class="lbl">Upload file</label>
+                <input type="file" name="file" id="file" runat="server" />
+                <input type="submit" value="Upload" class="btn rounded" />
+            </td>
+        </tr>
+        <tr>
             <td>
                 <label for="chkPrivate" class="lbl">&nbsp;</label>
                 <div class="clear"></div>
@@ -44,5 +51,6 @@
                     <label for="chkPrivate">{BlogAdmin.i18n.isPrivate}</label>
                 </div>
             </td>
+            <td>&nbsp;</td>
         </tr>
     </table>

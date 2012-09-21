@@ -479,6 +479,17 @@
         }
 
         /// <summary>
+        /// Gets profile by email address
+        /// </summary>
+        /// <param name="email">The email address</param>
+        /// <returns>Author profile</returns>
+        public static AuthorProfile GetProfileByEmail(string email)
+        {
+            return
+                Profiles.Find(p => p.EmailAddress.Equals(email, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>
