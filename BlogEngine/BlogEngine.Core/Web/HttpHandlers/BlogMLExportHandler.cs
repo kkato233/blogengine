@@ -109,13 +109,17 @@
             {
                 writer.WriteStartElement("category");
 
+                var parentId = "";
+                if (category.Parent != null && category.Parent != Guid.Empty)
+                    parentId = category.Parent.ToString();
+
                 writer.WriteAttributeString("id", category.Id.ToString());
                 writer.WriteAttributeString(
                     "date-created", category.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
                 writer.WriteAttributeString(
                     "date-modified", category.DateModified.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
                 writer.WriteAttributeString("approved", "true");
-                writer.WriteAttributeString("parentref", "0");
+                writer.WriteAttributeString("parentref", parentId);
 
                 if (!String.IsNullOrEmpty(category.Description))
                 {
@@ -427,6 +431,54 @@
             writer.WriteEndElement();
         }
 
+        private static void AddPages(XmlWriter writer)
+        {
+            writer.WriteStartElement("posts");
+
+            foreach (var post in Page.Pages)
+            {
+                writer.WriteStartElement("post");
+
+                writer.WriteAttributeString("id", post.Id.ToString());
+                writer.WriteAttributeString(
+                    "date-created", post.DateCreated.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
+                writer.WriteAttributeString(
+                    "date-modified", post.DateModified.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture));
+                writer.WriteAttributeString("approved", "true");
+                writer.WriteAttributeString("post-url", post.RelativeLink);
+                writer.WriteAttributeString("type", "article");  // "normal" for posts and "article" for pages
+                writer.WriteAttributeString(
+                    "hasexcerpt", (!string.IsNullOrEmpty(post.Description)).ToString().ToLowerInvariant());
+                writer.WriteAttributeString("views", "0");
+                writer.WriteAttributeString("is-published", post.IsPublished.ToString());
+
+                writer.WriteStartElement("title");
+                writer.WriteAttributeString("type", "text");
+                writer.WriteCData(post.Title);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("content");
+                writer.WriteAttributeString("type", "text");
+                writer.WriteCData(post.Content);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("post-name");
+                writer.WriteAttributeString("type", "text");
+                writer.WriteCData(post.Title);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("authors");
+                writer.WriteStartElement("author");
+                writer.WriteAttributeString("ref", HttpContext.Current.User.Identity.Name);
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+        }
+
         /// <summary>
         /// Adds the sub title.
         /// </summary>
@@ -475,6 +527,7 @@
                 AddExtendedProperties(writer);
                 AddCategories(writer);
                 AddPosts(writer);
+                AddPages(writer);
 
                 writer.WriteEndElement();
             }

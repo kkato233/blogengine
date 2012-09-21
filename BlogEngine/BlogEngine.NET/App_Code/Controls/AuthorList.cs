@@ -33,6 +33,10 @@ namespace App_Code.Controls
         /// </summary>
         private static Dictionary<Guid, bool> blogsShowRssIcon = new Dictionary<Guid, bool>();
 
+        private static Dictionary<Guid, bool> blogsShowAuthorImg = new Dictionary<Guid, bool>();
+
+        private int authorImgSize = 24;
+
         #endregion
 
         #region Constructors and Destructors
@@ -72,6 +76,52 @@ namespace App_Code.Controls
                 }
 
                 blogsShowRssIcon[Blog.CurrentInstance.Id] = value;
+                blogsHtml.Remove(Blog.CurrentInstance.Id);
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets either to show author image in the authors list
+        /// </summary>
+        public bool ShowAuthorImg
+        {
+            get
+            {
+                Guid blogId = Blog.CurrentInstance.Id;
+
+                if (!blogsShowAuthorImg.ContainsKey(blogId))
+                    blogsShowAuthorImg[blogId] = true;
+
+                return blogsShowAuthorImg[blogId];
+            }
+
+            set
+            {
+                if (ShowAuthorImg == value)
+                {
+                    return;
+                }
+
+                blogsShowAuthorImg[Blog.CurrentInstance.Id] = value;
+                blogsHtml.Remove(Blog.CurrentInstance.Id);
+            }
+        }
+
+        public int AuthorImgSize
+        {
+            get
+            {
+                return authorImgSize;
+            }
+
+            set
+            {
+                if (authorImgSize == value)
+                {
+                    return;
+                }
+
+                authorImgSize = value;
                 blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
@@ -159,6 +209,30 @@ namespace App_Code.Controls
                     feedAnchor.Controls.Add(img);
 
                     li.Controls.Add(feedAnchor);
+                }
+
+                if (ShowAuthorImg)
+                {
+                    var avatar = Avatar.GetAvatar(user.Email);
+
+                    var img = new HtmlImage
+                    {
+                        Src = avatar.Url.ToString(),
+                        Alt = "",
+                        Width = authorImgSize,
+                        Height = authorImgSize
+                    };
+                    img.Attributes["class"] = "author-avatar";
+
+                    var authorAnchor = new HtmlAnchor
+                    {
+                        HRef =
+                            string.Format("{0}syndication.axd?author={1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(user.UserName))
+                    };
+                    authorAnchor.Attributes["rel"] = "nofollow";
+                    authorAnchor.Controls.Add(img);
+
+                    li.Controls.Add(authorAnchor);
                 }
 
                 var anc = new HtmlAnchor

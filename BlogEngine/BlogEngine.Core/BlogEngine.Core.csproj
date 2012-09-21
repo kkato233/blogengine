@@ -321,7 +321,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="API\MetaWeblog\MetaWeblog.cd" />
     <None Include="DataStore\DataStore.cd" />
     <None Include="key.snk" />
     <None Include="Ping\Ping.cd" />

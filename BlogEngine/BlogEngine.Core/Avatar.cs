@@ -102,6 +102,11 @@ namespace BlogEngine.Core
 
             Uri url;
 
+            // profile photo URL
+            string photoUrl = ProfileImg(email);
+            if (!string.IsNullOrEmpty(photoUrl) && Uri.TryCreate(photoUrl, UriKind.RelativeOrAbsolute, out url))
+                return CustomAvatar(url, description, width, height);
+
             // custom avatar URL (different than email)
             if (!string.IsNullOrEmpty(avatarUrl) && Uri.TryCreate(avatarUrl, UriKind.RelativeOrAbsolute, out url))
                 return CustomAvatar(url, description, width, height);
@@ -205,6 +210,17 @@ namespace BlogEngine.Core
                 AvatarImage, url, HttpUtility.HtmlEncode(description), width, height);
 
             return new Avatar { Url = url, ImageTag = imageTag };
+        }
+
+        static string ProfileImg(string email)
+        {
+            var pf = AuthorProfile.GetProfileByEmail(email) ?? new AuthorProfile();
+
+            if (string.IsNullOrEmpty(pf.PhotoUrl))
+                return "";
+
+            return pf.PhotoUrl.StartsWith("http://") || pf.PhotoUrl.StartsWith("https://") ? pf.PhotoUrl :
+                Utils.ApplicationRelativeWebRoot + "image.axd?picture=/avatars/" + pf.PhotoUrl;
         }
 
         static Avatar SiteThumb(string email, Uri website, string description, int width, int height)

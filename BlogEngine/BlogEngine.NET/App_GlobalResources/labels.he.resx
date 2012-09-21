@@ -206,7 +206,7 @@
     <value>תגובתך נשמרה. תודה על המשוב</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>קשר</value>
+    <value>צור קשר</value>
   </data>
   <data name="contactForm" xml:space="preserve">
     <value>טופס יצירת קשר</value>
@@ -579,5 +579,83 @@
   </data>
   <data name="youAlreadyRated" xml:space="preserve">
     <value>כבר דירגת</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>הכל</value>
+  </data>
+  <data name="appearance" xml:space="preserve">
+    <value>תצוגה</value>
+  </data>
+  <data name="changePassword" xml:space="preserve">
+    <value>שינוי סיסמא</value>
+  </data>
+  <data name="drafts" xml:space="preserve">
+    <value>טיוטות</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>התחבר</value>
+  </data>
+  <data name="myProfile" xml:space="preserve">
+    <value>הפרופיל שלי</value>
+  </data>
+  <data name="published" xml:space="preserve">
+    <value>פורסם</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>הצג</value>
+  </data>
+  <data name="tags" xml:space="preserve">
+    <value>תגיות</value>
+  </data>
+  <data name="tracking" xml:space="preserve">
+    <value>מעקב</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>פעיל</value>
+  </data>
+  <data name="addNewBlog" xml:space="preserve">
+    <value>הוסף בלוג חדש</value>
+  </data>
+  <data name="addNewPage" xml:space="preserve">
+    <value>הוסף דף חדש</value>
+  </data>
+  <data name="addNewUser" xml:space="preserve">
+    <value>הוסף משתמש חדש</value>
+  </data>
+  <data name="approvedComments" xml:space="preserve">
+    <value>תגובות שאושרו</value>
+  </data>
+  <data name="blogs" xml:space="preserve">
+    <value>בלוגים</value>
+  </data>
+  <data name="createdOn" xml:space="preserve">
+    <value>תאריך יצירה</value>
+  </data>
+  <data name="dashboard" xml:space="preserve">
+    <value>מרכז ניהול</value>
+  </data>
+  <data name="itemsPerPage" xml:space="preserve">
+    <value>פריטים בדף</value>
+  </data>
+  <data name="noSpamHere" xml:space="preserve">
+    <value>הידד, אין כאן ספאם!</value>
+  </data>
+  <data name="numberOfCharacters" xml:space="preserve">
+    <value>מספר תווים</value>
+  </data>
+  <data name="otherSettings" xml:space="preserve">
+    <value>הגדרות נוספות</value>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>ראשי</value>
+  </data>
+  <data name="spam" xml:space="preserve">
+    <value>ספאם</value>
+  </data>
+  <data name="tools" xml:space="preserve">
+    <value>כלים</value>
+  </data>
+  <data name="writeNewPost" xml:space="preserve">
+    <value>כתוב הודעה חדשה</value>
   </data>
 </root>
