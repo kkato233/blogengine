@@ -6,6 +6,8 @@
     using System.Web.Security;
     using BlogEngine.Core;
     using BlogEngine.Core.Json;
+    using System.Web;
+    using System.IO;
 
     /// <summary>
     /// The admin pages profile.
@@ -37,9 +39,54 @@
             }
         }
 
+        protected string AvatarImage
+        {
+            get
+            {
+                var pf = AuthorProfile.GetProfile(theId) ?? new AuthorProfile(theId);
+                return Avatar.GetAvatar(pf.EmailAddress, null, "", "", 32, 32).ImageTag;
+            }
+        }
+
         #endregion
 
         #region Public Methods
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            this.Form.Enctype = "multipart/form-data";
+            if (Page.IsPostBack)
+            {
+                try
+                {
+                    HttpPostedFile file = Request.Files["file"];
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string login = HttpContext.Current.User.Identity.Name;
+                        string dir = Server.MapPath(Path.Combine("~/App_Data/files/Avatars/", login));
+
+                        if (!Directory.Exists(dir))
+                            Directory.CreateDirectory(dir);
+
+                        string fname = Path.GetFileName(file.FileName);
+                        fname = Path.Combine(string.Format("~/App_Data/files/Avatars/{0}/", login), fname);
+
+                        file.SaveAs(Server.MapPath(fname));
+
+                        var pf = AuthorProfile.GetProfile(login) ?? new AuthorProfile(login);
+                        pf.PhotoUrl = login + "/" + Path.GetFileName(file.FileName);
+                        pf.Save();
+
+                        Master.SetStatus("success", "File saved");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Master.SetStatus("warning", ex.Message);
+                }
+            }
+        }
 
         /// <summary>
         /// The get profile.

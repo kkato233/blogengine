@@ -3,7 +3,6 @@
 @{
     App_Code.WebUtils.CheckRightsForAdminPagesPages(false);
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
-    var adminJs = Utils.ApplicationRelativeWebRoot + "admin/js";
 }
 <!DOCTYPE html>
 <html>
@@ -12,7 +11,7 @@
         <link rel="shortcut icon" href="@Href(Utils.ApplicationRelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
         @if (BlogSettings.Instance.EnableOptimization)
         {
-        <link href="@string.Format("{0}admin/css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        <link href="@BundleTable.Bundles.ResolveBundleUrl("~/admin/css")" rel="stylesheet" type="text/css" />
         }
         else
         {
@@ -32,7 +31,7 @@
         <script type="text/javascript" src="admin.res.axd"></script>
         @if (BlogSettings.Instance.EnableOptimization)
         {
-        <script type="text/javascript" src="@string.Format("{0}admin/js", Utils.ApplicationRelativeWebRoot)"></script> 
+        <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/admin/js")"></script> 
         }
         else
         {
