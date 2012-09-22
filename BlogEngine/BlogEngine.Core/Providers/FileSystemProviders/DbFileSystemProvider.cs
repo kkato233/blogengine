@@ -508,7 +508,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>the repleaced string</returns>
         public static string VirtualPathToDbPath(this string VirtualPath)
         {
-            return VirtualPath.Replace(Blog.CurrentInstance.StorageLocation + "files", "");
+            return VirtualPath.Replace(Blog.CurrentInstance.StorageLocation + Utils.FilesFolder, "");
         }
     }
     #endregion

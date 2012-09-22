@@ -65,7 +65,7 @@ namespace BlogEngine.Core
                 }
                 catch (Exception ex)
                 {
-                    Utils.Log("Failed to decrypt the FormsAuthentication cookie.");
+                    Utils.Log("Failed to decrypt the FormsAuthentication cookie.", ex);
                 }
 
                 if (authTicket != null && !string.IsNullOrWhiteSpace(authTicket.UserData))
