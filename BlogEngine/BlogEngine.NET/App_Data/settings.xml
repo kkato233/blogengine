@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <displayratingsonrecentposts>True</displayratingsonrecentposts>
+  <authorname>My name</authorname>
+  <email>name@example.com</email>
+  <mobiletheme>JQ-Mobile</mobiletheme>
+  <postsperpage>10</postsperpage>
+  <htmlheader />
+  <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
+  <emailsubjectprefix>Weblog</emailsubjectprefix>
+  <trackingscript />
+  <showdescriptioninpostlist>False</showdescriptioninpostlist>
+  <commentsperpage>10</commentsperpage>
+  <enablepingbacksend>True</enablepingbacksend>
+  <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
+  <commentblacklistcount>2</commentblacklistcount>
+  <removeextensionsfromurls>True</removeextensionsfromurls>
+  <iscocommentenabled>False</iscocommentenabled>
+  <compresswebresource>True</compresswebresource>
+  <addiptowhitelistfilteronapproval>False</addiptowhitelistfilteronapproval>
+  <themecookiename>theme</themecookiename>
+  <trustauthenticatedusers>True</trustauthenticatedusers>
+  <enablecountryincomments>True</enablecountryincomments>
+  <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
+  <searchbuttontext>Search</searchbuttontext>
+  <showincludecommentsoption>False</showincludecommentsoption>
+  <israzortheme>False</israzortheme>
+  <enablewebsiteincomments>False</enablewebsiteincomments>
+  <enablecontactattachments>True</enablecontactattachments>
+  <blogrollmaxlength>23</blogrollmaxlength>
+  <postsperfeed>3</postsperfeed>
+  <searchdefaulttext>Enter search term or APML url</searchdefaulttext>
+  <language>en-US</language>
+  <smtpserver>mail.example.com</smtpserver>
+  <disqusdevmode>False</disqusdevmode>
+  <showpostnavigation>True</showpostnavigation>
+  <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
+  <enabletrackbackreceive>True</enabletrackbackreceive>
+  <enableopensearch>True</enableopensearch>
+  <dayscommentsareenabled>0</dayscommentsareenabled>
+  <useblognameinpagetitles>True</useblognameinpagetitles>
+  <enabletrackbacksend>True</enabletrackbacksend>
+  <smtpusername>username</smtpusername>
+  <enableerrorlogging>True</enableerrorlogging>
+  <enablehttpcompression>False</enablehttpcompression>
+  <enablepasswordreset>True</enablepasswordreset>
+  <disqusaddcommentstopages>False</disqusaddcommentstopages>
+  <alternatefeedurl />
+  <enablecommentsmoderation>True</enablecommentsmoderation>
+  <feedauthor />
+  <timezone>0</timezone>
+  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
+  <culture>Auto</culture>
+  <disquswebsitename />
+  <handlewwwsubdomain />
+  <theme>Standard</theme>
+  <sendmailoncomment>True</sendmailoncomment>
+  <description>Short description of the blog</description>
+  <blogrollvisibleposts>3</blogrollvisibleposts>
+  <geocodinglatitude>0</geocodinglatitude>
+  <numberofreferrerdays>1</numberofreferrerdays>
+  <thumbnailserviceapi />
+  <iscommentsenabled>True</iscommentsenabled>
+  <syndicationformat>Rss</syndicationformat>
+  <smtpserverport>25</smtpserverport>
+  <blockauthoroncommentdelete>False</blockauthoroncommentdelete>
+  <iscommentnestingenabled>True</iscommentnestingenabled>
+  <timestamppostlinks>True</timestamppostlinks>
+  <enablereferrertracking>False</enablereferrertracking>
+  <avatar>wavatar</avatar>
+  <smtppassword>password</smtppassword>
+  <numberofrecentcomments>10</numberofrecentcomments>
+  <enablerecaptchaoncontactform>False</enablerecaptchaoncontactform>
+  <enableoptimization>True</enableoptimization>
+  <name>Name of the blog</name>
+  <moderationtype>Auto</moderationtype>
+  <enablepingbackreceive>True</enablepingbackreceive>
+  <showlivepreview>True</showlivepreview>
+  <enablequicknotes>True</enablequicknotes>
+  <galleryfeedurl>http://dnbegallery.org/feed/FeedService.svc</galleryfeedurl>
+  <remotemaxfilesize>524288</remotemaxfilesize>
+  <enablerelatedposts>True</enablerelatedposts>
+  <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
+  <enableenclosures>False</enableenclosures>
+  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
+  <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <commentwhitelistcount>1</commentwhitelistcount>
+  <descriptioncharacters>300</descriptioncharacters>
+  <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
+  <enablessl>False</enablessl>
+  <descriptioncharactersforpostsbytagorcategory>0</descriptioncharactersforpostsbytagorcategory>
+  <commentreportmistakes>False</commentreportmistakes>
+  <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
+  <numberofrecentposts>10</numberofrecentposts>
+  <geocodinglongitude>0</geocodinglongitude>
+  <selfregistrationinitialrole>Select</selfregistrationinitialrole>
+  <enableselfregistration>False</enableselfregistration>
+  <blogrollupdateminutes>60</blogrollupdateminutes>
+  <securityvalidationkey>73020b18e31e4e589ea7dcd1e9d631ba42e781445cda475489301135ab7a06743fd5f70ff7ed4fe08151f97d6af431e5</securityvalidationkey>
+  <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
+  <enablerating>True</enablerating>
+  <enablecommentsearch>True</enablecommentsearch>
+</settings>
