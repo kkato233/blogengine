@@ -336,7 +336,7 @@
             }
 
             post.Categories.Clear();
-            foreach (var item in sentPost.categories)
+            foreach (var item in sentPost.categories.Where(c => c != null && c.Trim() != string.Empty))
             {
                 Category cat;
                 if (LookupCategoryGuidByName(item, out cat))
@@ -903,7 +903,7 @@
             }
 
             post.Categories.Clear();
-            foreach (var item in sentPost.categories)
+            foreach (var item in sentPost.categories.Where(c => c != null && c.Trim() != string.Empty))
             {
                 Category cat;
                 if (LookupCategoryGuidByName(item, out cat))
