@@ -1391,7 +1391,7 @@
             // Execute event handler
             if (Changed != null)
             {
-                Changed(null, new EventArgs());
+                Changed(null, EventArgs.Empty);
             }
         }
 

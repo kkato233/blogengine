@@ -934,9 +934,17 @@
         {
             if (OnLog != null)
             {
-                OnLog(message, new EventArgs());
+                OnLog(message, EventArgs.Empty);
             }
         }
+
+		public static void Log(string format, params object[] args)
+		{
+			if (OnLog != null)
+			{
+				OnLog(string.Format(format, args), EventArgs.Empty);
+			}
+		}
 
         /// <summary>
         /// Sends a message to any subscribed log listeners.
@@ -1543,7 +1551,7 @@
         {
             if (EmailFailed != null)
             {
-                EmailFailed(message, new EventArgs());
+                EmailFailed(message, EventArgs.Empty);
             }
         }
 
@@ -1557,7 +1565,7 @@
         {
             if (EmailSent != null)
             {
-                EmailSent(message, new EventArgs());
+                EmailSent(message, EventArgs.Empty);
             }
         }
 

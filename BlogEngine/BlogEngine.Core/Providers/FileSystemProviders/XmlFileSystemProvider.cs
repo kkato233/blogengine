@@ -28,7 +28,7 @@ namespace BlogEngine.Core.Providers
         private static string RelativeFilePath(string VirtualPath)
         {
             VirtualPath = VirtualPath.Replace("//","/").Trim();
-            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), "files").Trim();
+            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), Utils.FilesFolder).Trim();
             if (VirtualPath.ToLower().Contains(fileContainer.ToLower()))
                 return VirtualPath;
             return string.Concat(fileContainer, VirtualPath);

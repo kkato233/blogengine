@@ -71,15 +71,20 @@
         public override List<Post> FillPosts()
         {
             var folder = this.Folder + "posts" + Path.DirectorySeparatorChar;
-            var posts = (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
-                         select new FileInfo(file)
-                         into info
-                         select info.Name.Replace(".xml", string.Empty)
-                         into id
-                         select Post.Load(new Guid(id))).ToList();
+            if (Directory.Exists(folder))
+            {
+                var posts = (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
+                             select new FileInfo(file)
+                                 into info
+                                 select info.Name.Replace(".xml", string.Empty)
+                                     into id
+                                     select Post.Load(new Guid(id))).ToList();
 
-            posts.Sort();
-            return posts;
+                posts.Sort();
+                return posts;
+            }
+
+            return new List<Post>();
         }
 
         /// <summary>

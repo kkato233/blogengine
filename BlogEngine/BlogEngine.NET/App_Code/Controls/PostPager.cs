@@ -84,6 +84,11 @@ namespace App_Code.Controls
         {
             var pages = new List<int>();
             var midStack = new List<int>();
+
+			if (total <= 0 || current > total)
+			{
+				return pages;
+			}
             
             // should be more then 4
             const int MaxPages = 12; 
@@ -190,13 +195,18 @@ namespace App_Code.Controls
         {
             if (this.Posts == null) return "";
 
+			var postsPerPage = BlogSettings.Instance.PostsPerPage;
+			if (postsPerPage <= 0)
+			{
+				return "";
+			}
+
             var retValue = string.Empty;
             var link = string.Format("<li class=\"PagerLink\"><a href=\"{0}\">{{1}}</a></li>", PageUrl());
             const string LinkCurrent = "<li class=\"PagerLinkCurrent\">{0}</li>";
             var linkFirst = string.Format("<li class=\"PagerFirstLink\"><a href=\"{0}\">{{0}}</a></li>", PageUrl());
             const string LinkDisabled = "<li class=\"PagerLinkDisabled\">{0}</li>";
 
-            var postsPerPage = BlogSettings.Instance.PostsPerPage;
             var currentPage = PageIndex();
 
             var visiblePosts = this.Posts.FindAll(p => p.IsVisible);
