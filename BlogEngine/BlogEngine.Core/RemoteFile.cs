@@ -88,7 +88,7 @@ namespace BlogEngine.Core
             if (contentLength <= -1)
             {
                 response.Close();
-                Utils.Log("An attempt to download a remote file has been halted due to unknown content length.");
+                Utils.Log("An attempt to download a remote file has been halted due to unknown content length: {0}", Uri);
                 return null;
             }
             else if ((BlogSettings.Instance.RemoteMaxFileSize > 0) && (contentLength > BlogSettings.Instance.RemoteMaxFileSize))

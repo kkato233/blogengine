@@ -45,13 +45,17 @@
         public override List<Page> FillPages()
         {
             var folder = string.Format("{0}pages{1}", this.Folder, Path.DirectorySeparatorChar);
-
-            return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
-                    select new FileInfo(file)
-                    into info
-                    select info.Name.Replace(".xml", string.Empty)
-                    into id 
-                    select Page.Load(new Guid(id))).ToList();
+            if (Directory.Exists(folder))
+            {
+                return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
+                        select new FileInfo(file) into info
+                        select info.Name.Replace(".xml", string.Empty) into id
+                        select Page.Load(new Guid(id))).ToList();
+            }
+            else
+            {
+                return new List<Page>();
+            }
         }
 
         /// <summary>
