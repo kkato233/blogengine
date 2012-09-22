@@ -128,7 +128,7 @@ namespace BlogEngine.Core.Providers
             var dir = new FileSystem.Directory();
             dir.FullPath = VirtualPath;
             dir.Name = sysDir.Name;
-            dir.IsRoot = VirtualPath == string.Concat(Blog.CurrentInstance.StorageLocation, "files");
+            dir.IsRoot = VirtualPath == string.Concat(Blog.CurrentInstance.StorageLocation, Utils.FilesFolder);
             dir.LastAccessTime = sysDir.LastAccessTime;
             dir.DateModified = sysDir.LastWriteTime;
             dir.DateCreated = sysDir.CreationTime;
