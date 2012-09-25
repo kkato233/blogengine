@@ -840,7 +840,9 @@
                 // description
                 data.WriteStartElement("member");
                 data.WriteElementString("name", "description");
-                data.WriteElementString("value", post.description);
+                data.WriteStartElement("value");
+                data.WriteElementString("string", post.description);
+                data.WriteEndElement();
                 data.WriteEndElement();
 
                 // link

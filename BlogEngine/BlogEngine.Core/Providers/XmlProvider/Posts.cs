@@ -75,10 +75,10 @@
             {
                 var posts = (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
                              select new FileInfo(file)
-                                 into info
-                                 select info.Name.Replace(".xml", string.Empty)
-                                     into id
-                                     select Post.Load(new Guid(id))).ToList();
+                             into info
+                             select info.Name.Replace(".xml", string.Empty)
+                             into id
+                             select Post.Load(new Guid(id))).ToList();
 
                 posts.Sort();
                 return posts;

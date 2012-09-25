@@ -57,8 +57,8 @@ public class SyntaxHighlighter
                         options.AddParameter("tab-size", "Tab size");
                         options.AddParameter("toolbar", "Toolbar");
 
-                        options.AddValue("cdnScriptsPath", "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/scripts/");
-                        options.AddValue("cdnStylesPath", "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/styles/");
+                        options.AddValue("cdnScriptsPath", ""); // "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/scripts/");
+                        options.AddValue("cdnStylesPath", ""); // "http://alexgorbatchev.com.s3.amazonaws.com/pub/sh/3.0.83/styles/");
                         options.AddValue("gutter", true);
                         options.AddValue("smart-tabs", true);
                         options.AddValue("auto-links", true);
