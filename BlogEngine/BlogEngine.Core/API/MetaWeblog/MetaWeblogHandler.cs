@@ -720,17 +720,19 @@
             var rootPath = string.Format("{0}files/", Blog.CurrentInstance.StorageLocation);
             var serverPath = request.Server.MapPath(rootPath);
             var saveFolder = serverPath;
-            var fileName = mediaObject.name;
+            string mediaObjectName = mediaObject.name.Replace(" ", "_");
+            mediaObjectName = mediaObjectName.Replace(":", "-");
+            var fileName = mediaObjectName;
             var mediaFolder = string.Empty;
 
             // Check/Create Folders & Fix fileName
-            if (mediaObject.name.LastIndexOf('/') > -1)
+            if (mediaObjectName.LastIndexOf('/') > -1)
             {
-                mediaFolder = mediaObject.name.Substring(0, mediaObject.name.LastIndexOf('/'));
+                mediaFolder = mediaObjectName.Substring(0, mediaObjectName.LastIndexOf('/'));
                 saveFolder += mediaFolder;
                 mediaFolder += "/";
                 saveFolder = saveFolder.Replace('/', Path.DirectorySeparatorChar);
-                fileName = mediaObject.name.Substring(mediaObject.name.LastIndexOf('/') + 1);
+                fileName = mediaObjectName.Substring(mediaObjectName.LastIndexOf('/') + 1);
             }
             else
             {
