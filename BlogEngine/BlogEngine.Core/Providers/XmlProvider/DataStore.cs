@@ -8,11 +8,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Linq;
-
 namespace BlogEngine.Core.Providers
 {
+    using System;
     using System.IO;
+    using System.Linq;
     using System.Web.Hosting;
     using System.Xml.Serialization;
 
@@ -43,13 +43,13 @@ namespace BlogEngine.Core.Providers
         /// </returns>
         public override object LoadFromDataStore(ExtensionType extensionType, string extensionId)
         {
-            var fileName = string.Format("{0}{1}.xml", StorageLocation(extensionType), extensionId);
             Stream str = null;
             if (!Directory.Exists(StorageLocation(extensionType)))
             {
                 Directory.CreateDirectory(StorageLocation(extensionType));
             }
 
+            string fileName = ExtensionLocation(extensionType, extensionId);
             if (File.Exists(fileName))
             {
                 var reader = new StreamReader(fileName);
@@ -70,7 +70,7 @@ namespace BlogEngine.Core.Providers
         /// </param>
         public override void RemoveFromDataStore(ExtensionType extensionType, string extensionId)
         {
-            var fileName = string.Format("{0}{1}.xml", StorageLocation(extensionType), extensionId);
+            string fileName = ExtensionLocation(extensionType, extensionId);
             File.Delete(fileName);
         }
 
@@ -88,12 +88,12 @@ namespace BlogEngine.Core.Providers
         /// </param>
         public override void SaveToDataStore(ExtensionType extensionType, string extensionId, object settings)
         {
-            var fileName = string.Format("{0}{1}.xml", StorageLocation(extensionType), extensionId);
             if (!Directory.Exists(StorageLocation(extensionType)))
             {
                 Directory.CreateDirectory(StorageLocation(extensionType));
             }
 
+            string fileName = ExtensionLocation(extensionType, extensionId);
             using (TextWriter writer = new StreamWriter(fileName))
             {
                 var x = new XmlSerializer(settings.GetType());
@@ -116,24 +116,54 @@ namespace BlogEngine.Core.Providers
         /// </returns>
         private static string StorageLocation(ExtensionType extensionType)
         {
+            string result;
             switch (extensionType)
             {
                 case ExtensionType.Extension:
                     Blog blog = Blog.Blogs.FirstOrDefault(b => b.IsPrimary);
-                    return
-                        HostingEnvironment.MapPath(
-                            Path.Combine(blog.StorageLocation, @"datastore\extensions\"));
+                    result = Path.Combine(blog.StorageLocation, "datastore", "extensions");
+                    break;
                 case ExtensionType.Widget:
-                    return
-                        HostingEnvironment.MapPath(
-                            Path.Combine(Blog.CurrentInstance.StorageLocation, @"datastore\widgets\"));
+                    result = Path.Combine(Blog.CurrentInstance.StorageLocation, "datastore", "widgets");
+                    break;
                 case ExtensionType.Theme:
-                    return
-                        HostingEnvironment.MapPath(
-                            Path.Combine(Blog.CurrentInstance.StorageLocation, @"datastore\themes\"));
+                    result = Path.Combine(Blog.CurrentInstance.StorageLocation, "datastore", "themes");
+                    break;
+                default:
+                    throw new NotSupportedException(string.Format("Unknown extension type: {0}", extensionType));
             }
 
-            return string.Empty;
+            string mappedResult = HostingEnvironment.MapPath(result);
+            if (string.IsNullOrEmpty(mappedResult) && result.StartsWith(BlogConfig.DefaultStorageLocation))
+            {
+                // this can only happen in Mono. We'll try again with AppDomain but it will only work if BlogConfig.StorageLocation == "~/App_Data/" (which is the default value)
+
+				string appDataPhysical = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+				mappedResult = Path.Combine(appDataPhysical, result.Substring(BlogConfig.DefaultStorageLocation.Length));
+
+            }
+
+            if (string.IsNullOrEmpty(mappedResult))
+            {
+                throw new InvalidOperationException(string.Format("Could not map folder {0} for extension type {1}", result, extensionType));
+            }
+
+            return mappedResult;
+        }
+
+        /// <summary>
+        /// Data Store Location for an extension.
+        /// </summary>
+        /// <param name="extensionType">
+        /// Type of extension
+        /// </param>
+        /// <param name="extensionId">The id of the extension</param>
+        /// <returns>
+        /// XML file of extension data.
+        /// </returns>
+        private static string ExtensionLocation(ExtensionType extensionType, string extensionId)
+        {
+            return Path.Combine(StorageLocation(extensionType), string.Format("{0}.xml", extensionId));
         }
 
         #endregion
