@@ -11,6 +11,10 @@ namespace BlogEngine.Core
     /// </summary>
     public class BlogConfig
     {
+        /// <summary>
+        /// The default storage location virtual path (App_Data).
+        /// </summary>
+        public const string DefaultStorageLocation = "~/App_Data/";
 
         #region FileExtension
 
@@ -72,7 +76,7 @@ namespace BlogEngine.Core
             get
             {
                 return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"])
-                           ? @"~/app_data/"
+                           ? DefaultStorageLocation
                            : WebConfigurationManager.AppSettings["StorageLocation"];
             }
         }
