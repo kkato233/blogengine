@@ -100,7 +100,7 @@
         {
             if (Sending != null)
             {
-                Sending(url, new EventArgs());
+                Sending(url, EventArgs.Empty);
             }
         }
 
@@ -112,7 +112,7 @@
         {
             if (Sent != null)
             {
-                Sent(url, new EventArgs());
+                Sent(url, EventArgs.Empty);
             }
         }
 

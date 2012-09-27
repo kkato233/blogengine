@@ -185,7 +185,12 @@ namespace App_Code.Controls
         {
             base.OnLoad(e);
 
-            var zone = this.XmlDocument.SelectNodes("//widget");
+			XmlNodeList zone = null;
+			if (this.XmlDocument != null)
+			{
+				zone = this.XmlDocument.SelectNodes("//widget");
+			}
+
             if (zone == null)
             {
                 return;

@@ -156,7 +156,7 @@ namespace BlogEngine.Core.Web
         /// Posts for author
         /// </summary>
         /// <param name="context">The HTTP context.</param>
-        /// <param name="url">The URL string.</param
+        /// <param name="url">The URL string.</param>
         public static void RewriteAuthor(HttpContext context, string url)
         {
             var author = UrlRules.ExtractTitle(context, url);
@@ -173,7 +173,7 @@ namespace BlogEngine.Core.Web
         /// Rewrites /blog.aspx path
         /// </summary>
         /// <param name="context">The HTTP context.</param>
-        /// <param name="url">The URL string.</param
+        /// <param name="url">The URL string.</param>
         public static void RewriteBlog(HttpContext context, string url)
         {
             var path = string.Format("{0}default.aspx?blog=true{1}",

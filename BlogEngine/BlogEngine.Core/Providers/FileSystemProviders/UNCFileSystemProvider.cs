@@ -74,7 +74,7 @@ namespace BlogEngine.Core.Providers
 
         private string CleanVirtualPath(string VirtualPath)
         {
-            return VirtualPath.Replace(Blog.CurrentInstance.StorageLocation + "files", "").Trim();
+            return VirtualPath.Replace(Blog.CurrentInstance.StorageLocation + Utils.FilesFolder, "").Trim();
         }
         
         /// <summary>

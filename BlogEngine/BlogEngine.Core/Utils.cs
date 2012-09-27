@@ -41,6 +41,12 @@
         public const String ForceMainThemeCookieName = "forceMainTheme";
 
         /// <summary>
+        /// The folder name where files are stored in the XmlFileSystemProvider.
+        /// </summary>
+        /// <value>"files"</value>
+        public const string FilesFolder = "files";
+
+        /// <summary>
         /// The pattern.
         /// </summary>
         private const string Pattern = "<head.*<link( [^>]*title=\"{0}\"[^>]*)>.*</head>";
@@ -801,6 +807,7 @@
 
         private static readonly Regex validIpV4AddressRegex = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", RegexOptions.IgnoreCase);
         private static readonly Regex validHostnameRegex = new Regex(@"^(([a-z]|[a-z][a-z0-9\-]*[a-z0-9])\.)*([a-z]|[a-z][a-z0-9\-]*[a-z0-9])$", RegexOptions.IgnoreCase);
+        
 
         /// <summary>
         /// Email address by user name
@@ -934,9 +941,22 @@
         {
             if (OnLog != null)
             {
-                OnLog(message, new EventArgs());
+                OnLog(message, EventArgs.Empty);
             }
         }
+
+        /// <summary>
+        /// Sends a message to any subscribed log listeners.
+        /// </summary>
+        /// <param name="format">A format string</param>
+        /// <param name="args">Arguments to replace in the format string</param>
+		public static void Log(string format, params object[] args)
+		{
+			if (OnLog != null)
+			{
+				OnLog(string.Format(format, args), EventArgs.Empty);
+			}
+		}
 
         /// <summary>
         /// Sends a message to any subscribed log listeners.
@@ -1513,7 +1533,7 @@
 
             var readerSettings = new XmlReaderSettings
                 {
-                   ProhibitDtd = false, MaxCharactersFromEntities = 1024, XmlResolver = new XmlSafeResolver() 
+                    MaxCharactersFromEntities = 1024, XmlResolver = new XmlSafeResolver() 
                 };
 
             XmlDocument doc;
@@ -1543,7 +1563,7 @@
         {
             if (EmailFailed != null)
             {
-                EmailFailed(message, new EventArgs());
+                EmailFailed(message, EventArgs.Empty);
             }
         }
 
@@ -1557,7 +1577,7 @@
         {
             if (EmailSent != null)
             {
-                EmailSent(message, new EventArgs());
+                EmailSent(message, EventArgs.Empty);
             }
         }
 

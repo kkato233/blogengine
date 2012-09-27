@@ -129,7 +129,7 @@ namespace App_Code.Controls
             get
             {
                 var settings = ExtensionManager.GetSettings("Recaptcha");
-                return Convert.ToInt32(settings.GetSingleValue("MaxLogEntries"));
+                return settings != null ? Convert.ToInt32(settings.GetSingleValue("MaxLogEntries")) : 0;
             }
         }
 

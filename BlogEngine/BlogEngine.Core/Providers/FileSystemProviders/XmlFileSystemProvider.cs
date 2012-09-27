@@ -28,7 +28,7 @@ namespace BlogEngine.Core.Providers
         private static string RelativeFilePath(string VirtualPath)
         {
             VirtualPath = VirtualPath.Replace("//","/").Trim();
-            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), "files").Trim();
+            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), Utils.FilesFolder).Trim();
             if (VirtualPath.ToLower().Contains(fileContainer.ToLower()))
                 return VirtualPath;
             return string.Concat(fileContainer, VirtualPath);
@@ -128,7 +128,7 @@ namespace BlogEngine.Core.Providers
             var dir = new FileSystem.Directory();
             dir.FullPath = VirtualPath;
             dir.Name = sysDir.Name;
-            dir.IsRoot = VirtualPath == string.Concat(Blog.CurrentInstance.StorageLocation, "files");
+            dir.IsRoot = VirtualPath == string.Concat(Blog.CurrentInstance.StorageLocation, Utils.FilesFolder);
             dir.LastAccessTime = sysDir.LastAccessTime;
             dir.DateModified = sysDir.LastWriteTime;
             dir.DateCreated = sysDir.CreationTime;

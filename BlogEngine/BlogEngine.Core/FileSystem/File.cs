@@ -184,7 +184,7 @@ namespace BlogEngine.Core.FileSystem
         {
             get
             {
-                return this.FilePath;
+                return HttpUtility.UrlEncode(this.FilePath);
             }
         }
 
