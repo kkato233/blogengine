@@ -304,9 +304,9 @@ namespace App_Code.Controls
         /// </returns>
         private static string EnsureLength(string textToShorten)
         {
-            return textToShorten.Length > BlogSettings.Instance.BlogrollMaxLength
+			return HttpUtility.HtmlEncode(textToShorten.Length > BlogSettings.Instance.BlogrollMaxLength
                        ? string.Format("{0}...", textToShorten.Substring(0, BlogSettings.Instance.BlogrollMaxLength).Trim())
-                       : HttpUtility.HtmlEncode(textToShorten);
+                       : textToShorten);
         }
 
         /// <summary>

@@ -1477,7 +1477,7 @@
         {
             if (CommentAdded != null)
             {
-                CommentAdded(comment, new EventArgs());
+                CommentAdded(comment, EventArgs.Empty);
             }
         }
 
@@ -1491,7 +1491,7 @@
         {
             if (CommentRemoved != null)
             {
-                CommentRemoved(comment, new EventArgs());
+                CommentRemoved(comment, EventArgs.Empty);
             }
         }
 
@@ -1505,7 +1505,7 @@
         {
             if (CommentPurged != null)
             {
-                CommentPurged(comment, new EventArgs());
+                CommentPurged(comment, EventArgs.Empty);
             }
         }
 
@@ -1519,7 +1519,7 @@
         {
             if (CommentRestored != null)
             {
-                CommentRestored(comment, new EventArgs());
+                CommentRestored(comment, EventArgs.Empty);
             }
         }
 
@@ -1533,7 +1533,7 @@
         {
             if (CommentUpdated != null)
             {
-                CommentUpdated(comment, new EventArgs());
+                CommentUpdated(comment, EventArgs.Empty);
             }
         }
 
@@ -1547,7 +1547,7 @@
         {
             if (Rated != null)
             {
-                Rated(post, new EventArgs());
+                Rated(post, EventArgs.Empty);
             }
         }
 

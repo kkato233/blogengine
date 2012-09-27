@@ -348,7 +348,7 @@
         {
             if (SpamAttack != null)
             {
-                SpamAttack(null, new EventArgs());
+                SpamAttack(null, EventArgs.Empty);
             }
         }
 

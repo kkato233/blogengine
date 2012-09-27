@@ -666,7 +666,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return BlogService.GetDirectory(string.Concat(this.StorageLocation, "files"));
+                return BlogService.GetDirectory(string.Concat(this.StorageLocation, Utils.FilesFolder));
             }
         }
 

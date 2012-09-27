@@ -141,7 +141,7 @@ namespace App_Code.Controls
                 return;
             }
 
-            ClearCache(null, new EventArgs());
+            ClearCache(null, EventArgs.Empty);
         }
 
         /// <summary>
