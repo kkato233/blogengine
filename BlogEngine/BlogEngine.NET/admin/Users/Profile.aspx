@@ -87,8 +87,12 @@
         <asp:PlaceHolder ID="phRightContentBox" runat="server">
 		    <div class="content-box-right">
                 <ul>
-			        <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
-			        <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+                    <% if (BlogEngine.Core.Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersRoles)) { %>
+			        <li><a href="#" class="new"><%=Resources.labels.addNewRole %></a></li>
+                    <li><a href="Users.aspx"><%=Resources.labels.users%></a></li>
+			        <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles%></a></li>
+                    <% } %>
+                    <li class="content-box-selected"><a href="Profile.aspx?id=<%=BlogEngine.Core.Security.CurrentMembershipUser.UserName %>"><%=Resources.labels.profile %></a></li>
                 </ul>
 		    </div>
         </asp:PlaceHolder>

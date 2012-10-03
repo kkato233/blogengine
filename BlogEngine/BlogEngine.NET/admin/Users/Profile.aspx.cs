@@ -106,6 +106,19 @@
                 if (!CanUserEditProfile(id, out canEditRoles))
                     return null;
 
+                var pf = AuthorProfile.GetProfile(id);
+
+                if (pf == null)
+                {
+                    pf = new AuthorProfile(id);
+                    pf.Birthday = DateTime.Parse("01/01/1900");
+                    pf.DisplayName = id;
+                    pf.EmailAddress = Utils.GetUserEmail(id);
+                    pf.FirstName = id;
+                    pf.Private = true;
+                    pf.Save();
+                }
+
                 return AuthorProfile.ToJson(id);
             }
 
@@ -157,8 +170,8 @@
             bool canEditRoles = false;
             if (!CanUserEditProfile(Request.QueryString["id"], out canEditRoles))
             {
-                Response.Redirect("Users.aspx");
-                return;
+                //Response.Redirect("Users.aspx");
+                //return;
             }
 
             this.theId = Request.QueryString["id"];

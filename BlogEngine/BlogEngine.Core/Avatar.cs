@@ -103,9 +103,12 @@ namespace BlogEngine.Core
             Uri url;
 
             // profile photo URL
-            string photoUrl = ProfileImg(email);
-            if (!string.IsNullOrEmpty(photoUrl) && Uri.TryCreate(photoUrl, UriKind.RelativeOrAbsolute, out url))
-                return CustomAvatar(url, description, width, height);
+            if (!string.IsNullOrEmpty(email))
+            {
+                string photoUrl = ProfileImg(email);
+                if (!string.IsNullOrEmpty(photoUrl) && Uri.TryCreate(photoUrl, UriKind.RelativeOrAbsolute, out url))
+                    return CustomAvatar(url, description, width, height);
+            }
 
             // custom avatar URL (different than email)
             if (!string.IsNullOrEmpty(avatarUrl) && Uri.TryCreate(avatarUrl, UriKind.RelativeOrAbsolute, out url))

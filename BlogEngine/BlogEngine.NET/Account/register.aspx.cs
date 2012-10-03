@@ -56,6 +56,8 @@
                 }
             }
 
+            Security.AuthenticateUser(this.RegisterUser.UserName, this.RegisterUser.Password, false);
+
             FormsAuthentication.SetAuthCookie(this.RegisterUser.UserName, false /* createPersistentCookie */);
 
             var continueUrl = this.RegisterUser.ContinueDestinationPageUrl;
