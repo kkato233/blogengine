@@ -90,6 +90,7 @@
                 <li><a href="#" id="btnNew" class="new"><%=Resources.labels.addNewUser %></a></li>
 			    <li class="content-box-selected"><a href="Users.aspx"><%=Resources.labels.users %></a></li>
 			    <li><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+                <li><a href="Profile.aspx?id=<%=BlogEngine.Core.Security.CurrentMembershipUser.UserName %>"><%=Resources.labels.profile %></a></li>
             </ul>
 		</div>
 		<div class="content-box-left">

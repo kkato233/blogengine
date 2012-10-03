@@ -31,7 +31,7 @@ namespace BlogEngine.Tests.Comments
             TypeQuickly(post.TxtName, "");
             TypeQuickly(post.TxtEmail, "");
             TypeQuickly(post.TxtContent, "");
-            TypeQuickly(post.TxtSimpleCaptcha, "");
+            //TypeQuickly(post.TxtSimpleCaptcha, "");
 
             // test required fields
             post.BtnSave.Click();
@@ -48,15 +48,15 @@ namespace BlogEngine.Tests.Comments
             TypeQuickly(post.TxtContent, "This is a test comment by tester1");
             post.BtnSave.Click();
             ie.WaitForComplete();
-            Assert.IsTrue(ie.Html.Contains("Required"));
+            //Assert.IsTrue(ie.Html.Contains("Required"));
 
-            TypeQuickly(post.TxtSimpleCaptcha, "20");
-            post.BtnSave.Click();
-            ie.WaitForComplete();
-            Assert.IsTrue(ie.Html.Contains("The captcha value you provided is incorrect"));
+            //TypeQuickly(post.TxtSimpleCaptcha, "20");
+            //post.BtnSave.Click();
+            //ie.WaitForComplete();
+            //Assert.IsTrue(ie.Html.Contains("The captcha value you provided is incorrect"));
             
-            TypeQuickly(post.TxtSimpleCaptcha, "10");
-            post.BtnSave.Click();
+            //TypeQuickly(post.TxtSimpleCaptcha, "10");
+            //post.BtnSave.Click();
             ie.WaitUntilContainsText("Thank you for the feedback");
 
             // check pending comments

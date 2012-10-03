@@ -60,6 +60,7 @@
                 <li><a href="#" class="new"><%=Resources.labels.addNewRole %></a></li>
 			    <li><a href="Users.aspx"><%=Resources.labels.users %></a></li>
 			    <li class="content-box-selected"><a href="Roles.aspx" class="selected"><%=Resources.labels.roles %></a></li>
+                <li><a href="Profile.aspx?id=<%=BlogEngine.Core.Security.CurrentMembershipUser.UserName %>"><%=Resources.labels.profile %></a></li>
             </ul>
 		</div>
 		<div class="content-box-left">

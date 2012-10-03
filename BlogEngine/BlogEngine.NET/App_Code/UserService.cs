@@ -157,6 +157,12 @@
                 }
                 
                 Membership.DeleteUser(id);
+
+                var pf = AuthorProfile.GetProfile(id);
+                if (pf != null)
+                {
+                    BlogEngine.Core.Providers.BlogService.DeleteProfile(pf);
+                }
             }
             catch (Exception ex)
             {

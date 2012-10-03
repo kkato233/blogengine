@@ -29,8 +29,8 @@ namespace BlogEngine.Tests.FileSystem
             // recycle application pool -
             // wait untill application back online
             ie.GoTo(Constants.Root);
-            ie.WaitForComplete();
-            //Wait(35);
+            //ie.WaitForComplete();
+            Wait(35);
         }
 
         #region Methods

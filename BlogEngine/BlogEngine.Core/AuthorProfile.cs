@@ -512,21 +512,21 @@
 
             if (p != null)
             {
-                j.AboutMe = p.AboutMe;
+                j.AboutMe = string.IsNullOrEmpty(p.AboutMe) ? "" : p.aboutMe;
                 j.Birthday = p.Birthday.ToShortDateString();
-                j.CityTown = p.CityTown;
-                j.Country = p.Country;
+                j.CityTown = string.IsNullOrEmpty(p.CityTown) ? "" : p.CityTown;
+                j.Country = string.IsNullOrEmpty(p.Country) ? "" : p.Country;
                 j.DisplayName = p.DisplayName;
                 j.EmailAddress = p.EmailAddress;
-                j.PhoneFax = p.PhoneFax;
-                j.FirstName = p.FirstName;
+                j.PhoneFax = string.IsNullOrEmpty(p.PhoneFax) ? "" : p.PhoneFax;
+                j.FirstName = string.IsNullOrEmpty(p.FirstName) ? "" : p.FirstName;
                 j.Private = p.Private.ToString();
-                j.LastName = p.LastName;
-                j.MiddleName = p.MiddleName;
-                j.PhoneMobile = p.PhoneMobile;
-                j.PhoneMain = p.PhoneMain;
-                j.PhotoUrl = p.PhotoUrl;
-                j.RegionState = p.RegionState;
+                j.LastName = string.IsNullOrEmpty(p.LastName) ? "" : p.LastName;
+                j.MiddleName = string.IsNullOrEmpty(p.MiddleName) ? "" : p.MiddleName;
+                j.PhoneMobile = string.IsNullOrEmpty(p.PhoneMobile) ? "" : p.PhoneMobile;
+                j.PhoneMain = string.IsNullOrEmpty(p.PhoneMain) ? "" : p.PhoneMain;
+                j.PhotoUrl = string.IsNullOrEmpty(p.PhotoUrl) ? "" : p.PhotoUrl;
+                j.RegionState = string.IsNullOrEmpty(p.RegionState) ? "" : p.RegionState;
             }
             else
             {
@@ -535,7 +535,7 @@
                 j.CityTown = "";
                 j.Country = "";
                 j.DisplayName = username;
-                j.EmailAddress = "";
+                j.EmailAddress = Utils.GetUserEmail(username);
                 j.PhoneFax = "";
                 j.FirstName = username;
                 j.Private = "yes";
