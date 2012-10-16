@@ -1,10 +1,10 @@
-Running BlogEngine.NET 2.6 using SQLite:
+Running BlogEngine.NET 2.7 using SQLite:
 
 If you wish to use SQLite to store all your blog data, this is the guide for you.
 Included in this folder is a default SQLite database, that you can use to get you 
 started with your blog.  In addition, you will find a sample web.config file with
 the needed changes to use SQLite and an upgrade scripts for current SQLite users 
-who wish to upgrade from 1.4.5, 1.5, 1.6, 2.0 or 2.5.
+who wish to upgrade from 1.4.5, 1.5, 1.6, 2.0, 2.5 or 2.6.
 
 Instructions for new setup:
 
@@ -19,6 +19,11 @@ you have a backup).
 6. Login with the username Admin and password admin.  Change the password.  Note: This 
 data is case sensitive.
 
+Upgrading from 2.6
+
+ - There are no changes between 2.6 and 2.7.  If you are upgrading from 2.5 or prior, see
+   upgrade notes below.
+
 Upgrading from 2.5
 
 1. If you don't already have SQLite Admin tool installed, you'll need to get one. SQLite
@@ -27,7 +32,7 @@ Admin has worked great for me.  (http://sqliteadmin.orbmu2k.de/)
 file from your web server, perform the update, and copy it back out after these changes
 depending on your setup.)
 3. Execute the upgrade script for 2.5 to 2.6 against the database.
-4. The web.config file has changed in 2.6.  It will likely be easiest to start
+4. The web.config file has changed in 2.7.  It will likely be easiest to start
 with the sample web.config file as described above, but if you have other changes in it, 
 you'll need to merge them.
 

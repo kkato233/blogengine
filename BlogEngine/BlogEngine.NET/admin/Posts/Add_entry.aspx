@@ -98,7 +98,7 @@
                     var hasCommentsEnabled = $("[id$='cbEnableComments']").is(':checked');
 
                     var cats = "";
-                    var checkedCats = $('.cblCategories input[@type=checkbox]:checked');
+                    var checkedCats = $('.cblCategories input[type="checkbox"]:checked');
                     if (checkedCats.length > 0) {
                         checkedCats.each(function () {
                             var jThis = $(this);
