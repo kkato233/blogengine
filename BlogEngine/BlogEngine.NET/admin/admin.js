@@ -313,7 +313,7 @@ function ProcessTrash(action, scope) {
     var page = $('#current-page').html();
     var vals = [];   
     if (scope == 'Selected') {
-        var checked = $('#TrashTable input[@type=checkbox]:checked');
+        var checked = $('#TrashTable input[type="checkbox"]:checked');
         if (checked.length > 0) {
             checked.each(function () {
                 var jThis = $(this);
@@ -369,7 +369,7 @@ function ProcessSelected(action, page) {
 
    // Gets all checkboxes inside the #Comments table to prevent selecting
    // checkboxes that aren't part of the comments list.
-   var checkedComments = $('#Comments input[@type=checkbox]:checked');
+   var checkedComments = $('#Comments input[type="checkbox"]:checked');
 
    if(checkedComments.length > 0) {
 
