@@ -1254,11 +1254,11 @@ function colorboxDialogSubmitClicked(validationGroup, panelId) {
 }
 
 function toggleAllChecks(o) {
-   if($(o).attr('checked')) {
+   if($(o).is(':checked')) {
       $('.chk').not(':disabled').attr('checked', 'checked');
    }
    else {
-      $('.chk').attr('checked', '');
+      $('.chk').removeAttr('checked');
    }
    return false;
 }

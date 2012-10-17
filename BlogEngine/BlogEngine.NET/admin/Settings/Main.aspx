@@ -56,18 +56,18 @@
                 "desc": $("[id$='_txtDescription']").val(),
                 "postsPerPage": $("[id$='_txtPostsPerPage']").val(),
                 "themeCookieName": $("[id$='_txtThemeCookieName']").val(),
-                "useBlogNameInPageTitles": $("[id$='_cbUseBlogNameInPageTitles']").attr('checked'),
-                "enableRelatedPosts": $("[id$='_cbShowRelatedPosts']").attr('checked'),
-                "enableRating": $("[id$='_cbEnableRating']").attr('checked'),
-                "showDescriptionInPostList": oShowDescChkBox.attr('checked'),
+                "useBlogNameInPageTitles": $("[id$='_cbUseBlogNameInPageTitles']").is(':checked'),
+                "enableRelatedPosts": $("[id$='_cbShowRelatedPosts']").is(':checked'),
+                "enableRating": $("[id$='_cbEnableRating']").is(':checked'),
+                "showDescriptionInPostList": oShowDescChkBox.is(':checked'),
                 "descriptionCharacters": $("input", oDescCharContainer).val(),
-                "showDescriptionInPostListForPostsByTagOrCategory": oShowDescTagCatChkBox.attr('checked'),
+                "showDescriptionInPostListForPostsByTagOrCategory": oShowDescTagCatChkBox.is(':checked'),
                 "descriptionCharactersForPostsByTagOrCategory": $("input", oDescCharTagCatContainer).val(),
-                "timeStampPostLinks": $("[id$='_cbTimeStampPostLinks']").attr('checked'),
-                "showPostNavigation": $("[id$='_cbShowPostNavigation']").attr('checked'),
+                "timeStampPostLinks": $("[id$='_cbTimeStampPostLinks']").is(':checked'),
+                "showPostNavigation": $("[id$='_cbShowPostNavigation']").is(':checked'),
                 "culture": $("[id$='_ddlCulture']").val(),
                 "timezone": $("[id$='_txtTimeZone']").val(),
-                "removeFileExtension": $("[id$='_cbRemoveFileExtension']").attr('checked')
+                "removeFileExtension": $("[id$='_cbRemoveFileExtension']").is(':checked')
             };
 
             $.ajax({

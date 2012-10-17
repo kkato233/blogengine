@@ -21,7 +21,7 @@
             var birthday = $('#txtBirthday').val();
             var photoURL = $('#txtPhotoURL').val();
             var isPrivate = false;
-            if ($('#chkPrivate').attr('checked')) {
+            if ($('#chkPrivate').is(':checked')) {
                 isPrivate = true;
             }
             var mobile = $('#txtMobile').val();

@@ -65,7 +65,7 @@
             {
                 if (url.Contains("/SCRIPTS/") || url.Contains("/STYLES/"))
                 {
-                    var npath = url.Replace(Blog.CurrentInstance.RelativeWebRoot.ToUpper(), "/");
+                    var npath = url.Replace(Blog.CurrentInstance.RelativeWebRoot.ToUpper(), Utils.ApplicationRelativeWebRoot);
                     context.RewritePath(npath);
                     return;
                 }

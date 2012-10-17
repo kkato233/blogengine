@@ -13,12 +13,13 @@ $(document).ready(function () {
         if (fmdOpen) {
             var p = $(event.target);
             if (p.attr('id') == 'fmD') return;
-            var cID = p.attr('id');
+            var cID = p.attr('id') || '';
             while (cID != 'fmD' && cID !== undefined) {
                 p = p.parent();
-                cID = $(p).attr('id');
+                if (p.length < 1) { break; }
+                cID = $(p).attr('id') || '';
             }
-            if (cID === undefined) {
+            if (cID !== 'fmD') {
                 fmdOpen = false;
                 $('#fmD').slideUp(150);
             }
