@@ -40,7 +40,7 @@
 				"geocodingLongitude": $("[id$='_txtGeocodingLongitude']").val(),
 				"blogChannelBLink": $("[id$='_txtBlogChannelBLink']").val(),
 				"alternateFeedUrl": $("[id$='_txtAlternateFeedUrl']").val(),
-				"enableEnclosures": $("[id$='_cbEnableEnclosures']").attr('checked')
+				"enableEnclosures": $("[id$='_cbEnableEnclosures']").is(':checked')
 			};
 			
             $.ajax({

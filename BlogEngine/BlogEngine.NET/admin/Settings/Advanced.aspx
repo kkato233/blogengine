@@ -26,19 +26,19 @@
             $('.loader').show();
 			
             var dto = { 
-				"enableCompression": $("[id$='_cbEnableCompression']").attr('checked'),
-				"enableOptimization": $("[id$='_cbEnableOptimization']").attr('checked'),
-				"compressWebResource": $("[id$='_cbCompressWebResource']").attr('checked'),
-				"enableOpenSearch": $("[id$='_cbEnableOpenSearch']").attr('checked'),
-				"requireSslForMetaWeblogApi": $("[id$='_cbRequireSslForMetaWeblogApi']").attr('checked'),
+				"enableCompression": $("[id$='_cbEnableCompression']").is(':checked'),
+				"enableOptimization": $("[id$='_cbEnableOptimization']").is(':checked'),
+				"compressWebResource": $("[id$='_cbCompressWebResource']").is(':checked'),
+				"enableOpenSearch": $("[id$='_cbEnableOpenSearch']").is(':checked'),
+				"requireSslForMetaWeblogApi": $("[id$='_cbRequireSslForMetaWeblogApi']").is(':checked'),
 				"wwwSubdomain": $('.rblSubdomain input:radio:checked').val(),
-				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").attr('checked'),
-				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").attr('checked'),
+				"enableErrorLogging": $("[id$='_cbEnableErrorLogging']").is(':checked'),
+				"allowRemoteFileDownloads": $("[id$='_cbAllowRemoteFileDownloads']").is(':checked'),
 				"remoteTimeout": $("[id$='_txtRemoteTimeout']").attr('value'),
 				"remoteMaxFileSize": $("[id$='_txtRemoteMaxFileSize']").attr('value'),
 				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value'),
-				"enablePasswordReset": $("[id$='cbEnablePasswordReset']").attr('checked'),
-				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").attr('checked'),
+				"enablePasswordReset": $("[id$='cbEnablePasswordReset']").is(':checked'),
+				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").is(':checked'),
 				"selfRegistrationInitialRole": $("[id$='_ddlSelfRegistrationInitialRole']").val()               
 			};
 			

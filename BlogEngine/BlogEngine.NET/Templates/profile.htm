@@ -47,7 +47,7 @@
                 <label for="chkPrivate" class="lbl">&nbsp;</label>
                 <div class="clear"></div>
                 <div style="padding-top: 8px">
-                    <input type="checkbox" id="chkPrivate" {#if $T.d.Private} checked {#/if} />
+                    <input type="checkbox" id="chkPrivate" {#if $T.d.Private == "True"} checked {#/if} />
                     <label for="chkPrivate">{BlogAdmin.i18n.isPrivate}</label>
                 </div>
             </td>

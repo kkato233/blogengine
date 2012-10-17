@@ -4,8 +4,8 @@
 <link href="<%= Utils.RelativeWebRoot %>admin/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
 <script src="<%= Utils.RelativeWebRoot %>admin/uploadify/swfobject.js" type="text/javascript"></script>
 <script src="<%= Utils.RelativeWebRoot %>admin/uploadify/jquery.uploadify.v2.1.4.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
-<link rel="Stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+<link rel="Stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/base/jquery-ui.css" />
 <script src="<%= Utils.RelativeWebRoot %>admin/FileManager/jquery.jeegoocontext.min.js" type="text/javascript"></script>
 <link href="<%= Utils.RelativeWebRoot %>admin/FileManager/JCrop/css/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
 <script src="<%= Utils.RelativeWebRoot %>admin/FileManager/JCrop/js/jquery.Jcrop.min.js" type="text/javascript"></script>

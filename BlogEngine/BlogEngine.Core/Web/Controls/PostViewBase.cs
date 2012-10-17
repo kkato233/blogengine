@@ -276,11 +276,8 @@
             const string Link = "<a href=\"{0}\">{1}</a>";
             for (var i = 0; i < this.Post.Categories.Count; i++)
             {
-                var c = Category.GetCategory(this.Post.Categories[i].Id, true);
-                if (c != null)
-                {
-                    keywords[i] = string.Format(CultureInfo.InvariantCulture, Link, c.RelativeOrAbsoluteLink, c.Title);
-                }
+                Category c = this.Post.Categories[i];
+                keywords[i] = string.Format(CultureInfo.InvariantCulture, Link, c.RelativeOrAbsoluteLink, c.Title);
             }
 
             return string.Join(separator, keywords);
