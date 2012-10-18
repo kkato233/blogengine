@@ -9,22 +9,18 @@ String.prototype.IsImage = function () {
 
 $(document).ready(function () {
 
-    $(document).click(function (event) {
-        if (fmdOpen) {
-            var p = $(event.target);
-            if (p.attr('id') == 'fmD') return;
-            var cID = p.attr('id') || '';
-            while (cID != 'fmD' && cID !== undefined) {
-                p = p.parent();
-                if (p.length < 1) { break; }
-                cID = $(p).attr('id') || '';
-            }
-            if (cID !== 'fmD') {
-                fmdOpen = false;
-                $('#fmD').slideUp(150);
-            }
-        }
-    });
+    // Oct 17 2012 commented out so the FileManager stays open until closed.
+    //$(document).click(function (event) {
+    //    if (fmdOpen) {
+    //        var p = $(event.target);
+    //        if (p.attr('id') == 'fmD') return;
+    //        if (p.closest('#fmD').length > 0) return;
+
+    //        // close the file manager
+    //        fmdOpen = false;
+    //        $('#fmD').slideUp(150);
+    //    }
+    //});
     $('#fileManager').click(function (e) {
         e.stopPropagation();
         $('#fmD').slideToggle(300, function () {

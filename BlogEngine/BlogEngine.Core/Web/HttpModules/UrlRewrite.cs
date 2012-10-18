@@ -80,7 +80,45 @@
                 }
             }
 
+            RedirectToRemoveFileExtension(context, blogInstance, url, path);
+
             Rewrite(context, blogInstance, url, path);
+        }
+
+        /// <summary>
+        /// Checks to see if the incoming request is for a Post, Page or Category and contains the old .ASPX extension.
+        /// If so and both RemoveExtensionsFromUrls and RedirectToRemoveFileExtension are true, the person is 301
+        /// redirected to a URL with the .ASPX extension removed.
+        /// </summary>
+        private static void RedirectToRemoveFileExtension(HttpContext context, Blog blogInstance, string url, string path)
+        {
+            if (!BlogSettings.Instance.RedirectToRemoveFileExtension)
+                return;
+
+            if (!BlogSettings.Instance.RemoveExtensionsFromUrls)
+                return;
+
+            string rawUrl = context.Request.RawUrl;
+            int queryPos = rawUrl.IndexOf("?");
+            if (queryPos != -1)  // remove any querystring for the purpose of determining if the .ASPX extension is present.
+                rawUrl = rawUrl.Substring(0, queryPos);
+
+            if (Path.GetExtension(rawUrl).ToUpperInvariant() != ".ASPX")
+                return;
+
+            if (url.Contains("/POST/") ||
+                url.Contains("/PAGE/") ||
+                url.Contains("/CATEGORY/"))
+            { 
+                string redirectUrl = context.Request.RawUrl;
+                int firstInstance = redirectUrl.IndexOf(".aspx", StringComparison.OrdinalIgnoreCase);
+                if (firstInstance != -1)
+                {
+                    redirectUrl = string.Format("{0}{1}", redirectUrl.Substring(0, firstInstance), redirectUrl.Substring(firstInstance + ".aspx".Length)).Trim();
+                    context.Response.RedirectPermanent(redirectUrl);
+                    context.Response.End();
+                }
+            }
         }
 
         private static void Rewrite(HttpContext context, Blog blogInstance, string url, string path)

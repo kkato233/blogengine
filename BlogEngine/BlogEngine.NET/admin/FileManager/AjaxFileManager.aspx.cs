@@ -238,7 +238,7 @@ public partial class admin_AjaxFileManager : System.Web.UI.Page
                 FileSize = "",
                 FileType = FileType.Directory,
                 Created = "",
-                FullPath = "",
+                FullPath = directory.Parent == null ? string.Empty : directory.Parent.FullPath,
                 Image = rwr + "admin/filemanager/images/up-directory.png",
                 Name = "..."
             });
@@ -274,7 +274,7 @@ public partial class admin_AjaxFileManager : System.Web.UI.Page
         var pathPieces = response.Data.Path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
         StringBuilder pathString = new StringBuilder();
         pathString.Append("<a href=\"javascript:;\" class=\"fmdPathPiece\" data-path=\"\">root</a>");
-        var hPath = "";
+        var hPath = "~";
         foreach (var p in pathPieces.Skip(1))
         {
             hPath = string.Format("{0}/{1}", hPath, p);

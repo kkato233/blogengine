@@ -28,10 +28,17 @@ namespace BlogEngine.Core.Providers
         private static string RelativeFilePath(string VirtualPath)
         {
             VirtualPath = VirtualPath.Replace("//","/").Trim();
-            var fileContainer = string.Concat(Blog.CurrentInstance.StorageLocation.Trim(), Utils.FilesFolder).Trim();
-            if (VirtualPath.ToLower().Contains(fileContainer.ToLower()))
+            if (VirtualPath.ToLower().Contains(FileContainerRoot.ToLower()))
                 return VirtualPath;
-            return string.Concat(fileContainer, VirtualPath);
+
+            // ex: Oct 18 2012, added this to handle the case on the File Manager where if
+            //     ~/App_Data/ is clicked, that is one level up from the fileContainer root
+            //     (~/App_Data/files), so just return fileContainer, so we don't concatenate
+            //     the strings ending up with ~/App_Data/files~App_Data/.  could update
+            //     the File Manager to output the paths differently.
+            if (VirtualPath.Contains("~"))
+                return FileContainerRoot;
+            return string.Concat(FileContainerRoot, VirtualPath);
         }
         #endregion
 
@@ -128,12 +135,17 @@ namespace BlogEngine.Core.Providers
             var dir = new FileSystem.Directory();
             dir.FullPath = VirtualPath;
             dir.Name = sysDir.Name;
-            dir.IsRoot = VirtualPath == string.Concat(Blog.CurrentInstance.StorageLocation, Utils.FilesFolder);
+            dir.IsRoot = VirtualPath == FileContainerRoot;
             dir.LastAccessTime = sysDir.LastAccessTime;
             dir.DateModified = sysDir.LastWriteTime;
             dir.DateCreated = sysDir.CreationTime;
             dir.Id = Guid.NewGuid();
             return dir;
+        }
+
+        private static string FileContainerRoot
+        {
+            get { return string.Concat(Blog.CurrentInstance.StorageLocation, Utils.FilesFolder).Trim(); }
         }
 
         /// <summary>
@@ -231,7 +243,7 @@ namespace BlogEngine.Core.Providers
         public override void DeleteFile(string VirtualPath)
         {
             VirtualPath = RelativeFilePath(VirtualPath);
-            if (!this.DirectoryExists(VirtualPath))
+            if (!this.FileExists(VirtualPath))
                 return;
             var aPath = BlogAbsolutePath(VirtualPath);
             var sysFile = new FileInfo(aPath);

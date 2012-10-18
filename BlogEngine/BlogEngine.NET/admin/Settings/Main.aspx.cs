@@ -59,6 +59,7 @@
             txtTimeZone.Text = BlogSettings.Instance.Timezone.ToString();
             cbShowPostNavigation.Checked = BlogSettings.Instance.ShowPostNavigation;
             cbRemoveFileExtension.Checked = BlogSettings.Instance.RemoveExtensionsFromUrls;
+            cbRedirectToRemoveFileExtension.Checked = BlogSettings.Instance.RedirectToRemoveFileExtension;
         }
 
         /// <summary>
@@ -143,7 +144,8 @@
             string showPostNavigation,
             string culture,
             string timezone,
-            string removeFileExtension)
+            string removeFileExtension,
+            string redirectToRemoveFileExtension)
         {
             var response = new JsonResponse { Success = false };
             var recycle = false;
@@ -178,6 +180,7 @@
                     recycle = true;
 
                 BlogSettings.Instance.RemoveExtensionsFromUrls = bool.Parse(removeFileExtension);
+                BlogSettings.Instance.RedirectToRemoveFileExtension = bool.Parse(redirectToRemoveFileExtension);
                 BlogSettings.Instance.Save();
 
                 // recycle to reload some static variables
