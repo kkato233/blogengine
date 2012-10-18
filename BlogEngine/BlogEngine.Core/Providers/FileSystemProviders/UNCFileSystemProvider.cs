@@ -270,7 +270,7 @@ namespace BlogEngine.Core.Providers
         public override void DeleteFile(string VirtualPath)
         {
             VirtualPath = CleanVirtualPath(VirtualPath);
-            if (!this.DirectoryExists(VirtualPath))
+            if (!this.FileExists(VirtualPath))
                 return;
             var aPath = VirtualPathToUNCPath(VirtualPath);
             var sysFile = new FileInfo(aPath);

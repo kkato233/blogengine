@@ -1963,4 +1963,10 @@
   <data name="removeExtensionsFromUrlsDesc" xml:space="preserve">
     <value>Removes .aspx file extension from post or page URL</value>
   </data>
+  <data name="redirectToRemoveFileExtension" xml:space="preserve">
+    <value>Redirect to remove .aspx extension from URLs</value>
+  </data>
+  <data name="redirectToRemoveFileExtensionDesc" xml:space="preserve">
+    <value>Redirects incoming requests containing the .aspx file extension to a URL with the extension removed.  Remove extensions from URLs must also be turned on.</value>
+  </data>
 </root>

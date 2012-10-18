@@ -1208,6 +1208,16 @@
 
         #endregion
 
+        #region RedirectToRemoveFileExtension
+
+        /// <summary>
+        ///     Gets or sets a value indicating if incoming requests containing extensions (.aspx) should be redirected to a URL with the extension removed.
+        /// </summary>
+        /// <value><b>true</b> if should be redirected, otherwise returns <b>false</b>.</value>
+        public bool RedirectToRemoveFileExtension { get; set; }
+
+        #endregion
+
         /// <summary>
         /// Gets or sets whether this application's handlers should be able to download and cache files hosted on other servers.
         /// </summary>

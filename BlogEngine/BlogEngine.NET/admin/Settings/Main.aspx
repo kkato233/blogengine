@@ -67,7 +67,8 @@
                 "showPostNavigation": $("[id$='_cbShowPostNavigation']").is(':checked'),
                 "culture": $("[id$='_ddlCulture']").val(),
                 "timezone": $("[id$='_txtTimeZone']").val(),
-                "removeFileExtension": $("[id$='_cbRemoveFileExtension']").is(':checked')
+                "removeFileExtension": $("[id$='_cbRemoveFileExtension']").is(':checked'),
+                "redirectToRemoveFileExtension": $("[id$='_cbRedirectToRemoveFileExtension']").is(':checked')
             };
 
             $.ajax({
@@ -169,6 +170,12 @@
 			            <asp:CheckBox runat="server" ID="cbRemoveFileExtension" />
 			            <label for="<%=cbRemoveFileExtension.ClientID %>"><%=Resources.labels.removeExtensionsFromUrls %></label>
 			            <span class="insetHelp">(<%=Resources.labels.removeExtensionsFromUrlsDesc %>)</span>
+		            </li>
+                    <li>
+			            <span class="filler"></span>
+			            <asp:CheckBox runat="server" ID="cbRedirectToRemoveFileExtension" />
+			            <label for="<%=cbRedirectToRemoveFileExtension.ClientID %>"><%=Resources.labels.redirectToRemoveFileExtension %></label>
+			            <span class="insetHelp">(<%=Resources.labels.redirectToRemoveFileExtensionDesc %>)</span>
 		            </li>
                     <li>
                         <span class="filler"></span>

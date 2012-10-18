@@ -25,8 +25,8 @@
 				"smtpServerPort": $("[id$='_txtSmtpServerPort']").val(),
 				"smtpUserName": $("[id$='_txtSmtpUsername']").val(),
 				"smtpPassword": $("[id$='_txtSmtpPassword']").val(),
-				"sendMailOnComment": $("[id$='_cbComments']").is(':checked').toString(),
-				"enableSsl": $("[id$='_cbEnableSsl']").is(':checked').toString(),
+				"sendMailOnComment": $("[id$='_cbComments']").is(':checked'),
+				"enableSsl": $("[id$='_cbEnableSsl']").is(':checked'),
 				"emailSubjectPrefix": $("[id$='_txtEmailSubjectPrefix']").val()
 			};
 			
