@@ -3,7 +3,7 @@
 <%
   var postTitle = Location == ServingLocation.SinglePost ? Post.Title : string.Format("<a href=\"{0}\" class=\"taggedlink\">{1}</a>", Post.RelativeLink, Post.Title);
   var authorName = Post.AuthorProfile != null ? Post.AuthorProfile.DisplayName : Post.Author;
-  var authorUrl = string.Format("<a href=\"{0}author/{1}.aspx\">{2}</a>", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(Post.Author), authorName);
+  var authorUrl = string.Format("<a href=\"{0}author/{1}{2}\">{3}</a>", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(Post.Author), BlogConfig.FileExtension, authorName);
   
 %>
 <% if (Location == ServingLocation.PostList) { %>
