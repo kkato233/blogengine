@@ -108,7 +108,10 @@
 
             if (url.Contains("/POST/") ||
                 url.Contains("/PAGE/") ||
-                url.Contains("/CATEGORY/"))
+                url.Contains("/CATEGORY/") ||
+                url.Contains("/AUTHOR/") ||
+                url.Contains("/TAG/") ||
+                url.Contains("/CALENDAR/"))
             { 
                 string redirectUrl = context.Request.RawUrl;
                 int firstInstance = redirectUrl.IndexOf(".aspx", StringComparison.OrdinalIgnoreCase);
