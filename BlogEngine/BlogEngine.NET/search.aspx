@@ -28,7 +28,7 @@
           comment = ''
         }
         
-        location.href = 'search.aspx?q=' + searchTerm + comment;
+        location.href = 'search<%= BlogConfig.FileExtension %>?q=' + searchTerm + comment;
       }
       
       if (check != null)

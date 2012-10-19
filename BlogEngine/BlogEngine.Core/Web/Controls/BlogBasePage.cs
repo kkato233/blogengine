@@ -139,7 +139,7 @@
             if (!Page.IsCallback)
             {
                 // Links
-                AddGenericLink("contents", "Archive", string.Format("{0}archive.aspx", relativeWebRoot));
+                AddGenericLink("contents", "Archive", string.Format("{0}archive{1}", relativeWebRoot, BlogConfig.FileExtension));
                 AddGenericLink("start", instanceName, relativeWebRoot);
                 AddGenericLink("application/rdf+xml", "meta", "SIOC", string.Format("{0}sioc.axd", absoluteWebRoot));
                 AddGenericLink("application/apml+xml", "meta", "APML", string.Format("{0}apml.axd", absoluteWebRoot));

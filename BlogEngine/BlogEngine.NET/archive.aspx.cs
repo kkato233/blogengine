@@ -45,7 +45,7 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	{
 		HtmlAnchor a = new HtmlAnchor();
 		a.InnerHtml = Server.HtmlEncode(title);
-		a.HRef = string.Format("{0}archive.aspx#cat-{1}", Blog.CurrentInstance.RelativeWebRoot, Utils.RemoveIllegalCharacters(title));
+		a.HRef = string.Format("{0}archive{1}#cat-{2}", Blog.CurrentInstance.RelativeWebRoot, BlogConfig.FileExtension, Utils.RemoveIllegalCharacters(title));
 		a.Attributes.Add("rel", "directory");
 
 		HtmlGenericControl li = new HtmlGenericControl("li");

@@ -18,6 +18,13 @@ public class FileUpload : IHttpHandler, IRequiresSessionState {
     
     public void ProcessRequest(HttpContext context)
     {
+        //check rights
+        if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
+        {
+            context.Response.Write("Access Denied");
+            context.Response.End();
+        }
+        
         var files = context.Request.Files;
         if (files.Count == 0)
         {

@@ -255,7 +255,8 @@ BlogEngine = {
         var input = this.$("searchfield");
         var check = this.$("searchcomments");
 
-        var search = "search.aspx?q=" + encodeURIComponent(input.value);
+        var searchPageExtension = typeof BlogEngineRes.fileExtension === "undefined" ? ".aspx" : BlogEngineRes.fileExtension;
+        var search = "search" + searchPageExtension + "?q=" + encodeURIComponent(input.value);
         if (check != null && check.checked)
             search += "&comment=true";
 

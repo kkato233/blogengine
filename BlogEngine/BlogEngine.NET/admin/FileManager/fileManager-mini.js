@@ -203,6 +203,7 @@ function deleteFile(path) {
 function setupRename(obj) {
     obj.find('span:first').hide();
     obj.find('input[type=text]:first')
+                .data('handled-blur', false)
                 .show()
                 .focus()
                 .keypress(function (event) {
@@ -212,6 +213,13 @@ function setupRename(obj) {
                     }
                 })
                .blur(function () {
+                   // if enter is clicked, this blur event is firing twice, and prompting the
+                   // user twice if they want to rename the file. prevent that by tracking
+                   // whether blur already fired, and if so, return.
+                   if ($(this).data('handled-blur'))
+                       return;
+                   $(this).data('handled-blur', true);
+
                    bindContext();
                    $(this).parent('td').find('span:first').show();
                    $(this).hide();
@@ -272,7 +280,7 @@ function bindContext() {
                         break;
                     case 1:
                         cancelCrop();
-                        closefmD();
+                        //closefmD();
                         $('#ImagePanel').find('h2:first').html('Image Tools: ' + $(context).find('span:first').text());
                         $('#ImagePanel').find('img.fmDImgPrev:first').attr('src', SiteVars.ApplicationRelativeWebRoot + 'image.axd?picture=' + escape(path) + '&r=' + Math.random()).attr('data-path', path);
                         $(this).colorbox({ inline: true, height: '80%', width: '60%', href: "#ImagePanel" }).open();

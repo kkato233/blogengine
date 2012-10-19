@@ -47,7 +47,7 @@ th.fmDCell { text-align:left; }
 td.fmDCell { cursor:pointer;border-bottom:1px solid gainsboro;height:20px;min-height:20px;padding:3px; }
 tr.fmDRow:hover td { background:url('images/tr-hover.png') repeat-x 0 0 transparent; }
 
-.fmDRename { border-radius:0!important; -moz-border-radius:0!important;-webkit-border-radius:0!important;-khtml-border-radius:0!important; padding:1px 2px 1px 3px!important;font-size:11px!important; }
+.fmDRename { border-radius:0!important; -moz-border-radius:0!important;-webkit-border-radius:0!important;-khtml-border-radius:0!important; padding:1px 2px 1px 3px!important;font-size:11px!important; width: 95%; }
 img.fmDImgPrev { border:solid 1px #ccc; }
 
 a.fmDPreview-tools { border:solid 1px #ccc; padding:5px 10px 5px 25px; background-color:transparent; background-position:4px center; background-repeat:no-repeat; display:inline-block; margin:10px 10px;color:#1b6cb3; }

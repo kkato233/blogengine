@@ -31,8 +31,8 @@
                 <!-- <ul class="links primary-links"> -->
                 <ul id="dropmenu">
                     <li><a href="@(Utils.AbsoluteWebRoot)" rel="home">@(Resources.labels.home)</a></li>
-                    <li><a href="@(Utils.AbsoluteWebRoot)archive.aspx">@(Resources.labels.archive)</a></li>
-                    <li><a href="@(Utils.AbsoluteWebRoot)contact.aspx">@(Resources.labels.contact)</a></li>
+                    <li><a href="@(Utils.AbsoluteWebRoot)archive@(BlogConfig.FileExtension)">@(Resources.labels.archive)</a></li>
+                    <li><a href="@(Utils.AbsoluteWebRoot)contact@(BlogConfig.FileExtension)">@(Resources.labels.contact)</a></li>
                     @foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage))
                     {
                         <li class="page_item"><a href="@parentPage.RelativeLink" title="@parentPage.Title">@parentPage.Title</a>

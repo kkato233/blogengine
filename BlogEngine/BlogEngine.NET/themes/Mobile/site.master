@@ -18,8 +18,8 @@
 
     <div id="menu">
       <a href="<%=Utils.RelativeWebRoot%>default.aspx">Home</a> |
-      <a href="<%=Utils.RelativeWebRoot%>archive.aspx">Archive</a> |
-      <a href="<%=Utils.RelativeWebRoot%>contact.aspx">Contact</a> |
+      <a href="<%=Utils.RelativeWebRoot%>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>">Archive</a> |
+      <a href="<%=Utils.RelativeWebRoot%>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>">Contact</a> |
       <a href="<%=Utils.FeedUrl %>">Feed</a> 
       <% if (Utils.IsMobile)
          { %>

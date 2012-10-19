@@ -448,7 +448,7 @@
         {
             get
             {
-                return string.Format("{0}author/{1}.aspx", Utils.RelativeWebRoot, this.Id);
+                return string.Format("{0}author/{1}{2}", Utils.RelativeWebRoot, this.Id, BlogConfig.FileExtension);
             }
         }
 

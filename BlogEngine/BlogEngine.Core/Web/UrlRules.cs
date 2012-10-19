@@ -97,6 +97,52 @@ namespace BlogEngine.Core.Web
         }
 
         /// <summary>
+        /// Rewrites the contact page.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="url">The URL string.</param>
+        public static void RewriteContact(HttpContext context, string url)
+        {
+            RewritePhysicalPageGeneric(context, url, "contact.aspx");
+        }
+
+        /// <summary>
+        /// Rewrites the archive page.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="url">The URL string.</param>
+        public static void RewriteArchive(HttpContext context, string url)
+        {
+            RewritePhysicalPageGeneric(context, url, "archive.aspx");
+        }
+
+        /// <summary>
+        /// Rewrites the search page.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="url">The URL string.</param>
+        public static void RewriteSearch(HttpContext context, string url)
+        {
+            RewritePhysicalPageGeneric(context, url, "search.aspx");
+        }
+
+        /// <summary>
+        /// Generic routing to rewrite to a physical page, e.g. contact.aspx, archive.aspx, when RemoveExtensionsFromUrls is turned on.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="url">The URL string.</param>
+        /// <param name="relativePath">The relative path to the page including the physical page name, e.g. archive.aspx, folder/somepage.aspx</param>
+        private static void RewritePhysicalPageGeneric(HttpContext context, string url, string relativePath)
+        {
+            string query = GetQueryString(context);
+            if (query.Length > 0 && query.StartsWith("&"))
+            {
+                query = "?" + query.Substring(1);
+            }
+            context.RewritePath(string.Format("{0}{1}{2}", Utils.ApplicationRelativeWebRoot, relativePath, query), false);
+        }
+
+        /// <summary>
         /// Rewrites the category.
         /// </summary>
         /// <param name="context">The HTTP context.</param>

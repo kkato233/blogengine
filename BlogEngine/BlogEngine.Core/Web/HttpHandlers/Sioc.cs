@@ -198,7 +198,7 @@
         /// </returns>
         private static string GetBlogAuthorUrl(string username)
         {
-            return string.Format("{0}author/{1}.aspx", Utils.AbsoluteWebRoot, HttpUtility.UrlEncode(username));
+            return string.Format("{0}author/{1}{2}", Utils.AbsoluteWebRoot, HttpUtility.UrlEncode(username), BlogConfig.FileExtension);
         }
 
         /// <summary>

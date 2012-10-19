@@ -10,7 +10,7 @@
 <link href="<%= Utils.RelativeWebRoot %>admin/FileManager/JCrop/css/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
 <script src="<%= Utils.RelativeWebRoot %>admin/FileManager/JCrop/js/jquery.Jcrop.min.js" type="text/javascript"></script>
 
-<script type="text/javascript" src="<%= Utils.RelativeWebRoot %>admin/FileManager/FileManager-mini.js?v=2"></script>
+<script type="text/javascript" src="<%= Utils.RelativeWebRoot %>admin/FileManager/FileManager-mini.js?v=3"></script>
             
         <div id="fmD" class="fmD" style="display:none;">
             <div class="fmDWrap">

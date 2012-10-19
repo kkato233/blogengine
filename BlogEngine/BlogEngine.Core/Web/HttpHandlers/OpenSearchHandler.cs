@@ -65,7 +65,7 @@
 
                 writer.WriteStartElement("Url");
                 writer.WriteAttributeString("type", "text/html");
-                writer.WriteAttributeString("template", string.Format("{0}search.aspx?q={{searchTerms}}", Utils.AbsoluteWebRoot));
+                writer.WriteAttributeString("template", string.Format("{0}search{1}?q={{searchTerms}}", Utils.AbsoluteWebRoot, BlogConfig.FileExtension));
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("Url");

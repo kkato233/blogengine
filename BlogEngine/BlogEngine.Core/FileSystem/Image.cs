@@ -114,8 +114,9 @@ namespace BlogEngine.Core.FileSystem
         /// <returns>the new image</returns>
         public Image ResizeImage(Size newSize)
         {
+            ImageFormat imgFormat = GetImageFormat(this.bitMap);  // get original ImageFormat before this.bitMap is modified.
             this.bitMap = (Bitmap)resizeImage((System.Drawing.Image)this.bitMap, newSize);
-            var nfile = BlogService.UploadFile(BmpToArray(this.bitMap), this.Name, this.ParentDirectory, true);
+            var nfile = BlogService.UploadFile(BmpToArray(this.bitMap, imgFormat), this.Name, this.ParentDirectory, true);
             this.FileContents = nfile.FileContents;
             nfile.Dispose();
             return this;
@@ -130,8 +131,9 @@ namespace BlogEngine.Core.FileSystem
         public static byte[] ResizeImageThumbnail(int MaxSize, byte[] originalContents)
         {
             var bmp = ArrayToBmp(originalContents);
+            ImageFormat imgFormat = GetImageFormat(bmp);  // get original ImageFormat before bmp is modified.
             bmp = (Bitmap)resizeImage((System.Drawing.Image)bmp, new Size(MaxSize, MaxSize));
-            originalContents = BmpToArray(bmp);
+            originalContents = BmpToArray(bmp, imgFormat);
             bmp.Dispose();
             return originalContents;
         }
@@ -149,8 +151,9 @@ namespace BlogEngine.Core.FileSystem
             int sizeX = (int)Math.Ceiling((decimal)this.bitMap.Width * (decimal)((decimal)Percent / 100));
             int sizeY = (int)Math.Ceiling((decimal)this.bitMap.Height * (decimal)((decimal)Percent / 100));
             var newSize = new Size(sizeX, sizeY);
+            ImageFormat imgFormat = GetImageFormat(this.bitMap);  // get original ImageFormat before this.bitMap is modified.
             this.bitMap = (Bitmap)resizeImage((System.Drawing.Image)this.bitMap, newSize);
-            var nfile = BlogService.UploadFile(BmpToArray(this.bitMap), this.Name, this.ParentDirectory, true);
+            var nfile = BlogService.UploadFile(BmpToArray(this.bitMap, imgFormat), this.Name, this.ParentDirectory, true);
             this.FileContents = nfile.FileContents;
             nfile.Dispose();
             return this;
@@ -163,6 +166,7 @@ namespace BlogEngine.Core.FileSystem
         /// <returns>the original image</returns>
         public Image ModifyImage(params ModificationType[] modifications)
         {
+            ImageFormat imgFormat = GetImageFormat(this.bitMap);  // get original ImageFormat before this.bitMap is modified.
             foreach (var change in modifications)
             {
                 switch (change)
@@ -181,7 +185,7 @@ namespace BlogEngine.Core.FileSystem
                         break;
                 }
             }
-            var nfile = BlogService.UploadFile(BmpToArray(this.bitMap), this.Name, this.ParentDirectory, true);
+            var nfile = BlogService.UploadFile(BmpToArray(this.bitMap, imgFormat), this.Name, this.ParentDirectory, true);
             this.FileContents = nfile.FileContents;
             nfile.Dispose();
             return this;
@@ -199,6 +203,7 @@ namespace BlogEngine.Core.FileSystem
         {
             try
             {
+                ImageFormat imgFormat = GetImageFormat(this.bitMap);  // get original ImageFormat now.
                 Rectangle cropArea = new Rectangle(x, y, width, height);
                 Bitmap target = new Bitmap(cropArea.Width, cropArea.Height);
 
@@ -214,8 +219,8 @@ namespace BlogEngine.Core.FileSystem
                 //var nfile = BlogService.UploadFile(BmpToArray(this.bitMap), this.Name, this.ParentDirectory, true);
                 //this.FileContents = nfile.FileContents;
                 //nfile.Dispose();
-                
-                var nfile = BlogService.UploadFile(BmpToArray(target), this.Name, this.ParentDirectory, true);
+
+                var nfile = BlogService.UploadFile(BmpToArray(target, imgFormat), this.Name, this.ParentDirectory, true);
                 this.FileContents = nfile.FileContents;
                 this.bitMap.Dispose();
                 this.bitMap = null;
@@ -245,15 +250,52 @@ namespace BlogEngine.Core.FileSystem
         /// converts a bitmap to an array
         /// </summary>
         /// <param name="bmp">the bitmap to convert</param>
+        /// <param name="imgFormat">The format of the image to save to.</param>
         /// <returns>the byte array object</returns>
-        private static byte[] BmpToArray(Bitmap bmp)
+        private static byte[] BmpToArray(Bitmap bmp, ImageFormat imgFormat)
         {
             MemoryStream ms = new MemoryStream();
-            bmp.Save(ms, ImageFormat.Jpeg);
+            if (imgFormat == ImageFormat.MemoryBmp)  // getting an error when trying to save as MemoryBmp.  if MemoryBmp, switch to Png.
+                imgFormat = ImageFormat.Png;
+            bmp.Save(ms, imgFormat);
             byte[] bmpBytes = ms.GetBuffer();
             bmp.Dispose();
             ms.Close();
             return bmpBytes;
+        }
+
+        /// <summary>
+        /// Determines the image format of the image.
+        /// </summary>
+        /// <param name="image">The image to check.</param>
+        /// <returns>The image format</returns>
+        public static ImageFormat GetImageFormat(System.Drawing.Image image)
+        {
+            // note, when checking RawFormat, need to check via Equals() and not ==.
+            // == may be incorrect, where Equals() is correct.
+
+            if (image.RawFormat.Equals(ImageFormat.Jpeg))
+                return ImageFormat.Jpeg;
+            if (image.RawFormat.Equals(ImageFormat.Bmp))
+                return ImageFormat.Bmp;
+            if (image.RawFormat.Equals(ImageFormat.Png))
+                return ImageFormat.Png;
+            if (image.RawFormat.Equals(ImageFormat.Emf))
+                return ImageFormat.Emf;
+            if (image.RawFormat.Equals(ImageFormat.Exif))
+                return ImageFormat.Exif;
+            if (image.RawFormat.Equals(ImageFormat.Gif))
+                return ImageFormat.Gif;
+            if (image.RawFormat.Equals(ImageFormat.Icon))
+                return ImageFormat.Icon;
+            if (image.RawFormat.Equals(ImageFormat.MemoryBmp))
+                return ImageFormat.MemoryBmp;
+            if (image.RawFormat.Equals(ImageFormat.Tiff))
+                return ImageFormat.Tiff;
+            if (image.RawFormat.Equals(ImageFormat.Wmf))
+                return ImageFormat.Wmf;
+            else
+                return ImageFormat.Png;
         }
 
         /// <summary>

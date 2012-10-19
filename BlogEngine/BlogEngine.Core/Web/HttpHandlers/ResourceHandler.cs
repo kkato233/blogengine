@@ -113,6 +113,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                     sb.AppendFormat("webRoot: '{0}',", Utils.RelativeWebRoot);
                     sb.AppendFormat("applicationWebRoot: '{0}',", Utils.ApplicationRelativeWebRoot);
                     sb.AppendFormat("blogInstanceId: '{0}',", Blog.CurrentInstance.Id);
+                    sb.AppendFormat("fileExtension: '{0}',", BlogConfig.FileExtension);
                     sb.AppendFormat("i18n: {0}", jc.ToJsonString());
                     script = "BlogEngineRes = {" + sb + "};";
                 }
