@@ -61,7 +61,7 @@
                         { @AuthorProfile.GetProfile(Security.CurrentUser.Identity.Name).DisplayName }
                         | <a href="@Href(Utils.RelativeWebRoot + "admin/Users/Profile.aspx?id=")@Security.CurrentUser.Identity.Name">@Resources.labels.myProfile</a>
                         | <a href="@BlogEngine.Core.Utils.RelativeWebRoot">@Resources.labels.goToFrontPage</a>
-                        | <span><a href="@Href(Utils.RelativeWebRoot + "Account/Logout.cshtml")">@Resources.labels.logoff</a></span>
+                        | <span><a href="@Href(Utils.RelativeWebRoot + "Account/login.aspx?logoff")">@Resources.labels.logoff</a></span>
                     </div>                                 
                 </div>
 
