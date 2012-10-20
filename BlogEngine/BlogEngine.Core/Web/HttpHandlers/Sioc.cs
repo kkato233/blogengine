@@ -78,7 +78,7 @@
         /// </param>
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = "text/xml";
+            context.Response.ContentType = "application/rdf+xml";
             var siocType = context.Request["sioc_type"] + string.Empty;
             var siocId = context.Request["sioc_id"] + string.Empty;
 

@@ -151,7 +151,7 @@
                         "application/rss+xml",
                         "alternate",
                         string.Format("{0} (RSS)", instanceName),
-                        string.Format("{0}?format=rss", Utils.FeedUrl));
+                        string.Format("{0}", Utils.FeedUrl));
                     AddGenericLink(
                         "application/atom+xml",
                         "alternate",
