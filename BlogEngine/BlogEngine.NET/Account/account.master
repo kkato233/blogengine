@@ -20,7 +20,7 @@
                 <img alt="BlogEngine.net" src="../pics/be-logo.jpg" />
             </div>
             <div class="loginDisplay">
-                <a href="<%= Utils.RelativeWebRoot %>default.aspx"><%=Resources.labels.returnToBlog %></a>
+                <a href="<%= Utils.RelativeWebRoot %>"><%=Resources.labels.returnToBlog %></a>
             </div>
         </div>
         <div class="clear"></div>
