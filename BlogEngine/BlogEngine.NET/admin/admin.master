@@ -10,7 +10,11 @@
     <% if (BlogSettings.Instance.EnableOptimization) { %>
     <link href="<%# BundleTable.Bundles.ResolveBundleUrl("~/admin/css")%>" rel="stylesheet" type="text/css" />
     <% } else { %>
+    <% if (Utils.GetDefaultCulture().TextInfo.IsRightToLeft) { %>
+    <link href="~/admin/style-rtl.css" rel="stylesheet" type="text/css" />
+    <% } else { %>
     <link href="~/admin/style.css" rel="stylesheet" type="text/css" />
+    <% } %>
     <link href="~/admin/colorbox.css" rel="stylesheet" type="text/css" />
     <link href="~/admin/tipsy.css" rel="stylesheet" type="text/css" />  
     <% } %>
