@@ -15,10 +15,18 @@
         }
         else
         {
+        if (Utils.GetDefaultCulture().TextInfo.IsRightToLeft)
+        {
+        <link href="@string.Format("{0}admin/style-rtl.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        }
+        else
+        {
         <link href="@string.Format("{0}admin/style.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
+        }
         <link href="@string.Format("{0}admin/colorbox.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
         <link href="@string.Format("{0}admin/tipsy.css", Utils.ApplicationRelativeWebRoot)" rel="stylesheet" type="text/css" />
-        }      
+        }     
+ 
     </head>
     <body>
         <script type="text/javascript">

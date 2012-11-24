@@ -5,6 +5,7 @@
     using System.Web.UI.WebControls;
     using System.Linq;
     using BlogEngine.Core;
+    using Resources;
 
     using Page = System.Web.UI.Page;
     using System.Web.UI.HtmlControls;
@@ -79,12 +80,12 @@
             if (Membership.GetUser(this.RegisterUser.UserName) != null)
             {
                 e.Cancel = true;
-                this.Master.SetStatus("warning", "Please select another user name.");
+                this.Master.SetStatus("warning", Resources.labels.anotherUserName);
             }
             else if (Membership.GetUserNameByEmail(this.RegisterUser.Email) != null)
             {
                 e.Cancel = true;
-                this.Master.SetStatus("warning", "Please select another email address.");
+                this.Master.SetStatus("warning", Resources.labels.anotherEmail);
             }
         }
 

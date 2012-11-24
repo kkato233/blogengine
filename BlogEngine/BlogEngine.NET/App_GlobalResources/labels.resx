@@ -1673,7 +1673,7 @@
     <value>Ping service URL's (one per line)</value>
   </data>
   <data name="pingServiceNotUnique" xml:space="preserve">
-  <value>Ping service URL already listed</value>
+    <value>Ping service URL already listed</value>
   </data>
   <data name="runClickOnceApplicationToImport" xml:space="preserve">
     <value>Run click-once application to import content saved as BlogML or RSS 2.0 into your blog. &lt;i&gt;Internet Explorer only.&lt;/i&gt;</value>
@@ -1968,5 +1968,23 @@
   </data>
   <data name="redirectToRemoveFileExtensionDesc" xml:space="preserve">
     <value>Redirects incoming requests containing the .aspx file extension to a URL with the extension removed.  Remove extensions from URLs must also be turned on.</value>
+  </data>
+  <data name="anotherEmail" xml:space="preserve">
+    <value>Please select another email address</value>
+  </data>
+  <data name="anotherUserName" xml:space="preserve">
+    <value>Please select another user name</value>
+  </data>
+  <data name="emailNotExist" xml:space="preserve">
+    <value>Email does not exist in our system</value>
+  </data>
+  <data name="loginFailed" xml:space="preserve">
+    <value>Login failed</value>
+  </data>
+  <data name="passwordNotChanged" xml:space="preserve">
+    <value>Password was not changed</value>
+  </data>
+  <data name="passwordSent" xml:space="preserve">
+    <value>The password has been sent</value>
   </data>
 </root>
