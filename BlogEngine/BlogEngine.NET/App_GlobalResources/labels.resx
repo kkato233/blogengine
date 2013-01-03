@@ -1987,4 +1987,7 @@
   <data name="passwordSent" xml:space="preserve">
     <value>The password has been sent</value>
   </data>
+  <data name="emptyLog" xml:space="preserve">
+    <value>Empty the log file</value>
+  </data>
 </root>
