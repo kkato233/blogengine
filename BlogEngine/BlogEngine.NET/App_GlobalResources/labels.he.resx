@@ -826,4 +826,46 @@
   <data name="send" xml:space="preserve">
     <value>שלח</value>
   </data>
+  <data name="AllPostsTagged" xml:space="preserve">
+    <value> פוסטים עם התגית </value>
+  </data>
+  <data name="addEditPost" xml:space="preserve">
+    <value>הוסף/ערוך הודעה</value>
+  </data>
+  <data name="automatically" xml:space="preserve">
+    <value>אוטומטי</value>
+  </data>
+  <data name="chooseFromExistingTags" xml:space="preserve">
+    <value>בחר מתגיות קיימות</value>
+  </data>
+  <data name="editPage" xml:space="preserve">
+    <value>ערוך דף</value>
+  </data>
+  <data name="extractFromTitle" xml:space="preserve">
+    <value>משוך מהכותרת</value>
+  </data>
+  <data name="fileManager" xml:space="preserve">
+    <value>ניהול קבצים</value>
+  </data>
+  <data name="goToPost" xml:space="preserve">
+    <value>עבור להודעה</value>
+  </data>
+  <data name="insertImage" xml:space="preserve">
+    <value>הוסף תמונה</value>
+  </data>
+  <data name="insertVideo" xml:space="preserve">
+    <value>הוסף סירטון</value>
+  </data>
+  <data name="manually" xml:space="preserve">
+    <value>ידני</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>אפשריות</value>
+  </data>
+  <data name="quickAddNewCategory" xml:space="preserve">
+    <value>הוספת קטגוריה מהירה</value>
+  </data>
+  <data name="setPublishDate" xml:space="preserve">
+    <value>הגדר תאריך פרסום</value>
+  </data>
 </root>

@@ -101,6 +101,7 @@ select { border: 1px solid #ccc; padding: 4px; color:#555;
     
 label.lbl { display:block; margin:0 0 5px 0;}
 .largeForm label.lbl { font-weight:bold;}
+.largeForm .mainForm {padding:0 40px 0 0; }
 #rolelist .lbl { margin-right:15px;}
 
 .insetHelp {color:#a0a0a0;display:block;font-family:Arial, Sans-Serif;font-size:12px;font-style:italic; margin-left:25px;}
