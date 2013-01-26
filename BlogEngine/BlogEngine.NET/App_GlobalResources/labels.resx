@@ -1987,4 +1987,10 @@
   <data name="passwordSent" xml:space="preserve">
     <value>The password has been sent</value>
   </data>
+  <data name="AllPostsTagged" xml:space="preserve">
+    <value> All posts tagged </value>
+  </data>
+  <data name="fileManager" xml:space="preserve">
+    <value>File Manager</value>
+  </data>
 </root>
