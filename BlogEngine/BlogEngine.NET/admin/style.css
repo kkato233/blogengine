@@ -632,5 +632,10 @@ span.AlternatePageTabSelected {
 {
     border: 1px solid #ccc;
     width: 40px;
-    margin-right: 30px;
+    margin-right: 54px;
+}
+
+.avatar-radio-button td
+{
+    width: 96px;
 }
