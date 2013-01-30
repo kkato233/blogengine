@@ -57,6 +57,7 @@
   <sendmailoncomment>True</sendmailoncomment>
   <enablerecaptchaoncontactform>False</enablerecaptchaoncontactform>
   <remotemaxfilesize>524288</remotemaxfilesize>
+  <redirecttoremovefileextension>False</redirecttoremovefileextension>
   <syndicationformat>Rss</syndicationformat>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <blogrollvisibleposts>3</blogrollvisibleposts>
@@ -96,6 +97,7 @@
   <selfregistrationinitialrole>Select</selfregistrationinitialrole>
   <enableselfregistration>False</enableselfregistration>
   <blogrollupdateminutes>60</blogrollupdateminutes>
+  <securityvalidationkey>ede308e723ae42aab289b04350133355accaa0f0da9743e7a8529a0cbbf5bceee5bcafc4eac741f68d2d63d80e21bf8e</securityvalidationkey>
   <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
   <enablerating>True</enablerating>
   <enablecommentsearch>True</enablecommentsearch>

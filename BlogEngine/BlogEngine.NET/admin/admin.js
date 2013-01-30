@@ -307,6 +307,28 @@ function LoadTrashPager(page) {
     return false;
 }
 
+function PurgeLogfile() {
+    $('#AjaxLoader').addClass('loader');
+    $.ajax({
+        url: SiteVars.ApplicationRelativeWebRoot + "admin/Trash.aspx/PurgeLogfile",
+        type: "post",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        beforeSend: onAjaxBeforeSend,
+        success: function (result) {
+            var rt = result.d;
+            if (rt.Success) {
+                ShowStatus("success", rt.Message);
+            }
+            else {
+                ShowStatus("warning", rt.Message);
+            }
+        }
+    });
+    //$('#AjaxLoader').removeClass('loader');
+    return false;
+}
+
 function ProcessTrash(action, scope) {
     $('#AjaxLoader').addClass('loader');
 
