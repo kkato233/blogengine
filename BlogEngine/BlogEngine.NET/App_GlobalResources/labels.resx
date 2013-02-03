@@ -1993,4 +1993,7 @@
   <data name="fileManager" xml:space="preserve">
     <value>File Manager</value>
   </data>
+  <data name="emptyLog" xml:space="preserve">
+    <value>Empty the log file</value>
+  </data>
 </root>
