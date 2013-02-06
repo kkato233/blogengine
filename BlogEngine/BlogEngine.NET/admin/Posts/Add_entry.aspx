@@ -215,7 +215,7 @@
 
             <table class="tblForm largeForm" style="width:100%; margin:0;">
                 <tr>
-                    <td style="vertical-align:top; padding:0 40px 0 0;">
+                    <td style="vertical-align:top;" class="mainForm">
                         <ul class="fl">
                             <li>
                                 <asp:Label CssClass="lbl" AssociatedControlID="txtTitle" runat="server" Text='<%$ Code: Resources.labels.title %>' />
@@ -229,7 +229,7 @@
                                     <a href="#" id="uploadImage" class="image"><%=Resources.labels.insertImage %></a>
                                     <a href="#" id="uploadVideo" class="video"><%=Resources.labels.insertVideo %></a>
                                     <a href="#" id="uploadFile" class="file"><%=Resources.labels.attachFile %></a>
-                                     <a href="javascript:;" id="fileManager" class="file">File Manager</a>
+                                     <a href="javascript:;" id="fileManager" class="file"><%=Resources.labels.fileManager %></a>
                                 </div>
                                 <Blog:TextEditor runat="server" id="txtContent" />
                                 <asp:TextBox runat="server" ID="txtRawContent" Width="98%" TextMode="multiLine" Height="400px" Visible="false" />
