@@ -156,7 +156,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
             <h1><%=Resources.labels.editPage %></h1>
             <table class="tblForm largeForm" style="width:100%; margin:0;">
                 <tr>
-                    <td style="vertical-align:top; padding:0 40px 0 0;">
+                    <td style="vertical-align:top;" class="mainForm">
                         <ul class="fl">
                             <li>
                                 <label class="lbl" for="<%=txtTitle.ClientID %>">
