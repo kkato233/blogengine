@@ -105,6 +105,12 @@
         public int Priority { get; set; }
 
         /// <summary>
+        ///     True if extenstion properties enabled in sub-blog
+        /// </summary>
+        [XmlElement]
+        public bool SubBlogEnabled { get; set; }
+
+        /// <summary>
         ///     Gets or sets Settings for the extension
         /// </summary>
         [XmlElement(IsNullable = true)]

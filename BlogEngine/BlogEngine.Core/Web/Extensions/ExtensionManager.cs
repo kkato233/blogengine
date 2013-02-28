@@ -500,6 +500,11 @@
                                 {
                                     x.Priority = xa.Priority;
                                 }
+
+                                if (!x.SubBlogEnabled)
+                                {
+                                    x.SubBlogEnabled = xa.SubBlogEnabled;
+                                }
                             }
 							if (!extensions.ContainsKey(x.Name))
 								extensions.Add(x.Name, x);
