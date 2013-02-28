@@ -1,10 +1,10 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using BlogEngine.Tests.PageTemplates.Account;
+using BlogEngine.Tests.PageTemplates.Admin;
 using NUnit.Framework;
+using System;
+using System.Text.RegularExpressions;
 using WatiN.Core;
 using WatiN.Core.Native.InternetExplorer;
-using BlogEngine.Tests.PageTemplates.Account;
-using BlogEngine.Tests.PageTemplates.Admin;
 
 namespace BlogEngine.Tests
 {

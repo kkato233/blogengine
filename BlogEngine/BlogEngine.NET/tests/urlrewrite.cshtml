@@ -10,6 +10,13 @@
     var useDate = BlogSettings.Instance.TimeStampPostLinks;
     var postPerPage = BlogSettings.Instance.PostsPerPage;
     DateTime startDate = new DateTime(2012, 6, 3);
+
+    // delete demo post(s) ("welcome to blogengine...") -> restore in teardown
+    var existingPosts = Post.Posts.Where(post => post.IsVisible == true).ToList();
+    foreach (var exPost in existingPosts)
+    {
+        exPost.Delete();
+    }
     
     var defPage = "default";
     BlogSettings.Instance.RemoveExtensionsFromUrls = false; 
@@ -129,6 +136,12 @@
 })
 
 @{
+    // restore existing demo post
+    foreach (var exPost in existingPosts)
+    {
+        exPost.Restore();
+    }
+    
     // teardown
     foreach (var pst in posts)
     {

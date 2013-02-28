@@ -31,7 +31,9 @@ public partial class StandardSite : System.Web.UI.MasterPage
             base.Render(htmlwriter);
             string html = htmlwriter.InnerWriter.ToString();
 
-            html = reg.Replace(html, string.Empty).Trim();
+            // this can be used to trim HTML page
+            // but can mess up syntax hightlighter
+            //html = reg.Replace(html, string.Empty).Trim();
 
             writer.Write(html);
         }

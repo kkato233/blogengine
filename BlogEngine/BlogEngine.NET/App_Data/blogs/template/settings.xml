@@ -39,6 +39,7 @@
   <enableopensearch>True</enableopensearch>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <useblognameinpagetitles>True</useblognameinpagetitles>
+  <removeextensionsfromurls>False</removeextensionsfromurls>
   <smtpusername>username</smtpusername>
   <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablepasswordreset>True</enablepasswordreset>
@@ -56,6 +57,7 @@
   <sendmailoncomment>True</sendmailoncomment>
   <enablerecaptchaoncontactform>False</enablerecaptchaoncontactform>
   <remotemaxfilesize>524288</remotemaxfilesize>
+  <redirecttoremovefileextension>False</redirecttoremovefileextension>
   <syndicationformat>Rss</syndicationformat>
   <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
   <blogrollvisibleposts>3</blogrollvisibleposts>
@@ -73,7 +75,7 @@
   <postsperfeed>10</postsperfeed>
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
   <timezone>0</timezone>
-  <enablessl>False</enablessl>
+  <enableoptimization>False</enableoptimization>
   <name>Name of the blog</name>
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>
@@ -86,6 +88,7 @@
   <enableenclosures>False</enableenclosures>
   <authorname>My name</authorname>
   <descriptioncharacters>300</descriptioncharacters>
+  <enablessl>False</enablessl>
   <geocodinglongitude>0</geocodinglongitude>
   <enablewebsiteincomments>False</enablewebsiteincomments>
   <descriptioncharactersforpostsbytagorcategory>0</descriptioncharactersforpostsbytagorcategory>
@@ -94,6 +97,7 @@
   <selfregistrationinitialrole>Select</selfregistrationinitialrole>
   <enableselfregistration>False</enableselfregistration>
   <blogrollupdateminutes>60</blogrollupdateminutes>
+  <securityvalidationkey>75159fc419124fbeb9507abf68f8a5037ef6234100cd48848f8330f9cb695b4879e5cd525235477aa199908ec1227785</securityvalidationkey>
   <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
   <enablerating>True</enablerating>
   <enablecommentsearch>True</enablecommentsearch>
