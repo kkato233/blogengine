@@ -1996,4 +1996,10 @@
   <data name="emptyLog" xml:space="preserve">
     <value>Empty the log file</value>
   </data>
+  <data name="LangDirection" xml:space="preserve">
+	<value>ltr</value>
+  </data>
+  <data name="apmlDescription" xml:space="preserve">
+	<value>Enter the URL to your website or to your APML document</value>
+  </data>
 </root>

@@ -1749,4 +1749,7 @@
   <data name="virtualPath" xml:space="preserve">
     <value>مسیر مجازی</value>
   </data>
+  <data name="LangDirection" xml:space="preserve">
+	<value>rtl</value>
+  </data>
 </root>
