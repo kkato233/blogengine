@@ -1,0 +1,99 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <link href="include/main.css" rel="stylesheet" />
+    <link href="include/styles.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
+    <!--[if lt IE 9]>
+	    <script type="text/javascript" src="/themes/standard/include/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="<%=Resources.labels.LangDirection %>">
+    <form runat="Server">
+
+        <header class="Header">
+            <nav class="HeaderBar">
+                <div class="Container ClearFix">
+                    <ul class="Left NavBar">
+                        <li class="Home Left"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
+                        <li class="Left"><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
+                        <li class="Left"><a href="<%=Utils.AbsoluteWebRoot %>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.contact %></a></li>
+                        <% if (Utils.IsMobile)
+                           { %>
+                        <li class="Left">
+                            <blog:MobileThemeSwitch ID="MobileThemeSwitch1" runat="server" /></li>
+                        <%
+                           }
+                        %>
+                        <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage))
+                          { %>
+                        <li class="Left"><a href="<%=parentPage.RelativeLink %>" title="<%=parentPage.Title%>"><%=parentPage.Title%></a>
+                            <%if (parentPage.HasChildPages)
+                              {%>
+                            <ul>
+                                <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id))
+                                  { %>
+                                <li class="Left"><a href="<%=childPage.RelativeLink %>" title="<%=childPage.Title %>"><%=childPage.Title %></a></li>
+                                <%}%>
+                            </ul>
+                            <%} %>
+                        </li>
+                        <%} %>
+                    </ul>
+                    <div class=" SubscribeButton Right">
+                        <a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>"><span><%=Resources.labels.subscribe %></span></a>
+                    </div>
+                    <script>$(".NavBar li:has(ul)").each(function (){$(this).addClass("HasChild")});</script>
+                </div>
+            </nav>
+            <div class="BlogTitle">
+                <div class="Container AlignLeft ClearFix">
+                    <h1 class="Title">
+                        <a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a>
+                    </h1>
+                    <span class="Desc"><%=BlogSettings.Instance.Description %></span>
+                </div>
+            </div>
+        </header>
+
+        <section class="Container" id="PageWrapper">
+            <section class="Left Content">
+                <blog:SearchOnSearch ID="SearchOnSearch1" runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
+                <asp:ContentPlaceHolder ID="cphBody" runat="server" />
+            </section>
+            <aside class="Right Sidebar">
+                <blog:WidgetZone ID="WidgetZone1" runat="server" ZoneName="be_WIDGET_ZONE" />
+            </aside>
+        </section>
+
+        <footer class="Footer">
+            <div class="Container">
+                <nav class="NavBarFooter AlignCenter">
+                    <ul>
+                        <li class="Home"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
+                        <li>|</li>
+                        <li><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
+                        <li>|</li>
+                        <li><a href="<%=Utils.AbsoluteWebRoot %>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.contact %></a></li>
+                        <li>|</li>
+                        <li><a href="<%=Utils.FeedUrl %>" class="feed"><%=Resources.labels.subscribe %></a></li>
+                        <li>|</li>
+                        <li><a href="javascript:void(BlogEngine.filterByAPML())" class="apmlfilter"><%=Resources.labels.filterByApml %></a></li>
+                        <li>|</li>
+                        <li><span runat="server" id="aUser" style="display: none;"></span><a runat="server" id="aLogin" /></li>
+                    </ul>
+                    <div class="Clearer"></div>
+                </nav>
+                <div class="License">
+                    <p class="ltr">
+                        Copyright © <%=DateTime.Now.Year %> - Powered by <a href="http://dotnetblogengine.net">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Theme by <a href="http://seyfollahi.net/" title="Web Designer (UI/UX)">Farzin Seyfollahi</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+    </form>
+</body>
+</html>
