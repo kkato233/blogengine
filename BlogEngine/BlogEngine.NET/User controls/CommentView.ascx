@@ -149,4 +149,4 @@ coco =
     }
 </script>
 
-<asp:label runat="server" id="lbCommentsDisabled" visible="false"><%=Resources.labels.commentsAreClosed %></asp:label>
+<asp:label runat="server" id="lbCommentsDisabled" CssClass="lbl-CommentsDisabled" visible="false"><%=Resources.labels.commentsAreClosed %></asp:label>
