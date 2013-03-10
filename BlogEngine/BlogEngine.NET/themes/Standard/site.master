@@ -1,18 +1,54 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
+
 <%@ Import Namespace="BlogEngine.Core" %>
+<%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
     <link href="include/main.css" rel="stylesheet" />
     <link href="include/styles.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
-    <!--[if lt IE 9]>
-	    <script type="text/javascript" src="/themes/standard/include/html5.js"></script>
-    <![endif]-->
+    <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+    <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/XRegExp.js"></script>
+    <script type="text/javascript" src="/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shAutoloader.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SyntaxHighlighter.autoloader(
+                'applescript            /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushAppleScript.js',
+                'actionscript3 as3      /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushAS3.js',
+                'bash shell             /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushBash.js',
+                'coldfusion cf          /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushColdFusion.js',
+                'cpp c                  /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushCpp.js',
+                'c# c-sharp csharp      /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushCSharp.js',
+                'css                    /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushCss.js',
+                'delphi pascal          /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushDelphi.js',
+                'diff patch pas         /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushDiff.js',
+                'erl erlang             /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushErlang.js',
+                'groovy                 /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushGroovy.js',
+                'haxe                   /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushHaxe.js',
+                'java                   /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushJava.js',
+                'jfx javafx             /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushJavaFX.js',
+                'js jscript javascript  /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushJScript.js',
+                'perl pl                /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushPerl.js',
+                'php                    /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushPhp.js',
+                'text plain             /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushPlain.js',
+                'ps powershell          /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushPowerShell.js',
+                'py python              /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushPython.js',
+                'ruby rails ror rb      /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushRuby.js',
+                'sass scss              /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushSass.js',
+                'scala                  /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushScala.js',
+                'sql                    /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushSql.js',
+                'vb vbnet               /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushVb.js',
+                'xml xhtml xslt html    /editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/shBrushXml.js'
+            );
+            SyntaxHighlighter.all();
+        });
+    </script>
 </head>
 <body class="<%=Resources.labels.LangDirection %>">
     <form runat="Server">
-
         <header class="Header">
             <nav class="HeaderBar">
                 <div class="Container ClearFix">
@@ -45,7 +81,7 @@
                     <div class=" SubscribeButton Right">
                         <a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>"><span><%=Resources.labels.subscribe %></span></a>
                     </div>
-                    <script>$(".NavBar li:has(ul)").each(function (){$(this).addClass("HasChild")});</script>
+                    <script>$(".NavBar li:has(ul)").each(function () { $(this).addClass("HasChild") });</script>
                 </div>
             </nav>
             <div class="BlogTitle">
