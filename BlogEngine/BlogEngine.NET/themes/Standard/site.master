@@ -1,18 +1,15 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
 <%@ Import Namespace="BlogEngine.Core" %>
+<%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
 <html lang="en">
-<head runat="server">
-    <link href="include/main.css" rel="stylesheet" />
-    <link href="include/styles.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
-    <!--[if lt IE 9]>
-	    <script type="text/javascript" src="/themes/standard/include/html5.js"></script>
-    <![endif]-->
-</head>
-<body class="<%=Resources.labels.LangDirection %>">
+    <head runat="server">
+        <link href="include/main.css" rel="stylesheet" />
+        <link href="include/styles.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
+    </head>
+    <body class="<%=Resources.labels.LangDirection %>">
     <form runat="Server">
-
         <header class="Header">
             <nav class="HeaderBar">
                 <div class="Container ClearFix">

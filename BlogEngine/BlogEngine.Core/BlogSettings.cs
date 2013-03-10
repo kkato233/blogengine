@@ -243,7 +243,7 @@
         /// RSS feed author
         /// </summary>
         public string FeedAuthor { get; set; }
-        
+
         #endregion
 
         #region TimeStampPostLinks
@@ -1368,7 +1368,11 @@
                         {
                             string value = (string)entry.Value;
                             var propType = property.PropertyType;
-
+                            // Optimizations not working under Mono dirty fix
+                            if (property.Name == "EnableOptimization" && Utils.IsMono)
+                            {
+                                value = "false";
+                            }
                             if (propType.IsEnum)
                             {
                                 property.SetValue(this, Enum.Parse(propType, value), null);
