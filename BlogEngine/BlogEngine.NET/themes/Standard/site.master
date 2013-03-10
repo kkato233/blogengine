@@ -7,9 +7,10 @@
         <link href="include/main.css" rel="stylesheet" />
         <link href="include/styles.min.css" rel="stylesheet" />
         <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
+        <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
     </head>
     <body class="<%=Resources.labels.LangDirection %>">
-    <form runat="Server">
+    <form runat="Server" class="LayoutPage">
         <header class="Header">
             <nav class="HeaderBar">
                 <div class="Container ClearFix">
