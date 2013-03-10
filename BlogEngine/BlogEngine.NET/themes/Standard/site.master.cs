@@ -11,6 +11,13 @@ public partial class StandardSite : System.Web.UI.MasterPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!Utils.IsMono)
+        {
+            var lc = new LiteralControl("\n<!--[if lt IE 9]>" +
+	            "\n<script type=\"text/javascript\" src=\"/themes/standard/include/html5.js\"></script>" +
+                "\n<![endif]-->");
+            HeadContent.Controls.Add(lc);
+        }
         if (Security.IsAuthenticated)
         {
             aUser.InnerText = "Welcome " + Page.User.Identity.Name + "!";
@@ -31,7 +38,7 @@ public partial class StandardSite : System.Web.UI.MasterPage
             base.Render(htmlwriter);
             string html = htmlwriter.InnerWriter.ToString();
 
-            html = reg.Replace(html, string.Empty).Trim();
+            //html = reg.Replace(html, string.Empty).Trim();
 
             writer.Write(html);
         }

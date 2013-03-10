@@ -54,6 +54,10 @@ body {
     float: right;
 }
 
+.LayoutPage {
+    min-width:1024px;
+}
+
 .Container {
     margin-right: auto;
     margin-left: auto;
@@ -456,15 +460,15 @@ body {
 }
 
 #comment-form .bbcode {
-    margin-top: 15px; 
     position: relative; 
-    top: 35px; 
-    left: 10px;
+    top: 34px; 
+    left: 5px;
 }
 
 #comment-form .bbcode a {
-    margin: 1px;
-    padding: 1px 3px 1px 3px;
+   
+    margin: 2px;
+    padding: 1px 5px 1px 5px;
     background: #fff;
     border: 1px solid #ccc;
 }
@@ -1068,7 +1072,7 @@ body {
 
 /*[ 030 Footer ]*/
 .Footer {
-    background: url(../img/footer.png) 0 0 repeat;
+    background: #333 url(../img/footer.png) 0 0 repeat;
     height: 70px;
     padding: 15px;
     text-align: center;
