@@ -62,7 +62,7 @@
         /// The priority.
         /// </param>
         /// <param name="subBlogEnabled">The sub-blog enabled.</param>
-        public ExtensionAttribute(string description, string version, string author, int priority = 0, bool subBlogEnabled = false)
+        public ExtensionAttribute(string description, string version, string author, int priority = 0, bool subBlogEnabled = true)
         {
             this.description = description;
             this.version = version;
@@ -179,7 +179,7 @@
         /// <param name="name">The extension name.</param>
         /// <param name="type">The extension type.</param>
         /// <param name="subBlogEnabled">The sub-blog enabled.</param>
-        public SortedExtension(int priority, string name, string type, bool subBlogEnabled = false)
+        public SortedExtension(int priority, string name, string type, bool subBlogEnabled = true)
         {
             this.Priority = priority;
             this.SubBlogEnabled = subBlogEnabled;
