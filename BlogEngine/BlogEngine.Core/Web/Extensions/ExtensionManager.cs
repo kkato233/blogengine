@@ -146,21 +146,6 @@
         }
 
         /// <summary>
-        /// Method to get settings collection
-        /// </summary>
-        /// <param name="extensionName">
-        /// Extension Name
-        /// </param>
-        /// <returns>
-        /// Collection of settings
-        /// </returns>
-        public static ExtensionSettings GetSettings(string extensionName)
-        {
-			return extensions.SelectMany(
-				x => x.Value.Settings.Where(setting => setting != null && setting.Name == extensionName)).FirstOrDefault();
-        }
-
-        /// <summary>
         /// Returns settings for specified extension
         /// </summary>
         /// <param name="extensionName">
@@ -172,14 +157,28 @@
         /// <returns>
         /// Settings object
         /// </returns>
-        public static ExtensionSettings GetSettings(string extensionName, string settingName)
+        public static ExtensionSettings GetSettings(string extensionName, string settingName = "")
         {
-            ManagedExtension extension = GetExtension(extensionName);
+            var extension = GetExtension(extensionName);
             if (extension == null)
                 return null;
 
-        	return extension.Settings.Where(setting => setting != null && setting.Name == settingName).
-        			FirstOrDefault();
+            if (string.IsNullOrEmpty(settingName))
+                settingName = extensionName;
+
+            if (!Blog.CurrentInstance.IsPrimary && extension.SubBlogEnabled)
+            {
+                return extensions.SelectMany(x => x.Value.Settings.Where(
+                    setting => setting != null
+                    && setting.Name == settingName
+                    && setting.BlogId == Blog.CurrentInstance.Id)).FirstOrDefault();
+            }
+
+            var primId = Blog.Blogs.FirstOrDefault(b => b.IsPrimary).BlogId;
+            return extensions.SelectMany(
+                x => x.Value.Settings.Where(setting => setting != null
+                    && setting.Name == settingName
+                    && (setting.BlogId == primId || setting.BlogId == null))).FirstOrDefault();
         }
 
         /// <summary>
