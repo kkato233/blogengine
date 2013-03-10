@@ -168,17 +168,17 @@
 
             if (!Blog.CurrentInstance.IsPrimary && extension.SubBlogEnabled)
             {
-                return extensions.SelectMany(x => x.Value.Settings.Where(
+                return extension.Settings.Where(
                     setting => setting != null
                     && setting.Name == settingName
-                    && setting.BlogId == Blog.CurrentInstance.Id)).FirstOrDefault();
+                    && setting.BlogId == Blog.CurrentInstance.Id).FirstOrDefault();
             }
 
             var primId = Blog.Blogs.FirstOrDefault(b => b.IsPrimary).BlogId;
-            return extensions.SelectMany(
-                x => x.Value.Settings.Where(setting => setting != null
+            return extension.Settings.Where(
+                    setting => setting != null
                     && setting.Name == settingName
-                    && (setting.BlogId == primId || setting.BlogId == null))).FirstOrDefault();
+                    && (setting.BlogId == primId || setting.BlogId == null)).FirstOrDefault();
         }
 
         /// <summary>
