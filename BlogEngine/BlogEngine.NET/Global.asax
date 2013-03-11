@@ -153,11 +153,13 @@
             jsadmin.AddFile("~/admin/admin.js");
             BundleTable.Bundles.Add(jsadmin);
 
-            // syntax highlighter           
+            // syntax highlighter 
+            var shRoot = "~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/";          
             var jshighlighter = new Bundle("~/Scripts/highlighter", jsTransform);
-            jshighlighter.AddFile("~/Scripts/syntaxhighlighter/shCore.js");
-            jshighlighter.AddFile("~/Scripts/syntaxhighlighter/shAutoloader.js");
-            jshighlighter.AddFile("~/Scripts/syntaxhighlighter/shInit.js");
+            jshighlighter.AddFile(shRoot + "scripts/XRegExp.js");
+            jshighlighter.AddFile(shRoot + "scripts/shCore.js");
+            jshighlighter.AddFile(shRoot + "scripts/shAutoloader.js");
+            jshighlighter.AddFile(shRoot + "shActivator.js");
             BundleTable.Bundles.Add(jshighlighter);
         }
     }
