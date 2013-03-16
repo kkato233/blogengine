@@ -100,7 +100,11 @@ namespace BlogEngine.Tests
             var trash = ie.Page<Trash>();
             ie.GoTo(trash.Url);
             ie.WaitForComplete();
-            trash.PurgeAll.Click();
+
+            if (ie.Elements.Exists("btnPurgeAll"))
+            {
+                trash.PurgeAll.Click();
+            }
         }
 
         public void ScrollToTxt(TextField txt)

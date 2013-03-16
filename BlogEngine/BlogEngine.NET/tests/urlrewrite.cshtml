@@ -15,7 +15,9 @@
     var existingPosts = Post.Posts.Where(post => post.IsVisible == true).ToList();
     foreach (var exPost in existingPosts)
     {
-        exPost.Delete();
+        var post = Post.GetPost(exPost.Id);
+        post.Delete();
+        post.Save();
     }
     
     var defPage = "default";
