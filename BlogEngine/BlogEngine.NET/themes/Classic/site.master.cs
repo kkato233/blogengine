@@ -5,7 +5,7 @@ using System.Web.UI.HtmlControls;
 using BlogEngine.Core;
 using System.Text.RegularExpressions;
 
-public partial class StandardSite : System.Web.UI.MasterPage
+public partial class ClassicSite : System.Web.UI.MasterPage
 {
     private static Regex reg = new Regex(@"(?<=[^])\t{2,}|(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,11}(?=[<])|(?=[\n])\s{2,}");
 
@@ -29,13 +29,7 @@ public partial class StandardSite : System.Web.UI.MasterPage
         using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
         {
             base.Render(htmlwriter);
-            string html = htmlwriter.InnerWriter.ToString();
-
-            // this can be used to trim HTML page
-            // but can mess up syntax hightlighter
-            //html = reg.Replace(html, string.Empty).Trim();
-
-            writer.Write(html);
+            writer.Write(htmlwriter.InnerWriter.ToString());
         }
     }
 
