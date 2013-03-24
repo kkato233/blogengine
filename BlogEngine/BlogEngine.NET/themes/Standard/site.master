@@ -3,19 +3,19 @@
 <%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
 <html lang="en">
-    <head runat="server">
-        <link href="include/main.css" rel="stylesheet" />
-        <link href="include/styles.min.css" rel="stylesheet" />
-        <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
-        <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
-        <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
- 	    <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
- 	    <script type="text/javascript" src="<%# ShRoot %>scripts/XRegExp.js"></script>
- 	    <script type="text/javascript" src="<%# ShRoot %>scripts/shCore.js"></script>
- 	    <script type="text/javascript" src="<%# ShRoot %>scripts/shAutoloader.js"></script>
-        <script type="text/javascript" src="<%# ShRoot %>shActivator.js"></script>
-    </head>
-    <body class="<%=Resources.labels.LangDirection %>">
+<head runat="server">
+    <link href="include/main.css" rel="stylesheet" />
+    <link href="include/styles.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+    <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+ 	<link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+ 	<script type="text/javascript" src="<%# ShRoot %>scripts/XRegExp.js"></script>
+ 	<script type="text/javascript" src="<%# ShRoot %>scripts/shCore.js"></script>
+ 	<script type="text/javascript" src="<%# ShRoot %>scripts/shAutoloader.js"></script>
+    <script type="text/javascript" src="<%# ShRoot %>shActivator.js"></script>
+</head>
+<body class="<%=Resources.labels.LangDirection %>">
     <form runat="Server" class="LayoutPage">
         <header class="Header">
             <nav class="HeaderBar">
