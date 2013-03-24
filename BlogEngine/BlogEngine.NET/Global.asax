@@ -115,30 +115,24 @@
             var jsTransform = new JsMinify();
             var cssTransform = new CssMinify();
             
-            // scripts added to header and NOT deferred
-            var hdrjs = new Bundle("~/Scripts/Header/js", jsTransform);
-            hdrjs.AddDirectory("~/Scripts/Header", "*.js", false);
+            // auto-loaded scripts
+            var hdrjs = new Bundle("~/Scripts/Auto/js", jsTransform);
+            hdrjs.AddDirectory("~/Scripts/Auto", "*.js", false);
             BundleTable.Bundles.Add(hdrjs);
             
             // for anonymous users
-            var css = new Bundle("~/Styles/css", cssTransform);
-            css.AddDirectory("~/Styles", "*.css", false);
+            var css = new Bundle("~/Content/Auto/css", cssTransform);
+            css.AddDirectory("~/Content/Auto", "*.css", false);
             BundleTable.Bundles.Add(css);
 
-            var js = new Bundle("~/Scripts/js", jsTransform);
-            js.AddDirectory("~/Scripts", "*.js", false);
-            BundleTable.Bundles.Add(js);
-
             // for authenticated users
-            var cssauth = new Bundle("~/Styles/cssauth", cssTransform);
-            cssauth.AddDirectory("~/Styles", "*.css", false);
+            var cssauth = new Bundle("~/Content/Auto/cssauth", cssTransform);
+            cssauth.AddDirectory("~/Content/Auto", "*.css", false);
             cssauth.AddFile("~/Modules/QuickNotes/Qnotes.css");
             BundleTable.Bundles.Add(cssauth);
 
-            var jsauth = new Bundle("~/Scripts/jsauth");
-            jsauth.AddDirectory("~/Scripts", "*.js", false); 
-            jsauth.AddFile("~/admin/widget.js");
-            jsauth.AddFile("~/Modules/QuickNotes/Qnotes.js");   
+            var jsauth = new Bundle("~/Scripts/Auto/jsauth");
+            jsauth.AddDirectory("~/Scripts/Auto", "*.js", false); 
             BundleTable.Bundles.Add(jsauth);
             
             // administration

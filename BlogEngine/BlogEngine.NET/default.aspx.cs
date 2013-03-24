@@ -174,7 +174,6 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			{
 				base.AddMetaTag("keywords", metakeywords);
 			} 
-			//base.AddMetaTag("keywords", Server.HtmlEncode(string.Join(",", categories)));
 		}
 	}
 

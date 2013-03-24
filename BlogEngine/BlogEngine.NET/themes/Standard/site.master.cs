@@ -18,12 +18,12 @@ public partial class StandardSite : System.Web.UI.MasterPage
         {
             var lc = new LiteralControl("\n<!--[if lt IE 9]>" +
 	            "\n<script type=\"text/javascript\" src=\"/themes/standard/include/html5.js\"></script>" +
-                "\n<![endif]-->");
+                "\n<![endif]-->\n");
             HeadContent.Controls.Add(lc);
         }
         if (Security.IsAuthenticated)
         {
-            aUser.InnerText = "Welcome " + Page.User.Identity.Name + "!";
+            aUser.InnerText = "Welcome" + Page.User.Identity.Name + "!";
             aLogin.InnerText = Resources.labels.logoff;
             aLogin.HRef = Utils.RelativeWebRoot + "Account/login.aspx?logoff";
         }

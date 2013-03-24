@@ -254,6 +254,7 @@
     <Compile Include="Web\HttpModules\UrlRewrite.cs" />
     <Compile Include="Web\Navigation\IPager.cs" />
     <Compile Include="Web\Navigation\Pager.cs" />
+    <Compile Include="Web\Scripting\PageHeader.cs" />
     <Compile Include="Web\Scripting\Helpers.cs" />
     <Compile Include="Web\Scripting\JavascriptMinifier.cs" />
     <Compile Include="Web\Scripting\WebResourceFilter.cs" />
