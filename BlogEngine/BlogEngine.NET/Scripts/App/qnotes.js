@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $("body").prepend('<div id="q-notes"></div>');
     QuickNotes();
-    $("#open").live("click", function () {
+    $(document).on("click","#open", function() {
         $("div#q-panel").slideDown("slow");
         if ($('.q-area') && $('.q-area').val()) {
             var len = $('.q-area').val().length;
@@ -13,14 +13,14 @@
             }
         }
     });
-    $("#close").live("click", function () {
+    $(document).on("click","#close", function() {
         $("div#q-panel").slideUp("slow");
     });
-    $(".closeup").live("click", function () {
+    $(document).on("click",".closeup", function() {
         $("div#q-panel").slideUp("slow");
         $("#q-toggle a").toggle();
     });
-    $("#q-toggle a").live("click", function () {
+    $(document).on("click","#q-toggle a", function() {
         $("#q-toggle a").toggle();
     });
 });

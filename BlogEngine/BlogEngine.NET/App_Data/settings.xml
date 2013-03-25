@@ -75,7 +75,7 @@
   <postsperfeed>3</postsperfeed>
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
   <timezone>0</timezone>
-  <enableoptimization>True</enableoptimization>
+  <enableoptimization>False</enableoptimization>
   <name>Name of the blog</name>
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>

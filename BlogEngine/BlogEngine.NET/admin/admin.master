@@ -39,15 +39,15 @@
 
     <% if (BlogSettings.Instance.EnableOptimization)
        { %>
-    <script type="text/javascript" src="<%= BundleTable.Bundles.ResolveBundleUrl("~/admin/js") %>"></script>
+    <script type="text/javascript" src="<%= BundleTable.Bundles.ResolveBundleUrl("~/Scripts/adminjs") %>"></script>
     <% }
        else
        { %>
-    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/01-jquery.js"></script>
-    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/02-jquery.cookie.js"></script>
-    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/03-jquery.validate.min.js"></script>
-    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/04-jquery-jtemplates.js"></script>
-    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jQuery/05-json2.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/jquery-jtemplates.min.js"></script>
+    <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>Scripts/json2.min.js"></script>
     <script type="text/javascript" src="<%=Utils.ApplicationRelativeWebRoot %>admin/admin.js"></script>
     <% } %>
     <div class="page">

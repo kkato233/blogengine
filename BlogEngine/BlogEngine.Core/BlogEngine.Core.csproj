@@ -346,8 +346,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)..\lib\razor\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
-xcopy "$(SolutionDir)..\lib\watin\Interop.SHDocVw.dll" "$(SolutionDir)BlogEngine.Tests\Bin\Debug\" /F /R /Y /I
+    <PostBuildEvent>xcopy "$(SolutionDir)..\lib\watin\Interop.SHDocVw.dll" "$(SolutionDir)BlogEngine.Tests\Bin\Debug\" /F /R /Y /I
 xcopy "$(SolutionDir)..\lib\watin\BlogEngine.Tests.dll.config" "$(SolutionDir)BlogEngine.Tests\Bin\Debug\" /F /R /Y /I</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
