@@ -30,8 +30,11 @@ public class BundleConfig
             "~/admin/colorbox.css",
             "~/admin/tipsy.css")
         );
-        bundles.Add(new ScriptBundle("~/admin/js").Include(
-            "~/Scripts/jQuery/*.js",
+        bundles.Add(new ScriptBundle("~/Scripts/adminjs").Include(
+            "~/Scripts/jquery-1.8.2.js",
+            "~/Scripts/jquery.cookie.js",
+            "~/Scripts/jquery.validate.js",
+            "~/Scripts/jquery-jtemplates.js",
             "~/admin/admin.js")
         );
 

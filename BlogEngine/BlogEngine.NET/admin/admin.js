@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function () {
-   $('.editButton').live("click", function () { return EditRow(this); });
-   $('.deleteButton').live("click", function () { return DeleteRow(this); });
+   $(document).on("click", ".editButton", function () { return EditRow(this); });
+   $(document).on("click", ".deleteButton", function () { return DeleteRow(this); });
    $('.loader').hide();
 });
 
