@@ -63,7 +63,8 @@
 
                     if (file != null && file.ContentLength > 0)
                     {
-                        string login = HttpContext.Current.User.Identity.Name;
+                        string id = Request.QueryString["id"];
+                        string login = string.IsNullOrEmpty(id) ? HttpContext.Current.User.Identity.Name : id;
                         string dir = Server.MapPath(Path.Combine("~/App_Data/files/Avatars/", login));
 
                         if (!Directory.Exists(dir))
