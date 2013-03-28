@@ -4,15 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
-    <link href="include/main.css" rel="stylesheet" />
+    <link href="include/core.css" rel="stylesheet" />
     <link href="include/styles.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+    <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
     <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
- 	<link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
- 	<script type="text/javascript" src="<%# ShRoot %>scripts/XRegExp.js"></script>
- 	<script type="text/javascript" src="<%# ShRoot %>scripts/shCore.js"></script>
- 	<script type="text/javascript" src="<%# ShRoot %>scripts/shAutoloader.js"></script>
+    <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%# ShRoot %>scripts/XRegExp.js"></script>
+    <script type="text/javascript" src="<%# ShRoot %>scripts/shCore.js"></script>
+    <script type="text/javascript" src="<%# ShRoot %>scripts/shAutoloader.js"></script>
     <script type="text/javascript" src="<%# ShRoot %>shActivator.js"></script>
 </head>
 <body class="<%=Resources.labels.LangDirection %>">
@@ -49,7 +49,7 @@
                     <div class=" SubscribeButton Right">
                         <a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>"><span><%=Resources.labels.subscribe %></span></a>
                     </div>
-                    <script>$(".NavBar li:has(ul)").each(function (){$(this).addClass("HasChild")});</script>
+                    <script>$(".NavBar li:has(ul)").each(function () { $(this).addClass("HasChild") });</script>
                 </div>
             </nav>
             <div class="BlogTitle">
@@ -61,7 +61,7 @@
                 </div>
             </div>
         </header>
-
+        <!-- /Header -->
         <section class="Container" id="PageWrapper">
             <section class="Left Content">
                 <blog:SearchOnSearch ID="SearchOnSearch1" runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
@@ -71,11 +71,11 @@
                 <blog:WidgetZone ID="WidgetZone1" runat="server" ZoneName="be_WIDGET_ZONE" />
             </aside>
         </section>
-
+        <!-- /PageWrapper -->
         <footer class="Footer">
             <div class="Container">
                 <nav class="NavBarFooter AlignCenter">
-                    <ul>
+                    <ul class="clearFix">
                         <li class="Home"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
                         <li>|</li>
                         <li><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
@@ -88,16 +88,15 @@
                         <li>|</li>
                         <li><span runat="server" id="aUser" style="display: none;"></span><a runat="server" id="aLogin" /></li>
                     </ul>
-                    <div class="Clearer"></div>
                 </nav>
                 <div class="License">
                     <p class="ltr">
-                        Copyright © <%=DateTime.Now.Year %> - Powered by <a href="http://dotnetblogengine.net">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Theme by <a href="http://seyfollahi.net/" title="Web Designer (UI/UX)">Farzin Seyfollahi</a>
+                        Copyright &copy; <%=DateTime.Now.Year %> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Theme by <a href="http://seyfollahi.net/" title="Web Designer - UI/UX" target="_blank">Farzin Seyfollahi</a>
                     </p>
                 </div>
             </div>
         </footer>
-
+        <!-- /Footer -->
     </form>
 </body>
 </html>

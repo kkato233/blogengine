@@ -590,8 +590,5 @@ BlogEngine.addLoadEvent(BlogEngine.hightLightXfn);
 if (typeof ($) == 'undefined')
     window.$ = BlogEngine.$;
 
-if (typeof (setupBlogEngineCalendar) != 'undefined')
-    BlogEngine.addLoadEvent(setupBlogEngineCalendar);
-
 // apply ratings after registerVariables.
 BlogEngine.addLoadEvent(BlogEngine.applyRatings);

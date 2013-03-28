@@ -11,13 +11,20 @@ public partial class StandardSite : System.Web.UI.MasterPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        // for supported of RTL languages
+        if (Resources.labels.LangDirection.Equals("rtl", StringComparison.OrdinalIgnoreCase))
+        {
+            var lc = new LiteralControl("<link href=\"/themes/standard/include/rtl.css\" rel=\"stylesheet\" />");
+            HeadContent.Controls.Add(lc);
+        }
+
         // needed to make <%# %> binding work in the page header
         Page.Header.DataBind();
-
         if (!Utils.IsMono)
         {
             var lc = new LiteralControl("\n<!--[if lt IE 9]>" +
-	            "\n<script type=\"text/javascript\" src=\"/themes/standard/include/html5.js\"></script>" +
+                "\n<script type=\"text/javascript\" src=\"/themes/standard/include/html5.js\"></script>" +
                 "\n<![endif]-->\n");
             HeadContent.Controls.Add(lc);
         }
