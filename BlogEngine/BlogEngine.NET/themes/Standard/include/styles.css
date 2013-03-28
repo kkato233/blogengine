@@ -1,6 +1,6 @@
 ﻿/*
  * BlogEngine.NET
- * Standard Theme Version 2.8.0.1
+ * Standard Theme Version 2.8.0.2
  * 
  * Designed and Implementation by Farzin Seyfollahi (@seyfolahi)
  * http://seyfollahi.net
@@ -49,7 +49,7 @@ body {
 }
 
 .LayoutPage {
-    min-width: 1024px;
+    min-width: 970px;
 }
 
 .Container {
@@ -73,11 +73,11 @@ body {
 }
 
 #PageWrapper .Content {
-    width: 73%;
+    width: 700px;
 }
 
 #PageWrapper .Sidebar {
-    width: 25%;
+    width: 250px;
     font-size: 15px;
 }
 
@@ -1160,7 +1160,7 @@ body {
 .Footer {
     background: #656565 url(../img/footer.png) 0 0 repeat;
     height: 70px;
-    padding: 15px;
+    padding: 15px 0;
     text-align: center;
 }
 

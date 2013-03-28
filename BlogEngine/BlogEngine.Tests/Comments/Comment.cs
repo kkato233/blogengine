@@ -62,7 +62,7 @@ namespace BlogEngine.Tests.Comments
               ie.WaitForComplete();
               Assert.IsTrue(ie.Html.Contains("The captcha value you provided is incorrect"));
 
-              TypeQuickly(post.TxtSimpleCaptcha, "5");
+              TypeQuickly(post.TxtSimpleCaptcha, "10");
               post.BtnSave.Click();
               ie.WaitUntilContainsText("Thank you for the feedback");
           }
