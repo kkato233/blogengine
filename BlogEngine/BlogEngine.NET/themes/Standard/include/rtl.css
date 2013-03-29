@@ -18,7 +18,9 @@
 .rtl .NavBar ul li A {line-height: 30px;}
 .rtl .BlogTitle h1.Title A {font-family: 'B Mitra', 'B Nazanin', 'B roya', 'B Yekan', Arial;}
 .rtl .BlogTitle .Desc {font: 12px tahoma, arial;}
-.rtl .Post .ratingcontainer .rating p {right: 55px;}
+.rtl .post .ratingcontainer .rating p {right: 55px;}
+.rtl #PostPager li   { height: 25px; line-height:23px; display: inline-block; min-width: 23px; background: #FFF; }
+.rtl #PostPager li A { height: 100%; line-height:23px; }
 .rtl #commentlist .comment .comment-replies {padding: 5px 2em 0 0;}
 .rtl .comment .gravatar {margin-left: 10px;margin-right: 0;}
 .rtl #comment-form .success {background: #cdeb8e url(../img/success.png) no-repeat left center;}

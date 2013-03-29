@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="BlogEngine.Core.Web.Controls.PostViewBase" %>
-<div class="Post PostPad xfolkentry" id="post<%=Index %>">
+<div class="post PostPad xfolkentry" id="post<%=Index %>">
     <h2 class="PostTitle">
         <a href="<%=Post.RelativeOrAbsoluteLink %>" class="taggedlink"><%=Server.HtmlEncode(Post.Title) %></a>
     </h2>
@@ -12,7 +12,7 @@
         <a rel="nofollow" class="Right" href="<%=Post.RelativeOrAbsoluteLink %>#comment"><%=Resources.labels.comments %> (<%=Post.ApprovedComments.Count %>)</a>
         <div class="Clearer"></div>
     </div>
-    <div class="PostBody">
+    <div class="PostBody text">
         <asp:PlaceHolder ID="BodyContent" runat="server" />
     </div>
     <div class="PostRating">

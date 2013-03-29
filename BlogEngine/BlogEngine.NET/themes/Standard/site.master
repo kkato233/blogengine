@@ -31,13 +31,13 @@
                         <%
                            }
                         %>
-                        <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage))
+                        <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished))
                           { %>
                         <li class="Left"><a href="<%=parentPage.RelativeLink %>" title="<%=parentPage.Title%>"><%=parentPage.Title%></a>
                             <%if (parentPage.HasChildPages)
                               {%>
                             <ul>
-                                <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id))
+                                <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id && p.IsPublished))
                                   { %>
                                 <li class="Left"><a href="<%=childPage.RelativeLink %>" title="<%=childPage.Title %>"><%=childPage.Title %></a></li>
                                 <%}%>
