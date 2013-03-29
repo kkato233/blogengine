@@ -1,6 +1,6 @@
 ﻿/*
  * BlogEngine.NET
- * Standard Theme Version 1.2.0.0
+ * Standard Theme Version 1.3.0.0
  * 
  * Designed and Implementation by Farzin Seyfollahi (@seyfolahi)
  * http://seyfollahi.net/en/page/BlogEngine/
@@ -25,8 +25,8 @@
 
 body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; color: #333; font: 16px calibri, sans-serif; }
 .LayoutPage { min-width: 970px; }
-.Container  {width: 970px;}
-#PageWrapper { margin-bottom: 10px; }
+.Container  { width: 970px; }
+#PageWrapper{ margin-bottom: 10px; }
 #PageWrapper .Content { width: 700px; }
 #PageWrapper .Sidebar { width: 250px; font-size: 15px; }
 #PageWrapper .Sidebar ul {list-style:none; margin:0;}
@@ -53,7 +53,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .NavBar li:hover ul { display: block; background: #FFF; }
 .NavBar ul li { min-height: 30px; background: #F7F7F7; margin-bottom: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; }
 .NavBar ul li:last-child { margin-bottom: 0; }
-.NavBar ul li A { line-height: 25px; -moz-transition: all ease 0.5s; -o-transition: all ease 0.5s; -webkit-transition: all ease 0.5s; transition: all ease 0.5s; }
+.NavBar ul li A { height:30px; display:block; line-height: 27px; -moz-transition: all ease 0.5s; -o-transition: all ease 0.5s; -webkit-transition: all ease 0.5s; transition: all ease 0.5s; }
 .NavBar ul li:hover { background: #EEE; -webkit-text-shadow: 0 1px 2px #AAA; text-shadow: 0 1px 2px #AAA; }
 
 /*[ 003.BlogTitle ]*/
@@ -63,22 +63,22 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .BlogTitle .Desc        { color: #AAA; margin-top: 5px; display: block; font: 18px calibri, sans-serif; }
 
 /*[ 004.Post ]*/
-.Post {}
 .PostPad            { padding: 14px 20px 20px 20px; }
-.Post .PostTitle    { margin-bottom: 5px; }
-.Post .PostTitle A  { color: #005cb1; -webkit-text-shadow: 0 1px 2px #DDD; text-shadow: 0 1px 2px #CCC; }
-.Post .PostInfo     { margin-bottom: 15px; padding-bottom: 7px; border-bottom: 1px dotted #CCC; color: #AAA; font-size: 13px; }
-.Post .PostInfo A   { color: #AAA; font-size: 13px; }
-.Post .PostBody p   { margin-bottom: 15px; }
-.Post .PostRating   { margin-top: 15px; }
-.Post .ratingcontainer, .Post .rating   { height: 25px; overflow: hidden; }
-.Post .ratingcontainer .rating ul       { position: relative; top: -21px; }
-.Post .ratingcontainer .rating ul li    { background: none !important; }
-.Post .ratingcontainer .rating p        { position: relative; top: -5px; }
+.post .PostTitle    { margin-bottom: 5px; }
+.post .PostTitle A  { color: #005cb1; -webkit-text-shadow: 0 1px 2px #DDD; text-shadow: 0 1px 2px #CCC; }
+.post .PostInfo     { margin-bottom: 15px; padding-bottom: 7px; border-bottom: 1px dotted #CCC; color: #AAA; font-size: 13px; }
+.post .PostInfo A   { color: #AAA; font-size: 13px; }
+.post .PostBody p   { margin-bottom: 15px; }
+.post .PostRating   { margin-top: 15px; }
+.post .text a[rel]  {padding-right: 10px;}
+.post .ratingcontainer, .post .rating   { height: 25px; overflow: hidden; }
+.post .ratingcontainer .rating ul       { position: relative; top: -21px; }
+.post .ratingcontainer .rating ul li    { background: none !important; }
+.post .ratingcontainer .rating p        { position: relative; top: -5px; }
 
 /*[ 005.Comments ]*/
 #commentlist { list-style: none; margin: 1em 0 1em; padding: 5px; }
-#commentlist:empty { display: none !important; }
+#commentlist:empty { display: none !important;}
 #commentlist .comment .comment-replies { list-style: none; padding: 5px 0 0 2em; }
 #commentlist .commentForm { -moz-box-shadow: none !important; -webkit-box-shadow: none !important; box-shadow: none !important; border: none !important; }
 .comment { margin-bottom: 5px; }
@@ -89,6 +89,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .comment .comment-contents .visitor .url { color: #222; }
 .comment .gravatar { margin-right: 10px; padding: 2px; height: 32px; width: 32px; }
 .comment .self .comment-contents { background: #d9feb3; color: #2a5101; }
+.comment .self .DateTime {color: #9ac73c!important; }
 .comment cite { font-weight: bold; }
 #comment-form select { width: 190px; }
 #comment-form textarea { width: 100%; min-width: 100%; }
@@ -113,6 +114,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 /*[ 006.Widget ]*/
 .Widget { background: #FFF; padding: 10px; background: #FFF; -moz-box-shadow: 0 0 3px #AAA; -webkit-box-shadow: 0 0 3px #AAA; box-shadow: 0 0 3px #AAA; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: 2px solid #EEE; margin-bottom: 15px; }
 .Widget .WidgetHeader { border-bottom: 1px solid #DDD; height: 31px; color: #888; margin-bottom: 7px; }
+.Widget .WidgetHeader img { width:24px;height:24px; }
 .Widget #moveWidgetToContainer #moveWidgetTo { width: 71% !important; min-width: 71%; margin-right: 5px; }
 .Widget .delete, .Widget .move, .Widget .edit { float: right; position: relative; top: 4px; }
 
@@ -257,9 +259,9 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 
 /*[ 030.Footer ]*/
 .Footer { background: #656565 url(../img/footer.png) 0 0 repeat; height: 70px; padding: 15px 0; text-align: center; }
-.Footer A:hover { color: #111 !important; }
+.Footer A:hover { color: #FFF !important; }
 .Footer .NavBarFooter { margin-bottom: 7px; }
 .Footer .NavBarFooter ul li { display: inline-block; padding: 0 4px; color: #BBB; }
 .Footer .NavBarFooter ul li A { color: #BBB; }
 .Footer .License { color: #222; -webkit-text-shadow: 0 1px 0 rgba(255,255,255,0.2); text-shadow: 0 1px 0 rgba(255,255,255,0.2); }
-.Footer .License A { color: #222; }
+.Footer .License A, .Footer .License A  { color: #222 !important; }

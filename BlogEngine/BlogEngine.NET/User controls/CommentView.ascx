@@ -9,9 +9,7 @@
 </h3>
 <%} %>
 
-<div id="commentlist" style="display:block">
-  <asp:PlaceHolder runat="server" ID="phComments" />  
-</div>
+<div id="commentlist" style="display:block"><asp:PlaceHolder runat="server" ID="phComments" /></div>
 
 <asp:PlaceHolder runat="server" ID="phTrckbacks"></asp:PlaceHolder>
 
