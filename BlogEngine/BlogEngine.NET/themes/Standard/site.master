@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
+
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
@@ -31,12 +32,13 @@
                         <%
                            }
                         %>
+                        <!-- Begin Page Links -->
                         <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished))
                           { %>
-                        <li class="Left"><a href="<%=parentPage.RelativeLink %>" title="<%=parentPage.Title%>"><%=parentPage.Title%></a>
+                        <li class="Left Page-Link"><a href="<%=parentPage.RelativeLink %>" title="<%=parentPage.Title%>"><%=parentPage.Title%></a>
                             <%if (parentPage.HasChildPages)
                               {%>
-                            <ul>
+                            <ul class="Sub-Page-Links">
                                 <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id && p.IsPublished))
                                   { %>
                                 <li class="Left"><a href="<%=childPage.RelativeLink %>" title="<%=childPage.Title %>"><%=childPage.Title %></a></li>
@@ -45,11 +47,12 @@
                             <%} %>
                         </li>
                         <%} %>
+                        <!-- /End Page Links -->
                     </ul>
                     <div class=" SubscribeButton Right">
                         <a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>"><span><%=Resources.labels.subscribe %></span></a>
                     </div>
-                    <script>$(".NavBar li:has(ul)").each(function () { $(this).addClass("HasChild") });$(".NavBar li.HasChild:not(ul)").removeClass('HasChild').addClass('NotChild');$(".NavBar li.NotChild ul:not(li)").addClass('hidePageList');</script>
+                    <script>$(".NavBar li:has(ul)").addClass("HasChild");</script>
                 </div>
             </nav>
             <div class="BlogTitle">
