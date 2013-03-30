@@ -49,7 +49,7 @@
                     <div class=" SubscribeButton Right">
                         <a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>"><span><%=Resources.labels.subscribe %></span></a>
                     </div>
-                    <script>$(".NavBar li:has(ul)").each(function () { $(this).addClass("HasChild") });</script>
+                    <script>$(".NavBar li:has(ul)").each(function () { $(this).addClass("HasChild") });$(".NavBar li.HasChild:not(ul)").removeClass('HasChild').addClass('NotChild');$(".NavBar li.NotChild ul:not(li)").addClass('hidePageList');</script>
                 </div>
             </nav>
             <div class="BlogTitle">

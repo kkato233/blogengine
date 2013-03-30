@@ -1,6 +1,6 @@
 ﻿/*
  * BlogEngine.NET
- * Standard Theme Version 1.3.0.0
+ * Standard Theme Version 1.4.0.0
  * 
  * Designed and Implementation by Farzin Seyfollahi (@seyfolahi)
  * http://seyfollahi.net/en/page/BlogEngine/
@@ -46,6 +46,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .NavBar li A { display: block; height: inherit; padding: 0 15px; font-size: 18px; line-height: 45px; color: #555 !important; }
 .NavBar li:hover { background: #F5F5f5; }
 .NavBar li.HasChild:hover { background: #FFF; border-bottom: 1px solid #FFF; }
+.NavBar li.NotChild {border-bottom:none !important;}
 .NavBar li.Home A { background: url(../img/home.png) no-repeat center center; min-width: 25px; }
 .NavBar li.Home A span { display: none; }
 .NavBar li:hover ul li { float: none; border: none; }
@@ -55,6 +56,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .NavBar ul li:last-child { margin-bottom: 0; }
 .NavBar ul li A { height:30px; display:block; line-height: 27px; -moz-transition: all ease 0.5s; -o-transition: all ease 0.5s; -webkit-transition: all ease 0.5s; transition: all ease 0.5s; }
 .NavBar ul li:hover { background: #EEE; -webkit-text-shadow: 0 1px 2px #AAA; text-shadow: 0 1px 2px #AAA; }
+.NavBar ul.hidePageList {display:none !important;}
 
 /*[ 003.BlogTitle ]*/
 .BlogTitle              { height: 60px; padding: 30px 0; }

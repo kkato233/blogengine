@@ -592,7 +592,7 @@
 
         #endregion
 
-        #region EnableSelfRegistration
+        #region SelfRegistration
 
         /// <summary>
         ///     Gets or sets a value indicating whether or not to enable self registration.
@@ -600,15 +600,17 @@
         /// <value><c>true</c> if [enable self registration]; otherwise, <c>false</c>.</value>
         public bool EnableSelfRegistration { get; set; }
 
-        #endregion
-
-        #region SelfRegistrationInitialRole
-
         /// <summary>
         ///     Gets or sets the initial role assigned to users who self register.
         /// </summary>
         /// <value>The role name.</value>
         public string SelfRegistrationInitialRole { get; set; }
+
+        /// <summary>
+        /// If we need to create blog for self-registered user
+        /// (instead of just add user to existing blog)
+        /// </summary>
+        public bool CreateBlogOnSelfRegistration { get; set; }
 
         #endregion
 
