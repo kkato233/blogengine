@@ -48,26 +48,41 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void RegisterUser_CreatedUser(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(BlogSettings.Instance.SelfRegistrationInitialRole))
+            if (BlogSettings.Instance.CreateBlogOnSelfRegistration)
             {
-                string role = Roles.GetAllRoles().FirstOrDefault(r => r.Equals(BlogSettings.Instance.SelfRegistrationInitialRole, StringComparison.OrdinalIgnoreCase));
-                if (!string.IsNullOrEmpty(role))
+                string msg = CreateBlog(this.RegisterUser.UserName);
+                if (string.IsNullOrEmpty(msg))
                 {
-                    Roles.AddUsersToRoles(new string[] { this.RegisterUser.UserName }, new string[] { role });
+                    this.Response.Redirect(Utils.ApplicationRelativeWebRoot + this.RegisterUser.UserName);
+                }
+                else
+                {
+                    this.Master.SetStatus("warning", msg);
                 }
             }
-
-            Security.AuthenticateUser(this.RegisterUser.UserName, this.RegisterUser.Password, false);
-
-            FormsAuthentication.SetAuthCookie(this.RegisterUser.UserName, false /* createPersistentCookie */);
-
-            var continueUrl = this.RegisterUser.ContinueDestinationPageUrl;
-            if (String.IsNullOrEmpty(continueUrl))
+            else
             {
-                continueUrl = Utils.RelativeWebRoot;
-            }
+                if (!string.IsNullOrEmpty(BlogSettings.Instance.SelfRegistrationInitialRole))
+                {
+                    string role = Roles.GetAllRoles().FirstOrDefault(r => r.Equals(BlogSettings.Instance.SelfRegistrationInitialRole, StringComparison.OrdinalIgnoreCase));
+                    if (!string.IsNullOrEmpty(role))
+                    {
+                        Roles.AddUsersToRoles(new string[] { this.RegisterUser.UserName }, new string[] { role });
+                    }
+                }
 
-            this.Response.Redirect(continueUrl);
+                Security.AuthenticateUser(this.RegisterUser.UserName, this.RegisterUser.Password, false);
+
+                FormsAuthentication.SetAuthCookie(this.RegisterUser.UserName, false /* createPersistentCookie */);
+
+                var continueUrl = this.RegisterUser.ContinueDestinationPageUrl;
+                if (String.IsNullOrEmpty(continueUrl))
+                {
+                    continueUrl = Utils.RelativeWebRoot;
+                }
+
+                this.Response.Redirect(continueUrl);
+            }
         }
 
         /// <summary>
@@ -90,5 +105,36 @@
         }
 
         #endregion
+
+        string CreateBlog(string blogName)
+        {
+            Guid existingId = Guid.Empty;
+            string message = string.Empty;
+            Blog blog = null;
+            Blog template = Blog.Blogs.Where(b => b.Name == "Template").FirstOrDefault();
+
+            if (template == null)
+                template = Blog.Blogs[0];
+
+            var copyFromExistingBlogId = template.Id.ToString();
+
+            if (!Blog.ValidateProperties(blog == null, blog, blogName, "", true, blogName.ToLower(), "~/" + blogName.ToLower(), false, out message))
+            {
+                if (string.IsNullOrWhiteSpace(message)) { message = "Validation for new blog failed."; }
+                return message;
+            }
+
+            if (blog == null)
+            {
+                blog = Blog.CreateNewBlog(copyFromExistingBlogId, blogName, "", true, blogName.ToLower(), "~/" + blogName.ToLower(), true, false, out message);
+
+                if (blog == null || !string.IsNullOrWhiteSpace(message))
+                {
+                    return message ?? "Failed to create the new blog.";
+                }
+            }
+            return message;
+        }
+
     }
 }

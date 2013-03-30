@@ -68,6 +68,7 @@
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
             cbEnablePasswordReset.Checked = BlogSettings.Instance.EnablePasswordReset;
             cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
+            cbCreateBlogOnSelfRegistration.Checked = BlogSettings.Instance.CreateBlogOnSelfRegistration;
             Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
             if (!Page.IsPostBack)
             {
@@ -137,10 +138,6 @@
             bool enableOpenSearch,
             bool requireSslForMetaWeblogApi,
 			string wwwSubdomain,
-            /*bool enableTrackBackSend,
-            bool enableTrackBackReceive,
-            bool enablePingBackSend,
-            bool enablePingBackReceive,*/
             bool enableErrorLogging,
             bool allowRemoteFileDownloads,
             int remoteTimeout,
@@ -148,6 +145,7 @@
             string galleryFeedUrl,
             string enablePasswordReset,
             string enableSelfRegistration,
+            string createBlogOnSelfRegistration,
             string selfRegistrationInitialRole)
         {
             var response = new JsonResponse { Success = false };
@@ -189,6 +187,7 @@
                 settings.RemoteMaxFileSize = remoteMaxFileSize;
                 settings.EnablePasswordReset = bool.Parse(enablePasswordReset);
                 settings.EnableSelfRegistration = bool.Parse(enableSelfRegistration);
+                settings.CreateBlogOnSelfRegistration = bool.Parse(createBlogOnSelfRegistration);
                 settings.SelfRegistrationInitialRole = selfRegistrationInitialRole;
 
                 settings.Save();

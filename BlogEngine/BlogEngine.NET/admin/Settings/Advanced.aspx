@@ -39,6 +39,7 @@
 				"galleryFeedUrl": $("[id$='_txtGalleryFeed']").attr('value'),
 				"enablePasswordReset": $("[id$='cbEnablePasswordReset']").is(':checked'),
 				"enableSelfRegistration": $("[id$='_cbEnableSelfRegistration']").is(':checked'),
+				"createBlogOnSelfRegistration": $("[id$='_cbCreateBlogOnSelfRegistration']").is(':checked'),
 				"selfRegistrationInitialRole": $("[id$='_ddlSelfRegistrationInitialRole']").val()               
 			};
 			
@@ -154,6 +155,11 @@
                         <span class="filler"></span>
                         <asp:CheckBox runat="server" ID="cbEnableSelfRegistration" />
                         <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbCreateBlogOnSelfRegistration" />
+                        <label for="<%=cbCreateBlogOnSelfRegistration.ClientID %>"><%=Resources.labels.createBlogOnSelfRegistration %></label>
                     </li>
                     <li>
                         <label class="lbl" for="<%=ddlSelfRegistrationInitialRole.ClientID %>"><%=Resources.labels.selfRegistrationInitialRole%></label>
