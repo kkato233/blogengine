@@ -2005,4 +2005,7 @@
   <data name="createBlogOnSelfRegistration" xml:space="preserve">
     <value>Create new blog for self-regitered user</value>
   </data>
+  <data name="AllPostsBy" xml:space="preserve">
+    <value>All posts by</value>
+  </data>
 </root>

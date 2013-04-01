@@ -868,4 +868,7 @@
   <data name="setPublishDate" xml:space="preserve">
     <value>הגדר תאריך פרסום</value>
   </data>
+  <data name="AllPostsBy" xml:space="preserve">
+    <value>פוסטים שנכתבו על ידי</value>
+  </data>
 </root>
