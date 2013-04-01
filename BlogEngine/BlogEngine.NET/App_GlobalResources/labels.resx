@@ -2008,4 +2008,10 @@
   <data name="AllPostsBy" xml:space="preserve">
     <value>All posts by</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
 </root>
