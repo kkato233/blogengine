@@ -3,7 +3,7 @@
     This file for supported RTL direction.
     RTL direction for languages right to left (Arabic,Persian and etc.)
     if your site is rtl, it required to be this file. otherwise you can delete it.
-    more info: http://seyfollahi.net/en/page/BlogEngine/
+    More info: http://seyfollahi.net/en/page/BlogEngine/
 */
 
 .rtl {direction: rtl !important ;font: 12px tahoma, arial, sans-serif !important ;}
@@ -32,4 +32,5 @@
 .rtl .recentposts ul li A {font-size: 13px;}
 .rtl #archive h2 {font-size: 18px;}
 .rtl #archive table td, .rtl #archive table th {text-align: right;}
+.rtl .syntaxhighlighter .code { font-size: 14px !important; font-family: sans-serif !important; }
 .rtl .Footer .License  {font: 16px Calibri, tahoma, arial, sans-serif;}
