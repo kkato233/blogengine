@@ -933,12 +933,13 @@ namespace BlogEngine.Core.Providers
                     if (conn.HasConnection)
                     {
                         var sqlQuery = string.Format("INSERT INTO {0}Posts (BlogID, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished, IsCommentEnabled, Raters, Rating, Slug, IsDeleted) VALUES ({1}blogid, {1}id, {1}title, {1}desc, {1}content, {1}created, {1}modified, {1}author, {1}published, {1}commentEnabled, {1}raters, {1}rating, {1}slug, {1}isdeleted)", this.tablePrefix, this.parmPrefix);
+                        var blogId = post.BlogId == Guid.Empty ? Blog.CurrentInstance.Id : post.BlogId;
 
                         using (var cmd = conn.CreateTextCommand(sqlQuery))
                         {
 
                             var parms = cmd.Parameters;
-                            parms.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                            parms.Add(conn.CreateParameter(FormatParamName("blogid"), blogId.ToString()));
                             parms.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
                             parms.Add(conn.CreateParameter(FormatParamName("title"), post.Title));
                             parms.Add(conn.CreateParameter(FormatParamName("desc"), (post.Description ?? string.Empty)));
@@ -2103,6 +2104,148 @@ namespace BlogEngine.Core.Providers
                     {
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Setup new blog from scratch
+        /// </summary>
+        /// <param name="newBlog">New blog</param>
+        /// <param name="userName">User name</param>
+        /// <param name="email">Email</param>
+        /// <param name="password">Password</param>
+        /// <returns>True if successful</returns>
+        public override bool SetupNewBlog(Blog newBlog, string userName, string email, string password)
+        {
+            bool copyResult = BlogGenerator.CopyTemplateBlogFolder(newBlog.Name, userName, email, password);
+
+            if (!copyResult)
+            {
+                Utils.Log("DbBlogProvider.SetupNewBlog", new Exception("Unsuccessful result from BlogGenerator.CopyTemplateBlogFolder."));
+                return false;
+            }
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    Blog existingBlog = Blog.Blogs.Where(b => b.Name == "Template").FirstOrDefault();
+
+                    if (existingBlog == null)
+                        existingBlog = Blog.Blogs[0];
+
+                    // be_PingService
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}PingService ( BlogID, Link ) " +
+                        " SELECT {1}newblogid, Link " +
+                        " FROM {0}PingService " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Rights
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Rights ( BlogId, RightName ) " +
+                        " SELECT {1}newblogid, RightName " +
+                        " FROM {0}Rights " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_RightRoles
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}RightRoles ( BlogId, RightName, Role ) " +
+                        " SELECT {1}newblogid, RightName, Role " +
+                        " FROM {0}RightRoles " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Settings
+                    using (var cmd = conn.CreateTextCommand(string.Format(
+                        " INSERT INTO {0}Settings ( BlogId, SettingName, SettingValue ) " +
+                        " SELECT {1}newblogid, SettingName, SettingValue " +
+                        " FROM {0}Settings " +
+                        " WHERE BlogID = {1}existingblogid ", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("newblogid"), newBlog.Id.ToString(), System.Data.DbType.String));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("existingblogid"), existingBlog.Id.ToString()));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Posts
+                    Post post = new Post();
+                    post.BlogId = newBlog.Id;
+                    post.Title = "Welcome to your blog";
+                    post.Description = "The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory";
+                    post.Author = userName;
+                    post.Content = "<p>Welcome to your new blog!</p>";
+                    InsertPost(post);
+
+                    // be_DataStoreSettings
+                    string widgetZone = "<?xml version=\"1.0\" encoding=\"utf-16\"?>  <WidgetData xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">    <Settings>&lt;widgets&gt;&lt;widget id=\"53b97baf-22da-46eb-ad53-bbe8098063fe\" title=\"Administration\" showTitle=\"True\"&gt;Administration&lt;/widget&gt;&lt;widget id=\"f2d3ee0f-a7e9-4fad-900b-ed0211894ba4\" title=\"Search\" showTitle=\"True\"&gt;Search&lt;/widget&gt;&lt;widget id=\"1b9fc8d1-781d-48f6-bf2f-3f3759d14b85\" title=\"Calendar\" showTitle=\"True\"&gt;Calendar&lt;/widget&gt;&lt;widget id=\"f666a767-fc33-4418-a8d2-dd3168bbfe6a\" title=\"Tag cloud\" showTitle=\"True\"&gt;Tag cloud&lt;/widget&gt;&lt;/widgets&gt;</Settings>  </WidgetData>";
+
+                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}DataStoreSettings (BlogId, ExtensionType, ExtensionId, Settings) VALUES ({1}blogid, {1}type, {1}id, {1}file)", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("type"), 1));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), "be_WIDGET_ZONE"));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("file"), widgetZone));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //////////////////////////////////////
+                    // The DbMembershipProvider and DbRoleProvider may or may not be in use.
+                    // Even if it's not in use, copy the rows for the Users and Roles tables.
+                    //
+
+                    // be_Users
+                    var sqlQuery = string.Format("INSERT INTO {0}Users (blogId, userName, password, emailAddress, lastLoginTime) VALUES ({1}blogid, {1}name, {1}pwd, {1}email, {1}login)", this.tablePrefix, this.parmPrefix);
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        var parms = cmd.Parameters;
+                        parms.Add(conn.CreateParameter(FormatParamName("blogid"), newBlog.Id.ToString()));
+                        parms.Add(conn.CreateParameter(FormatParamName("name"), userName));
+                        parms.Add(conn.CreateParameter(FormatParamName("pwd"), Utils.HashPassword(password)));
+                        parms.Add(conn.CreateParameter(FormatParamName("email"), email));
+                        parms.Add(conn.CreateParameter(FormatParamName("login"), DateTime.Now));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_Roles
+                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}Roles (BlogID, role) VALUES ({1}blogid, {1}role)", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), "Administrators"));
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}Roles (BlogID, role) VALUES ({1}blogid, {1}role)", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), "Anonymous"));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // be_UserRoles
+                    using (var cmd = conn.CreateTextCommand(string.Format("INSERT INTO {0}UserRoles (BlogID, UserName, Role) VALUES ({1}blogID, {1}username, {1}role)", this.tablePrefix, this.parmPrefix)))
+                    {
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogID"), newBlog.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("username"), userName.Trim()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("role"), "Administrators"));
                         cmd.ExecuteNonQuery();
                     }
                 }
