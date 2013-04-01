@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<post>
+  <author>Admin</author>
+  <title>Welcome to your blog</title>
+  <description>The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory</description>
+  <content>&lt;p&gt;Welcome to your new blog!&lt;/p&gt;</content>
+  <ispublished>True</ispublished>
+  <isdeleted>False</isdeleted>
+  <iscommentsenabled>True</iscommentsenabled>
+  <pubDate>2012-10-15 10:00:00</pubDate>
+  <lastModified>2012-10-15 10:00:00</lastModified>
+  <raters>5</raters>
+  <rating>4.24</rating>
+  <slug>Welcome-to-your-blog</slug>
+  <tags>
+    <tag>blog</tag>
+    <tag>welcome</tag>
+  </tags>
+  <comments />
+  <categories>
+    <category>19770e74-9ec9-4cde-b2ab-e5051aaaf348</category>
+  </categories>
+  <notifications />
+</post>
