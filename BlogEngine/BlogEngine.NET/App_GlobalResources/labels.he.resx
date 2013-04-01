@@ -871,4 +871,10 @@
   <data name="AllPostsBy" xml:space="preserve">
     <value>פוסטים שנכתבו על ידי</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>שגיאה</value>
+  </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>דף זה לא קיים</value>
+  </data>
 </root>
