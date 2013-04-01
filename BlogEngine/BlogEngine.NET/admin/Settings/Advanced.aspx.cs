@@ -68,6 +68,7 @@
             txtRemoteMaxFileSize.Text = settings.RemoteMaxFileSize.ToString();
             cbEnablePasswordReset.Checked = BlogSettings.Instance.EnablePasswordReset;
             cbEnableSelfRegistration.Checked = BlogSettings.Instance.EnableSelfRegistration;
+            if (!Blog.CurrentInstance.IsPrimary) { cbCreateBlogOnSelfRegistration.Enabled = false; }
             cbCreateBlogOnSelfRegistration.Checked = BlogSettings.Instance.CreateBlogOnSelfRegistration;
             Utils.SelectListItemByValue(ddlSelfRegistrationInitialRole, BlogSettings.Instance.SelfRegistrationInitialRole);
             if (!Page.IsPostBack)

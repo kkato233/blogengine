@@ -544,6 +544,19 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
+        /// Setup new blog
+        /// </summary>
+        /// <param name="newBlog">New blog</param>
+        /// <param name="userName">User name</param>
+        /// <param name="email">Email</param>
+        /// <param name="password">Password</param>
+        /// <returns>True if successful</returns>
+        public static bool SetupNewBlog(Blog newBlog, string userName, string email, string password)
+        {
+            return Provider.SetupNewBlog(newBlog, userName, email, password);
+        }
+
+        /// <summary>
         /// Updates an exsiting BlogRoll.
         /// </summary>
         /// <param name="blogRoll">

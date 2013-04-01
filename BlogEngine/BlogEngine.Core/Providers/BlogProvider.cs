@@ -327,6 +327,16 @@
         public abstract bool SetupBlogFromExistingBlog(Blog existingBlog, Blog newBlog);
 
         /// <summary>
+        /// Setup new blog
+        /// </summary>
+        /// <param name="newBlog">New blog</param>
+        /// <param name="userName">User name</param>
+        /// <param name="email">Email</param>
+        /// <param name="password">Password</param>
+        /// <returns>True if successful</returns>
+        public abstract bool SetupNewBlog(Blog newBlog, string userName, string email, string password);
+
+        /// <summary>
         /// Updates an existing BlogRollItem in the data store specified by the provider.
         /// </summary>
         /// <param name="blogRollItem">
