@@ -3,7 +3,7 @@
   <role>
     <name>Administrators</name>
     <users>
-      <user>Admin</user>
+      <user>[UserName]</user>
     </users>
   </role>
   <role>

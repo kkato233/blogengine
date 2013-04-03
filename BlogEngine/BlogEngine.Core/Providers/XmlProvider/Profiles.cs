@@ -43,6 +43,9 @@
         {
             var folder = string.Format("{0}profiles{1}", this.Folder, Path.DirectorySeparatorChar);
 
+            if (!Directory.Exists(folder))
+                return new List<AuthorProfile>();
+
             return (from file in Directory.GetFiles(folder, "*.xml", SearchOption.TopDirectoryOnly)
                     select new FileInfo(file)
                     into info 
