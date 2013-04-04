@@ -128,6 +128,7 @@
     <Compile Include="Blog.cs" />
     <Compile Include="BlogConfig.cs" />
     <Compile Include="BlogGenerator.cs" />
+    <Compile Include="BlogGeneratorConfig.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Compilation\BaseServerObjectExpressionBuilder.cs" />
     <Compile Include="Compilation\CodeExpressionBuilder.cs" />

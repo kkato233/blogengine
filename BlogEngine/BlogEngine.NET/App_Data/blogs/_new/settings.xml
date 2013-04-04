@@ -12,7 +12,7 @@
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <commentsperpage>10</commentsperpage>
   <feedauthor />
-  <description>Short description of the blog</description>
+  <description>[Description]</description>
   <iscommentnestingenabled>True</iscommentnestingenabled>
   <enablepingbacksend>True</enablepingbacksend>
   <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
@@ -76,7 +76,7 @@
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
   <timezone>0</timezone>
   <enableoptimization>False</enableoptimization>
-  <name>Name of the blog</name>
+  <name>[BlogName]</name>
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>
   <showlivepreview>True</showlivepreview>
