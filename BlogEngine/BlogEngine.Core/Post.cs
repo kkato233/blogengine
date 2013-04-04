@@ -933,8 +933,30 @@
         /// </returns>
         public static List<Post> GetPostsByCategory(Guid categoryId)
         {
-            var cat = Category.GetCategory(categoryId);
-            var col = Posts.FindAll(p => p.Categories.Contains(cat));
+            var cat = Category.GetCategory(categoryId, Blog.CurrentInstance.IsSiteAggregation);
+            return GetPostsByCategory(cat);
+        }
+
+        /// <summary>
+        /// Returns all posts in the specified category
+        /// </summary>
+        /// <param name="cat">Category objuect</param>
+        /// <returns>A list of posts</returns>
+        public static List<Post> GetPostsByCategory(Category cat)
+        {
+            if (cat == null)
+            {
+                return null;
+            }
+            var col = new List<Post>();
+            foreach (var p in Post.ApplicablePosts)
+            {
+                foreach (var c in p.Categories)
+                {
+                    if (c.Title == cat.Title && c.Id == cat.Id) col.Add(p);
+                }
+            }
+            //var col = Post.ApplicablePosts.Where(p => p.Categories.Contains(cat)).ToList();
             col.Sort();
             return col;
         }

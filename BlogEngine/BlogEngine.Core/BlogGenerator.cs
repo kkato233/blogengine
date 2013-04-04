@@ -182,7 +182,13 @@ namespace BlogEngine.Core
                 ReplaceInFile(settingsFile, "[BlogName]", blogName);
                 ReplaceInFile(settingsFile, "[Description]", BlogGeneratorConfig.BlogDescription);
 
+                // generate unique category id
+                var categoriesFile = newBlogFolderPath + @"\categories.xml";
+                var catId = Guid.NewGuid().ToString();
+                ReplaceInFile(categoriesFile, "[CategoryId]", catId);
+
                 var postFile = newBlogFolderPath + @"\posts\" + BlogGeneratorConfig.PostsFileName;
+                ReplaceInFile(postFile, "[CategoryId]", catId);
                 ReplaceInFile(postFile, "[PubDate]", pubDate);
                 ReplaceInFile(postFile, "[Author]", userName);
 

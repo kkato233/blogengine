@@ -150,7 +150,7 @@ namespace BlogEngine.Core.Web
         public static void RewriteCategory(HttpContext context, string url)
         {
             var title = ExtractTitle(context, url);
-            foreach (var cat in from cat in Category.Categories
+            foreach (var cat in from cat in Category.ApplicableCategories
                                 let legalTitle = Utils.RemoveIllegalCharacters(cat.Title).ToLowerInvariant()
                                 where title.Equals(legalTitle, StringComparison.OrdinalIgnoreCase)
                                 select cat)

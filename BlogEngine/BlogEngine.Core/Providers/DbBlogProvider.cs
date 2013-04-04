@@ -2199,13 +2199,15 @@ namespace BlogEngine.Core.Providers
                         }
                     }
 
+                    var catId = Guid.NewGuid().ToString();
+
                     // be_Categories
                     var sqlQuery = string.Format("INSERT INTO {0}Categories (BlogID, CategoryID, CategoryName, description, ParentID) VALUES ({1}blogid, {1}catid, {1}catname, {1}description, {1}parentid)", this.tablePrefix, this.parmPrefix);
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
                         var parms = cmd.Parameters;
                         parms.Add(conn.CreateParameter(FormatParamName("blogid"), newBlog.Id.ToString()));
-                        parms.Add(conn.CreateParameter(FormatParamName("catid"), "19770e74-9ec9-4cde-b2ab-e5051aaaf348"));
+                        parms.Add(conn.CreateParameter(FormatParamName("catid"), catId));
                         parms.Add(conn.CreateParameter(FormatParamName("catname"), "General"));
                         parms.Add(conn.CreateParameter(FormatParamName("description"), "General topics"));
                         parms.Add(conn.CreateParameter(FormatParamName("parentid"), (object)DBNull.Value));
@@ -2239,7 +2241,7 @@ namespace BlogEngine.Core.Providers
                     {
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), newBlog.Id.ToString()));
                         cmd.Parameters.Add(conn.CreateParameter(FormatParamName("id"), post.Id.ToString()));
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("cat"), "19770e74-9ec9-4cde-b2ab-e5051aaaf348"));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("cat"), catId));
                         cmd.ExecuteNonQuery();
                     }
 
