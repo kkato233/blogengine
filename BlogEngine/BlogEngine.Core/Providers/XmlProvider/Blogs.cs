@@ -195,11 +195,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>True if successful</returns>
         public override bool SetupNewBlog(Blog newBlog, string userName, string email, string password)
         {
-            bool copyResult = true; // newBlog.CopyExistingBlogFolderToNewBlogFolder(existingBlog);
-
-            BlogGenerator.CopyTemplateBlogFolder(newBlog.Name, userName, email, password);
-
-            return copyResult;
+            return BlogGenerator.CopyTemplateBlogFolder(newBlog.Name, userName, email, password);
         }
 
         #endregion

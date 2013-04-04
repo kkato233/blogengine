@@ -1,6 +1,7 @@
 ﻿using BlogEngine.Core.Providers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,11 +9,27 @@ using System.Web.Hosting;
 
 namespace BlogEngine.Core
 {
+    /// <summary>
+    /// This class should generate new blog from scratch
+    /// instead of using existing blog as a template
+    /// This way it can be used by self-registed users
+    /// to create pre-configured blog on the fly.
+    /// </summary>
     public class BlogGenerator
     {
+        /// <summary>
+        /// Creates new blog
+        /// </summary>
+        /// <param name="blogName">Name of the blog</param>
+        /// <param name="userName">Name of the first user which will be set up as blog admin</param>
+        /// <param name="email">Email address</param>
+        /// <param name="password">Password</param>
+        /// <param name="message">Return message</param>
+        /// <returns>New blog object</returns>
         public static Blog CreateNewBlog(string blogName, string userName, string email, string password, out string message)
         {
             message = null;
+            blogName = blogName.Trim();
 
             if (!ValidateProperties(blogName, userName, email, out message))
             {
@@ -26,10 +43,10 @@ namespace BlogEngine.Core
             Blog newBlog = new Blog()
             {
                 Name = blogName,
-                StorageContainerName = blogName.Trim().ToLower(),
+                StorageContainerName = blogName.ToLower(),
                 Hostname = "",
                 IsAnyTextBeforeHostnameAccepted = true,
-                VirtualPath = "~/" + blogName,
+                VirtualPath = "~/" + blogName.ToLower(),
                 IsActive = true,
                 IsSiteAggregation = false
             };
@@ -85,9 +102,23 @@ namespace BlogEngine.Core
                 return false;
             }
 
+            if(Directory.Exists(HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, "blogs", blogName))))
+            {
+                message = "Blog with this name already exists; Please select different name";
+                return false;
+            }
+
             return true;
         }
 
+        /// <summary>
+        /// Copy template files for new blog
+        /// </summary>
+        /// <param name="blogName">Name of the blog</param>
+        /// <param name="userName">User name</param>
+        /// <param name="email">Email address</param>
+        /// <param name="password">Password</param>
+        /// <returns>True if successful</returns>
         public static bool CopyTemplateBlogFolder(string blogName, string userName, string email, string password)
         {
             string templateUrl = Path.Combine(BlogConfig.StorageLocation, "blogs", "_new");
@@ -131,26 +162,48 @@ namespace BlogEngine.Core
 
             try
             {
-                // if the primary blog directly in App_Data is the 'source', when all the directories/files are
-                // being copied to the new location, we don't want to copy the entire BlogInstancesFolderName
-                // (by default ~/App_Data/blogs) to the new location.  Everything except for that can be copied.
-                // If the 'source' is a blog instance under ~/App_Data/blogs (e.g. ~/App_Data/blogs/template),
-                // then this is not a concern.
-
                 Utils.CopyDirectoryContents(source, target, new List<string>() { BlogConfig.BlogInstancesFolderName });
 
-                // replace generic "admin" with new blog user
-                ReplaceInFile(newBlogFolderPath + @"\users.xml", "<UserName>Admin</UserName>", "<UserName>" + userName + "</UserName>");
-                ReplaceInFile(newBlogFolderPath + @"\users.xml", "<Password>jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=</Password>", "<Password>" + Utils.HashPassword(password) + "</Password>");
-                ReplaceInFile(newBlogFolderPath + @"\users.xml", "<Email>post@example.com</Email>", "<Email>" + email + "</Email>");
-                ReplaceInFile(newBlogFolderPath + @"\roles.xml", "<user>Admin</user>", "<user>" + userName + "</user>");
+                string msg = "";
+                BlogGeneratorConfig.SetDefaults(out msg);
 
-                string postFile = newBlogFolderPath + @"\posts\c3b491e5-59ac-4f6a-81e5-27e971b903ed.xml";
-                string blogPost = "Dear {0}, welcome to you new blog! <br/>Log in <a href=\"{1}\">here</a> to start using it. <br/>Happy blogging!";
+                string pubDate = DateTime.Now.AddHours(-BlogSettings.Instance.Timezone).ToString(
+                        "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
 
-                ReplaceInFile(postFile, "<author>Admin</author>", "<author>" + userName + "</author>");
-                ReplaceInFile(postFile, "Welcome to your new blog!", string.Format(blogPost, userName, Utils.RelativeWebRoot + blogName + "/Account/login.aspx"));
+                var usersFile = newBlogFolderPath + @"\users.xml";
+                ReplaceInFile(usersFile, "[UserName]", userName);
+                ReplaceInFile(usersFile, "[Password]", Utils.HashPassword(password));
+                ReplaceInFile(usersFile, "[Email]", email);
+
+                var rolesFile = newBlogFolderPath + @"\roles.xml";
+                ReplaceInFile(rolesFile, "[UserName]", userName);
+
+                var settingsFile = newBlogFolderPath + @"\settings.xml";
+                ReplaceInFile(settingsFile, "[BlogName]", blogName);
+                ReplaceInFile(settingsFile, "[Description]", BlogGeneratorConfig.BlogDescription);
+
+                var postFile = newBlogFolderPath + @"\posts\" + BlogGeneratorConfig.PostsFileName;
+                ReplaceInFile(postFile, "[PubDate]", pubDate);
+                ReplaceInFile(postFile, "[Author]", userName);
+
+                if (BlogGeneratorConfig.PostTitle.Contains("{0}"))
+                {
+                    ReplaceInFile(postFile, "[Title]", string.Format(BlogGeneratorConfig.PostTitle, blogName));
+                }
+                else
+                {
+                    ReplaceInFile(postFile, "[Title]", BlogGeneratorConfig.PostTitle);
+                }
                 
+                if (BlogGeneratorConfig.PostContent.Contains("{0}") && BlogGeneratorConfig.PostContent.Contains("{1}"))
+                {
+                    ReplaceInFile(postFile, "[Post]", string.Format(BlogGeneratorConfig.PostContent, userName,
+                        Utils.RelativeWebRoot + blogName + "/Account/login.aspx"));
+                }
+                else
+                {
+                    ReplaceInFile(postFile, "[Post]", BlogGeneratorConfig.PostContent);
+                }
             }
             catch (Exception ex)
             {
@@ -169,12 +222,12 @@ namespace BlogEngine.Core
             cnt = content.Length;
             reader.Close();
 
-            content = Regex.Replace(content, searchText, replaceText);
+            //content = Regex.Replace(content, searchText, replaceText);
+            content = content.Replace(searchText, replaceText);
 
             StreamWriter writer = new StreamWriter(filePath);
             writer.Write(content);
             writer.Close();
         }
-
     }
 }
