@@ -295,7 +295,8 @@
         {
             get
             {
-                return this.Blog.RelativeWebRoot + "category/" + Utils.RemoveIllegalCharacters(this.Title) +
+                var root = Blog.CurrentInstance.IsSiteAggregation ? Utils.ApplicationRelativeWebRoot : Blog.RelativeWebRoot;
+                return root + "category/" + Utils.RemoveIllegalCharacters(this.Title) +
                        BlogConfig.FileExtension;
             }
         }

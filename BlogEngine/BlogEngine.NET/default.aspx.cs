@@ -189,7 +189,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			Guid categoryId = new Guid(Request.QueryString["id"]);
             PostList1.ContentBy = ServingContentBy.Category;
 			PostList1.Posts = Post.GetPostsByCategory(categoryId).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-            Category category = Category.GetCategory(categoryId);
+            Category category = Category.GetCategory(categoryId, Blog.CurrentInstance.IsSiteAggregation);
             Page.Title = category.Title;
             base.AddMetaTag("description", string.IsNullOrWhiteSpace(category.Description) ? Server.HtmlEncode(BlogSettings.Instance.Description + ", " + category.Title) : category.Description);
         }
