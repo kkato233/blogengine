@@ -2220,6 +2220,7 @@ namespace BlogEngine.Core.Providers
                     post.Title = BlogGeneratorConfig.PostTitle.Contains("{0}") ?
                         string.Format(BlogGeneratorConfig.PostTitle, newBlog.Name) :
                         BlogGeneratorConfig.PostTitle;
+                    post.Slug = Utils.RemoveIllegalCharacters(post.Title);
                     post.Description = "The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory";
                     post.Author = userName;
                     string content = BlogGeneratorConfig.PostContent.Replace("&lt;", "<").Replace("&gt;", ">");

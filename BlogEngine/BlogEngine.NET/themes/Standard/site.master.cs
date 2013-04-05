@@ -30,7 +30,6 @@ public partial class StandardSite : System.Web.UI.MasterPage
         }
         if (Security.IsAuthenticated)
         {
-            aUser.InnerText = "Welcome" + Page.User.Identity.Name + "!";
             aLogin.InnerText = Resources.labels.logoff;
             aLogin.HRef = Utils.RelativeWebRoot + "Account/login.aspx?logoff";
         }

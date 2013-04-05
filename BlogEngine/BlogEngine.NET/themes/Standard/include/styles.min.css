@@ -1,9 +1,9 @@
 ﻿/*
  * BlogEngine.NET
- * Standard Theme Version 1.5.0.0
+ * Standard Theme Version 1.6.0.0
  * 
- * Designed and Implementation by Farzin Seyfollahi (@seyfolahi)
- * http://seyfollahi.net/en/page/BlogEngine/
+ * Designed and Implementation by Farzin Seyfolahi (@seyfolahi)
+ * http://seyfolahi.net/en/page/BlogEngine/
  * 
  * Content:
         01.Header               16.Month List
@@ -34,11 +34,11 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 
 /*[ 01.Header ]*/
 .Header { position: relative; margin-bottom: 20px; }
-.Header .HeaderBar  { background: #CCC url(../img/HeaderBar.jpg); height: 48px; -moz-box-shadow: 0 1px 5px #CCC; -webkit-box-shadow: 0 1px 5px #CCC; box-shadow: 0 1px 5px #CCC; }
-.Header .HeaderBar .SubscribeButton         { height: 47px; width: 47px; border-right: 1px solid #F5F5F5; border-left: 1px solid #CCC; background: url(../img/RSS.png) center center no-repeat; }
-.Header .HeaderBar .SubscribeButton:hover   { background: #F5F5F5 url(../img/RSS.png) center center no-repeat; }
-.Header .HeaderBar .SubscribeButton A       { display: block; height: 100%; border-left: 1px solid #F5F5F5; border-right: 1px solid #CCC; }
-.Header .HeaderBar .SubscribeButton span    { display: none; }
+.Header .TopBar  { background: #CCC url(../img/HeaderBar.jpg); height: 48px; -moz-box-shadow: 0 1px 5px #CCC; -webkit-box-shadow: 0 1px 5px #CCC; box-shadow: 0 1px 5px #CCC; }
+.Header .TopBar .SubscribeButton         { height: 47px; width: 47px; border-right: 1px solid #F5F5F5; border-left: 1px solid #CCC; background: url(../img/RSS.png) center center no-repeat; }
+.Header .TopBar .SubscribeButton:hover   { background: #F5F5F5 url(../img/RSS.png) center center no-repeat; }
+.Header .TopBar .SubscribeButton A       { display: block; height: 100%; border-left: 1px solid #F5F5F5; border-right: 1px solid #CCC; }
+.Header .TopBar .SubscribeButton span    { display: none; }
 
 /*[ 02.NavBar ]*/
 .NavBar { border-left: 1px solid #F5F5F5; border-right: 1px solid #CCC; height: 47px; }
@@ -141,7 +141,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 /*[ 12.Blogroll ]*/
 .blogroll ul li A   { padding: 3px; }
 .blogroll ul li     { margin-top: 10px; }
-.blogroll ul ul     { margin-left: 15px; }
+.blogroll ul ul     { margin-left: 15px !important; }
 .blogroll ul ul li  { margin: 0; border-bottom: 1px dotted #DDD; line-height: 24px; }
 .blogroll ul ul li A{ display: block; }
 .blogroll a[title="Download OPML file"] { margin: 10px 0 0 0; }
@@ -249,6 +249,8 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .Align-Center   { text-align: center;}
 .Align-Right    { text-align: right;}
 .Align-Left     { text-align: left;}
+.Float-Right    { float:right;}
+.Float-Left     { float:left;}
 
 /*[ 28.Syntax Highlighter ]*/
 .syntaxhighlighter {direction: ltr !important;}

@@ -1,5 +1,4 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
-
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
@@ -18,36 +17,17 @@
 </head>
 <body class="<%=Resources.labels.LangDirection %>">
     <form runat="Server" class="LayoutPage">
+
+        <!-- Header -->
         <header class="Header">
-            <nav class="HeaderBar">
+            <nav class="TopBar">
                 <div class="Container ClearFix">
                     <ul class="Left NavBar">
                         <li class="Home Left"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
                         <li class="Left"><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
                         <li class="Left"><a href="<%=Utils.AbsoluteWebRoot %>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.contact %></a></li>
-                        <% if (Utils.IsMobile)
-                           { %>
-                        <li class="Left">
-                            <blog:MobileThemeSwitch ID="MobileThemeSwitch1" runat="server" /></li>
-                        <%
-                           }
-                        %>
-                        <!-- Begin Page Links -->
-                        <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished))
-                          { %>
-                        <li class="Left Page-Link"><a href="<%=parentPage.RelativeLink %>" title="<%=parentPage.Title%>"><%=parentPage.Title%></a>
-                            <%if (parentPage.HasChildPages)
-                              {%>
-                            <ul class="Sub-Page-Links">
-                                <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id && p.IsPublished))
-                                  { %>
-                                <li class="Left"><a href="<%=childPage.RelativeLink %>" title="<%=childPage.Title %>"><%=childPage.Title %></a></li>
-                                <%}%>
-                            </ul>
-                            <%} %>
-                        </li>
-                        <%} %>
-                        <!-- /End Page Links -->
+                        <% if (Utils.IsMobile) { %> <li class="Left"> <blog:MobileThemeSwitch ID="MobileThemeSwitch1" runat="server" /></li> <% } %>
+                        <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished)) { %><li class="Left Page-Link"><a href="<%=parentPage.RelativeLink %>" title="<%=parentPage.Title%>"><%=parentPage.Title%></a> <%if (parentPage.HasChildPages) { %> <ul class="Sub-Page-Links"> <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id && p.IsPublished)) { %> <li class="Left"><a href="<%=childPage.RelativeLink %>" title="<%=childPage.Title %>"><%=childPage.Title %></a></li> <% } %> </ul> <% } %></li> <% } %>
                     </ul>
                     <div class=" SubscribeButton Right">
                         <a href="<%=Utils.FeedUrl %>" title="<%=Resources.labels.subscribe %>"><span><%=Resources.labels.subscribe %></span></a>
@@ -56,7 +36,7 @@
                 </div>
             </nav>
             <div class="BlogTitle">
-                <div class="Container AlignLeft ClearFix">
+                <div class="Container ClearFix">
                     <h1 class="Title">
                         <a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a>
                     </h1>
@@ -65,6 +45,8 @@
             </div>
         </header>
         <!-- /Header -->
+
+        <!-- PageWrapper -->
         <section class="Container" id="PageWrapper">
             <section class="Left Content">
                 <blog:SearchOnSearch ID="SearchOnSearch1" runat="server" MaxResults="3" Headline="You searched for" Text="Here are some results for the search term on this website" />
@@ -75,9 +57,11 @@
             </aside>
         </section>
         <!-- /PageWrapper -->
+
+        <!-- Footer -->
         <footer class="Footer">
             <div class="Container">
-                <nav class="NavBarFooter AlignCenter">
+                <nav class="NavBarFooter">
                     <ul class="clearFix">
                         <li class="Home"><a href="<%=Utils.AbsoluteWebRoot %>" rel="home"><span><%=Resources.labels.home %></span></a></li>
                         <li>|</li>
@@ -89,17 +73,18 @@
                         <li>|</li>
                         <li><a href="javascript:void(BlogEngine.filterByAPML())" class="apmlfilter"><%=Resources.labels.filterByApml %></a></li>
                         <li>|</li>
-                        <li><span runat="server" id="aUser" style="display: none;"></span><a runat="server" id="aLogin" /></li>
+                        <li><a runat="server" id="aLogin"></a></li>
                     </ul>
                 </nav>
                 <div class="License">
                     <p class="ltr">
-                        Copyright &copy; <%=DateTime.Now.Year %> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Theme by <a href="http://seyfollahi.net/" title="Web Designer - UI/UX" target="_blank">Farzin Seyfollahi</a>
+                        Copyright &copy; <%=DateTime.Now.Year %> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Theme by <a href="http://seyfolahi.net/" title="Web Designer - UI/UX" target="_blank">Farzin Seyfolahi</a>
                     </p>
                 </div>
             </div>
         </footer>
         <!-- /Footer -->
+
     </form>
 </body>
 </html>
