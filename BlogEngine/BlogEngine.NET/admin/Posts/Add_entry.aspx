@@ -84,8 +84,6 @@
                     }
                 }
                 function SavePost() {
-                    $('.loader').show();
-
                     var content = document.getElementById('<%=txtRawContent.ClientID %>') != null ? document.getElementById('<%=txtRawContent.ClientID %>').value : tinyMCE.activeEditor.getContent();
 
                     var title = document.getElementById('<%=txtTitle.ClientID %>').value;
@@ -136,18 +134,13 @@
                         success: function (result) {
                             var rt = result.d;
                             if (rt.Success) {
-                                if (rt.Data) {
-                                    window.location.href = rt.Data;
-                                } else {
-                                    ShowStatus("success", rt.Message);
-                                }
+                                ShowStatus("success", rt.Message);
                             }
-                            else
+                            else {
                                 ShowStatus("warning", rt.Message);
+                            }
                         }
                     });
-
-                    $('.loader').hide();
                     return false;
                 }
             </script>

@@ -59,11 +59,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                 success: function (result) {
                     var rt = result.d;
                     if (rt.Success) {
-                        if (rt.Data) {
-                            window.location.href = rt.Data;
-                        } else {
-                            ShowStatus("success", rt.Message);
-                        }
+                        ShowStatus("success", rt.Message);
                     }
                     else
                         ShowStatus("warning", rt.Message);

@@ -1,12 +1,13 @@
 ﻿/*
     rtl.css
     This file for supported RTL direction.
-    RTL direction for languages right to left (Arabic,Persian and etc.)
-    if your site is rtl, it required to be this file. otherwise you can delete it.
+    RTL direction for languages Right To Left (Arabic,Persian and etc.)
+    If your site is RTL, it required to be this file. otherwise you can delete it.
     More info: http://seyfollahi.net/en/page/BlogEngine/
 */
 
 .rtl {direction: rtl !important ;font: 12px tahoma, arial, sans-serif !important ;}
+.rtl .ltr {direction:ltr !important;}
 .rtl h1 {font-family: 'B yekan', tahoma,Arial;}
 .rtl h2, .rtl h3 {font-family: 'B Koodak','B yekan', tahoma,Arial;}
 .rtl h3 {margin-bottom: 10px; font-weight:normal;}

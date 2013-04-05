@@ -192,14 +192,19 @@ namespace BlogEngine.Core
                 ReplaceInFile(postFile, "[PubDate]", pubDate);
                 ReplaceInFile(postFile, "[Author]", userName);
 
+                var postTitle = "";
+
                 if (BlogGeneratorConfig.PostTitle.Contains("{0}"))
                 {
-                    ReplaceInFile(postFile, "[Title]", string.Format(BlogGeneratorConfig.PostTitle, blogName));
+                    postTitle = string.Format(BlogGeneratorConfig.PostTitle, blogName);
                 }
                 else
                 {
-                    ReplaceInFile(postFile, "[Title]", BlogGeneratorConfig.PostTitle);
+                    postTitle = BlogGeneratorConfig.PostTitle;
                 }
+
+                ReplaceInFile(postFile, "[Title]", postTitle);
+                ReplaceInFile(postFile, "[Slug]", Utils.RemoveIllegalCharacters(postTitle));
                 
                 if (BlogGeneratorConfig.PostContent.Contains("{0}") && BlogGeneratorConfig.PostContent.Contains("{1}"))
                 {
