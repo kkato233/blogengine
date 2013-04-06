@@ -47,6 +47,7 @@ namespace App_Code.Controls
         static AuthorList()
         {
             Post.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
+            AuthorProfile.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
         }
 
         #endregion
@@ -145,6 +146,16 @@ namespace App_Code.Controls
 
         #endregion
 
+        #region Properties from widget Edit
+
+        public int MaxAuthors { get; set; }
+
+        public string DisplayPattern { get; set; }
+
+        public string PatternAggregated { get; set; }
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -175,36 +186,46 @@ namespace App_Code.Controls
             }
 
             var ul = new HtmlGenericControl("ul") { ID = "authorlist" };
+            ul.Attributes.Add("class", "authorlist");
 
             IEnumerable<MembershipUser> users = Membership.GetAllUsers()
                 .Cast<MembershipUser>()
                 .ToList()
                 .OrderBy(a => a.UserName);
 
+            int userCnt = 0;
+
             foreach (MembershipUser user in users)
             {
+                if (userCnt >= MaxAuthors)
+                    break;
+
+                var blog = Post.GetBlogByAuthor(user.UserName);
+                if(blog == null)
+                    continue;
+
+                var blogName = blog.IsPrimary ? "" : blog.Name + "/";
+
                 var postCount = Post.GetPostsByAuthor(user.UserName).Count;
                 if (postCount == 0)
-                {
                     continue;
-                }
 
                 var li = new HtmlGenericControl("li");
 
                 if (ShowRssIcon)
                 {
                     var img = new HtmlImage
-                        {
-                            Src = string.Format("{0}pics/rssButton.png", Utils.RelativeWebRoot),
-                            Alt = string.Format("RSS feed for {0}", user.UserName)
-                        };
+                    {
+                        Src = string.Format("{0}pics/rssButton.png", Utils.RelativeWebRoot),
+                        Alt = string.Format("RSS feed for {0}", user.UserName)
+                    };
                     img.Attributes["class"] = "rssButton";
 
                     var feedAnchor = new HtmlAnchor
-                        {
-                            HRef =
-                                string.Format("{0}syndication.axd?author={1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(user.UserName))
-                        };
+                    {
+                        HRef =
+                            string.Format("{0}{1}syndication.axd?author={2}", Utils.ApplicationRelativeWebRoot, blogName, Utils.RemoveIllegalCharacters(user.UserName))
+                    };
                     feedAnchor.Attributes["rel"] = "nofollow";
                     feedAnchor.Controls.Add(img);
 
@@ -227,7 +248,7 @@ namespace App_Code.Controls
                     var authorAnchor = new HtmlAnchor
                     {
                         HRef =
-                            string.Format("{0}syndication.axd?author={1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(user.UserName))
+                            string.Format("{0}{1}syndication.axd?author={2}", Utils.ApplicationRelativeWebRoot, blogName, Utils.RemoveIllegalCharacters(user.UserName))
                     };
                     authorAnchor.Attributes["rel"] = "nofollow";
                     authorAnchor.Controls.Add(img);
@@ -235,15 +256,31 @@ namespace App_Code.Controls
                     li.Controls.Add(authorAnchor);
                 }
 
+                var innerHtml = "";
+                try
+                {
+                    innerHtml = Blog.CurrentInstance.IsSiteAggregation ?
+                    string.Format(PatternAggregated, user.UserName, blog.Name, postCount) :
+                    string.Format(DisplayPattern, user.UserName, postCount);
+                }
+                catch (Exception)
+                {
+                    innerHtml = Blog.CurrentInstance.IsSiteAggregation ?
+                    string.Format("{0}@{1} ({2})", user.UserName, blog.Name, postCount) :
+                    string.Format("{0} ({1})", user.UserName, postCount);
+                }
+
                 var anc = new HtmlAnchor
-                    {
-                        HRef = string.Format("{0}author/{1}{2}", Utils.RelativeWebRoot, user.UserName, BlogConfig.FileExtension),
-                        InnerHtml = string.Format("{0} ({1})", user.UserName, postCount),
-                        Title = string.Format("Author: {0}", user.UserName)
-                    };
+                {
+                    HRef = string.Format("{0}{1}author/{2}{3}", Utils.ApplicationRelativeWebRoot, blogName, user.UserName, BlogConfig.FileExtension),
+                    InnerHtml = innerHtml,
+                    Title = string.Format("Author: {0}", user.UserName)
+                };
+                anc.Attributes.Add("class", "authorlink");
 
                 li.Controls.Add(anc);
                 ul.Controls.Add(li);
+                userCnt++;
             }
 
             return ul;
