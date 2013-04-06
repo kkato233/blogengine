@@ -912,7 +912,7 @@
         public static List<Post> GetPostsByAuthor(string author)
         {
             var legalAuthor = Utils.RemoveIllegalCharacters(author);
-            var list = Posts.FindAll(
+            var list = ApplicablePosts.FindAll(
                 p =>
                 {
                     var legalTitle = Utils.RemoveIllegalCharacters(p.Author);
@@ -920,6 +920,19 @@
                 });
 
             return list;
+        }
+
+        public static Blog GetBlogByAuthor(string author)
+        {
+            var legalAuthor = Utils.RemoveIllegalCharacters(author);
+            var post = ApplicablePosts.FirstOrDefault(
+                p =>
+                {
+                    var legalTitle = Utils.RemoveIllegalCharacters(p.Author);
+                    return legalAuthor.Equals(legalTitle, StringComparison.OrdinalIgnoreCase);
+                });
+
+            return post == null ? null : post.Blog;
         }
 
         /// <summary>

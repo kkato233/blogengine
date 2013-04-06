@@ -2014,4 +2014,16 @@
   <data name="PageNotFound" xml:space="preserve">
     <value>Page not found</value>
   </data>
+  <data name="ListIsEmpty" xml:space="preserve">
+    <value>This list is empty. You can add new item from the menu above.</value>
+  </data>
+  <data name="authorDispalyCount" xml:space="preserve">
+    <value>Maximum authors in the list</value>
+  </data>
+  <data name="authorDisplayPattern" xml:space="preserve">
+    <value>Display pattern (author, post count)</value>
+  </data>
+  <data name="authorDisplayPatternAggregated" xml:space="preserve">
+    <value>Display pattern in aggregated blog (author, blog, post count)</value>
+  </data>
 </root>
