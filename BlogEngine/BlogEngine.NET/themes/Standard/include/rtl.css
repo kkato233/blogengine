@@ -26,6 +26,7 @@
 .rtl .comment .gravatar {margin-left: 10px;margin-right: 0;}
 .rtl #comment-form .success {background: #cdeb8e url(../img/success.png) no-repeat left center;}
 .rtl #comment-form .comment .comment-contents {border-right: 1px solid #CCC !important;border-left: none !important;}
+.rtl #comment-form .txt-country {height:30px;padding:4px;width:186px;}
 .rtl #commentMenu {float: left;}
 .rtl #commentPreview .comment {border: 1px solid #CCC;border-right: none;}
 .rtl #commenttoggle {float: left !important;}

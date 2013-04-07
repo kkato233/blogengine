@@ -1,6 +1,6 @@
 ﻿/*
  * BlogEngine.NET
- * Standard Theme Version 1.6.0.0
+ * Standard Theme Version 1.7.0.0
  * 
  * Designed and Implementation by Farzin Seyfolahi (@seyfolahi)
  * http://seyfolahi.net/en/page/BlogEngine/
@@ -131,7 +131,9 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .Widget .delete, .Widget .move, .Widget .edit { float: right; position: relative; top: 4px; }
 
 /*[ 10.Author List ]*/
-.authorlist A { margin: 3px; }
+#authorlist li {border-bottom: 1px dotted #DDD; line-height: 28px; margin-bottom:4px;}
+#authorlist li A[rel="nofollow"] {position:relative;top:3px;}
+#authorlist li A.authorlink {position:relative;top:-8px;margin-left:5px;}
 
 /*[ 11.Blog List ]*/
 .bloglist ul        { margin: 3px; }

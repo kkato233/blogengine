@@ -562,18 +562,18 @@
         {
             get
             {
-                var theslug = Utils.RemoveIllegalCharacters(this.Slug) + BlogConfig.FileExtension;
-
                 // taking into account aggregated posts
                 var settings = BlogSettings.GetInstanceSettings(Blog);
+                var ext = string.IsNullOrEmpty(BlogConfig.FileExtension) ? ".aspx" : BlogConfig.FileExtension;
+
+                //var fileExt = settings.RemoveExtensionsFromUrls ? "" : BlogConfig.FileExtension;
+                var theslug = Utils.RemoveIllegalCharacters(this.Slug); // +fileExt;
+                if (!settings.RemoveExtensionsFromUrls)
+                    theslug += ext;
 
                 return settings.TimeStampPostLinks
-                           ? string.Format(
-                               "{0}post/{1}{2}",
-                               this.Blog.RelativeWebRoot,
-                               this.DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture),
-                               theslug)
-                           : string.Format("{0}post/{1}", Utils.RelativeWebRoot, theslug);
+                    ? string.Format("{0}post/{1}{2}", Blog.RelativeWebRoot, DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture), theslug)
+                    : string.Format("{0}post/{1}", Utils.RelativeWebRoot, theslug);
             }
         }
 
@@ -596,6 +596,7 @@
                 // if in aggregate blog file extension set to be removed
                 // but child blog still votes to have it, add extension back
                 var ext = string.IsNullOrEmpty(BlogConfig.FileExtension) ? ".aspx" : BlogConfig.FileExtension;
+
                 if (!settings.RemoveExtensionsFromUrls && !returnLink.EndsWith(ext))
                     returnLink += ext;
 
@@ -966,7 +967,14 @@
             {
                 foreach (var c in p.Categories)
                 {
-                    if (c.Title == cat.Title && c.Id == cat.Id) col.Add(p);
+                    if (Blog.CurrentInstance.IsSiteAggregation)
+                    {
+                        if (c.Title == cat.Title) col.Add(p);
+                    }
+                    else
+                    {
+                        if (c.Title == cat.Title && c.Id == cat.Id) col.Add(p);
+                    }
                 }
             }
             //var col = Post.ApplicablePosts.Where(p => p.Categories.Contains(cat)).ToList();
