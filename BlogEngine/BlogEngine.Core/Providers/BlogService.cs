@@ -198,9 +198,9 @@ namespace BlogEngine.Core.Providers
         /// <returns>
         /// A list of Category.
         /// </returns>
-        public static List<Category> FillCategories()
+        public static List<Category> FillCategories(Blog blog)
         {
-            return Provider.FillCategories();
+            return Provider.FillCategories(blog);
         }
 
         /// <summary>
@@ -384,9 +384,9 @@ namespace BlogEngine.Core.Providers
         /// them in a StringDictionary for the BlogSettings class to use.
         /// </summary>
         /// <returns>A StringDictionary.</returns>
-        public static StringDictionary LoadSettings()
+        public static StringDictionary LoadSettings(Blog blog)
         {
-            return Provider.LoadSettings();
+            return Provider.LoadSettings(blog);
         }
 
         /// <summary>

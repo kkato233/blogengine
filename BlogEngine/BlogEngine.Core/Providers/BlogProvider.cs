@@ -89,7 +89,7 @@
         /// Retrieves all Categories from the provider and returns them in a List.
         /// </summary>
         /// <returns>A list of Category.</returns>
-        public abstract List<Category> FillCategories();
+        public abstract List<Category> FillCategories(Blog blog);
 
         /// <summary>
         /// Retrieves all Pages from the provider and returns them in a List.
@@ -212,7 +212,7 @@
         /// Loads the settings from the provider.
         /// </summary>
         /// <returns>A StringDictionary.</returns>
-        public abstract StringDictionary LoadSettings();
+        public abstract StringDictionary LoadSettings(Blog blog);
 
         /// <summary>
         /// Loads the stop words used in the search feature.

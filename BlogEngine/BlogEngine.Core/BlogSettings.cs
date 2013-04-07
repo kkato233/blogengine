@@ -81,7 +81,16 @@
         /// </summary>
         private BlogSettings()
         {
-            this.Load();
+            this.Load(Blog.CurrentInstance);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blog"></param>
+        private BlogSettings(Blog blog)
+        {
+            this.Load(blog);
         }
 
         #endregion
@@ -114,7 +123,7 @@
                     if (!blogSettingsSingleton.TryGetValue(blog.Id, out blogSettings))
                     {
                         // settings will be loaded in constructor.
-                        blogSettings = new BlogSettings();
+                        blogSettings = new BlogSettings(blog);
 
                         blogSettingsSingleton[blog.Id] = blogSettings;
                     }
@@ -1345,13 +1354,13 @@
         /// <summary>
         /// Initializes the singleton instance of the <see cref="BlogSettings"/> class.
         /// </summary>
-        private void Load()
+        private void Load(Blog blog)
         {
 
             // ------------------------------------------------------------
             // 	Enumerate through individual settings nodes
             // ------------------------------------------------------------
-            var dic = BlogService.LoadSettings();
+            var dic = BlogService.LoadSettings(blog);
             var settingsProps = GetSettingsTypePropertyDict();
 
             foreach (System.Collections.DictionaryEntry entry in dic)

@@ -383,26 +383,6 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
-        /// Remove AuthorProfile from database
-        /// </summary>
-        /// <param name="profile">An AuthorProfile.</param>
-        public override void DeleteProfile(AuthorProfile profile)
-        {
-            using (var conn = this.CreateConnection())
-            {
-                if (conn.HasConnection)
-                {
-                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Profiles WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
-                    {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), profile.Id));
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets all BlogRolls in database
         /// </summary>
         /// <returns>
@@ -496,7 +476,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>
         /// List of categories
         /// </returns>
-        public override List<Category> FillCategories()
+        public override List<Category> FillCategories(Blog blog)
         {
             var categories = new List<Category>();
 
@@ -506,7 +486,7 @@ namespace BlogEngine.Core.Providers
                 {
                     using (var cmd = conn.CreateTextCommand(string.Format("SELECT CategoryID, CategoryName, description, ParentID FROM {0}Categories WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), blog.Id.ToString()));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -596,38 +576,6 @@ namespace BlogEngine.Core.Providers
 
             posts.Sort();
             return posts;
-        }
-
-        /// <summary>
-        /// Return collection for AuthorProfiles from database
-        /// </summary>
-        /// <returns>
-        /// List of AuthorProfile
-        /// </returns>
-        public override List<AuthorProfile> FillProfiles()
-        {
-            var profileNames = new List<string>();
-
-            using (var conn = this.CreateConnection())
-            {
-                if (conn.HasConnection)
-                {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT UserName FROM {0}Profiles WHERE BlogID = {1}blogid GROUP BY UserName", this.tablePrefix, this.parmPrefix)))
-                    {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
-
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                profileNames.Add(rdr.GetString(0));
-                            }
-                        }
-                    }
-                }
-            }
-
-            return profileNames.Select(BusinessBase<AuthorProfile, string>.Load).ToList();
         }
 
         /// <summary>
@@ -975,15 +923,6 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
-        /// Adds AuthorProfile to database
-        /// </summary>
-        /// <param name="profile">An AuthorProfile.</param>
-        public override void InsertProfile(AuthorProfile profile)
-        {
-            this.UpdateProfile(profile);
-        }
-
-        /// <summary>
         /// Adds a new Referrer to the database.
         /// </summary>
         /// <param name="referrer">
@@ -1088,7 +1027,7 @@ namespace BlogEngine.Core.Providers
         /// <returns>
         /// dictionary of settings
         /// </returns>
-        public override StringDictionary LoadSettings()
+        public override StringDictionary LoadSettings(Blog blog)
         {
             var dic = new StringDictionary();
 
@@ -1098,7 +1037,7 @@ namespace BlogEngine.Core.Providers
                 {
                     using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Settings WHERE BlogId = {1}blogid ", this.tablePrefix, this.parmPrefix)))
                     {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), blog.Id.ToString()));
 
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -1698,126 +1637,6 @@ namespace BlogEngine.Core.Providers
 
 
             return post;
-        }
-
-        /// <summary>
-        /// Loads AuthorProfile from database
-        /// </summary>
-        /// <param name="id">The user name.</param>
-        /// <returns>An AuthorProfile.</returns>
-        public override AuthorProfile SelectProfile(string id)
-        {
-            var dic = new StringDictionary();
-            var profile = new AuthorProfile(id);
-
-            // Retrieve Profile data from Db
-
-            using (var conn = this.CreateConnection())
-            {
-                if (conn.HasConnection)
-                {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
-                    {
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
-                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), id));
-
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                dic.Add(rdr.GetString(0), rdr.GetString(1));
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Load profile with data from dictionary
-            if (dic.ContainsKey("DisplayName"))
-            {
-                profile.DisplayName = dic["DisplayName"];
-            }
-
-            if (dic.ContainsKey("FirstName"))
-            {
-                profile.FirstName = dic["FirstName"];
-            }
-
-            if (dic.ContainsKey("MiddleName"))
-            {
-                profile.MiddleName = dic["MiddleName"];
-            }
-
-            if (dic.ContainsKey("LastName"))
-            {
-                profile.LastName = dic["LastName"];
-            }
-
-            if (dic.ContainsKey("CityTown"))
-            {
-                profile.CityTown = dic["CityTown"];
-            }
-
-            if (dic.ContainsKey("RegionState"))
-            {
-                profile.RegionState = dic["RegionState"];
-            }
-
-            if (dic.ContainsKey("Country"))
-            {
-                profile.Country = dic["Country"];
-            }
-
-            if (dic.ContainsKey("Birthday"))
-            {
-                DateTime date;
-                if (DateTime.TryParse(dic["Birthday"], out date))
-                {
-                    profile.Birthday = date;
-                }
-            }
-
-            if (dic.ContainsKey("AboutMe"))
-            {
-                profile.AboutMe = dic["AboutMe"];
-            }
-
-            if (dic.ContainsKey("PhotoURL"))
-            {
-                profile.PhotoUrl = dic["PhotoURL"];
-            }
-
-            if (dic.ContainsKey("Company"))
-            {
-                profile.Company = dic["Company"];
-            }
-
-            if (dic.ContainsKey("EmailAddress"))
-            {
-                profile.EmailAddress = dic["EmailAddress"];
-            }
-
-            if (dic.ContainsKey("PhoneMain"))
-            {
-                profile.PhoneMain = dic["PhoneMain"];
-            }
-
-            if (dic.ContainsKey("PhoneMobile"))
-            {
-                profile.PhoneMobile = dic["PhoneMobile"];
-            }
-
-            if (dic.ContainsKey("PhoneFax"))
-            {
-                profile.PhoneFax = dic["PhoneFax"];
-            }
-
-            if (dic.ContainsKey("IsPrivate"))
-            {
-                profile.Private = dic["IsPrivate"] == "true";
-            }
-
-            return profile;
         }
 
         /// <summary>
@@ -2480,6 +2299,231 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
+        /// Saves an existing Referrer to the database.
+        /// </summary>
+        /// <param name="referrer">
+        /// Referrer to be saved.
+        /// </param>
+        public override void UpdateReferrer(Referrer referrer)
+        {
+            var referrers = Referrer.Referrers;
+            referrers.Remove(referrer);
+            referrers.Add(referrer);
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    var sqlQuery = string.Format("UPDATE {0}Referrers SET ReferralDay = {1}ReferralDay, ReferrerUrl = {1}ReferrerUrl, ReferralCount = {1}ReferralCount, Url = {1}Url, IsSpam = {1}IsSpam WHERE BlogId = {1}BlogId AND ReferrerId = {1}ReferrerId", this.tablePrefix, this.parmPrefix);
+
+                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    {
+                        this.AddReferrersParametersToCommand(referrer, conn, cmd);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        #region Profiles
+
+        /// <summary>
+        /// Return collection for AuthorProfiles from database
+        /// </summary>
+        /// <returns>
+        /// List of AuthorProfile
+        /// </returns>
+        public override List<AuthorProfile> FillProfiles()
+        {
+            var profileNames = new List<string>();
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    if (Blog.CurrentInstance.IsSiteAggregation)
+                    {
+                        using (var cmd = conn.CreateTextCommand(string.Format("SELECT UserName FROM {0}Profiles GROUP BY UserName", this.tablePrefix, this.parmPrefix)))
+                        {
+                            using (var rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    profileNames.Add(rdr.GetString(0));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        using (var cmd = conn.CreateTextCommand(string.Format("SELECT UserName FROM {0}Profiles WHERE BlogID = {1}blogid GROUP BY UserName", this.tablePrefix, this.parmPrefix)))
+                        {
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+
+                            using (var rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    profileNames.Add(rdr.GetString(0));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return profileNames.Select(BusinessBase<AuthorProfile, string>.Load).ToList();
+        }
+
+        /// <summary>
+        /// Loads AuthorProfile from database
+        /// </summary>
+        /// <param name="id">The user name.</param>
+        /// <returns>An AuthorProfile.</returns>
+        public override AuthorProfile SelectProfile(string id)
+        {
+            var dic = new StringDictionary();
+            var profile = new AuthorProfile(id);
+
+            // Retrieve Profile data from Db
+
+            using (var conn = this.CreateConnection())
+            {
+                if (conn.HasConnection)
+                {
+                    if (Blog.CurrentInstance.IsSiteAggregation)
+                    {
+                        using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE UserName = {1}name", this.tablePrefix, this.parmPrefix)))
+                        {
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), id));
+
+                            using (var rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    dic.Add(rdr.GetString(0), rdr.GetString(1));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        using (var cmd = conn.CreateTextCommand(string.Format("SELECT SettingName, SettingValue FROM {0}Profiles WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
+                        {
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                            cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), id));
+
+                            using (var rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    dic.Add(rdr.GetString(0), rdr.GetString(1));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Load profile with data from dictionary
+            if (dic.ContainsKey("DisplayName"))
+            {
+                profile.DisplayName = dic["DisplayName"];
+            }
+
+            if (dic.ContainsKey("FirstName"))
+            {
+                profile.FirstName = dic["FirstName"];
+            }
+
+            if (dic.ContainsKey("MiddleName"))
+            {
+                profile.MiddleName = dic["MiddleName"];
+            }
+
+            if (dic.ContainsKey("LastName"))
+            {
+                profile.LastName = dic["LastName"];
+            }
+
+            if (dic.ContainsKey("CityTown"))
+            {
+                profile.CityTown = dic["CityTown"];
+            }
+
+            if (dic.ContainsKey("RegionState"))
+            {
+                profile.RegionState = dic["RegionState"];
+            }
+
+            if (dic.ContainsKey("Country"))
+            {
+                profile.Country = dic["Country"];
+            }
+
+            if (dic.ContainsKey("Birthday"))
+            {
+                DateTime date;
+                if (DateTime.TryParse(dic["Birthday"], out date))
+                {
+                    profile.Birthday = date;
+                }
+            }
+
+            if (dic.ContainsKey("AboutMe"))
+            {
+                profile.AboutMe = dic["AboutMe"];
+            }
+
+            if (dic.ContainsKey("PhotoURL"))
+            {
+                profile.PhotoUrl = dic["PhotoURL"];
+            }
+
+            if (dic.ContainsKey("Company"))
+            {
+                profile.Company = dic["Company"];
+            }
+
+            if (dic.ContainsKey("EmailAddress"))
+            {
+                profile.EmailAddress = dic["EmailAddress"];
+            }
+
+            if (dic.ContainsKey("PhoneMain"))
+            {
+                profile.PhoneMain = dic["PhoneMain"];
+            }
+
+            if (dic.ContainsKey("PhoneMobile"))
+            {
+                profile.PhoneMobile = dic["PhoneMobile"];
+            }
+
+            if (dic.ContainsKey("PhoneFax"))
+            {
+                profile.PhoneFax = dic["PhoneFax"];
+            }
+
+            if (dic.ContainsKey("IsPrivate"))
+            {
+                profile.Private = dic["IsPrivate"] == "true";
+            }
+
+            return profile;
+        }
+
+        /// <summary>
+        /// Adds AuthorProfile to database
+        /// </summary>
+        /// <param name="profile">An AuthorProfile.</param>
+        public override void InsertProfile(AuthorProfile profile)
+        {
+            this.UpdateProfile(profile);
+        }
+
+        /// <summary>
         /// Updates AuthorProfile to database
         /// </summary>
         /// <param name="profile">
@@ -2594,32 +2638,26 @@ namespace BlogEngine.Core.Providers
         }
 
         /// <summary>
-        /// Saves an existing Referrer to the database.
+        /// Remove AuthorProfile from database
         /// </summary>
-        /// <param name="referrer">
-        /// Referrer to be saved.
-        /// </param>
-        public override void UpdateReferrer(Referrer referrer)
+        /// <param name="profile">An AuthorProfile.</param>
+        public override void DeleteProfile(AuthorProfile profile)
         {
-            var referrers = Referrer.Referrers;
-            referrers.Remove(referrer);
-            referrers.Add(referrer);
-
             using (var conn = this.CreateConnection())
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("UPDATE {0}Referrers SET ReferralDay = {1}ReferralDay, ReferrerUrl = {1}ReferrerUrl, ReferralCount = {1}ReferralCount, Url = {1}Url, IsSpam = {1}IsSpam WHERE BlogId = {1}BlogId AND ReferrerId = {1}ReferrerId", this.tablePrefix, this.parmPrefix);
-
-                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    using (var cmd = conn.CreateTextCommand(string.Format("DELETE FROM {0}Profiles WHERE BlogID = {1}blogid AND UserName = {1}name", this.tablePrefix, this.parmPrefix)))
                     {
-                        this.AddReferrersParametersToCommand(referrer, conn, cmd);
-
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("blogid"), Blog.CurrentInstance.Id.ToString()));
+                        cmd.Parameters.Add(conn.CreateParameter(FormatParamName("name"), profile.Id));
                         cmd.ExecuteNonQuery();
                     }
                 }
             }
         }
+
+        #endregion
 
         #region Packaging
 
@@ -2956,9 +2994,6 @@ namespace BlogEngine.Core.Providers
 
         #region Methods
 
-
-
-
         /// <summary>
         /// The update categories.
         /// </summary>
@@ -3211,7 +3246,6 @@ namespace BlogEngine.Core.Providers
         }
 
         #endregion
-
 
         /// <summary>
         /// Creates a new DbConnectionHelper for this DbBlogProvider instance.
