@@ -37,6 +37,8 @@ namespace App_Code.Controls
 
         private int authorImgSize = 24;
 
+        private static string widgetCacheKey = "widget_authorlist";
+
         #endregion
 
         #region Constructors and Destructors
@@ -47,7 +49,7 @@ namespace App_Code.Controls
         static AuthorList()
         {
             Post.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
-            AuthorProfile.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
+            AuthorProfile.Saved += ClearCache;
         }
 
         #endregion
@@ -135,12 +137,15 @@ namespace App_Code.Controls
         {
             get
             {
-                Guid blogId = Blog.CurrentInstance.Id;
+                var widgetHrml = Blog.CurrentInstance.Cache[widgetCacheKey] as string;
 
-                if (!blogsHtml.ContainsKey(blogId))
-                    blogsHtml[blogId] = Utils.RenderControl(BindAuthors());
+                if (string.IsNullOrEmpty(widgetHrml))
+                {
+                    widgetHrml = Utils.RenderControl(BindAuthors());
+                    Blog.CurrentInstance.Cache.Insert(widgetCacheKey, widgetHrml);
+                }
 
-                return blogsHtml[blogId];
+                return widgetHrml;
             }
         }
 
@@ -171,6 +176,18 @@ namespace App_Code.Controls
         #endregion
 
         #region Methods
+
+        private static void ClearCache(object sender, EventArgs e)
+        {
+            Blog.CurrentInstance.Cache.Remove(widgetCacheKey);
+
+            Blog siteAggregationBlog = Blog.SiteAggregationBlog;
+            if (siteAggregationBlog != null)
+            {
+                siteAggregationBlog.Cache.Remove(widgetCacheKey);
+                AuthorProfile.RemoveProfile(siteAggregationBlog.Id);
+            }
+        }
 
         /// <summary>
         /// Loops through all users and builds the HTML
