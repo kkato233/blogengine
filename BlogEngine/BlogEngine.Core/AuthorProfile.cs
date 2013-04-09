@@ -540,6 +540,15 @@
             return j;
         }
 
+        /// <summary>
+        /// Removes profile for a specific blog
+        /// </summary>
+        /// <param name="blogId">Blog ID</param>
+        public static void RemoveProfile(Guid blogId)
+        {
+            profiles.Remove(blogId);
+        }
+
         #endregion
 
         #region Methods
