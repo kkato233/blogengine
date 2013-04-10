@@ -66,7 +66,7 @@ namespace BlogEngine.Core.Web
             }
 
             var q = GetQueryString(context);
-            if (q.Contains("id=", StringComparison.OrdinalIgnoreCase))
+            if (q.Contains("id=" + post.Id, StringComparison.OrdinalIgnoreCase))
                 q = string.Format("{0}post.aspx?{1}", Utils.ApplicationRelativeWebRoot, q);
             else
                 q = string.Format("{0}post.aspx?id={1}{2}", Utils.ApplicationRelativeWebRoot, post.Id, q);
