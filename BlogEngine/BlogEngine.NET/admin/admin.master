@@ -8,18 +8,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" style="height: 100%;">
 <head id="Head1" runat="server">
     <title>BlogEngine.NET Admin</title>
-    <%if (BlogSettings.Instance.EnableOptimization)
-      { %>
+    <%if (BlogSettings.Instance.EnableOptimization) { %>
     <link href="<%= BundleTable.Bundles.ResolveBundleUrl("~/admin/css") %>" rel="stylesheet" type="text/css" />
-    <% }
-      else
-      { %>
-    <% if (Utils.GetDefaultCulture().TextInfo.IsRightToLeft)
-       { %>
+    <% } else { %>
+    <% if (Utils.GetDefaultCulture().TextInfo.IsRightToLeft) { %>
     <link href="~/admin/style-rtl.css" rel="stylesheet" type="text/css" />
-    <% }
-       else
-       { %>
+    <% } else { %>
     <link href="~/admin/style.css" rel="stylesheet" type="text/css" />
     <% } %>
     <link href="~/admin/colorbox.css" rel="stylesheet" type="text/css" />
