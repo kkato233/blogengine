@@ -819,7 +819,7 @@
             int count;
             var userCollection = System.Web.Security.Membership.Provider.GetAllUsers(0, 999, out count);
             var users = userCollection.Cast<System.Web.Security.MembershipUser>().ToList();
-            var user = users.FirstOrDefault(u => u.UserName.Equals(userName));
+            var user = users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
 
             if(user != null)
             {

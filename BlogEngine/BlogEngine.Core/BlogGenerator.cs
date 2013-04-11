@@ -96,6 +96,12 @@ namespace BlogEngine.Core
                 return false;
             }
 
+            if (!string.IsNullOrWhiteSpace(userName) && !validChars.IsMatch(userName))
+            {
+                message = "User Name contains invalid characters.";
+                return false;
+            }
+
             if (Blog.Blogs.Where(b => b.Name.ToLower() == blogName.ToLower()).FirstOrDefault() != null)
             {
                 message = "Blog with this name already exists; Please select different name.";

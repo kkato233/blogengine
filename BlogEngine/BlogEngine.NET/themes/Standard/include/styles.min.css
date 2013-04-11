@@ -202,7 +202,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 
 /*[ 22.Search ]*/
 .search { background: #FFF; padding: 0; margin: 0; -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; margin-bottom: 15px; }
-.search input[type="text"], .search input[type="text"]:focus { background: #FFF; border: none; height: 32px; width: 80% !important; min-width: 100px; margin: 0 !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.search input[type="text"], .search input[type="text"]:focus { background: #FFF; border: none; height: 32px; width: 80% !important; min-width: 100px; margin: 0 0 0 6px !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
 .search #searchbutton { font-size: 0; background: url(../img/BtnSearch.png) center center no-repeat; width: 15%; float: right; border: none; height: 36px !important; display: inline-block; }
 
 /*[ 23.Page ]*/

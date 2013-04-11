@@ -39,7 +39,7 @@
   <enableopensearch>True</enableopensearch>
   <dayscommentsareenabled>0</dayscommentsareenabled>
   <useblognameinpagetitles>True</useblognameinpagetitles>
-  <removeextensionsfromurls>False</removeextensionsfromurls>
+  <removeextensionsfromurls>True</removeextensionsfromurls>
   <smtpusername>username</smtpusername>
   <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablepasswordreset>True</enablepasswordreset>
