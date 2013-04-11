@@ -40,6 +40,10 @@ public class BundleConfig
 
         // syntax highlighter 
         var shRoot = "~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/";
+        bundles.Add(new StyleBundle("~/Content/Styles/highlighter").Include(
+            shRoot + "styles/shCore.css",
+            shRoot + "styles/shThemeDefault.css")
+        );
         bundles.Add(new ScriptBundle("~/Scripts/highlighter").Include(
             shRoot + "scripts/XRegExp.js",
             shRoot + "scripts/shCore.js",

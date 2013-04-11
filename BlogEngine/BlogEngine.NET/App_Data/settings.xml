@@ -5,6 +5,7 @@
   <showpostnavigation>True</showpostnavigation>
   <mobiletheme>JQ-Mobile</mobiletheme>
   <enablehttpcompression>False</enablehttpcompression>
+  <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <htmlheader />
   <theme>Standard</theme>
   <emailsubjectprefix>Weblog</emailsubjectprefix>
@@ -23,11 +24,11 @@
   <themecookiename>theme</themecookiename>
   <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
   <trustauthenticatedusers>True</trustauthenticatedusers>
-  <enablecountryincomments>True</enablecountryincomments>
+  <enablecountryincomments>False</enablecountryincomments>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <searchbuttontext>Search</searchbuttontext>
   <showincludecommentsoption>False</showincludecommentsoption>
-  <israzortheme>False</israzortheme>
+  <createblogonselfregistration>False</createblogonselfregistration>
   <numberofrecentcomments>10</numberofrecentcomments>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <blogrollmaxlength>23</blogrollmaxlength>
@@ -41,14 +42,13 @@
   <useblognameinpagetitles>True</useblognameinpagetitles>
   <removeextensionsfromurls>True</removeextensionsfromurls>
   <smtpusername>username</smtpusername>
-  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablepasswordreset>True</enablepasswordreset>
-  <disqusaddcommentstopages>False</disqusaddcommentstopages>
+  <enableerrorlogging>True</enableerrorlogging>
   <alternatefeedurl />
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
   <commentwhitelistcount>1</commentwhitelistcount>
-  <enableerrorlogging>True</enableerrorlogging>
+  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablereferrertracking>False</enablereferrertracking>
   <disquswebsitename />
   <handlewwwsubdomain />
@@ -63,14 +63,15 @@
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <geocodinglatitude>0</geocodinglatitude>
   <numberofreferrerdays>1</numberofreferrerdays>
-  <thumbnailserviceapi />
+  <israzortheme>False</israzortheme>
+  <thumbnailserviceapi>http://www.robothumb.com/src/?url={0}</thumbnailserviceapi>
   <iscommentsenabled>True</iscommentsenabled>
   <searchdefaulttext>Enter search term or APML url</searchdefaulttext>
   <smtpserverport>25</smtpserverport>
   <smtppassword>password</smtppassword>
   <blockauthoroncommentdelete>False</blockauthoroncommentdelete>
   <enablecommentsmoderation>True</enablecommentsmoderation>
-  <timestamppostlinks>True</timestamppostlinks>
+  <timestamppostlinks>False</timestamppostlinks>
   <avatar>wavatar</avatar>
   <postsperfeed>3</postsperfeed>
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
