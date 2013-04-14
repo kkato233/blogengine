@@ -157,15 +157,15 @@
                         <label for="<%=cbEnableSelfRegistration.ClientID %>"><%=Resources.labels.enableSelfRegistration %></label>
                     </li>
                     <li>
-                        <span class="filler"></span>
-                        <asp:CheckBox runat="server" ID="cbCreateBlogOnSelfRegistration" />
-                        <label for="<%=cbCreateBlogOnSelfRegistration.ClientID %>"><%=Resources.labels.createBlogOnSelfRegistration %></label>
-                    </li>
-                    <li>
                         <label class="lbl" for="<%=ddlSelfRegistrationInitialRole.ClientID %>"><%=Resources.labels.selfRegistrationInitialRole%></label>
                         <asp:DropDownList runat="Server" ID="ddlSelfRegistrationInitialRole" Style="text-transform: capitalize">
                             <asp:ListItem Text="Select" />
                         </asp:DropDownList>
+                    </li>
+                    <li>
+                        <span class="filler"></span>
+                        <asp:CheckBox runat="server" ID="cbCreateBlogOnSelfRegistration" />
+                        <label for="<%=cbCreateBlogOnSelfRegistration.ClientID %>"><%=Resources.labels.createBlogOnSelfRegistration %></label>
                     </li>
                     <li>
                         <label class="lbl" for="<%=txtRemoteTimeout.ClientID %>"><%=Resources.labels.remoteTimeout %></label>
