@@ -1493,9 +1493,10 @@
                     asm.GetTypes();
                     assemblies.Add(asm);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Log(string.Format("Error loading compiled extensions from assembly {0}: {1}", asm.FullName, ex.Message));
+                    // only use to debug - any third party DLL can through this, not a crytical error
+                    // Log(string.Format("Error loading compiled extensions from assembly {0}: {1}", asm.FullName, ex.Message));
                 }
             }
 

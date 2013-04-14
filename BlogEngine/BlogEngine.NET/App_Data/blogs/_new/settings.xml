@@ -18,17 +18,17 @@
   <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
   <commentblacklistcount>2</commentblacklistcount>
   <iscocommentenabled>False</iscocommentenabled>
-  <compresswebresource>True</compresswebresource>
+  <compresswebresource>False</compresswebresource>
   <addiptowhitelistfilteronapproval>False</addiptowhitelistfilteronapproval>
   <themecookiename>theme</themecookiename>
   <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
   <trustauthenticatedusers>True</trustauthenticatedusers>
-  <enablecountryincomments>True</enablecountryincomments>
+  <enablecountryincomments>False</enablecountryincomments>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
   <searchbuttontext>Search</searchbuttontext>
   <showincludecommentsoption>False</showincludecommentsoption>
   <israzortheme>False</israzortheme>
-  <numberofrecentcomments>10</numberofrecentcomments>
+  <numberofrecentcomments>5</numberofrecentcomments>
   <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <blogrollmaxlength>23</blogrollmaxlength>
   <language>en-US</language>
@@ -63,14 +63,14 @@
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <geocodinglatitude>0</geocodinglatitude>
   <numberofreferrerdays>1</numberofreferrerdays>
-  <thumbnailserviceapi />
+  <thumbnailserviceapi>http://www.robothumb.com/src/?url={0}</thumbnailserviceapi>
   <iscommentsenabled>True</iscommentsenabled>
   <searchdefaulttext>Enter search term or APML url</searchdefaulttext>
   <smtpserverport>25</smtpserverport>
   <smtppassword>password</smtppassword>
   <blockauthoroncommentdelete>False</blockauthoroncommentdelete>
   <enablecommentsmoderation>True</enablecommentsmoderation>
-  <timestamppostlinks>True</timestamppostlinks>
+  <timestamppostlinks>False</timestamppostlinks>
   <avatar>wavatar</avatar>
   <postsperfeed>10</postsperfeed>
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
