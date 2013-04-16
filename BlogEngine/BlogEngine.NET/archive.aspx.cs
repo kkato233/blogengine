@@ -35,10 +35,18 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 	/// </summary>
 	private void CreateMenu()
 	{
+        var categories = new List<string>();
+
 		foreach (Category cat in Category.ApplicableCategories)
 		{
-            if(cat.Posts.Count > 0)
-			    AddCategoryToMenu(cat.Title);
+            if (cat.Posts.Count > 0)
+            {
+                if (!categories.Contains(cat.Title))
+                {
+                    AddCategoryToMenu(cat.Title);
+                    categories.Add(cat.Title);
+                }
+            }
 		}
 	}
 
@@ -77,23 +85,29 @@ public partial class archive : BlogEngine.Core.Web.Controls.BlogBasePage
 
 	private void CreateArchive()
 	{
+        var categories = new List<string>();
+
 		foreach (Category cat in Category.ApplicableCategories)
 		{
             if (cat.Posts.Count > 0)
             {
-                string name = cat.Title;
-                List<Post> list = cat.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
-
-                HtmlGenericControl h2 = CreateRowHeader(cat, name, list.Count);
-                phArchive.Controls.Add(h2);
-
-                HtmlTable table = CreateTable(name);
-                foreach (Post post in list)
+                if (!categories.Contains(cat.Title))
                 {
-                    CreateTableRow(table, post);
-                }
+                    string name = cat.Title;
+                    List<Post> list = cat.Posts.FindAll(delegate(Post p) { return p.IsVisible; });
 
-                phArchive.Controls.Add(table);
+                    HtmlGenericControl h2 = CreateRowHeader(cat, name, list.Count);
+                    phArchive.Controls.Add(h2);
+
+                    HtmlTable table = CreateTable(name);
+                    foreach (Post post in list)
+                    {
+                        CreateTableRow(table, post);
+                    }
+
+                    phArchive.Controls.Add(table);
+                    categories.Add(cat.Title);
+                }
             }
 		}
 
