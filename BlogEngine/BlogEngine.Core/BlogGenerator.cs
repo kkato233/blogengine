@@ -160,7 +160,7 @@ namespace BlogEngine.Core
                 throw;  // re-throw error so error message bubbles up.
             }
             if (!Utils.CreateDirectoryIfNotExists(newBlogFolderPath))
-                return false;
+                throw new Exception(string.Format("Can not create blog directory: {0}", newBlogFolderPath));
 
             // Copy the entire directory contents.
             DirectoryInfo source = new DirectoryInfo(templateFolderPath);
@@ -221,6 +221,10 @@ namespace BlogEngine.Core
                 {
                     ReplaceInFile(postFile, "[Post]", BlogGeneratorConfig.PostContent);
                 }
+
+                // update post with new GUID
+                var newPostFile = newBlogFolderPath + @"\posts\" + Guid.NewGuid().ToString() + ".xml";
+                File.Move(postFile, newPostFile);
             }
             catch (Exception ex)
             {

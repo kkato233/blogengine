@@ -54,7 +54,7 @@ namespace BlogEngine.Core.Web
             // Allow for Year/Month only dates in URL (in this case, day == 0), as well as Year/Month/Day dates.
             // first make sure the Year and Month match.
             // if a day is also available, make sure the Day matches.
-            var post = Post.Posts.Find(
+            var post = Post.ApplicablePosts.Find(
                 p =>
                 (!haveDate || (p.DateCreated.Year == year && p.DateCreated.Month == month)) &&
                 ((!haveDate || (day == 0 || p.DateCreated.Day == day)) &&
