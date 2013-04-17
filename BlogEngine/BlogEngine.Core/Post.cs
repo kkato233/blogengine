@@ -612,7 +612,7 @@
         {
             get
             {
-                return string.IsNullOrEmpty(this.slug) ? Utils.RemoveIllegalCharacters(this.Title) : this.slug;
+                return this.slug;
             }
 
             set
@@ -923,6 +923,11 @@
             return list;
         }
 
+        /// <summary>
+        /// Get blog by author
+        /// </summary>
+        /// <param name="author">Post author</param>
+        /// <returns>Blog if author wrote any posts there</returns>
         public static Blog GetBlogByAuthor(string author)
         {
             var legalAuthor = Utils.RemoveIllegalCharacters(author);
@@ -1127,6 +1132,27 @@
 
             this.DataUpdate();
             this.OnRated(this);
+        }
+
+        /// <summary>
+        /// Check if slug is unique and if not generate it
+        /// </summary>
+        /// <param name="slug">Post slug</param>
+        /// <param name="postId">Post id</param>
+        /// <returns>Slug that is unique across blogs</returns>
+        public static string GetUniqueSlug(string slug, Guid postId)
+        {
+            string s = Utils.RemoveIllegalCharacters(slug.Trim());
+
+            // will do for up to 100 unique post titles
+            for (int i = 1; i < 101; i++)
+            {
+                if (IsUniqueSlug(s, postId))
+                    break;
+
+                s = string.Format("{0}{1}", slug, i);
+            }
+            return s;
         }
 
         /// <summary>
@@ -1806,6 +1832,18 @@
                 mail.To.Add(email);
                 Utils.SendMailMessageAsync(mail);
             }
+        }
+
+        /// <summary>
+        /// Check if post slug is unique accross all blogs
+        /// </summary>
+        /// <param name="slug">Post slug</param>
+        /// <param name="postId">Post id</param>
+        /// <returns>True if unique</returns>
+        private static bool IsUniqueSlug(string slug, Guid postId)
+        {
+            return Post.ApplicablePosts.Where(p => p.slug.ToLower() == slug.ToLower() 
+                && p.Id != postId).FirstOrDefault() == null ? true : false;
         }
 
         #endregion

@@ -22,6 +22,8 @@
             </div>
             <h1><%=Resources.labels.addEditPost %></h1>
             <script type="text/javascript">
+                var postId = Querystring('id');
+
                 function GetSlug() {
                     var title = document.getElementById('<%=txtTitle.ClientID %>').value;
                     WebForm_DoCallback('__Page', title, ApplySlug, 'slug', null, false)
@@ -45,7 +47,7 @@
                         WebForm_DoCallback('__Page', '_autosave' + post, null, 'autosave', null, false);
                     }
 
-                    setTimeout("AutoSave()", 5000);
+                    setTimeout("AutoSave()", 15000);
 
                     var currentDate = new Date()
                     document.getElementById('autoSaveLabel').innerHTML = "Autosaved on " + currentDate;
@@ -108,7 +110,7 @@
                     var time = document.getElementById('<%=txtTime.ClientID %>').value;
 
                     var dto = {
-                        "id": Querystring('id'),
+                        "id": postId,
                         "content": content,
                         "title": title,
                         "desc": desc,
@@ -135,6 +137,7 @@
                             var rt = result.d;
                             if (rt.Success) {
                                 ShowStatus("success", rt.Message);
+                                postId = rt.Data;
                             }
                             else {
                                 ShowStatus("warning", rt.Message);
@@ -315,7 +318,7 @@
             <% if (Request.QueryString["id"] == null)
                { %>
             <script type="text/javascript">
-                setTimeout("AutoSave()", 5000);
+                setTimeout("AutoSave()", 15000);
             </script>
             <% } %>
         </div>
