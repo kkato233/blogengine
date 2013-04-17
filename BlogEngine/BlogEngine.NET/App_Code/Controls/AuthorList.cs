@@ -24,11 +24,6 @@ namespace App_Code.Controls
         #region Constants and Fields
 
         /// <summary>
-        /// The html string.
-        /// </summary>
-        private static Dictionary<Guid, string> blogsHtml = new Dictionary<Guid, string>();
-
-        /// <summary>
         /// The show rss icon.
         /// </summary>
         private static Dictionary<Guid, bool> blogsShowRssIcon = new Dictionary<Guid, bool>();
@@ -48,7 +43,7 @@ namespace App_Code.Controls
         /// </summary>
         static AuthorList()
         {
-            Post.Saved += (sender, args) => blogsHtml.Remove(Blog.CurrentInstance.Id);
+            Post.Saved += ClearCache;
             AuthorProfile.Saved += ClearCache;
         }
 
@@ -79,7 +74,6 @@ namespace App_Code.Controls
                 }
 
                 blogsShowRssIcon[Blog.CurrentInstance.Id] = value;
-                blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
 
@@ -106,7 +100,6 @@ namespace App_Code.Controls
                 }
 
                 blogsShowAuthorImg[Blog.CurrentInstance.Id] = value;
-                blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
 
@@ -125,7 +118,6 @@ namespace App_Code.Controls
                 }
 
                 authorImgSize = value;
-                blogsHtml.Remove(Blog.CurrentInstance.Id);
             }
         }
 
