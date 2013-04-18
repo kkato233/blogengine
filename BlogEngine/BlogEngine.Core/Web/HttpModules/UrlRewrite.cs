@@ -142,6 +142,12 @@
             {
                 UrlRules.RewriteImagePath(context, url);
             }
+            if (url.Contains(".PNG") || url.Contains(".JPG") || url.Contains(".GIF"))
+            {
+                // do not rewrite path to images, for example
+                // leave alone /widgets/calendar/screenshot.png
+                return;
+            }
             if (url.Contains("/POST/"))
             {
                 UrlRules.RewritePost(context, url);
