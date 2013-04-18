@@ -367,14 +367,7 @@ namespace Admin
                     page.Parent = new Guid(parent);
 
                 page.Save();
-
-                // If this is an unpublished page and the user does not have rights to
-                // view unpublished pages, then redirect to the Pages list.
-                if (page.IsVisible)
-                    response.Data = page.RelativeLink;
-                else
-                    response.Data = string.Format("{0}admin/Pages/Pages.aspx", Utils.RelativeWebRoot);
-
+                response.Data = page.Id.ToString();
             }
             catch (Exception ex)
             {
