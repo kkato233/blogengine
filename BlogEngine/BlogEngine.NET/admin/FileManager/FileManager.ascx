@@ -1,5 +1,11 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="FileManager.ascx.cs" Inherits="admin_FileManager" %>
 <%@ Import Namespace="BlogEngine.Core" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<%if (BlogSettings.Instance.EnableOptimization) { %>
+<link href="<%= BundleTable.Bundles.ResolveBundleUrl("~/Content/filemanager") %>" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<%= BundleTable.Bundles.ResolveBundleUrl("~/Scripts/filemanager") %>"></script>
+<% } else { %>
 <link href="<%= Utils.RelativeWebRoot %>admin/FileManager/FileManager.css" rel="Stylesheet" type="text/css" />
 <link href="<%= Utils.RelativeWebRoot %>admin/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
 <script src="<%= Utils.RelativeWebRoot %>admin/uploadify/swfobject.js" type="text/javascript"></script>
@@ -9,6 +15,7 @@
 <script src="<%= Utils.RelativeWebRoot %>admin/FileManager/jquery.jeegoocontext.min.js" type="text/javascript"></script>
 <link href="<%= Utils.RelativeWebRoot %>admin/FileManager/JCrop/css/jquery.Jcrop.css" rel="stylesheet" type="text/css" />
 <script src="<%= Utils.RelativeWebRoot %>admin/FileManager/JCrop/js/jquery.Jcrop.min.js" type="text/javascript"></script>
+<% } %>
 
 <script type="text/javascript" src="<%= Utils.RelativeWebRoot %>admin/FileManager/FileManager-mini.js?v=3"></script>
             

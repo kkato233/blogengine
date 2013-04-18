@@ -6,6 +6,8 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" runat="Server">
     <script type="text/javascript">
+        var postId = Querystring('id');
+
         function GetSlug() {
             var title = document.getElementById('<%=txtTitle.ClientID %>').value;
             WebForm_DoCallback('__Page', title, ApplySlug, 'slug', null, false)
@@ -35,7 +37,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
             var parent = $("[id$='ddlParent'] option:selected").val();
 
             var dto = {
-                "id": Querystring('id'),
+                "id": postId,
                 "content": content,
                 "title": title,
                 "description": description,
@@ -60,6 +62,7 @@ ValidateRequest="false" CodeFile="EditPage.aspx.cs" Inherits="Admin.Pages.EditPa
                     var rt = result.d;
                     if (rt.Success) {
                         ShowStatus("success", rt.Message);
+                        postId = rt.Data;
                     }
                     else
                         ShowStatus("warning", rt.Message);

@@ -2,7 +2,7 @@
 @using BlogEngine.Core.Packaging
 
 @{
-    Page.Title = Resources.labels.themes;
+    Page.Title = Resources.labels.widgets;
     Layout = "~/admin/_Layout.cshtml";
 
     var loaderSrc = Path.Combine(BlogEngine.Core.Utils.ApplicationRelativeWebRoot, "pics/ajax-loader.gif");
@@ -77,6 +77,14 @@
                                     else
                                     {
                                     <p>@Resources.labels.author: unknown</p>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(wdg.Description))
+                                    {
+                                        <p>@Resources.labels.description: @wdg.Description</p> 
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(wdg.LocalVersion))
+                                    {
+                                        <p>@Resources.labels.version: @wdg.LocalVersion</p> 
                                     }
                                     @if (Blog.CurrentInstance.IsPrimary && @wdg.Location == "I")
                                     {

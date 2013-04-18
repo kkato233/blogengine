@@ -40,7 +40,7 @@ public class BundleConfig
 
         // syntax highlighter 
         var shRoot = "~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/";
-        bundles.Add(new StyleBundle("~/Content/Styles/highlighter").Include(
+        bundles.Add(new StyleBundle("~/Content/highlighter").Include(
             shRoot + "styles/shCore.css",
             shRoot + "styles/shThemeDefault.css")
         );
@@ -50,5 +50,21 @@ public class BundleConfig
             shRoot + "scripts/shAutoloader.js",
             shRoot + "shActivator.js")
         );
+
+        // syntax FileManager 
+        bundles.Add(new StyleBundle("~/Content/filemanager").Include(
+            "~/admin/FileManager/FileManager.css",
+            "~/admin/uploadify/uploadify.css",
+            "~/admin/FileManager/jqueryui/jquery-ui.css",
+            "~/admin/FileManager/JCrop/css/jquery.Jcrop.css")
+        );
+        bundles.Add(new ScriptBundle("~/Scripts/filemanager").Include(
+            "~/admin/uploadify/swfobject.js",
+            "~/admin/uploadify/jquery.uploadify.v2.1.4.min.js",
+            "~/admin/FileManager/jqueryui/jquery-ui.min.js",
+            "~/admin/FileManager/jquery.jeegoocontext.min.js",
+            "~/admin/FileManager/JCrop/js/jquery.Jcrop.min.js")
+        );
+
     }
 }
