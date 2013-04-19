@@ -63,7 +63,8 @@ public class BundleConfig
             "~/admin/uploadify/jquery.uploadify.v2.1.4.min.js",
             "~/admin/FileManager/jqueryui/jquery-ui.min.js",
             "~/admin/FileManager/jquery.jeegoocontext.min.js",
-            "~/admin/FileManager/JCrop/js/jquery.Jcrop.min.js")
+            "~/admin/FileManager/JCrop/js/jquery.Jcrop.min.js",
+            "~/admin/FileManager/FileManager-mini.js")
         );
 
     }
