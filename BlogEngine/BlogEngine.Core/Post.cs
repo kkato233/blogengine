@@ -340,17 +340,6 @@
         }
 
         /// <summary>
-        ///     Gets the absolute link to the post.
-        /// </summary>
-        public Uri AbsoluteLink
-        {
-            get
-            {
-                return new Uri(this.Blog.AbsoluteWebRootAuthority + this.RelativeLink);
-            }
-        }
-
-        /// <summary>
         ///     Gets or sets the Author or the post.
         /// </summary>
         public string Author
@@ -555,6 +544,17 @@
         }
 
         /// <summary>
+        ///     Gets the absolute link to the post.
+        /// </summary>
+        public Uri AbsoluteLink
+        {
+            get
+            {
+                return new Uri(this.Blog.AbsoluteWebRootAuthority + this.RelativeLink);
+            }
+        }
+
+        /// <summary>
         ///     Gets a relative-to-the-site-root path to the post.
         ///     Only for in-site use.
         /// </summary>
@@ -566,14 +566,20 @@
                 var settings = BlogSettings.GetInstanceSettings(Blog);
                 var ext = string.IsNullOrEmpty(BlogConfig.FileExtension) ? ".aspx" : BlogConfig.FileExtension;
 
-                //var fileExt = settings.RemoveExtensionsFromUrls ? "" : BlogConfig.FileExtension;
-                var theslug = Utils.RemoveIllegalCharacters(this.Slug); // +fileExt;
+                var theslug = Utils.RemoveIllegalCharacters(this.Slug);
                 if (!settings.RemoveExtensionsFromUrls)
                     theslug += ext;
 
+                var BlogUrl = "";
+                if (this.BlogId != Blog.CurrentInstance.Id)
+                {
+                    // point it to child blog
+                    BlogUrl = this.Blog.Name + "/";
+                }
+
                 return settings.TimeStampPostLinks
-                    ? string.Format("{0}post/{1}{2}", Blog.RelativeWebRoot, DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture), theslug)
-                    : string.Format("{0}post/{1}", Utils.RelativeWebRoot, theslug);
+                    ? string.Format("{0}{1}post/{2}{3}", Blog.RelativeWebRoot, BlogUrl, DateCreated.ToString("yyyy/MM/dd/", CultureInfo.InvariantCulture), theslug)
+                    : string.Format("{0}{1}post/{2}", Utils.RelativeWebRoot, BlogUrl, theslug);
             }
         }
 
@@ -586,21 +592,7 @@
         {
             get
             {
-                var returnLink = Blog.DoesHostnameDifferFromSiteAggregationBlog ? AbsoluteLink.ToString() : RelativeLink;
-
-                // when list blog posts for aggregate blog, current instance
-                // points to aggregate blog, so need to compensate for
-                // currently processed blog if it is a child/sub blog
-                var settings = BlogSettings.GetInstanceSettings(Blog);
-
-                // if in aggregate blog file extension set to be removed
-                // but child blog still votes to have it, add extension back
-                var ext = string.IsNullOrEmpty(BlogConfig.FileExtension) ? ".aspx" : BlogConfig.FileExtension;
-
-                if (!settings.RemoveExtensionsFromUrls && !returnLink.EndsWith(ext))
-                    returnLink += ext;
-
-                return settings.RemoveExtensionsFromUrls ? returnLink.Replace(ext, "") : returnLink;
+                return Blog.DoesHostnameDifferFromSiteAggregationBlog ? AbsoluteLink.ToString() : RelativeLink;
             }
         }
 
