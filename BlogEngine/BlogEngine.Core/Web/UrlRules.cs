@@ -340,7 +340,7 @@ namespace BlogEngine.Core.Web
             {
                 var s = string.Format("{0}{1}DEFAULT{2}", Utils.AbsoluteWebRoot, m.ToString().Substring(1), BlogConfig.FileExtension);
 
-                Utils.Log("Url: " + url + "; s: " + s);
+                //Utils.Log("Url: " + url + "; s: " + s);
 
                 if (url.Contains(s, StringComparison.OrdinalIgnoreCase))
                     return true;

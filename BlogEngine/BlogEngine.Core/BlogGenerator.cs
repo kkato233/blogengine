@@ -96,6 +96,20 @@ namespace BlogEngine.Core
                 return false;
             }
 
+            string[] reserved = BlogConfig.ReservedBlogNames.Split('|');
+
+            if (reserved != null && reserved.GetUpperBound(0) > 0)
+            {
+                for (int i = 0; i < reserved.GetUpperBound(0); i++)
+                {
+                    if (blogName.ToLower() == reserved[i].ToLower())
+                    {
+                        message = "This name is reserved and can not be used as a blog name, please pick another one.";
+                        return false;
+                    }
+                }
+            }
+
             if (!string.IsNullOrWhiteSpace(userName) && !validChars.IsMatch(userName))
             {
                 message = "User Name contains invalid characters.";
