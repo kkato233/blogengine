@@ -80,11 +80,8 @@
                                     }
                                     @if (!string.IsNullOrWhiteSpace(wdg.Description))
                                     {
-                                        <p>@Resources.labels.description: @wdg.Description</p> 
-                                    }
-                                    @if (!string.IsNullOrWhiteSpace(wdg.LocalVersion))
-                                    {
-                                        <p>@Resources.labels.version: @wdg.LocalVersion</p> 
+                                        var dsc = wdg.Description.Length < 80 ? wdg.Description : wdg.Description.Substring(0, 77) + "...";
+                                        <p>@dsc</p> 
                                     }
                                     @if (Blog.CurrentInstance.IsPrimary && @wdg.Location == "I")
                                     {
@@ -99,6 +96,12 @@
                                             <a href="" class="deleteAction" onclick="UninstallPackage('@wdg.Id'); return false;">@Resources.labels.delete</a>
                                             <img class="loader2" src="@loaderSrc" alt="loader" />
                                         </p>  
+                                    }
+                                    else{
+                                        if (!string.IsNullOrWhiteSpace(wdg.LocalVersion))
+                                        {
+                                            <p>@Resources.labels.version: @wdg.LocalVersion</p> 
+                                        }
                                     }
                                 </div>
                             </div>
