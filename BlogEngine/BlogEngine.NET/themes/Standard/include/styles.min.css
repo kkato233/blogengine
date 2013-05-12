@@ -1,6 +1,6 @@
 ﻿/*
  * BlogEngine.NET
- * Standard Theme Version 1.7.0.0
+ * Standard Theme Version 1.8.0.0
  * 
  * Designed and Implementation by Farzin Seyfolahi (@seyfolahi)
  * http://seyfolahi.net/en/page/BlogEngine/
@@ -30,7 +30,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 #PageWrapper .Content { width: 700px; }
 #PageWrapper .Sidebar { width: 250px; font-size: 15px; }
 #PageWrapper .Sidebar ul {list-style:none; margin:0;}
-.Post, .post, #postnavigation, #relatedPosts, .commentForm, #commentlist, #disqus_thread, #archive, #contact, #page, .Container .Content .calendar { margin-bottom: 15px; background: #FFF; -moz-box-shadow: 0 0 3px #AAA; -webkit-box-shadow: 0 0 3px #AAA; box-shadow: 0 0 3px #AAA; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: 2px solid #EEE; padding: 10px; }
+.Post, .post, #postnavigation, #relatedPosts, #trackbacks, .commentForm, #commentlist, #disqus_thread, #archive, #contact, #page, .Container .Content .calendar { margin-bottom: 15px; background: #FFF; -moz-box-shadow: 0 0 3px #AAA; -webkit-box-shadow: 0 0 3px #AAA; box-shadow: 0 0 3px #AAA; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: 2px solid #EEE; padding: 10px; }
 
 /*[ 01.Header ]*/
 .Header { position: relative; margin-bottom: 20px; }
@@ -100,8 +100,8 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 .comment .comment-contents .DateTime { color: #CCC !important; font-size: 11px; position: relative; top: -4px; }
 .comment .comment-contents .visitor .url { color: #222; }
 .comment .gravatar { margin-right: 10px; padding: 2px; height: 32px; width: 32px; }
-.comment .self .comment-contents { background: #d9feb3; color: #2a5101; }
-.comment .self .DateTime {color: #9ac73c!important; }
+.comment .self > .comment-contents { background: #d9feb3; color: #2a5101; }
+.comment .self > .comment-contents .DateTime {color: #9ac73c!important; }
 .comment cite { font-weight: bold; }
 #comment-form select { width: 190px; }
 #comment-form textarea { width: 100%; min-width: 100%; }
@@ -121,7 +121,7 @@ body { direction: ltr; background: #ebebeb url(../img/body.jpg) repeat 0 0; colo
 #commentMenu li#preview.selected { background: #F5F5F5; border-bottom-color: #F5F5F5; }
 #commentPreview .comment { border: 1px solid #CCC; border-left: none; -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
 #commentPreview .comment-contents { -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
-#commenttoggle { border: 1px solid #CCC; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; background: #FFF; font: bold 16px/20px sans-serif; height: 20px !important; width: 20px !important; display: inline-block; }
+#commenttoggle,#trackbacktoggle { border: 1px solid #CCC; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; background: #FFF; font: bold 16px/20px sans-serif; height: 20px !important; width: 20px !important; display: inline-block; }
 
 /*[ 09.Widget ]*/
 .Widget { background: #FFF; padding: 10px; background: #FFF; -moz-box-shadow: 0 0 3px #AAA; -webkit-box-shadow: 0 0 3px #AAA; box-shadow: 0 0 3px #AAA; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; border: 2px solid #EEE; margin-bottom: 15px; }

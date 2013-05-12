@@ -130,7 +130,8 @@
                 return;
             }
 
-            if (context.Request.PhysicalPath.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
+            if (context.Request.PhysicalPath.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase) ||
+                context.Request.CurrentExecutionFilePathExtension.Trim().ToLower() == BlogConfig.FileExtension.Trim().ToLower())
             {
                 var url = context.Request.Url.ToString();
 

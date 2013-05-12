@@ -158,19 +158,19 @@ textarea,  select  {
 textarea:focus,  input:focus  {
     border: 1px solid #0472EC;
 }
-.content ul  {
+.content ul, .text ul  {
     margin:  0.5em 0 1em;
     padding:  0;
 }
-.content ul li  {
+.content ul li, .text ul li  {
     margin:  0.4em 0 0.4em 1.5em;
     list-style-image:  url("images/menu-leaf.gif");
 }
-.content ol  {
+.content ol, .text ol  {
     margin:  0.5em 1em 1em;
     padding:  0;
 }
-.content ol li  {
+.content ol li, .text ol li  {
     margin:  0.4em 1em 0.4em 1.5em;
     list-style:  decimal;
 }
