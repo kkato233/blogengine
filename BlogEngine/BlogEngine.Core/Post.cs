@@ -604,7 +604,7 @@
         {
             get
             {
-                return this.slug;
+                return string.IsNullOrEmpty(this.slug) ? GetUniqueSlug(this.title, this.Id) : this.slug;
             }
 
             set
