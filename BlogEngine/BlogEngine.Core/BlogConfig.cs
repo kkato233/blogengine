@@ -194,5 +194,29 @@ namespace BlogEngine.Core
         }
 
         #endregion
+
+        #region SingleSignOn
+
+        /// <summary>
+        /// Default number of items per page in admin data grids.
+        /// </summary>
+        public static bool SingleSignOn
+        {
+            get
+            {
+                string setting = WebConfigurationManager.AppSettings["BlogEngine.SingleSignOn"];
+                if (!string.IsNullOrEmpty(setting))
+                {
+                    bool value;
+                    if (bool.TryParse(setting, out value))
+                    {
+                        return value;
+                    }
+                }
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

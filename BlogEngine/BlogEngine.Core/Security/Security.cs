@@ -50,6 +50,10 @@ namespace BlogEngine.Core
         /// </param>
         private static void ContextAuthenticateRequest(object sender, EventArgs e)
         {
+            // default to an empty/unauthenticated user to assign to context.User.
+            CustomIdentity identity = new CustomIdentity(string.Empty, false);
+            CustomPrincipal principal = new CustomPrincipal(identity); 
+            
             var context = ((HttpApplication)sender).Context;
 
             // FormsAuthCookieName is a custom cookie name based on the current instance.
@@ -71,36 +75,37 @@ namespace BlogEngine.Core
                     Utils.Log("Failed to decrypt the FormsAuthentication cookie.", ex);
                 }
 
-                if (authTicket != null && !string.IsNullOrWhiteSpace(authTicket.UserData))
+                if (authTicket != null)
                 {
-                    int delimiter = authTicket.UserData.IndexOf(AUTH_TKT_USERDATA_DELIMITER);
-                    if (delimiter != -1)
+                    identity = new CustomIdentity(authTicket.Name, true); 
+                    
+                    if (!string.IsNullOrWhiteSpace(authTicket.UserData))
                     {
-                        // for extra security, make sure the data in UserData contains the SecurityValidationKey
-                        // and current blog instance.  the current blog instance check would prevent a cookie name
-                        // change for a forms auth cookie encrypted in the same application (different blog) as
-                        // being valid for this blog instance.
-
-                        string securityValidationKey = authTicket.UserData.Substring(0, delimiter).Trim();
-                        string blogId = authTicket.UserData.Substring(delimiter + AUTH_TKT_USERDATA_DELIMITER.Length).Trim();
-
-                        if (securityValidationKey.Equals(SecurityValidationKey, StringComparison.OrdinalIgnoreCase) &&
-                            blogId.Equals(Blog.CurrentInstance.Id.ToString(), StringComparison.OrdinalIgnoreCase))
+                        int delimiter = authTicket.UserData.IndexOf(AUTH_TKT_USERDATA_DELIMITER);
+                        if (delimiter != -1)
                         {
-                            CustomIdentity identity = new CustomIdentity(authTicket.Name, true);
-                            CustomPrincipal principal = new CustomPrincipal(identity);
+                            // for extra security, make sure the data in UserData contains the SecurityValidationKey
+                            // and current blog instance.  the current blog instance check would prevent a cookie name
+                            // change for a forms auth cookie encrypted in the same application (different blog) as
+                            // being valid for this blog instance.
 
-                            context.User = principal;
-                            return;
+                            string securityValidationKey = authTicket.UserData.Substring(0, delimiter).Trim();
+                            string blogId = authTicket.UserData.Substring(delimiter + AUTH_TKT_USERDATA_DELIMITER.Length).Trim();
+
+                            if (securityValidationKey.Equals(SecurityValidationKey, StringComparison.OrdinalIgnoreCase) &&
+                                blogId.Equals(Blog.CurrentInstance.Id.ToString(), StringComparison.OrdinalIgnoreCase))
+                            {
+                                principal = new CustomPrincipal(identity);
+                            }
                         }
+                    }
+                    else if (BlogConfig.SingleSignOn)
+                    {
+                        principal = new CustomPrincipal(identity);
                     }
                 }
             }
-
-            // need to create an empty/unauthenticated user to assign to context.User.
-            CustomIdentity unauthIdentity = new CustomIdentity(string.Empty, false);
-            CustomPrincipal unauthPrincipal = new CustomPrincipal(unauthIdentity);
-            context.User = unauthPrincipal;
+            context.User = principal;
         }
 
         /// <summary>
@@ -110,7 +115,12 @@ namespace BlogEngine.Core
         {
             get
             {
-                return FormsAuthentication.FormsCookieName + "-" + Blog.CurrentInstance.Id.ToString();
+                string formsCookieName = FormsAuthentication.FormsCookieName;
+                if (BlogConfig.SingleSignOn)
+                {
+                    return formsCookieName;
+                }
+                return formsCookieName + "-" + Blog.CurrentInstance.Id.ToString();
             }
         }
 
@@ -143,6 +153,12 @@ namespace BlogEngine.Core
 
                 if (isValidated)
                 {
+                    if (BlogConfig.SingleSignOn)
+                    {
+                        FormsAuthentication.SetAuthCookie(un, rememberMe);
+                        return true;
+                    }
+
                     HttpContext context = HttpContext.Current;
                     DateTime expirationDate = DateTime.Now.Add(FormsAuthentication.Timeout);
 
