@@ -194,7 +194,8 @@
             }
             else
             {
-                ((BlogBasePage)this.Page).AddGenericLink("next", "Next page", this.hlNext.HRef);
+                if(this.hlNext.Visible)
+                    ((BlogBasePage)this.Page).AddGenericLink("next", "Next page", this.hlNext.HRef);
             }
 
             if (this.hlPrev.Visible)
