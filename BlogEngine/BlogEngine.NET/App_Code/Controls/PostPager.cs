@@ -219,6 +219,9 @@ namespace App_Code.Controls
                 pagesTotal = 1;
             }
 
+            if (currentPage > pagesTotal)
+                return string.Format("<p>{0}</p>", labels.noPostsMatchedYourCriteria);
+
             if (postCnt > 0 && pagesTotal > 1)
             {
                 retValue = "<ul id=\"PostPager\">";
