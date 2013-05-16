@@ -401,7 +401,7 @@
     <value>Next post</value>
   </data>
   <data name="nextPosts" xml:space="preserve">
-    <value>Next posts</value>
+    <value>Newer posts</value>
   </data>
   <data name="none" xml:space="preserve">
     <value>None</value>
@@ -458,7 +458,7 @@
     <value>Previous post</value>
   </data>
   <data name="previousPosts" xml:space="preserve">
-    <value>Previous posts</value>
+    <value>Older posts</value>
   </data>
   <data name="publish" xml:space="preserve">
     <value>Publish</value>
@@ -2025,5 +2025,8 @@
   </data>
   <data name="authorDisplayPatternAggregated" xml:space="preserve">
     <value>Display pattern in aggregated blog (author, blog, post count)</value>
+  </data>
+  <data name="noPostsMatchedYourCriteria" xml:space="preserve">
+    <value>Sorry, no posts matched your criteria</value>
   </data>
 </root>
