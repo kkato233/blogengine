@@ -55,7 +55,8 @@
     string tag = Avatar.GetAvatarImageTag("pingback", new Uri("http://asp.net"), null, "test", 90, 70);
     BlogSettings.Instance.Avatar = temp;
 
-    return (tag == "<img class=\"thumb\" src=\"http://www.robothumb.com/src/?url=http://asp.net/\" alt=\"pingback\" width=\"90\" height=\"70\" />").ShouldBeTrue();
+    return (tag == "<img class=\"thumb\" src=\"http://www.robothumb.com/src/?url=http://asp.net/\" alt=\"pingback\" width=\"90\" height=\"70\" />" ||
+        tag == "<img class=\"thumb\" src=\"http://www.robothumb.com/src/?url=http:%2f%2fasp.net%2f\" alt=\"pingback\" width=\"90\" height=\"70\" />").ShouldBeTrue();
 })
 
 @It.Should("get pingback/trackback thumbnail for pingbacks/trackbacks when avatar other than \"none\"", () =>
@@ -66,7 +67,8 @@
     string tag = Avatar.GetAvatarImageTag("trackback", new Uri("http://asp.net"), null, "test", 90, 70);
     BlogSettings.Instance.Avatar = temp;
 
-    return (tag == "<img class=\"thumb\" src=\"http://www.robothumb.com/src/?url=http://asp.net/\" alt=\"trackback\" width=\"90\" height=\"70\" />").ShouldBeTrue();
+    return (tag == "<img class=\"thumb\" src=\"http://www.robothumb.com/src/?url=http://asp.net/\" alt=\"trackback\" width=\"90\" height=\"70\" />" ||
+        tag == "<img class=\"thumb\" src=\"http://www.robothumb.com/src/?url=http:%2f%2fasp.net%2f\" alt=\"trackback\" width=\"90\" height=\"70\" />").ShouldBeTrue();
 })
 
 @It.Should("get default image for pingbacks/trackbacks when remote site is invalid", () =>

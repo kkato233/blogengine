@@ -102,6 +102,15 @@
                 Utils.LoadExtensions();
 
                 BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+                ScriptManager.ScriptResourceMapping.AddDefinition("jquery",
+                    new ScriptResourceDefinition
+                    {
+                        Path = "~/Scripts/jquery-1.9.1.min.js",
+                        DebugPath = "~/Scripts/jquery-1.9.1.js",
+                        CdnPath = "http://ajax.microsoft.com/ajax/jQuery/jquery-1.9.1.min.js",
+                        CdnDebugPath = "http://ajax.microsoft.com/ajax/jQuery/jquery-1.9.1.js"
+                    });
                 
                 _initializedAlready = true;
             }
